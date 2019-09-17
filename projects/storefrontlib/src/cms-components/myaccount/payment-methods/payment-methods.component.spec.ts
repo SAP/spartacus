@@ -155,9 +155,7 @@ describe('PaymentMethodsComponent', () => {
     expect(getTextBold(el)).toContain(mockPayment.accountHolderName);
     expect(getCardNumber(el)).toContain(mockPayment.cardNumber);
     expect(getExpiration(el)).toContain(
-      `paymentCard.expires month:${mockPayment.expiryMonth} year:${
-        mockPayment.expiryYear
-      }`
+      `paymentCard.expires month:${mockPayment.expiryMonth} year:${mockPayment.expiryYear}`
     );
   });
 

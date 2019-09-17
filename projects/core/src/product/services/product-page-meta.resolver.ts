@@ -38,7 +38,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
   resolve(): Observable<PageMeta> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
-      filter(Boolean),
+      filter(code => !!code),
       switchMap(code => this.productService.get(code)),
       filter(Boolean),
       switchMap((p: Product) =>

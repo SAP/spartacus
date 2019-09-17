@@ -91,6 +91,9 @@ export class UserAddressService {
     return this.store.pipe(select(UsersSelectors.getAddressesLoading));
   }
 
+  getAddressesLoadedSuccess(): Observable<boolean> {
+    return this.store.pipe(select(UsersSelectors.getAddressesLoadedSuccess));
+  }
   /**
    * Retrieves delivery countries
    */
