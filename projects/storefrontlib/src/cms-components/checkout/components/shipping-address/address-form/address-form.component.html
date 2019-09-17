@@ -201,7 +201,7 @@
     <div class="col-md-12 col-lg-6">
       <button
         class="btn btn-block btn-primary"
-        [disabled]="address.invalid"
+        [disabled]="shouldDisableContinueButton()"
         (click)="verifyAddress()"
       >
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
