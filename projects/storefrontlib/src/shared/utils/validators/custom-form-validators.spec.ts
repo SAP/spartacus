@@ -89,14 +89,23 @@ describe('FormValidationService', () => {
   });
 
   describe('Password validator', () => {
-    it('should apply specified rule', () => {
-      password.setValue('Test123!');
-      expect(CustomFormValidators.passwordValidator(password)).toBeNull();
+    const validPasswords = ['Test123!', 'TEST123!', 'TEST123test!@#'];
+    const invalidPasswords = ['test123!', 'Test1234', 'Test!@#%', 'Te1!'];
 
-      password.setValue('test123!');
-      expect(CustomFormValidators.passwordValidator(password)).toEqual(
-        passwordError
-      );
+    validPasswords.forEach((validPassword: string) => {
+      it(`should allow password ${validPassword}`, () => {
+        password.setValue('Test123!');
+        expect(CustomFormValidators.passwordValidator(password)).toBeNull();
+      });
+    });
+
+    invalidPasswords.forEach((invalidPassword: string) => {
+      it(`should reject password '${invalidPassword}'`, function() {
+        password.setValue(invalidPassword);
+        expect(CustomFormValidators.passwordValidator(password)).toEqual(
+          passwordError
+        );
+      });
     });
   });
 });
