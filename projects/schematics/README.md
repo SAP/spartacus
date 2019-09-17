@@ -16,6 +16,10 @@ Run the following command from your project root:
 - `featureLevel`: Application feature level. (default: '1.1')
 - `overwriteAppComponent`: Overwrite content of app.component.html file. (default: true)
 
+### Other commands:
+By defaut `ng add @spartacus/schematics` will add all modules and files from commands listed below, but there will be situations where you want to run single command (i.e. for existing project).
+- `ng g @spartacus/schematics:add-pwa` - adds Spartacus-specific PWA module
+
 ## Steps performed by Spartacus schematics
 
 1. Add required dependencies
