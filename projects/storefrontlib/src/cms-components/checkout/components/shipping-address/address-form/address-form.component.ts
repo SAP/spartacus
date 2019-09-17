@@ -64,6 +64,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   backToAddress = new EventEmitter<any>();
 
   addressVerifySub: Subscription;
+  regionsSub: Subscription;
   suggestedAddressModalRef: ModalRef;
 
   address: FormGroup = this.fb.group({
@@ -197,7 +198,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   verifyAddress(): void {
     if (this.address.controls['region'].value.isocode) {
-      this.regions$.pipe(take(1)).subscribe(regions => {
+      this.regionsSub = this.regions$.pipe(take(1)).subscribe(regions => {
         const obj = regions.find(
           region =>
             region.isocode === this.address.controls['region'].value.isocode
@@ -262,6 +263,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();
+    }
+
+    if (this.regionsSub) {
+      this.regionsSub.unsubscribe();
     }
   }
 }
