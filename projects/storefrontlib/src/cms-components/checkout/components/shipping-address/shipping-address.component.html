@@ -1,4 +1,4 @@
-<ng-container *ngIf="(cards$ | async) as cards">
+<ng-container *ngIf="cards$ | async as cards">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
   </h3>

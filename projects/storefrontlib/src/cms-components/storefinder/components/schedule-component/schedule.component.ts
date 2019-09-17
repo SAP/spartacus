@@ -31,7 +31,7 @@ export class ScheduleComponent implements OnChanges {
    * Returns the store's opening time for the given date
    * @param date date
    */
-  getStoreOpeningTime(date: Date): Date {
+  getStoreOpeningTime(date: Date): string {
     return this.storeDataService.getStoreOpeningTime(this.location, date);
   }
 
@@ -39,7 +39,7 @@ export class ScheduleComponent implements OnChanges {
    * Returns the store's closing time for the given date
    * @param date date
    */
-  getStoreClosingTime(date: Date): Date {
+  getStoreClosingTime(date: Date): string {
     return this.storeDataService.getStoreClosingTime(this.location, date);
   }
 

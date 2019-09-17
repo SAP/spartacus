@@ -29,7 +29,7 @@ export type SlotGroup = {
 };
 
 export type LayoutSlotConfig = {
-  [section in LayoutSections]: SlotConfig | SlotGroup | LayoutSlotConfig
+  [section in LayoutSections]: SlotConfig | SlotGroup | LayoutSlotConfig;
 };
 
 /**
