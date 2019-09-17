@@ -11,13 +11,18 @@ describe('My Account - Address Book', () => {
     });
   });
 
-  verifyAsAnonymous();
+  describe('address book test for anonymous user', () => {
+    verifyAsAnonymous();
+  });
 
   describe('address book test for logged in user', () => {
     before(() => {
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+      });
     });
 
     beforeEach(() => {

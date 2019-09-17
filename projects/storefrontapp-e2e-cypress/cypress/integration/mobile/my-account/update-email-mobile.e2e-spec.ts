@@ -8,20 +8,24 @@ import * as homepage from '../../../helpers/homepage';
 describe(`${formats.mobile.width + 1}p resolution - Update Email Page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  verifyAsAnonymous();
+  describe('update email test for anonymous user', () => {
+    verifyAsAnonymous();
+  });
 
   describe('update email test for logged in user', () => {
-    before(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-      homepage.clickHamburger();
-    });
-
     beforeEach(() => {
       cy.restoreLocalStorage();
-      cy.viewport(formats.mobile.width, formats.mobile.height);
+      homepage.clickHamburger();
+      cy.selectUserMenuOption({
+        option: 'Email Address',
+        isMobile: true,
+      });
     });
 
     updateEmailTest();

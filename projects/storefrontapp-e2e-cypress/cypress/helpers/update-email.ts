@@ -18,15 +18,6 @@ export function accessPageAsAnonymous() {
   cy.location('pathname').should('contain', '/login');
 }
 
-export function accessUpdateEmailPage() {
-  cy.get('cx-page-layout cx-login')
-    .getByText('My Account')
-    .click({ force: true });
-  cy.get('nav')
-    .getByText('Email Address')
-    .click({ force: true });
-}
-
 export function cancelUpdateEmailAction() {
   cy.get('cx-update-email-form button[type="button"]').click();
   checkBanner();
@@ -36,7 +27,6 @@ export function cancelUpdateEmailAction() {
 
 export function updateEmail() {
   const newUid = generateMail(randomString(), true);
-  accessUpdateEmailPage();
   cy.get('cx-update-email-form [formcontrolname="email"]').type(newUid);
   cy.get('cx-update-email-form [formcontrolname="confirmEmail"]').type(newUid);
   cy.get('cx-update-email-form [formcontrolname="password"]').type(password);
@@ -75,10 +65,6 @@ export function verifyAsAnonymous() {
 export function updateEmailTest() {
   it('should register and login a user', () => {
     registerAndLogin();
-  });
-
-  it('should be able to go to Update Email Page', () => {
-    accessUpdateEmailPage();
   });
 
   it('should be able to cancel and go back to home', () => {
