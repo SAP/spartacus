@@ -10,6 +10,7 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserPaymentService } from './user-payment.service';
+import { Country } from '../../model';
 
 describe('UserPaymentService', () => {
   let service: UserPaymentService;
@@ -78,6 +79,19 @@ describe('UserPaymentService', () => {
     expect(flag).toEqual(true);
   });
 
+  it('should indicate successful loading', () => {
+    store.dispatch(new UserActions.LoadUserPaymentMethodsSuccess([]));
+
+    let flag: boolean;
+    service
+      .getPaymentMethodsLoadedSuccess()
+      .subscribe(data => {
+        flag = data;
+      })
+      .unsubscribe();
+    expect(flag).toEqual(true);
+  });
+
   it('should dispatch proper action for setPaymentMethodAsDefault', () => {
     service.setPaymentMethodAsDefault('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -95,6 +109,25 @@ describe('UserPaymentService', () => {
         userId: USERID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
+    );
+  });
+
+  it('should get all billing countries', () => {
+    let results: Country[];
+    service
+      .getAllBillingCountries()
+      .subscribe(data => {
+        results = data;
+      })
+      .unsubscribe();
+
+    expect(results).toEqual([]);
+  });
+
+  it('should load billing countries', () => {
+    service.loadBillingCountries();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadBillingCountries()
     );
   });
 });

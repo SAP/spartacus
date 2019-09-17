@@ -22,6 +22,16 @@
     "useMetaTags": {
       "type": "boolean",
       "description": "Configure baseUrl via meta tag in index.html"
+    },
+    "featureLevel": {
+      "type": "string",
+      "description": "Configure feature level for application.",
+      "default": "1.1"
+    },
+    "overwriteAppComponent": {
+      "type": "boolean",
+      "description": "Overwrite whole app.component.html file.",
+      "default": false
     }
   },
   "required": []
