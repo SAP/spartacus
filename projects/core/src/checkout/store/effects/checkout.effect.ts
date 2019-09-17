@@ -31,6 +31,11 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
+            if (payload.address.region && payload.address.region.isocodeShort) {
+              Object.assign(address.region, {
+                isocodeShort: payload.address.region.isocodeShort,
+              });
+            }
             if (payload.userId === ANONYMOUS_USERID) {
               return [
                 new CheckoutActions.SetDeliveryAddress({
