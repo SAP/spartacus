@@ -33,7 +33,7 @@ export class CartDataService {
   }
 
   get hasCart(): boolean {
-    return !!this._cart;
+    return !!this._cart && Object.keys(this._cart).length > 0;
   }
 
   get userId(): string {
