@@ -1,21 +1,39 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs';
-import { AuthService } from '../../auth/index';
-import { CartActions } from '../../cart/store/actions/index';
-import { StateWithCart } from '../store/cart-state';
-import * as fromReducers from '../../cart/store/reducers/index';
+import { Observable, ReplaySubject } from 'rxjs';
+import { AuthService } from '../../auth/facade/auth.service';
+import { UserToken } from '../../auth/models/token-types.model';
+import { Cart } from '../../model/cart.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { CartActions, StateWithCart } from '../store/index';
+import * as fromReducers from '../store/reducers/index';
 import { CartDataService } from './cart-data.service';
-import createSpy = jasmine.createSpy;
 
-const userToken = new BehaviorSubject({});
-const mockAuthService = {
-  getUserToken: createSpy().and.returnValue(userToken),
+const userToken$ = new ReplaySubject<UserToken | any>();
+
+class AuthServiceStub {
+  getUserToken(): Observable<UserToken> {
+    return userToken$.asObservable();
+  }
+}
+
+const testUserToken: UserToken = {
+  access_token: 'access_token',
+  userId: 'userId',
+  refresh_token: 'refresh_token',
+  token_type: 'token_type',
+  expires_in: 1,
+  scope: ['scope'],
+};
+const testCart: Cart = {
+  totalItems: 2,
+  guid: 'testGuid',
+  code: 'testCode',
 };
 
 describe('CartDataService', () => {
-  let cartData: CartDataService;
+  let service: CartDataService;
   let store: Store<StateWithCart>;
 
   beforeEach(() => {
@@ -26,84 +44,89 @@ describe('CartDataService', () => {
       ],
       providers: [
         CartDataService,
-        { provide: AuthService, useValue: mockAuthService },
+        {
+          provide: AuthService,
+          useClass: AuthServiceStub,
+        },
       ],
     });
-
-    cartData = TestBed.get(CartDataService as Type<CartDataService>);
+    service = TestBed.get(CartDataService as Type<CartDataService>);
     store = TestBed.get(Store as Type<Store<StateWithCart>>);
   });
 
-  it('should CartDataService is injected', () => {
-    expect(cartData).toBeTruthy();
-  });
-
-  it('should return userId when user login (token exist)', () => {
-    userToken.next({
-      userId: 'test',
+  describe('userId', () => {
+    it('should return OCC_USER_ID_ANONYMOUS when user not logged in', () => {
+      expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
+      userToken$.next({});
+      expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
     });
-    expect(cartData.userId).toEqual('test');
-  });
 
-  it('should return anonymous when user not login', () => {
-    userToken.next({});
-    expect(cartData.userId).toEqual('anonymous');
-  });
-
-  it('should able to get cartId', () => {
-    store.dispatch(
-      new CartActions.CreateCartSuccess({ guid: 'guid', code: 'code' })
-    );
-
-    userToken.next({
-      userId: 'test',
+    it('should return userId when user logged in', () => {
+      expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
+      userToken$.next(testUserToken);
+      expect(service.userId).toEqual(testUserToken.userId);
     });
-    expect(cartData.cartId).toEqual('code');
-
-    userToken.next({});
-    expect(cartData.cartId).toEqual('guid');
   });
 
-  it('should able to check has cart or not', () => {
-    store.dispatch(
-      new CartActions.CreateCartSuccess({ guid: 'guid', code: 'code' })
-    );
-    expect(cartData.hasCart).toBeTruthy();
+  describe('cart', () => {
+    it('should return current cart', () => {
+      expect(service.cart).toEqual({});
+      store.dispatch(new CartActions.CreateCartSuccess(testCart));
+      expect(service.cart).toEqual(testCart);
+    });
   });
 
-  it('should able to get cart data', () => {
-    store.dispatch(
-      new CartActions.CreateCartSuccess({ guid: 'guid', code: 'code' })
-    );
-    expect(cartData.cart).toEqual({ guid: 'guid', code: 'code' });
+  describe('hasCart', () => {
+    it('should check if cart exists', () => {
+      store.dispatch(new CartActions.ClearCart());
+      expect(service.hasCart).toEqual(false);
+      store.dispatch(new CartActions.CreateCartSuccess(testCart));
+      expect(service.hasCart).toEqual(true);
+    });
   });
 
-  it('should be able to check cart owned by guest or not', () => {
-    store.dispatch(
-      new CartActions.CreateCartSuccess({
-        guid: 'guid',
-        code: 'code',
-        user: { name: 'anonymous', uid: 'anonymous' },
-      })
-    );
-    expect(cartData.isGuestCart).toBeFalsy();
+  describe('cartId', () => {
+    it('should return cart guid for anonymous user', () => {
+      userToken$.next({});
+      store.dispatch(new CartActions.CreateCartSuccess(testCart));
+      expect(service.cartId).toEqual(testCart.guid);
+    });
 
-    store.dispatch(
-      new CartActions.CreateCartSuccess({
-        guid: 'guid',
-        code: 'code',
-        user: { name: 'guest' },
-      })
-    );
-    expect(cartData.isGuestCart).toBeTruthy();
+    it('should return code for logged user', () => {
+      userToken$.next(testUserToken);
+      store.dispatch(new CartActions.CreateCartSuccess(testCart));
+      expect(service.cartId).toEqual(testCart.code);
+    });
+  });
 
-    store.dispatch(
-      new CartActions.CreateCartSuccess({
-        guid: 'guid',
-        code: 'code',
-        user: { name: 'test', uid: 'use-guid|test@test.com' },
-      })
-    );
-    expect(cartData.isGuestCart).toBeTruthy();
+  describe('isGuestCart', () => {
+    it('should be able to check cart owned by guest or not', () => {
+      store.dispatch(
+        new CartActions.CreateCartSuccess({
+          guid: 'guid',
+          code: 'code',
+          user: { name: 'anonymous', uid: 'anonymous' },
+        })
+      );
+      expect(service.isGuestCart).toBeFalsy();
+
+      store.dispatch(
+        new CartActions.CreateCartSuccess({
+          guid: 'guid',
+          code: 'code',
+          user: { name: 'guest' },
+        })
+      );
+      expect(service.isGuestCart).toBeTruthy();
+
+      store.dispatch(
+        new CartActions.CreateCartSuccess({
+          guid: 'guid',
+          code: 'code',
+          user: { name: 'test', uid: 'use-guid|test@test.com' },
+        })
+      );
+      expect(service.isGuestCart).toBeTruthy();
+    });
   });
 });

@@ -28,7 +28,6 @@ class MockUserAddressService {
 }
 
 class MockCartService {
-  loadDetails(): void {}
   isGuestCart(): Boolean {
     return false;
   }
@@ -126,7 +125,7 @@ describe('ShippingAddressComponent', () => {
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
   let mockUserAddressService: UserAddressService;
   let mockRoutingService: MockRoutingService;
-  let mockCartService: MockCartService;
+  let mockCartService: CartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

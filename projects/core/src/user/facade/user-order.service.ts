@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -30,7 +30,7 @@ export class UserOrderService {
    */
   loadOrderDetails(orderCode: string, userId?: string): void {
     if (userId === undefined) {
-      userId = USERID_CURRENT;
+      userId = OCC_USER_ID_CURRENT;
     }
     this.store.dispatch(
       new UserActions.LoadOrderDetails({
@@ -82,7 +82,7 @@ export class UserOrderService {
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
       new UserActions.LoadUserOrders({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,

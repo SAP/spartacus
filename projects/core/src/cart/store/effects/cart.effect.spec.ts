@@ -87,18 +87,6 @@ describe('Cart effect', () => {
     >);
   });
 
-  describe('createCart$', () => {
-    it('should create a cart', () => {
-      const action = new CartActions.CreateCart(userId);
-      const completion = new CartActions.CreateCartSuccess(testCart);
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(cartEffects.createCart$).toBeObservable(expected);
-    });
-  });
-
   describe('loadCart$', () => {
     it('should load a cart', () => {
       const action = new CartActions.LoadCart({
@@ -132,6 +120,39 @@ describe('Cart effect', () => {
     });
   });
 
+  describe('createCart$', () => {
+    it('should create a cart', () => {
+      const action = new CartActions.CreateCart({ userId });
+      const completion = new CartActions.CreateCartSuccess(testCart);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.createCart$).toBeObservable(expected);
+    });
+
+    it('should create and merge cart when oldCartId is provided', () => {
+      const action = new CartActions.CreateCart({
+        userId,
+        oldCartId: 'testOldCartId',
+      });
+
+      const createCartCompletion = new CartActions.CreateCartSuccess(testCart);
+      const mergeCartCompletion = new CartActions.MergeCartSuccess({
+        userId,
+        cartId: testCart.code,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: createCartCompletion,
+        c: mergeCartCompletion,
+      });
+
+      expect(cartEffects.createCart$).toBeObservable(expected);
+    });
+  });
+
   describe('mergeCart$', () => {
     it('should merge old cart into the session cart', () => {
       const action = new CartActions.MergeCart({
@@ -151,17 +172,48 @@ describe('Cart effect', () => {
     });
   });
 
+  describe('refresh$', () => {
+    const cartChangesSuccessActions = [
+      'MergeCartSuccess',
+      'CartAddEntrySuccess',
+      'CartUpdateEntrySuccess',
+      'CartRemoveEntrySuccess',
+    ];
+
+    cartChangesSuccessActions.forEach(actionName => {
+      it(`should refresh cart on ${actionName}`, () => {
+        const action = new CartActions[actionName]({
+          userId: userId,
+          cartId: cartId,
+        });
+        const completion = new CartActions.LoadCart({
+          userId: userId,
+          cartId: cartId,
+        });
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+
+        expect(cartEffects.refresh$).toBeObservable(expected);
+      });
+    });
+  });
+
   describe('resetCartDetailsOnSiteContextChange$', () => {
-    it('should reset cart details', () => {
-      const action = new SiteContextActions.LanguageChange();
-      const completion = new CartActions.ResetCartDetails();
+    const siteContextChangeActions = ['LanguageChange', 'CurrencyChange'];
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+    siteContextChangeActions.forEach(actionName => {
+      it(`should reset cart details on ${actionName}`, () => {
+        const action = new SiteContextActions[actionName]();
+        const completion = new CartActions.ResetCartDetails();
 
-      expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
-        expected
-      );
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+
+        expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
+          expected
+        );
+      });
     });
   });
 

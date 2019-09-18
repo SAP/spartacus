@@ -54,7 +54,7 @@ describe('Cart selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getActiveCartContent', () => {
+  describe('getCartContent', () => {
     it('should return the cart content from the state', () => {
       let result: Cart;
       store
@@ -65,6 +65,17 @@ describe('Cart selectors', () => {
 
       store.dispatch(new CartActions.CreateCartSuccess(testEmptyCart));
       expect(result).toEqual(testEmptyCart);
+    });
+  });
+
+  describe('getCartState', () => {
+    it('should return cart state value', () => {
+      let result: any;
+      store
+        .pipe(select(CartSelectors.getCartState))
+        .subscribe(value => (result = value));
+      expect(result.entries).toBeTruthy();
+      expect(result.content).toBeTruthy();
     });
   });
 
@@ -94,9 +105,47 @@ describe('Cart selectors', () => {
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
-
-      store.dispatch(new CartActions.CreateCart(testEmptyCart));
+      store.dispatch(new CartActions.CreateCart({ userId: 'testUserId' }));
       expect(result).toEqual(false);
+    });
+
+    it('should return false when refresh flag is set to true', () => {
+      let result: boolean;
+      store
+        .pipe(select(CartSelectors.getCartLoaded))
+        .subscribe(value => (result = value));
+
+      store.dispatch(new CartActions.CreateCartSuccess(testEmptyCart));
+      expect(result).toEqual(true);
+      store.dispatch(new CartActions.MergeCartSuccess(testEmptyCart));
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('getCartLoading', () => {
+    it('should return the loading value', () => {
+      let result: boolean;
+      store
+        .pipe(select(CartSelectors.getCartLoading))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+      store.dispatch(new CartActions.CreateCart({ userId: 'testUserId' }));
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getCartMergeComplete', () => {
+    it('should return mergeComplete state', () => {
+      let result: boolean;
+      store
+        .pipe(select(CartSelectors.getCartMergeComplete))
+        .subscribe(value => (result = value));
+
+      store.dispatch(new CartActions.MergeCart({}));
+      expect(result).toEqual(false);
+      store.dispatch(new CartActions.MergeCartSuccess({}));
+      expect(result).toEqual(true);
     });
   });
 

@@ -63,7 +63,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
     this.checkoutStepUrlPrevious = 'cart';
-
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
     this.cards$ = combineLatest([
