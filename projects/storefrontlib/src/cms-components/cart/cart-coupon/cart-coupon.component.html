@@ -1,4 +1,4 @@
-<div class="cx-cart-coupon-title">
+<div class="cx-cart-coupon-title" data-test="title-coupon">
   {{ 'voucher.coupon' | cxTranslate }}
 </div>
 <div class="form-group ">
@@ -8,6 +8,7 @@
         <input
           type="text"
           class="form-control"
+          data-test="input-coupon"
           id="applyVoucher"
           formControlName="couponCode"
           placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
@@ -16,6 +17,7 @@
       <div class="col-md-4">
         <button
           class="btn btn-block btn-action "
+          data-test="button-coupon"
           type="submit"
           [disabled]="
             cartIsLoading || !btnEnabled || (addVoucherIsLoading$ | async)

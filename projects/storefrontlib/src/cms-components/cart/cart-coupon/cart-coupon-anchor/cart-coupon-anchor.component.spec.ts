@@ -38,7 +38,7 @@ describe('CartCouponAnchorComponent', () => {
     fixture.detectChanges();
 
     const anchorTitle = fixture.debugElement.query(
-      By.css('.cx-cart-coupon-anchor-link')
+      By.css('[data-test="anchor-coupon"]')
     ).nativeElement;
     anchorTitle.click();
     expect(spyEmitter.emit).toHaveBeenCalledWith('#applyVoucher');
