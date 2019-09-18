@@ -82,7 +82,7 @@ export function verifyAsAnonymous() {
   });
 }
 
-export function validateForm(
+export function validateUpdateProfileForm(
   title: string,
   firstName: string,
   lastName: string
@@ -90,9 +90,9 @@ export function validateForm(
   cy.get('cx-update-profile-form').within(() => {
     cy.get('[formcontrolname="titleCode"]')
       .find(':selected')
-      .should('have.value', newTitle);
-    cy.get('[formcontrolname="firstName"]').should('have.value', newFirstName);
-    cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
+      .should('have.value', title);
+    cy.get('[formcontrolname="firstName"]').should('have.value', firstName);
+    cy.get('[formcontrolname="lastName"]').should('have.value', lastName);
   });
 }
 
