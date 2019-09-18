@@ -12,6 +12,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/index';
+import { AttributeRadioButtonComponent } from '../commons/attribute-types/attribute-radio-button/attribute-radio-button.component';
 import { ConfigurationFormComponent } from '../commons/configuration-form/configuration-form.component';
 import { ConfigurationImageComponent } from '../commons/configuration-image/configuration-image.component';
 import { ConfigurationTitleComponent } from '../commons/configuration-title/configuration-title.component';
@@ -63,17 +64,20 @@ import { ConfigurationTitleComponent } from '../commons/configuration-title/conf
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
+    AttributeRadioButtonComponent,
   ],
   exports: [
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
+    AttributeRadioButtonComponent,
   ],
   providers: [UserService],
   entryComponents: [
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
+    AttributeRadioButtonComponent,
   ],
 })
 export class VariantConfiguratorModule {}

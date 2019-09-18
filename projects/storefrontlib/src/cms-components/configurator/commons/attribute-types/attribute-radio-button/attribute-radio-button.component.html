@@ -1,0 +1,18 @@
+<div class="form-check" *ngFor="let value of values" class="radio">
+  <input
+    id="{{ currentAttribute.name + value.valueCode }}"
+    class="form-check-input"
+    type="radio"
+    [attr.required]="currentAttribute.required"
+    [value]="value.valueCode"
+    name="{{ currentAttribute.name }}"
+    attr.name="{{ currentAttribute.name }}"
+  />
+  <label
+    id="{{ 'label' + currentAttribute.name + value.valueCode }}"
+    for="{{ currentAttribute.name + value.valueCode }}"
+    class="cx-delivery-label form-check-label
+        form-radio-label"
+    >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ value.valueDisplay }}</label
+  >
+</div>

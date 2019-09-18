@@ -7,6 +7,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { AttributeRadioButtonComponent } from '../attribute-types/attribute-radio-button/attribute-radio-button.component';
 import { ConfigurationFormComponent } from './configuration-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -44,7 +45,7 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConfigurationFormComponent],
+      declarations: [ConfigurationFormComponent, AttributeRadioButtonComponent],
       providers: [
         {
           provide: RoutingService,
