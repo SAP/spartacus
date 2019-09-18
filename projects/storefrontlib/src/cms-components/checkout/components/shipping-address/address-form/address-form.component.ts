@@ -8,9 +8,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
-
 import {
   Address,
   AddressValidation,
@@ -22,12 +19,15 @@ import {
   Title,
   UserAddressService,
   UserService,
+  WindowRef,
 } from '@spartacus/core';
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   ModalRef,
   ModalService,
 } from '../../../../../shared/components/modal/index';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
   selector: 'cx-address-form',
@@ -91,10 +91,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private winRef: WindowRef
   ) {}
 
   ngOnInit() {
+    this.winRef.nativeWindow['QSI'].API.unload();
+    this.winRef.nativeWindow['QSI'].API.load();
+
     // Fetching countries
     this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
       tap(countries => {

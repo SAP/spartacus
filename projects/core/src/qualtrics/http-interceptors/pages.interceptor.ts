@@ -28,9 +28,14 @@ export class PagesInteceptor implements HttpInterceptor {
       this.featureConfigService.isEnabled('qualtrics')
     ) {
       console.log('in');
-      this.winRef.nativeWindow['QSI'].API.unload();
+      this.reloadQualtricsCreative();
     }
 
     return next.handle(request);
+  }
+
+  protected reloadQualtricsCreative() {
+    this.winRef.nativeWindow['QSI'].API.unload();
+    this.winRef.nativeWindow['QSI'].API.load();
   }
 }
