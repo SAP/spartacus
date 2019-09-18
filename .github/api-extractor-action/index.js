@@ -52,7 +52,7 @@ Toolkit.run(
       );
       return {
         library,
-        diff: diff(sourceBranchSnippet, targetBranchSnippet, {
+        diff: diff(targetBranchSnippet, sourceBranchSnippet, {
           n_surrounding: 2,
         }),
       };
