@@ -1,19 +1,11 @@
-<ng-container *ngIf="(configuration$ | async) as configuration">
-  <div class="cx-total">
-    {{ 'header.configId' | cxTranslate }} : {{ configuration.configId }} <br />
-    {{ 'header.consistent' | cxTranslate }} : {{ configuration.consistent }}
-    <br />
-    {{ 'header.complete' | cxTranslate }} : {{ configuration.complete }}
-  </div>
-  <br />
+<ng-container *ngIf="configuration$ | async as configuration">
+  {{ 'header.configId' | cxTranslate }} : {{ configuration.configId }}
+  {{ 'header.consistent' | cxTranslate }} : {{ configuration.consistent }}
+  {{ 'header.complete' | cxTranslate }} : {{ configuration.complete }}
+
   <div class="cx-total">{{ 'attribute.caption' | cxTranslate }}</div>
-  <br />
-  <div
-    class="cx-item-list-row"
-    *ngFor="let attribute of configuration.attributes"
-  >
-    <div class="cx-item-list-items">{{ attribute.label }}</div>
+
+  <div *ngFor="let attribute of configuration.attributes">
+    <div>{{ attribute.label }}</div>
   </div>
 </ng-container>
-<div class="cx-total"></div>
-<div class="cx-total"></div>
