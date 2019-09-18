@@ -1,21 +1,41 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  Configuration,
+  ConfiguratorCommonsService,
+  RoutingService,
+} from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-config-form',
   templateUrl: './configuration-form.component.html',
 })
 export class ConfigurationFormComponent implements OnInit, OnDestroy {
-  pcCode$: Observable<string>;
-  constructor(private routingService: RoutingService) {}
+  configuration$: Observable<Configuration>;
+  subscription = new Subscription();
+
+  constructor(
+    private routingService: RoutingService,
+    private configuratorCommonsService: ConfiguratorCommonsService
+  ) {}
 
   ngOnInit(): void {
-    this.pcCode$ = this.routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.params.pcCode));
+    this.subscription.add(
+      this.routingService
+        .getRouterState()
+        .subscribe(state => this.createConfiguration(state))
+    );
   }
 
-  ngOnDestroy(): void {}
+  createConfiguration(routingData) {
+    this.configuration$ = this.configuratorCommonsService.createConfiguration(
+      routingData.state.params.rootProduct
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }
