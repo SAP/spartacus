@@ -43,99 +43,53 @@ describe('AppliedCouponsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should sort conpons', () => {
-    component.vouchers = [coupon2, coupon1];
-    fixture.detectChanges();
-    const elValue = fixture.debugElement.queryAll(
-      By.css('.cx-cart-coupon-code')
-    );
-    expect(elValue.length).toBe(2);
-    expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
-    expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
-    expect([coupon1, coupon2] === component.sortedVouchers);
-  });
-
   describe('test applied coupons in "ReadOnly" mode', () => {
     beforeEach(() => {
       component.isReadOnly = true;
     });
     it('should not show coupon list when no coupons applied', () => {
-      component.vouchers = [];
       fixture.detectChanges();
       const elTitle = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-title')
+        By.css('[data-test="summary-title-coupon"]')
       );
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-code')
+        By.css('[data-test="applied-coupon"]')
       );
-      const elButton = fixture.debugElement.query(By.css('button'));
 
       expect(elTitle.length).toBe(0);
       expect(elValue.length).toBe(0);
-      expect(elButton).toBeNull();
       expect(component.sortedVouchers.length === 0);
     });
 
-    it('should not show coupon list when undefined list', () => {
-      fixture.detectChanges();
-      const elTitle = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-title')
-      );
-      const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-code')
-      );
-      const elButton = fixture.debugElement.query(By.css('button'));
-
-      expect(elTitle.length).toBe(0);
-      expect(elValue.length).toBe(0);
-      expect(elButton).toBeNull();
-      expect(component.sortedVouchers.length === 0);
-    });
-
-    it('should show singular coupon tile when 1 coupon applied', () => {
-      component.vouchers = [coupon1];
-      fixture.detectChanges();
-      const couponTitle = fixture.debugElement.query(
-        By.css('.cx-applied-coupon-title')
-      ).nativeElement.innerText;
-      const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-code')
-      );
-      expect(elValue.length).toBe(1);
-      expect(couponTitle).toContain('voucher.coupon');
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
-    });
-
-    it('should show plural coupon tile when more than 1 coupons applied', () => {
+    it('should show coupon tile and coupon when coupon applied', () => {
       component.vouchers = [coupon2, coupon1];
       fixture.detectChanges();
-
       const couponTitle = fixture.debugElement.query(
-        By.css('.cx-applied-coupon-title')
+        By.css('[data-test="summary-title-coupon"]')
       ).nativeElement.innerText;
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-applied-coupon-code')
+        By.css('[data-test="applied-coupon"]')
       );
+      expect(couponTitle).toContain('voucher.coupon');
       expect(elValue.length).toBe(2);
-      expect(couponTitle).toContain('voucher.coupons');
       expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
       expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
     });
   });
 
   describe('test applied coupons in "Editable" mode', () => {
-    it('should not show coupon list when no coupons applied', () => {
-      component.vouchers = [];
+    beforeEach(() => {
+      component.isReadOnly = false;
+    });
+    it('should not show coupon list with remove button when no coupons applied', () => {
       fixture.detectChanges();
-      const elTitle = fixture.debugElement.queryAll(
-        By.css('.cx-cart-coupon-title')
-      );
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-cart-coupon-code')
+        By.css('[data-test="applied-coupon"]')
       );
-      const elButton = fixture.debugElement.query(By.css('button'));
+      const elButton = fixture.debugElement.query(
+        By.css('[data-test="remove-coupon"]')
+      );
 
-      expect(elTitle.length).toBe(0);
       expect(elValue.length).toBe(0);
       expect(elButton).toBeNull();
       expect(component.sortedVouchers.length === 0);
@@ -144,15 +98,13 @@ describe('AppliedCouponsComponent', () => {
     it('should show applied coupons', () => {
       component.vouchers = [coupon2, coupon1];
       fixture.detectChanges();
-      const elTitle = fixture.debugElement.query(
-        By.css('.cx-cart-coupon-title')
-      );
       const elValue = fixture.debugElement.queryAll(
-        By.css('.cx-cart-coupon-code')
+        By.css('[data-test="applied-coupon"]')
       );
-      const elButton = fixture.debugElement.queryAll(By.css('button'));
+      const elButton = fixture.debugElement.queryAll(
+        By.css('[data-test="remove-coupon"]')
+      );
 
-      expect(elTitle).toBeNull();
       expect(elButton.length).toBe(2);
       expect(elValue.length).toBe(2);
       expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
@@ -163,9 +115,9 @@ describe('AppliedCouponsComponent', () => {
       component.vouchers = [coupon1];
       fixture.detectChanges();
 
-      const elButton = fixture.debugElement.query(By.css('button'))
-        .nativeElement;
-      elButton.click();
+      fixture.debugElement
+        .query(By.css('[data-test="remove-coupon"]'))
+        .nativeElement.click();
 
       expect(mockCartService.removeVoucher).toHaveBeenCalledWith(coupon1.code);
     });

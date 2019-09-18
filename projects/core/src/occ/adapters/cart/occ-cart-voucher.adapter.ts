@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CartVoucherAdapter } from '../../../cart/connectors/voucher/cart-voucher.adapter';
 import { CART_VOUCHER_NORMALIZER } from '../../../cart/connectors/voucher/converters';
-import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
+import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import {
@@ -33,7 +33,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
       'Content-Type': 'application/json',
     });
 
-    if (userId === ANONYMOUS_USERID) {
+    if (userId === OCC_USER_ID_ANONYMOUS) {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
 
@@ -54,7 +54,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
       'Content-Type': 'application/json',
     });
 
-    if (userId === ANONYMOUS_USERID) {
+    if (userId === OCC_USER_ID_ANONYMOUS) {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
 

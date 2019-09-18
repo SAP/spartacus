@@ -1,9 +1,17 @@
 <div *ngIf="isReadOnly; else editableCoupons">
   <div>
-    <div class="cx-applied-coupon-title" *ngIf="sortedVouchers.length === 1">
+    <div
+      class="cx-applied-coupon-title"
+      data-test="summary-title-coupon"
+      *ngIf="sortedVouchers.length === 1"
+    >
       {{ 'voucher.coupon' | cxTranslate }}
     </div>
-    <div class="cx-applied-coupon-title" *ngIf="sortedVouchers.length > 1">
+    <div
+      class="cx-applied-coupon-title"
+      data-test="summary-title-coupon"
+      *ngIf="sortedVouchers.length > 1"
+    >
       {{ 'voucher.coupons' | cxTranslate }}
     </div>
   </div>
@@ -12,7 +20,9 @@
     class="coupon-summary cx-coupon-card"
     role="filter"
   >
-    <span class="cx-applied-coupon-code">{{ v.code }}</span>
+    <span class="cx-applied-coupon-code" data-test="applied-coupon">{{
+      v.code
+    }}</span>
   </div>
 </div>
 
@@ -24,10 +34,13 @@
       role="filter"
     >
       <div class="cx-coupon-apply cx-coupon-card cx-coupon-list-wrap">
-        <span class="cx-cart-coupon-code ">{{ v.code }}</span>
+        <span class="cx-cart-coupon-code " data-test="applied-coupon">{{
+          v.code
+        }}</span>
         <button
           type="button"
           class="close"
+          data-test="remove-coupon"
           aria-label="Close"
           (click)="removeVoucher(v.code)"
           [disabled]="cartIsLoading"
