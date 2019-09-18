@@ -30,7 +30,11 @@ describe('add-spartacus', () => {
     project: 'schematics-test',
     target: 'build',
     configuration: 'production',
+    baseSite: 'electronics',
+    baseUrl: 'https://localhost:9002',
   };
+
+  const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
 
   beforeEach(async () => {
     appTree = await schematicRunner
@@ -60,24 +64,6 @@ describe('add-spartacus', () => {
     expect(depPackageList.includes('@spartacus/core')).toBe(true);
     expect(depPackageList.includes('@spartacus/storefront')).toBe(true);
     expect(depPackageList.includes('@spartacus/styles')).toBe(true);
-  });
-
-  it('Add PWA/ServiceWorker support for your project', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
-    const packageJson = tree.readContent('/package.json');
-    const packageObj = JSON.parse(packageJson);
-    const depPackageList = Object.keys(packageObj.dependencies);
-    expect(depPackageList.includes('@angular/service-worker')).toBe(true);
-    expect(
-      tree.files.includes('/projects/schematics-test/src/manifest.webmanifest')
-    ).toBe(true);
-    expect(
-      tree.files.includes(
-        '/projects/schematics-test/src/assets/icons/icon-96x96.png'
-      )
-    ).toBe(true);
   });
 
   it('Import Spartacus modules in app.module', async () => {
@@ -123,6 +109,20 @@ describe('add-spartacus', () => {
       );
       expect(appModule.includes(`baseSite: ['test-site']`)).toBe(true);
     });
+
+    it('should set feature level', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync(
+          'add-spartacus',
+          { ...defaultOptions, featureLevel: '1.5' },
+          appTree
+        )
+        .toPromise();
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
+      expect(appModule.includes(`level: '1.5'`)).toBe(true);
+    });
   });
 
   it('Import Spartacus styles to main.scss', async () => {
@@ -137,16 +137,35 @@ describe('add-spartacus', () => {
     );
   });
 
+  it('Overwrite app.component with cx-storefront', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        'add-spartacus',
+        { ...defaultOptions, overwriteAppComponent: true },
+        appTree
+      )
+      .toPromise();
+    const appComponentTemplate = tree
+      .readContent('/projects/schematics-test/src/app/app.component.html')
+      .replace(newLineRegEx, '');
+
+    expect(appComponentTemplate).toEqual(`<cx-storefront></cx-storefront>`);
+  });
+
   it('Add cx-storefront component to your app.component', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+      .runSchematicAsync(
+        'add-spartacus',
+        { ...defaultOptions, overwriteAppComponent: false },
+        appTree
+      )
       .toPromise();
     const appComponentTemplate = tree.readContent(
       '/projects/schematics-test/src/app/app.component.html'
     );
-    expect(
-      appComponentTemplate.includes(`<cx-storefront></cx-storefront>`)
-    ).toBe(true);
+    const cxTemplate = `<cx-storefront></cx-storefront>`;
+    expect(appComponentTemplate.includes(cxTemplate)).toBe(true);
+    expect(appComponentTemplate.length).toBeGreaterThan(cxTemplate.length);
   });
 
   describe('Update index.html', async () => {
@@ -178,7 +197,7 @@ describe('add-spartacus', () => {
       );
       expect(
         indexHtmlFile.includes(
-          `<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />`
+          `<meta name="occ-backend-base-url" content="${defaultOptions.baseUrl}" />`
         )
       ).toBe(true);
       expect(

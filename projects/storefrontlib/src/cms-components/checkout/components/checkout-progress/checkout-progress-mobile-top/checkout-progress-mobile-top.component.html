@@ -1,5 +1,5 @@
-<div *ngIf="(routerState$ | async) as routerState">
-  <div *ngIf="(cart$ | async) as cart">
+<div *ngIf="routerState$ | async as routerState">
+  <div *ngIf="cart$ | async as cart">
     <div class="cx-media">
       <div class="cx-list-media" *ngIf="cart?.totalItems && cart?.subTotal">
         {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems } }}:
