@@ -1,21 +1,22 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { AuthService, UserToken } from '../../auth/index';
 import { CartActions } from '../../cart/store/actions/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithCart } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 class CartDataServiceStub {
   userId;
   cart;
   cartId;
+  isGuestCart;
 }
 
 const userToken$ = new ReplaySubject<UserToken>();
@@ -41,10 +42,11 @@ describe('CartService', () => {
     expires_in: 1,
     scope: ['scope'],
   };
-  const cart = { code: 'testCartId', guid: 'testGuid' };
+  const cart = { code: 'testCartId', guid: 'testGuid', user: 'assigned' };
   const mockCartEntry: OrderEntry = {
     entryNumber: 0,
     product: { code: productCode },
+    quantity: 1,
   };
 
   beforeEach(() => {
@@ -97,6 +99,45 @@ describe('CartService', () => {
             cartId: cartData.cart.guid,
           })
         );
+      });
+    });
+    const guestCartMergeMethod = 'guestCartMerge';
+    describe('when user is guest', () => {
+      beforeEach(() => {
+        spyOn(service, 'isGuestCart').and.returnValue(true);
+        spyOn(store, 'dispatch').and.stub();
+
+        cartData.cart = cart;
+      });
+      it('should delete guest cart', () => {
+        service[loadOrMergeMethod]();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.DeleteCart({
+            userId: OCC_USER_ID_ANONYMOUS,
+            cartId: cartData.cart.guid,
+          })
+        );
+      });
+
+      it('should create a new cart', () => {
+        spyOn<any>(service, 'isCreated').and.returnValue(false);
+
+        service[guestCartMergeMethod]();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.CreateCart({ userId: cartData.userId })
+        );
+      });
+
+      it('should copy content of guest cart to user cart', () => {
+        spyOn<any>(service, 'isCreated').and.returnValue(true);
+        spyOn(service, 'addEntries').and.stub();
+        spyOn(service, 'getEntries').and.returnValues(
+          of([mockCartEntry]),
+          of([])
+        );
+
+        service[guestCartMergeMethod]();
+        expect(service.addEntries).toHaveBeenCalledWith([mockCartEntry]);
       });
     });
   });
@@ -309,6 +350,78 @@ describe('CartService', () => {
     });
   });
 
+  describe('addEmail', () => {
+    it('should be able to add email to cart', () => {
+      spyOn(store, 'dispatch').and.stub();
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+
+      service.addEmail('test@test.com');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.AddEmailToCart({
+          userId: userId,
+          cartId: cart.code,
+          email: 'test@test.com',
+        })
+      );
+    });
+  });
+
+  describe('getAssignedUser', () => {
+    it('should be able to return cart assigned user', () => {
+      store.dispatch(new CartActions.CreateCartSuccess(cart));
+      let result: any;
+      service
+        .getAssignedUser()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual('assigned');
+    });
+  });
+
+  describe('isGuestCart', () => {
+    it('should be able to return whether cart belongs to guest', () => {
+      cartData.isGuestCart = true;
+      expect(service.isGuestCart()).toBeTruthy();
+
+      cartData.isGuestCart = false;
+      expect(service.isGuestCart()).toBeFalsy();
+    });
+  });
+
+  describe('addEntries', () => {
+    beforeEach(() => {
+      spyOn(store, 'dispatch').and.stub();
+    });
+
+    it('should add entries to the cart if cart HAS content', () => {
+      service.addEntries([mockCartEntry]);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartAddEntry({
+          userId: cartData.userId,
+          cartId: cartData.cartId,
+          productCode: mockCartEntry.product.code,
+          quantity: mockCartEntry.quantity,
+        })
+      );
+    });
+    it('should add entries to the cart if cart is empty', () => {
+      service.addEntries([mockCartEntry]);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartAddEntry({
+          userId: cartData.userId,
+          cartId: cartData.cartId,
+          productCode: mockCartEntry.product.code,
+          quantity: mockCartEntry.quantity,
+        })
+      );
+    });
+  });
+
   describe('isCreated', () => {
     it('should return false when guid is not present', () => {
       const result = service['isCreated']({});
@@ -325,7 +438,7 @@ describe('CartService', () => {
       const result = service['isIncomplete']({});
       expect(result).toEqual(true);
     });
-    it('should return true for cart with guid and code only', () => {
+    it('should return false for cart with guid and code only', () => {
       const result = service['isIncomplete']({
         guid: 'testGuid',
         code: 'testCode',
@@ -337,6 +450,7 @@ describe('CartService', () => {
         guid: 'testGuid',
         code: 'testCode',
         totalItems: 3,
+        user: { name: 'name', uid: 'userId' },
       });
       expect(result).toEqual(false);
     });
@@ -434,7 +548,12 @@ describe('CartService', () => {
 
       let result: Cart;
       service.getActive().subscribe(val => (result = val));
-      const fullCart = { code: 'code', guid: 'guid', totalItems: 2 };
+      const fullCart = {
+        code: 'code',
+        guid: 'guid',
+        totalItems: 2,
+        user: { name: 'name', user: 'userId' },
+      };
       store.dispatch(new CartActions.LoadCartSuccess(fullCart));
 
       setTimeout(() => {

@@ -56,6 +56,16 @@ export class UserService {
   }
 
   /**
+   * Register a new user from guest
+   *
+   * @param guid
+   * @param password
+   */
+  registerGuest(guid: string, password: string): void {
+    this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
+  }
+
+  /**
    * Returns the register user process loading flag
    */
   getRegisterUserResultLoading(): Observable<boolean> {
