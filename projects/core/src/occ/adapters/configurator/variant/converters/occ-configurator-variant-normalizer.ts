@@ -6,11 +6,12 @@ import {
 } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
+import { UiTypeFinderVariantService } from './ui-type-finder-variant.service';
 
 @Injectable()
 export class OccConfiguratorVariantNormalizer
   implements Converter<OccConfigurator.Configuration, Configuration> {
-  constructor() {}
+  constructor(private uiTypeFinder: UiTypeFinderVariantService) {}
 
   convert(
     source: OccConfigurator.Configuration,
@@ -40,6 +41,9 @@ export class OccConfiguratorVariantNormalizer
       name: cstic.name,
       label: cstic.langdepname,
       required: cstic.required,
+      uiType: this.uiTypeFinder.findUiTypeForOccConfiguratorVariantType(
+        cstic.type
+      ),
       values: [],
     };
     if (cstic.domainvalues) {

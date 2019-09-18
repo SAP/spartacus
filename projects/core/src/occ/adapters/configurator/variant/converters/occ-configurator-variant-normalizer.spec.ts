@@ -1,9 +1,14 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Attribute, Value } from '../../../../../model/configurator.model';
+import {
+  Attribute,
+  UiType,
+  Value,
+} from '../../../../../model/configurator.model';
 import { ConverterService } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
+import { UiTypeFinderVariantService } from './ui-type-finder-variant.service';
 
 const csticName = 'name';
 const valueKey = 'BK';
@@ -16,6 +21,7 @@ const occCstic: OccConfigurator.Characteristic = {
 const occCsticWithValues: OccConfigurator.Characteristic = {
   name: csticName,
   required: requiredFlag,
+  type: OccConfigurator.UiType.RADIO_BUTTON,
   domainvalues: [{ key: valueKey }],
 };
 const configuration: OccConfigurator.Configuration = {
@@ -41,6 +47,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       providers: [
         OccConfiguratorVariantNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
+        UiTypeFinderVariantService,
       ],
     });
 
@@ -71,6 +78,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const attribute = attributes[0];
     expect(attribute.name).toBe(csticName);
     expect(attribute.required).toBe(requiredFlag);
+    expect(attribute.uiType).toBe(UiType.RADIOBUTTON);
     const values = attribute.values;
     expect(values.length).toBe(1);
   });
