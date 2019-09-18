@@ -26,12 +26,9 @@ describe('Cart Coupon', () => {
     cartCoupon.addProductToCart(productCode1);
     cartCoupon.applyCoupon(couponCode1);
     cartCoupon.verifyCouponAndPromotion(couponCode1, '$104.12', '$10');
-    cartCoupon.placeOrderAndVarifyCouponInOrderHistory(
-      stateAuth,
-      couponCode1,
-      '$104.12',
-      '$10'
-    );
+    cartCoupon.placeOrder(stateAuth).then(orderData => {
+      cartCoupon.varifyOrderHistory(orderData, couponCode1, '$104.12', '$10');
+    });
   });
 
   it('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
@@ -40,12 +37,9 @@ describe('Cart Coupon', () => {
     cartCoupon.addProductToCart(productCode2);
     cartCoupon.applyCoupon(couponCode2);
     cartCoupon.verifyCouponAndPromotion(couponCode2, '$88.84', '$29.61');
-    cartCoupon.placeOrderAndVarifyCouponInOrderHistory(
-      stateAuth,
-      couponCode2,
-      '$88.84',
-      '$29.61'
-    );
+    cartCoupon.placeOrder(stateAuth).then(orderData => {
+      cartCoupon.varifyOrderHistory(orderData, couponCode2, '$88.84', '$29.61');
+    });
   });
 
   it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
@@ -56,17 +50,30 @@ describe('Cart Coupon', () => {
     cartCoupon.addProductToCart(giftProductCode);
     cartCoupon.verifyGiftProductCoupon(giftProductCode);
     cartCoupon.verifyCouponAndPromotion(couponCode3, '$1,920.27', '$20');
-    cartCoupon.placeOrderAndVarifyCouponInOrderHistory(
-      stateAuth,
-      couponCode3,
-      '$1,920.27',
-      '$20'
-    );
+    cartCoupon.placeOrder(stateAuth).then(orderData => {
+      cartCoupon.varifyOrderHistory(orderData, couponCode3, '$1,920.27', '$20');
+    });
   });
 
   it('should show error message when applied a wrong coupon', () => {
     cartCoupon.addProductToCart(productCode1);
     cartCoupon.applyWrongCoupon();
+  });
+
+  it('should remove the coupon when back to cart and place order without coupon', () => {
+    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
+      .auth;
+    cartCoupon.addProductToCart(productCode1);
+    cartCoupon.applyCoupon(couponCode1);
+    cartCoupon.verifyCouponAndPromotion(couponCode1, '$104.12', '$10');
+
+    cartCoupon.navigateToCheckoutPage();
+    cartCoupon.navigateToCartPage();
+    cartCoupon.removeCoupon(couponCode1);
+
+    cartCoupon.placeOrder(stateAuth).then(orderData => {
+      cartCoupon.varifyOrderHistory(orderData);
+    });
   });
 
   // it('should place order with gift product and show applied coupon in order confirmation and order history when applied coupon with gift product action', () => {

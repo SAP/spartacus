@@ -35,27 +35,31 @@ export function applyWrongCoupon() {
   cy.get('cx-global-message').should('contain', 'coupon.invalid.code.provided');
 }
 
-export function placeOrderAndVarifyCouponInOrderHistory(
-  stateAuth: any,
-  couponCode: string,
-  totalPrice: string,
-  savedPrice: string
-) {
-  cy.get('.cx-total')
+export function placeOrder(stateAuth: any) {
+  return cy
+    .get('.cx-total')
     .first()
     .then($cart => {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       cy.requireShippingAddressAdded(user.address, stateAuth);
       cy.requireShippingMethodSelected(stateAuth);
       cy.requirePaymentDone(stateAuth);
-
-      cy.requirePlacedOrder(stateAuth, cartId).then((orderData: any) => {
-        navigateToOrderHistoryPage(orderData);
-        verifyCouponInOrderHistory(couponCode, totalPrice, savedPrice);
-      });
+      return cy.requirePlacedOrder(stateAuth, cartId);
     });
 }
-
+export function varifyOrderHistory(
+  orderData: any,
+  couponCode?: string,
+  totalPrice?: string,
+  savedPrice?: string
+) {
+  navigateToOrderHistoryPage(orderData);
+  if (couponCode) {
+    verifyCouponInOrderHistory(couponCode, totalPrice, savedPrice);
+  } else {
+    verifyNoCouponInOrderHistory();
+  }
+}
 export function verifyCouponAndPromotion(
   couponCode: string,
   totalPrice: string,
@@ -92,10 +96,25 @@ export function verifyCouponInOrderHistory(
   savedPrice: string
 ) {
   getCouponItemOrderSummary(couponCode).should('exist');
+  cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
   cy.get('.cx-summary-partials').within(() => {
     cy.get('.cx-summary-amount').should('contain', totalPrice);
     cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
   });
+}
+
+export function verifyNoCouponInOrderHistory() {
+  cy.get('cx-order-summary > cx-applied-coupons').should('not.exist');
+  cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 4);
+  cy.get('.cx-summary-partials').within(() => {
+    cy.get(':nth-child(4)').should('not.contain', 'You saved');
+  });
+}
+
+export function navigateToCheckoutPage() {
+  cy.get('cx-cart-totals > .btn')
+    .should('contain', 'Proceed to Checkout')
+    .click();
 }
 
 export function navigateToCartPage() {
@@ -116,13 +135,6 @@ export function navigateToOrderHistoryPage(orderData: any) {
   });
 }
 
-export function navigateToOrderDetailsPage() {
-  cy.get('.cx-order-history-table tr')
-    .first()
-    .should('exist')
-    .click();
-}
-
 export function getCouponItemFromCart(couponCode: string) {
   return cy
     .get('cx-cart-coupon > cx-applied-coupons > .row')
@@ -133,10 +145,4 @@ export function getCouponItemOrderSummary(couponCode: string) {
   return cy
     .get('cx-order-summary > cx-applied-coupons')
     .contains('.cx-applied-coupon-code', couponCode);
-}
-
-export function navigateToCheckoutPage() {
-  cy.get('cx-cart-totals > .btn')
-    .should('contain', 'Proceed to Checkout')
-    .click();
 }
