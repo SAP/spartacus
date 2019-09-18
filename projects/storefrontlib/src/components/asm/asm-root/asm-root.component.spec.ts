@@ -1,37 +1,16 @@
-import {
-  Component,
-  DebugElement,
-  Directive,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { AsmService, AsmUi } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
 import { AsmRootComponent } from './asm-root.component';
-
 @Component({
   selector: 'cx-asm-main-ui',
   template: '',
 })
 class MockAsmMainUiComponent {}
-
-@Directive({
-  selector: '[cxFeature]',
-})
-class MockFeatureLevelDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
-
-  @Input() set cxFeature(_feature: string) {
-    this.viewContainer.createEmbeddedView(this.templateRef);
-  }
-}
 
 class MockAsmService {
   getAsmUiState(): Observable<AsmUi> {
@@ -41,7 +20,9 @@ class MockAsmService {
 }
 
 const mockQueryParamMap = {
-  get() {},
+  get(): string {
+    return '';
+  },
 };
 const activatedRouteMock = {
   queryParamMap: of(mockQueryParamMap),

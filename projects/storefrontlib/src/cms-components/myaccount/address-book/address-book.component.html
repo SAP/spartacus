@@ -21,7 +21,7 @@
       *ngIf="!(addressesStateLoading$ | async); else loading"
     >
       <div
-        *ngFor="let address of (addresses$ | async)"
+        *ngFor="let address of addresses$ | async"
         class="col-md-6 cx-address-card"
       >
         <cx-address-card

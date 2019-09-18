@@ -121,4 +121,44 @@ describe('OccCheckoutAdapter', () => {
       mockReq.flush(checkoutData);
     });
   });
+
+  describe('clear checkout delivery address', () => {
+    it('should clear checkout delivery address for given userId, cartId', () => {
+      service.clearCheckoutDeliveryAddress(userId, cartId).subscribe(result => {
+        expect(result).toEqual(checkoutData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'DELETE' &&
+          req.url ===
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/addresses/delivery`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(checkoutData);
+    });
+  });
+
+  describe('clear checkout delivery mode', () => {
+    it('should clear checkout delivery mode for given userId, cartId', () => {
+      service.clearCheckoutDeliveryMode(userId, cartId).subscribe(result => {
+        expect(result).toEqual(checkoutData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'DELETE' &&
+          req.url ===
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/deliverymode`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(checkoutData);
+    });
+  });
 });

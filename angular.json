@@ -123,7 +123,7 @@
             "polyfills": "projects/storefrontapp/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": ["projects/storefrontapp/src/styles.css"],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
