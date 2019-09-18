@@ -45,6 +45,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   cards$: Observable<CardWithAddress[]>;
   checkoutStepUrlNext: string;
   checkoutStepUrlPrevious: string;
+  variableForTest: boolean;
 
   constructor(
     protected userAddressService: UserAddressService,
