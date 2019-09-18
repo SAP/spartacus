@@ -332,10 +332,10 @@ export class ClearCheckoutDeliveryModeSuccess implements Action {
   // tslint:disable-next-line:unified-signatures
   constructor(payload: { userId: string; cartId: string });
   /**
-   * @deprecated since version 1.x
+   * @deprecated since version 1.2
    * Use constructor(public payload: { userId: string; cartId: string }) instead
    *
-   * TODO(issue:#TO_ADD) Deprecated since 1.x
+   * TODO(issue:#4309) Deprecated since 1.2
    */
   constructor();
   constructor(public payload?: { userId: string; cartId: string }) {}
