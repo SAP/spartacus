@@ -26,7 +26,9 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
   cy.wait(`@${nextStep}`);
 }
 
-export function checkoutShippingAddressExistingTabbingOrder(config: TabElement[]) {
+export function checkoutShippingAddressExistingTabbingOrder(
+  config: TabElement[]
+) {
   cy.getByText('Add New Address')
     .first()
     .focus();
