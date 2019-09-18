@@ -8,6 +8,9 @@ import {
 
 export default function(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-    return chain([schematic('add-spartacus', options)])(host, context);
+    return chain([
+      schematic('add-spartacus', options),
+      schematic('add-pwa', options),
+    ])(host, context);
   };
 }

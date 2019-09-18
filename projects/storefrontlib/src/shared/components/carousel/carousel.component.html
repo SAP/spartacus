@@ -15,10 +15,10 @@
       <ng-container *ngFor="let _ of items; let i = index">
         <div class="slide" *ngIf="i % size === 0">
           <ng-container
-            *ngFor="let item of (items | slice: i:i + size); let j = index"
+            *ngFor="let item of items | slice: i:i + size; let j = index"
           >
             <div
-              *ngIf="(item | async) as data"
+              *ngIf="item | async as data"
               class="item"
               [class.active]="i === activeSlide"
             >

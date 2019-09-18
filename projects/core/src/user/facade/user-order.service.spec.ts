@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -58,7 +58,7 @@ describe('UserOrderService', () => {
     service.loadOrderDetails('orderCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadOrderDetails({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         orderCode: 'orderCode',
       })
     );
@@ -111,7 +111,7 @@ describe('UserOrderService', () => {
     service.loadOrderList(10, 1, 'byDate');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadUserOrders({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         pageSize: 10,
         currentPage: 1,
         sort: 'byDate',
@@ -123,6 +123,35 @@ describe('UserOrderService', () => {
     service.clearOrderList();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ClearUserOrders()
+    );
+  });
+
+  it('should be able to get consignment tracking', () => {
+    store.dispatch(
+      new UserActions.LoadConsignmentTrackingSuccess({
+        trackingID: '1234567890',
+      })
+    );
+    service
+      .getConsignmentTracking()
+      .subscribe(r => expect(r).toEqual({ trackingID: '1234567890' }))
+      .unsubscribe();
+  });
+
+  it('should be able to load consignment tracking', () => {
+    service.loadConsignmentTracking('orderCode', 'consignmentCode');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadConsignmentTracking({
+        orderCode: 'orderCode',
+        consignmentCode: 'consignmentCode',
+      })
+    );
+  });
+
+  it('should be able to clear consignment tracking', () => {
+    service.clearConsignmentTracking();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ClearConsignmentTracking()
     );
   });
 });

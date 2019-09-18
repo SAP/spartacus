@@ -1,0 +1,16 @@
+{
+  "name": "api-extractor-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "actions-toolkit": "^2.1.0",
+    "diff-lines": "^1.1.1",
+    "normalize-newline": "^3.0.0"
+  }
+}
