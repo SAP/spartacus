@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { TranslationService } from '../../i18n/translation.service';
+import { PageType } from '../../model/cms.model';
 import { CmsService } from '../facade/cms.service';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
-import { PageType } from '../../model/cms.model';
-import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
   resolve(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
-      switchMap(page =>
+      switchMap((page: Page) =>
         combineLatest([
           this.resolveTitle(page),
           this.resolveBreadcrumbLabel().pipe(
