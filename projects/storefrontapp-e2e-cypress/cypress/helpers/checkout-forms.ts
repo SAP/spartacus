@@ -104,7 +104,8 @@ export function fillBillingAddress(billingAddress: AddressData) {
 
 export function fillPaymentDetails(
   paymentDetails: PaymentDetails,
-  billingAddress?: AddressData
+  billingAddress?: AddressData,
+  submitForm: boolean = true
 ) {
   cy.get('cx-payment-form').within(() => {
     cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
@@ -126,6 +127,8 @@ export function fillPaymentDetails(
     if (billingAddress) {
       fillBillingAddress(billingAddress);
     }
-    cy.get('button.btn-primary').click();
+    if (submitForm) {
+      cy.get('button.btn-primary').click();
+    }
   });
 }

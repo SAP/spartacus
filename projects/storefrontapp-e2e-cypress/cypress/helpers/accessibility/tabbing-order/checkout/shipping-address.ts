@@ -7,7 +7,9 @@ import { fillShippingAddress } from '../../../checkout-forms';
 import { user } from '../../../../sample-data/checkout-flow';
 import { waitForPage } from '../../../checkout-flow';
 
-export function shippingAddressNewTabbingOrder(config: TabElement[]) {
+export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
+  cy.visit('/checkout/shipping-address');
+
   const { firstName, lastName, phone, address } = user;
   fillShippingAddress({ firstName, lastName, phone, address }, false);
 
@@ -24,7 +26,7 @@ export function shippingAddressNewTabbingOrder(config: TabElement[]) {
   cy.wait(`@${nextStep}`);
 }
 
-export function shippingAddressExistingTabbingOrder(config: TabElement[]) {
+export function checkoutShippingAddressExistingTabbingOrder(config: TabElement[]) {
   cy.getByText('Add New Address')
     .first()
     .focus();
