@@ -1,8 +1,8 @@
 import { standardUser } from '../sample-data/shared-users';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
-import { generateMail, randomString } from './user';
 import { signOut } from './register';
+import { generateMail, randomString } from './user';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 export const newTitle = 'dr';
 export const newFirstName = 'N';
@@ -66,6 +66,11 @@ export function updateProfile() {
 export function verifyUpdatedProfile() {
   // check where the user's details updated in the previous test
   accessUpdateProfilePage();
+  assessUpdatedProfileData();
+  signOut();
+}
+
+export function assessUpdatedProfileData() {
   cy.get('cx-update-profile-form').within(() => {
     cy.get('[formcontrolname="titleCode"]')
       .find(':selected')
@@ -73,7 +78,6 @@ export function verifyUpdatedProfile() {
     cy.get('[formcontrolname="firstName"]').should('have.value', newFirstName);
     cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
   });
-  signOut();
 }
 
 export function verifyAsAnonymous() {

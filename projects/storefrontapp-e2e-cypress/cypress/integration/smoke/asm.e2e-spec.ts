@@ -159,7 +159,10 @@ context('ASM', () => {
     });
 
     it('should customer see personal details updated by the agent.', () => {
-      profile.verifyUpdatedProfile();
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+      });
+      profile.assessUpdatedProfileData();
     });
 
     it('should customer see the address created by the agent.', () => {
