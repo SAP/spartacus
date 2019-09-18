@@ -34,26 +34,40 @@ describe('Cart Coupon', () => {
     );
   });
 
-  // it('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
-  //   cartCoupon.addProductToCart(productCode2);
-  //   //cartCoupon.navigateToCartPage();
-  //   cartCoupon.applyCoupon(couponCode2);
-  //   cartCoupon.verifyCouponAndPromotion(couponCode2, '$88.84', '$29.61');
-  // });
+  it('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
+    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
+      .auth;
+    cartCoupon.addProductToCart(productCode2);
+    cartCoupon.applyCoupon(couponCode2);
+    cartCoupon.verifyCouponAndPromotion(couponCode2, '$88.84', '$29.61');
+    cartCoupon.placeOrderAndVarifyCouponInOrderHistory(
+      stateAuth,
+      couponCode2,
+      '$88.84',
+      '$29.61'
+    );
+  });
 
-  // it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
-  //   cartCoupon.addProductToCart(productCode3);
-  //   // cartCoupon.navigateToCartPage();
-  //   cartCoupon.applyCoupon(couponCode3);
-  //   cartCoupon.addProductToCart(giftProductCode);
-  //   cartCoupon.verifyGiftProductCoupon(giftProductCode);
-  // cartCoupon.verifyCouponAndPromotion(couponCode1, '$1,920.27', '$20');
-  // });
+  it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
+    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
+      .auth;
+    cartCoupon.addProductToCart(productCode3);
+    cartCoupon.applyCoupon(couponCode3);
+    cartCoupon.addProductToCart(giftProductCode);
+    cartCoupon.verifyGiftProductCoupon(giftProductCode);
+    cartCoupon.verifyCouponAndPromotion(couponCode3, '$1,920.27', '$20');
+    cartCoupon.placeOrderAndVarifyCouponInOrderHistory(
+      stateAuth,
+      couponCode3,
+      '$1,920.27',
+      '$20'
+    );
+  });
 
-  // it('should show error message when applied a wrong coupon', () => {
-  //   cartCoupon.addProductToCart(productCode1);
-  //   cartCoupon.applyWrongCoupon();
-  // });
+  it('should show error message when applied a wrong coupon', () => {
+    cartCoupon.addProductToCart(productCode1);
+    cartCoupon.applyWrongCoupon();
+  });
 
   // it('should place order with gift product and show applied coupon in order confirmation and order history when applied coupon with gift product action', () => {
   //   addProductToCart();
