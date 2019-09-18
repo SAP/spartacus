@@ -39,6 +39,7 @@ export class OccConfiguratorVariantNormalizer
     const attribute: Attribute = {
       name: cstic.name,
       label: cstic.langdepname,
+      required: cstic.required,
       values: [],
     };
     if (cstic.domainvalues) {

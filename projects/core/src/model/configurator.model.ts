@@ -5,7 +5,7 @@ export interface Attribute {
   description?: string;
   required?: boolean;
   incomplete?: boolean;
-  displayAs?: number;
+  uiType?: UiType;
   dataType?: string;
   quantity?: number;
   values?: Value[];
@@ -31,4 +31,16 @@ export interface Configuration {
   complete?: boolean;
   productCode?: string;
   attributes?: Attribute[];
+}
+
+export enum UiType {
+  NOT_IMPLEMENTED = 'not_implemented',
+  RADIOBUTTON = 'radioGroup',
+  CHECKBOX = 'checkBoxList',
+  DDLB = 'ddlb',
+  LISTBOX = 'listbox',
+  LISTBOX_MULTI = 'listboxmulti',
+  READ_ONLY = 'readonly',
+  INPUT = 'inputField',
+  AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
 }

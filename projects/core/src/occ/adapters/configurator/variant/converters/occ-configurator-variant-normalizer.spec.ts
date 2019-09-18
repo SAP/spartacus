@@ -8,12 +8,14 @@ import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-nor
 const csticName = 'name';
 const valueKey = 'BK';
 const valueName = 'Black';
+const requiredFlag = true;
 
 const occCstic: OccConfigurator.Characteristic = {
   name: csticName,
 };
 const occCsticWithValues: OccConfigurator.Characteristic = {
   name: csticName,
+  required: requiredFlag,
   domainvalues: [{ key: valueKey }],
 };
 const configuration: OccConfigurator.Configuration = {
@@ -68,6 +70,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(attributes.length).toBe(1);
     const attribute = attributes[0];
     expect(attribute.name).toBe(csticName);
+    expect(attribute.required).toBe(requiredFlag);
     const values = attribute.values;
     expect(values.length).toBe(1);
   });
