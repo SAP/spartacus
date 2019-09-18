@@ -278,4 +278,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   orderHistoryNoOrders: [
     { value: 'Start Shopping', type: TabbingOrderTypes.BUTTON },
   ],
+  reviewOrder: [
+    {
+      value: '/electronics-spa/en/USD/product/1446509/Alpha%20350',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'Alpha 350',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
 };
