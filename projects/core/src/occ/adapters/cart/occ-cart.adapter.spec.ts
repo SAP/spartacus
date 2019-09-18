@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { Cart } from '../../../model/cart.model';
 import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
@@ -16,6 +15,7 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 import { OccCartAdapter } from './occ-cart.adapter';
 
 const userId = '123';
@@ -250,7 +250,7 @@ describe('OccCartAdapter', () => {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
       occCartAdapter
-        .delete(ANONYMOUS_USERID, cartId)
+        .delete(OCC_USER_ID_ANONYMOUS, cartId)
         .subscribe(value => (result = value));
 
       const mockReq = httpMock.expectOne({
@@ -259,7 +259,7 @@ describe('OccCartAdapter', () => {
       });
 
       expect(occEndpointService.getUrl).toHaveBeenCalledWith('deleteCart', {
-        userId: ANONYMOUS_USERID,
+        userId: OCC_USER_ID_ANONYMOUS,
         cartId,
       });
       expect(mockReq.cancelled).toBeFalsy();

@@ -1,11 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  CartDataService,
+  OCC_USER_ID_ANONYMOUS,
   Order,
   RoutingService,
   UserOrderService,
-  CartDataService,
-  ANONYMOUS_USERID,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
@@ -145,7 +145,7 @@ describe('OrderDetailsService', () => {
   });
 
   it('should load order details for anonymous user', () => {
-    cartDataService.userId = ANONYMOUS_USERID;
+    cartDataService.userId = OCC_USER_ID_ANONYMOUS;
     spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
 
@@ -155,7 +155,7 @@ describe('OrderDetailsService', () => {
       .unsubscribe();
     expect(userService.loadOrderDetails).toHaveBeenCalledWith(
       '1',
-      ANONYMOUS_USERID
+      OCC_USER_ID_ANONYMOUS
     );
   });
 

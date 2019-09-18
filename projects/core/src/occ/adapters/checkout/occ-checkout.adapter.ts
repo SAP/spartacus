@@ -12,7 +12,7 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
@@ -42,7 +42,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     let headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    if (userId === ANONYMOUS_USERID) {
+    if (userId === OCC_USER_ID_ANONYMOUS) {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
 

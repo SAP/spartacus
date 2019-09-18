@@ -13,11 +13,11 @@ import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 import { CartDataService } from './cart-data.service';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartService {
@@ -272,7 +272,7 @@ export class CartService {
 
     this.store.dispatch(
       new CartActions.DeleteCart({
-        userId: ANONYMOUS_USERID,
+        userId: OCC_USER_ID_ANONYMOUS,
         cartId: this.cartData.cart.guid,
       })
     );

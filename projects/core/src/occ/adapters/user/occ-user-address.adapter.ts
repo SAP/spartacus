@@ -16,7 +16,7 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
 @Injectable()
 export class OccUserAddressAdapter implements UserAddressAdapter {
@@ -71,7 +71,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    if (userId === ANONYMOUS_USERID) {
+    if (userId === OCC_USER_ID_ANONYMOUS) {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
     address = this.converter.convert(address, ADDRESS_SERIALIZER);

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   Address,
-  ANONYMOUS_USERID,
   CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
+  OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -34,7 +34,7 @@ export class CheckoutDetailsService {
     this.cartId$ = this.cartService.getActive().pipe(
       map(cartData => {
         if (
-          (cartData.user && cartData.user.uid === ANONYMOUS_USERID) ||
+          (cartData.user && cartData.user.uid === OCC_USER_ID_ANONYMOUS) ||
           this.cartService.isGuestCart()
         ) {
           return cartData.guid;

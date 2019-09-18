@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { OCC_USER_ID_ANONYMOUS } from 'projects/core/src/occ';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
-import { ANONYMOUS_USERID } from '../../../cart/facade/cart-data.service';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
@@ -36,7 +36,7 @@ export class CheckoutEffects {
                 isocodeShort: payload.address.region.isocodeShort,
               });
             }
-            if (payload.userId === ANONYMOUS_USERID) {
+            if (payload.userId === OCC_USER_ID_ANONYMOUS) {
               return [
                 new CheckoutActions.SetDeliveryAddress({
                   userId: payload.userId,
@@ -203,7 +203,7 @@ export class CheckoutEffects {
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
           mergeMap(details => {
-            if (payload.userId === ANONYMOUS_USERID) {
+            if (payload.userId === OCC_USER_ID_ANONYMOUS) {
               return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
             } else {
               return [

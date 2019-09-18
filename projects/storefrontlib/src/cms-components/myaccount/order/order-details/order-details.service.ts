@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
+  CartDataService,
+  OCC_USER_ID_ANONYMOUS,
   Order,
   RoutingService,
   UserOrderService,
-  CartDataService,
-  ANONYMOUS_USERID,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
@@ -41,8 +41,11 @@ export class OrderDetailsService {
     this.orderLoad$ = this.orderCode$.pipe(
       tap(orderCode => {
         if (orderCode) {
-          if (this.cartDataService.userId === ANONYMOUS_USERID) {
-            this.userOrderService.loadOrderDetails(orderCode, ANONYMOUS_USERID);
+          if (this.cartDataService.userId === OCC_USER_ID_ANONYMOUS) {
+            this.userOrderService.loadOrderDetails(
+              orderCode,
+              OCC_USER_ID_ANONYMOUS
+            );
           } else {
             this.userOrderService.loadOrderDetails(orderCode);
           }
