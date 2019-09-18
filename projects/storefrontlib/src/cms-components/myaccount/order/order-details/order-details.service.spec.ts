@@ -1,6 +1,12 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import {
+  CartDataService,
+  OCC_USER_ID_ANONYMOUS,
+  Order,
+  RoutingService,
+  UserOrderService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
@@ -82,10 +88,15 @@ class MockRoutingService {
   }
 }
 
+class MockCartDataService {
+  userId = 'test';
+}
+
 describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
   let userService;
   let routingService;
+  let cartDataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,19 +110,24 @@ describe('OrderDetailsService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        {
+          provide: CartDataService,
+          useClass: MockCartDataService,
+        },
       ],
     });
 
     service = TestBed.get(OrderDetailsService as Type<OrderDetailsService>);
     userService = TestBed.get(UserOrderService as Type<UserOrderService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    cartDataService = TestBed.get(CartDataService as Type<CartDataService>);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load order details', () => {
+  it('should load order details for login user', () => {
     spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
     spyOn(userService, 'clearOrderDetails');
@@ -126,6 +142,21 @@ describe('OrderDetailsService', () => {
     expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
     expect(userService.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
+  });
+
+  it('should load order details for anonymous user', () => {
+    cartDataService.userId = OCC_USER_ID_ANONYMOUS;
+    spyOn(routingService, 'getRouterState');
+    spyOn(userService, 'loadOrderDetails');
+
+    service
+      .getOrderDetails()
+      .subscribe()
+      .unsubscribe();
+    expect(userService.loadOrderDetails).toHaveBeenCalledWith(
+      '1',
+      OCC_USER_ID_ANONYMOUS
+    );
   });
 
   it('should clean order details', () => {
