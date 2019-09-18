@@ -37,7 +37,6 @@ export class LowLevelCartService {
     toMergeCartGuid?: string;
     extraData?: any;
   }): Observable<LoaderState<Cart>> {
-    this.store.dispatch(new CartActions.ResetFreshCart());
     this.store.dispatch(
       new CartActions.CreateCart({
         extraData,

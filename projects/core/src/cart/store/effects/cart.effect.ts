@@ -61,13 +61,20 @@ export class CartEffects {
                 }),
                 new CartActions.RemoveCart('current'),
               ];
+            } else if (cart) {
+              return [
+                new CartActions.LoadCartSuccess(cart),
+                new CartActions.LoadMultiCartSuccess({
+                  cart,
+                  userId: loadCartParams.userId,
+                  extraData: payload.extraData,
+                }),
+              ];
             }
             return [
-              new CartActions.LoadCartSuccess(cart),
-              new CartActions.LoadMultiCartSuccess({
-                cart,
-                userId: loadCartParams.userId,
-                extraData: payload.extraData,
+              new CartActions.LoadCartFail({}),
+              new CartActions.LoadMultiCartFail({
+                cartId: loadCartParams.cartId,
               }),
             ];
           }),
@@ -105,6 +112,14 @@ export class CartEffects {
       (action: CartActions.CreateCart) =>
         new CartActions.CreateMultiCart(action.payload)
     )
+  );
+
+  @Effect()
+  setFreshCart$ = this.actions$.pipe(
+    ofType(CartActions.SET_FRESH_CART_ID),
+    map(() => {
+      return new CartActions.ResetFreshCart();
+    })
   );
 
   // TODO: change to listen on CreateMultiCart action, remove old actions usage

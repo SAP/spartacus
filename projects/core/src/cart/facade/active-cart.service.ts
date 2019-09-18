@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, shareReplay, take, tap, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import {
+  filter,
+  map,
+  shareReplay,
+  take,
+  tap,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
@@ -12,9 +20,10 @@ import { StateWithMultiCart } from '../store/multi-cart-state';
 import { LowLevelCartService } from './low-level-cart.service';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import {
-  USERID_CURRENT,
-  USERID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
 } from '../../occ/utils/occ-constants';
+import { getCartIdByUserId } from '../utils/utils';
 
 // TODO document methods
 
@@ -25,7 +34,7 @@ export class ActiveCartService {
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
   private _activeCart$: Observable<Cart>;
 
-  private userId = USERID_ANONYMOUS;
+  private userId = OCC_USER_ID_ANONYMOUS;
   private cartId;
 
   private activeCartId = this.store.pipe(
@@ -48,41 +57,40 @@ export class ActiveCartService {
   ) {
     this.authService.getUserToken().subscribe(token => {
       if (token && token.userId) {
-        this.userId = USERID_CURRENT;
+        this.userId = OCC_USER_ID_CURRENT;
+        if (this.isJustLoggedIn(token.userId)) {
+          this.loadOrMerge(this.cartId);
+        }
       } else {
-        this.userId = USERID_ANONYMOUS;
+        this.userId = OCC_USER_ID_ANONYMOUS;
       }
+      this.previousUserId = token.userId;
     });
 
     this.activeCartId.subscribe(cartId => {
       this.cartId = cartId;
     });
 
-    this._activeCart$ = combineLatest([
-      this.cartSelector,
-      this.authService.getUserToken(),
-    ]).pipe(
-      map(([cartEntity, userToken]: [LoaderState<Cart>, any]) => [
+    this._activeCart$ = this.cartSelector.pipe(
+      withLatestFrom(this.activeCartId),
+      map(([cartEntity, activeCartId]: [LoaderState<Cart>, string]): [
+        Cart,
+        string,
+        boolean,
+        boolean
+      ] => [
         cartEntity.value,
+        activeCartId,
         cartEntity.loading,
-        userToken,
         (cartEntity.error || cartEntity.success) && !cartEntity.loading,
       ]),
-      filter(([, loading]) => !loading),
-      tap(([cart, , userToken, loaded]) => {
-        if (this.isJustLoggedIn(userToken.userId)) {
-          this.loadOrMerge(cart);
-        } else if (
-          this.isEmpty(cart) ||
-          (this.isLoggedIn(userToken.userId) && !this.isEmpty(cart) && !loaded) // try to load current cart for logged in user (loaded flag to prevent infinite loop when user doesn't have cart)
-        ) {
-          this.load(cart);
+      filter(([, , loading]) => !loading),
+      tap(([cart, activeCartId, , loaded]) => {
+        if (this.isEmpty(cart) && !loaded) {
+          this.load(activeCartId);
         }
-
-        this.previousUserId = userToken.userId;
       }),
-      filter(([cart]) => !this.isEmpty(cart)),
-      map(([cart]) => cart),
+      map(([cart]) => (cart ? cart : {})),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
@@ -102,10 +110,10 @@ export class ActiveCartService {
     );
   }
 
-  private loadOrMerge(cart: Cart): void {
+  private loadOrMerge(cartId: string): void {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
-    if (!this.isEmpty(cart)) {
+    if (!cartId) {
       this.lowLevelCartService.loadCart({
         userId: this.userId,
         cartId: 'current',
@@ -117,7 +125,7 @@ export class ActiveCartService {
       this.store.dispatch(
         new CartActions.MergeCart({
           userId: this.userId,
-          cartId: cart.guid,
+          cartId: cartId,
           extraData: {
             active: true,
           },
@@ -126,19 +134,19 @@ export class ActiveCartService {
     }
   }
 
-  private load(cart: Cart): void {
-    if (this.userId !== USERID_ANONYMOUS) {
+  private load(cartId: string): void {
+    if (this.userId !== OCC_USER_ID_ANONYMOUS) {
       this.lowLevelCartService.loadCart({
         userId: this.userId,
-        cartId: cart && cart.code ? cart.code : 'current',
+        cartId: cartId ? cartId : 'current',
         extraData: {
           active: true,
         },
       });
-    } else {
+    } else if (cartId) {
       this.lowLevelCartService.loadCart({
         userId: this.userId,
-        cartId: cart.guid,
+        cartId: cartId,
         extraData: {
           active: true,
         },
@@ -148,11 +156,18 @@ export class ActiveCartService {
 
   addEntry(productCode: string, quantity: number): void {
     let createInitialized = false;
+    let attemptedLoad = false;
     this.cartSelector
       .pipe(
         filter(() => !createInitialized),
         switchMap(cartState => {
-          if (!this.isEmpty(cartState.value) && !cartState.loading) {
+          if (this.isEmpty(cartState.value) && !cartState.loading) {
+            // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
+            if (!attemptedLoad && this.userId !== OCC_USER_ID_ANONYMOUS) {
+              this.load(undefined);
+              attemptedLoad = true;
+              return of(cartState);
+            }
             createInitialized = true;
             return this.lowLevelCartService.createCart({
               userId: this.userId,
@@ -163,13 +178,13 @@ export class ActiveCartService {
           }
           return of(cartState);
         }),
-        filter(cartState => this.isEmpty(cartState.value)),
+        filter(cartState => !this.isEmpty(cartState.value)),
         take(1)
       )
-      .subscribe(_ => {
+      .subscribe(cartState => {
         this.lowLevelCartService.addEntry(
           this.userId,
-          this.cartId,
+          getCartIdByUserId(cartState.value, this.userId),
           productCode,
           quantity
         );
@@ -210,7 +225,9 @@ export class ActiveCartService {
   }
 
   private isEmpty(cart: Cart): boolean {
-    return cart && Object.keys(cart).length === 0;
+    return (
+      !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
+    );
   }
 
   private isJustLoggedIn(userId: string): boolean {
