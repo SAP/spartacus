@@ -63,7 +63,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       service['getCmsTicket']();
       expect(service.cmsTicketId).toEqual('mockCmsTicketId');
@@ -72,14 +72,14 @@ describe('SmartEditService', () => {
 
   describe('should not get cmsTicketId', () => {
     it('when cmsPage exist', () => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of({}));
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of({} as any));
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
           nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       service['getCmsTicket']();
       expect(service.cmsTicketId).toEqual(undefined);
@@ -92,7 +92,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: {},
           },
-        })
+        } as any)
       );
       service['getCmsTicket']();
       expect(service.cmsTicketId).toEqual(undefined);
@@ -111,7 +111,7 @@ describe('SmartEditService', () => {
                 'smartedit-page-uid-testPageId smartedit-page-uuid-testPageUuid smartedit-catalog-version-uuid-testPageCatalogUuid',
             },
           },
-        })
+        } as any)
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
@@ -119,7 +119,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({
@@ -149,7 +149,7 @@ describe('SmartEditService', () => {
         of({
           pageId: 'testPageId',
           type: 'ContentPage',
-        })
+        } as any)
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
@@ -157,7 +157,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       service['getCmsTicket']();
       expect(routingService.go).not.toHaveBeenCalled();
@@ -169,7 +169,7 @@ describe('SmartEditService', () => {
         of({
           pageId: 'testPageId',
           type: 'ProductPage',
-        })
+        } as any)
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
@@ -177,7 +177,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({
@@ -197,7 +197,7 @@ describe('SmartEditService', () => {
         of({
           pageId: 'testPageId',
           type: 'CategoryPage',
-        })
+        } as any)
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
@@ -205,7 +205,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({

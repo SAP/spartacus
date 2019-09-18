@@ -156,8 +156,10 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should display the login form by default', () => {
-    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(of({}));
-    spyOn(authService, 'getUserToken').and.returnValue(of({}));
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of({} as UserToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
     component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeTruthy();
@@ -168,7 +170,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of({}));
+    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
     spyOn(userService, 'get').and.returnValue(of({}));
     component.ngOnInit();
     fixture.detectChanges();
@@ -181,7 +183,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of({}));
+    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
     spyOn(userService, 'get').and.returnValue(of({}));
     spyOn(asmService, 'getCustomerSearchResultsLoading').and.returnValue(
       of(true)
@@ -262,8 +264,10 @@ describe('AsmMainUiComponent', () => {
 
   it('should hide the UI when the Close Asm button is clicked', () => {
     spyOn(asmService, 'updateAsmUiState').and.stub();
-    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(of({}));
-    spyOn(authService, 'getUserToken').and.returnValue(of({}));
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of({} as UserToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
     component.ngOnInit();
     fixture.detectChanges();
     const submitBtn = fixture.debugElement.query(By.css('button'));
