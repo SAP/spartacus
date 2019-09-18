@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -39,8 +39,8 @@ describe('CartCouponComponent', () => {
   let component: CartCouponComponent;
   let fixture: ComponentFixture<CartCouponComponent>;
   let cartCouponAnchorService;
-  let submit;
   let input: HTMLInputElement;
+  let el: DebugElement;
   const emitter = new EventEmitter<string>();
 
   const mockCartService = jasmine.createSpyObj('CartService', [
@@ -72,8 +72,6 @@ describe('CartCouponComponent', () => {
     cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
     spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(emitter);
 
-    submit = fixture.debugElement.query(By.css('button')).nativeElement;
-    input = fixture.debugElement.query(By.css('input')).nativeElement;
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartService.getAddVoucherResultLoading.and.returnValue(of());
     mockCartService.addVoucher.and.stub();
@@ -88,18 +86,11 @@ describe('CartCouponComponent', () => {
 
   it('should show coupon input and submit buttom', () => {
     fixture.detectChanges();
+    expect(el.query(By.css('[data-test="title-coupon"]'))).toBeTruthy();
+    expect(el.query(By.css('[data-test="input-coupon"]'))).toBeTruthy();
+    expect(el.query(By.css('[data-test="button-coupon"]'))).toBeTruthy();
     expect(
-      fixture.debugElement.query(By.css('[data-test="title-coupon"]'))
-    ).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('[data-test="input-coupon"]'))
-    ).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('[data-test="button-coupon"]'))
-    ).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('[data-test="button-coupon"]'))
-        .nativeElement.disabled
+      el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
     ).toBeTruthy();
   });
 
@@ -107,15 +98,13 @@ describe('CartCouponComponent', () => {
     mockCartService.getAddVoucherResultLoading.and.returnValue(of(true));
     fixture.detectChanges();
 
-    input = fixture.debugElement.query(By.css('[data-test="input-coupon"]'))
-      .nativeElement;
+    input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
-    submit.click();
+    el.query(By.css('[data-test="btn-coupon"]')).nativeElement.click();
 
     expect(
-      fixture.debugElement.query(By.css('[data-test="button-coupon"]'))
-        .nativeElement.disabled
+      el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
     ).toBeTruthy();
   });
 
@@ -125,15 +114,13 @@ describe('CartCouponComponent', () => {
 
     fixture.detectChanges();
 
-    input = fixture.debugElement.query(By.css('[data-test="input-coupon"]'))
-      .nativeElement;
+    input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
-    submit.click();
+    el.query(By.css('[data-test="btn-coupon"]')).nativeElement.click();
 
     expect(
-      fixture.debugElement.query(By.css('[data-test="button-coupon"]'))
-        .nativeElement.disabled
+      el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
     ).toBeTruthy();
   });
 });
