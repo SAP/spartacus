@@ -1,7 +1,11 @@
 import { Tree } from '@angular-devkit/schematics';
-import {getTsSourceFile} from "./file-utils";
-import {addSymbolToNgModuleMetadata, insertImport, isImported} from "@schematics/angular/utility/ast-utils";
-import {InsertChange} from "@schematics/angular/utility/change";
+import { getTsSourceFile } from './file-utils';
+import {
+  addSymbolToNgModuleMetadata,
+  insertImport,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
+import { InsertChange } from '@schematics/angular/utility/change';
 
 export function addImport(
   host: Tree,
@@ -28,7 +32,11 @@ export function addImport(
   }
 }
 
-export function importModule(host: Tree, modulePath: string, importText: string) {
+export function importModule(
+  host: Tree,
+  modulePath: string,
+  importText: string
+) {
   const moduleSource = getTsSourceFile(host, modulePath);
   const metadataChanges = addSymbolToNgModuleMetadata(
     moduleSource,

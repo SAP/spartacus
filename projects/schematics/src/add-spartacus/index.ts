@@ -1,4 +1,4 @@
-import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
+import { experimental } from '@angular-devkit/core';
 import { italic, red } from '@angular-devkit/core/src/terminal';
 import {
   chain,
@@ -12,7 +12,6 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   appendHtmlElementToHead,
   getProjectStyleFile,
-  getProjectTargetOptions,
 } from '@angular/cdk/schematics';
 import {
   addPackageJsonDependency,
@@ -22,32 +21,9 @@ import {
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { Schema as SpartacusOptions } from './schema';
-import {addImport, importModule} from "../shared/utils/module-file-utils";
-
-function getWorkspace(
-  host: Tree
-): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
-  const possibleFiles = ['/angular.json', '/.angular.json'];
-  const path = possibleFiles.filter(filePath => host.exists(filePath))[0];
-
-  if (!path) {
-    throw new SchematicsException(`Could not find Angular`);
-  }
-
-  const configBuffer = host.read(path);
-  if (configBuffer === null) {
-    throw new SchematicsException(`Could not find (${path})`);
-  }
-  const content = configBuffer.toString();
-
-  return {
-    path,
-    workspace: (parseJson(
-      content,
-      JsonParseMode.Loose
-    ) as {}) as experimental.workspace.WorkspaceSchema,
-  };
-}
+import { addImport, importModule } from '../shared/utils/module-file-utils';
+import { getIndexHtmlPath } from '../shared/utils/file-utils';
+import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 
 function addPackageJsonDependencies(): Rule {
   const spartacusVersion = '^1.0.0';
@@ -290,18 +266,6 @@ function updateMainComponent(
   };
 }
 
-export function getIndexHtmlPath(
-  project: experimental.workspace.WorkspaceProject
-): string {
-  const buildOptions = getProjectTargetOptions(project, 'build');
-
-  if (!buildOptions.index) {
-    throw new SchematicsException('"index.html" file not found.');
-  }
-
-  return buildOptions.index;
-}
-
 function updateIndexFile(
   project: experimental.workspace.WorkspaceProject,
   options: SpartacusOptions
@@ -325,24 +289,12 @@ function updateIndexFile(
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const { workspace } = getWorkspace(tree);
-
-    if (!options.project) {
-      throw new SchematicsException('Option "project" is required.');
-    }
-
-    const project = workspace.projects[options.project];
-    if (!project) {
-      throw new SchematicsException(
-        `Project is not defined in this workspace.`
-      );
-    }
-
-    if (project.projectType !== 'application') {
-      throw new SchematicsException(
-        `Spartacus requires a project type of "application".`
-      );
-    }
+    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
+    const project = getProjectFromWorkspace(
+      tree,
+      options,
+      possibleProjectFiles
+    );
 
     return chain([
       addPackageJsonDependencies(),
