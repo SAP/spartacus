@@ -23,7 +23,7 @@ const user: UserSignUp = {
 describe('UserRegister effect', () => {
   let effect: UserRegisterEffects;
   let actions$: Observable<Action>;
-  let userService: UserConnector;
+  let userConnector: UserConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,10 +41,11 @@ describe('UserRegister effect', () => {
     });
 
     effect = TestBed.get(UserRegisterEffects as Type<UserRegisterEffects>);
-    userService = TestBed.get(UserConnector as Type<UserConnector>);
+    userConnector = TestBed.get(UserConnector as Type<UserConnector>);
 
-    spyOn(userService, 'register').and.returnValue(of({}));
-    spyOn(userService, 'remove').and.returnValue(of({}));
+    spyOn(userConnector, 'register').and.returnValue(of({}));
+    spyOn(userConnector, 'registerGuest').and.returnValue(of({ uid: 'test' }));
+    spyOn(userConnector, 'remove').and.returnValue(of({}));
   });
 
   describe('registerUser$', () => {
@@ -58,6 +59,28 @@ describe('UserRegister effect', () => {
       });
 
       expect(effect.registerUser$).toBeObservable(expected);
+    });
+  });
+
+  describe('registerGuest$', () => {
+    it('should register guest', () => {
+      const action = new UserActions.RegisterGuest({
+        guid: 'guid',
+        password: 'password',
+      });
+      const loadUser = new AuthActions.LoadUserToken({
+        userId: 'test',
+        password: 'password',
+      });
+      const completion = new UserActions.RegisterGuestSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: loadUser,
+        c: completion,
+      });
+
+      expect(effect.registerGuest$).toBeObservable(expected);
     });
   });
 

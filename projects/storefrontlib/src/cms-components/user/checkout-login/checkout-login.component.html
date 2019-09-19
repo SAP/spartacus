@@ -1,0 +1,47 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>
+      <span class="label-content">{{
+        'checkoutLogin.emailAddress.label' | cxTranslate
+      }}</span>
+      <input
+        type="email"
+        name="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="{{
+          'checkoutLogin.emailAddress.placeholder' | cxTranslate
+        }}"
+        [class.is-invalid]="isNotValid('email')"
+      />
+      <div class="invalid-feedback" *ngIf="isNotValid('email')">
+        <span>{{ 'checkoutLogin.emailIsRequired' | cxTranslate }}</span>
+      </div>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span class="label-content">{{
+        'checkoutLogin.confirmEmail.label' | cxTranslate
+      }}</span>
+      <input
+        type="email"
+        name="emailConfirmation"
+        class="form-control"
+        formControlName="emailConfirmation"
+        placeholder="{{
+          'checkoutLogin.confirmEmail.placeholder' | cxTranslate
+        }}"
+        [class.is-invalid]="isEmailConfirmInvalid()"
+      />
+      <div class="invalid-feedback" *ngIf="isEmailConfirmInvalid()">
+        <span>{{ 'checkoutLogin.emailsMustMatch' | cxTranslate }}</span>
+      </div>
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-block btn-primary">
+    {{ 'checkoutLogin.continue' | cxTranslate }}
+  </button>
+</form>
