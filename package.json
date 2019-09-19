@@ -117,7 +117,7 @@
     "gh-got": "^8.0.1",
     "git-raw-commits": "^2.0.0",
     "http-server": "^0.11.1",
-    "i18n-lint": "jwarby/i18n-lint",
+    "i18n-lint": "^1.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-marbles": "^0.6.0",
     "json-server": "^0.15.0",
