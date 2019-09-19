@@ -27,6 +27,28 @@ export class UserRegisterEffects {
   );
 
   @Effect()
+  registerGuest$: Observable<
+    UserActions.UserRegisterOrRemoveAction | AuthActions.LoadUserToken
+  > = this.actions$.pipe(
+    ofType(UserActions.REGISTER_GUEST),
+    map((action: UserActions.RegisterGuest) => action.payload),
+    mergeMap(({ guid, password }) =>
+      this.userConnector.registerGuest(guid, password).pipe(
+        switchMap(user => [
+          new AuthActions.LoadUserToken({
+            userId: user.uid,
+            password: password,
+          }),
+          new UserActions.RegisterGuestSuccess(),
+        ]),
+        catchError(error =>
+          of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
+        )
+      )
+    )
+  );
+
+  @Effect()
   removeUser$: Observable<
     UserActions.UserRegisterOrRemoveAction | AuthActions.Logout
   > = this.actions$.pipe(

@@ -1,15 +1,21 @@
+import { HttpHeaders } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FeatureConfigService } from 'projects/core/src/features-config';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { Cart } from '../../../model/cart.model';
 import { ProductImageNormalizer } from '../../../occ/adapters/product/converters/index';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../utils/interceptor-util';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 import { OccCartAdapter } from './occ-cart.adapter';
 
 const userId = '123';
@@ -49,7 +55,7 @@ const DETAILS_PARAMS =
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue),updateable),' +
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
-  'appliedVouchers,productDiscounts(formattedValue)';
+  'appliedVouchers,productDiscounts(formattedValue),user';
 
 describe('OccCartAdapter', () => {
   let occCartAdapter: OccCartAdapter;
@@ -191,6 +197,78 @@ describe('OccCartAdapter', () => {
     });
   });
 
+  describe('add email to cart', () => {
+    it('should able to assign email to cart for anonymous user', () => {
+      const email = 'tester@sap.com';
+      let result: Object;
+
+      occCartAdapter
+        .addEmail(userId, cartId, email)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne({ method: 'PUT' });
+
+      expect(mockReq.request.serializeBody()).toEqual(`email=${email}`);
+
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('addEmail', {
+        userId,
+        cartId,
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+
+      mockReq.flush('');
+      expect(result).toEqual('');
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete the cart', () => {
+      let result: Object;
+
+      occCartAdapter
+        .delete(userId, cartId)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne({
+        method: 'DELETE',
+        url: 'deleteCart',
+      });
+
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('deleteCart', {
+        userId,
+        cartId,
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+
+      mockReq.flush('');
+      expect(result).toEqual('');
+    });
+
+    it('should add client token if userId is anonymous', () => {
+      let result: Object;
+      let headers = new HttpHeaders();
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+
+      occCartAdapter
+        .delete(OCC_USER_ID_ANONYMOUS, cartId)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne({
+        method: 'DELETE',
+        url: 'deleteCart',
+      });
+
+      expect(occEndpointService.getUrl).toHaveBeenCalledWith('deleteCart', {
+        userId: OCC_USER_ID_ANONYMOUS,
+        cartId,
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.headers).toEqual(headers);
+
+      mockReq.flush('');
+      expect(result).toEqual('');
+    });
+  });
   /**
    * @deprecated Since 1.1
    * Remove when legacy code is removed.
