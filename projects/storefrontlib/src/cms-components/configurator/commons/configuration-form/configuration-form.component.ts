@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  Attribute,
   Configuration,
   ConfiguratorCommonsService,
   RoutingService,
+  UiType,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
@@ -37,5 +39,11 @@ export class ConfigurationFormComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+  public isRadioButton(attribute: Attribute): boolean {
+    return attribute.uiType === UiType.RADIOBUTTON;
+  }
+  public isNotSupported(attribute: Attribute): boolean {
+    return attribute.uiType === UiType.NOT_IMPLEMENTED;
   }
 }

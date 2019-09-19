@@ -6,5 +6,6 @@ export const configurator = {
   },
   attribute: {
     caption: 'Attributes',
+    notSupported: 'Attibute Type is not supported.',
   },
 };

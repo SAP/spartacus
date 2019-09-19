@@ -19,7 +19,11 @@
       {{ attribute.label }}
     </div>
     <cx-config-attribute-radio-button
+      *ngIf="isRadioButton(attribute)"
       [currentAttribute]="attribute"
     ></cx-config-attribute-radio-button>
+    <em *ngIf="isNotSupported(attribute)">{{
+      'attribute.notSupported' | cxTranslate
+    }}</em>
   </div>
 </ng-container>
