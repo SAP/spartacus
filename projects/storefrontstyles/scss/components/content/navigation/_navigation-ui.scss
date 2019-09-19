@@ -285,7 +285,8 @@
         }
 
         /* we only treat the first wrapper as a collapsible container */
-        &:hover {
+        &:hover,
+        &:focus-within {
           > .wrapper {
             @include showWrapperDesktop();
           }
