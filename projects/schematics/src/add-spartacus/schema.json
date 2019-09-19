@@ -34,6 +34,16 @@
       "type": "boolean",
       "description": "Overwrite whole app.component.html file.",
       "default": false
+    },
+    "pwa": {
+      "type": "boolean",
+      "description": "Execute additional command for PWA configuration.",
+      "default": false
+    },
+    "ssr": {
+      "type": "boolean",
+      "description": "Execute additional command for SSR configuration.",
+      "default": false
     }
   },
   "required": []

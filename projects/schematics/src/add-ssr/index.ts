@@ -83,7 +83,7 @@ function addPackageJsonScripts(options: SpartacusOptions): Rule {
       ] = `ng build --prod && ng run ${options.project}:server`;
       packageJsonFileObject.scripts['build:ssr'] =
         'npm run build:client-and-server-bundles && npm run webpack:server';
-      packageJsonFileObject.scripts['start:ssr'] = 'node dist/ssr/server';
+      packageJsonFileObject.scripts['serve:ssr'] = 'node dist/ssr/server';
       packageJsonFileObject.scripts['webpack:server'] =
         'webpack --config webpack.server.config.js --progress --colors';
 
