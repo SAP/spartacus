@@ -3,6 +3,7 @@ export const configurator = {
     consistent: 'Consistent',
     complete: 'Complete',
     configId: 'Configuration ID',
+    toconfig: 'Configure',
   },
   attribute: {
     caption: 'Attributes',
