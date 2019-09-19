@@ -68,7 +68,7 @@ export function asmTests() {
         cy.get('cx-customer-selection').should('not.exist');
       });
     });
-    xdescribe('Customer Emulation - Checkout', () => {
+    describe('Customer Emulation - Checkout', () => {
       it('should agent add a product to cart and begin checkout.', () => {
         checkout.clickCheapProductDetailsFromHomePage();
         checkout.addCheapProductToCartAndBeginCheckout();
@@ -94,7 +94,7 @@ export function asmTests() {
         checkout.verifyOrderConfirmationPageWithCheapProduct();
       });
     });
-    xdescribe('Customer Emulation - My Account', () => {
+    describe('Customer Emulation - My Account', () => {
       it('should agent be able to check order in order history', () => {
         checkout.viewOrderHistoryWithCheapProduct();
       });
@@ -134,7 +134,7 @@ export function asmTests() {
         consent.giveConsent();
       });
     });
-    xdescribe('Customer Support Agent - End', () => {
+    describe('Customer Support Agent - End', () => {
       it('should agent stop customer emulation.', () => {
         checkout.signOutUser();
         cy.get('cx-csagent-login-form').should('not.exist');
@@ -151,7 +151,7 @@ export function asmTests() {
         cy.get('cx-asm-main-ui').should('not.exist');
       });
     });
-    xdescribe('Customer Self Verification', () => {
+    describe('Customer Self Verification', () => {
       it('should customer sign in.', () => {
         checkout.visitHomePage();
         checkout.signInUser();
