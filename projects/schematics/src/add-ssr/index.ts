@@ -1,10 +1,14 @@
 import {
-  apply, branchAndMerge,
+  apply,
+  branchAndMerge,
   chain,
-  externalSchematic, MergeStrategy,
-  mergeWith, move,
+  externalSchematic,
+  MergeStrategy,
+  mergeWith,
+  move,
   Rule,
-  SchematicContext, Source,
+  SchematicContext,
+  Source,
   template,
   Tree,
   url,
@@ -74,11 +78,12 @@ function addPackageJsonScripts(options: SpartacusOptions): Rule {
     if (buffer) {
       const packageJsonFileObject = JSON.parse(buffer.toString('utf-8'));
 
-      packageJsonFileObject.scripts['build:client-and-server-bundles'] =
-        `ng build --prod && ng run ${options.project}:server`;
+      packageJsonFileObject.scripts[
+        'build:client-and-server-bundles'
+      ] = `ng build --prod && ng run ${options.project}:server`;
       packageJsonFileObject.scripts['build:ssr'] =
         'npm run build:client-and-server-bundles && npm run webpack:server';
-      packageJsonFileObject.scripts['serve:ssr'] = 'node dist/server.js';
+      packageJsonFileObject.scripts['start:ssr'] = 'node dist/ssr/server';
       packageJsonFileObject.scripts['webpack:server'] =
         'webpack --config webpack.server.config.js --progress --colors';
 
@@ -115,18 +120,18 @@ function addServerConfigInAngularJsonFile(options: any): Rule {
         },
       };
       projectArchitectObject['server'] = {
-        "builder": "@angular-devkit/build-angular:server",
-        "options": {
-          "outputPath": `dist/${options.project}-server`,
-          "main": "src/main.server.ts",
-          "tsConfig": "tsconfig.server.json",
-          "fileReplacements": [
+        builder: '@angular-devkit/build-angular:server',
+        options: {
+          outputPath: `dist/${options.project}-server`,
+          main: 'src/main.server.ts',
+          tsConfig: 'tsconfig.server.json',
+          fileReplacements: [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.prod.ts"
-            }
-          ]
-        }
+              replace: 'src/environments/environment.ts',
+              with: 'src/environments/environment.prod.ts',
+            },
+          ],
+        },
       };
 
       tree.overwrite(
@@ -210,20 +215,19 @@ function modifyIndexHtmlFile(
   };
 }
 
-function provideServerAndWebpackServerConfigs(options: SpartacusOptions): Source {
-  return apply(
-    url('./files'),
-    [
-      template({
-        ...strings,
-        ...options as object,
-        typescriptExt: 'ts',
-        appDistPath: `dist/${options.project}`,
-        serverDistPath: `dist/${options.project}-server`
-      }),
-      move('.')
-    ]
-  );
+function provideServerAndWebpackServerConfigs(
+  options: SpartacusOptions
+): Source {
+  return apply(url('./files'), [
+    template({
+      ...strings,
+      ...(options as object),
+      typescriptExt: 'ts',
+      appDistPath: `dist/${options.project}`,
+      serverDistPath: `dist/${options.project}-server`,
+    }),
+    move('.'),
+  ]);
 }
 
 export function addSSR(options: SpartacusOptions): Rule {
@@ -247,9 +251,8 @@ export function addSSR(options: SpartacusOptions): Rule {
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(project, options),
       branchAndMerge(
-        chain([
-          mergeWith(templates, MergeStrategy.Overwrite)
-        ]), MergeStrategy.Overwrite
+        chain([mergeWith(templates, MergeStrategy.Overwrite)]),
+        MergeStrategy.Overwrite
       ),
       installPackageJsonDependencies(),
     ])(tree, context);
