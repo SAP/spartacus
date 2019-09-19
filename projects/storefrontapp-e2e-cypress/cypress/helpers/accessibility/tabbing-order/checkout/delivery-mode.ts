@@ -4,11 +4,11 @@ import { user } from '../../../../sample-data/checkout-flow';
 
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
   cy.window().then(win => {
-    const savedState = JSON.parse(
+    const { auth } = JSON.parse(
       win.localStorage.getItem('spartacus-local-data')
     );
-    cy.requireProductAddedToCart(savedState.auth).then(() => {
-      cy.requireShippingAddressAdded(user.address, savedState.auth);
+    cy.requireProductAddedToCart(auth).then(() => {
+      cy.requireShippingAddressAdded(user.address, auth);
     });
   });
 
