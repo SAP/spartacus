@@ -22,14 +22,18 @@ import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbi
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
 import {
-  shippingAddressNewTabbingOrder,
-  shippingAddressExistingTabbingOrder,
+  checkoutShippingAddressNewTabbingOrder,
+  checkoutShippingAddressExistingTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
-import { deliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
+import { checkoutDeliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 import {
   orderHistoryNoOrdersTabbingOrder,
   orderHistoryWithOrdersTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/order-history';
+import {
+  checkoutPaymentDetailsTabbingOrder,
+  checkoutBillingAddressTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
 import { reviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/review-order';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
@@ -106,24 +110,38 @@ context('Tabbing order - tests do require user to be logged in', () => {
   describe('Checkout', () => {
     before(() => {
       addProduct();
-      cy.getByText(/Proceed to checkout/i).click(); // move to checkout
+      cy.getAllByText(/Proceed to checkout/i)
+        .first()
+        .click(); // move to checkout
       cy.get('cx-breadcrumb').should('contain', 'Checkout'); // check if we begin checkout tests in checkout
     });
 
     describe('Shipping address', () => {
       it('should allow to navigate with tab key (add address)', () => {
-        shippingAddressNewTabbingOrder(config.shippingAddressNew);
+        checkoutShippingAddressNewTabbingOrder(config.shippingAddressNew);
       });
 
       it('should allow to navigate with tab key (choose existing)', () => {
         cy.visit('/checkout/shipping-address'); // revisit shipping address page, so the address card is visible
-        shippingAddressExistingTabbingOrder(config.shippingAddressExisting);
+        checkoutShippingAddressExistingTabbingOrder(
+          config.shippingAddressExisting
+        );
       });
     });
 
     describe('Delivery mode', () => {
       it('should allow to navigate with tab key', () => {
-        deliveryModeTabbingOrder(config.deliveryMode);
+        checkoutDeliveryModeTabbingOrder(config.deliveryMode);
+      });
+    });
+
+    describe('Payment details', () => {
+      it('should allow to navigate with tab key (card)', () => {
+        checkoutPaymentDetailsTabbingOrder(config.paymentDetailsCard);
+      });
+
+      it('should allow to navigate with tab key (billing address)', () => {
+        checkoutBillingAddressTabbingOrder(config.paymentDetailsBillingAddress);
       });
     });
   });

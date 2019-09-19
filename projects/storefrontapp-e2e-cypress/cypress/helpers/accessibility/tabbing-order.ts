@@ -126,9 +126,13 @@ export function addProduct(): void {
   const cartPage = waitForPage('/cart', 'getCartPage');
 
   cy.visit(categoryPageUrl);
-  cy.getByText(/Add to cart/i).click();
+  cy.getAllByText(/Add to cart/i)
+    .first()
+    .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.getByText(/View cart/i).click();
+    cy.getAllByText(/View cart/i)
+      .first()
+      .click();
   });
   cy.wait(`@${cartPage}`);
 }

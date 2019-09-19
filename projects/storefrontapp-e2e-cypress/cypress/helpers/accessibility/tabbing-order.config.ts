@@ -278,6 +278,39 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   orderHistoryNoOrders: [
     { value: 'Start Shopping', type: TabbingOrderTypes.BUTTON },
   ],
+  paymentDetailsCard: [
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    {
+      value: 'accountHolderName',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { value: 'cardNumber', type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'cvn', type: TabbingOrderTypes.FORM_FIELD },
+    {
+      value: 'Set as default',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Same as shipping address',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    { value: 'Back', type: TabbingOrderTypes.BUTTON },
+    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+  ],
+  paymentDetailsBillingAddress: [
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'line1', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'line2', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'town', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'isocodeShort', type: TabbingOrderTypes.NG_SELECT },
+    { value: 'postalCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'Back', type: TabbingOrderTypes.BUTTON },
+    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+  ],
   reviewOrder: [
     {
       value: '/electronics-spa/en/USD/product/1446509/Alpha%20350',
