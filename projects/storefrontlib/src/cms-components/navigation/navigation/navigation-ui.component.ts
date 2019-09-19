@@ -128,10 +128,6 @@ export class NavigationUIComponent implements OnDestroy {
     return target.ownerDocument;
   }
 
-  isTabbable(node: any) {
-    return this.flyout && node.children && node.url;
-  }
-
   ngOnDestroy() {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();
@@ -177,5 +173,9 @@ export class NavigationUIComponent implements OnDestroy {
     });
 
     this.isOpen = this.openNodes.length > 0;
+  }
+
+  protected isTabbable(node: any) {
+    return this.flyout && node.children && node.url;
   }
 }
