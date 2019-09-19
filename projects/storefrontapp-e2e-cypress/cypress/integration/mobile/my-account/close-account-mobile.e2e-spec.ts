@@ -3,7 +3,6 @@ import {
   verifyAsAnonymous,
 } from '../../../helpers/close-account';
 import { formats } from '../../../sample-data/viewports';
-import * as homepage from '../../../helpers/homepage';
 
 describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
   before(() => {
@@ -27,7 +26,6 @@ describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
 
     beforeEach(() => {
       cy.restoreLocalStorage();
-      homepage.clickHamburger();
       cy.selectUserMenuOption({
         option: 'Close Account',
         isMobile: true,

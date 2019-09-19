@@ -4,7 +4,6 @@ import {
 } from '../../../helpers/address-book';
 import { formats } from '../../../sample-data/viewports';
 import * as login from '../../../helpers/login';
-import * as homepage from '../../../helpers/homepage';
 
 describe(`${formats.mobile.width + 1}p resolution - Address Book page`, () => {
   before(() => {
@@ -24,15 +23,14 @@ describe(`${formats.mobile.width + 1}p resolution - Address Book page`, () => {
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      homepage.clickHamburger();
       cy.selectUserMenuOption({
         option: 'Address Book',
         isMobile: true,
       });
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
     });
 
     addressBookTest();

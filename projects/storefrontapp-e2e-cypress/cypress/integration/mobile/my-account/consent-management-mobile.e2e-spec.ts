@@ -3,7 +3,6 @@ import {
   verifyAsAnonymous,
 } from '../../../helpers/consent-management';
 import * as login from '../../../helpers/login';
-import * as homepage from '../../../helpers/homepage';
 import { formats } from '../../../sample-data/viewports';
 
 describe(`${formats.mobile.width +
@@ -25,15 +24,14 @@ describe(`${formats.mobile.width +
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      homepage.clickHamburger();
       cy.selectUserMenuOption({
         option: 'Consent Management',
         isMobile: true,
       });
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
     });
 
     consentManagementTest();
