@@ -19,6 +19,7 @@ export class ProtectedRoutesService {
       this.nonProtectedPaths = this.getNonProtectedPaths().map(path =>
         this.getSegments(path)
       );
+      debugger;
     }
   }
 
@@ -68,18 +69,15 @@ export class ProtectedRoutesService {
    * Returns a list of paths that are not protected
    */
   protected getNonProtectedPaths(): string[] {
-    const result: string[] = [];
-    Object.keys(this.routingConfig.routes).forEach(key => {
-      const routeConfig = this.routingConfig.routes[key];
-      if (
-        routeConfig.protected === false && // ignore undefined
+    return Object.values(this.routingConfig.routes).reduce(
+      (acc, routeConfig) =>
+        routeConfig.protected === false && // must be explicitly false, ignore undefined
         routeConfig.paths &&
         routeConfig.paths.length
-      ) {
-        result.push(...routeConfig.paths);
-      }
-    });
-    return result;
+          ? acc.concat(routeConfig.paths)
+          : acc,
+      []
+    );
   }
 
   /**
