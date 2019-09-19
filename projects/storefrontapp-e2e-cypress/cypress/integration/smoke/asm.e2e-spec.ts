@@ -1,5 +1,5 @@
 import * as asm from '../../helpers/asm';
-context('Desktop resolution', () => {
+context('ASM - Desktop', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });

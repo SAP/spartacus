@@ -7,7 +7,7 @@ import { login } from './auth-forms';
 let customer: any;
 
 export function asmTests() {
-  describe('Asm Test Suite', () => {
+  describe('ASM Test Suite', () => {
     before(() => {
       checkout.visitHomePage();
       customer = checkout.registerUser();
