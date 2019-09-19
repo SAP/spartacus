@@ -6,6 +6,7 @@ export interface RouteConfig {
   paths?: string[];
   paramsMapping?: ParamsMapping;
   disabled?: boolean;
+  protected?: boolean;
 }
 
 export interface ParamsMapping {
