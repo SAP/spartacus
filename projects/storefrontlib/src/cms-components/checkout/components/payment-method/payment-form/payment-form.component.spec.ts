@@ -242,13 +242,13 @@ fdescribe('PaymentFormComponent', () => {
     expect(component.payment.value.defaultPayment).toBeFalsy();
   });
 
-  it('should call next()', () => {
-    component.next();
-    expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
-      paymentDetails: component.payment.value,
-      billingAddress: null,
-    });
-  });
+  // it('should call next()', () => {
+  //   component.next();
+  //   expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
+  //     paymentDetails: component.payment.value,
+  //     billingAddress: null,
+  //   });
+  // });
 
   it('should call close()', () => {
     component.close();
