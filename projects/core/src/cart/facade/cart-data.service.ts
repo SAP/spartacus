@@ -3,9 +3,13 @@ import { select, Store } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Cart } from '../../model/cart.model';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_GUEST,
+} from '../../occ/utils/occ-constants';
+import { EMAIL_PATTERN } from '../../util';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartDataService {
@@ -50,5 +54,25 @@ export class CartDataService {
         ? this.cart.guid
         : this.cart.code;
     }
+  }
+
+  get isGuestCart(): boolean {
+    return (
+      this.cart.user &&
+      (this.cart.user.name === OCC_USER_ID_GUEST ||
+        this.isEmail(
+          this.cart.user.uid
+            .split('|')
+            .slice(1)
+            .join('|')
+        ))
+    );
+  }
+
+  private isEmail(str: string): boolean {
+    if (str) {
+      return str.match(EMAIL_PATTERN) ? true : false;
+    }
+    return false;
   }
 }

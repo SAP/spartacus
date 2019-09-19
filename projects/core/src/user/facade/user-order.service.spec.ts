@@ -54,11 +54,21 @@ describe('UserOrderService', () => {
     expect(order).toEqual({ code: 'testOrder' });
   });
 
-  it('should be able to load order details', () => {
+  it('should be able to load order details for login user', () => {
     service.loadOrderDetails('orderCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadOrderDetails({
         userId: OCC_USER_ID_CURRENT,
+        orderCode: 'orderCode',
+      })
+    );
+  });
+
+  it('should be able to load order details for anonymous user', () => {
+    service.loadOrderDetails('orderCode', 'anonymous');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadOrderDetails({
+        userId: 'anonymous',
         orderCode: 'orderCode',
       })
     );

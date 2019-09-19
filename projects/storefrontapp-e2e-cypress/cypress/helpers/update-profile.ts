@@ -1,8 +1,8 @@
 import { standardUser } from '../sample-data/shared-users';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
-import { generateMail, randomString } from './user';
 import { signOut } from './register';
+import { generateMail, randomString } from './user';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 export const newTitle = 'dr';
 export const newFirstName = 'N';
@@ -79,6 +79,20 @@ export function verifyUpdatedProfile() {
 export function verifyAsAnonymous() {
   it('should redirect to login page for anonymous user', () => {
     accessPageAsAnonymous();
+  });
+}
+
+export function validateUpdateProfileForm(
+  title: string,
+  firstName: string,
+  lastName: string
+) {
+  cy.get('cx-update-profile-form').within(() => {
+    cy.get('[formcontrolname="titleCode"]')
+      .find(':selected')
+      .should('have.value', title);
+    cy.get('[formcontrolname="firstName"]').should('have.value', firstName);
+    cy.get('[formcontrolname="lastName"]').should('have.value', lastName);
   });
 }
 
