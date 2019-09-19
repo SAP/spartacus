@@ -2,6 +2,7 @@ import {
   closeAccountTest,
   verifyAsAnonymous,
 } from '../../../helpers/close-account';
+import { standardUser } from '../../../sample-data/shared-users';
 
 describe('My Account - Close Account', () => {
   before(() =>

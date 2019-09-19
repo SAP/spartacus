@@ -3,7 +3,6 @@ import {
   verifyAsAnonymous,
 } from '../../../helpers/update-password';
 import * as login from '../../../helpers/login';
-import * as homepage from '../../../helpers/homepage';
 import { formats } from '../../../sample-data/viewports';
 
 describe(`${formats.mobile.width +
@@ -21,9 +20,14 @@ describe(`${formats.mobile.width +
   });
 
   describe('update password test for logged in user', () => {
+    before(() => {
+      cy.requireLoggedIn();
+      cy.reload();
+      cy.visit('/');
+    });
+
     beforeEach(() => {
       cy.restoreLocalStorage();
-      homepage.clickHamburger();
       cy.selectUserMenuOption({
         option: 'Password',
         isMobile: true,
@@ -34,6 +38,7 @@ describe(`${formats.mobile.width +
 
     afterEach(() => {
       cy.saveLocalStorage();
+      cy.visit('/');
     });
 
     after(() => {

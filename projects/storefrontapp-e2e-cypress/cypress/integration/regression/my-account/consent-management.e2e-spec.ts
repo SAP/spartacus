@@ -18,13 +18,13 @@ describe('My Account - Consent Management', () => {
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
+      cy.selectUserMenuOption({
+        option: 'Consent Management',
+      });
     });
 
     beforeEach(() => {
       cy.restoreLocalStorage();
-      cy.selectUserMenuOption({
-        option: 'Consent Management',
-      });
     });
 
     consentManagementTest();

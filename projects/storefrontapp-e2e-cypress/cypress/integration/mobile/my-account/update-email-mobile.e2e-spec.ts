@@ -3,7 +3,6 @@ import {
   verifyAsAnonymous,
 } from '../../../helpers/update-email';
 import { formats } from '../../../sample-data/viewports';
-import * as homepage from '../../../helpers/homepage';
 
 describe(`${formats.mobile.width + 1}p resolution - Update Email Page`, () => {
   before(() => {
@@ -19,9 +18,14 @@ describe(`${formats.mobile.width + 1}p resolution - Update Email Page`, () => {
   });
 
   describe('update email test for logged in user', () => {
+    before(() => {
+      cy.requireLoggedIn();
+      cy.reload();
+      cy.visit('/');
+    });
+
     beforeEach(() => {
       cy.restoreLocalStorage();
-      homepage.clickHamburger();
       cy.selectUserMenuOption({
         option: 'Email Address',
         isMobile: true,
