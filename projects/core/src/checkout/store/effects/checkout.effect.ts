@@ -6,6 +6,7 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
+import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -30,14 +31,29 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
-            return [
-              new UserActions.LoadUserAddresses(payload.userId),
-              new CheckoutActions.SetDeliveryAddress({
-                userId: payload.userId,
-                cartId: payload.cartId,
-                address: address,
-              }),
-            ];
+            if (payload.address.region && payload.address.region.isocodeShort) {
+              Object.assign(address.region, {
+                isocodeShort: payload.address.region.isocodeShort,
+              });
+            }
+            if (payload.userId === OCC_USER_ID_ANONYMOUS) {
+              return [
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
+            } else {
+              return [
+                new UserActions.LoadUserAddresses(payload.userId),
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
+            }
           }),
           catchError(error =>
             of(
@@ -132,6 +148,14 @@ export class CheckoutEffects {
   );
 
   @Effect()
+  clearCheckoutDataOnLogin$: Observable<
+    CheckoutActions.ClearCheckoutData
+  > = this.actions$.pipe(
+    ofType(AuthActions.LOGIN),
+    map(() => new CheckoutActions.ClearCheckoutData())
+  );
+
+  @Effect()
   setDeliveryMode$: Observable<
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
@@ -178,10 +202,16 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
-          mergeMap(details => [
-            new UserActions.LoadUserPaymentMethods(payload.userId),
-            new CheckoutActions.CreatePaymentDetailsSuccess(details),
-          ]),
+          mergeMap(details => {
+            if (payload.userId === OCC_USER_ID_ANONYMOUS) {
+              return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
+            } else {
+              return [
+                new UserActions.LoadUserPaymentMethods(payload.userId),
+                new CheckoutActions.CreatePaymentDetailsSuccess(details),
+              ];
+            }
+          }),
           catchError(error =>
             of(
               new CheckoutActions.CreatePaymentDetailsFail(

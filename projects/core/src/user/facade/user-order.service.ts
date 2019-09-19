@@ -28,10 +28,13 @@ export class UserOrderService {
    *
    * @param orderCode an order code
    */
-  loadOrderDetails(orderCode: string): void {
+  loadOrderDetails(orderCode: string, userId?: string): void {
+    if (userId === undefined) {
+      userId = OCC_USER_ID_CURRENT;
+    }
     this.store.dispatch(
       new UserActions.LoadOrderDetails({
-        userId: OCC_USER_ID_CURRENT,
+        userId: userId,
         orderCode: orderCode,
       })
     );

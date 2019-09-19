@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -110,7 +116,8 @@ export class CartEffects {
       CartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_ENTRY_SUCCESS
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.ADD_EMAIL_TO_CART_SUCCESS
     ),
     map(
       (
@@ -119,6 +126,7 @@ export class CartEffects {
           | CartActions.CartAddEntrySuccess
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
+          | CartActions.AddEmailToCartSuccess
       ) => action.payload
     ),
     map(
@@ -139,6 +147,45 @@ export class CartEffects {
       SiteContextActions.CURRENCY_CHANGE
     ),
     map(() => new CartActions.ResetCartDetails())
+  );
+
+  @Effect()
+  addEmail$: Observable<
+    CartActions.AddEmailToCartSuccess | CartActions.AddEmailToCartFail
+  > = this.actions$.pipe(
+    ofType(CartActions.ADD_EMAIL_TO_CART),
+    map((action: CartActions.AddEmailToCart) => action.payload),
+    mergeMap(payload =>
+      this.cartConnector
+        .addEmail(payload.userId, payload.cartId, payload.email)
+        .pipe(
+          map(() => {
+            return new CartActions.AddEmailToCartSuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
+          }),
+          catchError(error =>
+            of(new CartActions.AddEmailToCartFail(makeErrorSerializable(error)))
+          )
+        )
+    )
+  );
+
+  @Effect()
+  deleteCart$: Observable<any> = this.actions$.pipe(
+    ofType(CartActions.DELETE_CART),
+    map((action: CartActions.DeleteCart) => action.payload),
+    exhaustMap(payload =>
+      this.cartConnector.delete(payload.userId, payload.cartId).pipe(
+        map(() => {
+          return new CartActions.ClearCart();
+        }),
+        catchError(error =>
+          of(new CartActions.DeleteCartFail(makeErrorSerializable(error)))
+        )
+      )
+    )
   );
 
   constructor(

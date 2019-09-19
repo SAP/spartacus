@@ -73,7 +73,6 @@ class MockCheckoutConnector {
   clearCheckoutDeliveryAddress = () => of({});
   clearCheckoutDeliveryMode = () => of({});
 }
-
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
@@ -110,7 +109,7 @@ describe('Checkout effect', () => {
   });
 
   describe('addDeliveryAddress$', () => {
-    it('should add delivery address to cart', () => {
+    it('should add delivery address to cart for login user', () => {
       const action = new CheckoutActions.AddDeliveryAddress({
         userId: userId,
         cartId: cartId,
@@ -126,6 +125,25 @@ describe('Checkout effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
+    });
+
+    it('should add delivery address to cart for guest user', () => {
+      const action = new CheckoutActions.AddDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
+
+      const completion = new CheckoutActions.SetDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
 
       expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
     });
@@ -213,6 +231,18 @@ describe('Checkout effect', () => {
     });
   });
 
+  describe('clearCheckoutDataOnLogin$', () => {
+    it('should dispatch clear checkout data action on login', () => {
+      const action = new AuthActions.Login();
+      const completion = new CheckoutActions.ClearCheckoutData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDataOnLogin$).toBeObservable(expected);
+    });
+  });
+
   describe('setDeliveryMode$', () => {
     it('should set delivery mode for cart', () => {
       const action = new CheckoutActions.SetDeliveryMode({
@@ -239,30 +269,29 @@ describe('Checkout effect', () => {
   });
 
   describe('createPaymentDetails$', () => {
+    const mockPaymentDetails: PaymentDetails = {
+      accountHolderName: 'test test',
+      cardNumber: '4111111111111111',
+      cardType: {
+        code: 'visa',
+      },
+      defaultPayment: false,
+      expiryMonth: '01',
+      expiryYear: '2019',
+      cvn: '123',
+      billingAddress: {
+        firstName: 'test',
+        lastName: 'test',
+        line1: 'line1',
+        line2: 'line2',
+        postalCode: '12345',
+        town: 'MainCity',
+        country: {
+          isocode: 'US',
+        },
+      },
+    };
     it('should create payment details for cart', () => {
-      const mockPaymentDetails: PaymentDetails = {
-        accountHolderName: 'test test',
-        cardNumber: '4111111111111111',
-        cardType: {
-          code: 'visa',
-        },
-        defaultPayment: false,
-        expiryMonth: '01',
-        expiryYear: '2019',
-        cvn: '123',
-        billingAddress: {
-          firstName: 'test',
-          lastName: 'test',
-          line1: 'line1',
-          line2: 'line2',
-          postalCode: '12345',
-          town: 'MainCity',
-          country: {
-            isocode: 'US',
-          },
-        },
-      };
-
       const action = new CheckoutActions.CreatePaymentDetails({
         userId: userId,
         cartId: cartId,
@@ -275,6 +304,22 @@ describe('Checkout effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+    });
+
+    it('should create payment details for guest user', () => {
+      const action = new CheckoutActions.CreatePaymentDetails({
+        userId: 'anonymous',
+        cartId: cartId,
+        paymentDetails: mockPaymentDetails,
+      });
+      const completion = new CheckoutActions.CreatePaymentDetailsSuccess(
+        paymentDetails
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
 
       expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
     });
