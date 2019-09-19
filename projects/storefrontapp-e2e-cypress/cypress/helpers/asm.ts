@@ -3,6 +3,7 @@ import * as asm from '../helpers/asm';
 import * as checkout from '../helpers/checkout-flow';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
+import { login } from './auth-forms';
 let customer: any;
 
 export function asmTests() {
@@ -153,8 +154,8 @@ export function asmTests() {
     });
     describe('Customer Self Verification', () => {
       it('should customer sign in.', () => {
-        checkout.visitHomePage();
-        checkout.signInUser();
+        cy.visit('/login');
+        login(customer.email, customer.password);
       });
       it('should customer see the order placed by the agent.', () => {
         checkout.viewOrderHistoryWithCheapProduct();
