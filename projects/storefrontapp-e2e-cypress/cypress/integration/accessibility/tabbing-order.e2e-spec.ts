@@ -34,6 +34,7 @@ import {
   checkoutPaymentDetailsTabbingOrder,
   checkoutBillingAddressTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
+import { reviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/review-order';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -192,6 +193,12 @@ context('Tabbing order - tests do require user to be logged in', () => {
       addSecondaryPaymentCard();
 
       paymentDetailsTabbingOrder(config.paymentDetails);
+    });
+  });
+
+  describe('Review Order', () => {
+    it('should allow to navigate with tab key', () => {
+      reviewOrderTabbingOrder(config.reviewOrder);
     });
   });
 });

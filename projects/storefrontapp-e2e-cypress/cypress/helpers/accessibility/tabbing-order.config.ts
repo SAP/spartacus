@@ -311,4 +311,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Back', type: TabbingOrderTypes.BUTTON },
     { value: 'Continue', type: TabbingOrderTypes.BUTTON },
   ],
+  reviewOrder: [
+    {
+      value: '/electronics-spa/en/USD/product/1446509/Alpha%20350',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'Alpha 350',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
 };
