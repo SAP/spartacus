@@ -12,6 +12,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/index';
+import { AttributeHeaderComponent } from '../commons/attribute-header/attribute-header.component';
 import { AttributeRadioButtonComponent } from '../commons/attribute-types/attribute-radio-button/attribute-radio-button.component';
 import { ConfigurationFormComponent } from '../commons/configuration-form/configuration-form.component';
 import { ConfigurationImageComponent } from '../commons/configuration-image/configuration-image.component';
@@ -66,12 +67,14 @@ import { UIKeyGeneratorService } from '../commons/service/ui-key-generator.servi
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
     AttributeRadioButtonComponent,
+    AttributeHeaderComponent,
   ],
   exports: [
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
     AttributeRadioButtonComponent,
+    AttributeHeaderComponent,
   ],
   providers: [UserService, UIKeyGeneratorService],
   entryComponents: [
@@ -79,6 +82,7 @@ import { UIKeyGeneratorService } from '../commons/service/ui-key-generator.servi
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
     AttributeRadioButtonComponent,
+    AttributeHeaderComponent,
   ],
 })
 export class VariantConfiguratorModule {}
