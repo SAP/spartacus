@@ -19,7 +19,6 @@ export class ProtectedRoutesService {
       this.nonProtectedPaths = this.getNonProtectedPaths().map(path =>
         this.getSegments(path)
       );
-      debugger;
     }
   }
 
