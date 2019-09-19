@@ -32,17 +32,11 @@
         </p>
       </div>
       <div class="col-12 col-md-4">
-        {{ product.configurable }}
         <cx-add-to-cart
           *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
           [showQuantity]="false"
           [productCode]="product.code"
         ></cx-add-to-cart>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 col-md-8"></div>
-      <div class="col-12 col-md-4">
         <cx-to-configuration
           *ngIf="product.configurable"
           [productCode]="product.code"

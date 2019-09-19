@@ -32,3 +32,8 @@
   [showQuantity]="false"
   [productCode]="product.code"
 ></cx-add-to-cart>
+<cx-to-configuration
+  *ngIf="product.configurable"
+  [productCode]="product.code"
+  [configuratorType]="product.configuratorType"
+></cx-to-configuration>
