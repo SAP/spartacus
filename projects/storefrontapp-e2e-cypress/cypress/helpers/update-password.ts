@@ -65,7 +65,6 @@ export function updatePassword() {
   cy.visit('/login');
   login(standardUser.registrationData.email, newPassword);
   cy.get(helper.userGreetSelector).should('exist');
-  helper.signOutUser();
 }
 
 export function verifyAsAnonymous() {

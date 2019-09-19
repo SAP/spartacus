@@ -2,9 +2,8 @@ import {
   closeAccountTest,
   verifyAsAnonymous,
 } from '../../../helpers/close-account';
-import { formats } from '../../../sample-data/viewports';
 
-describe('Close Account page', () => {
+describe('My Account - Close Account', () => {
   before(() =>
     cy.window().then(win => {
       win.sessionStorage.clear();
@@ -12,18 +11,15 @@ describe('Close Account page', () => {
   );
 
   verifyAsAnonymous();
-  closeAccountTest();
-});
+  describe('close account test for logged in user', () => {
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
 
-describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
-  before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-  beforeEach(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-
-  verifyAsAnonymous();
   closeAccountTest();
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+  });
 });
