@@ -22,14 +22,16 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
   checkAllElements(config);
 
   const nextStep = waitForPage('/checkout/delivery-mode', 'getNextStep');
-  cy.getByText('Continue').click();
+  cy.getAllByText('Continue')
+    .first()
+    .click();
   cy.wait(`@${nextStep}`);
 }
 
 export function checkoutShippingAddressExistingTabbingOrder(
   config: TabElement[]
 ) {
-  cy.getByText('Add New Address')
+  cy.getAllByText('Add New Address')
     .first()
     .focus();
 

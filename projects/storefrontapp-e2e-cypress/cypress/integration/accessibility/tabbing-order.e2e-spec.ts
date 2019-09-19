@@ -109,7 +109,9 @@ context('Tabbing order - tests do require user to be logged in', () => {
   describe('Checkout', () => {
     before(() => {
       addProduct();
-      cy.getByText(/Proceed to checkout/i).click(); // move to checkout
+      cy.getAllByText(/Proceed to checkout/i)
+        .first()
+        .click(); // move to checkout
       cy.get('cx-breadcrumb').should('contain', 'Checkout'); // check if we begin checkout tests in checkout
     });
 
