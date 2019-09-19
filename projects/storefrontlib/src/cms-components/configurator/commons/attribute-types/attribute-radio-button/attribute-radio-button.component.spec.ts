@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiType } from '@spartacus/core';
+import { UIKeyGeneratorService } from '../../service/ui-key-generator.service';
 import { AttributeRadioButtonComponent } from './attribute-radio-button.component';
 
 describe('AttributeRadioButtonComponent', () => {
@@ -9,6 +10,7 @@ describe('AttributeRadioButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AttributeRadioButtonComponent],
+      providers: [UIKeyGeneratorService],
     }).compileComponents();
   }));
 

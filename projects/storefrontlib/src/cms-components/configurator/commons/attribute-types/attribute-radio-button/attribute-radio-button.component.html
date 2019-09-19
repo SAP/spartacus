@@ -1,21 +1,50 @@
 <fieldset>
   <legend style="display: none">{{ currentAttribute.label }}</legend>
-  <div id="{{ currentAttribute.name }}">
+  <div
+    id="{{ uiKeyGenerator.createAttributeIdForConfigurator(currentAttribute) }}"
+  >
     <div class="form-check" *ngFor="let value of values">
       <div class="cx-config-selectLine">
         <input
-          id="{{ currentAttribute.name + value.valueCode }}"
+          id="{{
+            uiKeyGenerator.createAttributeValueIdForConfigurator(
+              currentAttribute,
+              value.valueCode
+            )
+          }}"
           class="form-check-input"
           type="radio"
           [attr.required]="currentAttribute.required"
           [value]="value.valueCode"
-          name="{{ currentAttribute.name }}"
-          attr.name="{{ currentAttribute.name }}"
+          name="{{
+            uiKeyGenerator.createAttributeIdForConfigurator(currentAttribute)
+          }}"
+          attr.name="{{
+            uiKeyGenerator.createAttributeIdForConfigurator(currentAttribute)
+          }}"
+          attr.aria-labelledby="{{
+            uiKeyGenerator.createAriaLabelledBy(
+              'label',
+              currentAttribute.name,
+              value.valueCode
+            )
+          }}"
         />
         <div class="cx-config-attributeValueLabelContainer">
           <label
-            id="{{ 'label' + currentAttribute.name + value.valueCode }}"
-            for="{{ currentAttribute.name + value.valueCode }}"
+            id="{{
+              uiKeyGenerator.createValueUiKey(
+                'label',
+                currentAttribute.name,
+                value.valueCode
+              )
+            }}"
+            for="{{
+              uiKeyGenerator.createAttributeValueIdForConfigurator(
+                currentAttribute,
+                value.valueCode
+              )
+            }}"
             class="cx-config-attributeValueLabel form-check-label form-radio-label"
             >{{ value.valueDisplay }}&nbsp;[{{
               currentAttribute.uiType
