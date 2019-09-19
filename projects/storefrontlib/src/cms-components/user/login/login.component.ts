@@ -13,9 +13,9 @@ export class LoginComponent implements OnInit {
   constructor(private auth: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.user$ = this.auth.getUserToken().pipe(
-      switchMap(token => {
-        if (token && !!token.access_token) {
+    this.user$ = this.auth.isUserLoggedIn().pipe(
+      switchMap(isUserLoggedIn => {
+        if (isUserLoggedIn) {
           return this.userService.get();
         } else {
           return of(undefined);
