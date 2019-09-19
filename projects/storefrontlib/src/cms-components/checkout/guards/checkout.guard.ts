@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { CartDataService, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
-import { RoutingConfigService } from '@spartacus/core';
-import { ExpressCheckoutService } from '../services/express-checkout.service';
-import { CheckoutConfigService } from '../services/checkout-config.service';
-import { CheckoutStepType } from '../model/checkout-step.model';
+import { switchMap } from 'rxjs/operators';
 import { CheckoutConfig } from '../config/checkout-config';
+import { CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfigService } from '../services/checkout-config.service';
+import { ExpressCheckoutService } from '../services/express-checkout.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,8 @@ export class CheckoutGuard implements CanActivate {
     config: CheckoutConfig,
     routingConfigService: RoutingConfigService,
     checkoutConfigService: CheckoutConfigService,
-    expressCheckoutService: ExpressCheckoutService
+    expressCheckoutService: ExpressCheckoutService,
+    cartDataService: CartDataService
   );
   /**
    * @deprecated since version 1.2
@@ -42,7 +42,8 @@ export class CheckoutGuard implements CanActivate {
     private config: CheckoutConfig,
     private routingConfigService: RoutingConfigService,
     protected checkoutConfigService?: CheckoutConfigService,
-    protected expressCheckoutService?: ExpressCheckoutService
+    protected expressCheckoutService?: ExpressCheckoutService,
+    protected cartDataService?: CartDataService
   ) {
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
@@ -70,7 +71,11 @@ export class CheckoutGuard implements CanActivate {
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
-    if (this.checkoutConfigService && this.expressCheckoutService) {
+    if (
+      this.checkoutConfigService &&
+      this.expressCheckoutService &&
+      !this.cartDataService.isGuestCart
+    ) {
       if (this.checkoutConfigService.isExpressCheckout()) {
         return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
           switchMap((expressCheckoutPossible: boolean) => {
