@@ -3,7 +3,7 @@ import { RoutingConfig } from '../configurable-routes/config/routing-config';
 
 @Injectable({ providedIn: 'root' })
 export class ProtectedRoutesService {
-  private nonProtectedPathsSegments: string[][] = []; // arrays of paths' segments list
+  private nonProtectedPaths: string[][] = []; // arrays of paths' segments list
 
   protected get routingConfig(): RoutingConfig['routing'] {
     return this.config && this.config.routing;
@@ -16,8 +16,8 @@ export class ProtectedRoutesService {
   constructor(protected config: RoutingConfig) {
     if (this.shouldProtect) {
       // pre-process config for performance:
-      this.nonProtectedPathsSegments = this.getNonProtectedPathsSegments().map(
-        path => this.getSegments(path)
+      this.nonProtectedPaths = this.getNonProtectedPaths().map(path =>
+        this.getSegments(path)
       );
     }
   }
@@ -28,7 +28,7 @@ export class ProtectedRoutesService {
   isUrlProtected(urlSegments: string[]): boolean {
     return (
       this.shouldProtect &&
-      !this.matchAnyPath(urlSegments, this.nonProtectedPathsSegments)
+      !this.matchAnyPath(urlSegments, this.nonProtectedPaths)
     );
   }
 
@@ -67,7 +67,7 @@ export class ProtectedRoutesService {
   /**
    * Returns a list of paths that are not protected
    */
-  protected getNonProtectedPathsSegments(): string[] {
+  protected getNonProtectedPaths(): string[] {
     const result: string[] = [];
     Object.keys(this.routingConfig.routes).forEach(key => {
       const routeConfig = this.routingConfig.routes[key];
