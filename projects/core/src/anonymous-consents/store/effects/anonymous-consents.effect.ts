@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map } from 'rxjs/operators';
+import { SiteContextActions } from '../../../site-context/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
+  @Effect()
+  handleLanguageChange$: Observable<
+    AnonymousConsentsActions.LoadAnonymousConsentTemplates
+  > = this.actions$.pipe(
+    ofType(SiteContextActions.LANGUAGE_CHANGE),
+    map(_ => new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
+  );
+
   @Effect()
   loadAnonymousConsentTemplates$: Observable<
     AnonymousConsentsActions.AnonymousConsentsActions
@@ -17,14 +26,12 @@ export class AnonymousConsentsEffects {
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
-          switchMap(consentTemplates => [
-            new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-              consentTemplates
-            ),
-            new AnonymousConsentsActions.InitializeAnonymousConsents(
-              consentTemplates
-            ),
-          ]),
+          map(
+            consentTemplates =>
+              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
+                consentTemplates
+              )
+          ),
           catchError(error =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(

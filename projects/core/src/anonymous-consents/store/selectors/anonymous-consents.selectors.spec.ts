@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { AnonymousConsent, ConsentTemplate } from '../../../model/index';
+import { AnonymousConsent } from '../../../model/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import {
   ANONYMOUS_CONSENTS_FEATURE,
@@ -9,6 +9,15 @@ import {
 } from '../anonymous-consents-state';
 import * as fromReducers from '../reducers/index';
 import { AnonymousConsentsSelectors } from '../selectors/index';
+
+const mockTemplateCode = 'MARKETING';
+const mockAnonymousConsents: AnonymousConsent[] = [
+  {
+    consentState: undefined,
+    templateCode: mockTemplateCode,
+    version: 0,
+  },
+];
 
 describe('anonymous consents selectors', () => {
   let store: Store<StateWithAnonymousConsents>;
@@ -28,29 +37,11 @@ describe('anonymous consents selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  const mockTemplateCode = 'MARKETING';
-  const mockConsentTemplates: ConsentTemplate[] = [
-    {
-      id: mockTemplateCode,
-      version: 0,
-      name: 'Marketing consent',
-    },
-  ];
-
   describe('getAnonymousConsents', () => {
     it('should return the consents from the state', () => {
       store.dispatch(
-        new AnonymousConsentsActions.InitializeAnonymousConsents(
-          mockConsentTemplates
-        )
+        new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
       );
-      const expected: AnonymousConsent[] = [
-        {
-          consentState: undefined,
-          templateCode: mockTemplateCode,
-          version: 0,
-        },
-      ];
 
       let result: AnonymousConsent[];
       store
@@ -58,15 +49,13 @@ describe('anonymous consents selectors', () => {
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual(expected);
+      expect(result).toEqual(mockAnonymousConsents);
     });
   });
   describe('getAnonymousConsentByTemplateCode', () => {
     it('should return the consents from the state', () => {
       store.dispatch(
-        new AnonymousConsentsActions.InitializeAnonymousConsents(
-          mockConsentTemplates
-        )
+        new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
       );
       const expected: AnonymousConsent = {
         consentState: undefined,

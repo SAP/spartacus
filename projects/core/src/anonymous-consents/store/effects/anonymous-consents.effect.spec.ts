@@ -5,6 +5,7 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConsentTemplate } from '../../../model/consent.model';
+import { SiteContextActions } from '../../../site-context/index';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import * as fromEffect from './anonymous-consents.effect';
@@ -46,22 +47,31 @@ describe('AnonymousConsentsEffects', () => {
     >);
   });
 
-  describe('getConsents$', () => {
+  describe('handleLanguageChange$', () => {
+    it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
+      const action = new SiteContextActions.LanguageChange();
+      const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effect.handleLanguageChange$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadAnonymousConsentTemplates$', () => {
     it('should return LoadAnonymousConsentTemplatesSuccess and InitializeAnonymousConsents', () => {
       spyOn(connector, 'loadAnonymousConsentTemplates').and.returnValue(
         of(mockTemplateList)
       );
 
       const action = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-      const completion1 = new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-        mockTemplateList
-      );
-      const completion2 = new AnonymousConsentsActions.InitializeAnonymousConsents(
+      const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
         mockTemplateList
       );
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+      const expected = cold('-b', { b: completion });
 
       expect(effect.loadAnonymousConsentTemplates$).toBeObservable(expected);
     });

@@ -72,26 +72,9 @@ describe('anonymous consents reducer', () => {
     describe('undefined state', () => {
       it('should return the default state', () => {
         const { initialState } = fromReducer;
-        const action = {} as AnonymousConsentsActions.InitializeAnonymousConsents;
+        const action = {} as AnonymousConsentsActions.LoadAnonymousConsentTemplates;
         const result = fromReducer.reducer(undefined, action);
         expect(result).toEqual(initialState);
-      });
-    });
-    describe('INITIALIZE_ANONYMOUS_CONSENTS', () => {
-      it('should create anonymous consents for each of the provided templates', () => {
-        const action = new AnonymousConsentsActions.InitializeAnonymousConsents(
-          mockAnonymousConsents
-        );
-        const result = fromReducer.reducer(undefined, action);
-
-        const expected: AnonymousConsent[] = [
-          {
-            templateCode: mockTemplateCode,
-            version: 0,
-            consentState: undefined,
-          },
-        ];
-        expect(result).toEqual(expected);
       });
     });
     describe('GIVE_ANONYMOUS_CONSENT', () => {

@@ -14,8 +14,6 @@ export const LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL =
 export const RESET_LOAD_ANONYMOUS_CONSENT_TEMPLATES =
   '[Anonymous Consents] Reset Load Anonymous Consent Templates';
 
-export const INITIALIZE_ANONYMOUS_CONSENTS =
-  '[Anonymous Consents] Initialize Anonymous Consents';
 export const GET_ALL_ANONYMOUS_CONSENTS =
   '[Anonymous Consents] Get All Anonymous Consents';
 export const GET_ANONYMOUS_CONSENT =
@@ -54,11 +52,6 @@ export class ResetLoadAnonymousConsentTemplates extends StateLoaderActions.Loade
   }
 }
 
-export class InitializeAnonymousConsents {
-  readonly type = INITIALIZE_ANONYMOUS_CONSENTS;
-  constructor(public payload: ConsentTemplate[]) {}
-}
-
 export class GetAllAnonymousConsents {
   readonly type = GET_ALL_ANONYMOUS_CONSENTS;
   constructor() {}
@@ -89,7 +82,6 @@ export type AnonymousConsentsActions =
   | LoadAnonymousConsentTemplatesSuccess
   | LoadAnonymousConsentTemplatesFail
   | ResetLoadAnonymousConsentTemplates
-  | InitializeAnonymousConsents
   | GetAllAnonymousConsents
   | SetAnonymousConsents
   | GetAnonymousConsent

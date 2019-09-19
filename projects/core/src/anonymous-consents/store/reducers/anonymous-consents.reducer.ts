@@ -31,22 +31,6 @@ export function reducer(
   action: AnonymousConsentsActions.AnonymousConsentsActions
 ): AnonymousConsent[] {
   switch (action.type) {
-    case AnonymousConsentsActions.INITIALIZE_ANONYMOUS_CONSENTS: {
-      if (!action.payload) {
-        return state;
-      }
-
-      const consents: AnonymousConsent[] = [];
-      for (const template of action.payload) {
-        consents.push({
-          templateCode: template.id,
-          version: template.version,
-          consentState: undefined,
-        });
-      }
-      return consents;
-    }
-
     case AnonymousConsentsActions.GIVE_ANONYMOUS_CONSENT: {
       return toggleConsentStatus(
         state,
