@@ -45,9 +45,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
         text: [
           deliveryAddress.line1,
           deliveryAddress.line2,
-          `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${
-            deliveryAddress.postalCode
-          }`,
+          `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${deliveryAddress.postalCode}`,
           deliveryAddress.phone,
         ],
       }))
@@ -72,9 +70,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
         text: [
           billingAddress.line1,
           billingAddress.line2,
-          `${billingAddress.town}, ${billingAddress.country.isocode}, ${
-            billingAddress.postalCode
-          }`,
+          `${billingAddress.town}, ${billingAddress.country.isocode}, ${billingAddress.postalCode}`,
           billingAddress.phone,
         ],
       }))

@@ -1,6 +1,6 @@
 <div [formGroup]="billingAddress">
   <div class="form-group">
-    <ng-container *ngIf="(countries$ | async) as countries">
+    <ng-container *ngIf="countries$ | async as countries">
       <div *ngIf="countries.length !== 0">
         <label aria-required="true">
           <span class="label-content required">{{
@@ -91,10 +91,7 @@
       </label>
     </div>
     <div class="form-group col-md-6">
-      <ng-container
-        *ngIf="(regions$ | async) as regions"
-        formGroupName="region"
-      >
+      <ng-container *ngIf="regions$ | async as regions" formGroupName="region">
         <div *ngIf="regions.length !== 0">
           <label aria-required="true">
             <span class="label-content required">{{

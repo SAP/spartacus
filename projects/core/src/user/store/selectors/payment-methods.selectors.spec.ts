@@ -78,4 +78,19 @@ describe('User Payment Methods Selectors', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('getPaymentMethodsLoadedSuccess', () => {
+    it('should return paymentMethodsLoadedSuccess flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(UsersSelectors.getPaymentMethodsLoadedSuccess))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new UserActions.LoadUserPaymentMethodsSuccess([]));
+
+      expect(result).toEqual(true);
+    });
+  });
 });

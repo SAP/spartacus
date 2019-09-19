@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -27,10 +28,13 @@ export class UserOrderService {
    *
    * @param orderCode an order code
    */
-  loadOrderDetails(orderCode: string): void {
+  loadOrderDetails(orderCode: string, userId?: string): void {
+    if (userId === undefined) {
+      userId = OCC_USER_ID_CURRENT;
+    }
     this.store.dispatch(
       new UserActions.LoadOrderDetails({
-        userId: USERID_CURRENT,
+        userId: userId,
         orderCode: orderCode,
       })
     );
@@ -78,7 +82,7 @@ export class UserOrderService {
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.store.dispatch(
       new UserActions.LoadUserOrders({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
@@ -91,5 +95,33 @@ export class UserOrderService {
    */
   clearOrderList(): void {
     this.store.dispatch(new UserActions.ClearUserOrders());
+  }
+
+  /**
+   *  Returns a consignment tracking detail
+   */
+  getConsignmentTracking(): Observable<ConsignmentTracking> {
+    return this.store.pipe(select(UsersSelectors.getConsignmentTracking));
+  }
+
+  /**
+   * Retrieves consignment tracking details
+   * @param orderCode an order code
+   * @param consignmentCode a consignment code
+   */
+  loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
+    this.store.dispatch(
+      new UserActions.LoadConsignmentTracking({
+        orderCode: orderCode,
+        consignmentCode: consignmentCode,
+      })
+    );
+  }
+
+  /**
+   * Cleaning consignment tracking
+   */
+  clearConsignmentTracking(): void {
+    this.store.dispatch(new UserActions.ClearConsignmentTracking());
   }
 }

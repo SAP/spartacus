@@ -13,15 +13,27 @@
     },
     "baseUrl": {
       "type": "string",
-      "description": "The url of the OCC backend"
+      "description": "The url of the OCC backend",
+      "default": "https://localhost:9002"
     },
     "baseSite": {
       "type": "string",
-      "description": "The base site to use with spartacus"
+      "description": "The base site to use with spartacus",
+      "default": "electronics"
     },
     "useMetaTags": {
       "type": "boolean",
       "description": "Configure baseUrl via meta tag in index.html"
+    },
+    "featureLevel": {
+      "type": "string",
+      "description": "Configure feature level for application.",
+      "default": "1.1"
+    },
+    "overwriteAppComponent": {
+      "type": "boolean",
+      "description": "Overwrite whole app.component.html file.",
+      "default": false
     }
   },
   "required": []

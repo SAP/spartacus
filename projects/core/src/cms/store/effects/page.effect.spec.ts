@@ -156,7 +156,7 @@ describe('Page Effects', () => {
     describe('when a language changes', () => {
       it('should dispatch LoadPageIndex action', () => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockRouterState)
+          of(mockRouterState as any)
         );
 
         const action = new SiteContextActions.LanguageChange();
@@ -171,7 +171,7 @@ describe('Page Effects', () => {
     describe('when a user logs in', () => {
       it('should dispatch LoadPageIndex action', () => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockRouterState)
+          of(mockRouterState as any)
         );
 
         const action = new AuthActions.Logout();
@@ -186,7 +186,7 @@ describe('Page Effects', () => {
     describe('when a user logs out', () => {
       it('should dispatch LoadPageIndex action', () => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockRouterState)
+          of(mockRouterState as any)
         );
 
         const action = new AuthActions.Login();

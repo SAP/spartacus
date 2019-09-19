@@ -70,8 +70,9 @@ class MockCheckoutPaymentConnector {
 class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
   placeOrder = () => of({});
+  clearCheckoutDeliveryAddress = () => of({});
+  clearCheckoutDeliveryMode = () => of({});
 }
-
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
@@ -108,7 +109,7 @@ describe('Checkout effect', () => {
   });
 
   describe('addDeliveryAddress$', () => {
-    it('should add delivery address to cart', () => {
+    it('should add delivery address to cart for login user', () => {
       const action = new CheckoutActions.AddDeliveryAddress({
         userId: userId,
         cartId: cartId,
@@ -127,6 +128,25 @@ describe('Checkout effect', () => {
 
       expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
     });
+
+    it('should add delivery address to cart for guest user', () => {
+      const action = new CheckoutActions.AddDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
+
+      const completion = new CheckoutActions.SetDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
+    });
   });
 
   describe('setDeliveryAddress$', () => {
@@ -137,13 +157,18 @@ describe('Checkout effect', () => {
         address: address,
       });
       const completion = new CheckoutActions.SetDeliveryAddressSuccess(address);
-      const completion2 = new CheckoutActions.LoadSupportedDeliveryModes({
+      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion3 = new CheckoutActions.LoadSupportedDeliveryModes({
         userId,
         cartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion, c: completion2 });
+      const expected = cold('-(bcd)', {
+        b: completion,
+        c: completion2,
+        d: completion3,
+      });
 
       expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
@@ -206,6 +231,18 @@ describe('Checkout effect', () => {
     });
   });
 
+  describe('clearCheckoutDataOnLogin$', () => {
+    it('should dispatch clear checkout data action on login', () => {
+      const action = new AuthActions.Login();
+      const completion = new CheckoutActions.ClearCheckoutData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDataOnLogin$).toBeObservable(expected);
+    });
+  });
+
   describe('setDeliveryMode$', () => {
     it('should set delivery mode for cart', () => {
       const action = new CheckoutActions.SetDeliveryMode({
@@ -232,30 +269,29 @@ describe('Checkout effect', () => {
   });
 
   describe('createPaymentDetails$', () => {
+    const mockPaymentDetails: PaymentDetails = {
+      accountHolderName: 'test test',
+      cardNumber: '4111111111111111',
+      cardType: {
+        code: 'visa',
+      },
+      defaultPayment: false,
+      expiryMonth: '01',
+      expiryYear: '2019',
+      cvn: '123',
+      billingAddress: {
+        firstName: 'test',
+        lastName: 'test',
+        line1: 'line1',
+        line2: 'line2',
+        postalCode: '12345',
+        town: 'MainCity',
+        country: {
+          isocode: 'US',
+        },
+      },
+    };
     it('should create payment details for cart', () => {
-      const mockPaymentDetails: PaymentDetails = {
-        accountHolderName: 'test test',
-        cardNumber: '4111111111111111',
-        cardType: {
-          code: 'visa',
-        },
-        defaultPayment: false,
-        expiryMonth: '01',
-        expiryYear: '2019',
-        cvn: '123',
-        billingAddress: {
-          firstName: 'test',
-          lastName: 'test',
-          line1: 'line1',
-          line2: 'line2',
-          postalCode: '12345',
-          town: 'MainCity',
-          country: {
-            isocode: 'US',
-          },
-        },
-      };
-
       const action = new CheckoutActions.CreatePaymentDetails({
         userId: userId,
         cartId: cartId,
@@ -268,6 +304,22 @@ describe('Checkout effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+    });
+
+    it('should create payment details for guest user', () => {
+      const action = new CheckoutActions.CreatePaymentDetails({
+        userId: 'anonymous',
+        cartId: cartId,
+        paymentDetails: mockPaymentDetails,
+      });
+      const completion = new CheckoutActions.CreatePaymentDetailsSuccess(
+        paymentDetails
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
 
       expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
     });
@@ -320,6 +372,38 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.loadCheckoutDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('clearCheckoutDeliveryAddress$', () => {
+    it('should clear checkout delivery address', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDeliveryAddress$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('clearCheckoutDeliveryMode$', () => {
+    it('should clear checkout delivery modes', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new CheckoutActions.ClearCheckoutDeliveryModeSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
     });
   });
 });

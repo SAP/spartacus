@@ -1,4 +1,4 @@
-import { fillShippingAddress, AddressData } from './checkout-forms';
+import { AddressData, fillShippingAddress } from './checkout-forms';
 import * as alerts from './global-message';
 
 export const newAddress: AddressData = {
@@ -20,7 +20,11 @@ export const editedAddress: AddressData = {
   lastName: 'Qux',
 };
 
-export const assertAddressForm = (address: AddressData): void => {
+export const assertAddressForm = (
+  address: AddressData,
+  state?: string
+): void => {
+  state = state ? state : 'CA-QC';
   cy.get('cx-address-card .card-header').contains('✓ DEFAULT');
   cy.get('cx-address-card .card-body').within(_ => {
     cy.get('.cx-address-card-label-name').should(
@@ -35,7 +39,7 @@ export const assertAddressForm = (address: AddressData): void => {
       .should('contain', address.address.line2);
     cy.get('.cx-address-card-label')
       .next()
-      .should('contain', `${address.address.city}, CA-QC`);
+      .should('contain', `${address.address.city}, ${state}`);
     cy.get('.cx-address-card-label')
       .next()
       .should('contain', address.address.postal);

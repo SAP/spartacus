@@ -21,7 +21,13 @@ import {
 } from './unit-test.helper';
 
 const username = 'mockUsername';
-
+const address: Address = {
+  companyName: 'ACME',
+  defaultAddress: true,
+};
+const suggestedAddresses: AddressValidation = {
+  suggestedAddresses: [address],
+};
 describe('OccUserAddressAdapter', () => {
   let occUserAddressAdapter: OccUserAddressAdapter;
   let httpMock: HttpTestingController;
@@ -63,14 +69,6 @@ describe('OccUserAddressAdapter', () => {
 
   describe('load address verification results', () => {
     it('should load address verification results for given user id and address', () => {
-      const address: Address = {
-        companyName: 'ACME',
-        defaultAddress: true,
-      };
-      const suggestedAddresses: AddressValidation = {
-        suggestedAddresses: [address],
-      };
-
       occUserAddressAdapter.verify(username, address).subscribe(result => {
         expect(result).toEqual(suggestedAddresses);
       });
@@ -90,12 +88,27 @@ describe('OccUserAddressAdapter', () => {
       mockReq.flush(suggestedAddresses);
     });
 
-    it('should use converter', () => {
-      const address: Address = {
-        companyName: 'ACME',
-        defaultAddress: true,
-      };
+    it('should load address verification results for anonymous user', () => {
+      occUserAddressAdapter.verify('anonymous', address).subscribe(result => {
+        expect(result).toEqual(suggestedAddresses);
+      });
 
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST';
+      });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'addressVerification',
+        {
+          userId: 'anonymous',
+        }
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(suggestedAddresses);
+    });
+
+    it('should use converter', () => {
       occUserAddressAdapter.verify(username, address).subscribe();
       httpMock
         .expectOne(req => {

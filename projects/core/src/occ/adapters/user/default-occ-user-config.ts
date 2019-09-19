@@ -22,6 +22,8 @@ export const defaultOccUserConfig: OccConfig = {
         addresses: 'users/${userId}/addresses',
         addressDetail: 'users/${userId}/addresses/${addressId}',
         addressVerification: 'users/${userId}/addresses/verification',
+        consignmentTracking:
+          'orders/${orderCode}/consignments/${consignmentCode}/tracking',
       },
     },
   },
