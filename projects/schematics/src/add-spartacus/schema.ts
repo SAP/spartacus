@@ -5,4 +5,6 @@ export interface Schema {
   useMetaTags?: boolean;
   featureLevel?: string;
   overwriteAppComponent?: boolean;
+  appDistPath?: string;
+  serverDistPath?: string;
 }

@@ -20,7 +20,7 @@
     "add-ssr": {
       "description": "Add server-side rendering.",
       "factory": "./add-ssr/index#addSSR",
-      "schema": "./add-ssr/schema.json"
+      "schema": "./add-spartacus/schema.json"
     }
   }
 }

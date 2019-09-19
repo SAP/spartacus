@@ -24,6 +24,7 @@
     "@angular/pwa": "^0.803.1",
     "@schematics/angular": "^8.3.1",
     "@angular/platform-server": "~8.0.0",
-    "@nguniversal/express-engine": "^7.1.1"
+    "@nguniversal/express-engine": "^8.1.1",
+    "@nguniversal/common": "^8.1.1"
   }
 }
