@@ -41,10 +41,7 @@
       </h5>
     </ng-template>
 
-    <span
-      tabindex="0"
-      *ngIf="flyout && node.children?.length > 0 && node.url"
-    ></span>
+    <span tabindex="0" *ngIf="isTabbable(node)"></span>
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
     <div class="wrapper" *ngIf="node.children?.length > 0">

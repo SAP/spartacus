@@ -128,6 +128,10 @@ export class NavigationUIComponent implements OnDestroy {
     return target.ownerDocument;
   }
 
+  isTabbable(node: any) {
+    return this.flyout && node.children && node.url;
+  }
+
   ngOnDestroy() {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();
