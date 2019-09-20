@@ -1,7 +1,7 @@
 import {
   closeAccountTest,
   verifyAsAnonymous,
-  registerAndLogin
+  registerAndLogin,
 } from '../../../helpers/close-account';
 import { formats } from '../../../sample-data/viewports';
 

@@ -1,7 +1,7 @@
 import {
   updatePasswordTest,
   verifyAsAnonymous,
-  registerAndLogin
+  registerAndLogin,
 } from '../../../helpers/update-password';
 import * as login from '../../../helpers/login';
 
