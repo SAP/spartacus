@@ -22,16 +22,16 @@ export class PagesInteceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (this.winRef.nativeWindow['QSI']) {
-      this.winRef.nativeWindow['QSI'].API.unload();
-    }
+    // if (this.winRef.nativeWindow['QSI']) {
+    //   this.winRef.nativeWindow['QSI'].API.unload();
+    // }
 
     return next.handle(request).pipe(
       // take(1),
       tap(event => {
         if (event instanceof HttpResponse) {
           if (
-            request.url.includes('pageLabelOrId=' + 'homepage') &&
+            request.url.includes('pageLabelOrId=' + 'test') &&
             this.featureConfigService.isEnabled('qualtrics') &&
             this.winRef.nativeWindow['QSI']
           ) {

@@ -22,6 +22,7 @@ export interface StandardCmsComponentConfig {
   ProductReferencesComponent?: CmsComponentMapping;
   CMSTabParagraphComponent?: CmsComponentMapping;
   LoginComponent?: CmsComponentMapping;
+  QualtricsComponent?: CmsComponentMapping;
 }
 
 export interface JspIncludeCmsComponentConfig {

@@ -9,7 +9,10 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
-import { SiteContextSelectorModule } from './misc/index';
+import {
+  QualtricsComponentModule,
+  SiteContextSelectorModule,
+} from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
@@ -40,8 +43,8 @@ import {
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
-import { UserComponentModule } from './user/user.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
+import { UserComponentModule } from './user/user.module';
 
 @NgModule({
   imports: [
@@ -55,6 +58,7 @@ import { StoreFinderModule } from './storefinder/store-finder.module';
     BreadcrumbModule,
     SearchBoxModule,
     SiteContextSelectorModule,
+    QualtricsComponentModule,
     AddressBookModule,
     OrderHistoryModule,
     ProductListModule,
