@@ -20,7 +20,9 @@ class MockAsmService {
 }
 
 const mockQueryParamMap = {
-  get() {},
+  get(): string {
+    return '';
+  },
 };
 const activatedRouteMock = {
   queryParamMap: of(mockQueryParamMap),

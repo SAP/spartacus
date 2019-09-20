@@ -33,15 +33,15 @@ describe('Customer effect', () => {
     customerEffects = TestBed.get(CustomerEffects);
     customerService = TestBed.get(CustomerService);
 
-    spyOn(customerService, 'search').and.returnValue(of({}));
+    spyOn(customerService, 'search').and.returnValue(of({ entries: [] }));
   });
 
   describe('customerSearch$', () => {
     it('should provide search results', () => {
       const action = new AsmActions.CustomerSearch({ query: 'abc' });
-      const completion = new AsmActions.CustomerSearchSuccess(
-        {} as CustomerSearchPage
-      );
+      const completion = new AsmActions.CustomerSearchSuccess({
+        entries: [],
+      } as CustomerSearchPage);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

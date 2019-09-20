@@ -3,7 +3,7 @@
     *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm"
   >
     <ng-container
-      *ngIf="(customer$ | async) as customer; else showCustomerSelection"
+      *ngIf="customer$ | async as customer; else showCustomerSelection"
     >
       <div>
         {{
