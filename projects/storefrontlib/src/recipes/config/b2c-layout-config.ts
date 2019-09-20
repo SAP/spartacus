@@ -84,5 +84,12 @@ export const b2cLayoutConfig: LayoutConfig = {
     MultiStepCheckoutSummaryPageTemplate: {
       slots: ['TopContent', 'BodyContent', 'SideContent', 'BottomContent'],
     },
+    VariantConfigurationTemplate: {
+      slots: [
+        'VariantConfigTitle',
+        'VariantConfigHeader',
+        'VariantConfigContent',
+      ],
+    },
   },
 };

@@ -1,0 +1,26 @@
+@import '../../theme';
+
+.cx-config-attribute-header-required-message {
+  float: left;
+  clear: left;
+  color: var(--cx-color-danger);
+}
+
+.cx-config-attribute-label {
+  padding-top: $btn-padding-y;
+  padding-right: 6px; //@padding-base-vertical;
+  font-size: $font-size-base * 2;
+  //display: block;
+  //clear: left;
+  //float: left;
+  max-width: 66%;
+
+  /*  @media (max-width: @screen-xs-max) {
+      max-width: 100%;
+  }*/
+
+  &.cpqProductConfig-attributeLabel-error {
+    color: var(--cx-color-danger);
+    font-weight: bold;
+  }
+}
