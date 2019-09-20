@@ -90,6 +90,11 @@ function addPackageJsonDependencies(): Rule {
         version: '^2.0.1',
         name: 'i18next-xhr-backend',
       },
+      {
+        type: NodeDependencyType.Default,
+        version: '~8.1.0',
+        name: '@angular/service-worker',
+      },
     ];
 
     dependencies.forEach(dependency => {

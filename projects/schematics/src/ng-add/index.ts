@@ -1,5 +1,6 @@
 import {
-  chain, noop,
+  chain,
+  noop,
   Rule,
   schematic,
   SchematicContext,
@@ -12,8 +13,12 @@ export default function(options: any): Rule {
     const enableSSR = options.ssr;
     return chain([
       schematic('add-spartacus', options),
-      (enablePWA && JSON.parse(options.pwa)) ? schematic('add-pwa', options) : noop(),
-      (enableSSR && JSON.parse(options.ssr)) ? schematic('add-ssr', options) : noop(),
+      enablePWA && JSON.parse(options.pwa)
+        ? schematic('add-pwa', options)
+        : noop(),
+      enableSSR && JSON.parse(options.ssr)
+        ? schematic('add-ssr', options)
+        : noop(),
     ])(host, context);
   };
 }
