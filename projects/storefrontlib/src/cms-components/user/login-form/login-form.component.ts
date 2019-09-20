@@ -7,10 +7,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { CheckoutConfigService } from '../../checkout';
 
 @Component({
   selector: 'cx-login-form',
@@ -28,7 +28,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     authRedirectService: AuthRedirectService,
     winRef: WindowRef, // tslint:disable-line,
     activatedRoute: ActivatedRoute,
-    featureConfig: FeatureConfigService
+    checkoutConfigService: CheckoutConfigService
   );
 
   /**
@@ -50,7 +50,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private authRedirectService: AuthRedirectService,
     private winRef?: WindowRef,
     private activatedRoute?: ActivatedRoute,
-    private featureConfig?: FeatureConfigService
+    private checkoutConfigService?: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
-    if (this.featureConfig.isEnabled('guestCheckout')) {
+    if (this.checkoutConfigService.isGuestCheckout()) {
       this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
     }
 
