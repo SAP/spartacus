@@ -40,11 +40,13 @@ export class AuthService {
    */
   getOccUserId(): Observable<string> {
     return this.getUserToken().pipe(
-      map(userToken =>
-        Object.keys(userToken).length !== 0
-          ? userToken.userId
-          : OCC_USER_ID_ANONYMOUS
-      )
+      map(userToken => {
+        if (!!userToken && !!userToken.userId) {
+          return userToken.userId;
+        } else {
+          return OCC_USER_ID_ANONYMOUS;
+        }
+      })
     );
   }
 
