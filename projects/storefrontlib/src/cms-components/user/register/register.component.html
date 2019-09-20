@@ -16,7 +16,7 @@
                   'register.selectTitle' | cxTranslate
                 }}</option>
                 <option
-                  *ngFor="let title of (titles$ | async)"
+                  *ngFor="let title of titles$ | async"
                   [value]="title.code"
                   >{{ title.name }}</option
                 >
@@ -185,7 +185,7 @@
           <button
             type="submit"
             (click)="submit()"
-            [disabled]="userRegistrationForm.invalid"
+            [disabled]="shouldDisableRegisterButton()"
             class="btn btn-block btn-primary"
           >
             {{ 'register.register' | cxTranslate }}

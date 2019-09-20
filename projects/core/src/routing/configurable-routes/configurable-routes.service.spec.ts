@@ -2,9 +2,9 @@ import * as AngularCore from '@angular/core';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, Routes } from '@angular/router';
+import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { RoutingConfigService } from './routing-config.service';
-import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 class MockRoutingConfigService {
   getRouteConfig() {}

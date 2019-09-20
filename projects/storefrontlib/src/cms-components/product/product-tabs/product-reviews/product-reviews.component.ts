@@ -21,7 +21,7 @@ export class ProductReviewsComponent {
   product$: Observable<Product> = this.currentProductService.getProduct();
 
   reviews$: Observable<Review[]> = this.product$.pipe(
-    filter(Boolean),
+    filter(p => !!p),
     switchMap(product => this.reviewService.getByProductCode(product.code)),
     tap(() => {
       this.resetReviewForm();

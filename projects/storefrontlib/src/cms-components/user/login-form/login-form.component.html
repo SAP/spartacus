@@ -50,7 +50,7 @@
   <button
     type="submit"
     class="btn btn-block btn-primary"
-    [disabled]="form.invalid"
+    [disabled]="shouldDisableLoginButton()"
   >
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>

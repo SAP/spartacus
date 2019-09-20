@@ -25,9 +25,9 @@ export class FindStores extends StateLoaderActions.LoaderLoadAction {
   constructor(
     public payload: {
       queryText: string;
+      searchConfig?: StoreFinderSearchConfig;
       longitudeLatitude?: GeoPoint;
       useMyLocation?: boolean;
-      searchConfig?: StoreFinderSearchConfig;
       countryIsoCode?: string;
     }
   ) {

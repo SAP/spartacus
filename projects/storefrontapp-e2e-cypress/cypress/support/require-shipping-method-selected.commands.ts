@@ -22,9 +22,7 @@ Cypress.Commands.add('requireShippingMethodSelected', auth => {
   function setShippingMethod() {
     return cy.request({
       method: 'PUT',
-      url: `${apiUrl}/rest/v2/electronics/users/current/carts/current/deliverymode?deliveryModeId=${
-        delivery.mode
-      }`,
+      url: `${apiUrl}/rest/v2/electronics/users/current/carts/current/deliverymode?deliveryModeId=${delivery.mode}`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,

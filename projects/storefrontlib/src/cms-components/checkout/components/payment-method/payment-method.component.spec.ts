@@ -268,9 +268,7 @@ describe('PaymentMethodComponent', () => {
         expect(card.textBold).toEqual('Name');
         expect(card.text).toEqual([
           '123456789',
-          `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
-            mockPaymentDetails.expiryYear
-          }`,
+          `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
         ]);
       })
       .unsubscribe();
