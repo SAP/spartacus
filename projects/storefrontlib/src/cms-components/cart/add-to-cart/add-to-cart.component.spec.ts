@@ -8,6 +8,7 @@ import {
   I18nTestingModule,
   OrderEntry,
   Product,
+  GlobalMessageService
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/index';
@@ -52,6 +53,10 @@ class MockCurrentProductService {
   }
 }
 
+class MockGlobalMessageService{
+  
+}
+
 @Component({
   template: '',
   selector: 'cx-item-counter',
@@ -72,7 +77,7 @@ describe('AddToCartComponent', () => {
   let modalInstance: any;
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
-  beforeEach(async(() => {
+  beforeEach(async (() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -85,6 +90,7 @@ describe('AddToCartComponent', () => {
         { provide: ModalService, useValue: { open: () => {} } },
         { provide: CartService, useClass: MockCartService },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService }
       ],
     }).compileComponents();
   }));
@@ -103,6 +109,7 @@ describe('AddToCartComponent', () => {
   });
 
   it('should be created', () => {
+    console.log(addToCartComponent);
     expect(addToCartComponent).toBeTruthy();
   });
 
