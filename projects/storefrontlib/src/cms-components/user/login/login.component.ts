@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.routingService
       .getRouterState()
       .subscribe(routerState => {
-        if (routerState.state.context.id.indexOf(checkoutPath) !== -1) {
+        if (routerState.state.context.id.includes(checkoutPath)) {
           this.hidden.next(true);
         } else {
           this.hidden.next(false);
