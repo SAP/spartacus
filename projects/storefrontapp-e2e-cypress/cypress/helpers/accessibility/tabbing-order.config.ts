@@ -13,6 +13,7 @@ export enum TabbingOrderTypes {
   GENERIC_NG_SELECT = 'genericNgSelect',
   ITEM_COUNTER = 'itemCounter',
   RADIO = 'radio',
+  CAROUSEL = 'carousel',
 }
 
 export interface TabbingOrderConfig {
@@ -51,23 +52,81 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
         '/electronics-spa/en/USD/Open-Catalogue/Components/PowerSupplies/c/816',
       type: TabbingOrderTypes.IMG_LINK,
     },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
-    { value: '', type: TabbingOrderTypes.IMG_LINK },
+    {
+      value:
+        '/electronics-spa/en/USD/product/300938/Photosmart%20E317%20Digital%20Camera',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/358639/DSC-N1',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/553637/NV10',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/816802/Cyber-shot%20W55',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1934793/PowerShot%20A480',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/product/1382080/EOS450D%20%2B%2018-55%20IS%20Kit',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1981415/PL60%20Silver',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/816780/DSLR-A100H',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1934406/HDR-CX105E%20%20Red',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1986316/LEGRIA%20HF%20S100',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/product/592506/AV%20Cable,%20Model%20AV-8',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1776948/Camileo%20S10%20EU',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1934796/PowerShot%20A480',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1981415/PL60%20Silver',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1992693/DSC-T90',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/2278102/miniDV%20Head%20Cleaner',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1641905/32GB%20SDHC%20Card',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/932577/Digital%20Camera%20Tripod',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
     {
       value:
         '/electronics-spa/en/USD/Open-Catalogue/Cameras/Webcams/Web-Camera-%2528100KpixelM-CMOS%252C-640X480%252C-USB-1-1%2529-Black/p/280916',
