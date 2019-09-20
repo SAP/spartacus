@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
-import { CheckoutConfigService } from '../../checkout';
+import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
 
 @Component({
   selector: 'cx-login-form',

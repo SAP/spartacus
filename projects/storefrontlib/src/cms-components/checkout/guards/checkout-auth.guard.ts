@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CheckoutConfigService } from '../services';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 
 @Injectable({
   providedIn: 'root',
