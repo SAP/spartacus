@@ -1,6 +1,7 @@
 import {
   updatePasswordTest,
   verifyAsAnonymous,
+  registerAndLogin,
 } from '../../../helpers/update-password';
 import * as login from '../../../helpers/login';
 import { formats } from '../../../sample-data/viewports';
@@ -21,7 +22,7 @@ describe(`${formats.mobile.width +
 
   describe('update password test for logged in user', () => {
     before(() => {
-      cy.requireLoggedIn();
+      registerAndLogin();
       cy.reload();
       cy.visit('/');
     });

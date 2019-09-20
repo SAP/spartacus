@@ -1,6 +1,7 @@
 import {
   updateEmailTest,
   verifyAsAnonymous,
+  registerAndLogin
 } from '../../../helpers/update-email';
 
 describe('My Account - Update Email', () => {
@@ -13,6 +14,12 @@ describe('My Account - Update Email', () => {
   });
 
   describe('update email test for logged in user', () => {
+    before(() => {
+      registerAndLogin();
+      cy.reload();
+      cy.visit('/');
+    });
+
     beforeEach(() => {
       cy.restoreLocalStorage();
       cy.selectUserMenuOption({

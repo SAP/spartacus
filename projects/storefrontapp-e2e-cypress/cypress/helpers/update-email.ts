@@ -10,7 +10,6 @@ export const password = 'Password123.';
 export function registerAndLogin() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
-  cy.visit('/');
 }
 
 export function accessPageAsAnonymous() {
@@ -63,10 +62,6 @@ export function verifyAsAnonymous() {
 }
 
 export function updateEmailTest() {
-  it('should register and login a user', () => {
-    registerAndLogin();
-  });
-
   it('should be able to cancel and go back to home', () => {
     cancelUpdateEmailAction();
   });

@@ -13,17 +13,11 @@ export const newPassword = 'newPassword123!';
 export function registerAndLogin() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
-  cy.visit('/');
 }
 
 export function accessPageAsAnonymous() {
   cy.visit(PAGE_URL_UPDATE_PASSWORD);
   cy.url().should('contain', PAGE_URL_LOGIN);
-}
-
-export function verifyPasswordPage() {
-  cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
-  cy.title().should('eq', PAGE_TITLE_UPDATE_PASSWORD);
 }
 
 export function cancelUpdatePasswordAction() {
@@ -66,14 +60,6 @@ export function verifyAsAnonymous() {
 }
 
 export function updatePasswordTest() {
-  it('should register and login a user', () => {
-    registerAndLogin();
-  });
-
-  it('should be able to go to Update Password Page', () => {
-    verifyPasswordPage();
-  });
-
   it('should be able to cancel and go back to home', () => {
     cancelUpdatePasswordAction();
   });

@@ -1,6 +1,7 @@
 import {
   updatePasswordTest,
   verifyAsAnonymous,
+  registerAndLogin
 } from '../../../helpers/update-password';
 import * as login from '../../../helpers/login';
 
@@ -16,6 +17,12 @@ describe('My Account - Update Password', () => {
   });
 
   describe('update password test for logged in user', () => {
+    before(() => {
+      registerAndLogin();
+      cy.reload();
+      cy.visit('/');
+    });
+
     beforeEach(() => {
       cy.restoreLocalStorage();
       cy.selectUserMenuOption({

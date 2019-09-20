@@ -1,8 +1,8 @@
 import {
   closeAccountTest,
   verifyAsAnonymous,
+  registerAndLogin,
 } from '../../../helpers/close-account';
-import { standardUser } from '../../../sample-data/shared-users';
 
 describe('My Account - Close Account', () => {
   before(() =>
@@ -17,7 +17,7 @@ describe('My Account - Close Account', () => {
 
   describe('close account test for logged in user', () => {
     before(() => {
-      cy.requireLoggedIn();
+      registerAndLogin();
       cy.reload();
       cy.visit('/');
     });

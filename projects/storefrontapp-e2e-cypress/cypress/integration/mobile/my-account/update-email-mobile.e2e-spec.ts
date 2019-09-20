@@ -1,6 +1,7 @@
 import {
   updateEmailTest,
   verifyAsAnonymous,
+  registerAndLogin,
 } from '../../../helpers/update-email';
 import { formats } from '../../../sample-data/viewports';
 
@@ -19,7 +20,7 @@ describe(`${formats.mobile.width + 1}p resolution - Update Email Page`, () => {
 
   describe('update email test for logged in user', () => {
     before(() => {
-      cy.requireLoggedIn();
+      registerAndLogin();
       cy.reload();
       cy.visit('/');
     });

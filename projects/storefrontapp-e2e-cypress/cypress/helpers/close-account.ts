@@ -8,7 +8,6 @@ export const CLOSE_ACCOUNT = '/my-account/close-account';
 export function registerAndLogin() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
-  cy.visit('/');
 }
 export function accessPageAsAnonymous() {
   cy.visit(CLOSE_ACCOUNT);
@@ -55,10 +54,6 @@ export function verifyAsAnonymous() {
 }
 
 export function closeAccountTest() {
-  it('should register and login a user', () => {
-    registerAndLogin();
-  });
-
   it('should be able to cancel and go back to home', () => {
     cancelCloseAccountAction();
   });

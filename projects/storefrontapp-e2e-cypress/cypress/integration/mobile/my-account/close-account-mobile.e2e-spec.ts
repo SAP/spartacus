@@ -1,6 +1,7 @@
 import {
   closeAccountTest,
   verifyAsAnonymous,
+  registerAndLogin
 } from '../../../helpers/close-account';
 import { formats } from '../../../sample-data/viewports';
 
@@ -19,7 +20,7 @@ describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
 
   describe('close account test for logged in user', () => {
     before(() => {
-      cy.requireLoggedIn();
+      registerAndLogin();
       cy.reload();
       cy.visit('/');
     });
