@@ -28,7 +28,8 @@ export class CheckoutGuard implements CanActivate {
    *  config: CheckoutConfig - @deprecated since 2.x,
    *  routingConfigService: RoutingConfigService,
    *  checkoutConfigService: CheckoutConfigService,
-   *  expressCheckoutService: ExpressCheckoutService) instead
+   *  expressCheckoutService: ExpressCheckoutService
+   *  cartService: CartService) instead
    *
    *  TODO(issue:#4309) Deprecated since 1.2.0
    */
