@@ -3,8 +3,8 @@ import * as ts from 'typescript';
 import { experimental } from '@angular-devkit/core';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
 
-export function getTsSourceFile(host: Tree, path: string): ts.SourceFile {
-  const buffer = host.read(path);
+export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
+  const buffer = tree.read(path);
   if (!buffer) {
     throw new SchematicsException(`Could not read file (${path}).`);
   }
@@ -29,4 +29,21 @@ export function getIndexHtmlPath(
   }
 
   return buildOptions.index;
+}
+
+export function getPathResultsForFile(
+  tree: Tree,
+  file: string,
+  directory?: string
+): string[] {
+  const results: string[] = [];
+  const dir = directory || '/';
+
+  tree.getDir(dir).visit(filePath => {
+    if (filePath.endsWith(file)) {
+      results.push(filePath);
+    }
+  });
+
+  return results;
 }

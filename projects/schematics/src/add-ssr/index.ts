@@ -8,6 +8,7 @@ import {
   move,
   Rule,
   SchematicContext,
+  SchematicsException,
   Source,
   template,
   Tree,
@@ -21,7 +22,10 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addImport, importModule } from '../shared/utils/module-file-utils';
-import { getIndexHtmlPath } from '../shared/utils/file-utils';
+import {
+  getIndexHtmlPath,
+  getPathResultsForFile,
+} from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '@angular/cdk/schematics';
 import { experimental, strings } from '@angular-devkit/core';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
@@ -178,7 +182,18 @@ function modifyTSConfigServerFile(): Rule {
 
 function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const appServerModulePath = 'src/app/app.server.module.ts';
+    const appServerModulePath = getPathResultsForFile(
+      tree,
+      'app.server.module.ts',
+      '/src'
+    )[0];
+
+    if (!appServerModulePath) {
+      throw new SchematicsException(
+        `Project file "app.server.module.ts" not found.`
+      );
+    }
+
     addImport(
       tree,
       appServerModulePath,
