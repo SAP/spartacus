@@ -7,10 +7,12 @@ import { PageLayoutModule } from '../../cms-structure/page/page-layout/page-layo
 import { PageSlotModule } from '../../cms-structure/page/slot/page-slot.module';
 import { PwaModule } from '../../cms-structure/pwa/pwa.module';
 import { SeoModule } from '../../cms-structure/seo/seo.module';
+import { AnonymousConsentsStickyModule } from '../../shared/components/anonymous-consents-sticky';
 import { StorefrontComponent } from './storefront.component';
 
 @NgModule({
   imports: [
+    AnonymousConsentsStickyModule,
     CommonModule,
     RouterModule,
     GlobalMessageComponentModule,

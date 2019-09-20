@@ -1,0 +1,9 @@
+<ng-container *ngIf="(isUserLoggedIn$ | async) === false">
+  <ng-container *ngIf="templates$ | async as templates">
+    <ng-container *ngIf="consents$ | async as consents">
+      <div class="sticky">
+        <button (click)="toggleDialog()">Consents</button>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>
