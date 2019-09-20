@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CartDataService,
+  CartService,
   RoutesConfig,
   RoutingConfigService,
 } from '@spartacus/core';
@@ -43,15 +43,17 @@ class MockRoutingConfigService {
   }
 }
 
-class CartDataServiceStub {
-  isGuestCart;
+class MockCartService {
+  isGuestCart() {
+    return false;
+  }
 }
 
 describe(`CheckoutGuard`, () => {
   let guard: CheckoutGuard;
   let mockRoutingConfigService: RoutingConfigService;
   let mockCheckoutConfigService: CheckoutConfigService;
-  let cartDataService: CartDataServiceStub;
+  let cartService: CartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,7 +61,7 @@ describe(`CheckoutGuard`, () => {
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
-        { provide: CartDataService, useClass: CartDataServiceStub },
+        { provide: CartService, useClass: MockCartService },
         {
           provide: ExpressCheckoutService,
           useClass: MockExpressCheckoutService,
@@ -75,7 +77,7 @@ describe(`CheckoutGuard`, () => {
     mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
       CheckoutConfigService
     >);
-    cartDataService = TestBed.get(CartDataService as Type<CartDataService>);
+    cartService = TestBed.get(CartService as Type<CartService>);
   });
 
   it(`should redirect to first checkout step if express checkout is turned off`, done => {
@@ -97,7 +99,7 @@ describe(`CheckoutGuard`, () => {
 
   it(`should redirect to first checkout step if is guest checkout`, done => {
     isExpressCheckoutSet.next(true);
-    cartDataService.isGuestCart = true;
+    spyOn(cartService, 'isGuestCart').and.returnValue(true);
 
     guard
       .canActivate()

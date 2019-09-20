@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { CartDataService, RoutingConfigService } from '@spartacus/core';
+import { CartService, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CheckoutConfig } from '../config/checkout-config';
@@ -20,7 +20,7 @@ export class CheckoutGuard implements CanActivate {
     routingConfigService: RoutingConfigService,
     checkoutConfigService: CheckoutConfigService,
     expressCheckoutService: ExpressCheckoutService,
-    cartDataService: CartDataService
+    cartService: CartService
   );
   /**
    * @deprecated since version 1.2
@@ -43,7 +43,7 @@ export class CheckoutGuard implements CanActivate {
     private routingConfigService: RoutingConfigService,
     protected checkoutConfigService?: CheckoutConfigService,
     protected expressCheckoutService?: ExpressCheckoutService,
-    protected cartDataService?: CartDataService
+    protected cartService?: CartService
   ) {
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
@@ -74,7 +74,7 @@ export class CheckoutGuard implements CanActivate {
     if (
       this.checkoutConfigService &&
       this.expressCheckoutService &&
-      !this.cartDataService.isGuestCart
+      !this.cartService.isGuestCart()
     ) {
       if (this.checkoutConfigService.isExpressCheckout()) {
         return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
