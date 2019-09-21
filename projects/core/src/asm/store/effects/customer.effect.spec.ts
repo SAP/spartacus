@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CustomerConnector } from '../../connectors/customer.connector';
+import { AsmConnector } from '../../connectors/asm.connector';
 import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions/index';
 import { CustomerEffects } from './customer.effect';
@@ -14,7 +14,7 @@ class CustomerConnectorMock {
 }
 
 describe('Customer effect', () => {
-  let customerConnector: CustomerConnector;
+  let asmConnector: AsmConnector;
   let customerEffects: CustomerEffects;
   let actions$: Observable<AsmActions.CustomerAction>;
 
@@ -23,7 +23,7 @@ describe('Customer effect', () => {
       providers: [
         CustomerEffects,
         {
-          provide: CustomerConnector,
+          provide: AsmConnector,
           useClass: CustomerConnectorMock,
         },
         provideMockActions(() => actions$),
@@ -31,9 +31,9 @@ describe('Customer effect', () => {
     });
 
     customerEffects = TestBed.get(CustomerEffects);
-    customerConnector = TestBed.get(CustomerConnector);
+    asmConnector = TestBed.get(AsmConnector);
 
-    spyOn(customerConnector, 'search').and.returnValue(of({ entries: [] }));
+    spyOn(asmConnector, 'search').and.returnValue(of({ entries: [] }));
   });
 
   describe('customerSearch$', () => {

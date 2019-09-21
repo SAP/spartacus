@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { CustomerConnector } from '../../connectors/customer.connector';
+import { AsmConnector } from '../../connectors/asm.connector';
 import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions/index';
 
@@ -14,7 +14,7 @@ export class CustomerEffects {
     ofType(AsmActions.CUSTOMER_SEARCH),
     map((action: AsmActions.CustomerSearch) => action.payload),
     mergeMap(options =>
-      this.customerConnector.search(options).pipe(
+      this.asmConnector.customerSearch(options).pipe(
         map((customerSearchResults: CustomerSearchPage) => {
           return new AsmActions.CustomerSearchSuccess(customerSearchResults);
         }),
@@ -25,8 +25,5 @@ export class CustomerEffects {
     )
   );
 
-  constructor(
-    private actions$: Actions,
-    private customerConnector: CustomerConnector
-  ) {}
+  constructor(private actions$: Actions, private asmConnector: AsmConnector) {}
 }

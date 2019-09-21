@@ -9,10 +9,10 @@ import { CustomerAdapter } from './customer.adapter';
 @Injectable({
   providedIn: 'root',
 })
-export class CustomerConnector {
+export class AsmConnector {
   constructor(protected customerAdapter: CustomerAdapter) {}
 
-  search(options: CustomerSearchOptions): Observable<CustomerSearchPage> {
+  customerSearch(options: CustomerSearchOptions): Observable<CustomerSearchPage> {
     return this.customerAdapter.search(options);
   }
 }

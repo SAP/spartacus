@@ -4,8 +4,8 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
+import { AsmConnector } from './asm.connector';
 import { CustomerAdapter } from './customer.adapter';
-import { CustomerConnector } from './customer.connector';
 
 class MockCustomerAdapter {
   search(_options: CustomerSearchOptions): Observable<CustomerSearchPage> {
@@ -39,8 +39,8 @@ const testSearchResults: CustomerSearchPage = {
   },
 } as CustomerSearchPage;
 
-describe('CustomerConnector', () => {
-  let customerConnector: CustomerConnector;
+describe('AsmConnector', () => {
+  let asmConnector: AsmConnector;
   let customerAdapter: CustomerAdapter;
 
   beforeEach(() => {
@@ -48,25 +48,25 @@ describe('CustomerConnector', () => {
       providers: [{ provide: CustomerAdapter, useClass: MockCustomerAdapter }],
     });
 
-    customerConnector = TestBed.get(CustomerConnector);
+    asmConnector = TestBed.get(AsmConnector);
     customerAdapter = TestBed.get(CustomerAdapter);
   });
 
   it('should be created', () => {
-    expect(customerConnector).toBeTruthy();
+    expect(asmConnector).toBeTruthy();
   });
 
-  it('should call adapter for search', () => {
+  it('should call adapter for customerSearch', () => {
     spyOn(customerAdapter, 'search').and.stub();
-    customerConnector.search(testSearchOptions);
+    asmConnector.customerSearch(testSearchOptions);
     expect(customerAdapter.search).toHaveBeenCalledWith(testSearchOptions);
   });
 
-  it('should return search results ', () => {
+  it('should return customerSearch results ', () => {
     spyOn(customerAdapter, 'search').and.returnValue(of(testSearchResults));
     let results: CustomerSearchPage;
-    customerConnector
-      .search(testSearchOptions)
+    asmConnector
+      .customerSearch(testSearchOptions)
       .subscribe(value => (results = value))
       .unsubscribe();
     expect(results).toEqual(testSearchResults);
