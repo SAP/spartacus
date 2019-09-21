@@ -15,7 +15,7 @@ import { User } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services';
-import { OccCustomerAdapter } from './occ-customer.adapter';
+import { OccAsmAdapter } from './occ-asm.adapter';
 
 const MockAsmConfig: AsmConfig = {
   backend: {
@@ -51,8 +51,8 @@ export class MockOccEndpointsService {
   }
 }
 
-describe('OccCustomerAdapter', () => {
-  let occCustomerAdapter: OccCustomerAdapter;
+describe('OccAsmAdapter', () => {
+  let occAsmAdapter: OccAsmAdapter;
   let converterService: ConverterService;
   let httpMock: HttpTestingController;
   let occEnpointsService: OccEndpointsService;
@@ -61,14 +61,14 @@ describe('OccCustomerAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCustomerAdapter,
+        OccAsmAdapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: AsmConfig, useValue: MockAsmConfig },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
-    occCustomerAdapter = TestBed.get(OccCustomerAdapter);
+    occAsmAdapter = TestBed.get(OccAsmAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converterService = TestBed.get(ConverterService);
     occEnpointsService = TestBed.get(OccEndpointsService);
@@ -77,14 +77,14 @@ describe('OccCustomerAdapter', () => {
   });
 
   it('should be created', () => {
-    expect(occCustomerAdapter).toBeTruthy();
+    expect(occAsmAdapter).toBeTruthy();
   });
 
   it('should perform a customer search', () => {
     let result: CustomerSearchPage;
     const searchQuery = 'user@test.com';
     const searchOptions: CustomerSearchOptions = { query: searchQuery };
-    occCustomerAdapter.search(searchOptions).subscribe(data => {
+    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne(req => {

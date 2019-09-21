@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AsmAdapter } from '../../../asm/connectors/asm.adapter';
 import { ConfigModule } from '../../../config/config.module';
 import { defaultOccAsmConfig } from './default-occ-asm-config';
-import { OccCustomerAdapter } from './occ-customer.adapter';
+import { OccAsmAdapter } from './occ-asm.adapter';
 @NgModule({
   imports: [
     CommonModule,
@@ -14,7 +14,7 @@ import { OccCustomerAdapter } from './occ-customer.adapter';
   providers: [
     {
       provide: AsmAdapter,
-      useClass: OccCustomerAdapter,
+      useClass: OccAsmAdapter,
     },
   ],
 })

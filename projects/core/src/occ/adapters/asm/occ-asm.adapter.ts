@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AsmConfig } from '../../../asm/config/asm-config';
+import { AsmAdapter } from '../../../asm/connectors/asm.adapter';
 import { CUSTOMER_SEARCH_PAGE_NORMALIZER } from '../../../asm/connectors/converters';
 import {
   CustomerSearchOptions,
@@ -16,7 +17,7 @@ import {
 } from '../../utils/interceptor-util';
 
 @Injectable()
-export class OccCustomerAdapter {
+export class OccAsmAdapter implements AsmAdapter {
   private activeBaseSite: string;
 
   constructor(
@@ -31,7 +32,9 @@ export class OccCustomerAdapter {
       .subscribe(value => (this.activeBaseSite = value));
   }
 
-  search(options: CustomerSearchOptions): Observable<CustomerSearchPage> {
+  customerSearch(
+    options: CustomerSearchOptions
+  ): Observable<CustomerSearchPage> {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
