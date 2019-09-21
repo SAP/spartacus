@@ -6,6 +6,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AsmConfig } from '../../../asm/config/asm-config';
+import { CUSTOMER_SEARCH_PAGE_NORMALIZER } from '../../../asm/connectors/converters';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -88,10 +89,8 @@ describe('OccCustomerAdapter', () => {
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockCustomerSearchPage);
     expect(result).toEqual(mockCustomerSearchPage);
-    expect(converterService.pipeable).toHaveBeenCalled();
-
-    // expect(converterService.pipeableMany).toHaveBeenCalledWith(
-    //   CUSTOMER_SEARCH_PAGE_NORMALIZER
-    // );
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CUSTOMER_SEARCH_PAGE_NORMALIZER
+    );
   });
 });
