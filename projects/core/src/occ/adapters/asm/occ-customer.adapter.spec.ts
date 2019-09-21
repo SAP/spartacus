@@ -3,7 +3,6 @@ import {
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AsmConfig } from '../../../asm/config/asm-config';
@@ -13,6 +12,7 @@ import {
 } from '../../../asm/models/asm.models';
 import { User } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
+import { ConverterService } from '../../../util/converter.service';
 import { OccCustomerAdapter } from './occ-customer.adapter';
 
 const MockAsmConfig: AsmConfig = {
@@ -43,8 +43,9 @@ class MockBaseSiteService {
   }
 }
 
-fdescribe('OccCustomerAdapter', () => {
+describe('OccCustomerAdapter', () => {
   let occCustomerAdapter: OccCustomerAdapter;
+  let converterService: ConverterService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -58,14 +59,13 @@ fdescribe('OccCustomerAdapter', () => {
     });
 
     occCustomerAdapter = TestBed.get(OccCustomerAdapter);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    httpMock = TestBed.get(HttpTestingController);
+    converterService = TestBed.get(ConverterService);
+    spyOn(converterService, 'pipeable').and.callThrough();
   });
 
   it('should be created', () => {
-    const service: OccCustomerAdapter = TestBed.get(OccCustomerAdapter);
-    expect(service).toBeTruthy();
+    expect(occCustomerAdapter).toBeTruthy();
   });
 
   it('should perform a customer search', () => {
@@ -88,5 +88,10 @@ fdescribe('OccCustomerAdapter', () => {
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockCustomerSearchPage);
     expect(result).toEqual(mockCustomerSearchPage);
+    expect(converterService.pipeable).toHaveBeenCalled();
+
+    // expect(converterService.pipeableMany).toHaveBeenCalledWith(
+    //   CUSTOMER_SEARCH_PAGE_NORMALIZER
+    // );
   });
 });

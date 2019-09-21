@@ -13,7 +13,7 @@ class CustomerConnectorMock {
   }
 }
 
-fdescribe('Customer effect', () => {
+describe('Customer effect', () => {
   let customerConnector: CustomerConnector;
   let customerEffects: CustomerEffects;
   let actions$: Observable<AsmActions.CustomerAction>;
