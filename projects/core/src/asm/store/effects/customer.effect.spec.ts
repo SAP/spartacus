@@ -7,7 +7,7 @@ import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions/index';
 import { CustomerEffects } from './customer.effect';
 
-class CustomerConnectorMock {
+class AsmConnectorMock {
   customerSearch(_searchTerm: string): Observable<CustomerSearchPage> {
     return of(<CustomerSearchPage>{});
   }
@@ -24,7 +24,7 @@ describe('Customer effect', () => {
         CustomerEffects,
         {
           provide: AsmConnector,
-          useClass: CustomerConnectorMock,
+          useClass: AsmConnectorMock,
         },
         provideMockActions(() => actions$),
       ],
