@@ -7,7 +7,7 @@ import {
 import { AsmAdapter } from './asm.adapter';
 import { AsmConnector } from './asm.connector';
 
-class MockCustomerAdapter {
+class MockAsmAdapter {
   search(_options: CustomerSearchOptions): Observable<CustomerSearchPage> {
     return of();
   }
@@ -41,15 +41,15 @@ const testSearchResults: CustomerSearchPage = {
 
 describe('AsmConnector', () => {
   let asmConnector: AsmConnector;
-  let customerAdapter: AsmAdapter;
+  let asmAdapter: AsmAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: AsmAdapter, useClass: MockCustomerAdapter }],
+      providers: [{ provide: AsmAdapter, useClass: MockAsmAdapter }],
     });
 
     asmConnector = TestBed.get(AsmConnector);
-    customerAdapter = TestBed.get(AsmAdapter);
+    asmAdapter = TestBed.get(AsmAdapter);
   });
 
   it('should be created', () => {
@@ -57,15 +57,15 @@ describe('AsmConnector', () => {
   });
 
   it('should call adapter for customerSearch', () => {
-    spyOn(customerAdapter, 'search').and.stub();
+    spyOn(asmAdapter, 'search').and.stub();
     asmConnector.customerSearch(testSearchOptions);
-    expect(customerAdapter.customerSearch).toHaveBeenCalledWith(
+    expect(asmAdapter.customerSearch).toHaveBeenCalledWith(
       testSearchOptions
     );
   });
 
   it('should return customerSearch results ', () => {
-    spyOn(customerAdapter, 'search').and.returnValue(of(testSearchResults));
+    spyOn(asmAdapter, 'search').and.returnValue(of(testSearchResults));
     let results: CustomerSearchPage;
     asmConnector
       .customerSearch(testSearchOptions)
