@@ -4,15 +4,17 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
-import { CustomerAdapter } from './customer.adapter';
+import { AsmAdapter } from './asm.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AsmConnector {
-  constructor(protected customerAdapter: CustomerAdapter) {}
+  constructor(protected asmAdapter: AsmAdapter) {}
 
-  customerSearch(options: CustomerSearchOptions): Observable<CustomerSearchPage> {
-    return this.customerAdapter.search(options);
+  customerSearch(
+    options: CustomerSearchOptions
+  ): Observable<CustomerSearchPage> {
+    return this.asmAdapter.customerSearch(options);
   }
 }

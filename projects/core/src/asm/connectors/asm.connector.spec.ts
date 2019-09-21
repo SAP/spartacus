@@ -4,8 +4,8 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
+import { AsmAdapter } from './asm.adapter';
 import { AsmConnector } from './asm.connector';
-import { CustomerAdapter } from './customer.adapter';
 
 class MockCustomerAdapter {
   search(_options: CustomerSearchOptions): Observable<CustomerSearchPage> {
@@ -41,15 +41,15 @@ const testSearchResults: CustomerSearchPage = {
 
 describe('AsmConnector', () => {
   let asmConnector: AsmConnector;
-  let customerAdapter: CustomerAdapter;
+  let customerAdapter: AsmAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: CustomerAdapter, useClass: MockCustomerAdapter }],
+      providers: [{ provide: AsmAdapter, useClass: MockCustomerAdapter }],
     });
 
     asmConnector = TestBed.get(AsmConnector);
-    customerAdapter = TestBed.get(CustomerAdapter);
+    customerAdapter = TestBed.get(AsmAdapter);
   });
 
   it('should be created', () => {
@@ -59,7 +59,9 @@ describe('AsmConnector', () => {
   it('should call adapter for customerSearch', () => {
     spyOn(customerAdapter, 'search').and.stub();
     asmConnector.customerSearch(testSearchOptions);
-    expect(customerAdapter.search).toHaveBeenCalledWith(testSearchOptions);
+    expect(customerAdapter.customerSearch).toHaveBeenCalledWith(
+      testSearchOptions
+    );
   });
 
   it('should return customerSearch results ', () => {

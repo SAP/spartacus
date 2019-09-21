@@ -4,11 +4,11 @@ import {
   CustomerSearchPage,
 } from '../models/asm.models';
 
-export abstract class CustomerAdapter {
+export abstract class AsmAdapter {
   /**
    * Abstract function used to search for customers.
    */
-  abstract search(
+  abstract customerSearch(
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage>;
 }
