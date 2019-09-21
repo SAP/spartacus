@@ -13,7 +13,6 @@ import {
   InterceptorUtil,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../utils/interceptor-util';
-import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class OccCustomerAdapter {
@@ -44,11 +43,8 @@ export class OccCustomerAdapter {
     const url =
       this.config.backend.occ.baseUrl +
       '/assistedservicewebservices/customers/search';
-    return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
-      this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER),
-      tap(result =>
-        console.log('OccCustomerAdapter.search results pat:', result)
-      )
-    );
+    return this.http
+      .get<CustomerSearchPage>(url, { headers, params })
+      .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
   }
 }
