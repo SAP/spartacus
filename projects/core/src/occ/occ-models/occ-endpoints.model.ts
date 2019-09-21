@@ -245,4 +245,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   consignmentTracking?: string;
+  /**
+   * Endpoint for asm customer search
+   *
+   * @member {string}
+   */
+  asmCustomerSearch?: string;
 }

@@ -14,6 +14,7 @@ import {
 import { User } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services';
 import { OccCustomerAdapter } from './occ-customer.adapter';
 
 const MockAsmConfig: AsmConfig = {
@@ -44,10 +45,17 @@ class MockBaseSiteService {
   }
 }
 
-describe('OccCustomerAdapter', () => {
+export class MockOccEndpointsService {
+  getRawEndpoint(endpoint: string): string {
+    return endpoint;
+  }
+}
+
+fdescribe('OccCustomerAdapter', () => {
   let occCustomerAdapter: OccCustomerAdapter;
   let converterService: ConverterService;
   let httpMock: HttpTestingController;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,13 +64,16 @@ describe('OccCustomerAdapter', () => {
         OccCustomerAdapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: AsmConfig, useValue: MockAsmConfig },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
     occCustomerAdapter = TestBed.get(OccCustomerAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converterService = TestBed.get(ConverterService);
+    occEnpointsService = TestBed.get(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(occEnpointsService, 'getRawEndpoint').and.callThrough();
   });
 
   it('should be created', () => {
@@ -76,7 +87,6 @@ describe('OccCustomerAdapter', () => {
     occCustomerAdapter.search(searchOptions).subscribe(data => {
       result = data;
     });
-
     const mockReq: TestRequest = httpMock.expectOne(req => {
       return (
         req.method === 'GET' &&
@@ -91,6 +101,9 @@ describe('OccCustomerAdapter', () => {
     expect(result).toEqual(mockCustomerSearchPage);
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
+    );
+    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
+      'asmCustomerSearch'
     );
   });
 });

@@ -9,6 +9,7 @@ import {
 } from '../../../asm/models/asm.models';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import {
   InterceptorUtil,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
@@ -20,8 +21,9 @@ export class OccCustomerAdapter {
 
   constructor(
     protected http: HttpClient,
-    protected config: AsmConfig,
+    protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
+    protected config: AsmConfig,
     protected baseSiteService: BaseSiteService
   ) {
     this.baseSiteService
@@ -40,9 +42,8 @@ export class OccCustomerAdapter {
       .set('baseSite', this.activeBaseSite)
       .set('query', options.query);
 
-    const url =
-      this.config.backend.occ.baseUrl +
-      '/assistedservicewebservices/customers/search';
+    const url = this.occEndpointsService.getRawEndpoint('asmCustomerSearch');
+
     return this.http
       .get<CustomerSearchPage>(url, { headers, params })
       .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
