@@ -8,7 +8,9 @@ import { AsmAdapter } from './asm.adapter';
 import { AsmConnector } from './asm.connector';
 
 class MockAsmAdapter {
-  search(_options: CustomerSearchOptions): Observable<CustomerSearchPage> {
+  customerSearch(
+    _options: CustomerSearchOptions
+  ): Observable<CustomerSearchPage> {
     return of();
   }
 }
@@ -57,15 +59,13 @@ describe('AsmConnector', () => {
   });
 
   it('should call adapter for customerSearch', () => {
-    spyOn(asmAdapter, 'search').and.stub();
+    spyOn(asmAdapter, 'customerSearch').and.stub();
     asmConnector.customerSearch(testSearchOptions);
-    expect(asmAdapter.customerSearch).toHaveBeenCalledWith(
-      testSearchOptions
-    );
+    expect(asmAdapter.customerSearch).toHaveBeenCalledWith(testSearchOptions);
   });
 
   it('should return customerSearch results ', () => {
-    spyOn(asmAdapter, 'search').and.returnValue(of(testSearchResults));
+    spyOn(asmAdapter, 'customerSearch').and.returnValue(of(testSearchResults));
     let results: CustomerSearchPage;
     asmConnector
       .customerSearch(testSearchOptions)

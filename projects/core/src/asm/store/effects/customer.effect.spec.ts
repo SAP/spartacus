@@ -8,7 +8,7 @@ import { AsmActions } from '../actions/index';
 import { CustomerEffects } from './customer.effect';
 
 class CustomerConnectorMock {
-  search(_searchTerm: string): Observable<CustomerSearchPage> {
+  customerSearch(_searchTerm: string): Observable<CustomerSearchPage> {
     return of(<CustomerSearchPage>{});
   }
 }
@@ -33,7 +33,7 @@ describe('Customer effect', () => {
     customerEffects = TestBed.get(CustomerEffects);
     asmConnector = TestBed.get(AsmConnector);
 
-    spyOn(asmConnector, 'search').and.returnValue(of({ entries: [] }));
+    spyOn(asmConnector, 'customerSearch').and.returnValue(of({ entries: [] }));
   });
 
   describe('customerSearch$', () => {
