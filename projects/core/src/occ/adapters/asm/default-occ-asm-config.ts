@@ -4,8 +4,7 @@ export const defaultOccAsmConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        asmCustomerSearch:
-          '/assistedservicewebservices/customers/search?foo=bar',
+        asmCustomerSearch: '/assistedservicewebservices/customers/search',
       },
     },
   },
