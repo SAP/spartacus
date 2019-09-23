@@ -198,7 +198,6 @@ describe('PaymentFormComponent', () => {
     spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
       of(mockBillingCountries)
     );
-    console.log(component);
     component.ngOnInit();
     component.countries$.subscribe((countries: Country[]) => {
       expect(countries).toBe(mockBillingCountries);

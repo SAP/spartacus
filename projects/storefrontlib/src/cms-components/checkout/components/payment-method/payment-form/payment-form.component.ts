@@ -50,12 +50,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
   sameAsShippingAddress = true;
-
-  /**
-   * (GH-3102)
-   * Boolean to check whether the button has already been clicked.
-   * If so, this disables the button to prevent button click event to fire twice
-   */
   buttonHasBeenClicked = false;
 
   @Input()
@@ -154,7 +148,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         }
       });
 
-    // verify if a new global message has popped up
+    // checks if a new global message has popped up
     const globalMessageSub = 
       this
       .globalMessageService
