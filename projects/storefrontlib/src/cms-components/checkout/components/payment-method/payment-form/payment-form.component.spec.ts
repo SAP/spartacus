@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -8,8 +8,8 @@ import {
   CardType,
   CheckoutDeliveryService,
   CheckoutPaymentService,
-  Country,
   GlobalMessageService,
+  Country,
   I18nTestingModule,
   UserPaymentService,
 } from '@spartacus/core';
