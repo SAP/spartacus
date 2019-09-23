@@ -42,7 +42,7 @@ context("Tabbing order - tests don't require user to be logged in", () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  describe('Header - Desktop', () => {
+  describe('Header - Desktop (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerDesktopTabbingOrder(config.headerDesktop);
     });
@@ -100,6 +100,12 @@ context('Tabbing order - tests do require user to be logged in', () => {
 
   afterEach(() => {
     cy.saveLocalStorage();
+  });
+
+  describe('Header - Desktop (logged in)', () => {
+    it('should allow to navigate with tab key', () => {
+      headerDesktopTabbingOrder(config.headerDesktopLoggedIn);
+    });
   });
 
   describe('Order History', () => {
