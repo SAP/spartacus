@@ -136,3 +136,11 @@ export function addProduct(): void {
   });
   cy.wait(`@${cartPage}`);
 }
+
+export function checkoutNextStep(url: string) {
+  const nextStep = waitForPage(url, 'getNextStep');
+  cy.getAllByText('Continue')
+    .first()
+    .click();
+  cy.wait(`@${nextStep}`);
+}

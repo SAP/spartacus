@@ -1,5 +1,4 @@
-import { TabElement, checkAllElements } from '../../tabbing-order';
-import { waitForPage } from '../../../checkout-flow';
+import { TabElement, checkAllElements, checkoutNextStep } from '../../tabbing-order';
 import { user } from '../../../../sample-data/checkout-flow';
 
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
@@ -20,10 +19,5 @@ export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
     .click();
 
   checkAllElements(config);
-
-  const nextStep = waitForPage('/checkout/payment-details', 'getNextStep');
-  cy.getAllByText('Continue')
-    .first()
-    .click();
-  cy.wait(`@${nextStep}`);
+  checkoutNextStep('/checkout/payment-details');
 }
