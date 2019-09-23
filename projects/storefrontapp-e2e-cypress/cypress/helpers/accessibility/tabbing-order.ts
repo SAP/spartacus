@@ -122,10 +122,10 @@ export function registerAndLogin(): void {
 }
 
 export function addProduct(): void {
-  const categoryPageUrl = '/Open-Catalogue/Cameras/Digital-Cameras/c/575';
+  const productPageUrl = '/product/779841';
   const cartPage = waitForPage('/cart', 'getCartPage');
 
-  cy.visit(categoryPageUrl);
+  cy.visit(productPageUrl);
   cy.getAllByText(/Add to cart/i)
     .first()
     .click();

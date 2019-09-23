@@ -4,6 +4,7 @@ import {
   fillBillingAddress,
 } from '../../../checkout-forms';
 import { user } from '../../../../sample-data/checkout-flow';
+import { waitForPage } from '../../../checkout-flow';
 
 export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   cy.server();
@@ -48,4 +49,10 @@ export function checkoutBillingAddressTabbingOrder(config: TabElement[]) {
     });
 
   checkAllElements(config);
+
+  const nextStep = waitForPage('/checkout/review-order', 'getNextStep');
+  cy.getAllByText('Continue')
+    .first()
+    .click();
+  cy.wait(`@${nextStep}`);
 }
