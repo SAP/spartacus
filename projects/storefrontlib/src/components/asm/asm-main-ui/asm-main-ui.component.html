@@ -1,50 +1,63 @@
-<div class="col-md-6">
-  <ng-container
-    *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm"
-  >
-    <ng-container
-      *ngIf="customer$ | async as customer; else showCustomerSelection"
-    >
-      <div>
-        {{
-          'asm.customerEmulation'
-            | cxTranslate: { name: customer?.name, uid: customer?.uid }
-        }}
+<div class="fd-shellbar">
+  <div class="fd-shellbar__group fd-shellbar__group--start">
+    <div class="fd-shellbar__product">
+      <span class="fd-shellbar__title">{{
+        'asm.mainTitle' | cxTranslate
+      }}</span>
+    </div>
+  </div>
+  <div class="fd-shellbar__group fd-shellbar__group--end">
+    <div class="fd-shellbar__actions">
+      <div class="fd-shellbar__action fd-shellbar__action--show-always">
+        <div class="sap-icon--decline"></div>
       </div>
-    </ng-container>
-    <ng-template #showCustomerSelection>
-      <cx-customer-selection
-        (submitEvent)="startCustomerEmulationSession($event)"
-      ></cx-customer-selection>
-      <button
-        *ngIf="!(searchResultsLoading$ | async)"
-        class="btn btn-block btn-secondary"
-        type="button"
-        (click)="logoutCustomerSupportAgent()"
-      >
-        {{ 'asm.logout' | cxTranslate }}
-      </button>
-    </ng-template>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm">
+  <ng-container
+    *ngIf="customer$ | async as customer; else showCustomerSelection"
+  >
+    <div>
+      {{
+        'asm.customerEmulation'
+          | cxTranslate: { name: customer?.name, uid: customer?.uid }
+      }}
+    </div>
+  </ng-container>
+  <ng-template #showCustomerSelection>
+    <cx-customer-selection
+      (submitEvent)="startCustomerEmulationSession($event)"
+    ></cx-customer-selection>
+    <button
+      *ngIf="!(searchResultsLoading$ | async)"
+      class="btn btn-block btn-secondary"
+      type="button"
+      (click)="logoutCustomerSupportAgent()"
+    >
+      {{ 'asm.logout' | cxTranslate }}
+    </button>
+  </ng-template>
+</ng-container>
+
+<ng-template #showLoginForm>
+  <ng-container *ngIf="!(csAgentTokenLoading$ | async); else spinner">
+    <cx-csagent-login-form
+      (submitEvent)="loginCustomerSupportAgent($event)"
+    ></cx-csagent-login-form>
+    <button
+      class="btn btn-block btn-secondary"
+      type="button"
+      (click)="hideUi()"
+    >
+      {{ 'asm.hideUi' | cxTranslate }}
+    </button>
   </ng-container>
 
-  <ng-template #showLoginForm>
-    <ng-container *ngIf="!(csAgentTokenLoading$ | async); else spinner">
-      <cx-csagent-login-form
-        (submitEvent)="loginCustomerSupportAgent($event)"
-      ></cx-csagent-login-form>
-      <button
-        class="btn btn-block btn-secondary"
-        type="button"
-        (click)="hideUi()"
-      >
-        {{ 'asm.hideUi' | cxTranslate }}
-      </button>
-    </ng-container>
-
-    <ng-template #spinner>
-      <div class="cx-spinner">
-        <cx-spinner></cx-spinner>
-      </div>
-    </ng-template>
+  <ng-template #spinner>
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
   </ng-template>
-</div>
+</ng-template>
