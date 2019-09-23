@@ -9,7 +9,7 @@ export enum DeliveryModePreferences {
 export abstract class CheckoutConfig {
   checkout?: {
     /**
-     * Set checkout steps as ordered array of pages
+     * Set checkout steps as ordered array of pages.
      */
     steps?: Array<CheckoutStep>;
     /**
