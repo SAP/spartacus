@@ -40,7 +40,6 @@ class MockConverterService {
 
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantNormalizer: OccConfiguratorVariantNormalizer;
-  let converter: MockConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -54,11 +53,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
     occConfiguratorVariantNormalizer = TestBed.get(
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    spyOn(converter, 'convert').and.callFake(product => ({
-      ...product,
-      code: product.code + 'converted',
-    }));
   });
 
   it('should be created', () => {

@@ -1,4 +1,4 @@
-<ng-container *ngIf="(configuration$ | async) as configuration">
+<ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-total">
     {{ 'header.configId' | cxTranslate }} : {{ configuration.configId }}
     <br />
