@@ -55,11 +55,7 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   });
 
   describe('Login page', () => {
-    it('should allow to navigate with tab key (empty form)', () => {
-      loginTabbingOrder(config.login);
-    });
-
-    it('should allow to navigate with tab key (filled out form)', () => {
+    it('should allow to navigate with tab key', () => {
       loginTabbingOrder(config.login);
     });
   });
