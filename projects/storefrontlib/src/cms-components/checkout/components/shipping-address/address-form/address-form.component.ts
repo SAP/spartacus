@@ -19,7 +19,6 @@ import {
   Title,
   UserAddressService,
   UserService,
-  WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -91,14 +90,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: ModalService,
-    private winRef: WindowRef
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
-    this.winRef.nativeWindow['QSI'].API.unload();
-    this.winRef.nativeWindow['QSI'].API.load();
-
     // Fetching countries
     this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
       tap(countries => {
