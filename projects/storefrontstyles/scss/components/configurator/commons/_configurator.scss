@@ -1,0 +1,9 @@
+/**
+ * Configure button needs a margin enforce a space to predecessor buttons
+ *
+ */
+.btn {
+  &-to-configuration {
+    margin-top: 5px;
+  }
+}
