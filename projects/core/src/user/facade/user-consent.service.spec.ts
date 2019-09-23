@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsentTemplate } from '../../model/consent.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -50,7 +50,7 @@ describe('UserConsentService', () => {
     }
   ));
 
-  const userId = USERID_CURRENT;
+  const userId = OCC_USER_ID_CURRENT;
   const consentTemplateListMock: ConsentTemplate[] = [{ id: 'xxx' }];
 
   describe('load consents', () => {

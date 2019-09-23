@@ -3,15 +3,14 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
-  USERID_ANONYMOUS,
-  USERID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
 } from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
 import { StateWithAuth } from '../store/auth-state';
 import { AuthSelectors } from '../store/selectors/index';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -74,11 +73,13 @@ export class AuthService {
    */
   getOccUserId(): Observable<string> {
     return this.getUserToken().pipe(
-      map(userToken =>
-        Object.keys(userToken).length !== 0
-          ? userToken.userId
-          : USERID_ANONYMOUS
-      )
+      map(userToken => {
+        if (!!userToken && !!userToken.userId) {
+          return userToken.userId;
+        } else {
+          return OCC_USER_ID_ANONYMOUS;
+        }
+      })
     );
   }
 
@@ -87,7 +88,7 @@ export class AuthService {
    * @param userToken
    */
   isCustomerEmulationToken(userToken: UserToken): boolean {
-    return !!userToken.userId && userToken.userId !== USERID_CURRENT;
+    return !!userToken.userId && userToken.userId !== OCC_USER_ID_CURRENT;
   }
 
   /**

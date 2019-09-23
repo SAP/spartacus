@@ -72,7 +72,7 @@ export function asmTests() {
     describe('Customer Emulation - Checkout', () => {
       it('should agent add a product to cart and begin checkout.', () => {
         checkout.clickCheapProductDetailsFromHomePage();
-        checkout.addCheapProductToCartAndBeginCheckout();
+        checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
       });
 
       it('should agent fill in address form', () => {
@@ -165,7 +165,7 @@ export function asmTests() {
         cy.selectUserMenuOption({
           option: 'Personal Details',
         });
-        profile.assessUpdatedProfileData();
+        profile.verifyUpdatedProfile();
       });
 
       it('should customer see the address created by the agent.', () => {
