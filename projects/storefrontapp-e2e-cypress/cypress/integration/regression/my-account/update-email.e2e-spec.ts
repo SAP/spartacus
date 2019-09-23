@@ -1,30 +1,36 @@
 import {
   updateEmailTest,
   verifyAsAnonymous,
+  registerAndLogin,
 } from '../../../helpers/update-email';
-import { formats } from '../../../sample-data/viewports';
 
-describe('Update Email Address page', () => {
-  before(() =>
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    })
-  );
-
-  verifyAsAnonymous();
-  updateEmailTest();
-});
-
-describe(`${formats.mobile.width + 1}p resolution - Update Email page`, () => {
+describe('My Account - Update Email', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  beforeEach(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
+  describe('update email test for anonymous user', () => {
+    verifyAsAnonymous();
   });
 
-  verifyAsAnonymous();
-  updateEmailTest();
+  describe('update email test for logged in user', () => {
+    before(() => {
+      registerAndLogin();
+      cy.reload();
+      cy.visit('/');
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      cy.selectUserMenuOption({
+        option: 'Email Address',
+      });
+    });
+
+    updateEmailTest();
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+  });
 });

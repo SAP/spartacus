@@ -1,0 +1,18 @@
+%cx-guest-register-form {
+  .register-guest {
+    display: flex;
+    justify-content: center;
+
+    background-color: var(--cx-color-background);
+
+    padding: 1.5rem 1rem;
+
+    @include media-breakpoint-up(lg) {
+      margin: 0 0 2em 0;
+    }
+
+    p {
+      margin-bottom: 1 rem;
+    }
+  }
+}

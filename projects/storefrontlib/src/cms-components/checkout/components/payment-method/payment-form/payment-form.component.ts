@@ -52,6 +52,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   sameAsShippingAddress = true;
 
   @Input()
+  setAsDefaultField: boolean;
+
+  @Input()
   paymentMethodsCount: number;
 
   @Output()

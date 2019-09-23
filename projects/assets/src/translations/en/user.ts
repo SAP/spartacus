@@ -26,6 +26,7 @@ export const user = {
       placeholder: 'Password',
     },
     wrongEmailFormat: 'This is not a valid email format.',
+    guestCheckout: 'Guest Checkout',
   },
   register: {
     confirmPassword: {
@@ -68,5 +69,18 @@ export const user = {
     bothPasswordMustMatch: 'Both password must match',
     titleRequired: 'Title is required.',
     postRegisterMessage: 'Please log in with provided credentials.',
+  },
+  checkoutLogin: {
+    emailAddress: {
+      label: 'Email address',
+      placeholder: 'Enter email',
+    },
+    confirmEmail: {
+      label: 'Confirm email',
+      placeholder: 'Confirm email',
+    },
+    continue: 'Continue',
+    emailIsRequired: 'Invalid email format',
+    emailsMustMatch: 'Email does not match',
   },
 };

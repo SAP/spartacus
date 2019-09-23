@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
@@ -9,6 +9,11 @@ import { Cart } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../utils/interceptor-util';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
 // TODO: Deprecated, remove Issue: #4125. Use configurable endpoints.
 const DETAILS_PARAMS =
@@ -16,7 +21,7 @@ const DETAILS_PARAMS =
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue),updateable),' +
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
-  'appliedVouchers,productDiscounts(formattedValue)';
+  'appliedVouchers,productDiscounts(formattedValue),user';
 
 @Injectable()
 export class OccCartAdapter implements CartAdapter {
@@ -106,6 +111,17 @@ export class OccCartAdapter implements CartAdapter {
       .pipe(this.converterService.pipeable(CART_NORMALIZER));
   }
 
+  delete(userId: string, cartId: string): Observable<{}> {
+    let headers = new HttpHeaders();
+    if (userId === OCC_USER_ID_ANONYMOUS) {
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    }
+    return this.http.delete<{}>(
+      this.occEndpointsService.getUrl('deleteCart', { userId, cartId }),
+      { headers }
+    );
+  }
+
   /**
    * @deprecated Since 1.1
    * Use configurable endpoints.
@@ -167,5 +183,21 @@ export class OccCartAdapter implements CartAdapter {
     return this.http
       .post<Occ.Cart>(url, toAdd, { params })
       .pipe(this.converterService.pipeable(CART_NORMALIZER));
+  }
+
+  addEmail(userId: string, cartId: string, email: string): Observable<{}> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+
+    const httpParams: HttpParams = new HttpParams().set('email', email);
+
+    const url = this.occEndpointsService.getUrl('addEmail', {
+      userId,
+      cartId,
+    });
+
+    return this.http.put(url, httpParams, { headers });
   }
 }

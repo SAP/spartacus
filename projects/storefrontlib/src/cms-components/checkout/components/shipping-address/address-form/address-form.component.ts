@@ -21,13 +21,12 @@ import {
   UserService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import {
   ModalRef,
   ModalService,
 } from '../../../../../shared/components/modal/index';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-
 @Component({
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
@@ -64,6 +63,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   backToAddress = new EventEmitter<any>();
 
   addressVerifySub: Subscription;
+  regionsSub: Subscription;
   suggestedAddressModalRef: ModalRef;
 
   address: FormGroup = this.fb.group({
@@ -158,7 +158,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       });
 
-    if (this.addressData) {
+    if (this.addressData && Object.keys(this.addressData).length !== 0) {
       this.address.patchValue(this.addressData);
 
       this.countrySelected(this.addressData.country);
@@ -196,7 +196,25 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
-    this.checkoutDeliveryService.verifyAddress(this.address.value);
+    if (this.address.controls['region'].value.isocode) {
+      this.regionsSub = this.regions$.pipe(take(1)).subscribe(regions => {
+        const obj = regions.find(
+          region =>
+            region.isocode === this.address.controls['region'].value.isocode
+        );
+        Object.assign(this.address.value.region, {
+          isocodeShort: obj.isocodeShort,
+        });
+      });
+    }
+
+    if (this.address.dirty) {
+      this.checkoutDeliveryService.verifyAddress(this.address.value);
+    } else {
+      // address form value not changed
+      // ignore duplicate address
+      this.submitAddress.emit(undefined);
+    }
   }
 
   openSuggestedAddress(results: AddressValidation): void {
@@ -244,6 +262,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();
+    }
+
+    if (this.regionsSub) {
+      this.regionsSub.unsubscribe();
     }
   }
 }
