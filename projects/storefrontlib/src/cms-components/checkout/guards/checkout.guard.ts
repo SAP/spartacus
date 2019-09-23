@@ -75,9 +75,12 @@ export class CheckoutGuard implements CanActivate {
     if (
       this.checkoutConfigService &&
       this.expressCheckoutService &&
-      !this.cartService.isGuestCart()
+      this.cartService
     ) {
-      if (this.checkoutConfigService.isExpressCheckout()) {
+      if (
+        this.checkoutConfigService.isExpressCheckout() &&
+        !this.cartService.isGuestCart()
+      ) {
         return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
           switchMap((expressCheckoutPossible: boolean) => {
             return expressCheckoutPossible
