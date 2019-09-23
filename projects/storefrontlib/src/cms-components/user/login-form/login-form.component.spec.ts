@@ -11,9 +11,9 @@ import {
   I18nTestingModule,
   UserToken,
   WindowRef,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
 
 import createSpy = jasmine.createSpy;
@@ -47,8 +47,8 @@ class MockActivatedRoute {
   };
 }
 
-class MockFeatureConfigService {
-  isEnabled(): boolean {
+class MockCheckoutConfigService {
+  isGuestCheckout() {
     return false;
   }
 }
@@ -74,7 +74,7 @@ describe('LoginFormComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
     }).compileComponents();
   }));
