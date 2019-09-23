@@ -7,7 +7,6 @@ import {
   OccModule,
   PersonalizationModule,
   provideConfig,
-  QualtricsModule,
   SiteContextModule,
   SmartEditModule,
 } from '@spartacus/core';
@@ -43,8 +42,6 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
 
     SmartEditModule.forRoot(), // should be custom
     PersonalizationModule.forRoot(), // should be custom
-    QualtricsModule.forRoot(),
-
     // opt-in explicitly
     OccModule.forRoot(),
     ProductDetailsPageModule,
