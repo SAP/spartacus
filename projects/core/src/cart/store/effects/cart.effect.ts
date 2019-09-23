@@ -14,6 +14,7 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartActions } from '../actions/index';
+import { CheckoutActions } from '../../../checkout/store/actions/index';
 
 @Injectable()
 export class CartEffects {
@@ -117,7 +118,8 @@ export class CartEffects {
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
-      CartActions.ADD_EMAIL_TO_CART_SUCCESS
+      CartActions.ADD_EMAIL_TO_CART_SUCCESS,
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
     ),
     map(
       (
@@ -127,10 +129,12 @@ export class CartEffects {
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.AddEmailToCartSuccess
+          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
       ) => action.payload
     ),
     map(
       payload =>
+        payload &&
         new CartActions.LoadCart({
           userId: payload.userId,
           cartId: payload.cartId,
