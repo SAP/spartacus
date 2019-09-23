@@ -111,10 +111,15 @@ class MockUserPaymentService {
 }
 
 class MockGlobalMessageService {
-  add = createSpy();
+  get = () => {
+    return {
+      subscribe() {}
+    }
+  }
 }
 
-fdescribe('PaymentFormComponent', () => {
+
+describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
@@ -143,7 +148,9 @@ fdescribe('PaymentFormComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: ModalService, useValue: { open: () => {} } },
+        { provide: ModalService, 
+          useValue: { open: () => {} } 
+        },
         {
           provide: CheckoutPaymentService,
           useValue: mockCheckoutPaymentService,
@@ -152,8 +159,12 @@ fdescribe('PaymentFormComponent', () => {
           provide: CheckoutDeliveryService,
           useValue: mockCheckoutDeliveryService,
         },
-        { provide: UserPaymentService, useValue: mockUserPaymentService },
-        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserPaymentService, 
+          useValue: mockUserPaymentService 
+        },
+        { provide: GlobalMessageService, 
+          useValue: mockGlobalMessageService 
+        },
       ],
     })
       .overrideComponent(PaymentFormComponent, {
@@ -187,6 +198,7 @@ fdescribe('PaymentFormComponent', () => {
     spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
       of(mockBillingCountries)
     );
+    console.log(component);
     component.ngOnInit();
     component.countries$.subscribe((countries: Country[]) => {
       expect(countries).toBe(mockBillingCountries);
@@ -242,13 +254,13 @@ fdescribe('PaymentFormComponent', () => {
     expect(component.payment.value.defaultPayment).toBeFalsy();
   });
 
-  // it('should call next()', () => {
-  //   component.next();
-  //   expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
-  //     paymentDetails: component.payment.value,
-  //     billingAddress: null,
-  //   });
-  // });
+  it('should call next()', () => {
+    component.next();
+    expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
+      paymentDetails: component.payment.value,
+      billingAddress: null,
+    });
+  });
 
   it('should call close()', () => {
     component.close();

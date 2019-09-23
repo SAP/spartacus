@@ -37,11 +37,11 @@ type yearType = { id: number; name: number };
   templateUrl: './payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class PaymentFormComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
-  private checkboxSub: Subscription;
-  private addressVerifySub: Subscription;
+  subscriptions: Subscription = new Subscription();
   suggestedAddressModalRef: ModalRef;
   months: monthType[] = [];
   years: yearType[] = [];
@@ -103,7 +103,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
   ) {}
 
   ngOnInit() {
@@ -127,7 +127,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
 
-    this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
+    
+    const checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
         // this operation makes sure the checkbox is not checked if not shown and vice versa
         this.sameAsShippingAddress = shouldShowCheckbox;
@@ -135,7 +136,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.checkoutDeliveryService
+    const addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
         if (results === 'FAIL') {
@@ -152,21 +153,19 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
           this.openSuggestedAddress(results);
         }
       });
-  }
 
-  /**
-       * (GH-3102)
-       * Listen to globalMessageService's Observable and if a global message appears,
-       * then act upon that change and re-enable button since clicking the button
-       * disables it. 
-       * 
-       * When testing this out, the button will still be disabled until you change
-       * the invalid input. 
-       */
-  reEnableButtonOnFormError() {
-    return this.globalMessageService.get().subscribe(() => {
-      this.buttonHasBeenClicked = false; //This re-enables the button
-    });
+    // verify if a new global message has popped up
+    const globalMessageSub = 
+      this
+      .globalMessageService
+      .get()
+      .subscribe(() => {
+        this.buttonHasBeenClicked = false;
+      });
+
+    this.subscriptions.add(checkboxSub);
+    this.subscriptions.add(addressVerifySub);
+    this.subscriptions.add(globalMessageSub);
   }
 
   expMonthAndYear(): void {
@@ -207,7 +206,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     return (
       this.payment.invalid ||
       (!this.sameAsShippingAddress && this.billingAddress.invalid)
-    );
+    ) || this.buttonHasBeenClicked;
   }
 
   /**
@@ -283,10 +282,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    this.reEnableButtonOnFormError();
-    // (GH-3102)
     this.buttonHasBeenClicked = true;
-
     this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
@@ -296,11 +292,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.checkboxSub) {
-      this.checkboxSub.unsubscribe();
-    }
-    if (this.addressVerifySub) {
-      this.addressVerifySub.unsubscribe();
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
     }
   }
 }
