@@ -4,13 +4,17 @@ import {
   registerAndLogin,
 } from '../../../helpers/update-password';
 import * as login from '../../../helpers/login';
+import { formats } from '../../../sample-data/viewports';
 
-describe('My Account - Update Password', () => {
-  before(() =>
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    })
-  );
+describe(`${formats.mobile.width +
+  1}p resolution - Update Password page`, () => {
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
+  });
 
   describe('update password test for anonymous user', () => {
     verifyAsAnonymous();
@@ -27,6 +31,7 @@ describe('My Account - Update Password', () => {
       cy.restoreLocalStorage();
       cy.selectUserMenuOption({
         option: 'Password',
+        isMobile: true,
       });
     });
 
@@ -34,6 +39,7 @@ describe('My Account - Update Password', () => {
 
     afterEach(() => {
       cy.saveLocalStorage();
+      cy.visit('/');
     });
 
     after(() => {

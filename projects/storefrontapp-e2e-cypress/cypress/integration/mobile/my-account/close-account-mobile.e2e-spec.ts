@@ -3,13 +3,16 @@ import {
   verifyAsAnonymous,
   registerAndLogin,
 } from '../../../helpers/close-account';
+import { formats } from '../../../sample-data/viewports';
 
-describe('My Account - Close Account', () => {
-  before(() =>
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    })
-  );
+describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
+  });
 
   describe('close account test for anonymous user', () => {
     verifyAsAnonymous();
@@ -26,6 +29,7 @@ describe('My Account - Close Account', () => {
       cy.restoreLocalStorage();
       cy.selectUserMenuOption({
         option: 'Close Account',
+        isMobile: true,
       });
     });
 
