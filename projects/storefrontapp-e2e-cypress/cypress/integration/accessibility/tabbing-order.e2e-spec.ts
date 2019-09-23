@@ -5,6 +5,7 @@ import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/log
 import { addProduct } from '../../helpers/accessibility/tabbing-order';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
+import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
 import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
 import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/personal-details';
@@ -39,6 +40,12 @@ import { reviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-ord
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  describe('Home page', () => {
+    it('should allow to navigate with tab key', () => {
+      homeTabbingOrder(config.home);
+    });
   });
 
   describe('Footer', () => {
