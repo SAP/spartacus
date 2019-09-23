@@ -1,4 +1,3 @@
-import { RoutingConfig } from '@spartacus/core';
 import * as login from '../../helpers/login';
 
 const FAQ_HEADING = 'Frequently Asked Questions';
@@ -8,27 +7,20 @@ function headingContains(text: string) {
 }
 
 context('Closed Storefront', () => {
-  let config: RoutingConfig;
-
-  beforeEach(() => {
-    config = {
-      routing: {
-        protected: true,
-        routes: {
-          faq: { paths: ['faq'] },
-        },
-      },
-    };
-  });
-
   context('public page', () => {
     before(() => {
       cy.window().then(win => win.sessionStorage.clear());
-    });
-
-    beforeEach(() => {
-      config.routing.routes.faq.protected = false;
-      cy.cxConfig(config);
+      cy.cxConfig({
+        routing: {
+          protected: true,
+          routes: {
+            faq: {
+              paths: ['faq'],
+              protected: false,
+            },
+          },
+        },
+      });
     });
 
     it('should display for unauthorized user', () => {
@@ -40,10 +32,16 @@ context('Closed Storefront', () => {
   context('protected page', () => {
     before(() => {
       cy.window().then(win => win.sessionStorage.clear());
-    });
-
-    beforeEach(() => {
-      cy.cxConfig(config);
+      cy.cxConfig({
+        routing: {
+          protected: true,
+          routes: {
+            faq: {
+              paths: ['faq'],
+            },
+          },
+        },
+      });
     });
 
     it('should redirect to login page for unauthorized user', () => {
@@ -54,6 +52,11 @@ context('Closed Storefront', () => {
     it('should redirect to the anticipated page after login', () => {
       login.registerUser();
       login.loginUser();
+      headingContains(FAQ_HEADING);
+    });
+
+    it('should display for authorized user', () => {
+      cy.visit('/faq');
       headingContains(FAQ_HEADING);
     });
   });
