@@ -97,7 +97,6 @@ describe('LoginComponent', () => {
 
     authService = TestBed.get(AuthService as Type<AuthService>);
     userService = TestBed.get(UserService as Type<UserService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
