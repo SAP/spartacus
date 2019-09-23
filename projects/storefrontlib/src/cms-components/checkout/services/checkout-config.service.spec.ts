@@ -324,6 +324,7 @@ describe('CheckoutConfigService', () => {
         ])
       ).toBe('existing_code');
     });
+
     it('should return first option if defaultDeliveryMode is empty', () => {
       service['defaultDeliveryMode'] = [];
       expect(
