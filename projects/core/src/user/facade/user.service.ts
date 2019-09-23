@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -43,7 +43,7 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.store.dispatch(new UserActions.LoadUserDetails(USERID_CURRENT));
+    this.store.dispatch(new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT));
   }
 
   /**
@@ -53,6 +53,16 @@ export class UserService {
    */
   register(userRegisterFormData: UserSignUp): void {
     this.store.dispatch(new UserActions.RegisterUser(userRegisterFormData));
+  }
+
+  /**
+   * Register a new user from guest
+   *
+   * @param guid
+   * @param password
+   */
+  registerGuest(guid: string, password: string): void {
+    this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
   }
 
   /**
@@ -93,7 +103,7 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.store.dispatch(new UserActions.RemoveUser(USERID_CURRENT));
+    this.store.dispatch(new UserActions.RemoveUser(OCC_USER_ID_CURRENT));
   }
 
   /**
@@ -159,7 +169,7 @@ export class UserService {
   updatePersonalDetails(userDetails: User): void {
     this.store.dispatch(
       new UserActions.UpdateUserDetails({
-        username: USERID_CURRENT,
+        username: OCC_USER_ID_CURRENT,
         userDetails,
       })
     );
@@ -223,7 +233,7 @@ export class UserService {
   updateEmail(password: string, newUid: string): void {
     this.store.dispatch(
       new UserActions.UpdateEmailAction({
-        uid: USERID_CURRENT,
+        uid: OCC_USER_ID_CURRENT,
         password,
         newUid,
       })
@@ -272,7 +282,7 @@ export class UserService {
   updatePassword(oldPassword: string, newPassword: string): void {
     this.store.dispatch(
       new UserActions.UpdatePassword({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         oldPassword,
         newPassword,
       })

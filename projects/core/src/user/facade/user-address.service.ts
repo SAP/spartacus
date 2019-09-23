@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Address, Country, Region } from '../../model/address.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -19,7 +19,7 @@ export class UserAddressService {
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.store.dispatch(new UserActions.LoadUserAddresses(USERID_CURRENT));
+    this.store.dispatch(new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT));
   }
 
   /**
@@ -29,7 +29,7 @@ export class UserAddressService {
   addUserAddress(address: Address): void {
     this.store.dispatch(
       new UserActions.AddUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         address: address,
       })
     );
@@ -42,7 +42,7 @@ export class UserAddressService {
   setAddressAsDefault(addressId: string): void {
     this.store.dispatch(
       new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: addressId,
         address: { defaultAddress: true },
       })
@@ -57,7 +57,7 @@ export class UserAddressService {
   updateUserAddress(addressId: string, address: Address): void {
     this.store.dispatch(
       new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: addressId,
         address: address,
       })
@@ -71,7 +71,7 @@ export class UserAddressService {
   deleteUserAddress(addressId: string): void {
     this.store.dispatch(
       new UserActions.DeleteUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: addressId,
       })
     );
@@ -91,6 +91,9 @@ export class UserAddressService {
     return this.store.pipe(select(UsersSelectors.getAddressesLoading));
   }
 
+  getAddressesLoadedSuccess(): Observable<boolean> {
+    return this.store.pipe(select(UsersSelectors.getAddressesLoadedSuccess));
+  }
   /**
    * Retrieves delivery countries
    */

@@ -1,4 +1,4 @@
-<ng-container *ngIf="(product$ | async) as product">
+<ng-container *ngIf="product$ | async as product">
   <div class="rating">
     <cx-star-rating
       [rating]="product?.averageRating"
@@ -7,7 +7,7 @@
     <div class="count">({{ product?.numberOfReviews }})</div>
     <a
       class="btn-link"
-      *ngIf="(reviewsTabAvailable | async)"
+      *ngIf="reviewsTabAvailable | async"
       (click)="showReviews()"
       >{{ 'productSummary.showReviews' | cxTranslate }}</a
     >

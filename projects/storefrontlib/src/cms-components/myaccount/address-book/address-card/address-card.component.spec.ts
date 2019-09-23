@@ -1,16 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Type } from '@angular/core';
 
 import {
   Address,
+  CheckoutDeliveryService,
+  FeatureConfigService,
   I18nTestingModule,
   UserAddressService,
 } from '@spartacus/core';
 
 import { AddressCardComponent } from './address-card.component';
 
-class MockUserAddressService {}
+class MockUserAddressService {
+  deleteUserAddress = jasmine.createSpy();
+  setAddressAsDefault = jasmine.createSpy();
+}
 
 const mockAddress: Address = {
   id: '123',
@@ -26,9 +31,21 @@ const mockAddress: Address = {
   defaultAddress: false,
 };
 
+class MockCheckoutDeliveryService {
+  clearCheckoutDeliveryDetails = jasmine.createSpy();
+}
+
+class MockFeatureConfigService {
+  isLevel(_featureLevel: string): boolean {
+    return true;
+  }
+}
+
 describe('AddressCardComponent', () => {
   let component: AddressCardComponent;
   let fixture: ComponentFixture<AddressCardComponent>;
+  let userAddressService: UserAddressService;
+  let checkoutDeliveryService: CheckoutDeliveryService;
   let el: DebugElement;
 
   beforeEach(async(() => {
@@ -37,6 +54,11 @@ describe('AddressCardComponent', () => {
       declarations: [AddressCardComponent],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -45,7 +67,12 @@ describe('AddressCardComponent', () => {
     fixture = TestBed.createComponent(AddressCardComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-
+    userAddressService = TestBed.get(UserAddressService as Type<
+      UserAddressService
+    >);
+    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
+    >);
     fixture.detectChanges();
   });
 
@@ -76,5 +103,35 @@ describe('AddressCardComponent', () => {
     expect(element.nativeElement.textContent).toContain(
       ' ✓ addressCard.default '
     );
+  });
+
+  describe('setAddressAsDefault', () => {
+    it('should set Address as default', () => {
+      component.setAddressAsDefault(mockAddress[0]);
+      expect(userAddressService.setAddressAsDefault).toHaveBeenCalledWith(
+        mockAddress[0]
+      );
+    });
+
+    it('should clear checkout delivery details', () => {
+      component.setAddressAsDefault(mockAddress[0]);
+      expect(
+        checkoutDeliveryService.clearCheckoutDeliveryDetails
+      ).toHaveBeenCalled();
+    });
+  });
+
+  describe('deleteAddress', () => {
+    it('should set delete user Address', () => {
+      component.deleteAddress('1');
+      expect(userAddressService.deleteUserAddress).toHaveBeenCalledWith('1');
+    });
+
+    it('should clear checkout delivery details', () => {
+      component.deleteAddress('1');
+      expect(
+        checkoutDeliveryService.clearCheckoutDeliveryDetails
+      ).toHaveBeenCalled();
+    });
   });
 });

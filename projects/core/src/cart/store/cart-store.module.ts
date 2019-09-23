@@ -17,6 +17,7 @@ export function cartStoreConfigFactory(): StateConfig {
         keys: {
           [`${CART_FEATURE}.active.value.content.guid`]: StorageSyncType.LOCAL_STORAGE,
           [`${CART_FEATURE}.active.value.content.code`]: StorageSyncType.LOCAL_STORAGE,
+          [`${CART_FEATURE}.active.value.content.user`]: StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
