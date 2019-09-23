@@ -1,6 +1,9 @@
 import * as login from '../../helpers/login';
 
-const FAQ_HEADING = 'Frequently Asked Questions';
+const headings = {
+  FAQ: 'Frequently Asked Questions',
+  TERMS_AND_CONDITIONS: 'Terms and Conditions',
+};
 
 function headingContains(text: string) {
   cy.get('cx-breadcrumb h1').should('contain', text);
@@ -21,11 +24,11 @@ context('Closed Storefront', () => {
           },
         },
       });
+      cy.visit('/faq');
     });
 
     it('should display for unauthorized user', () => {
-      cy.visit('/faq');
-      headingContains(FAQ_HEADING);
+      headingContains(headings.FAQ);
     });
   });
 
@@ -42,22 +45,22 @@ context('Closed Storefront', () => {
           },
         },
       });
+      cy.visit('/faq');
     });
 
     it('should redirect to login page for unauthorized user', () => {
-      cy.visit('/faq');
       cy.url().should('contain', '/login');
     });
 
     it('should redirect to the anticipated page after login', () => {
       login.registerUser();
       login.loginUser();
-      headingContains(FAQ_HEADING);
+      headingContains(headings.FAQ);
     });
 
     it('should display for authorized user', () => {
-      cy.visit('/faq');
-      headingContains(FAQ_HEADING);
+      cy.visit('/terms-and-conditions');
+      headingContains(headings.TERMS_AND_CONDITIONS);
     });
   });
 });
