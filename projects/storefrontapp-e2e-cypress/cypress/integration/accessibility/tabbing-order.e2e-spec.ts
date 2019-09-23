@@ -35,10 +35,17 @@ import {
   checkoutBillingAddressTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
 import { reviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/review-order';
+import { headerDesktopTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  describe('Header - Desktop', () => {
+    it('should allow to navigate with tab key', () => {
+      headerDesktopTabbingOrder(config.headerDesktop);
+    });
   });
 
   describe('Footer', () => {
