@@ -101,6 +101,9 @@ export function asmTests() {
       });
 
       it('should agent update personal details.', () => {
+        cy.selectUserMenuOption({
+          option: 'Personal Details',
+        });
         profile.updateProfile();
       });
 
