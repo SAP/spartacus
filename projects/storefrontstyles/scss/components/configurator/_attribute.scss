@@ -6,12 +6,17 @@
   color: var(--cx-color-danger);
 }
 
+.cx-config-attribute-header {
+  margin-right: 17px;
+  margin-left: 17px;
+}
 .cx-config-attribute-label {
-  padding-top: $btn-padding-y;
+  padding-top: 10px;
   padding-right: 6px; //@padding-base-vertical;
-  font-size: $font-size-base * 2;
-  //display: block;
-  //clear: left;
+  font-size: $font-size-base;
+  font-weight: bold;
+  display: block;
+  clear: left;
   //float: left;
   max-width: 66%;
 
@@ -23,4 +28,39 @@
     color: var(--cx-color-danger);
     font-weight: bold;
   }
+}
+
+.cx-config-group-attribute {
+  padding: 6px 10px;
+}
+.cx-config-attribute-value {
+  margin-left: 17px;
+  padding: 10px 34px 10px 0;
+  /*
+  @media (min-width: @screen-md-min) {
+      padding-right: @cpq-padding;
+  }*/
+  clear: both;
+  float: none;
+  display: block;
+  /*
+  &.cpqProductConfig-attributeValue-error {
+      input,
+      select,
+      .ui-selectmenu-button {
+          background-color: @state-danger-bg;
+          border: 1px solid @state-danger-border;
+      }
+  }
+  &.cpqProductConfig-attributeValue-warning input {
+      background-color: @state-danger-bg;
+      border: 1px solid @state-danger-border;
+  }*/
+}
+
+.cpqProductConfig-attributeValue-multi {
+  display: inline-block;
+}
+.cx-config-selectLine {
+  display: flex;
 }

@@ -12,18 +12,25 @@
   </div>
   <br />
   <div
-    class="cx-item-list-row"
+    class="cx-item-list-row cx-config-group-attribute"
     *ngFor="let attribute of configuration.attributes"
   >
-    <cx-config-attribute-header
-      [currentAttribute]="attribute"
-    ></cx-config-attribute-header>
-    <cx-config-attribute-radio-button
-      *ngIf="isRadioButton(attribute)"
-      [currentAttribute]="attribute"
-    ></cx-config-attribute-radio-button>
-    <em *ngIf="isNotSupported(attribute)">{{
-      'attribute.notSupported' | cxTranslate
-    }}</em>
+    <div class="cx-config-attribute-header">
+      <cx-config-attribute-header
+        [currentAttribute]="attribute"
+      ></cx-config-attribute-header>
+    </div>
+    <div
+      class="cx-config-attribute-value cx-config-attribute value-multi col-xs-12"
+      [class.cpqProductConfig-attributeValue-multi]="isRadioButton(attribute)"
+    >
+      <cx-config-attribute-radio-button
+        *ngIf="isRadioButton(attribute)"
+        [currentAttribute]="attribute"
+      ></cx-config-attribute-radio-button>
+      <em *ngIf="isNotSupported(attribute)">{{
+        'attribute.notSupported' | cxTranslate
+      }}</em>
+    </div>
   </div>
 </ng-container>
