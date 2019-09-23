@@ -200,3 +200,24 @@ input[type='radio'] {
     height: unset;
   }
 }
+
+//theme calydon cx-base adjustments
+$theme: '' !default;
+@if $theme == 'calydon' {
+  :focus {
+    outline-color: var(--cx-color-visual-focus);
+  }
+  .form-control,
+  select,
+  input {
+    &:focus {
+      outline: var(--cx-color-visual-focus) auto 4px;
+      outline-offset: 2px;
+    }
+  }
+  .ng-select-focused {
+    outline: var(--cx-color-visual-focus) auto 4px;
+    outline-offset: 2px;
+    border-color: var(--cx-color-secondary);
+  }
+}
