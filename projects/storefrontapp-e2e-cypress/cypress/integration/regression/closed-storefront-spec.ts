@@ -1,35 +1,60 @@
 import { RoutingConfig } from '@spartacus/core';
 import * as login from '../../helpers/login';
 
-function isFAQ() {
-  cy.get('cx-breadcrumb').should('contain', 'Frequently Asked Questions');
+const FAQ_HEADING = 'Frequently Asked Questions';
+
+function headingContains(text: string) {
+  cy.get('cx-breadcrumb h1').should('contain', text);
 }
 
-describe('Closed Storefront', () => {
+context('Closed Storefront', () => {
   let config: RoutingConfig;
 
   beforeEach(() => {
-    config = { routing: { protected: true } };
-    cy.window().then(win => win.sessionStorage.clear());
-  });
-
-  it('should not redirect from public page to login for unauthorized user', () => {
-    config.routing.routes = {
-      faq: { paths: ['faq'], protected: false },
+    config = {
+      routing: {
+        protected: true,
+        routes: {
+          faq: { paths: ['faq'] },
+        },
+      },
     };
-    cy.cxConfig(config);
-    cy.visit('/faq');
-    isFAQ();
   });
 
-  it('should redirect from protected page to login for unauthorized user', () => {
-    cy.cxConfig(config);
-    cy.visit('/faq');
-    cy.url().should('contain', '/login');
-    login.registerUser();
-    login.loginUser();
-    cy.url().should('contain', '/faq');
-    isFAQ();
-    login.signOutUser();
+  context('public page', () => {
+    before(() => {
+      cy.window().then(win => win.sessionStorage.clear());
+    });
+
+    beforeEach(() => {
+      config.routing.routes.faq.protected = false;
+      cy.cxConfig(config);
+    });
+
+    it('should display for unauthorized user', () => {
+      cy.visit('/faq');
+      headingContains(FAQ_HEADING);
+    });
+  });
+
+  context('protected page', () => {
+    before(() => {
+      cy.window().then(win => win.sessionStorage.clear());
+    });
+
+    beforeEach(() => {
+      cy.cxConfig(config);
+    });
+
+    it('should redirect to login page for unauthorized user', () => {
+      cy.visit('/faq');
+      cy.url().should('contain', '/login');
+    });
+
+    it('should redirect to the anticipated page after login', () => {
+      login.registerUser();
+      login.loginUser();
+      headingContains(FAQ_HEADING);
+    });
   });
 });
