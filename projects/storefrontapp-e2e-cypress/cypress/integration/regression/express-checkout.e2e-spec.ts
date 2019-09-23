@@ -80,9 +80,9 @@ context('Express checkout', () => {
 
   describe('should redirect to first step if there is missing payment', () => {
     it('delete payment', () => {
-      cy.selectUserMenuOption({
-        option: 'Payment Details',
-      });
+      cy.saveLocalStorage();
+      cy.visit('/my-account/payment-details');
+      cy.restoreLocalStorage();
       cy.getAllByText('Delete')
         .first()
         .click({ force: true });
