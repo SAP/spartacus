@@ -245,4 +245,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   createConfiguration?: string;
+  /**
+   * Endpoint for consignment tracking
+   *
+   * @member {string}
+   */
+  consignmentTracking?: string;
 }
