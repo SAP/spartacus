@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import {
   AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -17,13 +19,16 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
   form: FormGroup;
+  loginAsGuest = false;
 
   constructor(
     auth: AuthService,
     globalMessageService: GlobalMessageService,
     fb: FormBuilder,
     authRedirectService: AuthRedirectService,
-    winRef: WindowRef // tslint:disable-line
+    winRef: WindowRef, // tslint:disable-line,
+    activatedRoute: ActivatedRoute,
+    featureConfig: FeatureConfigService
   );
 
   /**
@@ -43,7 +48,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
-    private winRef?: WindowRef
+    private winRef?: WindowRef,
+    private activatedRoute?: ActivatedRoute,
+    private featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +58,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required],
     });
+
+    if (this.featureConfig.isEnabled('guestCheckout')) {
+      this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+    }
 
     // TODO(issue:#4055) Deprecated since 1.1.0
     if (this.winRef && this.winRef.nativeWindow) {

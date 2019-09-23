@@ -1,6 +1,8 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthRedirectService,
@@ -9,6 +11,7 @@ import {
   I18nTestingModule,
   UserToken,
   WindowRef,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginFormComponent } from './login-form.component';
@@ -36,6 +39,20 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
+class MockActivatedRoute {
+  snapshot = {
+    queryParams: {
+      forced: false,
+    },
+  };
+}
+
+class MockFeatureConfigService {
+  isEnabled(): boolean {
+    return false;
+  }
+}
+
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
@@ -56,6 +73,8 @@ describe('LoginFormComponent', () => {
           useClass: MockRedirectAfterAuthService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -190,6 +209,31 @@ describe('LoginFormComponent', () => {
 
       control.setValue(null);
       expect(control.valid).toBeFalsy();
+    });
+  });
+
+  describe('guest checkout', () => {
+    it('should show "Register" when forced flag is false', () => {
+      const registerLinkElement: HTMLElement = fixture.debugElement.query(
+        By.css('.btn-register')
+      ).nativeElement;
+      const guestLink = fixture.debugElement.query(By.css('.btn-guest'));
+
+      expect(guestLink).toBeFalsy();
+      expect(registerLinkElement).toBeTruthy();
+    });
+
+    it('should show "Guest checkout" when forced flag is true', () => {
+      component.loginAsGuest = true;
+      fixture.detectChanges();
+
+      const guestLinkElement: HTMLElement = fixture.debugElement.query(
+        By.css('.btn-guest')
+      ).nativeElement;
+      const registerLink = fixture.debugElement.query(By.css('.btn-register'));
+
+      expect(registerLink).toBeFalsy();
+      expect(guestLinkElement).toBeTruthy();
     });
   });
 });

@@ -230,6 +230,18 @@ export function addCheapProductToCartAndLogin() {
   cy.wait(`@${shippingPage}`);
 }
 
+export function addCheapProductToCartAndProceedToCheckout() {
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('.cx-name .cx-link').should('contain', cheapProduct.name);
+  });
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.getByText(/proceed to checkout/i).click();
+  cy.wait(`@${loginPage}`);
+}
+
 export function fillAddressFormWithCheapProduct(
   shippingAddressData: AddressData = user
 ) {
