@@ -61,6 +61,7 @@ export class NavigationUIComponent implements OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
+    //TODO(issue:#4687) Deprecated since 1.3.0
     protected featureConfig?: FeatureConfigService
   ) {
     this.subscriptions.add(
@@ -178,7 +179,7 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   protected isTabbable(node: any) {
-    //TODO(issue:#4534) Deprecated since 1.3.0
+    //TODO(issue:#4687) Deprecated since 1.3.0
     if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
       return false;
     }
