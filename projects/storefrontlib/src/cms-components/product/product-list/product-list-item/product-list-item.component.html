@@ -37,11 +37,18 @@
           [showQuantity]="false"
           [productCode]="product.code"
         ></cx-add-to-cart>
-        <cx-to-configuration
+        <a
           *ngIf="product.configurable"
-          [productCode]="product.code"
-          [configuratorType]="product.configuratorType"
-        ></cx-to-configuration>
+          [routerLink]="
+            {
+              cxRoute: 'configure' + product.configuratorType,
+              params: { rootProduct: product.code }
+            } | cxUrl
+          "
+          class="btn btn-primary btn-block btn-to-configuration"
+          cxAutoFocus
+          >{{ 'header.toconfig' | cxTranslate }}</a
+        >
       </div>
     </div>
   </div>

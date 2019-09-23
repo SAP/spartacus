@@ -137,15 +137,6 @@ export class MockAddToCartComponent {
   @Input() showQuantity: boolean;
 }
 
-@Component({
-  selector: 'cx-to-configuration',
-  template: '<button>configure</button>',
-})
-export class MockToConfigureComponent {
-  @Input() productCode;
-  @Input() configuratorType;
-}
-
 export class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
@@ -170,7 +161,6 @@ describe('ProductScrollComponent', () => {
         MediaComponent,
         MockStarRatingComponent,
         MockAddToCartComponent,
-        MockToConfigureComponent,
       ],
       imports: [
         InfiniteScrollModule,
