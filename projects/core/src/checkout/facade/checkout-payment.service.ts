@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  ANONYMOUS_USERID,
-  CartDataService,
-} from '../../cart/facade/cart-data.service';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
-import { CheckoutActions } from '../store/actions/index';
-import {
-  StateWithCheckout,
-  SET_PAYMENT_DETAILS_PROCESS_ID,
-} from '../store/checkout-state';
-import { CheckoutSelectors } from '../store/selectors/index';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { CheckoutActions } from '../store/actions/index';
+import {
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+  StateWithCheckout,
+} from '../store/checkout-state';
+import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -97,6 +95,9 @@ export class CheckoutPaymentService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    return (
+      this.cartData.userId !== OCC_USER_ID_ANONYMOUS ||
+      this.cartData.isGuestCart
+    );
   }
 }
