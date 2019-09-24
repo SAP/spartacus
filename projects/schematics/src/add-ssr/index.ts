@@ -90,6 +90,7 @@ function addPackageJsonScripts(options: SpartacusOptions): Rule {
       packageJsonFileObject.scripts['serve:ssr'] = 'node dist/ssr/server';
       packageJsonFileObject.scripts['webpack:server'] =
         'webpack --config webpack.server.config.js --progress --colors';
+      delete packageJsonFileObject.scripts['compile:server'];
 
       tree.overwrite(
         'package.json',
