@@ -107,7 +107,7 @@ describe('AttributeHeaderComponent', () => {
   });
 
   it('should return single select message key for ddlb attributes', () => {
-    classUnderTest.currentAttribute.uiType = Configurator.UiType.DDLB;
+    classUnderTest.currentAttribute.uiType = Configurator.UiType.DROPDOWN;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'singleSelectRequiredMessage'
     );

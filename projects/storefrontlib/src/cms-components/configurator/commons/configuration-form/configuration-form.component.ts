@@ -13,6 +13,7 @@ import { Observable, Subscription } from 'rxjs';
 export class ConfigurationFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
   subscription = new Subscription();
+  public UiType = Configurator.UiType;
 
   constructor(
     private routingService: RoutingService,
@@ -37,11 +38,5 @@ export class ConfigurationFormComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-  public isRadioButton(attribute: Configurator.Attribute): boolean {
-    return attribute.uiType === Configurator.UiType.RADIOBUTTON;
-  }
-  public isNotSupported(attribute: Configurator.Attribute): boolean {
-    return attribute.uiType === Configurator.UiType.NOT_IMPLEMENTED;
   }
 }

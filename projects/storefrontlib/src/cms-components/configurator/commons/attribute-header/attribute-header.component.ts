@@ -22,7 +22,7 @@ export class AttributeHeaderComponent {
     const uiType = this.currentAttribute.uiType;
     if (
       uiType === Configurator.UiType.RADIOBUTTON ||
-      uiType === Configurator.UiType.DDLB
+      uiType === Configurator.UiType.DROPDOWN
     ) {
       msgKey += 'singleSelectRequiredMessage';
     } else if (uiType === Configurator.UiType.CHECKBOX) {

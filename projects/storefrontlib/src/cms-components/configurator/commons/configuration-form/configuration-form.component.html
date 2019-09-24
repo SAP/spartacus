@@ -22,13 +22,15 @@
     </div>
     <div
       class="cx-config-attribute-value cx-config-attribute value-multi col-xs-12"
-      [class.cpqProductConfig-attributeValue-multi]="isRadioButton(attribute)"
+      [class.cpqProductConfig-attributeValue-multi]="
+        attribute.uiType === UiType.RADIOBUTTON
+      "
     >
       <cx-config-attribute-radio-button
-        *ngIf="isRadioButton(attribute)"
+        *ngIf="attribute.uiType === UiType.RADIOBUTTON"
         [currentAttribute]="attribute"
       ></cx-config-attribute-radio-button>
-      <em *ngIf="isNotSupported(attribute)">{{
+      <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
         'attribute.notSupported' | cxTranslate
       }}</em>
     </div>

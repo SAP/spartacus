@@ -38,7 +38,7 @@ export namespace Configurator {
     NOT_IMPLEMENTED = 'not_implemented',
     RADIOBUTTON = 'radioGroup',
     CHECKBOX = 'checkBoxList',
-    DDLB = 'ddlb',
+    DROPDOWN = 'dropdown',
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',
