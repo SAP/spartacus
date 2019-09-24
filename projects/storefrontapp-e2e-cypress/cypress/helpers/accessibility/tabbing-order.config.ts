@@ -452,7 +452,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
-  headerDesktop: [
+  headerDesktopNotLoggedIn: [
     {
       value: 'Language',
       type: TabbingOrderTypes.SELECT,

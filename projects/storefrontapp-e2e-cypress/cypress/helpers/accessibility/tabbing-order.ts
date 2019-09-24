@@ -23,7 +23,7 @@ export function checkElement(tabElement: TabElement) {
     case TabbingOrderTypes.GENERIC_INPUT: {
       cy.focused()
         .get('input')
-        .should('have.value', '');
+        .should('be.visible');
       break;
     }
     case TabbingOrderTypes.GENERIC_NG_SELECT: {

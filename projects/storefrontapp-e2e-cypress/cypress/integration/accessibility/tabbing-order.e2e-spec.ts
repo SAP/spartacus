@@ -45,7 +45,7 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 
   describe('Header - Desktop (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
-      headerDesktopTabbingOrder(config.headerDesktop);
+      headerDesktopTabbingOrder(config.headerDesktopNotLoggedIn);
     });
   });
 
