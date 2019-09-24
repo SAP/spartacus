@@ -1,9 +1,8 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { checkAllElements, TabElement, testProductUrl } from '../tabbing-order';
 
 export function addToCartTabbingOrder(config: TabElement[]) {
-  cy.visit('/Open-Catalogue/Cameras/Digital-Cameras/c/575');
-  cy.get('cx-product-list')
-    .contains('Add to cart')
+  cy.visit(testProductUrl);
+  cy.getAllByText(/Add to cart/i)
     .first()
     .click();
 

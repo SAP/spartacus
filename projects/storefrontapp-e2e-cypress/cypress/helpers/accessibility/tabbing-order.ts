@@ -9,6 +9,8 @@ export interface TabElement {
   type: TabbingOrderTypes;
 }
 
+export const testProductUrl = '/product/779841';
+
 export function checkElement(tabElement: TabElement) {
   // Check generic cases without value
   switch (tabElement.type) {
@@ -138,10 +140,9 @@ export function registerAndLogin(): void {
 }
 
 export function addProduct(): void {
-  const productPageUrl = '/product/779841';
   const cartPage = waitForPage('/cart', 'getCartPage');
 
-  cy.visit(productPageUrl);
+  cy.visit(testProductUrl);
   cy.getAllByText(/Add to cart/i)
     .first()
     .click();

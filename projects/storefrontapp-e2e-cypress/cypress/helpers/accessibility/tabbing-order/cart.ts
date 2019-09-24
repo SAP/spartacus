@@ -1,11 +1,10 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
-import { waitForPage } from '../../checkout-flow';
+import { checkAllElements, TabElement, testProductUrl } from '../tabbing-order';
 
 export function cartTabbingOrder(config: TabElement[]) {
   addCartItemsAndLoadCart();
 
   // Assert cart items
-  cy.get('cx-cart-details a')
+  cy.get('cx-cart-details .cx-name a')
     .first()
     .focus();
 
@@ -14,9 +13,8 @@ export function cartTabbingOrder(config: TabElement[]) {
 
 function addCartItemsAndLoadCart() {
   // Add Two Items to cart
-  cy.visit('/Open-Catalogue/Cameras/Digital-Cameras/c/575');
-  cy.get('cx-product-list')
-    .contains('Add to cart')
+  cy.visit(testProductUrl);
+  cy.getAllByText(/Add to cart/i)
     .first()
     .click();
 
