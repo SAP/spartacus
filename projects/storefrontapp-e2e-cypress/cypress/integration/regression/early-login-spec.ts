@@ -48,20 +48,20 @@ context('Early login', () => {
         headingContains(FAQ_HEADING);
       });
     });
-  });
 
-  context('for authorized user', () => {
-    beforeEach(() => {
-      cy.cxConfig(config);
+    context('for authorized user', () => {
+      beforeEach(() => {
+        cy.cxConfig(config);
 
-      cy.visit('/');
-      cy.requireLoggedIn();
+        cy.visit('/');
+        cy.requireLoggedIn();
 
-      cy.visit('/faq');
-    });
+        cy.visit('/faq');
+      });
 
-    it('should display', () => {
-      headingContains(FAQ_HEADING);
+      it('should display', () => {
+        headingContains(FAQ_HEADING);
+      });
     });
   });
 });
