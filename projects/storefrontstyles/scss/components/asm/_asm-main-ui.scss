@@ -6,7 +6,7 @@
   }
   cx-csagent-login-form,
   cx-customer-selection,
-  cx-customer-emulation {
+  .cx-customer-emulation {
     padding: 1rem;
     width: 100%;
   }
@@ -16,10 +16,9 @@
   cx-customer-selection {
     display: flex;
   }
-  cx-customer-emulation {
+  .cx-customer-emulation {
     display: flex;
   }
-
 
   * {
     -webkit-box-sizing: inherit;
@@ -257,13 +256,6 @@
     color: #fff;
   }
 
-  // Green Button
-  .fd-button--emphasized.fd-button--positive.fd-button--emphasized.fd-button--positive,
-  a.fd-button--emphasized.fd-button--positive {
-    border-color: #0a7e3e;
-    background-color: #0a7e3e;
-  }
-
   // Red button
   .fd-button--negative,
   a.fd-button--negative {
@@ -440,5 +432,6 @@
 
   .sap-icon--decline {
     fill: #fff;
+    cursor: pointer;
   }
 }

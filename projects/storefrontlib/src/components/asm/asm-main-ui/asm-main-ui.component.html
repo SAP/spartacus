@@ -26,11 +26,34 @@
   <ng-container
     *ngIf="customer$ | async as customer; else showCustomerSelection"
   >
-    <div>
+    <!-- <div>
       {{
         'asm.customerEmulation'
           | cxTranslate: { name: customer?.name, uid: customer?.uid }
       }}
+    </div> -->
+    <div class="cx-customer-emulation">
+      <div class="fd-container">
+        <div class="fd-col--6">
+          <label>
+            <input
+              class="form-control ng-untouched ng-pristine ng-invalid"
+              formcontrolname="searchTerm"
+              type="text"
+              placeholder="     {{
+                'asm.customerEmulation'
+                  | cxTranslate: { name: customer?.name, uid: customer?.uid }
+              }}"
+            />
+          </label>
+        </div>
+
+        <div class="fd-col--3">
+          <button class="fd-button--negative sap-icon--stop" type="submit">
+            End Session
+          </button>
+        </div>
+      </div>
     </div>
   </ng-container>
   <ng-template #showCustomerSelection>
