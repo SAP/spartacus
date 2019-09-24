@@ -1,4 +1,8 @@
-import { TabElement, checkAllElements } from '../../tabbing-order';
+import {
+  TabElement,
+  checkAllElements,
+  checkoutNextStep,
+} from '../../tabbing-order';
 import {
   fillPaymentDetails,
   fillBillingAddress,
@@ -48,4 +52,5 @@ export function checkoutBillingAddressTabbingOrder(config: TabElement[]) {
     });
 
   checkAllElements(config);
+  checkoutNextStep('/checkout/review-order');
 }

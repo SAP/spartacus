@@ -802,4 +802,19 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  checkoutReviewOrder: [
+    { value: 'Edit shipping address', type: TabbingOrderTypes.LINK },
+    { value: 'Edit shipping method', type: TabbingOrderTypes.LINK },
+    { value: 'Edit payment method', type: TabbingOrderTypes.LINK },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'I am confirming that I have read and agreed with',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
+    { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
+  ],
 };
