@@ -21,7 +21,9 @@ export function checkElement(tabElement: TabElement) {
       return;
     }
     case TabbingOrderTypes.GENERIC_INPUT: {
-      cy.focused().should('have.attr', 'type', 'text');
+      cy.focused()
+        .get('input')
+        .should('be.visible');
       break;
     }
     case TabbingOrderTypes.GENERIC_NG_SELECT: {
@@ -78,6 +80,20 @@ export function checkElement(tabElement: TabElement) {
       cy.focused()
         .should('have.attr', 'type', 'radio')
         .should('have.attr', 'formcontrolname', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.SELECT: {
+      cy.focused()
+        .get('select')
+        .parent()
+        .should('contain', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
+      cy.focused()
+        .parent()
+        .contains(tabElement.value);
+      break;
     }
   }
 }
