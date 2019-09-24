@@ -1,10 +1,14 @@
 import { checkAllElements, TabElement } from '../tabbing-order';
 
-export function headerDesktopTabbingOrder(config: TabElement[]) {
+export function homeTabbingOrder(config: TabElement[]) {
   cy.visit('/');
+
   // Ensures carousel products are loaded before running checks
-  cy.get('cx-navigation-ui').should('be.visible');
-  cy.get('header cx-site-context-selector select')
+  cy.get('cx-carousel')
+    .find('img')
+    .should('have.length', 18);
+
+  cy.get('.Section1 a')
     .first()
     .focus();
 

@@ -15,6 +15,7 @@ export enum TabbingOrderTypes {
   RADIO = 'radio',
   SELECT = 'select',
   NAV_CATEGORY_DROPDOWN = 'navCategoryDropdown',
+  CAROUSEL = 'carousel',
 }
 
 export interface TabbingOrderConfig {
@@ -22,6 +23,134 @@ export interface TabbingOrderConfig {
 }
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
+  home: [
+    {
+      value:
+        '/electronics-spa/en/USD/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Cameras/Camera-Accessories-%2526-Supplies/c/585',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Cameras/DigitalCameras/Digital-Compacts/c/576',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Cameras/CameraAccessories-%2526-Supplies/CameraLenses/c/588',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Cameras/Hand-held-Camcorders/c/584',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Components/PowerSupplies/c/816',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/product/300938/Photosmart%20E317%20Digital%20Camera',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/358639/DSC-N1',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/553637/NV10',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/816802/Cyber-shot%20W55',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1934793/PowerShot%20A480',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/product/1382080/EOS450D%20%2B%2018-55%20IS%20Kit',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1981415/PL60%20Silver',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/816780/DSLR-A100H',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1934406/HDR-CX105E%20%20Red',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1986316/LEGRIA%20HF%20S100',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/product/592506/AV%20Cable,%20Model%20AV-8',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1776948/Camileo%20S10%20EU',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1934796/PowerShot%20A480',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1981415/PL60%20Silver',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1992693/DSC-T90',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/2278102/miniDV%20Head%20Cleaner',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/1641905/32GB%20SDHC%20Card',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/932577/Digital%20Camera%20Tripod',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Cameras/Webcams/Web-Camera-%2528100KpixelM-CMOS%252C-640X480%252C-USB-1-1%2529-Black/p/280916',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Cameras/Webcams/QuickCam-for-Notebooks-Pro/p/479742',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Cameras/DigitalCameras/Digital-Compacts/NV10/p/553637',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value:
+        '/electronics-spa/en/USD/Open-Catalogue/Cameras/CameraAccessories-%2526-Supplies/CameraFlashes/Light-HVL-20DW2/p/289540',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    { value: '/electronics-spa/en/USD/faq', type: TabbingOrderTypes.IMG_LINK },
+  ],
   login: [
     { value: 'userId', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'password', type: TabbingOrderTypes.FORM_FIELD },

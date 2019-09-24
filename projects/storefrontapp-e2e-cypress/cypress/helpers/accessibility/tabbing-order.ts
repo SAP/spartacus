@@ -92,8 +92,6 @@ export function checkElement(tabElement: TabElement) {
     case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
       cy.focused()
         .parent()
-        .get('h5')
-        .first()
         .contains(tabElement.value);
       break;
     }
