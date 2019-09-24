@@ -14,7 +14,7 @@ import { UserConsentService } from './user-consent.service';
 
 class MockAuthService {
   getOccUserId(): Observable<string> {
-    return of(USERID_CURRENT);
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 

@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
@@ -11,11 +12,10 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
-import { take } from 'rxjs/operators';
 
 class MockAuthService {
   getOccUserId(): Observable<string> {
-    return of(USERID_CURRENT);
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
