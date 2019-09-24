@@ -66,11 +66,11 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     }
 
     const rawConsents = this.serializeAndEncode(consents);
-    const headers = request.headers.append(
-      ANONYMOUS_CONSENTS_HEADER,
-      rawConsents
-    );
-    return request.clone({ headers });
+    return request.clone({
+      setHeaders: {
+        [ANONYMOUS_CONSENTS_HEADER]: rawConsents,
+      },
+    });
   }
 
   private serializeAndEncode(consents: AnonymousConsent[]): string {
