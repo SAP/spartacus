@@ -149,6 +149,7 @@ export function placeOrder() {
   cy.get('.form-check-input').check();
   cy.get('cx-place-order button.btn-primary').click();
 }
+
 export function verifyOrderConfirmationPage() {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
