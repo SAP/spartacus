@@ -15,6 +15,7 @@ import { PageLayoutComponent } from '../../../cms-structure/page/index';
 import { ConfigurationFormComponent } from '../commons/configuration-form/configuration-form.component';
 import { ConfigurationImageComponent } from '../commons/configuration-image/configuration-image.component';
 import { ConfigurationTitleComponent } from '../commons/configuration-title/configuration-title.component';
+import { ConfigureProductComponent } from '../commons/configure-product/configure-product.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,9 @@ import { ConfigurationTitleComponent } from '../commons/configuration-title/conf
           component: ConfigurationImageComponent,
           guards: [],
         },
+        ConfigureProductComponent: {
+          component: ConfigureProductComponent,
+        },
       },
       layoutSlots: {
         VariantConfigurationTemplate: {
@@ -63,17 +67,20 @@ import { ConfigurationTitleComponent } from '../commons/configuration-title/conf
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
+    ConfigureProductComponent,
   ],
   exports: [
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
+    ConfigureProductComponent,
   ],
   providers: [UserService],
   entryComponents: [
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
+    ConfigureProductComponent,
   ],
 })
 export class VariantConfiguratorModule {}
