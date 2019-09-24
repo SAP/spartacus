@@ -37,12 +37,12 @@
     },
     "pwa": {
       "type": "boolean",
-      "description": "Execute additional command for PWA configuration.",
+      "description": "Add PWA support to the project.",
       "default": false
     },
     "ssr": {
       "type": "boolean",
-      "description": "Execute additional command for SSR configuration.",
+      "description": "Add Server-side rendering support to the project.",
       "default": false
     }
   },

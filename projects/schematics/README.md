@@ -19,7 +19,7 @@ Run the following command from your project root:
 - `ssr`: Include Server-side Rendering configuration.
 
 ### Other commands:
-By defaut `ng add @spartacus/schematics` will add all modules and files from commands listed below, but there will be situations where you want to run single command (i.e. for existing project).
+By defaut `ng add @spartacus/schematics` will add only basic spartacus configuration. You are able extend application with features like *PWA* or *SSR* with commands listed below:
 - `ng g @spartacus/schematics:add-pwa` - adds Spartacus-specific PWA module
 - `ng g @spartacus/schematics:add-ssr` - adds server-side rendering configuration
 
