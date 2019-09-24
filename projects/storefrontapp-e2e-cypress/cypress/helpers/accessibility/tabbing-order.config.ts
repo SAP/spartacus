@@ -14,6 +14,8 @@ export enum TabbingOrderTypes {
   ITEM_COUNTER = 'itemCounter',
   RADIO = 'radio',
   CAROUSEL = 'carousel',
+  CX_MEDIA = 'cxMedia',
+  H3 = 'h3',
 }
 
 export interface TabbingOrderConfig {
@@ -464,5 +466,48 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
     { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
+  ],
+  productPage: [
+    {
+      value:
+        'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/medias/?context=bWFzdGVyfGltYWdlc3wyNzkxfGltYWdlL2pwZWd8aW1hZ2VzL2g4OS9oNjMvODc5NjIyMjQ4ODYwNi5qcGd8NGZkYjVhZGMwYmY1MmVmNzBhMzI4ZWQ0OWFkY2E2MDIwMmVkMmUzMmEzODE5OTcxM2ZhMWM0NzM5YmZkNzkyMg',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value:
+        'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/medias/?context=bWFzdGVyfGltYWdlc3wyMjk2fGltYWdlL2pwZWd8aW1hZ2VzL2g1MC9oNzAvODc5NjIyMjU1NDE0Mi5qcGd8MWIxZjJiODMzYmM3NmE1MDJjZDRhYTg1NzczMmQ5N2EyOGU4YzQyOWJkMzM1YmNkZGQ3ZjM3OTU3NDg4OTBkMw',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value:
+        'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/medias/?context=bWFzdGVyfGltYWdlc3wyNDYwfGltYWdlL2pwZWd8aW1hZ2VzL2gzMC9oZmYvODc5NjIyMjYxOTY3OC5qcGd8MzJhY2Y5NWM2NjE4NzA0YzQxODRkYWRlN2FhMTNjNjVkNTE3ZWIyODc2NzM5ZTdkZmVkZjE3NzZjOGYyMjA4Yw',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value:
+        'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/medias/?context=bWFzdGVyfGltYWdlc3wzMzI5fGltYWdlL2pwZWd8aW1hZ2VzL2g2Ny9oMjEvODc5NjIyMjY4NTIxNC5qcGd8ZTMxZTBhM2VjMDdmOTk1ZDk1YTAyNDJlYjdlMWRhZjBjODg1YWE0MjBhN2FiYjQ4MDZiZWEwZTliZmZjODBiYw',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value:
+        'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/medias/?context=bWFzdGVyfGltYWdlc3wzMzM1fGltYWdlL2pwZWd8aW1hZ2VzL2hjOC9oOWYvODc5NjIyMjc1MDc1MC5qcGd8NmM5MjYyYTU0Njg4ZjVjYzRmYjBkODZiNzc2ZmFkNmY5YWY2YzVhOGRiNjMzNzY0MzNlZmZmNzhiOTM5MWUxOA',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value:
+        'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/medias/?context=bWFzdGVyfGltYWdlc3wyMjA0fGltYWdlL2pwZWd8aW1hZ2VzL2hhZC9oYmUvODc5NjIyMjgxNjI4Ni5qcGd8YTI3OTRkMTM5MTIyODhjYTQ3ZjMwM2VjMTcxNzZjNDZjZjk3MGY5M2NmY2MwNjcyNTgyNjY5N2Y3M2RhNTM5NQ',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    { value: 'Show reviews', type: TabbingOrderTypes.LINK },
+    { value: 'quantity', type: TabbingOrderTypes.ITEM_COUNTER },
+    { value: '-', type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Product Details', type: TabbingOrderTypes.H3 },
+    { value: 'Specs', type: TabbingOrderTypes.H3 },
+    { value: 'Reviews', type: TabbingOrderTypes.H3 },
+    { value: 'Write a Review', type: TabbingOrderTypes.BUTTON },
+    { value: 'Shipping', type: TabbingOrderTypes.H3 },
   ],
 };

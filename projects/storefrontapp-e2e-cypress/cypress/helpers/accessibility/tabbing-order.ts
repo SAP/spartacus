@@ -78,6 +78,19 @@ export function checkElement(tabElement: TabElement) {
       cy.focused()
         .should('have.attr', 'type', 'radio')
         .should('have.attr', 'formcontrolname', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.H3: {
+      cy.focused()
+        .get('h3')
+        .should('contain', tabElement.value);
+      return;
+    }
+    case TabbingOrderTypes.CX_MEDIA: {
+      cy.focused()
+        .find('img')
+        .should('have.attr', 'src', tabElement.value);
+      return;
     }
   }
 }

@@ -37,6 +37,7 @@ import {
 } from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
 import { reviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/review-order';
 import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
+import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -74,6 +75,12 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   describe('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
+    });
+  });
+
+  describe('Product Page', () => {
+    it('should allow to navigate with tab key', () => {
+      productPageTabbingOrder(config.productPage);
     });
   });
 
