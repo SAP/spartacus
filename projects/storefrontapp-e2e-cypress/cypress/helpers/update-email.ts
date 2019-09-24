@@ -2,29 +2,19 @@ import { standardUser } from '../sample-data/shared-users';
 import { login } from './auth-forms';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
-import { signOut } from './register';
 import { generateMail, randomString } from './user';
+import { signOut } from './register';
 export const UPDATE_EMAIL = '/my-account/update-email';
 export const password = 'Password123.';
 
 export function registerAndLogin() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
-  cy.visit('/');
 }
 
 export function accessPageAsAnonymous() {
   cy.visit(UPDATE_EMAIL);
   cy.location('pathname').should('contain', '/login');
-}
-
-export function accessUpdateEmailPage() {
-  cy.get('cx-page-layout cx-login')
-    .getByText('My Account')
-    .click({ force: true });
-  cy.get('nav')
-    .getByText('Email Address')
-    .click({ force: true });
 }
 
 export function cancelUpdateEmailAction() {
@@ -36,7 +26,6 @@ export function cancelUpdateEmailAction() {
 
 export function updateEmail() {
   const newUid = generateMail(randomString(), true);
-  accessUpdateEmailPage();
   cy.get('cx-update-email-form [formcontrolname="email"]').type(newUid);
   cy.get('cx-update-email-form [formcontrolname="confirmEmail"]').type(newUid);
   cy.get('cx-update-email-form [formcontrolname="password"]').type(password);
@@ -54,10 +43,10 @@ export function updateEmail() {
   // TODO: uncomment below component and remove update-email assertion when #1957 is implemented
   cy.get('cx-update-email').should('exist');
   // checkBanner();
-  signOut();
 }
 
 export function verifyOldEmailInvalid() {
+  signOut();
   cy.visit('/login');
   login(
     standardUser.registrationData.email,
@@ -73,14 +62,6 @@ export function verifyAsAnonymous() {
 }
 
 export function updateEmailTest() {
-  it('should register and login a user', () => {
-    registerAndLogin();
-  });
-
-  it('should be able to go to Update Email Page', () => {
-    accessUpdateEmailPage();
-  });
-
   it('should be able to cancel and go back to home', () => {
     cancelUpdateEmailAction();
   });

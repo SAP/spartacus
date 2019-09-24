@@ -7,6 +7,7 @@ import { CartActions } from '../actions/index';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers/index';
 import { CartSelectors } from './../selectors/index';
+import { User } from '../../../model/misc.model';
 
 describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
@@ -24,6 +25,7 @@ describe('Cart selectors', () => {
       currencyIso: 'USD',
       value: 0,
     },
+    user: { uid: 'test' },
   };
 
   const testEmptyCart: Cart = {
@@ -194,6 +196,21 @@ describe('Cart selectors', () => {
       store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual([{ entryNumber: 0, product: { code: '1234' } }]);
+    });
+  });
+
+  describe('getCartUser', () => {
+    it('should return the cart assigned user', () => {
+      let result: User;
+      store
+        .pipe(select(CartSelectors.getCartUser))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      expect(result).toEqual({ uid: 'test' });
     });
   });
 });

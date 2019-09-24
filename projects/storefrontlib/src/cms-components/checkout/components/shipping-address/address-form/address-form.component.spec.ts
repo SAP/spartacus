@@ -268,9 +268,15 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should call verifyAddress()', () => {
+  it('should call verifyAddress() when address has some changes', () => {
+    component.address.markAsDirty();
     component.verifyAddress();
     expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
+  });
+
+  it('should not call verifyAddress() when address does not have change', () => {
+    component.verifyAddress();
+    expect(mockCheckoutDeliveryService.verifyAddress).not.toHaveBeenCalled();
   });
 
   it('should call back()', () => {

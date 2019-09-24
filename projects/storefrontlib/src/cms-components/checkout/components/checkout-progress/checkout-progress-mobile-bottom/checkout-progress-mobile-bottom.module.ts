@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
 import { defaultCheckoutConfig } from '../../../config/default-checkout-config';
+import { CheckoutAuthGuard } from '../../../guards/checkout-auth.guard';
 import { CartNotEmptyGuard } from './../../../../../cms-components/cart/cart-not-empty.guard';
 import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobile-bottom.component';
 @NgModule({
@@ -22,7 +22,7 @@ import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobil
       cmsComponents: {
         CheckoutProgressMobileBottom: {
           component: CheckoutProgressMobileBottomComponent,
-          guards: [AuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
