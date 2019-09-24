@@ -1,0 +1,81 @@
+<div class="register-guest">
+  <div class="col-md-6 col-lg-4">
+    <h3>{{ 'checkoutOrderConfirmation.createAccount' | cxTranslate }}</h3>
+    <p>
+      {{
+        'checkoutOrderConfirmation.createAccountForNext'
+          | cxTranslate: { email: email }
+      }}
+    </p>
+
+    <form [formGroup]="guestRegisterForm">
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'register.password.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            [class.is-invalid]="
+              guestRegisterForm.get('password').invalid &&
+              guestRegisterForm.get('password').dirty
+            "
+            type="password"
+            name="password"
+            placeholder="{{ 'register.password.placeholder' | cxTranslate }}"
+            formControlName="password"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              guestRegisterForm.get('password').invalid &&
+              guestRegisterForm.get('password').dirty
+            "
+          >
+            <span>{{ 'register.passwordMinRequirements' | cxTranslate }}</span>
+          </div>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'register.confirmPassword.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            [class.is-invalid]="
+              guestRegisterForm.get('password').value !==
+              guestRegisterForm.get('passwordconf').value
+            "
+            type="password"
+            name="confirmpassword"
+            placeholder="{{
+              'register.confirmPassword.placeholder' | cxTranslate
+            }}"
+            formControlName="passwordconf"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              guestRegisterForm.get('password').value !==
+                guestRegisterForm.get('passwordconf').value &&
+              guestRegisterForm.get('passwordconf').value
+            "
+          >
+            <span>{{ 'register.bothPasswordMustMatch' | cxTranslate }}</span>
+          </div>
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        (click)="submit()"
+        [disabled]="guestRegisterForm.invalid"
+        class="btn btn-block btn-primary"
+      >
+        {{ 'common.submit' | cxTranslate }}
+      </button>
+    </form>
+  </div>
+</div>
