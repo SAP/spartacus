@@ -123,6 +123,7 @@ export class CartService {
       .pipe(
         select(CartSelectors.getActiveCartState),
         tap(cartState => {
+          console.log('cartState', cartState);
           if (!this.isCreated(cartState.value.content) && !cartState.loading) {
             this.store.dispatch(
               new CartActions.CreateCart({ userId: this.cartData.userId })
@@ -133,14 +134,24 @@ export class CartService {
         take(1)
       )
       .subscribe(_ => {
-        this.store.dispatch(
-          new CartActions.CartAddEntry({
-            userId: this.cartData.userId,
-            cartId: this.cartData.cartId,
-            productCode: productCode,
-            quantity: quantity,
-          })
-        );
+        // this.store.dispatch(
+          // new CartActions.CartAddEntry({
+          //   userId: this.cartData.userId,
+          //   cartId: this.cartData.cartId,
+          //   productCode: productCode,
+          //   quantity: quantity,
+          // })
+        // );
+
+        const newCart = new CartActions.CartAddEntry({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId,
+          productCode: productCode,
+          quantity: quantity,
+        })
+        this.store.dispatch(newCart);
+        console.log('new cart: ', newCart);
+        console.log(`userId: ${this.cartData.userId} \n cartId: ${this.cartData.cartId} \n productCode: ${productCode} \n quantity: ${quantity}`);
       });
   }
 

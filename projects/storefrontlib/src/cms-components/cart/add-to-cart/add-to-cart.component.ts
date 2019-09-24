@@ -92,6 +92,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.cartService
       .getEntry(this.productCode)
       .subscribe(entry => {
+
+        if(this.productCode.endsWith('md')){
+          console.log('ADD TO CART -> product code: ', this.productCode);
+          return;
+        }
+        
         if (entry) {
           this.increment = true;
         }
