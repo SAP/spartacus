@@ -6,7 +6,6 @@ export interface FeatureToggles {
      * Each subsequent level contains all of the features from previous one.
      */
     level?: string;
-    guestCheckout?: boolean;
     consignmentTracking?: boolean;
   };
 }
