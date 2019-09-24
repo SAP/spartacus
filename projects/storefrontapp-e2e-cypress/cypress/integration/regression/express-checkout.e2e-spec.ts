@@ -1,5 +1,4 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-
 import * as checkout from '../../helpers/checkout-flow';
 
 context('Express checkout', () => {
@@ -49,6 +48,10 @@ context('Express checkout', () => {
     it('should redirect to review order page with Standard Delivery', () => {
       checkout.verifyReviewOrderPage();
       cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
+      cy.window().then(win =>
+        console.log(win.localStorage.getItem('spartacus-local-data'))
+      );
+      cy.saveLocalStorage();
     });
   });
 
@@ -60,10 +63,10 @@ context('Express checkout', () => {
           defaultDeliveryMode: ['MOST_EXPENSIVE'],
         },
       } as CheckoutConfig);
-      cy.saveLocalStorage();
-      cy.visit('/');
       cy.restoreLocalStorage();
+      cy.visit('/');
     });
+
     it('open cart', () => {
       cy.get('cx-mini-cart').click();
     });
@@ -80,9 +83,9 @@ context('Express checkout', () => {
 
   describe('should redirect to first step if there is missing payment', () => {
     it('delete payment', () => {
-      cy.saveLocalStorage();
-      cy.visit('/my-account/payment-details');
-      cy.restoreLocalStorage();
+      cy.selectUserMenuOption({
+        option: 'Payment Details',
+      });
       cy.getAllByText('Delete')
         .first()
         .click({ force: true });
