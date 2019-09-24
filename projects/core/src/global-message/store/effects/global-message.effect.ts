@@ -47,12 +47,6 @@ export class GlobalMessageEffect {
         ),
         filter(
           ([text, messages]: [Translatable, Translatable[]]) =>
-            /* TODO: Verify after update angular packages
-             * Necessary verification for a fix for core build warnings:
-             * Dropping unreachable code [...]
-             * Declarations in unreachable code! [...]
-             */
-            countOfDeepEqualObjects &&
             countOfDeepEqualObjects(text, messages) > 1
         ),
         map(
