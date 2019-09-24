@@ -40,18 +40,10 @@
               class="form-control ng-untouched ng-pristine ng-invalid"
               formcontrolname="searchTerm"
               type="text"
-              placeholder="     {{
-                'asm.customerEmulation'
-                  | cxTranslate: { name: customer?.name, uid: customer?.uid }
-              }}"
+              disabled="true"
+              placeholder="{{ customer?.name }}, {{ customer?.uid }}"
             />
           </label>
-        </div>
-
-        <div class="fd-col--3">
-          <button class="fd-button--negative sap-icon--stop" type="submit">
-            End Session
-          </button>
         </div>
       </div>
     </div>
