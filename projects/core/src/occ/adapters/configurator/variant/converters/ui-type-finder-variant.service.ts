@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UiType } from '../../../../../model/configurator.model';
+import { Configurator } from '../../../../../model/configurator.model';
 import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable()
@@ -8,15 +8,15 @@ export class UiTypeFinderVariantService {
 
   public findUiTypeForOccConfiguratorVariantType(
     type: OccConfigurator.UiType
-  ): UiType {
-    let uiType: UiType;
+  ): Configurator.UiType {
+    let uiType: Configurator.UiType;
     switch (type) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
-        uiType = UiType.RADIOBUTTON;
+        uiType = Configurator.UiType.RADIOBUTTON;
         break;
       }
       default: {
-        uiType = UiType.NOT_IMPLEMENTED;
+        uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }
     }
     return uiType;

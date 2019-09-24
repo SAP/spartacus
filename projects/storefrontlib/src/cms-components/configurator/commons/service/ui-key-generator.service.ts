@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Attribute } from '@spartacus/core';
+import { Configurator } from '@spartacus/core';
 
 @Injectable()
 export class UIKeyGeneratorService {
@@ -22,7 +22,7 @@ export class UIKeyGeneratorService {
   }
 
   createAttributeValueIdForConfigurator(
-    currentAttribute: Attribute,
+    currentAttribute: Configurator.Attribute,
     value: string
   ): string {
     return this.createValueUiKey(
@@ -36,7 +36,9 @@ export class UIKeyGeneratorService {
     return this.PREFIX + this.SEPERATOR + prefix + this.SEPERATOR + attributeId;
   }
 
-  createAttributeIdForConfigurator(currentAttribute: Attribute): string {
+  createAttributeIdForConfigurator(
+    currentAttribute: Configurator.Attribute
+  ): string {
     if (currentAttribute) {
       return this.createAttributeUiKey(
         currentAttribute.uiType,

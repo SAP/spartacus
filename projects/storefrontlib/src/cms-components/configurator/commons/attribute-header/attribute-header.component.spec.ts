@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Attribute, I18nTestingModule, UiType } from '@spartacus/core';
+import { Configurator, I18nTestingModule } from '@spartacus/core';
 import { UIKeyGeneratorService } from '../service/ui-key-generator.service';
 import { AttributeHeaderComponent } from './attribute-header.component';
 
 describe('AttributeHeaderComponent', () => {
   let classUnderTest: AttributeHeaderComponent;
   let fixture: ComponentFixture<AttributeHeaderComponent>;
-  const currentAttribute: Attribute = {
+  const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
-    uiType: UiType.RADIOBUTTON,
+    uiType: Configurator.UiType.RADIOBUTTON,
   };
   let htmlElem: HTMLElement;
 
@@ -94,27 +94,27 @@ describe('AttributeHeaderComponent', () => {
 
   // Unit Tests
   it('should return default message key for input attributes', () => {
-    classUnderTest.currentAttribute.uiType = UiType.INPUT;
+    classUnderTest.currentAttribute.uiType = Configurator.UiType.INPUT;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'defaultRequiredMessage'
     );
   });
   it('should return single select message key for radio button attributes', () => {
-    classUnderTest.currentAttribute.uiType = UiType.RADIOBUTTON;
+    classUnderTest.currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'singleSelectRequiredMessage'
     );
   });
 
   it('should return single select message key for ddlb attributes', () => {
-    classUnderTest.currentAttribute.uiType = UiType.DDLB;
+    classUnderTest.currentAttribute.uiType = Configurator.UiType.DDLB;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'singleSelectRequiredMessage'
     );
   });
 
   it('should return multi select message key for check box list attributes', () => {
-    classUnderTest.currentAttribute.uiType = UiType.CHECKBOX;
+    classUnderTest.currentAttribute.uiType = Configurator.UiType.CHECKBOX;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'multiSelectRequiredMessage'
     );

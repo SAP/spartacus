@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UiType } from '@spartacus/core';
+import { Configurator } from '@spartacus/core';
 import { UIKeyGeneratorService } from '../../service/ui-key-generator.service';
 import { AttributeRadioButtonComponent } from './attribute-radio-button.component';
 
@@ -20,7 +20,7 @@ describe('AttributeRadioButtonComponent', () => {
     component.currentAttribute = {
       name: 'valueName',
       stdAttrCode: 444,
-      uiType: UiType.RADIOBUTTON,
+      uiType: Configurator.UiType.RADIOBUTTON,
       quantity: 1,
     };
     fixture.detectChanges();

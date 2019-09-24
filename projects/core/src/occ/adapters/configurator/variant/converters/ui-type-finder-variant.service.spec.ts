@@ -1,4 +1,4 @@
-import { UiType } from '../../../../../model/configurator.model';
+import { Configurator } from '../../../../../model/configurator.model';
 import { OccConfigurator } from '../occ-configurator.models';
 import { UiTypeFinderVariantService } from './ui-type-finder-variant.service';
 
@@ -18,7 +18,7 @@ describe('UiTypeFinderVariantService (in unit test)', () => {
       uiTypeFinder.findUiTypeForOccConfiguratorVariantType(
         OccConfigurator.UiType.RADIO_BUTTON
       )
-    ).toBe(UiType.RADIOBUTTON);
+    ).toBe(Configurator.UiType.RADIOBUTTON);
   });
 
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
@@ -26,6 +26,6 @@ describe('UiTypeFinderVariantService (in unit test)', () => {
       uiTypeFinder.findUiTypeForOccConfiguratorVariantType(
         OccConfigurator.UiType.CHECK_BOX_LIST
       )
-    ).toBe(UiType.NOT_IMPLEMENTED);
+    ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
   });
 });

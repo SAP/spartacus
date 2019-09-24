@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Attribute, Value } from '@spartacus/core';
+import { Configurator } from '@spartacus/core';
 import { UIKeyGeneratorService } from '../../service/ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-radio-button',
@@ -8,11 +8,11 @@ import { UIKeyGeneratorService } from '../../service/ui-key-generator.service';
 export class AttributeRadioButtonComponent implements OnInit {
   constructor(private uiKeyGen: UIKeyGeneratorService) {}
 
-  @Input() currentAttribute: Attribute;
+  @Input() currentAttribute: Configurator.Attribute;
 
   ngOnInit() {}
 
-  public get values(): Value[] {
+  public get values(): Configurator.Value[] {
     return this.currentAttribute.values;
   }
 

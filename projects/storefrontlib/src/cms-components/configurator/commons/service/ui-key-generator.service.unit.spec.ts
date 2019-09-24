@@ -1,11 +1,11 @@
-import { Attribute, UiType } from '@spartacus/core';
+import { Configurator } from '@spartacus/core';
 import { UIKeyGeneratorService } from './ui-key-generator.service';
 
 describe('UIKeyGenerator', () => {
   let classUnderTest: UIKeyGeneratorService;
-  const currentAttribute: Attribute = {
+  const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
-    uiType: UiType.RADIOBUTTON,
+    uiType: Configurator.UiType.RADIOBUTTON,
   };
 
   beforeEach(() => {

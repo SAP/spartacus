@@ -1,6 +1,6 @@
 import { ConfiguratorActions } from '../actions/index';
 import { ConfigurationState } from '../configuration-state';
-import { Configuration } from './../../../../model/configurator.model';
+import { Configurator } from './../../../../model/configurator.model';
 import { reducer } from './configurator.reducer';
 
 describe('ConfiguratorReducer', () => {
@@ -9,7 +9,7 @@ describe('ConfiguratorReducer', () => {
     refresh: false,
   };
   const productCode = 'CONF_LAPTOP';
-  const configuration: Configuration = {
+  const configuration: Configurator.Configuration = {
     configId: 'a',
     productCode: productCode,
   };

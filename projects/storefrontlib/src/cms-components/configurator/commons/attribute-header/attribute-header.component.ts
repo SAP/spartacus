@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Attribute, UiType } from '@spartacus/core';
+import { Configurator } from '@spartacus/core';
 import { UIKeyGeneratorService } from '../service/ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-header',
@@ -8,9 +8,9 @@ import { UIKeyGeneratorService } from '../service/ui-key-generator.service';
 export class AttributeHeaderComponent {
   constructor(private uiKeyGen: UIKeyGeneratorService) {}
 
-  @Input() currentAttribute: Attribute;
+  @Input() currentAttribute: Configurator.Attribute;
 
-  public get attribute(): Attribute {
+  public get attribute(): Configurator.Attribute {
     return this.currentAttribute;
   }
 
@@ -20,9 +20,12 @@ export class AttributeHeaderComponent {
   public getRequiredMessageKey(): string {
     let msgKey = 'attribute.';
     const uiType = this.currentAttribute.uiType;
-    if (uiType === UiType.RADIOBUTTON || uiType === UiType.DDLB) {
+    if (
+      uiType === Configurator.UiType.RADIOBUTTON ||
+      uiType === Configurator.UiType.DDLB
+    ) {
       msgKey += 'singleSelectRequiredMessage';
-    } else if (uiType === UiType.CHECKBOX) {
+    } else if (uiType === Configurator.UiType.CHECKBOX) {
       msgKey += 'multiSelectRequiredMessage';
     } else {
       msgKey += 'defaultRequiredMessage';

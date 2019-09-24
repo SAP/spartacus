@@ -1,10 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  Attribute,
-  UiType,
-  Value,
-} from '../../../../../model/configurator.model';
+import { Configurator } from '../../../../../model/configurator.model';
 import { ConverterService } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
@@ -72,20 +68,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const attribute = attributes[0];
     expect(attribute.name).toBe(csticName);
     expect(attribute.required).toBe(requiredFlag);
-    expect(attribute.uiType).toBe(UiType.RADIOBUTTON);
+    expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
     const values = attribute.values;
     expect(values.length).toBe(1);
   });
 
   it('should convert values', () => {
-    const values: Value[] = [];
+    const values: Configurator.Value[] = [];
     occConfiguratorVariantNormalizer.convertValue(occValue, values);
     expect(values.length).toBe(1);
     expect(values[0].valueCode).toBe(valueKey);
   });
 
   it('should convert attributes and do not complain if no domain values are present', () => {
-    const attributes: Attribute[] = [];
+    const attributes: Configurator.Attribute[] = [];
     occConfiguratorVariantNormalizer.convertCharacteristic(
       occCstic,
       attributes
