@@ -36,12 +36,19 @@ import {
   checkoutBillingAddressTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
 import { reviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/review-order';
+import { headerDesktopTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
 import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  describe('Header - Desktop (not logged in)', () => {
+    it('should allow to navigate with tab key', () => {
+      headerDesktopTabbingOrder(config.headerDesktopNotLoggedIn);
+    });
   });
 
   describe('Home page', () => {
@@ -108,6 +115,12 @@ context('Tabbing order - tests do require user to be logged in', () => {
 
   afterEach(() => {
     cy.saveLocalStorage();
+  });
+
+  describe('Header - Desktop (logged in)', () => {
+    it('should allow to navigate with tab key', () => {
+      headerDesktopTabbingOrder(config.headerDesktopLoggedIn);
+    });
   });
 
   describe('Order History', () => {

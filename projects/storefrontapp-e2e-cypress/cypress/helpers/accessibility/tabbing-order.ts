@@ -9,6 +9,8 @@ export interface TabElement {
   type: TabbingOrderTypes;
 }
 
+export const testProductUrl = '/product/779841';
+
 export function checkElement(tabElement: TabElement) {
   // Check generic cases without value
   switch (tabElement.type) {
@@ -21,7 +23,9 @@ export function checkElement(tabElement: TabElement) {
       return;
     }
     case TabbingOrderTypes.GENERIC_INPUT: {
-      cy.focused().should('have.attr', 'type', 'text');
+      cy.focused()
+        .get('input')
+        .should('be.visible');
       break;
     }
     case TabbingOrderTypes.GENERIC_NG_SELECT: {
@@ -92,6 +96,19 @@ export function checkElement(tabElement: TabElement) {
         .should('have.attr', 'src', tabElement.value);
       return;
     }
+    case TabbingOrderTypes.SELECT: {
+      cy.focused()
+        .get('select')
+        .parent()
+        .should('contain', tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
+      cy.focused()
+        .parent()
+        .contains(tabElement.value);
+      break;
+    }
   }
 }
 
@@ -135,10 +152,9 @@ export function registerAndLogin(): void {
 }
 
 export function addProduct(): void {
-  const productPageUrl = '/product/779841';
   const cartPage = waitForPage('/cart', 'getCartPage');
 
-  cy.visit(productPageUrl);
+  cy.visit(testProductUrl);
   cy.getAllByText(/Add to cart/i)
     .first()
     .click();
