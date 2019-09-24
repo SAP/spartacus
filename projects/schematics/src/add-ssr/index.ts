@@ -86,11 +86,8 @@ function addPackageJsonScripts(options: SpartacusOptions): Rule {
         'build:client-and-server-bundles'
       ] = `ng build --prod && ng run ${options.project}:server`;
       packageJsonFileObject.scripts['build:ssr'] =
-        'npm run build:client-and-server-bundles && npm run webpack:server';
+        'npm run build:client-and-server-bundles && npm run compile:server';
       packageJsonFileObject.scripts['serve:ssr'] = 'node dist/ssr/server';
-      packageJsonFileObject.scripts['webpack:server'] =
-        'webpack --config webpack.server.config.js --progress --colors';
-      delete packageJsonFileObject.scripts['compile:server'];
 
       tree.overwrite(
         'package.json',
