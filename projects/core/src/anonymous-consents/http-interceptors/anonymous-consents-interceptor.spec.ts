@@ -1,6 +1,5 @@
 import {
   HttpClient,
-  HttpHeaders,
   HttpInterceptor,
   HttpRequest,
   HTTP_INTERCEPTORS,
@@ -104,10 +103,6 @@ describe('AnonymousConsentsInterceptor', () => {
 
     it(`should call ${serializeAndEncodeMethod} and add the consents to the headers`, () => {
       const mockHeaderValue = 'dummy headers';
-      const mockHeaders = new HttpHeaders().append(
-        ANONYMOUS_CONSENTS_HEADER,
-        mockHeaderValue
-      );
       spyOn<any>(interceptor, serializeAndEncodeMethod).and.returnValue(
         mockHeaderValue
       );
@@ -122,7 +117,9 @@ describe('AnonymousConsentsInterceptor', () => {
       );
       expect(result).toEqual(
         request.clone({
-          headers: mockHeaders,
+          setHeaders: {
+            [ANONYMOUS_CONSENTS_HEADER]: mockHeaderValue,
+          },
         })
       );
     });
