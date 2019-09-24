@@ -1,4 +1,4 @@
-<ng-container *ngIf="(component.data$ | async) as data">
+<ng-container *ngIf="component.data$ | async as data">
   <cx-generic-link
     [url]="data.urlLink"
     [target]="data.external ? '_blank' : null"

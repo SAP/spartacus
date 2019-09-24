@@ -25,9 +25,7 @@ export class ShippingAddressSetGuard implements CanActivate {
 
     if (!checkoutStep && isDevMode()) {
       console.warn(
-        `Missing step with type ${
-          CheckoutStepType.SHIPPING_ADDRESS
-        } in checkout configuration.`
+        `Missing step with type ${CheckoutStepType.SHIPPING_ADDRESS} in checkout configuration.`
       );
     }
 
