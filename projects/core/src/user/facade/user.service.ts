@@ -29,7 +29,7 @@ export class UserService {
     authService: AuthService
   );
   /**
-   * @deprecated since version 1.x
+   * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
    */
