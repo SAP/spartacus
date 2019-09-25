@@ -147,6 +147,6 @@ export type CartAction =
   | AddEmailToCartFail
   | AddEmailToCartSuccess
   | DeleteCart
-  | DeleteCartFail;
+  | DeleteCartFail
   | ClearExpiredCoupons
   | ClearCart;

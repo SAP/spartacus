@@ -127,7 +127,7 @@ export class CartEffects {
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.ADD_EMAIL_TO_CART_SUCCESS,
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_ADD_VOUCHER_SUCCESS,
       CartActions.CART_REMOVE_VOUCHER_SUCCESS,

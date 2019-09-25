@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Cart, CartService, I18nTestingModule, Voucher } from '@spartacus/core';
+import { CartService, I18nTestingModule, Voucher } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 import { CartCouponComponent } from './cart-coupon.component';
