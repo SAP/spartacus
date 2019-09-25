@@ -89,7 +89,7 @@ export function checkElement(tabElement: TabElement) {
     case TabbingOrderTypes.CX_MEDIA: {
       cy.focused()
         .find('img')
-        .should('have.attr', 'src', tabElement.value);
+        .should('have.attr', 'alt', tabElement.value);
       return;
     }
   }
