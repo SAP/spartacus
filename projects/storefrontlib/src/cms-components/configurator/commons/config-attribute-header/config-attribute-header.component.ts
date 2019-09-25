@@ -1,25 +1,21 @@
 import { Component, Input } from '@angular/core';
 import { Configurator } from '@spartacus/core';
-import { UIKeyGeneratorService } from '../service/ui-key-generator.service';
+import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-header',
   templateUrl: './config-attribute-header.component.html',
 })
 export class ConfigAttributeHeaderComponent {
-  constructor(private uiKeyGen: UIKeyGeneratorService) {}
+  constructor(private uiKeyGen: ConfigUIKeyGeneratorService) {}
 
-  @Input() currentAttribute: Configurator.Attribute;
-
-  public get attribute(): Configurator.Attribute {
-    return this.currentAttribute;
-  }
+  @Input() attribute: Configurator.Attribute;
 
   public showRequiredMessage(): boolean {
-    return this.currentAttribute.required && this.currentAttribute.incomplete;
+    return this.attribute.required && this.attribute.incomplete;
   }
   public getRequiredMessageKey(): string {
     let msgKey = 'attribute.';
-    const uiType = this.currentAttribute.uiType;
+    const uiType = this.attribute.uiType;
     if (
       uiType === Configurator.UiType.RADIOBUTTON ||
       uiType === Configurator.UiType.DROPDOWN

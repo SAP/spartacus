@@ -1,7 +1,6 @@
 @import '../../theme';
 
 .cx-config-attribute-header-required-message {
-  float: left;
   clear: left;
   color: var(--cx-color-danger);
 }
@@ -12,17 +11,13 @@
 }
 .cx-config-attribute-label {
   padding-top: 10px;
-  padding-right: 6px; //@padding-base-vertical;
+  padding-right: 6px;
   font-size: $font-size-base;
   font-weight: bold;
   display: block;
   clear: left;
-  //float: left;
-  max-width: 66%;
 
-  /*  @media (max-width: @screen-xs-max) {
-      max-width: 100%;
-  }*/
+  max-width: 66%;
 
   &.cpqProductConfig-attributeLabel-error {
     color: var(--cx-color-danger);
@@ -36,26 +31,8 @@
 .cx-config-attribute-value {
   margin-left: 17px;
   padding: 10px 34px 10px 0;
-  /*
-  @media (min-width: @screen-md-min) {
-      padding-right: @cpq-padding;
-  }*/
   clear: both;
-  float: none;
   display: block;
-  /*
-  &.cpqProductConfig-attributeValue-error {
-      input,
-      select,
-      .ui-selectmenu-button {
-          background-color: @state-danger-bg;
-          border: 1px solid @state-danger-border;
-      }
-  }
-  &.cpqProductConfig-attributeValue-warning input {
-      background-color: @state-danger-bg;
-      border: 1px solid @state-danger-border;
-  }*/
 }
 
 .cpqProductConfig-attributeValue-multi {

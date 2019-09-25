@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Configurator } from '@spartacus/core';
 
-@Injectable()
-export class UIKeyGeneratorService {
+/**
+ * Serivce to provide unique keys for elements on the UI and for sending to configurator
+ */
+@Injectable({ providedIn: 'root' })
+export class ConfigUIKeyGeneratorService {
   constructor() {}
 
   private SEPERATOR = '--';
@@ -11,6 +14,12 @@ export class UIKeyGeneratorService {
   private PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
   private PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
 
+  /**
+   * Creates unique key for config value on the UI
+   * @param prefix for key depending on usage (e.g. uiType, label)
+   * @param attributeId
+   * @param valueId
+   */
   createValueUiKey(
     prefix: string,
     attributeId: string,
@@ -21,6 +30,11 @@ export class UIKeyGeneratorService {
     );
   }
 
+  /**
+   * Creates unique key for config value to be sent to configurator
+   * @param currentAttribute
+   * @param value
+   */
   createAttributeValueIdForConfigurator(
     currentAttribute: Configurator.Attribute,
     value: string
@@ -32,10 +46,19 @@ export class UIKeyGeneratorService {
     );
   }
 
+  /**
+   * Creates unique key for config attribute on the UI
+   * @param prefix for key depending on usage (e.g. uiType, label)
+   * @param attributeId
+   */
   createAttributeUiKey(prefix: string, attributeId: string): string {
     return this.PREFIX + this.SEPERATOR + prefix + this.SEPERATOR + attributeId;
   }
 
+  /**
+   * Creates unique key for config attribute to be sent to configurator
+   * @param currentAttribute
+   */
   createAttributeIdForConfigurator(
     currentAttribute: Configurator.Attribute
   ): string {
@@ -47,6 +70,13 @@ export class UIKeyGeneratorService {
     }
   }
 
+  /**
+   * Creates unique key for attribute 'aria-labelledby'
+   * @param prefix
+   * @param attributeId
+   * @param valueId
+   * @param hasQuantity
+   */
   createAriaLabelledBy(
     prefix: string,
     attributeId: string,

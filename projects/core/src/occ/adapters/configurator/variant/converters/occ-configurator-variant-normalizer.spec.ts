@@ -4,7 +4,6 @@ import { Configurator } from '../../../../../model/configurator.model';
 import { ConverterService } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
-import { UiTypeFinderVariantService } from './ui-type-finder-variant.service';
 
 const csticName = 'name';
 const valueKey = 'BK';
@@ -42,7 +41,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
       providers: [
         OccConfiguratorVariantNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
-        UiTypeFinderVariantService,
       ],
     });
 
@@ -88,5 +86,21 @@ describe('OccConfiguratorVariantNormalizer', () => {
     );
     expect(attributes.length).toBe(1);
     expect(attributes[0].name).toBe(csticName);
+  });
+
+  it('should return UIType Radio Button for Radio Button occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.mapOccConfiguratorVariantType(
+        OccConfigurator.UiType.RADIO_BUTTON
+      )
+    ).toBe(Configurator.UiType.RADIOBUTTON);
+  });
+
+  it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.mapOccConfiguratorVariantType(
+        OccConfigurator.UiType.CHECK_BOX_LIST
+      )
+    ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
   });
 });

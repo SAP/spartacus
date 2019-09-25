@@ -17,7 +17,7 @@
   >
     <div class="cx-config-attribute-header">
       <cx-config-attribute-header
-        [currentAttribute]="attribute"
+        [attribute]="attribute"
       ></cx-config-attribute-header>
     </div>
     <div
@@ -28,7 +28,7 @@
     >
       <cx-config-attribute-radio-button
         *ngIf="attribute.uiType === UiType.RADIOBUTTON"
-        [currentAttribute]="attribute"
+        [attribute]="attribute"
       ></cx-config-attribute-radio-button>
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
         'attribute.notSupported' | cxTranslate

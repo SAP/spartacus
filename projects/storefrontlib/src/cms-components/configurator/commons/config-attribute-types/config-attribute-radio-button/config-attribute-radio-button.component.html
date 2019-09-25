@@ -1,31 +1,29 @@
 <fieldset>
-  <legend style="display: none">{{ currentAttribute.label }}</legend>
-  <div
-    id="{{ uiKeyGenerator.createAttributeIdForConfigurator(currentAttribute) }}"
-  >
-    <div class="form-check" *ngFor="let value of values">
+  <legend style="display: none">{{ attribute.label }}</legend>
+  <div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
+    <div class="form-check" *ngFor="let value of attribute.values">
       <div class="cx-config-selectLine">
         <input
           id="{{
             uiKeyGenerator.createAttributeValueIdForConfigurator(
-              currentAttribute,
+              attribute,
               value.valueCode
             )
           }}"
           class="form-check-input"
           type="radio"
-          [attr.required]="currentAttribute.required"
+          [attr.required]="attribute.required"
           [value]="value.valueCode"
           name="{{
-            uiKeyGenerator.createAttributeIdForConfigurator(currentAttribute)
+            uiKeyGenerator.createAttributeIdForConfigurator(attribute)
           }}"
           attr.name="{{
-            uiKeyGenerator.createAttributeIdForConfigurator(currentAttribute)
+            uiKeyGenerator.createAttributeIdForConfigurator(attribute)
           }}"
           attr.aria-labelledby="{{
             uiKeyGenerator.createAriaLabelledBy(
               'label',
-              currentAttribute.name,
+              attribute.name,
               value.valueCode
             )
           }}"
@@ -35,13 +33,13 @@
             id="{{
               uiKeyGenerator.createValueUiKey(
                 'label',
-                currentAttribute.name,
+                attribute.name,
                 value.valueCode
               )
             }}"
             for="{{
               uiKeyGenerator.createAttributeValueIdForConfigurator(
-                currentAttribute,
+                attribute,
                 value.valueCode
               )
             }}"

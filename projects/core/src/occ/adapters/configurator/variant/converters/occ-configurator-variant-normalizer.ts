@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { Configurator } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
-import { UiTypeFinderVariantService } from './ui-type-finder-variant.service';
 
 @Injectable()
 export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration> {
-  constructor(private uiTypeFinder: UiTypeFinderVariantService) {}
+  constructor() {}
 
   convert(
     source: OccConfigurator.Configuration,
@@ -41,9 +40,7 @@ export class OccConfiguratorVariantNormalizer
       name: cstic.name,
       label: cstic.langdepname,
       required: cstic.required,
-      uiType: this.uiTypeFinder.findUiTypeForOccConfiguratorVariantType(
-        cstic.type
-      ),
+      uiType: this.mapOccConfiguratorVariantType(cstic.type),
       values: [],
     };
     if (cstic.domainvalues) {
@@ -64,5 +61,21 @@ export class OccConfiguratorVariantNormalizer
     };
 
     values.push(value);
+  }
+
+  mapOccConfiguratorVariantType(
+    type: OccConfigurator.UiType
+  ): Configurator.UiType {
+    let uiType: Configurator.UiType;
+    switch (type) {
+      case OccConfigurator.UiType.RADIO_BUTTON: {
+        uiType = Configurator.UiType.RADIOBUTTON;
+        break;
+      }
+      default: {
+        uiType = Configurator.UiType.NOT_IMPLEMENTED;
+      }
+    }
+    return uiType;
   }
 }

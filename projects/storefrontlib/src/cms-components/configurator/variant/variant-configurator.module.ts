@@ -17,7 +17,6 @@ import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigImageComponent } from '../commons/config-image/config-image.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
-import { UIKeyGeneratorService } from '../commons/service/ui-key-generator.service';
 
 @NgModule({
   imports: [
@@ -76,7 +75,7 @@ import { UIKeyGeneratorService } from '../commons/service/ui-key-generator.servi
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeHeaderComponent,
   ],
-  providers: [UserService, UIKeyGeneratorService],
+  providers: [UserService],
   entryComponents: [
     ConfigFormComponent,
     ConfigTitleComponent,

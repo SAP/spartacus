@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/core';
-import { UIKeyGeneratorService } from '../../service/ui-key-generator.service';
+import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ConfigAttributeRadioButtonComponent } from './config-attribute-radio-button.component';
 
 describe('ConfigAttributeRadioButtonComponent', () => {
@@ -10,14 +10,14 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeRadioButtonComponent],
-      providers: [UIKeyGeneratorService],
+      providers: [ConfigUIKeyGeneratorService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigAttributeRadioButtonComponent);
     component = fixture.componentInstance;
-    component.currentAttribute = {
+    component.attribute = {
       name: 'valueName',
       stdAttrCode: 444,
       uiType: Configurator.UiType.RADIOBUTTON,

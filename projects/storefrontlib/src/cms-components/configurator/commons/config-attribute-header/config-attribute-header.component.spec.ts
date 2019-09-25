@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator, I18nTestingModule } from '@spartacus/core';
-import { UIKeyGeneratorService } from '../service/ui-key-generator.service';
+import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
 
 describe('ConfigAttributeHeaderComponent', () => {
@@ -16,7 +16,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfigAttributeHeaderComponent],
-      providers: [UIKeyGeneratorService],
+      providers: [ConfigUIKeyGeneratorService],
     }).compileComponents();
   }));
 
@@ -24,11 +24,11 @@ describe('ConfigAttributeHeaderComponent', () => {
     fixture = TestBed.createComponent(ConfigAttributeHeaderComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    classUnderTest.currentAttribute = currentAttribute;
-    classUnderTest.currentAttribute.label = 'label of attribute';
-    classUnderTest.currentAttribute.name = '123';
-    classUnderTest.currentAttribute.incomplete = true;
-    classUnderTest.currentAttribute.required = false;
+    classUnderTest.attribute = currentAttribute;
+    classUnderTest.attribute.label = 'label of attribute';
+    classUnderTest.attribute.name = '123';
+    classUnderTest.attribute.incomplete = true;
+    classUnderTest.attribute.required = false;
     fixture.detectChanges();
   });
 
@@ -38,7 +38,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   it('should provide public access to uiKeyGenerator', () => {
     expect(classUnderTest.uiKeyGenerator).toBe(
-      TestBed.get(UIKeyGeneratorService)
+      TestBed.get(ConfigUIKeyGeneratorService)
     );
   });
 
@@ -60,7 +60,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       htmlElem
         .querySelector('.cx-config-attribute-label')
         .getAttribute('aria-label')
-    ).toEqual(classUnderTest.currentAttribute.label);
+    ).toEqual(classUnderTest.attribute.label);
     expectElementNotPresent(
       htmlElem,
       '.cx-config-attribute-label-required-icon'
@@ -68,13 +68,13 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   it('should render a label as required', () => {
-    classUnderTest.currentAttribute.required = true;
+    classUnderTest.attribute.required = true;
     fixture.detectChanges();
     expectElementPresent(htmlElem, '.cx-config-attribute-label-required-icon');
   });
 
   it('should render a required message if attribute has no value, yet.', () => {
-    classUnderTest.currentAttribute.required = true;
+    classUnderTest.attribute.required = true;
     fixture.detectChanges();
     expectElementPresent(
       htmlElem,
@@ -83,8 +83,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   it("shouldm't render a required message if  attribute is incomplete, but  not required.", () => {
-    classUnderTest.currentAttribute.required = false;
-    classUnderTest.currentAttribute.incomplete = true;
+    classUnderTest.attribute.required = false;
+    classUnderTest.attribute.incomplete = true;
     fixture.detectChanges();
     expectElementNotPresent(
       htmlElem,
@@ -94,27 +94,27 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   // Unit Tests
   it('should return default message key for input attributes', () => {
-    classUnderTest.currentAttribute.uiType = Configurator.UiType.INPUT;
+    classUnderTest.attribute.uiType = Configurator.UiType.INPUT;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'defaultRequiredMessage'
     );
   });
   it('should return single select message key for radio button attributes', () => {
-    classUnderTest.currentAttribute.uiType = Configurator.UiType.RADIOBUTTON;
+    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'singleSelectRequiredMessage'
     );
   });
 
   it('should return single select message key for ddlb attributes', () => {
-    classUnderTest.currentAttribute.uiType = Configurator.UiType.DROPDOWN;
+    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'singleSelectRequiredMessage'
     );
   });
 
   it('should return multi select message key for check box list attributes', () => {
-    classUnderTest.currentAttribute.uiType = Configurator.UiType.CHECKBOX;
+    classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'multiSelectRequiredMessage'
     );

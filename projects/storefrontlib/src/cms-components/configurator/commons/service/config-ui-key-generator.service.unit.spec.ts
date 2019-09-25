@@ -1,15 +1,15 @@
 import { Configurator } from '@spartacus/core';
-import { UIKeyGeneratorService } from './ui-key-generator.service';
+import { ConfigUIKeyGeneratorService } from './config-ui-key-generator.service';
 
-describe('UIKeyGenerator', () => {
-  let classUnderTest: UIKeyGeneratorService;
+describe('ConfigUIKeyGenerator', () => {
+  let classUnderTest: ConfigUIKeyGeneratorService;
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
   };
 
   beforeEach(() => {
-    classUnderTest = new UIKeyGeneratorService();
+    classUnderTest = new ConfigUIKeyGeneratorService();
   });
 
   it('should be created', () => {
