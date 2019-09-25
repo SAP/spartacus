@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -9,6 +14,7 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-config-form',
   templateUrl: './config-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;

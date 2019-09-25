@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfigImageComponent } from './config-image.component';
 
@@ -9,7 +10,13 @@ describe('ConfigImageComponent', () => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [ConfigImageComponent],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfigImageComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigImageComponent);

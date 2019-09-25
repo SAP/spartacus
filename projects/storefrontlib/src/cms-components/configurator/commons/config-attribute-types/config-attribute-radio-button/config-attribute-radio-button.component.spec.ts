@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
@@ -11,7 +12,13 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeRadioButtonComponent],
       providers: [ConfigUIKeyGeneratorService],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfigAttributeRadioButtonComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

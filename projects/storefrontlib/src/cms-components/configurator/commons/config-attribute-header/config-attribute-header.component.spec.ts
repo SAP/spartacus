@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator, I18nTestingModule } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
@@ -17,7 +18,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       imports: [I18nTestingModule],
       declarations: [ConfigAttributeHeaderComponent],
       providers: [ConfigUIKeyGeneratorService],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfigAttributeHeaderComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

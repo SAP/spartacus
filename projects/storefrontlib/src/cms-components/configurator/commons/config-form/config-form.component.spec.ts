@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterState } from '@angular/router';
 import {
@@ -64,7 +65,13 @@ describe('ConfigurationFormComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfigAttributeHeaderComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigFormComponent);
@@ -75,6 +82,16 @@ describe('ConfigurationFormComponent', () => {
     expect(component).toBeDefined();
   });
 
+  it('should get product code as part of poroduct configuration', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    let productCode: string;
+    component.configuration$.subscribe(
+      (data: Configurator.Configuration) => (productCode = data.productCode)
+    );
+
+    expect(productCode).toEqual(PRODUCT_CODE);
+  });
   it('should get product code as part of poroduct configuration', () => {
     component.ngOnInit();
     fixture.detectChanges();
