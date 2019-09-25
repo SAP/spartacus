@@ -6,11 +6,12 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   cart: { paths: ['cart'] },
 
   // semantic links for login related pages
-  login: { paths: ['login'] },
+  login: { paths: ['login'], protected: false },
+  register: { paths: ['login/register'], protected: false },
+  forgotPassword: { paths: ['login/forgot-password'], protected: false },
+  resetPassword: { paths: ['login/pw/change'], protected: false },
   logout: { paths: ['logout'] },
-  register: { paths: ['login/register'] },
   checkoutLogin: { paths: ['checkout-login'] },
-  forgotPassword: { paths: ['login/forgot-password'] },
 
   checkout: { paths: ['checkout'] },
   checkoutShippingAddress: { paths: ['checkout/shipping-address'] },

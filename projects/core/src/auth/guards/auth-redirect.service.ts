@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import { RoutingService } from '../../routing/facade/routing.service';
 import { Router } from '@angular/router';
+import { RoutingService } from '../../routing/facade/routing.service';
 
 @Injectable({
   providedIn: 'root',
