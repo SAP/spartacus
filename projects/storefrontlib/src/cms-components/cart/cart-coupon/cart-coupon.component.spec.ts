@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { CartService, I18nTestingModule, Voucher } from '@spartacus/core';
+import { CartService, I18nTestingModule, Voucher, Cart } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 import { CartCouponComponent } from './cart-coupon.component';
@@ -39,10 +39,12 @@ describe('CartCouponComponent', () => {
   const emitter = new EventEmitter<string>();
 
   const mockCartService = jasmine.createSpyObj('CartService', [
+    'getActive',
     'addVoucher',
     'getAddVoucherResultSuccess',
     'resetAddVoucherProcessingState',
     'getAddVoucherResultLoading',
+    'getLoaded',
   ]);
 
   beforeEach(async(() => {
@@ -63,10 +65,12 @@ describe('CartCouponComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartCouponComponent);
     component = fixture.componentInstance;
-    // component.cart$ = cart;
+    el = fixture.debugElement;
     cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
     spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(emitter);
 
+    mockCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
+    mockCartService.getLoaded.and.returnValue(of(true));
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartService.getAddVoucherResultLoading.and.returnValue(of());
     mockCartService.addVoucher.and.stub();
@@ -96,7 +100,7 @@ describe('CartCouponComponent', () => {
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
-    el.query(By.css('[data-test="btn-coupon"]')).nativeElement.click();
+    el.query(By.css('[data-test="button-coupon"]')).nativeElement.click();
 
     expect(
       el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
@@ -112,7 +116,7 @@ describe('CartCouponComponent', () => {
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
-    el.query(By.css('[data-test="btn-coupon"]')).nativeElement.click();
+    el.query(By.css('[data-test="button-coupon"]')).nativeElement.click();
 
     expect(
       el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
