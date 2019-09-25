@@ -21,7 +21,7 @@ export class UserAddressService {
   /**
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
-    authService: AuthService) instead
+   *  authService: AuthService) instead
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
