@@ -7,10 +7,10 @@ import {
   RoutingService,
   User,
   UserToken,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class CheckoutAuthGuard implements CanActivate {
     private authService: AuthService,
     private authRedirectService: AuthRedirectService,
     private cartService: CartService,
-    private featureConfigService: FeatureConfigService
+    private checkoutConfigService: CheckoutConfigService
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -34,7 +34,7 @@ export class CheckoutAuthGuard implements CanActivate {
           if (this.cartService.isGuestCart()) {
             return Boolean(user);
           }
-          if (this.featureConfigService.isEnabled('guestCheckout')) {
+          if (this.checkoutConfigService.isGuestCheckout()) {
             this.routingService.go({ cxRoute: 'login' }, { forced: true });
           } else {
             this.routingService.go({ cxRoute: 'login' });
