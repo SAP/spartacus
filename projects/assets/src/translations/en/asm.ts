@@ -25,7 +25,6 @@ export const asm = {
       submit: 'Start Customer Session',
       noMatch: 'No customer match for "{{uid}}"',
     },
-    customerEmulation: 'ASM - Supporting customer: {{name}} ({{uid}})',
     csagentTokenExpired: 'Your customer support agent session is expired.',
   },
 };
