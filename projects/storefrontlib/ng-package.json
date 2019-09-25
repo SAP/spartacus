@@ -9,7 +9,8 @@
       "@ngrx/store": "store",
       "@ngrx/router-store": "fromNgrxRouter",
       "@ng-select/ng-select": "ngSelect",
-      "@spartacus/core": "core"
+      "@spartacus/core": "core",
+      "ngx-infinite-scroll": "ngxInfiniteScroll"
     },
     "styleIncludePaths": ["../", "../storefrontstyles/scss"]
   }
