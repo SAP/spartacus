@@ -1,8 +1,8 @@
 /**
  * Configure button needs a margin enforce a distance to predecessor buttons *
  */
-.btn {
-  &-to-configuration {
+%cx-configure-product {
+  .btn-block {
     margin-top: 5px;
   }
 }

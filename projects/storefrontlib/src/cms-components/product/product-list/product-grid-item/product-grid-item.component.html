@@ -32,15 +32,8 @@
   [showQuantity]="false"
   [productCode]="product.code"
 ></cx-add-to-cart>
-<a
-  *ngIf="product.configurable"
-  [routerLink]="
-    {
-      cxRoute: 'configure' + product.configuratorType,
-      params: { rootProduct: product.code }
-    } | cxUrl
-  "
-  class="btn btn-primary btn-block btn-to-configuration"
-  cxAutoFocus
-  >{{ 'configurator.header.toconfig' | cxTranslate }}</a
->
+<cx-configure-product
+  [productCode]="product.code"
+  [configurable]="product.configurable"
+  [configuratorType]="product.configuratorType"
+></cx-configure-product>

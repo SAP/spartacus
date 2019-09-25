@@ -1,13 +1,13 @@
-<ng-container *ngIf="product$ | async as product">
+<ng-container>
   <a
-    *ngIf="product.configurable"
+    *ngIf="configurable"
     [routerLink]="
       {
-        cxRoute: 'configure' + product.configuratorType,
-        params: { rootProduct: product.code }
+        cxRoute: 'configure' + configuratorType,
+        params: { rootProduct: productCode }
       } | cxUrl
     "
-    class="btn btn-primary btn-block btn-to-configuration"
+    class="btn btn-primary btn-block"
     cxAutoFocus
     >{{ 'configurator.header.toconfig' | cxTranslate }}</a
   >

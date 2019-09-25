@@ -15,11 +15,12 @@ import { PageLayoutComponent } from '../../../cms-structure/page/index';
 import { ConfigurationFormComponent } from '../commons/configuration-form/configuration-form.component';
 import { ConfigurationImageComponent } from '../commons/configuration-image/configuration-image.component';
 import { ConfigurationTitleComponent } from '../commons/configuration-title/configuration-title.component';
-import { ConfigureProductComponent } from '../commons/configure-product/configure-product.component';
+import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    ConfigureProductModule,
     RouterModule.forChild([
       {
         path: 'configureCPQCONFIGURATOR/:rootProduct',
@@ -41,9 +42,6 @@ import { ConfigureProductComponent } from '../commons/configure-product/configur
         VariantConfigurationImage: {
           component: ConfigurationImageComponent,
           guards: [],
-        },
-        ConfigureProductComponent: {
-          component: ConfigureProductComponent,
         },
       },
       layoutSlots: {
@@ -67,20 +65,17 @@ import { ConfigureProductComponent } from '../commons/configure-product/configur
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
-    ConfigureProductComponent,
   ],
   exports: [
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
-    ConfigureProductComponent,
   ],
   providers: [UserService],
   entryComponents: [
     ConfigurationFormComponent,
     ConfigurationTitleComponent,
     ConfigurationImageComponent,
-    ConfigureProductComponent,
   ],
 })
 export class VariantConfiguratorModule {}

@@ -7,6 +7,7 @@ import { CurrentProductService } from '../../../product';
 import { ConfigureProductComponent } from './configure-product.component';
 
 const productCode = 'CONF_LAPTOP';
+const otherProductCode = 'CAR';
 const configuratorType = 'CPQCONFIGURATOR';
 
 class MockCurrentProductService {
@@ -24,6 +25,14 @@ class MockCurrentProductService {
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+function checkAttributesFromCurrentProductService(
+  component: ConfigureProductComponent
+) {
+  expect(component.productCode).toBe(productCode);
+  expect(component.configuratorType).toBe(configuratorType);
+  expect(component.configurable).toBe(true);
 }
 
 describe('ConfigureProductComponent', () => {
@@ -48,16 +57,36 @@ describe('ConfigureProductComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get product from currentProductService', () => {
-    component.product$.subscribe(product =>
-      expect(product.code).toBe(productCode)
-    );
-  });
-
-  it('should be aware of configurability and configurator type', () => {
+  it('should be aware of configurability and configurator type in case they are not provided as input', () => {
     component.product$.subscribe(product => {
+      expect(product.code).toBe(productCode);
       expect(product.configurable).toBe(true);
       expect(product.configuratorType).toBe(configuratorType);
     });
+  });
+
+  it('should take over product attributes from current product service in case they have not been provided as input', () => {
+    component.ngOnInit();
+    checkAttributesFromCurrentProductService(component);
+  });
+
+  it('should not take over product attributes from current product service in case input is provided', () => {
+    component.productCode = otherProductCode;
+    component.ngOnInit();
+    expect(component.productCode).toBe(otherProductCode);
+    expect(component.configuratorType).toBeFalsy();
+    expect(component.configurable).toBeFalsy();
+  });
+
+  it('should not take configurable attribute into consideration for taking over attributes', () => {
+    component.configurable = true;
+    component.ngOnInit();
+    checkAttributesFromCurrentProductService(component);
+  });
+
+  it('should not take configurator type into consideration for taking over attributes from product service', () => {
+    component.configuratorType = 'A type';
+    component.ngOnInit();
+    checkAttributesFromCurrentProductService(component);
   });
 });
