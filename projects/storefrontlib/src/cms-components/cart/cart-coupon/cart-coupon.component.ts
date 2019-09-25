@@ -1,6 +1,6 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Cart, CartService, Order } from '@spartacus/core';
+import { Cart, CartService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
@@ -12,12 +12,9 @@ import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor
 export class CartCouponComponent implements OnInit, OnDestroy {
   form: FormGroup;
   btnEnabled: boolean;
+  cartIsLoading: boolean;
   addVoucherIsLoading$: Observable<boolean>;
-
-  @Input()
-  cart: Cart | Order;
-  @Input()
-  cartIsLoading = false;
+  cart$: Observable<Cart>;
 
   private subscription = new Subscription();
 
@@ -29,6 +26,10 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.cart$ = this.cartService.getActive();
+
+    this.cartIsLoading = !this.cartService.getLoaded();
+
     this.cartService.resetAddVoucherProcessingState();
 
     this.form = this.formBuilder.group({

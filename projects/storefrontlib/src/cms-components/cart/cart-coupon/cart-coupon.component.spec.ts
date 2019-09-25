@@ -7,12 +7,7 @@ import { of } from 'rxjs';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 import { CartCouponComponent } from './cart-coupon.component';
 import { ICON_TYPE } from '@spartacus/storefront';
-const coupon1: Voucher = { code: 'coupon1' };
-const coupon2: Voucher = { code: 'coupon2' };
-const cart: Cart = {
-  code: 'test',
-  appliedVouchers: [coupon1, coupon2],
-};
+
 
 @Component({
   selector: 'cx-icon',
@@ -68,7 +63,7 @@ describe('CartCouponComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartCouponComponent);
     component = fixture.componentInstance;
-    component.cart = cart;
+    // component.cart$ = cart;
     cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
     spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(emitter);
 
