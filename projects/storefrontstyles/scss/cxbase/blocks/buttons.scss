@@ -171,3 +171,17 @@ button {
     opacity: 1;
   }
 }
+
+//theme calydon cx-base adjustments
+$theme: '' !default;
+@if $theme == 'calydon' {
+  button,
+  .btn,
+  .btn-primary,
+  .btn-secondary {
+    &:focus {
+      outline: var(--cx-color-visual-focus) auto 6px;
+      outline-offset: 2px;
+    }
+  }
+}

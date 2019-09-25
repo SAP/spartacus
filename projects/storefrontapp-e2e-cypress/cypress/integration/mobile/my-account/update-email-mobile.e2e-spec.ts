@@ -3,10 +3,15 @@ import {
   verifyAsAnonymous,
   registerAndLogin,
 } from '../../../helpers/update-email';
+import { formats } from '../../../sample-data/viewports';
 
-describe('My Account - Update Email', () => {
+describe(`${formats.mobile.width + 1}p resolution - Update Email Page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
   describe('update email test for anonymous user', () => {
@@ -24,6 +29,7 @@ describe('My Account - Update Email', () => {
       cy.restoreLocalStorage();
       cy.selectUserMenuOption({
         option: 'Email Address',
+        isMobile: true,
       });
     });
 

@@ -2,13 +2,16 @@ import {
   addressBookTest,
   verifyAsAnonymous,
 } from '../../../helpers/address-book';
+import { formats } from '../../../sample-data/viewports';
 import * as login from '../../../helpers/login';
 
-describe('My Account - Address Book', () => {
+describe(`${formats.mobile.width + 1}p resolution - Address Book page`, () => {
   before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
   describe('address book test for anonymous user', () => {
@@ -22,6 +25,7 @@ describe('My Account - Address Book', () => {
       cy.visit('/');
       cy.selectUserMenuOption({
         option: 'Address Book',
+        isMobile: true,
       });
     });
 

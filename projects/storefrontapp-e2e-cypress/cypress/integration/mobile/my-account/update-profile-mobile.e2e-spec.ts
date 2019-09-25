@@ -3,10 +3,16 @@ import {
   verifyAsAnonymous,
 } from '../../../helpers/update-profile';
 import * as login from '../../../helpers/login';
+import { formats } from '../../../sample-data/viewports';
 
-describe('My Account - Update Profile', () => {
+describe(`${formats.mobile.width +
+  1}p resolution - Update Profile Page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
   describe('update profile test for anonymous user', () => {
@@ -16,6 +22,7 @@ describe('My Account - Update Profile', () => {
   describe('update profile test for logged in user', () => {
     before(() => {
       cy.requireLoggedIn();
+      cy.reload();
       cy.visit('/');
     });
 
@@ -23,6 +30,7 @@ describe('My Account - Update Profile', () => {
       cy.restoreLocalStorage();
       cy.selectUserMenuOption({
         option: 'Personal Details',
+        isMobile: true,
       });
     });
 
