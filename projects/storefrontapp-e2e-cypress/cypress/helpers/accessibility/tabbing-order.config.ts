@@ -846,4 +846,20 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Write a Review', type: TabbingOrderTypes.BUTTON },
     { value: 'Shipping', type: TabbingOrderTypes.H3 },
   ],
+  headerMobile: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: '/electronics-spa/en/USD/',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '/electronics-spa/en/USD/cart',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+  ],
 };

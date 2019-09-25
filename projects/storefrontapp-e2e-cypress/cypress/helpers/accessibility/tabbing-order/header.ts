@@ -1,4 +1,5 @@
 import { checkAllElements, TabElement } from '../tabbing-order';
+import { formats } from '../../../sample-data/viewports';
 
 export function headerDesktopTabbingOrder(config: TabElement[]) {
   cy.visit('/');
@@ -10,6 +11,17 @@ export function headerDesktopTabbingOrder(config: TabElement[]) {
     .should('have.length', 2);
 
   cy.get('header cx-site-context-selector select')
+    .first()
+    .focus();
+
+  checkAllElements(config);
+}
+
+export function headerMobileTabbingOrder(config: TabElement[]) {
+  cy.visit('/');
+  cy.viewport(formats.mobile.width, formats.mobile.height);
+
+  cy.get('header cx-hamburger button')
     .first()
     .focus();
 
