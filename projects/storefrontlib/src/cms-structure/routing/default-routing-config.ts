@@ -44,7 +44,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   // configuration related routes
   configureCPQCONFIGURATOR: {
     paths: ['configureCPQCONFIGURATOR/:rootProduct'],
-    paramsMapping: { rootProduct: 'rootProduct' },
   },
 };
 
