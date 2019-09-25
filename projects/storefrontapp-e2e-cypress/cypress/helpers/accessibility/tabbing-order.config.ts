@@ -16,6 +16,8 @@ export enum TabbingOrderTypes {
   SELECT = 'select',
   NAV_CATEGORY_DROPDOWN = 'navCategoryDropdown',
   CAROUSEL = 'carousel',
+  CX_MEDIA = 'cxMedia',
+  H3 = 'h3',
 }
 
 export interface TabbingOrderConfig {
@@ -806,5 +808,42 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
     { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
+  ],
+  productPage: [
+    {
+      value: 'DSC-HX1',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'DSC-HX1',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'DSC-HX1',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'DSC-HX1',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'DSC-HX1',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'DSC-HX1',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    { value: 'Show reviews', type: TabbingOrderTypes.LINK },
+    { value: 'quantity', type: TabbingOrderTypes.ITEM_COUNTER },
+    { value: '-', type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Product Details', type: TabbingOrderTypes.H3 },
+    { value: 'Specs', type: TabbingOrderTypes.H3 },
+    { value: 'Reviews', type: TabbingOrderTypes.H3 },
+    { value: 'Write a Review', type: TabbingOrderTypes.BUTTON },
+    { value: 'Shipping', type: TabbingOrderTypes.H3 },
   ],
 };
