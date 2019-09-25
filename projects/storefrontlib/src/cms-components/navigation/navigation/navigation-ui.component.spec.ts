@@ -1,11 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  ElementRef,
-  Input,
-  Renderer2,
-  Type,
-} from '@angular/core';
+import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -92,7 +85,6 @@ describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
-  let renderer2: Renderer2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -103,7 +95,6 @@ describe('Navigation UI Component', () => {
         MockGenericLinkComponent,
       ],
       providers: [
-        Renderer2,
         //TODO(issue:#4687) Deprecated since 1.3.0
         {
           provide: FeatureConfigService,
@@ -118,9 +109,6 @@ describe('Navigation UI Component', () => {
       fixture = TestBed.createComponent(NavigationUIComponent);
       navigationComponent = fixture.debugElement.componentInstance;
       element = fixture.debugElement;
-      renderer2 = fixture.componentRef.injector.get<Renderer2>(
-        Renderer2 as Type<Renderer2>
-      );
 
       navigationComponent.node = mockNode;
     });
@@ -234,35 +222,6 @@ describe('Navigation UI Component', () => {
         By.css('nav div .childs nav')
       );
       expect(child.length).toEqual(7);
-    });
-
-    it('should focus hovered element when another is focused', () => {
-      fixture.detectChanges();
-
-      const rootNavElements: DebugElement[] = element.queryAll(
-        By.css('.flyout > nav')
-      );
-      const firstNavEl: HTMLElement = rootNavElements[0].nativeElement;
-      const secondNavEl: HTMLElement = rootNavElements[1].nativeElement;
-      const focusedElement = () => document.activeElement as HTMLElement;
-
-      // First element should not focus when no element is focused
-      expect(firstNavEl).not.toEqual(focusedElement());
-
-      // First element should become focused
-      renderer2.listen(firstNavEl, 'mouseenter', () => {
-        expect(focusedElement()).toEqual(firstNavEl);
-      })();
-
-      // Second element should be focused
-      renderer2.listen(secondNavEl, 'mouseenter', () => {
-        expect(focusedElement()).toEqual(secondNavEl);
-      })();
-
-      // First element should become focused
-      renderer2.listen(firstNavEl, 'mouseenter', () => {
-        expect(focusedElement()).toEqual(firstNavEl);
-      })();
     });
   });
 });
