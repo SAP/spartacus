@@ -155,6 +155,8 @@ export interface Product {
   baseOptions?: BaseOption[];
   baseProduct?: string;
   categories?: Category[];
+  configurable?: boolean;
+  configuratorType?: string;
   classifications?: Classification[];
   code?: string;
   description?: string;
