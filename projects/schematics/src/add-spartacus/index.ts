@@ -24,12 +24,14 @@ import { Schema as SpartacusOptions } from './schema';
 import { addImport, importModule } from '../shared/utils/module-file-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import { getAngularVersion } from '../shared/utils/package-utils';
 
 function addPackageJsonDependencies(): Rule {
-  const spartacusVersion = '^1.0.0';
-  const ngrxVersion = '^8.0.0';
-
   return (tree: Tree, context: SchematicContext) => {
+    const spartacusVersion = '^1.1.0';
+    const ngrxVersion = '^8.3.0';
+    const angularVersion = getAngularVersion(tree);
+
     const dependencies: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
@@ -92,7 +94,7 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: '~8.1.0',
+        version: angularVersion,
         name: '@angular/service-worker',
       },
     ];

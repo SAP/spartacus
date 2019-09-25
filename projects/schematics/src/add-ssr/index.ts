@@ -29,13 +29,15 @@ import {
 import { appendHtmlElementToHead } from '@angular/cdk/schematics';
 import { experimental, strings } from '@angular-devkit/core';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import { getAngularVersion } from '../shared/utils/package-utils';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
+    const angularVersion = getAngularVersion(tree);
     const dependencies: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
-        version: '~8.0.0',
+        version: angularVersion || '~8.2.5',
         name: '@angular/platform-server',
       },
       {

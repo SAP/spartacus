@@ -1,14 +1,14 @@
-import * as path from 'path';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { getProjectFromWorkspace, getWorkspace } from './workspace-utils';
+import * as path from 'path';
+import { getAngularVersion } from './package-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
-describe('Workspace utils', () => {
+describe('Package utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: any = {
     name: 'workspace',
@@ -48,26 +48,18 @@ describe('Workspace utils', () => {
       .toPromise();
   });
 
-  describe('getWorkspace', () => {
-    it('should return data about project', async () => {
-      const workspaceInfo = getWorkspace(appTree, [
-        '/angular.json',
-        '/.angular.json',
-      ]);
-      expect(workspaceInfo.path).toEqual('/angular.json');
-      expect(workspaceInfo.workspace.defaultProject).toEqual(appOptions.name);
-    });
-  });
+  describe('getAngularVersion', () => {
+    it('should return angular version', async () => {
+      const testVersion = '5.5.5';
+      const buffer = appTree.read('package.json');
 
-  describe('getProjectFromWorkspace', () => {
-    it('should return workspace project object', async () => {
-      const workspaceProjectObject = getProjectFromWorkspace(
-        appTree,
-        defaultOptions,
-        ['/angular.json', '/.angular.json']
-      );
-      expect(workspaceProjectObject.projectType).toEqual('application');
-      expect(workspaceProjectObject.sourceRoot).toEqual('src');
+      if (buffer) {
+        const packageJsonObject = JSON.parse(buffer.toString('utf-8'));
+        packageJsonObject.dependencies['@angular/core'] = testVersion;
+        appTree.overwrite('package.json', JSON.stringify(packageJsonObject));
+        const version = getAngularVersion(appTree);
+        expect(version).toBeTruthy(testVersion);
+      }
     });
   });
 });

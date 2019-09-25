@@ -9,7 +9,7 @@ import { addImport, importModule } from './module-file-utils';
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
-describe('File utils', () => {
+describe('Module file utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: any = {
     name: 'workspace',
