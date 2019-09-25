@@ -178,7 +178,7 @@ export class NavigationUIComponent implements OnDestroy {
     this.isOpen = this.openNodes.length > 0;
   }
 
-  protected isTabbable(node: any) {
+  isTabbable(node: any) {
     //TODO(issue:#4687) Deprecated since 1.3.0
     if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
       return false;

@@ -218,7 +218,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
    *
    * TODO(issue:#4604) Deprecated since 1.3.0
    */
-  protected shouldDisableContinueButton(): boolean {
+  shouldDisableContinueButton(): boolean {
     if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
       return false;
     }
