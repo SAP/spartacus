@@ -99,7 +99,7 @@ export const getCartEntrySelectorFactory = (
     getCartEntriesMap,
     entries => {
       if (entries) {
-        console.log('getCart entries: ', entries);
+        console.log('selector reached')
         return entries[productCode];
       }
     }

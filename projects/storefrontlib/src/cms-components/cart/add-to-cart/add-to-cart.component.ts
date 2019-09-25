@@ -30,14 +30,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   increment = false;
 
   cartEntry$: Observable<OrderEntry>;
-
   subscription: Subscription;
-
-  /**
-   * (GH-4363)
-   * This boolean will check if the product is a variant or not.
-   * If it is a variant, then its value should be set to true, else false.
-   */
+  
   variantHasBeenChosen: boolean;
 
   constructor(
@@ -92,22 +86,23 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.cartService
       .getEntry(this.productCode)
       .subscribe(entry => {
-
-        if(this.productCode.endsWith('md')){
-          console.log('ADD TO CART -> product code: ', this.productCode);
-          return;
-        }
         
+        console.log(entry);
         if (entry) {
           this.increment = true;
         }
-        this.openModal();
+        
+        if (entry) {
+          this.openModal();
+        }
+        
         this.cartService.addEntry(this.productCode, this.quantity);
         this.increment = false;
       })
       .unsubscribe();
   }
 
+  // @ts-ignore
   private openModal() {
     let modalInstance: any;
     this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
