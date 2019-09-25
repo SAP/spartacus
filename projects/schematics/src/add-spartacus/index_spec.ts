@@ -75,7 +75,7 @@ describe('add-spartacus', () => {
     );
     expect(
       appModule.includes(
-        `import { B2cStorefrontModule, defaultCmsContentConfig } from '@spartacus/storefront';`
+        `import { B2cStorefrontModule } from '@spartacus/storefront';`
       )
     ).toBe(true);
     expect(appModule.includes('B2cStorefrontModule.withConfig')).toBe(true);

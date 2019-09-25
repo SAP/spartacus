@@ -28,7 +28,7 @@
     "featureLevel": {
       "type": "string",
       "description": "Configure feature level for application.",
-      "default": "1.1"
+      "default": "1.2"
     },
     "overwriteAppComponent": {
       "type": "boolean",

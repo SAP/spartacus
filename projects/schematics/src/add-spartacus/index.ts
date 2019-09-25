@@ -127,10 +127,6 @@ function getStorefrontConfig(options: SpartacusOptions): string {
           prefix: '/rest/v2/'
         }
       },
-      authentication: {
-        client_id: 'mobile_android',
-        client_secret: 'secret'
-      },
       context: {
         baseSite: ['${options.baseSite}']
       },
@@ -164,23 +160,11 @@ function updateAppModule(options: SpartacusOptions): Rule {
     addImport(host, modulePath, 'translations', '@spartacus/assets');
     addImport(host, modulePath, 'translationChunksConfig', '@spartacus/assets');
     addImport(host, modulePath, 'B2cStorefrontModule', '@spartacus/storefront');
-    addImport(
-      host,
-      modulePath,
-      'defaultCmsContentConfig',
-      '@spartacus/storefront'
-    );
-    addImport(host, modulePath, 'ConfigModule', '@spartacus/core');
 
     importModule(
       host,
       modulePath,
       `B2cStorefrontModule.withConfig(${getStorefrontConfig(options)})`
-    );
-    importModule(
-      host,
-      modulePath,
-      `ConfigModule.withConfigFactory(defaultCmsContentConfig)`
     );
 
     return host;
