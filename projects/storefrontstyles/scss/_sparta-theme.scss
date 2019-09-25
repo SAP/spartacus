@@ -33,7 +33,8 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-item-counter, cx-star-rating, cx-spinner, cx-icon, cx-media,
   cx-tab-paragraph-container, cx-add-to-cart, cx-global-message,
   cx-product-intro, cx-card, cx-forgot-password, cx-banner-carousel,
-  cx-update-password, cx-tracking-events !default;
+  cx-update-password, cx-tracking-events, cx-config-attribute-header,
+  cx-config-form, cx-config-attribute-radio-button !default;
 
 // future theme's, can be introduced during minors
 $theme: '' !default;

@@ -2,7 +2,7 @@
   <legend style="display: none">{{ attribute.label }}</legend>
   <div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
     <div class="form-check" *ngFor="let value of attribute.values">
-      <div class="cx-config-selectLine">
+      <div class="cx-config-select-line">
         <input
           id="{{
             uiKeyGenerator.createAttributeValueIdForConfigurator(
@@ -28,7 +28,7 @@
             )
           }}"
         />
-        <div class="cx-config-attributeValueLabelContainer">
+        <div class="cx-config-attribute-value-label-container">
           <label
             id="{{
               uiKeyGenerator.createValueUiKey(
@@ -43,7 +43,7 @@
                 value.valueCode
               )
             }}"
-            class="cx-config-attributeValueLabel form-check-label form-radio-label"
+            class="cx-config-attribute-value-label form-check-label form-radio-label"
             >{{ value.valueDisplay }}</label
           >
         </div>

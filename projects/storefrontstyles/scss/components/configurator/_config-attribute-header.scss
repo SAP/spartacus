@@ -1,0 +1,24 @@
+@import '../../theme';
+
+%cx-config-attribute-header {
+  .cx-config-attribute-label {
+    padding-top: 10px;
+    padding-right: 6px;
+    font-size: $font-size-base;
+    font-weight: bold;
+    display: block;
+    clear: left;
+
+    max-width: 66%;
+
+    &.cx-config-attribute-label-error {
+      color: var(--cx-color-danger);
+      font-weight: bold;
+    }
+  }
+
+  .cx-config-attribute-header-required-message {
+    clear: left;
+    color: var(--cx-color-danger);
+  }
+}
