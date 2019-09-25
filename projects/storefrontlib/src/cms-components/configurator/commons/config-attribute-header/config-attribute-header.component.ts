@@ -3,9 +3,9 @@ import { Configurator } from '@spartacus/core';
 import { UIKeyGeneratorService } from '../service/ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-header',
-  templateUrl: './attribute-header.component.html',
+  templateUrl: './config-attribute-header.component.html',
 })
-export class AttributeHeaderComponent {
+export class ConfigAttributeHeaderComponent {
   constructor(private uiKeyGen: UIKeyGeneratorService) {}
 
   @Input() currentAttribute: Configurator.Attribute;

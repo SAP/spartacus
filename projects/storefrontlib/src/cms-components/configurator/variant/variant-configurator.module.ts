@@ -12,11 +12,11 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/index';
-import { AttributeHeaderComponent } from '../commons/attribute-header/attribute-header.component';
-import { AttributeRadioButtonComponent } from '../commons/attribute-types/attribute-radio-button/attribute-radio-button.component';
-import { ConfigurationFormComponent } from '../commons/configuration-form/configuration-form.component';
-import { ConfigurationImageComponent } from '../commons/configuration-image/configuration-image.component';
-import { ConfigurationTitleComponent } from '../commons/configuration-title/configuration-title.component';
+import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
+import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
+import { ConfigFormComponent } from '../commons/config-form/config-form.component';
+import { ConfigImageComponent } from '../commons/config-image/config-image.component';
+import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
 import { UIKeyGeneratorService } from '../commons/service/ui-key-generator.service';
 
 @NgModule({
@@ -33,15 +33,15 @@ import { UIKeyGeneratorService } from '../commons/service/ui-key-generator.servi
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationForm: {
-          component: ConfigurationFormComponent,
+          component: ConfigFormComponent,
           guards: [],
         },
         VariantConfigurationTitleSummary: {
-          component: ConfigurationTitleComponent,
+          component: ConfigTitleComponent,
           guards: [],
         },
         VariantConfigurationImage: {
-          component: ConfigurationImageComponent,
+          component: ConfigImageComponent,
           guards: [],
         },
       },
@@ -63,26 +63,26 @@ import { UIKeyGeneratorService } from '../commons/service/ui-key-generator.servi
   ],
 
   declarations: [
-    ConfigurationFormComponent,
-    ConfigurationTitleComponent,
-    ConfigurationImageComponent,
-    AttributeRadioButtonComponent,
-    AttributeHeaderComponent,
+    ConfigFormComponent,
+    ConfigTitleComponent,
+    ConfigImageComponent,
+    ConfigAttributeRadioButtonComponent,
+    ConfigAttributeHeaderComponent,
   ],
   exports: [
-    ConfigurationFormComponent,
-    ConfigurationTitleComponent,
-    ConfigurationImageComponent,
-    AttributeRadioButtonComponent,
-    AttributeHeaderComponent,
+    ConfigFormComponent,
+    ConfigTitleComponent,
+    ConfigImageComponent,
+    ConfigAttributeRadioButtonComponent,
+    ConfigAttributeHeaderComponent,
   ],
   providers: [UserService, UIKeyGeneratorService],
   entryComponents: [
-    ConfigurationFormComponent,
-    ConfigurationTitleComponent,
-    ConfigurationImageComponent,
-    AttributeRadioButtonComponent,
-    AttributeHeaderComponent,
+    ConfigFormComponent,
+    ConfigTitleComponent,
+    ConfigImageComponent,
+    ConfigAttributeRadioButtonComponent,
+    ConfigAttributeHeaderComponent,
   ],
 })
 export class VariantConfiguratorModule {}

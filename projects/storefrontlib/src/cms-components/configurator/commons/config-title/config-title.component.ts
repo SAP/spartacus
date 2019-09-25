@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'cx-config-title',
-  templateUrl: './configuration-title.component.html',
+  templateUrl: './config-title.component.html',
 })
-export class ConfigurationTitleComponent {
+export class ConfigTitleComponent {
   constructor() {}
 }

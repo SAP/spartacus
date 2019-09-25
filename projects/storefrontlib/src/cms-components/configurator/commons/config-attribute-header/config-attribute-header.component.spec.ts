@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator, I18nTestingModule } from '@spartacus/core';
 import { UIKeyGeneratorService } from '../service/ui-key-generator.service';
-import { AttributeHeaderComponent } from './attribute-header.component';
+import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
 
-describe('AttributeHeaderComponent', () => {
-  let classUnderTest: AttributeHeaderComponent;
-  let fixture: ComponentFixture<AttributeHeaderComponent>;
+describe('ConfigAttributeHeaderComponent', () => {
+  let classUnderTest: ConfigAttributeHeaderComponent;
+  let fixture: ComponentFixture<ConfigAttributeHeaderComponent>;
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
@@ -15,13 +15,13 @@ describe('AttributeHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [AttributeHeaderComponent],
+      declarations: [ConfigAttributeHeaderComponent],
       providers: [UIKeyGeneratorService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AttributeHeaderComponent);
+    fixture = TestBed.createComponent(ConfigAttributeHeaderComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     classUnderTest.currentAttribute = currentAttribute;

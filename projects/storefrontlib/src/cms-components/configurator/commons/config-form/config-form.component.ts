@@ -8,9 +8,9 @@ import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-config-form',
-  templateUrl: './configuration-form.component.html',
+  templateUrl: './config-form.component.html',
 })
-export class ConfigurationFormComponent implements OnInit, OnDestroy {
+export class ConfigFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
   subscription = new Subscription();
   public UiType = Configurator.UiType;

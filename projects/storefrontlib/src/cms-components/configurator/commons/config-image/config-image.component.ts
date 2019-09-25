@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'cx-config-image',
-  templateUrl: './configuration-image.component.html',
+  templateUrl: './config-image.component.html',
 })
-export class ConfigurationImageComponent {
+export class ConfigImageComponent {
   constructor() {}
 }

@@ -3,9 +3,9 @@ import { Configurator } from '@spartacus/core';
 import { UIKeyGeneratorService } from '../../service/ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-radio-button',
-  templateUrl: './attribute-radio-button.component.html',
+  templateUrl: './config-attribute-radio-button.component.html',
 })
-export class AttributeRadioButtonComponent implements OnInit {
+export class ConfigAttributeRadioButtonComponent implements OnInit {
   constructor(private uiKeyGen: UIKeyGeneratorService) {}
 
   @Input() currentAttribute: Configurator.Attribute;

@@ -7,9 +7,9 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AttributeHeaderComponent } from '../attribute-header/attribute-header.component';
-import { AttributeRadioButtonComponent } from '../attribute-types/attribute-radio-button/attribute-radio-button.component';
-import { ConfigurationFormComponent } from './configuration-form.component';
+import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
+import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
+import { ConfigFormComponent } from './config-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -42,16 +42,16 @@ class MockConfiguratorCommonsService {
 }
 
 describe('ConfigurationFormComponent', () => {
-  let component: ConfigurationFormComponent;
-  let fixture: ComponentFixture<ConfigurationFormComponent>;
+  let component: ConfigFormComponent;
+  let fixture: ComponentFixture<ConfigFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
-        ConfigurationFormComponent,
-        AttributeHeaderComponent,
-        AttributeRadioButtonComponent,
+        ConfigFormComponent,
+        ConfigAttributeHeaderComponent,
+        ConfigAttributeRadioButtonComponent,
       ],
       providers: [
         {
@@ -67,7 +67,7 @@ describe('ConfigurationFormComponent', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigurationFormComponent);
+    fixture = TestBed.createComponent(ConfigFormComponent);
     component = fixture.componentInstance;
   });
 
