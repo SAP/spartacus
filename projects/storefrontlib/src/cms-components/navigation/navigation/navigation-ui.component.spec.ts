@@ -1,17 +1,11 @@
-import {
-  Component,
-  DebugElement,
-  ElementRef,
-  Input,
-  Renderer2,
-  Type,
-} from '@angular/core';
+import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, FeatureConfigService } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-icon',
@@ -79,11 +73,18 @@ const mockNode: NavigationNode = {
   ],
 };
 
+//TODO(issue:#4687) Deprecated since 1.3.0
+const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
+class MockFeatureConfigService {
+  isLevel(_level: string): boolean {
+    return isLevelBool.value;
+  }
+}
+
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
-  let renderer2: Renderer2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -93,7 +94,13 @@ describe('Navigation UI Component', () => {
         MockIconComponent,
         MockGenericLinkComponent,
       ],
-      providers: [Renderer2],
+      providers: [
+        //TODO(issue:#4687) Deprecated since 1.3.0
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
     }).compileComponents();
   });
 
@@ -102,9 +109,6 @@ describe('Navigation UI Component', () => {
       fixture = TestBed.createComponent(NavigationUIComponent);
       navigationComponent = fixture.debugElement.componentInstance;
       element = fixture.debugElement;
-      renderer2 = fixture.componentRef.injector.get<Renderer2>(
-        Renderer2 as Type<Renderer2>
-      );
 
       navigationComponent.node = mockNode;
     });
@@ -218,46 +222,6 @@ describe('Navigation UI Component', () => {
         By.css('nav div .childs nav')
       );
       expect(child.length).toEqual(7);
-    });
-
-    it('should focus hovered element when another is focused', () => {
-      fixture.detectChanges();
-
-      const rootNavElements: DebugElement[] = element.queryAll(
-        By.css('div.flyout > nav')
-      );
-      const first: HTMLElement = rootNavElements[0].nativeElement;
-      const second: HTMLElement = rootNavElements[1].nativeElement;
-
-      // First element should not focus when no element is focused
-      expect(first).not.toBe(<HTMLElement>document.activeElement);
-
-      const listenFocusSecond = renderer2.listen(second, 'focus', () => {
-        listenFocusSecond();
-
-        // Second element should be focused
-        expect(<HTMLElement>document.activeElement).toBe(second);
-
-        // Hover mouse over first element
-        navigationComponent.focusAfterPreviousClicked(
-          new MouseEvent('mouseenter', {
-            relatedTarget: first,
-          })
-        );
-
-        first.dispatchEvent(new FocusEvent('focus', { relatedTarget: first }));
-      });
-
-      const listenFocusFirst = renderer2.listen(first, 'focus', () => {
-        listenFocusFirst();
-
-        // First element should become focused
-        expect(<HTMLElement>document.activeElement).toBe(first);
-      });
-
-      // Focus on second element
-      second.focus();
-      second.dispatchEvent(new FocusEvent('focus', { relatedTarget: second }));
     });
   });
 });

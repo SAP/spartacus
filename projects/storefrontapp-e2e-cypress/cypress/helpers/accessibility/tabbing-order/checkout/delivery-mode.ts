@@ -1,4 +1,8 @@
-import { TabElement, checkAllElements, checkoutNextStep } from '../../tabbing-order';
+import {
+  TabElement,
+  checkAllElements,
+  checkoutNextStep,
+} from '../../tabbing-order';
 import { user } from '../../../../sample-data/checkout-flow';
 
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
