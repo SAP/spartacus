@@ -2,6 +2,8 @@ import {
   closeAccountTest,
   verifyAsAnonymous,
   registerAndLogin,
+  verifyAccountClosed,
+  verifyAccountClosedTest,
 } from '../../../helpers/close-account';
 import { formats } from '../../../sample-data/viewports';
 
@@ -38,5 +40,9 @@ describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
     afterEach(() => {
       cy.saveLocalStorage();
     });
+  });
+
+  describe('verify user is disabled and cannot login', () => {
+    verifyAccountClosedTest();
   });
 });
