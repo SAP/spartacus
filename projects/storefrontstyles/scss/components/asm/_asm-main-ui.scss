@@ -1,35 +1,14 @@
 %cx-asm-main-ui {
-  cx-asm {
-    width: 100%;
-    background-color: #fff;
-    padding-bottom: 1.5rem;
-  }
   cx-csagent-login-form,
   cx-customer-selection,
   .cx-customer-emulation {
-    padding: 1rem;
+    padding: 2rem 2rem 1rem;
     width: 100%;
-  }
-  cx-csagent-login-form {
     display: flex;
   }
-  cx-customer-selection {
-    display: flex;
-  }
+
   .cx-customer-emulation {
-    display: flex;
-  }
-
-  * {
-    -webkit-box-sizing: inherit;
-    box-sizing: inherit;
-  }
-
-  body {
-    margin: 0;
-    background-color: #edeff0;
-    -webkit-font-smoothing: antialiased;
-    color: #32363a;
+    padding: 2rem;
   }
 
   form {
@@ -114,6 +93,11 @@
     max-width: 100%;
     text-overflow: ellipsis;
     display: inline-block;
+  }
+
+  .sap-icon--log a,
+  .sap-icon--decline a {
+    cursor: pointer;
   }
 
   // Container
