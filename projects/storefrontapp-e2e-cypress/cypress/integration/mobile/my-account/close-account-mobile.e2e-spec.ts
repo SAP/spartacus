@@ -2,7 +2,6 @@ import {
   closeAccountTest,
   verifyAsAnonymous,
   registerAndLogin,
-  verifyAccountClosed,
   verifyAccountClosedTest,
 } from '../../../helpers/close-account';
 import { formats } from '../../../sample-data/viewports';
