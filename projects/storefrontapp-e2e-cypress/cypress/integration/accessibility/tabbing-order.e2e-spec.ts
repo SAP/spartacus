@@ -11,10 +11,6 @@ import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-ord
 import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/personal-details';
 import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/payment-details';
 import {
-  paymentDetailCard,
-  addSecondaryPaymentCard,
-} from '../../helpers/payment-methods';
-import {
   addressBookFormTabbingOrder,
   addressBookDirectoryTabbingOrder,
   setupForAddressBookTests,
@@ -223,9 +219,6 @@ context('Tabbing order - tests do require user to be logged in', () => {
 
   describe('Payment Details', () => {
     it('should allow to navigate with tab key', () => {
-      paymentDetailCard();
-      addSecondaryPaymentCard();
-
       paymentDetailsTabbingOrder(config.paymentDetails);
     });
   });
