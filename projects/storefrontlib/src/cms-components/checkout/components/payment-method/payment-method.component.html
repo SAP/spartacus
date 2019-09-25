@@ -63,6 +63,7 @@
         (closeForm)="hideNewPaymentForm()"
         (goBack)="back()"
         [paymentMethodsCount]="existingPaymentMethods?.length || 0"
+        [setAsDefaultField]="!isGuestCheckout"
       ></cx-payment-form>
     </ng-template>
   </ng-container>

@@ -74,7 +74,8 @@ export function reducer(
     case CartActions.CART_REMOVE_VOUCHER_SUCCESS:
     case CartActions.CART_REMOVE_ENTRY_SUCCESS:
     case CartActions.CART_UPDATE_ENTRY_SUCCESS:
-    case CartActions.CART_ADD_ENTRY_SUCCESS: {
+    case CartActions.CART_ADD_ENTRY_SUCCESS:
+    case CartActions.ADD_EMAIL_TO_CART_SUCCESS: {
       return {
         ...state,
         refresh: true,
@@ -86,6 +87,7 @@ export function reducer(
         content: {
           guid: state.content.guid,
           code: state.content.code,
+          user: state.content.user,
         },
         entries: {},
         refresh: false,

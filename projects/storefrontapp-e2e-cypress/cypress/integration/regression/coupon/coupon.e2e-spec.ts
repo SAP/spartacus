@@ -2,11 +2,11 @@ import * as cartCoupon from '../../../helpers/cart-coupon';
 import * as login from '../../../helpers/login';
 
 export const productCode1 = '300938';
-export const couponCode1 = 'SUMMER69';
+export const couponCode1 = 'CouponForCart';
 export const productCode2 = '493683';
-export const couponCode2 = 'BUYMORE16';
+export const couponCode2 = 'CouponForProduct';
 export const productCode3 = '1986316';
-export const couponCode3 = 'CHRISTMAS16';
+export const couponCode3 = 'FreeGiftCoupon';
 export const giftProductCode = '443175';
 
 describe('Cart Coupon', () => {

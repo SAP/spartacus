@@ -26,6 +26,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   currentDeliveryModeId: string;
   checkoutStepUrlNext: string;
   checkoutStepUrlPrevious: string;
+  private allowRedirect = false;
 
   deliveryModeSub: Subscription;
 
@@ -59,7 +60,11 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(code => {
-        if (!!code && code === this.currentDeliveryModeId) {
+        if (
+          this.allowRedirect &&
+          !!code &&
+          code === this.currentDeliveryModeId
+        ) {
           this.routingService.go(this.checkoutStepUrlNext);
         }
         this.currentDeliveryModeId = code;
@@ -76,6 +81,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    this.allowRedirect = true;
     if (this.mode.valid && this.mode.value) {
       if (!this.currentDeliveryModeId) {
         this.currentDeliveryModeId = this.mode.value.deliveryModeId;
