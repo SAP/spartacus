@@ -200,7 +200,7 @@ export function refreshPage() {
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
     .find('.cx-actions .link')
     .click();
-    cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
+  cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 }
 
 export function increaseProductQtyOnPDP() {
