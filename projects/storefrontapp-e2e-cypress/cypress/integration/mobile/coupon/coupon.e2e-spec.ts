@@ -1,4 +1,5 @@
 import * as cartCoupon from '../../../helpers/cart-coupon';
+import { formats } from '../../../sample-data/viewports';
 
 export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
@@ -11,8 +12,10 @@ export const giftProductCode = '443175';
 describe('Cart Coupon', () => {
   beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
+    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.requireLoggedIn();
     cy.visit('/');
+    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
   });
 
   it('should show the promotion for cart, discount in price and success message when applied a coupon with cart total action successfully.', () => {
@@ -42,6 +45,7 @@ describe('Cart Coupon', () => {
       .auth;
     cartCoupon.addProductToCart(productCode3);
     cartCoupon.applyCoupon(couponCode3);
+    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
     cartCoupon.addProductToCart(giftProductCode);
     cartCoupon.verifyGiftProductCoupon(giftProductCode);
     cartCoupon.verifyCouponAndPromotion(couponCode3, '$1,920.27', '$20');
@@ -70,9 +74,9 @@ describe('Cart Coupon', () => {
       cartCoupon.varifyOrderHistory(orderData);
     });
   });
-  it('should test anchor works', () => {
+
+  it('should not show anchor', () => {
     cartCoupon.addProductToCart(productCode1);
-    cy.get('[data-test=anchor-coupon]').click();
-    cy.get('[data-test=input-coupon]').should('have.focus');
+    cy.get('[data-test=anchor-coupon]').should('not.exist');
   });
 });
