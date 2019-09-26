@@ -7,7 +7,7 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CarouselService } from './carousel.service';
@@ -90,13 +90,13 @@ export class CarouselComponent implements OnInit {
       );
       return;
     }
-    // this.size$ = this.service
-    //   .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
-    //   .pipe(tap(() => (this.activeSlide = 0)));
-    this.size$ = this.sizeOfCarousel
-      ? of(this.sizeOfCarousel)
-      : this.service
-          .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
-          .pipe(tap(() => (this.activeSlide = 0)));
+    this.size$ = this.service
+      .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
+      .pipe(tap(() => (this.activeSlide = 0)));
+    // this.size$ = this.sizeOfCarousel
+    //   ? of(this.sizeOfCarousel)
+    //   : this.service
+    //       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
+    //       .pipe(tap(() => (this.activeSlide = 0)));
   }
 }
