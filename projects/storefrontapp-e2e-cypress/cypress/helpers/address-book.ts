@@ -20,7 +20,11 @@ export const editedAddress: AddressData = {
   lastName: 'Qux',
 };
 
-export const assertAddressForm = (address: AddressData): void => {
+export const assertAddressForm = (
+  address: AddressData,
+  state?: string
+): void => {
+  state = state ? state : 'CA-QC';
   cy.get('cx-address-card .card-header').contains('✓ DEFAULT');
   cy.get('cx-address-card .card-body').within(_ => {
     cy.get('.cx-address-card-label-name').should(
@@ -35,7 +39,7 @@ export const assertAddressForm = (address: AddressData): void => {
       .should('contain', address.address.line2);
     cy.get('.cx-address-card-label')
       .next()
-      .should('contain', `${address.address.city}, CA-QC`);
+      .should('contain', `${address.address.city}, ${state}`);
     cy.get('.cx-address-card-label')
       .next()
       .should('contain', address.address.postal);
@@ -136,6 +140,12 @@ export function deleteExistingAddress() {
   defaultCard.should('contain', 'Baz Qux');
 }
 
+export function verifyAsAnonymous() {
+  it('should redirect to login page for anonymous user', () => {
+    accessPageAsAnonymous();
+  });
+}
+
 export function deleteFirstAddress() {
   cy.server();
   cy.route(
@@ -155,4 +165,38 @@ export function deleteFirstAddress() {
   cy.wait('@fetchAddresses')
     .its('status')
     .should('eq', 200);
+}
+
+export function addressBookTest() {
+  it('should display a new address form when no address exists', () => {
+    displayAddressForm();
+  });
+
+  it('should create a new address', () => {
+    createNewAddress();
+  });
+
+  it('should display the newly added address card in the address book', () => {
+    verifyNewAddress();
+  });
+
+  it('should edit the existing address', () => {
+    editAddress();
+  });
+
+  it('should display the edited address card in the address book', () => {
+    verifyEditedAddress();
+  });
+
+  it('should add a second address', () => {
+    addSecondAddress();
+  });
+
+  it('should set the second address as the default one', () => {
+    setSecondAddressToDefault();
+  });
+
+  it('should delete the existing address', () => {
+    deleteExistingAddress();
+  });
 }

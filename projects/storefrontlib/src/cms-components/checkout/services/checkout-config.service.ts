@@ -13,6 +13,7 @@ import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 export class CheckoutConfigService {
   steps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
   private express: boolean = this.checkoutConfig.checkout.express;
+  private guest: boolean = this.checkoutConfig.checkout.guest;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
     this.checkoutConfig.checkout.defaultDeliveryMode || [];
 
@@ -124,6 +125,10 @@ export class CheckoutConfigService {
 
   isExpressCheckout(): boolean {
     return this.express;
+  }
+
+  isGuestCheckout(): boolean {
+    return this.guest;
   }
 
   private getStepUrlFromActivatedRoute(

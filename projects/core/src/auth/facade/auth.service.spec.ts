@@ -1,7 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
 import { AuthState, AUTH_FEATURE } from '../store/auth-state';
@@ -11,6 +14,7 @@ import { AuthService } from './auth.service';
 const mockToken = {
   userId: 'user@sap.com',
   refresh_token: 'foo',
+  access_token: 'testToken-access-token',
 } as UserToken;
 
 const mockClientToken = {
@@ -199,7 +203,7 @@ describe('AuthService', () => {
       access_token: 'foo',
     } as UserToken;
 
-    it('should return true if the userid is defined and not USERID_CURRENT', () => {
+    it('should return true if the userid is defined and not OCC_USER_ID_CURRENT', () => {
       expect(
         service.isCustomerEmulationToken({
           ...mockCustomerEmulationToken,
@@ -218,9 +222,29 @@ describe('AuthService', () => {
       expect(
         service.isCustomerEmulationToken({
           ...mockCustomerEmulationToken,
-          userId: USERID_CURRENT,
+          userId: OCC_USER_ID_CURRENT,
         })
       ).toBe(false);
     });
+  });
+
+  it('should return anonymous userid when no user token exists', () => {
+    let result: string;
+    service
+      .getOccUserId()
+      .subscribe(token => (result = token))
+      .unsubscribe();
+    expect(result).toEqual(OCC_USER_ID_ANONYMOUS);
+  });
+
+  it('should return the token userid when a user token exists', () => {
+    store.dispatch(new AuthActions.LoadUserTokenSuccess(mockToken));
+
+    let result: string;
+    service
+      .getOccUserId()
+      .subscribe(token => (result = token))
+      .unsubscribe();
+    expect(result).toEqual(mockToken.userId);
   });
 });
