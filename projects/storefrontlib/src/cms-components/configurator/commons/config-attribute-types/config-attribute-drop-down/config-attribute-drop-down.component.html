@@ -4,7 +4,15 @@
       <div class="form-group">
         <ng-container *ngIf="attribute.values">
           <div *ngIf="attribute.values.length !== 0">
-            {{ attribute.label }}
+            <ng-select
+              formControlName="attributeDropDownForm"
+              [searchable]="false"
+              [clearable]="false"
+              [items]="attribute.values"
+              bindLabel="valueDisplay"
+              bindValue="valueCode"
+            >
+            </ng-select>
           </div>
         </ng-container>
       </div>
