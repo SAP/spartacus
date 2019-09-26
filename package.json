@@ -50,8 +50,6 @@
     "test:storefront:lib": "ng test storefrontlib --sourceMap --code-coverage",
     "build:ssr": "ng run storefrontapp:server && webpack --config projects/ssr/webpack.server.config.js --progress --colors",
     "start:ssr": "node dist/ssr/server",
-    "schematics:build": "tsc -p ./projects/schematics/tsconfig.json",
-    "schematics:test": "jasmine ./projects/schematics/src/**/*_spec.js",
     "release:assets": "cd projects/assets && release-it && cd ../..",
     "release:styles": "cd projects/storefrontstyles && release-it && cd ../..",
     "release:lib": "cd projects/storefrontlib && release-it && cd ../..",

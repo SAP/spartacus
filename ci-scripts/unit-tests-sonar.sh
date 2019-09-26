@@ -23,7 +23,7 @@ fi
 
 echo "Running unit tests for schematics"
 exec 5>&1
-output=$(yarn --cwd ./projects/schematics run test | tee /dev/fd/5)
+output=$(cd ./../projects/schematics && yarn && yarn test | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
