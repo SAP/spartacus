@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
+import { ConfigAttributeDropDownComponent } from '../config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
 import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigFormComponent } from './config-form.component';
 
@@ -53,6 +54,7 @@ describe('ConfigurationFormComponent', () => {
         ConfigFormComponent,
         ConfigAttributeHeaderComponent,
         ConfigAttributeRadioButtonComponent,
+        ConfigAttributeDropDownComponent,
       ],
       providers: [
         {

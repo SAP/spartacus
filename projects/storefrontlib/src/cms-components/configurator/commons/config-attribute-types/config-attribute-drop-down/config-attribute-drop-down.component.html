@@ -1,0 +1,13 @@
+<div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
+  <div class="row">
+    <div class="col-md-12 col-lg-9">
+      <div class="form-group">
+        <ng-container *ngIf="attribute.values">
+          <div *ngIf="attribute.values.length !== 0">
+            {{ attribute.label }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

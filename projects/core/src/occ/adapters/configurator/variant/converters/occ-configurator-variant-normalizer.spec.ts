@@ -96,6 +96,14 @@ describe('OccConfiguratorVariantNormalizer', () => {
     ).toBe(Configurator.UiType.RADIOBUTTON);
   });
 
+  it('should return UIType Drop Down for Drop Down occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.mapOccConfiguratorVariantType(
+        OccConfigurator.UiType.DROPDOWN
+      )
+    ).toBe(Configurator.UiType.DROPDOWN);
+  });
+
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
     expect(
       occConfiguratorVariantNormalizer.mapOccConfiguratorVariantType(

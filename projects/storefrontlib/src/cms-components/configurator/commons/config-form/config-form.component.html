@@ -30,6 +30,10 @@
         *ngIf="attribute.uiType === UiType.RADIOBUTTON"
         [attribute]="attribute"
       ></cx-config-attribute-radio-button>
+      <cx-config-attribute-drop-down
+        *ngIf="attribute.uiType === UiType.DROPDOWN"
+        [attribute]="attribute"
+      ></cx-config-attribute-drop-down>
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
         'attribute.notSupported' | cxTranslate
       }}</em>

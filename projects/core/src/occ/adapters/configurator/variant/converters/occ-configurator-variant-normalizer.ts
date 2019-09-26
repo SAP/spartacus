@@ -72,6 +72,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
       }
+      case OccConfigurator.UiType.DROPDOWN: {
+        uiType = Configurator.UiType.DROPDOWN;
+        break;
+      }
       default: {
         uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }
