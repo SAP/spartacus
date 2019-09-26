@@ -419,4 +419,73 @@
     fill: #fff;
     cursor: pointer;
   }
+
+  // Fiori Spinner
+  .sap-spinner {
+    margin-top: 50px;
+    display: flex;
+    width: 100%;
+    background-color: #f1f4f5;
+    height: 100px;
+    justifiy-content: center;
+    align-items: center;
+  }
+
+  .fd-loading-dots {
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #32363a;
+    font-family: '72', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+      Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+      Segoe UI Symbol;
+    position: relative;
+    width: 60px;
+    height: 18px;
+    display: block;
+    font-size: 0;
+    color: #0a6ed1;
+    margin: 10px auto;
+  }
+
+  .fd-loading-dots > div {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    margin: 6px;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: currentColor;
+    border: 0 solid currentColor;
+    -webkit-animation: fd-loading-dots-pulse 1s ease infinite;
+    animation: fd-loading-dots-pulse 1s ease infinite;
+  }
+
+  .fd-loading-dots > div:nth-child(1) {
+    animation-delay: -0.2s;
+  }
+
+  @-webkit-keyframes fd-loading-dots-pulse {
+    0%,
+    100%,
+    60% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    30% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+    }
+  }
+  @keyframes fd-loading-dots-pulse {
+    0%,
+    100%,
+    60% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    30% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+    }
+  }
 }
