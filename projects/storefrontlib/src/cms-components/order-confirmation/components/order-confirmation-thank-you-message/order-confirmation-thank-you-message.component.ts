@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { CheckoutService, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
@@ -15,11 +16,18 @@ import { Observable } from 'rxjs';
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, OnDestroy {
   order$: Observable<Order>;
+  isGuestCustomer = false;
+  orderGuid: string;
 
   constructor(protected checkoutService: CheckoutService) {}
 
   ngOnInit() {
-    this.order$ = this.checkoutService.getOrderDetails();
+    this.order$ = this.checkoutService.getOrderDetails().pipe(
+      tap(order => {
+        this.isGuestCustomer = order.guestCustomer;
+        this.orderGuid = order.guid;
+      })
+    );
   }
 
   ngOnDestroy() {
