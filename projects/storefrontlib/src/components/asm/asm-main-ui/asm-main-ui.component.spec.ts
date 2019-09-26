@@ -208,11 +208,7 @@ describe('AsmMainUiComponent', () => {
     expect(
       el.query(By.css('input[formcontrolname="customer"]')).nativeElement
         .placeholder
-    ).toContain(testUser.uid);
-    expect(
-      el.query(By.css('input[formcontrolname="customer"]')).nativeElement
-        .placeholder
-    ).toContain(testUser.name);
+    ).toEqual(`${testUser.name}, ${testUser.uid}`);
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
   });
