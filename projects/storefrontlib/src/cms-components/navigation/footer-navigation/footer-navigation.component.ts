@@ -16,8 +16,6 @@ import { NavigationService } from '../navigation/navigation.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterNavigationComponent {
-  isUserLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
-
   node$: Observable<NavigationNode> = this.service.getNavigationNode(
     this.componentData.data$
   );
@@ -34,4 +32,15 @@ export class FooterNavigationComponent {
     protected config: AnonymousConsentsConfig,
     protected authService: AuthService
   ) {}
+
+  get showConsentPreferences(): Observable<boolean> {
+    return this.authService
+      .isUserLoggedIn()
+      .pipe(
+        map(
+          isUserLoggedIn =>
+            !isUserLoggedIn && this.config.anonymousConsents.footerLink
+        )
+      );
+  }
 }
