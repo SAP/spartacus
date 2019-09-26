@@ -50,9 +50,9 @@ context("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  describe('Header - Mobile', () => {
+  describe('Header - Mobile (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
-      headerMobileTabbingOrder(config.headerMobile);
+      headerMobileTabbingOrder(config.headerMobileNotLoggedIn);
     });
   });
 
@@ -125,6 +125,12 @@ context('Tabbing order - tests do require user to be logged in', () => {
   describe('Header - Desktop (logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerDesktopTabbingOrder(config.headerDesktopLoggedIn);
+    });
+  });
+
+  describe('Header - Mobile (logged in)', () => {
+    it('should allow to navigate with tab key', () => {
+      headerMobileTabbingOrder(config.headerMobileLoggedIn);
     });
   });
 
