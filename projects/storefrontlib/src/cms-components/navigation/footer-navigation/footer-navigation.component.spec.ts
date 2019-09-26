@@ -50,6 +50,7 @@ describe('FooterNavigationComponent', () => {
   let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let element: DebugElement;
+  let config: AnonymousConsentsConfig;
 
   const mockLinks: NavigationNode[] = [
     {
@@ -110,6 +111,7 @@ describe('FooterNavigationComponent', () => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
+    config = TestBed.get(AnonymousConsentsConfig);
 
     component.node$ = of({
       children: [
@@ -133,8 +135,29 @@ describe('FooterNavigationComponent', () => {
     expect(navigationUI.nativeElement.classList).toContain('footer-styling');
   });
 
+  describe('showConsentPreferences', () => {
+    it('should return true if the authService.isUserLoggedIn() returns false', () => {
+      let result = false;
+      component.showConsentPreferences
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(true);
+    });
+    it('should return false if the config is false', () => {
+      config.anonymousConsents.footerLink = false;
+      let result = true;
+      component.showConsentPreferences
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(false);
+    });
+  });
+
   describe('consent preferences link', () => {
     it('should be visible when the user is NOT logged in', () => {
+      spyOnProperty(component, 'showConsentPreferences').and.returnValue(
+        of(true)
+      );
       const consentPreferences = element.query(By.css('.anonymous-consents'));
       expect(consentPreferences).toBeTruthy();
     });
