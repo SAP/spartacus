@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import { UserSignUp } from '../../../model/misc.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
@@ -10,6 +11,10 @@ export const REGISTER_USER = '[User] Register User';
 export const REGISTER_USER_FAIL = '[User] Register User Fail';
 export const REGISTER_USER_SUCCESS = '[User] Register User Success';
 export const RESET_REGISTER_USER_PROCESS = '[User] Reset Register User Process';
+
+export const REGISTER_GUEST = '[User] Register Guest';
+export const REGISTER_GUEST_FAIL = '[User] Register Guest Fail';
+export const REGISTER_GUEST_SUCCESS = '[User] Register Guest Success';
 
 export const REMOVE_USER = '[User] Remove User';
 export const REMOVE_USER_FAIL = '[User] Remove User Fail';
@@ -42,6 +47,20 @@ export class ResetRegisterUserProcess extends StateEntityLoaderActions.EntityRes
   constructor() {
     super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID);
   }
+}
+
+export class RegisterGuest implements Action {
+  readonly type = REGISTER_GUEST;
+  constructor(public payload: { guid: string; password: string }) {}
+}
+
+export class RegisterGuestFail implements Action {
+  readonly type = REGISTER_GUEST_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class RegisterGuestSuccess implements Action {
+  readonly type = REGISTER_GUEST_SUCCESS;
 }
 
 export class RemoveUser extends StateEntityLoaderActions.EntityLoadAction {
@@ -78,6 +97,9 @@ export type UserRegisterOrRemoveAction =
   | RegisterUserFail
   | RegisterUserSuccess
   | ResetRegisterUserProcess
+  | RegisterGuest
+  | RegisterGuestFail
+  | RegisterGuestSuccess
   | RemoveUser
   | RemoveUserFail
   | RemoveUserSuccess

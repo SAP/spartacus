@@ -6,6 +6,7 @@ import {
   CmsActivatedRouteSnapshot,
   CmsService,
   PageType,
+  ProtectedRoutesGuard,
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
@@ -46,6 +47,10 @@ class MockCmsGuardsService {
     .and.returnValue(of(true));
 }
 
+class MockProtectedRoutesGuard {
+  canActivate = () => of(true);
+}
+
 class MockSemanticPathService {
   get() {}
 }
@@ -64,6 +69,7 @@ describe('CmsPageGuard', () => {
         { provide: CmsI18nService, useClass: MockCmsI18nService },
         { provide: CmsGuardsService, useClass: MockCmsGuardsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
+        { provide: ProtectedRoutesGuard, useClass: MockProtectedRoutesGuard },
       ],
       imports: [RouterTestingModule],
     });
@@ -75,6 +81,23 @@ describe('CmsPageGuard', () => {
   });
 
   describe('canActivate', () => {
+    it('should emit result of ProtectedRoutesGuard when it emits false', inject(
+      [ProtectedRoutesGuard, CmsPageGuard],
+      (
+        protectedRoutesGuard: ProtectedRoutesGuard,
+        cmsPageGuard: CmsPageGuard
+      ) => {
+        spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(false));
+        let result: boolean | UrlTree;
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
+          .subscribe(value => (result = value))
+          .unsubscribe();
+
+        expect(result).toBe(false);
+      }
+    ));
+
     it('should return true when CmsService getPage is truthy for the page context', inject(
       [CmsService, CmsPageGuard],
       (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {

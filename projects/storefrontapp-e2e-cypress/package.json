@@ -9,7 +9,8 @@
     "cy:run": "cypress run --spec cypress/integration/smoke/**/*",
     "cy:cli": "cypress run",
     "cy:run:mobile": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/mobile/**/*\"",
-    "cy:run:regression": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/regression/**/*\""
+    "cy:run:regression": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/regression/**/*\"",
+    "cy:run:all": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/**/*\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",
