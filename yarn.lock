@@ -5394,15 +5394,15 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-i18n-lint@jwarby/i18n-lint:
-  version "0.0.1"
-  resolved "https://codeload.github.com/jwarby/i18n-lint/tar.gz/0a06373c0d880047ad680239c103d60ed414efc1"
+i18n-lint@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/i18n-lint/-/i18n-lint-1.0.0.tgz#87b349630a610cc9f24aaa3845ee86299a77b111"
+  integrity sha512-0/cSIhRz10GTMSXvdMwhuz42nyWcE0HCjDjmJ3OkS0fz2nPNepuSbJeEix2EDX3F+q2Pr729VPCIhE70bxI3+Q==
   dependencies:
     chalk "^1.0.0"
     commander "^2.0.0"
     glob "^5.0.0"
     htmlparser2 "^3.0.0"
-    lodash "^3.0.0"
     node.extend "^1.0.0"
 
 i18next-xhr-backend@^2.0.1:
@@ -6691,11 +6691,6 @@ lodash@4.17.15, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
-
-lodash@^3.0.0:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
-  integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
 log-symbols@^2.2.0:
   version "2.2.0"
