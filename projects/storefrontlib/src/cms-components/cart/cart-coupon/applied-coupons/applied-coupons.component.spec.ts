@@ -121,5 +121,18 @@ describe('AppliedCouponsComponent', () => {
 
       expect(mockCartService.removeVoucher).toHaveBeenCalledWith(coupon1.code);
     });
+
+    it('should sort applied coupons', () => {
+      component.vouchers = [coupon2, coupon1];
+      fixture.detectChanges();
+      const elValue = fixture.debugElement.queryAll(
+        By.css('[data-test="applied-coupon"]')
+      );
+
+      expect(elValue.length).toBe(2);
+      expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
+      expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
+    });
+
   });
 });
