@@ -1,4 +1,9 @@
 %cx-asm-main-ui {
+  height: 150px;
+  overflow: hidden;
+  width: 100%;
+  display: block;
+
   cx-csagent-login-form,
   cx-customer-selection,
   .cx-customer-emulation {
@@ -13,6 +18,10 @@
 
   form {
     width: 100%;
+  }
+  label,
+  input {
+    margin-bottom: 0;
   }
 
   // Shell Bar
@@ -427,8 +436,12 @@
     width: 100%;
     background-color: #f1f4f5;
     height: 100px;
-    justifiy-content: center;
+    justify-content: center;
     align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
   }
 
   .fd-loading-dots {
