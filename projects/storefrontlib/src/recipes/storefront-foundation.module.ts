@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   AuthModule,
   CartModule,
+  CdsModule,
   CheckoutModule,
   CmsModule,
   ConfigModule,
@@ -25,6 +26,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     ConfigModule.forRoot(),
     RoutingModule.forRoot(),
     I18nModule.forRoot(),
+    CdsModule.forRoot(),
     CmsModule.forRoot(),
     GlobalMessageModule.forRoot(),
     ProcessModule.forRoot(),

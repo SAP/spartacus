@@ -1,5 +1,6 @@
 import {
   AuthConfig,
+  CdsConfig,
   CmsConfig,
   ExternalRoutesConfig,
   GlobalMessageConfig,
@@ -28,6 +29,7 @@ export type StorefrontConfig =
   | LayoutConfig
   | RoutingConfig
   | I18nConfig
+  | CdsConfig
   | PersonalizationConfig
   | IconConfig
   | CheckoutConfig

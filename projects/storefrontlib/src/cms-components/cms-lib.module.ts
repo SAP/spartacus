@@ -32,6 +32,7 @@ import {
 } from './navigation/index';
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
+  MerchandisingCarouselModule,
   ProductCarouselModule,
   ProductIntroModule,
   ProductListModule,
@@ -40,8 +41,8 @@ import {
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
-import { UserComponentModule } from './user/user.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
+import { UserComponentModule } from './user/user.module';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { StoreFinderModule } from './storefinder/store-finder.module';
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
+    MerchandisingCarouselModule,
     ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,

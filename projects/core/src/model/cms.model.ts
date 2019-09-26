@@ -101,6 +101,16 @@ export interface CmsProductReferencesComponent extends CmsComponent {
   container?: string;
 }
 
+export interface CmsMerchandisingCarouselComponent extends CmsComponent {
+  title?: string;
+  strategy?: string;
+  numberToDisplay?: string;
+  scroll?: string;
+  container?: string;
+  textColour: string;
+  backgroundColour: string;
+}
+
 export interface CmsMiniCartComponent extends CmsComponent {
   container?: string;
   shownProductCount?: string;

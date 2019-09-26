@@ -65,6 +65,11 @@ if (!environment.production) {
       features: {
         level: '1.2',
       },
+      cds: {
+        baseUrl: 'https://argotest.api.stage.context.cloud.sap',
+        tenantId: 'argotest',
+        clientId: 'spartacus-client',
+      },
     }),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
