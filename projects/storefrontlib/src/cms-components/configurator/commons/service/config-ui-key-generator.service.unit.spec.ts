@@ -1,7 +1,8 @@
+import { TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from './config-ui-key-generator.service';
 
-describe('ConfigUIKeyGenerator', () => {
+describe('ConfigUIKeyGeneratorService', () => {
   let classUnderTest: ConfigUIKeyGeneratorService;
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
@@ -9,7 +10,7 @@ describe('ConfigUIKeyGenerator', () => {
   };
 
   beforeEach(() => {
-    classUnderTest = new ConfigUIKeyGeneratorService();
+    classUnderTest = TestBed.get(ConfigUIKeyGeneratorService);
   });
 
   it('should be created', () => {

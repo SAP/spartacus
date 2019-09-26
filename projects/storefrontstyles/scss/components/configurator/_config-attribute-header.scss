@@ -7,8 +7,6 @@
     font-size: $font-size-base;
     font-weight: bold;
     display: block;
-    clear: left;
-
     max-width: 66%;
 
     &.cx-config-attribute-label-error {
@@ -18,7 +16,6 @@
   }
 
   .cx-config-attribute-header-required-message {
-    clear: left;
     color: var(--cx-color-danger);
   }
 }

@@ -9,7 +9,7 @@ import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 export class ConfiguratorCommonsConnector {
   constructor(protected adapter: ConfiguratorCommonsAdapter) {}
 
-  public createConfiguration(
+  createConfiguration(
     productCode: string
   ): Observable<Configurator.Configuration> {
     return this.adapter.createConfiguration(productCode);

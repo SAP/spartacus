@@ -11,10 +11,10 @@ export class ConfigAttributeHeaderComponent {
 
   @Input() attribute: Configurator.Attribute;
 
-  public showRequiredMessage(): boolean {
+  showRequiredMessage(): boolean {
     return this.attribute.required && this.attribute.incomplete;
   }
-  public getRequiredMessageKey(): string {
+  getRequiredMessageKey(): string {
     let msgKey = 'attribute.';
     const uiType = this.attribute.uiType;
     if (
@@ -30,7 +30,7 @@ export class ConfigAttributeHeaderComponent {
     return msgKey;
   }
 
-  public get uiKeyGenerator() {
+  get uiKeyGenerator() {
     return this.uiKeyGen;
   }
 }
