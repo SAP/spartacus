@@ -2,10 +2,6 @@
   "name": "@spartacus/schematics",
   "version": "0.1.0-beta.1",
   "description": "Spartacus schematics",
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "yarn build && jasmine src/**/*_spec.js"
-  },
   "keywords": [
     "spartacus",
     "schematics"
