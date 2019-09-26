@@ -4,6 +4,20 @@
   [ngClass]="styleClass$ | async"
 ></cx-navigation-ui>
 
+<div
+  *ngIf="
+    (isUserLoggedIn$ | async) === false && config.anonymousConsents?.footerLink
+  "
+  class="anonymous-consents"
+>
+  <a
+    role="link"
+    [routerLink]=""
+    [queryParams]="{ anonymousConsents: 'true' }"
+    >{{ 'anonymousConsents.preferences' | cxTranslate }}</a
+  >
+</div>
+
 <div class="notice" *ngIf="data$ | async as data">
   {{ data.notice }}
 </div>

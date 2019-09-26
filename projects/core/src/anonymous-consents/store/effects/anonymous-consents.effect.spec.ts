@@ -4,6 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { AuthService } from '../../../auth/index';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
@@ -13,6 +14,12 @@ import * as fromEffect from './anonymous-consents.effect';
 class MockAnonymousConsentTemplatesConnector {
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
     return of();
+  }
+}
+
+class MockAuthService {
+  isUserLoggedIn(): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -32,6 +39,10 @@ describe('AnonymousConsentsEffects', () => {
       providers: [
         fromEffect.AnonymousConsentsEffects,
         {
+          provide: AuthService,
+          useClass: MockAuthService,
+        },
+        {
           provide: AnonymousConsentTemplatesConnector,
           useClass: MockAnonymousConsentTemplatesConnector,
         },
@@ -48,7 +59,7 @@ describe('AnonymousConsentsEffects', () => {
   });
 
   describe('handleLanguageChange$', () => {
-    it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
+    it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action when the user is anonymous', () => {
       const action = new SiteContextActions.LanguageChange();
       const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
 

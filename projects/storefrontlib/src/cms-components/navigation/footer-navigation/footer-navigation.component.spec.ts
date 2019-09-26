@@ -2,8 +2,13 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsNavigationComponent } from '@spartacus/core';
-import { of } from 'rxjs';
+import {
+  AnonymousConsentsConfig,
+  AuthService,
+  CmsNavigationComponent,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
@@ -19,6 +24,18 @@ class MockNavigationUIComponent {
   @Input() flyout = true;
   @Input() node: NavigationNode;
 }
+
+class MockAuthService {
+  isUserLoggedIn(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+  anonymousConsents: {
+    footerLink: true,
+  },
+};
 
 @Component({
   selector: 'cx-generic-link',
@@ -61,7 +78,7 @@ describe('FooterNavigationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         FooterNavigationComponent,
         NavigationComponent,
@@ -76,6 +93,14 @@ describe('FooterNavigationComponent', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsNavigationComponent,
+        },
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
         },
       ],
     }).compileComponents();
@@ -106,5 +131,12 @@ describe('FooterNavigationComponent', () => {
   it('should add the component styleClass', () => {
     const navigationUI = element.query(By.css('cx-navigation-ui'));
     expect(navigationUI.nativeElement.classList).toContain('footer-styling');
+  });
+
+  describe('consent preferences link', () => {
+    it('should be visible when the user is NOT logged in', () => {
+      const consentPreferences = element.query(By.css('.anonymous-consents'));
+      expect(consentPreferences).toBeTruthy();
+    });
   });
 });

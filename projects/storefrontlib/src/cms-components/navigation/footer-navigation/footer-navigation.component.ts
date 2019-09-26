@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsNavigationComponent } from '@spartacus/core';
+import {
+  AnonymousConsentsConfig,
+  AuthService,
+  CmsNavigationComponent,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -12,6 +16,8 @@ import { NavigationService } from '../navigation/navigation.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterNavigationComponent {
+  isUserLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
+
   node$: Observable<NavigationNode> = this.service.getNavigationNode(
     this.componentData.data$
   );
@@ -24,6 +30,8 @@ export class FooterNavigationComponent {
 
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService
+    protected service: NavigationService,
+    protected config: AnonymousConsentsConfig,
+    protected authService: AuthService
   ) {}
 }
