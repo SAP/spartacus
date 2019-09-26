@@ -97,17 +97,16 @@ describe('CartCouponComponent', () => {
     mockCartService.getAddVoucherResultLoading.and.returnValue(of(true));
     fixture.detectChanges();
 
+    const applyBtn = el.query(By.css('[data-test="button-coupon"]')).nativeElement;
+    expect(applyBtn.disabled).toBeTruthy();
+    
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
-    input.dispatchEvent(new Event('input'));
-    el.query(By.css('[data-test="button-coupon"]')).nativeElement.click();
-
-    expect(
-      el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
-    ).toBeTruthy();
+    applyBtn.click();
+    expect(applyBtn.disabled).toBeTruthy();
   });
 
-  it('should apply coupon', () => {
+  it('should coupon is applied successfully', () => {
     mockCartService.getAddVoucherResultLoading.and.returnValue(of(true));
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
 
@@ -115,11 +114,11 @@ describe('CartCouponComponent', () => {
 
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
-    input.dispatchEvent(new Event('input'));
     el.query(By.css('[data-test="button-coupon"]')).nativeElement.click();
 
     expect(
       el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
     ).toBeTruthy();
+    expect(input.readOnly).toBeFalsy();
   });
 });

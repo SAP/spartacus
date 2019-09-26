@@ -111,7 +111,7 @@ describe('AppliedCouponsComponent', () => {
       expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
     });
 
-    it('should call remove for remove button not ready only', () => {
+    it('should remove applied coupon', () => {
       component.vouchers = [coupon1];
       fixture.detectChanges();
 

@@ -142,7 +142,6 @@ export type CartAction =
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails
-  | ClearCart
   | AddEmailToCart
   | AddEmailToCartFail
   | AddEmailToCartSuccess
