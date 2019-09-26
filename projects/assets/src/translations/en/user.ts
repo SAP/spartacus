@@ -1,4 +1,7 @@
 export const user = {
+  anonymousConsents: {
+    consentManagement: 'Consent Management',
+  },
   forgottenPassword: {
     resetPassword: 'Reset password',
     enterEmailAddressAssociatedWithYourAccount:

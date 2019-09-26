@@ -1,0 +1,18 @@
+<div #dialog>
+  <!-- Modal Header -->
+  <div class="cx-dialog-header modal-header">
+    <div class="cx-dialog-title modal-title">
+      {{ 'anonymousConsents.consentManagement' | cxTranslate }}
+    </div>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="dismissModal('Cross click')"
+    >
+      <span aria-hidden="true">
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </span>
+    </button>
+  </div>
+</div>
