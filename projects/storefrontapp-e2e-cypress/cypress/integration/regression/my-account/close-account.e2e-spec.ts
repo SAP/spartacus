@@ -2,6 +2,7 @@ import {
   closeAccountTest,
   verifyAsAnonymous,
   registerAndLogin,
+  verifyAccountClosedTest,
 } from '../../../helpers/close-account';
 
 describe('My Account - Close Account', () => {
@@ -34,5 +35,9 @@ describe('My Account - Close Account', () => {
     afterEach(() => {
       cy.saveLocalStorage();
     });
+  });
+
+  describe('verify user is disabled and cannot login', () => {
+    verifyAccountClosedTest();
   });
 });
