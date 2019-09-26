@@ -89,7 +89,7 @@ function addPackageJsonScripts(options: SpartacusOptions): Rule {
       ] = `ng build --prod && ng run ${options.project}:server`;
       packageJsonFileObject.scripts['build:ssr'] =
         'npm run build:client-and-server-bundles && npm run compile:server';
-      packageJsonFileObject.scripts['serve:ssr'] = 'node dist/ssr/server';
+      packageJsonFileObject.scripts['serve:ssr'] = 'node dist/server';
 
       tree.overwrite(
         'package.json',
