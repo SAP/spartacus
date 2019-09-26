@@ -4,7 +4,12 @@
   [ngClass]="styleClass$ | async"
 ></cx-navigation-ui>
 
-<div *ngIf="config.anonymousConsents?.footerLink" class="anonymous-consents">
+<div
+  *ngIf="
+    (isUserLoggedIn$ | async) === false && config.anonymousConsents?.footerLink
+  "
+  class="anonymous-consents"
+>
   <a
     role="link"
     [routerLink]=""
