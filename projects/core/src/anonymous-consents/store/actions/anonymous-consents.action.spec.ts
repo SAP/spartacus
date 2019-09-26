@@ -63,17 +63,6 @@ describe('anonymous consent actions', () => {
         });
       });
     });
-    describe('InitializeAnonymousConsents', () => {
-      it('should create the action', () => {
-        const action = new AnonymousConsentsActions.InitializeAnonymousConsents(
-          mockConsentTemplates
-        );
-        expect({ ...action }).toEqual({
-          payload: mockConsentTemplates,
-          type: AnonymousConsentsActions.INITIALIZE_ANONYMOUS_CONSENTS,
-        });
-      });
-    });
   });
 
   describe('anonymous consents', () => {
