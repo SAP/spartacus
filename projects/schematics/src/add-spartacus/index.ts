@@ -94,7 +94,7 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion,
+        version: angularVersion || '~8.2.5',
         name: '@angular/service-worker',
       },
     ];
