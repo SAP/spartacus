@@ -108,7 +108,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
    *
    * TODO(issue:#4510) Deprecated since 1.3.0
    */
-  protected shouldDisableLoginButton(): boolean {
+  shouldDisableLoginButton(): boolean {
     if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
       return false;
     }
