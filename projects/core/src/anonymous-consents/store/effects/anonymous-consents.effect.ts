@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  filter,
+  map,
+  withLatestFrom,
+} from 'rxjs/operators';
+import { AuthService } from '../../../auth/index';
 import { SiteContextActions } from '../../../site-context/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
@@ -14,6 +21,8 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.LoadAnonymousConsentTemplates
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
+    withLatestFrom(this.authService.isUserLoggedIn()),
+    filter(([_, isUserLoggedIn]) => !isUserLoggedIn),
     map(_ => new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
   );
 
@@ -45,6 +54,7 @@ export class AnonymousConsentsEffects {
 
   constructor(
     private actions$: Actions,
-    private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector
+    private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
+    private authService: AuthService
   ) {}
 }
