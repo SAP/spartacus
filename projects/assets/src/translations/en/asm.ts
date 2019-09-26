@@ -1,5 +1,6 @@
 export const asm = {
   asm: {
+    mainLogoLabel: 'SAP',
     mainTitle: 'Assisted Service Mode',
     logout: 'Sign Out Agent',
     hideUi: 'Close ASM',
