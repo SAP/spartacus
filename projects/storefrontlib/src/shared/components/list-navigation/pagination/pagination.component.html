@@ -1,7 +1,9 @@
 <ul class="pagination" *ngIf="showPagination()">
   <!-- Previous -->
   <li class="page-item" [ngClass]="{ disabled: onFirstPage() || !hasPages() }">
-    <a class="page-link" (click)="clickPageNo(getPagePrevious())">«</a>
+    <a class="page-link" (click)="clickPageNo(getPagePrevious())" tabindex="0"
+      >«</a
+    >
   </li>
 
   <!-- Page Index -->
@@ -15,12 +17,13 @@
       class="page-link"
       *ngIf="!hidePageIndex(i)"
       (click)="clickPageNo(i + 1)"
+      tabindex="0"
       >{{ i + 1 }}</a
     >
   </li>
 
   <!-- Next -->
   <li class="page-item" [ngClass]="{ disabled: onLastPage() || !hasPages() }">
-    <a class="page-link" (click)="clickPageNo(getPageNext())">»</a>
+    <a class="page-link" (click)="clickPageNo(getPageNext())" tabindex="0">»</a>
   </li>
 </ul>
