@@ -61,10 +61,9 @@ export function asmTests() {
         cy.wait(userDetailsRequestAlias)
           .its('status')
           .should('eq', 200);
-        cy.get('cx-asm-main-ui').should(
-          'contain',
-          `ASM - Supporting customer: ${customer.fullName} (${customer.email})`
-        );
+        cy.get('div.cx-customer-emulation input')
+          .invoke('attr', 'placeholder')
+          .should('contain', `${customer.fullName}, ${customer.email}`);
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('not.exist');
       });
@@ -145,13 +144,13 @@ export function asmTests() {
         cy.get('cx-customer-selection').should('exist');
       });
       it('should agent sign out.', () => {
-        cy.get('button.btn-secondary').click();
+        cy.get('a[title="Sign Out Agent"]').click();
         cy.get('cx-csagent-login-form').should('exist');
         cy.get('cx-customer-selection').should('not.exist');
       });
 
       it('should agent close the ASM UI.', () => {
-        cy.get('button.btn-secondary').click();
+        cy.get('a[title="Close ASM"]').click();
         cy.get('cx-asm-main-ui').should('not.exist');
       });
     });

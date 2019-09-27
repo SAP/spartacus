@@ -1,41 +1,37 @@
 <form (submit)="onSubmit()" [formGroup]="form">
-  <div class="form-group col-sm">
-    <label>
-      <span class="label-content">{{
-        'asm.loginForm.userId.label' | cxTranslate
-      }}</span>
-      <input
-        type="text"
-        class="form-control"
-        [class.is-invalid]="isNotValid('userId')"
-        formControlName="userId"
-        placeholder="{{ 'asm.loginForm.userId.placeholder' | cxTranslate }}"
-      />
-      <div class="invalid-feedback" *ngIf="isNotValid('userId')">
-        <span>{{ 'asm.loginForm.userId.required' | cxTranslate }}</span>
-      </div>
-    </label>
-  </div>
-  <div class="form-group col-sm">
-    <label>
-      <span class="label-content">{{
-        'asm.loginForm.password.label' | cxTranslate
-      }}</span>
-      <input
-        type="password"
-        class="form-control"
-        [class.is-invalid]="isNotValid('password')"
-        placeholder="{{ 'asm.loginForm.password.placeholder' | cxTranslate }}"
-        formControlName="password"
-      />
-      <div class="invalid-feedback" *ngIf="isNotValid('password')">
-        <span>{{ 'asm.loginForm.password.required' | cxTranslate }}</span>
-      </div>
-    </label>
-  </div>
-  <div class="col-sm">
-    <button type="submit" class="btn btn-block btn-primary">
-      {{ 'asm.loginForm.submit' | cxTranslate }}
-    </button>
+  <div class="fd-container">
+    <div class="fd-col--3">
+      <label>
+        <input
+          type="text"
+          class="form-control"
+          [class.is-invalid]="isNotValid('userId')"
+          formControlName="userId"
+          placeholder="{{ 'asm.loginForm.userId.label' | cxTranslate }}"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('userId')">
+          <span>{{ 'asm.loginForm.userId.required' | cxTranslate }}</span>
+        </div>
+      </label>
+    </div>
+    <div class="fd-col--3">
+      <label>
+        <input
+          type="password"
+          class="form-control"
+          [class.is-invalid]="isNotValid('password')"
+          placeholder="{{ 'asm.loginForm.password.label' | cxTranslate }}"
+          formControlName="password"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('password')">
+          <span>{{ 'asm.loginForm.password.required' | cxTranslate }}</span>
+        </div>
+      </label>
+    </div>
+    <div class="fd-col--3">
+      <button type="submit" class="fd-button--emphasized">
+        {{ 'asm.loginForm.submit' | cxTranslate }}
+      </button>
+    </div>
   </div>
 </form>

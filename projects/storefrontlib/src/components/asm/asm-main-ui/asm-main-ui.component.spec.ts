@@ -176,7 +176,7 @@ describe('AsmMainUiComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
-    expect(el.query(By.css('button'))).toBeTruthy();
+    expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
   });
 
   it('should not display the agent logout button when starting a customer emulation session', () => {
@@ -192,7 +192,7 @@ describe('AsmMainUiComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
-    expect(el.query(By.css('button'))).toBeFalsy();
+    expect(el.query(By.css('a[title="asm.logout"]'))).toBeFalsy();
   });
 
   it('should display only user info during customer emulation.', () => {
@@ -205,8 +205,10 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.nativeElement.textContent).toContain(testUser.uid);
-    expect(el.nativeElement.textContent).toContain(testUser.name);
+    expect(
+      el.query(By.css('input[formcontrolname="customer"]')).nativeElement
+        .placeholder
+    ).toEqual(`${testUser.name}, ${testUser.uid}`);
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
   });
@@ -270,7 +272,9 @@ describe('AsmMainUiComponent', () => {
     spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
     component.ngOnInit();
     fixture.detectChanges();
-    const submitBtn = fixture.debugElement.query(By.css('button'));
+    const submitBtn = fixture.debugElement.query(
+      By.css('a[title="asm.hideUi"]')
+    );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
       visible: false,
