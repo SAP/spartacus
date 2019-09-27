@@ -1,10 +1,7 @@
 import { checkAllElements, TabElement } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
 
-export function headerDesktopTabbingOrder(
-  config: TabElement[],
-  gridView: boolean = false
-) {
+export function headerDesktopTabbingOrder(config: TabElement[]) {
   cy.visit('/');
 
   // Ensures components are loaded before tabbing
@@ -12,10 +9,6 @@ export function headerDesktopTabbingOrder(
   cy.get('.SiteContext')
     .find('cx-site-context-selector')
     .should('have.length', 2);
-
-  if (gridView) {
-    cy.get('cx-product-view').click();
-  }
 
   cy.get('header cx-site-context-selector select')
     .first()
