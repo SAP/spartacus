@@ -19,9 +19,11 @@ export class ConfigAttributeDropDownComponent implements OnInit {
 
   @Input() attribute: Configurator.Attribute;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
+  }
 
   onSelect(value: Configurator.Value) {
-    console.log('DDLB selected value: ' + value);
+    console.log('DDLB selected value: ' + value.valueCode);
   }
 }

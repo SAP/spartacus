@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -12,7 +14,6 @@ import { ConfigAttributeHeaderComponent } from '../config-attribute-header/confi
 import { ConfigAttributeDropDownComponent } from '../config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
 import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigFormComponent } from './config-form.component';
-
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const mockRouterState: any = {
@@ -49,7 +50,7 @@ describe('ConfigurationFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [
         ConfigFormComponent,
         ConfigAttributeHeaderComponent,
