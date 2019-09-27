@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsNavigationComponent } from '@spartacus/core';
+import {
+  AnonymousConsentsConfig,
+  AuthService,
+  CmsNavigationComponent,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -24,6 +28,19 @@ export class FooterNavigationComponent {
 
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService
+    protected service: NavigationService,
+    protected config: AnonymousConsentsConfig,
+    protected authService: AuthService
   ) {}
+
+  get showConsentPreferences(): Observable<boolean> {
+    return this.authService
+      .isUserLoggedIn()
+      .pipe(
+        map(
+          isUserLoggedIn =>
+            !isUserLoggedIn && this.config.anonymousConsents.footerLink
+        )
+      );
+  }
 }
