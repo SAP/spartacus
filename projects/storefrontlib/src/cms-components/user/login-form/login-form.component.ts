@@ -7,10 +7,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
 
 @Component({
   selector: 'cx-login-form',
@@ -28,12 +28,19 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     authRedirectService: AuthRedirectService,
     winRef: WindowRef, // tslint:disable-line,
     activatedRoute: ActivatedRoute,
-    featureConfig: FeatureConfigService
+    checkoutConfigService: CheckoutConfigService
   );
 
   /**
    * @deprecated since 1.1.0
-   * NOTE: check issue:#4055 for more info
+   * Use constructor(
+   * auth: AuthService,
+   * globalMessageService: GlobalMessageService,
+   * fb: FormBuilder,
+   * authRedirectService: AuthRedirectService,
+   *  winRef: WindowRef,
+   * activatedRoute: ActivatedRoute,
+   * checkoutConfigService: CheckoutConfigService) instead
    *
    * TODO(issue:#4055) Deprecated since 1.1.0
    */
@@ -50,7 +57,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private authRedirectService: AuthRedirectService,
     private winRef?: WindowRef,
     private activatedRoute?: ActivatedRoute,
-    private featureConfig?: FeatureConfigService
+    private checkoutConfigService?: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +66,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
-    if (this.featureConfig.isEnabled('guestCheckout')) {
+    if (
+      this.checkoutConfigService &&
+      this.checkoutConfigService.isGuestCheckout()
+    ) {
       this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
     }
 

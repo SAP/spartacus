@@ -1,9 +1,14 @@
 import * as path from 'path';
-import { getTsSourceFile } from './file-utils';
+import {
+  getIndexHtmlPath,
+  getPathResultsForFile,
+  getTsSourceFile,
+} from './file-utils';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import { getProjectFromWorkspace } from './workspace-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -12,7 +17,6 @@ describe('File utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: any = {
     name: 'workspace',
-    newProjectRoot: 'projects',
     version: '0.5.0',
   };
   const appOptions: any = {
@@ -22,11 +26,11 @@ describe('File utils', () => {
     routing: false,
     style: 'scss',
     skipTests: false,
+    projectRoot: '',
   };
   const defaultOptions = {
     project: 'schematics-test',
   };
-  const tsFilePath = path.join(`/projects/${appOptions.name}/src/test.ts`);
 
   beforeEach(async () => {
     appTree = await schematicRunner
@@ -44,18 +48,39 @@ describe('File utils', () => {
         appTree
       )
       .toPromise();
+    appTree = await schematicRunner
+      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+      .toPromise();
   });
 
   describe('getTsSourceFile', () => {
     it('should return TS file', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-        .toPromise();
-
-      const tsFile = getTsSourceFile(tree, tsFilePath);
+      const tsFile = getTsSourceFile(appTree, 'src/test.ts');
       const tsFileName = tsFile.fileName.split('/').pop();
+
       expect(tsFile).toBeTruthy();
       expect(tsFileName).toEqual('test.ts');
+    });
+  });
+
+  describe('getIndexHtmlPath', () => {
+    it('should return index.html path', async () => {
+      const project = getProjectFromWorkspace(appTree, defaultOptions, [
+        '/angular.json',
+        '/.angular.json',
+      ]);
+      const projectIndexHtmlPath = getIndexHtmlPath(project);
+
+      expect(projectIndexHtmlPath).toEqual(`src/index.html`);
+    });
+  });
+
+  describe('getPathResultsForFile', () => {
+    it('should return proper path for file', async () => {
+      const pathsToFile = getPathResultsForFile(appTree, 'test.ts', 'src');
+
+      expect(pathsToFile.length).toBeGreaterThan(0);
+      expect(pathsToFile[0]).toEqual('/src/test.ts');
     });
   });
 });
