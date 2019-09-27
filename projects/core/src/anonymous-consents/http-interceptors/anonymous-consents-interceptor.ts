@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { AnonymousConsent } from '../../model/index';
+import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
 export const ANONYMOUS_CONSENTS_HEADER = 'X-Anonymous-Consents';
@@ -18,7 +19,8 @@ export const ANONYMOUS_CONSENTS_HEADER = 'X-Anonymous-Consents';
 export class AnonymousConsentsInterceptor implements HttpInterceptor {
   constructor(
     private anonymousConsentsService: AnonymousConsentsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private occEndpoints: OccEndpointsService
   ) {}
 
   intercept(
@@ -29,6 +31,10 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       take(1),
       withLatestFrom(this.authService.isUserLoggedIn()),
       switchMap(([consents, isUserLoggedIn]) => {
+        if (!this.isOccUrl(request.url)) {
+          return next.handle(request);
+        }
+
         const clonedRequest = this.handleRequest(consents, request);
         return next.handle(clonedRequest).pipe(
           tap(event => {
@@ -80,5 +86,9 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     const serialized = JSON.stringify(consents);
     const encoded = encodeURIComponent(serialized);
     return encoded;
+  }
+
+  private isOccUrl(url: string): boolean {
+    return url.includes(this.occEndpoints.getBaseEndpoint());
   }
 }
