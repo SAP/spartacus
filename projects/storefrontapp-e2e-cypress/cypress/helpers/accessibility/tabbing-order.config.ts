@@ -811,29 +811,29 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   productPage: [
     {
-      value: 'DSC-HX1',
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.CX_MEDIA,
     },
     {
-      value: 'DSC-HX1',
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.CX_MEDIA,
     },
-    {
-      value: 'DSC-HX1',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    {
-      value: 'DSC-HX1',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    {
-      value: 'DSC-HX1',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    {
-      value: 'DSC-HX1',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
+    // {
+    //   value: 'FUN Flash Single Use Camera, 27+12 pic',
+    //   type: TabbingOrderTypes.CX_MEDIA,
+    // },
+    // {
+    //   value: 'FUN Flash Single Use Camera, 27+12 pic',
+    //   type: TabbingOrderTypes.CX_MEDIA,
+    // },
+    // {
+    //   value: 'FUN Flash Single Use Camera, 27+12 pic',
+    //   type: TabbingOrderTypes.CX_MEDIA,
+    // },
+    // {
+    //   value: 'FUN Flash Single Use Camera, 27+12 pic',
+    //   type: TabbingOrderTypes.CX_MEDIA,
+    // },
     { value: 'Show reviews', type: TabbingOrderTypes.LINK },
     { value: 'quantity', type: TabbingOrderTypes.ITEM_COUNTER },
     { value: '-', type: TabbingOrderTypes.BUTTON },
