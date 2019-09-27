@@ -2,8 +2,7 @@ import { BudgetActions } from '../actions/index';
 import { BudgetsState } from '../organization-state';
 
 export const initialState: BudgetsState = {
-  budgets: {
-  },
+  budgets: { entities: {} },
 };
 
 export function reducer(
@@ -14,7 +13,7 @@ export function reducer(
     case BudgetActions.LOAD_BUDGETS_SUCCESS: {
       return {
         ...state,
-        budgets: action.payload,
+        budgets: { entities: action.payload },
       };
     }
   }
