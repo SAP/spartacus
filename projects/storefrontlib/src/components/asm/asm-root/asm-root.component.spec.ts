@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { AsmService, AsmUi } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
 import { AsmRootComponent } from './asm-root.component';
 @Component({
   selector: 'cx-asm-main-ui',
@@ -36,11 +35,7 @@ describe('AsmRootComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AsmRootComponent,
-        MockAsmMainUiComponent,
-        MockFeatureLevelDirective,
-      ],
+      declarations: [AsmRootComponent, MockAsmMainUiComponent],
       providers: [
         { provide: AsmService, useClass: MockAsmService },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
