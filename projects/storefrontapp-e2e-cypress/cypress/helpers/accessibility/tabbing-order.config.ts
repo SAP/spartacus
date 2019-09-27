@@ -19,7 +19,6 @@ export enum TabbingOrderTypes {
   CX_MEDIA = 'cxMedia',
   H3 = 'h3',
   CX_PRODUCT_VIEW = 'cxProductView',
-  LI_LINK = 'liLink',
 }
 
 export interface TabbingOrderConfig {

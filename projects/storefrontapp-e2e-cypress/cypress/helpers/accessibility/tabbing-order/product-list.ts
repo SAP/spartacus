@@ -1,11 +1,15 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import {
+  checkAllElements,
+  TabElement,
+  testProductListUrl,
+} from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
 
 export function productListTabbingOrderDesktop(
   config: TabElement[],
   grid: boolean = false
 ) {
-  cy.visit('/Brands/all/c/brands');
+  cy.visit(testProductListUrl);
 
   if (grid) {
     cy.get('cx-product-list cx-product-view')
@@ -24,7 +28,7 @@ export function productListTabbingOrderDesktop(
 }
 
 export function productListTabbingOrderMobile(config: TabElement[]) {
-  cy.visit('/Brands/all/c/brands');
+  cy.visit(testProductListUrl);
   cy.viewport(formats.mobile.width, formats.mobile.height);
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
@@ -40,7 +44,7 @@ export function productListTabbingOrderMobile(config: TabElement[]) {
 }
 
 export function productListTabbingOrderMobileFilters(config: TabElement[]) {
-  cy.visit('/Brands/all/c/brands');
+  cy.visit(testProductListUrl);
   cy.viewport(formats.mobile.width, formats.mobile.height);
 
   cy.get(

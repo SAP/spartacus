@@ -10,6 +10,7 @@ export interface TabElement {
 }
 
 export const testProductUrl = '/product/779841';
+export const testProductListUrl = '/Brands/all/c/brands';
 
 export function checkElement(tabElement: TabElement) {
   // Check generic cases without value
@@ -34,9 +35,9 @@ export function checkElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.CX_PRODUCT_VIEW: {
       cy.focused()
+        .should('have.class', 'cx-product-layout')
         .should('have.prop', 'tagName')
         .should('eq', 'DIV');
-      cy.focused().should('have.class', 'cx-product-layout');
       break;
     }
   }
@@ -114,13 +115,6 @@ export function checkElement(tabElement: TabElement) {
       cy.focused()
         .parent()
         .contains(tabElement.value);
-      break;
-    }
-    case TabbingOrderTypes.LI_LINK: {
-      cy.focused()
-        .should('have.prop', 'tagName')
-        .should('eq', 'LI');
-      cy.focused().contains(tabElement.value);
       break;
     }
   }
