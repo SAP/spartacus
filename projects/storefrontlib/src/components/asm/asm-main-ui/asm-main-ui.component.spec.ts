@@ -13,7 +13,6 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
 const mockToken = {
@@ -92,7 +91,7 @@ describe('AsmMainUiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, SpinnerModule],
+      imports: [I18nTestingModule],
       declarations: [
         AsmMainUiComponent,
         MockCSAgentLoginFormComponent,
@@ -288,14 +287,14 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+      expect(el.query(By.css('div.sap-spinner'))).toBeTruthy();
       expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     });
   });
   it('should not display spinner when login is not running', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(el.query(By.css('cx-spinner'))).toBeFalsy();
+      expect(el.query(By.css('div.sap-spinner'))).toBeFalsy();
       expect(el.query(By.css('cx-csagent-login-form'))).toBeTruthy();
     });
   });
