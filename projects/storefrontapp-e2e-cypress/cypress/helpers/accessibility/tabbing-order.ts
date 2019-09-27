@@ -10,7 +10,7 @@ export interface TabElement {
 }
 
 export const testProductUrl = '/product/779841';
-export const testProductListUrl = '/Brands/all/c/brands';
+export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';
 
 export function checkElement(tabElement: TabElement) {
   // Check generic cases without value

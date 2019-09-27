@@ -1235,94 +1235,50 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CX_PRODUCT_VIEW,
     },
     {
-      value: '/electronics-spa/en/USD/product/3514520/DSC-WX1',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'DSC-WX1',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: '/electronics-spa/en/USD/product/3514521/DSC-WX1',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'DSC-WX1',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value:
-        '/electronics-spa/en/USD/product/3595723/EF%20100mm%20f%2F2.8L%20Macro%20IS%20USM',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
     {
       value: 'EF 100mm f/2.8L Macro IS USM',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value:
-        '/electronics-spa/en/USD/product/3555166/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value:
-        '/electronics-spa/en/USD/product/3557133/EOS%20500D%20%2B%20EF-S%2018-55IS%20%2B%20EF-S%2055-250IS,%20kit',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
     {
       value: 'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value:
-        '/electronics-spa/en/USD/product/3708646/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: '/electronics-spa/en/USD/product/3965240/NP-FV%2070',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
     {
       value: 'NP-FV 70',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: '/electronics-spa/en/USD/product/4135570/ACC-BBV5',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'ACC-BBV5',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: '/electronics-spa/en/USD/product/4205436/32GB%20SDHC%20Card',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: '32GB SDHC Card',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: '/electronics-spa/en/USD/product/4608858/FA-EB1AM',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
     {
       value: 'FA-EB1AM',
       type: TabbingOrderTypes.LINK,
@@ -1602,94 +1558,50 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CX_PRODUCT_VIEW,
     },
     {
-      value: '/electronics-spa/en/USD/product/3514520/DSC-WX1',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'DSC-WX1',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: '/electronics-spa/en/USD/product/3514521/DSC-WX1',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'DSC-WX1',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value:
-        '/electronics-spa/en/USD/product/3595723/EF%20100mm%20f%2F2.8L%20Macro%20IS%20USM',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
     {
       value: 'EF 100mm f/2.8L Macro IS USM',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value:
-        '/electronics-spa/en/USD/product/3555166/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value:
-        '/electronics-spa/en/USD/product/3557133/EOS%20500D%20%2B%20EF-S%2018-55IS%20%2B%20EF-S%2055-250IS,%20kit',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
     {
       value: 'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value:
-        '/electronics-spa/en/USD/product/3708646/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: '/electronics-spa/en/USD/product/3965240/NP-FV%2070',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
     {
       value: 'NP-FV 70',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: '/electronics-spa/en/USD/product/4135570/ACC-BBV5',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: 'ACC-BBV5',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: '/electronics-spa/en/USD/product/4205436/32GB%20SDHC%20Card',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
       value: '32GB SDHC Card',
       type: TabbingOrderTypes.LINK,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: '/electronics-spa/en/USD/product/4608858/FA-EB1AM',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
     {
       value: 'FA-EB1AM',
       type: TabbingOrderTypes.LINK,
