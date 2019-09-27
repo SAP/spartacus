@@ -9,7 +9,6 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
@@ -40,7 +39,7 @@ describe('CustomerSelectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, SpinnerModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [CustomerSelectionComponent],
       providers: [
         { provide: AsmService, useClass: MockAsmService },
@@ -196,14 +195,14 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+      expect(el.query(By.css('div.sap-spinner'))).toBeTruthy();
       expect(el.query(By.css('form'))).toBeFalsy();
     });
   });
   it('should not display spinner when customer search is not running', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(el.query(By.css('cx-spinner'))).toBeFalsy();
+      expect(el.query(By.css('div.sap-spinner'))).toBeFalsy();
       expect(el.query(By.css('form'))).toBeTruthy();
     });
   });
