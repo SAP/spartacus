@@ -40,7 +40,7 @@ export class OccConfiguratorVariantNormalizer
       name: cstic.name,
       label: cstic.langdepname,
       required: cstic.required,
-      uiType: this.mapOccConfiguratorVariantType(cstic.type),
+      uiType: this.convertCharacteristicType(cstic.type),
       values: [],
     };
     if (cstic.domainvalues) {
@@ -63,9 +63,7 @@ export class OccConfiguratorVariantNormalizer
     values.push(value);
   }
 
-  mapOccConfiguratorVariantType(
-    type: OccConfigurator.UiType
-  ): Configurator.UiType {
+  convertCharacteristicType(type: OccConfigurator.UiType): Configurator.UiType {
     let uiType: Configurator.UiType;
     switch (type) {
       case OccConfigurator.UiType.RADIO_BUTTON: {

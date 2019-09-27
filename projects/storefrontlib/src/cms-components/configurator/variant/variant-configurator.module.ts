@@ -18,10 +18,12 @@ import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigImageComponent } from '../commons/config-image/config-image.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
+import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    ConfigureProductModule,
     RouterModule.forChild([
       {
         path: 'configureCPQCONFIGURATOR/:rootProduct',

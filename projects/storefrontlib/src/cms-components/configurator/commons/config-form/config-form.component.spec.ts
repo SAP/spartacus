@@ -84,7 +84,7 @@ describe('ConfigurationFormComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get product code as part of poroduct configuration', () => {
+  it('should get product code as part of product configuration', () => {
     component.ngOnInit();
     fixture.detectChanges();
     let productCode: string;
@@ -94,7 +94,7 @@ describe('ConfigurationFormComponent', () => {
 
     expect(productCode).toEqual(PRODUCT_CODE);
   });
-  it('should get product code as part of poroduct configuration', () => {
+  it('should get product code as part of product configuration', () => {
     component.ngOnInit();
     fixture.detectChanges();
     let productCode: string;

@@ -1,14 +1,17 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-total">
-    {{ 'header.configId' | cxTranslate }} : {{ configuration.configId }}
+    {{ 'configurator.header.configId' | cxTranslate }} :
+    {{ configuration.configId }}
     <br />
-    {{ 'header.consistent' | cxTranslate }} : {{ configuration.consistent }}
+    {{ 'configurator.header.consistent' | cxTranslate }} :
+    {{ configuration.consistent }}
     <br />
-    {{ 'header.complete' | cxTranslate }} : {{ configuration.complete }}
+    {{ 'configurator.header.complete' | cxTranslate }} :
+    {{ configuration.complete }}
   </div>
   <br />
   <div class="cx-total">
-    {{ 'attribute.caption' | cxTranslate }}
+    {{ 'configurator.attribute.caption' | cxTranslate }}
   </div>
   <br />
   <div
@@ -35,7 +38,7 @@
         [attribute]="attribute"
       ></cx-config-attribute-drop-down>
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
-        'attribute.notSupported' | cxTranslate
+        'configurator.attribute.notSupported' | cxTranslate
       }}</em>
     </div>
   </div>
