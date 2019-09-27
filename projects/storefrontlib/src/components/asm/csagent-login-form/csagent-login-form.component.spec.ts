@@ -1,5 +1,7 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
@@ -10,6 +12,7 @@ describe('CSAgentLoginFormComponent', () => {
   let fixture: ComponentFixture<CSAgentLoginFormComponent>;
   let userIdFormControl: AbstractControl;
   let passwordFormControl: AbstractControl;
+  let el: DebugElement;
 
   const validUserId = 'asagent';
   const validPassword = 'testPass123!';
@@ -24,6 +27,7 @@ describe('CSAgentLoginFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CSAgentLoginFormComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
     fixture.detectChanges();
 
     userIdFormControl = component.form.controls['userId'];
@@ -171,6 +175,25 @@ describe('CSAgentLoginFormComponent', () => {
         expect(testUtils.isCtrlShowingError(fixture, 'userId')).toBeFalsy();
         expect(testUtils.isCtrlShowingError(fixture, 'password')).toBeFalsy();
       });
+    });
+  });
+
+  it('should display spinner when login is running', () => {
+    component.csAgentTokenLoading = true;
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(el.query(By.css('div.sap-spinner'))).toBeTruthy();
+      expect(el.query(By.css('form'))).toBeFalsy();
+    });
+  });
+  it('should not display spinner when login is not running', () => {
+    component.csAgentTokenLoading = false;
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(el.query(By.css('div.sap-spinner'))).toBeFalsy();
+      expect(el.query(By.css('form'))).toBeTruthy();
     });
   });
 });
