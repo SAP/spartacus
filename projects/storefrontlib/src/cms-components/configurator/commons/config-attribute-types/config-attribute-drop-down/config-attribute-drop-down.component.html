@@ -5,12 +5,13 @@
         <ng-container *ngIf="attribute.values">
           <div *ngIf="attribute.values.length !== 0">
             <ng-select
-              formControlName="attributeDropDownForm"
+              [formControl]="attributeDropDownForm"
               [searchable]="false"
               [clearable]="false"
               [items]="attribute.values"
               bindLabel="valueDisplay"
               bindValue="valueCode"
+              (change)="onSelect($event)"
             >
             </ng-select>
           </div>
