@@ -2,6 +2,7 @@ import { LayoutConfig } from '../../layout/config/layout-config';
 
 export const b2cLayoutConfig: LayoutConfig = {
   layoutSlots: {
+    topHeader: { slots: ['TopHeaderSlot'] },
     header: {
       md: {
         slots: [
@@ -58,7 +59,6 @@ export const b2cLayoutConfig: LayoutConfig = {
     },
     ProductDetailsPageTemplate: {
       slots: [
-        'TopHeaderSlot',
         'Summary',
         'UpSelling',
         'CrossSelling',
