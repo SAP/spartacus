@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import { Budget } from '../../../model/budget.model';
 
 @Injectable()
-export class ProductEffects {
+export class BudgetEffects {
   @Effect()
   loadBudget: Observable<
     BudgetActions.LoadBudgetSuccess | BudgetActions.LoadBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGET),
     map((action: BudgetActions.LoadBudget) => action.payload),
-    switchMap((userId, budgetCode) => {
-      return this.budgetConnector.get(userId,budgetCode).pipe(
+    switchMap(({uid, code}) => {
+      return this.budgetConnector.get(uid,code).pipe(
         map((budget: Budget) => {
           return new BudgetActions.LoadBudgetSuccess(budget);
         }),
