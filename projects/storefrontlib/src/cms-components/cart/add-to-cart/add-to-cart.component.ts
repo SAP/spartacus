@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { CartService, OrderEntry, Product } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
 import { CurrentProductService } from '../../product/current-product.service';
@@ -30,9 +30,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   increment = false;
 
   cartEntry$: Observable<OrderEntry>;
-  subscription: Subscription;
-  
-  cartErrorSubscription: Subscription;
+  validVariant$: Observable<boolean>;
+  subscription: Subscription = new Subscription();
 
   constructor(
     protected cartService: CartService,
@@ -70,16 +69,17 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         });
     }
 
-    // (GH-4363) Prevents add-to-cart modal from opening when there is error
-    this.cartService.getLoaded().subscribe(loaded => {
-      this.cartService.getCartError().subscribe(error => {
-        if (this.modalRef) {
-          if (error && loaded) {
-            this.modalRef.close();
-          }
+    // (GH-4363) This prevents the add-to-cart modal opening when an error is present
+    this.subscription.add(
+      combineLatest([
+        this.cartService.getLoaded(),
+        this.cartService.getCartError()
+      ]).subscribe(([loaded, error]) => {
+        if(error && loaded) {
+          this.modalRef.close();
         }
-      });
-    })
+      })
+    );
   }
 
   updateCount(value: number): void {
