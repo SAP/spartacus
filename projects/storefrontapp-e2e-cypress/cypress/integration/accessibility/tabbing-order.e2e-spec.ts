@@ -39,7 +39,6 @@ import {
 import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import {
-  productListTabbingOrder,
   productListTabbingOrderDesktop,
   productListTabbingOrderMobile,
   productListTabbingOrderMobileFilters,
@@ -98,11 +97,11 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 
   describe('Product List', () => {
     it('should allow to navigate with tab key (desktop - list view)', () => {
-      productListTabbingOrderDesktop(config.productList);
+      productListTabbingOrderDesktop(config.productListDesktop);
     });
 
     it('should allow to navigate with tab key (desktop - grid view)', () => {
-      productListTabbingOrderDesktop(config.productList, true);
+      productListTabbingOrderDesktop(config.productListDesktop, true);
     });
 
     it('should allow to navigate with tab key (mobile)', () => {

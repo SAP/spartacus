@@ -1204,7 +1204,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
-  productList: [
+  productListDesktop: [
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },

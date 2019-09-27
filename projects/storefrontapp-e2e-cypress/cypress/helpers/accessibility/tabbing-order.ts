@@ -118,8 +118,9 @@ export function checkElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.LI_LINK: {
       cy.focused()
-        .should('have.prop', 'LI')
-        .contains(tabElement.value);
+        .should('have.prop', 'tagName')
+        .should('eq', 'LI');
+      cy.focused().contains(tabElement.value);
       break;
     }
   }
