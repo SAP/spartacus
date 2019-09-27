@@ -85,19 +85,8 @@
 </ng-container>
 
 <ng-template #showLoginForm>
-  <ng-container *ngIf="!(csAgentTokenLoading$ | async); else spinner">
-    <cx-csagent-login-form
-      (submitEvent)="loginCustomerSupportAgent($event)"
-    ></cx-csagent-login-form>
-  </ng-container>
-
-  <ng-template #spinner>
-    <div class="sap-spinner">
-      <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-  </ng-template>
+  <cx-csagent-login-form
+    (submitEvent)="loginCustomerSupportAgent($event)"
+    [csAgentTokenLoading]="csAgentTokenLoading$ | async"
+  ></cx-csagent-login-form>
 </ng-template>
