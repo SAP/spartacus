@@ -24,7 +24,7 @@ import {
 @Injectable()
 export class UserService {
   constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
-
+  private _uid: string;
   /**
    * Returns a user
    */
@@ -34,6 +34,8 @@ export class UserService {
       tap(details => {
         if (Object.keys(details).length === 0) {
           this.load();
+        } else {
+          this._uid = details.uid;
         }
       })
     );
@@ -322,5 +324,9 @@ export class UserService {
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new UserActions.UpdatePasswordReset());
+  }
+
+  get uid() {
+    return this._uid;
   }
 }
