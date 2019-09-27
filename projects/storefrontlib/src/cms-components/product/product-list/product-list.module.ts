@@ -18,6 +18,7 @@ import {
   StarRatingModule,
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
+import { ConfigureProductModule } from '../../configurator/commons/configure-product/configure-product.module';
 import { IconModule } from '../../misc/icon/index';
 import { defaultScrollConfig } from '../config/default-scroll-config';
 import { ProductListComponent } from './container/product-list.component';
@@ -56,6 +57,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     InfiniteScrollModule,
     ViewConfigModule,
+    ConfigureProductModule,
   ],
   declarations: [
     ProductListComponent,
