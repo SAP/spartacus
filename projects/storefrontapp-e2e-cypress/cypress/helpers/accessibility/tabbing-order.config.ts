@@ -18,6 +18,8 @@ export enum TabbingOrderTypes {
   CAROUSEL = 'carousel',
   CX_MEDIA = 'cxMedia',
   H3 = 'h3',
+  CX_PRODUCT_VIEW = 'cxProductView',
+  LI_LINK = 'liLink',
 }
 
 export interface TabbingOrderConfig {
@@ -1200,6 +1202,982 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Help',
       type: TabbingOrderTypes.LINK,
+    },
+  ],
+  productList: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '3',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '18',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/3514520/DSC-WX1',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'DSC-WX1',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/3514521/DSC-WX1',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'DSC-WX1',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value:
+        '/electronics-spa/en/USD/product/3595723/EF%20100mm%20f%2F2.8L%20Macro%20IS%20USM',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'EF 100mm f/2.8L Macro IS USM',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value:
+        '/electronics-spa/en/USD/product/3555166/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value:
+        '/electronics-spa/en/USD/product/3557133/EOS%20500D%20%2B%20EF-S%2018-55IS%20%2B%20EF-S%2055-250IS,%20kit',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value:
+        '/electronics-spa/en/USD/product/3708646/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/3965240/NP-FV%2070',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'NP-FV 70',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/4135570/ACC-BBV5',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'ACC-BBV5',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/4205436/32GB%20SDHC%20Card',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '32GB SDHC Card',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/4608858/FA-EB1AM',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'FA-EB1AM',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '3',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '18',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
+    },
+    {
+      value: 'Stores',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Chiba (100)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Choshi (92)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Best Western Fukuoka Nakasu Inn (102)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Canal City Fukuoka Washington Hotel (89)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Hilton Fukuoka Sea Hawk (94)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka (91)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Show more...',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Price',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '$0-$49.99 (38)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$50-$199.99 (63)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$200-$499.99 (38)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$500-$999.99 (22)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$1,000-$100,000 (18)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Resolution',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1280 x 720 (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Mounting',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Floor-standing (2)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Quick-release Mounting Shoe (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Megapixels',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '20 - 29.9 mp (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '15 - 15.9 mp (8)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '14 - 14.9 mp (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '12 - 12.9 mp (6)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '10 - 10.9 mp (30)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '9 - 9.9 mp (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Show more...',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Lens type',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'fixed (6)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'telephoto (2)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'fisheye (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'wide-angle (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'zoom (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Color',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Black (7)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Brand',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sony (86)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Canon (40)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kodak (23)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kingston (7)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Samsung (6)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Toshiba (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Show more...',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Category',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Cameras (131)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Digital Cameras (97)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Digital SLR (50)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Digital Compacts (47)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Components (30)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Power Supplies (30)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Show more...',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  productListMobile: [
+    {
+      value: 'Filter by',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '3',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '18',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
+    },
+    {
+      value: '/electronics-spa/en/USD/product/3514520/DSC-WX1',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'DSC-WX1',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/3514521/DSC-WX1',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'DSC-WX1',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value:
+        '/electronics-spa/en/USD/product/3595723/EF%20100mm%20f%2F2.8L%20Macro%20IS%20USM',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'EF 100mm f/2.8L Macro IS USM',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value:
+        '/electronics-spa/en/USD/product/3555166/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value:
+        '/electronics-spa/en/USD/product/3557133/EOS%20500D%20%2B%20EF-S%2018-55IS%20%2B%20EF-S%2055-250IS,%20kit',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value:
+        '/electronics-spa/en/USD/product/3708646/EOS%20500D%20%2B%2018-55mm%20IS%20%2B%20EF-S%2055-250%20IS',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/3965240/NP-FV%2070',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'NP-FV 70',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/4135570/ACC-BBV5',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'ACC-BBV5',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/4205436/32GB%20SDHC%20Card',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: '32GB SDHC Card',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: '/electronics-spa/en/USD/product/4608858/FA-EB1AM',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'FA-EB1AM',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '3',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '18',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
+    },
+  ],
+  productListMobileFilters: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Chiba (100)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Choshi (92)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Best Western Fukuoka Nakasu Inn (102)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Canal City Fukuoka Washington Hotel (89)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Hilton Fukuoka Sea Hawk (94)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka (91)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fukuoka Hotel Nikko Fukuoka (93)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Ichikawa (118)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kawasaki Grand Hotel (92)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kawasaki Hotel Sunroute Kawasaki (93)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kawasaki Mets Kawasaki Hotel (99)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kawasaki Mets Mizonokuchi Hotel (112)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kawasaki Pearl Hotel Kawasaki (92)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kobe Bay Sheraton Hotel and Towers (97)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kobe Hotel Monterey Amalie (61)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kobe Hotel Monterey Kobe (56)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kobe Sannomiya Terminal Hotel (121)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kobe the b (57)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Koto (100)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Matsudo (100)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Misato (90)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Nagoya Crowne Plaza Ana Grand Court Nagoya (96)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Nagoya Hilton Nagoya Hotel (98)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Nagoya Marriott Nagoya (99)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Nagoya Royal Park Inn Nagoya (95)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Nagoya The Westin Nagoya Castle (93)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Nakano (102)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Osaka Best Western Hotel Fino Osaka Shinsaibashi (94)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Osaka Cross Hotel Osaka (92)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Osaka Crowne Plaza Hotel Ana Osaka (96)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Osaka Hilton Osaka Hotel (92)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Osaka Ramada Osaka (98)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Sapporo Ana Hotel Sapporo (120)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Sapporo Best Western Hotel Sapporo Nakajima Koen (91)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Sapporo Hotel Resol Trinity Sapporo (99)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Sapporo Hotel Sunroute Sapporo (91)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Sapporo Sheraton Sapporo Hotel (98)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Shinbashi (101)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Tokio Cerulean Tower Tokyu Hotel (93)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Tokio Dormy Inn Tokyo Hatchobori (93)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Tokio Flexstay Nippori Inn (120)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Tokio Hotel Metropolitan Tokyo (94)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Tokio Park Hotel Tokyo (96)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Yokohama Comfort Hotel Yokohama Kannai (95)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Yokohama Hotel JAL City Kannai Yokohama (95)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Yokohama Hotel New Grand (121)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Yokohama Sakuragicho Washington Hotel (98)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Yokohama Shin Yokohama Prince Hotel (94)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Yokosuka (93)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$0-$49.99 (38)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$50-$199.99 (63)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$200-$499.99 (38)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$500-$999.99 (22)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '$1,000-$100,000 (18)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '1280 x 720 (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Floor-standing (2)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Quick-release Mounting Shoe (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '20 - 29.9 mp (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '15 - 15.9 mp (8)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '14 - 14.9 mp (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '12 - 12.9 mp (6)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '10 - 10.9 mp (30)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '9 - 9.9 mp (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '8 - 8.9 mp (6)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '7 - 7.9 mp (9)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: '5 - 5.9 mp (3)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'fixed (6)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'telephoto (2)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'fisheye (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'wide-angle (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'zoom (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Black (7)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Sony (86)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Canon (40)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kodak (23)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Kingston (7)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Samsung (6)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Toshiba (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'ICIDU (3)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'TDK (2)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Sweex (2)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'HP (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'NEC (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Targus (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Canyon (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fujifilm (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Logitech (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Cameras (131)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Digital Cameras (97)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Digital SLR (50)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Digital Compacts (47)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Components (30)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Power Supplies (30)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Camera Accessories & Supplies (22)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Data storage (16)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Flash Memory (16)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Rechargeable Batteries (13)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Camera Lenses (10)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Battery Chargers (9)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Camera Kits (8)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Tripods (8)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Power Adapters & Inverters (8)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Hand-held Camcorders (6)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Blank Video Tapes (5)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Webcams (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Camera Flashes (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Colour Films (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Black & White Films (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Camera Cables (4)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Binoculars (2)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Film cameras (2)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      value: 'Fixatives (1)',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
   ],
 };

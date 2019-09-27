@@ -24,13 +24,20 @@ export function checkElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.GENERIC_INPUT: {
       cy.focused()
-        .get('input')
-        .should('be.visible');
+        .should('have.prop', 'tagName')
+        .should('eq', 'INPUT');
       break;
     }
     case TabbingOrderTypes.GENERIC_NG_SELECT: {
       cy.focused().should('have.attr', 'type', 'ng-select');
       return;
+    }
+    case TabbingOrderTypes.CX_PRODUCT_VIEW: {
+      cy.focused()
+        .should('have.prop', 'tagName')
+        .should('eq', 'DIV');
+      cy.focused().should('have.class', 'cx-product-layout');
+      break;
     }
   }
 
@@ -106,6 +113,12 @@ export function checkElement(tabElement: TabElement) {
     case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
       cy.focused()
         .parent()
+        .contains(tabElement.value);
+      break;
+    }
+    case TabbingOrderTypes.LI_LINK: {
+      cy.focused()
+        .should('have.prop', 'LI')
         .contains(tabElement.value);
       break;
     }
