@@ -1,4 +1,4 @@
-<ng-container *ngIf="(user$ | async) as user; else login">
+<ng-container *ngIf="user$ | async as user; else login">
   <div class="cx-login-greet">
     {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
   </div>

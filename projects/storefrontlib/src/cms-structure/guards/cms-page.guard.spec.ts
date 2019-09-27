@@ -6,6 +6,7 @@ import {
   CmsActivatedRouteSnapshot,
   CmsService,
   PageType,
+  ProtectedRoutesGuard,
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
@@ -17,7 +18,7 @@ import { CmsPageGuard } from './cms-page.guard';
 
 const mockPageComponentTypes = ['component1', 'component2'];
 class MockCmsService {
-  hasPage() {}
+  getPage() {}
   getPageComponentTypes() {
     return of(mockPageComponentTypes);
   }
@@ -46,6 +47,10 @@ class MockCmsGuardsService {
     .and.returnValue(of(true));
 }
 
+class MockProtectedRoutesGuard {
+  canActivate = () => of(true);
+}
+
 class MockSemanticPathService {
   get() {}
 }
@@ -64,6 +69,7 @@ describe('CmsPageGuard', () => {
         { provide: CmsI18nService, useClass: MockCmsI18nService },
         { provide: CmsGuardsService, useClass: MockCmsGuardsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
+        { provide: ProtectedRoutesGuard, useClass: MockProtectedRoutesGuard },
       ],
       imports: [RouterTestingModule],
     });
@@ -75,10 +81,27 @@ describe('CmsPageGuard', () => {
   });
 
   describe('canActivate', () => {
-    it('should return true when CmsService hasPage is true for the page context', inject(
+    it('should emit result of ProtectedRoutesGuard when it emits false', inject(
+      [ProtectedRoutesGuard, CmsPageGuard],
+      (
+        protectedRoutesGuard: ProtectedRoutesGuard,
+        cmsPageGuard: CmsPageGuard
+      ) => {
+        spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(false));
+        let result: boolean | UrlTree;
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
+          .subscribe(value => (result = value))
+          .unsubscribe();
+
+        expect(result).toBe(false);
+      }
+    ));
+
+    it('should return true when CmsService getPage is truthy for the page context', inject(
       [CmsService, CmsPageGuard],
       (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
-        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+        spyOn(cmsService, 'getPage').and.returnValue(of({} as any));
         let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
@@ -89,10 +112,10 @@ describe('CmsPageGuard', () => {
       }
     ));
 
-    it('should return false when CmsService hasPage is false for the page context', inject(
+    it('should return false when CmsService getPage is null for the page context', inject(
       [CmsService, CmsPageGuard],
       (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
-        spyOn(cmsService, 'hasPage').and.returnValue(of(false));
+        spyOn(cmsService, 'getPage').and.returnValue(of(null));
 
         let result: boolean | UrlTree;
         cmsPageGuard
@@ -104,14 +127,14 @@ describe('CmsPageGuard', () => {
       }
     ));
 
-    it('should ask for notFound page data when CmsService hasPage is false for the page context', inject(
+    it('should ask for notFound page data when CmsService getPage is null for the page context', inject(
       [CmsService, CmsPageGuard, SemanticPathService],
       (
         cmsService: CmsService,
         cmsPageGuard: CmsPageGuard,
         semanticPathService: SemanticPathService
       ) => {
-        spyOn(cmsService, 'hasPage').and.returnValue(of(false));
+        spyOn(cmsService, 'getPage').and.returnValue(of(null));
         spyOn(routingService, 'go');
         spyOn(semanticPathService, 'get').and.returnValue('');
 
@@ -131,7 +154,7 @@ describe('CmsPageGuard', () => {
         cmsI18n: CmsI18nService,
         cmsPageGuard: CmsPageGuard
       ) => {
-        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+        spyOn(cmsService, 'getPage').and.returnValue(of({} as any));
 
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
@@ -151,7 +174,7 @@ describe('CmsPageGuard', () => {
         cmsGuards: CmsGuardsService,
         cmsPageGuard: CmsPageGuard
       ) => {
-        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+        spyOn(cmsService, 'getPage').and.returnValue(of({} as any));
 
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
@@ -173,7 +196,9 @@ describe('CmsPageGuard', () => {
         cmsPageGuard: CmsPageGuard,
         cmsRoutes: CmsRoutesService
       ) => {
-        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+        spyOn(cmsService, 'getPage').and.returnValue(
+          of({ label: '/testPageLabel' } as any)
+        );
         spyOn(cmsRoutes, 'cmsRouteExist').and.returnValue(false);
         spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.callThrough();
 
@@ -183,11 +208,12 @@ describe('CmsPageGuard', () => {
           .subscribe(res => (result = res));
 
         expect(result).toEqual(false);
-        expect(cmsRoutes.cmsRouteExist).toHaveBeenCalledWith('testPageId');
+        expect(cmsRoutes.cmsRouteExist).toHaveBeenCalledWith('/testPageLabel');
         expect(cmsRoutes.handleCmsRoutesInGuard).toHaveBeenCalledWith(
           { id: 'testPageId', type: 'ContentPage' },
           mockPageComponentTypes,
-          '/test'
+          '/test',
+          '/testPageLabel'
         );
       }
     ));

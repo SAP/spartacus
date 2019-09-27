@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
@@ -10,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { DeliveryModeSetGuard } from '../../guards/delivery-mode-set.guard';
 import { ShippingAddressSetGuard } from '../../guards/shipping-address-set.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
@@ -29,7 +29,7 @@ import { PaymentMethodComponent } from './payment-method.component';
         CheckoutPaymentDetails: {
           component: PaymentMethodComponent,
           guards: [
-            AuthGuard,
+            CheckoutAuthGuard,
             CartNotEmptyGuard,
             ShippingAddressSetGuard,
             DeliveryModeSetGuard,
