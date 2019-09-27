@@ -2,19 +2,19 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { AsmConnector } from '../../connectors/asm.connector';
 import { CustomerSearchPage } from '../../models/asm.models';
-import { CustomerService } from '../../services/customer.service';
 import { AsmActions } from '../actions/index';
 import { CustomerEffects } from './customer.effect';
 
-class CustomerServiceMock {
-  search(_searchTerm: string): Observable<CustomerSearchPage> {
+class AsmConnectorMock {
+  customerSearch(_searchTerm: string): Observable<CustomerSearchPage> {
     return of(<CustomerSearchPage>{});
   }
 }
 
 describe('Customer effect', () => {
-  let customerService: CustomerService;
+  let asmConnector: AsmConnector;
   let customerEffects: CustomerEffects;
   let actions$: Observable<AsmActions.CustomerAction>;
 
@@ -23,17 +23,17 @@ describe('Customer effect', () => {
       providers: [
         CustomerEffects,
         {
-          provide: CustomerService,
-          useClass: CustomerServiceMock,
+          provide: AsmConnector,
+          useClass: AsmConnectorMock,
         },
         provideMockActions(() => actions$),
       ],
     });
 
     customerEffects = TestBed.get(CustomerEffects);
-    customerService = TestBed.get(CustomerService);
+    asmConnector = TestBed.get(AsmConnector);
 
-    spyOn(customerService, 'search').and.returnValue(of({ entries: [] }));
+    spyOn(asmConnector, 'customerSearch').and.returnValue(of({ entries: [] }));
   });
 
   describe('customerSearch$', () => {

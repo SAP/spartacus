@@ -4,7 +4,6 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, ConfigModule } from '../config/config.module';
 import { AsmConfig } from './config/asm-config';
 import { defaultAsmConfig } from './config/default-asm-config';
-import { AsmServices } from './services/index';
 import { AsmStoreModule } from './store/asm-store.module';
 
 @NgModule({
@@ -19,7 +18,7 @@ export class AsmModule {
   static forRoot(): ModuleWithProviders<AsmModule> {
     return {
       ngModule: AsmModule,
-      providers: [...AsmServices, { provide: AsmConfig, useExisting: Config }],
+      providers: [{ provide: AsmConfig, useExisting: Config }],
     };
   }
 }
