@@ -19,7 +19,7 @@ export class AnonymousConsentsDialogComponent {
 
   constructor(private modalService: ModalService) {}
 
-  dismissModal(reason?: any): void {
-    this.modalService.dismissActiveModal(reason);
+  closeModal(reason?: any): void {
+    this.modalService.closeActiveModal(reason);
   }
 }
