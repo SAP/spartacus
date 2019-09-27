@@ -80,6 +80,10 @@ export class CartService {
     return this.store.pipe(select(CartSelectors.getCartLoaded));
   }
 
+  getCartError(): Observable<boolean> {
+    return this.store.pipe(select(CartSelectors.getActiveCartError));
+  }
+
   private loadOrMerge(): void {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart

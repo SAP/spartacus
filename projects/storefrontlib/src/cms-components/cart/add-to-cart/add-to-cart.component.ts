@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry, Product, GlobalMessageService  } from '@spartacus/core';
+import { CartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -32,15 +32,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   cartEntry$: Observable<OrderEntry>;
   subscription: Subscription;
   
-  variantHasBeenChosen: boolean;
+  cartErrorSubscription: Subscription;
 
   constructor(
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     private cd: ChangeDetectorRef,
-    // @ts-ignore
-    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {
@@ -71,6 +69,17 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
         });
     }
+
+    // (GH-4363) Prevents add-to-cart modal from opening when there is error
+    this.cartService.getLoaded().subscribe(loaded => {
+      this.cartService.getCartError().subscribe(error => {
+        if (this.modalRef) {
+          if (error && loaded) {
+            this.modalRef.close();
+          }
+        }
+      });
+    })
   }
 
   updateCount(value: number): void {
@@ -84,25 +93,17 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     // check item is already present in the cart
     // so modal will have proper header text displayed
     this.cartService
-      .getEntry(this.productCode)
-      .subscribe(entry => {
-        
-        console.log(entry);
-        if (entry) {
-          this.increment = true;
-        }
-        
-        if (entry) {
-          this.openModal();
-        }
-        
-        this.cartService.addEntry(this.productCode, this.quantity);
-        this.increment = false;
-      })
-      .unsubscribe();
+    .getEntry(this.productCode)
+    .subscribe(entry => {
+      if (entry) {
+        this.increment = true;
+      }
+      this.cartService.addEntry(this.productCode, this.quantity);
+      this.openModal();
+      this.increment = false;
+    }).unsubscribe();
   }
 
-  // @ts-ignore
   private openModal() {
     let modalInstance: any;
     this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
