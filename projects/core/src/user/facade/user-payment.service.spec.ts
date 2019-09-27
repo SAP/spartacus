@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { PaymentDetails } from '../../model/cart.model';
 import { Occ } from '../../occ/occ-models/occ.models';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -16,7 +16,7 @@ import { Country } from '../../model';
 
 class MockAuthService {
   getOccUserId(): Observable<string> {
-    return of(USERID_CURRENT);
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -55,7 +55,7 @@ describe('UserPaymentService', () => {
   it('should be able to load user payment methods', () => {
     service.loadPaymentMethods();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserPaymentMethods(USERID_CURRENT)
+      new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT)
     );
   });
 
@@ -107,7 +107,7 @@ describe('UserPaymentService', () => {
     service.setPaymentMethodAsDefault('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.SetDefaultUserPaymentMethod({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
     );
@@ -117,7 +117,7 @@ describe('UserPaymentService', () => {
     service.deletePaymentMethod('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.DeleteUserPaymentMethod({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
     );

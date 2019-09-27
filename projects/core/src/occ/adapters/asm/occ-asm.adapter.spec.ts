@@ -3,17 +3,19 @@ import {
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { User } from '../../model/misc.model';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { AsmConfig } from '../config/asm-config';
+import { AsmConfig } from '../../../asm/config/asm-config';
+import { CUSTOMER_SEARCH_PAGE_NORMALIZER } from '../../../asm/connectors/converters';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../models/asm.models';
-import { CustomerService } from './customer.service';
+} from '../../../asm/models/asm.models';
+import { User } from '../../../model/misc.model';
+import { BaseSiteService } from '../../../site-context/facade/base-site.service';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services';
+import { OccAsmAdapter } from './occ-asm.adapter';
 
 const MockAsmConfig: AsmConfig = {
   backend: {
@@ -43,39 +45,48 @@ class MockBaseSiteService {
   }
 }
 
-describe('CustomerService', () => {
-  let customerService: CustomerService;
+export class MockOccEndpointsService {
+  getRawEndpoint(endpoint: string): string {
+    return endpoint;
+  }
+}
+
+describe('OccAsmAdapter', () => {
+  let occAsmAdapter: OccAsmAdapter;
+  let converterService: ConverterService;
   let httpMock: HttpTestingController;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        CustomerService,
+        OccAsmAdapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: AsmConfig, useValue: MockAsmConfig },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
-    customerService = TestBed.get(CustomerService);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    occAsmAdapter = TestBed.get(OccAsmAdapter);
+    httpMock = TestBed.get(HttpTestingController);
+    converterService = TestBed.get(ConverterService);
+    occEnpointsService = TestBed.get(OccEndpointsService);
+    spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(occEnpointsService, 'getRawEndpoint').and.callThrough();
   });
 
   it('should be created', () => {
-    const service: CustomerService = TestBed.get(CustomerService);
-    expect(service).toBeTruthy();
+    expect(occAsmAdapter).toBeTruthy();
   });
 
   it('should perform a customer search', () => {
     let result: CustomerSearchPage;
     const searchQuery = 'user@test.com';
     const searchOptions: CustomerSearchOptions = { query: searchQuery };
-    customerService.search(searchOptions).subscribe(data => {
+    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
       result = data;
     });
-
     const mockReq: TestRequest = httpMock.expectOne(req => {
       return (
         req.method === 'GET' &&
@@ -88,5 +99,11 @@ describe('CustomerService', () => {
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockCustomerSearchPage);
     expect(result).toEqual(mockCustomerSearchPage);
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CUSTOMER_SEARCH_PAGE_NORMALIZER
+    );
+    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
+      'asmCustomerSearch'
+    );
   });
 });

@@ -2,15 +2,12 @@
   <div class="fd-container">
     <div class="fd-col--3">
       <label>
-        <!-- <span class="label-content">{{
-          'asm.loginForm.userId.label' | cxTranslate
-        }}</span> -->
         <input
           type="text"
           class="form-control"
           [class.is-invalid]="isNotValid('userId')"
           formControlName="userId"
-          placeholder="{{ 'asm.loginForm.userId.placeholder' | cxTranslate }}"
+          placeholder="{{ 'asm.loginForm.userId.label' | cxTranslate }}"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('userId')">
           <span>{{ 'asm.loginForm.userId.required' | cxTranslate }}</span>
@@ -19,14 +16,11 @@
     </div>
     <div class="fd-col--3">
       <label>
-        <!-- <span class="label-content">{{
-          'asm.loginForm.password.label' | cxTranslate
-        }}</span> -->
         <input
           type="password"
           class="form-control"
           [class.is-invalid]="isNotValid('password')"
-          placeholder="{{ 'asm.loginForm.password.placeholder' | cxTranslate }}"
+          placeholder="{{ 'asm.loginForm.password.label' | cxTranslate }}"
           formControlName="password"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('password')">

@@ -30,7 +30,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
     csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService
   );
   /**
-   * @deprecated since version 1.x
+   * @deprecated since version 1.3
    * Instead, use constructor(
    * userErrorHandlingService: UserErrorHandlingService,
    * clientErrorHandlingService: ClientErrorHandlingService,

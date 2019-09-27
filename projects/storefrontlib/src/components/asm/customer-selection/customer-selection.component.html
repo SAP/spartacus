@@ -3,16 +3,13 @@
     <div class="fd-container">
       <div class="fd-col--6">
         <label>
-          <!-- <span class="label-content">{{
-          'asm.customerSearch.searchTerm.label' | cxTranslate
-        }}</span> -->
           <input
             type="text"
             class="form-control"
             [class.is-invalid]="isNotValid('searchTerm')"
             formControlName="searchTerm"
             placeholder="{{
-              'asm.customerSearch.searchTerm.placeholder' | cxTranslate
+              'asm.customerSearch.searchTerm.label' | cxTranslate
             }}"
           />
           <div class="invalid-feedback" *ngIf="isNotValid('searchTerm')">

@@ -242,7 +242,14 @@ export function addCheapProductToCartAndLogin() {
   cy.wait(`@${shippingPage}`);
 }
 
-export function addCheapProductToCartAndBeginCheckout() {
+export function addCheapProductToCartAndProceedToCheckout() {
+  addCheapProductToCart();
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.getByText(/proceed to checkout/i).click();
+  cy.wait(`@${loginPage}`);
+}
+
+export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer() {
   addCheapProductToCart();
   const shippingPage = waitForPage(
     '/checkout/shipping-address',

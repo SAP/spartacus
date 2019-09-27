@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
-import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
@@ -20,7 +20,7 @@ export class UserTokenEffects {
           const date = new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
           token.expiration_time = date.toJSON();
-          token.userId = USERID_CURRENT;
+          token.userId = OCC_USER_ID_CURRENT;
           return new AuthActions.LoadUserTokenSuccess(token);
         }),
         catchError(error =>

@@ -1,5 +1,5 @@
-import { CheckoutConfig, DeliveryModePreferences } from './checkout-config';
 import { CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfig, DeliveryModePreferences } from './checkout-config';
 
 export const defaultCheckoutConfig: CheckoutConfig = {
   checkout: {
@@ -31,5 +31,6 @@ export const defaultCheckoutConfig: CheckoutConfig = {
     ],
     express: false,
     defaultDeliveryMode: [DeliveryModePreferences.FREE],
+    guest: false,
   },
 };
