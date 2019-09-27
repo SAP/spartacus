@@ -15,7 +15,7 @@ export class ConfigAttributeHeaderComponent {
     return this.attribute.required && this.attribute.incomplete;
   }
   getRequiredMessageKey(): string {
-    let msgKey = 'attribute.';
+    let msgKey = 'configurator.attribute.';
     const uiType = this.attribute.uiType;
     if (
       uiType === Configurator.UiType.RADIOBUTTON ||
