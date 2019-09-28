@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import {
-  AsmModule,
   AuthModule,
   CartModule,
   CheckoutModule,
@@ -23,7 +22,6 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
   imports: [
     StateModule.forRoot(),
     AuthModule.forRoot(),
-    AsmModule.forRoot(),
     ConfigModule.forRoot(),
     RoutingModule.forRoot(),
     I18nModule.forRoot(),
