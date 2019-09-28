@@ -15,7 +15,7 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AsmRootComponent: {
+        AssistedServiceComponent: {
           component: AsmRootComponent,
         },
       },
