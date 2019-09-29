@@ -9,7 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { AsmModule, TestConfigModule } from '@spartacus/core';
+import { TestConfigModule } from '@spartacus/core';
 import {
   AsmComponentModule,
   B2cStorefrontModule,
@@ -30,7 +30,6 @@ if (!environment.production) {
 @NgModule({
   imports: [
     AsmComponentModule,
-    AsmModule.forRoot(),
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
 
