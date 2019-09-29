@@ -1,4 +1,10 @@
-import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -62,6 +68,8 @@ class MockCustomerSelectionComponent {
 class MockCSAgentLoginFormComponent {
   @Output()
   submitEvent = new EventEmitter();
+  @Input()
+  csAgentTokenLoading = false;
 }
 class MockGlobalMessageService {
   remove() {}
@@ -277,25 +285,6 @@ describe('AsmMainUiComponent', () => {
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
       visible: false,
-    });
-  });
-
-  it('should display spinner when login is running', () => {
-    spyOn(authService, 'getCustomerSupportAgentTokenLoading').and.returnValue(
-      of(true)
-    );
-    component.ngOnInit();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.sap-spinner'))).toBeTruthy();
-      expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
-    });
-  });
-  it('should not display spinner when login is not running', () => {
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.sap-spinner'))).toBeFalsy();
-      expect(el.query(By.css('cx-csagent-login-form'))).toBeTruthy();
     });
   });
 });

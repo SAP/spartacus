@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
@@ -9,6 +9,9 @@ import { FormUtils } from '../../../shared/utils/forms/form-utils';
 export class CSAgentLoginFormComponent implements OnInit {
   form: FormGroup;
   private submitClicked = false;
+
+  @Input()
+  csAgentTokenLoading = false;
 
   @Output()
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
