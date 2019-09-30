@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsent,
   AnonymousConsentsService,
   ConsentTemplate,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../modal';
 
@@ -12,7 +13,9 @@ import { ModalService } from '../../modal';
   selector: 'cx-anonymous-consents-dialog',
   templateUrl: './anonymous-consents-dialog.component.html',
 })
-export class AnonymousConsentsDialogComponent implements OnInit {
+export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
+  private subscriptions = new Subscription();
+
   iconTypes = ICON_TYPE;
 
   templates$: Observable<ConsentTemplate[]>;
@@ -32,6 +35,38 @@ export class AnonymousConsentsDialogComponent implements OnInit {
     this.modalService.closeActiveModal(reason);
   }
 
+  rejectAll(): void {
+    this.subscriptions.add(
+      this.templates$
+        .pipe(
+          tap(templates =>
+            templates.forEach(template =>
+              this.anonymousConsentsService.withdrawAnonymousConsent(
+                template.id
+              )
+            )
+          )
+        )
+        .subscribe()
+    );
+    this.closeModal('rejectAll');
+  }
+
+  allowAll(): void {
+    this.subscriptions.add(
+      this.templates$
+        .pipe(
+          tap(templates =>
+            templates.forEach(template =>
+              this.anonymousConsentsService.giveAnonymousConsent(template.id)
+            )
+          )
+        )
+        .subscribe()
+    );
+    this.closeModal('allowAll');
+  }
+
   onConsentChange({
     given,
     template,
@@ -44,5 +79,9 @@ export class AnonymousConsentsDialogComponent implements OnInit {
     } else {
       this.anonymousConsentsService.withdrawAnonymousConsent(template.id);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
