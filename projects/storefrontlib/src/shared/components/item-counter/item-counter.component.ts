@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
+  HostBinding,
   HostListener,
   Input,
   OnChanges,
@@ -51,8 +52,8 @@ export class ItemCounterComponent
   async = false;
   @Input()
   cartIsLoading = false;
-  @Input()
-  isValueChangeable = false;
+
+  @HostBinding('class.changeable') @Input() isValueChangeable = true;
 
   @Output()
   update = new EventEmitter<number>();

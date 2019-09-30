@@ -4,7 +4,6 @@
   class="cx-counter-action"
   (click)="decrement()"
   [disabled]="cartIsLoading || value <= min"
-  *ngIf="isValueChangeable"
 >
   -
 </button>
@@ -17,18 +16,16 @@
   cxOnlyNumber
   [formControl]="inputValue"
   [value]="value"
-  *ngIf="isValueChangeable"
 />
-<div class="cx-counter-value" *ngIf="!isValueChangeable">
+<!-- <div class="cx-counter-value" *ngIf="!isValueChangeable">
   {{ value }}
-</div>
+</div> -->
 <button
   #incrementBtn
   type="button"
   class="cx-counter-action"
   (click)="increment()"
   [disabled]="cartIsLoading || value >= max"
-  *ngIf="isValueChangeable"
 >
   +
 </button>
