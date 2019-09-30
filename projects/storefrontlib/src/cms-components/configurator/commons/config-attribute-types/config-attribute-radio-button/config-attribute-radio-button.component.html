@@ -12,6 +12,7 @@
           }}"
           class="form-check-input"
           type="radio"
+          [formControl]="attributeRadioButtonForm"
           [attr.required]="attribute.required"
           [value]="value.valueCode"
           name="{{
@@ -27,6 +28,14 @@
               value.valueCode
             )
           }}"
+          [attr.aria-checked]="
+            attributeRadioButtonForm.value === value.valueCode ? true : false
+          "
+          [attr.checked]="
+            attributeRadioButtonForm.value === value.valueCode
+              ? 'checked'
+              : null
+          "
         />
         <div class="cx-config-attribute-value-label-container">
           <label

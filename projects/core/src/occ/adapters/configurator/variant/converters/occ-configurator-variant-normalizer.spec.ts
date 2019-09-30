@@ -8,6 +8,8 @@ import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-nor
 const csticName = 'name';
 const valueKey = 'BK';
 const valueName = 'Black';
+const valueKey2 = 'BE';
+const selectedFlag = true;
 const requiredFlag = true;
 
 const occCstic: OccConfigurator.Characteristic = {
@@ -17,7 +19,7 @@ const occCsticWithValues: OccConfigurator.Characteristic = {
   name: csticName,
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
-  domainvalues: [{ key: valueKey }],
+  domainvalues: [{ key: valueKey }, { key: valueKey2, selected: selectedFlag }],
 };
 const configuration: OccConfigurator.Configuration = {
   complete: true,
@@ -58,7 +60,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(result.complete).toBe(true);
   });
 
-  it('should cover attributes and values', () => {
+  it('should convert attributes and values', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
     const attributes = result.attributes;
     expect(attributes).toBeDefined();
@@ -66,9 +68,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const attribute = attributes[0];
     expect(attribute.name).toBe(csticName);
     expect(attribute.required).toBe(requiredFlag);
+    expect(attribute.selectedSingleValue).toBe(valueKey2);
     expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
     const values = attribute.values;
-    expect(values.length).toBe(1);
+    expect(values.length).toBe(2);
   });
 
   it('should convert values', () => {
@@ -88,12 +91,44 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(attributes[0].name).toBe(csticName);
   });
 
+  it('should set selectedSingleValue', () => {
+    const configAttribute: Configurator.Attribute = {
+      name: csticName,
+      values: [
+        { valueCode: valueKey },
+        { valueCode: valueKey2, selected: selectedFlag },
+      ],
+    };
+    occConfiguratorVariantNormalizer.setSelectedSingleValue(configAttribute);
+    expect(configAttribute.selectedSingleValue).toBe(valueKey2);
+  });
+
+  it('should not set selectedSingleValue for multi-valued attributes', () => {
+    const configAttribute: Configurator.Attribute = {
+      name: csticName,
+      values: [
+        { valueCode: valueKey, selected: selectedFlag },
+        { valueCode: valueKey2, selected: selectedFlag },
+      ],
+    };
+    occConfiguratorVariantNormalizer.setSelectedSingleValue(configAttribute);
+    expect(configAttribute.selectedSingleValue).toBeUndefined();
+  });
+
   it('should return UIType Radio Button for Radio Button occ configurator type', () => {
     expect(
       occConfiguratorVariantNormalizer.convertCharacteristicType(
         OccConfigurator.UiType.RADIO_BUTTON
       )
     ).toBe(Configurator.UiType.RADIOBUTTON);
+  });
+
+  it('should return UIType Drop Down for Drop Down occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertCharacteristicType(
+        OccConfigurator.UiType.DROPDOWN
+      )
+    ).toBe(Configurator.UiType.DROPDOWN);
   });
 
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {

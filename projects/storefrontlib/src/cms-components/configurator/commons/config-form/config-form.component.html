@@ -1,14 +1,17 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-total">
-    {{ 'header.configId' | cxTranslate }} : {{ configuration.configId }}
+    {{ 'configurator.header.configId' | cxTranslate }} :
+    {{ configuration.configId }}
     <br />
-    {{ 'header.consistent' | cxTranslate }} : {{ configuration.consistent }}
+    {{ 'configurator.header.consistent' | cxTranslate }} :
+    {{ configuration.consistent }}
     <br />
-    {{ 'header.complete' | cxTranslate }} : {{ configuration.complete }}
+    {{ 'configurator.header.complete' | cxTranslate }} :
+    {{ configuration.complete }}
   </div>
   <br />
   <div class="cx-total">
-    {{ 'attribute.caption' | cxTranslate }}
+    {{ 'configurator.attribute.caption' | cxTranslate }}
   </div>
   <br />
   <div
@@ -22,7 +25,7 @@
     </div>
     <div
       class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
-      [class.cpqProductConfig-attributeValue-multi]="
+      [class.cx-config-attribute-value-multi]="
         attribute.uiType === UiType.RADIOBUTTON
       "
     >
@@ -30,8 +33,12 @@
         *ngIf="attribute.uiType === UiType.RADIOBUTTON"
         [attribute]="attribute"
       ></cx-config-attribute-radio-button>
+      <cx-config-attribute-drop-down
+        *ngIf="attribute.uiType === UiType.DROPDOWN"
+        [attribute]="attribute"
+      ></cx-config-attribute-drop-down>
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
-        'attribute.notSupported' | cxTranslate
+        'configurator.attribute.notSupported' | cxTranslate
       }}</em>
     </div>
   </div>

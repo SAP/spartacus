@@ -1,0 +1,49 @@
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Product } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { CurrentProductService } from '../../../product/current-product.service';
+
+@Component({
+  selector: 'cx-configure-product',
+  templateUrl: './configure-product.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ConfigureProductComponent implements OnInit, OnDestroy {
+  @Input() productCode: string;
+  @Input() configuratorType: string;
+  @Input() configurable: boolean;
+  product$: Observable<Product> = this.currentProductService.getProduct();
+  subscription: Subscription;
+
+  constructor(
+    private currentProductService: CurrentProductService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.productCode) {
+      this.subscription = this.currentProductService
+        .getProduct()
+        .pipe(filter(Boolean))
+        .subscribe((product: Product) => {
+          this.productCode = product.code;
+          this.configuratorType = product.configuratorType;
+          this.configurable = product.configurable;
+          this.changeDetector.markForCheck();
+        });
+    }
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+}

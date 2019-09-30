@@ -1,21 +1,22 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
-import { ConfigAttributeRadioButtonComponent } from './config-attribute-radio-button.component';
+import { ConfigAttributeDropDownComponent } from './config-attribute-drop-down.component';
 
-describe('ConfigAttributeRadioButtonComponent', () => {
-  let component: ConfigAttributeRadioButtonComponent;
-  let fixture: ComponentFixture<ConfigAttributeRadioButtonComponent>;
+describe('ConfigAttributeDropDownComponent', () => {
+  let component: ConfigAttributeDropDownComponent;
+  let fixture: ComponentFixture<ConfigAttributeDropDownComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfigAttributeRadioButtonComponent],
-      imports: [ReactiveFormsModule],
+      declarations: [ConfigAttributeDropDownComponent],
+      imports: [ReactiveFormsModule, NgSelectModule],
       providers: [ConfigUIKeyGeneratorService],
     })
-      .overrideComponent(ConfigAttributeRadioButtonComponent, {
+      .overrideComponent(ConfigAttributeDropDownComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -24,12 +25,12 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigAttributeRadioButtonComponent);
+    fixture = TestBed.createComponent(ConfigAttributeDropDownComponent);
     component = fixture.componentInstance;
     component.attribute = {
-      name: 'valueName',
+      name: 'attributeName',
       stdAttrCode: 444,
-      uiType: Configurator.UiType.RADIOBUTTON,
+      uiType: Configurator.UiType.DROPDOWN,
       selectedSingleValue: 'selectedValue',
       quantity: 1,
     };
@@ -41,6 +42,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   it('should set selectedSingleValue on init', () => {
-    expect(component.attributeRadioButtonForm.value).toEqual('selectedValue');
+    expect(component.attributeDropDownForm.value).toEqual('selectedValue');
   });
 });

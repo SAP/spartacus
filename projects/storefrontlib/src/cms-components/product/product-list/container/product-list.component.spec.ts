@@ -75,6 +75,16 @@ export class MockAddToCartComponent {
   @Input() showQuantity;
 }
 
+@Component({
+  selector: 'cx-configure-product',
+  template: '<button>configure product</button>',
+})
+export class MockConfigureProductComponent {
+  @Input() productCode;
+  @Input() configurable;
+  @Input() configuratorType;
+}
+
 export class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
@@ -129,6 +139,7 @@ describe('ProductListComponent', () => {
         ProductGridItemComponent,
         MockStarRatingComponent,
         MockAddToCartComponent,
+        MockConfigureProductComponent,
         MediaComponent,
         ProductViewComponent,
         MockProductListItemComponent,
