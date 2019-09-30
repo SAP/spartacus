@@ -10,6 +10,7 @@
 @import './page-templates/error-page';
 @import './page-templates/order-detail-page';
 @import './page-templates/multistep-checkout-page';
+@import './page-templates/variant-configuration-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -70,4 +71,8 @@ cx-category-navigation {
 
 .ErrorPageTemplate {
   @extend %ErrorPageTemplate !optional;
+}
+
+.VariantConfigurationTemplate {
+  @extend %VariantConfigurationTemplate !optional;
 }

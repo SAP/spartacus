@@ -3,7 +3,7 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Configuration } from '../../../../model/configurator.model';
+import { Configurator } from '../../../../model/configurator.model';
 import {
   ConfigurationsState,
   CONFIGURATION_FEATURE,
@@ -20,7 +20,7 @@ const getConfigurationsState: MemoizedSelector<
 
 export const getConfigurationContent: MemoizedSelector<
   StateWithConfiguration,
-  Configuration
+  Configurator.Configuration
 > = createSelector(
   getConfigurationsState,
   getConfigurationContentSelector

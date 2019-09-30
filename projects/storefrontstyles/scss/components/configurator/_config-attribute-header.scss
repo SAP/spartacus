@@ -1,0 +1,18 @@
+%cx-config-attribute-header {
+  .cx-config-attribute-label {
+    @include type('5');
+    padding-top: 10px;
+    padding-right: 6px;
+    display: block;
+    max-width: 66%;
+
+    &.cx-config-attribute-label-error {
+      color: var(--cx-color-danger);
+      font-weight: bold;
+    }
+  }
+
+  .cx-config-attribute-header-required-message {
+    color: var(--cx-color-danger);
+  }
+}

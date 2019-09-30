@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
-import {
-  Attribute,
-  Configuration,
-  Value,
-} from '../../../../../model/configurator.model';
+import { Configurator } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable()
 export class OccConfiguratorVariantNormalizer
-  implements Converter<OccConfigurator.Configuration, Configuration> {
+  implements
+    Converter<OccConfigurator.Configuration, Configurator.Configuration> {
   constructor() {}
 
   convert(
     source: OccConfigurator.Configuration,
-    target?: Configuration
-  ): Configuration {
+    target?: Configurator.Configuration
+  ): Configurator.Configuration {
     if (target === undefined) {
       target = { ...(source as any) };
     }
@@ -26,7 +23,10 @@ export class OccConfiguratorVariantNormalizer
     return target;
   }
 
-  convertGroup(source: OccConfigurator.Group, attributeList: Attribute[]) {
+  convertGroup(
+    source: OccConfigurator.Group,
+    attributeList: Configurator.Attribute[]
+  ) {
     source.cstics.forEach(cstic =>
       this.convertCharacteristic(cstic, attributeList)
     );
@@ -34,11 +34,13 @@ export class OccConfiguratorVariantNormalizer
 
   convertCharacteristic(
     cstic: OccConfigurator.Characteristic,
-    attributeList: Attribute[]
+    attributeList: Configurator.Attribute[]
   ): void {
-    const attribute: Attribute = {
+    const attribute: Configurator.Attribute = {
       name: cstic.name,
       label: cstic.langdepname,
+      required: cstic.required,
+      uiType: this.convertCharacteristicType(cstic.type),
       values: [],
     };
     if (cstic.domainvalues) {
@@ -49,12 +51,29 @@ export class OccConfiguratorVariantNormalizer
     attributeList.push(attribute);
   }
 
-  convertValue(occValue: OccConfigurator.Value, values: Value[]): void {
-    const value: Value = {
+  convertValue(
+    occValue: OccConfigurator.Value,
+    values: Configurator.Value[]
+  ): void {
+    const value: Configurator.Value = {
       valueCode: occValue.key,
       valueDisplay: occValue.langdepname,
     };
 
     values.push(value);
+  }
+
+  convertCharacteristicType(type: OccConfigurator.UiType): Configurator.UiType {
+    let uiType: Configurator.UiType;
+    switch (type) {
+      case OccConfigurator.UiType.RADIO_BUTTON: {
+        uiType = Configurator.UiType.RADIOBUTTON;
+        break;
+      }
+      default: {
+        uiType = Configurator.UiType.NOT_IMPLEMENTED;
+      }
+    }
+    return uiType;
   }
 }
