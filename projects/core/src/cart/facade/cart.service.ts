@@ -54,8 +54,7 @@ export class CartService {
           !this.isCreated(cart) ||
           (this.isCreated(cart) && !this.isIncomplete(cart))
       ),
-      map(([cart]) => cart),
-      share()
+      map(([cart]) => cart)
     );
   }
 
