@@ -1,4 +1,4 @@
-import { FormControl, ValidationErrors, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { CustomFormValidators } from './custom-form-validators';
 
 describe('FormValidationService', () => {
@@ -99,16 +99,25 @@ describe('FormValidationService', () => {
   });
 
   describe('Password validator', () => {
-    it('should apply specified rule', () => {
-      form.get('password').setValue('Test123!');
-      expect(
-        CustomFormValidators.passwordValidator(form.get('password'))
-      ).toBeNull();
+    const validPasswords = ['Test123!', 'TEST123!', 'TEST123test!@#'];
+    const invalidPasswords = ['test123!', 'Test1234', 'Test!@#%', 'Te1!'];
 
-      form.get('password').setValue('test123!');
-      expect(
-        CustomFormValidators.passwordValidator(form.get('password'))
-      ).toEqual(passwordError);
+    validPasswords.forEach((validPassword: string) => {
+      it(`should allow password ${validPassword}`, () => {
+        form.get('password').setValue(validPassword);
+        expect(
+          CustomFormValidators.passwordValidator(form.get('password'))
+        ).toBeNull();
+      });
+    });
+
+    invalidPasswords.forEach((invalidPassword: string) => {
+      it(`should reject password '${invalidPassword}'`, function() {
+        form.get('password').setValue(invalidPassword);
+        expect(
+          CustomFormValidators.passwordValidator(form.get('password'))
+        ).toEqual(passwordError);
+      });
     });
   });
 
