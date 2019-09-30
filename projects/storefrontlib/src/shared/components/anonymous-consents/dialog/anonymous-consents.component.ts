@@ -48,6 +48,8 @@ export class AnonymousConsentsComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(AnonymousConsentsDialogComponent, {
       centered: true,
       size: 'lg',
+      scrollable: true,
+      backdrop: 'static',
     });
 
     return modalRef;

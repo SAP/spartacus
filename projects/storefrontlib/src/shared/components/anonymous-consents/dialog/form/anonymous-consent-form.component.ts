@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'cx-anonymous-consent-form',
   templateUrl: './anonymous-consent-form.component.html',
+  styleUrls: ['./anonymous-consent-form.component.scss'],
 })
 export class AnonymousConsentFormComponent implements OnInit {
   @Input()
