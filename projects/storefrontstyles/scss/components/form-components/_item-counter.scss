@@ -1,11 +1,6 @@
 @import '~bootstrap/scss/button-group';
 
 %cx-item-counter {
-  .cx-counter-wrapper {
-    display: inline-flex;
-    flex-direction: column;
-  }
-
   .cx-counter {
     border-radius: 4px;
     border-width: 1px;
