@@ -113,11 +113,10 @@ class MockUserPaymentService {
 class MockGlobalMessageService {
   get = () => {
     return {
-      subscribe() {}
-    }
-  }
+      subscribe() {},
+    };
+  };
 }
-
 
 describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
@@ -148,9 +147,7 @@ describe('PaymentFormComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: ModalService, 
-          useValue: { open: () => {} } 
-        },
+        { provide: ModalService, useValue: { open: () => {} } },
         {
           provide: CheckoutPaymentService,
           useValue: mockCheckoutPaymentService,
@@ -159,12 +156,8 @@ describe('PaymentFormComponent', () => {
           provide: CheckoutDeliveryService,
           useValue: mockCheckoutDeliveryService,
         },
-        { provide: UserPaymentService, 
-          useValue: mockUserPaymentService 
-        },
-        { provide: GlobalMessageService, 
-          useValue: mockGlobalMessageService 
-        },
+        { provide: UserPaymentService, useValue: mockUserPaymentService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
       ],
     })
       .overrideComponent(PaymentFormComponent, {

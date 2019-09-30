@@ -37,7 +37,6 @@ type yearType = { id: number; name: number };
   templateUrl: './payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class PaymentFormComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
@@ -97,7 +96,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private modalService: ModalService,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -121,7 +120,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
 
-    
     const checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
         // this operation makes sure the checkbox is not checked if not shown and vice versa
@@ -149,13 +147,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       });
 
     // checks if a new global message has popped up
-    const globalMessageSub = 
-      this
-      .globalMessageService
-      .get()
-      .subscribe(() => {
-        this.buttonHasBeenClicked = false;
-      });
+    const globalMessageSub = this.globalMessageService.get().subscribe(() => {
+      this.buttonHasBeenClicked = false;
+    });
 
     this.subscriptions.add(checkboxSub);
     this.subscriptions.add(addressVerifySub);
@@ -199,8 +193,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   isContinueButtonDisabled(): boolean {
     return (
       this.payment.invalid ||
-      (!this.sameAsShippingAddress && this.billingAddress.invalid)
-    ) || this.buttonHasBeenClicked;
+      (!this.sameAsShippingAddress && this.billingAddress.invalid) ||
+      this.buttonHasBeenClicked
+    );
   }
 
   /**

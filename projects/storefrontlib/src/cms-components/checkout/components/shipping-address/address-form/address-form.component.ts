@@ -206,7 +206,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   verifyAddress(): void {
     // (GH-3102)
     this.buttonHasBeenClicked = true;
-    
+
     this.checkoutDeliveryService.verifyAddress(this.address.value);
     if (this.address.controls['region'].value.isocode) {
       this.regionsSub = this.regions$.pipe(take(1)).subscribe(regions => {
