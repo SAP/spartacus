@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { StateWithOrganization } from '../store/organization-state';
-import { Budget } from '../../model/budget.model';
 import { UserService } from '../../user/facade/user.service';
 import { BudgetActions } from '../store/actions/index';
+import { getBudgetsState, getBudgetState } from '../store/selectors/budget.selector';
 
 @Injectable()
 export class BudgetService {
@@ -25,7 +24,11 @@ export class BudgetService {
     this.store.dispatch(new BudgetActions.LoadBudgets(this.userService.uid));
   }
 
-  get() {
-    this.store.select();
+  getBudgets() {
+    this.store.select(getBudgetsState);
+  }
+
+  getBudget(budgetCode: string) {
+    this.store.select(getBudgetState(budgetCode));
   }
 }

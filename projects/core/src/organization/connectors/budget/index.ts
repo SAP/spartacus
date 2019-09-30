@@ -1,3 +1,3 @@
-export * from './product.connector';
-export * from './product.adapter';
+export * from './budget.connector';
+export * from './budget.adapter';
 export * from './converters';
