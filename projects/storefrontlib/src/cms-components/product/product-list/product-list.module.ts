@@ -42,6 +42,9 @@ import { ViewConfig } from '../../../shared/config/view-config';
         SearchResultsListComponent: {
           component: ProductListComponent,
         },
+        SearchResultsGridComponent: {
+          component: ProductListComponent,
+        },
         ProductRefinementComponent: {
           component: ProductFacetNavigationComponent,
         },
