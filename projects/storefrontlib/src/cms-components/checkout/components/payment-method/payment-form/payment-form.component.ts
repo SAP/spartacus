@@ -52,6 +52,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   buttonHasBeenClicked = false;
 
   @Input()
+  setAsDefaultField: boolean;
+
+  @Input()
   paymentMethodsCount: number;
 
   @Output()
