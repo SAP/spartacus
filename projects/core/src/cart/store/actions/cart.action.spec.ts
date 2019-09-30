@@ -154,9 +154,11 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.MERGE_CART,
           payload: { userId: userId, cartId: cartId },
+          meta: StateLoaderActions.loadMeta(CART_DATA),
         });
       });
     });
+
     describe('MergeCartSuccess', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
@@ -168,6 +170,7 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.MERGE_CART_SUCCESS,
           payload: { userId, cartId },
+          meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
     });
