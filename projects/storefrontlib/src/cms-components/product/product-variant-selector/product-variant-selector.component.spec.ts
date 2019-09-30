@@ -6,6 +6,7 @@ import {
   Product,
   RoutingService,
   UrlCommandRoute,
+  I18nTestingModule,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -38,7 +39,7 @@ describe('ProductVariantSelectorComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProductVariantSelectorComponent, MockUrlPipe],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       providers: [
         {
           provide: RoutingService,
