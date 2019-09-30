@@ -1,0 +1,41 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <div class="cx-total">
+    {{ 'configurator.header.configId' | cxTranslate }} :
+    {{ configuration.configId }}
+    <br />
+    {{ 'configurator.header.consistent' | cxTranslate }} :
+    {{ configuration.consistent }}
+    <br />
+    {{ 'configurator.header.complete' | cxTranslate }} :
+    {{ configuration.complete }}
+  </div>
+  <br />
+  <div class="cx-total">
+    {{ 'configurator.attribute.caption' | cxTranslate }}
+  </div>
+  <br />
+  <div
+    class="cx-item-list-row cx-config-group-attribute"
+    *ngFor="let attribute of configuration.attributes"
+  >
+    <div class="cx-config-attribute-header">
+      <cx-config-attribute-header
+        [attribute]="attribute"
+      ></cx-config-attribute-header>
+    </div>
+    <div
+      class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
+      [class.cpqProductConfig-attributeValue-multi]="
+        attribute.uiType === UiType.RADIOBUTTON
+      "
+    >
+      <cx-config-attribute-radio-button
+        *ngIf="attribute.uiType === UiType.RADIOBUTTON"
+        [attribute]="attribute"
+      ></cx-config-attribute-radio-button>
+      <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
+        'configurator.attribute.notSupported' | cxTranslate
+      }}</em>
+    </div>
+  </div>
+</ng-container>

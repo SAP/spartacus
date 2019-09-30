@@ -8,12 +8,12 @@ import { Observable, of } from 'rxjs';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorActions } from '../actions';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
-import { Configuration } from './../../../../model/configurator.model';
+import { Configurator } from './../../../../model/configurator.model';
 import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
 import * as fromEffects from './configurator.effect';
 
 const productCode = 'CONF_LAPTOP';
-const productConfiguration: Configuration = {
+const productConfiguration: Configurator.Configuration = {
   configId: 'a',
   productCode: productCode,
   complete: true,
@@ -21,7 +21,7 @@ const productConfiguration: Configuration = {
 };
 
 class MockConnector {
-  createConfiguration(): Observable<Configuration> {
+  createConfiguration(): Observable<Configurator.Configuration> {
     return of(productConfiguration);
   }
 }

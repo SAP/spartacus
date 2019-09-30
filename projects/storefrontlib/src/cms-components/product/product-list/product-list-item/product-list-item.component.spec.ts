@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { ProductListItemComponent } from './product-list-item.component';
 
 @Component({
@@ -16,6 +17,16 @@ import { ProductListItemComponent } from './product-list-item.component';
 export class MockAddToCartComponent {
   @Input() productCode;
   @Input() showQuantity;
+}
+
+@Component({
+  selector: 'cx-configure-product',
+  template: '<button>configure product</button>',
+})
+export class MockConfigureProductComponent {
+  @Input() productCode;
+  @Input() configurable;
+  @Input() configuratorType;
 }
 
 @Component({
@@ -74,11 +85,12 @@ describe('ProductListItemComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         ProductListItemComponent,
         MockPictureComponent,
         MockAddToCartComponent,
+        MockConfigureProductComponent,
         MockStarRatingComponent,
         MockUrlPipe,
         MockCxIconComponent,

@@ -6,7 +6,7 @@ import { CONFIGURATION_NORMALIZER } from '../../../../configurator/commons/conne
 import { FeatureConfigService } from '../../../../features-config/services/feature-config.service';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
-import { Configuration } from './../../../../model/configurator.model';
+import { Configurator } from './../../../../model/configurator.model';
 import { OccConfigurator } from './occ-configurator.models';
 
 @Injectable()
@@ -19,7 +19,9 @@ export class OccConfiguratorVariantAdapter
     protected featureConfigService?: FeatureConfigService
   ) {}
 
-  createConfiguration(productCode: string): Observable<Configuration> {
+  createConfiguration(
+    productCode: string
+  ): Observable<Configurator.Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.getUrl('createConfiguration', { productCode })

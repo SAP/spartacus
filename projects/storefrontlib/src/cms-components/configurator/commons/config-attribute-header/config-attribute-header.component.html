@@ -1,0 +1,20 @@
+<label
+  id="{{ uiKeyGenerator.createAttributeUiKey('label', attribute.name) }}"
+  class="cx-config-attribute-label"
+  [class.cx-config-attribute-label-required-icon]="attribute.required"
+  [class.cx-config-attribute-label-error]="showRequiredMessage()"
+  [attr.aria-label]="
+    !attribute.required
+      ? attribute.label
+      : ('configurator.attribute.requiredAttribute'
+        | cxTranslate: { param: attribute.label })
+  "
+  >{{ attribute.label }}</label
+>
+<div
+  translate
+  *ngIf="showRequiredMessage()"
+  class="cx-config-attribute-header-required-message"
+>
+  {{ getRequiredMessageKey() | cxTranslate }}
+</div>

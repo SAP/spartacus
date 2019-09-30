@@ -3,14 +3,14 @@ import { async, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { StateWithConfiguration } from '../store/configuration-state';
-import { Configuration } from './../../../model/configurator.model';
+import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 class MockStore {
   dispatch() {}
-  select(): Observable<Configuration> {
-    const productConfiguration: Configuration = {
+  select(): Observable<Configurator.Configuration> {
+    const productConfiguration: Configurator.Configuration = {
       configId: 'a',
       productCode: PRODUCT_CODE,
     };

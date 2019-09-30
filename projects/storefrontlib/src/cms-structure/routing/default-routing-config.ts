@@ -40,6 +40,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orders: {
     paths: ['my-account/orders'],
   },
+
+  // configuration related routes
+  configureCPQCONFIGURATOR: {
+    paths: ['configureCPQCONFIGURATOR/:rootProduct'],
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

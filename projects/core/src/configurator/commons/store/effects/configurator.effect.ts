@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
-import { Configuration } from '../../../../model/configurator.model';
+import { Configurator } from '../../../../model/configurator.model';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import {
   CreateConfiguration,
@@ -26,7 +26,7 @@ export class ConfiguratorEffects {
       return this.configuratorCommonsConnector
         .createConfiguration(payload.productCode)
         .pipe(
-          switchMap((configuration: Configuration) => {
+          switchMap((configuration: Configurator.Configuration) => {
             return [new CreateConfigurationSuccess(configuration)];
           })
         );

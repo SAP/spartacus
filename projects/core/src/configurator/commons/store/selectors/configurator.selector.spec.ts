@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ConfiguratorActions } from '../actions';
-import { Configuration } from './../../../../model/configurator.model';
+import { Configurator } from './../../../../model/configurator.model';
 import {
   CONFIGURATION_FEATURE,
   StateWithConfiguration,
@@ -12,7 +12,7 @@ import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;
-  const configuration: Configuration = {
+  const configuration: Configurator.Configuration = {
     configId: 'a',
     productCode: 'CONF_PRODUCT',
   };
@@ -32,7 +32,7 @@ describe('Configurator selectors', () => {
   });
 
   it('should return empty content when selecting with content selector initially', () => {
-    let result: Configuration;
+    let result: Configurator.Configuration;
     store
       .pipe(select(ConfiguratorSelectors.getConfigurationContent))
       .subscribe(value => (result = value));
@@ -41,7 +41,7 @@ describe('Configurator selectors', () => {
   });
 
   it('should return content from state when selecting with content selector', () => {
-    let result: Configuration;
+    let result: Configurator.Configuration;
     store.dispatch(
       new ConfiguratorActions.CreateConfigurationSuccess(configuration)
     );
