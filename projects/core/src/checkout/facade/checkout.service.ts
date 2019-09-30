@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  ANONYMOUS_USERID,
-  CartDataService,
-} from '../../cart/facade/cart-data.service';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Order } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
@@ -80,6 +78,9 @@ export class CheckoutService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    return (
+      this.cartData.userId !== OCC_USER_ID_ANONYMOUS ||
+      this.cartData.isGuestCart
+    );
   }
 }
