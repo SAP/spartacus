@@ -54,8 +54,8 @@ function checkCartSummary(subtotal: string) {
 
 function incrementQuantity() {
   cy.get('.cx-counter-action')
-        .contains('+')
-        .click();
+    .contains('+')
+    .click();
 }
 
 function goToFirstProductFromSearch(id: string, mobile: boolean) {
@@ -107,12 +107,14 @@ export function closeAddedToCartDialog() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
 
-
 export function checkProductInCart(product, qty = 1) {
   return getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
     cy.get('.cx-counter-value').should('have.value', `${qty}`);
-    cy.get('.cx-total>.cx-value').should('contain', formatPrice(qty * product.price));
+    cy.get('.cx-total>.cx-value').should(
+      'contain',
+      formatPrice(qty * product.price)
+    );
     cy.root();
   });
 }
@@ -130,7 +132,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
   addToCart();
   closeAddedToCartDialog();
   checkMiniCartCount(1).click({ force: true });
-  checkProductInCart(product)
+  checkProductInCart(product);
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
@@ -144,7 +146,7 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
   checkMiniCartCount(2).click({ force: true });
 
-  checkProductInCart(product)
+  checkProductInCart(product);
 }
 
 export function removeAllItemsFromCart() {
@@ -194,7 +196,6 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
-
 
 export function logOutAndNavigateToEmptyCart() {
   cy.selectUserMenuOption({
@@ -266,13 +267,13 @@ export function manipulateCartQuantity() {
 
   checkProductInCart(product, 1).within(() => {
     incrementQuantity();
-  })
+  });
 
   checkCartSummary('$208.24');
 
   checkProductInCart(product, 2).within(() => {
     incrementQuantity();
-  })
+  });
 
   checkCartSummary('$322.36');
 
@@ -297,11 +298,11 @@ export const cartUser = {
     titleCode: 'mr',
     email: generateMail(randomString(), true),
   },
-}
+};
 
 export function registerCartUser() {
   cy.visit('/login/register');
-  register({...cartUser.registrationData});
+  register({ ...cartUser.registrationData });
   cy.url().should('not.contain', 'register');
 }
 

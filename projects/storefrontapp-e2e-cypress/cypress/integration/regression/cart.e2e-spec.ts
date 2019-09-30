@@ -66,7 +66,7 @@ describe('Cart', () => {
     cy.server();
     cart.registerCartUser();
     cart.loginCartUser();
-    cy.visit(`/product/${cart.products[0].code}`)
+    cy.visit(`/product/${cart.products[0].code}`);
     cart.addToCart();
     cart.checkAddedToCartDialog();
     cart.closeAddedToCartDialog();
@@ -74,7 +74,9 @@ describe('Cart', () => {
       option: 'Sign Out',
     });
     cy.clearLocalStorage();
-    cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts?fields=*`).as('carts');
+    cy.route(
+      `${apiUrl}/rest/v2/electronics-spa/users/current/carts?fields=*`
+    ).as('carts');
     cart.loginCartUser();
     cy.wait('@carts');
     cy.visit('/cart');
@@ -83,17 +85,19 @@ describe('Cart', () => {
     // cleanup
     cart.removeCartItem(cart.products[0]);
     cart.validateEmptyCart();
-  })
+  });
 
   it('should load cart saved in browser storage', () => {
     cy.server();
     cart.loginCartUser();
-    cy.visit(`/product/${cart.products[0].code}`)
+    cy.visit(`/product/${cart.products[0].code}`);
     cart.addToCart();
     cart.checkAddedToCartDialog();
     cart.closeAddedToCartDialog();
     cy.reload();
-    cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as('cart');
+    cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
+      'cart'
+    );
     cy.wait('@cart');
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
@@ -101,12 +105,16 @@ describe('Cart', () => {
     // cleanup
     cart.removeCartItem(cart.products[0]);
     cart.validateEmptyCart();
-  })
+  });
 
   // will fail right now, as this is not implemented yet
   it.skip('should first try to load cart when adding first entry for logged user', () => {
-    cy.server()
-    login(cart.cartUser.registrationData.email, cart.cartUser.registrationData.password, false).then(res => {
+    cy.server();
+    login(
+      cart.cartUser.registrationData.email,
+      cart.cartUser.registrationData.password,
+      false
+    ).then(res => {
       // remove cart
       cy.request({
         method: 'DELETE',
@@ -119,7 +127,11 @@ describe('Cart', () => {
     cart.loginCartUser();
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-    login(cart.cartUser.registrationData.email, cart.cartUser.registrationData.password, false).then(res => {
+    login(
+      cart.cartUser.registrationData.email,
+      cart.cartUser.registrationData.password,
+      false
+    ).then(res => {
       cy.request({
         // create cart
         method: 'POST',
@@ -136,12 +148,14 @@ describe('Cart', () => {
             Authorization: `bearer ${res.body.access_token}`,
           },
           body: {
-            product: {code: cart.products[1].code, qty: 1}
-          }
-        })
+            product: { code: cart.products[1].code, qty: 1 },
+          },
+        });
       });
     });
-    cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts?*`).as('cart');
+    cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts?*`).as(
+      'cart'
+    );
     cart.addToCart();
     cart.checkAddedToCartDialog();
     cy.visit('/cart');
@@ -157,11 +171,15 @@ describe('Cart', () => {
     cy.wait('@refresh_cart');
     cart.removeCartItem(cart.products[1]);
     cart.validateEmptyCart();
-  })
+  });
 
   it('should create new cart when adding first entry for logged user without cart', () => {
-    cy.server()
-    login(cart.cartUser.registrationData.email, cart.cartUser.registrationData.password, false).then(res => {
+    cy.server();
+    login(
+      cart.cartUser.registrationData.email,
+      cart.cartUser.registrationData.password,
+      false
+    ).then(res => {
       // remove cart
       cy.request({
         method: 'DELETE',
@@ -174,7 +192,9 @@ describe('Cart', () => {
     cart.loginCartUser();
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-    cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts?*`).as('cart');
+    cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts?*`).as(
+      'cart'
+    );
     cart.addToCart();
     cart.checkAddedToCartDialog();
     cy.visit('/cart');
@@ -187,7 +207,7 @@ describe('Cart', () => {
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
     cart.validateEmptyCart();
-  })
+  });
 
   it('should use existing cart when adding new entries', () => {
     cy.server();
@@ -213,10 +233,10 @@ describe('Cart', () => {
     cy.wait('@refresh_cart');
     cart.removeCartItem(cart.products[1]);
     cart.validateEmptyCart();
-  })
+  });
 
   // will fail right now, as this is not fixed yet
-  it.skip('shouldn\'t show added to cart dialog when entry couldn\'t be added', () => {
+  it.skip("shouldn't show added to cart dialog when entry couldn't be added", () => {
     cy.server();
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
@@ -225,14 +245,17 @@ describe('Cart', () => {
       method: 'POST',
       status: 400,
       response: {
-        error: {}
-      }
+        error: {},
+      },
     }).as('addEntry');
     cart.addToCart();
     cy.wait('@addEntry');
-    cy.get('cx-added-to-cart-dialog .modal-header').should('not.contain', 'Item(s) added to your cart');
+    cy.get('cx-added-to-cart-dialog .modal-header').should(
+      'not.contain',
+      'Item(s) added to your cart'
+    );
     cart.checkAddedToCartDialog();
     cy.visit('/cart');
     cart.validateEmptyCart();
-  })
+  });
 });
