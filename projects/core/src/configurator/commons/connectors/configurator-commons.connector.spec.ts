@@ -6,6 +6,14 @@ import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
 import createSpy = jasmine.createSpy;
 
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
+  readConfiguration = createSpy().and.callFake(configId =>
+    of('readConfiguration' + configId)
+  );
+
+  updateConfiguration = createSpy().and.callFake(configuration =>
+    of('updateConfiguration' + configuration)
+  );
+
   createConfiguration = createSpy().and.callFake(productCode =>
     of('createConfiguration' + productCode)
   );

@@ -31,4 +31,24 @@ describe('ConfiguratorReducer', () => {
     expect(result.content).toBeDefined();
     expect(result.content.productCode).toBe(productCode);
   });
+
+  it('should change state on ReadConfigurationSuccess ', () => {
+    const result = reducer(
+      configurationState,
+      new ConfiguratorActions.ReadConfigurationSuccess(configuration)
+    );
+    expect(result).toBeDefined();
+    expect(result.content).toBeDefined();
+    expect(result.content.productCode).toBe(productCode);
+  });
+
+  it('should change state on UpdateConfigurationSuccess ', () => {
+    const result = reducer(
+      configurationState,
+      new ConfiguratorActions.UpdateConfigurationSuccess(configuration)
+    );
+    expect(result).toBeDefined();
+    expect(result.content).toBeDefined();
+    expect(result.content.productCode).toBe(productCode);
+  });
 });

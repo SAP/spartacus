@@ -5,3 +5,7 @@ import { Converter } from '../../../util/converter.service';
 export const CONFIGURATION_NORMALIZER = new InjectionToken<
   Converter<any, Configurator.Configuration>
 >('ConfigurationNormalizer');
+
+export const CONFIGURATION_SERIALIZER = new InjectionToken<
+  Converter<Configurator.Configuration, any>
+>('ConfigurationSerializer');

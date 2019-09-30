@@ -9,6 +9,11 @@ export const defaultOccCartConfig: OccConfig = {
         createConfiguration:
           'products/${productCode}/configurator/cpqconfigurator',
 
+        readConfiguration: 'configuration/${configId}/cpqconfigurator',
+
+        updateConfiguration:
+          'products/${productCode}/configurator/cpqconfigurator',
+
         // tslint:enable
       },
     },
