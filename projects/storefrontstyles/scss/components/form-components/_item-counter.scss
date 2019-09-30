@@ -1,12 +1,7 @@
-@import '~bootstrap/scss/button-group';
-
 %cx-item-counter {
-  .cx-counter {
-    border-radius: 4px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-  }
+  display: inline-flex;
+  border: solid 1px var(--cx-color-light);
+  border-radius: 4px;
 
   .cx-counter-value {
     border: none;
