@@ -13,6 +13,7 @@ import {
   provideConfigFromMetaTags,
   StateModule,
   UserModule,
+  OrganizationModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
@@ -33,6 +34,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     UserModule.forRoot(),
     ProductModule.forRoot(),
     ViewConfigModule.forRoot(),
+    OrganizationModule.forRoot(),
     FeaturesConfigModule.forRoot('1.0'),
     LayoutModule,
   ],
