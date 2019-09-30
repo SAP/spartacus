@@ -45,6 +45,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   cards$: Observable<CardWithAddress[]>;
   checkoutStepUrlNext: string;
   checkoutStepUrlPrevious: string;
+  isGuestCheckout = false;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -62,7 +63,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
     this.checkoutStepUrlPrevious = 'cart';
-
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
     this.cards$ = combineLatest([
@@ -108,7 +108,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.userAddressService.loadAddresses();
+    if (!this.cartService.isGuestCart()) {
+      this.userAddressService.loadAddresses();
+    } else {
+      this.isGuestCheckout = true;
+    }
 
     this.setAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()
@@ -188,7 +192,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   addNewAddress(address: Address): void {
-    this.addAddress({ address, newAddress: true });
+    if (address) {
+      this.addAddress({ address, newAddress: true });
+    } else {
+      this.goNext();
+    }
   }
 
   showNewAddressForm(): void {

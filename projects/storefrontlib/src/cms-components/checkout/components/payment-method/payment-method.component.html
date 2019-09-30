@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="(existingPaymentMethods$ | async) as existingPaymentMethods"
->
+<ng-container *ngIf="existingPaymentMethods$ | async as existingPaymentMethods">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'paymentForm.payment' | cxTranslate }}
   </h3>
@@ -65,6 +63,7 @@
         (closeForm)="hideNewPaymentForm()"
         (goBack)="back()"
         [paymentMethodsCount]="existingPaymentMethods?.length || 0"
+        [setAsDefaultField]="!isGuestCheckout"
       ></cx-payment-form>
     </ng-template>
   </ng-container>

@@ -1,4 +1,4 @@
-<ng-container *ngIf="(cards$ | async) as cards">
+<ng-container *ngIf="cards$ | async as cards">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
   </h3>
@@ -63,14 +63,16 @@
     <ng-template #newAddressForm>
       <ng-container *ngIf="cards.length; else initialAddressForm">
         <cx-address-form
-          showTitleCode="true"
+          [showTitleCode]="true"
           (backToAddress)="hideNewAddressForm(false)"
           (submitAddress)="addNewAddress($event)"
         ></cx-address-form>
       </ng-container>
       <ng-template #initialAddressForm>
         <cx-address-form
-          showTitleCode="true"
+          [showTitleCode]="true"
+          [setAsDefaultField]="!isGuestCheckout"
+          [addressData]="setAddress"
           cancelBtnLabel="{{ 'checkout.backToCart' | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
           (submitAddress)="addNewAddress($event)"
