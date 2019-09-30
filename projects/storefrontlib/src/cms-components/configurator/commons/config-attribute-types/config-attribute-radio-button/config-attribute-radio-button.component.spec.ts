@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ConfigAttributeRadioButtonComponent } from './config-attribute-radio-button.component';
@@ -11,6 +12,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeRadioButtonComponent],
+      imports: [ReactiveFormsModule],
       providers: [ConfigUIKeyGeneratorService],
     })
       .overrideComponent(ConfigAttributeRadioButtonComponent, {
@@ -28,6 +30,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       name: 'valueName',
       stdAttrCode: 444,
       uiType: Configurator.UiType.RADIOBUTTON,
+      selectedSingleValue: 'selectedValue',
       quantity: 1,
     };
     fixture.detectChanges();
@@ -35,5 +38,9 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set selectedSingleValue on init', () => {
+    expect(component.attributeRadioButtonForm.value).toEqual('selectedValue');
   });
 });
