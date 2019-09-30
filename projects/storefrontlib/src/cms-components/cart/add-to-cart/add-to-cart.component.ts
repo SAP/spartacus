@@ -30,14 +30,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   increment = false;
 
   cartEntry$: Observable<OrderEntry>;
-  validVariant$: Observable<boolean>;
   subscription: Subscription = new Subscription();
 
   constructor(
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -73,10 +72,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.subscription.add(
       combineLatest([
         this.cartService.getLoaded(),
-        this.cartService.getCartError()
-      ])
-      .subscribe(([loaded, error]) => {
-        if(error && loaded) {
+        this.cartService.getCartError(),
+      ]).subscribe(([loaded, error]) => {
+        if (error && loaded) {
           this.modalRef.close();
         }
       })
@@ -94,15 +92,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     // check item is already present in the cart
     // so modal will have proper header text displayed
     this.cartService
-    .getEntry(this.productCode)
-    .subscribe(entry => {
-      if (entry) {
-        this.increment = true;
-      }
-      this.cartService.addEntry(this.productCode, this.quantity);
-      this.openModal();
-      this.increment = false;
-    }).unsubscribe();
+      .getEntry(this.productCode)
+      .subscribe(entry => {
+        if (entry) {
+          this.increment = true;
+        }
+        this.cartService.addEntry(this.productCode, this.quantity);
+        this.openModal();
+        this.increment = false;
+      })
+      .unsubscribe();
   }
 
   private openModal() {

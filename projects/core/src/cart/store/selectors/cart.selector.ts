@@ -76,8 +76,7 @@ export const getActiveCartError: MemoizedSelector<
   boolean
 > = createSelector(
   getActiveCartState,
-  state => 
-    StateLoaderSelectors.loaderErrorSelector(state)
+  state => StateLoaderSelectors.loaderErrorSelector(state)
 );
 
 export const getCartLoading: MemoizedSelector<any, boolean> = createSelector(
