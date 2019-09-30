@@ -44,8 +44,6 @@ export class ItemCounterComponent
   @Input()
   value = 0;
   @Input()
-  step = 1;
-  @Input()
   min: number;
   @Input()
   max: number;
@@ -155,7 +153,7 @@ export class ItemCounterComponent
    * Verify value that it can be incremented, if yes it does that.
    */
   increment(): void {
-    this.manualChange(this.value + this.step);
+    this.manualChange(++this.value);
     this.setFocus(true);
   }
 
@@ -163,7 +161,7 @@ export class ItemCounterComponent
    * Verify value that it can be decremented, if yes it does that.
    */
   decrement(): void {
-    this.manualChange(this.value - this.step);
+    this.manualChange(--this.value);
     this.setFocus(false);
   }
 
