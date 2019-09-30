@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
+  HostListener,
   Input,
   OnChanges,
   OnDestroy,
@@ -67,6 +68,20 @@ export class ItemCounterComponent
 
   subscription: Subscription;
 
+  @HostListener('keydown', ['$event'])
+  handleKeydown(event: KeyboardEvent): void {
+    const handlers = {
+      ArrowDown: () => this.decrement(),
+      ArrowUp: () => this.increment(),
+    };
+
+    if (handlers[event.code]) {
+      handlers[event.code]();
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
   ngOnInit() {
     this.writeValue(this.min || 0);
     this.subscription = this.inputValue.valueChanges
@@ -120,19 +135,6 @@ export class ItemCounterComponent
       fails, then the input will need to display this.value, and not what the user
       recently typed in */
     this.renderer.setProperty(this.input.nativeElement, 'value', newValue);
-  }
-
-  onKeyDown(event: KeyboardEvent): void {
-    const handlers = {
-      ArrowDown: () => this.decrement(),
-      ArrowUp: () => this.increment(),
-    };
-
-    if (handlers[event.code]) {
-      handlers[event.code]();
-      event.preventDefault();
-      event.stopPropagation();
-    }
   }
 
   onBlur(event: FocusEvent): void {
