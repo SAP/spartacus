@@ -89,14 +89,18 @@ export class LoadCartSuccess extends StateLoaderActions.LoaderSuccessAction {
   }
 }
 
-export class MergeCart implements Action {
+export class MergeCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = MERGE_CART;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
-export class MergeCartSuccess implements Action {
+export class MergeCartSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = MERGE_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
 export class ResetCartDetails implements Action {

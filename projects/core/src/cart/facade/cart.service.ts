@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
-import {
-  debounceTime,
-  filter,
-  map,
-  shareReplay,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { debounceTime, filter, map, share, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
@@ -62,7 +55,7 @@ export class CartService {
           (this.isCreated(cart) && !this.isIncomplete(cart))
       ),
       map(([cart]) => cart),
-      shareReplay({ bufferSize: 1, refCount: true })
+      share()
     );
   }
 
