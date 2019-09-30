@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  AsmModule,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-} from '@spartacus/core';
+import { AsmModule, CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../shared/components/spinner/spinner.module';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmRootComponent } from './asm-root/asm-root.component';
@@ -36,4 +31,4 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
   exports: [AsmRootComponent],
   entryComponents: [AsmRootComponent],
 })
-export class AsmComponentModule {}
+export class AssistedServiceModule {}

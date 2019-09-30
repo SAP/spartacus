@@ -11,7 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
 import {
-  AsmComponentModule,
+  AssistedServiceModule,
   B2cStorefrontModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
@@ -29,7 +29,7 @@ if (!environment.production) {
 
 @NgModule({
   imports: [
-    AsmComponentModule,
+    AssistedServiceModule,
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
 
