@@ -340,12 +340,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
       value:
-        'This is a sample consent description that will need to be updated or replaced, based on the valid registration consent required',
+        'This is a sample marketing consent description that will need to be updated or replaced, based on the valid registration consent required.',
     },
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
       value:
-        'This is a sample storage consent description that will need to be updated or replaced, based on the valid registration consent required.',
+        'This is a sample persionalization consent description that will need to be updated or replaced.',
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      value:
+        'This is a sample store user information consent description that will need to be updated or replaced.',
     },
   ],
   addToCart: [
