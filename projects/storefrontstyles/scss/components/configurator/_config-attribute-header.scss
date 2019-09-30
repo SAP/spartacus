@@ -1,11 +1,8 @@
-@import '../../theme';
-
 %cx-config-attribute-header {
   .cx-config-attribute-label {
+    @include type('5');
     padding-top: 10px;
     padding-right: 6px;
-    font-size: $font-size-base;
-    font-weight: bold;
     display: block;
     max-width: 66%;
 
