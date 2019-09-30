@@ -15,4 +15,21 @@
       </span>
     </button>
   </div>
+  <!-- Modal Body -->
+  <div *ngIf="templates$ | async as templates">
+    <div *ngIf="consents$ | async as consents">
+      <div class="cx-dialog-body modal-body">
+        <div
+          class="cx-dialog-row"
+          *ngFor="let template of templates; let i = index"
+        >
+          <cx-anonymous-consent-form
+            [template]="template"
+            [consent]="consents[i]"
+            (consentChanged)="onConsentChange($event)"
+          ></cx-anonymous-consent-form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

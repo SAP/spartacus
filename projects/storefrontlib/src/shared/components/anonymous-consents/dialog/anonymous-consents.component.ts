@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AnonymousConsentsService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../modal/index';
@@ -9,14 +9,13 @@ export const ANONYMOUS_CONSENTS_QUERY_PARAMETER = 'anonymousConsents';
 
 @Component({
   selector: 'cx-anonymous-consents',
-  templateUrl: './anonymous-consents.component.html',
+  template: ``,
 })
 export class AnonymousConsentsComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
     private modalService: ModalService,
-    private anonymousConsentsService: AnonymousConsentsService,
     private routingService: RoutingService
   ) {}
 
@@ -34,6 +33,7 @@ export class AnonymousConsentsComponent implements OnInit, OnDestroy {
               anonymousConsentsQueryParamValue
             );
             const modalRef = this.openDialog();
+
             this.handleClosing(modalRef, state.state.url, queryParamToRemove);
           }
         })
@@ -49,11 +49,6 @@ export class AnonymousConsentsComponent implements OnInit, OnDestroy {
       centered: true,
       size: 'lg',
     });
-
-    const modalInstance: AnonymousConsentsDialogComponent =
-      modalRef.componentInstance;
-    modalInstance.consents$ = this.anonymousConsentsService.getAnonymousConsents();
-    modalInstance.templates$ = this.anonymousConsentsService.getAnonymousConsentTemplates();
 
     return modalRef;
   }

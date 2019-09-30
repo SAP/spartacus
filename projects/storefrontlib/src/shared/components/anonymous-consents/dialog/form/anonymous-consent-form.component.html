@@ -1,0 +1,11 @@
+<div class="cx-dialog-item col-sm-12 col-md-6">
+  <input
+    type="checkbox"
+    class="form-check-input"
+    [checked]="consentGiven"
+    (change)="onConsentChange()"
+  />
+  <span class="form-check-label">
+    {{ template?.description }}
+  </span>
+</div>
