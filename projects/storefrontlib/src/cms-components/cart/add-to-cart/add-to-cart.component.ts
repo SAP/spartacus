@@ -74,7 +74,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       combineLatest([
         this.cartService.getLoaded(),
         this.cartService.getCartError()
-      ]).subscribe(([loaded, error]) => {
+      ])
+      .subscribe(([loaded, error]) => {
         if(error && loaded) {
           this.modalRef.close();
         }

@@ -45,6 +45,10 @@ class MockCartService {
   getActive(): Observable<Cart> {
     return of();
   }
+
+  getCartError(): Observable<boolean> {
+    return of();
+  }
 }
 
 class MockCurrentProductService {
