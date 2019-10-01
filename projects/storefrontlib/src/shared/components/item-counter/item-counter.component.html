@@ -1,25 +1,18 @@
 <button
   type="button"
   (click)="decrement()"
-  [disabled]="cartIsLoading || value <= min"
+  [disabled]="control.disabled || control?.value <= min"
   tabindex="-1"
 >
   -
 </button>
 
-<input
-  #itemCounterInput
-  type="text"
-  name="value"
-  cxOnlyNumber
-  [formControl]="inputControl"
-  [value]="value"
-/>
+<input #qty type="text" [formControl]="control" cxOnlyNumber />
 
 <button
   type="button"
   (click)="increment()"
-  [disabled]="cartIsLoading || value >= max"
+  [disabled]="control.disabled || control?.value >= max"
   tabindex="-1"
 >
   +
