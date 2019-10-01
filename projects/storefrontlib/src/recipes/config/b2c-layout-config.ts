@@ -59,6 +59,14 @@ export const b2cLayoutConfig: LayoutConfig = {
         'Section4',
       ],
     },
+    SearchResultsGridPageTemplate: {
+      slots: [
+        'Section2',
+        'ProductLeftRefinements',
+        'SearchResultsGridSlot',
+        'Section4',
+      ],
+    },
     ProductDetailsPageTemplate: {
       slots: [
         'TopHeaderSlot',
