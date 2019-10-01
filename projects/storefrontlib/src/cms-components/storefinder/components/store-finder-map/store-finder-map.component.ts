@@ -26,13 +26,7 @@ export class StoreFinderMapComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.locations && this.locations) {
-      this.googleMapRendererService.renderMap(
-        this.mapElement.nativeElement,
-        this.locations,
-        markerIndex => {
-          this.selectStoreItemClickHandle(markerIndex);
-        }
-      );
+      this.renderMap();
     }
   }
 
@@ -43,6 +37,16 @@ export class StoreFinderMapComponent implements OnChanges {
    */
   centerMap(latitude: number, longitude: number): void {
     this.googleMapRendererService.centerMap(latitude, longitude);
+  }
+
+  renderMap(): void {
+    this.googleMapRendererService.renderMap(
+      this.mapElement.nativeElement,
+      this.locations,
+      markerIndex => {
+        this.selectStoreItemClickHandle(markerIndex);
+      }
+    );
   }
 
   private selectStoreItemClickHandle(markerIndex: number) {

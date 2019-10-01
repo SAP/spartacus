@@ -13,6 +13,7 @@ import {
   CART_FEATURE,
   StateWithCart,
 } from '../cart-state';
+import { User } from '../../../model/misc.model';
 
 const getCartContentSelector = (state: CartState) => state.content;
 const getCartRefreshSelector = (state: CartState) => state.refresh;
@@ -63,9 +64,12 @@ export const getCartLoaded: MemoizedSelector<
 > = createSelector(
   getActiveCartState,
   state =>
-    StateLoaderSelectors.loaderSuccessSelector(state) &&
-    !StateLoaderSelectors.loaderLoadingSelector(state) &&
-    !StateLoaderSelectors.loaderValueSelector(state).refresh
+    (StateLoaderSelectors.loaderSuccessSelector(state) &&
+      !StateLoaderSelectors.loaderLoadingSelector(state) &&
+      !StateLoaderSelectors.loaderValueSelector(state).refresh) ||
+    (StateLoaderSelectors.loaderErrorSelector(state) &&
+      !StateLoaderSelectors.loaderLoadingSelector(state) &&
+      !StateLoaderSelectors.loaderValueSelector(state).refresh)
 );
 
 export const getCartLoading: MemoizedSelector<any, boolean> = createSelector(
@@ -110,4 +114,12 @@ export const getCartEntries: MemoizedSelector<
   entities => {
     return Object.keys(entities).map(code => entities[code]);
   }
+);
+
+export const getCartUser: MemoizedSelector<
+  StateWithCart,
+  User
+> = createSelector(
+  getCartContent,
+  content => content.user
 );

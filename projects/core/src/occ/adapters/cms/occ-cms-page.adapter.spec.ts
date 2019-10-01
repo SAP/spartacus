@@ -92,9 +92,7 @@ describe('OccCmsPageAdapter', () => {
     it('Should get cms content page data without parameter fields', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint +
-          `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${
-            context.id
-          }`
+          `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${context.id}`
       );
 
       service.load(context).subscribe(result => {
@@ -106,16 +104,14 @@ describe('OccCmsPageAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${
-                context.id
-              }`
+              `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${context.id}`
         );
       });
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'DEFAULT' },
-        { pageType: context.type, pageLabelOrId: context.id }
+        {},
+        { fields: 'DEFAULT', pageType: context.type, pageLabelOrId: context.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -125,9 +121,7 @@ describe('OccCmsPageAdapter', () => {
     it('Should get cms content page data with parameter fields', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint +
-          `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${
-            context.id
-          }`
+          `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${context.id}`
       );
 
       service.load(context, 'BASIC').subscribe(result => {
@@ -139,16 +133,14 @@ describe('OccCmsPageAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${
-                context.id
-              }`
+              `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${context.id}`
         );
       });
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'BASIC' },
-        { pageType: context.type, pageLabelOrId: context.id }
+        {},
+        { fields: 'BASIC', pageType: context.type, pageLabelOrId: context.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -169,16 +161,14 @@ describe('OccCmsPageAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/pages?fields=DEFAULT&pageType=${context1.type}&code=${
-                context1.id
-              }`
+              `/pages?fields=DEFAULT&pageType=${context1.type}&code=${context1.id}`
         );
       });
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'pages',
-        { fields: 'DEFAULT' },
-        { pageType: context1.type, code: context1.id }
+        {},
+        { fields: 'DEFAULT', pageType: context1.type, code: context1.id }
       );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');

@@ -81,6 +81,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
    */
   checkoutStepUrlPrevious = 'cart';
 
+  isGuestCheckout = false;
+
   constructor(
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
@@ -92,6 +94,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.goTo = null;
+    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
+      this.activatedRoute
+    );
+    this.checkoutStepUrlPrevious = 'cart';
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
     this.selectedAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
@@ -140,7 +147,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.userAddressService.loadAddresses();
+    if (!this.cartService.isGuestCart()) {
+      this.userAddressService.loadAddresses();
+    } else {
+      this.isGuestCheckout = true;
+    }
   }
 
   getCardContent(

@@ -1,4 +1,5 @@
 @import './components/index';
+@import './themes/index';
 
 // the $skipComponentStyles is used as a list of component styles that can be ignore
 // during the sass compilation. Whenever the list contains a component selector, the
@@ -22,6 +23,7 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-order-confirmation-totals, cx-order-confirmation-overview,
   cx-order-confirmation-thank-you-message, cx-promotions,
   cx-order-detail-headline, cx-order-detail-items, cx-order-detail-shipping,
+  cx-order-detail-totals, cx-tracking-events, cx-product-view, cx-payment-method,
   cx-order-detail-totals, cx-product-view, cx-payment-method, cx-payment-methods,
   cx-close-account, cx-close-account-modal, cx-store-finder-list-item,
   cx-store-finder-grid, cx-store-finder, cx-store-finder-store-description,
@@ -30,15 +32,11 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-store-finder-map, cx-add-to-home-screen-banner, cx-item-counter,
   cx-star-rating, cx-spinner, cx-icon, cx-media, cx-tab-paragraph-container,
   cx-add-to-cart, cx-global-message, cx-product-intro, cx-card,
-  cx-forgot-password, cx-banner-carousel !default;
+  cx-forgot-password, cx-banner-carousel, cx-update-password, cx-tracking-events,
+  cx-guest-register-form !default;
 
 // future theme's, can be introduced during minors
-$theme: ''; // conconut
-
-// sampe of theme specific
-%cx-mini-cart-conconut a svg {
-  fill: blue;
-}
+$theme: '' !default;
 
 @each $selector in $selectors {
   #{$selector} {

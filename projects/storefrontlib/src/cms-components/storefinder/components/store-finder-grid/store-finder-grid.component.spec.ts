@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,7 +19,7 @@ export class MockStoreFinderListItemComponent {
 }
 
 const location = {
-  name: 'testName',
+  name: 'Test Name',
 };
 
 const mockActivatedRoute = {
@@ -29,19 +29,14 @@ const mockActivatedRoute = {
 };
 
 const mockStoreFinderService = {
-  getStoresLoading: jasmine.createSpy(),
-  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
   getViewAllStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  findStoresAction: jasmine.createSpy().and.returnValue(of(Observable)),
   getViewAllStoresLoading: jasmine.createSpy(),
+  findStoresAction: jasmine.createSpy().and.returnValue(of(Observable)),
 };
 
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
+const mockRoutingService = {
+  go: jasmine.createSpy('go'),
+};
 
 describe('StoreFinderGridComponent', () => {
   let component: StoreFinderGridComponent;
@@ -49,17 +44,12 @@ describe('StoreFinderGridComponent', () => {
   let storeFinderService: StoreFinderService;
   let route: ActivatedRoute;
 
-  const mockRoutingService = {
-    go: jasmine.createSpy('go'),
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, SpinnerModule],
       declarations: [
         StoreFinderGridComponent,
         MockStoreFinderListItemComponent,
-        MockUrlPipe,
       ],
       providers: [
         { provide: StoreFinderService, useValue: mockStoreFinderService },
@@ -85,10 +75,10 @@ describe('StoreFinderGridComponent', () => {
     expect(component).toBeTruthy();
     expect(storeFinderService.findStoresAction).toHaveBeenCalledWith(
       '',
-      undefined,
       {
         pageSize: -1,
       },
+      undefined,
       countryIsoCode
     );
   });
@@ -111,10 +101,20 @@ describe('StoreFinderGridComponent', () => {
 
     component.viewStore(location);
 
-    expect(mockRoutingService.go).toHaveBeenCalledWith(
-      ['region', '', location.name],
-      undefined,
-      { relativeTo: { snapshot: { params: { country: countryIsoCode } } } }
+    expect(mockRoutingService.go).toHaveBeenCalledWith([
+      `store-finder/country/${countryIsoCode}/${location.name}`,
+    ]);
+  });
+
+  it('should create store url for route', () => {
+    route.snapshot.params = {
+      country: countryIsoCode,
+      region: regionIsoCode,
+    };
+    const result = component.prepareRouteUrl(location);
+
+    expect(result).toEqual(
+      `store-finder/country/${countryIsoCode}/region/${regionIsoCode}/${location.name}`
     );
   });
 });

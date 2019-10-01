@@ -7,8 +7,7 @@
     "tagAnnotation": "Bumping assets version to ${version}"
   },
   "npm": {
-    "publishPath": "./../../dist/assets",
-    "tag": "latest"
+    "publishPath": "./../../dist/assets"
   },
   "hooks": {
     "after:version:bump": "cd ../.. && yarn build:assets"

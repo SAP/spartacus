@@ -7,7 +7,7 @@ export function registerUser(user) {
   cy.getByText(/Sign in \/ Register/i).click();
   cy.get('cx-page-layout')
     .getByText('Register')
-    .click();
+    .click({ force: true });
   register(user);
 }
 
@@ -40,4 +40,11 @@ export function verifyFailedRegistration() {
     .getErrorAlert()
     .should('contain', 'Bad credentials. Please login again.');
   cy.url().should('match', /\/login\/register/);
+}
+
+export function verifyGlobalMessageAfterRegistration() {
+  const alert = alerts.getSuccessAlert();
+
+  alert.should('contain', 'Please log in with provided credentials.');
+  cy.url().should('match', /\/login/);
 }
