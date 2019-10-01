@@ -21,7 +21,7 @@ context('Infinite scroll', () => {
     infiniteScrollNoShowMoreTest();
   });
 
-  describe('infinite scroll should be active using the show more button from the beggining', () => {
+  describe('infinite scroll should be active using the show more button from the beginning', () => {
     beforeEach(() => {
       scrollConfig(true, 0, true);
       verifyProductListLoaded();

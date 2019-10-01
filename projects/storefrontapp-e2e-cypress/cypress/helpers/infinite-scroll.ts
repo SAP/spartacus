@@ -8,6 +8,7 @@ let defaultProductLimit = 10;
 let numberOfIteration = 0;
 
 const productLoadedQuery = 'productLoaded';
+const productScrollButtons = 'cx-product-scroll .btn-action';
 
 const doubleButton = 'double';
 const singleButton = 'single';
@@ -50,12 +51,16 @@ export function isPaginationVisible() {
   cy.get('cx-pagination .pagination').should('exist');
 }
 
-export function backToTopIsVisisble(isShowMoreButton?: boolean) {
+export function backToTopIsVisible(isShowMoreButton?: boolean) {
   if (isShowMoreButton) {
     cy.get(`.cx-${doubleButton}-btn-container`).should('be.visible');
   } else {
     cy.get(`.cx-${singleButton}-btn-container`).should('be.visible');
   }
+}
+
+export function verifyNumberOfProducts(numberOfProducts) {
+  cy.get('cx-product-list-item').should('have.length', numberOfProducts);
 }
 
 export function backtoTopIsNotVisible() {
@@ -87,20 +92,22 @@ export function scrollToFooter(
           .wait(`@${productLoadedQuery}`)
           .then(() => {
             numberOfProducts += defaultNumberOfProducts;
-            cy.get('cx-product-list-item').should(
-              'have.length',
-              numberOfProducts
-            );
+            verifyNumberOfProducts(numberOfProducts);
+
+            cy.get(productScrollButtons).should('exist');
           });
       } else {
         cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
           .wait(`@${productLoadedQuery}`)
           .then(() => {
             numberOfProducts += defaultNumberOfProducts;
-            cy.get('cx-product-list-item').should(
-              'have.length',
-              numberOfProducts
-            );
+            verifyNumberOfProducts(numberOfProducts);
+
+            if (!productLimit) {
+              cy.get(productScrollButtons).should('not.contain', ' SHOW MORE ');
+            } else {
+              cy.get(productScrollButtons).should('exist');
+            }
           });
       }
     }
@@ -139,7 +146,7 @@ export function infiniteScrollNoShowMoreTest() {
 
     backtoTopIsNotVisible();
     scrollToFooter();
-    backToTopIsVisisble();
+    backToTopIsVisible();
   });
 
   it('should reset the list when sorting', () => {
@@ -160,7 +167,7 @@ export function infiniteScrollWithShowMoreAtTheBeginningTest() {
     isPaginationNotVisible();
 
     scrollToFooter(true);
-    backToTopIsVisisble();
+    backToTopIsVisible();
   });
 }
 
@@ -170,7 +177,7 @@ export function infiniteScrollWithShowMoreAtALimit() {
 
     backtoTopIsNotVisible();
     scrollToFooter(false, 15);
-    backToTopIsVisisble(true);
+    backToTopIsVisible(true);
   });
 }
 
