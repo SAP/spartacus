@@ -3,6 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -14,7 +15,6 @@ describe('Spartacus Schematics: ng-add', () => {
 
   const workspaceOptions: any = {
     name: 'workspace',
-    newProjectRoot: 'projects',
     version: '0.5.0',
   };
 
@@ -25,6 +25,7 @@ describe('Spartacus Schematics: ng-add', () => {
     routing: false,
     style: 'scss',
     skipTests: false,
+    projectRoot: '',
   };
 
   const defaultOptions = {
@@ -61,5 +62,50 @@ describe('Spartacus Schematics: ng-add', () => {
     expect(depPackageList.includes('@spartacus/core')).toBe(true);
     expect(depPackageList.includes('@spartacus/storefront')).toBe(true);
     expect(depPackageList.includes('@spartacus/styles')).toBe(true);
+  });
+
+  it('should add spartacus with PWA via passed parameter', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync('ng-add', { ...defaultOptions, pwa: true }, appTree)
+      .toPromise();
+    const buffer = tree.read('src/manifest.webmanifest');
+    expect(buffer).toBeTruthy();
+
+    if (buffer) {
+      const webmanifestJSON = JSON.parse(buffer.toString('utf-8'));
+      expect(webmanifestJSON.name).toEqual(defaultOptions.project);
+    }
+  });
+
+  it('should add spartacus with SSR via passed parameter', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync('ng-add', { ...defaultOptions, ssr: true }, appTree)
+      .toPromise();
+    const packageJsonBuffer = tree.read('/package.json');
+    expect(packageJsonBuffer).toBeTruthy();
+    const appServerModulePath = getPathResultsForFile(
+      tree,
+      'app.server.module.ts',
+      '/src'
+    )[0];
+    const appServerModuleBuffer = tree.read(appServerModulePath);
+    expect(appServerModuleBuffer).toBeTruthy();
+    const serverBuffer = tree.read('server.ts');
+    expect(serverBuffer).toBeTruthy();
+
+    if (packageJsonBuffer) {
+      const packageJSON = JSON.parse(packageJsonBuffer.toString('utf-8'));
+      expect(
+        packageJSON.dependencies['@nguniversal/express-engine']
+      ).toBeTruthy();
+      expect(packageJSON.dependencies['@angular/platform-server']).toBeTruthy();
+    }
+
+    if (appServerModuleBuffer) {
+      const appServerModuleContent = appServerModuleBuffer.toString('utf-8');
+      expect(
+        appServerModuleContent.includes('ServerTransferStateModule')
+      ).toBeTruthy();
+    }
   });
 });

@@ -1,5 +1,5 @@
-import { CheckoutConfig } from './checkout-config';
 import { CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfig, DeliveryModePreferences } from './checkout-config';
 
 export const defaultCheckoutConfig: CheckoutConfig = {
   checkout: {
@@ -29,5 +29,8 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         type: [CheckoutStepType.REVIEW_ORDER],
       },
     ],
+    express: false,
+    defaultDeliveryMode: [DeliveryModePreferences.FREE],
+    guest: false,
   },
 };
