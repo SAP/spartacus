@@ -23,3 +23,5 @@ In order to debug in VSCode, do the following:
 - Choose a configuration from the dropdown and click on the green "Start Debugging" button.
 
 More info [here](https://code.visualstudio.com/Docs/editor/debugging).
+
+_NOTE_: if you want to debug in Firefox, you'll need this extension: [firefox-devtools.vscode-firefox-debug](https://marketplace.visualstudio.com/items?itemName=firefox-devtools.vscode-firefox-debug).

@@ -16,6 +16,11 @@
     "add-pwa": {
       "description": "Add PWA to project.",
       "factory": "./add-pwa/index#addPWA"
+    },
+    "add-ssr": {
+      "description": "Add server-side rendering.",
+      "factory": "./add-ssr/index#addSSR",
+      "schema": "./add-spartacus/schema.json"
     }
   }
 }

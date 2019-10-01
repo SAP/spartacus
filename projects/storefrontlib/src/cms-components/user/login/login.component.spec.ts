@@ -10,7 +10,6 @@ import {
   User,
   UserService,
   UserToken,
-  RoutingConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
@@ -42,21 +41,12 @@ class MockAuthService {
 }
 class MockRoutingService {
   go = createSpy('go');
-  getRouterState(): Observable<any> {
-    return of();
-  }
 }
 class MockUserService {
   get(): Observable<User> {
     return of(mockUserDetails);
   }
   load(): void {}
-}
-
-class MockRoutingConfigService {
-  getRouteConfig() {
-    return { paths: ['checkout'] };
-  }
 }
 
 @Component({
@@ -81,7 +71,6 @@ describe('LoginComponent', () => {
 
   let authService: MockAuthService;
   let userService: MockUserService;
-  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -103,13 +92,11 @@ describe('LoginComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     }).compileComponents();
 
     authService = TestBed.get(AuthService as Type<AuthService>);
     userService = TestBed.get(UserService as Type<UserService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
@@ -157,35 +144,11 @@ describe('LoginComponent', () => {
     });
 
     it('should display the register message when the user is not logged in', () => {
-      spyOn(routingService, 'getRouterState').and.returnValue(
-        of({
-          state: {
-            context: { id: '/product' },
-          },
-        } as any)
-      );
       spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
       component.ngOnInit();
       fixture.detectChanges();
 
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'miniLogin.signInRegister'
-      );
-    });
-
-    it('should hide login/register message during checkout steps', () => {
-      spyOn(routingService, 'getRouterState').and.returnValue(
-        of({
-          state: {
-            context: { id: '/checkout/step1' },
-          },
-        } as any)
-      );
-      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
-      component.ngOnInit();
-      fixture.detectChanges();
-
-      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
         'miniLogin.signInRegister'
       );
     });
