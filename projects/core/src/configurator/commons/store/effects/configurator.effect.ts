@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Configurator } from '../../../../model/configurator.model';
+import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import {
   CreateConfiguration,
@@ -56,7 +57,10 @@ export class ConfiguratorEffects {
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             return [new ReadConfigurationSuccess(configuration)];
-          })
+          }),
+          catchError(error => [
+            new ReadConfigurationFail(makeErrorSerializable(error)),
+          ])
         );
     })
   );
@@ -76,7 +80,10 @@ export class ConfiguratorEffects {
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             return [new UpdateConfigurationSuccess(configuration)];
-          })
+          }),
+          catchError(error => [
+            new UpdateConfigurationFail(makeErrorSerializable(error)),
+          ])
         );
     })
   );

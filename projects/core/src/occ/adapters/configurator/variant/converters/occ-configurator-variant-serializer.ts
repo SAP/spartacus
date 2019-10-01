@@ -28,27 +28,32 @@ export class OccConfiguratorVariantSerializer
     source: Configurator.Attribute[],
     occGroups: OccConfigurator.Group[]
   ) {
-    source.forEach(cstic => this.convertAttribute(cstic, occGroups[0].cstics));
+    // Currently only works with product CPQ_LAPTOP
+    // Once groups are supported other products will work as well
+    this.createGroups(occGroups);
+    source.forEach(attribute =>
+      this.mapAttributesToGroups(attribute, occGroups)
+    );
   }
 
   convertAttribute(
-    cstic: Configurator.Attribute,
+    attribute: Configurator.Attribute,
     occCstics: OccConfigurator.Characteristic[]
   ): void {
-    const attribute: OccConfigurator.Characteristic = {
-      name: cstic.name,
-      langdepname: cstic.label,
-      required: cstic.required,
-      type: this.convertCharacteristicType(cstic.uiType),
+    const cstics: OccConfigurator.Characteristic = {
+      name: attribute.name,
+      langdepname: attribute.label,
+      required: attribute.required,
+      type: this.convertCharacteristicType(attribute.uiType),
       domainvalues: [],
     };
-    if (cstic.values) {
-      cstic.values.forEach(value =>
-        this.convertValue(value, attribute.domainvalues)
+    if (attribute.values) {
+      attribute.values.forEach(value =>
+        this.convertValue(value, cstics.domainvalues)
       );
     }
 
-    occCstics.push(attribute);
+    occCstics.push(cstics);
   }
 
   convertValue(
@@ -70,10 +75,72 @@ export class OccConfiguratorVariantSerializer
         uiType = OccConfigurator.UiType.RADIO_BUTTON;
         break;
       }
+      case Configurator.UiType.DROPDOWN: {
+        uiType = OccConfigurator.UiType.DROPDOWN;
+        break;
+      }
       default: {
         uiType = OccConfigurator.UiType.NOT_IMPLEMENTED;
       }
     }
     return uiType;
+  }
+
+  /**
+   * MOCK IMPLEMENTATION FOR GROUPS.
+   * WILL BE REMOVED IN THE NEXT FEW WEEKS, ONCE GROUPS ARE SUPPORTED
+   */
+  createGroups(occGroups: OccConfigurator.Group[]) {
+    occGroups.push({
+      configurable: true,
+      description: 'Core components',
+      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id: '1-CPQ_LAPTOP.1',
+      name: '1',
+      cstics: [],
+    });
+
+    occGroups.push({
+      configurable: true,
+      description: 'Peripherals & Accessories',
+      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id: '1-CPQ_LAPTOP.2',
+      name: '2',
+      cstics: [],
+    });
+
+    occGroups.push({
+      configurable: true,
+      description: 'Software',
+      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id: '1-CPQ_LAPTOP.3',
+      name: '3',
+      cstics: [],
+    });
+  }
+
+  mapAttributesToGroups(
+    attribute: Configurator.Attribute,
+    occGroups: OccConfigurator.Group[]
+  ) {
+    switch (attribute.name) {
+      case 'EXP_NUMBER':
+      case 'CPQ_DISPLAY':
+      case 'CPQ_DISPLAY':
+      case 'CPQ_RAM':
+        this.convertAttribute(attribute, occGroups[0].cstics);
+        break;
+
+      case 'CPQ_MONITOR':
+      case 'CPQ_PRINTER':
+        this.convertAttribute(attribute, occGroups[1].cstics);
+        break;
+
+      case 'CPQ_OS':
+      case 'CPQ_SECURITY':
+      case 'CPQ_SOFTWARE':
+        this.convertAttribute(attribute, occGroups[2].cstics);
+        break;
+    }
   }
 }
