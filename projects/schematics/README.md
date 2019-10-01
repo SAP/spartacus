@@ -13,8 +13,8 @@ Run the following command from your project root:
 - `baseUrl`: Base url of your CX OCC backend
 - `baseSite`: Name of your base site
 - `useMetaTags`: Whether or not to configure baseUrl and mediaUrl in the meta tags from `index.html`
-- `featureLevel`: Application feature level. (default: '1.1')
-- `overwriteAppComponent`: Overwrite content of app.component.html file. (default: true)
+- `featureLevel`: Application feature level. (default: '1.2')
+- `overwriteAppComponent`: Overwrite content of app.component.html file. (default: false)
 - `pwa`: Include PWA features while constructing application.
 - `ssr`: Include Server-side Rendering configuration.
 
