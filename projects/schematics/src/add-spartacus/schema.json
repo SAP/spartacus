@@ -28,11 +28,21 @@
     "featureLevel": {
       "type": "string",
       "description": "Configure feature level for application.",
-      "default": "1.1"
+      "default": "1.2"
     },
     "overwriteAppComponent": {
       "type": "boolean",
       "description": "Overwrite whole app.component.html file.",
+      "default": false
+    },
+    "pwa": {
+      "type": "boolean",
+      "description": "Add PWA support to the project.",
+      "default": false
+    },
+    "ssr": {
+      "type": "boolean",
+      "description": "Add Server-side rendering support to the project.",
       "default": false
     }
   },

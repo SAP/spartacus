@@ -1,19 +1,14 @@
 import * as path from 'path';
 import {
-  getIndexHtmlPath,
-  getPathResultsForFile,
-  getTsSourceFile,
-} from './file-utils';
-import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { getProjectFromWorkspace } from './workspace-utils';
+import { getProjectFromWorkspace, getWorkspace } from './workspace-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
-describe('File utils', () => {
+describe('Workspace utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: any = {
     name: 'workspace',
@@ -53,34 +48,26 @@ describe('File utils', () => {
       .toPromise();
   });
 
-  describe('getTsSourceFile', () => {
-    it('should return TS file', async () => {
-      const tsFile = getTsSourceFile(appTree, 'src/test.ts');
-      const tsFileName = tsFile.fileName.split('/').pop();
-
-      expect(tsFile).toBeTruthy();
-      expect(tsFileName).toEqual('test.ts');
-    });
-  });
-
-  describe('getIndexHtmlPath', () => {
-    it('should return index.html path', async () => {
-      const project = getProjectFromWorkspace(appTree, defaultOptions, [
+  describe('getWorkspace', () => {
+    it('should return data about project', async () => {
+      const workspaceInfo = getWorkspace(appTree, [
         '/angular.json',
         '/.angular.json',
       ]);
-      const projectIndexHtmlPath = getIndexHtmlPath(project);
-
-      expect(projectIndexHtmlPath).toEqual(`src/index.html`);
+      expect(workspaceInfo.path).toEqual('/angular.json');
+      expect(workspaceInfo.workspace.defaultProject).toEqual(appOptions.name);
     });
   });
 
-  describe('getPathResultsForFile', () => {
-    it('should return proper path for file', async () => {
-      const pathsToFile = getPathResultsForFile(appTree, 'test.ts', 'src');
-
-      expect(pathsToFile.length).toBeGreaterThan(0);
-      expect(pathsToFile[0]).toEqual('/src/test.ts');
+  describe('getProjectFromWorkspace', () => {
+    it('should return workspace project object', async () => {
+      const workspaceProjectObject = getProjectFromWorkspace(
+        appTree,
+        defaultOptions,
+        ['/angular.json', '/.angular.json']
+      );
+      expect(workspaceProjectObject.projectType).toEqual('application');
+      expect(workspaceProjectObject.sourceRoot).toEqual('src');
     });
   });
 });
