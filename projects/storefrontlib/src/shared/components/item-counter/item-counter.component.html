@@ -1,8 +1,8 @@
 <button
-  #decrementBtn
   type="button"
   (click)="decrement()"
   [disabled]="cartIsLoading || value <= min"
+  tabindex="-1"
 >
   -
 </button>
@@ -17,10 +17,10 @@
 />
 
 <button
-  #incrementBtn
   type="button"
   (click)="increment()"
   [disabled]="cartIsLoading || value >= max"
+  tabindex="-1"
 >
   +
 </button>

@@ -23,6 +23,11 @@
       max-height: 46px;
       min-width: 48px;
       max-width: 78px;
+
+      &:focus {
+        background: var(--cx-color-background);
+        outline: none;
+      }
     }
   }
 

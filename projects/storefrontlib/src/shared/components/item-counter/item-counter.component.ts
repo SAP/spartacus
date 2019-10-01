@@ -37,10 +37,6 @@ export class ItemCounterComponent
   implements OnInit, ControlValueAccessor, OnChanges, OnDestroy {
   @ViewChild('itemCounterInput', { static: false })
   public input: ElementRef;
-  @ViewChild('incrementBtn', { static: false })
-  public incrementBtn: ElementRef;
-  @ViewChild('decrementBtn', { static: false })
-  public decrementBtn: ElementRef;
 
   @Input()
   value = 0;
@@ -57,8 +53,6 @@ export class ItemCounterComponent
 
   @Output()
   update = new EventEmitter<number>();
-
-  focus: boolean;
 
   isValueOutOfRange = false;
   inputValue: FormControl = new FormControl({
@@ -79,6 +73,11 @@ export class ItemCounterComponent
       event.preventDefault();
       event.stopPropagation();
     }
+  }
+
+  @HostListener('click')
+  handleClick() {
+    this.input.nativeElement.focus();
   }
 
   ngOnInit() {
@@ -136,26 +135,11 @@ export class ItemCounterComponent
     this.renderer.setProperty(this.input.nativeElement, 'value', newValue);
   }
 
-  onBlur(event: FocusEvent): void {
-    this.focus = false;
-    event.preventDefault();
-    event.stopPropagation();
-    this.onTouch();
-  }
-
-  onFocus(event: FocusEvent): void {
-    this.focus = true;
-    event.preventDefault();
-    event.stopPropagation();
-    this.onTouch();
-  }
-
   /**
    * Verify value that it can be incremented, if yes it does that.
    */
   increment(): void {
     this.manualChange(++this.value);
-    this.setFocus(true);
   }
 
   /**
@@ -163,7 +147,6 @@ export class ItemCounterComponent
    */
   decrement(): void {
     this.manualChange(--this.value);
-    this.setFocus(false);
   }
 
   // ControlValueAccessor interface
@@ -193,19 +176,6 @@ export class ItemCounterComponent
     // Additionally, we emit a change event, so that users may optionally do something on change
     this.update.emit(updatedQuantity);
     this.onTouch();
-  }
-
-  /**
-   * Determines which HTML element should have focus at a given time
-   */
-  setFocus(isIncremented: boolean): void {
-    if (this.isMaxOrMinValueOrBeyond()) {
-      this.input.nativeElement.focus();
-    } else if (isIncremented) {
-      this.incrementBtn.nativeElement.focus();
-    } else {
-      this.decrementBtn.nativeElement.focus();
-    }
   }
 
   isMaxOrMinValueOrBeyond(): boolean {
