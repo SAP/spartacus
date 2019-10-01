@@ -66,6 +66,7 @@ export class OnlyNumberDirective {
       'ArrowRight',
       'Escape',
       'Tab',
+      'Enter',
     ];
     // allow some non-numeric characters
     if (
