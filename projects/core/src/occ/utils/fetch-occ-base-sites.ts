@@ -49,7 +49,7 @@ export function fetchOccBaseSites(
   if (!baseUrl) {
     if (isDevMode()) {
       console.warn(
-        `WARNING: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag: \n<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="..." />`
+        `WARNING: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag: \n<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="${OCC_BASE_URL_META_TAG_PLACEHOLDER}" />`
       );
       return Promise.resolve(null);
     }
