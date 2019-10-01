@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '@spartacus/core';
+import { ICON_TYPE } from '../../../misc/icon/index';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-header',
@@ -8,6 +9,7 @@ import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.
 })
 export class ConfigAttributeHeaderComponent {
   constructor(private uiKeyGen: ConfigUIKeyGeneratorService) {}
+  iconTypes = ICON_TYPE;
 
   @Input() attribute: Configurator.Attribute;
 

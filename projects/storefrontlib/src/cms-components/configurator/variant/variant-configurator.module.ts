@@ -10,6 +10,7 @@ import {
   UrlModule,
   UserService,
 } from '@spartacus/core';
+import { IconModule } from '../../../cms-components/misc/icon/index';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/index';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
@@ -63,6 +64,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     NgSelectModule,
     UrlModule,
     I18nModule,
+    IconModule,
   ],
 
   declarations: [

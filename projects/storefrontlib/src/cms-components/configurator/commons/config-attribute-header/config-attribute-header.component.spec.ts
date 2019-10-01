@@ -1,8 +1,23 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator, I18nTestingModule } from '@spartacus/core';
+import {
+  IconLoaderService,
+  IconModule,
+} from '../../../../cms-components/misc/icon/index';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
+
+export class MockIconFontLoaderService {
+  useSvg(_iconType: ICON_TYPE) {
+    return false;
+  }
+  getStyleClasses(_iconType: ICON_TYPE): string {
+    return 'fas fa-exclamation-circle';
+  }
+  addLinkResource() {}
+}
 
 describe('ConfigAttributeHeaderComponent', () => {
   let classUnderTest: ConfigAttributeHeaderComponent;
@@ -15,9 +30,12 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, IconModule],
       declarations: [ConfigAttributeHeaderComponent],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [
+        ConfigUIKeyGeneratorService,
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+      ],
     })
       .overrideComponent(ConfigAttributeHeaderComponent, {
         set: {
@@ -89,7 +107,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     );
   });
 
-  it("shouldm't render a required message if  attribute is incomplete, but  not required.", () => {
+  it("shouldn't render a required message if  attribute is incomplete, but  not required.", () => {
     classUnderTest.attribute.required = false;
     classUnderTest.attribute.incomplete = true;
     fixture.detectChanges();
