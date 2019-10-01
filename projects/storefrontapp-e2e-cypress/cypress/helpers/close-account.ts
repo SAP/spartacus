@@ -61,8 +61,10 @@ export function closeAccountTest() {
   it('should be able to close account', () => {
     closeAccount();
   });
+}
 
-  it('should not allow login on closed account', () => {
+export function verifyAccountClosedTest() {
+  it('should not be able to login with a closed account', () => {
     verifyAccountClosed();
   });
 }
