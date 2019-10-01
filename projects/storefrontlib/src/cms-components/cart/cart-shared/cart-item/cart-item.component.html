@@ -74,7 +74,6 @@
         >
           <cx-item-counter
             [isValueChangeable]="item.updateable"
-            [min]="1"
             [max]="item.product.stock?.stockLevel || 1000"
             (update)="updateItem($event)"
             [cartIsLoading]="cartIsLoading"

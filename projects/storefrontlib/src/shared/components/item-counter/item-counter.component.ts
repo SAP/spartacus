@@ -35,27 +35,19 @@ const COUNTER_CONTROL_ACCESSOR = {
 })
 export class ItemCounterComponent
   implements OnInit, ControlValueAccessor, OnChanges, OnDestroy {
-  @ViewChild('itemCounterInput', { static: false })
-  public input: ElementRef;
+  @ViewChild('itemCounterInput', { static: false }) public input: ElementRef;
 
-  @Input()
-  value = 0;
-  @Input()
-  min: number;
-  @Input()
-  max: number;
-  @Input()
-  async = false;
-  @Input()
-  cartIsLoading = false;
+  @Input() value = 1;
+  @Input() min = 1;
+  @Input() max: number;
+  @Input() async = false;
+  @Input() cartIsLoading = false;
 
   @HostBinding('class.changeable') @Input() isValueChangeable = true;
 
-  @Output()
-  update = new EventEmitter<number>();
+  @Output() update = new EventEmitter<number>();
 
-  isValueOutOfRange = false;
-  inputValue: FormControl = new FormControl({
+  inputControl: FormControl = new FormControl({
     disabled: this.isValueChangeable,
   });
 
@@ -63,15 +55,12 @@ export class ItemCounterComponent
 
   @HostListener('keydown', ['$event'])
   handleKeydown(event: KeyboardEvent): void {
-    const handlers = {
-      ArrowDown: () => this.decrement(),
-      ArrowUp: () => this.increment(),
-    };
+    if (event.code === 'ArrowUp' || event.code === 'ArrowRight') {
+      this.increment();
+    }
 
-    if (handlers[event.code]) {
-      handlers[event.code]();
-      event.preventDefault();
-      event.stopPropagation();
+    if (event.code === 'ArrowDown' || event.code === 'ArrowLeft') {
+      this.decrement();
     }
   }
 
@@ -82,7 +71,7 @@ export class ItemCounterComponent
 
   ngOnInit() {
     this.writeValue(this.min || 0);
-    this.subscription = this.inputValue.valueChanges
+    this.subscription = this.inputControl.valueChanges
       .pipe(debounceTime(300))
       .subscribe(value => {
         if (value) {
@@ -93,12 +82,12 @@ export class ItemCounterComponent
 
   ngOnChanges() {
     if (this.cartIsLoading) {
-      this.inputValue.disable({
+      this.inputControl.disable({
         onlySelf: true,
         emitEvent: false,
       });
     } else {
-      this.inputValue.enable({
+      this.inputControl.enable({
         onlySelf: true,
         emitEvent: false,
       });
@@ -176,10 +165,6 @@ export class ItemCounterComponent
     // Additionally, we emit a change event, so that users may optionally do something on change
     this.update.emit(updatedQuantity);
     this.onTouch();
-  }
-
-  isMaxOrMinValueOrBeyond(): boolean {
-    return this.value >= this.max || this.value <= this.min;
   }
 
   ngOnDestroy() {
