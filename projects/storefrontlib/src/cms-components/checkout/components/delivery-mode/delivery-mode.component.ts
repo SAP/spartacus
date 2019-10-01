@@ -12,7 +12,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 @Component({
@@ -57,9 +57,15 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
       .pipe(
         map((deliveryMode: DeliveryMode) =>
           deliveryMode && deliveryMode.code ? deliveryMode.code : null
-        )
+        ),
+        withLatestFrom(this.supportedDeliveryModes$)
       )
-      .subscribe(code => {
+      .subscribe(([code, deliveryModes]: [string, DeliveryMode[]]) => {
+        if (!code) {
+          code = this.checkoutConfigService.getPreferredDeliveryMode(
+            deliveryModes
+          );
+        }
         if (
           this.allowRedirect &&
           !!code &&
