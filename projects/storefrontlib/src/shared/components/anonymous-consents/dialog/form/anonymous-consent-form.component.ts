@@ -28,16 +28,16 @@ export class AnonymousConsentFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.consentGiven =
-      this.consent.consentState ===
-      ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN;
+    if (this.consent) {
+      this.consentGiven =
+        this.consent.consentState ===
+        ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN;
+    }
   }
 
   onConsentChange(): void {
-    this.consentGiven = !this.consentGiven;
-
     this.consentChanged.emit({
-      given: this.consentGiven,
+      given: !this.consentGiven,
       template: this.template,
     });
   }
