@@ -1,5 +1,5 @@
 %cx-item-counter {
-  &:not(.changeable) {
+  &.readonly {
     button {
       display: none;
     }
@@ -9,7 +9,7 @@
     }
   }
 
-  &.changeable {
+  &:not(.readonly) {
     display: inline-flex;
     border: solid 1px var(--cx-color-light);
     border-radius: 4px;
