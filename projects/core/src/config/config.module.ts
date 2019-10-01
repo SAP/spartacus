@@ -61,6 +61,7 @@ export function configurationFactory(
   configValidators: ConfigValidator[]
 ) {
   const config = deepMerge({}, ...configChunks);
+  console.log(configChunks, config); //spike todo remove
   if (isDevMode()) {
     validateConfig(config, configValidators || []);
   }
