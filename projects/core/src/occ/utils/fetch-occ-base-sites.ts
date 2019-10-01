@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import {
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
@@ -46,9 +47,12 @@ export function fetchOccBaseSites(
 ): Promise<any> {
   const baseUrl = options.baseUrl || getBaseUrlFromMetaTag();
   if (!baseUrl) {
-    return Promise.reject(
-      `WARNING: Cannot get OCC base sites due to unknown base url! Please place it in the meta tag '<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="..." />'`
-    );
+    if (isDevMode()) {
+      console.warn(
+        `WARNING: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag: \n<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="..." />`
+      );
+      return Promise.resolve(null);
+    }
   }
 
   const prefix = options.prefix || '/rest/v2';
@@ -57,6 +61,8 @@ export function fetchOccBaseSites(
   const url = `${baseUrl}${prefix}${endpoint}`;
 
   return makeCorsRequest(url).catch(error => {
-    console.warn(`Warning: Could not get '/basesites'!`, error);
+    if (isDevMode()) {
+      console.warn(`Warning: Could not get '/basesites'!`, error);
+    }
   });
 }

@@ -9,10 +9,9 @@ if (environment.production) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetchOccBaseSites().then(baseSites => {
-    console.log(baseSites); //spike todo remove
+  fetchOccBaseSites().then(occBaseSites => {
     platformBrowserDynamic([
-      { provide: OccBaseSites, useValue: baseSites },
+      { provide: OccBaseSites, useValue: occBaseSites },
     ]).bootstrapModule(AppModule);
   });
 });
