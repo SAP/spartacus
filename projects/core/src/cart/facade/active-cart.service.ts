@@ -21,6 +21,7 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import {
   OCC_USER_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
+  OCC_CART_ID_CURRENT,
 } from '../../occ/utils/occ-constants';
 import { getCartIdByUserId } from '../utils/utils';
 
@@ -42,7 +43,7 @@ export class ActiveCartService {
   private cartSelector = this.activeCartId.pipe(
     switchMap(cartId => {
       if (!cartId) {
-        return this.lowLevelCartService.getCartEntity('current');
+        return this.lowLevelCartService.getCartEntity(OCC_CART_ID_CURRENT);
       }
       return this.lowLevelCartService.getCartEntity(cartId);
     })
@@ -114,7 +115,7 @@ export class ActiveCartService {
     if (!cartId) {
       this.lowLevelCartService.loadCart({
         userId: this.userId,
-        cartId: 'current',
+        cartId: OCC_CART_ID_CURRENT,
         extraData: {
           active: true,
         },
@@ -136,7 +137,7 @@ export class ActiveCartService {
     if (this.userId !== OCC_USER_ID_ANONYMOUS) {
       this.lowLevelCartService.loadCart({
         userId: this.userId,
-        cartId: cartId ? cartId : 'current',
+        cartId: cartId ? cartId : OCC_CART_ID_CURRENT,
         extraData: {
           active: true,
         },

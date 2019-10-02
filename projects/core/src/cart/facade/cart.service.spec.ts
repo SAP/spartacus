@@ -7,7 +7,7 @@ import { CartActions } from '../../cart/store/actions/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_ANONYMOUS, OCC_CART_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithCart } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
@@ -82,7 +82,7 @@ describe('CartService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new CartActions.LoadCart({
             userId: cartData.userId,
-            cartId: 'current',
+            cartId: OCC_CART_ID_CURRENT,
           })
         );
       });
@@ -163,7 +163,7 @@ describe('CartService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.LoadCart({
           userId: cartData.userId,
-          cartId: 'current',
+          cartId: OCC_CART_ID_CURRENT,
         })
       );
     });

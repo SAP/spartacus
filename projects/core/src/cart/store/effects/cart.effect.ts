@@ -9,6 +9,7 @@ import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartActions } from '../actions/index';
 import { CheckoutActions } from '../../../checkout/store/actions/index';
+import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartEffects {
@@ -52,7 +53,7 @@ export class CartEffects {
         .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
           mergeMap((cart: Cart) => {
-            if (loadCartParams.cartId === 'current' && cart) {
+            if (loadCartParams.cartId === OCC_CART_ID_CURRENT && cart) {
               return [
                 new CartActions.LoadCartSuccess(cart),
                 new CartActions.LoadMultiCartSuccess({
@@ -60,7 +61,7 @@ export class CartEffects {
                   userId: loadCartParams.userId,
                   extraData: payload.extraData,
                 }),
-                new CartActions.RemoveCart('current'),
+                new CartActions.RemoveCart(OCC_CART_ID_CURRENT),
               ];
             } else if (cart) {
               return [
@@ -202,7 +203,7 @@ export class CartEffects {
     ofType(CartActions.MERGE_CART),
     map((action: CartActions.MergeCart) => action.payload),
     mergeMap(payload => {
-      return this.cartConnector.load(payload.userId, 'current').pipe(
+      return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
         mergeMap(currentCart => {
           return [
             new CartActions.CreateCart({
