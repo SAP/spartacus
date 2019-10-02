@@ -10,6 +10,7 @@ if (environment.production) {
 
 document.addEventListener('DOMContentLoaded', () => {
   fetchOccBaseSites().then(occBaseSites => {
+    console.log(occBaseSites); // spike todo remove
     platformBrowserDynamic([
       { provide: OccBaseSites, useValue: occBaseSites },
     ]).bootstrapModule(AppModule);
