@@ -25,7 +25,9 @@ export class QualtricsComponent implements OnInit {
 
       console.log('API', this.winRef.nativeWindow['QSI'].API);
       this.winRef.nativeWindow['QSI'].API.unload();
-      this.winRef.nativeWindow['QSI'].API.load();
+      this.winRef.nativeWindow['QSI'].API.load().done(
+        this.winRef.nativeWindow['QSI'].API.run()
+      );
     }
   }
 }
