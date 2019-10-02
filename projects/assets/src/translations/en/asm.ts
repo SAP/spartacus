@@ -2,10 +2,10 @@ export const asm = {
   asm: {
     mainLogoLabel: 'SAP',
     mainTitle: 'Assisted Service Mode',
-    logout: 'Sign Out Agent',
+    logout: 'Sign Out',
     hideUi: 'Close ASM',
     loginForm: {
-      submit: 'Sign In Agent',
+      submit: 'Sign In',
       userId: {
         label: 'Agent ID',
         required: 'Agent ID is required',
@@ -20,8 +20,8 @@ export const asm = {
         label: 'Customer Email Address',
         required: 'Customer Email Address is required',
       },
-      submit: 'Start Customer Session',
-      noMatch: 'No customer match for "{{uid}}"',
+      submit: 'Start Session',
+      noMatch: 'No customer found for "{{uid}}"',
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
   },
