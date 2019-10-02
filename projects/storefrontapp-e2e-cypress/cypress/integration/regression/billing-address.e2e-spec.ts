@@ -47,7 +47,7 @@ context('Payment billing address', () => {
   });
 
   it('should choose delivery', () => {
-    checkout.chooseDeliveryMethod();
+    checkout.verifyDeliveryMethod();
   });
 
   it('should fill in payment form with billing address same as shipping address', () => {
