@@ -28,7 +28,7 @@ export class AsmRootComponent implements OnInit, OnDestroy {
     );
   }
 
-  showUi(): void {
+  private showUi(): void {
     this.asmService.updateAsmUiState({ visible: true });
   }
 
