@@ -144,7 +144,7 @@ export function asmTests() {
         cy.get('cx-customer-selection').should('exist');
       });
       it('should agent sign out.', () => {
-        cy.get('a[title="Sign Out Agent"]').click();
+        cy.get('a[title="Sign Out"]').click();
         cy.get('cx-csagent-login-form').should('exist');
         cy.get('cx-customer-selection').should('not.exist');
       });
