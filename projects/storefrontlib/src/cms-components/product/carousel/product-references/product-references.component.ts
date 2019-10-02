@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   CmsProductReferencesComponent,
   Product,
@@ -15,7 +15,7 @@ import { CurrentProductService } from '../../current-product.service';
   templateUrl: './product-references.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductReferencesComponent {
+export class ProductReferencesComponent implements OnInit {
   /**
    * returns an Obervable string for the title
    */
@@ -47,6 +47,10 @@ export class ProductReferencesComponent {
     protected current: CurrentProductService,
     protected referenceService: ProductReferenceService
   ) {}
+
+  ngOnInit(): void {
+    this.referenceService.cleanReferences();
+  }
 
   private getProductReferences(
     code: string,

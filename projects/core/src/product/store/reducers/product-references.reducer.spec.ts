@@ -36,4 +36,13 @@ describe('Product references reducer', () => {
       expect(state.list).toBe(list);
     });
   });
+
+  describe('CLEAN_PRODUCT_REFERENCES', () => {
+    it('should clear product references', () => {
+      const { initialState } = fromReducer;
+      const action = new ProductActions.CleanProductReferences();
+      const state = fromReducer.reducer(initialState, action);
+      expect(state).toEqual(initialState);
+    })
+  });
 });
