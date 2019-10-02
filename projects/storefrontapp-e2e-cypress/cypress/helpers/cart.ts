@@ -145,6 +145,11 @@ export function removeAllItemsFromCart() {
 
 export function loginRegisteredUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
+  // Hack to make it more stable
+  // cy.requireLoggedIn works thanks to rehydration.
+  // Unfortunately it is not always stable. Sometimes app could override localStorage data.
+  // Issue for proper fix: #4671
+  cy.wait(2000);
   cy.requireLoggedIn(standardUser);
   cy.reload();
 }

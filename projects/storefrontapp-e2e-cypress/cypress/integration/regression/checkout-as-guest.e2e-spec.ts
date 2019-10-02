@@ -1,3 +1,4 @@
+import { CheckoutConfig } from '@spartacus/storefront';
 import { assertAddressForm } from '../../helpers/address-book';
 import { login } from '../../helpers/auth-forms';
 import * as guestCheckout from '../../helpers/checkout-as-guest';
@@ -9,7 +10,7 @@ import { cheapProduct, user } from '../../sample-data/checkout-flow';
 context('Checkout as guest', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.cxConfig({ features: { guestCheckout: true } });
+    cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     cy.visit('/');
   });
 
@@ -101,7 +102,7 @@ context('Checkout as guest', () => {
 
   describe('Guest cart merge', () => {
     before(() => {
-      cy.cxConfig({ features: { guestCheckout: true } });
+      cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
     it('should keep guest cart content and restart checkout', () => {
       checkout.goToCheapProductDetailsPage();
