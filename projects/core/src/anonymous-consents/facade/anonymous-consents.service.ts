@@ -129,4 +129,25 @@ export class AnonymousConsentsService {
       new AnonymousConsentsActions.WithdrawAnonymousConsent(templateCode)
     );
   }
+
+  /**
+   * Toggles the visibility of the anonymous consents banner.
+   * @param visible the banner is visible if `true`, otherwise it's hidden
+   */
+  toggleAnonymousConsentsBanner(visible: boolean): void {
+    this.store.dispatch(
+      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+        visible
+      )
+    );
+  }
+
+  /**
+   * Returns `true` if the banner is visible, `false` otherwise
+   */
+  isAnonymousConsentsBannerVisible(): Observable<boolean> {
+    return this.store.pipe(
+      select(AnonymousConsentsSelectors.getAnonymousConsentsBanner)
+    );
+  }
 }

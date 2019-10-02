@@ -7,6 +7,8 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { AnonymousConsentsDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
+import { ModalService } from '../../../shared/components/modal/index';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
 
@@ -30,7 +32,8 @@ export class FooterNavigationComponent {
     protected componentData: CmsComponentData<CmsNavigationComponent>,
     protected service: NavigationService,
     protected config: AnonymousConsentsConfig,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected modalService: ModalService
   ) {}
 
   get showConsentPreferences(): Observable<boolean> {
@@ -42,5 +45,13 @@ export class FooterNavigationComponent {
             !isUserLoggedIn && this.config.anonymousConsents.footerLink
         )
       );
+  }
+
+  openDialog(): void {
+    this.modalService.open(AnonymousConsentsDialogComponent, {
+      centered: true,
+      size: 'lg',
+      scrollable: true,
+    });
   }
 }

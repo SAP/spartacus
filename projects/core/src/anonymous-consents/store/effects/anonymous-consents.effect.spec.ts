@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../../../auth/index';
+import { AuthActions, AuthService } from '../../../auth/index';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
@@ -58,15 +58,28 @@ describe('AnonymousConsentsEffects', () => {
     >);
   });
 
-  describe('handleLanguageChange$', () => {
-    it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action when the user is anonymous', () => {
-      const action = new SiteContextActions.LanguageChange();
-      const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
+  describe('handleLogoutAndLanguageChange$', () => {
+    describe('when the language changes while the user is anonymous', () => {
+      it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
+        const action = new SiteContextActions.LanguageChange();
+        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
 
-      expect(effect.handleLanguageChange$).toBeObservable(expected);
+        expect(effect.handleLogoutAndLanguageChange$).toBeObservable(expected);
+      });
+    });
+    describe('when the user logs out', () => {
+      it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
+        const action = new AuthActions.Logout();
+        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+
+        expect(effect.handleLogoutAndLanguageChange$).toBeObservable(expected);
+      });
     });
   });
 

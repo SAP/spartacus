@@ -4,6 +4,7 @@ export const user = {
     preferences: 'Consent Preferences',
     rejectAll: 'Reject All',
     allowAll: 'Allow All',
+    viewDetails: 'View Details',
   },
   forgottenPassword: {
     resetPassword: 'Reset password',

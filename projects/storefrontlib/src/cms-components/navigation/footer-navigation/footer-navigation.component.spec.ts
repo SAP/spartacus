@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,6 +10,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { AnonymousConsentsDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
+import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { NavigationService } from '../navigation/navigation.service';
@@ -28,6 +30,12 @@ class MockNavigationUIComponent {
 class MockAuthService {
   isUserLoggedIn(): Observable<boolean> {
     return of(false);
+  }
+}
+
+class MockModalService {
+  open(_content: any, _options?: ModalOptions): ModalRef {
+    return undefined;
   }
 }
 
@@ -51,6 +59,7 @@ describe('FooterNavigationComponent', () => {
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let element: DebugElement;
   let config: AnonymousConsentsConfig;
+  let modalService: ModalService;
 
   const mockLinks: NavigationNode[] = [
     {
@@ -100,6 +109,10 @@ describe('FooterNavigationComponent', () => {
           useClass: MockAuthService,
         },
         {
+          provide: ModalService,
+          useClass: MockModalService,
+        },
+        {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
@@ -112,6 +125,7 @@ describe('FooterNavigationComponent', () => {
     component = fixture.componentInstance;
     element = fixture.debugElement;
     config = TestBed.get(AnonymousConsentsConfig);
+    modalService = TestBed.get(ModalService as Type<ModalService>);
 
     component.node$ = of({
       children: [
@@ -160,6 +174,21 @@ describe('FooterNavigationComponent', () => {
       );
       const consentPreferences = element.query(By.css('.anonymous-consents'));
       expect(consentPreferences).toBeTruthy();
+    });
+  });
+
+  describe('openDialog', () => {
+    it('should call modalService.open', () => {
+      spyOn(modalService, 'open').and.stub();
+      component.openDialog();
+      expect(modalService.open).toHaveBeenCalledWith(
+        AnonymousConsentsDialogComponent,
+        {
+          centered: true,
+          size: 'lg',
+          scrollable: true,
+        }
+      );
     });
   });
 });
