@@ -1,7 +1,7 @@
 import {
   retrieveTokenAndLogin,
   checkoutAsPersistentUserTest,
-} from '../../helpers/checkout-as-persistent-user';
+} from '../../../helpers/checkout-as-persistent-user';
 
 describe('Checkout - As a Persistent User', () => {
   before(() =>
