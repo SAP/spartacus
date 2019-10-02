@@ -37,7 +37,7 @@ context('Checkout as guest', () => {
     });
 
     it('should choose delivery', () => {
-      checkout.chooseDeliveryMethod();
+      checkout.verifyDeliveryMethod();
     });
 
     it('should fill in payment form', () => {
