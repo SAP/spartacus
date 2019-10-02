@@ -1,6 +1,6 @@
 import { DynamicTemplate } from './dynamic-template';
 
-fdescribe('DynamicTemplate', () => {
+describe('DynamicTemplate', () => {
   describe('No variables in String', () => {
     it('should return template string', () => {
       const url = '/xxx/xxx';
