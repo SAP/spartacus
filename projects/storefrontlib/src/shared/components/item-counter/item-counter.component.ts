@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
@@ -8,15 +9,37 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+/**
+ * Provides a UI to manage the count of the quantity, typically by using
+ * increase and decrease functinality. The item counter expects an input `FormControl`
+ * so that the state of the control can be managed outside of this component.
+ */
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemCounterComponent {
-  @Input() min = 1;
-  @Input() max: number;
+  /**
+   * Holds the value of the counter, the state of the `FormControl`
+   * can be managed outside of the item counter.
+   */
   @Input() control: FormControl;
 
+  /**
+   * This can be used in case an item has a minmum order quantity.
+   */
+  @Input() min = 1;
+
+  /**
+   * This can be used in case an item has a maximum order quantity.
+   */
+  @Input() max: number;
+
+  /**
+   * In readonly mode the item counter will only be shown as a label,
+   * the form controls are not rendered.
+   */
   @HostBinding('class.readonly') @Input() readonly = false;
 
   @ViewChild('qty', { static: false }) private input: ElementRef<HTMLElement>;
