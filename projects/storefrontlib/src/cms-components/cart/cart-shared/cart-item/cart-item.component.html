@@ -69,7 +69,7 @@
 
         <div class="cx-value">
           <cx-item-counter
-            [control]="parent"
+            [control]="quantityControl"
             [readonly]="!item.updateable"
             [max]="item.product.stock?.stockLevel"
           >
@@ -101,8 +101,7 @@
     <div *ngIf="!isReadOnly && item.updateable" class="cx-actions col-12">
       <button
         class="link"
-        [class.disabled]="cartIsLoading"
-        [disabled]="cartIsLoading"
+        [disabled]="quantityControl.disabled"
         (click)="removeItem()"
       >
         {{ 'common.remove' | cxTranslate }}

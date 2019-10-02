@@ -1,58 +1,70 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { CartService, PromotionResult } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { filter, startWith, switchMap, tap } from 'rxjs/operators';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartItemListComponent implements OnInit {
-  @Input()
-  isReadOnly = false;
+export class CartItemListComponent {
+  @Input() isReadOnly = false;
 
-  @Input()
-  hasHeader = true;
+  @Input() hasHeader = true;
 
-  @Input()
-  items: Item[] = [];
+  @Input() items: Item[] = [];
 
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
+  @Input() potentialProductPromotions: PromotionResult[] = [];
 
-  @Input()
-  cartIsLoading = false;
-
-  form: FormGroup = this.fb.group({});
-
-  constructor(protected cartService: CartService, protected fb: FormBuilder) {}
-
-  ngOnInit() {
-    this.items.forEach(item => {
-      const { code } = item.product;
-      if (!this.form.controls[code]) {
-        this.form.setControl(code, this.createEntryFormGroup(item));
-      } else {
-        const entryForm = this.form.controls[code] as FormGroup;
-        entryForm.controls.quantity.setValue(item.quantity);
-      }
-    });
+  _loading: boolean;
+  @Input('cartIsLoading')
+  set setLoading(value: boolean) {
+    this._loading = value;
+    // whenver the cart is loading, we disable the form
+    // to avoid any user interaction with the cart
+    value
+      ? this.form.disable({ emitEvent: false })
+      : this.form.enable({ emitEvent: false });
   }
 
-  removeEntry(item: Item): void {
-    this.cartService.removeEntry(item);
-    delete this.form.controls[item.product.code];
+  private form: FormGroup = new FormGroup({});
+
+  constructor(protected cartService: CartService) {}
+
+  /**
+   * Returns an observable to the quantity of the cartEntry, but
+   * also updates the entry in case of a changed value.
+   * The quantity can be set to zero in order to remove the entry.
+   */
+  getQuantityControl$(item: Item): Observable<FormControl> {
+    let entryForm = this.getEntryFormGroup(item);
+    return entryForm.valueChanges.pipe(
+      // tslint:disable-next-line:deprecation
+      startWith(null),
+      tap(valueChange => {
+        if (valueChange) {
+          this.cartService.updateEntry(
+            valueChange.entryNumber,
+            valueChange.quantity
+          );
+          if (valueChange.quantity === 0) {
+            this.cartService.removeEntry(item);
+            entryForm = null;
+          }
+        }
+      }),
+      filter(() => !!entryForm),
+      switchMap(() => of(<FormControl>entryForm.get('quantity')))
+    );
   }
 
-  updateEntry({
-    item,
-    updatedQuantity,
-  }: {
-    item: any;
-    updatedQuantity: number;
-  }): void {
-    this.cartService.updateEntry(item.entryNumber, updatedQuantity);
-  }
+  // removeEntry(item: Item): void {
+  //   this.cartService.removeEntry(item);
+  //   delete this.form.controls[item.product.code];
+  // }
 
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
@@ -77,11 +89,16 @@ export class CartItemListComponent implements OnInit {
     return entryPromotions;
   }
 
-  private createEntryFormGroup(entry): FormGroup {
-    return this.fb.group({
-      entryNumber: entry.entryNumber,
-      quantity: entry.quantity,
-    });
+  private getEntryFormGroup(item: Item): FormGroup {
+    const { code } = item.product;
+    if (!this.form.controls[code]) {
+      const formGroup = new FormGroup({
+        entryNumber: new FormControl((<any>item).entryNumber),
+        quantity: new FormControl(item.quantity),
+      });
+      this.form.setControl(code, formGroup);
+    }
+    return <FormGroup>this.form.get(code);
   }
 
   private isConsumedByEntry(consumedEntry: any, entry: any): boolean {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 export interface Item {
   product?: any;
@@ -18,9 +18,8 @@ export class CartItemComponent {
   @Input() item: Item;
   @Input() potentialProductPromotions: any[];
   @Input() isReadOnly = false;
-  @Input() parent: FormGroup;
+  @Input() quantityControl: FormControl;
 
-  @Output() remove = new EventEmitter<any>();
   @Output() view = new EventEmitter<any>();
 
   isProductOutOfStock(product) {
@@ -33,7 +32,7 @@ export class CartItemComponent {
   }
 
   removeItem() {
-    this.remove.emit(this.item);
+    this.quantityControl.setValue(0);
   }
 
   viewItem() {
