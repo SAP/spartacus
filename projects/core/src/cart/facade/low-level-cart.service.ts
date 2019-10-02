@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { OrderEntry } from '../../model/order.model';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
-import { LoadCart } from '../store/actions/cart.action';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { Cart } from '../../model/cart.model';
@@ -58,7 +57,7 @@ export class LowLevelCartService {
     extraData?: any;
   }): void {
     this.store.dispatch(
-      new LoadCart({
+      new CartActions.LoadCart({
         userId,
         cartId,
         extraData,

@@ -63,7 +63,7 @@ export class CreateMultiCartFail extends EntityFailAction {
 
 export class CreateMultiCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_MULTI_CART_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string; extraData: any }) {
+  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
     super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
@@ -84,7 +84,7 @@ export class LoadMultiCartFail extends EntityFailAction {
 
 export class LoadMultiCartSuccess extends EntitySuccessAction {
   readonly type = LOAD_MULTI_CART_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string; extraData: any }) {
+  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
     super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
