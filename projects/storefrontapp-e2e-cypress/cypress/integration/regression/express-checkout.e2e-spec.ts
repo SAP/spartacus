@@ -26,7 +26,7 @@ context('Express checkout', () => {
     });
 
     it('choose delivery', () => {
-      checkout.chooseDeliveryMethod();
+      checkout.verifyDeliveryMethod();
     });
 
     it('fill in payment form with billing address same as shipping address', () => {

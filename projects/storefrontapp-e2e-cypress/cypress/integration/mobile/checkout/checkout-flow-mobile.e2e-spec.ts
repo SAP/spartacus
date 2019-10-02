@@ -43,7 +43,7 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   });
 
   it('should choose delivery', () => {
-    checkout.chooseDeliveryMethod();
+    checkout.verifyDeliveryMethod();
   });
 
   it('should fill in payment form', () => {
