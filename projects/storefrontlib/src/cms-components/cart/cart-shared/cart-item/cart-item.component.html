@@ -66,18 +66,12 @@
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
-        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
-        <div
-          *ngIf="!isReadOnly && parent"
-          class="cx-value"
-          [formGroup]="parent"
-        >
+
+        <div class="cx-value">
           <cx-item-counter
-            [isValueChangeable]="item.updateable"
-            [max]="item.product.stock?.stockLevel || 1000"
-            (update)="updateItem($event)"
-            [cartIsLoading]="cartIsLoading"
-            formControlName="quantity"
+            [control]="parent"
+            [readonly]="!item.updateable"
+            [max]="item.product.stock?.stockLevel"
           >
           </cx-item-counter>
         </div>

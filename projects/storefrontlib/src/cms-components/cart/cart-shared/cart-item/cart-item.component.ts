@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 export interface Item {
@@ -13,29 +13,15 @@ export interface Item {
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
 })
-export class CartItemComponent implements OnInit {
-  @Input()
-  compact = false;
-  @Input()
-  item: Item;
-  @Input()
-  potentialProductPromotions: any[];
-  @Input()
-  isReadOnly = false;
-  @Input()
-  cartIsLoading = false;
+export class CartItemComponent {
+  @Input() compact = false;
+  @Input() item: Item;
+  @Input() potentialProductPromotions: any[];
+  @Input() isReadOnly = false;
+  @Input() parent: FormGroup;
 
-  @Output()
-  remove = new EventEmitter<any>();
-  @Output()
-  update = new EventEmitter<any>();
-  @Output()
-  view = new EventEmitter<any>();
-
-  @Input()
-  parent: FormGroup;
-
-  ngOnInit() {}
+  @Output() remove = new EventEmitter<any>();
+  @Output() view = new EventEmitter<any>();
 
   isProductOutOfStock(product) {
     // TODO Move stocklevelstatuses across the app to an enum
@@ -44,10 +30,6 @@ export class CartItemComponent implements OnInit {
       product.stock &&
       product.stock.stockLevelStatus === 'outOfStock'
     );
-  }
-
-  updateItem(updatedQuantity: number) {
-    this.update.emit({ item: this.item, updatedQuantity });
   }
 
   removeItem() {
