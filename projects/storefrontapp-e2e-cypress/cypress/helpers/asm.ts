@@ -14,22 +14,22 @@ export function asmTests() {
     });
 
     describe('UI display.', () => {
-      it('should storefront have ASM feature enabled', () => {
+      it('storefront should have ASM feature enabled', () => {
         checkout.visitHomePage();
         cy.get('cx-asm').should('exist');
       });
 
-      it('should storefront have ASM UI hidden by default', () => {
+      it('storefront should have ASM UI hidden by default', () => {
         checkout.visitHomePage();
         cy.get('cx-asm-main-ui').should('not.exist');
       });
     });
     describe('Customer Support Agent - Start', () => {
-      it('should agent see the asm UI when ?asm=true is passed to the url', () => {
+      it('agent should see the asm UI when ?asm=true is passed to the url', () => {
         checkout.visitHomePage('asm=true');
         cy.get('cx-asm-main-ui').should('exist');
       });
-      it('should agent authenticate.', () => {
+      it('agent should authenticate.', () => {
         const authenticationRequestAlias = asm.listenForAuthenticationRequest();
         cy.get('cx-csagent-login-form').should('exist');
         cy.get('cx-customer-selection').should('not.exist');
@@ -45,7 +45,7 @@ export function asmTests() {
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
       });
-      it('should agent start cusrtomer emulation.', () => {
+      it('agent should start cusrtomer emulation.', () => {
         const customerSearchRequestAlias = asm.listenForCusrtomerSearchRequest();
         const userDetailsRequestAlias = asm.listenForUserDetailsRequest();
 
@@ -69,44 +69,44 @@ export function asmTests() {
       });
     });
     describe('Customer Emulation - Checkout', () => {
-      it('should agent add a product to cart and begin checkout.', () => {
+      it('agent should add a product to cart and begin checkout.', () => {
         checkout.clickCheapProductDetailsFromHomePage();
         checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
       });
 
-      it('should agent fill in address form', () => {
+      it('agent should fill in address form', () => {
         checkout.fillAddressFormWithCheapProduct();
       });
 
-      it('should agent choose delivery', () => {
-        checkout.chooseDeliveryMethod();
+      it('agent should choose delivery', () => {
+        checkout.verifyDeliveryMethod();
       });
 
-      it('should agent fill in payment form', () => {
+      it('agent should fill in payment form', () => {
         checkout.fillPaymentFormWithCheapProduct();
       });
 
-      it('should agent review and place order', () => {
+      it('agent should review and place order', () => {
         checkout.placeOrderWithCheapProduct();
       });
 
-      it('should agent see summary page', () => {
+      it('agent should see summary page', () => {
         checkout.verifyOrderConfirmationPageWithCheapProduct();
       });
     });
     describe('Customer Emulation - My Account', () => {
-      it('should agent be able to check order in order history', () => {
+      it('agent should be able to check order in order history', () => {
         checkout.viewOrderHistoryWithCheapProduct();
       });
 
-      it('should agent update personal details.', () => {
+      it('agent should update personal details.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
         });
         profile.updateProfile();
       });
 
-      it('should agent delete address', () => {
+      it('agent should delete address', () => {
         cy.selectUserMenuOption({
           option: 'Address Book',
         });
@@ -115,13 +115,13 @@ export function asmTests() {
         cy.get('cx-address-card').should('have.length', 0);
       });
 
-      it('should agent create new address', () => {
+      it('agent should create new address', () => {
         addressBook.createNewAddress();
         cy.get('cx-address-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });
 
-      it('should agent see the payment details created during checkout', () => {
+      it('agent should see the payment details created during checkout', () => {
         cy.selectUserMenuOption({
           option: 'Payment Details',
         });
@@ -130,7 +130,7 @@ export function asmTests() {
         });
       });
 
-      it('should agent add a consent', () => {
+      it('agent should add a consent', () => {
         cy.selectUserMenuOption({
           option: 'Consent Management',
         });
@@ -138,39 +138,39 @@ export function asmTests() {
       });
     });
     describe('Customer Support Agent - End', () => {
-      it('should agent stop customer emulation.', () => {
+      it('agent should stop customer emulation.', () => {
         checkout.signOutUser();
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
       });
-      it('should agent sign out.', () => {
+      it('agent should sign out.', () => {
         cy.get('a[title="Sign Out"]').click();
         cy.get('cx-csagent-login-form').should('exist');
         cy.get('cx-customer-selection').should('not.exist');
       });
 
-      it('should agent close the ASM UI.', () => {
+      it('agent should close the ASM UI.', () => {
         cy.get('a[title="Close ASM"]').click();
         cy.get('cx-asm-main-ui').should('not.exist');
       });
     });
     describe('Customer Self Verification', () => {
-      it('should customer sign in.', () => {
+      it('customer should sign in.', () => {
         cy.visit('/login');
         login(customer.email, customer.password);
       });
-      it('should customer see the order placed by the agent.', () => {
+      it('customer should see the order placed by the agent.', () => {
         checkout.viewOrderHistoryWithCheapProduct();
       });
 
-      it('should customer see personal details updated by the agent.', () => {
+      it('customer should see personal details updated by the agent.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
         });
         profile.verifyUpdatedProfile();
       });
 
-      it('should customer see the address created by the agent.', () => {
+      it('customer should see the address created by the agent.', () => {
         cy.selectUserMenuOption({
           option: 'Address Book',
         });
@@ -178,7 +178,7 @@ export function asmTests() {
         addressBook.verifyNewAddress();
       });
 
-      it('should customer see the payment details created by the agent', () => {
+      it('customer should see the payment details created by the agent', () => {
         cy.selectUserMenuOption({
           option: 'Payment Details',
         });
@@ -187,7 +187,7 @@ export function asmTests() {
         });
       });
 
-      it('should customer see the consent given by agent', () => {
+      it('customer should see the consent given by agent', () => {
         cy.selectUserMenuOption({
           option: 'Consent Management',
         });
@@ -196,7 +196,7 @@ export function asmTests() {
           .should('be.checked');
       });
 
-      it('should customer sign out.', () => {
+      it('customer should sign out.', () => {
         checkout.signOutUser();
       });
     });
