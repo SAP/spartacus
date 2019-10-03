@@ -33,7 +33,7 @@ export function registerUser() {
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
   register(user);
-  cy.wait(`@${loginPage}`);
+  cy.get('cx-breadcrumb').contains('Login');
 }
 
 export function signOutUser() {
@@ -84,13 +84,12 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
     .first()
     .find('.cx-summary-amount')
     .should('contain', cart.total);
-
   fillShippingAddress(shippingAddressData);
 }
 
-export function chooseDeliveryMethod() {
+export function verifyDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').check({ force: true });
+  cy.get('#deliveryMode-standard-gross').should('be.checked');
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'
@@ -107,7 +106,6 @@ export function fillPaymentForm(
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cart.totalAndShipping);
-
   fillPaymentDetails(paymentDetailsData, billingAddress);
 }
 
@@ -131,7 +129,6 @@ export function placeOrder() {
     .within(() => {
       cy.getByText('Standard Delivery');
     });
-
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
     .should('contain', cart.total);
@@ -287,7 +284,6 @@ export function placeOrderWithCheapProduct() {
     .within(() => {
       cy.getByText('Standard Delivery');
     });
-
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
     .should('contain', cartWithCheapProduct.total);

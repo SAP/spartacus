@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
@@ -69,6 +69,8 @@ export class CheckoutEffects {
   @Effect()
   setDeliveryAddress$: Observable<
     | CheckoutActions.SetDeliveryAddressSuccess
+    | CheckoutActions.ClearSupportedDeliveryModes
+    | CheckoutActions.ClearCheckoutDeliveryMode
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
@@ -81,6 +83,11 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
+            new CheckoutActions.ClearCheckoutDeliveryMode({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
+            new CheckoutActions.ClearSupportedDeliveryModes(),
             new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
             new CheckoutActions.LoadSupportedDeliveryModes({
               userId: payload.userId,
@@ -320,6 +327,7 @@ export class CheckoutEffects {
     map(
       (action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload
     ),
+    filter(payload => Boolean(payload.cartId)),
     switchMap(payload => {
       return this.checkoutConnector
         .clearCheckoutDeliveryAddress(payload.userId, payload.cartId)
@@ -343,11 +351,18 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
+    filter(payload => Boolean(payload.cartId)),
     switchMap(payload => {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
-          map(() => new CheckoutActions.ClearCheckoutDeliveryModeSuccess()),
+          map(
+            () =>
+              new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              })
+          ),
           catchError(error =>
             of(
               new CheckoutActions.ClearCheckoutDeliveryModeFail(

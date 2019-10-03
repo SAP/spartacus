@@ -1,6 +1,5 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-
-import * as checkout from '../../helpers/checkout-flow';
+import * as checkout from '../../../helpers/checkout-flow';
 
 context('Express checkout', () => {
   before(() => {
@@ -27,7 +26,7 @@ context('Express checkout', () => {
     });
 
     it('choose delivery', () => {
-      checkout.chooseDeliveryMethod();
+      checkout.verifyDeliveryMethod();
     });
 
     it('fill in payment form with billing address same as shipping address', () => {
@@ -49,6 +48,7 @@ context('Express checkout', () => {
     it('should redirect to review order page with Standard Delivery', () => {
       checkout.verifyReviewOrderPage();
       cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
+      cy.saveLocalStorage();
     });
   });
 
@@ -60,10 +60,10 @@ context('Express checkout', () => {
           defaultDeliveryMode: ['MOST_EXPENSIVE'],
         },
       } as CheckoutConfig);
-      cy.saveLocalStorage();
-      cy.visit('/');
       cy.restoreLocalStorage();
+      cy.visit('/');
     });
+
     it('open cart', () => {
       cy.get('cx-mini-cart').click();
     });

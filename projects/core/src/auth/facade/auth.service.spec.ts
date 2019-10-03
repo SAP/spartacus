@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
 import { AuthState, AUTH_FEATURE } from '../store/auth-state';
@@ -10,6 +11,7 @@ import { AuthService } from './auth.service';
 const mockToken = {
   userId: 'user@sap.com',
   refresh_token: 'foo',
+  access_token: 'testToken-access-token',
 } as UserToken;
 
 const mockClientToken = {
@@ -145,5 +147,25 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.LoadClientToken()
     );
+  });
+
+  it('should return anonymous userid when no user token exists', () => {
+    let result: string;
+    service
+      .getOccUserId()
+      .subscribe(token => (result = token))
+      .unsubscribe();
+    expect(result).toEqual(OCC_USER_ID_ANONYMOUS);
+  });
+
+  it('should return the token userid when a user token exists', () => {
+    store.dispatch(new AuthActions.LoadUserTokenSuccess(mockToken));
+
+    let result: string;
+    service
+      .getOccUserId()
+      .subscribe(token => (result = token))
+      .unsubscribe();
+    expect(result).toEqual(mockToken.userId);
   });
 });

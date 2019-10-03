@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { CartService, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
-import { RoutingConfigService } from '@spartacus/core';
-import { ExpressCheckoutService } from '../services/express-checkout.service';
-import { CheckoutConfigService } from '../services/checkout-config.service';
-import { CheckoutStepType } from '../model/checkout-step.model';
+import { switchMap } from 'rxjs/operators';
 import { CheckoutConfig } from '../config/checkout-config';
+import { CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfigService } from '../services/checkout-config.service';
+import { ExpressCheckoutService } from '../services/express-checkout.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,8 @@ export class CheckoutGuard implements CanActivate {
     config: CheckoutConfig,
     routingConfigService: RoutingConfigService,
     checkoutConfigService: CheckoutConfigService,
-    expressCheckoutService: ExpressCheckoutService
+    expressCheckoutService: ExpressCheckoutService,
+    cartService: CartService
   );
   /**
    * @deprecated since version 1.2
@@ -28,7 +28,8 @@ export class CheckoutGuard implements CanActivate {
    *  config: CheckoutConfig - @deprecated since 2.x,
    *  routingConfigService: RoutingConfigService,
    *  checkoutConfigService: CheckoutConfigService,
-   *  expressCheckoutService: ExpressCheckoutService) instead
+   *  expressCheckoutService: ExpressCheckoutService
+   *  cartService: CartService) instead
    *
    *  TODO(issue:#4309) Deprecated since 1.2.0
    */
@@ -42,7 +43,8 @@ export class CheckoutGuard implements CanActivate {
     private config: CheckoutConfig,
     private routingConfigService: RoutingConfigService,
     protected checkoutConfigService?: CheckoutConfigService,
-    protected expressCheckoutService?: ExpressCheckoutService
+    protected expressCheckoutService?: ExpressCheckoutService,
+    protected cartService?: CartService
   ) {
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
@@ -70,8 +72,15 @@ export class CheckoutGuard implements CanActivate {
     /**
      * TODO(issue:#4309) Deprecated since 1.2.0
      */
-    if (this.checkoutConfigService && this.expressCheckoutService) {
-      if (this.checkoutConfigService.isExpressCheckout()) {
+    if (
+      this.checkoutConfigService &&
+      this.expressCheckoutService &&
+      this.cartService
+    ) {
+      if (
+        this.checkoutConfigService.isExpressCheckout() &&
+        !this.cartService.isGuestCart()
+      ) {
         return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
           switchMap((expressCheckoutPossible: boolean) => {
             return expressCheckoutPossible

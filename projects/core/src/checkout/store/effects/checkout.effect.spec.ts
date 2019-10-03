@@ -157,17 +157,24 @@ describe('Checkout effect', () => {
         address: address,
       });
       const completion = new CheckoutActions.SetDeliveryAddressSuccess(address);
-      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
-      const completion3 = new CheckoutActions.LoadSupportedDeliveryModes({
+      const completion2 = new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId,
+        cartId,
+      });
+      const completion3 = new CheckoutActions.ClearSupportedDeliveryModes();
+      const completion4 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion5 = new CheckoutActions.LoadSupportedDeliveryModes({
         userId,
         cartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bcdef)', {
         b: completion,
         c: completion2,
         d: completion3,
+        e: completion4,
+        f: completion5,
       });
 
       expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
@@ -398,7 +405,10 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const completion = new CheckoutActions.ClearCheckoutDeliveryModeSuccess();
+      const completion = new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+        userId: userId,
+        cartId: cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

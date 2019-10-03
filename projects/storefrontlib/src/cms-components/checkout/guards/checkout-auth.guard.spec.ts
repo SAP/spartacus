@@ -9,9 +9,9 @@ import {
   UrlCommands,
   User,
   UserToken,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 
 const mockUserToken = {
@@ -44,19 +44,19 @@ class MockAuthRedirectService {
   reportAuthGuard = jasmine.createSpy('reportAuthGuard');
 }
 
-class MockFeatureConfigService {
-  isEnabled(): boolean {
+class MockCheckoutConfigService {
+  isGuestCheckout() {
     return false;
   }
 }
 
-describe('CheckoutGuard', () => {
+describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
   let service: RoutingService;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let cartService: CartService;
-  let featureConfig: FeatureConfigService;
+  let checkoutConfigService: CheckoutConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,8 +79,8 @@ describe('CheckoutGuard', () => {
           useClass: CartServiceStub,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+          provide: CheckoutConfigService,
+          useClass: MockCheckoutConfigService,
         },
       ],
       imports: [RouterTestingModule],
@@ -90,7 +90,7 @@ describe('CheckoutGuard', () => {
     authService = TestBed.get(AuthService);
     authRedirectService = TestBed.get(AuthRedirectService);
     cartService = TestBed.get(CartService);
-    featureConfig = TestBed.get(FeatureConfigService);
+    checkoutConfigService = TestBed.get(CheckoutConfigService);
 
     spyOn(service, 'go').and.stub();
   });
@@ -118,7 +118,7 @@ describe('CheckoutGuard', () => {
       });
 
       it('should redirect to login with forced flag when guestCheckout feature enabled', () => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+        spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
         checkoutGuard
           .canActivate()
           .subscribe()
