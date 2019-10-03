@@ -1,6 +1,6 @@
-import * as productSearchPricingFlow from '../../helpers/product-search-pricing-flow';
-import { formats } from '../../sample-data/viewports';
-import { waitForHomePage } from '../../helpers/homepage';
+import * as productSearchPricingFlow from '../../../helpers/product-search-pricing-flow';
+import { formats } from '../../../sample-data/viewports';
+import { waitForHomePage } from '../../../helpers/homepage';
 
 context(
   `${formats.mobile.width + 1}p resolution - Product search pricing flow`,
