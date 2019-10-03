@@ -1,6 +1,8 @@
 %cx-product-variant-selector {
-  @include media-breakpoint-up(lg) {
-    padding: 20px 20px 0 20px;
+  .variant-section {
+    @include media-breakpoint-up(lg) {
+      padding: 20px 20px 0 20px;
+    }
   }
   .variant-selector {
     a.size-guide {
