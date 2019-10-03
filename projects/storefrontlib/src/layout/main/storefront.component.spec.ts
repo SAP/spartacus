@@ -29,6 +29,12 @@ class DynamicSlotComponent {}
 })
 class MockFooterComponent {}
 
+@Component({
+  selector: 'cx-anonymous-consents',
+  template: '',
+})
+class MockAnonymousConsentsComponent {}
+
 class MockRoutingService {
   isNavigating(): Observable<boolean> {
     return of();
@@ -57,6 +63,7 @@ describe('StorefrontComponent', () => {
         MockFooterComponent,
         DynamicSlotComponent,
         MockPageLayoutComponent,
+        MockAnonymousConsentsComponent,
       ],
       providers: [
         {

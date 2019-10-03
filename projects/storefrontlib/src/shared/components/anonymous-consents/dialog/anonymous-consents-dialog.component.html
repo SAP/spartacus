@@ -1,0 +1,49 @@
+<div #dialog>
+  <!-- Modal Header -->
+  <div class="cx-dialog-header modal-header">
+    <div class="cx-dialog-title modal-title">
+      {{ 'anonymousConsents.consentManagement' | cxTranslate }}
+    </div>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeModal('Cross click')"
+    >
+      <span aria-hidden="true">
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </span>
+    </button>
+  </div>
+  <!-- Separator -->
+  <div
+    class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
+  ></div>
+  <!-- Actions -->
+  <div class="cx-dialog-buttons">
+    <a class="btn" (click)="rejectAll()">{{
+      'anonymousConsents.rejectAll' | cxTranslate
+    }}</a>
+    <a class="btn" (click)="allowAll()">{{
+      'anonymousConsents.allowAll' | cxTranslate
+    }}</a>
+  </div>
+  <!-- Modal Body -->
+  <div
+    class="cx-dialog-body modal-body"
+    *ngIf="templates$ | async as templates"
+  >
+    <div *ngIf="consents$ | async as consents">
+      <div
+        class="cx-dialog-row col-sm-12 col-md-6"
+        *ngFor="let template of templates; let i = index"
+      >
+        <cx-anonymous-consent-form
+          [template]="template"
+          [consent]="consents[i]"
+          (consentChanged)="onConsentChange($event)"
+        ></cx-anonymous-consent-form>
+      </div>
+    </div>
+  </div>
+</div>

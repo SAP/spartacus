@@ -1,6 +1,9 @@
 export const user = {
   anonymousConsents: {
+    consentManagement: 'Consent Management',
     preferences: 'Consent Preferences',
+    rejectAll: 'Reject All',
+    allowAll: 'Allow All',
   },
   forgottenPassword: {
     resetPassword: 'Reset password',

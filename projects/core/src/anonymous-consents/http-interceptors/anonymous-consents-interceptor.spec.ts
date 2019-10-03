@@ -13,6 +13,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import { AnonymousConsent } from '../../model/index';
+import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsService } from '../facade/index';
 import {
   AnonymousConsentsInterceptor,
@@ -23,6 +24,12 @@ const mockAnonymousConsents: AnonymousConsent[] = [
   { templateCode: 'MARKETING', version: 0, consentState: null },
   { templateCode: 'PERSONALIZATION', version: 0, consentState: null },
 ];
+
+class MockOccEndpointsService {
+  getBaseEndpoint(): string {
+    return '';
+  }
+}
 
 class MockAuthService {
   isUserLoggedIn(): Observable<boolean> {
@@ -52,6 +59,7 @@ describe('AnonymousConsentsInterceptor', () => {
           useClass: MockAnonymousConsentsService,
         },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AnonymousConsentsInterceptor,
@@ -73,6 +81,8 @@ describe('AnonymousConsentsInterceptor', () => {
         interceptor = i;
       }
     });
+
+    spyOn<any>(interceptor, 'isOccUrl').and.returnValue(true);
   });
 
   const serializeAndEncodeMethod = 'serializeAndEncode';
