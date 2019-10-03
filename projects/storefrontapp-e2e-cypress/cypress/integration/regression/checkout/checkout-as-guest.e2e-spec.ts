@@ -1,11 +1,11 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-import { assertAddressForm } from '../../helpers/address-book';
-import { login } from '../../helpers/auth-forms';
-import * as guestCheckout from '../../helpers/checkout-as-guest';
-import * as checkout from '../../helpers/checkout-flow';
-import { waitForPage } from '../../helpers/checkout-flow';
-import { validateUpdateProfileForm } from '../../helpers/update-profile';
-import { cheapProduct, user } from '../../sample-data/checkout-flow';
+import { assertAddressForm } from '../../../helpers/address-book';
+import { login } from '../../../helpers/auth-forms';
+import * as guestCheckout from '../../../helpers/checkout-as-guest';
+import * as checkout from '../../../helpers/checkout-flow';
+import { waitForPage } from '../../../helpers/checkout-flow';
+import { validateUpdateProfileForm } from '../../../helpers/update-profile';
+import { cheapProduct, user } from '../../../sample-data/checkout-flow';
 
 context('Checkout as guest', () => {
   before(() => {
@@ -37,7 +37,7 @@ context('Checkout as guest', () => {
     });
 
     it('should choose delivery', () => {
-      checkout.chooseDeliveryMethod();
+      checkout.verifyDeliveryMethod();
     });
 
     it('should fill in payment form', () => {

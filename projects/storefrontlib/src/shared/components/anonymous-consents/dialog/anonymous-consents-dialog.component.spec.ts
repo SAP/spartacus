@@ -169,7 +169,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         ).toHaveBeenCalledWith(mockTemplates[0].id);
       });
     });
-    describe('whe the consent was withdrawn', () => {
+    describe('when the consent was withdrawn', () => {
       it('should call withdrawAnonymousConsent', () => {
         spyOn(anonymousConsentsService, 'withdrawAnonymousConsent').and.stub();
         component.onConsentChange({ given: false, template: mockTemplates[0] });
