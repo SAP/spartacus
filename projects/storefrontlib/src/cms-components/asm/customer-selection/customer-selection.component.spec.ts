@@ -7,8 +7,9 @@ import {
   CustomerSearchPage,
   GlobalMessageService,
   I18nTestingModule,
+  User,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
@@ -28,6 +29,18 @@ class MockAsmService {
   }
 }
 
+const mockUser: User = {
+  displayUid: 'Display Uid',
+  firstName: 'First',
+  lastName: 'Last',
+  name: 'First Last',
+  uid: 'customer@test.com',
+  customerId: '123456',
+};
+
+const mockCustomerSearchPage: CustomerSearchPage = {
+  entries: [mockUser],
+};
 describe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
@@ -35,7 +48,7 @@ describe('CustomerSelectionComponent', () => {
   let asmService: AsmService;
   let el: DebugElement;
 
-  const validSearchTerm = 'customer@test.com';
+  const validSearchTerm = 'cUstoMer@test.com';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -205,5 +218,37 @@ describe('CustomerSelectionComponent', () => {
       expect(el.query(By.css('div.sap-spinner'))).toBeFalsy();
       expect(el.query(By.css('form'))).toBeTruthy();
     });
+  });
+
+  it('should find customer', () => {
+    const searchResultBehaviorSubject = new BehaviorSubject<CustomerSearchPage>(
+      { entries: [] }
+    );
+    spyOn(component.submitEvent, 'emit').and.callThrough();
+    spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
+      searchResultBehaviorSubject
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    component.form.controls.searchTerm.setValue(validSearchTerm);
+    searchResultBehaviorSubject.next(mockCustomerSearchPage);
+    expect(component.submitEvent.emit).toHaveBeenCalled();
+  });
+
+  it('should not find customer', () => {
+    const searchResultBehaviorSubject = new BehaviorSubject<CustomerSearchPage>(
+      { entries: [] }
+    );
+    spyOn(component.submitEvent, 'emit').and.callThrough();
+    spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
+      searchResultBehaviorSubject
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    component.form.controls.searchTerm.setValue('nomatch@test.com');
+    searchResultBehaviorSubject.next(mockCustomerSearchPage);
+    expect(component.submitEvent.emit).not.toHaveBeenCalled();
   });
 });

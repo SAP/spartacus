@@ -49,7 +49,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   private handleSearchResults(results: CustomerSearchPage): void {
     if (!!results && results.entries) {
       const customerHit = results.entries.find(
-        element => element.uid === this.form.controls.searchTerm.value
+        element =>
+          element.uid.toLowerCase() ===
+          this.form.controls.searchTerm.value.toLowerCase()
       );
       if (customerHit) {
         this.submitEvent.emit({ customerId: customerHit.customerId });
