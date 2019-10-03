@@ -16,6 +16,7 @@ export class GenericLinkComponent {
   @Input() id: string;
   @Input() style: string;
   @Input() title: string;
+  @Input() activeClass: string;
 
   get rel() {
     return this.target === '_blank' ? 'noopener' : null;
