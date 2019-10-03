@@ -4,7 +4,6 @@ import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
 /**
- * @private
  * Please don't put that service in public API.
  * */
 @Injectable({

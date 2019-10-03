@@ -5,7 +5,6 @@ import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsMappingService } from './cms-mapping.service';
 
 /**
- * @private
  * Please don't put that service in public API.
  * */
 @Injectable({

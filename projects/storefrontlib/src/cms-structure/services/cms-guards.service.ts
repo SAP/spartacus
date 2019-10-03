@@ -6,7 +6,6 @@ import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsMappingService } from './cms-mapping.service';
 
 /**
- * @private
  * Please don't put that service in public API.
  * */
 @Injectable({

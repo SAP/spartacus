@@ -3,7 +3,6 @@ import { CmsMappingService } from './cms-mapping.service';
 import { TranslationService, TranslationChunkService } from '@spartacus/core';
 
 /**
- * @private
  * Please don't put that service in public API.
  * */
 @Injectable({
