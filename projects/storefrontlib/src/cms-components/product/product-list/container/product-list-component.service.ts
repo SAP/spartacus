@@ -17,6 +17,7 @@ import {
   shareReplay,
   tap,
 } from 'rxjs/operators';
+import { ViewConfig } from '../../../../shared/config/view-config';
 
 interface ProductListRouteParams {
   brandCode?: string;
@@ -46,14 +47,23 @@ export class ProductListComponentService {
     protected activatedRoute: ActivatedRoute,
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
-    protected router: Router
+    protected router: Router,
+    protected scrollConfig: ViewConfig
   ) {}
+
+  private startNewSearch = false;
+  requiredPage = 0;
 
   private searchResults$: Observable<
     ProductSearchPage
-  > = this.productSearchService
-    .getResults()
-    .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
+  > = this.productSearchService.getResults().pipe(
+    tap(
+      searchResult =>
+        (this.startNewSearch =
+          Object.keys(searchResult).length === 0 ? true : false)
+    ),
+    filter(searchResult => Object.keys(searchResult).length > 0)
+  );
 
   private searchByRouting$: Observable<
     ActivatedRouterStateSnapshot
@@ -75,7 +85,17 @@ export class ProductListComponentService {
         state.params,
         state.queryParams
       );
-      this.search(criteria);
+
+      if (
+        this.scrollConfig.view.infiniteScroll.active &&
+        this.startNewSearch &&
+        (criteria.currentPage && criteria.currentPage > 0)
+      ) {
+        this.requiredPage = criteria.currentPage;
+        this.viewPage(0);
+      } else {
+        this.search(criteria);
+      }
     })
   );
 
@@ -154,26 +174,6 @@ export class ProductListComponentService {
 
   viewPage(pageNumber: number): void {
     this.setQueryParams({ currentPage: pageNumber });
-  }
-
-  /**
-   * Get items from a given page without using navigation
-   */
-  getPageItems(pageNumber: number): void {
-    this.routing
-      .getRouterState()
-      .subscribe(route => {
-        const routeCriteria = this.getCriteriaFromRoute(
-          route.state.params,
-          route.state.queryParams
-        );
-        const criteria = {
-          ...routeCriteria,
-          currentPage: pageNumber,
-        };
-        this.search(criteria);
-      })
-      .unsubscribe();
   }
 
   sort(sortCode: string): void {
