@@ -103,5 +103,17 @@ describe('OccEndpointsService', () => {
 
       expect(url).toEqual(baseEndpoint + '/configured-endpoint1/test-value');
     });
+
+    it('should escape special characters passed in url params', () => {
+      const url = service.getUrl(
+        'product',
+        { test: 'ąćę$%' },
+        { fields: null }
+      );
+
+      expect(url).toEqual(
+        baseEndpoint + '/configured-endpoint1/%C4%85%C4%87%C4%99%24%25'
+      );
+    });
   });
 });

@@ -97,6 +97,11 @@ function addPackageJsonDependencies(): Rule {
         version: angularVersion || '~8.2.5',
         name: '@angular/service-worker',
       },
+      {
+        type: NodeDependencyType.Default,
+        version: '^8.0.0',
+        name: 'ngx-infinite-scroll',
+      },
     ];
 
     dependencies.forEach(dependency => {
