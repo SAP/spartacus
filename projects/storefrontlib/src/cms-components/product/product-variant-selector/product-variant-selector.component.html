@@ -3,12 +3,16 @@
     <div class="variant-selector" *ngIf="styleVariants">
       <div class="variant-name">
         {{ 'variant.style' | cxTranslate }}:
-        <span class="variant-selected styleName"
-          >{{ 'variant.selectedStyle' | cxTranslate }}
-        </span>
+        <span class="style-name">{{ selectedStyle }}</span>
       </div>
       <ul class="variant-list">
-        <li *ngFor="let v of styleVariants">
+        <li
+          *ngFor="let v of styleVariants"
+          [ngClass]="{
+            'selected-variant':
+              v.code === product.code || v.code === product.baseProduct
+          }"
+        >
           <a
             [routerLink]="
               { cxRoute: 'product', params: { code: v.code } } | cxUrl
@@ -26,12 +30,7 @@
     </div>
 
     <div class="variant-selector" *ngIf="sizeVariants">
-      <div class="variant-name">
-        {{ 'variant.size' | cxTranslate }}:
-        <span class="variant-selected styleName">{{
-          'variant.selectedSize' | cxTranslate
-        }}</span>
-      </div>
+      <div class="variant-name">{{ 'variant.size' | cxTranslate }}:</div>
       <select
         (change)="routeToVariant($event.target.value)"
         class="form-control variant-select"

@@ -71,7 +71,6 @@ export const product = {
     style: 'Style',
     selectedStyle: 'Selected style',
     size: 'Size',
-    selectedSize: 'Selected size',
     selectSize: 'Please select size',
   },
 };
