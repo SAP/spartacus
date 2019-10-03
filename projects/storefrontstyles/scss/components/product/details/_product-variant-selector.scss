@@ -10,12 +10,21 @@
       justify-content: flex-end;
       pointer-events: none;
     }
+    .style-name {
+      text-transform: capitalize;
+    }
   }
   .variant-list {
     padding: 0;
 
     li {
       display: inline;
+
+      &.selected-variant {
+        img {
+          border: 2px solid var(--cx-color-primary);
+        }
+      }
 
       img {
         margin: 3px;

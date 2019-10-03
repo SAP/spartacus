@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  OccConfig,
-  Product,
-  RoutingService,
-  VariantOption,
-} from '@spartacus/core';
+import { OccConfig, Product, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { tap, filter } from 'rxjs/operators';
@@ -25,10 +20,10 @@ export class ProductVariantSelectorComponent {
   sizeVariants: any;
   sizeGuideLabel = 'Style Guide';
   baseUrl = this.config.backend.occ.baseUrl;
+  selectedStyle: string;
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
     filter(v => !!v),
     tap(p => {
-      console.log(p);
       if (p.variantType && p.variantType === 'ApparelStyleVariantProduct') {
         this.styleVariants = p.variantOptions;
       }
@@ -50,20 +45,14 @@ export class ProductVariantSelectorComponent {
         this.styleVariants = p.baseOptions[1].options;
         this.sizeVariants = p.baseOptions[0].options;
       }
-      console.log(this.styleVariants);
-      console.log(this.sizeVariants);
+
+      this.styleVariants.forEach(style => {
+        if (style.code === p.code) {
+          this.selectedStyle = style.variantOptionQualifiers[0].value;
+        }
+      });
     })
   );
-
-  getVariantName(variant) {
-    return variant.variantType.toLowerCase().includes('style')
-      ? 'Style'
-      : 'Size';
-  }
-
-  getSelectedVariantValue(selected: VariantOption): string {
-    return selected.variantOptionQualifiers[0].value;
-  }
 
   routeToVariant(url: string): void {
     this.routingService.goByUrl(url);
