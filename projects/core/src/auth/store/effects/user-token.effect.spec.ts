@@ -7,12 +7,14 @@ import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
 import { AuthActions } from '../actions/index';
 import { UserTokenEffects } from './user-token.effect';
+// @ts-ignore
+import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 
 const testToken: UserToken = {
   access_token: 'xxx',
   token_type: 'bearer',
   refresh_token: 'xxx',
-  expires_in: 1000,
+  expires_in: 1001,
   scope: ['xxx'],
   userId: 'xxx',
 };
@@ -68,16 +70,23 @@ describe('UserToken effect', () => {
     });
   });
 
-  describe('refreshUserToken$', () => {
-    it('should refresh a user token', () => {
+  fdescribe('refreshUserToken$', () => {
+    it('should refresh a user token', async () => {
+      console.log(testToken);
       const action = new AuthActions.RefreshUserToken({
         refreshToken: '123',
       });
       const completion = new AuthActions.RefreshUserTokenSuccess(testToken);
+      console.log(testToken);
+      console.log(completion);
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      actions$ = hot('--a-|', { a: action });
+      const expected = cold('--b-|', { b: completion });
+      console.log(expected.values);
 
+      userTokenEffect.refreshUserToken$.subscribe(data =>
+        console.log('hi', data)
+      );
       expect(userTokenEffect.refreshUserToken$).toBeObservable(expected);
     });
   });
