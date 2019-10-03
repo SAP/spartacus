@@ -149,7 +149,7 @@ describe('AnonymousConsentsDialogComponent', () => {
   });
 
   describe('onConsentChange', () => {
-    describe('whe the consent was given', () => {
+    describe('when the consent was given', () => {
       it('should call giveAnonymousConsent', () => {
         spyOn(anonymousConsentsService, 'giveAnonymousConsent').and.stub();
         component.onConsentChange({ given: true, template: mockTemplates[0] });
