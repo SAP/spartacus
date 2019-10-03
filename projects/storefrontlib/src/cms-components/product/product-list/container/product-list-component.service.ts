@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  Scroll,
+  Event as RouterEvent,
+} from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
   CurrencyService,
@@ -47,10 +52,21 @@ export class ProductListComponentService {
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
     protected router: Router
-  ) {}
+  ) {
+    this.router.events
+      .pipe(filter((e: RouterEvent): e is Scroll => e instanceof Scroll))
+      .subscribe(e => {
+        if (e.position) {
+          this.autoScrollPosition = e.position;
+        } else {
+          this.autoScrollPosition = [0, 0];
+        }
+      });
+  }
 
   private startNewSearch = false;
-  previousScrollCriteria: SearchCriteria;
+  latestScrollCriteria: SearchCriteria;
+  autoScrollPosition: [number, number] = [0, 0];
 
   private searchResults$: Observable<
     ProductSearchPage
@@ -83,13 +99,13 @@ export class ProductListComponentService {
         state.params,
         state.queryParams
       );
-
+      // reset the latest scroll search criteria
       if (
         this.startNewSearch &&
-        this.previousScrollCriteria &&
-        criteria.query !== this.previousScrollCriteria.query
+        this.latestScrollCriteria &&
+        criteria.query !== this.latestScrollCriteria.query
       ) {
-        this.previousScrollCriteria = undefined;
+        this.latestScrollCriteria = undefined;
       }
 
       this.search(criteria);
@@ -189,11 +205,13 @@ export class ProductListComponentService {
           currentPage: pageNumber,
         };
         this.search(criteria);
+
+        // for infinite scroll, keep the latest search criteria
         if (
-          this.previousScrollCriteria === undefined ||
-          criteria.currentPage > this.previousScrollCriteria.currentPage
+          this.latestScrollCriteria === undefined ||
+          criteria.currentPage > this.latestScrollCriteria.currentPage
         ) {
-          this.previousScrollCriteria = criteria;
+          this.latestScrollCriteria = criteria;
         }
       })
       .unsubscribe();

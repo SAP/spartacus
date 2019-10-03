@@ -1,7 +1,13 @@
-import { Component, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectorRef,
+  AfterViewChecked,
+  OnChanges,
+} from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 import { ProductSearchPage } from '@spartacus/core';
 import { ViewModes } from '../../product-view/product-view.component';
-import { Subscription } from 'rxjs';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ViewConfig } from '../../../../../shared/config/view-config';
 
@@ -9,9 +15,7 @@ import { ViewConfig } from '../../../../../shared/config/view-config';
   selector: 'cx-product-scroll',
   templateUrl: './product-scroll.component.html',
 })
-export class ProductScrollComponent implements OnDestroy {
-  private subscription = new Subscription();
-
+export class ProductScrollComponent implements AfterViewChecked, OnChanges {
   @Input('scrollConfig')
   set setConfig(inputConfig: ViewConfig) {
     this.setComponentConfigurations(inputConfig);
@@ -51,7 +55,8 @@ export class ProductScrollComponent implements OnDestroy {
 
   constructor(
     private productListComponentService: ProductListComponentService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private viewportScroller: ViewportScroller
   ) {}
 
   scrollPage(pageNumber: number): void {
@@ -66,7 +71,7 @@ export class ProductScrollComponent implements OnDestroy {
   }
 
   scrollToTop(): void {
-    window.scroll(0, 0);
+    this.viewportScroller.scrollToPosition([0, 0]);
   }
 
   private setComponentConfigurations(scrollConfig: ViewConfig): void {
@@ -95,13 +100,21 @@ export class ProductScrollComponent implements OnDestroy {
     this.setConditions();
     this.ref.markForCheck();
 
-    if (this.productListComponentService.previousScrollCriteria) {
+    console.log(
+      'previous',
+      this.productListComponentService.latestScrollCriteria
+    );
+    if (this.productListComponentService.latestScrollCriteria) {
       if (
         this.model.pagination.currentPage <
-        this.productListComponentService.previousScrollCriteria.currentPage
+        this.productListComponentService.latestScrollCriteria.currentPage
       ) {
+        console.log('load next: ', this.model.pagination.currentPage + 1);
         this.loadNextPage(this.model.pagination.currentPage + 1);
-      }
+      } /*else {
+        console.log('reset scoll position');
+        this.productListComponentService.autoScrollPosition = [0, 0];
+      }*/
     }
   }
 
@@ -173,7 +186,22 @@ export class ProductScrollComponent implements OnDestroy {
     return false;
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  ngAfterViewChecked(): void {
+    if (
+      this.productListComponentService.autoScrollPosition[0] !== 0 ||
+      this.productListComponentService.autoScrollPosition[1] !== 0
+    ) {
+      console.log(
+        'scroll to: ',
+        this.productListComponentService.autoScrollPosition[1]
+      );
+      this.viewportScroller.scrollToPosition(
+        this.productListComponentService.autoScrollPosition
+      );
+    }
+  }
+
+  ngOnChanges() {
+    console.log('ng on changes');
   }
 }
