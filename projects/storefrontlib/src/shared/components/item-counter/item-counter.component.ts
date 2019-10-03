@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
@@ -17,7 +16,9 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // we do not use OnPush change detection strategy here, as we would not
+  // get updates of other form control state (disabled).
+  // We could observe the form's root state in order to move to OnPush.
 })
 export class ItemCounterComponent {
   /**
