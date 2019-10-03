@@ -2,7 +2,10 @@
   <div class="variant-section" *ngIf="sizeVariants || styleVariants">
     <div class="variant-selector" *ngIf="styleVariants">
       <div class="variant-name">
-        Style: <span class="variant-selected styleName">Selected style</span>
+        {{ 'variant.style' | cxTranslate }}:
+        <span class="variant-selected styleName"
+          >{{ 'variant.selectedStyle' | cxTranslate }}
+        </span>
       </div>
       <ul class="variant-list">
         <li *ngFor="let v of styleVariants">
@@ -24,13 +27,16 @@
 
     <div class="variant-selector" *ngIf="sizeVariants">
       <div class="variant-name">
-        Size: <span class="variant-selected styleName">Selected size</span>
+        {{ 'variant.size' | cxTranslate }}:
+        <span class="variant-selected styleName">{{
+          'variant.selectedSize' | cxTranslate
+        }}</span>
       </div>
       <select
         (change)="routeToVariant($event.target.value)"
         class="form-control variant-select"
       >
-        <option>Please select size</option>
+        <option>{{ 'variant.selectSize' | cxTranslate }}</option>
         <option
           *ngFor="let v of sizeVariants"
           value="{{ v.url }}"

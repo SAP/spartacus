@@ -10,6 +10,7 @@
 @import './page-templates/error-page';
 @import './page-templates/order-detail-page';
 @import './page-templates/multistep-checkout-page';
+@import './page-templates/search-results-grid';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -49,6 +50,10 @@ cx-category-navigation {
 
 .SearchResultsListPageTemplate {
   @extend %SearchResultsListPageTemplate !optional;
+}
+
+.SearchResultsGridPageTemplate {
+  @extend %SearchResultsGridPageTemplate !optional;
 }
 
 .ProductDetailsPageTemplate {

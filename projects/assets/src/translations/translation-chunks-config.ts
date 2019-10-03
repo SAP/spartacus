@@ -44,6 +44,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productReview',
     'addToCart',
     'CMSTabParagraphContainer',
+    'variant',
   ],
   user: ['forgottenPassword', 'loginForm', 'register', 'checkoutLogin'],
 };

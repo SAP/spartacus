@@ -67,4 +67,11 @@ export const product = {
       deliveryTab: 'Shipping',
     },
   },
+  variant: {
+    style: 'Style',
+    selectedStyle: 'Selected style',
+    size: 'Size',
+    selectedSize: 'Selected size',
+    selectSize: 'Please select size',
+  },
 };
