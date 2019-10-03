@@ -13,7 +13,7 @@ export function getReducers(): ActionReducerMap<AnonymousConsentsState> {
   return {
     templates: loaderReducer<ConsentTemplate[]>(ANONYMOUS_CONSENTS),
     consents: fromAnonymousConsents.reducer,
-    banner: fromAnonymousConsentsBanner.reducer,
+    bannerVisible: fromAnonymousConsentsBanner.reducer,
   };
 }
 

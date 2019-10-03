@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -192,10 +193,68 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
+  it('giveAllAnonymousConsents should give anonymous consent for each consent template', () => {
+    spyOn(service, 'getAnonymousConsentTemplates').and.returnValue(
+      of(mockConsentTemplates)
+    );
+    spyOn(service, 'giveAnonymousConsent').and.stub();
+
+    service
+      .giveAllAnonymousConsents()
+      .subscribe()
+      .unsubscribe();
+
+    expect(service.getAnonymousConsentTemplates).toHaveBeenCalled();
+    expect(service.giveAnonymousConsent).toHaveBeenCalledTimes(
+      mockConsentTemplates.length
+    );
+  });
+
   it('withdrawAnonymousConsent should dispatch WithdrawAnonymousConsent action', () => {
     service.withdrawAnonymousConsent(mockTemplateCode);
     expect(store.dispatch).toHaveBeenCalledWith(
       new AnonymousConsentsActions.WithdrawAnonymousConsent(mockTemplateCode)
     );
+  });
+
+  it('withdrawAllAnonymousConsents should withdraw anonymous consent for each consent template', () => {
+    spyOn(service, 'getAnonymousConsentTemplates').and.returnValue(
+      of(mockConsentTemplates)
+    );
+    spyOn(service, 'withdrawAnonymousConsent').and.stub();
+
+    service
+      .withdrawAllAnonymousConsents()
+      .subscribe()
+      .unsubscribe();
+
+    expect(service.getAnonymousConsentTemplates).toHaveBeenCalled();
+    expect(service.withdrawAnonymousConsent).toHaveBeenCalledTimes(
+      mockConsentTemplates.length
+    );
+  });
+
+  it('toggleAnonymousConsentsBannerVisibility should dispatch ToggleAnonymousConsentsBannerVisibility action', () => {
+    service.toggleAnonymousConsentsBannerVisibility(false);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+        false
+      )
+    );
+  });
+
+  it('isAnonymousConsentsBannerVisible should call getAnonymousConsentsBannerVisibility selector', () => {
+    store.dispatch(
+      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+        false
+      )
+    );
+
+    let result = true;
+    service
+      .isAnonymousConsentsBannerVisible()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
   });
 });

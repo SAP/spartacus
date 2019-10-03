@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { AnonymousConsent, ConsentTemplate } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
 import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
@@ -121,6 +122,17 @@ export class AnonymousConsentsService {
   }
 
   /**
+   * Sets all the anonymous consents' state to given.
+   */
+  giveAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+    return this.getAnonymousConsentTemplates().pipe(
+      tap(templates =>
+        templates.forEach(template => this.giveAnonymousConsent(template.id))
+      )
+    );
+  }
+
+  /**
    * Withdraw a consent for the given `templateCode`
    * @param templateCode for which to withdraw the consent
    */
@@ -131,10 +143,23 @@ export class AnonymousConsentsService {
   }
 
   /**
+   * Sets all the anonymous consents' state to withdrawn.
+   */
+  withdrawAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+    return this.getAnonymousConsentTemplates().pipe(
+      tap(templates =>
+        templates.forEach(template =>
+          this.withdrawAnonymousConsent(template.id)
+        )
+      )
+    );
+  }
+
+  /**
    * Toggles the visibility of the anonymous consents banner.
    * @param visible the banner is visible if `true`, otherwise it's hidden
    */
-  toggleAnonymousConsentsBanner(visible: boolean): void {
+  toggleAnonymousConsentsBannerVisibility(visible: boolean): void {
     this.store.dispatch(
       new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
         visible
@@ -147,7 +172,7 @@ export class AnonymousConsentsService {
    */
   isAnonymousConsentsBannerVisible(): Observable<boolean> {
     return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentsBanner)
+      select(AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility)
     );
   }
 }

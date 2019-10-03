@@ -5,7 +5,6 @@ import {
   ConsentTemplate,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../modal/index';
 
@@ -37,32 +36,14 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
 
   rejectAll(): void {
     this.subscriptions.add(
-      this.templates$
-        .pipe(
-          tap(templates =>
-            templates.forEach(template =>
-              this.anonymousConsentsService.withdrawAnonymousConsent(
-                template.id
-              )
-            )
-          )
-        )
-        .subscribe()
+      this.anonymousConsentsService.withdrawAllAnonymousConsents().subscribe()
     );
     this.closeModal('rejectAll');
   }
 
   allowAll(): void {
     this.subscriptions.add(
-      this.templates$
-        .pipe(
-          tap(templates =>
-            templates.forEach(template =>
-              this.anonymousConsentsService.giveAnonymousConsent(template.id)
-            )
-          )
-        )
-        .subscribe()
+      this.anonymousConsentsService.giveAllAnonymousConsents().subscribe()
     );
     this.closeModal('allowAll');
   }

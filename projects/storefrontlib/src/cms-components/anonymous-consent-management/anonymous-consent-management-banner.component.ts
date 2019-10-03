@@ -37,22 +37,16 @@ export class AnonymousConsentManagementBannerComponent
   allowAll(): void {
     this.subscriptions.add(
       this.anonymousConsentsService
-        .getAnonymousConsentTemplates()
-        .pipe(
-          tap(templates => {
-            templates.forEach(template =>
-              this.anonymousConsentsService.giveAnonymousConsent(template.id)
-            );
-
-            this.hideBanner();
-          })
-        )
+        .giveAllAnonymousConsents()
+        .pipe(tap(_ => this.hideBanner()))
         .subscribe()
     );
   }
 
   hideBanner(): void {
-    this.anonymousConsentsService.toggleAnonymousConsentsBanner(false);
+    this.anonymousConsentsService.toggleAnonymousConsentsBannerVisibility(
+      false
+    );
   }
 
   ngOnDestroy(): void {

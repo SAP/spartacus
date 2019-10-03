@@ -20,10 +20,10 @@ export const getAnonymousConsentByTemplateCode = (
   );
 };
 
-export const getAnonymousConsentsBanner: MemoizedSelector<
+export const getAnonymousConsentsBannerVisibility: MemoizedSelector<
   StateWithAnonymousConsents,
   boolean
 > = createSelector(
   getAnonymousConsentState,
-  state => state.banner
+  state => state.bannerVisible
 );
