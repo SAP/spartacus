@@ -7,7 +7,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../modal';
+import { ModalService } from '../../modal/index';
 
 @Component({
   selector: 'cx-anonymous-consents-dialog',
