@@ -17,7 +17,6 @@ import {
   shareReplay,
   tap,
 } from 'rxjs/operators';
-import { ViewConfig } from '../../../../shared/config/view-config';
 
 interface ProductListRouteParams {
   brandCode?: string;
@@ -47,8 +46,7 @@ export class ProductListComponentService {
     protected activatedRoute: ActivatedRoute,
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
-    protected router: Router,
-    protected scrollConfig: ViewConfig // protected viewportScroller: ViewportScroller
+    protected router: Router
   ) {}
 
   private startNewSearch = false;

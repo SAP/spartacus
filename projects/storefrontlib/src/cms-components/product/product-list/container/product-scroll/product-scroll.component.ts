@@ -55,7 +55,6 @@ export class ProductScrollComponent implements OnDestroy {
   ) {}
 
   scrollPage(pageNumber: number): void {
-    console.log('---scroll page: ', pageNumber);
     this.appendProducts = true;
     this.ref.markForCheck();
     this.productListComponentService.getPageItems(pageNumber);
