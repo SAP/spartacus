@@ -8,7 +8,10 @@
       <ul class="variant-list">
         <li
           *ngFor="let v of styleVariants"
-          [ngClass]="{ 'selected-variant': v.code === product.code }"
+          [ngClass]="{
+            'selected-variant':
+              v.code === product.code || v.code === product.baseProduct
+          }"
         >
           <a
             [routerLink]="

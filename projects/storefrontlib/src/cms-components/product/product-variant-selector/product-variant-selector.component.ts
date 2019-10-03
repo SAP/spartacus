@@ -47,7 +47,7 @@ export class ProductVariantSelectorComponent {
       }
 
       this.styleVariants.forEach(style => {
-        if (style.code === p.code) {
+        if (style.code === p.code || style.code === p.baseProduct) {
           this.selectedStyle = style.variantOptionQualifiers[0].value;
         }
       });
