@@ -32,19 +32,23 @@ export class ProductVariantSelectorComponent {
       if (p.variantType && p.variantType === 'ApparelStyleVariantProduct') {
         this.styleVariants = p.variantOptions;
       }
-      if (p.baseOptions[0] &&
+      if (
+        p.baseOptions[0] &&
         p.baseOptions[0].options &&
         Object.keys(p.baseOptions[0].options).length > 0 &&
-        p.baseOptions[0].variantType === 'ApparelStyleVariantProduct') {
-          this.styleVariants = p.baseOptions[0].options;
-          this.sizeVariants = p.variantOptions;
+        p.baseOptions[0].variantType === 'ApparelStyleVariantProduct'
+      ) {
+        this.styleVariants = p.baseOptions[0].options;
+        this.sizeVariants = p.variantOptions;
       }
-      if (p.baseOptions[1] && 
-          p.baseOptions[1].options &&
-          Object.keys(p.baseOptions[1].options).length > 0 &&
-          p.baseOptions[0].variantType === 'ApparelSizeVariantProduct') {
-            this.styleVariants = p.baseOptions[1].options; 
-            this.sizeVariants = p.baseOptions[0].options;
+      if (
+        p.baseOptions[1] &&
+        p.baseOptions[1].options &&
+        Object.keys(p.baseOptions[1].options).length > 0 &&
+        p.baseOptions[0].variantType === 'ApparelSizeVariantProduct'
+      ) {
+        this.styleVariants = p.baseOptions[1].options;
+        this.sizeVariants = p.baseOptions[0].options;
       }
       console.log(this.styleVariants);
       console.log(this.sizeVariants);
