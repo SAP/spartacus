@@ -4,6 +4,9 @@ import { CmsRoute, PageContext, PageType } from '@spartacus/core';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsMappingService } from './cms-mapping.service';
 
+/**
+ * Please don't make that service public.
+ * */
 @Injectable({
   providedIn: 'root',
 })
