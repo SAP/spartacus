@@ -12,10 +12,12 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
+  QualtricsService,
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { QualtricsExtendedService } from './qualtrics-extended.service';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -76,5 +78,8 @@ if (!environment.production) {
   ],
 
   bootstrap: [StorefrontComponent],
+  providers: [
+    { provide: QualtricsService, useClass: QualtricsExtendedService },
+  ],
 })
 export class AppModule {}
