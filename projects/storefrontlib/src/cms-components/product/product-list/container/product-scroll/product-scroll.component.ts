@@ -55,9 +55,10 @@ export class ProductScrollComponent implements OnDestroy {
   ) {}
 
   scrollPage(pageNumber: number): void {
+    console.log('---scroll page: ', pageNumber);
     this.appendProducts = true;
     this.ref.markForCheck();
-    this.productListComponentService.viewPage(pageNumber);
+    this.productListComponentService.getPageItems(pageNumber);
   }
 
   loadNextPage(pageNumber: number): void {
@@ -95,20 +96,20 @@ export class ProductScrollComponent implements OnDestroy {
     this.setConditions();
     this.ref.markForCheck();
 
-    if (
-      this.model.pagination.currentPage <
-      this.productListComponentService.requiredPage
-    ) {
-      this.loadNextPage(this.model.pagination.currentPage + 1);
-    } else {
-      this.productListComponentService.requiredPage = 0;
+    if (this.productListComponentService.previousScrollCriteria) {
+      if (
+        this.model.pagination.currentPage <
+        this.productListComponentService.previousScrollCriteria.currentPage
+      ) {
+        this.loadNextPage(this.model.pagination.currentPage + 1);
+      }
     }
   }
 
   private resetListOnViewModeChange(): void {
     this.scrollToTop();
     this.resetList = true;
-    this.productListComponentService.viewPage(0);
+    this.productListComponentService.getPageItems(0);
   }
 
   //Set booleans after model has been retrieved

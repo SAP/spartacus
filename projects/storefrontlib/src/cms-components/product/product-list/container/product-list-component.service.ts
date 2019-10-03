@@ -48,11 +48,11 @@ export class ProductListComponentService {
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
     protected router: Router,
-    protected scrollConfig: ViewConfig
+    protected scrollConfig: ViewConfig // protected viewportScroller: ViewportScroller
   ) {}
 
   private startNewSearch = false;
-  requiredPage = 0;
+  previousScrollCriteria: SearchCriteria;
 
   private searchResults$: Observable<
     ProductSearchPage
@@ -87,15 +87,14 @@ export class ProductListComponentService {
       );
 
       if (
-        this.scrollConfig.view.infiniteScroll.active &&
         this.startNewSearch &&
-        (criteria.currentPage && criteria.currentPage > 0)
+        this.previousScrollCriteria &&
+        criteria.query !== this.previousScrollCriteria.query
       ) {
-        this.requiredPage = criteria.currentPage;
-        this.viewPage(0);
-      } else {
-        this.search(criteria);
+        this.previousScrollCriteria = undefined;
       }
+
+      this.search(criteria);
     })
   );
 
@@ -174,6 +173,32 @@ export class ProductListComponentService {
 
   viewPage(pageNumber: number): void {
     this.setQueryParams({ currentPage: pageNumber });
+  }
+
+  /**
+   * Get items from a given page without using navigation
+   */
+  getPageItems(pageNumber: number): void {
+    this.routing
+      .getRouterState()
+      .subscribe(route => {
+        const routeCriteria = this.getCriteriaFromRoute(
+          route.state.params,
+          route.state.queryParams
+        );
+        const criteria = {
+          ...routeCriteria,
+          currentPage: pageNumber,
+        };
+        this.search(criteria);
+        if (
+          this.previousScrollCriteria === undefined ||
+          criteria.currentPage > this.previousScrollCriteria.currentPage
+        ) {
+          this.previousScrollCriteria = criteria;
+        }
+      })
+      .unsubscribe();
   }
 
   sort(sortCode: string): void {
