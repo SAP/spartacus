@@ -499,6 +499,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Cameras',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
       value: 'Canon',
       type: TabbingOrderTypes.LINK,
     },
@@ -521,6 +525,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Fujifilm',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Accessories',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Kingston',
@@ -575,6 +583,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Gear',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
       value: 'Camera Flashes',
       type: TabbingOrderTypes.LINK,
     },
@@ -593,6 +605,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Power Supplies',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Supplies',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Color Films',
@@ -692,6 +708,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Cameras',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
       value: 'Canon',
       type: TabbingOrderTypes.LINK,
     },
@@ -714,6 +734,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Fujifilm',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Accessories',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Kingston',
@@ -768,6 +792,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Gear',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
       value: 'Camera Flashes',
       type: TabbingOrderTypes.LINK,
     },
@@ -786,6 +814,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Power Supplies',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Supplies',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Color Films',
@@ -880,6 +912,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Cameras',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
       value: 'Canon',
       type: TabbingOrderTypes.LINK,
     },
@@ -902,6 +938,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Fujifilm',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Accessories',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Kingston',
@@ -956,6 +996,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Gear',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
       value: 'Camera Flashes',
       type: TabbingOrderTypes.LINK,
     },
@@ -974,6 +1018,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Power Supplies',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Supplies',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Color Films',
@@ -1076,6 +1124,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Cameras',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
       value: 'Canon',
       type: TabbingOrderTypes.LINK,
     },
@@ -1098,6 +1150,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Fujifilm',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Accessories',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Kingston',
@@ -1152,6 +1208,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Gear',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
       value: 'Camera Flashes',
       type: TabbingOrderTypes.LINK,
     },
@@ -1170,6 +1230,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Power Supplies',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Supplies',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Color Films',
