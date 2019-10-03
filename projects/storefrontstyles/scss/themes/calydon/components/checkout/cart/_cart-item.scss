@@ -4,6 +4,25 @@
       background-color: transparent;
     }
   }
+
+  .cx-name {
+    @include media-breakpoint-up(xl) {
+      min-width: 15rem;
+    }
+  }
+
+  .cx-value {
+    @include media-breakpoint-only(lg) {
+      padding-left: 1em;
+    }
+  }
+
+  .cx-price {
+    @include media-breakpoint-only(xl) {
+      padding-left: 0px;
+    }
+  }
+
   .cx-image-container{
     padding: 0;
   }
