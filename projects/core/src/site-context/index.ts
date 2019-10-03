@@ -6,4 +6,3 @@ export * from './site-context.module';
 export * from './store/actions/index';
 export * from './store/selectors/index';
 export * from './store/state';
-export * from './services/index';
