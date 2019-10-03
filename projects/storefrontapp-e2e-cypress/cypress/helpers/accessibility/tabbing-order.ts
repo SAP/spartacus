@@ -10,6 +10,7 @@ export interface TabElement {
 }
 
 export const testProductUrl = '/product/779841';
+export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';
 
 export function checkElement(tabElement: TabElement) {
   // Check generic cases without value
@@ -24,13 +25,20 @@ export function checkElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.GENERIC_INPUT: {
       cy.focused()
-        .get('input')
-        .should('be.visible');
+        .should('have.prop', 'tagName')
+        .should('eq', 'INPUT');
       break;
     }
     case TabbingOrderTypes.GENERIC_NG_SELECT: {
       cy.focused().should('have.attr', 'type', 'ng-select');
       return;
+    }
+    case TabbingOrderTypes.CX_PRODUCT_VIEW: {
+      cy.focused()
+        .should('have.class', 'cx-product-layout')
+        .should('have.prop', 'tagName')
+        .should('eq', 'DIV');
+      break;
     }
   }
 

@@ -35,9 +35,15 @@ import { reviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-ord
 import {
   headerDesktopTabbingOrder,
   headerMobileTabbingOrder,
+  headerTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/header';
 import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
+import {
+  productListTabbingOrderDesktop,
+  productListTabbingOrderMobile,
+  productListTabbingOrderMobileFilters,
+} from '../../helpers/accessibility/tabbing-order/product-list';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -46,13 +52,13 @@ context("Tabbing order - tests don't require user to be logged in", () => {
 
   describe('Header - Desktop (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
-      headerDesktopTabbingOrder(config.headerDesktopNotLoggedIn);
+      headerTabbingOrder(config.headerDesktopNotLoggedIn);
     });
   });
 
   describe('Header - Mobile (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
-      headerMobileTabbingOrder(config.headerMobileNotLoggedIn);
+      headerTabbingOrder(config.headerMobileNotLoggedIn, true);
     });
   });
 
@@ -90,6 +96,24 @@ context("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
+  describe('Product List', () => {
+    it('should allow to navigate with tab key (desktop - list view)', () => {
+      productListTabbingOrderDesktop(config.productListDesktop);
+    });
+
+    it('should allow to navigate with tab key (desktop - grid view)', () => {
+      productListTabbingOrderDesktop(config.productListDesktop, true);
+    });
+
+    it('should allow to navigate with tab key (mobile)', () => {
+      productListTabbingOrderMobile(config.productListMobile);
+    });
+
+    it('should allow to navigate with tab key (mobile filters)', () => {
+      productListTabbingOrderMobileFilters(config.productListMobileFilters);
+    });
+  });
+
   describe('Product Page', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabbingOrder(config.productPage);
@@ -124,13 +148,13 @@ context('Tabbing order - tests do require user to be logged in', () => {
 
   describe('Header - Desktop (logged in)', () => {
     it('should allow to navigate with tab key', () => {
-      headerDesktopTabbingOrder(config.headerDesktopLoggedIn);
+      headerTabbingOrder(config.headerDesktopLoggedIn, false, true);
     });
   });
 
   describe('Header - Mobile (logged in)', () => {
     it('should allow to navigate with tab key', () => {
-      headerMobileTabbingOrder(config.headerMobileLoggedIn);
+      headerTabbingOrder(config.headerMobileLoggedIn, true, true);
     });
   });
 

@@ -183,6 +183,6 @@ export class NavigationUIComponent implements OnDestroy {
     if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
       return false;
     }
-    return this.flyout && node.children && node.url;
+    return this.flyout && node.children && node.children.length;
   }
 }
