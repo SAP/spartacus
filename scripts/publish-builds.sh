@@ -83,6 +83,7 @@ publish_snapshot() {
 publish_snapshot "core" "dist/core"
 pack_styles
 publish_snapshot "styles" "dist/styles"
+publish_snapshot "assets" "dist/assets"
 publish_snapshot "storefront" "dist/storefrontlib"
 
 echo "Finished publishing snapshot build artifacts"

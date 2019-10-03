@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -45,7 +46,9 @@ describe('ViewAllStores Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.ViewAllStoresEffect);
+    effects = TestBed.get(fromEffects.ViewAllStoresEffect as Type<
+      fromEffects.ViewAllStoresEffect
+    >);
   });
 
   describe('viewAllStores$', () => {

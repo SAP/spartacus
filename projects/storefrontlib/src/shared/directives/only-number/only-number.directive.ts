@@ -109,26 +109,6 @@ export class OnlyNumberDirective {
    * @param e
    */
   getName(e: KeyboardEvent): string {
-    if (e.key) {
-      return e.key;
-    } else {
-      // for old browsers
-      if (e.keyCode && String.fromCharCode) {
-        switch (e.keyCode) {
-          case 8:
-            return 'Backspace';
-          case 9:
-            return 'Tab';
-          case 27:
-            return 'Escape';
-          case 37:
-            return 'ArrowLeft';
-          case 39:
-            return 'ArrowRight';
-          default:
-            return String.fromCharCode(e.keyCode);
-        }
-      }
-    }
+    return e.key;
   }
 }

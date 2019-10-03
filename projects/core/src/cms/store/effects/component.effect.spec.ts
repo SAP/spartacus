@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -52,8 +53,10 @@ describe('Component Effects', () => {
       ],
     });
 
-    service = TestBed.get(CmsComponentConnector);
-    effects = TestBed.get(fromEffects.ComponentEffects);
+    service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
+    effects = TestBed.get(fromEffects.ComponentEffects as Type<
+      fromEffects.ComponentEffects
+    >);
   });
 
   describe('loadComponent$', () => {

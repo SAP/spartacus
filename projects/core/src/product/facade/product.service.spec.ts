@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -24,9 +25,8 @@ describe('ProductService', () => {
       ],
       providers: [ProductService],
     });
-
-    service = TestBed.get(ProductService);
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
+    service = TestBed.get(ProductService as Type<ProductService>);
     spyOn(store, 'dispatch').and.stub();
   });
 

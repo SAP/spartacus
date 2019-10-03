@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -37,10 +38,10 @@ describe('GlobalMessageService', () => {
       providers: [GlobalMessageService],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<GlobalMessageState>>);
     spyOn(store, 'dispatch').and.callThrough();
     spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
-    service = TestBed.get(GlobalMessageService);
+    service = TestBed.get(GlobalMessageService as Type<GlobalMessageService>);
   });
 
   it('Should GlobalMessageService be injected', inject(

@@ -22,3 +22,4 @@ export * from './src/store-finder/index';
 export * from './src/user/index';
 export * from './src/util/index';
 export * from './src/window/index';
+export * from './src/features-config/index';

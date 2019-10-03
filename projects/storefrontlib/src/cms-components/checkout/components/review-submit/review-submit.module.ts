@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
 import { CartSharedModule } from '../../../../cms-components/cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../../shared/components/card/card.module';
+import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { DeliveryModeSetGuard } from '../../guards/delivery-mode-set.guard';
 import { PaymentDetailsSetGuard } from '../../guards/payment-details-set.guard';
 import { ShippingAddressSetGuard } from '../../guards/shipping-address-set.guard';
@@ -20,12 +23,15 @@ import { ReviewSubmitComponent } from './review-submit.component';
     CardModule,
     CartSharedModule,
     I18nModule,
+    UrlModule,
+    RouterModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutReviewOrder: {
           component: ReviewSubmitComponent,
           guards: [
-            AuthGuard,
+            CheckoutAuthGuard,
             CartNotEmptyGuard,
             ShippingAddressSetGuard,
             DeliveryModeSetGuard,

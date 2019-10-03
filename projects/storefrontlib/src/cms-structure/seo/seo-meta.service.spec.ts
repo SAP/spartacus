@@ -1,8 +1,9 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Title, Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
+import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SeoMetaService } from './seo-meta.service';
-import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {
@@ -32,10 +33,10 @@ describe('SeoTitleService', () => {
       ],
     });
 
-    seoMetaService = TestBed.get(SeoMetaService);
+    seoMetaService = TestBed.get(SeoMetaService as Type<SeoMetaService>);
 
-    ngTitleService = TestBed.get(Title);
-    ngMetaService = TestBed.get(Meta);
+    ngTitleService = TestBed.get(Title as Type<Title>);
+    ngMetaService = TestBed.get(Meta as Type<Meta>);
   });
 
   it('should inject service', () => {

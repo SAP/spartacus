@@ -1,8 +1,9 @@
 import { deepMerge } from '../../config/utils/deep-merge';
+import { StateTransferType, StorageSyncType } from '../config/state-config';
 
 const OBJECT_SEPARATOR = '.';
 
-export function getStateSliceValue(keys: string, state: any): any {
+export function getStateSliceValue<T, E>(keys: string, state: T): E {
   return keys
     .split(OBJECT_SEPARATOR)
     .reduce(
@@ -11,28 +12,28 @@ export function getStateSliceValue(keys: string, state: any): any {
     );
 }
 
-export function createShellObject(
+export function createShellObject<T, E>(
   key: string,
   excludeKeys: string[],
-  value: any
-): any {
+  value: T
+): E {
   if (!key || !value || Object.keys(value).length === 0) {
-    return {};
+    return {} as E;
   }
 
   const shell = key.split(OBJECT_SEPARATOR).reduceRight((acc, previous) => {
-    return { [previous]: acc };
+    return ({ [previous]: acc } as unknown) as T;
   }, value);
   return handleExclusions(key, excludeKeys, shell);
 }
 
-export function getStateSlice(
+export function getStateSlice<T, E>(
   keys: string[],
   excludeKeys: string[],
-  state: any
-): any {
+  state: T
+): E {
   if (keys && keys.length === 0) {
-    return {};
+    return {} as E;
   }
 
   let stateSlices = {};
@@ -42,7 +43,7 @@ export function getStateSlice(
     stateSlices = deepMerge(stateSlices, shell);
   }
 
-  return stateSlices;
+  return stateSlices as E;
 }
 
 export function handleExclusions(
@@ -90,4 +91,14 @@ export function getExclusionKeys(key: string, excludeKeys: string[]): string[] {
   }
 
   return exclusionKeys;
+}
+
+export function filterKeysByType(
+  keys: { [key: string]: StorageSyncType | StateTransferType },
+  type: StorageSyncType | StateTransferType
+): string[] {
+  if (!keys) {
+    return [];
+  }
+  return Object.keys(keys).filter(key => keys[key] === type);
 }

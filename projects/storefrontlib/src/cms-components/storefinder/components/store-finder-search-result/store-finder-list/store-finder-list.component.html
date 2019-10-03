@@ -1,20 +1,20 @@
 <ng-container *ngIf="locations">
-  <div class="container">
+  <div class="container mb-2">
     <div class="row" *ngIf="locations?.pagination">
       <div class="col-md-12">
         <cx-store-finder-pagination-details
           [pagination]="locations.pagination"
         ></cx-store-finder-pagination-details>
       </div>
-      <div class="col-md-12 text-left">
-        <span
-          class="cx-back"
+      <div class="col-md-2 text-left cx-back-wrapper">
+        <button
+          class="btn btn-block btn-action"
           *ngIf="isDetailsModeVisible"
           (click)="hideStoreDetails()"
         >
           <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
-          {{ 'storeFinder.backToList' | cxTranslate }}</span
-        >
+          {{ 'storeFinder.backToList' | cxTranslate }}
+        </button>
       </div>
     </div>
     <div *ngIf="locations?.stores" class="row cx-columns">
@@ -30,14 +30,21 @@
             *ngFor="let location of locations?.stores; let i = index"
             id="{{ 'item-' + i }}"
             [ngClass]="{
-              'cx-selected-item': selectedStore === i
+              'cx-selected-item': selectedStoreIndex === i
             }"
-            class="cx-list-items cx-ordered"
+            class="cx-list-items"
           >
             <cx-store-finder-list-item
               [location]="location"
               [locationIndex]="i"
+              [displayDistance]="useMylocation"
               (storeItemClick)="centerStoreOnMapByIndex($event, location)"
+              [listOrderLabel]="
+                i +
+                locations.pagination.currentPage *
+                  locations.pagination.pageSize +
+                1
+              "
             ></cx-store-finder-list-item>
           </li>
         </ol>
@@ -72,14 +79,21 @@
                   *ngFor="let location of locations?.stores; let i = index"
                   id="{{ 'item-' + i }}"
                   [ngClass]="{
-                    'cx-selected-item': selectedStore === i
+                    'cx-selected-item': selectedStoreIndex === i
                   }"
-                  class="cx-list-items cx-ordered"
+                  class="cx-list-items"
                 >
                   <cx-store-finder-list-item
                     [location]="location"
                     [locationIndex]="i"
+                    [displayDistance]="useMylocation"
                     (storeItemClick)="centerStoreOnMapByIndex($event, location)"
+                    [listOrderLabel]="
+                      i +
+                      locations.pagination.currentPage *
+                        locations.pagination.pageSize +
+                      1
+                    "
                   ></cx-store-finder-list-item>
                 </li>
               </ol>
@@ -94,7 +108,7 @@
             <div class="cx-map-col">
               <cx-store-finder-map
                 #storeMap
-                [locations]="locations.stores"
+                [locations]="selectedStore ? [selectedStore] : locations.stores"
                 (selectedStoreItem)="selectStoreItemList($event)"
               ></cx-store-finder-map>
             </div>

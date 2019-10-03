@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -28,8 +29,10 @@ describe('Address Verification effect', () => {
       ],
     });
 
-    effect = TestBed.get(AddressVerificationEffect);
-    service = TestBed.get(UserAddressConnector);
+    effect = TestBed.get(AddressVerificationEffect as Type<
+      AddressVerificationEffect
+    >);
+    service = TestBed.get(UserAddressConnector as Type<UserAddressConnector>);
 
     spyOn(service, 'verify').and.returnValue(of(addressValidation));
   });

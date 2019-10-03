@@ -31,13 +31,15 @@ describe('I18nextTranslationService', () => {
       ],
     });
 
-    service = TestBed.get(I18nextTranslationService);
+    service = TestBed.get(I18nextTranslationService as AngularCore.Type<
+      I18nextTranslationService
+    >);
   });
 
   describe('loadChunks', () => {
     it('should return result of i18next.loadChunks', () => {
       const expectedResult = new Promise(() => {});
-      spyOn(i18next, 'loadNamespaces').and.returnValue(expectedResult);
+      spyOn(i18next, 'loadNamespaces').and.returnValue(expectedResult as any);
       const chunks = ['chunk1', 'chunk2'];
       const result = service.loadChunks(chunks);
       expect(i18next.loadNamespaces).toHaveBeenCalledWith(chunks);
@@ -107,9 +109,10 @@ describe('I18nextTranslationService', () => {
     describe(', when key does NOT exist even after chunk was loaded,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValues(false, false);
-        spyOn(i18next, 'loadNamespaces').and.callFake(
-          (_namespaces, onChunkLoad) => onChunkLoad()
-        );
+        spyOn(i18next, 'loadNamespaces').and.callFake(((
+          _namespaces,
+          onChunkLoad
+        ) => onChunkLoad()) as any);
       });
 
       it('should emit key in brackets for non-production', () => {
@@ -135,9 +138,10 @@ describe('I18nextTranslationService', () => {
     describe(', when key does NOT exist firstly, but it comes with loaded chunk,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValues(false, true);
-        spyOn(i18next, 'loadNamespaces').and.callFake(
-          (_namespaces, onChunkLoad) => onChunkLoad()
-        );
+        spyOn(i18next, 'loadNamespaces').and.callFake(((
+          _namespaces,
+          onChunkLoad
+        ) => onChunkLoad()) as any);
       });
 
       it('should emit result of i18next.t', () => {

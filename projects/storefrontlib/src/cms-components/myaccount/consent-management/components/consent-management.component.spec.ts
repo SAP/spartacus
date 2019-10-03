@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -111,8 +112,10 @@ describe('ConsentManagementComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserConsentService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    userService = TestBed.get(UserConsentService as Type<UserConsentService>);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
 
     fixture.detectChanges();
   });

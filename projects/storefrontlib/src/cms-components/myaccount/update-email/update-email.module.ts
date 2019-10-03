@@ -28,7 +28,7 @@ import { UpdateEmailComponent } from './update-email.component';
     I18nModule,
   ],
   declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
-  exports: [UpdateEmailComponent],
+  exports: [UpdateEmailComponent, UpdateEmailFormComponent],
   entryComponents: [UpdateEmailComponent],
 })
 export class UpdateEmailModule {}

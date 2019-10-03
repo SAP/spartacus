@@ -10,7 +10,7 @@ import {
   I18nTestingModule,
   UrlCommandRoute,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { MiniCartComponent } from './mini-cart.component';
 
@@ -57,9 +57,11 @@ const mockComponentData: CmsMiniCartComponent = {
   },
 };
 
+const activeCart = new ReplaySubject<Cart>();
+
 class MockCartService {
   getActive(): Observable<Cart> {
-    return of(testCart);
+    return activeCart.asObservable();
   }
 }
 
@@ -102,7 +104,15 @@ describe('MiniCartComponent', () => {
       expect(linkHref).toBe('/cart');
     });
 
+    it('should show 0 items when cart is not loaded', () => {
+      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
+        .nativeElement.innerText;
+      expect(cartItemsNumber).toEqual('0');
+    });
+
     it('should contain number of items in cart', () => {
+      activeCart.next(testCart);
+      fixture.detectChanges();
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
         .nativeElement.innerText;
       expect(cartItemsNumber).toEqual('1');

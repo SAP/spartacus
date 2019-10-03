@@ -1,5 +1,5 @@
-import { Config, ConfigModule, provideConfig } from './config.module';
 import { TestBed } from '@angular/core/testing';
+import { Config, ConfigModule, provideConfig } from './config.module';
 
 describe('ConfigModule', () => {
   it('forRoot should provide a configuration', () => {

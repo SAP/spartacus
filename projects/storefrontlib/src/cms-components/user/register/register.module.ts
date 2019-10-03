@@ -9,6 +9,7 @@ import {
   NotAuthGuard,
   UrlModule,
 } from '@spartacus/core';
+import { SpinnerModule } from '../../../shared/index';
 import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
 
@@ -28,6 +29,7 @@ import { RegisterComponent } from './register.component';
       },
     }),
     I18nModule,
+    SpinnerModule,
   ],
   declarations: [RegisterComponent],
   exports: [RegisterComponent],

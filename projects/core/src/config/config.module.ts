@@ -1,18 +1,18 @@
+import { CommonModule } from '@angular/common';
 import {
   InjectionToken,
+  isDevMode,
   ModuleWithProviders,
   NgModule,
-  Provider,
   Optional,
-  isDevMode,
+  Provider,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { deepMerge } from './utils/deep-merge';
 import {
   ConfigValidator,
   ConfigValidatorToken,
   validateConfig,
 } from './utils/config-validator';
+import { deepMerge } from './utils/deep-merge';
 
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app

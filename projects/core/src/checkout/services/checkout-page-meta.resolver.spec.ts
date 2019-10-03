@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CartService } from '../../cart';
@@ -7,9 +8,9 @@ import {
   PageMetaService,
   PageRobotsMeta,
 } from '../../cms';
-import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
-import { Cart } from '../../model/cart.model';
 import { I18nTestingModule } from '../../i18n';
+import { Cart } from '../../model/cart.model';
+import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
 
 const mockCart: Cart = {
   code: '1234',
@@ -39,7 +40,9 @@ describe('CheckoutPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutPageMetaResolver);
+    service = TestBed.get(CheckoutPageMetaResolver as Type<
+      CheckoutPageMetaResolver
+    >);
   });
 
   it('should inject service', () => {

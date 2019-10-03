@@ -1,14 +1,14 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of } from 'rxjs';
-
-import { OrderConfirmationGuard } from './order-confirmation.guard';
 import {
+  CheckoutService,
   Order,
   RoutingService,
-  CheckoutService,
   SemanticPathService,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { OrderConfirmationGuard } from './order-confirmation.guard';
 
 class MockCheckoutService {
   getOrderDetails(): Observable<Order> {
@@ -42,8 +42,8 @@ describe(`OrderConfirmationGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(OrderConfirmationGuard);
-    mockCheckoutService = TestBed.get(CheckoutService);
+    guard = TestBed.get(OrderConfirmationGuard as Type<OrderConfirmationGuard>);
+    mockCheckoutService = TestBed.get(CheckoutService as Type<CheckoutService>);
   });
 
   describe(`when there is NO order details present`, () => {

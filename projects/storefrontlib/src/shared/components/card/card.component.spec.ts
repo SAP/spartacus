@@ -1,10 +1,9 @@
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
-import { CardComponent, Card, CardLinkAction } from './card.component';
-import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
+import { Card, CardComponent, CardLinkAction } from './card.component';
 
 @Component({
   selector: 'cx-icon',
@@ -129,7 +128,6 @@ describe('CardComponent', () => {
     };
     component.content = mockCard;
     fixture.detectChanges();
-    console.log(getImage(el).componentInstance);
     expect(getImage(el).componentInstance.type).toEqual(mockCard.img);
   });
 

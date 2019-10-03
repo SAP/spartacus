@@ -1,4 +1,11 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  Type,
+  Pipe,
+  PipeTransform,
+  Directive,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -20,6 +27,9 @@ import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
+import { CheckoutStepType, CheckoutStep } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -116,6 +126,33 @@ class MockCartService {
   }
 }
 
+const mockCheckoutStep: CheckoutStep = {
+  id: 'step',
+  name: 'name',
+  routeName: '/route',
+  type: [CheckoutStepType.SHIPPING_ADDRESS],
+};
+
+class MockCheckoutConfigService {
+  getCheckoutStep(): CheckoutStep {
+    return mockCheckoutStep;
+  }
+}
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform(): any {}
+}
+
+@Directive({
+  selector: '[cxFeatureLevel]',
+})
+class MockFeatureLevelDirective {
+  @Input() cxFeatureLevel() {}
+}
+
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
@@ -123,11 +160,13 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
         MockCardComponent,
+        MockUrlPipe,
+        MockFeatureLevelDirective,
       ],
       providers: [
         {
@@ -140,6 +179,10 @@ describe('ReviewSubmitComponent', () => {
         },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: CartService, useClass: MockCartService },
+        {
+          provide: CheckoutConfigService,
+          useClass: MockCheckoutConfigService,
+        },
       ],
     }).compileComponents();
   }));
@@ -148,7 +191,9 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
+    >);
 
     addressBS.next(mockAddress.country);
     deliveryModeBS.next(mockDeliveryMode);
@@ -273,11 +318,15 @@ describe('ReviewSubmitComponent', () => {
       expect(card.textBold).toEqual(mockPaymentDetails.accountHolderName);
       expect(card.text).toEqual([
         mockPaymentDetails.cardNumber,
-        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
-          mockPaymentDetails.expiryYear
-        }`,
+        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
       ]);
     });
+  });
+
+  it('should get checkout step url', () => {
+    expect(
+      component.getCheckoutStepUrl(CheckoutStepType.SHIPPING_ADDRESS)
+    ).toEqual(mockCheckoutStep.routeName);
   });
 
   describe('UI cart total section', () => {

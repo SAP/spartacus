@@ -37,10 +37,10 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   private setCrumbs(): void {
-    this.crumbs$ = combineLatest(
+    this.crumbs$ = combineLatest([
       this.pageMetaService.getMeta(),
-      this.translation.translate('common.home')
-    ).pipe(
+      this.translation.translate('common.home'),
+    ]).pipe(
       map(([meta, textHome]) =>
         meta && meta.breadcrumbs
           ? meta.breadcrumbs

@@ -11,7 +11,7 @@ export const firstProductPriceSelector = `${firstProductItemSelector} .cx-produc
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
 
 export function clickSearchIcon() {
-  cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+  cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
 }
 
 export function assertFirstProduct() {
@@ -105,12 +105,10 @@ export function filterUsingFacetFiltering() {
 
 export function clearActiveFacet(mobile?: string) {
   if (mobile) {
-    console.log('in here');
     cy.get(
       `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
     ).click({ force: true });
   } else {
-    console.log('out here');
     cy.get(
       'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
     ).click({ force: true });

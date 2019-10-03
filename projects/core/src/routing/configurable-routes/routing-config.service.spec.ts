@@ -1,7 +1,8 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingConfig } from './config/routing-config';
-import { RoutingConfigService } from './routing-config.service';
 import { RoutesConfig } from './routes-config';
+import { RoutingConfigService } from './routing-config.service';
 
 class MockRoutingConfig {
   routing: { routes: RoutesConfig } = {
@@ -25,7 +26,7 @@ describe('RoutingConfigService', () => {
       ],
     });
 
-    service = TestBed.get(RoutingConfigService);
+    service = TestBed.get(RoutingConfigService as Type<RoutingConfigService>);
   });
 
   describe('getRouteConfig', () => {

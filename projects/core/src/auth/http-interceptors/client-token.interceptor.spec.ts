@@ -1,19 +1,17 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
+import { OccConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { AuthService } from '../facade/auth.service';
 import { ClientToken } from './../models/token-types.model';
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
-
 import { ClientTokenInterceptor } from './client-token.interceptor';
-import { OccConfig } from '@spartacus/core';
 
 const testToken = {
   access_token: 'abc-123',
@@ -57,8 +55,10 @@ describe('ClientTokenInterceptor', () => {
         },
       ],
     });
-    httpMock = TestBed.get(HttpTestingController);
-    authService = TestBed.get(AuthService);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    authService = TestBed.get(AuthService as Type<AuthService>);
   });
 
   describe('Client Token', () => {

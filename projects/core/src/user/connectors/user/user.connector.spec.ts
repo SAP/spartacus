@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UserSignUp } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
@@ -9,6 +10,7 @@ class MockUserAdapter implements UserAdapter {
   load = createSpy('load').and.callFake(userId => of(`load-${userId}`));
   update = createSpy('update').and.returnValue(of({}));
   register = createSpy('register').and.callFake(userId => of(userId));
+  registerGuest = createSpy('registerGuest').and.callFake(userId => of(userId));
   remove = createSpy('remove').and.returnValue(of({}));
   requestForgotPasswordEmail = createSpy(
     'requestForgotPasswordEmail'
@@ -28,8 +30,8 @@ describe('UserConnector', () => {
       providers: [{ provide: UserAdapter, useClass: MockUserAdapter }],
     });
 
-    service = TestBed.get(UserConnector);
-    adapter = TestBed.get(UserAdapter);
+    service = TestBed.get(UserConnector as Type<UserConnector>);
+    adapter = TestBed.get(UserAdapter as Type<UserAdapter>);
   });
 
   it('should be created', () => {
@@ -64,6 +66,14 @@ describe('UserConnector', () => {
     service.register(registerData).subscribe(res => (result = res));
     expect(result).toBe(registerData);
     expect(adapter.register).toHaveBeenCalledWith(registerData);
+  });
+
+  it('registerGuest should call adapter', () => {
+    let result;
+
+    service.registerGuest('guid', 'password').subscribe(res => (result = res));
+    expect(result).toBe('guid');
+    expect(adapter.registerGuest).toHaveBeenCalledWith('guid', 'password');
   });
 
   it('remove should call adapter', () => {

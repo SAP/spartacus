@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { ProductAdapter } from './product.adapter';
@@ -18,7 +19,7 @@ describe('ProductConnector', () => {
       providers: [{ provide: ProductAdapter, useClass: MockProductAdapter }],
     });
 
-    service = TestBed.get(ProductConnector);
+    service = TestBed.get(ProductConnector as Type<ProductConnector>);
   });
 
   it('should be created', () => {
@@ -26,7 +27,7 @@ describe('ProductConnector', () => {
   });
 
   it('getList should call adapter', () => {
-    const adapter = TestBed.get(ProductAdapter);
+    const adapter = TestBed.get(ProductAdapter as Type<ProductAdapter>);
 
     let result;
     service.get('333').subscribe(res => (result = res));

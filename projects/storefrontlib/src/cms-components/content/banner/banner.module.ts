@@ -28,5 +28,6 @@ import { BannerComponent } from './banner.component';
   ],
   declarations: [BannerComponent],
   entryComponents: [BannerComponent],
+  exports: [BannerComponent],
 })
 export class BannerModule {}

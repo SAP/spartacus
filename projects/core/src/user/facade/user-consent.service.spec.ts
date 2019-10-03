@@ -1,7 +1,8 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ConsentTemplate } from '../../model/consent.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -26,9 +27,9 @@ describe('UserConsentService', () => {
       providers: [UserConsentService],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserConsentService);
+    service = TestBed.get(UserConsentService as Type<UserConsentService>);
   });
 
   it('should UserConsentService is injected', inject(
@@ -38,7 +39,7 @@ describe('UserConsentService', () => {
     }
   ));
 
-  const userId = USERID_CURRENT;
+  const userId = OCC_USER_ID_CURRENT;
   const consentTemplateListMock: ConsentTemplate[] = [{ id: 'xxx' }];
 
   describe('load consents', () => {

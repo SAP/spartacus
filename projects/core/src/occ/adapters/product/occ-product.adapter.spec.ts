@@ -1,12 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-
-import { OccProductAdapter } from './occ-product.adapter';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OccProductAdapter } from './occ-product.adapter';
+
 import createSpy = jasmine.createSpy;
 
 const productCode = 'testCode';
@@ -42,9 +43,10 @@ describe('OccProductAdapter', () => {
         { provide: ConverterService, useClass: MockConvertService },
       ],
     });
-
-    service = TestBed.get(OccProductAdapter);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.get(OccProductAdapter as Type<OccProductAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
   });
 
   afterEach(() => {
@@ -71,7 +73,7 @@ describe('OccProductAdapter', () => {
     });
 
     it('should use converter', () => {
-      const converter = TestBed.get(ConverterService);
+      const converter = TestBed.get(ConverterService as Type<ConverterService>);
 
       service.load(productCode).subscribe();
       httpMock.expectOne('product' + productCode).flush(product);

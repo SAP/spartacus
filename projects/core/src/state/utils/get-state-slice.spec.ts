@@ -1,6 +1,8 @@
+import { StateTransferType, StorageSyncType } from '../config/state-config';
 import {
   createShellObject,
   getExclusionKeys,
+  filterKeysByType,
   getStateSlice,
   getStateSliceValue,
   handleExclusions,
@@ -396,6 +398,46 @@ describe('state slice functions', () => {
           'auth.userToken.token.access_token',
           'auth.userToken.token.refresh_token',
         ]);
+      });
+    });
+  });
+
+  describe('filterKeysByType', () => {
+    describe('for storage', () => {
+      const keys: { [key: string]: StorageSyncType } = {
+        a: StorageSyncType.LOCAL_STORAGE,
+        b: StorageSyncType.SESSION_STORAGE,
+        v: StorageSyncType.NO_STORAGE,
+        g: StorageSyncType.LOCAL_STORAGE,
+        d: StorageSyncType.SESSION_STORAGE,
+        dj: StorageSyncType.NO_STORAGE,
+      };
+
+      it('should return two keys for local storage', () => {
+        const result = filterKeysByType(keys, StorageSyncType.LOCAL_STORAGE);
+        expect(result).toEqual(['a', 'g']);
+      });
+
+      it('should return two keys for session storage', () => {
+        const result = filterKeysByType(keys, StorageSyncType.SESSION_STORAGE);
+        expect(result).toEqual(['b', 'd']);
+      });
+
+      it('should return two keys for no storage', () => {
+        const result = filterKeysByType(keys, StorageSyncType.NO_STORAGE);
+        expect(result).toEqual(['v', 'dj']);
+      });
+    });
+
+    describe('for transfer state', () => {
+      it('should filter keys that do NOT have a StateTransferType.TRANSFER_STATE value', () => {
+        const keys = {
+          cms: StateTransferType.TRANSFER_STATE,
+          cms1: undefined,
+          cms2: null,
+        };
+        const result = filterKeysByType(keys, StateTransferType.TRANSFER_STATE);
+        expect(result).toEqual(['cms']);
       });
     });
   });

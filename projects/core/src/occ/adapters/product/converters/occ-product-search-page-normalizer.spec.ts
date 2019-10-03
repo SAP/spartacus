@@ -1,8 +1,9 @@
-import { OccProductSearchPageNormalizer } from './occ-product-search-page-normalizer';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
-import createSpy = jasmine.createSpy;
 import { Occ } from '../../../occ-models/occ.models';
+import { OccProductSearchPageNormalizer } from './occ-product-search-page-normalizer';
+import createSpy = jasmine.createSpy;
 
 class MockConverterService {
   convert = createSpy('ConverterService.convert').and.returnValue({
@@ -28,7 +29,9 @@ describe('OccProductSearchPageNormalizer', () => {
       ],
     });
 
-    normalizer = TestBed.get(OccProductSearchPageNormalizer);
+    normalizer = TestBed.get(OccProductSearchPageNormalizer as Type<
+      OccProductSearchPageNormalizer
+    >);
   });
 
   it('should inject ProductImageConverterService', () => {
@@ -36,7 +39,7 @@ describe('OccProductSearchPageNormalizer', () => {
   });
 
   it('should apply product image normalizer to products', () => {
-    const converter = TestBed.get(ConverterService);
+    const converter = TestBed.get(ConverterService as Type<ConverterService>);
     const result = normalizer.convert(mockSource);
     const expected = {
       products: [{ images: ['images' as any] }, { images: ['images' as any] }],

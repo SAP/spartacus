@@ -1,8 +1,7 @@
+import { InjectionToken, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { Converter, ConverterService } from './converter.service';
-import { InjectionToken } from '@angular/core';
 import { of } from 'rxjs/internal/observable/of';
+import { Converter, ConverterService } from './converter.service';
 
 const TestConverterInjectionToken = new InjectionToken(
   'TestConverterInjectionToken'
@@ -41,7 +40,7 @@ describe('ConverterService', () => {
         },
       ],
     });
-    service = TestBed.get(ConverterService);
+    service = TestBed.get(ConverterService as Type<ConverterService>);
   });
 
   describe('hasConverters', () => {

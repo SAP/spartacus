@@ -28,7 +28,7 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
     I18nModule,
   ],
   declarations: [UpdatePasswordComponent, UpdatePasswordFormComponent],
-  exports: [UpdatePasswordComponent],
+  exports: [UpdatePasswordComponent, UpdatePasswordFormComponent],
   entryComponents: [UpdatePasswordComponent],
 })
 export class UpdatePasswordModule {}

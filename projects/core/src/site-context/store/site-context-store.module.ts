@@ -14,7 +14,7 @@ import { SITE_CONTEXT_FEATURE } from './state';
 
 export function siteContextStoreConfigFactory(): StateConfig {
   // if we want to reuse SITE_CONTEXT_FEATURE const in config, we have to use factory instead of plain object
-  const config = {
+  const config: StateConfig = {
     state: {
       ssrTransfer: {
         keys: { [SITE_CONTEXT_FEATURE]: StateTransferType.TRANSFER_STATE },

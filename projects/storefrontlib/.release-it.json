@@ -7,10 +7,9 @@
     "tagAnnotation": "Bumping storefront version to ${version}"
   },
   "npm": {
-    "publishPath": "./../../dist/storefrontlib",
-    "tag": "latest"
+    "publishPath": "./../../dist/storefrontlib"
   },
   "hooks": {
-    "after:git:bump": "cd ../.. && yarn build:core:lib"
+    "after:version:bump": "cd ../.. && yarn build:core:lib"
   }
 }

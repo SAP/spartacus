@@ -1,16 +1,14 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement } from '@angular/core';
-import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { of } from 'rxjs';
+import { DebugElement, Type } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import {
-  UserService,
-  RoutingService,
   I18nTestingModule,
+  RoutingService,
+  UserService,
 } from '@spartacus/core';
-
+import { of } from 'rxjs';
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 
 class MockUserService {
@@ -66,8 +64,8 @@ describe('ResetPasswordFormComponent', () => {
     password = component.form.controls['password'];
     rePassword = component.form.controls['repassword'];
 
-    userService = TestBed.get(UserService);
-    routingService = TestBed.get(RoutingService);
+    userService = TestBed.get(UserService as Type<UserService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   });
 
   it('should be created', () => {

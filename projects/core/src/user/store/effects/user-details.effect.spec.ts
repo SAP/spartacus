@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -30,8 +31,12 @@ describe('User Details effect', () => {
       ],
     });
 
-    userDetailsEffect = TestBed.get(fromUserDetailsEffect.UserDetailsEffects);
-    userService = TestBed.get(UserConnector);
+    userDetailsEffect = TestBed.get(
+      fromUserDetailsEffect.UserDetailsEffects as Type<
+        fromUserDetailsEffect.UserDetailsEffects
+      >
+    );
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
   });
 
   describe('loadUserDetails$', () => {

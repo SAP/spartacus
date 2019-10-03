@@ -21,5 +21,6 @@ import { BannerCarouselComponent } from './banner-carousel.component';
   ],
   declarations: [BannerCarouselComponent],
   entryComponents: [BannerCarouselComponent],
+  exports: [BannerCarouselComponent],
 })
 export class BannerCarouselModule {}

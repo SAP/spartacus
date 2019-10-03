@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -40,7 +41,9 @@ describe('ProductSearch Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.ProductsSearchEffects);
+    effects = TestBed.get(fromEffects.ProductsSearchEffects as Type<
+      fromEffects.ProductsSearchEffects
+    >);
     searchConfig = { pageSize: 10 };
   });
 

@@ -1,10 +1,11 @@
-import { StoreFinderConnector } from './store-finder.connector';
-import { StoreFinderAdapter } from './store-finder.adapter';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
-import { StoreFinderSearchConfig } from '../model';
 import { GeoPoint } from '../../model';
+import { StoreFinderSearchConfig } from '../model';
+import { StoreFinderAdapter } from './store-finder.adapter';
+import { StoreFinderConnector } from './store-finder.connector';
+import createSpy = jasmine.createSpy;
 
 class MockStoreFinderAdapter implements StoreFinderAdapter {
   search = createSpy('adapter.search').and.returnValue(
@@ -29,8 +30,8 @@ describe('StoreFinderConnector', () => {
       ],
     });
 
-    service = TestBed.get(StoreFinderConnector);
-    adapter = TestBed.get(StoreFinderAdapter);
+    service = TestBed.get(StoreFinderConnector as Type<StoreFinderConnector>);
+    adapter = TestBed.get(StoreFinderAdapter as Type<StoreFinderAdapter>);
   });
 
   it('should be created', () => {

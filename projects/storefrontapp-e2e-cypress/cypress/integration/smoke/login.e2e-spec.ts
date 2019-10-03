@@ -6,8 +6,6 @@ describe('Login', () => {
     cy.visit('/');
 
     login.registerUser();
-
-    login.signOutUser();
   });
 
   it('should login successfully with correct credentials', () => {

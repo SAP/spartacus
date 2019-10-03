@@ -18,6 +18,7 @@ import { BreadcrumbComponent } from './breadcrumb.component';
     CmsPageTitleModule,
   ],
   declarations: [BreadcrumbComponent],
+  exports: [BreadcrumbComponent],
   entryComponents: [BreadcrumbComponent],
 })
 export class BreadcrumbModule {}

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PaginationComponent } from './pagination.component';
 import { PaginationModel } from '@spartacus/core';
+import { PaginationComponent } from './pagination.component';
 
 const FIRST_PAGE = 1;
 const MIDDLE_PAGE = 5;
@@ -187,6 +187,28 @@ describe('PaginationComponent', () => {
       component.viewPageEvent.subscribe((event: any) => {
         expect(event).toEqual(MIDDLE_PAGE);
       });
+    });
+  });
+
+  describe('showPagination()', () => {
+    beforeEach(() => {
+      pagination = {
+        currentPage: 1,
+        totalPages: 1,
+      };
+      component.pagination = pagination;
+    });
+
+    it('should NOT hide pagination', () => {
+      component.showPagination();
+      expect(component.showPagination()).toBeTruthy();
+    });
+
+    it('should hide pagination', () => {
+      component.hideOnSinglePage = true;
+
+      component.showPagination();
+      expect(component.showPagination()).toBeFalsy();
     });
   });
 });

@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
@@ -41,9 +42,9 @@ describe('BaseSiteService', () => {
         { provide: SiteContextConfig, useValue: {} },
       ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
     spyOn(store, 'dispatch').and.stub();
-    service = TestBed.get(BaseSiteService);
+    service = TestBed.get(BaseSiteService as Type<BaseSiteService>);
   });
 
   it('should be created', () => {
@@ -70,7 +71,7 @@ describe('BaseSiteService', () => {
   describe('setActive', () => {
     it('should dispatch SetActiveBaseSite action', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
-      const connector = TestBed.get(SiteConnector);
+      const connector = TestBed.get(SiteConnector as Type<SiteConnector>);
       spyOn(connector, 'getBaseSite').and.returnValue(of({}));
       service.setActive('my-base-site');
       expect(store.dispatch).toHaveBeenCalledWith(

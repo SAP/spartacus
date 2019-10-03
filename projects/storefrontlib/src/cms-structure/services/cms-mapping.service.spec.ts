@@ -1,7 +1,7 @@
+import { PLATFORM_ID, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsMappingService } from './cms-mapping.service';
 import { CmsConfig } from '@spartacus/core';
-import { PLATFORM_ID } from '@angular/core';
+import { CmsMappingService } from './cms-mapping.service';
 
 let service: CmsMappingService;
 
@@ -33,7 +33,8 @@ describe('CmsMappingService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: CmsConfig, useValue: mockConfig }],
     });
-    service = TestBed.get(CmsMappingService);
+
+    service = TestBed.get(CmsMappingService as Type<CmsMappingService>);
   });
 
   it('should be created', () => {
@@ -86,7 +87,8 @@ describe('with SSR', () => {
         { provide: PLATFORM_ID, useValue: 'server' },
       ],
     });
-    service = TestBed.get(CmsMappingService);
+
+    service = TestBed.get(CmsMappingService as Type<CmsMappingService>);
   });
 
   it('should return true for disableSrr not set', () => {

@@ -217,6 +217,17 @@ export class CmsService {
     );
   }
 
+  /**
+   * Given pageContext, return the CMS page data
+   **/
+  getPage(pageContext: PageContext, forceReload = false): Observable<Page> {
+    return this.hasPage(pageContext, forceReload).pipe(
+      switchMap(hasPage =>
+        hasPage ? this.getPageState(pageContext) : of(null)
+      )
+    );
+  }
+
   getPageIndex(pageContext: PageContext): Observable<string> {
     return this.store.pipe(
       select(CmsSelectors.getPageStateIndexValue(pageContext))

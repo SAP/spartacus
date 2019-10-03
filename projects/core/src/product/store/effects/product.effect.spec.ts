@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -65,7 +66,10 @@ describe('Product Effects', () => {
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
-    effects = TestBed.get(fromEffects.ProductEffects);
+
+    effects = TestBed.get(fromEffects.ProductEffects as Type<
+      fromEffects.ProductEffects
+    >);
   });
 
   describe('loadProduct$', () => {

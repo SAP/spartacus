@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -22,8 +23,10 @@ describe('Update Email Effect', () => {
       ],
     });
 
-    updateEmailEffect = TestBed.get(fromEffect.UpdateEmailEffects);
-    userService = TestBed.get(UserConnector);
+    updateEmailEffect = TestBed.get(fromEffect.UpdateEmailEffects as Type<
+      fromEffect.UpdateEmailEffects
+    >);
+    userService = TestBed.get(UserConnector as Type<UserConnector>);
   });
 
   describe('updateEmail$', () => {

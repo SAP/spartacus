@@ -1,13 +1,14 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccPersonalizationTimeInterceptor } from './occ-personalization-time.interceptor';
-import { PersonalizationConfig } from '../config/personalization-config';
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { WindowRef } from '../../window/window-ref';
+import { PersonalizationConfig } from '../config/personalization-config';
+import { OccPersonalizationTimeInterceptor } from './occ-personalization-time.interceptor';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
@@ -59,8 +60,10 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    winRef = TestBed.get(WindowRef);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    winRef = TestBed.get(WindowRef as Type<WindowRef>);
   });
 
   afterEach(() => {
@@ -138,8 +141,10 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    winRef = TestBed.get(WindowRef);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    winRef = TestBed.get(WindowRef as Type<WindowRef>);
 
     winRef.localStorage.setItem('personalization-id', 'test id');
   });

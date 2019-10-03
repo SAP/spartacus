@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -14,16 +14,17 @@ import {
   RoutingConfigService,
   RoutingService,
   UserPaymentService,
+  CartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/index';
-import { CheckoutConfigService } from '../../checkout-config.service';
 import {
   CheckoutStep,
   CheckoutStepType,
 } from '../../model/checkout-step.model';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { PaymentMethodComponent } from './payment-method.component';
 import createSpy = jasmine.createSpy;
 
@@ -109,6 +110,12 @@ class MockRoutingConfigService {
   }
 }
 
+class MockCartService {
+  isGuestCart(): boolean {
+    return false;
+  }
+}
+
 const mockAddress: Address = {
   id: 'mock address id',
   firstName: 'John',
@@ -140,6 +147,8 @@ const mockActivatedRoute = {
 class MockPaymentFormComponent {
   @Input()
   paymentMethodsCount: number;
+  @Input()
+  setAsDefaultField: boolean;
 }
 
 @Component({
@@ -168,6 +177,7 @@ describe('PaymentMethodComponent', () => {
   let mockCheckoutPaymentService: CheckoutPaymentService;
   let mockRoutingService: MockRoutingService;
   let mockRoutingConfigService: RoutingConfigService;
+  let mockCartService: CartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -187,6 +197,10 @@ describe('PaymentMethodComponent', () => {
           useClass: MockCheckoutDeliveryService,
         },
         {
+          provide: CartService,
+          useClass: MockCartService,
+        },
+        {
           provide: CheckoutPaymentService,
           useClass: MockCheckoutPaymentService,
         },
@@ -198,10 +212,17 @@ describe('PaymentMethodComponent', () => {
       ],
     }).compileComponents();
 
-    mockUserPaymentService = TestBed.get(UserPaymentService);
-    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService);
-    mockRoutingService = TestBed.get(RoutingService);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
+    mockUserPaymentService = TestBed.get(UserPaymentService as Type<
+      UserPaymentService
+    >);
+    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
+      CheckoutPaymentService
+    >);
+    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
+    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
+      RoutingConfigService
+    >);
+    mockCartService = TestBed.get(CartService as Type<CartService>);
   }));
 
   beforeEach(() => {
@@ -228,7 +249,7 @@ describe('PaymentMethodComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get existing payment methods if they do not exist', done => {
+  it('should get existing payment methods if they do not exist for login user', done => {
     spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
     spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
     component.ngOnInit();
@@ -237,6 +258,19 @@ describe('PaymentMethodComponent', () => {
       expect(mockUserPaymentService.loadPaymentMethods).toHaveBeenCalled();
       done();
     });
+  });
+
+  it('should not get existing payment methods for guest user', done => {
+    spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
+    spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
+    spyOn(mockCartService, 'isGuestCart').and.returnValue(true);
+    component.ngOnInit();
+
+    component.existingPaymentMethods$.subscribe(() => {
+      expect(mockUserPaymentService.loadPaymentMethods).not.toHaveBeenCalled();
+      done();
+    });
+    expect(component.isGuestCheckout).toBeTruthy();
   });
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
@@ -255,16 +289,17 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call getCardContent() to get payment method card data', () => {
-    component.getCardContent(mockPaymentDetails).subscribe(card => {
-      expect(card.title).toEqual('');
-      expect(card.textBold).toEqual('Name');
-      expect(card.text).toEqual([
-        '123456789',
-        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
-          mockPaymentDetails.expiryYear
-        }`,
-      ]);
-    });
+    component
+      .getCardContent(mockPaymentDetails)
+      .subscribe(card => {
+        expect(card.title).toEqual('');
+        expect(card.textBold).toEqual('Name');
+        expect(card.text).toEqual([
+          '123456789',
+          `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
+        ]);
+      })
+      .unsubscribe();
   });
 
   it('should call paymentMethodSelected(paymentDetails)', () => {
@@ -303,6 +338,40 @@ describe('PaymentMethodComponent', () => {
     expect(mockRoutingService.go).toHaveBeenCalledWith(
       component['checkoutStepUrlPrevious']
     );
+  });
+
+  it('should automatically select default payment when there is no current selection', () => {
+    const mockDefaultPaymentDetails = {
+      ...mockPaymentDetails,
+      defaultPayment: true,
+    };
+
+    component
+      .getCardContent(mockDefaultPaymentDetails)
+      .subscribe(() => {
+        expect(component.selectedPayment).toBeTruthy();
+        expect(component.selectedPayment).toEqual(mockDefaultPaymentDetails);
+      })
+      .unsubscribe();
+  });
+
+  it('should NOT automatically select default payment when there is a current selection', () => {
+    component.selectedPayment = mockPaymentDetails;
+    const mockDefaultPaymentDetails = {
+      ...mockPaymentDetails,
+      defaultPayment: true,
+    };
+
+    component
+      .getCardContent(mockDefaultPaymentDetails)
+      .subscribe(() => {
+        expect(component.selectedPayment).toBeTruthy();
+        expect(component.selectedPayment).not.toEqual(
+          mockDefaultPaymentDetails
+        );
+        expect(component.selectedPayment).toEqual(mockPaymentDetails);
+      })
+      .unsubscribe();
   });
 
   describe('UI continue button', () => {

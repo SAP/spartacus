@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CmsService, Page } from '../../cms/index';
@@ -41,10 +42,10 @@ describe('SmartEditService', () => {
       ],
     });
 
-    service = TestBed.get(SmartEditService);
-    cmsService = TestBed.get(CmsService);
-    routingService = TestBed.get(RoutingService);
-    baseSiteService = TestBed.get(BaseSiteService);
+    service = TestBed.get(SmartEditService as Type<SmartEditService>);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    baseSiteService = TestBed.get(BaseSiteService as Type<BaseSiteService>);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -62,7 +63,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       service['getCmsTicket']();
       expect(service.cmsTicketId).toEqual('mockCmsTicketId');
@@ -71,14 +72,14 @@ describe('SmartEditService', () => {
 
   describe('should not get cmsTicketId', () => {
     it('when cmsPage exist', () => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of({}));
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of({} as any));
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
           nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       service['getCmsTicket']();
       expect(service.cmsTicketId).toEqual(undefined);
@@ -91,7 +92,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: {},
           },
-        })
+        } as any)
       );
       service['getCmsTicket']();
       expect(service.cmsTicketId).toEqual(undefined);
@@ -110,7 +111,7 @@ describe('SmartEditService', () => {
                 'smartedit-page-uid-testPageId smartedit-page-uuid-testPageUuid smartedit-catalog-version-uuid-testPageCatalogUuid',
             },
           },
-        })
+        } as any)
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
@@ -118,7 +119,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({
@@ -148,7 +149,7 @@ describe('SmartEditService', () => {
         of({
           pageId: 'testPageId',
           type: 'ContentPage',
-        })
+        } as any)
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
@@ -156,7 +157,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       service['getCmsTicket']();
       expect(routingService.go).not.toHaveBeenCalled();
@@ -168,7 +169,7 @@ describe('SmartEditService', () => {
         of({
           pageId: 'testPageId',
           type: 'ProductPage',
-        })
+        } as any)
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
@@ -176,7 +177,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({
@@ -196,7 +197,7 @@ describe('SmartEditService', () => {
         of({
           pageId: 'testPageId',
           type: 'CategoryPage',
-        })
+        } as any)
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
@@ -204,7 +205,7 @@ describe('SmartEditService', () => {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
-        })
+        } as any)
       );
       spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
         of({

@@ -1,6 +1,6 @@
-import { checkBanner } from './homepage';
 import { user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
+import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
@@ -86,6 +86,12 @@ export const orderHistoryTest = {
   },
   checkCorrectDateFormat(isMobile?: boolean) {
     it('should show correct date format', () => {
+      cy.server();
+      cy.route(
+        'GET',
+        `/rest/v2/electronics-spa/cms/pages?*/my-account/orders*`
+      ).as('getOrderHistoryPage');
+
       // to compare two dates (EN and DE) we have to compare day numbers
       // EN: "June 15, 2019"
       // DE: "15. Juni, 2019"
@@ -98,6 +104,7 @@ export const orderHistoryTest = {
           .split(' ');
       let dayNumberEN: string;
       cy.visit('/my-account/orders');
+      cy.wait('@getOrderHistoryPage');
       switchLanguage('en', isMobile);
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')

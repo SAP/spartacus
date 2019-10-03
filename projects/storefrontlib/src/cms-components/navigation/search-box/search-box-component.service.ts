@@ -159,10 +159,10 @@ export class SearchBoxComponentService {
   }
 
   private getSearchMessage(config: SearchBoxConfig): Observable<string> {
-    return combineLatest(
+    return combineLatest([
       this.getProductResults(config),
-      this.getProductSuggestions(config)
-    ).pipe(
+      this.getProductSuggestions(config),
+    ]).pipe(
       switchMap(([productResult, suggestions]) => {
         if (
           productResult &&

@@ -9,10 +9,10 @@
         'paymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
       }}
     </div>
-    <div *ngIf="(loading$ | async); else cards"><cx-spinner></cx-spinner></div>
+    <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
     <ng-template #cards>
       <div
-        *ngIf="(paymentMethods$ | async) as paymentMethods"
+        *ngIf="paymentMethods$ | async as paymentMethods"
         class="cx-existing row"
       >
         <div

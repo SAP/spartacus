@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -95,8 +95,8 @@ describe('LoginComponent', () => {
       ],
     }).compileComponents();
 
-    authService = TestBed.get(AuthService);
-    userService = TestBed.get(UserService);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    userService = TestBed.get(UserService as Type<UserService>);
   }));
 
   beforeEach(() => {

@@ -33,22 +33,34 @@ export function fillShippingAddress(shippingAddress: AddressData) {
       shippingAddress.address.country
     );
     cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
-    cy.get('[formcontrolname="firstName"]').type(shippingAddress.firstName);
-    cy.get('[formcontrolname="lastName"]').type(shippingAddress.lastName);
-    cy.get('[formcontrolname="line1"]').type(shippingAddress.address.line1);
+    cy.get('[formcontrolname="firstName"]')
+      .clear()
+      .type(shippingAddress.firstName);
+    cy.get('[formcontrolname="lastName"]')
+      .clear()
+      .type(shippingAddress.lastName);
+    cy.get('[formcontrolname="line1"]')
+      .clear()
+      .type(shippingAddress.address.line1);
     if (shippingAddress.address.line2) {
-      cy.get('[formcontrolname="line2"]').type(shippingAddress.address.line2);
+      cy.get('[formcontrolname="line2"]')
+        .clear()
+        .type(shippingAddress.address.line2);
     }
-    cy.get('[formcontrolname="town"]').type(shippingAddress.address.city);
+    cy.get('[formcontrolname="town"]')
+      .clear()
+      .type(shippingAddress.address.city);
     if (shippingAddress.address.state) {
       cy.get('.region-select[formcontrolname="isocode"]').ngSelect(
         shippingAddress.address.state
       );
     }
-    cy.get('[formcontrolname="postalCode"]').type(
-      shippingAddress.address.postal
-    );
-    cy.get('[formcontrolname="phone"]').type(shippingAddress.phone);
+    cy.get('[formcontrolname="postalCode"]')
+      .clear()
+      .type(shippingAddress.address.postal);
+    cy.get('[formcontrolname="phone"]')
+      .clear()
+      .type(shippingAddress.phone);
     cy.get('button.btn-primary').click();
   });
 }
@@ -57,21 +69,31 @@ export function fillBillingAddress(billingAddress: AddressData) {
   cy.get('.cx-payment-form-billing').within(() => {
     cy.get('input[type="checkbox"]').click();
     cy.get('[bindvalue="isocode"]').ngSelect(billingAddress.address.country);
-    cy.get('[formcontrolname="firstName"]').type(billingAddress.firstName);
-    cy.get('[formcontrolname="lastName"]').type(billingAddress.lastName);
-    cy.get('[formcontrolname="line1"]').type(billingAddress.address.line1);
+    cy.get('[formcontrolname="firstName"]')
+      .clear()
+      .type(billingAddress.firstName);
+    cy.get('[formcontrolname="lastName"]')
+      .clear()
+      .type(billingAddress.lastName);
+    cy.get('[formcontrolname="line1"]')
+      .clear()
+      .type(billingAddress.address.line1);
     if (billingAddress.address.line2) {
-      cy.get('[formcontrolname="line2"]').type(billingAddress.address.line2);
+      cy.get('[formcontrolname="line2"]')
+        .clear()
+        .type(billingAddress.address.line2);
     }
-    cy.get('[formcontrolname="town"]').type(billingAddress.address.city);
+    cy.get('[formcontrolname="town"]')
+      .clear()
+      .type(billingAddress.address.city);
     if (billingAddress.address.state) {
       cy.get('[formcontrolname="isocodeShort"]').ngSelect(
         billingAddress.address.state
       );
     }
-    cy.get('[formcontrolname="postalCode"]').type(
-      billingAddress.address.postal
-    );
+    cy.get('[formcontrolname="postalCode"]')
+      .clear()
+      .type(billingAddress.address.postal);
   });
 }
 
@@ -81,19 +103,21 @@ export function fillPaymentDetails(
 ) {
   cy.get('cx-payment-form').within(() => {
     cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
-    cy.get('[formcontrolname="accountHolderName"]').type(
-      paymentDetails.fullName
-    );
-    cy.get('[formcontrolname="cardNumber"]').type(
-      paymentDetails.payment.number
-    );
+    cy.get('[formcontrolname="accountHolderName"]')
+      .clear()
+      .type(paymentDetails.fullName);
+    cy.get('[formcontrolname="cardNumber"]')
+      .clear()
+      .type(paymentDetails.payment.number);
     cy.get('[bindValue="expiryMonth"]').ngSelect(
       paymentDetails.payment.expires.month
     );
     cy.get('[bindValue="expiryYear"]').ngSelect(
       paymentDetails.payment.expires.year
     );
-    cy.get('[formcontrolname="cvn"]').type(paymentDetails.payment.cvv);
+    cy.get('[formcontrolname="cvn"]')
+      .clear()
+      .type(paymentDetails.payment.cvv);
     if (billingAddress) {
       fillBillingAddress(billingAddress);
     }

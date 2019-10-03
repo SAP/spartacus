@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -82,8 +82,8 @@ describe('OrderHistoryComponent', () => {
       ],
     }).compileComponents();
 
-    userService = TestBed.get(UserOrderService);
-    routingService = TestBed.get(RoutingService);
+    userService = TestBed.get(UserOrderService as Type<UserOrderService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {

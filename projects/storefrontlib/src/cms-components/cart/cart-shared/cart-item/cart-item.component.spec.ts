@@ -30,6 +30,7 @@ class MockItemCounterComponent {
   @Input() min;
   @Input() max;
   @Input() cartIsLoading;
+  @Input() isValueChangeable;
 }
 
 @Component({

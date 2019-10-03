@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -70,8 +71,10 @@ describe('Navigation Entry Items Effects', () => {
       ],
     });
 
-    service = TestBed.get(CmsComponentConnector);
-    effects = TestBed.get(fromEffects.NavigationEntryItemEffects);
+    service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
+    effects = TestBed.get(fromEffects.NavigationEntryItemEffects as Type<
+      fromEffects.NavigationEntryItemEffects
+    >);
 
     spyOn(service, 'getList').and.returnValue(of(listComponents));
   });

@@ -1,6 +1,6 @@
 <div #dialog>
   <!-- Modal Header -->
-  <ng-container *ngIf="(loaded$ | async) as loaded; else loading">
+  <ng-container *ngIf="loaded$ | async as loaded; else loading">
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{
@@ -21,7 +21,7 @@
       </button>
     </div>
     <!-- Modal Body -->
-    <div class="cx-dialog-body modal-body" *ngIf="(entry$ | async) as entry">
+    <div class="cx-dialog-body modal-body" *ngIf="entry$ | async as entry">
       <div class="cx-dialog-row">
         <div class="cx-dialog-item col-sm-12 col-md-6">
           <cx-cart-item
@@ -41,7 +41,7 @@
         ></div>
         <!-- Total container -->
         <div class="cx-dialog-actions col-sm-12 col-md-6">
-          <div class="cx-dialog-total" *ngIf="(cart$ | async) as cart">
+          <div class="cx-dialog-total" *ngIf="cart$ | async as cart">
             <div>
               {{
                 'cartItems.cartTotal'

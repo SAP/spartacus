@@ -1,10 +1,9 @@
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-import { Component } from '@angular/core';
-import { of, Observable } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
+import { Component, Type } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from './add-to-home-screen.component';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-add-to-home',
@@ -37,7 +36,9 @@ describe('AddToHomeScreenComponent', () => {
       ],
     }).compileComponents();
 
-    mockAddToHomeScreenService = TestBed.get(AddToHomeScreenService);
+    mockAddToHomeScreenService = TestBed.get(AddToHomeScreenService as Type<
+      AddToHomeScreenService
+    >);
   }));
 
   beforeEach(() => {

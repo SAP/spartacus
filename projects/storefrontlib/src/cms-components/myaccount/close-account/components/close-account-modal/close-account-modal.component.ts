@@ -47,6 +47,12 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
         .getRemoveUserResultSuccess()
         .subscribe(success => this.onSuccess(success))
     );
+
+    this.subscription.add(
+      this.userService
+        .getRemoveUserResultError()
+        .subscribe(error => this.onError(error))
+    );
     this.isLoading$ = this.userService.getRemoveUserResultLoading();
   }
 
@@ -63,6 +69,18 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
           );
         });
       this.routingService.go({ cxRoute: 'home' });
+    }
+  }
+
+  onError(error: boolean): void {
+    if (error) {
+      this.dismissModal();
+      this.translationService
+        .translate('closeAccount.accountClosedFailure')
+        .pipe(first())
+        .subscribe(text => {
+          this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_ERROR);
+        });
     }
   }
 

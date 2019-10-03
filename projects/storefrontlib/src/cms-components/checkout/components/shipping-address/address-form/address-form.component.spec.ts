@@ -1,10 +1,8 @@
+import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ChangeDetectionStrategy } from '@angular/core';
-
 import { NgSelectModule } from '@ng-select/ng-select';
-
 import {
   AddressValidation,
   CheckoutDeliveryService,
@@ -16,11 +14,10 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-
 import { Observable, of } from 'rxjs';
-
-import { AddressFormComponent } from './address-form.component';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { AddressFormComponent } from './address-form.component';
+
 import createSpy = jasmine.createSpy;
 
 class MockUserService {
@@ -117,9 +114,13 @@ describe('AddressFormComponent', () => {
       })
       .compileComponents();
 
-    userService = TestBed.get(UserService);
-    userAddressService = TestBed.get(UserAddressService);
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService);
+    userService = TestBed.get(UserService as Type<UserService>);
+    userAddressService = TestBed.get(UserAddressService as Type<
+      UserAddressService
+    >);
+    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
+    >);
   }));
 
   beforeEach(() => {
@@ -267,9 +268,15 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should call verifyAddress()', () => {
+  it('should call verifyAddress() when address has some changes', () => {
+    component.address.markAsDirty();
     component.verifyAddress();
     expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
+  });
+
+  it('should not call verifyAddress() when address does not have change', () => {
+    component.verifyAddress();
+    expect(mockCheckoutDeliveryService.verifyAddress).not.toHaveBeenCalled();
   });
 
   it('should call back()', () => {

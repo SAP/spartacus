@@ -3,12 +3,13 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { Order } from '../../../model/order.model';
 import { CheckoutDetails, ConverterService } from '@spartacus/core';
-import { OccCheckoutAdapter } from './occ-checkout.adapter';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
+import { Order } from '../../../model/order.model';
+import { OccConfig } from '../../config/occ-config';
+import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 const userId = '123';
 const cartId = '456';
@@ -56,10 +57,12 @@ describe('OccCheckoutAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
+    service = TestBed.get(OccCheckoutAdapter as Type<OccCheckoutAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
 
-    service = TestBed.get(OccCheckoutAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
     spyOn(converter, 'pipeable').and.callThrough();
   });
 
@@ -115,6 +118,46 @@ describe('OccCheckoutAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('fields')).toEqual(CHECKOUT_PARAMS);
+      mockReq.flush(checkoutData);
+    });
+  });
+
+  describe('clear checkout delivery address', () => {
+    it('should clear checkout delivery address for given userId, cartId', () => {
+      service.clearCheckoutDeliveryAddress(userId, cartId).subscribe(result => {
+        expect(result).toEqual(checkoutData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'DELETE' &&
+          req.url ===
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/addresses/delivery`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(checkoutData);
+    });
+  });
+
+  describe('clear checkout delivery mode', () => {
+    it('should clear checkout delivery mode for given userId, cartId', () => {
+      service.clearCheckoutDeliveryMode(userId, cartId).subscribe(result => {
+        expect(result).toEqual(checkoutData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'DELETE' &&
+          req.url ===
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/deliverymode`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(checkoutData);
     });
   });

@@ -2,6 +2,7 @@ import { waitForHomePage } from '../../../helpers/homepage';
 import * as loginHelper from '../../../helpers/login';
 import { orderHistoryTest } from '../../../helpers/order-history';
 import { formats } from '../../../sample-data/viewports';
+import { getAlert } from '../../../helpers/global-message';
 
 describe(`${formats.mobile.width +
   1}p resolution - Order History with no orders`, () => {
@@ -14,9 +15,8 @@ describe(`${formats.mobile.width +
 
     loginHelper.registerUser();
 
-    waitForHomePage();
-
-    loginHelper.signOutUser();
+    // waiting for post-register alert, so we don't abort register user request
+    getAlert();
   });
 
   beforeEach(() => {

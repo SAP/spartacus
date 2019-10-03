@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { OpenIdToken } from '../models/kyma-token-types.model';
@@ -23,8 +24,8 @@ describe('KymaService', () => {
       providers: [KymaService],
     });
 
-    service = TestBed.get(KymaService);
-    store = TestBed.get(Store);
+    service = TestBed.get(KymaService as Type<KymaService>);
+    store = TestBed.get(Store as Type<Store<KymaState>>);
   });
 
   it('should be created', () => {

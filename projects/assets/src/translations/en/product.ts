@@ -18,6 +18,8 @@ export const product = {
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortByRelevance: 'Sort by Relevance',
+    backToTopBtn: 'BACK TO TOP',
+    showMoreBtn: 'SHOW MORE',
   },
   productFacetNavigation: {
     filterBy: {

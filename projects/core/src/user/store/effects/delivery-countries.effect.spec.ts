@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -33,8 +34,10 @@ describe('Delivery Countries effect', () => {
       ],
     });
 
-    effect = TestBed.get(DeliveryCountriesEffects);
-    service = TestBed.get(SiteConnector);
+    effect = TestBed.get(DeliveryCountriesEffects as Type<
+      DeliveryCountriesEffects
+    >);
+    service = TestBed.get(SiteConnector as Type<SiteConnector>);
 
     spyOn(service, 'getCountries').and.returnValue(of(mockCountries));
   });

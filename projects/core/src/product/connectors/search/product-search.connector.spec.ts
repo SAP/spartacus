@@ -1,7 +1,8 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ProductSearchConnector } from './product-search.connector';
-import { ProductSearchAdapter } from './product-search.adapter';
 import { of } from 'rxjs/internal/observable/of';
+import { ProductSearchAdapter } from './product-search.adapter';
+import { ProductSearchConnector } from './product-search.connector';
 import createSpy = jasmine.createSpy;
 
 class MockProductSearchAdapter implements ProductSearchAdapter {
@@ -24,9 +25,10 @@ describe('ProductSearchConnector', () => {
         { provide: ProductSearchAdapter, useClass: MockProductSearchAdapter },
       ],
     });
-
-    service = TestBed.get(ProductSearchConnector);
-    adapter = TestBed.get(ProductSearchAdapter);
+    service = TestBed.get(ProductSearchConnector as Type<
+      ProductSearchConnector
+    >);
+    adapter = TestBed.get(ProductSearchAdapter as Type<ProductSearchAdapter>);
   });
 
   it('should be created', () => {

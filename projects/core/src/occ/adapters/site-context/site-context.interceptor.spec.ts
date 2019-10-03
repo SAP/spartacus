@@ -1,15 +1,16 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { SiteContextInterceptor } from './site-context.interceptor';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { LanguageService } from '../../../site-context/facade/language.service';
-import { CurrencyService } from '../../../site-context/facade/currency.service';
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig, SiteContextConfig } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { CurrencyService } from '../../../site-context/facade/currency.service';
+import { LanguageService } from '../../../site-context/facade/language.service';
+import { SiteContextInterceptor } from './site-context.interceptor';
 
 class MockCurrencyService {
   isocode = new BehaviorSubject(null);
@@ -83,10 +84,11 @@ describe('SiteContextInterceptor', () => {
         },
       ],
     });
-
-    httpMock = TestBed.get(HttpTestingController);
-    currencyService = TestBed.get(CurrencyService);
-    languageService = TestBed.get(LanguageService);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    currencyService = TestBed.get(CurrencyService as Type<CurrencyService>);
+    languageService = TestBed.get(LanguageService as Type<LanguageService>);
   });
 
   afterEach(() => {

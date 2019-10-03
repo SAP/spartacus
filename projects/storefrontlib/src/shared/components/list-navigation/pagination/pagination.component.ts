@@ -17,6 +17,7 @@ const PAGE_WINDOW_SIZE = 3;
 })
 export class PaginationComponent {
   @Input() pagination: PaginationModel;
+  @Input() hideOnSinglePage = false;
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
   // Because pagination model uses indexes starting from 0,
@@ -103,5 +104,9 @@ export class PaginationComponent {
 
   pageChange(page: number): void {
     this.viewPageEvent.emit(page - 1);
+  }
+
+  showPagination() {
+    return !(this.hideOnSinglePage && this.pagination.totalPages <= 1);
   }
 }

@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { GeoPoint } from '../../model/misc.model';
@@ -6,6 +7,17 @@ import { StoreFinderActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
+import { GlobalMessageService } from '../../global-message/index';
+import { UrlCommands, RoutingService } from '../../routing/index';
+import { NavigationExtras } from '@angular/router';
+
+class MockRoutingService {
+  go(
+    _commands: any[] | UrlCommands,
+    _query?: object,
+    _extras?: NavigationExtras
+  ): void {}
+}
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -46,12 +58,14 @@ describe('StoreFinderService', () => {
       providers: [
         StoreFinderService,
         { provide: WindowRef, useValue: MockWindowRef },
+        { provide: RoutingService, useClass: MockRoutingService },
+        GlobalMessageService,
       ],
     });
 
-    service = TestBed.get(StoreFinderService);
-    store = TestBed.get(Store);
-    winRef = TestBed.get(WindowRef);
+    service = TestBed.get(StoreFinderService as Type<StoreFinderService>);
+    store = TestBed.get(Store as Type<Store<StoresState>>);
+    winRef = TestBed.get(WindowRef as Type<WindowRef>);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(
@@ -73,43 +87,43 @@ describe('StoreFinderService', () => {
 
   describe('Find Stores', () => {
     it('should dispatch a new action', () => {
-      service.findStores(queryText, false);
+      service.findStoresAction(
+        queryText,
+        { currentPage: 0 },
+        undefined,
+        undefined
+      );
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new StoreFinderActions.FindStores({ queryText: queryText })
+        new StoreFinderActions.FindStores({
+          queryText: queryText,
+          searchConfig: {
+            currentPage: 0,
+          },
+          longitudeLatitude: undefined,
+          countryIsoCode: undefined,
+        })
       );
     });
   });
 
   describe('Find Stores with My Location', () => {
     it('should dispatch a OnHold action and a FindStores action', () => {
-      service.findStores(queryText, true);
+      service.findStoresAction(
+        queryText,
+        { currentPage: 0 },
+        undefined,
+        undefined,
+        true
+      );
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new StoreFinderActions.FindStoresOnHold()
       );
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new StoreFinderActions.FindStores({
-          queryText,
-          longitudeLatitude,
-        })
-      );
-      expect(
-        winRef.nativeWindow.navigator.geolocation.watchPosition
-      ).toHaveBeenCalled();
-    });
-  });
 
-  describe('Find Stores Twice with My Location', () => {
-    it('should clear watch geolocation', () => {
-      service.findStores(queryText, true);
-      service.findStores(queryText, false);
       expect(
         winRef.nativeWindow.navigator.geolocation.watchPosition
       ).toHaveBeenCalled();
-      expect(
-        winRef.nativeWindow.navigator.geolocation.clearWatch
-      ).toHaveBeenCalledWith(geolocationWatchId);
     });
   });
 

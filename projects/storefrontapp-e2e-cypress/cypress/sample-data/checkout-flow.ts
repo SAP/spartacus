@@ -31,11 +31,22 @@ export const product = {
   code: '1446509',
 };
 
+export const cheapProduct = {
+  name: 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black',
+  code: '280916',
+};
+
 // usa shipping cost
 export const cart = {
   estimatedShipping: '$11.99',
   total: '$2,623.08',
   totalAndShipping: '$2,635.07', // $2,623.08 + $11.99
+};
+
+export const cartWithCheapProduct = {
+  estimatedShipping: '$11.99',
+  total: '$8.20',
+  totalAndShipping: '$20.19',
 };
 
 export const delivery = {

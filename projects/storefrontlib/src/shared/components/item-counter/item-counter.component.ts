@@ -40,6 +40,7 @@ export class ItemCounterComponent
   @ViewChild('decrementBtn', { static: false })
   public decrementBtn: ElementRef;
 
+  @Input()
   value = 0;
   @Input()
   step = 1;

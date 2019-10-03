@@ -1,9 +1,10 @@
+import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
 import { Product } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 import { YotpoService } from './../service/yotpo.service';
 import { YotpostarratingComponent } from './yotpo-star-rating.component';
-import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 
 const productCode = '123456';
 const mockProduct: Product = { code: productCode };
@@ -45,7 +46,7 @@ describe('YotpostarratingComponent', () => {
     fixture = TestBed.createComponent(YotpostarratingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    service = TestBed.get(YotpoService);
+    service = TestBed.get(YotpoService as Type<YotpoService>);
   });
 
   it('should create', () => {

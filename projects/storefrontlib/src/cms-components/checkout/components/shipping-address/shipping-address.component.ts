@@ -16,8 +16,8 @@ import {
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../checkout-config.service';
 import { CheckoutStepType } from '../../model/checkout-step.model';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 export interface CardWithAddress {
   card: Card;
@@ -45,6 +45,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   cards$: Observable<CardWithAddress[]>;
   checkoutStepUrlNext: string;
   checkoutStepUrlPrevious: string;
+  isGuestCheckout = false;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -62,7 +63,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.activatedRoute
     );
     this.checkoutStepUrlPrevious = 'cart';
-
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
     this.cards$ = combineLatest([
@@ -80,6 +80,17 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           textShipToThisAddress,
           textSelected,
         ]) => {
+          // Select default address if none selected
+          if (selected && Object.keys(selected).length > 0) {
+            this.selectedAddress = selected;
+          } else {
+            const defaultAddress = addresses.find(
+              address => address.defaultAddress
+            );
+            selected = defaultAddress;
+            this.selectedAddress = defaultAddress;
+          }
+
           return addresses.map(address => {
             const card = this.getCardContent(
               address,
@@ -97,7 +108,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.userAddressService.loadAddresses();
+    if (!this.cartService.isGuestCart()) {
+      this.userAddressService.loadAddresses();
+    } else {
+      this.isGuestCheckout = true;
+    }
 
     this.setAddressSub = this.checkoutDeliveryService
       .getDeliveryAddress()
@@ -177,7 +192,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   addNewAddress(address: Address): void {
-    this.addAddress({ address, newAddress: true });
+    if (address) {
+      this.addAddress({ address, newAddress: true });
+    } else {
+      this.goNext();
+    }
   }
 
   showNewAddressForm(): void {

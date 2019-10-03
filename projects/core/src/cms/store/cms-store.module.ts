@@ -15,7 +15,7 @@ import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 
 export function cmsStoreConfigFactory(): StateConfig {
   // if we want to reuse CMS_FEATURE const in config, we have to use factory instead of plain object
-  const config = {
+  const config: StateConfig = {
     state: {
       ssrTransfer: {
         keys: { [CMS_FEATURE]: StateTransferType.TRANSFER_STATE },

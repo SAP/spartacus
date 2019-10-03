@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -39,8 +40,12 @@ describe('User Consents effect', () => {
       ],
     });
 
-    userConsentEffect = TestBed.get(fromEffect.UserConsentsEffect);
-    userConsentAdapter = TestBed.get(UserConsentAdapter);
+    userConsentEffect = TestBed.get(fromEffect.UserConsentsEffect as Type<
+      fromEffect.UserConsentsEffect
+    >);
+    userConsentAdapter = TestBed.get(UserConsentAdapter as Type<
+      UserConsentAdapter
+    >);
   });
 
   describe('getConsents$', () => {

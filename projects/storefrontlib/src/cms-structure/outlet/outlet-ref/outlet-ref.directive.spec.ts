@@ -1,8 +1,8 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, TemplateRef, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { OutletRefDirective } from './outlet-ref.directive';
 import { OutletDirective } from '../outlet.directive';
 import { OutletService } from '../outlet.service';
+import { OutletRefDirective } from './outlet-ref.directive';
 
 const OUTLET_NAME = 'PDP.images';
 const STANDARD_TEXT = 'standard';
@@ -38,7 +38,7 @@ describe('OutletDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
-    service = TestBed.get(OutletService);
+    service = TestBed.get(OutletService as Type<OutletService>);
   });
 
   it('should render custom content', () => {

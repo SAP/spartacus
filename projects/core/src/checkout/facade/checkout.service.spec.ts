@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartDataService } from '../../cart/facade/cart-data.service';
@@ -21,6 +22,9 @@ describe('CheckoutService', () => {
     get cartId() {
       return this.cart.code;
     }
+    get isGuestCart() {
+      return true;
+    }
   }
 
   beforeEach(() => {
@@ -38,9 +42,9 @@ describe('CheckoutService', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutService);
-    cartData = TestBed.get(CartDataService);
-    store = TestBed.get(Store);
+    service = TestBed.get(CheckoutService as Type<CheckoutService>);
+    cartData = TestBed.get(CartDataService as Type<CartDataService>);
+    store = TestBed.get(Store as Type<Store<CheckoutState>>);
 
     cartData.userId = userId;
     cartData.cart = cart;
@@ -131,5 +135,10 @@ describe('CheckoutService', () => {
       })
       .unsubscribe();
     expect(loaded).toBeFalsy();
+  });
+
+  it('should allow actions for login user or guest user', () => {
+    cartData.userId = 'anonymous';
+    expect(service['actionAllowed']()).toBeTruthy();
   });
 });

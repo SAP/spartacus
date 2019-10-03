@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
@@ -96,8 +96,8 @@ describe('SearchPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(PageMetaService);
-    cmsService = TestBed.get(CmsService);
+    service = TestBed.get(PageMetaService as Type<PageMetaService>);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
   });
 
   describe('ContentPage with search results', () => {

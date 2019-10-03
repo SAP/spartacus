@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { CarouselService } from './carousel.service';
@@ -11,7 +12,7 @@ describe('Carousel Service', () => {
       providers: [CarouselService, WindowRef],
     });
 
-    service = TestBed.get(CarouselService);
+    service = TestBed.get(CarouselService as Type<CarouselService>);
     element = document.createElement('div');
   });
 

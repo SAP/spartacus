@@ -1,23 +1,37 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { throwError, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../config/auth-config';
-
 import { UserToken } from '../../models/token-types.model';
-
-const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable()
 export class UserAuthenticationTokenService {
-  constructor(protected http: HttpClient, protected config: AuthConfig) {}
+  constructor(
+    http: HttpClient,
+    config: AuthConfig,
+    // tslint:disable-next-line:unified-signatures
+    occEndpointsService: OccEndpointsService
+  );
+
+  /**
+   * @deprecated since version 1.1
+   * Use constructor(http: HttpClient, config: AuthConfig, occEndpointsService: OccEndpointsService) instead
+   */
+  constructor(http: HttpClient, config: AuthConfig);
+  constructor(
+    protected http: HttpClient,
+    protected config: AuthConfig,
+    protected occEndpointsService?: OccEndpointsService
+  ) {}
 
   loadToken(userId: string, password: string): Observable<UserToken> {
-    const url = this.getOAuthEndpoint();
+    const url = this.occEndpointsService.getRawEndpoint('login');
     const params = new HttpParams()
       .set('client_id', this.config.authentication.client_id)
       .set('client_secret', this.config.authentication.client_secret)
-      .set('grant_type', 'password') // authorization_code, client_credentials, password
+      .set('grant_type', 'password')
       .set('username', userId)
       .set('password', password);
     const headers = new HttpHeaders({
@@ -30,7 +44,7 @@ export class UserAuthenticationTokenService {
   }
 
   refreshToken(refreshToken: string): Observable<UserToken> {
-    const url = this.getOAuthEndpoint();
+    const url = this.occEndpointsService.getRawEndpoint('login');
     const params = new HttpParams()
       .set(
         'client_id',
@@ -49,9 +63,5 @@ export class UserAuthenticationTokenService {
     return this.http
       .post<UserToken>(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)));
-  }
-
-  protected getOAuthEndpoint() {
-    return (this.config.backend.occ.baseUrl || '') + OAUTH_ENDPOINT;
   }
 }

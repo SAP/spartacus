@@ -1,11 +1,12 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CmsService, Page, PageMetaResolver } from '..';
+import { I18nTestingModule } from '../../i18n';
+import { PageType } from '../../model/cms.model';
 import { PageMetaService } from '../facade';
 import { PageMeta } from '../model/page.model';
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
-import { PageType } from '../../model/cms.model';
-import { I18nTestingModule } from '../../i18n';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -36,7 +37,9 @@ describe('ContentPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(ContentPageMetaResolver);
+    service = TestBed.get(ContentPageMetaResolver as Type<
+      ContentPageMetaResolver
+    >);
   });
 
   it('should inject service', () => {

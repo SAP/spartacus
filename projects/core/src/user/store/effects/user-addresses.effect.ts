@@ -7,7 +7,7 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
-import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
@@ -72,7 +72,7 @@ export class UserAddressesEffects {
               Object.keys(payload.address).length === 1 &&
               payload.address.defaultAddress
             ) {
-              return new UserActions.LoadUserAddresses(USERID_CURRENT);
+              return new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT);
             } else {
               return new UserActions.UpdateUserAddressSuccess(data);
             }

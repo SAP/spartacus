@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthRedirectService } from './auth-redirect.service';
@@ -32,9 +33,9 @@ describe('AuthRedirectService', () => {
       ],
       imports: [RouterTestingModule],
     });
-    service = TestBed.get(AuthRedirectService);
-    routingService = TestBed.get(RoutingService);
-    router = TestBed.get(Router);
+    service = TestBed.get(AuthRedirectService as Type<AuthRedirectService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    router = TestBed.get(Router as Type<Router>);
   });
 
   describe('redirect', () => {
@@ -49,7 +50,7 @@ describe('AuthRedirectService', () => {
         spyOn(router, 'getCurrentNavigation').and.returnValue({
           id: 1,
           finalUrl: '/login',
-        });
+        } as any);
         service.reportNotAuthGuard();
 
         service.redirect();
@@ -63,8 +64,8 @@ describe('AuthRedirectService', () => {
     describe(', when just opened sequentially two urls with NotAuthGuard,', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/login' },
-          { id: 2, finalUrl: '/register' }
+          { id: 1, finalUrl: '/login' } as any,
+          { id: 2, finalUrl: '/register' } as any
         );
 
         router['url' as any] = '/test';
@@ -83,8 +84,8 @@ describe('AuthRedirectService', () => {
     describe(', when AuthGuard just blocked url and redirected to url with NotAuthGuard,', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/my-account' },
-          { id: 2, finalUrl: '/register' }
+          { id: 1, finalUrl: '/my-account' } as any,
+          { id: 2, finalUrl: '/register' } as any
         );
         router['url' as any] = '/test';
         service.reportAuthGuard();
@@ -101,8 +102,8 @@ describe('AuthRedirectService', () => {
     describe(', when AuthGuard blocked url, then opened manually different url, and then opened url with NotAuthGuard,', () => {
       beforeEach(() => {
         spyOn(router, 'getCurrentNavigation').and.returnValues(
-          { id: 1, finalUrl: '/my-account' },
-          { id: 3, finalUrl: '/register' } // id 3 matters here
+          { id: 1, finalUrl: '/my-account' } as any,
+          { id: 3, finalUrl: '/register' } as any // id 3 matters here
         );
 
         router['url' as any] = '/test';

@@ -1,26 +1,24 @@
-import { TestBed, inject } from '@angular/core/testing';
 import {
-  HttpTestingController,
-  HttpClientTestingModule,
-  TestRequest,
-} from '@angular/common/http/testing';
-import {
-  HTTP_INTERCEPTORS,
   HttpClient,
   HttpHandler,
-  HttpRequest,
   HttpHeaders,
   HttpParams,
+  HttpRequest,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-
-import { throwError, Observable, of } from 'rxjs';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+  TestRequest,
+} from '@angular/common/http/testing';
+import { Type } from '@angular/core';
+import { inject, TestBed } from '@angular/core/testing';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
 import { AuthService } from '../facade/auth.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
-import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
-
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 
 class MockUserErrorHandlingService {
@@ -76,13 +74,19 @@ describe('AuthErrorInterceptor', () => {
       ],
     });
 
-    userErrorHandlingService = TestBed.get(UserErrorHandlingService);
-    clientErrorHandlingService = TestBed.get(ClientErrorHandlingService);
-    authService = TestBed.get(AuthService);
-    httpMock = TestBed.get(HttpTestingController);
+    userErrorHandlingService = TestBed.get(UserErrorHandlingService as Type<
+      UserErrorHandlingService
+    >);
+    clientErrorHandlingService = TestBed.get(ClientErrorHandlingService as Type<
+      ClientErrorHandlingService
+    >);
+    authService = TestBed.get(AuthService as Type<AuthService>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
 
     spyOn(userErrorHandlingService, 'handleExpiredUserToken').and.returnValue(
-      of({})
+      of({} as any)
     );
     spyOn(userErrorHandlingService, 'handleExpiredRefreshToken').and.stub();
     spyOn(

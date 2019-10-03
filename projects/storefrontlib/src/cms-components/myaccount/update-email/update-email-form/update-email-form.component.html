@@ -63,7 +63,7 @@
           }}"
           class="form-control"
           [class.is-invalid]="isNotValid('password')"
-          autocomplete="off"
+          autocomplete="new-password"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('password')">
           <span>{{ 'updateEmailForm.pleaseInputPassword' | cxTranslate }}</span>

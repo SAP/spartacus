@@ -40,13 +40,14 @@ export class CmsRoutesService {
   handleCmsRoutesInGuard(
     pageContext: PageContext,
     componentTypes: string[],
-    currentUrl: string
+    currentUrl: string,
+    currentPageLabel: string
   ): boolean {
     const componentRoutes = this.cmsMapping.getRoutesForComponents(
       componentTypes
     );
     if (componentRoutes.length) {
-      if (this.updateRouting(pageContext, componentRoutes)) {
+      if (this.updateRouting(pageContext, currentPageLabel, componentRoutes)) {
         this.router.navigateByUrl(currentUrl);
         return false;
       }
@@ -54,18 +55,25 @@ export class CmsRoutesService {
     return true;
   }
 
-  private updateRouting(pageContext: PageContext, routes: Route[]): boolean {
+  private updateRouting(
+    pageContext: PageContext,
+    pageLabel: string,
+    routes: Route[]
+  ): boolean {
     if (
       pageContext.type === PageType.CONTENT_PAGE &&
-      pageContext.id.startsWith('/') &&
-      pageContext.id.length > 1
+      pageLabel.startsWith('/') &&
+      pageLabel.length > 1
     ) {
       const newRoute: CmsRoute = {
-        path: pageContext.id.substr(1),
+        path: pageLabel.substr(1),
         component: PageLayoutComponent,
         children: routes,
         data: {
-          cxCmsRouteContext: pageContext,
+          cxCmsRouteContext: {
+            type: pageContext.type,
+            id: pageLabel,
+          },
         },
       };
 

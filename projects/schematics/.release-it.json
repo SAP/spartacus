@@ -1,0 +1,12 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "schematics-${version}",
+    "commitMessage": "Bumping schematics version to ${version}",
+    "tagAnnotation": "Bumping schematics version to ${version}"
+  },
+  "hooks": {
+    "after:version:bump": "yarn build"
+  }
+}

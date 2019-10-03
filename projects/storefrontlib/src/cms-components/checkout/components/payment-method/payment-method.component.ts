@@ -16,12 +16,13 @@ import {
   RoutingService,
   TranslationService,
   UserPaymentService,
+  CartService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/icon';
-import { CheckoutConfigService } from '../../checkout-config.service';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 @Component({
   selector: 'cx-payment-method',
@@ -35,6 +36,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   selectedPayment: PaymentDetails;
   allowRouting: boolean;
+  isGuestCheckout = false;
 
   private getPaymentDetailsSub: Subscription;
 
@@ -42,6 +44,35 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   private checkoutStepUrlNext: string;
   private checkoutStepUrlPrevious: string;
 
+  constructor(
+    userPaymentService: UserPaymentService,
+    checkoutService: CheckoutService,
+    checkoutDeliveryService: CheckoutDeliveryService,
+    checkoutPaymentService: CheckoutPaymentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    checkoutConfigService: CheckoutConfigService,
+    activatedRoute: ActivatedRoute,
+    translation: TranslationService,
+    cartService: CartService // tslint:disable-line
+  );
+  /**
+   * @deprecated since 1.x
+   * NOTE: check issue:#1181 for more info
+   *
+   * TODO(issue:#1181) Deprecated since 1.x
+   */
+  constructor(
+    userPaymentService: UserPaymentService,
+    checkoutService: CheckoutService,
+    checkoutDeliveryService: CheckoutDeliveryService,
+    checkoutPaymentService: CheckoutPaymentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    checkoutConfigService: CheckoutConfigService,
+    activatedRoute: ActivatedRoute,
+    translation: TranslationService
+  );
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
@@ -51,13 +82,19 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected cartService?: CartService
   ) {}
 
   ngOnInit() {
     this.allowRouting = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
-    this.userPaymentService.loadPaymentMethods();
+
+    if (!this.cartService.isGuestCart()) {
+      this.userPaymentService.loadPaymentMethods();
+    } else {
+      this.isGuestCheckout = true;
+    }
 
     this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
       this.activatedRoute
@@ -126,6 +163,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             img: this.getCardIcon(payment.cardType.code),
             actions: [{ name: textUseThisPayment, event: 'send' }],
           };
+          if (!this.selectedPayment && payment.defaultPayment) {
+            this.selectedPayment = payment;
+          }
           if (this.selectedPayment && this.selectedPayment.id === payment.id) {
             card.header = textSelected;
           }

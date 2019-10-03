@@ -22,9 +22,7 @@ export class YotpoService {
     const widgetscript = this.windowRef.document.createElement('script');
     widgetscript.type = 'text/javascript';
     widgetscript.async = true;
-    widgetscript.src = `https://staticw2.yotpo.com/${
-      this.config.vendor.yotpo.appToken
-    }/widget.js`;
+    widgetscript.src = `https://staticw2.yotpo.com/${this.config.vendor.yotpo.appToken}/widget.js`;
     this.windowRef.document
       .getElementsByTagName('head')[0]
       .appendChild(widgetscript);
@@ -39,7 +37,7 @@ export class YotpoService {
   }
 
   addYotpoInitWidgetsScript(elementRef: ElementRef) {
-    const s = document.createElement('script');
+    const s = this.windowRef.document.createElement('script');
     s.type = 'text/javascript';
     // tslint:disable-next-line
     s.text = `function callYotpo() { if (typeof yotpo !== 'undefined' && yotpo.initialized && yotpo.state=='ready') { yotpo.initWidgets(); } else { setTimeout(function() { callYotpo(); }, 1000);} } callYotpo();`;

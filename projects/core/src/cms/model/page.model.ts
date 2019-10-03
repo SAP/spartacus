@@ -10,6 +10,7 @@ export interface Page {
   loadTime?: number;
   slots: { [key: string]: ContentSlotData };
   properties?: any;
+  label?: string;
 }
 
 /**
