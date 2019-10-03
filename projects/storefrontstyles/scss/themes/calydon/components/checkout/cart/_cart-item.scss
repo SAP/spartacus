@@ -4,4 +4,20 @@
       background-color: transparent;
     }
   }
+  .cx-image-container{
+    padding: 0;
+  }
+
+  cx-media.is-missing {
+    @include media-breakpoint-down(sm) {
+      min-width: 100%;
+      background-size: 85px;
+    }
+  }
+
+  .cx-price, .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 10px;
+    }
+  }
 }
