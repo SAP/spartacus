@@ -38,7 +38,7 @@
         <option>{{ 'variant.selectSize' | cxTranslate }}</option>
         <option
           *ngFor="let v of sizeVariants"
-          value="{{ v.url }}"
+          value="{{ v.code }}"
           [selected]="v.code === product.code"
           >{{ v.variantOptionQualifiers[0].value }}</option
         >
