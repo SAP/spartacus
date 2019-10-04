@@ -31,7 +31,7 @@ export class CartItemListComponent {
   }
 
   private form: FormGroup = new FormGroup({});
-
+  private quantityControl$: Observable<FormControl>;
   constructor(protected cartService: CartService) {}
 
   /**
@@ -39,32 +39,30 @@ export class CartItemListComponent {
    * also updates the entry in case of a changed value.
    * The quantity can be set to zero in order to remove the entry.
    */
-  getQuantityControl$(item: Item): Observable<FormControl> {
-    let entryForm = this.getEntryFormGroup(item);
-    return entryForm.valueChanges.pipe(
-      // tslint:disable-next-line:deprecation
-      startWith(null),
-      tap(valueChange => {
-        if (valueChange) {
-          this.cartService.updateEntry(
-            valueChange.entryNumber,
-            valueChange.quantity
-          );
-          if (valueChange.quantity === 0) {
-            this.cartService.removeEntry(item);
-            entryForm = null;
+  getQuantityControl(item: Item): Observable<FormControl> {
+    if (!this.quantityControl$) {
+      let entryForm = this.getEntryFormGroup(item);
+      this.quantityControl$ = entryForm.valueChanges.pipe(
+        // tslint:disable-next-line:deprecation
+        startWith(null),
+        tap(valueChange => {
+          if (valueChange) {
+            this.cartService.updateEntry(
+              valueChange.entryNumber,
+              valueChange.quantity
+            );
+            if (valueChange.quantity === 0) {
+              entryForm = null;
+            }
           }
-        }
-      }),
-      filter(() => !!entryForm),
-      switchMap(() => of(<FormControl>entryForm.get('quantity')))
-    );
-  }
+        }),
+        filter(() => !!entryForm),
+        switchMap(() => of(<FormControl>entryForm.get('quantity')))
+      );
+    }
 
-  // removeEntry(item: Item): void {
-  //   this.cartService.removeEntry(item);
-  //   delete this.form.controls[item.product.code];
-  // }
+    return this.quantityControl$;
+  }
 
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
