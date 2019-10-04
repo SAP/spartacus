@@ -48,56 +48,56 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   > = this.checkoutDeliveryService.getDeliveryAddress();
 
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Use cards$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   cards: Card[] = [];
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Avoid using it.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   goTo: CheckoutStepType = null;
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Use selectAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   setAddress: Address;
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Avoid using it.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   setAddressSub: Subscription;
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Use selectedAddress$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   selectedAddressSub: Subscription;
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Use CheckoutConfigService.getNextCheckoutStepUrl(this.activatedRoute) instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
     this.activatedRoute
   );
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Use CheckoutConfigService.getPreviousCheckoutStepUrl(this.activatedRoute) instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   checkoutStepUrlPrevious = 'cart';
 
   isGuestCheckout = false;
 
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Use selectedAddress$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   selectedAddress: Address;
 
@@ -257,45 +257,45 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This variable will no longer be in use. Use selectAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   addressSelected(address: Address): void {
     this.selectAddress(address);
   }
 
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This method will no longer be in use. Use goPrevious() instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   back(): void {
     this.goPrevious();
   }
 
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This method will no longer be in use. Use goNext() instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   next(): void {
     this.goNext();
   }
 
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This method will no longer be in use. Use addAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   addNewAddress(address: Address): void {
     this.addAddress(address);
   }
 
   /**
-   * @deprecated since version 1.0.4
+   * @deprecated since version 1.3
    * This method will no longer be in use. Remove.
-   * TODO(issue:#3921) deprecated since 1.0.4
+   * TODO(issue:#3921) deprecated since 1.3
    */
   ngOnDestroy(): void {
     if (this.setAddressSub) {

@@ -281,7 +281,7 @@ describe('ShippingAddressComponent', () => {
     expect(component.newAddressFormManuallyOpened).toEqual(false);
   });
 
-  // TODO: Remove old test
+  // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
   it('should call back()', () => {
     const mockPreviousStepUrl = 'cart';
     component.checkoutStepUrlPrevious = mockPreviousStepUrl;
@@ -289,21 +289,21 @@ describe('ShippingAddressComponent', () => {
     expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
   });
 
-  // TODO: Uncomment New Test
+  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
   // it('should call goPrevious()', () => {
   //   const mockPreviousStepUrl = 'cart';
   //   component.goPrevious();
   //   expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
   // });
 
-  // TODO: Uncomment New Test
+  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
   // it('should call goNext()', () => {
   //   const mockPreviousStepUrl = 'checkout/delivery-mode';
   //   component.goNext();
   //   expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
   // });
 
-  // TODO: Remove old test
+  // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
   it('should automatically select default shipping address when there is no current selection', () => {
     spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
       of(false)
@@ -331,7 +331,7 @@ describe('ShippingAddressComponent', () => {
       .unsubscribe();
   });
 
-  // TODO: Uncomment New Test
+  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
   // it('should automatically select default shipping address when there is no current selection', () => {
   //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
   //     of(false)
@@ -362,7 +362,7 @@ describe('ShippingAddressComponent', () => {
   //   expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
   // });
 
-  // TODO: Remove old test
+  // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
   it('should NOT automatically select default shipping address when there is a current selection', () => {
     spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
       of(false)
@@ -394,7 +394,7 @@ describe('ShippingAddressComponent', () => {
       .unsubscribe();
   });
 
-  // TODO: Remove old test
+  // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
   it('should set newly created address', () => {
     component.addAddress({ address: mockAddress1, newAddress: true });
     expect(
@@ -402,7 +402,7 @@ describe('ShippingAddressComponent', () => {
     ).toHaveBeenCalledWith(mockAddress1);
   });
 
-  // TODO: Uncomment New Test
+  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
   // it('should set newly created address', () => {
   //   component.ngOnInit();
   //   component.addAddress(mockAddress1);
@@ -411,7 +411,7 @@ describe('ShippingAddressComponent', () => {
   //   ).toHaveBeenCalledWith(mockAddress1);
   // });
 
-  // TODO: Remove old test
+  // TODO: (issue:#3921) deprecated since 1.3 -  Remove old test
   it('should call addAddress() with address selected from existing addresses', () => {
     component.addAddress({ address: mockAddress1, newAddress: false });
     expect(
@@ -422,7 +422,7 @@ describe('ShippingAddressComponent', () => {
     );
   });
 
-  // TODO: Uncomment New Test
+  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
   // it('should call addAddress() with address selected from existing addresses', () => {
   //   spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
   //     of(mockAddresses)
@@ -453,7 +453,7 @@ describe('ShippingAddressComponent', () => {
         .queryAll(By.css('.btn-primary'))
         .find(el => el.nativeElement.innerText === 'common.continue');
 
-    // TODO: Remove old test
+    // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
     it('should be disabled when no address is selected', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
@@ -468,7 +468,7 @@ describe('ShippingAddressComponent', () => {
       expect(getContinueBtn().nativeElement.disabled).toEqual(true);
     });
 
-    // TODO: Uncomment New Test
+    // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
     // it('should be disabled when no address is selected', () => {
     //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
     //     of(false)
@@ -489,7 +489,7 @@ describe('ShippingAddressComponent', () => {
     //     .unsubscribe();
     // });
 
-    // TODO: Remove old test
+    // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
     it('should be enabled when address is selected', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
@@ -506,7 +506,7 @@ describe('ShippingAddressComponent', () => {
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
     });
 
-    // TODO: Uncomment New Test
+    // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
     // it('should be enabled when address is selected', () => {
     //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
     //     of(false)
@@ -528,7 +528,7 @@ describe('ShippingAddressComponent', () => {
     //   });
     // });
 
-    // TODO: Remove old test
+    // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
     it('should call "next" function after being clicked', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
@@ -549,7 +549,7 @@ describe('ShippingAddressComponent', () => {
       expect(component.next).toHaveBeenCalled();
     });
 
-    // TODO: Uncomment New Test
+    // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
     // it('should call "next" function after being clicked', () => {
     //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
     //     of(false)
@@ -582,7 +582,7 @@ describe('ShippingAddressComponent', () => {
         .queryAll(By.css('.btn-action'))
         .find(el => el.nativeElement.innerText === 'checkout.backToCart');
 
-    // TODO: Remove old test
+    // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
     it('should call "back" function after being clicked', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
@@ -597,7 +597,7 @@ describe('ShippingAddressComponent', () => {
       expect(component.back).toHaveBeenCalled();
     });
 
-    // TODO: Uncomment New Test
+    // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
     // it('should call "goPrevious" function after being clicked', () => {
     //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
     //     of(false)
