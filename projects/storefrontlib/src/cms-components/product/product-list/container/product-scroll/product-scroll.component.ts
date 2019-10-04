@@ -56,9 +56,24 @@ export class ProductScrollComponent implements AfterViewChecked {
   lastScrollTime = 0;
 
   constructor(
+    productListComponentService: ProductListComponentService,
+    ref: ChangeDetectorRef,
+    viewportScroller: ViewportScroller // tslint:disable-line
+  );
+  /**
+   * @deprecated since 1.2
+   * NOTE: check issue:#4362 for more info
+   *
+   * TODO(issue:#4362) Deprecated since 1.2
+   */
+  constructor(
+    productListComponentService: ProductListComponentService,
+    ref: ChangeDetectorRef
+  );
+  constructor(
     private productListComponentService: ProductListComponentService,
     private ref: ChangeDetectorRef,
-    private viewportScroller: ViewportScroller
+    private viewportScroller?: ViewportScroller
   ) {}
 
   scrollPage(pageNumber: number): void {
@@ -107,6 +122,7 @@ export class ProductScrollComponent implements AfterViewChecked {
       this.model.pagination.currentPage <
         this.productListComponentService.latestScrollCriteria.currentPage
     ) {
+      // load next page to expend the list
       this.loadNextPage(this.model.pagination.currentPage + 1);
     }
   }
