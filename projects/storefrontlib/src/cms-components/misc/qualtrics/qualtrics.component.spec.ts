@@ -1,14 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import { QualtricsConfigService, WindowRef } from '@spartacus/core';
 import { QualtricsComponent } from './qualtrics.component';
 
-class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
-    return true;
-  }
+class MockQualtricsConfigService {
+  trigger(): void {}
 }
 
-fdescribe('QualtricsComponent', () => {
+describe('QualtricsComponent', () => {
   let component: QualtricsComponent;
   let fixture: ComponentFixture<QualtricsComponent>;
 
@@ -17,7 +15,10 @@ fdescribe('QualtricsComponent', () => {
       declarations: [QualtricsComponent],
       providers: [
         WindowRef,
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        {
+          provide: QualtricsConfigService,
+          useClass: MockQualtricsConfigService,
+        },
       ],
     }).compileComponents();
   }));

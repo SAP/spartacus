@@ -7,6 +7,7 @@ import {
   KymaConfig,
   OccConfig,
   PersonalizationConfig,
+  QualtricsConfig,
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
@@ -22,6 +23,7 @@ export type StorefrontConfig =
   | AuthConfig
   | CmsConfig
   | OccConfig
+  | QualtricsConfig
   | StateConfig
   | PWAModuleConfig
   | SiteContextConfig

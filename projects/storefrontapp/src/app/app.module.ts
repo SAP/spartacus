@@ -64,7 +64,6 @@ if (!environment.production) {
       },
       features: {
         level: '1.2',
-        qualtrics: true,
       },
     }),
 
