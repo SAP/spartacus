@@ -4,7 +4,6 @@ import { StoreDataService } from '@spartacus/core';
 export class AbstractStoreItemComponent {
   @Input()
   location;
-  readonly current_date = new Date();
 
   constructor(protected storeDataService: StoreDataService) {}
 
@@ -15,21 +14,7 @@ export class AbstractStoreItemComponent {
     return google_map_url + latitude + ',' + longitude;
   }
 
-  getClosingTime(location: any): Date {
-    return this.storeDataService.getStoreClosingTime(
-      location,
-      this.current_date
-    );
-  }
-
-  getOpeningTime(location: any): Date {
-    return this.storeDataService.getStoreOpeningTime(
-      location,
-      this.current_date
-    );
-  }
-
-  isOpen(location: any): boolean {
-    return this.storeDataService.isStoreOpen(location, this.current_date);
+  getFormattedStoreAddress(addressParts: string[]): string {
+    return addressParts.filter(Boolean).join(', ');
   }
 }

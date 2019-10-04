@@ -3,13 +3,14 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { PaymentDetails } from '../../model/cart.model';
 import { Occ } from '../../occ/occ-models/occ.models';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserPaymentService } from './user-payment.service';
+import { Country } from '../../model';
 
 describe('UserPaymentService', () => {
   let service: UserPaymentService;
@@ -43,7 +44,7 @@ describe('UserPaymentService', () => {
   it('should be able to load user payment methods', () => {
     service.loadPaymentMethods();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserPaymentMethods(USERID_CURRENT)
+      new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT)
     );
   });
 
@@ -78,11 +79,24 @@ describe('UserPaymentService', () => {
     expect(flag).toEqual(true);
   });
 
+  it('should indicate successful loading', () => {
+    store.dispatch(new UserActions.LoadUserPaymentMethodsSuccess([]));
+
+    let flag: boolean;
+    service
+      .getPaymentMethodsLoadedSuccess()
+      .subscribe(data => {
+        flag = data;
+      })
+      .unsubscribe();
+    expect(flag).toEqual(true);
+  });
+
   it('should dispatch proper action for setPaymentMethodAsDefault', () => {
     service.setPaymentMethodAsDefault('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.SetDefaultUserPaymentMethod({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
     );
@@ -92,9 +106,28 @@ describe('UserPaymentService', () => {
     service.deletePaymentMethod('paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.DeleteUserPaymentMethod({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         paymentMethodId: 'paymentMethodId',
       })
+    );
+  });
+
+  it('should get all billing countries', () => {
+    let results: Country[];
+    service
+      .getAllBillingCountries()
+      .subscribe(data => {
+        results = data;
+      })
+      .unsubscribe();
+
+    expect(results).toEqual([]);
+  });
+
+  it('should load billing countries', () => {
+    service.loadBillingCountries();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadBillingCountries()
     );
   });
 });

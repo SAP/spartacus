@@ -1,6 +1,6 @@
-import * as productSearchStoreFlow from '../../helpers/product-search-store-flow';
-import { clickSearchIcon } from '../../helpers/product-search';
-import { formats } from '../../sample-data/viewports';
+import * as productSearchStoreFlow from '../../../helpers/product-search-store-flow';
+import { clickSearchIcon } from '../../../helpers/product-search';
+import { formats } from '../../../sample-data/viewports';
 
 context(
   `${formats.mobile.width + 1}p resolution - Product search store flow`,

@@ -15,9 +15,6 @@ class CartServiceStub {
   getActive(): Observable<Cart> {
     return of();
   }
-  isEmpty(_cart: any): boolean {
-    return false;
-  }
 }
 
 describe('CartNotEmptyGuard', () => {
@@ -59,7 +56,6 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should redirect to main page', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           cartNotEmptyGuard
             .canActivate()
             .subscribe()
@@ -70,7 +66,6 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then returned observable should emit false', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
@@ -86,7 +81,6 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should redirect to main page', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           cartNotEmptyGuard
             .canActivate()
             .subscribe()
@@ -97,7 +91,6 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then returned observable should emit false', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()

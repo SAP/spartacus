@@ -16,6 +16,6 @@
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/core@${version}",
-    "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --from core-${latestVersion} --to core-${version}"
+    "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --to core-${version}"
   }
 }

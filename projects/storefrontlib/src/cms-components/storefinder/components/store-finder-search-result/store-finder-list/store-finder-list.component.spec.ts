@@ -17,7 +17,7 @@ const location: PointOfService = {
   displayName: 'Test Store',
 };
 const stores: Array<PointOfService> = [location];
-const locations = { stores: stores };
+const locations = { stores: stores, pagination: { currentPage: 0 } };
 
 class StoreDataServiceMock {
   getStoreLatitude(_location: any): number {
@@ -98,7 +98,7 @@ describe('StoreFinderDisplayListComponent', () => {
   it('should select store from list', () => {
     const itemNumber = 4;
     const storeListItemMock = { scrollIntoView: function() {} };
-    spyOn(document, 'getElementById').and.returnValue(storeListItemMock);
+    spyOn(document, 'getElementById').and.returnValue(storeListItemMock as any);
     spyOn(storeListItemMock, 'scrollIntoView');
 
     component.selectStoreItemList(itemNumber);

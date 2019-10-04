@@ -14,6 +14,7 @@ import {
   RoutingConfigService,
   RoutingService,
   UserPaymentService,
+  CartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
@@ -109,6 +110,12 @@ class MockRoutingConfigService {
   }
 }
 
+class MockCartService {
+  isGuestCart(): boolean {
+    return false;
+  }
+}
+
 const mockAddress: Address = {
   id: 'mock address id',
   firstName: 'John',
@@ -140,6 +147,8 @@ const mockActivatedRoute = {
 class MockPaymentFormComponent {
   @Input()
   paymentMethodsCount: number;
+  @Input()
+  setAsDefaultField: boolean;
 }
 
 @Component({
@@ -168,6 +177,7 @@ describe('PaymentMethodComponent', () => {
   let mockCheckoutPaymentService: CheckoutPaymentService;
   let mockRoutingService: MockRoutingService;
   let mockRoutingConfigService: RoutingConfigService;
+  let mockCartService: CartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -185,6 +195,10 @@ describe('PaymentMethodComponent', () => {
         {
           provide: CheckoutDeliveryService,
           useClass: MockCheckoutDeliveryService,
+        },
+        {
+          provide: CartService,
+          useClass: MockCartService,
         },
         {
           provide: CheckoutPaymentService,
@@ -208,6 +222,7 @@ describe('PaymentMethodComponent', () => {
     mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
       RoutingConfigService
     >);
+    mockCartService = TestBed.get(CartService as Type<CartService>);
   }));
 
   beforeEach(() => {
@@ -234,7 +249,7 @@ describe('PaymentMethodComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get existing payment methods if they do not exist', done => {
+  it('should get existing payment methods if they do not exist for login user', done => {
     spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
     spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
     component.ngOnInit();
@@ -243,6 +258,19 @@ describe('PaymentMethodComponent', () => {
       expect(mockUserPaymentService.loadPaymentMethods).toHaveBeenCalled();
       done();
     });
+  });
+
+  it('should not get existing payment methods for guest user', done => {
+    spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
+    spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
+    spyOn(mockCartService, 'isGuestCart').and.returnValue(true);
+    component.ngOnInit();
+
+    component.existingPaymentMethods$.subscribe(() => {
+      expect(mockUserPaymentService.loadPaymentMethods).not.toHaveBeenCalled();
+      done();
+    });
+    expect(component.isGuestCheckout).toBeTruthy();
   });
 
   it('should call ngOnInit to get existing payment methods if they exist', () => {
@@ -268,9 +296,7 @@ describe('PaymentMethodComponent', () => {
         expect(card.textBold).toEqual('Name');
         expect(card.text).toEqual([
           '123456789',
-          `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
-            mockPaymentDetails.expiryYear
-          }`,
+          `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
         ]);
       })
       .unsubscribe();

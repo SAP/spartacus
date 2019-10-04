@@ -9,8 +9,10 @@ import {
   Occ,
   TITLE_NORMALIZER,
   User,
+  UserSignUp,
   USER_NORMALIZER,
   USER_SERIALIZER,
+  USER_SIGN_UP_SERIALIZER,
 } from '@spartacus/core';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
@@ -129,6 +131,63 @@ describe('OccUserAdapter', () => {
         userUpdates,
         USER_SERIALIZER
       );
+    });
+  });
+
+  describe('resiter user', () => {
+    it('should able to register a new user', () => {
+      const userSignUp: UserSignUp = {
+        uid: 'uid',
+        password: 'password',
+      };
+      occUserAdapter.register(userSignUp).subscribe(_ => _);
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST';
+      });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('userRegister');
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.body).toEqual(userSignUp);
+      mockReq.flush(userSignUp);
+    });
+
+    it('should use converter', () => {
+      const userSignUp: UserSignUp = {
+        uid: 'uid',
+        password: 'password',
+      };
+      occUserAdapter.register(userSignUp).subscribe();
+      httpMock
+        .expectOne(req => {
+          return req.method === 'POST';
+        })
+        .flush(userSignUp);
+      expect(converter.convert).toHaveBeenCalledWith(
+        userSignUp,
+        USER_SIGN_UP_SERIALIZER
+      );
+    });
+  });
+
+  describe('resiter guest', () => {
+    it('should able to register a new user from guest', () => {
+      const guid = 'guid';
+      const pwd = 'password';
+      occUserAdapter.registerGuest(guid, pwd).subscribe(_ => _);
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.serializeBody() === `guid=${guid}&password=${pwd}`
+        );
+      });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('userRegister');
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush({});
     });
   });
 

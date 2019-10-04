@@ -11,3 +11,4 @@ export * from './store-finder-search/store-finder-search.component';
 export * from './store-finder-store-description/store-finder-store-description.component';
 export * from './store-finder-stores-count/store-finder-stores-count.component';
 export * from './store-finder/store-finder.component';
+export * from './store-finder-store/store-finder-store.component';

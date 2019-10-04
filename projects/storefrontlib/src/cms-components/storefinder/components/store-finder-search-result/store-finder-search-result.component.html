@@ -4,13 +4,24 @@
     else loading
   "
 >
-  <cx-store-finder-list [locations]="locations"></cx-store-finder-list>
-  <div *ngIf="locations?.stores">
+  <div *ngIf="locations?.stores.length">
     <div class="cx-pagination">
       <cx-pagination
         [pagination]="locations.pagination"
         (viewPageEvent)="viewPage($event)"
       ></cx-pagination>
+    </div>
+  </div>
+  <cx-store-finder-list
+    *ngIf="locations?.stores.length"
+    [locations]="locations"
+    [useMylocation]="useMyLocation"
+  ></cx-store-finder-list>
+  <div class="container" *ngIf="!locations?.stores.length">
+    <div class="row">
+      <span class="cx-no-stores">{{
+        'storeFinder.noStoresMessage' | cxTranslate
+      }}</span>
     </div>
   </div>
 </div>

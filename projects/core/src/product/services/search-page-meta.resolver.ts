@@ -33,10 +33,9 @@ export class SearchPageMetaResolver extends PageMetaResolver
 
     const query$: Observable<
       string
-    > = this.routingService.getRouterState().pipe(
-      map(state => state.state.params['query']),
-      filter(Boolean)
-    );
+    > = this.routingService
+      .getRouterState()
+      .pipe(map(state => state.state.params['query']));
 
     return combineLatest([total$, query$]).pipe(
       switchMap(([total, query]: [number, string]) =>

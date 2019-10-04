@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -19,7 +19,9 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.store.dispatch(new UserActions.LoadUserPaymentMethods(USERID_CURRENT));
+    this.store.dispatch(
+      new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT)
+    );
   }
 
   /**
@@ -36,6 +38,11 @@ export class UserPaymentService {
     return this.store.pipe(select(UsersSelectors.getPaymentMethodsLoading));
   }
 
+  getPaymentMethodsLoadedSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(UsersSelectors.getPaymentMethodsLoadedSuccess)
+    );
+  }
   /**
    * Sets the payment as a default one
    * @param paymentMethodId a payment method ID
@@ -43,7 +50,7 @@ export class UserPaymentService {
   setPaymentMethodAsDefault(paymentMethodId: string): void {
     this.store.dispatch(
       new UserActions.SetDefaultUserPaymentMethod({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         paymentMethodId,
       })
     );
@@ -57,7 +64,7 @@ export class UserPaymentService {
   deletePaymentMethod(paymentMethodId: string): void {
     this.store.dispatch(
       new UserActions.DeleteUserPaymentMethod({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         paymentMethodId,
       })
     );

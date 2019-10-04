@@ -1,29 +1,34 @@
 <ng-container>
   <div (click)="handleStoreItemClick()">
+    <div class="cx-store-list-order">
+      {{ listOrderLabel }}
+    </div>
     <div class="cx-store-name">
-      {{ location.displayName }}
+      {{ location.displayName || location.name }}
     </div>
     <div class="cx-store-address" *ngIf="location.address">
-      {{ location.address.line1 }}<br />
-      {{ location.address.town }},
-      {{ location.address.region ? location.address.region.name + ',' : '' }}
-      {{ location.address.postalCode }}
-    </div>
-    <div *ngIf="location.openingHours">
-      <div *ngIf="isOpen(location)" class="cx-store-open">
-        {{ getClosingTime(location) | cxDate: 'EEE' }}:
-        {{ 'storeFinder.openUntil' | cxTranslate }}
-        {{ getClosingTime(location) | cxDate: 'shortTime' }}
+      <div class="cx-store-address-street">
+        {{ location.address.line1 }} {{ location.address.line2 }}
       </div>
-      <div *ngIf="!isOpen(location)" class="cx-store-closed">
-        {{ getClosingTime(location) | cxDate: 'EEE' }}:
-        {{ 'storeFinder.closed' | cxTranslate }}
+      {{
+        getFormattedStoreAddress([
+          location.address.town,
+          location.address.postalCode,
+          location.address.country.isocode
+        ])
+      }}
+      <div
+        class="cx-store-distance"
+        *ngIf="location.formattedDistance && displayDistance"
+      >
+        {{ location.formattedDistance }}
       </div>
     </div>
     <a
       href="{{ getDirections(location) }}"
       target="_blank"
       class="btn btn-sm btn-action btn-block cx-button"
+      (click)="$event.stopPropagation()"
       >{{ 'storeFinder.getDirections' | cxTranslate }}</a
     >
   </div>

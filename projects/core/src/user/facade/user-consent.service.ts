@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ConsentTemplate } from '../../model/consent.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -27,7 +27,7 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.store.dispatch(new UserActions.LoadUserConsents(USERID_CURRENT));
+    this.store.dispatch(new UserActions.LoadUserConsents(OCC_USER_ID_CURRENT));
   }
 
   /**
@@ -73,7 +73,7 @@ export class UserConsentService {
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
     this.store.dispatch(
       new UserActions.GiveUserConsent({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         consentTemplateId,
         consentTemplateVersion,
       })
@@ -121,7 +121,7 @@ export class UserConsentService {
   withdrawConsent(consentCode: string): void {
     this.store.dispatch(
       new UserActions.WithdrawUserConsent({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         consentCode,
       })
     );

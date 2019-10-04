@@ -28,7 +28,9 @@ class MockUserAddressService {
 }
 
 class MockCartService {
-  loadDetails(): void {}
+  isGuestCart(): Boolean {
+    return false;
+  }
 }
 
 class MockCheckoutDeliveryService {
@@ -93,6 +95,9 @@ const mockActivatedRoute = {
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
+  @Input() showTitleCode: boolean;
+  @Input() setAsDefaultField: boolean;
+  @Input() addressData: Address;
 }
 
 @Component({
@@ -120,6 +125,7 @@ describe('ShippingAddressComponent', () => {
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
   let mockUserAddressService: UserAddressService;
   let mockRoutingService: MockRoutingService;
+  let mockCartService: CartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -151,6 +157,7 @@ describe('ShippingAddressComponent', () => {
       CheckoutDeliveryService
     >);
     mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
+    mockCartService = TestBed.get(CartService as Type<CartService>);
   }));
 
   beforeEach(() => {
@@ -167,43 +174,62 @@ describe('ShippingAddressComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get existing address if they do not exist', done => {
-    spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
-      of(false)
-    );
-    spyOn(mockUserAddressService, 'getAddresses').and.returnValue(of([]));
-    spyOn(mockUserAddressService, 'loadAddresses').and.stub();
+  describe('should call ngOnInit to get user addresses', () => {
+    it('for login user, should load user addresses if they do not exist', done => {
+      spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserAddressService, 'getAddresses').and.returnValue(of([]));
+      spyOn(mockUserAddressService, 'loadAddresses').and.stub();
 
-    component.ngOnInit();
-    component.existingAddresses$
-      .subscribe(() => {
-        expect(mockUserAddressService.loadAddresses).toHaveBeenCalled();
-        done();
-      })
-      .unsubscribe();
-  });
+      component.ngOnInit();
+      component.existingAddresses$
+        .subscribe(() => {
+          expect(mockUserAddressService.loadAddresses).toHaveBeenCalled();
+          done();
+        })
+        .unsubscribe();
+    });
 
-  it('should call ngOnInit to get existing address if they exist', () => {
-    spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
-      of(false)
-    );
-    spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
-      of(mockAddresses)
-    );
-    component.ngOnInit();
-    let address: Address[];
-    component.existingAddresses$
-      .subscribe(data => {
-        address = data;
-      })
-      .unsubscribe();
-    expect(address).toBe(mockAddresses);
-    component.cards$
-      .subscribe(cards => {
-        expect(cards.length).toEqual(2);
-        expect(cards[1].card.header).toBe('addressCard.selected');
-      })
-      .unsubscribe();
+    it('for guest user, should not load user addresses', done => {
+      spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserAddressService, 'getAddresses').and.returnValue(of([]));
+      spyOn(mockCartService, 'isGuestCart').and.returnValue(true);
+      spyOn(mockUserAddressService, 'loadAddresses').and.stub();
+
+      component.ngOnInit();
+      component.existingAddresses$
+        .subscribe(() => {
+          expect(mockUserAddressService.loadAddresses).not.toHaveBeenCalled();
+          done();
+        })
+        .unsubscribe();
+    });
+
+    it('should get existing address if they exist', () => {
+      spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+        of(mockAddresses)
+      );
+      component.ngOnInit();
+      let address: Address[];
+      component.existingAddresses$
+        .subscribe(data => {
+          address = data;
+        })
+        .unsubscribe();
+      expect(address).toBe(mockAddresses);
+      component.cards$
+        .subscribe(cards => {
+          expect(cards.length).toEqual(2);
+          expect(cards[1].card.header).toBe('addressCard.selected');
+        })
+        .unsubscribe();
+    });
   });
 
   it('should call showNewAddressForm()', () => {
