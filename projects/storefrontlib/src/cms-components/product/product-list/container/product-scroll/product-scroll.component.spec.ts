@@ -11,6 +11,7 @@ import {
   Pipe,
   PipeTransform,
   DebugElement,
+  Type,
 } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MediaComponent } from '../../../../../shared/components/media';
@@ -19,6 +20,7 @@ import { ProductListComponentService } from '../product-list-component.service';
 import { ViewModes } from '../../product-view/product-view.component';
 import { By } from '@angular/platform-browser';
 import { ViewConfig } from '../../../../../shared/config/view-config';
+import { ViewportScroller } from '@angular/common';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
@@ -137,19 +139,28 @@ export class MockAddToCartComponent {
   @Input() showQuantity: boolean;
 }
 
-export class MockProductListComponentService {
+class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
   clearSearchResults = createSpy('clearSearchResults');
   getPageItems = createSpy('getPageItems');
   model$ = createSpy('model$');
+  autoScrollPosition = [0, 0];
+  latestScrollCriteria = undefined;
+}
+
+class MockViewportScroller {
+  scrollToPosition = createSpy('scrollToPosition');
 }
 
 describe('ProductScrollComponent', () => {
   let component: ProductScrollComponent;
   let fixture: ComponentFixture<ProductScrollComponent>;
   let el: DebugElement;
+
+  let componentService: MockProductListComponentService;
+  let viewportScroller: ViewportScroller;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -170,6 +181,10 @@ describe('ProductScrollComponent', () => {
       ],
       providers: [
         {
+          provide: ViewportScroller,
+          useClass: MockViewportScroller,
+        },
+        {
           provide: ProductListComponentService,
           useClass: MockProductListComponentService,
         },
@@ -181,6 +196,10 @@ describe('ProductScrollComponent', () => {
     fixture = TestBed.createComponent(ProductScrollComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+    componentService = TestBed.get(ProductListComponentService as Type<
+      ProductListComponentService
+    >);
+    viewportScroller = TestBed.get(ViewportScroller);
   });
 
   it('should create', () => {
@@ -206,6 +225,14 @@ describe('ProductScrollComponent', () => {
       );
     });
 
+    it('should scroll next page, when current page is less than the latest scroll page.', () => {
+      componentService.latestScrollCriteria = { currentPage: 1 };
+      component.setModel = mockModel1;
+
+      expect(component.appendProducts).toBeTruthy();
+      expect(componentService.getPageItems).toHaveBeenCalledWith(1);
+    });
+
     it('should replace products when appendProducts is false', () => {
       component.model = mockModel1;
       component.setModel = mockModel1Page2;
@@ -222,8 +249,43 @@ describe('ProductScrollComponent', () => {
 
     it('isLastPage should be true when there are no more pages', () => {
       component.setModel = mockModel1Page3;
-
       expect(component.isLastPage).toBeTruthy();
+    });
+
+    describe('with autoScrollPosition exist', () => {
+      beforeEach(() => {
+        componentService.autoScrollPosition = [0, 1000];
+      });
+
+      it('should do auto scroll if no scroll done', () => {
+        component.ngAfterViewChecked();
+        expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
+          0,
+          1000,
+        ]);
+        expect(component.doneAutoScroll).toBeTruthy();
+      });
+
+      it('should do another auto scroll if there is a view change during 300ms', () => {
+        component.doneAutoScroll = true;
+        component.lastScrollTime = Date.now() - 1;
+        component.ngAfterViewChecked();
+        expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
+          0,
+          1000,
+        ]);
+      });
+
+      it('should not do auto scroll and reset autoScrollPosition if the last scroll happens 300ms ago', () => {
+        component.doneAutoScroll = true;
+        component.lastScrollTime = Date.now() - 1000;
+        component.ngAfterViewChecked();
+        expect(viewportScroller.scrollToPosition).not.toHaveBeenCalledWith([
+          0,
+          1000,
+        ]);
+        expect(componentService.autoScrollPosition).toEqual([0, 0]);
+      });
     });
 
     describe('with limit', () => {

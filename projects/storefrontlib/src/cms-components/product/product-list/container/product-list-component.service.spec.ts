@@ -1,25 +1,31 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Scroll } from '@angular/router';
 import {
   CurrencyService,
   LanguageService,
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
-export class MockRouter {
+class MockRouter {
   navigate = jasmine.createSpy('navigate');
+  scrollEvent = new Scroll(null, [100, 100], null);
+  events = new Observable(observer => {
+    observer.next(this.scrollEvent);
+    observer.complete();
+  });
 }
 
-export class MockProductSearchService {
-  getResults = jasmine
-    .createSpy('getResults')
-    .and.returnValue(of({ products: [] }));
+const productSearch = new BehaviorSubject<any>({ products: [] });
+class MockProductSearchService {
   search = jasmine.createSpy('search');
   clearResults = jasmine.createSpy('clearResults');
+  getResults() {
+    return productSearch;
+  }
 }
 
 class MockCurrencyService {
@@ -114,6 +120,12 @@ describe('ProductListComponentService', () => {
       let result;
       service.model$.subscribe(res => (result = res));
       expect(result).toEqual({ products: [] });
+    });
+
+    it('should set startNewSearch true when there is no search results', () => {
+      productSearch.next({});
+      service.model$.subscribe();
+      expect(service['startNewSearch']).toBeTruthy();
     });
 
     describe('should perform search on change of routing', () => {
@@ -223,6 +235,38 @@ describe('ProductListComponentService', () => {
           'testQuery',
           jasmine.objectContaining({ sortCode: 'name-asc' })
         );
+      });
+
+      it('do 2 different queries, the lastScrollCriteria should be reset', () => {
+        mockRoutingState({
+          params: { query: 'testQuery1' },
+        });
+        service.model$.subscribe();
+
+        mockRoutingState({
+          params: { query: 'testQuery2' },
+        });
+        service.model$.subscribe();
+
+        expect(service.latestScrollCriteria).toBeUndefined();
+      });
+
+      it('getPageItems for infinit scrolling, the lastScrollCriteria should be kept', () => {
+        mockRoutingState({
+          params: { query: 'testQuery' },
+          queryParams: { currentPage: 0 },
+        });
+        service.model$.subscribe();
+
+        service.getPageItems(1);
+        service.model$.subscribe();
+
+        expect(service.latestScrollCriteria).toEqual({
+          query: 'testQuery',
+          currentPage: 1,
+          pageSize: 10,
+          sortCode: undefined,
+        });
       });
     });
   });
