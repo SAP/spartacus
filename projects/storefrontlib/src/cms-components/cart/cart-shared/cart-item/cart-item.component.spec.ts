@@ -1,6 +1,17 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
+import {
+  ControlContainer,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
@@ -29,8 +40,8 @@ class MockItemCounterComponent {
   @Input() step;
   @Input() min;
   @Input() max;
-  @Input() cartIsLoading;
-  @Input() isValueChangeable;
+  @Input() control;
+  @Input() readonly;
 }
 
 @Component({
@@ -42,7 +53,7 @@ class MockPromotionsComponent {
 }
 
 describe('CartItemComponent', () => {
-  let cartItemComponent: CartItemComponent;
+  let component: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
 
   beforeEach(async(() => {
@@ -65,31 +76,27 @@ describe('CartItemComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
-    cartItemComponent = fixture.componentInstance;
-    cartItemComponent.item = {};
+    component = fixture.componentInstance;
+    component.item = {
+      product: {},
+      updateable: true,
+    };
+    component.quantityControl = new FormControl('1');
 
-    spyOn(cartItemComponent.remove, 'emit').and.callThrough();
-    spyOn(cartItemComponent.update, 'emit').and.callThrough();
+    spyOn(component, 'removeItem').and.callThrough();
+    fixture.detectChanges();
   });
 
   it('should create cart details component', () => {
-    expect(cartItemComponent).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should call removeItem()', () => {
-    cartItemComponent.removeItem();
+    const button: DebugElement = fixture.debugElement.query(By.css('button'));
+    button.nativeElement.click();
+    fixture.detectChanges();
 
-    expect(cartItemComponent.remove.emit).toHaveBeenCalledWith(
-      cartItemComponent.item
-    );
-  });
-
-  it('should call updateItem()', () => {
-    cartItemComponent.updateItem(2);
-
-    expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
-      item: cartItemComponent.item,
-      updatedQuantity: 2,
-    });
+    expect(component.removeItem).toHaveBeenCalled();
+    expect(component.quantityControl.value).toEqual(0);
   });
 });
