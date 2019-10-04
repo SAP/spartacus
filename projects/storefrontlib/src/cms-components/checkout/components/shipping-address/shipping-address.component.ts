@@ -30,6 +30,15 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit, OnDestroy {
+  constructor(
+    protected userAddressService: UserAddressService,
+    protected cartService: CartService,
+    protected routingService: RoutingService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    private checkoutConfigService: CheckoutConfigService,
+    private activatedRoute: ActivatedRoute,
+    private translation: TranslationService
+  ) {}
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   isLoading$: Observable<boolean>;
@@ -85,15 +94,12 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   isGuestCheckout = false;
 
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected cartService: CartService,
-    protected routingService: RoutingService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
-    private translation: TranslationService
-  ) {}
+  /**
+   * @deprecated since version 1.0.4
+   * This variable will no longer be in use. Use selectedAddress$ observable instead.
+   * TODO(issue:#3921) deprecated since 1.0.4
+   */
+  selectedAddress: Address;
 
   ngOnInit() {
     this.goTo = null;
@@ -249,13 +255,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       ) || 'cart'
     );
   }
-
-  /**
-   * @deprecated since version 1.0.4
-   * This variable will no longer be in use. Use selectedAddress$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.0.4
-   */
-  selectedAddress: Address;
 
   /**
    * @deprecated since version 1.0.4
