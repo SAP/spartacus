@@ -47,8 +47,9 @@
 
       <label [for]="template?.id">
         <div class="cx-toggle-switch"></div>
-        <div class="cx-toggle-text">OFF</div>
-        <!-- TODO: "ON" has to be dynamic -->
+        <div class="cx-toggle-text">
+          {{ 'anonymousConsents.off' | cxTranslate }}
+        </div>
       </label>
     </div>
   </div>

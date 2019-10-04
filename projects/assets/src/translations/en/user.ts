@@ -5,6 +5,7 @@ export const user = {
     rejectAll: 'Reject All',
     allowAll: 'Allow All',
     viewDetails: 'View Details',
+    off: 'OFF',
   },
   forgottenPassword: {
     resetPassword: 'Reset password',
