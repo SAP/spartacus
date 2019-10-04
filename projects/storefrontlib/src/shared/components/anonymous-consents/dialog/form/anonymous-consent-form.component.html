@@ -39,14 +39,13 @@
 
     <div class="cx-toggle-button">
       <input
-        id="e"
+        [id]="template?.id"
         type="checkbox"
         [checked]="consentGiven"
         (change)="onConsentChange()"
       />
 
-      <label for="e">
-        <!-- TODO: "for" attribute has to reference the input element -->
+      <label [for]="template?.id">
         <div class="cx-toggle-switch"></div>
         <div class="cx-toggle-text">OFF</div>
         <!-- TODO: "ON" has to be dynamic -->
