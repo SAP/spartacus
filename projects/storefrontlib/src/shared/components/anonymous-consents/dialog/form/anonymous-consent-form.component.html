@@ -1,11 +1,56 @@
-<div class="form-check">
-  <input
-    type="checkbox"
-    class="form-check-input"
-    [checked]="consentGiven"
-    (change)="onConsentChange()"
-  />
-  <span class="form-check-label">
-    {{ template?.description }}
-  </span>
+<div
+  class="form-check cx-accordion"
+  role="tablist"
+  aria-live="polite"
+  data-behavior="accordion"
+>
+  <div
+    class="cx-accordion-item js-show-item-default"
+    data-binding="expand-accordion-item"
+  >
+    <div
+      id="tab1"
+      tabindex="0"
+      class="cx-accordion-tab cx-keyb-focusable"
+      aria-controls="panel1"
+      role="tab"
+      aria-selected="false"
+      aria-expanded="false"
+      data-binding="expand-accordion-trigger"
+    >
+      <cx-icon class="fas fa-angle-down"></cx-icon>
+      <span class="cx-accordion-title cx-keyb-visualfocus" tabindex="-1"
+        >{{ template?.name }}
+      </span>
+    </div>
+
+    <div
+      id="panel1"
+      class="cx-accordion-tabpanel"
+      role="tabpanel"
+      aria-hidden="true"
+      aria-labelledby="tab1"
+      data-binding="expand-accordion-container"
+    >
+      <div class="cx-accordion-content">
+        <p>{{ template?.description }}</p>
+      </div>
+    </div>
+
+    <div class="cx-toggle-button">
+      <input
+        id="e"
+        type="checkbox"
+        [checked]="consentGiven"
+        (change)="onConsentChange()"
+      />
+
+      <label for="e">
+        <!-- TODO: "for" attribute has to reference the input element -->
+        <div class="cx-toggle-switch"></div>
+        <div class="cx-toggle-text">OFF</div>
+        <!-- TODO: "ON" has to be dynamic -->
+      </label>
+    </div>
+  </div>
 </div>
