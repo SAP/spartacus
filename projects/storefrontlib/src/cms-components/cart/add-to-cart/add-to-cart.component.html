@@ -18,7 +18,7 @@
   *ngIf="hasStock"
   class="btn btn-primary btn-block"
   type="button"
-  [disabled]="quantity <= 0 || quantity > maxQuantity"
+  [disabled]="disableButton()"
   (click)="addToCart()"
 >
   {{ 'addToCart.addToCart' | cxTranslate }}

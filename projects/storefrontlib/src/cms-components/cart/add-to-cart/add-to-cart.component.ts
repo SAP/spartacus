@@ -20,6 +20,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
+  @Input() purchasable: boolean;
   @Input() showQuantity = true;
 
   maxQuantity: number;
@@ -49,6 +50,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .pipe(filter(Boolean))
         .subscribe((product: Product) => {
           this.productCode = product.code;
+          this.purchasable = product.purchasable;
           this.quantity = 1;
 
           if (
@@ -89,6 +91,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
+
     // check item is already present in the cart
     // so modal will have proper header text displayed
     this.cartService
@@ -117,6 +120,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalInstance.loaded$ = this.cartService.getLoaded();
     modalInstance.quantity = this.quantity;
     modalInstance.increment = this.increment;
+  }
+
+  disableButton(): boolean {
+    return (
+      this.quantity < 0 || this.quantity > this.maxQuantity || !this.purchasable
+    );
   }
 
   ngOnDestroy() {
