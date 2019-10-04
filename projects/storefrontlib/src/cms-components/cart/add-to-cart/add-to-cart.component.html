@@ -5,7 +5,7 @@
     isValueChangeable="true"
     [min]="1"
     [max]="maxQuantity"
-    *ngIf="hasStock"
+    *ngIf="hasStock && purchasable"
     (update)="updateCount($event)"
   ></cx-item-counter>
   <span class="info">{{
