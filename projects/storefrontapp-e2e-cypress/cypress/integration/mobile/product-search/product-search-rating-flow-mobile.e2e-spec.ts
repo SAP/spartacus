@@ -1,5 +1,5 @@
-import * as productSearchRatingFlow from '../../helpers/product-search-rating-flow';
-import { formats } from '../../sample-data/viewports';
+import * as productSearchRatingFlow from '../../../helpers/product-search-rating-flow';
+import { formats } from '../../../sample-data/viewports';
 
 context(
   `${formats.mobile.width + 1}p resolution - Product search rating flow`,
