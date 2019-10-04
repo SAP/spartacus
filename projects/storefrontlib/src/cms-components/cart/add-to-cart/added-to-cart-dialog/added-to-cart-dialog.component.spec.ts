@@ -7,7 +7,7 @@ import {
   Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -67,18 +67,11 @@ class MockModalService {
   template: '',
 })
 class MockCartItemComponent {
-  @Input()
-  compact = false;
-  @Input()
-  item: Observable<OrderEntry>;
-  @Input()
-  potentialProductPromotions: PromotionResult[];
-  @Input()
-  isReadOnly = false;
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  parent: FormGroup;
+  @Input() compact = false;
+  @Input() item: Observable<OrderEntry>;
+  @Input() potentialProductPromotions: PromotionResult[];
+  @Input() isReadOnly = false;
+  @Input() quantityControl: FormControl;
 }
 
 @Pipe({
@@ -132,7 +125,6 @@ describe('AddedToCartDialogComponent', () => {
     cartService = TestBed.get(CartService as Type<CartService>);
     mockModalService = TestBed.get(ModalService as Type<ModalService>);
 
-    spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
     component.loaded$ = of(true);
@@ -185,21 +177,15 @@ describe('AddedToCartDialogComponent', () => {
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 
-  it('should remove entry', () => {
-    component.ngOnInit();
-    component.entry$.subscribe();
-    const item = mockOrderEntry[0];
-    expect(component.form.controls[item.product.code]).toBeDefined();
-    component.removeEntry(item);
-    expect(cartService.removeEntry).toHaveBeenCalledWith(item);
-    expect(component.form.controls[item.product.code]).toBeUndefined();
-    expect(mockModalService.dismissActiveModal).toHaveBeenCalledWith('Removed');
-  });
+  it('should return formControl with order entry quantity', () => {
+    component.entry$ = of({
+      quantity: 5,
+      entryNumber: 0,
+    } as OrderEntry);
 
-  it('should update entry', () => {
-    const item = mockOrderEntry[0];
-    component.updateEntry({ item, updatedQuantity: 5 });
-    expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
+    component.getQuantityControl().subscribe(control => {
+      expect(control.value).toEqual(5);
+    });
   });
 
   it('should show added dialog title message', () => {
