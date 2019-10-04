@@ -34,7 +34,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   newAddressFormManuallyOpened = false;
   isLoading$: Observable<boolean>;
   cards$: Observable<CardWithAddress[]>;
-  selectedAddress$: Observable<Address>;
+  selectedAddress$: Observable<
+    Address
+  > = this.checkoutDeliveryService.getDeliveryAddress();
 
   /**
    * @deprecated since version 1.0.4
@@ -101,7 +103,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutStepUrlPrevious = 'cart';
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
-    this.selectedAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
 
     this.cards$ = combineLatest([
       this.existingAddresses$,
@@ -121,7 +122,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           // Select default address if none selected
           if (
             addresses.length &&
-            (!selected || Object.keys(selected).length === 0)
+            (!selected || Object.keys(selected).length === 0) &&
+            !this.selectedAddress // TODO(issue:#3921) Remove this
           ) {
             const defaultAddress = addresses.find(
               address => address.defaultAddress
@@ -129,7 +131,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
             selected = defaultAddress;
             this.selectAddress(defaultAddress);
           }
-
           return addresses.map(address => {
             const card = this.getCardContent(
               address,
@@ -183,18 +184,40 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   selectAddress(address: Address): void {
+    this.selectedAddress = address;
     this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
-  addAddress(address: Address): void {
-    this.existingAddresses$.pipe(take(1)).subscribe(addresses => {
-      if (addresses.includes(address)) {
-        this.checkoutDeliveryService.setDeliveryAddress(address);
-      } else {
-        this.checkoutDeliveryService.createAndSetAddress(address);
-      }
+  /**
+   * @deprecated since version 1.3
+   * Use addAddress(address: Address) instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  addAddress(address: { newAddress: boolean; address: Address } | any);
+  addAddress(
+    address: Address | { newAddress: boolean; address: Address }
+  ): void {
+    const tempAddress: Address = address['address']
+      ? address['address']
+      : address;
+
+    // TODO(issue:#3921) deprecated since 1.3
+    if (address['address'] || address['newAddress']) {
+      address['newAddress']
+        ? this.checkoutDeliveryService.createAndSetAddress(tempAddress)
+        : this.checkoutDeliveryService.setDeliveryAddress(tempAddress);
       this.goNext();
-    });
+    } else {
+      // TODO(issue:#3921) Use Instead
+      this.existingAddresses$.pipe(take(1)).subscribe(addresses => {
+        if (addresses.includes(tempAddress)) {
+          this.checkoutDeliveryService.setDeliveryAddress(tempAddress);
+        } else {
+          this.checkoutDeliveryService.createAndSetAddress(tempAddress);
+        }
+        this.goNext();
+      });
+    }
   }
 
   showNewAddressForm(): void {
@@ -227,9 +250,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
    * This variable will no longer be in use. Use selectedAddress$ observable instead.
    * TODO(issue:#3921) deprecated since 1.0.4
    */
-  set selectedAddress(value: Address) {
-    this.selectAddress(value);
-  }
+  selectedAddress: Address;
 
   /**
    * @deprecated since version 1.0.4

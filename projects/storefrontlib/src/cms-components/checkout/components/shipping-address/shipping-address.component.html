@@ -51,7 +51,10 @@
         <div class="col-md-12 col-lg-6">
           <button
             class="cx-btn btn btn-block btn-primary"
-            [disabled]="!(selectedAddress$ | async)?.id"
+            [disabled]="
+              (!selectedAddress || !selectedAddress.id) &&
+              !(selectedAddress$ | async)?.id
+            "
             (click)="next()"
           >
             {{ 'common.continue' | cxTranslate }}
