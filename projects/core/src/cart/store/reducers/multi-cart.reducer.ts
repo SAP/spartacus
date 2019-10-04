@@ -23,6 +23,11 @@ export function activeCartReducer(
       } else {
         return state;
       }
+    case CartActions.CLEAR_MULTI_CART:
+      if (action.payload && action.payload.cartId === state) {
+        return '';
+      }
+      return state;
     case CartActions.REMOVE_CART:
       if (action.payload === state) {
         return activeCartInitialState;

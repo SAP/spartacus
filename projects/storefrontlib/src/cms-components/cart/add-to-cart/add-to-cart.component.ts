@@ -103,7 +103,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalInstance = this.modalRef.componentInstance;
     modalInstance.entry$ = this.cartEntry$;
     modalInstance.cart$ = this.cartService.getActive();
-    modalInstance.loaded$ = this.cartService.getLoaded();
+    modalInstance.loaded$ = this.cartService.getAddEntryLoaded();
     modalInstance.quantity = this.quantity;
     modalInstance.increment = this.increment;
   }

@@ -5,6 +5,8 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 export const CART_FEATURE = 'cart';
 export const CART_DATA = '[Cart] Cart Data';
 
+export const ADD_ENTRY_PROCESS_ID = 'addEntry';
+
 export interface StateWithCart {
   [CART_FEATURE]: CartsState;
 }

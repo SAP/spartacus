@@ -53,8 +53,13 @@ export class CartEffects {
         .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
           mergeMap((cart: Cart) => {
+            let returnArr = [];
+            if (payload.extraData && payload.extraData.addEntries) {
+              returnArr.push(
+                new CartActions.CartSuccessAddEntriesProcess())
+            }
             if (loadCartParams.cartId === OCC_CART_ID_CURRENT && cart) {
-              return [
+              returnArr = [...returnArr,
                 new CartActions.LoadCartSuccess(cart),
                 new CartActions.LoadMultiCartSuccess({
                   cart,
@@ -63,8 +68,9 @@ export class CartEffects {
                 }),
                 new CartActions.RemoveCart(OCC_CART_ID_CURRENT),
               ];
+              return returnArr;
             } else if (cart) {
-              return [
+              returnArr = [...returnArr,
                 new CartActions.LoadCartSuccess(cart),
                 new CartActions.LoadMultiCartSuccess({
                   cart,
@@ -72,13 +78,15 @@ export class CartEffects {
                   extraData: payload.extraData,
                 }),
               ];
+              return returnArr;
             }
-            return [
+            returnArr = [
               new CartActions.LoadCartFail({}),
               new CartActions.LoadMultiCartFail({
                 cartId: loadCartParams.cartId,
               }),
             ];
+            return returnArr;
           }),
           catchError(error => {
             if (error && error.error && error.error.errors) {
@@ -219,7 +227,7 @@ export class CartEffects {
   );
 
   @Effect()
-  setLoading$: Observable<CartActions.SetFakeLoadingCart> = this.actions$.pipe(
+  setLoading$: Observable<CartActions.SetCartLoading> = this.actions$.pipe(
     ofType(
       CartActions.MERGE_CART,
       CartActions.CART_ADD_ENTRY,
@@ -236,7 +244,7 @@ export class CartEffects {
       ) => action.payload
     ),
     mergeMap(payload => [
-      new CartActions.SetFakeLoadingCart({
+      new CartActions.SetCartLoading({
         cartId: payload.cartId,
       }),
     ])

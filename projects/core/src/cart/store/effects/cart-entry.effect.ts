@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
+import { CartModification } from 'projects/core/src/model';
 
 @Injectable()
 export class CartEntryEffects {
@@ -36,6 +37,48 @@ export class CartEntryEffects {
           )
         )
     )
+  );
+
+  @Effect()
+  addEntries$: Observable<
+    CartActions.CartAddEntriesSuccess | CartActions.LoadCart | CartActions.CartSuccessAddEntriesProcess
+  > = this.actions$.pipe(
+    ofType(CartActions.CART_ADD_ENTRIES),
+    map((action: CartActions.CartAddEntries) => action.payload),
+    mergeMap(payload => {
+      const addEntry = (
+        products,
+        userId,
+        cartId
+      ): Observable<CartModification> => {
+        if (products && products.length) {
+          const [product, ...leftEntries] = products;
+          return this.cartEntryConnector
+            .add(userId, cartId, product.productCode, product.quantity)
+            .pipe(
+              mergeMap(() => {
+                return addEntry(leftEntries, userId, cartId);
+              })
+            );
+        }
+        return of({});
+      };
+      return addEntry(payload.products, payload.userId, payload.cartId).pipe(
+        tap(result => console.log(result)),
+        mergeMap(() => {
+          return [
+            new CartActions.CartAddEntriesSuccess({}),
+            new CartActions.LoadCart({
+              userId: payload.userId,
+              cartId: payload.cartId,
+              extraData: {
+                addEntries: true,
+              },
+            }),
+          ];
+        })
+      );
+    })
   );
 
   @Effect()

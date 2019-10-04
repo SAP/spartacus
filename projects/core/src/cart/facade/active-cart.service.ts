@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import {
   filter,
   map,
@@ -24,6 +24,9 @@ import {
   OCC_CART_ID_CURRENT,
 } from '../../occ/utils/occ-constants';
 import { getCartIdByUserId } from '../utils/utils';
+import { StateWithProcess } from '../../process';
+import { ADD_ENTRY_PROCESS_ID } from '../store';
+import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
 
 // TODO document methods
 
@@ -36,6 +39,8 @@ export class ActiveCartService {
 
   private userId = OCC_USER_ID_ANONYMOUS;
   private cartId;
+  private addEntrySub: Subscription;
+  private entriesToAdd: Array<{ productCode: string, quantity: number}> = [];
 
   private activeCartId = this.store.pipe(
     select(MultiCartSelectors.getActiveCartId)
@@ -50,7 +55,7 @@ export class ActiveCartService {
   );
 
   constructor(
-    protected store: Store<StateWithMultiCart>,
+    protected store: Store<StateWithMultiCart | StateWithProcess<void>>,
     protected authService: AuthService,
     protected lowLevelCartService: LowLevelCartService
   ) {
@@ -153,10 +158,20 @@ export class ActiveCartService {
     }
   }
 
+  getAddEntryLoading() {
+    return this.store.pipe(
+      select(getProcessStateFactory(ADD_ENTRY_PROCESS_ID)),
+      map(payload => !payload.loading && payload.success)
+    );
+  }
+
   addEntry(productCode: string, quantity: number): void {
     let createInitialized = false;
     let attemptedLoad = false;
-    this.cartSelector
+    this.lowLevelCartService.initAddEntryProcess();
+    this.entriesToAdd.push({productCode, quantity});
+    if (!this.addEntrySub) {
+      this.addEntrySub = this.cartSelector
       .pipe(
         filter(() => !createInitialized),
         switchMap(cartState => {
@@ -181,13 +196,19 @@ export class ActiveCartService {
         take(1)
       )
       .subscribe(cartState => {
-        this.lowLevelCartService.addEntry(
+        this.lowLevelCartService.addEntries(
           this.userId,
           getCartIdByUserId(cartState.value, this.userId),
-          productCode,
-          quantity
+          this.entriesToAdd
         );
+        this.entriesToAdd = [];
+        setTimeout(() => {
+          this.addEntrySub.unsubscribe();
+          this.addEntrySub = undefined;
+        })
       });
+    }
+
   }
 
   removeEntry(entry: OrderEntry): void {

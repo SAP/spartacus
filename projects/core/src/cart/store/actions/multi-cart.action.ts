@@ -29,7 +29,7 @@ export const CLEAR_MULTI_CART = '[Multi Cart] Clear Cart';
 
 export const SET_FRESH_CART_ID = '[Multi Cart] Set Fresh Cart Id';
 
-export const SET_FAKE_LOADING_CART = '[Multi Cart] Set Fake Loading Cart';
+export const SET_CART_LOADING = '[Multi Cart] Set Cart Loading';
 
 export const REMOVE_CART = '[Multi Cart] Remove Cart';
 
@@ -118,8 +118,8 @@ export class ClearMultiCart extends EntityRemoveAction {
   }
 }
 
-export class SetFakeLoadingCart extends EntityLoadAction {
-  readonly type = SET_FAKE_LOADING_CART;
+export class SetCartLoading extends EntityLoadAction {
+  readonly type = SET_CART_LOADING;
   constructor(public payload: { cartId: string }) {
     super(MULTI_CART_FEATURE, payload.cartId);
   }
@@ -145,5 +145,5 @@ export type MultiCartActions =
   | MergeMultiCartSuccess
   | ResetMultiCartDetails
   | ClearMultiCart
-  | SetFakeLoadingCart
+  | SetCartLoading
   | RemoveCart;

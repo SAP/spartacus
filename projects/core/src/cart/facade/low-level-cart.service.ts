@@ -87,6 +87,26 @@ export class LowLevelCartService {
     );
   }
 
+  addEntries(
+    userId: string,
+    cartId: string,
+    products: Array<{productCode: string, quantity: number}>
+  ): void {
+    this.store.dispatch(
+      new CartActions.CartAddEntries({
+        userId,
+        cartId,
+        products
+      })
+    )
+  }
+
+  initAddEntryProcess() {
+    this.store.dispatch(
+      new CartActions.CartStartAddEntriesProcess()
+    );
+  }
+
   removeEntry(userId: string, cartId: string, entryNumber: number): void {
     this.store.dispatch(
       new CartActions.CartRemoveEntry({
