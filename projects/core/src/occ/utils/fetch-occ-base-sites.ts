@@ -5,16 +5,20 @@ import {
 } from '../config/config-from-meta-tag-factory';
 import { Occ } from '../occ-models/occ.models';
 
-function makeCorsRequest(url: string, method: string = 'GET'): Promise<any> {
+function xhrJsonRequest(url: string, method: string = 'GET'): Promise<any> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
     xhr.onload = () => {
-      try {
-        const response = JSON.parse(xhr.responseText);
-        resolve(response);
-      } catch (e) {
-        reject(e);
+      if (xhr.status === 200) {
+        try {
+          const response = JSON.parse(xhr.responseText);
+          resolve(response);
+        } catch (e) {
+          reject(e);
+        }
+      } else {
+        reject(xhr.responseText);
       }
     };
     xhr.onerror = e => {
@@ -61,9 +65,9 @@ export function fetchOccBaseSites(
 
   const url = `${baseUrl}${prefix}${endpoint}`;
 
-  return makeCorsRequest(url).catch(error => {
+  return xhrJsonRequest(url).catch(error => {
     if (isDevMode()) {
-      console.warn(`Warning: Could not get '/basesites'!`, error);
+      console.error(`Error: Could not fetch OCC base sites!\n`, error);
     }
   });
 }
