@@ -3,7 +3,7 @@ import {
   Input,
   ChangeDetectorRef,
   AfterViewChecked,
-  OnChanges,
+  OnInit,
 } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { ProductSearchPage } from '@spartacus/core';
@@ -15,7 +15,7 @@ import { ViewConfig } from '../../../../../shared/config/view-config';
   selector: 'cx-product-scroll',
   templateUrl: './product-scroll.component.html',
 })
-export class ProductScrollComponent implements AfterViewChecked, OnChanges {
+export class ProductScrollComponent implements AfterViewChecked, OnInit {
   @Input('scrollConfig')
   set setConfig(inputConfig: ViewConfig) {
     this.setComponentConfigurations(inputConfig);
@@ -53,11 +53,16 @@ export class ProductScrollComponent implements AfterViewChecked, OnChanges {
   isLastPage = false;
   isEmpty = false;
 
+  doneAutoScroll = false;
+  lastScrollTime = 0;
+
   constructor(
     private productListComponentService: ProductListComponentService,
     private ref: ChangeDetectorRef,
     private viewportScroller: ViewportScroller
   ) {}
+
+  ngOnInit() {}
 
   scrollPage(pageNumber: number): void {
     this.appendProducts = true;
@@ -100,21 +105,12 @@ export class ProductScrollComponent implements AfterViewChecked, OnChanges {
     this.setConditions();
     this.ref.markForCheck();
 
-    console.log(
-      'previous',
-      this.productListComponentService.latestScrollCriteria
-    );
-    if (this.productListComponentService.latestScrollCriteria) {
-      if (
-        this.model.pagination.currentPage <
+    if (
+      this.productListComponentService.latestScrollCriteria &&
+      this.model.pagination.currentPage <
         this.productListComponentService.latestScrollCriteria.currentPage
-      ) {
-        console.log('load next: ', this.model.pagination.currentPage + 1);
-        this.loadNextPage(this.model.pagination.currentPage + 1);
-      } /*else {
-        console.log('reset scoll position');
-        this.productListComponentService.autoScrollPosition = [0, 0];
-      }*/
+    ) {
+      this.loadNextPage(this.model.pagination.currentPage + 1);
     }
   }
 
@@ -187,21 +183,24 @@ export class ProductScrollComponent implements AfterViewChecked, OnChanges {
   }
 
   ngAfterViewChecked(): void {
+    // if auto scroll positon exists
     if (
       this.productListComponentService.autoScrollPosition[0] !== 0 ||
       this.productListComponentService.autoScrollPosition[1] !== 0
     ) {
-      console.log(
-        'scroll to: ',
-        this.productListComponentService.autoScrollPosition[1]
-      );
-      this.viewportScroller.scrollToPosition(
-        this.productListComponentService.autoScrollPosition
-      );
+      // 1. no scroll done then do the scroll.
+      // 2. even the scroll done, but we want another scroll because 
+      // there is a view's change-check happening less than 300ms
+      if (!this.doneAutoScroll || Date.now() - this.lastScrollTime < 300) {
+        this.viewportScroller.scrollToPosition(
+          this.productListComponentService.autoScrollPosition
+        );
+        this.lastScrollTime = Date.now();
+        this.doneAutoScroll = true;
+      } else {
+        // reset auto scroll position
+        this.productListComponentService.autoScrollPosition = [0, 0];
+      }
     }
-  }
-
-  ngOnChanges() {
-    console.log('ng on changes');
   }
 }
