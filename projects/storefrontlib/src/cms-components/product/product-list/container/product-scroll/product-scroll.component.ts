@@ -3,7 +3,6 @@ import {
   Input,
   ChangeDetectorRef,
   AfterViewChecked,
-  OnInit,
 } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { ProductSearchPage } from '@spartacus/core';
@@ -15,7 +14,7 @@ import { ViewConfig } from '../../../../../shared/config/view-config';
   selector: 'cx-product-scroll',
   templateUrl: './product-scroll.component.html',
 })
-export class ProductScrollComponent implements AfterViewChecked, OnInit {
+export class ProductScrollComponent implements AfterViewChecked {
   @Input('scrollConfig')
   set setConfig(inputConfig: ViewConfig) {
     this.setComponentConfigurations(inputConfig);
@@ -61,8 +60,6 @@ export class ProductScrollComponent implements AfterViewChecked, OnInit {
     private ref: ChangeDetectorRef,
     private viewportScroller: ViewportScroller
   ) {}
-
-  ngOnInit() {}
 
   scrollPage(pageNumber: number): void {
     this.appendProducts = true;
@@ -189,7 +186,7 @@ export class ProductScrollComponent implements AfterViewChecked, OnInit {
       this.productListComponentService.autoScrollPosition[1] !== 0
     ) {
       // 1. no scroll done then do the scroll.
-      // 2. even the scroll done, but we want another scroll because 
+      // 2. even the scroll done, but we want another scroll because
       // there is a view's change-check happening less than 300ms
       if (!this.doneAutoScroll || Date.now() - this.lastScrollTime < 300) {
         this.viewportScroller.scrollToPosition(
