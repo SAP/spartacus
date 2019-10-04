@@ -3,6 +3,7 @@ import {
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
 } from '../config/config-from-meta-tag-factory';
+import { Occ } from '../occ-models/occ.models';
 
 function makeCorsRequest(url: string, method: string = 'GET'): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -44,7 +45,7 @@ export interface FetchOccBaseSitesOptions {
  */
 export function fetchOccBaseSites(
   options: FetchOccBaseSitesOptions = {}
-): Promise<any> {
+): Promise<Occ.BaseSites> {
   const baseUrl = options.baseUrl || getBaseUrlFromMetaTag();
   if (!baseUrl) {
     if (isDevMode()) {
