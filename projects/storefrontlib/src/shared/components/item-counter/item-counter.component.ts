@@ -7,6 +7,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith, tap } from 'rxjs/operators';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using
@@ -16,9 +18,10 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  // we do not use OnPush change detection strategy here, as we would not
-  // get updates of other form control state (disabled).
-  // We could observe the form's root state in order to move to OnPush.
+  // do not use OnPush change detection strategy as we would not
+  // get updates of other form control state (disabled). We want to have a
+  // disabled state in order to ensure that the control cannot be used while
+  // the cart is updated.
 })
 export class ItemCounterComponent {
   /**
@@ -29,6 +32,7 @@ export class ItemCounterComponent {
 
   /**
    * This can be used in case an item has a minmum order quantity.
+   * @default 1
    */
   @Input() min = 1;
 
@@ -38,8 +42,19 @@ export class ItemCounterComponent {
   @Input() max: number;
 
   /**
+   * The step is used to increment the count. It is supposed to be a
+   * positive inteteger or float.
+   * @default 1
+   */
+  @Input() step = 1;
+
+  private _control$: Observable<FormControl>;
+
+  /**
    * In readonly mode the item counter will only be shown as a label,
    * the form controls are not rendered.
+   * Please not that readonly is different from the `disabled` form state.
+   * @default false
    */
   @HostBinding('class.readonly') @Input() readonly = false;
 
@@ -50,31 +65,35 @@ export class ItemCounterComponent {
     this.input.nativeElement.focus();
   }
 
-  @HostListener('keydown', ['$event'])
-  handleKeydown(event: KeyboardEvent): void {
-    if (['ArrowUp', 'ArrowRight'].includes(event.code)) {
-      this.increment();
-    }
-    if (['ArrowDown', 'ArrowLeft', 'Minus'].includes(event.code)) {
-      this.decrement();
-    }
-  }
-
   increment() {
-    this.increase(1);
+    // it's too early to use the `stepUp` and `stepDown` API...
+    // let's wait for FF: https://caniuse.com/#search=stepUp
+    this.control.setValue(this.control.value + this.step);
   }
 
   decrement() {
-    this.increase(-1);
+    this.control.setValue(this.control.value - this.step);
   }
 
-  private increase(value: number) {
-    let newValue = this.control.value + value;
-    if (this.min && newValue < this.min) {
-      newValue = this.min;
-    } else if (this.max && newValue > this.max) {
-      newValue = this.max;
+  /**
+   * Returns an observable with the control. The value changes of the
+   * control are intercepted in order to suppress invalid values.
+   */
+  getControl(): Observable<FormControl> {
+    if (!this._control$) {
+      this._control$ = this.control.valueChanges.pipe(
+        startWith(this.control.value),
+        tap(value => {
+          if (value < (this.min || 1)) {
+            this.control.setValue(this.min, { emitEvent: false });
+          }
+          if (this.max && value > this.max) {
+            this.control.setValue(this.max, { emitEvent: false });
+          }
+        }),
+        map(() => this.control)
+      );
     }
-    this.control.setValue(newValue);
+    return this._control$;
   }
 }

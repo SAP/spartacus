@@ -1,4 +1,16 @@
 %cx-item-counter {
+  input {
+    text-align: center;
+
+    // avpid native increase/decrease buttons on the numeric field
+    &[type='number']::-webkit-inner-spin-button,
+    &[type='number']::-webkit-outer-spin-button {
+      appearance: none;
+    }
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
   &.readonly {
     button {
       display: none;
@@ -6,7 +18,6 @@
 
     input {
       border: none;
-      text-align: center;
     }
   }
 
@@ -15,8 +26,6 @@
     border: solid 1px var(--cx-color-light);
     border-radius: 4px;
     input {
-      text-align: center;
-
       border: solid 1px var(--cx-color-light);
       border-width: 0 1px;
 
