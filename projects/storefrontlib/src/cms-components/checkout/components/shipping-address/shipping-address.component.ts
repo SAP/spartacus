@@ -204,7 +204,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   addAddress(
     address: Address | { newAddress: boolean; address: Address }
   ): void {
-    // TODO(issue:#3921) deprecated since 1.3
+    // TODO(issue:#3921) deprecated since 1.3 - Remove temp address
     const tempAddress: Address = address['address']
       ? address['address']
       : address;
@@ -216,13 +216,13 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       }
     });
 
-    // TODO(issue:#3921) deprecated since 1.3
+    // TODO(issue:#3921) deprecated since 1.3 - Remove this condition
     if (address['address'] || address['newAddress']) {
       address['newAddress']
         ? this.checkoutDeliveryService.createAndSetAddress(tempAddress)
         : this.selectAddress(tempAddress);
     } else {
-      // TODO(issue:#3921) Use Instead
+      // TODO(issue:#3921) deprecated since 1.3 - Use instead of condition
       this.existingAddresses$.pipe(take(1)).subscribe(addresses => {
         addresses.includes(tempAddress)
           ? this.selectAddress(tempAddress)

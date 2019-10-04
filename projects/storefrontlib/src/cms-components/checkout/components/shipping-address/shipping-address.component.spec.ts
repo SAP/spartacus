@@ -46,7 +46,7 @@ class MockRoutingService {
 }
 
 class MockCheckoutConfigService {
-  // TODO: Remove old routes
+  // TODO: (issue:#3921) deprecated since 1.3 - Remove old routes
   getNextCheckoutStepUrl(): string {
     return '';
   }
@@ -54,7 +54,7 @@ class MockCheckoutConfigService {
     return '';
   }
 
-  // TODO: Uncomment New routes
+  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New routes
   // getNextCheckoutStepUrl(): string {
   //   return 'checkout/delivery-mode';
   // }
@@ -177,7 +177,7 @@ describe('ShippingAddressComponent', () => {
     >);
 
     spyOn(component, 'addAddress').and.callThrough();
-    // TODO: Remove old code
+    // TODO: (issue:#3921) deprecated since 1.3 - Remove old code
     spyOn(component, 'addNewAddress').and.callThrough();
   });
 
