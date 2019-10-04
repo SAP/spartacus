@@ -22,11 +22,14 @@ import {
   OCC_USER_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
 import { getCartIdByUserId } from '../utils/utils';
 import { StateWithProcess } from '../../process';
 import { ADD_ENTRY_PROCESS_ID } from '../store';
 import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
+import { User } from '../../model/misc.model';
+import { EMAIL_PATTERN } from '../../util/regex-pattern';
 
 // TODO document methods
 
@@ -39,6 +42,7 @@ export class ActiveCartService {
 
   private userId = OCC_USER_ID_ANONYMOUS;
   private cartId;
+  private cartUser: User;
   private addEntrySub: Subscription;
   private entriesToAdd: Array<{ productCode: string, quantity: number}> = [];
 
@@ -95,6 +99,11 @@ export class ActiveCartService {
         }
       }),
       map(([cart]) => (cart ? cart : {})),
+      tap((cart) => {
+        if (cart) {
+          this.cartUser = cart.user;
+        }
+      }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
@@ -125,6 +134,8 @@ export class ActiveCartService {
           active: true,
         },
       });
+    } else if (this.isGuestCart()) {
+      this.guestCartMerge(cartId);
     } else {
       this.store.dispatch(
         new CartActions.MergeCart({
@@ -220,20 +231,12 @@ export class ActiveCartService {
   }
 
   updateEntry(entryNumber: number, quantity: number): void {
-    if (quantity > 0) {
-      this.lowLevelCartService.updateEntry(
-        this.userId,
-        this.cartId,
-        entryNumber,
-        quantity
-      );
-    } else {
-      this.lowLevelCartService.removeEntry(
-        this.userId,
-        this.cartId,
-        entryNumber
-      );
-    }
+    this.lowLevelCartService.updateEntry(
+      this.userId,
+      this.cartId,
+      entryNumber,
+      quantity
+    );
   }
 
   getEntry(productCode: string): Observable<OrderEntry> {
@@ -243,6 +246,75 @@ export class ActiveCartService {
       )
     );
   }
+
+  addEmail(email: string): void {
+    this.store.dispatch(
+      new CartActions.AddEmailToCart({
+        userId: this.userId,
+        cartId: this.cartId,
+        email,
+      })
+    )
+  }
+
+  getAssignedUser(): Observable<User> {
+    return this.getActive().pipe(map(cart => cart.user));
+  }
+
+  private isEmail(str: string): boolean {
+    if (str) {
+      return str.match(EMAIL_PATTERN) ? true : false;
+    }
+    return false;
+  }
+
+  isGuestCart(): boolean {
+    return (
+      this.cartUser &&
+      (this.cartUser.name === OCC_USER_ID_GUEST ||
+        this.isEmail(
+          this.cartUser.uid
+            .split('|')
+            .slice(1)
+            .join('|')
+        ))
+    );
+  }
+
+  /**
+   * Add multiple entries to a cart
+   * Requires a created cart
+   * @param cartEntries : list of entries to add (OrderEntry[])
+   */
+  addEntries(cartEntries: OrderEntry[]): void {
+    cartEntries.forEach(entry => {
+      this.addEntry(entry.product.code, entry.quantity);
+    })
+  }
+
+  // TODO: Remove once backend is updated
+  /**
+   * Temporary method to merge guest cart with user cart because of backend limitation
+   * This is for an edge case
+   */
+  private guestCartMerge(cartId: string): void {
+    let cartEntries: OrderEntry[];
+    this.getEntries()
+      .pipe(take(1))
+      .subscribe(entries => {
+        cartEntries = entries;
+      });
+
+    this.store.dispatch(
+      new CartActions.DeleteCart({
+        userId: OCC_USER_ID_ANONYMOUS,
+        cartId: cartId,
+      })
+    );
+
+    this.addEntries(cartEntries);
+  }
+
 
   private isEmpty(cart: Cart): boolean {
     return (

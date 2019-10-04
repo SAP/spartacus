@@ -95,7 +95,10 @@ export class CartService {
   }
 
   getAddEntryLoaded(): Observable<boolean> {
-    return this.activeCartService.getAddEntryLoading();
+    if (this.activeCartService) {
+      return this.activeCartService.getAddEntryLoading();
+    }
+    return this.getLoaded();
   }
 
   private loadOrMerge(): void {
@@ -217,6 +220,9 @@ export class CartService {
   }
 
   addEmail(email: string): void {
+    if (this.activeCartService) {
+      return this.activeCartService.addEmail(email);
+    }
     this.store.dispatch(
       new CartActions.AddEmailToCart({
         userId: this.cartData.userId,
@@ -240,6 +246,9 @@ export class CartService {
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[]): void {
+    if (this.activeCartService) {
+      this.activeCartService.addEntries(cartEntries);
+    }
     let newEntries = 0;
     this.getEntries()
       .pipe(
