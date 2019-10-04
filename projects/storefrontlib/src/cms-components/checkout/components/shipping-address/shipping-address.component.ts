@@ -122,8 +122,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           // Select default address if none selected
           if (
             addresses.length &&
-            (!selected || Object.keys(selected).length === 0) &&
-            !this.selectedAddress // TODO(issue:#3921) Remove this
+            (!selected ||
+              Object.keys(selected).length === 0 ||
+              !this.selectedAddress)
           ) {
             const defaultAddress = addresses.find(
               address => address.defaultAddress
@@ -197,25 +198,29 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   addAddress(
     address: Address | { newAddress: boolean; address: Address }
   ): void {
+    // TODO(issue:#3921) deprecated since 1.3
     const tempAddress: Address = address['address']
       ? address['address']
       : address;
+
+    const selectedSub = this.selectedAddress$.subscribe(selected => {
+      if (selected && selected.shippingAddress) {
+        this.goNext();
+        selectedSub.unsubscribe();
+      }
+    });
 
     // TODO(issue:#3921) deprecated since 1.3
     if (address['address'] || address['newAddress']) {
       address['newAddress']
         ? this.checkoutDeliveryService.createAndSetAddress(tempAddress)
-        : this.checkoutDeliveryService.setDeliveryAddress(tempAddress);
-      this.goNext();
+        : this.selectAddress(tempAddress);
     } else {
       // TODO(issue:#3921) Use Instead
       this.existingAddresses$.pipe(take(1)).subscribe(addresses => {
-        if (addresses.includes(tempAddress)) {
-          this.checkoutDeliveryService.setDeliveryAddress(tempAddress);
-        } else {
-          this.checkoutDeliveryService.createAndSetAddress(tempAddress);
-        }
-        this.goNext();
+        addresses.includes(tempAddress)
+          ? this.selectAddress(tempAddress)
+          : this.checkoutDeliveryService.createAndSetAddress(tempAddress);
       });
     }
   }

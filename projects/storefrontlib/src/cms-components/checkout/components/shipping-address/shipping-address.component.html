@@ -53,7 +53,7 @@
             class="cx-btn btn btn-block btn-primary"
             [disabled]="
               (!selectedAddress || !selectedAddress.id) &&
-              !(selectedAddress$ | async)?.id
+              !(selectedAddress$ | async)?.shippingAddress
             "
             (click)="next()"
           >
