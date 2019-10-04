@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 import { AnonymousConsent, ConsentTemplate } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
 import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
 import { AnonymousConsentsSelectors } from '../store/selectors/index';
+
+// TODO:#3899 - shorten method names and drop the anonoymous from all of them.
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
@@ -174,5 +176,90 @@ export class AnonymousConsentsService {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility)
     );
+  }
+
+  // TODO:#3899 - re-write the API doc. delete the commented-out code.
+  /**
+   * If the user is anonymous, the method pulls new anonymous consent templates from the API and
+   * checks their versions against the currently stored anonymous consent templates.
+   * If there are differences, the new anonymous consent templates are stored in the store, and `true` is returned.
+   * In case there are no new versions, `false` is returned.
+   */
+  checkAnonymousConsentTemplateUpdates(
+    currentTemplates: ConsentTemplate[]
+  ): Observable<boolean> {
+    return this.getLoadAnonymousConsentTemplatesLoading().pipe(
+      tap(_ => this.loadAnonymousConsentTemplates()),
+      filter(loading => loading),
+      withLatestFrom(this.getAnonymousConsentTemplates()),
+      map(([_loading, newTemplates]) => {
+        if (newTemplates.length !== currentTemplates.length) {
+          return false;
+        }
+
+        for (let i = 0; i < newTemplates.length; i++) {
+          const newTemplate = newTemplates[i];
+          const currentTemplate = currentTemplates[i];
+          if (newTemplate.version !== currentTemplate.version) {
+            return true;
+          }
+        }
+
+        return false;
+      })
+    );
+
+    //// ######## 2
+    /*
+    this.loadAnonymousConsentTemplates();
+    return this.getAnonymousConsentTemplates().pipe(
+      skipUntil(this.getLoadAnonymousConsentTemplatesSuccess()),
+      map(newTemplates => {
+        if (newTemplates.length !== currentTemplates.length) {
+          return false;
+        }
+
+        for (let i = 0; i < newTemplates.length; i++) {
+          const newTemplate = newTemplates[i];
+          const currentTemplate = currentTemplates[i];
+          if (newTemplate.version !== currentTemplate.version) {
+            return true;
+          }
+        }
+
+        return false;
+      })
+    );
+*/
+
+    //// ######## 1
+    // return this.getAnonymousConsentTemplates().pipe(
+    //   map(currentTemplates => {
+    //     if (newTemplates.length !== currentTemplates.length) {
+    //       return newTemplates;
+    //     }
+
+    //     if (DELETE_ME) {
+    //       // const updatedTemplates: ConsentTemplate[] = [];
+    //       // for (let i = 0; i < newTemplates.length; i++) {
+    //       //   const newTemplate = newTemplates[i];
+    //       //   const currentTemplate = currentTemplates[i];
+    //       //   if (newTemplate.version !== currentTemplate.version) {
+    //       //     updatedTemplates.push(newTemplate);
+    //       //   }
+    //       // }
+    //       // return newTemplates;
+    //     }
+
+    //     return currentTemplates.map((currentTemplate, i) => {
+    //       const newTemplate = newTemplates[i];
+    //       if (currentTemplate.version !== newTemplate.version) {
+    //         return newTemplate;
+    //       } else {
+    //         return currentTemplate;
+    //       }
+    //     });
+    //   })
+    // );
   }
 }

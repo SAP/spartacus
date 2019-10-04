@@ -7,9 +7,16 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  map,
+  skipWhile,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
-import { AnonymousConsent } from '../../model/index';
+import { AnonymousConsent, DELETE_ME } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
@@ -30,7 +37,9 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     return this.anonymousConsentsService.getAnonymousConsents().pipe(
       take(1),
       withLatestFrom(this.authService.isUserLoggedIn()),
-      switchMap(([consents, isUserLoggedIn]) => {
+      skipWhile(([_consents, isUserLoggedIn]) => DELETE_ME && isUserLoggedIn),
+      map(([consents, _isUserLoggedIn]) => consents),
+      switchMap(consents => {
         if (!this.isOccUrl(request.url)) {
           return next.handle(request);
         }
@@ -39,10 +48,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
         return next.handle(clonedRequest).pipe(
           tap(event => {
             if (event instanceof HttpResponse) {
-              this.handleResponse(
-                event.headers.get(ANONYMOUS_CONSENTS_HEADER),
-                isUserLoggedIn
-              );
+              this.handleResponse(event.headers.get(ANONYMOUS_CONSENTS_HEADER));
             }
           })
         );
@@ -50,8 +56,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     );
   }
 
-  private handleResponse(rawConsents: string, isUserLoggedIn: boolean): void {
-    if (rawConsents && !isUserLoggedIn) {
+  private handleResponse(rawConsents: string): void {
+    if (rawConsents) {
       const consents = this.decodeAndDeserialize(rawConsents);
       this.anonymousConsentsService.setAnonymousConsents(consents);
     }

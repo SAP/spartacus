@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { AnonymousConsentsDialogComponent } from '../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
 import { ModalService } from '../../shared/components/modal/index';
 
@@ -22,7 +22,51 @@ export class AnonymousConsentManagementBannerComponent
   ) {}
 
   ngOnInit(): void {
-    this.bannerVisible$ = this.anonymousConsentsService.isAnonymousConsentsBannerVisible();
+    this.bannerVisible$ = this.anonymousConsentsService
+      .getAnonymousConsentTemplates()
+      .pipe(
+        take(1),
+        switchMap(currentTemplates =>
+          this.anonymousConsentsService.checkAnonymousConsentTemplateUpdates(
+            currentTemplates
+          )
+        ),
+        withLatestFrom(
+          this.anonymousConsentsService.isAnonymousConsentsBannerVisible()
+        ),
+        map(([isUpdated, isVisible]) => isUpdated || isVisible)
+      );
+
+    //############# 1
+    /*
+    this.bannerVisible$ = this.anonymousConsentsService
+      .getAnonymousConsentTemplates()
+      .pipe(
+        withLatestFrom(currentTemplates => {
+          if (DELETE_ME) {
+            console.log(
+              'THIS MUST BE CALLED ONLY ONCE! OTHERWISE IT IS AN ENDLESS LOOP'
+            );
+          }
+          return this.anonymousConsentsService
+            .checkAnonymousConsentTemplateUpdates(currentTemplates)
+            .pipe(
+              exhaustMap(templatesUpdated => {
+                if (templatesUpdated) {
+                  this.anonymousConsentsService.toggleAnonymousConsentsBannerVisibility(
+                    true
+                  );
+                }
+                return this.anonymousConsentsService.isAnonymousConsentsBannerVisible();
+              })
+            );
+        }),
+        mergeMap(x => x)
+      );
+      */
+
+    // this.bannerVisible$ = this.anonymousConsentsService.checkAnonymousConsentTemplateUpdates(this.anonymousConsentsService.getAnonymousConsentTemplates())
+    // this.bannerVisible$ = this.anonymousConsentsService.isAnonymousConsentsBannerVisible();
   }
 
   viewDetails(): void {
