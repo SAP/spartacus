@@ -75,10 +75,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateCount(value: number): void {
-    this.quantity = value;
-  }
-
   addToCart() {
     const quantity = this.addToCartForm.get('quantity').value;
     if (!this.productCode || quantity <= 0) {
