@@ -30,7 +30,7 @@ export class ProductVariantSelectorComponent {
     filter(v => !!v),
     distinctUntilChanged(),
     tap(p => {
-      if (!p.availableForPickup) {
+      if (!p.availableForPickup && p.stock && !p.stock.stockLevel) {
         const variant = this.findApparelVariantAvailableForPickup(
           p.variantOptions
         );
