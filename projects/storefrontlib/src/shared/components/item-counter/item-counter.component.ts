@@ -48,6 +48,13 @@ export class ItemCounterComponent {
    */
   @Input() step = 1;
 
+  /**
+   * Inidicatas that the input can be manually set to zero,
+   * despite the fact that the input controls will be limited to
+   * the minimum. The zero value can be used to remove an item.
+   */
+  @Input() allowZero: false;
+
   private _control$: Observable<FormControl>;
 
   /**
@@ -83,17 +90,25 @@ export class ItemCounterComponent {
     if (!this._control$) {
       this._control$ = this.control.valueChanges.pipe(
         startWith(this.control.value),
-        tap(value => {
-          if (value < (this.min || 1)) {
-            this.control.setValue(this.min, { emitEvent: false });
-          }
-          if (this.max && value > this.max) {
-            this.control.setValue(this.max, { emitEvent: false });
-          }
-        }),
+        tap(value =>
+          this.control.setValue(this.getValidCount(value), { emitEvent: false })
+        ),
         map(() => this.control)
       );
     }
     return this._control$;
+  }
+
+  private getValidCount(value: number) {
+    let newValue = Number(value);
+    if (value === 0 && this.allowZero) {
+      // do nothing
+    } else if (value < (this.min || 1)) {
+      newValue = this.min;
+    }
+    if (this.max && value > this.max) {
+      newValue = this.max;
+    }
+    return newValue;
   }
 }
