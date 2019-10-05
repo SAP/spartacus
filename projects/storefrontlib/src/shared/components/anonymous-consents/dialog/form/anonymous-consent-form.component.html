@@ -9,30 +9,33 @@
     data-binding="expand-accordion-item"
   >
     <div
-      id="tab1"
+      [id]="'tab' + template?.id"
       tabindex="0"
       class="cx-accordion-tab cx-keyb-focusable"
-      aria-controls="panel1"
+      [attr.aria-controls]="'panel' + template?.id"
       role="tab"
-      aria-selected="false"
-      aria-expanded="false"
+      [attr.aria-selected]="accordionExpanded"
+      [attr.aria-expanded]="accordionExpanded"
       data-binding="expand-accordion-trigger"
+      (click)="toggleAccordion()"
+      (keydown)="toggleAccordion($event)"
     >
-      <cx-icon class="fas fa-angle-down"></cx-icon>
+      <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
       <span class="cx-accordion-title cx-keyb-visualfocus" tabindex="-1"
         >{{ template?.name }}
       </span>
     </div>
 
     <div
-      id="panel1"
+      [id]="'panel' + template?.id"
       class="cx-accordion-tabpanel"
       role="tabpanel"
-      aria-hidden="true"
-      aria-labelledby="tab1"
+      [attr.aria-hidden]="!accordionExpanded"
+      [attr.aria-labelledby]="'tab' + template?.id"
       data-binding="expand-accordion-container"
+      [style.height]="accordionHeight"
     >
-      <div class="cx-accordion-content">
+      <div class="cx-accordion-content" #accordionContent>
         <p>{{ template?.description }}</p>
       </div>
     </div>
@@ -41,14 +44,14 @@
       <input
         [id]="template?.id"
         type="checkbox"
-        [checked]="consentGiven"
+        [checked]="consentGiven$ | async"
         (change)="onConsentChange()"
       />
 
       <label [for]="template?.id">
         <div class="cx-toggle-switch"></div>
         <div class="cx-toggle-text">
-          {{ 'anonymousConsents.off' | cxTranslate }}
+          {{ translation$ | async | cxTranslate }}
         </div>
       </label>
     </div>
