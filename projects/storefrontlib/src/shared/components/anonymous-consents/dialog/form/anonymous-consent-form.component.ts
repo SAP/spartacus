@@ -24,7 +24,7 @@ import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 export class AnonymousConsentFormComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   consentGiven$ = new BehaviorSubject<boolean>(false);
-  translation$: Observable<string>;
+  consentGivenTranslation$: Observable<string>;
   accordionExpanded = false;
   accordionHeight = '0px';
 
@@ -46,11 +46,13 @@ export class AnonymousConsentFormComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
-    this.consentGiven$.next(
-      this.consent.consentState ===
-        ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
-    );
-    this.translation$ = this.consentGiven$.pipe(
+    if (this.consent) {
+      this.consentGiven$.next(
+        this.consent.consentState ===
+          ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
+      );
+    }
+    this.consentGivenTranslation$ = this.consentGiven$.pipe(
       map(given => (given ? 'anonymousConsents.on' : 'anonymousConsents.off'))
     );
   }
