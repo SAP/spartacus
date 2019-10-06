@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { QualtricsService } from './qualtrics.service';
+import { QualtricsConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-qualtrics',
   template: '',
 })
 export class QualtricsComponent implements OnInit {
-  constructor(private qualtricsService: QualtricsService) {}
+  constructor(private config: QualtricsConfigService) {}
 
   ngOnInit() {
-    this.qualtricsService.trigger();
+    this.config.trigger();
   }
 }

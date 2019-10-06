@@ -11,6 +11,7 @@ import {
   ProcessModule,
   ProductModule,
   provideConfigFromMetaTags,
+  QualtricsConfigModule,
   StateModule,
   UserModule,
 } from '@spartacus/core';
@@ -26,6 +27,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     RoutingModule.forRoot(),
     I18nModule.forRoot(),
     CmsModule.forRoot(),
+    QualtricsConfigModule.forRoot(),
     GlobalMessageModule.forRoot(),
     ProcessModule.forRoot(),
     CartModule.forRoot(),
