@@ -37,7 +37,7 @@ export class YotpoService {
   }
 
   addYotpoInitWidgetsScript(elementRef: ElementRef) {
-    const s = document.createElement('script');
+    const s = this.windowRef.document.createElement('script');
     s.type = 'text/javascript';
     // tslint:disable-next-line
     s.text = `function callYotpo() { if (typeof yotpo !== 'undefined' && yotpo.initialized && yotpo.state=='ready') { yotpo.initWidgets(); } else { setTimeout(function() { callYotpo(); }, 1000);} } callYotpo();`;
