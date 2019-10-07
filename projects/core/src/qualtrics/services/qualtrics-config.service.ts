@@ -1,35 +1,43 @@
 import { Injectable } from '@angular/core';
-import { WindowRef } from '../../window';
+import { EMPTY, fromEvent, iif, Observable, of } from 'rxjs';
+import { distinctUntilChanged, mergeMap, tap } from 'rxjs/operators';
+import { WindowRef } from '../../window/index';
 import { QualtricsConfig } from '../config/qualtrics-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QualtricsConfigService {
-  qualtrics = this.winRef.nativeWindow['QSI'];
+  constructor(private winRef: WindowRef, private config: QualtricsConfig) {}
 
-  constructor(private winRef: WindowRef, private config: QualtricsConfig) {
-    if (this.qualtrics && !this.config.qualtrics.multi) {
-      this.reloadCreative();
-    }
+  load(): Observable<boolean> {
+    return iif(
+      () => Boolean(this.winRef.nativeWindow) && this.isQualtricsConfigured(),
+      fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded').pipe(
+        mergeMap(_ => {
+          const qsi = this.winRef.nativeWindow['QSI'];
+          if (this.config.qualtrics.multi) {
+            qsi.API.unload();
+          }
+          return this.isDataLoaded().pipe(
+            distinctUntilChanged(),
+            tap(dataLoaded => {
+              if (dataLoaded) {
+                qsi.API.load().done(qsi.API.run());
+              }
+            })
+          );
+        })
+      ),
+      EMPTY
+    );
   }
 
-  trigger() {
-    if (this.qualtrics && this.config.qualtrics.active) {
-      if (this.config.qualtrics.multi) {
-        this.qualtrics.API.unload();
-        this.evaluateSurveyOnce();
-      } else {
-        this.evaluateSurveyOnce();
-      }
-    }
+  private isQualtricsConfigured(): boolean {
+    return Boolean(this.config.qualtrics) && this.config.qualtrics.active;
   }
 
-  private reloadCreative() {
-    this.qualtrics.API.unload();
-  }
-
-  private evaluateSurveyOnce() {
-    this.qualtrics.API.load().done(this.qualtrics.API.run());
+  isDataLoaded(): Observable<boolean> {
+    return of(true);
   }
 }
