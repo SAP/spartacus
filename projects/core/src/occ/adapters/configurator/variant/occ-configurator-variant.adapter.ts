@@ -6,7 +6,6 @@ import {
   CONFIGURATION_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
-import { FeatureConfigService } from '../../../../features-config/services/feature-config.service';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
 import { Configurator } from './../../../../model/configurator.model';
@@ -18,8 +17,7 @@ export class OccConfiguratorVariantAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService,
-    protected featureConfigService?: FeatureConfigService
+    protected converterService: ConverterService
   ) {}
 
   createConfiguration(

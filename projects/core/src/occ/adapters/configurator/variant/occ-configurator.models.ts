@@ -31,6 +31,7 @@ export namespace OccConfigurator {
     type?: UiType;
     domainvalues?: Value[];
     required?: boolean;
+    value?: string;
   }
 
   export interface Value {

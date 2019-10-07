@@ -45,27 +45,11 @@ export class OccConfiguratorVariantSerializer
       langdepname: attribute.label,
       required: attribute.required,
       type: this.convertCharacteristicType(attribute.uiType),
-      domainvalues: [],
     };
-    if (attribute.values) {
-      attribute.values.forEach(value =>
-        this.convertValue(value, cstics.domainvalues)
-      );
-    }
+
+    cstics.value = attribute.selectedSingleValue;
 
     occCstics.push(cstics);
-  }
-
-  convertValue(
-    value: Configurator.Value,
-    occValues: OccConfigurator.Value[]
-  ): void {
-    const occValue: OccConfigurator.Value = {
-      key: value.valueCode,
-      selected: value.selected,
-    };
-
-    occValues.push(occValue);
   }
 
   convertCharacteristicType(type: Configurator.UiType): OccConfigurator.UiType {
@@ -126,7 +110,7 @@ export class OccConfiguratorVariantSerializer
     switch (attribute.name) {
       case 'EXP_NUMBER':
       case 'CPQ_DISPLAY':
-      case 'CPQ_DISPLAY':
+      case 'CPQ_CPU':
       case 'CPQ_RAM':
         this.convertAttribute(attribute, occGroups[0].cstics);
         break;

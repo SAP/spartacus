@@ -83,7 +83,7 @@ describe('ConfiguratorEffect', () => {
     expect(configEffects.createConfiguration$).toBeObservable(expected);
   });
 
-  it('must not emit anything in case source action is not covered ', () => {
+  it('must not emit anything in case source action is not covered, createConfiguration', () => {
     const payloadInput = { productCode: productCode };
     const action = new ConfiguratorActions.CreateConfigurationSuccess(
       payloadInput
@@ -106,7 +106,7 @@ describe('ConfiguratorEffect', () => {
     expect(configEffects.readConfiguration$).toBeObservable(expected);
   });
 
-  it('must not emit anything in case source action is not covered ', () => {
+  it('must not emit anything in case source action is not covered, readConfiguration', () => {
     const payloadInput = { configId: configId };
     const action = new ConfiguratorActions.ReadConfigurationSuccess(
       payloadInput
@@ -116,7 +116,7 @@ describe('ConfiguratorEffect', () => {
     configEffects.readConfiguration$.subscribe(emitted => fail(emitted));
   });
 
-  it('should a success action with content for an action of type readConfiguration', () => {
+  it('should a success action with content for an action of type updateConfiguration', () => {
     const payloadInput = productConfiguration;
     const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
 
@@ -129,7 +129,7 @@ describe('ConfiguratorEffect', () => {
     expect(configEffects.updateConfiguration$).toBeObservable(expected);
   });
 
-  it('must not emit anything in case source action is not covered ', () => {
+  it('must not emit anything in case source action is not covered, updateConfiguration', () => {
     const payloadInput = productConfiguration;
     const action = new ConfiguratorActions.UpdateConfigurationSuccess(
       payloadInput
