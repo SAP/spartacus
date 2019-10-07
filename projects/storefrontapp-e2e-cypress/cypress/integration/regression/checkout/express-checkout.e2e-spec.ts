@@ -1,5 +1,5 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-import * as checkout from '../../helpers/checkout-flow';
+import * as checkout from '../../../helpers/checkout-flow';
 
 context('Express checkout', () => {
   before(() => {
