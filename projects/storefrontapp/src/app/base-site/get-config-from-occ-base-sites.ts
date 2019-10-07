@@ -1,11 +1,21 @@
+// import { isDevMode } from '@angular/core';
+// import { SiteContextConfig } from '../../../core/src/site-context/config/site-context-config';
+// import {
+//   BASE_SITE_CONTEXT_ID,
+//   CURRENCY_CONTEXT_ID,
+//   LANGUAGE_CONTEXT_ID,
+// } from '../../../core/src/site-context/providers/context-ids';
+// import { Occ } from '../../../core/src/occ/occ-models/occ.models';
+// import { convertJavaRegExp } from './convert-java-reg-exp';
+
 import { isDevMode } from '@angular/core';
-import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
-} from '../../site-context/providers/context-ids';
-import { Occ } from '../occ-models/occ.models';
+  Occ,
+  SiteContextConfig,
+} from '@spartacus/core';
 import { convertJavaRegExp } from './convert-java-reg-exp';
 
 /**

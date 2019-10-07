@@ -1,5 +1,12 @@
+// import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
+// import { provideConfigFactory } from '../../../core/src/config/config.module';
+// import {
+//   ConfigFromOccBaseSites,
+//   configFromOccBasesSitesFactory,
+// } from './occ-base-sites-config.providers';
+
 import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
-import { provideConfigFactory } from '../../config/config.module';
+import { provideConfigFactory } from '@spartacus/core';
 import {
   ConfigFromOccBaseSites,
   configFromOccBasesSitesFactory,

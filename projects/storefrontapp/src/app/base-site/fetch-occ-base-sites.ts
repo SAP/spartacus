@@ -1,14 +1,21 @@
+// import { isDevMode } from '@angular/core';
+// import {
+//   OCC_BASE_URL_META_TAG_NAME,
+//   OCC_BASE_URL_META_TAG_PLACEHOLDER,
+// } from '../config/config-from-meta-tag-factory';
+// import { Occ } from '../occ-models/occ.models';
+
 import { isDevMode } from '@angular/core';
 import {
+  Occ,
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
-} from '../config/config-from-meta-tag-factory';
-import { Occ } from '../occ-models/occ.models';
+} from '@spartacus/core';
 
-function xhrJsonRequest(url: string, method: string = 'GET'): Promise<any> {
+function fetchJson(url: string): Promise<any> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open(method, url, true);
+    xhr.open('GET', url, true);
     xhr.onload = () => {
       if (xhr.status === 200) {
         try {
@@ -28,18 +35,36 @@ function xhrJsonRequest(url: string, method: string = 'GET'): Promise<any> {
   });
 }
 
-function getBaseUrlFromMetaTag() {
-  const meta = document.querySelector(
-    `meta[name="${OCC_BASE_URL_META_TAG_NAME}"]`
-  );
-  const baseUrl = meta && meta.getAttribute('content');
-  return baseUrl === OCC_BASE_URL_META_TAG_PLACEHOLDER ? null : baseUrl;
-}
-
 export interface FetchOccBaseSitesOptions {
-  baseUrl?: string;
+  baseUrl: string;
   prefix?: string;
   endpoint?: string;
+  ssrHttpsClient?: any; // spike todo add types
+}
+
+function nodeFetchJson(url: string, nodeHttpsClient: any): Promise<any> {
+  return new Promise((resolve, reject) => {
+    nodeHttpsClient
+      .get(url, response => {
+        let data = '';
+        response.on('data', chunk => {
+          data += chunk;
+        });
+        response.on('end', () => {
+          if (response.statusCode === 200) {
+            try {
+              resolve(JSON.parse(data));
+            } catch (e) {
+              reject(e);
+            }
+          }
+          reject(response);
+        });
+      })
+      .on('error', err => {
+        reject('Error: ' + err.message);
+      });
+  });
 }
 
 /**
@@ -48,9 +73,9 @@ export interface FetchOccBaseSitesOptions {
  * It's intended to be used before the initialization of an Angular app, so cannot use Angular utils.
  */
 export function fetchOccBaseSites(
-  options: FetchOccBaseSitesOptions = {}
+  options: FetchOccBaseSitesOptions
 ): Promise<Occ.BaseSites> {
-  const baseUrl = options.baseUrl || getBaseUrlFromMetaTag();
+  const baseUrl = options.baseUrl;
   if (!baseUrl) {
     if (isDevMode()) {
       console.warn(
@@ -65,7 +90,10 @@ export function fetchOccBaseSites(
 
   const url = `${baseUrl}${prefix}${endpoint}`;
 
-  return xhrJsonRequest(url).catch(error => {
+  return (options.ssrHttpsClient
+    ? nodeFetchJson(url, options.ssrHttpsClient)
+    : fetchJson(url)
+  ).catch(error => {
     if (isDevMode()) {
       console.error(`Error: Could not fetch OCC base sites!\n`, error);
     }
