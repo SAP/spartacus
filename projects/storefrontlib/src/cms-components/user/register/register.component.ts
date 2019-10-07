@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AnonymousConsent,
+  AnonymousConsentsConfig,
   AnonymousConsentsService,
   ANONYMOUS_CONSENT_STATUS,
   AuthRedirectService,
@@ -64,7 +65,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected fb: FormBuilder,
     protected router?: RoutingService,
     protected featureConfig?: FeatureConfigService,
-    protected anonymousConsentService?: AnonymousConsentsService
+    protected anonymousConsentsService?: AnonymousConsentsService,
+    protected anonymousConsentsConfig?: AnonymousConsentsConfig
   ) {}
 
   // TODO(issue:4237) Register flow
@@ -134,13 +136,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
         })
     );
 
-    if (this.anonymousConsentService) {
+    if (this.anonymousConsentsService) {
       this.anonymousConsent$ = combineLatest([
-        this.anonymousConsentService.getAnonymousConsent(
-          'MARKETING_NEWSLETTER'
+        this.anonymousConsentsService.getAnonymousConsent(
+          this.anonymousConsentsConfig.anonymousConsents.registerConsent
         ),
-        this.anonymousConsentService.getAnonymousConsentTemplate(
-          'MARKETING_NEWSLETTER'
+        this.anonymousConsentsService.getAnonymousConsentTemplate(
+          this.anonymousConsentsConfig.anonymousConsents.registerConsent
         ),
       ]).pipe(
         map(([consent, template]: [AnonymousConsent, ConsentTemplate]) => {
@@ -187,8 +189,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
-        this.anonymousConsentService.giveAnonymousConsent(
-          'MARKETING_NEWSLETTER'
+        this.anonymousConsentsService.giveAnonymousConsent(
+          this.anonymousConsentsConfig.anonymousConsents.registerConsent
         );
       }
     }
