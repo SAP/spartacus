@@ -90,6 +90,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 export function chooseDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').check({ force: true });
+  cy.get('#deliveryMode-standard-gross').should('be.checked');
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'
