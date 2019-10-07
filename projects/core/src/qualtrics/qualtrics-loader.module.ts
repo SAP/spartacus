@@ -3,10 +3,10 @@ import { Config } from '../config/config.module';
 import { QualtricsConfig } from './config/qualtrics-config';
 
 @NgModule({})
-export class QualtricsConfigModule {
-  static forRoot(): ModuleWithProviders<QualtricsConfigModule> {
+export class QualtricsLoaderModule {
+  static forRoot(): ModuleWithProviders<QualtricsLoaderModule> {
     return {
-      ngModule: QualtricsConfigModule,
+      ngModule: QualtricsLoaderModule,
       providers: [
         {
           provide: QualtricsConfig,

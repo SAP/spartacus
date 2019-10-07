@@ -35,6 +35,7 @@ if (!environment.production) {
     B2cStorefrontModule.withConfig({
       qualtrics: {
         active: true,
+        multi: false,
       },
       backend: {
         occ: {

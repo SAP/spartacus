@@ -1,9 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { QualtricsLoaderService, WindowRef } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { QualtricsComponent } from './qualtrics.component';
 
-class MockQualtricsLoader {
-  trigger(): void {}
+class MockQualtricsLoaderService {
+  load(): Observable<boolean> {
+    return of(true);
+  }
+}
+
+export class MockQualtricsConfig {
+  qualtrics: {
+    active: true;
+  };
 }
 
 describe('QualtricsComponent', () => {
@@ -17,7 +26,7 @@ describe('QualtricsComponent', () => {
         WindowRef,
         {
           provide: QualtricsLoaderService,
-          useClass: MockQualtricsLoader,
+          useClass: MockQualtricsLoaderService,
         },
       ],
     }).compileComponents();
@@ -31,5 +40,13 @@ describe('QualtricsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should be loaded', () => {
+    let result: boolean;
+
+    component.qualtricsEnabled$.subscribe(data => (result = data));
+
+    expect(result).toBe(true);
   });
 });
