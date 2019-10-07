@@ -13,9 +13,14 @@ import {
   PaymentDetails,
 } from './checkout-forms';
 
-export function visitHomePage() {
+export function visitHomePage(queryStringParams?: string) {
   const homePage = waitForPage('homepage', 'getHomePage');
-  cy.visit('/');
+
+  if (queryStringParams) {
+    cy.visit(`/?${queryStringParams}`);
+  } else {
+    cy.visit('/');
+  }
   cy.wait(`@${homePage}`);
 }
 
@@ -34,6 +39,14 @@ export function registerUser() {
   cy.wait(`@${registerPage}`);
   register(user);
   cy.get('cx-breadcrumb').contains('Login');
+  return user;
+}
+
+export function signInUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.getByText(/Sign in \/ Register/i).click();
+  cy.wait(`@${loginPage}`);
+  login(user.email, user.password);
 }
 
 export function signOutUser() {
@@ -87,9 +100,10 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
   fillShippingAddress(shippingAddressData);
 }
 
-export function chooseDeliveryMethod() {
+export function verifyDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').check({ force: true });
+  cy.get('#deliveryMode-standard-gross').should('be.checked');
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'
@@ -194,6 +208,10 @@ export function clickAddNewPayment() {
 
 export function goToCheapProductDetailsPage() {
   visitHomePage();
+  clickCheapProductDetailsFromHomePage();
+}
+
+export function clickCheapProductDetailsFromHomePage() {
   const productCode = 'ProductPage&code=280916';
   const productPage = waitForPage(productCode, 'getProductPage');
   cy.get('.Section4 cx-banner')
@@ -210,12 +228,7 @@ export function goToCheapProductDetailsPage() {
 }
 
 export function addCheapProductToCartAndLogin() {
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', cheapProduct.name);
-  });
+  addCheapProductToCart();
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
@@ -228,15 +241,29 @@ export function addCheapProductToCartAndLogin() {
 }
 
 export function addCheapProductToCartAndProceedToCheckout() {
+  addCheapProductToCart();
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.getByText(/proceed to checkout/i).click();
+  cy.wait(`@${loginPage}`);
+}
+
+export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer() {
+  addCheapProductToCart();
+  const shippingPage = waitForPage(
+    '/checkout/shipping-address',
+    'getShippingPage'
+  );
+  cy.getByText(/proceed to checkout/i).click();
+  cy.wait(`@${shippingPage}`);
+}
+
+export function addCheapProductToCart() {
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', cheapProduct.name);
   });
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`);
 }
 
 export function fillAddressFormWithCheapProduct(
