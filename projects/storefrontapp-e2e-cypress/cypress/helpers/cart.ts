@@ -53,7 +53,7 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get('.cx-counter-action')
+  cy.get('button')
     .contains('+')
     .click();
 }
@@ -149,23 +149,23 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 }
 
 export function removeAllItemsFromCart() {
-  const product0 = products[0];
-  const product1 = products[1];
   cy.server();
   cy.route(
     'GET',
     `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 
-  getCartItem(product0.name).within(() => {
+  getCartItem(products[0].name).within(() => {
     cy.getByText('Remove').click();
   });
 
   cy.wait('@refresh_cart');
 
-  getCartItem(product1.name).within(() => {
+  getCartItem(products[1].name).within(() => {
     cy.getByText('Remove').click();
   });
+
+  cy.wait('@refresh_cart');
 
   validateEmptyCart();
 }
