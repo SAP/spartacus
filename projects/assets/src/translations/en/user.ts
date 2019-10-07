@@ -3,7 +3,7 @@ export const user = {
     preferences: 'Consent Preferences',
     dialog: {
       title: 'Consent Management',
-      description: `We use cookies/browser's storage to personalize the content and improve user experience. We also migth share your about your site usage with our social media. For more, please review our privacy policy.`,
+      legalDescription: `We use cookies/browser's storage to personalize the content and improve user experience. We also might share the data about your site usage with our social media. For more, please review our privacy policy.`,
       allowAll: 'Allow All',
       rejectAll: 'Reject All',
       off: 'OFF',
