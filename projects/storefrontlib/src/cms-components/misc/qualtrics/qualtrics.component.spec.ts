@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { QualtricsConfigService, WindowRef } from '@spartacus/core';
+import { QualtricsLoaderService, WindowRef } from '@spartacus/core';
 import { QualtricsComponent } from './qualtrics.component';
 
-class MockQualtricsConfigService {
+class MockQualtricsLoader {
   trigger(): void {}
 }
 
@@ -16,8 +16,8 @@ describe('QualtricsComponent', () => {
       providers: [
         WindowRef,
         {
-          provide: QualtricsConfigService,
-          useClass: MockQualtricsConfigService,
+          provide: QualtricsLoaderService,
+          useClass: MockQualtricsLoader,
         },
       ],
     }).compileComponents();

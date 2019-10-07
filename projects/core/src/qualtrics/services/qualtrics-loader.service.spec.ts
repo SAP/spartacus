@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { QualtricsConfig } from '../config/qualtrics-config';
-import { QualtricsConfigService } from './qualtrics-config.service';
+import { QualtricsLoaderService } from './qualtrics-loader.service';
 
 const mockQualtricsConfig: QualtricsConfig = {
   qualtrics: {
@@ -9,7 +9,7 @@ const mockQualtricsConfig: QualtricsConfig = {
   },
 };
 
-describe('QualtricsConfigService', () => {
+describe('QualtricsLoaderService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [{ provide: QualtricsConfig, useValue: mockQualtricsConfig }],
@@ -17,7 +17,7 @@ describe('QualtricsConfigService', () => {
   );
 
   it('should be created', () => {
-    const service: QualtricsConfigService = TestBed.get(QualtricsConfigService);
+    const service: QualtricsLoaderService = TestBed.get(QualtricsLoaderService);
     expect(service).toBeTruthy();
   });
 });

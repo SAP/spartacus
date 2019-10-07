@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { QualtricsConfigService } from '@spartacus/core';
+import { Component } from '@angular/core';
+import { QualtricsLoaderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -8,12 +8,8 @@ import { Observable } from 'rxjs';
     <ng-container *ngIf="qualtricsEnabled$ | async"></ng-container>
   `,
 })
-export class QualtricsComponent implements OnInit {
-  qualtricsEnabled$: Observable<boolean>;
+export class QualtricsComponent {
+  qualtricsEnabled$: Observable<boolean> = this.config.load();
 
-  constructor(private config: QualtricsConfigService) {}
-
-  ngOnInit() {
-    this.qualtricsEnabled$ = this.config.load();
-  }
+  constructor(private config: QualtricsLoaderService) {}
 }

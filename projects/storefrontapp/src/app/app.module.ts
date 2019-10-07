@@ -9,7 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { QualtricsConfigService, TestConfigModule } from '@spartacus/core';
+import { QualtricsLoaderService, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   StorefrontComponent,
@@ -80,7 +80,7 @@ if (!environment.production) {
 
   bootstrap: [StorefrontComponent],
   providers: [
-    { provide: QualtricsConfigService, useClass: QualtricsExtendedService },
+    { provide: QualtricsLoaderService, useClass: QualtricsExtendedService },
   ],
 })
 export class AppModule {}
