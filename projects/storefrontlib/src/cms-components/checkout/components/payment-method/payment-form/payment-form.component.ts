@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -99,7 +100,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -152,6 +154,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     // checks if a new global message has popped up
     const globalMessageSub = this.globalMessageService.get().subscribe(() => {
       this.buttonHasBeenClicked = false;
+      this.cd.markForCheck();
     });
 
     this.subscriptions.add(checkboxSub);
