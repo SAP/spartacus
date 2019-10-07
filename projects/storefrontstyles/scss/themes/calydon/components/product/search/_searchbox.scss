@@ -1,0 +1,14 @@
+%cx-searchbox__body-calydon {
+    label{
+        cx-icon {
+            &.reset {
+                @include media-breakpoint-down(sm) {
+                    position: relative;
+                    left: 74px;
+                    z-index: 20;
+                    top: 52px; 
+                }
+            }
+        }
+    }
+}
