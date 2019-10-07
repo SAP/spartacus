@@ -2,7 +2,7 @@
   <!-- Modal Header -->
   <div class="cx-dialog-header modal-header">
     <div class="cx-dialog-title modal-title">
-      {{ 'anonymousConsents.consentManagement' | cxTranslate }}
+      {{ 'anonymousConsents.dialog.title' | cxTranslate }}
     </div>
     <button
       type="button"
@@ -19,13 +19,19 @@
   <div
     class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
   ></div>
+  <div>
+    <span>{{ 'anonymousConsents.dialog.description' | cxTranslate }}</span>
+    <div
+      class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
+    ></div>
+  </div>
   <!-- Actions -->
   <div class="cx-dialog-buttons">
     <a class="btn cx-action-btn" (click)="rejectAll()">{{
-      'anonymousConsents.rejectAll' | cxTranslate
+      'anonymousConsents.dialog.rejectAll' | cxTranslate
     }}</a>
     <a class="btn cx-action-btn" (click)="allowAll()">{{
-      'anonymousConsents.allowAll' | cxTranslate
+      'anonymousConsents.dialog.allowAll' | cxTranslate
     }}</a>
   </div>
   <!-- Modal Body -->

@@ -53,7 +53,9 @@ export class AnonymousConsentFormComponent implements OnInit, OnDestroy {
       );
     }
     this.consentGivenTranslation$ = this.consentGiven$.pipe(
-      map(given => (given ? 'anonymousConsents.on' : 'anonymousConsents.off'))
+      map(given =>
+        given ? 'anonymousConsents.dialog.on' : 'anonymousConsents.dialog.off'
+      )
     );
   }
 

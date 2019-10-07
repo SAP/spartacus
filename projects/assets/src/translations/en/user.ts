@@ -1,12 +1,20 @@
 export const user = {
   anonymousConsents: {
-    consentManagement: 'Consent Management',
     preferences: 'Consent Preferences',
-    rejectAll: 'Reject All',
-    allowAll: 'Allow All',
-    viewDetails: 'View Details',
-    off: 'OFF',
-    on: 'ON',
+    dialog: {
+      title: 'Consent Management',
+      description: `We use cookies/browser's storage to personalize the content and improve user experience. We also migth share your about your site usage with our social media. For more, please review our privacy policy.`,
+      allowAll: 'Allow All',
+      rejectAll: 'Reject All',
+      off: 'OFF',
+      on: 'ON',
+    },
+    banner: {
+      title: 'This website uses cookies',
+      description: `We use cookies/browser's storage to personalize the content and improve user experience.`,
+      allowAll: 'Allow All',
+      viewDetails: 'View Details',
+    },
   },
   forgottenPassword: {
     resetPassword: 'Reset password',
