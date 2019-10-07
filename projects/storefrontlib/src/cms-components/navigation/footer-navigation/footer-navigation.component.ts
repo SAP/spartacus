@@ -29,11 +29,38 @@ export class FooterNavigationComponent {
   data$ = this.componentData.data$;
 
   constructor(
+    componentData: CmsComponentData<CmsNavigationComponent>,
+    service: NavigationService,
+    config: AnonymousConsentsConfig,
+    authService: AuthService,
+    modalService: ModalService
+  );
+
+  /**
+   * @deprecated since version 1.3
+   * Instead, use:
+   * 
+    ```ts
+      constructor(
+      componentData: CmsComponentData<CmsNavigationComponent>,
+      service: NavigationService,
+      config: AnonymousConsentsConfig,
+      authService: AuthService,
+      modalService: ModalService
+    )
+    ```
+   */
+  constructor(
+    componentData: CmsComponentData<CmsNavigationComponent>,
+    service: NavigationService,
+    config: AnonymousConsentsConfig
+  );
+  constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
     protected service: NavigationService,
     protected config: AnonymousConsentsConfig,
-    protected authService: AuthService,
-    protected modalService: ModalService
+    protected authService?: AuthService,
+    protected modalService?: ModalService
   ) {}
 
   get showConsentPreferences(): Observable<boolean> {
