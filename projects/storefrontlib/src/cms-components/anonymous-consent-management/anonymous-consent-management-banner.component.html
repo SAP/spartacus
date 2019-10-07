@@ -3,18 +3,24 @@
     [ngClass]="{ 'anonymous-consents-banner-hidden': !bannerVisible }"
     class="anonymous-consents-banner"
   >
-    <p>Cookie statement</p>
-    <div>
-      Cookie consent, some random long text description
-    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <p>Cookie statement</p>
+          <div>
+            Cookie consent, some random long text description
+          </div>
+        </div>
 
-    <div>
-      <a class="btn btn-secondary" (click)="viewDetails()">{{
-        'anonymousConsents.viewDetails' | cxTranslate
-      }}</a>
-      <a class="btn btn-primary" (click)="allowAll()">{{
-        'anonymousConsents.allowAll' | cxTranslate
-      }}</a>
+        <div class="col-lg-4">
+          <a class="btn btn-secondary" (click)="viewDetails()">{{
+            'anonymousConsents.viewDetails' | cxTranslate
+          }}</a>
+          <a class="btn btn-primary" (click)="allowAll()">{{
+            'anonymousConsents.allowAll' | cxTranslate
+          }}</a>
+        </div>
+      </div>
     </div>
   </div>
 </ng-container>
