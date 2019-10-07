@@ -7,7 +7,7 @@ import { CardModule } from '../../../../../shared/components/card/card.module';
 import { IconModule } from '../../../../misc/icon/icon.module';
 import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
 import { PaymentFormComponent } from './payment-form.component';
-import { SpinnerModule } from 'projects/storefrontlib/src/shared';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,7 +17,7 @@ import { SpinnerModule } from 'projects/storefrontlib/src/shared';
     BillingAddressFormModule,
     I18nModule,
     IconModule,
-    SpinnerModule,
+    PaymentFormModule,
   ],
   declarations: [PaymentFormComponent],
   entryComponents: [PaymentFormComponent],
