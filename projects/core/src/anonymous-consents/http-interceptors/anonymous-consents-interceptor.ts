@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { AnonymousConsent } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
@@ -30,8 +30,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     return this.anonymousConsentsService.getAnonymousConsents().pipe(
       take(1),
       withLatestFrom(this.authService.isUserLoggedIn()),
-      map(([consents, _isUserLoggedIn]) => consents),
-      switchMap(consents => {
+      switchMap(([consents, isUserLoggedIn]) => {
         if (!this.isOccUrl(request.url)) {
           return next.handle(request);
         }
@@ -40,7 +39,10 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
         return next.handle(clonedRequest).pipe(
           tap(event => {
             if (event instanceof HttpResponse) {
-              this.handleResponse(event.headers.get(ANONYMOUS_CONSENTS_HEADER));
+              this.handleResponse(
+                event.headers.get(ANONYMOUS_CONSENTS_HEADER),
+                isUserLoggedIn
+              );
             }
           })
         );
@@ -48,8 +50,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     );
   }
 
-  private handleResponse(rawConsents: string): void {
-    if (rawConsents) {
+  private handleResponse(rawConsents: string, isUserLoggedIn: boolean): void {
+    if (rawConsents && !isUserLoggedIn) {
       const consents = this.decodeAndDeserialize(rawConsents);
       this.anonymousConsentsService.setAnonymousConsents(consents);
     }

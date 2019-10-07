@@ -34,11 +34,7 @@ if (!environment.production) {
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
-          baseUrl: '',
-          // baseUrl:
-          //   'https://electronics.dev-com-14.accdemo.b2c.ydev.hybris.com:9002/',
-          // baseUrl:
-          //   'https://electronics.dev-com-17.accdemo.b2c.ydev.hybris.com:9002/',
+          baseUrl: environment.occBaseUrl,
           legacy: false,
         },
       },
