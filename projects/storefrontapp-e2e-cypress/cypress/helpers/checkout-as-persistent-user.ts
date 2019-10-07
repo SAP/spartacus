@@ -161,7 +161,6 @@ export function selectShippingAddress() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
-  cy.getByText(/Ship to this address/i).click();
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
 }
@@ -184,7 +183,6 @@ export function selectPaymentMethod() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
-  cy.getByText(/Use this payment/i).click();
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
 }
