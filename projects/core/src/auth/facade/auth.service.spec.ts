@@ -1,7 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
 import { AuthState, AUTH_FEATURE } from '../store/auth-state';
@@ -62,6 +65,31 @@ describe('AuthService', () => {
     expect(result).toEqual(mockToken);
   });
 
+  it('should get the Customer Support Agent token', () => {
+    store.dispatch(
+      new AuthActions.LoadCustomerSupportAgentTokenSuccess(mockToken)
+    );
+
+    let result: UserToken;
+    const subscription = service
+      .getCustomerSupportAgentToken()
+      .subscribe(token => {
+        result = token;
+      });
+    subscription.unsubscribe();
+
+    expect(result).toEqual(mockToken);
+  });
+
+  it('should get the Customer Support Agent token loading status', () => {
+    let result: boolean;
+    service
+      .getCustomerSupportAgentTokenLoading()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
+  });
+
   it('should expose clientToken', () => {
     store.dispatch(new AuthActions.LoadClientTokenSuccess(mockClientToken));
 
@@ -91,6 +119,18 @@ describe('AuthService', () => {
     service.authorize('user', 'password');
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.LoadUserToken({
+        userId: 'user',
+        password: 'password',
+      })
+    );
+  });
+
+  it('should dispatch proper action for authorizeCustomerSupporAgent', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.authorizeCustomerSupporAgent('user', 'password');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.LoadCustomerSupportAgentToken({
         userId: 'user',
         password: 'password',
       })
@@ -136,6 +176,15 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
   });
 
+  it('should dispatch proper action for logoutCustomerSupportAgent', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.logoutCustomerSupportAgent();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.LogoutCustomerSupportAgent()
+    );
+  });
+
   it('should dispatch proper action for refresh the client token', () => {
     store.dispatch(new AuthActions.LoadClientTokenSuccess(mockClientToken));
 
@@ -147,6 +196,36 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.LoadClientToken()
     );
+  });
+
+  describe('isCustomerEmulationToken()', () => {
+    const mockCustomerEmulationToken = {
+      access_token: 'foo',
+    } as UserToken;
+
+    it('should return true if the userid is defined and not OCC_USER_ID_CURRENT', () => {
+      expect(
+        service.isCustomerEmulationToken({
+          ...mockCustomerEmulationToken,
+          userId: '1de31-d31d4-14d',
+        })
+      ).toBe(true);
+    });
+
+    it('should return false if there is no userId on the token', () => {
+      expect(service.isCustomerEmulationToken(mockCustomerEmulationToken)).toBe(
+        false
+      );
+    });
+
+    it('should return false if the userid "current"', () => {
+      expect(
+        service.isCustomerEmulationToken({
+          ...mockCustomerEmulationToken,
+          userId: OCC_USER_ID_CURRENT,
+        })
+      ).toBe(false);
+    });
   });
 
   it('should return anonymous userid when no user token exists', () => {
