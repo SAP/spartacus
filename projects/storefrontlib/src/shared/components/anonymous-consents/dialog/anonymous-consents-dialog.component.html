@@ -19,8 +19,8 @@
   <div
     class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
   ></div>
-  <div>
-    <span>{{ 'anonymousConsents.dialog.description' | cxTranslate }}</span>
+  <div *ngIf="showLegalDescription">
+    <span>{{ 'anonymousConsents.dialog.legalDescription' | cxTranslate }}</span>
     <div
       class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
     ></div>

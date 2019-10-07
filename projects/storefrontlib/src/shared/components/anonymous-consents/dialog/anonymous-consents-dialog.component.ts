@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsent,
+  AnonymousConsentsConfig,
   AnonymousConsentsService,
   ConsentTemplate,
 } from '@spartacus/core';
@@ -15,15 +16,19 @@ import { ModalService } from '../../modal/index';
 export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
+  showLegalDescription: boolean;
   iconTypes = ICON_TYPE;
 
   templates$: Observable<ConsentTemplate[]>;
   consents$: Observable<AnonymousConsent[]>;
 
   constructor(
+    private config: AnonymousConsentsConfig,
     private modalService: ModalService,
     private anonymousConsentsService: AnonymousConsentsService
-  ) {}
+  ) {
+    this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
+  }
 
   ngOnInit(): void {
     this.templates$ = this.anonymousConsentsService.getAnonymousConsentTemplates();
