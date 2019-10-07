@@ -1,6 +1,7 @@
 import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -170,5 +171,13 @@ describe('AddToCartComponent', () => {
 
     expect(modalInstance.open).toHaveBeenCalled();
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
+  });
+
+  it('should hide quantity if showQuantity is set to false', () => {
+    component.showQuantity = false;
+    fixture.detectChanges();
+    const el = fixture.debugElement;
+    const quantityEl = el.query(By.css('.quantity'));
+    expect(quantityEl).toBeNull();
   });
 });
