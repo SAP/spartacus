@@ -25,7 +25,6 @@ const mockWindowRef = {
 fdescribe('QualtricsLoaderService', () => {
   let service: QualtricsLoaderService;
   let winRef: WindowRef;
-  const qsi = winRef.nativeWindow['QSI'];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,6 +38,7 @@ fdescribe('QualtricsLoaderService', () => {
     service = TestBed.get(QualtricsLoaderService as Type<
       QualtricsLoaderService
     >);
+    const qsi = winRef.nativeWindow['QSI'];
 
     spyOn(qsi.API, 'unload').and.callThrough();
     spyOn(qsi.API, 'load').and.callThrough();
