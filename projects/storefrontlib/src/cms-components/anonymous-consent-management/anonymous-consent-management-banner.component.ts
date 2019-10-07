@@ -24,7 +24,7 @@ export class AnonymousConsentManagementBannerComponent
 
   ngOnInit(): void {
     this.templatesUpdated$ = this.anonymousConsentsService
-      .getAnonymousConsentTemplatesUpdated()
+      .getTemplatesUpdated()
       .pipe(
         tap(updated => {
           if (updated) {

@@ -63,6 +63,32 @@ describe('anonymous consent actions', () => {
         });
       });
     });
+    describe('ToggleAnonymousConsentsBannerVisibility', () => {
+      it('should create the action', () => {
+        const visible = true;
+        const action = new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+          visible
+        );
+        expect({ ...action }).toEqual({
+          type:
+            AnonymousConsentsActions.TOGGLE_ANONYMOUS_CONSENTS_BANNER_VISIBILITY,
+          visible,
+        });
+      });
+    });
+    describe('ToggleAnonymousConsentTemplatesUpdated', () => {
+      it('should create the action', () => {
+        const updated = true;
+        const action = new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+          updated
+        );
+        expect({ ...action }).toEqual({
+          type:
+            AnonymousConsentsActions.TOGGLE_ANONYMOUS_CONSENT_TEMPLATES_UPDATED,
+          updated,
+        });
+      });
+    });
   });
 
   describe('anonymous consents', () => {

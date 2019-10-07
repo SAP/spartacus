@@ -184,7 +184,7 @@ export class AnonymousConsentsService {
   /**
    * Returns `true` if the consent templates were updated on the back-end.
    */
-  getAnonymousConsentTemplatesUpdated(): Observable<boolean> {
+  getTemplatesUpdated(): Observable<boolean> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
     );
@@ -200,5 +200,29 @@ export class AnonymousConsentsService {
         updated
       )
     );
+  }
+
+  /**
+   * Returns `true` if there's a missmatch in template versions between the provided `currentTemplates` and `newTemplates`
+   * @param currentTemplates current templates to check
+   * @param newTemplates new templates to check
+   */
+  detectUpdatedTemplates(
+    currentTemplates: ConsentTemplate[],
+    newTemplates: ConsentTemplate[]
+  ): boolean {
+    if (newTemplates.length !== currentTemplates.length) {
+      return true;
+    }
+
+    for (let i = 0; i < newTemplates.length; i++) {
+      const newTemplate = newTemplates[i];
+      const currentTemplate = currentTemplates[i];
+      if (newTemplate.version !== currentTemplate.version) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

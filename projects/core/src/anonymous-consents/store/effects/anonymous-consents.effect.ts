@@ -47,19 +47,10 @@ export class AnonymousConsentsEffects {
               Boolean(currentConsentTemplates) &&
               currentConsentTemplates.length !== 0
             ) {
-              if (
-                newConsentTemplates.length !== currentConsentTemplates.length
-              ) {
-                updated = true;
-              }
-
-              for (let i = 0; i < newConsentTemplates.length; i++) {
-                const newTemplate = newConsentTemplates[i];
-                const currentTemplate = currentConsentTemplates[i];
-                if (newTemplate.version !== currentTemplate.version) {
-                  updated = true;
-                }
-              }
+              updated = this.anonymousConsentService.detectUpdatedTemplates(
+                currentConsentTemplates,
+                newConsentTemplates
+              );
             }
 
             return [
