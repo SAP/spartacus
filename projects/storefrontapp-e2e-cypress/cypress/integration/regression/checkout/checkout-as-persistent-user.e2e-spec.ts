@@ -2,6 +2,7 @@ import {
   retrieveTokenAndLogin,
   checkoutAsPersistentUserTest,
 } from '../../../helpers/checkout-as-persistent-user';
+import * as login from '../../../helpers/login';
 
 describe('Checkout - As a Persistent User', () => {
   before(() =>
@@ -12,9 +13,9 @@ describe('Checkout - As a Persistent User', () => {
 
   describe('checkout test as a persistent user', () => {
     before(() => {
+      retrieveTokenAndLogin();
       cy.reload();
       cy.visit('/');
-      retrieveTokenAndLogin();
     });
 
     beforeEach(() => {
@@ -25,6 +26,10 @@ describe('Checkout - As a Persistent User', () => {
 
     afterEach(() => {
       cy.saveLocalStorage();
+    });
+
+    after(() => {
+      login.signOutUser();
     });
   });
 });
