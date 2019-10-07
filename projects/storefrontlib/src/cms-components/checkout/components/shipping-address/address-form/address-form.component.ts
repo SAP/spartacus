@@ -27,7 +27,7 @@ import {
   ModalService,
 } from '../../../../../shared/components/modal/index';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { titleScores } from 'projects/storefrontlib/src/shared/utils/forms/title-scores';
+import { titleScores } from '../../../../../shared/utils/forms/title-scores';
 
 @Component({
   selector: 'cx-address-form',
