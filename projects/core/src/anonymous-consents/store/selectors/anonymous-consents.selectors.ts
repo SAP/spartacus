@@ -19,3 +19,11 @@ export const getAnonymousConsentByTemplateCode = (
     consents => consents.find(consent => consent.templateCode === templateCode)
   );
 };
+
+export const getAnonymousConsentsBannerVisibility: MemoizedSelector<
+  StateWithAnonymousConsents,
+  boolean
+> = createSelector(
+  getAnonymousConsentState,
+  state => state.bannerVisible
+);

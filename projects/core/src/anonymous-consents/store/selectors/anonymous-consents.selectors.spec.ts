@@ -52,6 +52,7 @@ describe('anonymous consents selectors', () => {
       expect(result).toEqual(mockAnonymousConsents);
     });
   });
+
   describe('getAnonymousConsentByTemplateCode', () => {
     it('should return the consents from the state', () => {
       store.dispatch(
@@ -76,6 +77,28 @@ describe('anonymous consents selectors', () => {
         .unsubscribe();
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getAnonymousConsentsBannerVisibility', () => {
+    it('should return the banner slice of the state', () => {
+      store.dispatch(
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+          false
+        )
+      );
+
+      let result = true;
+      store
+        .pipe(
+          select(
+            AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility
+          )
+        )
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
     });
   });
 });

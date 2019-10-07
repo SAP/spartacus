@@ -2,6 +2,7 @@ import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsent,
+  AnonymousConsentsConfig,
   AnonymousConsentsService,
   ConsentTemplate,
   I18nTestingModule,
@@ -39,7 +40,17 @@ class MockAnonymousConsentsService {
   }
   withdrawAnonymousConsent(_templateCode: string): void {}
   giveAnonymousConsent(_templateCode: string): void {}
+  withdrawAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+    return of();
+  }
+  giveAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+    return of();
+  }
 }
+
+const mockConfig: AnonymousConsentsConfig = {
+  anonymousConsents: { showLegalDescriptionInDialog: true },
+};
 
 class MockModalService {
   closeActiveModal(_reason?: any): void {}
@@ -72,6 +83,10 @@ describe('AnonymousConsentsDialogComponent', () => {
         {
           provide: ModalService,
           useClass: MockModalService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockConfig,
         },
       ],
     }).compileComponents();
@@ -117,32 +132,37 @@ describe('AnonymousConsentsDialogComponent', () => {
   });
 
   describe('rejectAll', () => {
-    it('should call withdrawAnonymousConsent for each consent and close the dialog', () => {
-      spyOn(anonymousConsentsService, 'withdrawAnonymousConsent').and.stub();
+    it('should call withdrawAllAnonymousConsents and close the modal dialog', () => {
+      spyOn(
+        anonymousConsentsService,
+        'withdrawAllAnonymousConsents'
+      ).and.returnValue(of());
       spyOn(component, 'closeModal').and.stub();
       spyOn<any>(component['subscriptions'], 'add').and.callThrough();
 
       component.templates$ = of(mockTemplates);
       component.rejectAll();
       expect(
-        anonymousConsentsService.withdrawAnonymousConsent
-      ).toHaveBeenCalledTimes(mockTemplates.length);
+        anonymousConsentsService.withdrawAllAnonymousConsents
+      ).toHaveBeenCalled();
       expect(component.closeModal).toHaveBeenCalledWith('rejectAll');
       expect(component['subscriptions'].add).toHaveBeenCalled();
     });
   });
 
   describe('allowAll', () => {
-    it('should call giveAnonymousConsent for each consent and close the dialog', () => {
-      spyOn(anonymousConsentsService, 'giveAnonymousConsent').and.stub();
+    it('should call giveAllAnonymousConsents and close the modal dialog', () => {
+      spyOn(
+        anonymousConsentsService,
+        'giveAllAnonymousConsents'
+      ).and.returnValue(of());
       spyOn(component, 'closeModal').and.stub();
       spyOn<any>(component['subscriptions'], 'add').and.callThrough();
 
-      component.templates$ = of(mockTemplates);
       component.allowAll();
       expect(
-        anonymousConsentsService.giveAnonymousConsent
-      ).toHaveBeenCalledTimes(mockTemplates.length);
+        anonymousConsentsService.giveAllAnonymousConsents
+      ).toHaveBeenCalled();
       expect(component.closeModal).toHaveBeenCalledWith('allowAll');
       expect(component['subscriptions'].add).toHaveBeenCalled();
     });

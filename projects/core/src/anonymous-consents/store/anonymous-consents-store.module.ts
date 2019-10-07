@@ -15,8 +15,7 @@ export function anonymousConsentsStoreConfigFactory(): StateConfig {
     state: {
       storageSync: {
         keys: {
-          'anonymous-consents.templates.value': StorageSyncType.LOCAL_STORAGE,
-          'anonymous-consents.consents': StorageSyncType.LOCAL_STORAGE,
+          'anonymous-consents': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },

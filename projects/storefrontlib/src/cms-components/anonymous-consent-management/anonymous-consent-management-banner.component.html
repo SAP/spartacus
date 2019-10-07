@@ -1,0 +1,26 @@
+<ng-container *ngIf="bannerVisible$ | async as bannerVisible">
+  <div
+    [ngClass]="{ 'anonymous-consents-banner-hidden': !bannerVisible }"
+    class="anonymous-consents-banner"
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <p>{{ 'anonymousConsents.banner.title' | cxTranslate }}</p>
+          <div>
+            {{ 'anonymousConsents.banner.description' | cxTranslate }}
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <a class="btn btn-secondary" (click)="viewDetails()">{{
+            'anonymousConsents.banner.viewDetails' | cxTranslate
+          }}</a>
+          <a class="btn btn-primary" (click)="allowAll()">{{
+            'anonymousConsents.banner.allowAll' | cxTranslate
+          }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

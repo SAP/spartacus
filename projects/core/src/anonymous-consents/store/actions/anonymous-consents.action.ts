@@ -25,6 +25,9 @@ export const GIVE_ANONYMOUS_CONSENT =
 export const WITHDRAW_ANONYMOUS_CONSENT =
   '[Anonymous Consents] Withdraw Anonymous Consent';
 
+export const TOGGLE_ANONYMOUS_CONSENTS_BANNER_VISIBILITY =
+  '[Anonymous Consents] Toggle Anonymous Consents Banner Visibility';
+
 export class LoadAnonymousConsentTemplates extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES;
   constructor() {
@@ -77,6 +80,11 @@ export class WithdrawAnonymousConsent {
   constructor(public templateCode: string) {}
 }
 
+export class ToggleAnonymousConsentsBannerVisibility {
+  readonly type = TOGGLE_ANONYMOUS_CONSENTS_BANNER_VISIBILITY;
+  constructor(public visible: boolean) {}
+}
+
 export type AnonymousConsentsActions =
   | LoadAnonymousConsentTemplates
   | LoadAnonymousConsentTemplatesSuccess
@@ -86,4 +94,5 @@ export type AnonymousConsentsActions =
   | SetAnonymousConsents
   | GetAnonymousConsent
   | GiveAnonymousConsent
-  | WithdrawAnonymousConsent;
+  | WithdrawAnonymousConsent
+  | ToggleAnonymousConsentsBannerVisibility;

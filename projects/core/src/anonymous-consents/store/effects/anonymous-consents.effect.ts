@@ -8,7 +8,7 @@ import {
   map,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../../auth/index';
+import { AuthActions, AuthService } from '../../../auth/index';
 import { SiteContextActions } from '../../../site-context/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
@@ -17,10 +17,10 @@ import { AnonymousConsentsActions } from '../actions/index';
 @Injectable()
 export class AnonymousConsentsEffects {
   @Effect()
-  handleLanguageChange$: Observable<
+  handleLogoutAndLanguageChange$: Observable<
     AnonymousConsentsActions.LoadAnonymousConsentTemplates
   > = this.actions$.pipe(
-    ofType(SiteContextActions.LANGUAGE_CHANGE),
+    ofType(SiteContextActions.LANGUAGE_CHANGE, AuthActions.LOGOUT),
     withLatestFrom(this.authService.isUserLoggedIn()),
     filter(([_, isUserLoggedIn]) => !isUserLoggedIn),
     map(_ => new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
