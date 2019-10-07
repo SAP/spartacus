@@ -154,7 +154,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     // checks if a new global message has popped up
     const globalMessageSub = this.globalMessageService.get().subscribe(() => {
       this.buttonHasBeenClicked = false;
-      this.cd.markForCheck();
+      this.cd.markForCheck(); // checks for changes in the template
     });
 
     this.subscriptions.add(checkboxSub);
