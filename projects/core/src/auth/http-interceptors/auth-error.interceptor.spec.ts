@@ -15,9 +15,13 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
+import {
+  USE_CLIENT_TOKEN,
+  USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+} from '../../occ/utils/interceptor-util';
 import { AuthService } from '../facade/auth.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
+import { CustomerSupportAgentErrorHandlingService } from '../services/csagent-error/csagent-error-handling.service';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 
@@ -44,11 +48,16 @@ class MockAuthService {
   logout(): void {}
 }
 
+class MockCustomerSupportAgentErrorHandlingService {
+  terminateCustomerSupportAgentExpiredSession(): void {}
+}
+
 describe('AuthErrorInterceptor', () => {
   let userErrorHandlingService: UserErrorHandlingService;
   let clientErrorHandlingService: ClientErrorHandlingService;
   let authService: AuthService;
   let httpMock: HttpTestingController;
+  let csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,6 +74,10 @@ describe('AuthErrorInterceptor', () => {
         {
           provide: AuthService,
           useClass: MockAuthService,
+        },
+        {
+          provide: CustomerSupportAgentErrorHandlingService,
+          useClass: MockCustomerSupportAgentErrorHandlingService,
         },
         {
           provide: HTTP_INTERCEPTORS,
@@ -84,7 +97,9 @@ describe('AuthErrorInterceptor', () => {
     httpMock = TestBed.get(HttpTestingController as Type<
       HttpTestingController
     >);
-
+    csagentErrorHandlingService = TestBed.get(
+      CustomerSupportAgentErrorHandlingService
+    );
     spyOn(userErrorHandlingService, 'handleExpiredUserToken').and.returnValue(
       of({} as any)
     );
@@ -93,6 +108,10 @@ describe('AuthErrorInterceptor', () => {
       clientErrorHandlingService,
       'handleExpiredClientToken'
     ).and.returnValue(of({}));
+    spyOn(
+      csagentErrorHandlingService,
+      'terminateCustomerSupportAgentExpiredSession'
+    ).and.stub();
   });
 
   it(`should catch 401 error for a client token`, inject(
@@ -208,4 +227,38 @@ describe('AuthErrorInterceptor', () => {
       { status: 400, statusText: 'Error' }
     );
   }));
+
+  it(`should catch 401 error for a csagent request`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      const headers = new HttpHeaders().set(
+        USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+        'true'
+      );
+      const options = {
+        headers,
+      };
+      http.get('/test', options).subscribe(result => {
+        expect(result).toBeTruthy();
+      });
+
+      const mockReq: TestRequest = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+      mockReq.flush(
+        {
+          errors: [
+            {
+              type: 'InvalidTokenError',
+              message: 'Invalid access token: some token',
+            },
+          ],
+        },
+        { status: 401, statusText: 'Error' }
+      );
+      expect(
+        csagentErrorHandlingService.terminateCustomerSupportAgentExpiredSession
+      ).toHaveBeenCalled();
+    }
+  ));
 });
