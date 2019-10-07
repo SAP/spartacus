@@ -40,7 +40,6 @@ export class AddedToCartDialogComponent {
    */
   getQuantityControl(): Observable<FormControl> {
     if (!this.quantityControl$) {
-      // observe once
       this.quantityControl$ = this.entry$.pipe(
         filter(e => !!e),
         map(entry => this.getFormControl(entry)),
@@ -57,6 +56,8 @@ export class AddedToCartDialogComponent {
                 if (valueChange.quantity === 0) {
                   this.dismissModal('Removed');
                 }
+              } else {
+                this.form.markAsPristine();
               }
             })
           )
@@ -69,7 +70,7 @@ export class AddedToCartDialogComponent {
 
   private getFormControl(entry: OrderEntry): FormControl {
     if (!this.form.get('quantity')) {
-      const quantity = new FormControl(entry.quantity);
+      const quantity = new FormControl(entry.quantity, { updateOn: 'blur' });
       this.form.addControl('quantity', quantity);
 
       const entryNumber = new FormControl(entry.entryNumber);

@@ -51,7 +51,7 @@ export class CartItemListComponent {
         item.product.code,
         new FormGroup({
           entryNumber: new FormControl((<any>item).entryNumber),
-          quantity: new FormControl(item.quantity),
+          quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
         })
       );
     });
