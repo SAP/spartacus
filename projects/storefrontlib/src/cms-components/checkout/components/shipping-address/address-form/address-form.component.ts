@@ -38,12 +38,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-
-  /**
-   * (GH-3102)
-   * Boolean to check whether the button has already been clicked.
-   * If so, this disables the button to prevent button click event to fire twice
-   */
   buttonHasBeenClicked = false;
 
   @Input()
