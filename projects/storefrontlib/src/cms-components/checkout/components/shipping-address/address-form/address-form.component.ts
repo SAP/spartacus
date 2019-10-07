@@ -27,6 +27,7 @@ import {
   ModalService,
 } from '../../../../../shared/components/modal/index';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { titleScores } from 'projects/core/src/util/title-utils';
 
 @Component({
   selector: 'cx-address-form',
@@ -112,8 +113,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       }),
       map(titles => {
+        const sortedTitles = titles.sort(this.sortTitles);
         const noneTitle = { code: '', name: 'Title' };
-        return [noneTitle, ...titles];
+        return [noneTitle, ...sortedTitles];
       })
     );
 
@@ -167,6 +169,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         this.regionSelected(this.addressData.region);
       }
     }
+  }
+
+  // sorting based on the custom order found in title-utils.ts
+  sortTitles(title1: Title, title2: Title) {
+    return titleScores[title1.code] - titleScores[title2.code];
   }
 
   titleSelected(title: Title): void {
