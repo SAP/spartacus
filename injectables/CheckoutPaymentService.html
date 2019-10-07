@@ -1,0 +1,754 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>CheckoutPaymentService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/core/src/checkout/facade/checkout-payment.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#actionAllowed">actionAllowed</a>
+                            </li>
+                            <li>
+                                <a href="#createPaymentDetails">createPaymentDetails</a>
+                            </li>
+                            <li>
+                                <a href="#getCardTypes">getCardTypes</a>
+                            </li>
+                            <li>
+                                <a href="#getPaymentDetails">getPaymentDetails</a>
+                            </li>
+                            <li>
+                                <a href="#getSetPaymentDetailsResultProcess">getSetPaymentDetailsResultProcess</a>
+                            </li>
+                            <li>
+                                <a href="#loadSupportedCardTypes">loadSupportedCardTypes</a>
+                            </li>
+                            <li>
+                                <a href="#resetSetPaymentDetailsProcess">resetSetPaymentDetailsProcess</a>
+                            </li>
+                            <li>
+                                <a href="#setPaymentDetails">setPaymentDetails</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(checkoutStore: Store<StateWithCheckout | StateWithProcess>, cartData: <a href="../injectables/CartDataService.html">CartDataService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:20</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>checkoutStore</td>
+                                                  
+                                                        <td>
+                                                                    <code>Store&lt;StateWithCheckout | StateWithProcess&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cartData</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CartDataService.html" target="_self" >CartDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actionAllowed"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            actionAllowed
+                        </b>
+                        <a href="#actionAllowed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>actionAllowed()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createPaymentDetails"></a>
+                    <span class="name">
+                        <b>
+                            createPaymentDetails
+                        </b>
+                        <a href="#createPaymentDetails"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createPaymentDetails(paymentDetails: <a href="../interfaces/PaymentDetails.html">PaymentDetails</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create payment details using the given paymentDetails param</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>paymentDetails</td>
+                                    <td>
+                                                <code><a href="../interfaces/PaymentDetails.html" target="_self" >PaymentDetails</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>: the PaymentDetails to be created</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCardTypes"></a>
+                    <span class="name">
+                        <b>
+                            getCardTypes
+                        </b>
+                        <a href="#getCardTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCardTypes()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:29</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get card types</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Observable&lt;CardType[]&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPaymentDetails"></a>
+                    <span class="name">
+                        <b>
+                            getPaymentDetails
+                        </b>
+                        <a href="#getPaymentDetails"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPaymentDetails()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:36</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get payment details</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;PaymentDetails&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSetPaymentDetailsResultProcess"></a>
+                    <span class="name">
+                        <b>
+                            getSetPaymentDetailsResultProcess
+                        </b>
+                        <a href="#getSetPaymentDetailsResultProcess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSetPaymentDetailsResultProcess()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get status about set Payment Details process</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;LoaderState&lt;void&gt;&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadSupportedCardTypes"></a>
+                    <span class="name">
+                        <b>
+                            loadSupportedCardTypes
+                        </b>
+                        <a href="#loadSupportedCardTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadSupportedCardTypes()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:61</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Load the supported card types</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetSetPaymentDetailsProcess"></a>
+                    <span class="name">
+                        <b>
+                            resetSetPaymentDetailsProcess
+                        </b>
+                        <a href="#resetSetPaymentDetailsProcess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetSetPaymentDetailsProcess()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:52</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clear info about process of setting Payment Details</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setPaymentDetails"></a>
+                    <span class="name">
+                        <b>
+                            setPaymentDetails
+                        </b>
+                        <a href="#setPaymentDetails"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setPaymentDetails(paymentDetails: <a href="../interfaces/PaymentDetails.html">PaymentDetails</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:85</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set payment details</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>paymentDetails</td>
+                                    <td>
+                                                <code><a href="../interfaces/PaymentDetails.html" target="_self" >PaymentDetails</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>: the PaymentDetails to be set</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { select, Store } from &#x27;@ngrx/store&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { CartDataService } from &#x27;../../cart/facade/cart-data.service&#x27;;
+import { CardType, PaymentDetails } from &#x27;../../model/cart.model&#x27;;
+import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
+import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
+import { getProcessStateFactory } from &#x27;../../process/store/selectors/process-group.selectors&#x27;;
+import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
+import { CheckoutActions } from &#x27;../store/actions/index&#x27;;
+import {
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+  StateWithCheckout,
+} from &#x27;../store/checkout-state&#x27;;
+import { CheckoutSelectors } from &#x27;../store/selectors/index&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class CheckoutPaymentService {
+  constructor(
+    protected checkoutStore: Store&lt;StateWithCheckout | StateWithProcess&lt;void&gt;&gt;,
+    protected cartData: CartDataService
+  ) {}
+
+  /**
+   * Get card types
+   */
+  getCardTypes(): Observable&lt;CardType[]&gt; {
+    return this.checkoutStore.pipe(select(CheckoutSelectors.getAllCardTypes));
+  }
+
+  /**
+   * Get payment details
+   */
+  getPaymentDetails(): Observable&lt;PaymentDetails&gt; {
+    return this.checkoutStore.pipe(select(CheckoutSelectors.getPaymentDetails));
+  }
+
+  /**
+   * Get status about set Payment Details process
+   */
+  getSetPaymentDetailsResultProcess(): Observable&lt;LoaderState&lt;void&gt;&gt; {
+    return this.checkoutStore.pipe(
+      select(getProcessStateFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Clear info about process of setting Payment Details
+   */
+  resetSetPaymentDetailsProcess(): void {
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ResetSetPaymentDetailsProcess()
+    );
+  }
+
+  /**
+   * Load the supported card types
+   */
+  loadSupportedCardTypes(): void {
+    this.checkoutStore.dispatch(new CheckoutActions.LoadCardTypes());
+  }
+
+  /**
+   * Create payment details using the given paymentDetails param
+   * @param paymentDetails: the PaymentDetails to be created
+   */
+  createPaymentDetails(paymentDetails: PaymentDetails): void {
+    if (this.actionAllowed()) {
+      this.checkoutStore.dispatch(
+        new CheckoutActions.CreatePaymentDetails({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId,
+          paymentDetails,
+        })
+      );
+    }
+  }
+
+  /**
+   * Set payment details
+   * @param paymentDetails : the PaymentDetails to be set
+   */
+  setPaymentDetails(paymentDetails: PaymentDetails): void {
+    if (this.actionAllowed()) {
+      this.checkoutStore.dispatch(
+        new CheckoutActions.SetPaymentDetails({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cart.code,
+          paymentDetails: paymentDetails,
+        })
+      );
+    }
+  }
+
+  protected actionAllowed(): boolean {
+    return (
+      this.cartData.userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ||
+      this.cartData.isGuestCart
+    );
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'CheckoutPaymentService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
