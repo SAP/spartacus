@@ -85,6 +85,9 @@ export class OccEndpointsService {
     }
 
     if (urlParams) {
+      Object.keys(urlParams).forEach(key => {
+        urlParams[key] = encodeURIComponent(urlParams[key]);
+      });
       endpoint = DynamicTemplate.resolve(endpoint, urlParams);
     }
 
