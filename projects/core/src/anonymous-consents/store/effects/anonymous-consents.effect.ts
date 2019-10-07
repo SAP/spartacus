@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import {} from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
   concatMap,
   filter,
   map,
+  mergeMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
 import { SiteContextActions } from '../../../site-context/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
+import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
@@ -35,12 +38,39 @@ export class AnonymousConsentsEffects {
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
-          map(
-            consentTemplates =>
-              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-                consentTemplates
-              )
+          withLatestFrom(
+            this.anonymousConsentService.getAnonymousConsentTemplates()
           ),
+          mergeMap(([newConsentTemplates, currentConsentTemplates]) => {
+            let updated = false;
+            if (
+              Boolean(currentConsentTemplates) &&
+              currentConsentTemplates.length !== 0
+            ) {
+              if (
+                newConsentTemplates.length !== currentConsentTemplates.length
+              ) {
+                updated = true;
+              }
+
+              for (let i = 0; i < newConsentTemplates.length; i++) {
+                const newTemplate = newConsentTemplates[i];
+                const currentTemplate = currentConsentTemplates[i];
+                if (newTemplate.version !== currentTemplate.version) {
+                  updated = true;
+                }
+              }
+            }
+
+            return [
+              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
+                newConsentTemplates
+              ),
+              new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+                updated
+              ),
+            ];
+          }),
           catchError(error =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
@@ -55,6 +85,7 @@ export class AnonymousConsentsEffects {
   constructor(
     private actions$: Actions,
     private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
-    private authService: AuthService
+    private authService: AuthService,
+    private anonymousConsentService: AnonymousConsentsService
   ) {}
 }

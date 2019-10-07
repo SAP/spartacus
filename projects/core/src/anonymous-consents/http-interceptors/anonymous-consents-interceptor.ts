@@ -7,16 +7,9 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  map,
-  skipWhile,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
-import { AnonymousConsent, DELETE_ME } from '../../model/index';
+import { AnonymousConsent } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
@@ -37,7 +30,6 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     return this.anonymousConsentsService.getAnonymousConsents().pipe(
       take(1),
       withLatestFrom(this.authService.isUserLoggedIn()),
-      skipWhile(([_consents, isUserLoggedIn]) => DELETE_ME && isUserLoggedIn),
       map(([consents, _isUserLoggedIn]) => consents),
       switchMap(consents => {
         if (!this.isOccUrl(request.url)) {

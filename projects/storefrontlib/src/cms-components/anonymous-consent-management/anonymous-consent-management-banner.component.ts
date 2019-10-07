@@ -1,14 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import {
-  first,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { AnonymousConsentsDialogComponent } from '../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
 import { ModalService } from '../../shared/components/modal/index';
 
@@ -22,6 +15,7 @@ export class AnonymousConsentManagementBannerComponent
   private subscriptions = new Subscription();
 
   bannerVisible$: Observable<boolean>;
+  templatesUpdated$: Observable<boolean>;
 
   constructor(
     private modalService: ModalService,
@@ -29,21 +23,18 @@ export class AnonymousConsentManagementBannerComponent
   ) {}
 
   ngOnInit(): void {
-    this.bannerVisible$ = this.anonymousConsentsService
-      .getAnonymousConsentTemplates()
+    this.templatesUpdated$ = this.anonymousConsentsService
+      .getAnonymousConsentTemplatesUpdated()
       .pipe(
-        take(1),
-        first(),
-        switchMap(currentTemplates =>
-          this.anonymousConsentsService
-            .checkAnonymousConsentTemplateUpdates(currentTemplates)
-            .pipe(take(1))
-        ),
-        withLatestFrom(
-          this.anonymousConsentsService.isAnonymousConsentsBannerVisible()
-        ),
-        map(([isUpdated, isVisible]) => isUpdated || isVisible)
+        tap(updated => {
+          if (updated) {
+            this.anonymousConsentsService.toggleAnonymousConsentsBannerVisibility(
+              true
+            );
+          }
+        })
       );
+    this.bannerVisible$ = this.anonymousConsentsService.isAnonymousConsentsBannerVisible();
   }
 
   viewDetails(): void {

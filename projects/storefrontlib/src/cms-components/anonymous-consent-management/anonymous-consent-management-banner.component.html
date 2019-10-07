@@ -1,3 +1,4 @@
+<span *ngIf="templatesUpdated$ | async">updated</span>
 <ng-container *ngIf="bannerVisible$ | async as bannerVisible">
   <div
     [ngClass]="{ 'anonymous-consents-banner-hidden': !bannerVisible }"

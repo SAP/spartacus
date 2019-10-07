@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { AnonymousConsent, ConsentTemplate } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
 import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
@@ -167,6 +167,9 @@ export class AnonymousConsentsService {
         visible
       )
     );
+    if (!visible) {
+      this.toggleTemplatesUpdated(false);
+    }
   }
 
   /**
@@ -178,88 +181,24 @@ export class AnonymousConsentsService {
     );
   }
 
-  // TODO:#3899 - re-write the API doc. delete the commented-out code.
   /**
-   * If the user is anonymous, the method pulls new anonymous consent templates from the API and
-   * checks their versions against the currently stored anonymous consent templates.
-   * If there are differences, the new anonymous consent templates are stored in the store, and `true` is returned.
-   * In case there are no new versions, `false` is returned.
+   * Returns `true` if the consent templates were updated on the back-end.
    */
-  checkAnonymousConsentTemplateUpdates(
-    currentTemplates: ConsentTemplate[]
-  ): Observable<boolean> {
-    return this.getLoadAnonymousConsentTemplatesLoading().pipe(
-      tap(_ => this.loadAnonymousConsentTemplates()),
-      filter(loading => loading),
-      withLatestFrom(this.getAnonymousConsentTemplates()),
-      map(([_loading, newTemplates]) => {
-        if (newTemplates.length !== currentTemplates.length) {
-          return false;
-        }
-
-        for (let i = 0; i < newTemplates.length; i++) {
-          const newTemplate = newTemplates[i];
-          const currentTemplate = currentTemplates[i];
-          if (newTemplate.version !== currentTemplate.version) {
-            return true;
-          }
-        }
-
-        return false;
-      })
+  getAnonymousConsentTemplatesUpdated(): Observable<boolean> {
+    return this.store.pipe(
+      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
     );
+  }
 
-    //// ######## 2
-    /*
-    this.loadAnonymousConsentTemplates();
-    return this.getAnonymousConsentTemplates().pipe(
-      skipUntil(this.getLoadAnonymousConsentTemplatesSuccess()),
-      map(newTemplates => {
-        if (newTemplates.length !== currentTemplates.length) {
-          return false;
-        }
-
-        for (let i = 0; i < newTemplates.length; i++) {
-          const newTemplate = newTemplates[i];
-          const currentTemplate = currentTemplates[i];
-          if (newTemplate.version !== currentTemplate.version) {
-            return true;
-          }
-        }
-
-        return false;
-      })
+  /**
+   * Toggles the `updated` slice of the state
+   * @param updated
+   */
+  toggleTemplatesUpdated(updated: boolean): void {
+    this.store.dispatch(
+      new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+        updated
+      )
     );
-*/
-
-    //// ######## 1
-    // return this.getAnonymousConsentTemplates().pipe(
-    //   map(currentTemplates => {
-    //     if (newTemplates.length !== currentTemplates.length) {
-    //       return newTemplates;
-    //     }
-
-    //     if (DELETE_ME) {
-    //       // const updatedTemplates: ConsentTemplate[] = [];
-    //       // for (let i = 0; i < newTemplates.length; i++) {
-    //       //   const newTemplate = newTemplates[i];
-    //       //   const currentTemplate = currentTemplates[i];
-    //       //   if (newTemplate.version !== currentTemplate.version) {
-    //       //     updatedTemplates.push(newTemplate);
-    //       //   }
-    //       // }
-    //       // return newTemplates;
-    //     }
-
-    //     return currentTemplates.map((currentTemplate, i) => {
-    //       const newTemplate = newTemplates[i];
-    //       if (currentTemplate.version !== newTemplate.version) {
-    //         return newTemplate;
-    //       } else {
-    //         return currentTemplate;
-    //       }
-    //     });
-    //   })
-    // );
   }
 }
