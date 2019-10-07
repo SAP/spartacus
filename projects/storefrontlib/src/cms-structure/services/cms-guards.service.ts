@@ -5,6 +5,9 @@ import { CmsActivatedRouteSnapshot } from '@spartacus/core';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsMappingService } from './cms-mapping.service';
 
+/**
+ * Please don't put that service in public API.
+ * */
 @Injectable({
   providedIn: 'root',
 })

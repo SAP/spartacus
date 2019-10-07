@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -13,13 +13,33 @@ import { StateWithUser } from '../store/user-state';
   providedIn: 'root',
 })
 export class UserAddressService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    // tslint:disable-next-line:unified-signatures
+    authService: AuthService
+  );
+  /**
+   * @deprecated since version 1.3
+   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
+   *  authService: AuthService) instead
+   */
+  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService?: AuthService
+  ) {}
 
   /**
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.store.dispatch(new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT));
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(new UserActions.LoadUserAddresses(occUserId))
+      )
+      .unsubscribe();
   }
 
   /**
@@ -27,12 +47,18 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.store.dispatch(
-      new UserActions.AddUserAddress({
-        userId: OCC_USER_ID_CURRENT,
-        address: address,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.AddUserAddress({
+            userId: occUserId,
+            address: address,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
@@ -40,13 +66,19 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.store.dispatch(
-      new UserActions.UpdateUserAddress({
-        userId: OCC_USER_ID_CURRENT,
-        addressId: addressId,
-        address: { defaultAddress: true },
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.UpdateUserAddress({
+            userId: occUserId,
+            addressId: addressId,
+            address: { defaultAddress: true },
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
@@ -55,13 +87,19 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.store.dispatch(
-      new UserActions.UpdateUserAddress({
-        userId: OCC_USER_ID_CURRENT,
-        addressId: addressId,
-        address: address,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.UpdateUserAddress({
+            userId: occUserId,
+            addressId: addressId,
+            address: address,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
@@ -69,12 +107,18 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.store.dispatch(
-      new UserActions.DeleteUserAddress({
-        userId: OCC_USER_ID_CURRENT,
-        addressId: addressId,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.DeleteUserAddress({
+            userId: occUserId,
+            addressId: addressId,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
