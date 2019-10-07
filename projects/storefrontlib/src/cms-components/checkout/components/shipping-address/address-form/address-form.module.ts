@@ -8,7 +8,7 @@ import { AutoFocusDirectiveModule } from '../../../../../shared/directives/auto-
 import { IconModule } from '../../../../misc/icon/index';
 import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { SpinnerModule } from 'projects/storefrontlib/src/shared';
+import { SpinnerComponent } from 'projects/storefrontlib/src/shared';
 
 @NgModule({
   imports: [
@@ -20,9 +20,12 @@ import { SpinnerModule } from 'projects/storefrontlib/src/shared';
     IconModule,
     I18nModule,
     AutoFocusDirectiveModule,
-    SpinnerModule,
   ],
-  declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
+  declarations: [
+    AddressFormComponent,
+    SuggestedAddressDialogComponent,
+    SpinnerComponent,
+  ],
   entryComponents: [SuggestedAddressDialogComponent],
   exports: [AddressFormComponent, SuggestedAddressDialogComponent],
 })

@@ -18,6 +18,7 @@ import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 import createSpy = jasmine.createSpy;
+import { SpinnerComponent } from '@spartacus/storefront';
 
 const mockBillingCountries: Country[] = [
   {
@@ -145,6 +146,7 @@ describe('PaymentFormComponent', () => {
         MockCardComponent,
         MockBillingAddressFormComponent,
         MockCxIconComponent,
+        SpinnerComponent,
       ],
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
