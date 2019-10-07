@@ -14,6 +14,6 @@ export class QualtricsComponent implements OnInit {
   constructor(private config: QualtricsConfigService) {}
 
   ngOnInit() {
-    this.qualtricsEnabled$ = this.config.trigger();
+    this.qualtricsEnabled$ = this.config.load();
   }
 }
