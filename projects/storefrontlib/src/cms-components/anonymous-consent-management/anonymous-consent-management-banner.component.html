@@ -7,18 +7,18 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8">
-          <p>Cookie statement</p>
+          <p>{{ 'anonymousConsents.banner.title' | cxTranslate }}</p>
           <div>
-            Cookie consent, some random long text description
+            {{ 'anonymousConsents.banner.description' | cxTranslate }}
           </div>
         </div>
 
         <div class="col-lg-4">
           <a class="btn btn-secondary" (click)="viewDetails()">{{
-            'anonymousConsents.viewDetails' | cxTranslate
+            'anonymousConsents.banner.viewDetails' | cxTranslate
           }}</a>
           <a class="btn btn-primary" (click)="allowAll()">{{
-            'anonymousConsents.allowAll' | cxTranslate
+            'anonymousConsents.banner.allowAll' | cxTranslate
           }}</a>
         </div>
       </div>

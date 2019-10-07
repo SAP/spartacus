@@ -2,6 +2,7 @@ import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsent,
+  AnonymousConsentsConfig,
   AnonymousConsentsService,
   ConsentTemplate,
   I18nTestingModule,
@@ -47,6 +48,10 @@ class MockAnonymousConsentsService {
   }
 }
 
+const mockConfig: AnonymousConsentsConfig = {
+  anonymousConsents: { showLegalDescriptionInDialog: true },
+};
+
 class MockModalService {
   closeActiveModal(_reason?: any): void {}
 }
@@ -78,6 +83,10 @@ describe('AnonymousConsentsDialogComponent', () => {
         {
           provide: ModalService,
           useClass: MockModalService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockConfig,
         },
       ],
     }).compileComponents();
