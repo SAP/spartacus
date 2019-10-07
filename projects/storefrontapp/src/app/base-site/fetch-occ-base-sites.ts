@@ -86,7 +86,9 @@ export function fetchOccBaseSites(
   }
 
   const prefix = options.prefix || '/rest/v2';
-  const endpoint = options.endpoint || '/basesites?fields=FULL';
+  const endpoint =
+    options.endpoint ||
+    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))';
 
   const url = `${baseUrl}${prefix}${endpoint}`;
 
