@@ -1,4 +1,4 @@
-%cx-searchbox__body-calydon {
+%cx-searchbox-calydon {
     label{
         cx-icon {
             &.reset {
@@ -7,6 +7,7 @@
                     left: 74px;
                     z-index: 20;
                     top: 52px; 
+                    margin-top: 0;
                 }
             }
         }
