@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CartService, PromotionResult } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { filter, startWith, switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
@@ -15,7 +15,16 @@ export class CartItemListComponent {
 
   @Input() hasHeader = true;
 
-  @Input() items: Item[] = [];
+  @Input('items')
+  // TODO: currently we're getting a new array of items if the cart changes. pretty annoying as
+  // it forces a repaint on the screen, which is noticable in the UI.
+  set items(items: Item[]) {
+    this._items = items;
+    this.createForm(items);
+  }
+  get items(): Item[] {
+    return this._items;
+  }
 
   @Input() potentialProductPromotions: PromotionResult[] = [];
 
@@ -23,45 +32,42 @@ export class CartItemListComponent {
   @Input('cartIsLoading')
   set setLoading(value: boolean) {
     this._loading = value;
-    // whenver the cart is loading, we disable the form
-    // to avoid any user interaction with the cart
+    // Whenver the cart is loading, we disable the complete form
+    // to avoid any user interaction with the cart.
     value
       ? this.form.disable({ emitEvent: false })
       : this.form.enable({ emitEvent: false });
   }
 
-  private form: FormGroup = new FormGroup({});
-  private quantityControl$: Observable<FormControl>;
+  private _items: Item[];
+  form: FormGroup;
+
   constructor(protected cartService: CartService) {}
 
-  /**
-   * Returns an observable to the quantity of the cartEntry, but
-   * also updates the entry in case of a changed value.
-   * The quantity can be set to zero in order to remove the entry.
-   */
-  getQuantityControl(item: Item): Observable<FormControl> {
-    if (!this.quantityControl$) {
-      let entryForm = this.getEntryFormGroup(item);
-      this.quantityControl$ = entryForm.valueChanges.pipe(
-        // tslint:disable-next-line:deprecation
-        startWith(null),
-        tap(valueChange => {
-          if (valueChange) {
-            this.cartService.updateEntry(
-              valueChange.entryNumber,
-              valueChange.quantity
-            );
-            if (valueChange.quantity === 0) {
-              entryForm = null;
-            }
-          }
-        }),
-        filter(() => !!entryForm),
-        switchMap(() => of(<FormControl>entryForm.get('quantity')))
+  private createForm(items: Item[]): void {
+    this.form = new FormGroup({});
+    items.forEach(item => {
+      this.form.addControl(
+        item.product.code,
+        new FormGroup({
+          entryNumber: new FormControl((<any>item).entryNumber),
+          quantity: new FormControl(item.quantity),
+        })
       );
-    }
+    });
+  }
 
-    return this.quantityControl$;
+  getControl(item: Item): Observable<FormGroup> {
+    return this.form.get(item.product.code).valueChanges.pipe(
+      // tslint:disable-next-line:deprecation
+      startWith(null),
+      map(value => {
+        if (value) {
+          this.cartService.updateEntry(value.entryNumber, value.quantity);
+        }
+      }),
+      map(() => <FormGroup>this.form.get(item.product.code))
+    );
   }
 
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
@@ -85,18 +91,6 @@ export class CartItemListComponent {
       }
     }
     return entryPromotions;
-  }
-
-  private getEntryFormGroup(item: Item): FormGroup {
-    const { code } = item.product;
-    if (!this.form.controls[code]) {
-      const formGroup = new FormGroup({
-        entryNumber: new FormControl((<any>item).entryNumber),
-        quantity: new FormControl(item.quantity),
-      });
-      this.form.setControl(code, formGroup);
-    }
-    return <FormGroup>this.form.get(code);
   }
 
   private isConsumedByEntry(consumedEntry: any, entry: any): boolean {

@@ -15,14 +15,16 @@
   </div>
 </div>
 
-<div class="cx-item-list-row" *ngFor="let item of items">
-  <div class="cx-item-list-items">
+<div class="cx-item-list-row" *ngFor="let item of items; let i = index">
+  <div
+    class="cx-item-list-items"
+    *ngIf="getControl(item) | async as control"
+    [class.is-changed]="control.get('quantity').dirty"
+  >
     <cx-cart-item
-      *ngIf="getQuantityControl(item) | async as quantityControl"
-      [hidden]="quantityControl.value === 0"
       [item]="item"
       [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
-      [quantityControl]="quantityControl"
+      [quantityControl]="control.get('quantity')"
     >
     </cx-cart-item>
   </div>

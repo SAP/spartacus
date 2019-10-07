@@ -81,23 +81,23 @@ describe('CartItemListComponent', () => {
   it('should return form control with quantity ', () => {
     const item = mockItems[0];
     item.quantity = 5;
-    component.getQuantityControl(item).subscribe(control => {
-      expect(control.value).toEqual(5);
+    component.getControl(item).subscribe(control => {
+      expect(control.get('quantity').value).toEqual(5);
     });
   });
 
   it('should call cartService with an updated entry', () => {
     const item = mockItems[0];
-    component.getQuantityControl(item).subscribe(control => {
-      control.setValue(2);
+    component.getControl(item).subscribe(control => {
+      control.get('quantity').setValue(2);
       expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 2);
     });
   });
 
   it('should call cartService.updateEntry during a remove with quantity 0', () => {
     const item = mockItems[0];
-    component.getQuantityControl(item).subscribe(control => {
-      control.setValue(0);
+    component.getControl(item).subscribe(control => {
+      control.get('quantity').setValue(0);
       expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 0);
     });
   });

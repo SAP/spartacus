@@ -37,11 +37,10 @@ class MockMediaComponent {
   selector: 'cx-item-counter',
 })
 class MockItemCounterComponent {
-  @Input() step;
-  @Input() min;
-  @Input() max;
   @Input() control;
   @Input() readonly;
+  @Input() max;
+  @Input() allowZero;
 }
 
 @Component({
@@ -82,12 +81,12 @@ describe('CartItemComponent', () => {
       updateable: true,
     };
     component.quantityControl = new FormControl('1');
-
+    component.quantityControl.markAsPristine();
     spyOn(component, 'removeItem').and.callThrough();
     fixture.detectChanges();
   });
 
-  it('should create cart details component', () => {
+  it('should create CartItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
@@ -98,5 +97,12 @@ describe('CartItemComponent', () => {
 
     expect(component.removeItem).toHaveBeenCalled();
     expect(component.quantityControl.value).toEqual(0);
+  });
+
+  it('should mark control "dirty" after removeItem is called', () => {
+    const button: DebugElement = fixture.debugElement.query(By.css('button'));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    expect(component.quantityControl.dirty).toEqual(true);
   });
 });

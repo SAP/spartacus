@@ -33,6 +33,7 @@ export class CartItemComponent {
 
   removeItem() {
     this.quantityControl.setValue(0);
+    this.quantityControl.markAsDirty();
   }
 
   viewItem() {

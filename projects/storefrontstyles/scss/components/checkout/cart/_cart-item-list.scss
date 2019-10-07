@@ -38,6 +38,12 @@
     border-color: var(--cx-color-light);
   }
 
+  .cx-item-list-items {
+    &.is-changed {
+      opacity: 0.7;
+    }
+  }
+
   // ------------------------------------ MEDIA QUERIES ------------------------------------
 
   @include media-breakpoint-down(md) {
