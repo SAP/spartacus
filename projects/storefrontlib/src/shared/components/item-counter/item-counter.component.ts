@@ -65,7 +65,9 @@ export class ItemCounterComponent {
    */
   @HostBinding('class.readonly') @Input() readonly = false;
 
-  @ViewChild('qty', { static: false }) private input: ElementRef<HTMLElement>;
+  @ViewChild('qty', { static: false }) private input: ElementRef<
+    HTMLInputElement
+  >;
 
   @HostListener('click')
   handleClick() {
@@ -76,10 +78,12 @@ export class ItemCounterComponent {
     // it's too early to use the `stepUp` and `stepDown` API...
     // let's wait for FF: https://caniuse.com/#search=stepUp
     this.control.setValue(this.control.value + this.step);
+    this.control.markAsDirty();
   }
 
   decrement() {
     this.control.setValue(this.control.value - this.step);
+    this.control.markAsDirty();
   }
 
   /**

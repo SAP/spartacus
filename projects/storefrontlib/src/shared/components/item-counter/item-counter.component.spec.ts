@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { OnlyNumberDirectiveModule } from '../../directives/only-number/only-number.directive.module';
 import { ItemCounterComponent } from './item-counter.component';
 
 const form = new FormGroup({
@@ -16,11 +15,7 @@ describe('ItemCounterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        OnlyNumberDirectiveModule,
-      ],
+      imports: [RouterTestingModule, ReactiveFormsModule],
       declarations: [ItemCounterComponent],
     }).compileComponents();
   }));
@@ -32,6 +27,7 @@ describe('ItemCounterComponent', () => {
     component.control = <FormControl>form.get('quantity');
 
     component.control.setValue(1);
+    component.control.markAsPristine();
     fixture.detectChanges();
   });
 
@@ -81,12 +77,44 @@ describe('ItemCounterComponent', () => {
       expect(component.control.value).toEqual(2);
     });
 
+    it('should mark the control "dirty" when the value increases', () => {
+      expect(component.control.dirty).toBe(false);
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
+      );
+      button[1].nativeElement.click();
+      fixture.detectChanges();
+      expect(component.control.dirty).toBe(true);
+    });
+
     it('should set value to max when it is greater than max value', () => {
       component.max = 40;
       component.control.setValue(50);
       fixture.detectChanges();
 
       expect(component.control.value).toEqual(40);
+    });
+
+    it('should enable increase button if max number is reached', () => {
+      component.control.setValue(5);
+      component.max = 10;
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
+      );
+      expect((<HTMLButtonElement>button[1].nativeElement).disabled).toBeFalsy();
+    });
+
+    it('should disable increase button if max number is reached', () => {
+      component.control.setValue(5);
+      component.max = 5;
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
+      );
+      expect(
+        (<HTMLButtonElement>button[1].nativeElement).disabled
+      ).toBeTruthy();
     });
   });
 
@@ -101,9 +129,19 @@ describe('ItemCounterComponent', () => {
       fixture.detectChanges();
       expect(component.control.value).toEqual(4);
     });
-  });
 
-  describe('disable buttons', () => {
+    it('should mark the control "dirty" when the value decreases', () => {
+      expect(component.control.dirty).toBe(false);
+      component.control.setValue(5);
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
+      );
+      button[0].nativeElement.click();
+      fixture.detectChanges();
+      expect(component.control.dirty).toBe(true);
+    });
+
     it('should enable decrease button if min number is not reached', () => {
       component.control.setValue(5);
       component.min = 3;
@@ -123,28 +161,6 @@ describe('ItemCounterComponent', () => {
       );
       expect(
         (<HTMLButtonElement>button[0].nativeElement).disabled
-      ).toBeTruthy();
-    });
-
-    it('should enable decrease button if max number is reached', () => {
-      component.control.setValue(5);
-      component.max = 10;
-      fixture.detectChanges();
-      const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
-      );
-      expect((<HTMLButtonElement>button[1].nativeElement).disabled).toBeFalsy();
-    });
-
-    it('should disable increase button if max number is reached', () => {
-      component.control.setValue(5);
-      component.max = 5;
-      fixture.detectChanges();
-      const button: DebugElement[] = fixture.debugElement.queryAll(
-        By.css('button')
-      );
-      expect(
-        (<HTMLButtonElement>button[1].nativeElement).disabled
       ).toBeTruthy();
     });
   });
