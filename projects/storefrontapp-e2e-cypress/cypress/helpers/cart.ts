@@ -97,8 +97,7 @@ export function validateEmptyCart() {
 }
 
 export function addToCart() {
-  cy.get('cx-add-to-cart')
-    .getAllByText(/Add To Cart/i)
+  cy.get('cx-add-to-cart button[type=submit]')
     .first()
     .click({ force: true });
 }
@@ -138,7 +137,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 export function addProductToCartViaSearchPage(mobile: boolean) {
   const product = products[1];
 
-  goToFirstProductFromSearch(product.type, mobile);
+  goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
