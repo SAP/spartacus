@@ -146,7 +146,7 @@
             </label>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" *ngIf="anonymousConsent$ | async as consent">
             <div class="form-check">
               <label>
                 <input
@@ -154,9 +154,10 @@
                   name="newsletter"
                   class="form-check-input"
                   formControlName="newsletter"
+                  [checked]="isConsentGiven(consent.status)"
                 />
                 <span class="form-check-label">
-                  {{ 'register.emailMarketing' | cxTranslate }}
+                  {{ consent.template }}
                 </span>
               </label>
             </div>

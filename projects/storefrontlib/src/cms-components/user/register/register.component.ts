@@ -1,8 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+  AnonymousConsent,
+  AnonymousConsentsService,
+  ANONYMOUS_CONSENT_STATUS,
   AuthRedirectService,
   AuthService,
+  ConsentTemplate,
   FeatureConfigService,
   GlobalMessageEntities,
   GlobalMessageService,
@@ -12,8 +16,8 @@ import {
   UserService,
   UserSignUp,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
 @Component({
@@ -24,6 +28,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
   loading$: Observable<boolean>;
   private subscription = new Subscription();
+
+  anonymousConsent$: Observable<{
+    status: ANONYMOUS_CONSENT_STATUS;
+    template: string;
+  }>;
 
   userRegistrationForm: FormGroup = this.fb.group(
     {
@@ -54,7 +63,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected router?: RoutingService,
-    protected featureConfig?: FeatureConfigService
+    protected featureConfig?: FeatureConfigService,
+    protected anonymousConsentService?: AnonymousConsentsService
   ) {}
 
   // TODO(issue:4237) Register flow
@@ -123,6 +133,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
           }
         })
     );
+
+    if (this.anonymousConsentService) {
+      this.anonymousConsent$ = combineLatest([
+        this.anonymousConsentService.getAnonymousConsent(
+          'MARKETING_NEWSLETTER'
+        ),
+        this.anonymousConsentService.getAnonymousConsentTemplate(
+          'MARKETING_NEWSLETTER'
+        ),
+      ]).pipe(
+        map(([consent, template]: [AnonymousConsent, ConsentTemplate]) => {
+          return {
+            status: consent.consentState,
+            template: template.description,
+          };
+        })
+      );
+    }
   }
 
   submit(): void {
@@ -147,6 +175,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     };
   }
 
+  isConsentGiven(status: ANONYMOUS_CONSENT_STATUS): boolean {
+    return status === ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN;
+  }
+
   private onRegisterUserSuccess(success: boolean): void {
     if (this.router && success) {
       this.router.go('login');
@@ -154,6 +186,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+      if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
+        this.anonymousConsentService.giveAnonymousConsent(
+          'MARKETING_NEWSLETTER'
+        );
+      }
     }
   }
 
