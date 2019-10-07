@@ -1,0 +1,45 @@
+<form (submit)="onSubmit()" [formGroup]="form" *ngIf="!csAgentTokenLoading">
+  <div class="fd-container">
+    <div class="fd-col--3">
+      <label>
+        <input
+          type="text"
+          class="form-control"
+          [class.is-invalid]="isNotValid('userId')"
+          formControlName="userId"
+          placeholder="{{ 'asm.loginForm.userId.label' | cxTranslate }}"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('userId')">
+          <span>{{ 'asm.loginForm.userId.required' | cxTranslate }}</span>
+        </div>
+      </label>
+    </div>
+    <div class="fd-col--3">
+      <label>
+        <input
+          type="password"
+          class="form-control"
+          [class.is-invalid]="isNotValid('password')"
+          placeholder="{{ 'asm.loginForm.password.label' | cxTranslate }}"
+          formControlName="password"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('password')">
+          <span>{{ 'asm.loginForm.password.required' | cxTranslate }}</span>
+        </div>
+      </label>
+    </div>
+    <div class="fd-col--3">
+      <button type="submit" class="fd-button--emphasized">
+        {{ 'asm.loginForm.submit' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="sap-spinner" *ngIf="csAgentTokenLoading">
+  <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>

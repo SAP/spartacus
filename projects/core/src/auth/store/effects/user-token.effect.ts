@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../models/token-types.model';
@@ -42,13 +42,12 @@ export class UserTokenEffects {
   > = this.actions$.pipe(
     ofType(AuthActions.REFRESH_USER_TOKEN),
     map((action: AuthActions.RefreshUserToken) => action.payload),
-    switchMap(({ refreshToken }) => {
+    exhaustMap(({ refreshToken }) => {
       return this.userTokenService.refreshToken(refreshToken).pipe(
         map((token: UserToken) => {
           const date = new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
           token.expiration_time = date.toJSON();
-          token.userId = OCC_USER_ID_CURRENT;
           return new AuthActions.RefreshUserTokenSuccess(token);
         }, catchError(error => of(new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
       );
