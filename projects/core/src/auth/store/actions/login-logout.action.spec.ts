@@ -20,4 +20,14 @@ describe('Login and Logout Actions', () => {
       });
     });
   });
+
+  describe('Logout Customer Support Agent Action', () => {
+    it('should create the action', () => {
+      const action = new AuthActions.LogoutCustomerSupportAgent();
+
+      expect({ ...action }).toEqual({
+        type: AuthActions.LOGOUT_CUSTOMER_SUPPORT_AGENT,
+      });
+    });
+  });
 });

@@ -46,6 +46,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   selectedAddress$: Observable<
     Address
   > = this.checkoutDeliveryService.getDeliveryAddress();
+  forceLoader = false; // this helps with smoother steps transition
 
   /**
    * @deprecated since version 1.3
@@ -215,6 +216,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         selectedSub.unsubscribe();
       }
     });
+
+    this.forceLoader = true;
 
     // TODO(issue:#3921) deprecated since 1.3 - Remove this condition
     if (address['address'] || address['newAddress']) {

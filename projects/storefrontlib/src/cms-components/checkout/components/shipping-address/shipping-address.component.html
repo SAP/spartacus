@@ -2,7 +2,7 @@
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
   </h3>
-  <ng-container *ngIf="!(isLoading$ | async); else loading">
+  <ng-container *ngIf="!forceLoader && !(isLoading$ | async); else loading">
     <ng-container
       *ngIf="
         cards?.length && !newAddressFormManuallyOpened;
