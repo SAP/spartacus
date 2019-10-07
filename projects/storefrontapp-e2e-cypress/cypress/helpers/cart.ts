@@ -110,7 +110,7 @@ export function closeAddedToCartDialog() {
 export function checkProductInCart(product, qty = 1) {
   return getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
-    cy.get('.cx-counter-value').should('have.value', `${qty}`);
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total>.cx-value').should(
       'contain',
       formatPrice(qty * product.price)
