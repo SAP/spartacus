@@ -93,9 +93,7 @@ export function checkElement(tabElement: TabElement) {
       break;
     }
     case TabbingOrderTypes.H3: {
-      cy.focused()
-        .get('h3')
-        .should('contain', tabElement.value);
+      cy.focused().should('contain', tabElement.value);
       return;
     }
     case TabbingOrderTypes.CX_MEDIA: {
