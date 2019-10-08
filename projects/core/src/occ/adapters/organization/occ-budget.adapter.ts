@@ -4,11 +4,9 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
-import {
-  BUDGET_NORMALIZER,
-  BUDGETS_NORMALIZER,
-} from '../../../organization/connectors/budget/converters';
+import { BUDGET_NORMALIZER } from '../../../organization/connectors/budget/converters';
 import { Budget } from '../../../model/budget.model';
+import { pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccBudgetAdapter implements BudgetAdapter {
@@ -32,7 +30,10 @@ export class OccBudgetAdapter implements BudgetAdapter {
   ): Observable<Budget[]> {
     return this.http
       .get(this.getBudgetsEndpoint(userId, pageSize, currentPage, sort))
-      .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
+      .pipe(
+        pluck('budgets'),
+        this.converter.pipeableMany(BUDGET_NORMALIZER)
+      );
   }
 
   protected getBudgetEndpoint(userId: string, budgetCode: string): string {

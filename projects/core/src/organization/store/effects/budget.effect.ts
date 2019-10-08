@@ -31,7 +31,7 @@ export class BudgetEffects {
   $loadBudgets: Observable<
     BudgetActions.LoadBudgetsSuccess | BudgetActions.LoadBudgetsFail
     > = this.actions$.pipe(
-    ofType(BudgetActions.LOAD_BUDGET),
+    ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap((userId) => {
       return this.budgetConnector.getBudgets(userId).pipe(
