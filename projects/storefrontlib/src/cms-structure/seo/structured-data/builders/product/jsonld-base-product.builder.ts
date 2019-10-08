@@ -13,12 +13,21 @@ import { JsonLdBuilder } from '../schema.interface';
 export class JsonLdBaseProductBuilder implements JsonLdBuilder<Product> {
   build(product: Product): Observable<any> {
     return of({
-      sku: product.code,
-      name: product.name,
-      description: product.summary, // could be loaded through resolver
+      ...this.getProductBase(product),
       ...this.getProductBrand(product),
       ...this.getProductImage(product),
     });
+  }
+
+  private getProductBase(product: Product) {
+    const result: any = { sku: product.code };
+    if (product.name) {
+      result.name = product.name;
+    }
+    if (product.summary) {
+      result.description = product.summary;
+    }
+    return result;
   }
 
   private getProductImage(product: Product) {

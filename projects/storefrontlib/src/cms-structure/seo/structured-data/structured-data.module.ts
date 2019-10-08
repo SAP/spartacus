@@ -26,7 +26,8 @@ import { SchemaComponent } from './components/schema.component';
       useExisting: BreadcrumbSchemaBuilder,
       multi: true,
     },
-    // lower level jsonld builder classes for product schema's
+    // lower level jsonld builder classes offering fine-graiend control
+    // for product related schema's
     {
       provide: JSONLD_PRODUCT_BUILDER,
       useExisting: JsonLdBaseProductBuilder,

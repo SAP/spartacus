@@ -26,7 +26,7 @@ export class JsonLdComponent {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  private getSafeHTML(value: {}) {
+  private getSafeHTML(value: {}): SafeHtml {
     const html = `<script type="application/ld+json">${JSON.stringify(
       value
     )}</script>`;

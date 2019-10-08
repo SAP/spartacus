@@ -28,14 +28,17 @@ export class BreadcrumbSchemaBuilder implements SchemaBuilder {
         },
       };
     });
-    crumbs.push({
-      '@type': 'ListItem',
-      position: crumbs.length + 1,
-      item: {
-        '@id': pageMeta.title,
-        name: pageMeta.title,
-      },
-    });
+
+    if (pageMeta.title) {
+      crumbs.push({
+        '@type': 'ListItem',
+        position: crumbs.length + 1,
+        item: {
+          '@id': pageMeta.title,
+          name: pageMeta.title,
+        },
+      });
+    }
 
     return {
       '@context': 'http://schema.org',

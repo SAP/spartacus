@@ -14,10 +14,10 @@ import { SCHEMA_BUILDER } from './builders/tokens';
 })
 export class SchemaService {
   constructor(
+    @Inject(PLATFORM_ID) protected platformId: any,
     @Optional()
     @Inject(SCHEMA_BUILDER)
-    protected builders: SchemaBuilder[],
-    @Inject(PLATFORM_ID) protected platformId: any
+    protected builders: SchemaBuilder[]
   ) {}
 
   load(): Observable<any> {

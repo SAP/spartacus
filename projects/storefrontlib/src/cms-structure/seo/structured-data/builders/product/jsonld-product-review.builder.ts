@@ -19,36 +19,53 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
       filter(Boolean),
       map((reviews: Review[]) => {
         return {
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: product.averageRating,
-            ratingCount: reviews.filter(rev => !!rev.rating).length,
-            reviewCount: reviews.filter(rev => !!rev.comment).length,
-          },
-          review: this.buildReviews(reviews),
+          aggregateRating: this.buildAggregatedReviews(product, reviews),
+          review: reviews.map(review => this.buildReviews(review)),
         };
       })
     );
   }
 
-  private buildReviews(reviews: Review[]) {
-    return reviews.map(review => {
-      return {
-        '@type': 'review',
-        author: review.principal.name,
-        datePublished: this.getDate(review.date),
-        name: review.headline,
-        description: review.comment,
-        reviewRating: {
-          '@type': 'Rating',
-          ratingValue: review.rating.toString(),
-        },
-      };
-    });
+  private buildAggregatedReviews(product: Product, reviews: Review[]) {
+    const aggregated: any = {
+      '@type': 'AggregateRating',
+    };
+    if (product.averageRating) {
+      aggregated.ratingValue = product.averageRating;
+    }
+    if (reviews) {
+      aggregated.ratingCount = reviews.filter(rev => !!rev.rating).length;
+      aggregated.reviewCount = reviews.filter(rev => !!rev.comment).length;
+    }
+    return aggregated;
   }
 
-  private getDate(d: any) {
-    const date = new Date(d);
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  private buildReviews(review: Review) {
+    const reviewSchema: any = {
+      '@type': 'review',
+    };
+
+    if (review.principal && review.principal.name) {
+      reviewSchema.author = review.principal.name;
+    }
+    if (review.date) {
+      const date = new Date(review.date);
+      reviewSchema.datePublished = `${date.getFullYear()}-${date.getMonth() +
+        1}-${date.getDate()}`;
+    }
+    if (review.headline) {
+      reviewSchema.name = review.headline;
+    }
+    if (review.comment) {
+      reviewSchema.description = review.comment;
+    }
+    if (review.rating) {
+      reviewSchema.reviewRating = {
+        '@type': 'Rating',
+        ratingValue: review.rating.toString(),
+      };
+    }
+
+    return reviewSchema;
   }
 }
