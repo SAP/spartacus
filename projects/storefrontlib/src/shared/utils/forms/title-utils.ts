@@ -10,5 +10,9 @@ export const titleScores = {
 };
 
 export function sortTitles(title1: Title, title2: Title) {
-  return titleScores[title1.code] - titleScores[title2.code];
+  if (!titleScores[title1.code] || !titleScores[title2.code]) {
+    return 1;
+  } else {
+    return titleScores[title1.code] - titleScores[title2.code];
+  }
 }
