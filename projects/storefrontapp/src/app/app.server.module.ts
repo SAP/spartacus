@@ -15,7 +15,7 @@ import { OccBaseSitesConfigTransferStateModule } from './base-site/occ-base-site
     AppModule,
     ServerModule,
     ServerTransferStateModule,
-    OccBaseSitesConfigTransferStateModule,
+    OccBaseSitesConfigTransferStateModule.forRoot(),
     // ModuleMapLoaderModule // <-- *Important* to have lazy-loaded routes work
   ],
   // Since the bootstrapped component is not inherited from your
