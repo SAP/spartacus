@@ -1,7 +1,7 @@
 import { Title } from '@spartacus/core';
 import { sortTitles } from './title-utils';
 
-fdescribe('TitleUtils', () => {
+describe('TitleUtils', () => {
   describe('when unsorted titles are provided', () => {
     it('they should be sorted in the specific order', () => {
       const mockTitles: Title[] = [
