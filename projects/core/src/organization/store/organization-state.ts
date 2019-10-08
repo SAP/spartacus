@@ -11,10 +11,6 @@ export interface StateWithOrganization {
 }
 
 export interface OrganizationState {
-  budgetManagment: BudgetsState;
-}
-
-export interface BudgetsState {
-  budgets: EntityLoaderState<Budget>
+  budgetManagment: EntityLoaderState<Budget>;
 }
 

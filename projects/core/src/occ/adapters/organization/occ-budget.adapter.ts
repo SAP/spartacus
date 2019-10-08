@@ -37,7 +37,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
   }
 
   protected getBudgetEndpoint(userId: string, budgetCode: string): string {
-    return this.occEndpoints.getUrl(`/users/${userId}/budgets/${budgetCode}`);
+    return this.occEndpoints.getUrl('budget', { userId, budgetCode });
   }
 
   protected getBudgetsEndpoint(
@@ -47,8 +47,8 @@ export class OccBudgetAdapter implements BudgetAdapter {
     sort: string
   ): string {
     return this.occEndpoints.getUrl(
-      `/users/${userId}/budgets`,
-      {},
+      'budgets',
+      { userId },
       { pageSize, currentPage, sort }
     );
   }
