@@ -2,12 +2,12 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
-import { BUDGETS, OrganizationState } from '../organization-state';
+import { BUDGETS_FEATURE, OrganizationState } from '../organization-state';
 import { Budget } from '../../../model/budget.model';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
-    budgetManagment: entityLoaderReducer<Budget>(BUDGETS),
+    budgetManagment: entityLoaderReducer<Budget>(BUDGETS_FEATURE),
   };
 }
 
