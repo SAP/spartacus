@@ -6,7 +6,6 @@ import {
   concatMap,
   filter,
   map,
-  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
@@ -75,7 +74,7 @@ export class AnonymousConsentsEffects {
       )
     ),
     filter(([, registerAction]) => Boolean(registerAction)),
-    switchMap(() =>
+    concatMap(() =>
       this.anonymousConsentsService
         .getAnonymousConsentTemplate(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
@@ -88,6 +87,7 @@ export class AnonymousConsentsEffects {
             this.authService.getOccUserId()
           ),
           map(([template, consent, userId]) => {
+            console.log('in');
             if (
               consent.consentState ===
               ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN

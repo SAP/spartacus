@@ -130,6 +130,8 @@ class MockAnonymousConsentsService {
   ): Observable<ConsentTemplate> {
     return of();
   }
+
+  giveAnonymousConsent(_templateCode: string): void {}
 }
 
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
@@ -138,7 +140,7 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   },
 };
 
-fdescribe('RegisterComponent', () => {
+describe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -148,6 +150,7 @@ fdescribe('RegisterComponent', () => {
   let mockRoutingService: MockRoutingService;
   let mockAuthService: MockAuthService;
   let mockAuthRedirectService: MockAuthRedirectService;
+  let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -195,6 +198,9 @@ fdescribe('RegisterComponent', () => {
     mockAuthService = TestBed.get(AuthService as Type<AuthService>);
     mockAuthRedirectService = TestBed.get(AuthRedirectService as Type<
       AuthRedirectService
+    >);
+    anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
+      AnonymousConsentsService
     >);
 
     component = fixture.componentInstance;
@@ -408,6 +414,31 @@ fdescribe('RegisterComponent', () => {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
+  });
+
+  describe('onRegisterUserSuccess', () => {
+    beforeEach(() => {
+      spyOn(anonymousConsentService, 'giveAnonymousConsent').and.stub();
+    });
+
+    it('should give anonymous consent if consent was given', () => {
+      component.userRegistrationForm.get('newsletter').setValue(true);
+
+      registerUserIsSuccess.next(true);
+
+      expect(anonymousConsentService.giveAnonymousConsent).toHaveBeenCalledWith(
+        mockAnonymousConsentsConfig.anonymousConsents.registerConsent
+      );
+    });
+    it('should give anonymous consent if consent was NOT given', () => {
+      component.userRegistrationForm.get('newsletter').setValue(false);
+
+      registerUserIsSuccess.next(true);
+
+      expect(
+        anonymousConsentService.giveAnonymousConsent
+      ).not.toHaveBeenCalled();
     });
   });
 });
