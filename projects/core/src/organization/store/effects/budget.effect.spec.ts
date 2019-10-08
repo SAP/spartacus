@@ -6,13 +6,13 @@ import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../../model/cms.model';
-import { Product } from '../../../model/product.model';
+import { Budget } from '../../../model/budget.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { BudgetConnector } from '../../connectors/budget/product.connector';
-import { ProductActions } from '../actions/index';
-import * as fromEffects from './product.effect';
+import { BudgetConnector } from '../../connectors/budget/budget.connector';
+import { BudgetActions } from '../actions/index';
+import * as fromEffects from './budget.effect';
 import createSpy = jasmine.createSpy;
 
 const router = {
@@ -29,19 +29,18 @@ class MockRoutingService {
     return of(router);
   }
 }
-const productCode = 'testCode';
-const product: Product = {
+const budgetCode = 'testCode';
+const budget: Budget = {
   code: 'testCode',
-  name: 'testProduct',
 };
 
 class MockProductConnector {
-  get = createSpy().and.returnValue(of(product));
+  get = createSpy().and.returnValue(of(budget));
 }
 
-describe('Product Effects', () => {
-  let actions$: Observable<ProductActions.ProductAction>;
-  let effects: fromEffects.ProductEffects;
+describe('Budget Effects', () => {
+  let actions$: Observable<BudgetActions.BudgetAction>;
+  let effects: fromEffects.BudgetEffects;
 
   const mockProductState = {
     details: {
@@ -61,25 +60,25 @@ describe('Product Effects', () => {
       providers: [
         { provide: BudgetConnector, useClass: MockProductConnector },
         { provide: OccConfig, useValue: defaultOccProductConfig },
-        fromEffects.ProductEffects,
+        fromEffects.BudgetEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
-    effects = TestBed.get(fromEffects.ProductEffects as Type<
-      fromEffects.ProductEffects
+    effects = TestBed.get(fromEffects.BudgetEffects as Type<
+      fromEffects.BudgetEffects
     >);
   });
 
   describe('loadProduct$', () => {
     it('should return loadProductStart action if product not loaded', () => {
-      const action = new ProductActions.LoadProduct(productCode);
-      const completion = new ProductActions.LoadProductSuccess(product);
+      const action = new BudgetActions.LoadBudget(budgetCode);
+      const completion = new BudgetActions.LoadBudgetSuccess(budget);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
-      expect(effects.loadProduct$).toBeObservable(expected);
+      expect(effects.$loadBudget).toBeObservable(expected);
     });
   });
 });

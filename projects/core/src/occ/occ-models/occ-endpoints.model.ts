@@ -263,4 +263,6 @@ export interface OccEndpoints {
    * @member {string}
    */
   asmCustomerSearch?: string;
+  budget?: string;
+  budgets?: string;
 }
