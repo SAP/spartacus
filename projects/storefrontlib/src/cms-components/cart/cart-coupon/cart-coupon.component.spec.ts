@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-//import { cold, getTestScheduler } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { CartService, I18nTestingModule, Voucher, Cart } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
@@ -95,29 +95,25 @@ describe('CartCouponComponent', () => {
   });
 
   fit('should disable button when coupon is in process', () => {
-    mockCartService.getAddVoucherResultLoading.and.returnValue(of(true));
+    mockCartService.getAddVoucherResultLoading.and.returnValue(hot('-a', { a: true }));
     fixture.detectChanges();
 
     const applyBtn = el.query(By.css('[data-test="button-coupon"]')).nativeElement;
     expect(applyBtn.disabled).toBeTruthy();
     
-    //mockCartService.getAddVoucherResultLoading.and.returnValue(cold('-a|', { a: false }));
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
-    
-    //getTestScheduler().flush();
-    //fixture.detectChanges();
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(applyBtn.disabled).toBeFalsy();
 
-    component.addVoucherIsLoading$.subscribe(a => console.log(a));
-    console.log(component.cartIsLoading);
-    console.log(component.btnEnabled);
-    expect(component.form.valid).toBeFalsy();
-    //expect(applyBtn.disabled).toBeFalsy();
-
+    mockCartService.getAddVoucherResultLoading.and.returnValue(cold('-a', { a: true }));
     applyBtn.click();
+
+    getTestScheduler().flush();
     fixture.detectChanges();
 
-    //expect(mockCartService.addVoucher).toHaveBeenCalled();
+    expect(mockCartService.addVoucher).toHaveBeenCalled();
     expect(applyBtn.disabled).toBeTruthy();
   });
 
