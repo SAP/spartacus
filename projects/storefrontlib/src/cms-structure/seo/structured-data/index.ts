@@ -1,5 +1,3 @@
-export * from './json-ld.component';
-export * from './product/index';
-export * from './schema.component';
+export * from './builders/index';
+export * from './components/index';
 export * from './structured-data.module';
-export * from './tokens';

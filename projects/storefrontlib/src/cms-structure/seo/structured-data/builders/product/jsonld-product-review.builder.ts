@@ -11,7 +11,7 @@ import { JsonLdBuilder } from '../schema.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductReviewJsonLdBuilder implements JsonLdBuilder<Product> {
+export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
   constructor(private reviewService: ProductReviewService) {}
 
   build(product: Product): Observable<any> {

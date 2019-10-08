@@ -2,21 +2,22 @@ import { Injectable } from '@angular/core';
 import { PageMeta, PageMetaService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
+import { SchemaBuilder } from '../schema.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class JsonldBreadcrumbService {
+export class BreadcrumbSchemaBuilder implements SchemaBuilder {
   constructor(protected pageMetaService: PageMetaService) {}
 
-  getSchema(): Observable<any> {
+  build(): Observable<any> {
     return this.pageMetaService.getMeta().pipe(
       first(Boolean),
-      map((pageMeta: PageMeta) => this.build(pageMeta))
+      map((pageMeta: PageMeta) => this.collect(pageMeta))
     );
   }
 
-  protected build(pageMeta: PageMeta) {
+  protected collect(pageMeta: PageMeta) {
     const crumbs = pageMeta.breadcrumbs.map((crumb, index) => {
       return {
         '@type': 'ListItem',

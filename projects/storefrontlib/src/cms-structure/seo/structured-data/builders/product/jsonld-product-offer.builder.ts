@@ -10,7 +10,7 @@ import { JsonLdBuilder } from '../schema.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductOfferJsonLdBuilder implements JsonLdBuilder<Product> {
+export class JsonLdProductOfferBuilder implements JsonLdBuilder<Product> {
   build(product: Product): Observable<any> {
     return of({
       offers: {
