@@ -4,9 +4,6 @@ import { join } from 'path';
 import 'reflect-metadata';
 import 'zone.js/dist/zone-node';
 
-// spike todo remove:
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 // Express server
 const app = express();
 
