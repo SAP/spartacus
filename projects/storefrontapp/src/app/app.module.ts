@@ -16,7 +16,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { QualtricsExtendedService } from './qualtrics-extended.service';
+import { DemoQualtricsLoaderService } from './qualtrics-extended.service';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -81,7 +81,7 @@ if (!environment.production) {
 
   bootstrap: [StorefrontComponent],
   providers: [
-    { provide: QualtricsLoaderService, useClass: QualtricsExtendedService },
+    { provide: QualtricsLoaderService, useClass: DemoQualtricsLoaderService },
   ],
 })
 export class AppModule {}

@@ -18,6 +18,5 @@ import { QualtricsComponent } from './qualtrics.component';
   ],
   declarations: [QualtricsComponent],
   entryComponents: [QualtricsComponent],
-  exports: [QualtricsComponent],
 })
 export class QualtricsComponentModule {}

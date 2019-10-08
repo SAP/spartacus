@@ -68,6 +68,11 @@ export class QualtricsLoaderService {
     return Boolean(this.config.qualtrics) && this.config.qualtrics.active;
   }
 
+  /**
+   * This logic exist in order to let the user add their own logic to wait for any kind of page data
+   * If a user does not extend this service to override this implementation, it returns an Observable(true)
+   * Return Observable(false) otherwise.
+   */
   protected isDataLoaded(): Observable<boolean> {
     return of(true);
   }
