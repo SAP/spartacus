@@ -33,17 +33,15 @@ export function getConfigFromOccBaseSites(
     return {};
   }
 
-  const urlParameters = getUrlParameters(baseSite);
-  const languagesIds = getLanguagesIds(baseStore, baseSite.defaultLanguage);
-  const currenciesIds = getCurrenciesIds(baseStore);
-  const baseSitesIds = [baseSite.uid];
-
   return {
     context: {
-      urlParameters,
-      [BASE_SITE_CONTEXT_ID]: baseSitesIds,
-      [LANGUAGE_CONTEXT_ID]: languagesIds,
-      [CURRENCY_CONTEXT_ID]: currenciesIds,
+      urlParameters: getUrlParameters(baseSite),
+      [BASE_SITE_CONTEXT_ID]: [baseSite.uid],
+      [LANGUAGE_CONTEXT_ID]: getLanguagesIds(
+        baseStore,
+        baseSite.defaultLanguage
+      ),
+      [CURRENCY_CONTEXT_ID]: getCurrenciesIds(baseStore),
     },
   };
 }

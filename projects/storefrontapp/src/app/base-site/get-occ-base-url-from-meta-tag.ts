@@ -1,8 +1,3 @@
-// import {
-//   OCC_BASE_URL_META_TAG_NAME,
-//   OCC_BASE_URL_META_TAG_PLACEHOLDER,
-// } from '../../../core/src/occ/config/config-from-meta-tag-factory';
-
 import {
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
