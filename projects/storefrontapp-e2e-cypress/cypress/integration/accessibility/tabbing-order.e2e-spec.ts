@@ -31,7 +31,7 @@ import {
   checkoutPaymentDetailsTabbingOrder,
   checkoutBillingAddressTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
-import { reviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/review-order';
+import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/order-details';
 import {
   headerDesktopTabbingOrder,
   headerMobileTabbingOrder,
@@ -262,9 +262,9 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  describe('Review Order', () => {
+  describe('Order Details', () => {
     it('should allow to navigate with tab key', () => {
-      reviewOrderTabbingOrder(config.reviewOrder);
+      orderDetailsTabbingOrder(config.orderDetails);
     });
   });
 });
