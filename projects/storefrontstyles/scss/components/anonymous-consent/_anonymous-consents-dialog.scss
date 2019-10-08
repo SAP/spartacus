@@ -22,6 +22,11 @@
     cursor: pointer;
   }
 
+  .cx-action-link {
+    display: inline-block;
+    margin: 0 0.35rem;
+  }
+
   .cx-dialog-row {
     max-width: 100%;
     //this below is custom not global
