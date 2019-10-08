@@ -4,7 +4,7 @@ import {
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
 } from '@spartacus/core';
-import { fetchJson, fetchJsonSSRFactory } from './fetch-json';
+import { fetchJson, fetchJsonSSRFactory, HttpsClient } from './fetch-json';
 
 export interface OccBaseSitesEndpointOptions {
   baseUrl?: string;
@@ -35,7 +35,7 @@ export function fetchOccBaseSites(
  */
 export function fetchOccBaseSitesSSR(
   endpointOptions: OccBaseSitesEndpointOptions,
-  httpsClient: any //spike todo add type
+  httpsClient: HttpsClient
 ): Promise<Occ.BaseSites> {
   return genericFetchOccBaseSites(
     endpointOptions,

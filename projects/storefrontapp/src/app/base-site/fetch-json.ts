@@ -21,7 +21,24 @@ export function fetchJson(url: string): Promise<any> {
   });
 }
 
-export function fetchJsonSSR(url: string, httpsClient: any): Promise<any> {
+interface HttpsClientEventBus {
+  on: (event: string, callback: Function) => void;
+}
+
+interface HttpsClientResponse extends HttpsClientEventBus {
+  statusCode: number;
+}
+export interface HttpsClient extends HttpsClientEventBus {
+  get: (
+    url: string,
+    callback: (response: HttpsClientResponse) => void
+  ) => HttpsClient;
+}
+
+export function fetchJsonSSR(
+  url: string,
+  httpsClient: HttpsClient
+): Promise<any> {
   return new Promise((resolve, reject) => {
     httpsClient
       .get(url, response => {
@@ -46,9 +63,8 @@ export function fetchJsonSSR(url: string, httpsClient: any): Promise<any> {
   });
 }
 
-//spike todo add type
 export function fetchJsonSSRFactory(
-  httpsClient: any
+  httpsClient: HttpsClient
 ): (url: string) => Promise<any> {
   return (url: string) => fetchJsonSSR(url, httpsClient);
 }

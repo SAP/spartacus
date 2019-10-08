@@ -1,4 +1,5 @@
 import { SiteContextConfig } from '@spartacus/core';
+import { HttpsClient } from './fetch-json';
 import {
   fetchOccBaseSites,
   fetchOccBaseSitesSSR,
@@ -25,7 +26,7 @@ export function fetchOccBaseSitesConfig(
 export function fetchOccBaseSitesConfigSSR(
   fetchOptions: OccBaseSitesEndpointOptions,
   currentUrl: string,
-  httpsClient: any // spike todo add types
+  httpsClient: HttpsClient
 ): Promise<SiteContextConfig> {
   return fetchOccBaseSitesSSR(fetchOptions, httpsClient).then(baseSites =>
     getConfigFromOccBaseSites(baseSites, currentUrl)
