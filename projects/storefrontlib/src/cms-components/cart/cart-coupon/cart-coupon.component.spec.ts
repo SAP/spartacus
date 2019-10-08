@@ -21,7 +21,7 @@ class MockCxIconComponent {
   selector: 'cx-applied-coupons',
   template: '',
 })
-export class MockAppliedCouponsComponent {
+class MockAppliedCouponsComponent {
   @Input()
   vouchers: Voucher[];
   @Input()

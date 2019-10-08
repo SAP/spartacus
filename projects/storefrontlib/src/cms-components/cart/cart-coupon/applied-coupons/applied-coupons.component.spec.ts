@@ -16,6 +16,21 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+@Component({
+  template: `
+    <cx-applied-coupons
+      [vouchers]="cart.appliedVouchers"
+      [cartIsLoading]="cartIsLoading"
+      [isReadOnly]="false"
+    >
+    </cx-applied-coupons>
+  `,
+})
+class MockedCartCouponComponent {
+  coupon = coupon1;
+  cartIsLoading = false;
+}
+
 describe('AppliedCouponsComponent', () => {
   let component: AppliedCouponsComponent;
   let fixture: ComponentFixture<AppliedCouponsComponent>;
@@ -27,7 +42,10 @@ describe('AppliedCouponsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [AppliedCouponsComponent, MockCxIconComponent],
+      declarations: [
+        AppliedCouponsComponent, 
+        MockCxIconComponent, 
+        MockedCartCouponComponent],
       providers: [{ provide: CartService, useValue: mockCartService }],
     }).compileComponents();
   }));
