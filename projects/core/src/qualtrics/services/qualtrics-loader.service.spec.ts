@@ -38,11 +38,9 @@ fdescribe('QualtricsLoaderService', () => {
     service = TestBed.get(QualtricsLoaderService as Type<
       QualtricsLoaderService
     >);
-    const qsi = winRef.nativeWindow['QSI'];
 
-    spyOn(qsi.API, 'unload').and.callThrough();
-    spyOn(qsi.API, 'load').and.callThrough();
-    spyOn(qsi.API, 'run').and.callThrough();
+    spyOn(winRef.nativeWindow['QSI'].API, 'load').and.callThrough();
+    spyOn(winRef.nativeWindow['QSI'].API, 'run').and.callThrough();
   });
 
   it('should be created', () => {
@@ -50,10 +48,17 @@ fdescribe('QualtricsLoaderService', () => {
   });
 
   it('should have qualtrics enabled', () => {
-    expect(qsi).toBeDefined();
+    expect(winRef.nativeWindow['QSI']).toBeDefined();
   });
 
   it('should load qualtrics', () => {
-    // service.load().subscribe
+    service
+      .load()
+      .subscribe()
+      .unsubscribe();
+
+    expect(winRef.nativeWindow['QSI'].API.load).toHaveBeenCalled();
+
+    expect(winRef.nativeWindow['QSI'].API.run).toHaveBeenCalled();
   });
 });

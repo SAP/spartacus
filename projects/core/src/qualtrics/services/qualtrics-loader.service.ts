@@ -8,9 +8,21 @@ import { QualtricsConfig } from '../config/qualtrics-config';
   providedIn: 'root',
 })
 export class QualtricsLoaderService {
-  constructor(private winRef: WindowRef, private config: QualtricsConfig) {}
+  constructor(private winRef: WindowRef, private config: QualtricsConfig) {
+    // const qualtricsScript = this.winRef.document.createElement('script');
+    // qualtricsScript.type = 'text/javascript';
+    // qualtricsScript.defer = true;
+    // qualtricsScript.src = 'assets/qualtricsIntegration.js';
+    // this.winRef.document
+    //   .getElementsByTagName('head')[0]
+    //   .appendChild(qualtricsScript);
+    // const idScript = this.winRef.document.createElement('div');
+    // idScript.id = 'ZN_6Y9SmdaSBA8Uogl';
+    // this.winRef.document.getElementsByTagName('body')[0].appendChild(idScript);
+  }
 
   load(): Observable<boolean> {
+    // console.log('test1');
     // return iif(
     //   () => Boolean(this.winRef.nativeWindow) && this.isQualtricsConfigured(),
     //   fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded').pipe(
@@ -33,6 +45,7 @@ export class QualtricsLoaderService {
     //   EMPTY
     // );
 
+    // P.S Just for testing! qsi_js_loaded timing issue again...
     return iif(
       () => Boolean(this.winRef.nativeWindow) && this.isQualtricsConfigured(),
       this.isDataLoaded().pipe(
@@ -47,7 +60,6 @@ export class QualtricsLoaderService {
           }
         })
       ),
-
       EMPTY
     );
   }

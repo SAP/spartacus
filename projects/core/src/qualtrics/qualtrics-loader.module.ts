@@ -4,6 +4,7 @@ import { QualtricsConfig } from './config/qualtrics-config';
 
 @NgModule({})
 export class QualtricsLoaderModule {
+  //TODO: instead forroot, put it in ngModule
   static forRoot(): ModuleWithProviders<QualtricsLoaderModule> {
     return {
       ngModule: QualtricsLoaderModule,
