@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
@@ -19,8 +21,33 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
 
   constructor(
+    userConsentService: UserConsentService,
+    globalMessageService: GlobalMessageService,
+    anonymousConsentsConfig: AnonymousConsentsConfig,
+    anonymousConsentsService: AnonymousConsentsService
+  );
+
+  /**
+   * @deprecated since version 1.3
+   * Instead, use:
+   ```ts
+   constructor(
+     userConsentService: UserConsentService,
+     globalMessageService: GlobalMessageService,
+     anonymousConsentsConfig : AnonymousConsentsConfig,
+     anonymousConsentsService : AnonymousConsentsService
+   ) 
+   ```
+   */
+  constructor(
+    userConsentService: UserConsentService,
+    globalMessageService: GlobalMessageService
+  );
+  constructor(
     private userConsentService: UserConsentService,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private anonymousConsentsConfig?: AnonymousConsentsConfig,
+    private anonymousConsentsService?: AnonymousConsentsService
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +72,56 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         if (!this.consentsExists(templateList)) {
           this.userConsentService.loadConsents();
         }
+      }),
+      withLatestFrom(
+        this.anonymousConsentsService.getAnonymousConsentTemplates()
+      ),
+      map(([templateList, anonymousTemplates]) => {
+        if (
+          Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+          Boolean(
+            this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+          )
+        ) {
+          return this.hideAnonymousConsents(templateList, anonymousTemplates);
+        }
+        return templateList;
       })
+    );
+  }
+
+  private hideAnonymousConsents(
+    templateList: ConsentTemplate[],
+    anonymousTemplates: ConsentTemplate[] = []
+  ): ConsentTemplate[] {
+    let hideTemplateIds: string[] = [];
+
+    if (
+      !this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        .showAnonymousConsents
+    ) {
+      hideTemplateIds = anonymousTemplates.map(template => template.id);
+      return this.userConsentService.filterConsentTemplates(
+        templateList,
+        hideTemplateIds
+      );
+    }
+
+    if (
+      Boolean(
+        this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+          .hideConsents &&
+          this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+            .hideConsents.length > 0
+      )
+    ) {
+      hideTemplateIds = this.anonymousConsentsConfig.anonymousConsents
+        .consentManagementPage.hideConsents;
+    }
+
+    return this.userConsentService.filterConsentTemplates(
+      templateList,
+      hideTemplateIds
     );
   }
 

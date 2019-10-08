@@ -196,4 +196,36 @@ export class UserConsentService {
       new UserActions.ResetWithdrawUserConsentProcess()
     );
   }
+
+  /**
+   * Filters the provided `templateList`' templates by hiding the template IDs specified in `hideTemplateIds`.
+   * If the `hideTemplateIds` is empty, the provided `templateList` is returned.
+   *
+   * @param templateList a list of consent templates to filter
+   * @param hideTemplateIds template IDs to hide
+   */
+  filterConsentTemplates(
+    templateList: ConsentTemplate[],
+    hideTemplateIds: string[] = []
+  ): ConsentTemplate[] {
+    if (hideTemplateIds.length === 0) {
+      return templateList;
+    }
+
+    const updatedTemplateList: ConsentTemplate[] = [];
+    for (const template of templateList) {
+      let show = true;
+      for (const templateIdToHide of hideTemplateIds) {
+        if (template.id === templateIdToHide) {
+          show = false;
+          break;
+        }
+      }
+      if (show) {
+        updatedTemplateList.push(template);
+      }
+    }
+
+    return updatedTemplateList;
+  }
 }

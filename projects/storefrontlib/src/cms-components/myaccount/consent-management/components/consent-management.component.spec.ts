@@ -9,6 +9,8 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
@@ -70,6 +72,18 @@ class UserConsentServiceMock {
   resetGiveConsentProcessState(): void {}
   withdrawConsent(_consentCode: string): void {}
   resetWithdrawConsentProcessState(): void {}
+  filterConsentTemplates(
+    _templateList: ConsentTemplate[],
+    _hideTemplateIds: string[] = []
+  ): ConsentTemplate[] {
+    return [];
+  }
+}
+
+class AnonymousConsentsServiceMock {
+  getAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
+    return of([]);
+  }
 }
 
 class GlobalMessageServiceMock {
@@ -84,6 +98,10 @@ const mockConsentTemplate: ConsentTemplate = {
   },
 };
 
+const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+  anonymousConsents: {},
+};
+
 describe('ConsentManagementComponent', () => {
   let component: ConsentManagementComponent;
   let fixture: ComponentFixture<ConsentManagementComponent>;
@@ -91,6 +109,8 @@ describe('ConsentManagementComponent', () => {
 
   let userService: UserConsentService;
   let globalMessageService: GlobalMessageService;
+  let anonymousConsentsConfig: AnonymousConsentsConfig;
+  let anonymousConsentsService: AnonymousConsentsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -103,6 +123,14 @@ describe('ConsentManagementComponent', () => {
       providers: [
         { provide: UserConsentService, useClass: UserConsentServiceMock },
         { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
+        {
+          provide: AnonymousConsentsService,
+          useClass: AnonymousConsentsServiceMock,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
       ],
     }).compileComponents();
   }));
@@ -115,6 +143,12 @@ describe('ConsentManagementComponent', () => {
     userService = TestBed.get(UserConsentService as Type<UserConsentService>);
     globalMessageService = TestBed.get(GlobalMessageService as Type<
       GlobalMessageService
+    >);
+    anonymousConsentsConfig = TestBed.get(AnonymousConsentsConfig as Type<
+      AnonymousConsentsConfig
+    >);
+    anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
+      AnonymousConsentsService
     >);
 
     fixture.detectChanges();
@@ -130,6 +164,7 @@ describe('ConsentManagementComponent', () => {
   const consentsExistsMethod = 'consentsExists';
   const onConsentGivenSuccessMethod = 'onConsentGivenSuccess';
   const onConsentWithdrawnSuccessMethod = 'onConsentWithdrawnSuccess';
+  const hideAnonymousConsentsMethod = 'hideAnonymousConsents';
 
   describe('component method tests', () => {
     describe('ngOnInit', () => {
@@ -211,6 +246,40 @@ describe('ConsentManagementComponent', () => {
             mockTemplateList
           );
           expect(userService.loadConsents).not.toHaveBeenCalled();
+        });
+      });
+      describe('when the anonymousConsents.consentManagementPage config is defined', () => {
+        it(`should call ${hideAnonymousConsentsMethod} method`, () => {
+          const mockTemplateList: ConsentTemplate[] = [mockConsentTemplate];
+          spyOn(userService, 'getConsents').and.returnValue(
+            of(mockTemplateList)
+          );
+          spyOn<any>(component, hideAnonymousConsentsMethod).and.returnValue(
+            mockTemplateList
+          );
+          const mockAnonymousConsentTemplates: ConsentTemplate[] = [
+            { id: 'MARKETING' },
+          ];
+          spyOn(
+            anonymousConsentsService,
+            'getAnonymousConsentTemplates'
+          ).and.returnValue(of(mockAnonymousConsentTemplates));
+          anonymousConsentsConfig.anonymousConsents.consentManagementPage = {};
+
+          component[consentListInitMethod]();
+
+          let result: ConsentTemplate[];
+          component.templateList$
+            .subscribe(templates => (result = templates))
+            .unsubscribe();
+          expect(result).toEqual(mockTemplateList);
+          expect(
+            anonymousConsentsService.getAnonymousConsentTemplates
+          ).toHaveBeenCalled();
+          expect(component[hideAnonymousConsentsMethod]).toHaveBeenCalledWith(
+            mockTemplateList,
+            mockAnonymousConsentTemplates
+          );
         });
       });
     });
@@ -415,6 +484,58 @@ describe('ConsentManagementComponent', () => {
         expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();
         expect(userService.resetGiveConsentProcessState).toHaveBeenCalled();
         expect(userService.resetWithdrawConsentProcessState).toHaveBeenCalled();
+      });
+    });
+
+    describe(hideAnonymousConsentsMethod, () => {
+      const mockConsentTemplates = [mockConsentTemplate];
+      const anonymousTemplates: ConsentTemplate[] = [{ id: 'MARKETING' }];
+      const hideConsents: string[] = ['MARKETING'];
+      describe('when the showAnonymousConsents config is true', () => {
+        it('should filter with the provided anonymousTemplates', () => {
+          anonymousConsentsConfig.anonymousConsents.consentManagementPage = {
+            showAnonymousConsents: false,
+            hideConsents,
+          };
+          spyOn(userService, 'filterConsentTemplates').and.returnValue(
+            mockConsentTemplates
+          );
+
+          const result = component[hideAnonymousConsentsMethod](
+            mockConsentTemplates,
+            anonymousTemplates
+          );
+          expect(result).toEqual(mockConsentTemplates);
+          expect(userService.filterConsentTemplates).toHaveBeenCalledWith(
+            mockConsentTemplates,
+            hideConsents
+          );
+        });
+      });
+      describe('when the showAnonymousConsents config is false', () => {
+        it('should check hideConsents config and filter with provided hideConsents', () => {
+          anonymousConsentsConfig.anonymousConsents.consentManagementPage = {
+            showAnonymousConsents: true,
+            hideConsents,
+          };
+          spyOn(userService, 'filterConsentTemplates').and.returnValue(
+            mockConsentTemplates
+          );
+
+          const result = component[hideAnonymousConsentsMethod](
+            mockConsentTemplates,
+            anonymousTemplates
+          );
+          expect(result).toEqual(mockConsentTemplates);
+          expect(userService.filterConsentTemplates).toHaveBeenCalledWith(
+            mockConsentTemplates,
+            hideConsents
+          );
+          expect(userService.filterConsentTemplates).toHaveBeenCalledWith(
+            mockConsentTemplates,
+            hideConsents
+          );
+        });
       });
     });
   });

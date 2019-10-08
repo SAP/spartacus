@@ -4,5 +4,9 @@ export abstract class AnonymousConsentsConfig extends OccConfig {
   anonymousConsents?: {
     footerLink?: boolean;
     showLegalDescriptionInDialog?: boolean;
+    consentManagementPage?: {
+      showAnonymousConsents?: boolean;
+      hideConsents?: string[];
+    };
   };
 }
