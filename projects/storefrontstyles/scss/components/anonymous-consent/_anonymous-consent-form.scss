@@ -9,11 +9,14 @@ Reset visible focus color to single color*/
   cx-icon {
     position: absolute;
     top: 15px;
-    left: 17px;
+    left: 15px;
+    color: var(--cx-color-secondary);
+
+    &:before {
+      font-size: 1.6rem;
+    }
   }
-  cx-icon:before {
-    font-size: 2rem;
-  }
+
   .cx-keyb-focusable:focus > .cx-keyb-visualfocus,
   .cx-keyb-focusable:focus ~ .cx-keyb-visualfocus {
     box-shadow: 0 0 2px 2px var(--cx-color-visual-focus);
@@ -48,7 +51,7 @@ Reset visible focus color to single color*/
     }
   }
   .cx-accordion-title {
-    padding: 15px 15px 15px 40px;
+    padding: 15px 15px 15px 50px;
     display: block;
     position: relative;
     font-weight: 600;

@@ -2,7 +2,7 @@
 
 %cx-anonymous-consents-dialog {
   .cx-dialog-header {
-    padding-top: 1.5rem;
+    padding: 2rem 1.75rem 0.85rem;
   }
   .cx-dialog-body {
     padding-top: 0;
@@ -13,11 +13,10 @@
   }
   .cx-dialog-buttons {
     text-align: right;
-    padding: 0 2rem;
+    padding: 0 4rem;
   }
-  .cx-action-btn {
-    @include type(8);
-    font-weight: 600;
+  .cx-action-link {
+    @include type('8');
     text-transform: uppercase;
     text-decoration: underline;
     cursor: pointer;
@@ -32,8 +31,15 @@
   }
 
   .cx-dialog-title {
-    font-size: var(--cx-font-size, 1.375rem);
-    font-weight: var(--cx-font-weight-semi);
-    line-height: var(--cx-line-height, 1.2222222222);
+    @include type('3');
+  }
+
+  .cx-dialog-description {
+    @include type();
+    padding: 1.5rem 1.75rem 0;
+  }
+
+  a:not([href]):not([tabindex]) {
+    text-decoration: underline;
   }
 }
