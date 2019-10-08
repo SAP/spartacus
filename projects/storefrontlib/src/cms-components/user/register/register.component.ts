@@ -13,8 +13,9 @@ import {
   UserSignUp,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { sortTitles } from '../../../shared/utils/forms/title-utils';
 
 @Component({
   selector: 'cx-register',
@@ -67,6 +68,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
+      }),
+      map(titles => {
+        const sortedTitles = titles.sort(sortTitles);
+        return sortedTitles;
       })
     );
 

@@ -27,7 +27,7 @@ import {
   ModalService,
 } from '../../../../../shared/components/modal/index';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { titleScores } from '../../../../../shared/utils/forms/title-scores';
+import { sortTitles } from '../../../../../shared/utils/forms/title-utils';
 
 @Component({
   selector: 'cx-address-form',
@@ -96,7 +96,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Fetching countries
     this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
       tap(countries => {
         if (Object.keys(countries).length === 0) {
@@ -105,7 +104,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       })
     );
 
-    // Fetching titles
     this.titles$ = this.userService.getTitles().pipe(
       tap(titles => {
         if (Object.keys(titles).length === 0) {
@@ -113,13 +111,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       }),
       map(titles => {
-        const sortedTitles = titles.sort(this.sortTitles);
+        const sortedTitles = titles.sort(sortTitles);
         const noneTitle = { code: '', name: 'Title' };
         return [noneTitle, ...sortedTitles];
       })
     );
 
-    // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
       switchMap(country => this.userAddressService.getRegions(country)),
       tap(regions => {
@@ -132,7 +129,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       })
     );
 
-    // verify the new added address
     this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
@@ -169,11 +165,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         this.regionSelected(this.addressData.region);
       }
     }
-  }
-
-  // sorting based on the custom order found in title-utils.ts
-  sortTitles(title1: Title, title2: Title) {
-    return titleScores[title1.code] - titleScores[title2.code];
   }
 
   titleSelected(title: Title): void {
