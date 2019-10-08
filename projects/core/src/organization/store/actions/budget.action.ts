@@ -1,6 +1,6 @@
 import {
   LOAD_BUDGETS_PROCESS_ID,
-  ORGANIZATION_FEATURE,
+  LOAD_BUDGET_PROCESS_ID,
 } from '../organization-state';
 
 import { Budget } from '../../../model/budget.model';
@@ -22,21 +22,21 @@ export const LOAD_BUDGETS_SUCCESS = '[Budget] Load Budgets Success';
 export class LoadBudget extends EntityLoadAction {
   readonly type = LOAD_BUDGET;
   constructor(public payload: { uid: string; budgetCode: string }) {
-    super(ORGANIZATION_FEATURE, payload.budgetCode);
+    super(PROCESS_FEATURE, LOAD_BUDGET_PROCESS_ID);
   }
 }
 
 export class LoadBudgetFail extends EntityFailAction {
   readonly type = LOAD_BUDGET_FAIL;
   constructor(public payload: any) {
-    super(ORGANIZATION_FEATURE, payload.budgetCode, payload);
+    super(PROCESS_FEATURE, LOAD_BUDGET_PROCESS_ID, payload);
   }
 }
 
 export class LoadBudgetSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGET_SUCCESS;
   constructor(public payload: Budget) {
-    super(ORGANIZATION_FEATURE, payload.code, payload);
+    super(PROCESS_FEATURE, LOAD_BUDGET_PROCESS_ID, payload);
   }
 }
 

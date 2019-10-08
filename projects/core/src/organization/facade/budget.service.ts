@@ -4,7 +4,7 @@ import { StateWithOrganization } from '../store/organization-state';
 import { BudgetActions } from '../store/actions/index';
 import {
   getBudgetsState,
-  getBudgetState,
+  // getBudgetState,
 } from '../store/selectors/budget.selector';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
@@ -40,7 +40,7 @@ export class BudgetService {
     this.store.select(getBudgetsState);
   }
 
-  getBudget(budgetCode: string) {
-    this.store.select(getBudgetState(budgetCode));
-  }
+  // getBudget(budgetCode: string) {
+  //   this.store.select(getBudgetState(budgetCode));
+  // }
 }

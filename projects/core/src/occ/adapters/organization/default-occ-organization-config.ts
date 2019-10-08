@@ -5,7 +5,7 @@ export const defaultOccOrganizationConfig: OccConfig = {
     occ: {
       endpoints: {
         budgets: '/users/${userId}/budgets',
-        budget: '/users/${userId}/budgets/{budgetCode}',
+        budget: '/users/${userId}/budgets/${budgetCode}',
       },
     },
   },
