@@ -1,8 +1,6 @@
 import { OCC_USER_ID_ANONYMOUS } from './utils/occ-constants';
 
 export * from './adapters/index';
-// export * from './base-site/fetch-occ-base-sites';
-// export * from './base-site/index';
 export * from './config/config-from-meta-tag-factory';
 export * from './config/default-occ-config';
 export * from './config/occ-config';
