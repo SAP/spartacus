@@ -6,22 +6,21 @@ import {
   IconModule,
 } from '../../../../cms-components/misc/icon/index';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
-import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
+import { ConfigAttributeFooterComponent } from './config-attribute-footer.component';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
     return false;
   }
   getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-circle';
+    return 'fas fa-exclamation-triangle';
   }
   addLinkResource() {}
 }
 
-describe('ConfigAttributeHeaderComponent', () => {
-  let classUnderTest: ConfigAttributeHeaderComponent;
-  let fixture: ComponentFixture<ConfigAttributeHeaderComponent>;
+describe('ConfigAttributeFooterComponent', () => {
+  let classUnderTest: ConfigAttributeFooterComponent;
+  let fixture: ComponentFixture<ConfigAttributeFooterComponent>;
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
@@ -31,13 +30,12 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, IconModule],
-      declarations: [ConfigAttributeHeaderComponent],
+      declarations: [ConfigAttributeFooterComponent],
       providers: [
-        ConfigUIKeyGeneratorService,
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
       ],
     })
-      .overrideComponent(ConfigAttributeHeaderComponent, {
+      .overrideComponent(ConfigAttributeFooterComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -46,7 +44,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigAttributeHeaderComponent);
+    fixture = TestBed.createComponent(ConfigAttributeFooterComponent);
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     classUnderTest.attribute = currentAttribute;
@@ -61,41 +59,51 @@ describe('ConfigAttributeHeaderComponent', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it('should provide public access to uiKeyGenerator', () => {
-    expect(classUnderTest.uiKeyGenerator).toBe(
-      TestBed.get(ConfigUIKeyGeneratorService)
-    );
-  });
-
-  it('should render a label', () => {
-    expectElementPresent(htmlElem, 'label');
-    expectElementToContainText(
-      htmlElem,
-      '.cx-config-attribute-label',
-      'label of attribute'
-    );
-    const id = htmlElem
-      .querySelector('.cx-config-attribute-label')
-      .getAttribute('id');
-    expect(id.indexOf('123')).toBeGreaterThan(
-      0,
-      'id of label does not contain the StdAttrCode'
-    );
-    expect(
-      htmlElem
-        .querySelector('.cx-config-attribute-label')
-        .getAttribute('aria-label')
-    ).toEqual(classUnderTest.attribute.label);
-    expectElementNotPresent(
-      htmlElem,
-      '.cx-config-attribute-label-required-icon'
-    );
-  });
-
-  it('should render a label as required', () => {
+  it('should render a required message if attribute has no value, yet.', () => {
     classUnderTest.attribute.required = true;
     fixture.detectChanges();
-    expectElementPresent(htmlElem, '.cx-config-attribute-label-required-icon');
+    expectElementPresent(
+      htmlElem,
+      '.cx-config-attribute-footer-required-message'
+    );
+  });
+
+  it("shouldn't render a required message if  attribute is incomplete, but  not required.", () => {
+    classUnderTest.attribute.required = false;
+    classUnderTest.attribute.incomplete = true;
+    fixture.detectChanges();
+    expectElementNotPresent(
+      htmlElem,
+      '.cx-config-attribute-footer-required-message'
+    );
+  });
+
+  // Unit Tests
+  it('should return default message key for input attributes', () => {
+    classUnderTest.attribute.uiType = Configurator.UiType.INPUT;
+    expect(classUnderTest.getRequiredMessageKey()).toContain(
+      'defaultRequiredMessage'
+    );
+  });
+  it('should return single select message key for radio button attributes', () => {
+    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+    expect(classUnderTest.getRequiredMessageKey()).toContain(
+      'singleSelectRequiredMessage'
+    );
+  });
+
+  it('should return single select message key for ddlb attributes', () => {
+    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
+    expect(classUnderTest.getRequiredMessageKey()).toContain(
+      'singleSelectRequiredMessage'
+    );
+  });
+
+  it('should return multi select message key for check box list attributes', () => {
+    classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
+    expect(classUnderTest.getRequiredMessageKey()).toContain(
+      'multiSelectRequiredMessage'
+    );
   });
 });
 
@@ -109,16 +117,6 @@ export function expectElementPresent(
       querySelector +
       "' to be present, but it is NOT! innerHtml: " +
       htmlElement.innerHTML
-  );
-}
-
-export function expectElementToContainText(
-  htmlElement: Element,
-  querySelector: string,
-  expectedText: string
-) {
-  expect(htmlElement.querySelector(querySelector).textContent.trim()).toBe(
-    expectedText
   );
 }
 

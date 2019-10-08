@@ -12,7 +12,11 @@
     }
   }
 
-  .cx-config-attribute-header-required-message {
-    color: var(--cx-color-danger);
+  .cx-config-attribute-label-required-icon {
+    display: inline-block;
+    &:after {
+      content: '*';
+      color: var(--cx-color-danger);
+    }
   }
 }

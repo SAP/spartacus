@@ -25,7 +25,7 @@
     </div>
     <div
       class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
-      [class.cpqProductConfig-attributeValue-multi]="
+      [class.cx-config-attribute-value-multi]="
         attribute.uiType === UiType.RADIOBUTTON
       "
     >
@@ -33,9 +33,18 @@
         *ngIf="attribute.uiType === UiType.RADIOBUTTON"
         [attribute]="attribute"
       ></cx-config-attribute-radio-button>
+      <cx-config-attribute-drop-down
+        *ngIf="attribute.uiType === UiType.DROPDOWN"
+        [attribute]="attribute"
+      ></cx-config-attribute-drop-down>
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
         'configurator.attribute.notSupported' | cxTranslate
       }}</em>
+    </div>
+    <div class="cx-config-attribute-footer">
+      <cx-config-attribute-footer
+        [attribute]="attribute"
+      ></cx-config-attribute-footer>
     </div>
   </div>
 </ng-container>

@@ -47,8 +47,18 @@ export class OccConfiguratorVariantNormalizer
       cstic.domainvalues.forEach(value =>
         this.convertValue(value, attribute.values)
       );
+      this.setSelectedSingleValue(attribute);
     }
     attributeList.push(attribute);
+  }
+
+  setSelectedSingleValue(attribute: Configurator.Attribute) {
+    const selectedValues = attribute.values
+      .map(entry => entry)
+      .filter(entry => entry.selected);
+    if (selectedValues && selectedValues.length === 1) {
+      attribute.selectedSingleValue = selectedValues[0].valueCode;
+    }
   }
 
   convertValue(
@@ -58,6 +68,7 @@ export class OccConfiguratorVariantNormalizer
     const value: Configurator.Value = {
       valueCode: occValue.key,
       valueDisplay: occValue.langdepname,
+      selected: occValue.selected,
     };
 
     values.push(value);
@@ -68,6 +79,10 @@ export class OccConfiguratorVariantNormalizer
     switch (type) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
+        break;
+      }
+      case OccConfigurator.UiType.DROPDOWN: {
+        uiType = Configurator.UiType.DROPDOWN;
         break;
       }
       default: {

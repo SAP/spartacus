@@ -4,6 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 @Component({
@@ -14,7 +15,11 @@ import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generat
 export class ConfigAttributeRadioButtonComponent implements OnInit {
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
+  attributeRadioButtonForm = new FormControl('');
+
   @Input() attribute: Configurator.Attribute;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
+  }
 }
