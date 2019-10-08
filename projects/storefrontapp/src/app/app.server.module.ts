@@ -3,10 +3,10 @@ import {
   ServerModule,
   ServerTransferStateModule,
 } from '@angular/platform-server';
-// import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
-
-import { AppModule } from './app.module';
 import { StorefrontComponent } from '@spartacus/storefront';
+// import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
+import { AppModule } from './app.module';
+import { OccBaseSitesConfigTransferStateModule } from './base-site/occ-base-sites-config-transfer-state.module';
 
 @NgModule({
   imports: [
@@ -15,6 +15,7 @@ import { StorefrontComponent } from '@spartacus/storefront';
     AppModule,
     ServerModule,
     ServerTransferStateModule,
+    OccBaseSitesConfigTransferStateModule,
     // ModuleMapLoaderModule // <-- *Important* to have lazy-loaded routes work
   ],
   // Since the bootstrapped component is not inherited from your
