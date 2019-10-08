@@ -20,6 +20,7 @@ export const GIVE_USER_CONSENT_FAIL = '[User] Give User Consent Fail';
 export const GIVE_USER_CONSENT_SUCCESS = '[User] Give User Consent Success';
 export const RESET_GIVE_USER_CONSENT_PROCESS =
   '[User] Reset Give User Consent Process';
+export const GIVE_USER_ANONYMOUS_CONSENT = '[User] Give User Anonymous Consent';
 
 export const WITHDRAW_USER_CONSENT = '[User] Withdraw User Consent';
 export const WITHDRAW_USER_CONSENT_FAIL = '[User] Withdraw User Consent Fail';
@@ -86,6 +87,19 @@ export class GiveUserConsentSuccess extends StateEntityLoaderActions.EntitySucce
 export class ResetGiveUserConsentProcess extends StateEntityLoaderActions.EntityResetAction {
   readonly type = RESET_GIVE_USER_CONSENT_PROCESS;
   constructor() {
+    super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
+  }
+}
+
+export class GiveUserAnonymousConsent extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = GIVE_USER_ANONYMOUS_CONSENT;
+  constructor(
+    public payload: {
+      userId: string;
+      consentTemplateId: string;
+      consentTemplateVersion: number;
+    }
+  ) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
   }
 }

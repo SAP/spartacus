@@ -1,24 +1,28 @@
 import { Component, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AnonymousConsent,
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
   AuthRedirectService,
+  AuthService,
+  ConsentTemplate,
+  FeatureConfigService,
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   RoutingService,
   Title,
   UserService,
   UserToken,
-  AuthService,
-  FeatureConfigService,
-  GlobalMessageType,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -116,7 +120,25 @@ class MockRoutingService {
   go = createSpy();
 }
 
-describe('RegisterComponent', () => {
+class MockAnonymousConsentsService {
+  getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
+    return of();
+  }
+
+  getAnonymousConsentTemplate(
+    _templateCode: string
+  ): Observable<ConsentTemplate> {
+    return of();
+  }
+}
+
+const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+  anonymousConsents: {
+    registerConsent: 'MARKETING',
+  },
+};
+
+fdescribe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -150,6 +172,14 @@ describe('RegisterComponent', () => {
         {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
+        },
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
         },
       ],
     }).compileComponents();

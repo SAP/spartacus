@@ -52,11 +52,42 @@ export class RegisterComponent implements OnInit, OnDestroy {
     { validator: CustomFormValidators.matchPassword }
   );
 
+  constructor(
+    auth: AuthService,
+    authRedirectService: AuthRedirectService,
+    userService: UserService,
+    globalMessageService: GlobalMessageService,
+    fb: FormBuilder,
+    // tslint:disable-next-line:unified-signatures
+    router: RoutingService,
+    featureConfig: FeatureConfigService,
+    anonymousConsentsService: AnonymousConsentsService,
+    anonymousConsentsConfig: AnonymousConsentsConfig
+  );
+
   /**
    * @deprecated since 1.1.0
    *
+   * Use constructor(
+   * protected auth: AuthService,
+   * protected authRedirectService: AuthRedirectService,
+   * protected userService: UserService,
+   * protected globalMessageService: GlobalMessageService,
+   * protected fb: FormBuilder,
+   * protected router?: RoutingService,
+   * protected featureConfig?: FeatureConfigService,
+   * protected anonymousConsentsService?: AnonymousConsentsService,
+   * protected anonymousConsentsConfig?: AnonymousConsentsConfig) instead
+   *
    * TODO(issue:4237) Register flow
    */
+  constructor(
+    auth: AuthService,
+    authRedirectService: AuthRedirectService,
+    userService: UserService,
+    globalMessageService: GlobalMessageService,
+    fb: FormBuilder
+  );
   constructor(
     protected auth: AuthService,
     protected authRedirectService: AuthRedirectService,

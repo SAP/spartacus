@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import {
+  GlobalMessageActions,
+  GlobalMessageType,
+} from 'projects/core/src/global-message';
+import { RemoveMessagesByType } from 'projects/core/src/global-message/store/actions/global-message.actions';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -32,19 +37,47 @@ export class UserConsentsEffect {
   );
 
   @Effect()
-  giveConsent$: Observable<UserActions.UserConsentsAction> = this.actions$.pipe(
-    ofType(UserActions.GIVE_USER_CONSENT),
-    map((action: UserActions.GiveUserConsent) => action.payload),
-    switchMap(({ userId, consentTemplateId, consentTemplateVersion }) =>
+  giveConsent$: Observable<
+    UserActions.UserConsentsAction | RemoveMessagesByType
+  > = this.actions$.pipe(
+    ofType(
+      UserActions.GIVE_USER_CONSENT,
+      UserActions.GIVE_USER_ANONYMOUS_CONSENT
+    ),
+    map(
+      (
+        action:
+          | UserActions.GiveUserConsent
+          | UserActions.GiveUserAnonymousConsent
+      ) => action
+    ),
+    switchMap(action =>
       this.userConsentConnector
-        .giveConsent(userId, consentTemplateId, consentTemplateVersion)
+        .giveConsent(
+          action.payload.userId,
+          action.payload.consentTemplateId,
+          action.payload.consentTemplateVersion
+        )
         .pipe(
           map(consent => new UserActions.GiveUserConsentSuccess(consent)),
-          catchError(error =>
-            of(
+          catchError(error => {
+            if (
+              action.type === UserActions.GIVE_USER_ANONYMOUS_CONSENT &&
+              error.status === 409
+            ) {
+              return of(
+                new GlobalMessageActions.RemoveMessagesByType(
+                  GlobalMessageType.MSG_TYPE_ERROR
+                ),
+                new UserActions.GiveUserConsentFail(
+                  makeErrorSerializable(error)
+                )
+              );
+            }
+            return of(
               new UserActions.GiveUserConsentFail(makeErrorSerializable(error))
-            )
-          )
+            );
+          })
         )
     )
   );
