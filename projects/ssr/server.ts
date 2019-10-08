@@ -16,7 +16,6 @@ const DIST_FOLDER = join(process.cwd(), 'dist/storefrontapp');
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const {
   AppServerModuleNgFactory,
-
   ngExpressEngine,
   OccBaseSitesConfig,
   getOccBaseUrlFromMetaTagSSR,

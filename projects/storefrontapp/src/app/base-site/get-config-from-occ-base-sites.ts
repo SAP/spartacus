@@ -13,6 +13,7 @@ import { convertJavaRegExp } from './convert-java-reg-exp';
  * - base sites
  * - languages
  * - currencies
+ * - urlParameters
  */
 export function getConfigFromOccBaseSites(
   occBaseSites: Occ.BaseSites,
