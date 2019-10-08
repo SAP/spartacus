@@ -1,13 +1,3 @@
-// import { isDevMode } from '@angular/core';
-// import { SiteContextConfig } from '../../../core/src/site-context/config/site-context-config';
-// import {
-//   BASE_SITE_CONTEXT_ID,
-//   CURRENCY_CONTEXT_ID,
-//   LANGUAGE_CONTEXT_ID,
-// } from '../../../core/src/site-context/providers/context-ids';
-// import { Occ } from '../../../core/src/occ/occ-models/occ.models';
-// import { convertJavaRegExp } from './convert-java-reg-exp';
-
 import { isDevMode } from '@angular/core';
 import {
   BASE_SITE_CONTEXT_ID,
@@ -32,19 +22,6 @@ export function getConfigFromOccBaseSites(
     return {};
   }
   const { baseSites } = occBaseSites;
-
-  // SPIKE TODO REMOVE -  MOCK SAMPLE DATA:
-  // const electronicsSpa = baseSites.find(site => site.uid === 'electronics-spa');
-  // electronicsSpa.urlPatterns = [
-  //   '(?i)^https?://[^/]+(/electronics-spa)(|/.*|\\?.*)$',
-  // ];
-  // END SPIKE TODO REMOVE
-
-  //spike todo remove:
-  // moveAsFirst(baseSites, site => isDefaultBaseSite(site, currentUrl));
-  // const baseSite = baseSites[0]; // default base site
-
-  //spike new - deduce only one base site from urlPatterns
   const baseSite = baseSites.find(site => isCurrentBaseSite(site, currentUrl));
   if (!baseSite) {
     return {};
@@ -58,11 +35,6 @@ export function getConfigFromOccBaseSites(
   const urlParameters = getUrlParameters(baseSite);
   const languagesIds = getLanguagesIds(baseStore, baseSite.defaultLanguage);
   const currenciesIds = getCurrenciesIds(baseStore);
-
-  // spike todo remove -  consider using only one base site, as long as we have deduced it from urlPatterns
-  // const baseSitesIds = baseSites.map(site => site.uid);
-
-  // spike new - use only one base site deduced from url patterns:
   const baseSitesIds = [baseSite.uid];
 
   return {
@@ -75,7 +47,6 @@ export function getConfigFromOccBaseSites(
   };
 }
 
-// spike todo test it!
 function isCurrentBaseSite(site: Occ.BaseSite, currentUrl: string): boolean {
   const index = (site.urlPatterns || []).findIndex(javaRegexp => {
     const jsRegexp = convertJavaRegExp(javaRegexp);

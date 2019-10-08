@@ -75,22 +75,7 @@ function nodeFetchJson(url: string, nodeHttpsClient: any): Promise<any> {
 export function fetchOccBaseSites(
   options: FetchOccBaseSitesOptions
 ): Promise<Occ.BaseSites> {
-  const baseUrl = options.baseUrl;
-  if (!baseUrl) {
-    if (isDevMode()) {
-      console.warn(
-        `WARNING: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag: \n<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="${OCC_BASE_URL_META_TAG_PLACEHOLDER}" />`
-      );
-      return Promise.resolve(null);
-    }
-  }
-
-  const prefix = options.prefix || '/rest/v2';
-  const endpoint =
-    options.endpoint ||
-    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))';
-
-  const url = `${baseUrl}${prefix}${endpoint}`;
+  const url = getUrlFromFetchOccBaseSitesOptions(options);
 
   return (options.ssrHttpsClient
     ? nodeFetchJson(url, options.ssrHttpsClient)
@@ -100,4 +85,25 @@ export function fetchOccBaseSites(
       console.error(`Error: Could not fetch OCC base sites!\n`, error);
     }
   });
+}
+
+export function getUrlFromFetchOccBaseSitesOptions(
+  options: FetchOccBaseSitesOptions
+): string {
+  const baseUrl = options.baseUrl;
+  if (!baseUrl) {
+    if (isDevMode()) {
+      console.warn(
+        `WARNING: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag: \n<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="${OCC_BASE_URL_META_TAG_PLACEHOLDER}" />`
+      );
+      return null;
+    }
+  }
+
+  const prefix = options.prefix || '/rest/v2';
+  const endpoint =
+    options.endpoint ||
+    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))';
+
+  return `${baseUrl}${prefix}${endpoint}`;
 }

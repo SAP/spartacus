@@ -26,22 +26,17 @@ const {
   AppServerModuleNgFactory,
   LAZY_MODULE_MAP,
   ConfigFromOccBaseSites,
-  fetchOccBaseSites,
-  getConfigFromOccBaseSites,
   getOccBaseUrlFromMetaTag,
+  fetchOccBaseSitesConfig,
 } = require('../../dist/storefrontapp-server/main');
 
 const fs = require('fs');
-
-const rawIndexHtml = fs
-  .readFileSync(join(DIST_FOLDER, 'storefrontapp', 'index.html'))
-  .toString();
-console.log(rawIndexHtml);
-
-const occBaseUrl = getOccBaseUrlFromMetaTag(rawIndexHtml);
-console.log(occBaseUrl); //spike todo remove
-
 const https = require('https');
+
+const occBaseUrl = getOccBaseUrlFromMetaTag(
+  fs.readFileSync(join(DIST_FOLDER, 'storefrontapp', 'index.html')).toString()
+);
+console.log(occBaseUrl); //spike todo remove
 
 app.engine(
   'html',
@@ -59,21 +54,15 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'storefrontapp')));
 
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
-  fetchOccBaseSites({ baseUrl: occBaseUrl, ssrHttpsClient: https })
-    .then(baseSites => {
-      console.log(baseSites.baseSites.map(x => x.uid)); // spike todo remove
-      const currentUrl =
-        req.protocol + '://' + req.get('host') + req.originalUrl;
-      console.log(currentUrl); //spike todo remove
-      return getConfigFromOccBaseSites(baseSites, currentUrl);
-    })
-    .then(config => {
-      console.log(config); // spike todo remove
-      res.render('index', {
-        req,
-        providers: [{ provide: ConfigFromOccBaseSites, useValue: config }],
-      });
+  fetchOccBaseSitesConfig(
+    { baseUrl: occBaseUrl, ssrHttpsClient: https },
+    req.protocol + '://' + req.get('host') + req.originalUrl
+  ).then(config => {
+    res.render('index', {
+      req,
+      providers: [{ provide: ConfigFromOccBaseSites, useValue: config }],
     });
+  });
 });
 
 // Start up the Node server
