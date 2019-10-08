@@ -61,7 +61,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         withLatestFrom(this.supportedDeliveryModes$)
       )
       .subscribe(([code, deliveryModes]: [string, DeliveryMode[]]) => {
-        if (!code) {
+        if (!code && deliveryModes && deliveryModes.length) {
           code = this.checkoutConfigService.getPreferredDeliveryMode(
             deliveryModes
           );
