@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
 import { UserActions } from '../store/actions/index';
@@ -30,7 +30,7 @@ export class UserNotificationPreferenceService {
    */
   loadPreferences(): void {
     this.store.dispatch(
-      new UserActions.LoadNotificationPreferences(USERID_CURRENT)
+      new UserActions.LoadNotificationPreferences(OCC_USER_ID_CURRENT)
     );
   }
 
@@ -48,7 +48,7 @@ export class UserNotificationPreferenceService {
   updatePreferences(preferences: NotificationPreference[]): void {
     this.store.dispatch(
       new UserActions.UpdateNotificationPreferences({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         preferences: preferences,
       })
     );

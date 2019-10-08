@@ -8,7 +8,7 @@ import * as fromProcessReducers from '../../process/store/reducers';
 import { Type } from '@angular/core';
 import { UserActions } from '../store/actions/index';
 import { NotificationPreference } from '../../model/notification-preference.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 describe('UserNotificationPreferenceService', () => {
   let userNotificationPreferenceService: UserNotificationPreferenceService;
@@ -69,7 +69,7 @@ describe('UserNotificationPreferenceService', () => {
   it('should be able to load notification preferences', () => {
     userNotificationPreferenceService.loadPreferences();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadNotificationPreferences(USERID_CURRENT)
+      new UserActions.LoadNotificationPreferences(OCC_USER_ID_CURRENT)
     );
   });
 
@@ -96,7 +96,7 @@ describe('UserNotificationPreferenceService', () => {
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.UpdateNotificationPreferences({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         preferences: mockNotificationPreference,
       })
     );
@@ -105,7 +105,7 @@ describe('UserNotificationPreferenceService', () => {
   it('sshould be able to get update notification preferences loading flag', () => {
     store.dispatch(
       new UserActions.UpdateNotificationPreferences({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         preferences: mockNotificationPreference,
       })
     );
