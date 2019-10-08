@@ -17,6 +17,18 @@ export function orderHistoryWithOrdersTabbingOrder() {
         type: TabbingOrderTypes.GENERIC_INPUT,
       },
       {
+        value: '«',
+        type: TabbingOrderTypes.LINK,
+      },
+      {
+        value: '1',
+        type: TabbingOrderTypes.LINK,
+      },
+      {
+        value: '»',
+        type: TabbingOrderTypes.LINK,
+      },
+      {
         value: orderData.body.code,
         type: TabbingOrderTypes.LINK,
       },
@@ -34,6 +46,18 @@ export function orderHistoryWithOrdersTabbingOrder() {
       },
       {
         type: TabbingOrderTypes.GENERIC_INPUT,
+      },
+      {
+        value: '«',
+        type: TabbingOrderTypes.LINK,
+      },
+      {
+        value: '1',
+        type: TabbingOrderTypes.LINK,
+      },
+      {
+        value: '»',
+        type: TabbingOrderTypes.LINK,
       },
     ];
 
