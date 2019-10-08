@@ -95,7 +95,7 @@ describe('CartCouponComponent', () => {
   });
 
   fit('should disable button when coupon is in process', () => {
-    mockCartService.getAddVoucherResultLoading.and.returnValue(of(false));
+    mockCartService.getAddVoucherResultLoading.and.returnValue(of(true));
     fixture.detectChanges();
 
     const applyBtn = el.query(By.css('[data-test="button-coupon"]')).nativeElement;
