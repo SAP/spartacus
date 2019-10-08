@@ -11,7 +11,7 @@ import { OccBaseSitesConfig } from './occ-base-sites-config.providers';
 @NgModule()
 export class ServerOccBaseSitesConfigModule {
   /**
-   * Injects the Occ Base Sites config into the DOM for the purpose of transferring it from SSR to the browser
+   * Injects the Occ Base Sites config into the DOM for transferring it from SSR to the browser
    */
   static forRoot(): ModuleWithProviders<ServerOccBaseSitesConfigModule> {
     return {

@@ -11,7 +11,7 @@ export function getOccBaseUrlFromMetaTag() {
     `meta[name="${OCC_BASE_URL_META_TAG_NAME}"]`
   );
   const baseUrl = meta && meta.getAttribute('content');
-  return baseUrl === OCC_BASE_URL_META_TAG_PLACEHOLDER ? null : baseUrl;
+  return handlePlaceholder(baseUrl);
 }
 
 /**
@@ -23,5 +23,9 @@ export function getOccBaseUrlFromMetaTagSSR(rawHtml: string) {
   const occBaseUrlMetaTagRegExp = /<meta\s+name\s*=\s*\"occ-backend-base-url\"\s+content\s*=\s*\"(.*)\"\s*\/?>/;
   const match = rawHtml.match(occBaseUrlMetaTagRegExp);
   const baseUrl = match && match[1];
+  return handlePlaceholder(baseUrl);
+}
+
+function handlePlaceholder(baseUrl: string): string {
   return baseUrl === OCC_BASE_URL_META_TAG_PLACEHOLDER ? null : baseUrl;
 }

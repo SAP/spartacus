@@ -7,9 +7,6 @@ import {
 
 @NgModule()
 export class OccBaseSitesConfigModule {
-  /**
-   * Passes the OCC base sites config as the config chunk
-   */
   static forRoot(): ModuleWithProviders<OccBaseSitesConfigModule> {
     return {
       ngModule: OccBaseSitesConfigModule,
