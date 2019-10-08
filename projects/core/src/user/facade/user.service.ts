@@ -330,7 +330,6 @@ export class UserService {
           })
         )
       )
-      .unsubscribe();
   }
 
   /**

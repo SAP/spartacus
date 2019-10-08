@@ -15,8 +15,8 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGET),
     map((action: BudgetActions.LoadBudget) => action.payload),
-    switchMap(({uid, code}) => {
-      return this.budgetConnector.get(uid,code).pipe(
+    switchMap(({ uid, budgetCode }) => {
+      return this.budgetConnector.get(uid, budgetCode).pipe(
         map((budget: Budget) => {
           return new BudgetActions.LoadBudgetSuccess(budget);
         }),
@@ -30,10 +30,10 @@ export class BudgetEffects {
   @Effect()
   $loadBudgets: Observable<
     BudgetActions.LoadBudgetsSuccess | BudgetActions.LoadBudgetsFail
-    > = this.actions$.pipe(
+  > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
-    switchMap((userId) => {
+    switchMap(userId => {
       return this.budgetConnector.getBudgets(userId).pipe(
         map((budgets: Budget[]) => {
           return new BudgetActions.LoadBudgetsSuccess(budgets);

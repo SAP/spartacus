@@ -13,7 +13,7 @@ export const LOAD_BUDGETS_SUCCESS = '[Budget] Load Budgets Success';
 
 export class LoadBudget extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = LOAD_BUDGET;
-  constructor(public payload: {uid: string, code: string}) {
+  constructor(public payload: {uid: string, budgetCode: string}) {
     super(ORGANIZATION_FEATURE, BUDGET);
   }
 }

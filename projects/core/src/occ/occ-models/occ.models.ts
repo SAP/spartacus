@@ -1,3 +1,5 @@
+import { CostCenter, OrgUnit } from '../../model/budget.model';
+
 export namespace Occ {
   /**
    *
@@ -3954,5 +3956,17 @@ export namespace Occ {
 
   export interface ConsentTemplateList {
     consentTemplates?: ConsentTemplate[];
+  }
+
+  export interface Budget {
+    active: boolean;
+    budget: number;
+    code: string;
+    currency: Occ.Currency;
+    endDate: string;
+    startDate: string;
+    name: string;
+    orgUnit: OrgUnit;
+    costCenters?: CostCenter[];
   }
 }

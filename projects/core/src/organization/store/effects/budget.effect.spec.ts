@@ -30,8 +30,17 @@ class MockRoutingService {
   }
 }
 const budgetCode = 'testCode';
+const uid = 'testUser';
 const budget: Budget = {
   code: 'testCode',
+  active: false,
+  budget: 2,
+  currency: {},
+  endDate: 'endDate',
+  startDate: 'startDate',
+  name: 'testName',
+  orgUnit: { uid: 'ouid', name: 'ouName' },
+  costCenters: [],
 };
 
 class MockProductConnector {
@@ -45,7 +54,7 @@ describe('Budget Effects', () => {
   const mockProductState = {
     details: {
       entities: {
-        testLoadedCode: { loading: false, value: product },
+        testLoadedCode: { loading: false, value: budget },
         testLoadingCode: { loading: true, value: null },
       },
     },
@@ -71,9 +80,9 @@ describe('Budget Effects', () => {
     >);
   });
 
-  describe('loadProduct$', () => {
+  describe('loadBudget$', () => {
     it('should return loadProductStart action if product not loaded', () => {
-      const action = new BudgetActions.LoadBudget(budgetCode);
+      const action = new BudgetActions.LoadBudget({ uid, budgetCode });
       const completion = new BudgetActions.LoadBudgetSuccess(budget);
 
       actions$ = hot('-a', { a: action });
