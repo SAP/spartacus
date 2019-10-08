@@ -9,21 +9,24 @@ import {
 } from '@spartacus/core';
 
 /**
- * Gets the occ base url from meta tag of the DOM
+ * Gets the OCC base url from the meta tag of the DOM
+ */
+export function getOccBaseUrlFromMetaTag() {
+  const meta = document.querySelector(
+    `meta[name="${OCC_BASE_URL_META_TAG_NAME}"]`
+  );
+  const baseUrl = meta && meta.getAttribute('content');
+  return baseUrl === OCC_BASE_URL_META_TAG_PLACEHOLDER ? null : baseUrl;
+}
+
+/**
+ * Gets the OCC base url from the meta tag of the given raw HTML string
  *
  * @param rawHtml this param should be used in SSR where there is no access to the `document` object
  */
-export function getOccBaseUrlFromMetaTag(rawHtml?: string) {
-  let baseUrl;
-  if (rawHtml) {
-    const occBaseUrlMetaTagRegExp = /<meta\s+name\s*=\s*\"occ-backend-base-url\"\s+content\s*=\s*\"(.*)\"\s*\/?>/;
-    const match = rawHtml.match(occBaseUrlMetaTagRegExp);
-    baseUrl = match && match[1];
-  } else {
-    const meta = document.querySelector(
-      `meta[name="${OCC_BASE_URL_META_TAG_NAME}"]`
-    );
-    baseUrl = meta && meta.getAttribute('content');
-  }
+export function getOccBaseUrlFromMetaTagSSR(rawHtml: string) {
+  const occBaseUrlMetaTagRegExp = /<meta\s+name\s*=\s*\"occ-backend-base-url\"\s+content\s*=\s*\"(.*)\"\s*\/?>/;
+  const match = rawHtml.match(occBaseUrlMetaTagRegExp);
+  const baseUrl = match && match[1];
   return baseUrl === OCC_BASE_URL_META_TAG_PLACEHOLDER ? null : baseUrl;
 }

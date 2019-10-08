@@ -1,108 +1,96 @@
-// import { isDevMode } from '@angular/core';
-// import {
-//   OCC_BASE_URL_META_TAG_NAME,
-//   OCC_BASE_URL_META_TAG_PLACEHOLDER,
-// } from '../config/config-from-meta-tag-factory';
-// import { Occ } from '../occ-models/occ.models';
-
 import { isDevMode } from '@angular/core';
 import {
   Occ,
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
 } from '@spartacus/core';
+import { fetchJson, fetchJsonSSRFactory } from './fetch-json';
 
-function fetchJson(url: string): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        try {
-          const response = JSON.parse(xhr.responseText);
-          resolve(response);
-        } catch (e) {
-          reject(e);
-        }
-      } else {
-        reject(xhr.responseText);
-      }
-    };
-    xhr.onerror = e => {
-      reject(e);
-    };
-    xhr.send();
-  });
-}
-
-export interface FetchOccBaseSitesOptions {
-  baseUrl: string;
+export interface OccBaseSitesEndpointOptions {
+  baseUrl?: string;
   prefix?: string;
   endpoint?: string;
-  ssrHttpsClient?: any; // spike todo add types
 }
 
-function nodeFetchJson(url: string, nodeHttpsClient: any): Promise<any> {
-  return new Promise((resolve, reject) => {
-    nodeHttpsClient
-      .get(url, response => {
-        let data = '';
-        response.on('data', chunk => {
-          data += chunk;
-        });
-        response.on('end', () => {
-          if (response.statusCode === 200) {
-            try {
-              resolve(JSON.parse(data));
-            } catch (e) {
-              reject(e);
-            }
-          }
-          reject(response);
-        });
-      })
-      .on('error', err => {
-        reject('Error: ' + err.message);
-      });
+/**
+ * Fetches base sites from the OCC endpoint.
+ *
+ * It's intended to be used before the initialization of an Angular app, so cannot use Angular utils.
+ *
+ * @param endpointOptions parts of the url
+ */
+export function fetchOccBaseSites(
+  endpointOptions: OccBaseSitesEndpointOptions
+): Promise<Occ.BaseSites> {
+  return genericFetchOccBaseSites(endpointOptions, fetchJson);
+}
+
+/**
+ * Fetches base sites from the OCC endpoint in SSR
+ *
+ * It's intended to be used before the initialization of an Angular app, so cannot use Angular utils.
+ *
+ * @param endpointOptions parts of the url
+ * @param httpsClient node `https` client
+ */
+export function fetchOccBaseSitesSSR(
+  endpointOptions: OccBaseSitesEndpointOptions,
+  httpsClient: any //spike todo add type
+): Promise<Occ.BaseSites> {
+  return genericFetchOccBaseSites(
+    endpointOptions,
+    fetchJsonSSRFactory(httpsClient)
+  );
+}
+
+/**
+ * Fetches base sites from OCC endpoint using the given fetch function.
+ *
+ * @param endpointOptions parts of the url
+ * @param fetchFunction function that takes an url and returns promise of data
+ */
+function genericFetchOccBaseSites(
+  endpointOptions: OccBaseSitesEndpointOptions,
+  fetchFunction: (url: string) => Promise<any>
+): Promise<Occ.BaseSites> {
+  if (!areOptionsValid(endpointOptions)) {
+    return Promise.reject();
+  }
+
+  const url = getFullUrl(endpointOptions);
+  return fetchFunction(url).catch(error => {
+    if (isDevMode()) {
+      console.error(`Error: Could not fetch OCC base sites!\n`, error);
+    }
+    return error;
   });
 }
 
 /**
- * Fetches base sites from the OCC endpoint `/basesites`.
- *
- * It's intended to be used before the initialization of an Angular app, so cannot use Angular utils.
+ * Validates the endpoint options
  */
-export function fetchOccBaseSites(
-  options: FetchOccBaseSitesOptions
-): Promise<Occ.BaseSites> {
-  const url = getUrlFromFetchOccBaseSitesOptions(options);
-
-  return (options.ssrHttpsClient
-    ? nodeFetchJson(url, options.ssrHttpsClient)
-    : fetchJson(url)
-  ).catch(error => {
+function areOptionsValid(
+  endpointOptions: OccBaseSitesEndpointOptions
+): boolean {
+  if (!endpointOptions.baseUrl) {
     if (isDevMode()) {
-      console.error(`Error: Could not fetch OCC base sites!\n`, error);
+      console.error(
+        `Error: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag: \n<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="${OCC_BASE_URL_META_TAG_PLACEHOLDER}" />`
+      );
     }
-  });
+    return false;
+  }
+  return true;
 }
 
-export function getUrlFromFetchOccBaseSitesOptions(
-  options: FetchOccBaseSitesOptions
-): string {
-  const baseUrl = options.baseUrl;
-  if (!baseUrl) {
-    if (isDevMode()) {
-      console.warn(
-        `WARNING: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag: \n<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="${OCC_BASE_URL_META_TAG_PLACEHOLDER}" />`
-      );
-      return null;
-    }
-  }
-
-  const prefix = options.prefix || '/rest/v2';
+/**
+ * Retrieves the full url from the object with URL parts
+ */
+function getFullUrl(endpointOptions: OccBaseSitesEndpointOptions): string {
+  const baseUrl = endpointOptions.baseUrl;
+  const prefix = endpointOptions.prefix || '/rest/v2';
   const endpoint =
-    options.endpoint ||
+    endpointOptions.endpoint ||
     '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))';
 
   return `${baseUrl}${prefix}${endpoint}`;

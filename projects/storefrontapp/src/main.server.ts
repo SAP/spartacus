@@ -8,8 +8,5 @@ if (environment.production) {
 export { ngExpressEngine } from '@nguniversal/express-engine';
 export { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 export { AppServerModule } from './app/app.server.module';
-export {
-  ConfigFromOccBaseSites,
-  fetchOccBaseSitesConfig,
-  getOccBaseUrlFromMetaTag,
-} from './app/base-site/index';
+export { fetchOccBaseSitesConfigSSR, getOccBaseUrlFromMetaTagSSR, OccBaseSitesConfig } from './app/base-site/index';
+

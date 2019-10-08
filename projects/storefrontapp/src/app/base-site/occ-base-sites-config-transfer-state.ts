@@ -1,16 +1,14 @@
 import { isPlatformServer } from '@angular/common';
 import { SiteContextConfig } from '@spartacus/core';
 
-const OCC_BASE_SITES_CONFIG_TRANSFER_STATE =
-  'occ-base-sites-config-transfer-state';
+const OCC_BASE_SITES_CONFIG_STATE = 'occ-base-sites-config-state';
 
-export function rehydrateStateOccBaseSitesConfig(): SiteContextConfig {
-  const script = document.getElementById(OCC_BASE_SITES_CONFIG_TRANSFER_STATE);
+export function rehydrateOccBaseSitesConfig(): SiteContextConfig {
+  const script = document.getElementById(OCC_BASE_SITES_CONFIG_STATE);
   if (script && script.textContent) {
     try {
       const { context } = JSON.parse(unescapeHtml(script.textContent));
-      // return explicitly only the context property (avoid the injection of other configurations)
-      return { context };
+      return { context }; // avoid the injection of other properties by passing individual one
     } catch (e) {
       console.warn(
         'Exception while restoring the transferred state of the OCC base sites config',
@@ -20,7 +18,7 @@ export function rehydrateStateOccBaseSitesConfig(): SiteContextConfig {
   }
 }
 
-export function transferStateOccBaseSitesConfigFactory(
+export function transferOccBaseSitesConfigFactory(
   document: Document,
   platform: any,
   occBaseSitesConfig: SiteContextConfig = {}
@@ -28,7 +26,7 @@ export function transferStateOccBaseSitesConfigFactory(
   return () => {
     if (isPlatformServer(platform)) {
       const script = document.createElement('script');
-      script.id = OCC_BASE_SITES_CONFIG_TRANSFER_STATE;
+      script.id = OCC_BASE_SITES_CONFIG_STATE;
       script.setAttribute('type', 'application/json');
       script.textContent = escapeHtml(JSON.stringify(occBaseSitesConfig));
       document.body.appendChild(script);
