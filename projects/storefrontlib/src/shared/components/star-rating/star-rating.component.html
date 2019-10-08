@@ -5,4 +5,5 @@
   (mouseover)="setRate(i)"
   (mouseout)="setRate(0)"
   (click)="saveRate(i)"
+  [attr.tabindex]="disabled ? null : 0"
 ></cx-icon>
