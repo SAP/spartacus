@@ -862,11 +862,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    { value: 'Product Details', type: TabbingOrderTypes.H3 },
-    { value: 'Specs', type: TabbingOrderTypes.H3 },
-    { value: 'Reviews', type: TabbingOrderTypes.H3 },
-    { value: 'Write a Review', type: TabbingOrderTypes.BUTTON },
-    { value: 'Shipping', type: TabbingOrderTypes.H3 },
   ],
   headerMobileNotLoggedIn: [
     {
