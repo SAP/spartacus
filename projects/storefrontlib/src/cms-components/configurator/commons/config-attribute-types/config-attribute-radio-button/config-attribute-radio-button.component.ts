@@ -28,7 +28,7 @@ export class ConfigAttributeRadioButtonComponent implements OnInit {
   }
 
   onSelect() {
-    let attribute: Configurator.Attribute = {
+    const attribute: Configurator.Attribute = {
       name: this.attribute.name,
       selectedSingleValue: this.attributeRadioButtonForm.value,
       uiType: this.attribute.uiType,

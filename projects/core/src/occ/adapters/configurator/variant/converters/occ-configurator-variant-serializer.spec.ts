@@ -88,7 +88,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should convert configuration to occConfiguration', () => {
-    let convertedConfiguration = occConfiguratorVariantSerializer.convert(
+    const convertedConfiguration = occConfiguratorVariantSerializer.convert(
       sourceConfiguration
     );
     expect(convertedConfiguration.complete).toEqual(

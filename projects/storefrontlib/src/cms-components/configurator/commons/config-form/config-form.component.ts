@@ -46,7 +46,7 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
     this.configuration$
       .subscribe(configuration => {
         //Make new configuration object as state configuration cannot be changed
-        let changedConfiguration: Configurator.Configuration = {
+        const changedConfiguration: Configurator.Configuration = {
           productCode: this.productCode,
           consistent: configuration.consistent,
           configId: configuration.configId,

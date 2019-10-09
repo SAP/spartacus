@@ -28,7 +28,7 @@ export class ConfigAttributeDropDownComponent implements OnInit {
   }
 
   onSelect() {
-    let attribute: Configurator.Attribute = {
+    const attribute: Configurator.Attribute = {
       name: this.attribute.name,
       selectedSingleValue: this.attributeDropDownForm.value,
       uiType: this.attribute.uiType,
