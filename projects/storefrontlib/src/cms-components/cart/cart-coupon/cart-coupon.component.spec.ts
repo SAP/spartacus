@@ -94,7 +94,7 @@ describe('CartCouponComponent', () => {
     ).toBeTruthy();
   });
 
-  fit('should disable button when coupon is in process', () => {
+  it('should disable button when coupon is in process', () => {
     mockCartService.getAddVoucherResultLoading.and.returnValue(hot('-a', { a: true }));
     fixture.detectChanges();
 
@@ -131,5 +131,21 @@ describe('CartCouponComponent', () => {
       el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
     ).toBeTruthy();
     expect(input.readOnly).toBeFalsy();
+  });
+
+  it('should disable button when apply coupon failed', () => {
+    mockCartService.getAddVoucherResultLoading.and.returnValue(of(false));
+    mockCartService.getAddVoucherResultSuccess.and.returnValue(of(false));
+    fixture.detectChanges();
+
+    input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
+    expect(input.readOnly).toBeFalsy();
+
+    const button = el.query(By.css('[data-test="button-coupon"]')).nativeElement;
+    expect(button.disabled).toBeTruthy();
+  });
+
+  it('should focus textbox when clicked anchor', () => {
+
   });
 });
