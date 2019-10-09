@@ -5,7 +5,10 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ErrorModel } from '../../../model/misc.model';
 import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
 import { ProductActions } from '../actions/index';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from '../../../global-message/index';
 
 @Injectable()
 export class ProductReviewsEffects {

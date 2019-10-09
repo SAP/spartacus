@@ -6,8 +6,7 @@ import { Action } from '@ngrx/store';
 import {
   GlobalMessage,
   GlobalMessageService,
-  ProductReviewsConnector,
-} from '@spartacus/core';
+} from '../../../global-message/index';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { Review } from '../../../model/product.model';
@@ -17,6 +16,7 @@ import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
 
 import createSpy = jasmine.createSpy;
+import { ProductReviewsConnector } from '../../connectors/index';
 
 const reviewData: Review[] = [
   {
