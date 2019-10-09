@@ -2,6 +2,7 @@ export * from './billing-countries.selectors';
 export * from './consignment-tracking.selectors';
 export * from './delivery-countries.selectors';
 export * from './feature.selector';
+export * from './notification-preference.selectors';
 export * from './order-details.selectors';
 export * from './payment-methods.selectors';
 export * from './regions.selectors';

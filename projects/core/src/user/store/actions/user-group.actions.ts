@@ -2,6 +2,7 @@ export * from './billing-countries.action';
 export * from './consignment-tracking.action';
 export * from './delivery-countries.action';
 export * from './forgot-password.action';
+export * from './notification-preference.action';
 export * from './order-details.action';
 export * from './payment-methods.action';
 export * from './regions.action';
