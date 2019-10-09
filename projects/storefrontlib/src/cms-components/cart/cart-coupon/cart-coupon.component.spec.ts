@@ -19,6 +19,14 @@ class MockCxIconComponent {
 }
 
 @Component({
+  selector: 'cx-cart-coupon-anchor',
+  template: '',
+})
+class MockCartCouponAnchorComponentComponent {
+
+}
+
+@Component({
   selector: 'cx-applied-coupons',
   template: '',
 })
@@ -55,6 +63,7 @@ describe('CartCouponComponent', () => {
         CartCouponComponent,
         MockAppliedCouponsComponent,
         MockCxIconComponent,
+        MockCartCouponAnchorComponentComponent
       ],
       providers: [
         { provide: CartService, useValue: mockCartService },
@@ -145,7 +154,12 @@ describe('CartCouponComponent', () => {
     expect(button.disabled).toBeTruthy();
   });
 
-  it('should focus textbox when clicked anchor', () => {
+  fit('should reset state when ondestory is triggered', () => {
+    mockCartService.getAddVoucherResultLoading.and.returnValue(of(true));
+    mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
+    fixture.detectChanges();
 
+    component.ngOnDestroy();
+    expect(mockCartService.resetAddVoucherProcessingState).toHaveBeenCalled();
   });
 });
