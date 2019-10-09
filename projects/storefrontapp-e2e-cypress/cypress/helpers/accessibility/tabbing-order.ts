@@ -81,9 +81,9 @@ export function checkElement(tabElement: TabElement) {
     case TabbingOrderTypes.ITEM_COUNTER: {
       cy.focused()
         .parentsUntil('cx-item-counter')
-        .last()
-        .parent()
-        .should('have.attr', 'formcontrolname', tabElement.value);
+        .within(() => {
+          cy.get('input').should('have.attr', 'name', 'value');
+        });
       break;
     }
     case TabbingOrderTypes.RADIO: {
@@ -93,9 +93,7 @@ export function checkElement(tabElement: TabElement) {
       break;
     }
     case TabbingOrderTypes.H3: {
-      cy.focused()
-        .get('h3')
-        .should('contain', tabElement.value);
+      cy.focused().should('contain', tabElement.value);
       return;
     }
     case TabbingOrderTypes.CX_MEDIA: {
