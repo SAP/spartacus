@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
+import { forceFocusElement } from 'projects/storefrontlib/src/shared/utils/accessibility/force-focus';
 
 @Component({
   selector: 'cx-product-reviews',
@@ -11,6 +17,10 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductReviewsComponent {
+  @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
+  @ViewChild('writeReviewButton', { static: false })
+  writeReviewButton: ElementRef;
+
   isWritingReview = false;
 
   // TODO: configurable
@@ -37,11 +47,13 @@ export class ProductReviewsComponent {
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
+    forceFocusElement(this.titleInput);
   }
 
   cancelWriteReview(): void {
     this.isWritingReview = false;
     this.resetReviewForm();
+    forceFocusElement(this.writeReviewButton);
   }
 
   setRating(rating): void {
@@ -61,6 +73,7 @@ export class ProductReviewsComponent {
 
     this.isWritingReview = false;
     this.resetReviewForm();
+    forceFocusElement(this.writeReviewButton);
   }
 
   private resetReviewForm(): void {

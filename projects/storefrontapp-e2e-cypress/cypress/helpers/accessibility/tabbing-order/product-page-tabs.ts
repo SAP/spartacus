@@ -33,13 +33,11 @@ export function productPageTabsTabbingOrder() {
     .click()
     .should('contain', 'Reviews');
 
-  // TODO: clicking 'write a review' button should focus input[formcontrolname=title]
   cy.tab();
   cy.focused()
     .should('contain', 'Write a Review')
     .click();
 
-  cy.tab();
   cy.focused().should('have.attr', 'formcontrolname', 'title');
 
   cy.tab();
@@ -60,7 +58,6 @@ export function productPageTabsTabbingOrder() {
   cy.tab();
   cy.focused().should('contain', 'Submit');
 
-  // TODO: clicking cancel button (below) should focus button 'write a review'
   cy.get('button')
     .contains('Cancel')
     .click();
