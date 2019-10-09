@@ -16,3 +16,4 @@ export * from './user-details.action';
 export * from './user-misc.action';
 export * from './user-orders.action';
 export * from './user-register.action';
+export * from './product-interests.actions';

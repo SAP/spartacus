@@ -28,6 +28,7 @@ import {
   UserPaymentService,
   UserService,
   UserNotificationPreferenceService,
+  UserInterestsService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model';
 
@@ -80,6 +81,8 @@ export class CxApiService {
     @Optional() public userPayment: UserPaymentService,
     @Optional()
     public userNotificationPreferenceService: UserNotificationPreferenceService,
+    @Optional()
+    public userInterestsService: UserInterestsService,
     // framework
     public ngZone: NgZone
   ) {}

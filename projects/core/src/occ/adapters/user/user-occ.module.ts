@@ -15,7 +15,8 @@ import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
 import { UserNotificationPreferenceAdapter } from 'projects/core/src/user/connectors/notification-preference/user-notification-preference.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
-
+import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
+import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
 @NgModule({
   imports: [
     CommonModule,
@@ -35,6 +36,7 @@ import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-pr
       provide: UserNotificationPreferenceAdapter,
       useClass: OccUserNotificationPreferenceAdapter,
     },
+    { provide: UserInterestsAdapter, useClass: OccUserInterestsAdapter },
   ],
 })
 export class UserOccModule {}

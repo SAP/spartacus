@@ -120,4 +120,17 @@ export const myAccount = {
     SMS: 'SMS:',
     SITE_MESSAGE: 'SiteMessage',
   },
+  myInterests: {
+    header: 'My Interests',
+    item: 'ITEM',
+    price: 'PRICE',
+    subcriptions: 'SUBSCRIPTIONS',
+    noInterests: 'You Have No Interests Yet',
+    inStock: 'In Stock',
+    lowStock: 'Low Stock',
+    outOfStock: 'Out of Stock',
+    sortByMostRecent: 'Sort by Most recent',
+    expirationDate: ' - Till {{ expirationDate }}',
+    productId: 'ID {{ code }}',
+  },
 };

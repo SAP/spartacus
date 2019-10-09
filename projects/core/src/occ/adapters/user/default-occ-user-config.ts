@@ -24,6 +24,7 @@ export const defaultOccUserConfig: OccConfig = {
         consignmentTracking:
           'orders/${orderCode}/consignments/${consignmentCode}/tracking',
         notificationPreference: 'users/${userId}/notificationpreferences',
+        productInterests: 'users/${userId}/productinterests',
       },
     },
   },

@@ -11,6 +11,7 @@ import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { OrderHistoryList } from '../../../model/order.model';
+import { ProductInterestList } from '../../../model/product-interest.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   NOTIFICATION_PREFERENCES,
@@ -21,6 +22,7 @@ import {
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  PRODUCT_INTERESTS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
@@ -35,6 +37,7 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromInterestsReducer from './product-interests.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -67,6 +70,10 @@ export function getReducers(): ActionReducerMap<UserState> {
     notificationPreferences: loaderReducer<NotificationPreference[]>(
       NOTIFICATION_PREFERENCES,
       fromNotificationPreferenceReducer.reducer
+    ),
+    productInterests: loaderReducer<ProductInterestList>(
+      PRODUCT_INTERESTS,
+      fromInterestsReducer.reducer
     ),
   };
 }

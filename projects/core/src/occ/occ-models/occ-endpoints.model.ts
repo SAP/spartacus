@@ -269,4 +269,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   notificationPreference?: string;
+  /**
+   * Endpoint for product interests
+   *
+   * @member {string}
+   */
+  productInterests?: string;
 }

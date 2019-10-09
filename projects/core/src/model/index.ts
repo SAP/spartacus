@@ -12,3 +12,4 @@ export * from './product-search.model';
 export * from './product.model';
 export * from './shared.model';
 export * from './store-finder.model';
+export * from './product-interest.model';

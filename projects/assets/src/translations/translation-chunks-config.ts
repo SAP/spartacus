@@ -26,6 +26,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updateProfileForm',
     'consentManagementForm',
     'notificationPreference',
+    'myInterests',
   ],
   storeFinder: ['storeFinder'],
   pwa: ['pwa'],
