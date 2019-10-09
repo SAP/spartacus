@@ -39,7 +39,7 @@ describe('Product References selectors', () => {
 
   it('getSelectedProductReferencesFactory should return references', () => {
     let result: ProductReference[];
-    let referenceType = '';
+    const referenceType = '';
     store
       .pipe(
         select(
