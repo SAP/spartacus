@@ -45,7 +45,7 @@ export function asmTests() {
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
       });
-      it('agent should start cusrtomer emulation.', () => {
+      it('agent should start customer emulation.', () => {
         const customerSearchRequestAlias = asm.listenForCusrtomerSearchRequest();
         const userDetailsRequestAlias = asm.listenForUserDetailsRequest();
 
