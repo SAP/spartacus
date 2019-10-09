@@ -1,7 +1,7 @@
 import { DynamicTemplate } from './dynamic-template';
 
-fdescribe('DynamicTemplate', () => {
-  describe('No variables in String', () => {
+describe('DynamicTemplate', () => {
+  describe('No keys in String', () => {
     it('should return template string', () => {
       const url = '/xxx/xxx';
       const result = DynamicTemplate.resolve(url, { id: '123' });
@@ -9,7 +9,7 @@ fdescribe('DynamicTemplate', () => {
     });
   });
 
-  describe('No variables in Values', () => {
+  describe('No Values', () => {
     it('should return template string', () => {
       const url = '/xxx/xxx/${id}';
       const result = DynamicTemplate.resolve(url, {});
@@ -17,7 +17,7 @@ fdescribe('DynamicTemplate', () => {
     });
   });
 
-  describe('Correct variables in String and Values', () => {
+  describe('Matching keys in String and Values', () => {
     it('should return template string with value', () => {
       const url = '/xxx/xxx/${id}';
       const id = 123;
@@ -26,7 +26,7 @@ fdescribe('DynamicTemplate', () => {
     });
   });
 
-  describe('Wrong variables in String and Values', () => {
+  describe('Wrong keys in String and Values', () => {
     it('should return template string with no value', () => {
       const url = '/xxx/xxx/${id}';
       const productId = 123;
