@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -13,11 +13,11 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
+import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
-import { CheckoutStepType } from '../..';
 
 export interface CardWithAddress {
   card: Card;
@@ -30,6 +30,24 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit, OnDestroy {
+  existingAddresses$: Observable<Address[]>;
+  newAddressFormManuallyOpened = false;
+  cards: Card[] = [];
+  isLoading$: Observable<boolean>;
+  selectedAddress: Address;
+  goTo: CheckoutStepType;
+  setAddress: Address;
+  setAddressSub: Subscription;
+  selectedAddressSub: Subscription;
+  selectedAddress$: BehaviorSubject<Address> = new BehaviorSubject<Address>(
+    null
+  );
+  cards$: Observable<CardWithAddress[]>;
+  checkoutStepUrlNext: string;
+  checkoutStepUrlPrevious: string;
+  isGuestCheckout = false;
+  forceLoader = false; // this helps with smoother steps transition
+
   constructor(
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
@@ -39,68 +57,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private translation: TranslationService
   ) {}
-  existingAddresses$: Observable<Address[]>;
-  newAddressFormManuallyOpened = false;
-  isLoading$: Observable<boolean>;
-  cards$: Observable<CardWithAddress[]>;
-  selectedAddress$: Observable<
-    Address
-  > = this.checkoutDeliveryService.getDeliveryAddress();
-  forceLoader = false; // this helps with smoother steps transition
-
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use cards$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  cards: Card[] = [];
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Avoid using it.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  goTo: CheckoutStepType = null;
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use selectAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  setAddress: Address;
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Avoid using it.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  setAddressSub: Subscription;
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use selectedAddress$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  selectedAddressSub: Subscription;
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use CheckoutConfigService.getNextCheckoutStepUrl(this.activatedRoute) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-    this.activatedRoute
-  );
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use CheckoutConfigService.getPreviousCheckoutStepUrl(this.activatedRoute) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  checkoutStepUrlPrevious = 'cart';
-
-  isGuestCheckout = false;
-
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use selectedAddress$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  selectedAddress: Address;
 
   ngOnInit() {
     this.goTo = null;
@@ -110,10 +66,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutStepUrlPrevious = 'cart';
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
-
     this.cards$ = combineLatest([
       this.existingAddresses$,
-      this.selectedAddress$,
+      this.selectedAddress$.asObservable(),
       this.translation.translate('checkoutAddress.defaultShippingAddress'),
       this.translation.translate('checkoutAddress.shipToThisAddress'),
       this.translation.translate('addressCard.selected'),
@@ -127,18 +82,16 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           textSelected,
         ]) => {
           // Select default address if none selected
-          if (
-            addresses.length &&
-            (!selected ||
-              Object.keys(selected).length === 0 ||
-              !this.selectedAddress)
-          ) {
+          if (selected && Object.keys(selected).length > 0) {
+            this.selectedAddress = selected;
+          } else {
             const defaultAddress = addresses.find(
               address => address.defaultAddress
             );
             selected = defaultAddress;
-            this.selectAddress(defaultAddress);
+            this.selectedAddress = defaultAddress;
           }
+
           return addresses.map(address => {
             const card = this.getCardContent(
               address,
@@ -161,6 +114,20 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     } else {
       this.isGuestCheckout = true;
     }
+
+    this.setAddressSub = this.checkoutDeliveryService
+      .getDeliveryAddress()
+      .subscribe(address => {
+        this.setAddress = address;
+        this.selectedAddress$.next(address);
+        if (this.goTo) {
+          this.goNext();
+          this.goTo = null;
+        }
+      });
+    this.selectedAddressSub = this.selectedAddress$.subscribe(address => {
+      this.selectedAddress = address;
+    });
   }
 
   getCardContent(
@@ -171,12 +138,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     textSelected: string
   ): Card {
     let region = '';
-
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
-
-    return {
+    const card: Card = {
       title: address.defaultAddress ? textDefaultShippingAddress : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
@@ -189,48 +154,51 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
     };
+
+    this.cards.push(card);
+
+    return card;
   }
 
-  selectAddress(address: Address): void {
-    this.selectedAddress = address;
-    this.checkoutDeliveryService.setDeliveryAddress(address);
+  addressSelected(address: Address): void {
+    this.selectedAddress$.next(address);
   }
 
-  /**
-   * @deprecated since version 1.3
-   * Use addAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  addAddress(address: { newAddress: boolean; address: Address } | any);
-  addAddress(
-    address: Address | { newAddress: boolean; address: Address }
-  ): void {
-    // TODO(issue:#3921) deprecated since 1.3 - Remove temp address
-    const tempAddress: Address = address['address']
-      ? address['address']
-      : address;
+  next(): void {
+    this.addAddress({ address: this.selectedAddress, newAddress: false });
+  }
 
-    const selectedSub = this.selectedAddress$.subscribe(selected => {
-      if (selected && selected.shippingAddress) {
-        this.goNext();
-        selectedSub.unsubscribe();
-      }
-    });
-
+  addAddress({
+    newAddress,
+    address,
+  }: {
+    newAddress: boolean;
+    address: Address;
+  }): void {
     this.forceLoader = true;
 
-    // TODO(issue:#3921) deprecated since 1.3 - Remove this condition
-    if (address['address'] || address['newAddress']) {
-      address['newAddress']
-        ? this.checkoutDeliveryService.createAndSetAddress(tempAddress)
-        : this.selectAddress(tempAddress);
+    if (newAddress) {
+      this.checkoutDeliveryService.createAndSetAddress(address);
+      this.goTo = CheckoutStepType.DELIVERY_MODE;
+      return;
+    }
+    if (
+      this.setAddress &&
+      this.selectedAddress &&
+      this.setAddress.id === this.selectedAddress.id
+    ) {
+      this.goNext();
     } else {
-      // TODO(issue:#3921) deprecated since 1.3 - Use instead of condition
-      this.existingAddresses$.pipe(take(1)).subscribe(addresses => {
-        addresses.includes(tempAddress)
-          ? this.selectAddress(tempAddress)
-          : this.checkoutDeliveryService.createAndSetAddress(tempAddress);
-      });
+      this.goTo = CheckoutStepType.DELIVERY_MODE;
+      this.checkoutDeliveryService.setDeliveryAddress(address);
+    }
+  }
+
+  addNewAddress(address: Address): void {
+    if (address) {
+      this.addAddress({ address, newAddress: true });
+    } else {
+      this.goNext();
     }
   }
 
@@ -238,68 +206,21 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.newAddressFormManuallyOpened = true;
   }
 
-  hideNewAddressForm(goPrevious: boolean = false): void {
+  hideNewAddressForm(goBack: boolean = false): void {
     this.newAddressFormManuallyOpened = false;
-    if (goPrevious) {
-      this.goPrevious();
+    if (goBack) {
+      this.back();
     }
   }
 
   goNext(): void {
-    this.routingService.go(
-      this.checkoutConfigService.getNextCheckoutStepUrl(this.activatedRoute)
-    );
+    this.routingService.go(this.checkoutStepUrlNext);
   }
 
-  goPrevious(): void {
-    this.routingService.go(
-      this.checkoutConfigService.getPreviousCheckoutStepUrl(
-        this.activatedRoute
-      ) || 'cart'
-    );
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use selectAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  addressSelected(address: Address): void {
-    this.selectAddress(address);
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goPrevious() instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
   back(): void {
-    this.goPrevious();
+    this.routingService.go(this.checkoutStepUrlPrevious);
   }
 
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goNext() instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  next(): void {
-    this.goNext();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use addAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  addNewAddress(address: Address): void {
-    this.addAddress(address);
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Remove.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
   ngOnDestroy(): void {
     if (this.setAddressSub) {
       this.setAddressSub.unsubscribe();
