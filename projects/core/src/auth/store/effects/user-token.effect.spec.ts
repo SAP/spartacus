@@ -74,11 +74,14 @@ fdescribe('UserToken effect', () => {
         refreshToken: '123',
       });
       const completion = new AuthActions.RefreshUserTokenSuccess(testToken);
+      console.log(completion.payload.userId);
 
       actions$ = hot('--a-|', { a: action });
       const expected = cold('--b-|', { b: completion });
 
-      console.log(expected.values);
+      // @ts-ignore
+      console.log(expected.values.b.payload.userId);
+
       expect(userTokenEffect.refreshUserToken$).toBeObservable(expected);
     });
   });
