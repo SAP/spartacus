@@ -1,7 +1,7 @@
 import {
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
-} from '@spartacus/core';
+} from '../config/config-from-meta-tag-factory';
 
 /**
  * Gets the OCC base url from the meta tag of the DOM

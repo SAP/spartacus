@@ -1,10 +1,10 @@
+import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
-  Occ,
-  SiteContextConfig,
-} from '@spartacus/core';
+} from '../../site-context/providers/context-ids';
+import { Occ } from '../occ-models/occ.models';
 import { convertJavaRegExp } from './convert-java-reg-exp';
 
 /**

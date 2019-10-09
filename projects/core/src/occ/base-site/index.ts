@@ -7,3 +7,4 @@ export {
 } from './occ-base-sites-config-transfer-state';
 export * from './occ-base-sites-config.module';
 export { OccBaseSitesConfig } from './occ-base-sites-config.providers';
+export * from './server-occ-base-sites-config.module';

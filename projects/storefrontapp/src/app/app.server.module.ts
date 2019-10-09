@@ -3,10 +3,10 @@ import {
   ServerModule,
   ServerTransferStateModule,
 } from '@angular/platform-server';
+import { ServerOccBaseSitesConfigModule } from '@spartacus/core';
 import { StorefrontComponent } from '@spartacus/storefront';
 // import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 import { AppModule } from './app.module';
-import { ServerOccBaseSitesConfigModule } from './base-site/server-occ-base-sites-config.module';
 
 @NgModule({
   imports: [

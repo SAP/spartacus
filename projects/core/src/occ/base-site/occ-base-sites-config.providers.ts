@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { SiteContextConfig } from '@spartacus/core';
+import { SiteContextConfig } from '../../site-context/config/site-context-config';
 
 /**
  * An injection token with the config obtained from the response of the OCC endpoint `/basesites` before bootstrapping an Angular app.

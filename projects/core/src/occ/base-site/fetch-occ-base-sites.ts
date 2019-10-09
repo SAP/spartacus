@@ -1,9 +1,9 @@
 import { isDevMode } from '@angular/core';
 import {
-  Occ,
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
-} from '@spartacus/core';
+} from '../config/config-from-meta-tag-factory';
+import { Occ } from '../occ-models/occ.models';
 import { fetchJson, fetchJsonSSRFactory, HttpsClient } from './fetch-json';
 
 export interface OccBaseSitesEndpointOptions {
@@ -72,7 +72,8 @@ function areOptionsValid(
   if (!endpointOptions.baseUrl) {
     if (isDevMode()) {
       console.error(
-        `Error: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag: \n<meta name="${OCC_BASE_URL_META_TAG_NAME}" content="${OCC_BASE_URL_META_TAG_PLACEHOLDER}" />`
+        `Error: Cannot get OCC base sites due to unknown base url! Please pass it as the call's parameter or place it in the meta tag:
+        <meta name="${OCC_BASE_URL_META_TAG_NAME}" content="${OCC_BASE_URL_META_TAG_PLACEHOLDER}" />`
       );
     }
     return false;

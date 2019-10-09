@@ -1,4 +1,4 @@
-import { SiteContextConfig } from '@spartacus/core';
+import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { HttpsClient } from './fetch-json';
 import {
   fetchOccBaseSites,

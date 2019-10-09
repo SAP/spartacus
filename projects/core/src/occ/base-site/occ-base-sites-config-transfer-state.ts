@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { SiteContextConfig } from '@spartacus/core';
+import { SiteContextConfig } from '../../site-context/config/site-context-config';
 
 const OCC_BASE_SITES_CONFIG_STATE_ID = 'occ-base-sites-config-state';
 
