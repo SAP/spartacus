@@ -1,0 +1,11 @@
+<div
+  translate
+  *ngIf="showRequiredMessage()"
+  class="cx-config-attribute-footer-required-message"
+>
+  <cx-icon
+    class="cx-config-attribute-footer-required-message-icon"
+    [type]="iconTypes.WARNING"
+  ></cx-icon
+  >{{ getRequiredMessageKey() | cxTranslate }}
+</div>

@@ -10,8 +10,10 @@ import {
   UrlModule,
   UserService,
 } from '@spartacus/core';
+import { IconModule } from '../../../cms-components/misc/icon/index';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/index';
+import { ConfigAttributeFooterComponent } from '../commons/config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
@@ -63,6 +65,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     NgSelectModule,
     UrlModule,
     I18nModule,
+    IconModule,
   ],
 
   declarations: [
@@ -72,6 +75,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeHeaderComponent,
+    ConfigAttributeFooterComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -80,6 +84,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeHeaderComponent,
+    ConfigAttributeFooterComponent,
   ],
   providers: [UserService],
   entryComponents: [
@@ -89,6 +94,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeHeaderComponent,
+    ConfigAttributeFooterComponent,
   ],
 })
 export class VariantConfiguratorModule {}

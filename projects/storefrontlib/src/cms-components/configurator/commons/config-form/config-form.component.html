@@ -1,4 +1,4 @@
-<ng-container *ngIf="(configuration$ | async) as configuration">
+<ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-total">
     {{ 'configurator.header.configId' | cxTranslate }} :
     {{ configuration.configId }}
@@ -42,6 +42,11 @@
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
         'configurator.attribute.notSupported' | cxTranslate
       }}</em>
+    </div>
+    <div class="cx-config-attribute-footer">
+      <cx-config-attribute-footer
+        [attribute]="attribute"
+      ></cx-config-attribute-footer>
     </div>
   </div>
 </ng-container>

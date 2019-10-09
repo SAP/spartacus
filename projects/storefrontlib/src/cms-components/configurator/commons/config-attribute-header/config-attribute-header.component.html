@@ -11,10 +11,3 @@
   "
   >{{ attribute.label }}</label
 >
-<div
-  translate
-  *ngIf="showRequiredMessage()"
-  class="cx-config-attribute-header-required-message"
->
-  {{ getRequiredMessageKey() | cxTranslate }}
-</div>
