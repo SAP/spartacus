@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpRequest } from '@angular/common/http';
 
 export const USE_CLIENT_TOKEN = 'cx-use-client-token';
+export const USE_CUSTOMER_SUPPORT_AGENT_TOKEN = 'cx-use-csagent-token';
 
 export class InterceptorUtil {
   static createHeader<T>(
