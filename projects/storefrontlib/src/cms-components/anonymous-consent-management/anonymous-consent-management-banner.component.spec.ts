@@ -17,6 +17,9 @@ class MockAnonymousConsentsService {
   giveAllAnonymousConsents(): Observable<ConsentTemplate[]> {
     return of();
   }
+  getTemplatesUpdated(): Observable<boolean> {
+    return of();
+  }
   toggleAnonymousConsentsBannerVisibility(_visible: boolean): void {}
 }
 
@@ -72,10 +75,29 @@ describe('AnonymousConsentManagementBannerComponent', () => {
         anonymousConsentsService,
         'isAnonymousConsentsBannerVisible'
       ).and.returnValue(of(false));
+
       component.ngOnInit();
+
       expect(
         anonymousConsentsService.isAnonymousConsentsBannerVisible
       ).toHaveBeenCalled();
+    });
+    it('should call getTemplatesUpdated and toggleAnonymousConsentsBannerVisibility', () => {
+      spyOn(anonymousConsentsService, 'getTemplatesUpdated').and.returnValue(
+        of(true)
+      );
+      spyOn(
+        anonymousConsentsService,
+        'toggleAnonymousConsentsBannerVisibility'
+      ).and.stub();
+
+      component.ngOnInit();
+      component.templatesUpdated$.subscribe().unsubscribe();
+
+      expect(anonymousConsentsService.getTemplatesUpdated).toHaveBeenCalled();
+      expect(
+        anonymousConsentsService.toggleAnonymousConsentsBannerVisibility
+      ).toHaveBeenCalledWith(true);
     });
   });
 
