@@ -138,7 +138,9 @@ export class SearchBoxComponent {
    */
   launchSearchResult(event: UIEvent, query: string): void {
     this.close(event);
-    this.searchBoxComponentService.launchSearchPage(query);
+    if(query) {
+      this.searchBoxComponentService.launchSearchPage(query);
+    }
   }
 
   /**
