@@ -40,16 +40,16 @@ export class OccConfiguratorVariantSerializer
     attribute: Configurator.Attribute,
     occCstics: OccConfigurator.Characteristic[]
   ): void {
-    const cstics: OccConfigurator.Characteristic = {
+    const cstic: OccConfigurator.Characteristic = {
       name: attribute.name,
       langdepname: attribute.label,
       required: attribute.required,
       type: this.convertCharacteristicType(attribute.uiType),
     };
 
-    cstics.value = attribute.selectedSingleValue;
+    cstic.value = attribute.selectedSingleValue;
 
-    occCstics.push(cstics);
+    occCstics.push(cstic);
   }
 
   convertCharacteristicType(type: Configurator.UiType): OccConfigurator.UiType {

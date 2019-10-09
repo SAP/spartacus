@@ -70,7 +70,7 @@ describe('ConfiguratorEffect', () => {
     expect(configEffects).toBeTruthy();
   });
 
-  it('should a success action with content for an action of type createConfiguration', () => {
+  it('should emit a success action with content for an action of type createConfiguration', () => {
     const payloadInput = { productCode: productCode };
     const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
 
@@ -93,7 +93,7 @@ describe('ConfiguratorEffect', () => {
     configEffects.createConfiguration$.subscribe(emitted => fail(emitted));
   });
 
-  it('should a success action with content for an action of type readConfiguration', () => {
+  it('should emit a success action with content for an action of type readConfiguration', () => {
     const payloadInput = { configId: configId };
     const action = new ConfiguratorActions.ReadConfiguration(payloadInput);
 
@@ -116,7 +116,7 @@ describe('ConfiguratorEffect', () => {
     configEffects.readConfiguration$.subscribe(emitted => fail(emitted));
   });
 
-  it('should a success action with content for an action of type updateConfiguration', () => {
+  it('should emit a success action with content for an action of type updateConfiguration', () => {
     const payloadInput = productConfiguration;
     const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
 
