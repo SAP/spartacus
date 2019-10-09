@@ -78,7 +78,7 @@ export class AnonymousConsentsEffects {
 
   @Effect()
   transferAnonymousConsentsToUser$: Observable<
-    | UserActions.GiveUserAnonymousConsent
+    | UserActions.TransferAnonymousConsent
     | Observable<never>
     | GlobalMessageActions.RemoveMessagesByType
   > = this.actions$.pipe(
@@ -115,7 +115,7 @@ export class AnonymousConsentsEffects {
               consent.consentState ===
               ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
             ) {
-              return new UserActions.GiveUserAnonymousConsent({
+              return new UserActions.TransferAnonymousConsent({
                 userId: userId,
                 consentTemplateId: template.id,
                 consentTemplateVersion: template.version,

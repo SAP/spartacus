@@ -37,9 +37,9 @@ export class UserConsentsEffect {
   giveConsent$: Observable<
     UserActions.UserConsentsAction | GlobalMessageActions.RemoveMessagesByType
   > = this.actions$.pipe(
-    ofType<UserActions.GiveUserConsent | UserActions.GiveUserAnonymousConsent>(
+    ofType<UserActions.GiveUserConsent | UserActions.TransferAnonymousConsent>(
       UserActions.GIVE_USER_CONSENT,
-      UserActions.GIVE_USER_ANONYMOUS_CONSENT
+      UserActions.TRANSFER_ANONYMOUS_CONSENT
     ),
     switchMap(action =>
       this.userConsentConnector
@@ -58,7 +58,7 @@ export class UserConsentsEffect {
               new UserActions.GiveUserConsentFail(makeErrorSerializable(error)),
             ];
             if (
-              action.type === UserActions.GIVE_USER_ANONYMOUS_CONSENT &&
+              action.type === UserActions.TRANSFER_ANONYMOUS_CONSENT &&
               error.status === 409
             ) {
               errors.push(

@@ -101,7 +101,7 @@ describe('User Consents effect', () => {
       expect(userConsentEffect.giveConsent$).toBeObservable(expected);
     });
 
-    it('should close error message on 409 for GIVE_USER_ANONYMOUS_CONSENT action', () => {
+    it('should close error message on 409 for TRANSFER_ANONYMOUS_CONSENT action', () => {
       const mockError = {
         status: 409,
         msg: 'Mock error',
@@ -110,7 +110,7 @@ describe('User Consents effect', () => {
         throwError(mockError)
       );
 
-      const action = new UserActions.GiveUserAnonymousConsent({
+      const action = new UserActions.TransferAnonymousConsent({
         userId,
         consentTemplateId,
         consentTemplateVersion,

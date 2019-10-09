@@ -116,16 +116,16 @@ describe('user consent actions', () => {
         });
       });
     });
-    describe('GiveUserAnonymousConsent', () => {
+    describe('TransferAnonymousConsent', () => {
       it('should create the action', () => {
         const payload = {
           userId,
           consentTemplateId: 'xxx',
           consentTemplateVersion: 0,
         };
-        const action = new UserActions.GiveUserAnonymousConsent(payload);
+        const action = new UserActions.TransferAnonymousConsent(payload);
         expect({ ...action }).toEqual({
-          type: UserActions.GIVE_USER_ANONYMOUS_CONSENT,
+          type: UserActions.TRANSFER_ANONYMOUS_CONSENT,
           payload,
           meta: StateEntityLoaderActions.entityLoadMeta(
             PROCESS_FEATURE,
