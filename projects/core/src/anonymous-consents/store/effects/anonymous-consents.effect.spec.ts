@@ -4,9 +4,15 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { AuthActions, AuthService } from '../../../auth/index';
-import { ConsentTemplate } from '../../../model/consent.model';
+import { AuthActions, AuthService, UserToken } from '../../../auth/index';
+import {
+  AnonymousConsent,
+  ANONYMOUS_CONSENT_STATUS,
+  ConsentTemplate,
+} from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
+import { UserActions } from '../../../user/store/actions';
+import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
 import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
@@ -22,6 +28,10 @@ class MockAuthService {
   isUserLoggedIn(): Observable<boolean> {
     return of(false);
   }
+
+  getOccUserId(): Observable<string> {
+    return of();
+  }
 }
 
 class MockAnonymousConsentsService {
@@ -34,18 +44,46 @@ class MockAnonymousConsentsService {
   getAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
     return of();
   }
+  getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
+    return of();
+  }
+
+  getAnonymousConsentTemplate(
+    _templateCode: string
+  ): Observable<ConsentTemplate> {
+    return of();
+  }
 }
 
 const mockTemplateList: ConsentTemplate[] = [
   {
     id: 'xxx',
+    description: 'store user info consent template',
+    version: 0,
   },
 ];
+
+const mockAnonymousConsent: AnonymousConsent = {
+  templateCode: 'xxx',
+  consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+  version: 0,
+};
+
+const mockUserToken = {
+  access_token: 'yyy',
+} as UserToken;
+
+const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+  anonymousConsents: {
+    registerConsent: 'MARKETING',
+  },
+};
 
 describe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
   let connector: MockAnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
+  let authService: AuthService;
   let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(() => {
@@ -64,6 +102,10 @@ describe('AnonymousConsentsEffects', () => {
           provide: AnonymousConsentsService,
           useClass: MockAnonymousConsentsService,
         },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
         provideMockActions(() => actions$),
       ],
     });
@@ -77,6 +119,7 @@ describe('AnonymousConsentsEffects', () => {
     anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
       AnonymousConsentsService
     >);
+    authService = TestBed.get(AuthService as Type<AuthService>);
   });
 
   describe('handleLogoutAndLanguageChange$', () => {
@@ -132,6 +175,51 @@ describe('AnonymousConsentsEffects', () => {
       expect(
         anonymousConsentService.detectUpdatedTemplates
       ).toHaveBeenCalledWith(mockTemplateList, mockTemplateList);
+    });
+  });
+
+  describe('transferAnonymousConsentsToUser$', () => {
+    it('should not return TransferAnonymousConsent if RegisterUserSuccess was not dispatched', () => {
+      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
+        mockUserToken
+      );
+
+      actions$ = hot('-a', {
+        a: loadUserTokenSuccessAction,
+      });
+      const expected = cold('----');
+
+      expect(effect.transferAnonymousConsentsToUser$).toBeObservable(expected);
+    });
+
+    it('should return TransferAnonymousConsent', () => {
+      spyOn(anonymousConsentService, 'getAnonymousConsent').and.returnValue(
+        of(mockAnonymousConsent)
+      );
+      spyOn(
+        anonymousConsentService,
+        'getAnonymousConsentTemplate'
+      ).and.returnValue(of(mockTemplateList[0]));
+      spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
+
+      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
+        mockUserToken
+      );
+      const registerSuccessAction = new UserActions.RegisterUserSuccess();
+
+      const completion = new UserActions.TransferAnonymousConsent({
+        userId: 'current',
+        consentTemplateId: mockAnonymousConsent.templateCode,
+        consentTemplateVersion: mockAnonymousConsent.version,
+      });
+
+      actions$ = hot('-(ab)', {
+        a: registerSuccessAction,
+        b: loadUserTokenSuccessAction,
+      });
+      const expected = cold('-c', { c: completion });
+
+      expect(effect.transferAnonymousConsentsToUser$).toBeObservable(expected);
     });
   });
 });

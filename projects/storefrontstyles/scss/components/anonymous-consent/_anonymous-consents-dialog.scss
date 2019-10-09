@@ -1,0 +1,50 @@
+@import '../../theme';
+
+%cx-anonymous-consents-dialog {
+  .cx-dialog-header {
+    padding: 2rem 1.75rem 0.85rem;
+  }
+  .cx-dialog-body {
+    padding-top: 0;
+    //this below is custom not global
+    @include media-breakpoint-down(xs) {
+      padding: 0;
+    }
+  }
+  .cx-dialog-buttons {
+    text-align: right;
+    padding: 0 4rem;
+  }
+  .cx-action-link {
+    @include type('8');
+    text-transform: uppercase;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .cx-action-link {
+    display: inline-block;
+    margin: 0 0.35rem;
+  }
+
+  .cx-dialog-row {
+    max-width: 100%;
+    //this below is custom not global
+    @include media-breakpoint-down(xs) {
+      padding: 0;
+    }
+  }
+
+  .cx-dialog-title {
+    @include type('3');
+  }
+
+  .cx-dialog-description {
+    @include type();
+    padding: 1.5rem 1.75rem 0;
+  }
+
+  a:not([href]):not([tabindex]) {
+    text-decoration: underline;
+  }
+}
