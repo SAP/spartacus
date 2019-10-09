@@ -161,25 +161,15 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  describe('Order History', () => {
-    it('should allow to navigate with tab key (no orders)', () => {
-      orderHistoryNoOrdersTabbingOrder(config.orderHistoryNoOrders);
-    });
-
-    it('should allow to navigate with tab key (with orders)', () => {
-      cy.window().then(win => win.sessionStorage.clear());
-      cy.requireLoggedIn();
-      orderHistoryWithOrdersTabbingOrder();
-    });
-  });
-
   describe('Checkout', () => {
     before(() => {
+      cy.restoreLocalStorage();
       addProduct();
       cy.getAllByText(/Proceed to checkout/i)
         .first()
         .click(); // move to checkout
       cy.get('cx-breadcrumb').should('contain', 'Checkout'); // check if we begin checkout tests in checkout
+      cy.saveLocalStorage();
     });
 
     describe('Shipping address', () => {
@@ -215,6 +205,18 @@ context('Tabbing order - tests do require user to be logged in', () => {
       it('should allow to navigate with tab key', () => {
         checkoutReviewOrderTabbingOrder(config.checkoutReviewOrder);
       });
+    });
+  });
+
+  describe('Order History', () => {
+    it('should allow to navigate with tab key (no orders)', () => {
+      orderHistoryNoOrdersTabbingOrder(config.orderHistoryNoOrders);
+    });
+
+    it('should allow to navigate with tab key (with orders)', () => {
+      cy.window().then(win => win.sessionStorage.clear());
+      cy.requireLoggedIn();
+      orderHistoryWithOrdersTabbingOrder();
     });
   });
 
