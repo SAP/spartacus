@@ -4,6 +4,9 @@ import { join } from 'path';
 import 'reflect-metadata';
 import 'zone.js/dist/zone-node';
 
+// spike todo remove:
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 // Express server
 const app = express();
 
@@ -14,6 +17,7 @@ const DIST_FOLDER = join(process.cwd(), 'dist/storefrontapp');
 const {
   AppServerModuleNgFactory,
   ngExpressEngine,
+  isDevMode,
   OccBaseSitesConfig,
   getOccBaseUrlFromMetaTagSSR,
   fetchOccBaseSitesConfigSSR,
@@ -46,10 +50,12 @@ app.get('*', (req, res) => {
     req.protocol + '://' + req.get('host') + req.originalUrl,
     https
   ).then(config => {
-    res.render('index', {
-      req,
-      providers: [{ provide: OccBaseSitesConfig, useValue: config }],
-    });
+    res
+      .render('index', {
+        req,
+        providers: [{ provide: OccBaseSitesConfig, useValue: config }],
+      })
+      .catch(error => isDevMode() && console.error(error));
   });
 });
 

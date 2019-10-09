@@ -58,11 +58,8 @@ function genericFetchOccBaseSites(
   }
 
   const url = getFullUrl(endpointOptions);
-  return fetchFunction(url).catch(error => {
-    if (isDevMode()) {
-      console.error(`Error: Could not fetch OCC base sites!\n`, error);
-    }
-    return error;
+  return fetchFunction(url).catch(() => {
+    throw new Error(`Error: Could not fetch OCC base sites!`);
   });
 }
 
