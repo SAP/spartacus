@@ -1,4 +1,3 @@
-import { isDevMode } from '@angular/core';
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
@@ -19,18 +18,30 @@ export function getConfigFromOccBaseSites(
   occBaseSites: Occ.BaseSites,
   currentUrl: string
 ): SiteContextConfig {
-  if (!occBaseSites) {
-    return {};
+  if (
+    !occBaseSites ||
+    !occBaseSites.baseSites ||
+    !occBaseSites.baseSites.length
+  ) {
+    throw getError(
+      `No base sites returned from backend:
+      ${JSON.stringify(occBaseSites)}`
+    );
   }
   const { baseSites } = occBaseSites;
   const baseSite = baseSites.find(site => isCurrentBaseSite(site, currentUrl));
   if (!baseSite) {
-    return {};
+    throw getError(
+      `Current url (${currentUrl}) doesn't match with any of url patterns of any base site.
+      (${baseSites.map(s => s.uid).join(', ')})`
+    );
   }
 
   const baseStore = getStore(baseSite);
   if (!baseStore) {
-    return {};
+    throw getError(
+      `Current base site (${baseSite.uid}) doesn't have any base store.`
+    );
   }
 
   return {
@@ -110,9 +121,7 @@ function getStore(site: Occ.BaseSite): Occ.BaseStore {
   if (site && site.stores && site.stores.length) {
     return site.stores[0];
   }
-  if (isDevMode()) {
-    console.error(`No base stores for the base site '${site.uid}'`);
-  }
+  return null;
 }
 
 /**
@@ -126,4 +135,8 @@ function getUrlParameters(site: Occ.BaseSite): string[] {
   return (site.urlEncodingAttributes || []).map(param =>
     param === STOREFRONT_PARAM ? BASE_SITE_CONTEXT_ID : param
   );
+}
+
+function getError(message: string): Error {
+  return new Error(`Error: Cannot get base site config! ${message}`);
 }

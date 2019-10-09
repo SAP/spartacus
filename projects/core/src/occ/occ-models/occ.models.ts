@@ -3957,7 +3957,7 @@ export namespace Occ {
   }
 
   export interface BaseSites {
-    baseSites: BaseSite[];
+    baseSites?: BaseSite[];
   }
 
   export interface BaseSite {
