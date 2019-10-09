@@ -78,6 +78,7 @@ fdescribe('UserToken effect', () => {
       actions$ = hot('--a-|', { a: action });
       const expected = cold('--b-|', { b: completion });
 
+      console.log(expected.values);
       expect(userTokenEffect.refreshUserToken$).toBeObservable(expected);
     });
   });
