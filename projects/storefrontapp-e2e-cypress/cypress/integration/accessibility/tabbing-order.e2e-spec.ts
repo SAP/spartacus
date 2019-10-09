@@ -31,12 +31,8 @@ import {
   checkoutPaymentDetailsTabbingOrder,
   checkoutBillingAddressTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
+import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
 import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/order-details';
-import {
-  headerDesktopTabbingOrder,
-  headerMobileTabbingOrder,
-  headerTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/header';
 import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import {
@@ -44,6 +40,7 @@ import {
   productListTabbingOrderMobile,
   productListTabbingOrderMobileFilters,
 } from '../../helpers/accessibility/tabbing-order/product-list';
+import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -117,6 +114,12 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   describe('Product Page', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabbingOrder(config.productPage);
+    });
+  });
+
+  describe('Product Page Tabs', () => {
+    it('should allow to navigate with tab key', () => {
+      productPageTabsTabbingOrder();
     });
   });
 
