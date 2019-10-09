@@ -1,13 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '../../window';
-import { QualtricsConfig } from '../config/qualtrics-config';
+import { WindowRef } from '@spartacus/core';
+import { QualtricsConfig } from '../../../shared/config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 
 const mockQualtricsConfig: QualtricsConfig = {
-  qualtrics: {
-    active: true,
-  },
+  qualtrics: {},
 };
 
 const mockWindowRef = {

@@ -7,7 +7,6 @@ import {
   KymaConfig,
   OccConfig,
   PersonalizationConfig,
-  QualtricsConfig,
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
@@ -17,6 +16,7 @@ import { IconConfig } from './cms-components/misc/icon/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { FeatureToggles } from './feature-toggles';
 import { LayoutConfig } from './layout/config/layout-config';
+import { QualtricsConfig } from './shared/config/qualtrics-config';
 import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =

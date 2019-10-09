@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { QualtricsLoaderService, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { QualtricsLoaderService } from './qualtrics-loader.service';
 import { QualtricsComponent } from './qualtrics.component';
 
 class MockQualtricsLoaderService {
@@ -10,9 +11,7 @@ class MockQualtricsLoaderService {
 }
 
 export class MockQualtricsConfig {
-  qualtrics: {
-    active: true;
-  };
+  qualtrics: {};
 }
 
 describe('QualtricsComponent', () => {

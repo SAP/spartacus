@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { QualtricsLoaderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { QualtricsLoaderService } from './qualtrics-loader.service';
 
 @Component({
   selector: 'cx-qualtrics',

@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  CartService,
-  QualtricsConfig,
-  QualtricsLoaderService,
-  WindowRef,
-} from '@spartacus/core';
+import { CartService, WindowRef } from '@spartacus/core';
+import { QualtricsConfig, QualtricsLoaderService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

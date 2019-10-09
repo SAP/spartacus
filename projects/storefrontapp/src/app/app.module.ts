@@ -9,9 +9,10 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { QualtricsLoaderService, TestConfigModule } from '@spartacus/core';
+import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
+  QualtricsLoaderService,
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
@@ -33,10 +34,6 @@ if (!environment.production) {
     BrowserTransferStateModule,
 
     B2cStorefrontModule.withConfig({
-      qualtrics: {
-        active: true,
-        multi: true,
-      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
