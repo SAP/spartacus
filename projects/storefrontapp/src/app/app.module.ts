@@ -14,6 +14,7 @@ import {
   B2cStorefrontModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
+import { JsonLdBuilderModule } from 'projects/storefrontlib/src/cms-structure/seo/structured-data';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 registerLocaleData(localeDe);
@@ -66,7 +67,7 @@ if (!environment.production) {
         level: '1.2',
       },
     }),
-
+    JsonLdBuilderModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.

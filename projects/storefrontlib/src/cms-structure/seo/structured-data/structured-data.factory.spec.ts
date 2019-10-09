@@ -2,7 +2,8 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { SchemaBuilder, SCHEMA_BUILDER } from './builders';
-import { SchemaService } from './schema.service';
+import { JsonLdScriptFactory } from './json-ld-script.factory';
+import { StructuredDataFactory } from './structured-data.factory';
 
 const productSchema = {
   '@context': 'http://schema.org',
@@ -24,8 +25,11 @@ class MockBreadcrumbSchemaBuilder implements SchemaBuilder {
   }
 }
 
-describe('SchemaService', () => {
-  let service: SchemaService;
+describe('StructuredDataFactory', () => {
+  let service: StructuredDataFactory;
+  let builders: SchemaBuilder[];
+  let jsonLdScriptFactory: JsonLdScriptFactory;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -39,42 +43,30 @@ describe('SchemaService', () => {
           useClass: MockBreadcrumbSchemaBuilder,
           multi: true,
         },
-        { provide: PLATFORM_ID, useValue: 'browser' },
-        SchemaService,
+        { provide: PLATFORM_ID, useValue: 'server' },
+        StructuredDataFactory,
       ],
     });
 
-    service = TestBed.get(SchemaService);
+    service = TestBed.get(StructuredDataFactory);
+    builders = TestBed.get(SCHEMA_BUILDER);
+    jsonLdScriptFactory = TestBed.get(JsonLdScriptFactory);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should contain 2 schemas', () => {
-    service
-      .load()
-      .subscribe(schemas => {
-        expect(schemas.length).toEqual(2);
-      })
-      .unsubscribe();
+  it('should contain 2 builders', () => {
+    expect(builders.length).toEqual(2);
   });
 
-  it('should contain product schema', () => {
-    service
-      .load()
-      .subscribe(schemas => {
-        expect(schemas[0]).toEqual(productSchema);
-      })
-      .unsubscribe();
-  });
-
-  it('should contain product and breadcrumb schema', () => {
-    service
-      .load()
-      .subscribe(schemas => {
-        expect(schemas).toEqual([productSchema, breadcrumbSchema]);
-      })
-      .unsubscribe();
+  it('should call jsonLdScriptFactory with 2 schemas', () => {
+    spyOn(jsonLdScriptFactory, 'build').and.stub();
+    service.build();
+    expect(jsonLdScriptFactory.build).toHaveBeenCalledWith([
+      productSchema,
+      breadcrumbSchema,
+    ]);
   });
 });

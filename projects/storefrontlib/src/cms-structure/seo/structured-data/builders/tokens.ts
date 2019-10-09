@@ -3,8 +3,8 @@ import { InjectionToken } from '@angular/core';
 /**
  * Injection token to extend schema builders for adding structural data (json-ld).
  *
- * Some builders (i.e. `JSONLD_PRODUCT_BUILDER`) might have additional lowever level builder to further
- * extend the schema.
+ * Some builders (i.e. `JSONLD_PRODUCT_BUILDER`) might have additional
+ * lowever level builder to further extend the schema.
  */
 export const SCHEMA_BUILDER = new InjectionToken('SchemaBuilderToken');
 

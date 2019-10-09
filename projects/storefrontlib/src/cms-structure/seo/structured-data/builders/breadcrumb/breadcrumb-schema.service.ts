@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PageMeta, PageMetaService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { SchemaBuilder } from '../schema.interface';
 
 @Injectable({
@@ -11,10 +11,9 @@ export class BreadcrumbSchemaBuilder implements SchemaBuilder {
   constructor(protected pageMetaService: PageMetaService) {}
 
   build(): Observable<any> {
-    return this.pageMetaService.getMeta().pipe(
-      first(Boolean),
-      map((pageMeta: PageMeta) => this.collect(pageMeta))
-    );
+    return this.pageMetaService
+      .getMeta()
+      .pipe(map((pageMeta: PageMeta) => this.collect(pageMeta)));
   }
 
   protected collect(pageMeta: PageMeta) {

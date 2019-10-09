@@ -1,46 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { BreadcrumbSchemaBuilder } from './builders/breadcrumb/breadcrumb-schema.service';
-import {
-  JsonLdBaseProductBuilder,
-  JsonLdProductOfferBuilder,
-  JsonLdProductReviewBuilder,
-  ProductSchemaBuilder,
-} from './builders/product/index';
-import { JSONLD_PRODUCT_BUILDER, SCHEMA_BUILDER } from './builders/tokens';
-import { JsonLdComponent } from './components/json-ld.component';
-import { SchemaComponent } from './components/schema.component';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
+import { JsonLdDirective } from './json-ld.directive';
+import { StructuredDataFactory } from './structured-data.factory';
+
+/**
+ * Factory to build the structure data
+ * without any interaction with the UI.
+ */
+export function getStructuredDataFactory(injector: Injector) {
+  const result = () => {
+    const factory = injector.get(StructuredDataFactory);
+    factory.build();
+  };
+  return result;
+}
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [SchemaComponent, JsonLdComponent],
-  exports: [SchemaComponent, JsonLdComponent],
+  declarations: [JsonLdDirective],
+  exports: [JsonLdDirective],
   providers: [
     {
-      provide: SCHEMA_BUILDER,
-      useExisting: ProductSchemaBuilder,
-      multi: true,
-    },
-    {
-      provide: SCHEMA_BUILDER,
-      useExisting: BreadcrumbSchemaBuilder,
-      multi: true,
-    },
-    // lower level jsonld builder classes offering fine-graiend control
-    // for product related schema's
-    {
-      provide: JSONLD_PRODUCT_BUILDER,
-      useExisting: JsonLdBaseProductBuilder,
-      multi: true,
-    },
-    {
-      provide: JSONLD_PRODUCT_BUILDER,
-      useExisting: JsonLdProductOfferBuilder,
-      multi: true,
-    },
-    {
-      provide: JSONLD_PRODUCT_BUILDER,
-      useExisting: JsonLdProductReviewBuilder,
+      provide: APP_INITIALIZER,
+      useFactory: getStructuredDataFactory,
+      deps: [Injector],
       multi: true,
     },
   ],
