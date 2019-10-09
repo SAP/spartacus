@@ -154,7 +154,7 @@ describe('CartCouponComponent', () => {
     expect(button.disabled).toBeTruthy();
   });
 
-  fit('should reset state when ondestory is triggered', () => {
+  it('should reset state when ondestory is triggered', () => {
     mockCartService.getAddVoucherResultLoading.and.returnValue(of(true));
     mockCartService.getAddVoucherResultSuccess.and.returnValue(of(true));
     fixture.detectChanges();

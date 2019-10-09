@@ -74,7 +74,7 @@ describe('AppliedCouponsComponent', () => {
         By.css('[data-test="applied-coupon"]')
       );
 
-      expect(elTitle.length).toBe(0);
+      expect(elTitle.length).toBe(1);
       expect(elValue.length).toBe(0);
       expect(component.sortedVouchers.length === 0);
     });

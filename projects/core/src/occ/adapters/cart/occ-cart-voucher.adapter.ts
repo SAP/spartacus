@@ -21,23 +21,29 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   ) {}
 
   protected getCartVoucherEndpoint(userId: string, cartId): string {
-    const cartVoucherEndpoint = `users/${userId}/carts/${cartId}/vouchers`;
-    return this.occEndpoints.getEndpoint(cartVoucherEndpoint);
+    return this.occEndpoints.getUrl('cartVoucher', {userId, cartId});
+  }
+
+  protected getHeaders(userId: string):  HttpHeaders {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    
+    if (userId === OCC_USER_ID_ANONYMOUS) {
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    }
+
+    return headers;
   }
 
   add(userId: string, cartId: string, voucherId: string): Observable<{}> {
     const url = this.getCartVoucherEndpoint(userId, cartId);
 
     const toAdd = JSON.stringify({});
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    if (userId === OCC_USER_ID_ANONYMOUS) {
-      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    }
 
     const params: HttpParams = new HttpParams().set('voucherId', voucherId);
+
+    const headers = this.getHeaders(userId);
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
       catchError((error: any) => throwError(error.json())),
@@ -50,13 +56,8 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
       this.getCartVoucherEndpoint(userId, cartId) +
       '/' +
       encodeURIComponent(voucherId);
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
 
-    if (userId === OCC_USER_ID_ANONYMOUS) {
-      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    }
+    const headers = this.getHeaders(userId);
 
     return this.http
       .delete(url, { headers })
