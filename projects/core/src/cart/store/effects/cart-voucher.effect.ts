@@ -27,13 +27,7 @@ export class CartVoucherEffects {
         .add(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
           map(() => {
-            this.messageService.add(
-              {
-                key: 'voucher.applyVoucherSuccess',
-                params: { voucherCode: payload.voucherId },
-              },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
+            this.showGlobalMessage('voucher.applyVoucherSuccess', payload.voucherId);
             return new CartActions.CartAddVoucherSuccess({
               userId: payload.userId,
               cartId: payload.cartId,
@@ -57,13 +51,7 @@ export class CartVoucherEffects {
         .remove(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
           map(() => {
-            this.messageService.add(
-              {
-                key: 'voucher.removeVoucherSuccess',
-                params: { voucherCode: payload.voucherId },
-              },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
+            this.showGlobalMessage('voucher.removeVoucherSuccess', payload.voucherId);
             return new CartActions.CartRemoveVoucherSuccess({
               userId: payload.userId,
               cartId: payload.cartId,
@@ -79,4 +67,11 @@ export class CartVoucherEffects {
         );
     })
   );
+
+  private showGlobalMessage(text: string, param:string) {
+    this.messageService.add(
+      { key: text, params: { voucherCode: param },},
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  }
 }

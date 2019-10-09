@@ -27,7 +27,7 @@ export const cart = {
   },
   voucher: {
     coupon: 'Coupon code',
-    coupons: 'Coupon codes',
+    coupon_plural: 'Coupon codes',
     apply: 'Apply',
     placeholder: 'Enter coupon code',
     applyVoucherSuccess: '{{voucherCode}} has been applied.',

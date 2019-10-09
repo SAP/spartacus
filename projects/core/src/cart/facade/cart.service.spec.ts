@@ -599,8 +599,8 @@ describe('CartService', () => {
     it('should return the success flag', () => {
       store.dispatch(
         new CartActions.CartAddVoucherSuccess({
-          userId: 'userId',
-          cartId: 'cartId',
+          userId: userId,
+          cartId: cart.code,
         })
       );
       service

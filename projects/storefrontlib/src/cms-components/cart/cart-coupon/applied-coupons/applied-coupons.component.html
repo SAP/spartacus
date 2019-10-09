@@ -3,16 +3,8 @@
     <div
       class="cx-applied-coupon-title"
       data-test="summary-title-coupon"
-      *ngIf="sortedVouchers.length === 1"
     >
-      {{ 'voucher.coupon' | cxTranslate }}
-    </div>
-    <div
-      class="cx-applied-coupon-title"
-      data-test="summary-title-coupon"
-      *ngIf="sortedVouchers.length > 1"
-    >
-      {{ 'voucher.coupons' | cxTranslate }}
+      {{ 'voucher.coupon' | cxTranslate: { count: sortedVouchers.length }  }}
     </div>
   </div>
   <div
