@@ -491,7 +491,7 @@ describe('ConsentManagementComponent', () => {
       const mockConsentTemplates = [mockConsentTemplate];
       const anonymousTemplates: ConsentTemplate[] = [{ id: 'MARKETING' }];
       const hideConsents: string[] = ['MARKETING'];
-      describe('when the showAnonymousConsents config is true', () => {
+      describe('when the showAnonymousConsents config is false', () => {
         it('should filter with the provided anonymousTemplates', () => {
           anonymousConsentsConfig.anonymousConsents.consentManagementPage = {
             showAnonymousConsents: false,
@@ -512,7 +512,7 @@ describe('ConsentManagementComponent', () => {
           );
         });
       });
-      describe('when the showAnonymousConsents config is false', () => {
+      describe('when the showAnonymousConsents config is true', () => {
         it('should check hideConsents config and filter with provided hideConsents', () => {
           anonymousConsentsConfig.anonymousConsents.consentManagementPage = {
             showAnonymousConsents: true,

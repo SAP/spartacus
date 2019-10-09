@@ -214,13 +214,7 @@ export class UserConsentService {
 
     const updatedTemplateList: ConsentTemplate[] = [];
     for (const template of templateList) {
-      let show = true;
-      for (const templateIdToHide of hideTemplateIds) {
-        if (template.id === templateIdToHide) {
-          show = false;
-          break;
-        }
-      }
+      const show = hideTemplateIds.includes(template.id);
       if (show) {
         updatedTemplateList.push(template);
       }
