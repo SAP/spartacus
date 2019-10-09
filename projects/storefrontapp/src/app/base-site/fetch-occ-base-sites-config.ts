@@ -18,13 +18,9 @@ export function fetchOccBaseSitesConfig(
   const config = rehydrateOccBaseSitesConfig();
   return config
     ? Promise.resolve(config)
-    : fetchOccBaseSites(fetchOptions).then(baseSites => {
-        // spike todo remove:
-        baseSites.baseSites.find(
-          s => s.uid === 'apparel-de'
-        ).stores = undefined;
-        return getConfigFromOccBaseSites(baseSites, currentUrl);
-      });
+    : fetchOccBaseSites(fetchOptions).then(baseSites =>
+        getConfigFromOccBaseSites(baseSites, currentUrl)
+      );
 }
 
 export function fetchOccBaseSitesConfigSSR(
