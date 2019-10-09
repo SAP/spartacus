@@ -68,7 +68,7 @@ fdescribe('UserToken effect', () => {
     });
   });
 
-  fdescribe('refreshUserToken$', () => {
+  describe('refreshUserToken$', () => {
     it('should refresh a user token', async () => {
       const action = new AuthActions.RefreshUserToken({
         refreshToken: '123',
