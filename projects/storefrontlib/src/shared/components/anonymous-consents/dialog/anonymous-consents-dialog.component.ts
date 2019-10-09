@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsent,
+  AnonymousConsentsConfig,
   AnonymousConsentsService,
   ConsentTemplate,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../modal/index';
 
@@ -16,15 +16,19 @@ import { ModalService } from '../../modal/index';
 export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
+  showLegalDescription: boolean;
   iconTypes = ICON_TYPE;
 
   templates$: Observable<ConsentTemplate[]>;
   consents$: Observable<AnonymousConsent[]>;
 
   constructor(
+    private config: AnonymousConsentsConfig,
     private modalService: ModalService,
     private anonymousConsentsService: AnonymousConsentsService
-  ) {}
+  ) {
+    this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
+  }
 
   ngOnInit(): void {
     this.templates$ = this.anonymousConsentsService.getAnonymousConsentTemplates();
@@ -37,32 +41,14 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
 
   rejectAll(): void {
     this.subscriptions.add(
-      this.templates$
-        .pipe(
-          tap(templates =>
-            templates.forEach(template =>
-              this.anonymousConsentsService.withdrawAnonymousConsent(
-                template.id
-              )
-            )
-          )
-        )
-        .subscribe()
+      this.anonymousConsentsService.withdrawAllAnonymousConsents().subscribe()
     );
     this.closeModal('rejectAll');
   }
 
   allowAll(): void {
     this.subscriptions.add(
-      this.templates$
-        .pipe(
-          tap(templates =>
-            templates.forEach(template =>
-              this.anonymousConsentsService.giveAnonymousConsent(template.id)
-            )
-          )
-        )
-        .subscribe()
+      this.anonymousConsentsService.giveAllAnonymousConsents().subscribe()
     );
     this.closeModal('allowAll');
   }

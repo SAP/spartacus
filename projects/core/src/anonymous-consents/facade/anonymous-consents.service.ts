@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { AnonymousConsent, ConsentTemplate } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
 import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
 import { AnonymousConsentsSelectors } from '../store/selectors/index';
+
+// TODO:#3899 - shorten method names and drop the anonoymous from all of them.
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
@@ -121,6 +124,17 @@ export class AnonymousConsentsService {
   }
 
   /**
+   * Sets all the anonymous consents' state to given.
+   */
+  giveAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+    return this.getAnonymousConsentTemplates().pipe(
+      tap(templates =>
+        templates.forEach(template => this.giveAnonymousConsent(template.id))
+      )
+    );
+  }
+
+  /**
    * Withdraw a consent for the given `templateCode`
    * @param templateCode for which to withdraw the consent
    */
@@ -128,5 +142,87 @@ export class AnonymousConsentsService {
     this.store.dispatch(
       new AnonymousConsentsActions.WithdrawAnonymousConsent(templateCode)
     );
+  }
+
+  /**
+   * Sets all the anonymous consents' state to withdrawn.
+   */
+  withdrawAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+    return this.getAnonymousConsentTemplates().pipe(
+      tap(templates =>
+        templates.forEach(template =>
+          this.withdrawAnonymousConsent(template.id)
+        )
+      )
+    );
+  }
+
+  /**
+   * Toggles the visibility of the anonymous consents banner.
+   * @param visible the banner is visible if `true`, otherwise it's hidden
+   */
+  toggleAnonymousConsentsBannerVisibility(visible: boolean): void {
+    this.store.dispatch(
+      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+        visible
+      )
+    );
+    if (!visible) {
+      this.toggleTemplatesUpdated(false);
+    }
+  }
+
+  /**
+   * Returns `true` if the banner is visible, `false` otherwise
+   */
+  isAnonymousConsentsBannerVisible(): Observable<boolean> {
+    return this.store.pipe(
+      select(AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility)
+    );
+  }
+
+  /**
+   * Returns `true` if the consent templates were updated on the back-end.
+   */
+  getTemplatesUpdated(): Observable<boolean> {
+    return this.store.pipe(
+      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+    );
+  }
+
+  /**
+   * Toggles the `updated` slice of the state
+   * @param updated
+   */
+  toggleTemplatesUpdated(updated: boolean): void {
+    this.store.dispatch(
+      new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+        updated
+      )
+    );
+  }
+
+  /**
+   * Returns `true` if there's a missmatch in template versions between the provided `currentTemplates` and `newTemplates`
+   * @param currentTemplates current templates to check
+   * @param newTemplates new templates to check
+   */
+  detectUpdatedTemplates(
+    currentTemplates: ConsentTemplate[],
+    newTemplates: ConsentTemplate[]
+  ): boolean {
+    if (newTemplates.length !== currentTemplates.length) {
+      return true;
+    }
+
+    for (let i = 0; i < newTemplates.length; i++) {
+      const newTemplate = newTemplates[i];
+      const currentTemplate = currentTemplates[i];
+      if (newTemplate.version !== currentTemplate.version) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

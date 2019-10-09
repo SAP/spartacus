@@ -5,6 +5,7 @@ import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { MockFeatureLevelDirective } from '../../shared/test/mock-feature-level-directive';
 import { StorefrontComponent } from './storefront.component';
+
 @Component({
   selector: 'cx-asm',
   template: '',
@@ -34,12 +35,6 @@ class DynamicSlotComponent {}
 })
 class MockFooterComponent {}
 
-@Component({
-  selector: 'cx-anonymous-consents',
-  template: '',
-})
-class MockAnonymousConsentsComponent {}
-
 class MockRoutingService {
   isNavigating(): Observable<boolean> {
     return of();
@@ -68,7 +63,6 @@ describe('StorefrontComponent', () => {
         MockFooterComponent,
         DynamicSlotComponent,
         MockPageLayoutComponent,
-        MockAnonymousConsentsComponent,
         MockAsmRootComponent,
         MockFeatureLevelDirective,
       ],

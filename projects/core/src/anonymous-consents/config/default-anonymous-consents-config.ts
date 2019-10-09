@@ -4,5 +4,6 @@ export const defaultAnonymousConsentsConfig: AnonymousConsentsConfig = {
   anonymousConsents: {
     footerLink: true,
     registerConsent: 'MARKETING_NEWSLETTER',
+    showLegalDescriptionInDialog: true,
   },
 };

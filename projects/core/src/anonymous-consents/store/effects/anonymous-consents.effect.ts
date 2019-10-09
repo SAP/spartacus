@@ -6,6 +6,7 @@ import {
   concatMap,
   filter,
   map,
+  mergeMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
@@ -16,16 +17,16 @@ import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
-import { AnonymousConsentsService } from '../../facade';
+import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
   @Effect()
-  handleLanguageChange$: Observable<
+  handleLogoutAndLanguageChange$: Observable<
     AnonymousConsentsActions.LoadAnonymousConsentTemplates
   > = this.actions$.pipe(
-    ofType(SiteContextActions.LANGUAGE_CHANGE),
+    ofType(SiteContextActions.LANGUAGE_CHANGE, AuthActions.LOGOUT),
     withLatestFrom(this.authService.isUserLoggedIn()),
     filter(([_, isUserLoggedIn]) => !isUserLoggedIn),
     map(_ => new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
@@ -40,12 +41,30 @@ export class AnonymousConsentsEffects {
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
-          map(
-            consentTemplates =>
-              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-                consentTemplates
-              )
+          withLatestFrom(
+            this.anonymousConsentService.getAnonymousConsentTemplates()
           ),
+          mergeMap(([newConsentTemplates, currentConsentTemplates]) => {
+            let updated = false;
+            if (
+              Boolean(currentConsentTemplates) &&
+              currentConsentTemplates.length !== 0
+            ) {
+              updated = this.anonymousConsentService.detectUpdatedTemplates(
+                currentConsentTemplates,
+                newConsentTemplates
+              );
+            }
+
+            return [
+              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
+                newConsentTemplates
+              ),
+              new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+                updated
+              ),
+            ];
+          }),
           catchError(error =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
@@ -75,19 +94,18 @@ export class AnonymousConsentsEffects {
     ),
     filter(([, registerAction]) => Boolean(registerAction)),
     concatMap(() =>
-      this.anonymousConsentsService
+      this.anonymousConsentService
         .getAnonymousConsentTemplate(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
         )
         .pipe(
           withLatestFrom(
-            this.anonymousConsentsService.getAnonymousConsent(
+            this.anonymousConsentService.getAnonymousConsent(
               this.anonymousConsentsConfig.anonymousConsents.registerConsent
             ),
             this.authService.getOccUserId()
           ),
           map(([template, consent, userId]) => {
-            console.log('in');
             if (
               consent.consentState ===
               ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
@@ -108,7 +126,7 @@ export class AnonymousConsentsEffects {
     private actions$: Actions,
     private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
     private authService: AuthService,
-    private anonymousConsentsService: AnonymousConsentsService,
-    private anonymousConsentsConfig: AnonymousConsentsConfig
+    private anonymousConsentsConfig: AnonymousConsentsConfig,
+    private anonymousConsentService: AnonymousConsentsService
   ) {}
 }
