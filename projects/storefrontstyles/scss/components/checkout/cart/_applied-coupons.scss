@@ -1,0 +1,53 @@
+@import '../../../theme';
+
+%cx-applied-coupons {
+  .cx-applied-coupon-title {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cx-coupon-list-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .cx-coupon-card-grid {
+    display: grid;
+  }
+
+  .coupon-summary {
+    @include type('7');
+    display: inline-flex;
+    align-items: flex-start;
+    padding: var(--cx-padding, 0.25rem 0.25rem);
+    word-break: break-all;
+    margin: var(--cx-margin, 0.25rem 0.25rem 0 0);
+  }
+
+  .cx-coupon-card {
+    background: var(--cx-color-background);
+    border-width: var(--cx-border-width, 1px);
+    border-style: var(--cx-border-style, solid);
+    border-color: var(--cx-color-light);
+    border-radius: var(--cx-buttons-border-radius);
+  }
+
+  .cx-coupon-apply {
+    padding: 1rem 1rem;
+    align-items: flex-start;
+    word-break: break-all;
+
+    cx-icon:before {
+      font-size: 16px;
+    }
+
+    span {
+      flex: 1 1 auto;
+      vertical-align: middle;
+    }
+
+    button {
+      margin: 0 0 0 10px;
+      flex: 0 0 1rem;
+    }
+  }
+}

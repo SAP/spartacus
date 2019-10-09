@@ -1,0 +1,11 @@
+@import '../../../theme';
+
+%cx-cart-coupon {
+  display: block;
+
+  .cx-cart-coupon-title {
+    @include type('5');
+    margin: 1.125rem 0 0.5rem;
+    font-weight: var(--cx-font-weight-bold);
+  }
+}

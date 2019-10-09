@@ -25,4 +25,13 @@ export const cart = {
     grossTax: 'The order total does not include tax of',
     total: 'Total:',
   },
+  voucher: {
+    coupon: 'Coupon code',
+    coupon_plural: 'Coupon codes',
+    apply: 'Apply',
+    placeholder: 'Enter coupon code',
+    applyVoucherSuccess: '{{voucherCode}} has been applied.',
+    removeVoucherSuccess: '{{voucherCode}} has been removed.',
+    anchorLabel: 'Enter or remove your coupon codes.',
+  },
 };

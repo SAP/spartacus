@@ -7,6 +7,8 @@ import { CartActions } from '../../cart/store/actions/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithCart } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
@@ -48,12 +50,17 @@ describe('CartService', () => {
     product: { code: productCode },
     quantity: 1,
   };
+  const voucherId = 'voucherTest1';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('cart', fromReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         CartService,
@@ -561,6 +568,89 @@ describe('CartService', () => {
         expect(result).toEqual(fullCart);
         done();
       });
+    });
+  });
+
+  describe('add Voucher', () => {
+    it('should dispatch addVoucher action', () => {
+      spyOn(store, 'dispatch').and.stub();
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+      service.addVoucher(voucherId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartAddVoucher({
+          userId: userId,
+          cartId: cart.code,
+          voucherId: voucherId,
+        })
+      );
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new CartActions.CartAddVoucherFail('error'));
+      service
+        .getAddVoucherResultError()
+        .subscribe(result => expect(result).toEqual(true))
+        .unsubscribe();
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(
+        new CartActions.CartAddVoucherSuccess({
+          userId: userId,
+          cartId: cart.code,
+        })
+      );
+      service
+        .getAddVoucherResultSuccess()
+        .subscribe(result => expect(result).toEqual(true))
+        .unsubscribe();
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(
+        new CartActions.CartAddVoucher({
+          userId: 'userId',
+          cartId: 'cartId',
+          voucherId: voucherId,
+        })
+      );
+      let result = false;
+      service
+        .getAddVoucherResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should dispatch a reset action', () => {
+      spyOn(store, 'dispatch').and.stub();
+      service.resetAddVoucherProcessingState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartResetAddVoucher()
+      );
+    });
+  });
+
+  describe('remove Voucher', () => {
+    it('should be able to removeVoucher', () => {
+      spyOn(store, 'dispatch').and.stub();
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+
+      service.removeVoucher(voucherId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartRemoveVoucher({
+          userId: userId,
+          cartId: cart.code,
+          voucherId: voucherId,
+        })
+      );
     });
   });
 });
