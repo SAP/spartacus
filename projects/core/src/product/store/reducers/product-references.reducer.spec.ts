@@ -33,7 +33,7 @@ describe('Product references reducer', () => {
       });
       const state = fromReducer.reducer(initialState, action);
       expect(state.productCode).toBe(productCode);
-      expect(state.list).toBe(list);
+      expect(state.list).toEqual(list);
     });
   });
 
