@@ -14,6 +14,7 @@ import {
 } from '../../model/product-interest.model';
 import { tap, map } from 'rxjs/operators';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -23,20 +24,18 @@ export class UserInterestsService {
 
   /**
    * Retrieves an product interest list
-   * @param userId a user ID
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
    */
   loadProductInterests(
-    userId: string,
     pageSize: number,
     currentPage?: number,
     sort?: string
   ): void {
     this.store.dispatch(
       new UserActions.LoadProductInterests({
-        userId: userId,
+        userId: OCC_USER_ID_CURRENT,
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
@@ -46,13 +45,9 @@ export class UserInterestsService {
 
   /**
    * Returns product interests list
-   * @param userId a user ID
    * @param pageSize page size
    */
-  getProdutInterests(
-    userId: string,
-    pageSize: number
-  ): Observable<ProductInterestList> {
+  getProdutInterests(pageSize: number): Observable<ProductInterestList> {
     return this.store.pipe(
       select(UsersSelectors.getInterestsState),
       tap(interestListState => {
@@ -60,8 +55,8 @@ export class UserInterestsService {
           interestListState.loading ||
           interestListState.success ||
           interestListState.error;
-        if (!attemptedLoad && !!userId) {
-          this.loadProductInterests(userId, pageSize);
+        if (!attemptedLoad) {
+          this.loadProductInterests(pageSize);
         }
       }),
       map(interestListState => interestListState.value)
@@ -77,13 +72,12 @@ export class UserInterestsService {
 
   /**
    * Removes a ProductInterestRelation
-   * @param userId a user ID
    * @param item product interest relation item
    */
-  removeProdutInterest(userId: string, item: ProductInterestRelation): void {
+  removeProdutInterest(item: ProductInterestRelation): void {
     this.store.dispatch(
       new UserActions.RemoveProductInterests({
-        userId: userId,
+        userId: OCC_USER_ID_CURRENT,
         item: item,
       })
     );
