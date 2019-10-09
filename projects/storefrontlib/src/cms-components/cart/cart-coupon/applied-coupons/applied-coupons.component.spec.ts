@@ -65,7 +65,7 @@ describe('AppliedCouponsComponent', () => {
     beforeEach(() => {
       component.isReadOnly = true;
     });
-    it('should not show coupon list when no coupons applied', () => {
+    fit('should not show coupon list when no coupons applied', () => {
       fixture.detectChanges();
       const elTitle = fixture.debugElement.queryAll(
         By.css('[data-test="summary-title-coupon"]')
@@ -74,7 +74,7 @@ describe('AppliedCouponsComponent', () => {
         By.css('[data-test="applied-coupon"]')
       );
 
-      expect(elTitle.length).toBe(1);
+      expect(elTitle.length).toBe(0);
       expect(elValue.length).toBe(0);
       expect(component.sortedVouchers.length === 0);
     });

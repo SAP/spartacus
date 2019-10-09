@@ -1,5 +1,5 @@
 <div *ngIf="isReadOnly; else editableCoupons">
-  <div>
+  <div *ngIf="sortedVouchers.length > 0">
     <div
       class="cx-applied-coupon-title"
       data-test="summary-title-coupon"
