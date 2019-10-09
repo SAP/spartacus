@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
@@ -32,19 +34,41 @@ export class UserConsentsEffect {
   );
 
   @Effect()
-  giveConsent$: Observable<UserActions.UserConsentsAction> = this.actions$.pipe(
-    ofType(UserActions.GIVE_USER_CONSENT),
-    map((action: UserActions.GiveUserConsent) => action.payload),
-    switchMap(({ userId, consentTemplateId, consentTemplateVersion }) =>
+  giveConsent$: Observable<
+    UserActions.UserConsentsAction | GlobalMessageActions.RemoveMessagesByType
+  > = this.actions$.pipe(
+    ofType<UserActions.GiveUserConsent | UserActions.TransferAnonymousConsent>(
+      UserActions.GIVE_USER_CONSENT,
+      UserActions.TRANSFER_ANONYMOUS_CONSENT
+    ),
+    switchMap(action =>
       this.userConsentConnector
-        .giveConsent(userId, consentTemplateId, consentTemplateVersion)
+        .giveConsent(
+          action.payload.userId,
+          action.payload.consentTemplateId,
+          action.payload.consentTemplateVersion
+        )
         .pipe(
           map(consent => new UserActions.GiveUserConsentSuccess(consent)),
-          catchError(error =>
-            of(
-              new UserActions.GiveUserConsentFail(makeErrorSerializable(error))
-            )
-          )
+          catchError(error => {
+            const errors: Array<
+              | UserActions.UserConsentsAction
+              | GlobalMessageActions.RemoveMessagesByType
+            > = [
+              new UserActions.GiveUserConsentFail(makeErrorSerializable(error)),
+            ];
+            if (
+              action.type === UserActions.TRANSFER_ANONYMOUS_CONSENT &&
+              error.status === 409
+            ) {
+              errors.push(
+                new GlobalMessageActions.RemoveMessagesByType(
+                  GlobalMessageType.MSG_TYPE_ERROR
+                )
+              );
+            }
+            return of(...errors);
+          })
         )
     )
   );
