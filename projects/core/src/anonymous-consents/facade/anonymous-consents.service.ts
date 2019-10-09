@@ -7,6 +7,8 @@ import { AnonymousConsentsActions } from '../store/actions/index';
 import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
 import { AnonymousConsentsSelectors } from '../store/selectors/index';
 
+// TODO:#3899 - shorten method names and drop the anonoymous from all of them.
+
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
   constructor(protected store: Store<StateWithAnonymousConsents>) {}
@@ -165,6 +167,9 @@ export class AnonymousConsentsService {
         visible
       )
     );
+    if (!visible) {
+      this.toggleTemplatesUpdated(false);
+    }
   }
 
   /**
@@ -174,5 +179,50 @@ export class AnonymousConsentsService {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility)
     );
+  }
+
+  /**
+   * Returns `true` if the consent templates were updated on the back-end.
+   */
+  getTemplatesUpdated(): Observable<boolean> {
+    return this.store.pipe(
+      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+    );
+  }
+
+  /**
+   * Toggles the `updated` slice of the state
+   * @param updated
+   */
+  toggleTemplatesUpdated(updated: boolean): void {
+    this.store.dispatch(
+      new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+        updated
+      )
+    );
+  }
+
+  /**
+   * Returns `true` if there's a missmatch in template versions between the provided `currentTemplates` and `newTemplates`
+   * @param currentTemplates current templates to check
+   * @param newTemplates new templates to check
+   */
+  detectUpdatedTemplates(
+    currentTemplates: ConsentTemplate[],
+    newTemplates: ConsentTemplate[]
+  ): boolean {
+    if (newTemplates.length !== currentTemplates.length) {
+      return true;
+    }
+
+    for (let i = 0; i < newTemplates.length; i++) {
+      const newTemplate = newTemplates[i];
+      const currentTemplate = currentTemplates[i];
+      if (newTemplate.version !== currentTemplate.version) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
