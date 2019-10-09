@@ -167,7 +167,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         })
     );
 
-    if (this.anonymousConsentsService) {
+    if (
+      Boolean(this.anonymousConsentsService) &&
+      Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+      Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
+    ) {
       this.anonymousConsent$ = combineLatest([
         this.anonymousConsentsService.getAnonymousConsent(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent

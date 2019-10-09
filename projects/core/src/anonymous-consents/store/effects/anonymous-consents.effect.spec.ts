@@ -179,6 +179,19 @@ describe('AnonymousConsentsEffects', () => {
   });
 
   describe('transferAnonymousConsentsToUser$', () => {
+    it('should not return GiveUserAnonymousConsent if RegisterUserSuccess was not dispatched', () => {
+      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
+        mockUserToken
+      );
+
+      actions$ = hot('-a', {
+        a: loadUserTokenSuccessAction,
+      });
+      const expected = cold('----');
+
+      expect(effect.transferAnonymousConsentsToUser$).toBeObservable(expected);
+    });
+
     it('should return GiveUserAnonymousConsent', () => {
       spyOn(anonymousConsentService, 'getAnonymousConsent').and.returnValue(
         of(mockAnonymousConsent)

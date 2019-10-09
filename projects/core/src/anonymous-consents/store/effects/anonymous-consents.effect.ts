@@ -82,7 +82,12 @@ export class AnonymousConsentsEffects {
     | Observable<never>
     | GlobalMessageActions.RemoveMessagesByType
   > = this.actions$.pipe(
-    ofType<AuthActions.LoadClientTokenSuccess>(
+    filter(
+      () =>
+        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+        Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
+    ),
+    ofType<AuthActions.LoadUserTokenSuccess>(
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
     withLatestFrom(

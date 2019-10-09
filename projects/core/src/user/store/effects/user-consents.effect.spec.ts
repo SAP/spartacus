@@ -123,7 +123,7 @@ describe('User Consents effect', () => {
       );
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: closeMessage, c: completion });
+      const expected = cold('-(bc)', { b: completion, c: closeMessage });
 
       expect(userConsentEffect.giveConsent$).toBeObservable(expected);
     });
