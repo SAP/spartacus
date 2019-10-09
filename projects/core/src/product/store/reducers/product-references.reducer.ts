@@ -18,14 +18,24 @@ export function reducer(
 
       return {
         ...state,
-        list: [...state.list, ...list].reduce((productReferences: ProductReference[], productReference: ProductReference) => {
-          if (!productReferences.some(obj =>
-            obj.referenceType === productReference.referenceType
-            && obj.target.code === productReference.target.code)) {
-            productReferences.push(productReference);
-          }
-          return productReferences;
-        }, []),
+        list: [...state.list, ...list].reduce(
+          (
+            productReferences: ProductReference[],
+            productReference: ProductReference
+          ) => {
+            if (
+              !productReferences.some(
+                obj =>
+                  obj.referenceType === productReference.referenceType &&
+                  obj.target.code === productReference.target.code
+              )
+            ) {
+              productReferences.push(productReference);
+            }
+            return productReferences;
+          },
+          []
+        ),
         productCode,
       };
     }

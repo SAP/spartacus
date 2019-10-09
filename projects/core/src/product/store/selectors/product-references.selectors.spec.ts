@@ -43,7 +43,10 @@ describe('Product References selectors', () => {
     store
       .pipe(
         select(
-          ProductSelectors.getSelectedProductReferencesFactory(productCode, referenceType)
+          ProductSelectors.getSelectedProductReferencesFactory(
+            productCode,
+            referenceType
+          )
         )
       )
       .subscribe(data => (result = data))

@@ -104,7 +104,7 @@ class MockProductReferenceService {
     return of([mockProductReferences[0], mockProductReferences[1]]);
   }
 
-  cleanReferences():void { }
+  cleanReferences(): void {}
 }
 
 describe('ProductReferencesComponent', () => {

@@ -43,6 +43,6 @@ describe('Product references reducer', () => {
       const action = new ProductActions.CleanProductReferences();
       const state = fromReducer.reducer(initialState, action);
       expect(state).toEqual(initialState);
-    })
+    });
   });
 });

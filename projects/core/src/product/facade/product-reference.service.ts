@@ -17,7 +17,12 @@ export class ProductReferenceService {
     pageSize?: number
   ): Observable<ProductReference[]> {
     return this.store.pipe(
-      select(ProductSelectors.getSelectedProductReferencesFactory(productCode, referenceType)),
+      select(
+        ProductSelectors.getSelectedProductReferencesFactory(
+          productCode,
+          referenceType
+        )
+      ),
       tap(references => {
         if (references === undefined && productCode !== undefined) {
           this.store.dispatch(
@@ -32,7 +37,7 @@ export class ProductReferenceService {
     );
   }
 
-  cleanReferences():void {
+  cleanReferences(): void {
     this.store.dispatch(new ProductActions.CleanProductReferences());
   }
 }

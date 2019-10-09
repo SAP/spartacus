@@ -23,7 +23,11 @@ export const getSelectedProductReferencesFactory = (
     getProductReferencesState,
     referenceTypeData => {
       if (referenceTypeData.productCode === productCode) {
-        return !!referenceTypeData.list ? referenceTypeData.list.filter(item => item.referenceType === referenceType) : [];
+        return !!referenceTypeData.list
+          ? referenceTypeData.list.filter(
+              item => item.referenceType === referenceType
+            )
+          : [];
       }
     }
   );
