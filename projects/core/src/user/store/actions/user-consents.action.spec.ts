@@ -116,5 +116,23 @@ describe('user consent actions', () => {
         });
       });
     });
+    describe('GiveUserAnonymousConsent', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId,
+          consentTemplateId: 'xxx',
+          consentTemplateVersion: 0,
+        };
+        const action = new UserActions.GiveUserAnonymousConsent(payload);
+        expect({ ...action }).toEqual({
+          type: UserActions.GIVE_USER_ANONYMOUS_CONSENT,
+          payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            PROCESS_FEATURE,
+            GIVE_CONSENT_PROCESS_ID
+          ),
+        });
+      });
+    });
   });
 });

@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {
-  GlobalMessageActions,
-  GlobalMessageType,
-} from 'projects/core/src/global-message';
-import { RemoveMessagesByType } from 'projects/core/src/global-message/store/actions/global-message.actions';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
@@ -38,7 +35,7 @@ export class UserConsentsEffect {
 
   @Effect()
   giveConsent$: Observable<
-    UserActions.UserConsentsAction | RemoveMessagesByType
+    UserActions.UserConsentsAction | GlobalMessageActions.RemoveMessagesByType
   > = this.actions$.pipe(
     ofType(
       UserActions.GIVE_USER_CONSENT,

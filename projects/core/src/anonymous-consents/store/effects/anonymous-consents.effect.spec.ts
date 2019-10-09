@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { UserActions } from 'projects/core/src/user';
 import { Observable, of } from 'rxjs';
 import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
@@ -12,6 +11,7 @@ import {
   ConsentTemplate,
 } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
+import { UserActions } from '../../../user/store/actions';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
 import { AnonymousConsentsService } from '../../facade';
@@ -70,7 +70,7 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   },
 };
 
-fdescribe('AnonymousConsentsEffects', () => {
+describe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
   let connector: MockAnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
@@ -161,13 +161,13 @@ fdescribe('AnonymousConsentsEffects', () => {
 
       const completion = new UserActions.GiveUserAnonymousConsent({
         userId: 'current',
-        consentTemplateId: '',
-        consentTemplateVersion: 0,
+        consentTemplateId: mockAnonymousConsent.templateCode,
+        consentTemplateVersion: mockAnonymousConsent.version,
       });
 
       actions$ = hot('-(ab)', {
-        a: loadUserTokenSuccessAction,
-        b: registerSuccessAction,
+        a: registerSuccessAction,
+        b: loadUserTokenSuccessAction,
       });
       const expected = cold('-c', { c: completion });
 
