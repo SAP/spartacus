@@ -9,7 +9,6 @@ import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
-import { forceFocusElement } from 'projects/storefrontlib/src/shared/utils/accessibility/force-focus';
 
 @Component({
   selector: 'cx-product-reviews',
@@ -47,13 +46,19 @@ export class ProductReviewsComponent {
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
-    forceFocusElement(this.titleInput);
+
+    setTimeout(() => {
+      this.titleInput.nativeElement.focus();
+    }, 0);
   }
 
   cancelWriteReview(): void {
     this.isWritingReview = false;
     this.resetReviewForm();
-    forceFocusElement(this.writeReviewButton);
+
+    setTimeout(() => {
+      this.writeReviewButton.nativeElement.focus();
+    }, 0);
   }
 
   setRating(rating): void {
@@ -73,7 +78,10 @@ export class ProductReviewsComponent {
 
     this.isWritingReview = false;
     this.resetReviewForm();
-    forceFocusElement(this.writeReviewButton);
+
+    setTimeout(() => {
+      this.writeReviewButton.nativeElement.focus();
+    }, 0);
   }
 
   private resetReviewForm(): void {
