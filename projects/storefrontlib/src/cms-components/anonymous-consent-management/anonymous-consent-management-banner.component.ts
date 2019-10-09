@@ -15,6 +15,7 @@ export class AnonymousConsentManagementBannerComponent
   private subscriptions = new Subscription();
 
   bannerVisible$: Observable<boolean>;
+  templatesUpdated$: Observable<boolean>;
 
   constructor(
     private modalService: ModalService,
@@ -22,6 +23,17 @@ export class AnonymousConsentManagementBannerComponent
   ) {}
 
   ngOnInit(): void {
+    this.templatesUpdated$ = this.anonymousConsentsService
+      .getTemplatesUpdated()
+      .pipe(
+        tap(updated => {
+          if (updated) {
+            this.anonymousConsentsService.toggleAnonymousConsentsBannerVisibility(
+              true
+            );
+          }
+        })
+      );
     this.bannerVisible$ = this.anonymousConsentsService.isAnonymousConsentsBannerVisible();
   }
 

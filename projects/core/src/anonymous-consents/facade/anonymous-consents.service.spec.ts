@@ -234,13 +234,25 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
-  it('toggleAnonymousConsentsBannerVisibility should dispatch ToggleAnonymousConsentsBannerVisibility action', () => {
-    service.toggleAnonymousConsentsBannerVisibility(false);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-        false
-      )
-    );
+  describe('toggleAnonymousConsentsBannerVisibility', () => {
+    it('should just dispatch ToggleAnonymousConsentsBannerVisibility action when toggling off', () => {
+      service.toggleAnonymousConsentsBannerVisibility(false);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+          false
+        )
+      );
+    });
+    it('should dispatch ToggleAnonymousConsentsBannerVisibility action and call toggleTemplatesUpdated(false) when toggling on', () => {
+      spyOn(service, 'toggleTemplatesUpdated').and.stub();
+      service.toggleAnonymousConsentsBannerVisibility(false);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+          false
+        )
+      );
+      expect(service.toggleTemplatesUpdated).toHaveBeenCalledWith(false);
+    });
   });
 
   it('isAnonymousConsentsBannerVisible should call getAnonymousConsentsBannerVisibility selector', () => {
@@ -256,5 +268,53 @@ describe('AnonymousConsentsService', () => {
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
+  });
+
+  it('getTemplatesUpdated should call getAnonymousConsentTemplatesUpdate selector', () => {
+    store.dispatch(
+      new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(false)
+    );
+
+    let result = true;
+    service
+      .getTemplatesUpdated()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
+  });
+
+  it('toggleTemplatesUpdated should dispatch AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated', () => {
+    service.toggleTemplatesUpdated(false);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(false)
+    );
+  });
+
+  describe('detectUpdatedTemplates', () => {
+    it('should return true when the lengths do not match', () => {
+      expect(service.detectUpdatedTemplates(mockConsentTemplates, [])).toEqual(
+        true
+      );
+    });
+    it('should return true when a version was updated', () => {
+      const updatedMockConsentTemplates: ConsentTemplate[] = [
+        { ...mockConsentTemplates[0], version: 1 },
+        mockConsentTemplates[1],
+      ];
+      expect(
+        service.detectUpdatedTemplates(
+          mockConsentTemplates,
+          updatedMockConsentTemplates
+        )
+      ).toEqual(true);
+    });
+    it('should return false when the versions did not not update', () => {
+      expect(
+        service.detectUpdatedTemplates(
+          mockConsentTemplates,
+          mockConsentTemplates
+        )
+      ).toEqual(false);
+    });
   });
 });
