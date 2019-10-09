@@ -56,7 +56,7 @@ describe('AnonymousConsentFormComponent', () => {
         component.consentGivenTranslation$
           .subscribe(result => (translationKeyValue = result))
           .unsubscribe();
-        expect(translationKeyValue).toEqual('anonymousConsents.on');
+        expect(translationKeyValue).toEqual('anonymousConsents.dialog.on');
       });
       it('should set fire false for the consentGiven$ and map its value to a translation key', () => {
         const mockAnonymousConsent: AnonymousConsent = {
@@ -73,7 +73,7 @@ describe('AnonymousConsentFormComponent', () => {
         component.consentGivenTranslation$
           .subscribe(result => (translationKeyValue = result))
           .unsubscribe();
-        expect(translationKeyValue).toEqual('anonymousConsents.off');
+        expect(translationKeyValue).toEqual('anonymousConsents.dialog.off');
       });
     });
 
