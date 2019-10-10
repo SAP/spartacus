@@ -46,21 +46,13 @@ class MockRoutingService {
 }
 
 class MockCheckoutConfigService {
-  // TODO: (issue:#3921) deprecated since 1.3 - Remove old routes
-  getNextCheckoutStepUrl(): string {
-    return '';
-  }
   getPreviousCheckoutStepUrl(): string {
     return '';
   }
 
-  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New routes
-  // getNextCheckoutStepUrl(): string {
-  //   return 'checkout/delivery-mode';
-  // }
-  // getPreviousCheckoutStepUrl(): string {
-  //   return 'cart';
-  // }
+  getNextCheckoutStepUrl(): string {
+    return 'checkout/delivery-mode';
+  }
 }
 
 const mockAddress1: Address = {
@@ -289,21 +281,18 @@ describe('ShippingAddressComponent', () => {
     expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
   });
 
-  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-  // it('should call goPrevious()', () => {
-  //   const mockPreviousStepUrl = 'cart';
-  //   component.goPrevious();
-  //   expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
-  // });
+  it('should call goPrevious()', () => {
+    const mockPreviousStepUrl = 'cart';
+    component.goPrevious();
+    expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
+  });
 
-  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-  // it('should call goNext()', () => {
-  //   const mockPreviousStepUrl = 'checkout/delivery-mode';
-  //   component.goNext();
-  //   expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
-  // });
+  it('should call goNext()', () => {
+    const mockNextStepUrl = 'checkout/delivery-mode';
+    component.goNext();
+    expect(mockRoutingService.go).toHaveBeenCalledWith(mockNextStepUrl);
+  });
 
-  // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
   it('should automatically select default shipping address when there is no current selection', () => {
     spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
       of(false)
@@ -324,49 +313,112 @@ describe('ShippingAddressComponent', () => {
     //mockAddresses array contains an address that is default so it will be selected
     component.cards$
       .subscribe(cards => {
-        expect(component.selectedAddress).toEqual(mockAddress2);
+        expect(component.selectedAddress).toEqual(mockAddress2); // TODO: (issue:#3921) deprecated since 1.3 - Remove dep. check
         expect(cards.length).toEqual(2);
         expect(cards[1].card.header).toBe('addressCard.selected');
       })
       .unsubscribe();
   });
 
-  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-  // it('should automatically select default shipping address when there is no current selection', () => {
-  //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
-  //     of(false)
-  //   );
-  //   spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
-  //     of(mockAddresses)
-  //   );
-  //   spyOn(component, 'selectAddress');
-
-  //   component.ngOnInit();
-  //   let address: Address[];
-  //   component.existingAddresses$
-  //     .subscribe(data => {
-  //       address = data;
-  //     })
-  //     .unsubscribe();
-  //   expect(address).toBe(mockAddresses);
-
-  //   //mockAddresses array contains an address that is default so it will be selected
-  //   component.cards$
-  //     .subscribe(cards => {
-  //       expect(component.selectedAddress).toEqual(mockAddress2);
-  //       expect(cards.length).toEqual(2);
-  //       expect(cards[1].card.header).toBe('addressCard.selected');
-  //     })
-  //     .unsubscribe();
-
-  //   expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
-  // });
-
   // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
   it('should NOT automatically select default shipping address when there is a current selection', () => {
     spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
       of(false)
     );
+    spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+      of(mockAddresses)
+    );
+    spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
+      of(mockAddress1)
+    );
+
+    component.ngOnInit();
+    let address: Address[];
+    component.existingAddresses$
+      .subscribe(data => {
+        address = data;
+      })
+      .unsubscribe();
+    expect(address).toBe(mockAddresses);
+    fixture.detectChanges();
+
+    component.selectedAddress$
+      .subscribe(selected => {
+        fixture.detectChanges();
+        expect(selected).toEqual(mockAddress1);
+      })
+      .unsubscribe();
+
+    //The logic in the card$ subscription should keep the current selection
+    component.cards$
+      .subscribe(cards => {
+        expect(cards.length).toEqual(2);
+        expect(cards[0].card.header).toBe('addressCard.selected');
+      })
+      .unsubscribe();
+  });
+
+  it('should automatically select default shipping address when there is no current selection', () => {
+    spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+      of(false)
+    );
+    spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+      of(mockAddresses)
+    );
+    spyOn(component, 'selectAddress');
+
+    component.ngOnInit();
+    let address: Address[];
+    component.existingAddresses$
+      .subscribe(data => {
+        address = data;
+      })
+      .unsubscribe();
+    expect(address).toBe(mockAddresses);
+
+    fixture.detectChanges();
+
+    //mockAddresses array contains an address that is default so it will be selected
+    component.cards$
+      .subscribe(cards => {
+        expect(cards.length).toEqual(2);
+        expect(cards[1].card.header).toBe('addressCard.selected');
+      })
+      .unsubscribe();
+
+    expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
+  });
+
+  // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
+  it('should set newly created address', () => {
+    component.ngOnInit();
+    component.addAddress({ address: mockAddress1, newAddress: true });
+    expect(
+      mockCheckoutDeliveryService.createAndSetAddress
+    ).toHaveBeenCalledWith(mockAddress1);
+  });
+
+  it('should set newly created address', () => {
+    component.ngOnInit();
+    component.addAddress(mockAddress1);
+    expect(
+      mockCheckoutDeliveryService.createAndSetAddress
+    ).toHaveBeenCalledWith(mockAddress1);
+  });
+
+  // TODO: (issue:#3921) deprecated since 1.3 -  Remove old test
+  it('should call addAddress() with address selected from existing addresses', () => {
+    component.ngOnInit();
+    component.addAddress({ address: mockAddress1, newAddress: false });
+    expect(
+      mockCheckoutDeliveryService.createAndSetAddress
+    ).not.toHaveBeenCalledWith(mockAddress1);
+    expect(mockCheckoutDeliveryService.setDeliveryAddress).toHaveBeenCalledWith(
+      mockAddress1
+    );
+  });
+
+  it('should call addAddress() with address selected from existing addresses', () => {
     spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
       of(mockAddresses)
     );
@@ -380,40 +432,10 @@ describe('ShippingAddressComponent', () => {
       .unsubscribe();
     expect(address).toBe(mockAddresses);
 
-    //The selected address is the non-default one
-    component.addressSelected(mockAddress1);
+    fixture.detectChanges();
 
-    //The logic in the card$ subscription should keep the current selection
-    component.cards$
-      .subscribe(cards => {
-        // expect(component.selectedAddress).toEqual(mockAddress1);
-        expect(cards.length).toEqual(2);
-        // NOTE: This scenario cannot occur anymore due to selected addresses being loaded from store async after addresses are loaded
-        // expect(cards[0].card.header).toBe('addressCard.selected');
-      })
-      .unsubscribe();
-  });
+    component.addAddress(mockAddress1);
 
-  // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
-  it('should set newly created address', () => {
-    component.addAddress({ address: mockAddress1, newAddress: true });
-    expect(
-      mockCheckoutDeliveryService.createAndSetAddress
-    ).toHaveBeenCalledWith(mockAddress1);
-  });
-
-  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-  // it('should set newly created address', () => {
-  //   component.ngOnInit();
-  //   component.addAddress(mockAddress1);
-  //   expect(
-  //     mockCheckoutDeliveryService.createAndSetAddress
-  //   ).toHaveBeenCalledWith(mockAddress1);
-  // });
-
-  // TODO: (issue:#3921) deprecated since 1.3 -  Remove old test
-  it('should call addAddress() with address selected from existing addresses', () => {
-    component.addAddress({ address: mockAddress1, newAddress: false });
     expect(
       mockCheckoutDeliveryService.createAndSetAddress
     ).not.toHaveBeenCalledWith(mockAddress1);
@@ -421,31 +443,6 @@ describe('ShippingAddressComponent', () => {
       mockAddress1
     );
   });
-
-  // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-  // it('should call addAddress() with address selected from existing addresses', () => {
-  //   spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
-  //     of(mockAddresses)
-  //   );
-
-  //   component.ngOnInit();
-  //   let address: Address[];
-  //   component.existingAddresses$
-  //     .subscribe(data => {
-  //       address = data;
-  //     })
-  //     .unsubscribe();
-  //   expect(address).toBe(mockAddresses);
-
-  //   component.addAddress(mockAddress1);
-
-  //   expect(
-  //     mockCheckoutDeliveryService.createAndSetAddress
-  //   ).not.toHaveBeenCalledWith(mockAddress1);
-  //   expect(mockCheckoutDeliveryService.setDeliveryAddress).toHaveBeenCalledWith(
-  //     mockAddress1
-  //   );
-  // });
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
@@ -468,26 +465,25 @@ describe('ShippingAddressComponent', () => {
       expect(getContinueBtn().nativeElement.disabled).toEqual(true);
     });
 
-    // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-    // it('should be disabled when no address is selected', () => {
-    //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
-    //     of(false)
-    //   );
-    //   spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
-    //     of(mockAddresses)
-    //   );
+    it('should be disabled when no address is selected', () => {
+      spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+        of(mockAddresses)
+      );
 
-    //   mockAddress2.defaultAddress = false;
-    //   component.ngOnInit();
+      mockAddress2.defaultAddress = false;
+      component.ngOnInit();
 
-    //   component.selectedAddress$
-    //     .subscribe(selectedAddress => {
-    //       fixture.detectChanges();
-    //       expect(selectedAddress).toBeNull();
-    //       expect(getContinueBtn().nativeElement.disabled).toEqual(true);
-    //     })
-    //     .unsubscribe();
-    // });
+      component.selectedAddress$
+        .subscribe(selectedAddress => {
+          fixture.detectChanges();
+          expect(selectedAddress).toBeNull();
+          expect(getContinueBtn().nativeElement.disabled).toEqual(true);
+        })
+        .unsubscribe();
+    });
 
     // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
     it('should be enabled when address is selected', () => {
@@ -497,6 +493,7 @@ describe('ShippingAddressComponent', () => {
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
         of(mockAddresses)
       );
+      component.ngOnInit();
       component.addressSelected(mockAddress1);
       component.selectedAddress$.subscribe(() => {
         fixture.detectChanges();
@@ -506,27 +503,37 @@ describe('ShippingAddressComponent', () => {
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
     });
 
-    // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-    // it('should be enabled when address is selected', () => {
-    //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
-    //     of(false)
-    //   );
-    //   spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
-    //     of(mockAddresses)
-    //   );
-    //   spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
-    //     of(mockAddress1)
-    //   );
+    it('should be enabled when address is selected', () => {
+      spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+        of(mockAddresses)
+      );
+      spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
+        of(mockAddress1)
+      );
 
-    //   component.ngOnInit();
+      component.ngOnInit();
+      let address: Address[];
+      component.existingAddresses$
+        .subscribe(data => {
+          address = data;
+        })
+        .unsubscribe();
+      expect(address).toBe(mockAddresses);
 
-    //   component.selectedAddress$.pipe(take(1)).subscribe(selectedAddress => {
-    //     fixture.detectChanges();
-    //     expect(selectedAddress).not.toBeNull();
-    //     expect(getContinueBtn().nativeElement.disabled).toEqual(false);
-    //     component.selectAddress(mockAddress1);
-    //   });
-    // });
+      fixture.detectChanges();
+
+      component.selectAddress(mockAddress1);
+      component.selectedAddress$
+        .subscribe(() => {
+          fixture.detectChanges();
+        })
+        .unsubscribe();
+
+      expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+    });
 
     // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
     it('should call "next" function after being clicked', () => {
@@ -537,6 +544,7 @@ describe('ShippingAddressComponent', () => {
         of(mockAddresses)
       );
 
+      component.ngOnInit();
       component.addressSelected(mockAddress1);
       component.selectedAddress$.subscribe(() => {
         fixture.detectChanges();
@@ -549,31 +557,40 @@ describe('ShippingAddressComponent', () => {
       expect(component.next).toHaveBeenCalled();
     });
 
-    // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-    // it('should call "next" function after being clicked', () => {
-    //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
-    //     of(false)
-    //   );
-    //   spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
-    //     of(mockAddresses)
-    //   );
-    //   spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
-    //     of(mockAddress1)
-    //   );
-    //   spyOn(component, 'goNext');
+    it('should call "next" function after being clicked', () => {
+      spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+        of(mockAddresses)
+      );
+      spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
+        of(mockAddress1)
+      );
+      spyOn(component, 'goNext');
 
-    //   component.ngOnInit();
-    //   component.selectAddress(mockAddress1);
+      component.ngOnInit();
+      let address: Address[];
+      component.existingAddresses$
+        .subscribe(data => {
+          address = data;
+        })
+        .unsubscribe();
+      expect(address).toBe(mockAddresses);
+      fixture.detectChanges();
 
-    //   component.selectedAddress$.pipe(take(1)).subscribe(selectedAddress => {
-    //     fixture.detectChanges();
-    //     expect(selectedAddress).not.toBeNull();
-    //     expect(getContinueBtn().nativeElement.disabled).toEqual(false);
-    //     getContinueBtn().nativeElement.click();
-    //     fixture.detectChanges();
-    //     expect(component.goNext).toHaveBeenCalled();
-    //   });
-    // });
+      component.selectAddress(mockAddress1);
+      component.selectedAddress$
+        .subscribe(() => {
+          fixture.detectChanges();
+        })
+        .unsubscribe();
+
+      expect(getContinueBtn().nativeElement.disabled).toEqual(false);
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.goNext).toHaveBeenCalled();
+    });
   });
 
   describe('UI back button', () => {
@@ -597,20 +614,19 @@ describe('ShippingAddressComponent', () => {
       expect(component.back).toHaveBeenCalled();
     });
 
-    // TODO: (issue:#3921) deprecated since 1.3 - Uncomment New Test
-    // it('should call "goPrevious" function after being clicked', () => {
-    //   spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
-    //     of(false)
-    //   );
-    //   spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
-    //     of(mockAddresses)
-    //   );
+    it('should call "goPrevious" function after being clicked', () => {
+      spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserAddressService, 'getAddresses').and.returnValue(
+        of(mockAddresses)
+      );
 
-    //   fixture.detectChanges();
-    //   spyOn(component, 'goPrevious');
-    //   getBackBtn().nativeElement.click();
-    //   expect(component.goPrevious).toHaveBeenCalled();
-    // });
+      fixture.detectChanges();
+      spyOn(component, 'goPrevious');
+      getBackBtn().nativeElement.click();
+      expect(component.goPrevious).toHaveBeenCalled();
+    });
   });
 
   describe('UI cards with addresses', () => {
