@@ -1,13 +1,14 @@
 import {
   Component,
+  Directive,
   Input,
-  Type,
   Pipe,
   PipeTransform,
-  Directive,
+  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
   Cart,
@@ -25,11 +26,10 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
+import { CheckoutStep, CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
-import { CheckoutStepType, CheckoutStep } from '../../model/index';
-import { CheckoutConfigService } from '../../services/index';
-import { RouterTestingModule } from '@angular/router/testing';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -80,7 +80,7 @@ class MockCartItemListComponent {
   @Input()
   items: Item[];
   @Input()
-  isReadOnly: boolean;
+  readonly: boolean;
   @Input()
   potentialProductPromotions: PromotionResult[];
 }
@@ -363,7 +363,7 @@ describe('ReviewSubmitComponent', () => {
         { entryNumber: 123 },
         { entryNumber: 456 },
       ]);
-      expect(getCartItemList().isReadOnly).toBe(true);
+      expect(getCartItemList().readonly).toBe(true);
     });
 
     it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {

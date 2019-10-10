@@ -66,20 +66,13 @@
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
-        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
-        <div
-          *ngIf="!isReadOnly && parent"
-          class="cx-value"
-          [formGroup]="parent"
-        >
+
+        <div class="cx-value">
           <cx-item-counter
-            [isValueChangeable]="item.updateable"
-            [step]="1"
-            [min]="1"
-            [max]="item.product.stock?.stockLevel || 1000"
-            (update)="updateItem($event)"
-            [cartIsLoading]="cartIsLoading"
-            formControlName="quantity"
+            [control]="quantityControl"
+            [readonly]="!item.updateable || readonly"
+            [max]="item.product.stock?.stockLevel"
+            [allowZero]="true"
           >
           </cx-item-counter>
         </div>
@@ -106,11 +99,10 @@
     <!-- Promotion -->
     <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly && item.updateable" class="cx-actions col-12">
+    <div *ngIf="!readonly && item.updateable" class="cx-actions col-12">
       <button
         class="link"
-        [class.disabled]="cartIsLoading"
-        [disabled]="cartIsLoading"
+        [disabled]="quantityControl.disabled"
         (click)="removeItem()"
       >
         {{ 'common.remove' | cxTranslate }}

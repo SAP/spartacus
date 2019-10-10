@@ -1,47 +1,26 @@
-<div class="cx-counter-wrapper">
-  <div
-    class="cx-counter btn-group"
-    role="group"
-    tabindex="0"
-    aria-label="Add more items"
-    [class.focused]="focus"
-    (keydown)="onKeyDown($event)"
-    (blur)="onBlur($event)"
-    (focus)="onFocus($event)"
-  >
-    <button
-      #decrementBtn
-      type="button"
-      class="cx-counter-action"
-      (click)="decrement()"
-      [disabled]="cartIsLoading || value <= min"
-      *ngIf="isValueChangeable"
-    >
-      -
-    </button>
+<button
+  type="button"
+  (click)="decrement()"
+  [disabled]="qty.disabled || qty?.value <= min"
+  tabindex="-1"
+>
+  -
+</button>
 
-    <input
-      #itemCounterInput
-      class="cx-counter-value"
-      type="text"
-      name="value"
-      cxOnlyNumber
-      [formControl]="inputValue"
-      [value]="value"
-      *ngIf="isValueChangeable"
-    />
-    <div class="cx-counter-value" *ngIf="!isValueChangeable">
-      {{ value }}
-    </div>
-    <button
-      #incrementBtn
-      type="button"
-      class="cx-counter-action"
-      (click)="increment()"
-      [disabled]="cartIsLoading || value >= max"
-      *ngIf="isValueChangeable"
-    >
-      +
-    </button>
-  </div>
-</div>
+<input
+  #qty
+  type="number"
+  [min]="min"
+  [max]="max"
+  [step]="step"
+  [formControl]="getControl() | async"
+/>
+
+<button
+  type="button"
+  (click)="increment()"
+  [disabled]="qty.disabled || qty?.value >= max"
+  tabindex="-1"
+>
+  +
+</button>

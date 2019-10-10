@@ -1,38 +1,60 @@
-@import '~bootstrap/scss/button-group';
-
 %cx-item-counter {
-  .cx-counter-wrapper {
-    display: inline-flex;
-    flex-direction: column;
-  }
-
-  .cx-counter {
-    border-radius: 4px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-  }
-
-  .cx-counter-value {
-    border: none;
+  input {
     text-align: center;
-    border-width: 0 1px 0 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    padding: 12px 9px 12px 9px;
-    max-height: 46px;
-    min-width: 48px;
-    max-width: 78px;
+
+    // avpid native increase/decrease buttons on the numeric field
+    &[type='number']::-webkit-inner-spin-button,
+    &[type='number']::-webkit-outer-spin-button {
+      appearance: none;
+    }
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+  &.readonly {
+    button {
+      display: none;
+    }
+
+    input {
+      border: none;
+      cursor: text;
+    }
   }
 
-  .cx-counter-action {
+  &:not(.readonly) {
+    display: inline-flex;
+    border: solid 1px var(--cx-color-light);
+    border-radius: 4px;
+    input {
+      border: solid 1px var(--cx-color-light);
+      border-width: 0 1px;
+
+      padding: 12px 9px;
+      max-height: 46px;
+      min-width: 48px;
+      max-width: 78px;
+
+      &:focus {
+        background: var(--cx-color-background);
+        outline: none;
+      }
+    }
+  }
+
+  button {
+    margin: 0;
+
     max-height: 48px;
     min-width: 40px;
+
     border: none;
+
     cursor: pointer;
+
     color: var(--cx-color-text);
     background-color: var(--cx-color-transparent);
-    margin: 0;
+
     @include type(3);
 
     &:hover {
@@ -47,8 +69,10 @@
 
     &:disabled {
       color: var(--cx-color-light);
-      opacity: 1;
-      cursor: not-allowed;
     }
+  }
+
+  :disabled {
+    cursor: not-allowed;
   }
 }

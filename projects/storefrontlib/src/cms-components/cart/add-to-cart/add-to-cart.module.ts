@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
@@ -16,8 +17,9 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CommonModule,
+    ReactiveFormsModule,
+    CartSharedModule,
     RouterModule,
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
