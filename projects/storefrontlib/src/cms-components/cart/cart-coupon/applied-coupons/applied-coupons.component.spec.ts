@@ -32,7 +32,7 @@ class MockedCartCouponComponent {
   isReadOnly = false;
 }
 
-fdescribe('AppliedCouponsComponent', () => {
+describe('AppliedCouponsComponent', () => {
   let component: MockedCartCouponComponent;
   let fixture: ComponentFixture<MockedCartCouponComponent>;
 
