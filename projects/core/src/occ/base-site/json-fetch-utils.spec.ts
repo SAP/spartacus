@@ -1,6 +1,6 @@
 import { JsonFetchUtils } from './json-fetch-utils';
 
-fdescribe(`JSON fetching utils`, () => {
+describe(`JSON fetching utils`, () => {
   describe(`using XMLHttpRequest`, () => {
     interface MockXhrOptions {
       success: boolean;
