@@ -70,9 +70,6 @@ describe('OccCartVoucherAdapter', () => {
         userId: userId,
         cartId: cartId,
       });
-      expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
-      );
       expect(mockReq.request.params.get('voucherId')).toEqual(voucherId);
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush(cartData);
