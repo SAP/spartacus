@@ -1,4 +1,4 @@
-// @import '../../theme';
+@import '../../theme';
 
 %cx-anonymous-consent-form {
   /* Checkboxes should work without toggle button styling
@@ -28,52 +28,23 @@ Reset visible focus color to single color*/
 
   //-----------------------------------------------------
 
-  //Accordion
   .cx-accordion {
-    margin: 5px auto;
-    line-height: 1.6;
-    list-style-type: none;
-    padding: 0;
-    //this below is custom not global
     @include media-breakpoint-down(xs) {
       margin: 0;
     }
-  }
-  .cx-accordion-item {
-    border: 1px solid var(--cx-color-light);
-    position: relative;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    //this below is custom not global
-    @include media-breakpoint-down(xs) {
-      margin: 0;
-      border-bottom: 0 none;
+    .cx-accordion-item {
+      @include media-breakpoint-down(xs) {
+        margin: 0;
+        border-bottom: 0 none;
+      }
+      .cx-accordion-tab {
+        .cx-accordion-title {
+          @include media-breakpoint-down(xs) {
+            width: 60%;
+          }
+        }
+      }
     }
-  }
-  .cx-accordion-title {
-    padding: 15px 15px 15px 50px;
-    display: block;
-    position: relative;
-    font-weight: 600;
-    //this below is custom not global
-    @include media-breakpoint-down(xs) {
-      width: 60%;
-    }
-  }
-  .cx-accordion-tab {
-    background-color: var(--cx-color-inverse);
-  }
-  .cx-accordion-tab:hover {
-    cursor: pointer;
-  }
-  .cx-accordion-content {
-    padding: 0 40px 10px 40px;
-  }
-  .cx-accordion-tabpanel {
-    transition: height 0.3s ease-out;
-    height: 0;
-    overflow: hidden;
-    background-color: var(--cx-color-inverse);
   }
 
   //-----------------------------------------------------
