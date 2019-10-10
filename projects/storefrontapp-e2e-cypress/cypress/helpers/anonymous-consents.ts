@@ -1,6 +1,8 @@
 import { CONSENT_MANAGEMENT, giveConsent } from '../helpers/consent-management';
 import { standardUser } from '../sample-data/shared-users';
 import { login } from './auth-forms';
+import { registerUser } from './checkout-flow';
+import { switchLanguage } from './language';
 import { signOutUser } from './login';
 import { PAGE_URL_LOGIN } from './update-password';
 import { generateMail, randomString } from './user';
@@ -35,16 +37,18 @@ export function closeDialog() {
 
 export function checkConsentsGiven() {
   cy.get('.cx-toggle-text').each($match => {
-    console.log($match);
-    console.log(cy.wrap($match));
     cy.wrap($match).should('contain.text', 'ON');
   });
 }
 
+export function giveSecondAnonymousConsent() {
+  cy.get('.cx-dialog-row:nth-child(2)')
+    .find('input')
+    .click();
+}
+
 export function checkConsentsWithdrawn() {
   cy.get('.cx-toggle-text').each($match => {
-    console.log($match);
-    console.log(cy.wrap($match));
     cy.wrap($match).should('contain.text', 'OFF');
   });
 }
@@ -140,10 +144,7 @@ export function moveAnonymousUserToLoggedInUser() {
     signOutUser();
 
     openDialogUsingFooterLink();
-    // give the second anonymous consent
-    cy.get('.cx-dialog-row:nth-child(2)')
-      .find('input')
-      .click();
+    giveSecondAnonymousConsent();
     closeDialog();
 
     cy.visit(PAGE_URL_LOGIN);
@@ -151,6 +152,67 @@ export function moveAnonymousUserToLoggedInUser() {
       standardUser.registrationData.email,
       standardUser.registrationData.password
     );
+    cy.visit(CONSENT_MANAGEMENT);
+    cy.get('input[type="checkbox"]')
+      .first()
+      .should('be.checked');
+  });
+}
+
+export function movingFromAnonymousToRegisteredUser() {
+  it('should transfer anonoymous consents when registered', () => {
+    openDialogUsingFooterLink();
+    giveSecondAnonymousConsent();
+    closeDialog();
+
+    const newUser = registerUser();
+    login(newUser.email, newUser.password);
+    cy.selectUserMenuOption({
+      option: 'Consent Management',
+    });
+    cy.get('input[type="checkbox"]:nth-child(2)')
+      .first()
+      .should('be.checked');
+  });
+}
+
+export function movingFromLoggedInUserToAnonymousUser() {
+  it('should restore anonoymous consents when logging out', () => {
+    const newUser = registerUser();
+    cy.visit(PAGE_URL_LOGIN);
+    login(newUser.email, newUser.password);
+    signOutUser();
+
+    openDialogUsingFooterLink();
+    giveSecondAnonymousConsent();
+    closeDialog();
+
+    cy.visit(PAGE_URL_LOGIN);
+    login(newUser.email, newUser.password);
+    signOutUser();
+
+    openDialogUsingFooterLink();
+    cy.get('.cx-toggle-text:nth-child(2)').should('contain.text', 'ON');
+  });
+}
+
+export function changeLanguageTest() {
+  it('should pull the new consent templates but preserve the consents state', () => {
+    openDialogUsingFooterLink();
+    cy.get('cx-anonymous-consents-dialog').within(() => {
+      cy.get('.cx-dialog-buttons > :nth-child(3)').click();
+    });
+
+    switchLanguage('de');
+    openDialogUsingFooterLink();
+    checkConsentsGiven();
+  });
+}
+
+export function giveRegistrationConsentTest() {
+  it('should give the registration consent', () => {
+    const newUser = registerUser(true);
+    login(newUser.email, newUser.password);
     cy.visit(CONSENT_MANAGEMENT);
     cy.get('input[type="checkbox"]')
       .first()
