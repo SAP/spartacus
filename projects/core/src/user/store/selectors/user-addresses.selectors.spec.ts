@@ -73,4 +73,19 @@ describe('User Addresses Selectors', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('getAddressesLoadedSuccess', () => {
+    it('should return loaded flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(UsersSelectors.getAddressesLoadedSuccess))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new UserActions.LoadUserAddressesSuccess([]));
+
+      expect(result).toEqual(true);
+    });
+  });
 });

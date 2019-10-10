@@ -27,7 +27,7 @@ export class ProductImagesComponent implements OnInit {
   );
 
   mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
-    map(([_, container]) => container)
+    map(([, container]) => container)
   );
 
   numberOfCarouselItems: number;

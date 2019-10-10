@@ -37,7 +37,7 @@ export class NavigationService {
       return of();
     }
     return data$.pipe(
-      filter(Boolean),
+      filter(data => !!data),
       switchMap(data => {
         const navigation = data.navigationNode ? data.navigationNode : data;
         return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(

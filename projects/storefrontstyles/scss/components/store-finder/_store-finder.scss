@@ -1,6 +1,15 @@
 %cx-store-finder {
   .cx-store-finder-wrapper {
     text-align: center;
-    padding: 3% 0 0;
+    padding: 3rem 0;
+  }
+
+  .cx-pagination {
+    .pagination {
+      a.page-link:hover {
+        color: #fff;
+        font-weight: normal;
+      }
+    }
   }
 }

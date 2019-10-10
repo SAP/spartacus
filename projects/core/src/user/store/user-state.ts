@@ -1,6 +1,7 @@
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
+import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { LoaderState } from '../../state';
@@ -36,6 +37,7 @@ export interface UserState {
   titles: TitlesState;
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
+  consignmentTracking: ConsignmentTrackingState;
 }
 
 export interface OrderDetailsState {
@@ -73,4 +75,8 @@ export interface TitlesState {
 
 export interface UserDetailsState {
   details: User;
+}
+
+export interface ConsignmentTrackingState {
+  tracking?: ConsignmentTracking;
 }

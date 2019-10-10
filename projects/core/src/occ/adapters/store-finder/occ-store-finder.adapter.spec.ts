@@ -31,6 +31,8 @@ const storeCountResponseBody: Occ.StoreCountList = {
   ],
 };
 
+const mockRadius = '10000000';
+
 const storeId = 'test';
 
 class MockOccEndpointsService {
@@ -115,6 +117,7 @@ describe('OccStoreFinderAdapter', () => {
           {
             longitude: longitudeLatitude.longitude.toString(),
             latitude: longitudeLatitude.latitude.toString(),
+            radius: mockRadius,
             pageSize: mockSearchConfig.pageSize.toString(),
           }
         );

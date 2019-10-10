@@ -1,12 +1,15 @@
 <ng-content></ng-content>
 <div class="container cx-store-hours" *ngIf="location.openingHours">
   <div *ngFor="let day of displayDays" class="row">
-    <div class="cx-days col-6">{{ day | cxDate: 'EEE' }}</div>
-    <div *ngIf="getStoreOpeningTime(day) !== null" class="cx-hours col-6">
-      {{ getStoreOpeningTime(day) | cxDate: 'HH:mm' }} -
-      {{ getStoreClosingTime(day) | cxDate: 'HH:mm' }}
+    <div class="cx-days col-4">{{ day | cxDate: 'EEE' }}</div>
+    <div *ngIf="getStoreOpeningTime(day) !== 'closed'" class="cx-hours col-8">
+      {{ getStoreOpeningTime(day) }} -
+      {{ getStoreClosingTime(day) }}
     </div>
-    <div *ngIf="getStoreOpeningTime(day) === null" class="cx-hours col-6">
+    <div
+      *ngIf="getStoreOpeningTime(day) === 'closed'"
+      class="cx-hours col-8 closed"
+    >
       {{ 'storeFinder.closed' | cxTranslate }}
     </div>
   </div>

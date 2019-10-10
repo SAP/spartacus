@@ -1,18 +1,36 @@
 %cx-store-finder-search {
   display: block;
-  margin: 0 0 3rem;
+  margin: 0 0 1rem;
 
-  .cx-find-store {
-    margin: 0 0 1rem;
+  .cx-search-links {
+    button {
+      @include media-breakpoint-down(sm) {
+        padding: 6px;
+        height: initial;
+        max-height: initial;
+        min-height: 48px;
+      }
+    }
   }
 
-  .cx-bottom-links {
-    text-align: center;
+  .search-wrapper {
+    position: relative;
+
+    input {
+      padding-right: 46px;
+    }
+
+    cx-icon {
+      position: absolute;
+      top: 17px;
+      right: 17px;
+      cursor: pointer;
+      outline: none;
+    }
   }
 
-  .cx-link {
-    @include type('6');
-    border: 0;
-    padding: 0;
+  .disabled-action {
+    pointer-events: none;
+    opacity: 0.5;
   }
 }

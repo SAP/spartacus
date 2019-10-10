@@ -2,7 +2,7 @@
   [cxOutlet]="position$ | async"
   [cxOutletContext]="{ components$: components$ }"
 >
-  <ng-container *ngFor="let component of (components$ | async)">
+  <ng-container *ngFor="let component of components$ | async">
     <ng-template
       [cxOutlet]="component.flexType"
       [cxOutletContext]="{ component: component }"

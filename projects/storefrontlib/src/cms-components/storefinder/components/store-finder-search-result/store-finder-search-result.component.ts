@@ -7,7 +7,6 @@ import {
   StoreFinderService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-store-finder-search-result',
@@ -20,6 +19,8 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   isLoading$: Observable<any>;
   geolocation: GeoPoint;
   subscription: Subscription;
+  useMyLocation: boolean;
+  countryCode: string = null;
   searchConfig: SearchConfig = {
     currentPage: 0,
   };
@@ -45,27 +46,27 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
     this.searchConfig = { ...this.searchConfig, currentPage: pageNumber };
     this.storeFinderService.findStoresAction(
       this.searchQuery.queryText,
+      this.searchConfig,
       this.geolocation,
-      this.searchConfig
+      this.countryCode,
+      this.useMyLocation
     );
   }
 
   private initialize(params: Params) {
     this.searchQuery = this.parseParameters(params);
+    this.useMyLocation = params && params.useMyLocation ? true : false;
+    this.searchConfig = { ...this.searchConfig, currentPage: 0 };
     this.storeFinderService.findStoresAction(
       this.searchQuery.queryText,
+      this.searchConfig,
       this.geolocation,
-      this.searchConfig
+      this.countryCode,
+      this.useMyLocation
     );
 
     this.isLoading$ = this.storeFinderService.getStoresLoading();
-    this.locations$ = this.storeFinderService.getFindStoresEntities().pipe(
-      tap(data => {
-        if (data) {
-          this.geolocation = data.longitudeLatitude;
-        }
-      })
-    );
+    this.locations$ = this.storeFinderService.getFindStoresEntities();
   }
 
   private parseParameters(queryParams: {
