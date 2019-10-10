@@ -25,11 +25,7 @@
   ></cx-icon>
 </label>
 
-<div
-  *ngIf="(results$ | async) as result"
-  class="results"
-  (click)="close($event)"
->
+<div *ngIf="results$ | async as result" class="results" (click)="close($event)">
   <div
     *ngIf="result.message"
     class="message"

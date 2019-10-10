@@ -1,5 +1,5 @@
 <ng-container>
-  <div *ngIf="(loading$ | async); else consentManagementForm">
+  <div *ngIf="loading$ | async; else consentManagementForm">
     <div class="cx-spinner">
       <cx-spinner></cx-spinner>
     </div>
@@ -9,7 +9,7 @@
     <div class="row d-flex justify-content-center">
       <div class="col-md-8">
         <cx-consent-management-form
-          *ngFor="let consentTemplate of (templateList$ | async)"
+          *ngFor="let consentTemplate of templateList$ | async"
           [consentTemplate]="consentTemplate"
           (consentChanged)="onConsentChange($event)"
         ></cx-consent-management-form>

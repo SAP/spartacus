@@ -129,65 +129,25 @@ describe('StoreDataService', () => {
 
   it('should return store opening time', () => {
     const monday = new Date(2018, 8, 17);
-    const tuesday = new Date(2018, 8, 18);
-    const wednesday = new Date(2018, 8, 19);
-    const thursday = new Date(2018, 8, 20);
-    const friday = new Date(2018, 8, 21);
-    const saturday = new Date(2018, 8, 22);
 
-    expect(service.getStoreOpeningTime(location, monday).getHours()).toBe(1);
-    expect(service.getStoreOpeningTime(location, monday).getMinutes()).toBe(2);
-
-    expect(service.getStoreOpeningTime(location, tuesday).getHours()).toBe(3);
-    expect(service.getStoreOpeningTime(location, tuesday).getMinutes()).toBe(4);
-
-    expect(service.getStoreOpeningTime(location, wednesday).getHours()).toBe(5);
-    expect(service.getStoreOpeningTime(location, wednesday).getMinutes()).toBe(
-      6
-    );
-
-    expect(service.getStoreOpeningTime(location, thursday).getHours()).toBe(7);
-    expect(service.getStoreOpeningTime(location, thursday).getMinutes()).toBe(
-      8
-    );
-
-    expect(service.getStoreOpeningTime(location, friday).getHours()).toBe(9);
-    expect(service.getStoreOpeningTime(location, friday).getMinutes()).toBe(10);
-
-    expect(service.getStoreOpeningTime(location, saturday).getHours()).toBe(11);
-    expect(service.getStoreOpeningTime(location, saturday).getMinutes()).toBe(
-      12
-    );
+    expect(service.getStoreOpeningTime(location, monday)).toBe('01:02');
   });
 
   it('should return store closing time', () => {
     const monday = new Date(2018, 8, 17);
 
-    expect(service.getStoreClosingTime(location, monday).getHours()).toBe(20);
-    expect(service.getStoreClosingTime(location, monday).getMinutes()).toBe(0);
+    expect(service.getStoreClosingTime(location, monday)).toBe('20:00');
   });
 
   it('should not return opening time when store is closed', () => {
     const sunday = new Date(2018, 8, 23);
 
-    expect(service.getStoreOpeningTime(location, sunday)).toBe(null);
+    expect(service.getStoreOpeningTime(location, sunday)).toBe('closed');
   });
 
   it('should not return closing time when store is closed', () => {
     const sunday = new Date(2018, 8, 23);
 
-    expect(service.getStoreClosingTime(location, sunday)).toBe(null);
-  });
-
-  it('should indiacte store as open', () => {
-    const saturday = new Date(2018, 8, 22, 14, 0);
-
-    expect(service.isStoreOpen(location, saturday)).toBe(true);
-  });
-
-  it('should indiacte store as closed on a closed day', () => {
-    const sunday = new Date(2018, 8, 23, 10, 0);
-
-    expect(service.isStoreOpen(location, sunday)).toBe(false);
+    expect(service.getStoreClosingTime(location, sunday)).toBe('closed');
   });
 });

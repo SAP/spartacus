@@ -318,9 +318,7 @@ describe('ReviewSubmitComponent', () => {
       expect(card.textBold).toEqual(mockPaymentDetails.accountHolderName);
       expect(card.text).toEqual([
         mockPaymentDetails.cardNumber,
-        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${
-          mockPaymentDetails.expiryYear
-        }`,
+        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
       ]);
     });
   });

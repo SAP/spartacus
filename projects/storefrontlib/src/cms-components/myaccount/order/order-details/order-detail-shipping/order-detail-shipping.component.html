@@ -1,4 +1,4 @@
-<ng-container *ngIf="(order$ | async) as order">
+<ng-container *ngIf="order$ | async as order">
   <div class="cx-account-summary row">
     <div
       *ngIf="order.deliveryAddress"

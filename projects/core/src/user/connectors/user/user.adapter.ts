@@ -8,6 +8,8 @@ export abstract class UserAdapter {
 
   abstract register(user: UserSignUp): Observable<User>;
 
+  abstract registerGuest(guid: string, password: string): Observable<User>;
+
   abstract requestForgotPasswordEmail(userEmailAddress: string): Observable<{}>;
 
   abstract resetPassword(token: string, newPassword: string): Observable<{}>;

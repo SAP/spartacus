@@ -12,6 +12,11 @@ import { UserAddressAdapter } from '../../../user/connectors/address/user-addres
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../utils/interceptor-util';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
 @Injectable()
 export class OccUserAddressAdapter implements UserAddressAdapter {
@@ -63,9 +68,12 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
   verify(userId: string, address: Address): Observable<AddressValidation> {
     const url = this.occEndpoints.getUrl('addressVerification', { userId });
-    const headers = new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+    if (userId === OCC_USER_ID_ANONYMOUS) {
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    }
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
     return this.http.post<AddressValidation>(url, address, { headers }).pipe(

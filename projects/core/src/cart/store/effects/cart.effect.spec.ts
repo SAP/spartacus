@@ -14,7 +14,6 @@ import * as fromUserReducers from '../../../user/store/reducers/index';
 import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
-import { CartService } from '../../facade/cart.service';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { CART_FEATURE } from '../cart-state';
@@ -58,6 +57,8 @@ describe('Cart effect', () => {
     class MockCartConnector {
       create = createSpy().and.returnValue(of(testCart));
       load = loadMock;
+      addEmail = createSpy().and.returnValue(of({}));
+      delete = createSpy().and.returnValue(of({}));
     }
 
     TestBed.configureTestingModule({
@@ -76,7 +77,6 @@ describe('Cart effect', () => {
         },
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        CartService,
         CartDataService,
         provideMockActions(() => actions$),
       ],
@@ -85,18 +85,6 @@ describe('Cart effect', () => {
     cartEffects = TestBed.get(fromEffects.CartEffects as Type<
       fromEffects.CartEffects
     >);
-  });
-
-  describe('createCart$', () => {
-    it('should create a cart', () => {
-      const action = new CartActions.CreateCart(userId);
-      const completion = new CartActions.CreateCartSuccess(testCart);
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(cartEffects.createCart$).toBeObservable(expected);
-    });
   });
 
   describe('loadCart$', () => {
@@ -132,6 +120,39 @@ describe('Cart effect', () => {
     });
   });
 
+  describe('createCart$', () => {
+    it('should create a cart', () => {
+      const action = new CartActions.CreateCart({ userId });
+      const completion = new CartActions.CreateCartSuccess(testCart);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.createCart$).toBeObservable(expected);
+    });
+
+    it('should create and merge cart when oldCartId is provided', () => {
+      const action = new CartActions.CreateCart({
+        userId,
+        oldCartId: 'testOldCartId',
+      });
+
+      const createCartCompletion = new CartActions.CreateCartSuccess(testCart);
+      const mergeCartCompletion = new CartActions.MergeCartSuccess({
+        userId,
+        cartId: testCart.code,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: createCartCompletion,
+        c: mergeCartCompletion,
+      });
+
+      expect(cartEffects.createCart$).toBeObservable(expected);
+    });
+  });
+
   describe('mergeCart$', () => {
     it('should merge old cart into the session cart', () => {
       const action = new CartActions.MergeCart({
@@ -151,17 +172,79 @@ describe('Cart effect', () => {
     });
   });
 
+  describe('refresh$', () => {
+    const cartChangesSuccessActions = [
+      'MergeCartSuccess',
+      'CartAddEntrySuccess',
+      'CartUpdateEntrySuccess',
+      'CartRemoveEntrySuccess',
+    ];
+
+    cartChangesSuccessActions.forEach(actionName => {
+      it(`should refresh cart on ${actionName}`, () => {
+        const action = new CartActions[actionName]({
+          userId: userId,
+          cartId: cartId,
+        });
+        const completion = new CartActions.LoadCart({
+          userId: userId,
+          cartId: cartId,
+        });
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+
+        expect(cartEffects.refresh$).toBeObservable(expected);
+      });
+    });
+  });
+
   describe('resetCartDetailsOnSiteContextChange$', () => {
-    it('should reset cart details', () => {
-      const action = new SiteContextActions.LanguageChange();
-      const completion = new CartActions.ResetCartDetails();
+    const siteContextChangeActions = ['LanguageChange', 'CurrencyChange'];
+
+    siteContextChangeActions.forEach(actionName => {
+      it(`should reset cart details on ${actionName}`, () => {
+        const action = new SiteContextActions[actionName]();
+        const completion = new CartActions.ResetCartDetails();
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+
+        expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
+          expected
+        );
+      });
+    });
+  });
+
+  describe('addEmail$', () => {
+    it('should add email to cart', () => {
+      const action = new CartActions.AddEmailToCart({
+        userId: userId,
+        cartId: cartId,
+        email: 'test@test.com',
+      });
+      const completion = new CartActions.AddEmailToCartSuccess({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
-        expected
-      );
+      expect(cartEffects.addEmail$).toBeObservable(expected);
+    });
+  });
+
+  describe('deleteCart$', () => {
+    it('should delete cart', () => {
+      const action = new CartActions.DeleteCart({ userId, cartId });
+      const completion = new CartActions.ClearCart();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.deleteCart$).toBeObservable(expected);
     });
   });
 });

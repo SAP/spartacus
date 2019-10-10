@@ -4,4 +4,5 @@ export interface Schema {
   baseSite?: string;
   useMetaTags?: boolean;
   featureLevel?: string;
+  overwriteAppComponent?: boolean;
 }

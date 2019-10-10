@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import {
+  AuthRedirectService,
+  AuthService,
+  FeatureConfigService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -13,13 +11,11 @@ import {
   Title,
   UserService,
   UserSignUp,
-  FeatureConfigService,
-  AuthService,
-  AuthRedirectService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter, tap, map } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { sortTitles } from '../../../shared/utils/forms/title-utils';
 
 @Component({
   selector: 'cx-register',
@@ -44,7 +40,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       newsletter: [false],
       termsandconditions: [false, Validators.requiredTrue],
     },
-    { validator: this.matchPassword }
+    { validator: CustomFormValidators.matchPassword }
   );
 
   /**
@@ -72,6 +68,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
+      }),
+      map(titles => {
+        const sortedTitles = titles.sort(sortTitles);
+        return sortedTitles;
       })
     );
 
@@ -169,12 +169,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.onRegisterUserSuccess(success);
       })
     );
-  }
-
-  private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
-    if (ac.get('password').value !== ac.get('passwordconf').value) {
-      return { NotEqual: true };
-    }
   }
 
   ngOnDestroy() {

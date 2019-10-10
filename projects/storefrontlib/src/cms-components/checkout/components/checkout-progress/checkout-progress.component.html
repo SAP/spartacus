@@ -1,4 +1,4 @@
-<section *ngIf="(routerState$ | async) as routerState">
+<section *ngIf="routerState$ | async as routerState">
   <div class="cx-nav d-none d-lg-block d-xl-block">
     <ul class="cx-list">
       <li class="cx-item" *ngFor="let step of steps; let i = index">

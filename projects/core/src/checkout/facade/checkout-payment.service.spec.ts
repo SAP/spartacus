@@ -25,6 +25,9 @@ describe('CheckoutPaymentService', () => {
     get cartId() {
       return this.cart.code;
     }
+    get isGuestCart() {
+      return true;
+    }
   }
 
   beforeEach(() => {
@@ -120,5 +123,10 @@ describe('CheckoutPaymentService', () => {
         paymentDetails,
       })
     );
+  });
+
+  it('should allow actions for login user or guest user', () => {
+    cartData.userId = 'anonymous';
+    expect(service['actionAllowed']()).toBeTruthy();
   });
 });

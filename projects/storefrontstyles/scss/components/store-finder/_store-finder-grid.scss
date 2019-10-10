@@ -5,6 +5,10 @@
     border-color: var(--cx-color-light);
     display: inline-block;
     padding: 10px 0 0 0;
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 15px;
+    }
   }
 
   .cx-spinner {

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserOrderAdapter } from './user-order.adapter';
+import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../../model/order.model';
+import { UserOrderAdapter } from './user-order.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -20,5 +21,12 @@ export class UserOrderConnector {
     sort?: string
   ): Observable<OrderHistoryList> {
     return this.adapter.loadHistory(userId, pageSize, currentPage, sort);
+  }
+
+  public getConsignmentTracking(
+    orderCode: string,
+    consignmentCode: string
+  ): Observable<ConsignmentTracking> {
+    return this.adapter.getConsignmentTracking(orderCode, consignmentCode);
   }
 }
