@@ -3,6 +3,7 @@ import {
   Component,
   ViewChild,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product, ProductReviewService, Review } from '@spartacus/core';
@@ -41,24 +42,21 @@ export class ProductReviewsComponent {
   constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    protected cd?: ChangeDetectorRef
   ) {}
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
-
-    setTimeout(() => {
-      this.titleInput.nativeElement.focus();
-    }, 0);
+    this.cd.detectChanges();
+    this.titleInput.nativeElement.focus();
   }
 
   cancelWriteReview(): void {
     this.isWritingReview = false;
     this.resetReviewForm();
-
-    setTimeout(() => {
-      this.writeReviewButton.nativeElement.focus();
-    }, 0);
+    this.cd.detectChanges();
+    this.writeReviewButton.nativeElement.focus();
   }
 
   setRating(rating): void {
@@ -78,10 +76,8 @@ export class ProductReviewsComponent {
 
     this.isWritingReview = false;
     this.resetReviewForm();
-
-    setTimeout(() => {
-      this.writeReviewButton.nativeElement.focus();
-    }, 0);
+    this.cd.detectChanges();
+    this.writeReviewButton.nativeElement.focus();
   }
 
   private resetReviewForm(): void {
