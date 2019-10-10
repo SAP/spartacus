@@ -67,6 +67,9 @@ if (!environment.production) {
       features: {
         level: '1.2',
       },
+      qualtrics: {
+        projectId: 'ZN_6Y9SmdaSBA8Uogl',
+      },
     }),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing

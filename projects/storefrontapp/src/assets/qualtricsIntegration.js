@@ -71,6 +71,6 @@
       'r',
       'QSI_S_ZN_6Y9SmdaSBA8Uogl',
       'https://zn6y9smdasba8uogl-sapdevelopment.siteintercept.qualtrics.com/WRSiteInterceptEngine/?Q_ZID=ZN_6Y9SmdaSBA8Uogl'
-    ).start();
+    ).go();
   } catch (i) {}
 })();
