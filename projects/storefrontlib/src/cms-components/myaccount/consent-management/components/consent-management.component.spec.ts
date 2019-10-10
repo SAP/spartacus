@@ -38,6 +38,8 @@ class MockCxSpinnerComponent {}
 class MockConsentManagementFormComponent {
   @Input()
   consentTemplate: ConsentTemplate;
+  @Input()
+  requiredConsents: string[] = [];
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;

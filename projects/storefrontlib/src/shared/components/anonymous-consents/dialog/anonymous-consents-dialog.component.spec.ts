@@ -29,6 +29,9 @@ export class MockAnonymousConsentFormComponent {
 
   @Input()
   consent: AnonymousConsent;
+
+  @Input()
+  requiredConsents: string[] = [];
 }
 
 class MockAnonymousConsentsService {

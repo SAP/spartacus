@@ -47,12 +47,12 @@ class MockAnonymousConsentsService {
   getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
     return of();
   }
-
   getAnonymousConsentTemplate(
     _templateCode: string
   ): Observable<ConsentTemplate> {
     return of();
   }
+  giveAnonymousConsent(_templateCode: string): void {}
 }
 
 const mockTemplateList: ConsentTemplate[] = [
@@ -76,6 +76,7 @@ const mockUserToken = {
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   anonymousConsents: {
     registerConsent: 'MARKETING',
+    requiredConsents: [mockTemplateList[0].id],
   },
 };
 
@@ -175,6 +176,19 @@ describe('AnonymousConsentsEffects', () => {
       expect(
         anonymousConsentService.detectUpdatedTemplates
       ).toHaveBeenCalledWith(mockTemplateList, mockTemplateList);
+    });
+  });
+
+  const giveRequiredConsentsMethod = 'giveRequiredConsents';
+  describe(`${giveRequiredConsentsMethod}`, () => {
+    it('should giveAnonymousConsent', () => {
+      spyOn(anonymousConsentService, 'giveAnonymousConsent').and.stub();
+
+      effect[giveRequiredConsentsMethod](mockTemplateList);
+
+      expect(anonymousConsentService.giveAnonymousConsent).toHaveBeenCalledWith(
+        'xxx'
+      );
     });
   });
 
