@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { QualtricsLoaderService } from './qualtrics-loader.service';
   `,
 })
 export class QualtricsComponent {
-  qualtricsEnabled$: Observable<boolean> = this.config.load();
-  // TODO: rename config to `loader`
-  constructor(private config: QualtricsLoaderService) {}
+  qualtricsEnabled$ = this.qualtricsLoader.load();
+
+  constructor(private qualtricsLoader: QualtricsLoaderService) {}
 }
