@@ -13,7 +13,7 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
     I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AssistedServiceComponent: {
+        AsmComponent: {
           component: AsmRootComponent,
         },
       },
