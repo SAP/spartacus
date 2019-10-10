@@ -36,4 +36,12 @@ export class UserInterestsConnector {
   ): Observable<any[]> {
     return this.adapter.removeInterests(userId, item);
   }
+
+  addInterest(
+    userId: string,
+    productCode: string,
+    notificationType: NotificationType
+    ): Observable<any>{
+      return this.adapter.addInterest(userId, productCode, notificationType);
+    }
 }

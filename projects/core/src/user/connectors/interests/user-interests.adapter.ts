@@ -35,4 +35,17 @@ export abstract class UserInterestsAdapter {
     userId: string,
     item: ProductInterestEntryRelation
   ): Observable<any[]>;
+
+  /**
+   * Abstract method to add a product interest for an user.
+   * 
+   * @param userId The `userId` for given user
+   * @param productCode The product code
+   * @param notificationType The notification type
+   */
+  abstract addInterest(
+    userId: string,
+    productCode: string,
+    notificationType: NotificationType
+  ): Observable<any>;
 }

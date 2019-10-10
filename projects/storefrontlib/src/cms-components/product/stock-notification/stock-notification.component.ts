@@ -7,11 +7,12 @@ import {
   NotificationPreference,
   NotificationType,
   Product,
-  AuthRedirectService,
-  RoutingService,
+  GlobalMessageService,
+  TranslationService,
+  GlobalMessageType
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map, filter, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, filter, tap, first } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -24,15 +25,20 @@ export class StockNotificationComponent implements OnInit {
   subscribed$: Observable<boolean>;
   prefsEnabled$: Observable<boolean>;
   outOfStock$: Observable<boolean>;
+  subscribeLoading$: Observable<boolean>;
+  unsubscribeLoading$: Observable<boolean>;
+  unsubscribeSuccess$: Observable<boolean>;
 
   enabledPrefs: NotificationPreference[] = [];
   productCode: string;
 
+  private subscription = new Subscription();
+
   constructor(
     private authService: AuthService,
-    private routingService: RoutingService,
-    private authRedirectService: AuthRedirectService,
     private currentProductService: CurrentProductService,
+    private globalMessageService: GlobalMessageService,
+    private translationService: TranslationService,
     private interestsService: UserInterestsService,
     private notificationPrefService: UserNotificationPreferenceService
   ) {}
@@ -62,23 +68,39 @@ export class StockNotificationComponent implements OnInit {
           )
       )
     );
+
+    this.subscribeLoading$ = this.interestsService.getAddProductInterestLoading();
+    this.unsubscribeLoading$ = this.interestsService.getRemoveProdutInterestLoading();
+    this.subscription.add(this.interestsService.getRemoveProdutInterestSuccess().subscribe(
+      success => {
+        if(success){
+          this.subscription.add(
+            this.translationService
+              .translate('stockNotification.unsubscribeSuccess')
+              .pipe(first())
+              .subscribe(text =>
+                this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_INFO)
+              )
+          )
+        }
+      }
+    ))
   }
 
   subscribe(){
-    this.anonymous$.subscribe(anoymous => {
-      if(anoymous){
-        this.authRedirectService.reportAuthGuard();
-        this.routingService.go({ cxRoute: 'login' });
-      }else{
-        
-      }
-    });
+    this.interestsService.addProductInterest(this.productCode, NotificationType.BACK_IN_STOCK);
   }
 
   unsubscribe(){
-    
+    this.interestsService.removeProdutInterest({
+      product: {
+        code: this.productCode
+      },
+      productInterestEntry: [{
+        interestType: NotificationType.BACK_IN_STOCK
+      }]
+    });
   }
-
 
   private hasSubscribed(productCode: string): void {
     this.subscribed$ = this.interestsService

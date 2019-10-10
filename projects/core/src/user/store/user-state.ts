@@ -18,7 +18,7 @@ export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
 export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
 export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID =
   'updateNotificationPreferences';
-export const ADD_PRODUCT_INTERESTS_PROCESS_ID = 'addProductInterests';
+export const ADD_PRODUCT_INTEREST_PROCESS_ID = 'addProductInterests';
 export const REMOVE_PRODUCT_INTERESTS_PROCESS_ID = 'removeProductInterests';
 
 export const USER_CONSENTS = '[User] User Consents';

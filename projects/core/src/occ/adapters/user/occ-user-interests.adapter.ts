@@ -80,4 +80,18 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     });
     return forkJoin(r);
   }
+
+  public addInterest(
+    userId: string,
+    productCode: string,
+    notificationType: NotificationType
+  ): Observable<any>{
+    const params = new HttpParams().set('productCode', productCode).set('notificationType', notificationType.toString());
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(this.occEndpoints.getUrl('productInterests', { userId }), {}, {
+      headers, params
+    }).pipe(catchError((error: any) => throwError(error)));
+  }
 }

@@ -7,6 +7,7 @@ import { UsersSelectors } from '../store/selectors/index';
 import {
   StateWithUser,
   REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
+  ADD_PRODUCT_INTEREST_PROCESS_ID,
 } from '../store/user-state';
 import {
   ProductInterestSearchResult,
@@ -14,7 +15,7 @@ import {
   NotificationType,
 } from '../../model/product-interest.model';
 import { tap, map } from 'rxjs/operators';
-import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
+import { getProcessLoadingFactory, getProcessSuccessFactory } from '../../process/store/selectors/process.selectors';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable({
@@ -104,6 +105,43 @@ export class UserInterestsService {
   getRemoveProdutInterestLoading(): Observable<boolean> {
     return this.store.select(
       getProcessLoadingFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID)
+    );
+  }
+
+  /**
+   * Returns a success flag for removing a product interests.
+   */
+  getRemoveProdutInterestSuccess(): Observable<boolean> {
+    return this.store.select(
+      getProcessSuccessFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID)
+    );
+  }
+
+  /**
+   * Add a new product interest.
+   * 
+   * @param productCode the product code
+   * @param notificationType the notification type
+   */
+  addProductInterest(
+    productCode: string,
+    notificationType: NotificationType
+  ): void{
+    this.store.dispatch(
+      new UserActions.AddProductInterest({
+        userId: OCC_USER_ID_CURRENT,
+        productCode: productCode,
+        notificationType: notificationType
+      })
+    );
+  }
+
+  /**
+   * Returns a loading flag for adding a product interest.
+   */
+  getAddProductInterestLoading(): Observable<boolean> {
+    return this.store.select(
+      getProcessLoadingFactory(ADD_PRODUCT_INTEREST_PROCESS_ID)
     );
   }
 

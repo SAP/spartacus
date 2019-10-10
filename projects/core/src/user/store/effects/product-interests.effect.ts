@@ -61,6 +61,22 @@ export class ProductInterestsEffect {
     )
   );
 
+  @Effect()
+  addProductInterest$: Observable<Action> = this.actions$.pipe(
+    ofType(UserActions.ADD_PRODUCT_INTEREST),
+    map((action: UserActions.AddProductInterest) => action.payload),
+    switchMap(payload =>
+      this.userInterestsConnector
+        .addInterest(payload.userId, payload.productCode, payload.notificationType)
+        .pipe(
+          map((res: any) => new UserActions.RemoveProductInterestsSuccess(res)),
+          catchError(error =>
+            of(new UserActions.RemoveProductInterestsFail(error))
+          )
+        )
+    )
+  );
+
   // @Effect()
   // resetProductInterests$: Observable<Action> = this.actions$.pipe(
   //   ofType(

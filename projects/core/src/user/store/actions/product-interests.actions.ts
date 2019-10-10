@@ -1,6 +1,7 @@
 import {
   PRODUCT_INTERESTS,
   REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
+  ADD_PRODUCT_INTEREST_PROCESS_ID,
 } from '../user-state';
 import {
   ProductInterestSearchResult,
@@ -19,13 +20,20 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+
 export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
 export const LOAD_PRODUCT_INTERESTS_FAIL = 'Load Product Interests Fail';
 export const LOAD_PRODUCT_INTERESTS_SUCCESS = 'Load Product Interests Success';
+
 export const REMOVE_PRODUCT_INTERESTS = 'Remove Product Interests';
 export const REMOVE_PRODUCT_INTERESTS_SUCCESS =
   'Remove Product Interests Success';
 export const REMOVE_PRODUCT_INTERESTS_FAIL = 'Remove Product Interests Fail';
+
+export const ADD_PRODUCT_INTEREST = 'Add Product Interest';
+export const ADD_PRODUCT_INTEREST_FAIL = 'Add Product Interest Fail';
+export const ADD_PRODUCT_INTEREST_SUCCESS = 'Add Product Interest Success';
+
 export const CLEAR_PRODUCT_INTERESTS = 'Clear Product Interests';
 
 export class LoadProductInterests extends LoaderLoadAction {
@@ -84,6 +92,33 @@ export class RemoveProductInterestsFail extends EntityFailAction {
   }
 }
 
+export class AddProductInterest extends EntityLoadAction {
+  readonly type = ADD_PRODUCT_INTEREST;
+  constructor(
+    public payload: {
+      userId: string;
+      productCode: string;
+      notificationType: NotificationType;
+    }
+  ) {
+    super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID);
+  }
+}
+
+export class AddProductInterestSuccess extends EntitySuccessAction {
+  readonly type = REMOVE_PRODUCT_INTERESTS_SUCCESS;
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID);
+  }
+}
+
+export class AddProductInterestFail extends EntityFailAction {
+  readonly type = REMOVE_PRODUCT_INTERESTS_FAIL;
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID, payload);
+  }
+}
+
 export class ClearProductInterests extends LoaderResetAction {
   readonly type = CLEAR_PRODUCT_INTERESTS;
   constructor() {
@@ -98,4 +133,7 @@ export type ProductInterestsAction =
   | RemoveProductInterests
   | RemoveProductInterestsSuccess
   | RemoveProductInterestsFail
+  | AddProductInterest
+  | AddProductInterestFail
+  | AddProductInterestSuccess
   | ClearProductInterests;
