@@ -40,6 +40,25 @@ export class ProductReviewsComponent {
   );
 
   constructor(
+    reviewService: ProductReviewService,
+    currentProductService: CurrentProductService,
+    fb: FormBuilder,
+    // tslint:disable-next-line: unified-signatures
+    cd: ChangeDetectorRef
+  );
+
+  /**
+   * @deprecated since version 1.x
+   * Replace constructor, for more details, check below ticket
+   *
+   * TODO(issue:#4945) Product page tabs accessibility changes
+   */
+  constructor(
+    reviewService: ProductReviewService,
+    currentProductService: CurrentProductService,
+    fb: FormBuilder
+  );
+  constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
     private fb: FormBuilder,
@@ -48,15 +67,29 @@ export class ProductReviewsComponent {
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
-    this.cd.detectChanges();
-    this.titleInput.nativeElement.focus();
+
+    // TODO(issue:#4945) Product page tabs accessibility changes
+    if (this.cd) {
+      this.cd.detectChanges();
+    }
+
+    if (this.titleInput && this.titleInput.nativeElement) {
+      this.titleInput.nativeElement.focus();
+    }
   }
 
   cancelWriteReview(): void {
     this.isWritingReview = false;
     this.resetReviewForm();
-    this.cd.detectChanges();
-    this.writeReviewButton.nativeElement.focus();
+
+    // TODO(issue:#4945) Product page tabs accessibility changes
+    if (this.cd) {
+      this.cd.detectChanges();
+    }
+
+    if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
+      this.writeReviewButton.nativeElement.focus();
+    }
   }
 
   setRating(rating): void {
@@ -76,8 +109,15 @@ export class ProductReviewsComponent {
 
     this.isWritingReview = false;
     this.resetReviewForm();
-    this.cd.detectChanges();
-    this.writeReviewButton.nativeElement.focus();
+
+    // TODO(issue:#4945) Product page tabs accessibility changes
+    if (this.cd) {
+      this.cd.detectChanges();
+    }
+
+    if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
+      this.writeReviewButton.nativeElement.focus();
+    }
   }
 
   private resetReviewForm(): void {
