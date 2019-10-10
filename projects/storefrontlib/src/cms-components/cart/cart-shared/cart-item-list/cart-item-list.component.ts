@@ -28,15 +28,15 @@ export class CartItemListComponent {
 
   @Input() potentialProductPromotions: PromotionResult[] = [];
 
-  _loading: boolean;
   @Input('cartIsLoading')
   set setLoading(value: boolean) {
-    this._loading = value;
-    // Whenver the cart is loading, we disable the complete form
-    // to avoid any user interaction with the cart.
-    value
-      ? this.form.disable({ emitEvent: false })
-      : this.form.enable({ emitEvent: false });
+    if (!this.isReadOnly) {
+      // Whenver the cart is loading, we disable the complete form
+      // to avoid any user interaction with the cart.
+      value
+        ? this.form.disable({ emitEvent: false })
+        : this.form.enable({ emitEvent: false });
+    }
   }
 
   private _items: Item[];
@@ -47,13 +47,14 @@ export class CartItemListComponent {
   private createForm(items: Item[]): void {
     this.form = new FormGroup({});
     items.forEach(item => {
-      this.form.addControl(
-        item.product.code,
-        new FormGroup({
-          entryNumber: new FormControl((<any>item).entryNumber),
-          quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
-        })
-      );
+      const group = new FormGroup({
+        entryNumber: new FormControl((<any>item).entryNumber),
+        quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
+      });
+      if (!item.updateable || this.isReadOnly) {
+        group.disable();
+      }
+      this.form.addControl(item.product.code, group);
     });
   }
 

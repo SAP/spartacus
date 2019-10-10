@@ -70,7 +70,7 @@
         <div class="cx-value">
           <cx-item-counter
             [control]="quantityControl"
-            [readonly]="!item.updateable"
+            [readonly]="!item.updateable || isReadOnly"
             [max]="item.product.stock?.stockLevel"
             [allowZero]="true"
           >

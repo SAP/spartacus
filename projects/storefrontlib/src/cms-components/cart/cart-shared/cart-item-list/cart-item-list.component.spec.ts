@@ -1,6 +1,6 @@
 import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService, I18nTestingModule } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
@@ -12,13 +12,14 @@ class MockCartService {
 
 const mockItems = [
   {
-    id: 1,
+    // id: 1,
     quantity: 5,
     entryNumber: 1,
     product: {
       id: 1,
       code: 'PR0000',
     },
+    updateable: true,
   },
 ];
 
@@ -86,20 +87,77 @@ describe('CartItemListComponent', () => {
     });
   });
 
+  it('should return enabled form group', () => {
+    const item = mockItems[0];
+    let result: FormGroup;
+    component
+      .getControl(item)
+      .subscribe(control => {
+        result = control;
+      })
+      .unsubscribe();
+
+    expect(result.enabled).toEqual(true);
+  });
+
+  it('should return disabled form group when updatable is false', () => {
+    const item = mockItems[0];
+    item.updateable = false;
+    component.items = mockItems;
+    fixture.detectChanges();
+
+    let result: FormGroup;
+    component
+      .getControl(item)
+      .subscribe(control => {
+        result = control;
+      })
+      .unsubscribe();
+
+    expect(result.disabled).toEqual(true);
+  });
+
+  it('should return disabled form group when readonly is true', () => {
+    component.isReadOnly = true;
+    fixture.detectChanges();
+    const item = mockItems[0];
+    let result: FormGroup;
+    component
+      .getControl(item)
+      .subscribe(control => {
+        result = control;
+      })
+      .unsubscribe();
+
+    expect(result.disabled).toEqual(true);
+  });
+
   it('should call cartService with an updated entry', () => {
     const item = mockItems[0];
-    component.getControl(item).subscribe(control => {
-      control.get('quantity').setValue(2);
-      expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 2);
-    });
+    component
+      .getControl(item)
+      .subscribe(control => {
+        control.get('quantity').setValue(2);
+        expect(cartService.updateEntry).toHaveBeenCalledWith(
+          item.entryNumber,
+          2
+        );
+      })
+      .unsubscribe();
   });
 
   it('should call cartService.updateEntry during a remove with quantity 0', () => {
     const item = mockItems[0];
-    component.getControl(item).subscribe(control => {
-      control.get('quantity').setValue(0);
-      expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 0);
-    });
+    component
+      .getControl(item)
+      .subscribe(control => {
+        control.get('quantity').setValue(0);
+        expect(cartService.updateEntry).toHaveBeenCalledWith(
+          item.entryNumber,
+          0
+        );
+      })
+      .unsubscribe();
   });
 
   it('should get potential promotions for product', () => {
