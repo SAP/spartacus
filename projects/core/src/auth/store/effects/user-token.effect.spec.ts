@@ -27,7 +27,7 @@ class UserAuthenticationTokenServiceMock {
   }
 }
 
-fdescribe('UserToken effect', () => {
+describe('UserToken effect', () => {
   let userTokenService: UserAuthenticationTokenService;
   let userTokenEffect: UserTokenEffects;
   let actions$: Observable<AuthActions.UserTokenAction>;
