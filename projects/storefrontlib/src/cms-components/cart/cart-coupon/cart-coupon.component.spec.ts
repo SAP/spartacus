@@ -9,7 +9,6 @@ import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor
 import { CartCouponComponent } from './cart-coupon.component';
 import { ICON_TYPE } from '@spartacus/storefront';
 
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -22,9 +21,7 @@ class MockCxIconComponent {
   selector: 'cx-cart-coupon-anchor',
   template: '',
 })
-class MockCartCouponAnchorComponentComponent {
-
-}
+class MockCartCouponAnchorComponentComponent {}
 
 @Component({
   selector: 'cx-applied-coupons',
@@ -63,7 +60,7 @@ describe('CartCouponComponent', () => {
         CartCouponComponent,
         MockAppliedCouponsComponent,
         MockCxIconComponent,
-        MockCartCouponAnchorComponentComponent
+        MockCartCouponAnchorComponentComponent,
       ],
       providers: [
         { provide: CartService, useValue: mockCartService },
@@ -104,19 +101,24 @@ describe('CartCouponComponent', () => {
   });
 
   it('should disable button when coupon is in process', () => {
-    mockCartService.getAddVoucherResultLoading.and.returnValue(hot('-a', { a: true }));
+    mockCartService.getAddVoucherResultLoading.and.returnValue(
+      hot('-a', { a: true })
+    );
     fixture.detectChanges();
 
-    const applyBtn = el.query(By.css('[data-test="button-coupon"]')).nativeElement;
+    const applyBtn = el.query(By.css('[data-test="button-coupon"]'))
+      .nativeElement;
     expect(applyBtn.disabled).toBeTruthy();
-    
+
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
     expect(applyBtn.disabled).toBeFalsy();
 
-    mockCartService.getAddVoucherResultLoading.and.returnValue(cold('-a', { a: true }));
+    mockCartService.getAddVoucherResultLoading.and.returnValue(
+      cold('-a', { a: true })
+    );
     applyBtn.click();
 
     getTestScheduler().flush();
@@ -135,7 +137,7 @@ describe('CartCouponComponent', () => {
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
     el.query(By.css('[data-test="button-coupon"]')).nativeElement.click();
-    
+
     expect(
       el.query(By.css('[data-test="button-coupon"]')).nativeElement.disabled
     ).toBeTruthy();
@@ -150,7 +152,8 @@ describe('CartCouponComponent', () => {
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     expect(input.readOnly).toBeFalsy();
 
-    const button = el.query(By.css('[data-test="button-coupon"]')).nativeElement;
+    const button = el.query(By.css('[data-test="button-coupon"]'))
+      .nativeElement;
     expect(button.disabled).toBeTruthy();
   });
 

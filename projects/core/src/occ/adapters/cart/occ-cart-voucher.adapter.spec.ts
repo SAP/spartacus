@@ -66,13 +66,10 @@ describe('OccCartVoucherAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'cartVoucher',
-        {
-          userId: userId,
-          cartId: cartId,
-        }
-      );
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cartVoucher', {
+        userId: userId,
+        cartId: cartId,
+      });
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
         'application/x-www-form-urlencoded'
       );
@@ -95,13 +92,10 @@ describe('OccCartVoucherAdapter', () => {
         return req.method === 'DELETE';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'cartVoucher',
-        {
-          userId: userId,
-          cartId: cartId,
-        }
-      );
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cartVoucher', {
+        userId: userId,
+        cartId: cartId,
+      });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);

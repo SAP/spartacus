@@ -21,14 +21,14 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   ) {}
 
   protected getCartVoucherEndpoint(userId: string, cartId): string {
-    return this.occEndpoints.getUrl('cartVoucher', {userId, cartId});
+    return this.occEndpoints.getUrl('cartVoucher', { userId, cartId });
   }
 
-  protected getHeaders(userId: string):  HttpHeaders {
+  protected getHeaders(userId: string): HttpHeaders {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    
+
     if (userId === OCC_USER_ID_ANONYMOUS) {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }

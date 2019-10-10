@@ -27,9 +27,9 @@ import { CartCouponComponent } from './cart-coupon.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartApplyCouponComponent: {
-        component: CartCouponComponent,
+          component: CartCouponComponent,
+        },
       },
-    },
     }),
   ],
   entryComponents: [CartCouponComponent],
