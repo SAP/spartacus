@@ -30,7 +30,7 @@ export class JsonLdScriptFactory {
    * to not waste memory unnecessary.
    */
   isJsonLdRequired(): boolean {
-    return isPlatformBrowser(this.platformId) || isDevMode();
+    return !isPlatformBrowser(this.platformId) || isDevMode();
   }
 
   private createJsonLdScriptElement(): HTMLScriptElement {

@@ -9,7 +9,7 @@ describe('JsonLdScriptFactory', () => {
   let service: JsonLdScriptFactory;
   let winRef: WindowRef;
 
-  describe('SSR', () => {
+  describe('server', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
@@ -28,15 +28,15 @@ describe('JsonLdScriptFactory', () => {
     });
 
     it('should contain script element', () => {
-      service.build([{ foo: 'bar' }]);
+      service.build([{ foo: 'bar-1' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
-      expect(scriptElement).toBeDefined();
+      expect(scriptElement.innerHTML).toEqual(`[{"foo":"bar-1"}]`);
     });
 
     it('should contain the given schema in the script element', () => {
-      service.build([{ foo: 'bar' }]);
+      service.build([{ foo: 'bar-2' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
-      expect(scriptElement.innerHTML).toEqual(`[{"foo":"bar"}]`);
+      expect(scriptElement.innerHTML).toEqual(`[{"foo":"bar-2"}]`);
     });
   });
 
@@ -51,20 +51,26 @@ describe('JsonLdScriptFactory', () => {
       });
 
       service = TestBed.get(StructuredDataFactory);
+      winRef = TestBed.get(WindowRef);
     });
 
     it('should not build in production mode', () => {
       spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-      service.build([{ foo: 'bar' }]);
+      service.build([{ foo: 'bar-a' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
-      expect(scriptElement).toBeUndefined();
+      // we might have left over script tag generated in former tests...
+      !scriptElement
+        ? expect(scriptElement).toBeNull()
+        : expect(scriptElement.innerHTML).not.toEqual('[{"foo":"bar-a"}]');
     });
 
     it('should build the browser in dev mode', () => {
       spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
-      service.build([{ foo: 'bar' }]);
+      service.build([{ foo: 'bar-b' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
-      expect(scriptElement).toBeDefined();
+      // we might have left over script tag generated in former tests, so
+      // let's explicitely test the innerHTML
+      expect(scriptElement.innerHTML).not.toEqual('[{"foo":"bar-b"}]');
     });
   });
 });
