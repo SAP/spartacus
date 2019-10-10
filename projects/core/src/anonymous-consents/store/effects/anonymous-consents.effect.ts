@@ -11,7 +11,10 @@ import {
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
-import { ANONYMOUS_CONSENT_STATUS } from '../../../model/consent.model';
+import {
+  ANONYMOUS_CONSENT_STATUS,
+  ConsentTemplate,
+} from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -55,6 +58,8 @@ export class AnonymousConsentsEffects {
                 newConsentTemplates
               );
             }
+
+            this.giveRequiredConsents(newConsentTemplates);
 
             return [
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
@@ -134,4 +139,20 @@ export class AnonymousConsentsEffects {
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService
   ) {}
+
+  private giveRequiredConsents(consentTemplates: ConsentTemplate[]): void {
+    for (const template of consentTemplates) {
+      if (
+        Boolean(this.anonymousConsentsConfig.anonymousConsents.requiredConsents)
+      ) {
+        if (
+          this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+            template.id
+          )
+        ) {
+          this.anonymousConsentService.giveAnonymousConsent(template.id);
+        }
+      }
+    }
+  }
 }

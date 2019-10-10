@@ -65,6 +65,9 @@ if (!environment.production) {
       features: {
         level: '1.2',
       },
+      anonymousConsents: {
+        requiredConsents: ['PERSONALIZATION'],
+      },
     }),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing

@@ -20,6 +20,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
 
+  requiredConsents: string[] = [];
+
   constructor(
     userConsentService: UserConsentService,
     globalMessageService: GlobalMessageService,
@@ -88,6 +90,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         return templateList;
       })
     );
+
+    if (
+      Boolean(this.anonymousConsentsConfig.anonymousConsents.requiredConsents)
+    ) {
+      this.requiredConsents = this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
+    }
   }
 
   private hideAnonymousConsents(

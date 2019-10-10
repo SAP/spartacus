@@ -18,6 +18,7 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
 
   showLegalDescription: boolean;
   iconTypes = ICON_TYPE;
+  requiredConsents: string[] = [];
 
   templates$: Observable<ConsentTemplate[]>;
   consents$: Observable<AnonymousConsent[]>;
@@ -28,6 +29,9 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
     private anonymousConsentsService: AnonymousConsentsService
   ) {
     this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
+    if (Boolean(this.config.anonymousConsents.requiredConsents)) {
+      this.requiredConsents = this.config.anonymousConsents.requiredConsents;
+    }
   }
 
   ngOnInit(): void {

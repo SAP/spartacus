@@ -37,6 +37,9 @@ export class AnonymousConsentFormComponent implements OnInit, OnDestroy {
   @Input()
   consent: AnonymousConsent;
 
+  @Input()
+  requiredConsents: string[] = [];
+
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
@@ -80,6 +83,10 @@ export class AnonymousConsentFormComponent implements OnInit, OnDestroy {
         ? `${this.accordionContent.nativeElement.clientHeight}px`
         : '0px';
     }
+  }
+
+  isRequired(templateId: string): boolean {
+    return this.requiredConsents.includes(templateId);
   }
 
   ngOnDestroy(): void {
