@@ -31,23 +31,16 @@
     border-radius: var(--cx-buttons-border-radius);
   }
 
+  .textonly {
+    margin: 0 10px 0 0;
+    font-size: 14px;
+  }
+
   .cx-coupon-apply {
     padding: 1rem 1rem;
     align-items: flex-start;
     word-break: break-all;
-
-    cx-icon:before {
-      font-size: 16px;
-    }
-
-    span {
-      flex: 1 1 auto;
-      vertical-align: middle;
-    }
-
-    button {
-      margin: 0 0 0 10px;
-      flex: 0 0 1rem;
-    }
+    font-size: 15px;
+    font-weight: 600;
   }
 }

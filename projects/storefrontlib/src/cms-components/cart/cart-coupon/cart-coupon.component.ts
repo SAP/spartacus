@@ -48,8 +48,8 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       .add(
         this.cartCouponAnchorService
           .getEventEmit()
-          .subscribe((anchor: string) => {
-            this.scrollToView(anchor);
+          .subscribe(() => {
+            this.scrollToView();
           })
       )
       .add(
@@ -59,11 +59,10 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       );
   }
 
-  scrollToView(anchor: string) {
-    const anchorElement = this.element.nativeElement.querySelector(anchor);
-    if (anchorElement) {
-      //anchorElement.scrollIntoView({ behavior: 'smooth' });
-      anchorElement.focus();
+  scrollToView() {
+    const inputEl = this.element.nativeElement.querySelector('input');
+    if (inputEl) {
+      inputEl.focus();
     }
   }
 
