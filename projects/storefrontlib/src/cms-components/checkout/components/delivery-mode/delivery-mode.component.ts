@@ -52,15 +52,19 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
     this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
 
-    this.deliveryModeSub = this.checkoutDeliveryService
-      .getSelectedDeliveryMode()
+    this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(
-        map((deliveryMode: DeliveryMode) =>
-          deliveryMode && deliveryMode.code ? deliveryMode.code : null
-        ),
-        withLatestFrom(this.supportedDeliveryModes$)
+        withLatestFrom(
+          this.checkoutDeliveryService
+            .getSelectedDeliveryMode()
+            .pipe(
+              map((deliveryMode: DeliveryMode) =>
+                deliveryMode && deliveryMode.code ? deliveryMode.code : null
+              )
+            )
+        )
       )
-      .subscribe(([code, deliveryModes]: [string, DeliveryMode[]]) => {
+      .subscribe(([deliveryModes, code]: [DeliveryMode[], string]) => {
         if (!code && deliveryModes && deliveryModes.length) {
           code = this.checkoutConfigService.getPreferredDeliveryMode(
             deliveryModes

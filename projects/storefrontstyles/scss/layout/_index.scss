@@ -10,6 +10,7 @@
 @import './page-templates/error-page';
 @import './page-templates/order-detail-page';
 @import './page-templates/multistep-checkout-page';
+@import './page-templates/store-finder-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -74,4 +75,8 @@ cx-category-navigation {
 
 .ErrorPageTemplate {
   @extend %ErrorPageTemplate !optional;
+}
+
+.StoreFinderPageTemplate {
+  @extend %StoreFinderPageTemplate !optional;
 }
