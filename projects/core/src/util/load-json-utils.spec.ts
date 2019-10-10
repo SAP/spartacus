@@ -1,6 +1,6 @@
-import { JsonFetchUtils } from './json-fetch-utils';
+import { LoadJsonUtils, NodeHttpsClient } from './load-json-utils';
 
-describe(`JSON fetching utils`, () => {
+describe(`LoadJsonUtils`, () => {
   describe(`using XMLHttpRequest`, () => {
     interface MockXhrOptions {
       success: boolean;
@@ -59,12 +59,12 @@ describe(`JSON fetching utils`, () => {
       XMLHttpRequest.prototype.send = originalXhr.send;
     }
 
-    describe(`getXhr`, () => {
+    describe(`loadXhr`, () => {
       it('should perform xhr GET call to the given url', async () => {
         await runWithMockXhr(
           { success: true, status: 200, responseText: '{}' },
           async () => {
-            await JsonFetchUtils.getXhr('testUrl');
+            await LoadJsonUtils.loadXhr('testUrl');
             expect(XMLHttpRequest.prototype.open).toHaveBeenCalledWith(
               'GET',
               'testUrl',
@@ -77,7 +77,7 @@ describe(`JSON fetching utils`, () => {
       it('should reject promise on the call failure', async () => {
         await runWithMockXhr({ success: false }, async () => {
           let rejected;
-          await JsonFetchUtils.getXhr('testUrl').catch(() => (rejected = true));
+          await LoadJsonUtils.loadXhr('testUrl').catch(() => (rejected = true));
           expect(rejected).toBe(true);
         });
       });
@@ -87,7 +87,7 @@ describe(`JSON fetching utils`, () => {
           { success: false, status: 400, responseText: '{}' },
           async () => {
             let rejected;
-            await JsonFetchUtils.getXhr('testUrl').catch(
+            await LoadJsonUtils.loadXhr('testUrl').catch(
               () => (rejected = true)
             );
             expect(rejected).toBe(true);
@@ -100,7 +100,7 @@ describe(`JSON fetching utils`, () => {
           { success: false, status: 400, responseText: 'invalid-json' },
           async () => {
             let rejected;
-            await JsonFetchUtils.getXhr('testUrl').catch(
+            await LoadJsonUtils.loadXhr('testUrl').catch(
               () => (rejected = true)
             );
             expect(rejected).toBe(true);
@@ -111,7 +111,7 @@ describe(`JSON fetching utils`, () => {
   });
 
   describe(`using Node.js https client`, () => {
-    let mockHttpsClient: JsonFetchUtils.NodeHttpsClient;
+    let mockHttpsClient: NodeHttpsClient;
     let mockStatusCode: number;
     let mockEvents: {
       onData?: Function;
@@ -147,9 +147,9 @@ describe(`JSON fetching utils`, () => {
       };
     });
 
-    describe(`getNodeHttps`, () => {
+    describe(`loadNodeHttps`, () => {
       it('should perform Node.js https GET call to the given url', async () => {
-        const promise = JsonFetchUtils.getNodeHttps('testUrl', mockHttpsClient);
+        const promise = LoadJsonUtils.loadNodeHttps('testUrl', mockHttpsClient);
         expect(mockHttpsClient.get).toHaveBeenCalledWith(
           'testUrl',
           jasmine.any(Function)
@@ -165,7 +165,7 @@ describe(`JSON fetching utils`, () => {
       });
 
       it('should reject promise on the call failure', async () => {
-        const promise = JsonFetchUtils.getNodeHttps('testUrl', mockHttpsClient);
+        const promise = LoadJsonUtils.loadNodeHttps('testUrl', mockHttpsClient);
         mockEvents.onData('{}');
         mockEvents.onError({ message: 'test error' });
 
@@ -175,7 +175,7 @@ describe(`JSON fetching utils`, () => {
       });
 
       it('should reject promise on invalid JSON in the response', async () => {
-        const promise = JsonFetchUtils.getNodeHttps('testUrl', mockHttpsClient);
+        const promise = LoadJsonUtils.loadNodeHttps('testUrl', mockHttpsClient);
         mockEvents.onData('{}');
         mockStatusCode = 400;
         mockEvents.onEnd();
@@ -186,7 +186,7 @@ describe(`JSON fetching utils`, () => {
       });
 
       it('should reject promise on invalid JSON in the response', async () => {
-        const promise = JsonFetchUtils.getNodeHttps('testUrl', mockHttpsClient);
+        const promise = LoadJsonUtils.loadNodeHttps('testUrl', mockHttpsClient);
         mockEvents.onData('invalid-json');
         mockStatusCode = 200;
         mockEvents.onEnd();
@@ -197,12 +197,12 @@ describe(`JSON fetching utils`, () => {
       });
     });
 
-    describe(`getNodeHttpsFactory`, () => {
+    describe(`loadNodeHttpsFactory`, () => {
       it('should return getNodeHttps function fed up with https client object', async () => {
-        spyOn(JsonFetchUtils, 'getNodeHttps');
-        const resultFetchFunction = JsonFetchUtils.getNodeHttpsFactory(null);
+        spyOn(LoadJsonUtils, 'loadNodeHttps');
+        const resultFetchFunction = LoadJsonUtils.loadNodeHttpsFactory(null);
         await resultFetchFunction('testUrl');
-        expect(JsonFetchUtils.getNodeHttps).toHaveBeenCalledWith(
+        expect(LoadJsonUtils.loadNodeHttps).toHaveBeenCalledWith(
           'testUrl',
           null
         );

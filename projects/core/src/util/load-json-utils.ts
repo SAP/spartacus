@@ -1,5 +1,16 @@
-export namespace JsonFetchUtils {
-  export function getXhr(url: string): Promise<any> {
+export interface NodeHttpsClientResponse {
+  statusCode: number;
+  on: (event: 'data' | 'end', callback: Function) => void;
+}
+export interface NodeHttpsClient {
+  get: (
+    url: string,
+    callback: (response: NodeHttpsClientResponse) => void
+  ) => { on: (event: 'error', callback: Function) => void };
+}
+
+export class LoadJsonUtils {
+  static loadXhr(url: string): Promise<any> {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
@@ -22,18 +33,7 @@ export namespace JsonFetchUtils {
     });
   }
 
-  export interface HttpsClientResponse {
-    statusCode: number;
-    on: (event: 'data' | 'end', callback: Function) => void;
-  }
-  export interface NodeHttpsClient {
-    get: (
-      url: string,
-      callback: (response: HttpsClientResponse) => void
-    ) => { on: (event: 'error', callback: Function) => void };
-  }
-
-  export function getNodeHttps(
+  static loadNodeHttps(
     url: string,
     httpsClient: NodeHttpsClient
   ): Promise<any> {
@@ -62,9 +62,9 @@ export namespace JsonFetchUtils {
     });
   }
 
-  export function getNodeHttpsFactory(
+  static loadNodeHttpsFactory(
     httpsClient: NodeHttpsClient
   ): (url: string) => Promise<any> {
-    return (url: string) => JsonFetchUtils.getNodeHttps(url, httpsClient);
+    return (url: string) => LoadJsonUtils.loadNodeHttps(url, httpsClient);
   }
 }

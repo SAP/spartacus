@@ -1,7 +1,7 @@
 import { enableProdMode, isDevMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { fetchOccBaseSitesConfig } from '../../core/src/occ/base-site/fetch-occ-base-sites-config';
-import { OccBaseSitesConfig } from '../../core/src/occ/base-site/occ-base-sites-config.providers';
+import { ExternalConfig } from '@spartacus/core';
+import { OccExternalConfigLoader } from 'projects/core/src/occ/external-config/occ-external-config-loader';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
@@ -10,10 +10,11 @@ if (environment.production) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetchOccBaseSitesConfig()
+  OccExternalConfigLoader.rehydrate()
+    .catch(() => OccExternalConfigLoader.load())
     .then(config => {
       platformBrowserDynamic([
-        { provide: OccBaseSitesConfig, useValue: config },
+        { provide: ExternalConfig, useValue: config },
       ]).bootstrapModule(AppModule);
     })
     .catch(error => isDevMode() && console.error(error));

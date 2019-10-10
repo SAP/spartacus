@@ -18,15 +18,15 @@ const {
   AppServerModuleNgFactory,
   ngExpressEngine,
   isDevMode,
-  OccBaseSitesConfig,
-  getOccBaseUrlFromMetaTagSSR,
-  fetchOccBaseSitesConfigSSR,
+  ExternalConfig,
+  OccBaseUrlMetaTagUtils,
+  OccExternalConfigLoader,
 } = require('../../dist/storefrontapp-server/main');
 
 const fs = require('fs');
 const https = require('https');
 
-const occBaseUrl = getOccBaseUrlFromMetaTagSSR(
+const occBaseUrl = OccBaseUrlMetaTagUtils.getFromRawHtml(
   fs.readFileSync(join(DIST_FOLDER, 'index.html')).toString()
 );
 
@@ -45,7 +45,7 @@ app.get('*.*', express.static(DIST_FOLDER));
 
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
-  fetchOccBaseSitesConfigSSR(
+  OccExternalConfigLoader.loadSSR(
     { baseUrl: occBaseUrl },
     req.protocol + '://' + req.get('host') + req.originalUrl,
     https
@@ -53,7 +53,7 @@ app.get('*', (req, res) => {
     res
       .render('index', {
         req,
-        providers: [{ provide: OccBaseSitesConfig, useValue: config }],
+        providers: [{ provide: ExternalConfig, useValue: config }],
       })
       .catch(error => isDevMode() && console.error(error));
   });

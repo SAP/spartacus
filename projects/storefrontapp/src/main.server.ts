@@ -9,8 +9,8 @@ export { isDevMode } from '@angular/core';
 export { ngExpressEngine } from '@nguniversal/express-engine';
 export { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 export {
-  fetchOccBaseSitesConfigSSR,
-  getOccBaseUrlFromMetaTagSSR,
-  OccBaseSitesConfig,
+  ExternalConfig,
+  OccBaseUrlMetaTagUtils,
+  OccExternalConfigLoader,
 } from '@spartacus/core';
 export { AppServerModule } from './app/app.server.module';

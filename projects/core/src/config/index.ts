@@ -1,6 +1,6 @@
-export * from './config.module';
+export * from '../config/config.module';
 export {
   TestConfigModule,
   TestConfigModuleOptions,
-} from './test-config.module';
-export * from './utils/config-validator';
+} from '../config/test-config.module';
+export * from '../config/utils/config-validator';
