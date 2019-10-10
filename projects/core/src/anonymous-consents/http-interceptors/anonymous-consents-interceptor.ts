@@ -95,8 +95,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   }
 
   private giveRequiredConsents(consents: AnonymousConsent[]): void {
-    for (const consent of consents) {
-      if (Boolean(this.config.anonymousConsents.requiredConsents)) {
+    if (Boolean(this.config.anonymousConsents.requiredConsents)) {
+      for (const consent of consents) {
         if (
           this.config.anonymousConsents.requiredConsents.includes(
             consent.templateCode

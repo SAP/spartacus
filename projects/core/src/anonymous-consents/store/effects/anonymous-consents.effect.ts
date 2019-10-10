@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { UserConsentService } from 'projects/core/src/user';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -7,10 +8,10 @@ import {
   filter,
   map,
   mergeMap,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
-import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import { ANONYMOUS_CONSENT_STATUS } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
 import { UserActions } from '../../../user/store/actions/index';
@@ -78,9 +79,7 @@ export class AnonymousConsentsEffects {
 
   @Effect()
   transferAnonymousConsentsToUser$: Observable<
-    | UserActions.TransferAnonymousConsent
-    | Observable<never>
-    | GlobalMessageActions.RemoveMessagesByType
+    UserActions.TransferAnonymousConsent | Observable<never>
   > = this.actions$.pipe(
     filter(
       () =>
@@ -127,11 +126,64 @@ export class AnonymousConsentsEffects {
     )
   );
 
+  @Effect()
+  giveMandatoryConsentsToUser$: Observable<
+    UserActions.GiveUserConsent | Observable<never>
+  > = this.actions$.pipe(
+    filter(
+      () =>
+        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+        Boolean(this.anonymousConsentsConfig.anonymousConsents.requiredConsents)
+    ),
+    ofType<AuthActions.LoadUserTokenSuccess>(
+      AuthActions.LOAD_USER_TOKEN_SUCCESS
+    ),
+    filter(action => Boolean(action)),
+    switchMap(() =>
+      this.userConsentService.getConsentsResultSuccess().pipe(
+        withLatestFrom(
+          this.authService.getOccUserId(),
+          this.userConsentService.getConsents()
+        ),
+        switchMap(([loaded, userId, templates]) => {
+          if (!loaded) {
+            this.userConsentService.loadConsents();
+          }
+          const actions: UserActions.GiveUserConsent[] = [];
+          for (const template of templates) {
+            if (
+              (!template.currentConsent ||
+                !template.currentConsent.consentGivenDate ||
+                template.currentConsent.consentWithdrawnDate) &&
+              this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+                template.id
+              )
+            ) {
+              console.log(template);
+              actions.push(
+                new UserActions.GiveUserConsent({
+                  userId,
+                  consentTemplateId: template.id,
+                  consentTemplateVersion: template.version,
+                })
+              );
+            }
+          }
+          if (actions.length > 0) {
+            return actions;
+          }
+          return EMPTY;
+        })
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
-    private anonymousConsentService: AnonymousConsentsService
+    private anonymousConsentService: AnonymousConsentsService,
+    private userConsentService: UserConsentService
   ) {}
 }

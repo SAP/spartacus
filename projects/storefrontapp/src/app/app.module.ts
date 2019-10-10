@@ -66,7 +66,7 @@ if (!environment.production) {
         level: '1.2',
       },
       anonymousConsents: {
-        requiredConsents: ['MARKETING_NEWSLETTER'],
+        requiredConsents: ['MARKETING_NEWSLETTER', 'PERSONALIZATION'],
       },
     }),
 
