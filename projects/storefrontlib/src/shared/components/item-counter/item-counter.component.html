@@ -1,28 +1,26 @@
-<ng-container *ngIf="getControl() | async as formControl">
-  <button
-    type="button"
-    (click)="decrement()"
-    [disabled]="formControl.disabled || formControl?.value <= min"
-    tabindex="-1"
-  >
-    -
-  </button>
+<button
+  type="button"
+  (click)="decrement()"
+  [disabled]="qty.disabled || qty?.value <= min"
+  tabindex="-1"
+>
+  -
+</button>
 
-  <input
-    #qty
-    type="number"
-    [min]="min"
-    [max]="max"
-    [step]="step"
-    [formControl]="control"
-  />
+<input
+  #qty
+  type="number"
+  [min]="min"
+  [max]="max"
+  [step]="step"
+  [formControl]="getControl() | async"
+/>
 
-  <button
-    type="button"
-    (click)="increment()"
-    [disabled]="formControl.disabled || formControl?.value >= max"
-    tabindex="-1"
-  >
-    +
-  </button>
-</ng-container>
+<button
+  type="button"
+  (click)="increment()"
+  [disabled]="qty.disabled || qty?.value >= max"
+  tabindex="-1"
+>
+  +
+</button>
