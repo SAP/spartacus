@@ -1,36 +1,19 @@
-import { Price, Stock } from './product.model';
+import { Product } from './product.model';
 import { Pagination, Sort } from './unused.model';
-import { Images } from './image.model';
 
 export interface ProductInterestEntry {
   interestType?: string;
-  dateAdded?: Date;
+  dateAdded?: string;
+  expirationDate?: string;
 }
 
-export interface ProductInterestFutureStock {
-  stock?: Stock;
-  date?: Date;
-  expirationDate?: Date;
-}
-
-export interface ProductInterest {
-  code?: string;
-  name?: string;
-  url?: string;
-  stock?: Stock;
-  futureStocks?: ProductInterestFutureStock[];
-  manufacturer?: string;
-  price?: Price;
-  images?: Images;
-}
-
-export interface ProductInterestRelation {
-  product?: ProductInterest;
+export interface ProductInterestEntryRelation {
+  product?: Product;
   productInterestEntry?: ProductInterestEntry[];
 }
 
-export interface ProductInterestList {
-  results?: ProductInterestRelation[];
+export interface ProductInterestSearchResult {
+  results?: ProductInterestEntryRelation[];
   sorts?: Sort[];
   pagination?: Pagination;
 }

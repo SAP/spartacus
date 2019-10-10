@@ -5,7 +5,7 @@ import * as fromInterestsEffect from './product-interests.effect';
 import { UserActions } from '../actions/index';
 import { Actions } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
-import { ProductInterestList } from '../../../model/product-interest.model';
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { hot, cold } from 'jasmine-marbles';
 import { Action } from '@ngrx/store';
 import { PRODUCT_INTERESTS } from '../user-state';
@@ -47,7 +47,7 @@ describe('Product Interests Effect', () => {
 
   describe('loadProductInteres$', () => {
     it('should be able to load product interests', () => {
-      const interests: ProductInterestList = {
+      const interests: ProductInterestSearchResult = {
         results: [],
         sorts: [],
         pagination: {},

@@ -2,20 +2,18 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   UserInterestsService,
-  ProductInterestList,
-  ProductInterestRelation,
+  ProductInterestSearchResult,
+  ProductInterestEntryRelation,
   PaginationModel,
 } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
+import { ICON_TYPE } from '../../misc/icon/icon.model';
 @Component({
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
-  interests$: Observable<ProductInterestList>;
-  getInterestsloading$: Observable<boolean>;
-  getRemoveInterestsloading$: Observable<boolean>;
-
+  iconTypes = ICON_TYPE;
   private DEFAULT_PAGE_SIZE = 10;
   private sortMapping = {
     byNameAsc: 'name:asc',
@@ -39,6 +37,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   ];
   pagination: PaginationModel;
 
+  interests$: Observable<ProductInterestSearchResult>;
+  getInterestsloading$: Observable<boolean>;
+  getRemoveInterestsloading$: Observable<boolean>;
+
   constructor(private productInterestService: UserInterestsService) {}
 
   ngOnInit() {
@@ -60,7 +62,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     this.getRemoveInterestsloading$ = this.productInterestService.getRemoveProdutInterestLoading();
   }
 
-  removeInterests(result: ProductInterestRelation): void {
+  removeInterests(result: ProductInterestEntryRelation): void {
     this.productInterestService.removeProdutInterest(result);
   }
 

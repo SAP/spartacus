@@ -3,8 +3,8 @@ import {
   REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
 } from '../user-state';
 import {
-  ProductInterestList,
-  ProductInterestRelation,
+  ProductInterestSearchResult,
+  ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
@@ -50,7 +50,7 @@ export class LoadProductInterestsFail extends LoaderFailAction {
 
 export class LoadProductInterestsSuccess extends LoaderSuccessAction {
   readonly type = LOAD_PRODUCT_INTERESTS_SUCCESS;
-  constructor(public payload: ProductInterestList) {
+  constructor(public payload: ProductInterestSearchResult) {
     super(PRODUCT_INTERESTS);
   }
 }
@@ -60,7 +60,7 @@ export class RemoveProductInterests extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      item: ProductInterestRelation;
+      item: ProductInterestEntryRelation;
     }
   ) {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID);

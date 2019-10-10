@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { UserActions } from '../actions/index';
-import { ProductInterestList } from '../../../model/product-interest.model';
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 
 @Injectable()
@@ -30,7 +30,7 @@ export class ProductInterestsEffect {
           payload.sort
         )
         .pipe(
-          map((interests: ProductInterestList) => {
+          map((interests: ProductInterestSearchResult) => {
             return new UserActions.LoadProductInterestsSuccess(interests);
           }),
           catchError(error =>

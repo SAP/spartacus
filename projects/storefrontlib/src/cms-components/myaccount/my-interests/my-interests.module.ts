@@ -5,6 +5,7 @@ import { ListNavigationModule } from '../../../shared/components/list-navigation
 import { MyInterestsComponent } from './my-interests.component';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { IconModule } from '../../misc/icon/icon.module';
 import {
   ConfigModule,
   CmsConfig,
@@ -32,6 +33,7 @@ import {
     UrlModule,
     MediaModule,
     SpinnerModule,
+    IconModule,
   ],
   exports: [MyInterestsComponent],
   entryComponents: [MyInterestsComponent],

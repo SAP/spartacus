@@ -5,7 +5,7 @@ import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { ProductInterestList } from '../../model/product-interest.model';
+import { ProductInterestSearchResult } from '../../model/product-interest.model';
 import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';
@@ -47,7 +47,7 @@ export interface UserState {
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
   notificationPreferences: LoaderState<NotificationPreference[]>;
-  productInterests: LoaderState<ProductInterestList>;
+  productInterests: LoaderState<ProductInterestSearchResult>;
 }
 
 export interface OrderDetailsState {

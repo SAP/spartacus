@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import {
-  ProductInterestList,
-  ProductInterestRelation,
+  ProductInterestSearchResult,
+  ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
 
 export abstract class UserInterestsAdapter {
@@ -18,7 +18,7 @@ export abstract class UserInterestsAdapter {
     pageSize?: number,
     currentPage?: number,
     sort?: string
-  ): Observable<ProductInterestList>;
+  ): Observable<ProductInterestSearchResult>;
 
   /**
    * Abstract method used to remove product interest for an user.
@@ -28,6 +28,6 @@ export abstract class UserInterestsAdapter {
    */
   abstract removeInterests(
     userId: string,
-    item: ProductInterestRelation
+    item: ProductInterestEntryRelation
   ): Observable<any[]>;
 }

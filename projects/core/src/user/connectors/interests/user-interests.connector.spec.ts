@@ -4,7 +4,7 @@ import { MyInterestsConnector } from './user-interests.connector';
 import { of } from 'rxjs/internal/observable/of';
 import { UserInterestsAdapter } from './user-interests.adapter';
 import createSpy = jasmine.createSpy;
-import { ProductInterestRelation } from '../../../model/product-interest.model';
+import { ProductInterestEntryRelation } from '../../../model/product-interest.model';
 
 class MockMyInterestsAdapter implements UserInterestsAdapter {
   removeInterests = createSpy('removeInterests').and.returnValue(of([]));
@@ -34,7 +34,7 @@ describe('UserInterestsConnector', () => {
 
   it('remove interests should call adapter', () => {
     let result;
-    const relationData: ProductInterestRelation = {
+    const relationData: ProductInterestEntryRelation = {
       product: {},
       productInterestEntry: [],
     };

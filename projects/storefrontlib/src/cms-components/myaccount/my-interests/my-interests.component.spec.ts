@@ -8,8 +8,8 @@ import {
   I18nTestingModule,
   AuthService,
   UserService,
-  ProductInterestList,
-  ProductInterestRelation,
+  ProductInterestSearchResult,
+  ProductInterestEntryRelation,
   ImageType,
 } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -38,17 +38,20 @@ class MockUserService {
   getProdutInterests(
     _userId: string,
     _pageSize: number
-  ): Observable<ProductInterestList> {
+  ): Observable<ProductInterestSearchResult> {
     return of();
   }
   getProdutInterestsLoaded(): Observable<boolean> {
     return of(true);
   }
-  deleteProdutInterest(_userId: string, _item: ProductInterestRelation): void {}
+  deleteProdutInterest(
+    _userId: string,
+    _item: ProductInterestEntryRelation
+  ): void {}
   clearProductInterests(): void {}
 }
 
-const mockedInterests: ProductInterestList = {
+const mockedInterests: ProductInterestSearchResult = {
   sorts: [{ code: 'name', asc: true }],
   pagination: {
     count: 5,
@@ -125,7 +128,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should display title with empty interests', () => {
-    const emptyInterests: ProductInterestList = {
+    const emptyInterests: ProductInterestSearchResult = {
       sorts: [{ code: 'name', asc: true }],
       pagination: {},
     };
@@ -140,7 +143,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should display title with interests', () => {
-    const emptyInterests: ProductInterestList = {
+    const emptyInterests: ProductInterestSearchResult = {
       sorts: [{ code: 'name', asc: true }],
       pagination: {},
       results: [],
@@ -156,7 +159,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should display no interests message', () => {
-    const interests: ProductInterestList = {
+    const interests: ProductInterestSearchResult = {
       sorts: [{ code: 'name', asc: true }],
       pagination: {
         count: 0,
@@ -200,7 +203,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should be able to delete an interest item', () => {
-    const interests: ProductInterestList = { ...mockedInterests };
+    const interests: ProductInterestSearchResult = { ...mockedInterests };
     spyOn(userService, 'getProdutInterests').and.returnValue(of(interests));
     spyOn(userService, 'deleteProdutInterest').and.callFake((_item: any) => {
       interests.results = null;
@@ -215,7 +218,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should not display stock status when in stock', () => {
-    const interests: ProductInterestList = { ...mockedInterests };
+    const interests: ProductInterestSearchResult = { ...mockedInterests };
     interests.results[0].product.stock.stockLevel = 10;
     interests.results[0].product.stock.stockLevelStatus = 'inStock';
     spyOn(userService, 'getProdutInterests').and.returnValue(of(interests));

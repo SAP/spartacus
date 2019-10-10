@@ -7,7 +7,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../../occ/config/occ-config';
 
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
-import { ProductInterestRelation } from '../../../model/product-interest.model';
+import { ProductInterestEntryRelation } from '../../../model/product-interest.model';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -69,7 +69,7 @@ describe('OccUserInterestsAdapter', () => {
 
   describe('removeInterests', () => {
     it('should remove interests for given user', () => {
-      const mockRelation: ProductInterestRelation = {
+      const mockRelation: ProductInterestEntryRelation = {
         product: {},
       };
       const userId = 'jack.ma@hybris.com';

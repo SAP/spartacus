@@ -1,7 +1,7 @@
 import { UserActions } from '../actions/index';
-import { ProductInterestList } from '../../../model/product-interest.model';
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 
-export const initialState: ProductInterestList = {
+export const initialState: ProductInterestSearchResult = {
   results: [],
   pagination: {},
   sorts: [],
@@ -10,7 +10,7 @@ export const initialState: ProductInterestList = {
 export function reducer(
   state = initialState,
   action: UserActions.ProductInterestsAction
-): ProductInterestList {
+): ProductInterestSearchResult {
   switch (action.type) {
     case UserActions.LOAD_PRODUCT_INTERESTS_SUCCESS: {
       return action.payload ? action.payload : initialState;

@@ -6,11 +6,11 @@ import {
   loaderLoadingSelector,
 } from '../../../state/utils/loader/loader.selectors';
 import { getUserState } from './feature.selector';
-import { ProductInterestList } from '../../../model/product-interest.model';
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 
 export const getInterestsState: MemoizedSelector<
   StateWithUser,
-  LoaderState<ProductInterestList>
+  LoaderState<ProductInterestSearchResult>
 > = createSelector(
   getUserState,
   (state: UserState) => state.productInterests
@@ -18,10 +18,11 @@ export const getInterestsState: MemoizedSelector<
 
 export const getInterests: MemoizedSelector<
   StateWithUser,
-  ProductInterestList
+  ProductInterestSearchResult
 > = createSelector(
   getInterestsState,
-  (state: LoaderState<ProductInterestList>) => loaderValueSelector(state)
+  (state: LoaderState<ProductInterestSearchResult>) =>
+    loaderValueSelector(state)
 );
 
 export const getInterestsLoading: MemoizedSelector<
@@ -29,5 +30,6 @@ export const getInterestsLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getInterestsState,
-  (state: LoaderState<ProductInterestList>) => loaderLoadingSelector(state)
+  (state: LoaderState<ProductInterestSearchResult>) =>
+    loaderLoadingSelector(state)
 );

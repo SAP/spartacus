@@ -1,6 +1,6 @@
 import * as fromInterestsReducer from './product-interests.reducer';
 import { UserActions } from '../actions/index';
-import { ProductInterestList } from '../../../model/product-interest.model';
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 
 describe('Product Interests Reducer', () => {
   describe('Undefined Action', () => {
@@ -14,7 +14,7 @@ describe('Product Interests Reducer', () => {
   });
   describe('LOAD_PRODUCT_INTERESTS_SUCCESS action', () => {
     it('should populate the user addresses state entities', () => {
-      const interests: ProductInterestList = {
+      const interests: ProductInterestSearchResult = {
         results: [],
         sorts: [],
         pagination: {},

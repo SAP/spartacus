@@ -3,16 +3,16 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromReducers from '../reducers/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { ProductInterestList } from '../../../model/product-interest.model';
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { UserActions } from '../actions/index';
 import { UsersSelectors } from '../selectors/index';
 
-const emptyInterestList: ProductInterestList = {
+const emptyInterestList: ProductInterestSearchResult = {
   results: [],
   sorts: [],
   pagination: {},
 };
-const mockedInterestList: ProductInterestList = {
+const mockedInterestList: ProductInterestSearchResult = {
   results: [],
   sorts: [
     {
@@ -45,7 +45,7 @@ describe('Product Interests Selectors', () => {
 
   describe('getInterestsState', () => {
     it('should return product interests state', () => {
-      let result: LoaderState<ProductInterestList>;
+      let result: LoaderState<ProductInterestSearchResult>;
       store
         .pipe(select(UsersSelectors.getInterestsState))
         .subscribe(value => (result = value))
@@ -77,7 +77,7 @@ describe('Product Interests Selectors', () => {
 
   describe('getInterests', () => {
     it('should return a ProductInterestList', () => {
-      let result: ProductInterestList;
+      let result: ProductInterestSearchResult;
       store
         .pipe(select(UsersSelectors.getInterests))
         .subscribe(value => (result = value));

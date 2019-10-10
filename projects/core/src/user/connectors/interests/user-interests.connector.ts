@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { UserInterestsAdapter } from './user-interests.adapter';
 import { Observable } from 'rxjs';
 import {
-  ProductInterestList,
-  ProductInterestRelation,
+  ProductInterestSearchResult,
+  ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
 
 @Injectable({
@@ -16,13 +16,13 @@ export class UserInterestsConnector {
     pageSize?: number,
     currentPage?: number,
     sort?: string
-  ): Observable<ProductInterestList> {
+  ): Observable<ProductInterestSearchResult> {
     return this.adapter.getInterests(userId, pageSize, currentPage, sort);
   }
 
   removeInterests(
     userId: string,
-    item: ProductInterestRelation
+    item: ProductInterestEntryRelation
   ): Observable<any[]> {
     return this.adapter.removeInterests(userId, item);
   }

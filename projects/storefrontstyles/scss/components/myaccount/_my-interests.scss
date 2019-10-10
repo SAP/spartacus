@@ -8,7 +8,7 @@
   .cx-product-interests-table {
     padding: 1.5rem 0 1.125rem 0;
     margin-bottom: 0;
-    border-width: 1px 0 1px 0;
+    border-width: 0 0 1px 0;
     border-color: var(--cx-color-light);
     border-style: solid;
 
@@ -31,24 +31,32 @@
       padding: 1.5rem 0 1.125rem 0;
       text-align: left;
 
-      &:last-child {
-        text-align: right;
+      &:first-child {
+        text-align: center;
       }
+
+      // &:last-child {
+      //   width: 15%;
+      // }
     }
 
     td {
-      width: 25%;
+      width: 20%;
       padding: 1.625rem 0;
 
       &:first-child {
+        width: 10%;
+      }
+      &:last-child {
         width: 15%;
+        padding-right: 5%;
       }
 
       @include media-breakpoint-up(md) {
         text-align: left;
 
         &:last-child {
-          text-align: right;
+          text-align: center;
         }
       }
 

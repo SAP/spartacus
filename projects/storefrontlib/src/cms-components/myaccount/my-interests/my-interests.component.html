@@ -128,7 +128,6 @@
                   </div>
                 </td>
                 <td>
-                  <div class="d-md-none"></div>
                   <button
                     type="button"
                     class="close"
@@ -143,7 +142,9 @@
                     "
                     (click)="removeInterests(result)"
                   >
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">
+                      <cx-icon [type]="iconTypes.CLOSE"></cx-icon
+                    ></span>
                   </button>
                 </td>
               </tr>

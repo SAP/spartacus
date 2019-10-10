@@ -9,8 +9,8 @@ import {
   REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
 } from '../store/user-state';
 import {
-  ProductInterestList,
-  ProductInterestRelation,
+  ProductInterestSearchResult,
+  ProductInterestEntryRelation,
 } from '../../model/product-interest.model';
 import { tap, map } from 'rxjs/operators';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
@@ -47,7 +47,9 @@ export class UserInterestsService {
    * Returns product interests list
    * @param pageSize page size
    */
-  getProdutInterests(pageSize: number): Observable<ProductInterestList> {
+  getProdutInterests(
+    pageSize: number
+  ): Observable<ProductInterestSearchResult> {
     return this.store.pipe(
       select(UsersSelectors.getInterestsState),
       tap(interestListState => {
@@ -74,7 +76,7 @@ export class UserInterestsService {
    * Removes a ProductInterestRelation
    * @param item product interest relation item
    */
-  removeProdutInterest(item: ProductInterestRelation): void {
+  removeProdutInterest(item: ProductInterestEntryRelation): void {
     this.store.dispatch(
       new UserActions.RemoveProductInterests({
         userId: OCC_USER_ID_CURRENT,

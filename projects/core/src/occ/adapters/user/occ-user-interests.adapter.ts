@@ -5,8 +5,8 @@ import { Observable, throwError, forkJoin } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
 import {
-  ProductInterestList,
-  ProductInterestRelation,
+  ProductInterestSearchResult,
+  ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
 import { Image } from '../../../model/image.model';
 import { OccConfig } from '../../config/occ-config';
@@ -27,7 +27,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     pageSize?: number,
     currentPage?: number,
     sort?: string
-  ): Observable<ProductInterestList> {
+  ): Observable<ProductInterestSearchResult> {
     let params = new HttpParams().set('sort', sort ? sort : 'name:asc');
     if (pageSize) {
       params = params.set('pageSize', pageSize.toString());
@@ -61,7 +61,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
 
   public removeInterests(
     userId: string,
-    item: ProductInterestRelation
+    item: ProductInterestEntryRelation
   ): Observable<any[]> {
     const r: Observable<any>[] = [];
     item.productInterestEntry.forEach((entry: any) => {
