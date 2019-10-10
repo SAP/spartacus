@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductImagesComponent {
+export class ProductImagesComponent implements OnInit {
   private mainMediaContainer = new BehaviorSubject(null);
 
   private product$: Observable<
@@ -30,7 +30,15 @@ export class ProductImagesComponent {
     map(([_, container]) => container)
   );
 
+  numberOfCarouselItems: number;
+
   constructor(private currentProductService: CurrentProductService) {}
+
+  ngOnInit() {
+    this.thumbs$.subscribe(data => {
+      this.numberOfCarouselItems = data.length;
+    });
+  }
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
@@ -83,5 +91,12 @@ export class ProductImagesComponent {
     }
 
     return (<any[]>product.images.GALLERY).map(c => of({ container: c }));
+  }
+
+  /**
+   * Prevents carousel from being displayed if it is empty
+   */
+  carouselIsEmpty() {
+    return this.numberOfCarouselItems === 0;
   }
 }

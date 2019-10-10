@@ -181,5 +181,13 @@ describe('ProductImagesComponent', () => {
         expect(carousel.length).toEqual(0);
       });
     });
+
+    describe('Product Detail Page', () => {
+      it('should not render the carousel if it is empty', () => {
+        const carousel = fixture.debugElement.queryAll(By.css('cx-carousel'));
+        const emptyElement = [];
+        expect(carousel).toEqual(emptyElement);
+      });
+    });
   });
 });
