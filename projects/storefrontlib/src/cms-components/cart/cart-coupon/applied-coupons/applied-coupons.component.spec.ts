@@ -43,9 +43,10 @@ describe('AppliedCouponsComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
-        AppliedCouponsComponent, 
-        MockCxIconComponent, 
-        MockedCartCouponComponent],
+        AppliedCouponsComponent,
+        MockCxIconComponent,
+        MockedCartCouponComponent,
+      ],
       providers: [{ provide: CartService, useValue: mockCartService }],
     }).compileComponents();
   }));
@@ -151,6 +152,5 @@ describe('AppliedCouponsComponent', () => {
       expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
       expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
     });
-
   });
 });
