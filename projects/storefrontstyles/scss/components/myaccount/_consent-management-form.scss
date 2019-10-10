@@ -1,0 +1,17 @@
+@import '../../theme';
+%cx-consent-management-form {
+  cx-icon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: var(--cx-color-secondary);
+
+    &:before {
+      font-size: 1.6rem;
+    }
+  }
+
+  //   .form-check input[type='checkbox'] {
+  //     background-color: red;
+  //   }
+}
