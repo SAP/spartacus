@@ -3,7 +3,7 @@ import { Pagination, Sort } from './unused.model';
 import { Images } from './image.model';
 
 export interface ProductInterestEntry {
-  interestType?: string;
+  interestType?: NotificationType;
   dateAdded?: Date;
 }
 
@@ -33,4 +33,8 @@ export interface ProductInterestList {
   results?: ProductInterestRelation[];
   sorts?: Sort[];
   pagination?: Pagination;
+}
+
+export enum NotificationType {
+  BACK_IN_STOCK = 'BACK_IN_STOCK',
 }

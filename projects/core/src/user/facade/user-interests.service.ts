@@ -11,6 +11,7 @@ import {
 import {
   ProductInterestList,
   ProductInterestRelation,
+  NotificationType,
 } from '../../model/product-interest.model';
 import { tap, map } from 'rxjs/operators';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
@@ -29,9 +30,11 @@ export class UserInterestsService {
    * @param sort sort
    */
   loadProductInterests(
-    pageSize: number,
+    pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
+    productCode?: string,
+    notificationType?: NotificationType
   ): void {
     this.store.dispatch(
       new UserActions.LoadProductInterests({
@@ -39,6 +42,8 @@ export class UserInterestsService {
         pageSize: pageSize,
         currentPage: currentPage,
         sort: sort,
+        productCode: productCode,
+        notificationType: notificationType,
       })
     );
   }
@@ -47,7 +52,11 @@ export class UserInterestsService {
    * Returns product interests list
    * @param pageSize page size
    */
-  getProdutInterests(pageSize: number): Observable<ProductInterestList> {
+  getProdutInterests(
+    pageSize?: number,
+    productCode?: string,
+    notificationType?: NotificationType
+  ): Observable<ProductInterestList> {
     return this.store.pipe(
       select(UsersSelectors.getInterestsState),
       tap(interestListState => {
@@ -56,7 +65,13 @@ export class UserInterestsService {
           interestListState.success ||
           interestListState.error;
         if (!attemptedLoad) {
-          this.loadProductInterests(pageSize);
+          this.loadProductInterests(
+            pageSize,
+            null,
+            null,
+            productCode,
+            notificationType
+          );
         }
       }),
       map(interestListState => interestListState.value)

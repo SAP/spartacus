@@ -5,6 +5,7 @@ import {
 import {
   ProductInterestList,
   ProductInterestRelation,
+  NotificationType,
 } from '../../../model/product-interest.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
@@ -32,9 +33,11 @@ export class LoadProductInterests extends LoaderLoadAction {
   constructor(
     public payload: {
       userId: string;
-      pageSize: number;
+      pageSize?: number;
       currentPage?: number;
       sort?: string;
+      productCode?: string;
+      notificationType?: NotificationType;
     }
   ) {
     super(PRODUCT_INTERESTS);
