@@ -17,3 +17,7 @@ export interface ProductInterestSearchResult {
   sorts?: Sort[];
   pagination?: Pagination;
 }
+
+export enum NotificationType {
+  BACK_IN_STOCK = 'BACK_IN_STOCK',
+}

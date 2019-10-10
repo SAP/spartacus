@@ -27,7 +27,9 @@ export class ProductInterestsEffect {
           payload.userId,
           payload.pageSize,
           payload.currentPage,
-          payload.sort
+          payload.sort,
+          payload.productCode,
+          payload.notificationType
         )
         .pipe(
           map((interests: ProductInterestSearchResult) => {

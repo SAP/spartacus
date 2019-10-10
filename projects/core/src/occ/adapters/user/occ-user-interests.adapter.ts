@@ -26,7 +26,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
+    productCode?: string,
+    notificationType?: NotificationType
   ): Observable<ProductInterestSearchResult> {
     let params = new HttpParams().set('sort', sort ? sort : 'name:asc');
     if (pageSize) {
@@ -34,6 +36,12 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     }
     if (currentPage) {
       params = params.set('currentPage', currentPage.toString());
+    }
+    if (productCode) {
+      params = params.set('productCode', productCode);
+    }
+    if (notificationType) {
+      params = params.set('notificationType', notificationType.toString());
     }
 
     const headers = new HttpHeaders({

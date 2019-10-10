@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {
   ProductInterestSearchResult,
   ProductInterestEntryRelation,
+  NotificationType,
 } from '../../../model/product-interest.model';
 
 @Injectable({
@@ -15,9 +16,18 @@ export class UserInterestsConnector {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
+    productCode?: string,
+    notificationType?: NotificationType
   ): Observable<ProductInterestSearchResult> {
-    return this.adapter.getInterests(userId, pageSize, currentPage, sort);
+    return this.adapter.getInterests(
+      userId,
+      pageSize,
+      currentPage,
+      sort,
+      productCode,
+      notificationType
+    );
   }
 
   removeInterests(

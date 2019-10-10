@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import {
   ProductInterestSearchResult,
   ProductInterestEntryRelation,
+  NotificationType,
 } from '../../../model/product-interest.model';
 
 export abstract class UserInterestsAdapter {
@@ -12,12 +13,16 @@ export abstract class UserInterestsAdapter {
    * @param pageSize
    * @param currentPage
    * @param sort Sorting method
+   * @param productCode The product code
+   * @param  notificationType The notification type
    */
   abstract getInterests(
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
+    productCode?: string,
+    notificationType?: NotificationType
   ): Observable<ProductInterestSearchResult>;
 
   /**
