@@ -66,7 +66,7 @@ describe('AppliedCouponsComponent', () => {
     beforeEach(() => {
       component.isReadOnly = true;
     });
-    fit('should not show coupon list when no coupons applied', () => {
+    it('should not show coupon list when no coupons applied', () => {
       fixture.detectChanges();
       const elTitle = fixture.debugElement.queryAll(
         By.css('[data-test="summary-title-coupon"]')
