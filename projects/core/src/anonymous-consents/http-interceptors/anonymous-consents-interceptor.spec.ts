@@ -12,8 +12,9 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
-import { AnonymousConsent } from '../../model/index';
+import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
+import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/index';
 import {
   AnonymousConsentsInterceptor,
@@ -44,11 +45,18 @@ class MockAnonymousConsentsService {
   setAnonymousConsents(_consents: AnonymousConsent[]): void {}
 }
 
+const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+  anonymousConsents: {
+    requiredConsents: ['OTHER_CONSENT'],
+  },
+};
+
 describe('AnonymousConsentsInterceptor', () => {
   let httpMock: HttpTestingController;
   let anonymousConsentsService: AnonymousConsentsService;
   let authService: AuthService;
   let interceptor: AnonymousConsentsInterceptor;
+  let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,6 +73,10 @@ describe('AnonymousConsentsInterceptor', () => {
           useClass: AnonymousConsentsInterceptor,
           multi: true,
         },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
       ],
     });
     httpMock = TestBed.get(HttpTestingController as Type<
@@ -74,6 +86,9 @@ describe('AnonymousConsentsInterceptor', () => {
       AnonymousConsentsService
     >);
     authService = TestBed.get(AuthService as Type<AuthService>);
+    anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
+      AnonymousConsentsService
+    >);
 
     const interceptors = TestBed.get(HTTP_INTERCEPTORS);
     interceptors.forEach((i: HttpInterceptor) => {
@@ -184,6 +199,34 @@ describe('AnonymousConsentsInterceptor', () => {
           expect(
             anonymousConsentsService.setAnonymousConsents
           ).toHaveBeenCalledWith(mockAnonymousConsents);
+        });
+      });
+      const giveRequiredConsentsMethod = 'giveRequiredConsents';
+      describe(`${giveRequiredConsentsMethod}`, () => {
+        it('should giveAnonymousConsent', () => {
+          const consents: AnonymousConsent[] = [
+            { templateCode: 'MARKETING', version: 0, consentState: null },
+            { templateCode: 'OTHER_CONSENT', version: 0, consentState: null },
+          ];
+          const expectedConsents: AnonymousConsent[] = [
+            { templateCode: 'MARKETING', version: 0, consentState: null },
+            {
+              templateCode: 'OTHER_CONSENT',
+              version: 0,
+              consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+            },
+          ];
+
+          spyOn(anonymousConsentService, 'setAnonymousConsents').and.stub();
+
+          // Clone array to not have the reference
+          interceptor[giveRequiredConsentsMethod](
+            JSON.parse(JSON.stringify(consents))
+          );
+
+          expect(
+            anonymousConsentService.setAnonymousConsents
+          ).toHaveBeenCalledWith(expectedConsents);
         });
       });
     });

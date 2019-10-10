@@ -9,8 +9,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
-import { AnonymousConsent } from '../../model/index';
+import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
+import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
 export const ANONYMOUS_CONSENTS_HEADER = 'X-Anonymous-Consents';
@@ -20,7 +21,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   constructor(
     private anonymousConsentsService: AnonymousConsentsService,
     private authService: AuthService,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    private config: AnonymousConsentsConfig
   ) {}
 
   intercept(
@@ -53,7 +55,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   private handleResponse(rawConsents: string, isUserLoggedIn: boolean): void {
     if (rawConsents && !isUserLoggedIn) {
       const consents = this.decodeAndDeserialize(rawConsents);
-      this.anonymousConsentsService.setAnonymousConsents(consents);
+      this.giveRequiredConsents(consents);
     }
   }
 
@@ -90,5 +92,22 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
 
   private isOccUrl(url: string): boolean {
     return url.includes(this.occEndpoints.getBaseEndpoint());
+  }
+
+  private giveRequiredConsents(consents: AnonymousConsent[]): void {
+    for (const consent of consents) {
+      if (Boolean(this.config.anonymousConsents.requiredConsents)) {
+        if (
+          this.config.anonymousConsents.requiredConsents.includes(
+            consent.templateCode
+          )
+        ) {
+          consent.consentState =
+            ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN;
+        }
+      }
+    }
+
+    this.anonymousConsentsService.setAnonymousConsents(consents);
   }
 }
