@@ -8,7 +8,6 @@ import { ModalService } from '../../shared/components/modal/index';
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
   templateUrl: './anonymous-consent-management-banner.component.html',
-  styleUrls: ['./anonymous-consent-management-banner.component.scss'],
 })
 export class AnonymousConsentManagementBannerComponent
   implements OnInit, OnDestroy {

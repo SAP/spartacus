@@ -1,24 +1,28 @@
 import { Component, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AnonymousConsent,
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
   AuthRedirectService,
+  AuthService,
+  ConsentTemplate,
+  FeatureConfigService,
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   RoutingService,
   Title,
   UserService,
   UserToken,
-  AuthService,
-  FeatureConfigService,
-  GlobalMessageType,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -116,6 +120,26 @@ class MockRoutingService {
   go = createSpy();
 }
 
+class MockAnonymousConsentsService {
+  getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
+    return of();
+  }
+
+  getAnonymousConsentTemplate(
+    _templateCode: string
+  ): Observable<ConsentTemplate> {
+    return of();
+  }
+
+  giveAnonymousConsent(_templateCode: string): void {}
+}
+
+const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+  anonymousConsents: {
+    registerConsent: 'MARKETING',
+  },
+};
+
 describe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
@@ -126,6 +150,7 @@ describe('RegisterComponent', () => {
   let mockRoutingService: MockRoutingService;
   let mockAuthService: MockAuthService;
   let mockAuthRedirectService: MockAuthRedirectService;
+  let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -151,6 +176,14 @@ describe('RegisterComponent', () => {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
         },
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
       ],
     }).compileComponents();
   }));
@@ -165,6 +198,9 @@ describe('RegisterComponent', () => {
     mockAuthService = TestBed.get(AuthService as Type<AuthService>);
     mockAuthRedirectService = TestBed.get(AuthRedirectService as Type<
       AuthRedirectService
+    >);
+    anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
+      AnonymousConsentsService
     >);
 
     component = fixture.componentInstance;
@@ -378,6 +414,31 @@ describe('RegisterComponent', () => {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
+  });
+
+  describe('onRegisterUserSuccess', () => {
+    beforeEach(() => {
+      spyOn(anonymousConsentService, 'giveAnonymousConsent').and.stub();
+    });
+
+    it('should give anonymous consent if consent was given', () => {
+      component.userRegistrationForm.get('newsletter').setValue(true);
+
+      registerUserIsSuccess.next(true);
+
+      expect(anonymousConsentService.giveAnonymousConsent).toHaveBeenCalledWith(
+        mockAnonymousConsentsConfig.anonymousConsents.registerConsent
+      );
+    });
+    it('should give anonymous consent if consent was NOT given', () => {
+      component.userRegistrationForm.get('newsletter').setValue(false);
+
+      registerUserIsSuccess.next(true);
+
+      expect(
+        anonymousConsentService.giveAnonymousConsent
+      ).not.toHaveBeenCalled();
     });
   });
 });
