@@ -6,30 +6,22 @@
   }
   .cx-dialog-body {
     padding-top: 0;
-    //this below is custom not global
+
     @include media-breakpoint-down(xs) {
       padding: 0;
     }
   }
   .cx-dialog-buttons {
     text-align: right;
-    padding: 0 4rem;
-  }
-  .cx-action-link {
-    @include type('8');
-    text-transform: uppercase;
-    text-decoration: underline;
-    cursor: pointer;
+    padding: 1rem 4rem;
   }
 
   .cx-action-link {
-    display: inline-block;
     margin: 0 0.35rem;
   }
 
   .cx-dialog-row {
     max-width: 100%;
-    //this below is custom not global
     @include media-breakpoint-down(xs) {
       padding: 0;
     }
