@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -11,6 +17,10 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductReviewsComponent {
+  @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
+  @ViewChild('writeReviewButton', { static: false })
+  writeReviewButton: ElementRef;
+
   isWritingReview = false;
 
   // TODO: configurable
@@ -32,16 +42,21 @@ export class ProductReviewsComponent {
   constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    protected cd?: ChangeDetectorRef
   ) {}
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
+    this.cd.detectChanges();
+    this.titleInput.nativeElement.focus();
   }
 
   cancelWriteReview(): void {
     this.isWritingReview = false;
     this.resetReviewForm();
+    this.cd.detectChanges();
+    this.writeReviewButton.nativeElement.focus();
   }
 
   setRating(rating): void {
@@ -61,6 +76,8 @@ export class ProductReviewsComponent {
 
     this.isWritingReview = false;
     this.resetReviewForm();
+    this.cd.detectChanges();
+    this.writeReviewButton.nativeElement.focus();
   }
 
   private resetReviewForm(): void {
