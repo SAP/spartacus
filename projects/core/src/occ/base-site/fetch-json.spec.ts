@@ -1,0 +1,212 @@
+import {
+  fetchJson,
+  fetchJsonSSR,
+  fetchJsonSSRFactory,
+  HttpsClient,
+} from './fetch-json';
+
+fdescribe(`JSON fetching utils`, () => {
+  describe(`using XMLHttpRequest`, () => {
+    interface MockXhrOptions {
+      success: boolean;
+      status?: number;
+      responseText?: string;
+    }
+
+    async function runWithMockXhr(options: MockXhrOptions, test: Function) {
+      // save original properties of global xhr
+      const originalXhr = {
+        status: Object.getOwnPropertyDescriptor(
+          XMLHttpRequest.prototype,
+          'status'
+        ),
+        responseText: Object.getOwnPropertyDescriptor(
+          XMLHttpRequest.prototype,
+          'responseText'
+        ),
+        open: XMLHttpRequest.prototype.open,
+        send: XMLHttpRequest.prototype.send,
+      };
+
+      // mock properties of the global xhr
+      Object.defineProperty(XMLHttpRequest.prototype, 'status', {
+        writable: true,
+      });
+      Object.defineProperty(XMLHttpRequest.prototype, 'responseText', {
+        writable: true,
+      });
+      XMLHttpRequest.prototype.open = jasmine.createSpy('open');
+      XMLHttpRequest.prototype.send = function() {
+        this.status = options.status;
+        this.responseText = options.responseText;
+        if (options.success) {
+          this.onload();
+        } else {
+          this.onerror('Test Xhr failure');
+        }
+      };
+
+      // perform test
+      await test();
+
+      // restore original properties in the global xhr
+      Object.defineProperty(
+        XMLHttpRequest.prototype,
+        'status',
+        originalXhr.status
+      );
+      Object.defineProperty(
+        XMLHttpRequest.prototype,
+        'responseText',
+        originalXhr.responseText
+      );
+      XMLHttpRequest.prototype.open = originalXhr.open;
+      XMLHttpRequest.prototype.send = originalXhr.send;
+    }
+
+    describe(`fetchJson`, () => {
+      it('should perform xhr call to the given url', async () => {
+        await runWithMockXhr(
+          { success: true, status: 200, responseText: '{}' },
+          async () => {
+            await fetchJson('testUrl');
+            expect(XMLHttpRequest.prototype.open).toHaveBeenCalledWith(
+              'GET',
+              'testUrl',
+              true
+            );
+          }
+        );
+      });
+
+      it('should reject promise on the call failure', async () => {
+        await runWithMockXhr({ success: false }, async () => {
+          let rejected;
+          await fetchJson('testUrl').catch(() => (rejected = true));
+          expect(rejected).toBe(true);
+        });
+      });
+
+      it('should reject promise on the status other than 200', async () => {
+        await runWithMockXhr(
+          { success: false, status: 400, responseText: '{}' },
+          async () => {
+            let rejected;
+            await fetchJson('testUrl').catch(() => (rejected = true));
+            expect(rejected).toBe(true);
+          }
+        );
+      });
+
+      it('should reject promise on invalid JSON in the response', async () => {
+        await runWithMockXhr(
+          { success: false, status: 400, responseText: 'invalid-json' },
+          async () => {
+            let rejected;
+            await fetchJson('testUrl').catch(() => (rejected = true));
+            expect(rejected).toBe(true);
+          }
+        );
+      });
+    });
+  });
+
+  describe(`using Node.js https client`, () => {
+    let mockHttpsClient: HttpsClient;
+    let mockStatusCode: number;
+    let mockEvents: {
+      onData?: Function;
+      onEnd?: Function;
+      onError?: Function;
+    };
+
+    beforeEach(() => {
+      mockEvents = {};
+
+      const mockGetResult = {
+        on: (_: 'error', onError) => (mockEvents.onError = onError),
+      };
+
+      const mockResponse = {
+        on: function(event: string, callback: Function) {
+          if (event === 'data') {
+            mockEvents.onData = callback;
+          } else if (event === 'end') {
+            mockEvents.onEnd = callback;
+          }
+        },
+        get statusCode() {
+          return mockStatusCode;
+        },
+      };
+
+      mockHttpsClient = {
+        get: jasmine.createSpy('get').and.callFake((_, onResponse) => {
+          onResponse(mockResponse);
+          return mockGetResult;
+        }),
+      };
+    });
+
+    describe(`fetchJsonSSR`, () => {
+      it('should perform call to the given url', async () => {
+        const promise = fetchJsonSSR('testUrl', mockHttpsClient);
+        expect(mockHttpsClient.get).toHaveBeenCalledWith(
+          'testUrl',
+          jasmine.any(Function)
+        );
+
+        mockEvents.onData('{');
+        mockEvents.onData(' "testKey": "testValue" ');
+        mockEvents.onData('}');
+        mockStatusCode = 200;
+        mockEvents.onEnd();
+        const result = await promise;
+        expect(result).toEqual({ testKey: 'testValue' });
+      });
+
+      it('should reject promise on the call failure', async () => {
+        const promise = fetchJsonSSR('testUrl', mockHttpsClient);
+        mockEvents.onData('{}');
+        mockEvents.onError({ message: 'test error' });
+
+        let rejected;
+        await promise.catch(() => (rejected = true));
+        expect(rejected).toBe(true);
+      });
+
+      it('should reject promise on invalid JSON in the response', async () => {
+        const promise = fetchJsonSSR('testUrl', mockHttpsClient);
+        mockEvents.onData('{}');
+        mockStatusCode = 400;
+        mockEvents.onEnd();
+
+        let rejected;
+        await promise.catch(() => (rejected = true));
+        expect(rejected).toBe(true);
+      });
+
+      it('should reject promise on invalid JSON in the response', async () => {
+        const promise = fetchJsonSSR('testUrl', mockHttpsClient);
+        mockEvents.onData('invalid-json');
+        mockStatusCode = 200;
+        mockEvents.onEnd();
+
+        let rejected;
+        await promise.catch(() => (rejected = true));
+        expect(rejected).toBe(true);
+      });
+    });
+
+    describe(`fetchJsonSSRFactory`, () => {
+      it('should return fetchJsonSSR function fed up with https client object', async () => {
+        const resultFetchFunction = fetchJsonSSRFactory(mockHttpsClient);
+        resultFetchFunction('testUrl');
+        expect(mockHttpsClient.get).toHaveBeenCalledWith(
+          'testUrl',
+          jasmine.any(Function)
+        );
+      });
+    });
+  });
+});

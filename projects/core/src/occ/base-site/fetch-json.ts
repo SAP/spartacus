@@ -11,7 +11,7 @@ export function fetchJson(url: string): Promise<any> {
           reject(e);
         }
       } else {
-        reject(xhr.responseText);
+        reject(new Error(xhr.responseText));
       }
     };
     xhr.onerror = e => {
@@ -21,18 +21,15 @@ export function fetchJson(url: string): Promise<any> {
   });
 }
 
-interface HttpsClientEventBus {
-  on: (event: string, callback: Function) => void;
-}
-
-interface HttpsClientResponse extends HttpsClientEventBus {
+export interface HttpsClientResponse {
   statusCode: number;
+  on: (event: 'data' | 'end', callback: Function) => void;
 }
-export interface HttpsClient extends HttpsClientEventBus {
+export interface HttpsClient {
   get: (
     url: string,
     callback: (response: HttpsClientResponse) => void
-  ) => HttpsClient;
+  ) => { on: (event: 'error', callback: Function) => void };
 }
 
 export function fetchJsonSSR(
@@ -53,8 +50,9 @@ export function fetchJsonSSR(
             } catch (e) {
               reject(e);
             }
+          } else {
+            reject(response);
           }
-          reject(response);
         });
       })
       .on('error', err => {
