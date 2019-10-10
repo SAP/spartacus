@@ -4,7 +4,7 @@ import {
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
 } from '../config/config-from-meta-tag-factory';
 import { Occ } from '../occ-models/occ.models';
-import { fetchJson, fetchJsonSSRFactory, HttpsClient } from './fetch-json';
+import { JsonFetchUtils } from './json-fetch-utils';
 
 export interface OccBaseSitesEndpointOptions {
   baseUrl?: string;
@@ -22,7 +22,7 @@ export interface OccBaseSitesEndpointOptions {
 export function fetchOccBaseSites(
   endpointOptions: OccBaseSitesEndpointOptions
 ): Promise<Occ.BaseSites> {
-  return genericFetchOccBaseSites(endpointOptions, fetchJson);
+  return genericFetchOccBaseSites(endpointOptions, JsonFetchUtils.getXhr);
 }
 
 /**
@@ -35,11 +35,11 @@ export function fetchOccBaseSites(
  */
 export function fetchOccBaseSitesSSR(
   endpointOptions: OccBaseSitesEndpointOptions,
-  httpsClient: HttpsClient
+  httpsClient: JsonFetchUtils.NodeHttpsClient
 ): Promise<Occ.BaseSites> {
   return genericFetchOccBaseSites(
     endpointOptions,
-    fetchJsonSSRFactory(httpsClient)
+    JsonFetchUtils.getNodeHttpsFactory(httpsClient)
   );
 }
 

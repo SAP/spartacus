@@ -1,9 +1,4 @@
-import {
-  fetchJson,
-  fetchJsonSSR,
-  fetchJsonSSRFactory,
-  HttpsClient,
-} from './fetch-json';
+import { JsonFetchUtils } from './json-fetch-utils';
 
 fdescribe(`JSON fetching utils`, () => {
   describe(`using XMLHttpRequest`, () => {
@@ -64,12 +59,12 @@ fdescribe(`JSON fetching utils`, () => {
       XMLHttpRequest.prototype.send = originalXhr.send;
     }
 
-    describe(`fetchJson`, () => {
-      it('should perform xhr call to the given url', async () => {
+    describe(`getXhr`, () => {
+      it('should perform xhr GET call to the given url', async () => {
         await runWithMockXhr(
           { success: true, status: 200, responseText: '{}' },
           async () => {
-            await fetchJson('testUrl');
+            await JsonFetchUtils.getXhr('testUrl');
             expect(XMLHttpRequest.prototype.open).toHaveBeenCalledWith(
               'GET',
               'testUrl',
@@ -82,7 +77,7 @@ fdescribe(`JSON fetching utils`, () => {
       it('should reject promise on the call failure', async () => {
         await runWithMockXhr({ success: false }, async () => {
           let rejected;
-          await fetchJson('testUrl').catch(() => (rejected = true));
+          await JsonFetchUtils.getXhr('testUrl').catch(() => (rejected = true));
           expect(rejected).toBe(true);
         });
       });
@@ -92,7 +87,9 @@ fdescribe(`JSON fetching utils`, () => {
           { success: false, status: 400, responseText: '{}' },
           async () => {
             let rejected;
-            await fetchJson('testUrl').catch(() => (rejected = true));
+            await JsonFetchUtils.getXhr('testUrl').catch(
+              () => (rejected = true)
+            );
             expect(rejected).toBe(true);
           }
         );
@@ -103,7 +100,9 @@ fdescribe(`JSON fetching utils`, () => {
           { success: false, status: 400, responseText: 'invalid-json' },
           async () => {
             let rejected;
-            await fetchJson('testUrl').catch(() => (rejected = true));
+            await JsonFetchUtils.getXhr('testUrl').catch(
+              () => (rejected = true)
+            );
             expect(rejected).toBe(true);
           }
         );
@@ -112,7 +111,7 @@ fdescribe(`JSON fetching utils`, () => {
   });
 
   describe(`using Node.js https client`, () => {
-    let mockHttpsClient: HttpsClient;
+    let mockHttpsClient: JsonFetchUtils.NodeHttpsClient;
     let mockStatusCode: number;
     let mockEvents: {
       onData?: Function;
@@ -148,9 +147,9 @@ fdescribe(`JSON fetching utils`, () => {
       };
     });
 
-    describe(`fetchJsonSSR`, () => {
-      it('should perform call to the given url', async () => {
-        const promise = fetchJsonSSR('testUrl', mockHttpsClient);
+    describe(`getNodeHttps`, () => {
+      it('should perform Node.js https GET call to the given url', async () => {
+        const promise = JsonFetchUtils.getNodeHttps('testUrl', mockHttpsClient);
         expect(mockHttpsClient.get).toHaveBeenCalledWith(
           'testUrl',
           jasmine.any(Function)
@@ -166,7 +165,7 @@ fdescribe(`JSON fetching utils`, () => {
       });
 
       it('should reject promise on the call failure', async () => {
-        const promise = fetchJsonSSR('testUrl', mockHttpsClient);
+        const promise = JsonFetchUtils.getNodeHttps('testUrl', mockHttpsClient);
         mockEvents.onData('{}');
         mockEvents.onError({ message: 'test error' });
 
@@ -176,7 +175,7 @@ fdescribe(`JSON fetching utils`, () => {
       });
 
       it('should reject promise on invalid JSON in the response', async () => {
-        const promise = fetchJsonSSR('testUrl', mockHttpsClient);
+        const promise = JsonFetchUtils.getNodeHttps('testUrl', mockHttpsClient);
         mockEvents.onData('{}');
         mockStatusCode = 400;
         mockEvents.onEnd();
@@ -187,7 +186,7 @@ fdescribe(`JSON fetching utils`, () => {
       });
 
       it('should reject promise on invalid JSON in the response', async () => {
-        const promise = fetchJsonSSR('testUrl', mockHttpsClient);
+        const promise = JsonFetchUtils.getNodeHttps('testUrl', mockHttpsClient);
         mockEvents.onData('invalid-json');
         mockStatusCode = 200;
         mockEvents.onEnd();
@@ -198,13 +197,14 @@ fdescribe(`JSON fetching utils`, () => {
       });
     });
 
-    describe(`fetchJsonSSRFactory`, () => {
-      it('should return fetchJsonSSR function fed up with https client object', async () => {
-        const resultFetchFunction = fetchJsonSSRFactory(mockHttpsClient);
-        resultFetchFunction('testUrl');
-        expect(mockHttpsClient.get).toHaveBeenCalledWith(
+    describe(`getNodeHttpsFactory`, () => {
+      it('should return getNodeHttps function fed up with https client object', async () => {
+        spyOn(JsonFetchUtils, 'getNodeHttps');
+        const resultFetchFunction = JsonFetchUtils.getNodeHttpsFactory(null);
+        await resultFetchFunction('testUrl');
+        expect(JsonFetchUtils.getNodeHttps).toHaveBeenCalledWith(
           'testUrl',
-          jasmine.any(Function)
+          null
         );
       });
     });

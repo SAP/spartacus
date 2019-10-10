@@ -1,5 +1,4 @@
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
-import { HttpsClient } from './fetch-json';
 import {
   fetchOccBaseSites,
   fetchOccBaseSitesSSR,
@@ -7,6 +6,7 @@ import {
 } from './fetch-occ-base-sites';
 import { getConfigFromOccBaseSites } from './get-config-from-occ-base-sites';
 import { getOccBaseUrlFromMetaTag } from './get-occ-base-url-from-meta-tag';
+import { JsonFetchUtils } from './json-fetch-utils';
 import { rehydrateOccBaseSitesConfig } from './occ-base-sites-config-transfer-state';
 
 export function fetchOccBaseSitesConfig(
@@ -26,7 +26,7 @@ export function fetchOccBaseSitesConfig(
 export function fetchOccBaseSitesConfigSSR(
   fetchOptions: OccBaseSitesEndpointOptions,
   currentUrl: string,
-  httpsClient: HttpsClient
+  httpsClient: JsonFetchUtils.NodeHttpsClient
 ): Promise<SiteContextConfig> {
   return fetchOccBaseSitesSSR(fetchOptions, httpsClient).then(baseSites =>
     getConfigFromOccBaseSites(baseSites, currentUrl)
