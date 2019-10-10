@@ -10,7 +10,7 @@ export class CartCouponAnchorComponent implements OnInit {
 
   ngOnInit() {}
 
-  sendScrollEvent(anchor: string) {
-    this.cartCouponAnchorService.getEventEmit().emit(anchor);
+  sendScrollEvent() {
+    this.cartCouponAnchorService.getEventEmit().emit();
   }
 }

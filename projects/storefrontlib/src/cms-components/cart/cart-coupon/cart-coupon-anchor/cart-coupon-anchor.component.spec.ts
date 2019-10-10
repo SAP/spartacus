@@ -34,14 +34,14 @@ describe('CartCouponAnchorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display coupons anchor title and clickable', () => {
+  fit('should display coupons anchor title and clickable', () => {
     fixture.detectChanges();
 
     const anchorTitle = fixture.debugElement.query(
       By.css('[data-test="anchor-coupon"]')
     ).nativeElement;
     anchorTitle.click();
-    expect(spyEmitter.emit).toHaveBeenCalledWith('#applyVoucher');
+    expect(spyEmitter.emit).toHaveBeenCalledWith();
     expect(anchorTitle.innerText).toContain('voucher.anchorLabel');
   });
 });
