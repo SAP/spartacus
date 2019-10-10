@@ -145,7 +145,7 @@ export class AnonymousConsentsEffects {
           this.authService.getOccUserId(),
           this.userConsentService.getConsents()
         ),
-        switchMap(([loaded, userId, templates]) => {
+        concatMap(([loaded, userId, templates]) => {
           if (!loaded) {
             this.userConsentService.loadConsents();
           }
