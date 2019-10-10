@@ -34,7 +34,7 @@ describe('CartCouponAnchorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should display coupons anchor title and clickable', () => {
+  it('should display coupons anchor title and clickable', () => {
     fixture.detectChanges();
 
     const anchorTitle = fixture.debugElement.query(
