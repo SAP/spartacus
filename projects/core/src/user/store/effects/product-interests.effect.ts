@@ -50,7 +50,10 @@ export class ProductInterestsEffect {
       this.userInterestsConnector
         .removeInterests(payload.userId, payload.item)
         .pipe(
-          map((res: any) => new UserActions.RemoveProductInterestsSuccess(res)),
+          switchMap(data => [
+            new UserActions.LoadProductInterests({ userId: payload.userId }),
+            new UserActions.RemoveProductInterestsSuccess(data),
+          ]),
           catchError(error =>
             of(new UserActions.RemoveProductInterestsFail(error))
           )

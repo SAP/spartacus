@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { Observable, throwError, forkJoin } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
 import {
   ProductInterestSearchResult,
   ProductInterestEntryRelation,
+  NotificationType,
 } from '../../../model/product-interest.model';
-import { Image } from '../../../model/image.model';
 import { OccConfig } from '../../config/occ-config';
 import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
@@ -30,7 +30,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     productCode?: string,
     notificationType?: NotificationType
   ): Observable<ProductInterestSearchResult> {
-    let params = new HttpParams().set('sort', sort ? sort : 'name:asc');
+    let params = new HttpParams()
+      .set('sort', sort ? sort : 'name:asc')
+      .set('fields', 'FULL');
     if (pageSize) {
       params = params.set('pageSize', pageSize.toString());
     }
@@ -54,14 +56,6 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
         params,
       })
       .pipe(
-        tap((r: any) => {
-          if (r.results) {
-            r.results.forEach(
-              (item: any) =>
-                (item.product.images = this.convertImages(item.product.images))
-            );
-          }
-        }),
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
         catchError((error: any) => throwError(error))
       );
@@ -85,33 +79,5 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       );
     });
     return forkJoin(r);
-  }
-
-  private convertImages(source: Image[]): any {
-    const images = {};
-    if (source) {
-      for (const image of source) {
-        const isList = image.hasOwnProperty('galleryIndex');
-        if (!images.hasOwnProperty(image.imageType)) {
-          images[image.imageType] = isList ? [] : {};
-        }
-
-        let imageContainer: any;
-        if (isList && !images[image.imageType][image.galleryIndex]) {
-          images[image.imageType][image.galleryIndex] = {};
-        }
-
-        if (isList) {
-          imageContainer = images[image.imageType][image.galleryIndex];
-        } else {
-          imageContainer = images[image.imageType];
-        }
-        // set full image URL path
-        image.url = (this.config.backend.occ.baseUrl || '') + image.url;
-
-        imageContainer[image.format] = image;
-      }
-    }
-    return images;
   }
 }
