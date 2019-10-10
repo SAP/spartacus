@@ -7,7 +7,7 @@
         }}</label>
         <div class="form-check">
           <ng-container *ngFor="let preference of preferences">
-            <label data-test="channel">
+            <label *ngIf="preference.visible" data-test="channel">
               <input
                 class="form-check-input cx-np-checkbox"
                 role="checkbox"
