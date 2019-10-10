@@ -1,1 +1,1 @@
-export * from './breadcrumb-schema.service';
+export * from './breadcrumb-schema.builder';

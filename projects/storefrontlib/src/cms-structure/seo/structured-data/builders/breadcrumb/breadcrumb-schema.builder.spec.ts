@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PageMeta, PageMetaService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { BreadcrumbSchemaBuilder } from './breadcrumb-schema.service';
+import { BreadcrumbSchemaBuilder } from './breadcrumb-schema.builder';
 
 const pageMetaHome: PageMeta = {
   title: 'name of the page',
@@ -34,6 +34,10 @@ const pageMetaHomeWithoutTitle: PageMeta = {
       link: '/',
     },
   ],
+};
+
+const pageMetaWithoutBreadcrumb: PageMeta = {
+  title: 'name of the page',
 };
 
 class MockPageMetaService {
@@ -115,5 +119,17 @@ describe('JsonLdProductOfferBuilder', () => {
         expect(schema.itemListElement.length).toEqual(1);
       })
       .unsubscribe();
+  });
+
+  it('should not create schema if there are no breadcrumbs', () => {
+    spyOn(pageMetaService, 'getMeta').and.returnValue(
+      of(pageMetaWithoutBreadcrumb)
+    );
+    let schema: string;
+    service
+      .build()
+      .subscribe(data => (schema = data))
+      .unsubscribe();
+    expect(schema).toBeUndefined();
   });
 });

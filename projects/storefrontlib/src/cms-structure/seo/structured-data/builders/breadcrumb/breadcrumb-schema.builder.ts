@@ -16,7 +16,10 @@ export class BreadcrumbSchemaBuilder implements SchemaBuilder {
       .pipe(map((pageMeta: PageMeta) => this.collect(pageMeta)));
   }
 
-  protected collect(pageMeta: PageMeta) {
+  protected collect(pageMeta: PageMeta): any {
+    if (!pageMeta.breadcrumbs) {
+      return;
+    }
     const crumbs = pageMeta.breadcrumbs.map((crumb, index) => {
       return {
         '@type': 'ListItem',
