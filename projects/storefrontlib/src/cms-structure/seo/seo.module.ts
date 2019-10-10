@@ -1,7 +1,6 @@
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { htmlLangProvider } from './html-lang-provider';
 import { SeoMetaService } from './seo-meta.service';
-import { JsonLdDirective } from './structured-data/json-ld.directive';
 import { StructuredDataModule } from './structured-data/structured-data.module';
 
 export function initSeoService(injector: Injector) {
@@ -23,6 +22,5 @@ export function initSeoService(injector: Injector) {
     },
     htmlLangProvider,
   ],
-  exports: [JsonLdDirective],
 })
 export class SeoModule {}

@@ -12,11 +12,12 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
+  JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
-import { JsonLdBuilderModule } from 'projects/storefrontlib/src/cms-structure/seo/structured-data';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
