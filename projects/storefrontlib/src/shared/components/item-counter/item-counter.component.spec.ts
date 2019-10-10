@@ -55,17 +55,70 @@ describe('ItemCounterComponent', () => {
     expect(component.control.value).toEqual(10);
   }));
 
-  it('should avoid invalid characters in the input to silently fail', async(() => {
-    component.min = 5;
-    const input: HTMLInputElement = fixture.debugElement.query(By.css('input'))
-      .nativeElement;
+  describe('readonly', () => {
+    it('should add readonly class', async(() => {
+      component.readonly = true;
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).toContain('readonly');
+    }));
 
-    input.value = 'abc';
-    input.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    it('should not add readonly class', async(() => {
+      component.readonly = false;
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).not.toContain('readonly');
+    }));
+  });
 
-    expect(input.value).toEqual('5');
-  }));
+  describe('validate value', () => {
+    it('should set value to max when it is greater than max value', () => {
+      component.max = 40;
+      component.control.setValue(50);
+      fixture.detectChanges();
+
+      expect(component.control.value).toEqual(40);
+    });
+
+    it('should set value to min when it is smaller than min value', () => {
+      component.min = 3;
+      component.control.setValue(2);
+      fixture.detectChanges();
+
+      expect(component.control.value).toEqual(3);
+    });
+
+    it('should avoid invalid characters in the input to silently fail', async(() => {
+      component.min = 5;
+      const input: HTMLInputElement = fixture.debugElement.query(
+        By.css('input')
+      ).nativeElement;
+
+      input.value = 'abc';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      expect(input.value).toEqual('5');
+    }));
+
+    it('should ignore 0 value in case `allowZero` is set to true', () => {
+      component.allowZero = true;
+      component.control.setValue(0);
+      fixture.detectChanges();
+
+      expect(component.control.value).toEqual(0);
+    });
+
+    it('should set to min value in case `allowZero` is set to false', () => {
+      component.allowZero = false;
+      component.control.setValue(0);
+      fixture.detectChanges();
+
+      expect(component.control.value).toEqual(component.min);
+    });
+  });
 
   describe('increment()', () => {
     it('should increase form control value when plus button is used', () => {
@@ -87,15 +140,7 @@ describe('ItemCounterComponent', () => {
       expect(component.control.dirty).toBe(true);
     });
 
-    it('should set value to max when it is greater than max value', () => {
-      component.max = 40;
-      component.control.setValue(50);
-      fixture.detectChanges();
-
-      expect(component.control.value).toEqual(40);
-    });
-
-    it('should enable increase button if max number is reached', () => {
+    it('should enable increase button if max number is not reached', () => {
       component.control.setValue(5);
       component.max = 10;
       fixture.detectChanges();

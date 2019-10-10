@@ -53,7 +53,7 @@ export class ItemCounterComponent {
    * despite the fact that the input controls will be limited to
    * the minimum. The zero value can be used to remove an item.
    */
-  @Input() allowZero: false;
+  @Input() allowZero = false;
 
   private _control$: Observable<FormControl>;
 
@@ -103,16 +103,20 @@ export class ItemCounterComponent {
     return this._control$;
   }
 
+  /**
+   * Validate that the given value is in between
+   * the `min` and `max` value. If the value is out
+   * of  the min/max range, it will be altered.
+   * If `allowZero` is set to true, the 0 value is ignored.
+   *
+   */
   private getValidCount(value: number) {
-    let newValue = Number(value);
-    if (value === 0 && this.allowZero) {
-      // do nothing
-    } else if (value < (this.min || 1)) {
-      newValue = this.min;
+    if (value < this.min && !(value === 0 && this.allowZero)) {
+      value = this.min;
     }
     if (this.max && value > this.max) {
-      newValue = this.max;
+      value = this.max;
     }
-    return newValue;
+    return value;
   }
 }
