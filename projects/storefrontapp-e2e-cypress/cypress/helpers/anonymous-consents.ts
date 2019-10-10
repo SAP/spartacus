@@ -1,3 +1,10 @@
+import { CONSENT_MANAGEMENT, giveConsent } from '../helpers/consent-management';
+import { standardUser } from '../sample-data/shared-users';
+import { login } from './auth-forms';
+import { signOutUser } from './login';
+import { PAGE_URL_LOGIN } from './update-password';
+import { generateMail, randomString } from './user';
+
 export function seeBannerAsAnonymous() {
   cy.get('cx-anonymous-consent-management-banner').should('exist');
 }
@@ -10,7 +17,7 @@ export function openDialogUsingFooterLink() {
   cy.get('.anonymous-consents').within(() => {
     const link = cy.get('a');
     link.should('exist');
-    link.click();
+    link.click({ force: true });
   });
 }
 
@@ -121,5 +128,32 @@ export function dialogTest() {
         checkConsentsWithdrawn();
       });
     });
+  });
+}
+
+export function moveAnonymousUserToLoggedInUser() {
+  it('should ignore the anonymous consents and load the previously given registered consents', () => {
+    standardUser.registrationData.email = generateMail(randomString(), true);
+    cy.requireLoggedIn(standardUser);
+    cy.visit(CONSENT_MANAGEMENT);
+    giveConsent();
+    signOutUser();
+
+    openDialogUsingFooterLink();
+    // give the second anonymous consent
+    cy.get('.cx-dialog-row:nth-child(2)')
+      .find('input')
+      .click();
+    closeDialog();
+
+    cy.visit(PAGE_URL_LOGIN);
+    login(
+      standardUser.registrationData.email,
+      standardUser.registrationData.password
+    );
+    cy.visit(CONSENT_MANAGEMENT);
+    cy.get('input[type="checkbox"]')
+      .first()
+      .should('be.checked');
   });
 }
