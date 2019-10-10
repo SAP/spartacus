@@ -5,8 +5,8 @@ import { CartService, I18nTestingModule, Voucher } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 
-const coupon1: Voucher = { code: 'coupon1' };
-const coupon2: Voucher = { code: 'coupon2' };
+const coupon1: Voucher = { code: 'coupon1', voucherCode: 'coupon1' };
+const coupon2: Voucher = { code: 'coupon2', voucherCode: 'coupon2' };
 
 @Component({
   selector: 'cx-icon',
@@ -19,21 +19,22 @@ class MockCxIconComponent {
 @Component({
   template: `
     <cx-applied-coupons
-      [vouchers]="cart.appliedVouchers"
+      [vouchers]="coupons"
       [cartIsLoading]="cartIsLoading"
-      [isReadOnly]="false"
+      [isReadOnly]="isReadOnly"
     >
     </cx-applied-coupons>
   `,
 })
 class MockedCartCouponComponent {
-  coupon = coupon1;
+  coupons = [coupon2, coupon1];
   cartIsLoading = false;
+  isReadOnly = false;
 }
 
-describe('AppliedCouponsComponent', () => {
-  let component: AppliedCouponsComponent;
-  let fixture: ComponentFixture<AppliedCouponsComponent>;
+fdescribe('AppliedCouponsComponent', () => {
+  let component: MockedCartCouponComponent;
+  let fixture: ComponentFixture<MockedCartCouponComponent>;
 
   const mockCartService = jasmine.createSpyObj('CartService', [
     'removeVoucher',
@@ -52,7 +53,7 @@ describe('AppliedCouponsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppliedCouponsComponent);
+    fixture = TestBed.createComponent(MockedCartCouponComponent);
     component = fixture.componentInstance;
     mockCartService.removeVoucher.and.stub();
   });
@@ -67,6 +68,7 @@ describe('AppliedCouponsComponent', () => {
       component.isReadOnly = true;
     });
     it('should not show coupon list when no coupons applied', () => {
+      component.coupons = [];
       fixture.detectChanges();
       const elTitle = fixture.debugElement.queryAll(
         By.css('[data-test="summary-title-coupon"]')
@@ -77,11 +79,10 @@ describe('AppliedCouponsComponent', () => {
 
       expect(elTitle.length).toBe(0);
       expect(elValue.length).toBe(0);
-      expect(component.sortedVouchers.length === 0);
     });
 
     it('should show coupon tile and coupon when coupon applied', () => {
-      component.vouchers = [coupon2, coupon1];
+      component.coupons = [coupon2, coupon1];
       fixture.detectChanges();
       const couponTitle = fixture.debugElement.query(
         By.css('[data-test="summary-title-coupon"]')
@@ -91,8 +92,8 @@ describe('AppliedCouponsComponent', () => {
       );
       expect(couponTitle).toContain('voucher.coupon');
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
+      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
+      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
     });
   });
 
@@ -101,6 +102,7 @@ describe('AppliedCouponsComponent', () => {
       component.isReadOnly = false;
     });
     it('should not show coupon list with remove button when no coupons applied', () => {
+      component.coupons = [];
       fixture.detectChanges();
       const elValue = fixture.debugElement.queryAll(
         By.css('[data-test="applied-coupon"]')
@@ -111,11 +113,10 @@ describe('AppliedCouponsComponent', () => {
 
       expect(elValue.length).toBe(0);
       expect(elButton).toBeNull();
-      expect(component.sortedVouchers.length === 0);
     });
 
     it('should show applied coupons', () => {
-      component.vouchers = [coupon2, coupon1];
+      component.coupons = [coupon2, coupon1];
       fixture.detectChanges();
       const elValue = fixture.debugElement.queryAll(
         By.css('[data-test="applied-coupon"]')
@@ -126,31 +127,33 @@ describe('AppliedCouponsComponent', () => {
 
       expect(elButton.length).toBe(2);
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
+      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
+      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
     });
 
     it('should remove applied coupon', () => {
-      component.vouchers = [coupon1];
+      component.coupons = [coupon1];
       fixture.detectChanges();
 
       fixture.debugElement
         .query(By.css('[data-test="remove-coupon"]'))
         .nativeElement.click();
 
-      expect(mockCartService.removeVoucher).toHaveBeenCalledWith(coupon1.code);
+      expect(mockCartService.removeVoucher).toHaveBeenCalledWith(
+        coupon1.voucherCode
+      );
     });
 
     it('should sort applied coupons', () => {
-      component.vouchers = [coupon2, coupon1];
+      component.coupons = [coupon2, coupon1];
       fixture.detectChanges();
       const elValue = fixture.debugElement.queryAll(
         By.css('[data-test="applied-coupon"]')
       );
 
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.code);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.code);
+      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
+      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
     });
   });
 });

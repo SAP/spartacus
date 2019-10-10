@@ -46,11 +46,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.subscription
       .add(
-        this.cartCouponAnchorService
-          .getEventEmit()
-          .subscribe(() => {
-            this.scrollToView();
-          })
+        this.cartCouponAnchorService.getEventEmit().subscribe(() => {
+          this.scrollToView();
+        })
       )
       .add(
         this.form.valueChanges.subscribe(
