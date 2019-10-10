@@ -11,7 +11,7 @@ import { Item } from '../cart-item/cart-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemListComponent {
-  @Input() isReadOnly = false;
+  @Input() readonly = false;
 
   @Input() hasHeader = true;
 
@@ -30,7 +30,7 @@ export class CartItemListComponent {
 
   @Input('cartIsLoading')
   set setLoading(value: boolean) {
-    if (!this.isReadOnly) {
+    if (!this.readonly) {
       // Whenver the cart is loading, we disable the complete form
       // to avoid any user interaction with the cart.
       value
@@ -51,7 +51,7 @@ export class CartItemListComponent {
         entryNumber: new FormControl((<any>item).entryNumber),
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
       });
-      if (!item.updateable || this.isReadOnly) {
+      if (!item.updateable || this.readonly) {
         group.disable();
       }
       this.form.addControl(item.product.code, group);

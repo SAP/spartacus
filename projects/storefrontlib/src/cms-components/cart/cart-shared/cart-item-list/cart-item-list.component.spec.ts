@@ -41,7 +41,7 @@ const mockPotentialProductPromotions = [
 class MockCartItemComponent {
   @Input() item;
   @Input() potentialProductPromotions;
-  @Input() isReadOnly;
+  @Input() readonly;
   @Input() quantityControl;
 }
 
@@ -118,7 +118,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('should return disabled form group when readonly is true', () => {
-    component.isReadOnly = true;
+    component.readonly = true;
     fixture.detectChanges();
     const item = mockItems[0];
     let result: FormGroup;

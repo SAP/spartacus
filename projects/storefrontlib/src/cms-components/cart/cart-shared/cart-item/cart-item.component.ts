@@ -17,7 +17,7 @@ export class CartItemComponent {
   @Input() compact = false;
   @Input() item: Item;
   @Input() potentialProductPromotions: any[];
-  @Input() isReadOnly = false;
+  @Input() readonly = false;
   @Input() quantityControl: FormControl;
 
   @Output() view = new EventEmitter<any>();
