@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   UserInterestsService,
   UserNotificationPreferenceService,
@@ -14,18 +14,20 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { map, filter, tap, first } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
+import { ModalService } from '../../../shared';
+import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 
 @Component({
   selector: 'cx-stock-notification',
   templateUrl: './stock-notification.component.html',
 })
-export class StockNotificationComponent implements OnInit {
+export class StockNotificationComponent implements OnInit, OnDestroy {
 
   anonymous$: Observable<boolean>;
   subscribed$: Observable<boolean>;
   prefsEnabled$: Observable<boolean>;
   outOfStock$: Observable<boolean>;
-  subscribeLoading$: Observable<boolean>;
+  subscribeSuccess$: Observable<boolean>;
   unsubscribeLoading$: Observable<boolean>;
   unsubscribeSuccess$: Observable<boolean>;
 
@@ -40,6 +42,7 @@ export class StockNotificationComponent implements OnInit {
     private globalMessageService: GlobalMessageService,
     private translationService: TranslationService,
     private interestsService: UserInterestsService,
+    private modalService: ModalService,
     private notificationPrefService: UserNotificationPreferenceService
   ) {}
 
@@ -69,7 +72,7 @@ export class StockNotificationComponent implements OnInit {
       )
     );
 
-    this.subscribeLoading$ = this.interestsService.getAddProductInterestLoading();
+    this.subscribeSuccess$ = this.interestsService.getAddProductInterestLoading();
     this.unsubscribeLoading$ = this.interestsService.getRemoveProdutInterestLoading();
     this.subscription.add(this.interestsService.getRemoveProdutInterestSuccess().subscribe(
       success => {
@@ -89,6 +92,7 @@ export class StockNotificationComponent implements OnInit {
 
   subscribe(){
     this.interestsService.addProductInterest(this.productCode, NotificationType.BACK_IN_STOCK);
+    this.openDialog();
   }
 
   unsubscribe(){
@@ -100,6 +104,16 @@ export class StockNotificationComponent implements OnInit {
         interestType: NotificationType.BACK_IN_STOCK
       }]
     });
+  }
+
+  private openDialog(){
+    const modalInstance = this.modalService.open(StockNotificationDialogComponent, {
+      centered: true,
+      size: 'lg',
+    }).componentInstance;
+
+    modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
+    modalInstance.enabledPrefs = this.enabledPrefs;
   }
 
   private hasSubscribed(productCode: string): void {
@@ -125,4 +139,7 @@ export class StockNotificationComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

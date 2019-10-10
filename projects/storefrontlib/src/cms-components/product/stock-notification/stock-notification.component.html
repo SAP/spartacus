@@ -1,11 +1,11 @@
 <ng-container *ngIf="outOfStock$ | async">
-    <ng-container *ngIf="!(anonymous$ | async); else notify">
+    <ng-container *ngIf="!(anonymous$ | async); else disableNotify">
         <ng-container *ngIf="!(subscribed$ | async); else stopNotify">
-            <ng-container *ngIf="!(prefsEnabled$ | async); else notify">
+            <ng-container *ngIf="(prefsEnabled$ | async); else disableNotify">
                 <div class="stock-notification-notes">
-                    <label>To get notified when this product is back in stock again please activate your Notification Channels.</label>
+                    <label>Get notified when this product is back in stock.</label>
                 </div>
-                <button class="btn btn-primary btn-block" type="button" disabled="true">
+                <button class="btn btn-primary btn-block" type="button" (click)="subscribe()">
                     Notify Me
                 </button>
             </ng-container>
@@ -13,11 +13,11 @@
     </ng-container>
 </ng-container>
 
-<ng-template #notify>
+<ng-template #disableNotify>
     <div class="stock-notification-notes">
-        <label>Get notified when this product is back in stock.</label>
+        <label>To get notified when this product is back in stock again please activate your Notification Channels.</label>
     </div>
-    <button class="btn btn-primary btn-block" type="button" (click)="subscribe()">
+    <button class="btn btn-primary btn-block" type="button" disabled="true">
         Notify Me
     </button>
 </ng-template>
