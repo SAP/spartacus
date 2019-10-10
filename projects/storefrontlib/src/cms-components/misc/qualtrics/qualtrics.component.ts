@@ -10,6 +10,6 @@ import { QualtricsLoaderService } from './qualtrics-loader.service';
 })
 export class QualtricsComponent {
   qualtricsEnabled$: Observable<boolean> = this.config.load();
-
+  // TODO: rename config to `loader`
   constructor(private config: QualtricsLoaderService) {}
 }

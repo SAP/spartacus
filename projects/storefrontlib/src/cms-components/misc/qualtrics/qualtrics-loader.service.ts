@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, fromEvent, iif, Observable, of } from 'rxjs';
-import { distinctUntilChanged, mergeMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, fromEvent, Observable, of } from 'rxjs';
+import { distinctUntilChanged, filter, mergeMap, tap } from 'rxjs/operators';
 import { QualtricsConfig } from '../../../shared/config/qualtrics-config';
 
 @Injectable({
@@ -11,62 +11,48 @@ export class QualtricsLoaderService {
   qualtricsLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private winRef: WindowRef, private config: QualtricsConfig) {
-    const qualtricsScript = this.winRef.document.createElement('script');
-    qualtricsScript.type = 'text/javascript';
-    qualtricsScript.defer = true;
-    qualtricsScript.src = 'assets/qualtricsIntegration.js';
+    if (Boolean(this.winRef.nativeWindow)) {
+      fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded')
+        .pipe(filter(_ => this.isQualtricsConfigured()))
+        .subscribe(_ => this.qualtricsLoaded$.next(true));
 
-    const idScript = this.winRef.document.createElement('div');
-    if (this.isQualtricsConfigured) {
-      idScript.id = this.config.qualtrics.projectId;
+      const qualtricsScript = this.winRef.document.createElement('script');
+      qualtricsScript.type = 'text/javascript';
+      qualtricsScript.defer = true;
+      qualtricsScript.src = 'assets/qualtricsIntegration.js';
+
+      const idScript = this.winRef.document.createElement('div');
+      if (this.isQualtricsConfigured) {
+        idScript.id = this.config.qualtrics.projectId;
+      }
+
+      this.winRef.document
+        .getElementsByTagName('head')[0]
+        .appendChild(qualtricsScript);
+
+      this.winRef.document
+        .getElementsByTagName('head')[0]
+        .appendChild(idScript);
     }
-
-    this.winRef.document
-      .getElementsByTagName('head')[0]
-      .appendChild(qualtricsScript);
-
-    this.winRef.document.getElementsByTagName('head')[0].appendChild(idScript);
   }
 
   load(): Observable<boolean> {
-    return iif(
-      () => Boolean(this.winRef.nativeWindow) && this.isQualtricsConfigured(),
-      fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded').pipe(
-        mergeMap(d => {
-          console.log('test', d);
-          const qsi = this.winRef.nativeWindow['QSI'];
+    return this.qualtricsLoaded$.pipe(
+      filter(loaded => loaded),
+      mergeMap(_ => {
+        const qsi = this.winRef.nativeWindow['QSI'];
 
-          return this.isDataLoaded().pipe(
-            distinctUntilChanged(),
-            tap(dataLoaded => {
-              if (dataLoaded) {
-                qsi.API.unload();
-                qsi.API.load().done(qsi.API.run());
-              }
-            })
-          );
-        })
-      ),
-      EMPTY
+        return this.isDataLoaded().pipe(
+          distinctUntilChanged(),
+          tap(dataLoaded => {
+            if (dataLoaded) {
+              qsi.API.unload();
+              qsi.API.load().done(qsi.API.run());
+            }
+          })
+        );
+      })
     );
-
-    // P.S Just for testing! qsi_js_loaded timing issue again...
-    // return iif(
-    //   () => Boolean(this.winRef.nativeWindow) && this.isQualtricsConfigured(),
-    //   this.isDataLoaded().pipe(
-    //     distinctUntilChanged(),
-    //     tap(dataLoaded => {
-    //       if (dataLoaded) {
-    //         console.log('in');
-    //         const qsi = this.winRef.nativeWindow['QSI'];
-    //         qsi.API.unload();
-
-    //         qsi.API.load().done(qsi.API.run());
-    //       }
-    //     })
-    //   ),
-    //   EMPTY
-    // );
   }
 
   private isQualtricsConfigured(): boolean {
