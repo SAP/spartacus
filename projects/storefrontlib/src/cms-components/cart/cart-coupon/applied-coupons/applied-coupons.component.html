@@ -10,7 +10,7 @@
     role="filter"
   >
     <span class="cx-applied-coupon-code" data-test="applied-coupon">{{
-      v.code
+      v.voucherCode
     }}</span>
   </div>
 </div>
@@ -24,14 +24,14 @@
     >
       <div class="cx-coupon-apply cx-coupon-card cx-coupon-list-wrap">
         <span class="cx-cart-coupon-code " data-test="applied-coupon">{{
-          v.code
+          v.voucherCode
         }}</span>
         <button
           type="button"
           class="close"
           data-test="remove-coupon"
           aria-label="Close"
-          (click)="removeVoucher(v.code)"
+          (click)="removeVoucher(v.voucherCode)"
           [disabled]="cartIsLoading"
           [class.disabled]="cartIsLoading"
         >
