@@ -80,7 +80,7 @@ if (!environment.production) {
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: ['powertools'],
+        baseSite: ['powertools','powertools-spa'],
       },
 
       // custom routing configuration for e2e testing
@@ -96,6 +96,9 @@ if (!environment.production) {
         resources: translations,
         chunks: translationChunksConfig,
         fallbackLang: 'en',
+      },
+      features: {
+        level: '1.2',
       },
     }),
     JsonLdBuilderModule,
