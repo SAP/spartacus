@@ -13,7 +13,7 @@ class MockReviewSubmitComponent {
   @Input()
   items: Item[];
   @Input()
-  isReadOnly: boolean;
+  readonly: boolean;
 }
 
 class MockCheckoutService {

@@ -70,7 +70,7 @@ class MockCartItemComponent {
   @Input() compact = false;
   @Input() item: Observable<OrderEntry>;
   @Input() potentialProductPromotions: PromotionResult[];
-  @Input() isReadOnly = false;
+  @Input() readonly = false;
   @Input() quantityControl: FormControl;
 }
 

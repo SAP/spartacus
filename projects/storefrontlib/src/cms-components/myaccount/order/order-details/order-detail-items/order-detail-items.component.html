@@ -24,7 +24,7 @@
     <div class="cx-list-item col-12">
       <cx-cart-item-list
         [items]="getConsignmentProducts(consignment)"
-        [isReadOnly]="true"
+        [readonly]="true"
       ></cx-cart-item-list>
     </div>
   </div>
@@ -38,7 +38,7 @@
     <div class="cx-list-item col-12">
       <cx-cart-item-list
         [items]="order?.unconsignedEntries"
-        [isReadOnly]="true"
+        [readonly]="true"
       ></cx-cart-item-list>
     </div>
   </div>
