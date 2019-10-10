@@ -186,12 +186,10 @@ describe('ShippingAddressComponent', () => {
       spyOn(mockUserAddressService, 'loadAddresses').and.stub();
 
       component.ngOnInit();
-      component.existingAddresses$
-        .subscribe(() => {
-          expect(mockUserAddressService.loadAddresses).toHaveBeenCalled();
-          done();
-        })
-        .unsubscribe();
+      component.existingAddresses$.subscribe(() => {
+        expect(mockUserAddressService.loadAddresses).toHaveBeenCalled();
+        done();
+      });
     });
 
     it('for guest user, should not load user addresses', done => {
@@ -203,12 +201,10 @@ describe('ShippingAddressComponent', () => {
       spyOn(mockUserAddressService, 'loadAddresses').and.stub();
 
       component.ngOnInit();
-      component.existingAddresses$
-        .subscribe(() => {
-          expect(mockUserAddressService.loadAddresses).not.toHaveBeenCalled();
-          done();
-        })
-        .unsubscribe();
+      component.existingAddresses$.subscribe(() => {
+        expect(mockUserAddressService.loadAddresses).not.toHaveBeenCalled();
+        done();
+      });
     });
 
     it('should call ngOnInit to get existing address if they exist', () => {
@@ -222,19 +218,15 @@ describe('ShippingAddressComponent', () => {
 
       component.ngOnInit();
       let address: Address[];
-      component.existingAddresses$
-        .subscribe(data => {
-          address = data;
-        })
-        .unsubscribe();
+      component.existingAddresses$.subscribe(data => {
+        address = data;
+      });
 
       expect(address).toBe(mockAddresses);
 
-      component.cards$
-        .subscribe(cards => {
-          expect(cards.length).toEqual(2);
-        })
-        .unsubscribe();
+      component.cards$.subscribe(cards => {
+        expect(cards.length).toEqual(2);
+      });
 
       expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
     });
@@ -248,18 +240,15 @@ describe('ShippingAddressComponent', () => {
       );
       component.ngOnInit();
       let address: Address[];
-      component.existingAddresses$
-        .subscribe(data => {
-          address = data;
-        })
-        .unsubscribe();
+      component.existingAddresses$.subscribe(data => {
+        address = data;
+      });
+
       expect(address).toBe(mockAddresses);
-      component.cards$
-        .subscribe(cards => {
-          expect(cards.length).toEqual(2);
-          expect(cards[1].card.header).toBe('addressCard.selected');
-        })
-        .unsubscribe();
+      component.cards$.subscribe(cards => {
+        expect(cards.length).toEqual(2);
+        expect(cards[1].card.header).toBe('addressCard.selected');
+      });
     });
   });
 
@@ -303,21 +292,18 @@ describe('ShippingAddressComponent', () => {
 
     component.ngOnInit();
     let address: Address[];
-    component.existingAddresses$
-      .subscribe(data => {
-        address = data;
-      })
-      .unsubscribe();
+    component.existingAddresses$.subscribe(data => {
+      address = data;
+    });
+
     expect(address).toBe(mockAddresses);
 
     //mockAddresses array contains an address that is default so it will be selected
-    component.cards$
-      .subscribe(cards => {
-        expect(component.selectedAddress).toEqual(mockAddress2); // TODO: (issue:#3921) deprecated since 1.3 - Remove dep. check
-        expect(cards.length).toEqual(2);
-        expect(cards[1].card.header).toBe('addressCard.selected');
-      })
-      .unsubscribe();
+    component.cards$.subscribe(cards => {
+      expect(component.selectedAddress).toEqual(mockAddress2); // TODO: (issue:#3921) deprecated since 1.3 - Remove dep. check
+      expect(cards.length).toEqual(2);
+      expect(cards[1].card.header).toBe('addressCard.selected');
+    });
   });
 
   // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
@@ -334,28 +320,23 @@ describe('ShippingAddressComponent', () => {
 
     component.ngOnInit();
     let address: Address[];
-    component.existingAddresses$
-      .subscribe(data => {
-        address = data;
-      })
-      .unsubscribe();
+    component.existingAddresses$.subscribe(data => {
+      address = data;
+    });
+
     expect(address).toBe(mockAddresses);
     fixture.detectChanges();
 
-    component.selectedAddress$
-      .subscribe(selected => {
-        fixture.detectChanges();
-        expect(selected).toEqual(mockAddress1);
-      })
-      .unsubscribe();
+    component.selectedAddress$.subscribe(selected => {
+      fixture.detectChanges();
+      expect(selected).toEqual(mockAddress1);
+    });
 
     //The logic in the card$ subscription should keep the current selection
-    component.cards$
-      .subscribe(cards => {
-        expect(cards.length).toEqual(2);
-        expect(cards[0].card.header).toBe('addressCard.selected');
-      })
-      .unsubscribe();
+    component.cards$.subscribe(cards => {
+      expect(cards.length).toEqual(2);
+      expect(cards[0].card.header).toBe('addressCard.selected');
+    });
   });
 
   it('should automatically select default shipping address when there is no current selection', () => {
@@ -369,22 +350,19 @@ describe('ShippingAddressComponent', () => {
 
     component.ngOnInit();
     let address: Address[];
-    component.existingAddresses$
-      .subscribe(data => {
-        address = data;
-      })
-      .unsubscribe();
+    component.existingAddresses$.subscribe(data => {
+      address = data;
+    });
+
     expect(address).toBe(mockAddresses);
 
     fixture.detectChanges();
 
     //mockAddresses array contains an address that is default so it will be selected
-    component.cards$
-      .subscribe(cards => {
-        expect(cards.length).toEqual(2);
-        expect(cards[1].card.header).toBe('addressCard.selected');
-      })
-      .unsubscribe();
+    component.cards$.subscribe(cards => {
+      expect(cards.length).toEqual(2);
+      expect(cards[1].card.header).toBe('addressCard.selected');
+    });
 
     expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
   });
@@ -425,11 +403,9 @@ describe('ShippingAddressComponent', () => {
 
     component.ngOnInit();
     let address: Address[];
-    component.existingAddresses$
-      .subscribe(data => {
-        address = data;
-      })
-      .unsubscribe();
+    component.existingAddresses$.subscribe(data => {
+      address = data;
+    });
     expect(address).toBe(mockAddresses);
 
     fixture.detectChanges();
@@ -476,13 +452,11 @@ describe('ShippingAddressComponent', () => {
       mockAddress2.defaultAddress = false;
       component.ngOnInit();
 
-      component.selectedAddress$
-        .subscribe(selectedAddress => {
-          fixture.detectChanges();
-          expect(selectedAddress).toBeNull();
-          expect(getContinueBtn().nativeElement.disabled).toEqual(true);
-        })
-        .unsubscribe();
+      component.selectedAddress$.subscribe(selectedAddress => {
+        fixture.detectChanges();
+        expect(selectedAddress).toBeNull();
+        expect(getContinueBtn().nativeElement.disabled).toEqual(true);
+      });
     });
 
     // TODO: (issue:#3921) deprecated since 1.3 - Remove old test
@@ -516,21 +490,18 @@ describe('ShippingAddressComponent', () => {
 
       component.ngOnInit();
       let address: Address[];
-      component.existingAddresses$
-        .subscribe(data => {
-          address = data;
-        })
-        .unsubscribe();
+      component.existingAddresses$.subscribe(data => {
+        address = data;
+      });
+
       expect(address).toBe(mockAddresses);
 
       fixture.detectChanges();
 
       component.selectAddress(mockAddress1);
-      component.selectedAddress$
-        .subscribe(() => {
-          fixture.detectChanges();
-        })
-        .unsubscribe();
+      component.selectedAddress$.subscribe(() => {
+        fixture.detectChanges();
+      });
 
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
     });
@@ -571,20 +542,17 @@ describe('ShippingAddressComponent', () => {
 
       component.ngOnInit();
       let address: Address[];
-      component.existingAddresses$
-        .subscribe(data => {
-          address = data;
-        })
-        .unsubscribe();
+      component.existingAddresses$.subscribe(data => {
+        address = data;
+      });
+
       expect(address).toBe(mockAddresses);
       fixture.detectChanges();
 
       component.selectAddress(mockAddress1);
-      component.selectedAddress$
-        .subscribe(() => {
-          fixture.detectChanges();
-        })
-        .unsubscribe();
+      component.selectedAddress$.subscribe(() => {
+        fixture.detectChanges();
+      });
 
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
       getContinueBtn().nativeElement.click();
