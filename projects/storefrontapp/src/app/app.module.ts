@@ -11,12 +11,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
 import {
-  B2cStorefrontModule,
+  //B2cStorefrontModule,
+  JsonLdBuilderModule,
   StorefrontComponent,
-  // B2bStorefrontModule,
+  B2bStorefrontModule,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -32,7 +34,7 @@ if (!environment.production) {
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
 
-    B2cStorefrontModule.withConfig({
+    /*B2cStorefrontModule.withConfig({
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
@@ -66,10 +68,10 @@ if (!environment.production) {
       features: {
         level: '1.2',
       },
-    }),
+    }),*/
 
     // The following part is for B2b storefront
-    /*B2bStorefrontModule.withConfig({
+    B2bStorefrontModule.withConfig({
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
@@ -95,8 +97,9 @@ if (!environment.production) {
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
-    }),*/
+    }),
 
+    JsonLdBuilderModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.

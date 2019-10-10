@@ -46,6 +46,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   checkoutStepUrlNext: string;
   checkoutStepUrlPrevious: string;
   isGuestCheckout = false;
+  forceLoader = false; // this helps with smoother steps transition
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -174,6 +175,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     newAddress: boolean;
     address: Address;
   }): void {
+    this.forceLoader = true;
+
     if (newAddress) {
       this.checkoutDeliveryService.createAndSetAddress(address);
       this.goTo = CheckoutStepType.DELIVERY_MODE;
