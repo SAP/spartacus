@@ -31,10 +31,7 @@ const mockProduct2: Product = {
   name: 'mockPrduct2',
   code: 'code2',
   stock: { stockLevelStatus: 'inStock', stockLevel: 12 },
-  baseOptions: [
-    { variantType: 'ApparelStyleVariantProduct' },
-    { variantType: 'ApparelSizeVariantProduct' },
-  ],
+  baseOptions: [{ variantType: 'ApparelSizeVariantProduct' }],
 };
 
 const mockNoStockProduct: Product = {
@@ -192,5 +189,35 @@ describe('AddToCartComponent', () => {
 
     expect(modalInstance.open).toHaveBeenCalled();
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
+  });
+
+  it('should reset variants selection flags', () => {
+    spyOn(currentProductService, 'getProduct').and.returnValue(of(mockProduct));
+    addToCartComponent.ngOnInit();
+
+    expect(addToCartComponent.isStyleVariantSelected).toBeTruthy();
+    expect(addToCartComponent.isSizeVariantSelected).toBeTruthy();
+
+    addToCartComponent.resetVariantsSelections();
+
+    expect(addToCartComponent.isStyleVariantSelected).toBeFalsy();
+    expect(addToCartComponent.isSizeVariantSelected).toBeFalsy();
+  });
+
+  it('should set variants selection flags', () => {
+    addToCartComponent.checkForVariantTypesSelection(mockProduct2);
+    expect(addToCartComponent.isStyleVariantSelected).toBeFalsy();
+    expect(addToCartComponent.isSizeVariantSelected).toBeTruthy();
+  });
+
+  it('should return error message corresponding to selection flag', () => {
+    spyOn(currentProductService, 'getProduct').and.returnValue(
+      of(mockProduct2)
+    );
+    addToCartComponent.ngOnInit();
+
+    const errorMessage = addToCartComponent.checkForErrorMessagesBeforeAction();
+
+    expect(errorMessage).toEqual('addToCart.pleaseSelectStyle');
   });
 });
