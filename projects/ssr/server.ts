@@ -49,14 +49,14 @@ app.get('*', (req, res) => {
     { baseUrl: occBaseUrl },
     req.protocol + '://' + req.get('host') + req.originalUrl,
     https
-  ).then(config => {
-    res
-      .render('index', {
+  )
+    .then(config => {
+      res.render('index', {
         req,
         providers: [{ provide: ExternalConfig, useValue: config }],
-      })
-      .catch(error => isDevMode() && console.error(error));
-  });
+      });
+    })
+    .catch(error => isDevMode() && console.error(error));
 });
 
 // Start up the Node server
