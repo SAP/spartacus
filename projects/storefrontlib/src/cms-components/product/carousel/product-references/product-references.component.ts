@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CmsProductReferencesComponent,
   Product,
@@ -6,7 +6,7 @@ import {
   ProductReferenceService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, distinctUntilChanged } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -15,7 +15,7 @@ import { CurrentProductService } from '../../current-product.service';
   templateUrl: './product-references.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductReferencesComponent implements OnInit {
+export class ProductReferencesComponent {
   /**
    * returns an Obervable string for the title
    */
@@ -25,7 +25,9 @@ export class ProductReferencesComponent implements OnInit {
     string
   > = this.current.getProduct().pipe(
     filter(Boolean),
-    map((p: Product) => p.code)
+    map((p: Product) => p.code),
+    distinctUntilChanged(),
+    tap(() => this.referenceService.cleanReferences())
   );
 
   /**
@@ -37,9 +39,7 @@ export class ProductReferencesComponent implements OnInit {
     this.currentProductCode$,
     this.component.data$,
   ]).pipe(
-    switchMap(([code, data]) =>
-      this.getProductReferences(code, data.productReferenceTypes)
-    )
+    switchMap(([code, data]) => this.getProductReferences(code, data.productReferenceTypes))
   );
 
   constructor(
@@ -47,10 +47,6 @@ export class ProductReferencesComponent implements OnInit {
     protected current: CurrentProductService,
     protected referenceService: ProductReferenceService
   ) {}
-
-  ngOnInit(): void {
-    this.referenceService.cleanReferences();
-  }
 
   private getProductReferences(
     code: string,

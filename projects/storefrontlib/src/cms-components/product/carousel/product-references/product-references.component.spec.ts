@@ -110,6 +110,7 @@ class MockProductReferenceService {
 describe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
   let fixture: ComponentFixture<ProductReferencesComponent>;
+  let productReferenceService: ProductReferenceService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -139,6 +140,7 @@ describe('ProductReferencesComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReferencesComponent);
+    productReferenceService = TestBed.get(ProductReferenceService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
