@@ -15,6 +15,8 @@ import {
   JsonLdBuilderModule,
   StorefrontComponent,
   B2bStorefrontModule,
+  CheckoutStepType,
+  DeliveryModePreferences,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
@@ -96,6 +98,48 @@ if (!environment.production) {
         resources: translations,
         chunks: translationChunksConfig,
         fallbackLang: 'en',
+      },
+      checkout: {
+        steps: [
+          {
+            id: 'paymentType',
+            name: 'checkoutProgress.paymentType',
+            routeName: 'checkoutPaymentType',
+            type: [CheckoutStepType.PAYMENT_TYPES],
+            enabled: true,
+          },
+          {
+            id: 'shippingAddress',
+            name: 'checkoutProgress.shippingAddress',
+            routeName: 'checkoutShippingAddress',
+            type: [CheckoutStepType.SHIPPING_ADDRESS],
+            enabled: true,
+          },
+          {
+            id: 'deliveryMode',
+            name: 'checkoutProgress.deliveryMode',
+            routeName: 'checkoutDeliveryMode',
+            type: [CheckoutStepType.DELIVERY_MODE],
+            enabled: true,
+          },
+          {
+            id: 'paymentDetails',
+            name: 'checkoutProgress.paymentDetails',
+            routeName: 'checkoutPaymentDetails',
+            type: [CheckoutStepType.PAYMENT_DETAILS],
+            enabled: true,
+          },
+          {
+            id: 'reviewOrder',
+            name: 'checkoutProgress.reviewOrder',
+            routeName: 'checkoutReviewOrder',
+            type: [CheckoutStepType.REVIEW_ORDER],
+            enabled: true,
+          },
+        ],
+        express: false,
+        defaultDeliveryMode: [DeliveryModePreferences.FREE],
+        guest: false,
       },
     }),
 

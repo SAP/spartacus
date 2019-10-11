@@ -6,12 +6,18 @@ import {
   DeliveryModePreferences,
 } from '../config/checkout-config';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutConfigService {
-  steps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
+  allSteps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
+  steps = this.allSteps;
+  steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
+    this.steps
+  );
+
   private express: boolean = this.checkoutConfig.checkout.express;
   private guest: boolean = this.checkoutConfig.checkout.guest;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
@@ -22,8 +28,20 @@ export class CheckoutConfigService {
     private routingConfigService: RoutingConfigService
   ) {}
 
+  disableStep(currentStepType: CheckoutStepType) {
+    this.getCheckoutStep(currentStepType).enabled = false;
+    this.steps = this.allSteps.filter(step => step.enabled);
+    this.steps$.next(this.steps);
+  }
+
+  enableStep(currentStepType: CheckoutStepType) {
+    this.getCheckoutStep(currentStepType).enabled = true;
+    this.steps = this.allSteps.filter(step => step.enabled);
+    this.steps$.next(this.steps);
+  }
+
   getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep {
-    return this.steps[this.getCheckoutStepIndex('type', currentStepType)];
+    return this.allSteps[this.getCheckoutStepIndex('type', currentStepType)];
   }
 
   getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
