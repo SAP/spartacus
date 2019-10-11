@@ -1,4 +1,4 @@
-import { HttpClientModule, HttpRequest } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -8,6 +8,11 @@ import { OccConfig } from '../../../occ/config/occ-config';
 
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { ProductInterestEntryRelation } from '../../../model/product-interest.model';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { MockOccEndpointsService } from './unit-test.helper';
+import { ConverterService } from '../../../util/converter.service';
+import { Type } from '@angular/core';
+import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -21,10 +26,13 @@ const MockOccModuleConfig: OccConfig = {
     baseSite: [''],
   },
 };
+const userId = 'qingyu.sap.com';
 
-describe('OccUserInterestsAdapter', () => {
-  let service: OccUserInterestsAdapter;
+fdescribe('OccUserInterestsAdapter', () => {
+  let occUserInterestsAdapter: OccUserInterestsAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,11 +40,26 @@ describe('OccUserInterestsAdapter', () => {
       providers: [
         OccUserInterestsAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
 
-    service = TestBed.get(OccUserInterestsAdapter);
-    httpMock = TestBed.get(HttpTestingController);
+    occUserInterestsAdapter = TestBed.get(OccUserInterestsAdapter as Type<
+      OccUserInterestsAdapter
+    >);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    occEnpointsService = TestBed.get(OccEndpointsService as Type<
+      OccEndpointsService
+    >);
+
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -44,19 +67,25 @@ describe('OccUserInterestsAdapter', () => {
   });
 
   describe('getInterests', () => {
-    it('should be able to fetch interests with parameters', async(() => {
-      const userId = 'jack.ma@hybris.com';
-      const pageSize = 1;
-      const page = 1;
-      const sort = 'name:asc';
+    const pageSize = 1;
+    const page = 1;
+    const sort = 'name:asc';
 
-      service.getInterests(userId, pageSize, page, sort).subscribe();
-      const mockReq = httpMock.expectOne((req: HttpRequest<any>) => {
-        return (
-          req.url === '/users' + `/${userId}` + '/productinterests' &&
-          req.method === 'GET'
-        );
-      }, `GET method and url`);
+    it('should be able to fetch interests with parameters', async(() => {
+      occUserInterestsAdapter
+        .getInterests(userId, pageSize, page, sort)
+        .subscribe();
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'productInterests',
+        {
+          userId: userId,
+        }
+      );
+
       expect(mockReq.request.params.get('pageSize')).toEqual(
         pageSize.toString()
       );
@@ -65,24 +94,43 @@ describe('OccUserInterestsAdapter', () => {
       );
       expect(mockReq.request.params.get('sort')).toEqual(sort);
     }));
+
+    it('should use converter', () => {
+      occUserInterestsAdapter
+        .getInterests(userId, pageSize, page, sort)
+        .subscribe();
+      httpMock
+        .expectOne(req => {
+          return req.method === 'GET';
+        })
+        .flush({});
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        PRODUCT_INTERESTS_NORMALIZER
+      );
+    });
   });
 
   describe('removeInterest', () => {
     it('should remove interests for given user', () => {
       const mockRelation: ProductInterestEntryRelation = {
-        product: {},
+        product: {
+          code: '553637',
+          name: 'NV10',
+        },
+        productInterestEntry: [
+          {
+            dateAdded: new Date().toString(),
+            interestType: 'BACK_IN_STOCK',
+          },
+        ],
       };
-      const userId = 'jack.ma@hybris.com';
 
-      service
+      occUserInterestsAdapter
         .removeInterest(userId, mockRelation)
-        .subscribe(result => expect(result).toEqual([]));
+        .subscribe(result => expect(result).toEqual(['']));
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'DELETE' &&
-          req.url === '/users' + `/${userId}` + '/productinterests'
-        );
+        return req.method === 'DELETE';
       });
 
       expect(mockReq.cancelled).toBeFalsy();
