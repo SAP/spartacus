@@ -6,7 +6,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-{{ subscribeSuccess$ | async }}
+
 <ng-container *ngIf="subscribeSuccess$ | async; else loading">
   <div class="cx-dialog-body modal-body">
     <div class="container">
@@ -30,7 +30,7 @@
         }}
         <a
           (click)="close()"
-          [routerLink]="{ route: 'notificationPreference' } | cxUrl"
+          [routerLink]="['/my-account/notification-preference']"
         >
           {{
             'stockNotification.subscriptionDialog.manageChannelsLink'
@@ -48,7 +48,7 @@
           'stockNotification.subscriptionDialog.manageSubscriptionsPrefix'
             | cxTranslate
         }}
-        <a (click)="close()" [routerLink]="{ route: 'myInterests' } | cxUrl">
+        <a (click)="close()" [routerLink]="['/my-account/my-interests']">
           {{
             'stockNotification.subscriptionDialog.manageSubscriptionsLink'
               | cxTranslate

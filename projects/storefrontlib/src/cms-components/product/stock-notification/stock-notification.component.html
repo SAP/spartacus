@@ -3,14 +3,14 @@
     <ng-container *ngIf="!(subscribed$ | async); else stopNotify">
       <ng-container *ngIf="prefsEnabled$ | async; else disableNotify">
         <div class="stock-notification-notes">
-          <label>Get notified when this product is back in stock.</label>
+          <label>{{ 'stockNotification.getNotified' | cxTranslate }}</label>
         </div>
         <button
           class="btn btn-primary btn-block"
           type="button"
           (click)="subscribe()"
         >
-          Notify Me
+          {{ 'stockNotification.notifyMe' | cxTranslate }}
         </button>
       </ng-container>
     </ng-container>
@@ -19,27 +19,30 @@
 
 <ng-template #disableNotify>
   <div class="stock-notification-notes">
-    <label
-      >To get notified when this product is back in stock again please activate
-      your Notification Channels.</label
-    >
+    <label>
+      {{ 'stockNotification.activateChannelsPrefix' | cxTranslate
+      }}<a [routerLink]="['/my-account/notification-preference']">{{
+        'stockNotification.channelsLink' | cxTranslate
+      }}</a
+      >{{ 'stockNotification.activateChannelsSuffix' | cxTranslate }}
+    </label>
   </div>
   <button class="btn btn-primary btn-block" type="button" disabled="true">
-    Notify Me
+    {{ 'stockNotification.notifyMe' | cxTranslate }}
   </button>
 </ng-template>
 
 <ng-template #stopNotify>
   <ng-container *ngIf="!(unsubscribeLoading$ | async); else loading">
     <div class="stock-notification-notes">
-      <label>You will be notified when this product is back in stock.</label>
+      <label>{{ 'stockNotification.notified' | cxTranslate }}</label>
     </div>
     <button
       class="btn btn-primary btn-block"
       type="button"
       (click)="unsubscribe()"
     >
-      Stop Notification
+      {{ 'stockNotification.stopNotify' | cxTranslate }}
     </button>
   </ng-container>
 </ng-template>
