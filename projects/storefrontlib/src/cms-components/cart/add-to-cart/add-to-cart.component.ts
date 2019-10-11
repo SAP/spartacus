@@ -36,6 +36,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   increment = false;
   isStyleVariantSelected = false;
   isSizeVariantSelected = false;
+  isItemView = false;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -52,12 +53,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.productCode) {
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
+      this.hasStock = true;
+      this.isItemView = true;
     } else {
       this.subscription = this.currentProductService
         .getProduct()
         .pipe(filter(Boolean))
         .subscribe((product: Product) => {
-          this.checkForVariantTypesSelection(product);
+          if (product.baseOptions && product.baseOptions.length) {
+            this.checkForVariantTypesSelection(product);
+          }
 
           this.productCode = product.code;
           this.quantity = 1;
@@ -68,6 +73,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
             product.stock.stockLevel > 0
           ) {
             this.maxQuantity = product.stock.stockLevel;
+            this.hasStock = true;
+          } else {
+            this.hasStock = false;
           }
 
           this.cartEntry$ = this.cartService.getEntry(this.productCode);
@@ -84,7 +92,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   addToCart() {
     const errorMessage = this.checkForErrorMessagesBeforeAction();
 
-    if (errorMessage) {
+    if (!this.isItemView && errorMessage) {
       this.globalMessageService.add(
         { key: errorMessage },
         GlobalMessageType.MSG_TYPE_ERROR

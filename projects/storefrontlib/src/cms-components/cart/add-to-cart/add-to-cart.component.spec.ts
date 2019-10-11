@@ -22,17 +22,29 @@ const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'inStock', stockLevel: 20 },
+  baseOptions: [
+    { variantType: 'ApparelStyleVariantProduct' },
+    { variantType: 'ApparelSizeVariantProduct' },
+  ],
 };
 const mockProduct2: Product = {
   name: 'mockPrduct2',
   code: 'code2',
   stock: { stockLevelStatus: 'inStock', stockLevel: 12 },
+  baseOptions: [
+    { variantType: 'ApparelStyleVariantProduct' },
+    { variantType: 'ApparelSizeVariantProduct' },
+  ],
 };
 
 const mockNoStockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'outOfStock', stockLevel: 0 },
+  baseOptions: [
+    { variantType: 'ApparelStyleVariantProduct' },
+    { variantType: 'ApparelSizeVariantProduct' },
+  ],
 };
 
 class MockCartService {
@@ -168,6 +180,8 @@ describe('AddToCartComponent', () => {
 
   it('should call addToCart()', () => {
     addToCartComponent.productCode = productCode;
+    addToCartComponent.isStyleVariantSelected = true;
+    addToCartComponent.isSizeVariantSelected = true;
     addToCartComponent.ngOnInit();
     spyOn(service, 'addEntry').and.callThrough();
     spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
