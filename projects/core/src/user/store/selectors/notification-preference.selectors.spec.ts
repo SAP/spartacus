@@ -69,7 +69,6 @@ describe('Notification Preference Selectors', () => {
       store
         .pipe(select(UsersSelectors.getPreferencesLoading))
         .subscribe(value => {
-          console.log(value);
           result = value;
         });
       expect(result).toEqual(false);

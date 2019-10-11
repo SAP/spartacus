@@ -6,6 +6,7 @@ import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { UserActions } from '../actions/index';
 import { UsersSelectors } from '../selectors/index';
+import { Type } from '@angular/core';
 
 const emptyInterestList: ProductInterestSearchResult = {
   results: [],
@@ -39,7 +40,7 @@ describe('Product Interests Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -60,33 +61,33 @@ describe('Product Interests Selectors', () => {
     });
   });
 
-  describe('getInterestsLoaded', () => {
-    it('should return success flag of interests state', () => {
-      let result: boolean;
-      store
-        .pipe(select(UsersSelectors.getInterestsLoading))
-        .subscribe(value => (result = value));
-      expect(result).toEqual(true);
-
-      store.dispatch(
-        new UserActions.LoadProductInterestsSuccess(mockedInterestList)
-      );
-      expect(result).toEqual(true);
-    });
-  });
-
   describe('getInterests', () => {
     it('should return a ProductInterestList', () => {
       let result: ProductInterestSearchResult;
       store
         .pipe(select(UsersSelectors.getInterests))
         .subscribe(value => (result = value));
-      expect(result).toEqual(mockedInterestList);
+      expect(result).toEqual(emptyInterestList);
 
       store.dispatch(
         new UserActions.LoadProductInterestsSuccess(mockedInterestList)
       );
       expect(result).toEqual(mockedInterestList);
+    });
+  });
+
+  describe('getInterestsLoading', () => {
+    it('should return success flag of interests state', () => {
+      let result: boolean;
+      store
+        .pipe(select(UsersSelectors.getInterestsLoading))
+        .subscribe(value => (result = value));
+      expect(result).toEqual(false);
+
+      store.dispatch(
+        new UserActions.LoadProductInterests({ userId: 'userId' })
+      );
+      expect(result).toEqual(true);
     });
   });
 });
