@@ -64,9 +64,9 @@ describe('Product Interests Selectors', () => {
     it('should return success flag of interests state', () => {
       let result: boolean;
       store
-        .pipe(select(UsersSelectors.getInterestsLoaded))
+        .pipe(select(UsersSelectors.getInterestsLoading))
         .subscribe(value => (result = value));
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
 
       store.dispatch(
         new UserActions.LoadProductInterestsSuccess(mockedInterestList)

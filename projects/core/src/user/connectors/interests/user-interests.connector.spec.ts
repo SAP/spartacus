@@ -1,30 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MyInterestsConnector } from './user-interests.connector';
+import { UserInterestsConnector } from './user-interests.connector';
 import { of } from 'rxjs/internal/observable/of';
 import { UserInterestsAdapter } from './user-interests.adapter';
 import createSpy = jasmine.createSpy;
 import { ProductInterestEntryRelation } from '../../../model/product-interest.model';
 
-class MockMyInterestsAdapter implements UserInterestsAdapter {
+class MockUserInterestsAdapter implements UserInterestsAdapter {
   removeInterests = createSpy('removeInterests').and.returnValue(of([]));
   getInterests = createSpy('getInterests').and.callFake(userId =>
     of(`loadList-${userId}`)
   );
+  addInterest = createSpy('addInterest').and.stub();
 }
 
 describe('UserInterestsConnector', () => {
-  let service: MyInterestsConnector;
+  let service: UserInterestsConnector;
   let adapter: UserInterestsAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: UserInterestsAdapter, useClass: MockMyInterestsAdapter },
+        { provide: UserInterestsAdapter, useClass: MockUserInterestsAdapter },
       ],
     });
 
-    service = TestBed.get(MyInterestsConnector);
+    service = TestBed.get(UserInterestsConnector);
     adapter = TestBed.get(UserInterestsAdapter);
   });
 

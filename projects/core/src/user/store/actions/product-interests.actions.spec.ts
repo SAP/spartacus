@@ -8,7 +8,7 @@ import {
 
 const userId = 'jack.ma@hybris.com';
 
-describe('Product Interests Actions', () => {
+fdescribe('Product Interests Actions', () => {
   describe('LoadProductInterests Actions', () => {
     it('should be able to create the action', () => {
       const payload = {
@@ -53,51 +53,52 @@ describe('Product Interests Actions', () => {
     });
   });
 
-  describe('DeleteProductInterests Actions', () => {
-    it('should be able to create the action', () => {
-      const payload = {
-        userId: userId,
-        item: {},
-      };
-      const action = new UserActions.RemoveProductInterests(payload);
-      expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_PRODUCT_INTERESTS,
-        payload: payload,
-        meta: loadMeta(PRODUCT_INTERESTS),
-      });
-    });
-  });
+  // describe('DeleteProductInterests Actions', () => {
+  //   it('should be able to create the action', () => {
+  //     const payload = {
+  //       userId: userId,
+  //       item: {},
+  //     };
+  //     const action = new UserActions.RemoveProductInterests(payload);
+  //     expect({ ...action }).toEqual({
+  //       type: UserActions.REMOVE_PRODUCT_INTERESTS,
+  //       payload: payload,
+  //       meta: loadMeta(PRODUCT_INTERESTS),
+  //     });
+  //   });
+  // });
 
-  describe('DeleteProductInterestsSuccess Actions', () => {
-    it('should be able to create the action', () => {
-      const payload = 'del success';
-      const action = new UserActions.RemoveProductInterestsSuccess(payload);
-      expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_PRODUCT_INTERESTS_SUCCESS,
-        payload: payload,
-        meta: successMeta(PRODUCT_INTERESTS),
-      });
-    });
-  });
+  // describe('DeleteProductInterestsSuccess Actions', () => {
+  //   it('should be able to create the action', () => {
+  //     const payload = 'del success';
+  //     const action = new UserActions.RemoveProductInterestsSuccess(payload);
+  //     expect({ ...action }).toEqual({
+  //       type: UserActions.REMOVE_PRODUCT_INTERESTS_SUCCESS,
+  //       payload: payload,
+  //       meta: successMeta(PRODUCT_INTERESTS),
+  //     });
+  //   });
+  // });
 
-  describe('DeleteProductInterestsFail Actions', () => {
-    it('should be able to create the action', () => {
-      const error = 'del fail';
-      const action = new UserActions.RemoveProductInterestsFail(error);
-      expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_PRODUCT_INTERESTS_FAIL,
-        payload: error,
-        meta: failMeta(PRODUCT_INTERESTS, error),
-      });
-    });
-  });
+  // describe('DeleteProductInterestsFail Actions', () => {
+  //   it('should be able to create the action', () => {
+  //     const error = 'del fail';
+  //     const action = new UserActions.RemoveProductInterestsFail(error);
+  //     expect({ ...action }).toEqual({
+  //       type: UserActions.REMOVE_PRODUCT_INTERESTS_FAIL,
+  //       payload: error,
+  //       meta: failMeta(PRODUCT_INTERESTS, error),
+  //     });
+  //   });
+  // });
 
-  describe('ClearProductInterests Actions', () => {
-    it('should be able to create the action', () => {
-      const action = new UserActions.ClearProductInterests();
-      expect({ ...action }).toEqual({
-        type: UserActions.CLEAR_PRODUCT_INTERESTS,
-      });
-    });
-  });
+  // describe('ClearProductInterests Actions', () => {
+  //   it('should be able to create the action', () => {
+  //     const action = new UserActions.ClearProductInterests();
+  //     expect({ ...action }).toEqual({
+  //       type: UserActions.CLEAR_PRODUCT_INTERESTS,
+  //       meta: failMeta(PRODUCT_INTERESTS),
+  //     });
+  //   });
+  // });
 });

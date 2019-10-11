@@ -7,10 +7,7 @@ import { Actions } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { hot, cold } from 'jasmine-marbles';
-import { Action } from '@ngrx/store';
-import { PRODUCT_INTERESTS } from '../user-state';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
-import { LoaderResetAction } from '../../../state/utils/loader/loader.action';
 
 const loadParams = {
   userId: 'jack.ma@hybris.com',
@@ -83,7 +80,7 @@ describe('Product Interests Effect', () => {
     it('should be able to delete product interest', () => {
       const delRes = '200';
       spyOn(userInterestConnector, 'removeInterests').and.returnValue(
-        of(delRes)
+        of([{ delRes }])
       );
       const action = new UserActions.RemoveProductInterests(delParams);
       const completion = new UserActions.RemoveProductInterestsSuccess(delRes);
@@ -109,19 +106,19 @@ describe('Product Interests Effect', () => {
     });
   });
 
-  describe('resetProductInterests$', () => {
-    it('should be able to return a reset action', () => {
-      const action: Action = {
-        type: UserActions.REMOVE_PRODUCT_INTERESTS_SUCCESS,
-      };
-      const completion = new LoaderResetAction(PRODUCT_INTERESTS);
+  // describe('resetProductInterests$', () => {
+  //   it('should be able to return a reset action', () => {
+  //     const action: Action = {
+  //       type: UserActions.REMOVE_PRODUCT_INTERESTS_SUCCESS,
+  //     };
+  //     const completion = new LoaderResetAction(PRODUCT_INTERESTS);
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+  //     actions$ = hot('-a', { a: action });
+  //     const expected = cold('-b', { b: completion });
 
-      expect(productInterestsEffect.resetProductInterests$).toBeObservable(
-        expected
-      );
-    });
-  });
+  //     expect(productInterestsEffect.resetProductInterests$).toBeObservable(
+  //       expected
+  //     );
+  //   });
+  // });
 });
