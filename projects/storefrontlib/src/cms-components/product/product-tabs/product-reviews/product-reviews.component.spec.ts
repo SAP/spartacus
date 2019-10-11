@@ -51,7 +51,7 @@ class MockFeatureConfigService {
   }
 }
 
-fdescribe('ProductReviewsComponent in product', () => {
+describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
 
