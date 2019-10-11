@@ -1,4 +1,4 @@
-import { ExternalConfig } from '../../external-config';
+import { ExternalConfig } from '../../external-config/external-config';
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,

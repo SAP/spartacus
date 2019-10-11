@@ -1,7 +1,5 @@
-import {
-  ExternalConfig,
-  EXTERNAL_CONFIG_TRANSFER_STATE_SCRIPT_ID,
-} from '../../external-config';
+import { ExternalConfig } from '../../external-config/external-config';
+import { EXTERNAL_CONFIG_TRANSFER_STATE_SCRIPT_ID } from '../../external-config/server-external-config.module';
 import { CxTransferState } from '../../util/cx-transfer-state';
 import { NodeHttpsClient } from '../../util/load-json-utils';
 import { OccBaseUrlMetaTagUtils } from '../config/occ-base-url-meta-tag-utils';
@@ -37,9 +35,10 @@ export class OccExternalConfigLoader {
     fetchOptions.baseUrl =
       fetchOptions.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
 
-    return OccBaseSitesLoader.load(fetchOptions).then(function(baseSites) {
-      return OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
-    });
+    // needs to be in separate variable: (see https://github.com/ng-packagr/ng-packagr/issues/696)
+    const thenFn = baseSites =>
+      OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+    return OccBaseSitesLoader.load(fetchOptions).then(thenFn);
   }
 
   /**
@@ -52,10 +51,10 @@ export class OccExternalConfigLoader {
     currentUrl: string,
     httpsClient: NodeHttpsClient
   ): Promise<ExternalConfig> {
-    return OccBaseSitesLoader.loadSSR(fetchOptions, httpsClient).then(function(
-      baseSites
-    ) {
+    // needs to be in separate variable: (see https://github.com/ng-packagr/ng-packagr/issues/696)
+    const thenFn = baseSites => {
       return OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
-    });
+    };
+    return OccBaseSitesLoader.loadSSR(fetchOptions, httpsClient).then(thenFn);
   }
 }

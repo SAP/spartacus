@@ -1,7 +1,6 @@
 import { enableProdMode, isDevMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { ExternalConfig } from '@spartacus/core';
-import { OccExternalConfigLoader } from 'projects/core/src/occ/external-config/occ-external-config-loader';
+import { ExternalConfig, OccExternalConfigLoader } from '@spartacus/core';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 

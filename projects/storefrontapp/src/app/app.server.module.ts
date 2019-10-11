@@ -3,7 +3,7 @@ import {
   ServerModule,
   ServerTransferStateModule,
 } from '@angular/platform-server';
-import { ServerOccBaseSitesConfigModule } from '@spartacus/core';
+import { ServerExternalConfigModule } from '@spartacus/core';
 import { StorefrontComponent } from '@spartacus/storefront';
 // import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 import { AppModule } from './app.module';
@@ -15,7 +15,7 @@ import { AppModule } from './app.module';
     AppModule,
     ServerModule,
     ServerTransferStateModule,
-    ServerOccBaseSitesConfigModule.forRoot(),
+    ServerExternalConfigModule.forRoot(),
     // ModuleMapLoaderModule // <-- *Important* to have lazy-loaded routes work
   ],
   // Since the bootstrapped component is not inherited from your

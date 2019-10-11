@@ -1,23 +1,23 @@
 import { isDevMode } from '@angular/core';
 
+/**
+ * Pattern that extracts modifiers from the Java regexp.
+ *
+ * Java regexps MAY start with ONE or MANY modifiers like `(?MODIFIERS)PATTERN`. Examples:
+ * - `(?i)` for Case Insensitive Mode: `(?i)PATTERN`
+ * - `(?u)` for Unicode-Aware Case Folding; `(?u)PATTERN`
+ * - or multiple combined:  `(?iu)PATTERN`
+ * - (more modifiers in the official Java docs https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html)
+ *
+ * This pattern extracts 3 parts from the input string, i.e. for `(?iu)PATTERN`:
+ *    1. original modifiers syntax, i.e. `(?iu)` (or undefined if no modifiers present)
+ *    2. extracted modifiers, i.e. `iu` (or undefined if no modifiers present)
+ *    3. the rest of the regexp, i.e. `PATTERN`
+ */
+const EXTRACT_JAVA_REGEXP_MODIFIERS: RegExp = /^(\(\?([a-z]+)\))?(.*)/;
+
 // should be private
 export class JavaRegExpConverter {
-  /**
-   * Pattern that extracts modifiers from the Java regexp.
-   *
-   * Java regexps MAY start with ONE or MANY modifiers like `(?MODIFIERS)PATTERN`. Examples:
-   * - `(?i)` for Case Insensitive Mode: `(?i)PATTERN`
-   * - `(?u)` for Unicode-Aware Case Folding; `(?u)PATTERN`
-   * - or multiple combined:  `(?iu)PATTERN`
-   * - (more modifiers in the official Java docs https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html)
-   *
-   * This pattern extracts 3 parts from the input string, i.e. for `(?iu)PATTERN`:
-   *    1. original modifiers syntax, i.e. `(?iu)` (or undefined if no modifiers present)
-   *    2. extracted modifiers, i.e. `iu` (or undefined if no modifiers present)
-   *    3. the rest of the regexp, i.e. `PATTERN`
-   */
-  static readonly EXTRACT_JAVA_REGEXP_MODIFIERS: RegExp = /^(\(\?([a-z]+)\))?(.*)/;
-
   /**
    * Converts RegExp from Java syntax to Javascript (with the limitations):
    * - recognizes Java regexp modifiers that appear before the actual regex (i.e. case insensitive mode: `(?i)PATTERN` -> `/pattern/i`)
@@ -33,9 +33,7 @@ export class JavaRegExpConverter {
    *  because creating JS RegExp out of a string literal (`new RegExp(stringHere)`) treats double backslashes as single ones.
    */
   static convert(javaSyntax: string): RegExp {
-    const parts = javaSyntax.match(
-      JavaRegExpConverter.EXTRACT_JAVA_REGEXP_MODIFIERS
-    );
+    const parts = javaSyntax.match(EXTRACT_JAVA_REGEXP_MODIFIERS);
     if (!parts) {
       return null;
     }
