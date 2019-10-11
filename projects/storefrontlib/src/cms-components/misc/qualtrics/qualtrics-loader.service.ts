@@ -12,27 +12,8 @@ export class QualtricsLoaderService {
 
   constructor(private winRef: WindowRef, private config: QualtricsConfig) {
     if (Boolean(this.winRef.nativeWindow)) {
-      fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded')
-        .pipe(filter(_ => this.isQualtricsConfigured()))
-        .subscribe(_ => this.qualtricsLoaded$.next(true));
-
-      const qualtricsScript = this.winRef.document.createElement('script');
-      qualtricsScript.type = 'text/javascript';
-      qualtricsScript.defer = true;
-      qualtricsScript.src = 'assets/qualtricsIntegration.js';
-
-      const idScript = this.winRef.document.createElement('div');
-      if (this.isQualtricsConfigured) {
-        idScript.id = this.config.qualtrics.projectId;
-      }
-
-      this.winRef.document
-        .getElementsByTagName('head')[0]
-        .appendChild(qualtricsScript);
-
-      this.winRef.document
-        .getElementsByTagName('head')[0]
-        .appendChild(idScript);
+      this.verifyQualtrics();
+      this.loadQualtrics();
     }
   }
 
@@ -59,6 +40,30 @@ export class QualtricsLoaderService {
     return (
       Boolean(this.config.qualtrics) && Boolean(this.config.qualtrics.projectId)
     );
+  }
+
+  private verifyQualtrics() {
+    fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded')
+      .pipe(filter(_ => this.isQualtricsConfigured()))
+      .subscribe(_ => this.qualtricsLoaded$.next(true));
+  }
+
+  private loadQualtrics() {
+    const qualtricsScript = this.winRef.document.createElement('script');
+    qualtricsScript.type = 'text/javascript';
+    qualtricsScript.defer = true;
+    qualtricsScript.src = 'assets/qualtricsIntegration.js';
+
+    const idScript = this.winRef.document.createElement('div');
+    if (this.isQualtricsConfigured) {
+      idScript.id = this.config.qualtrics.projectId;
+    }
+
+    this.winRef.document
+      .getElementsByTagName('head')[0]
+      .appendChild(qualtricsScript);
+
+    this.winRef.document.getElementsByTagName('head')[0].appendChild(idScript);
   }
 
   /**

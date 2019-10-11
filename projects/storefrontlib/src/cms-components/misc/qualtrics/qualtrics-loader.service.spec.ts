@@ -1,8 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
 import { QualtricsConfig } from '../../../shared/config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
+
+const IsQualtricsLoaded$ = new BehaviorSubject(false);
+const isDataLoadedMethod = 'isDataLoaded';
+const loadQualtricsMethod = 'loadQualtrics';
+const verifyQualtricsMethod = 'verifyQualtrics';
+const isQualtricsConfigured = 'isQualtricsConfigured';
 
 const mockQualtricsConfig: QualtricsConfig = {
   qualtrics: {},
@@ -37,6 +44,7 @@ fdescribe('QualtricsLoaderService', () => {
       QualtricsLoaderService
     >);
 
+    spyOn(winRef.nativeWindow['QSI'].API, 'unload').and.callThrough();
     spyOn(winRef.nativeWindow['QSI'].API, 'load').and.callThrough();
     spyOn(winRef.nativeWindow['QSI'].API, 'run').and.callThrough();
   });
@@ -55,8 +63,18 @@ fdescribe('QualtricsLoaderService', () => {
       .subscribe()
       .unsubscribe();
 
+    expect(winRef.nativeWindow['QSI'].API.unload).toHaveBeenCalled();
     expect(winRef.nativeWindow['QSI'].API.load).toHaveBeenCalled();
-
     expect(winRef.nativeWindow['QSI'].API.run).toHaveBeenCalled();
+  });
+
+  describe('isDataLoadedMethod', () => {
+    it('should check if data is loaded', () => {
+      spyOn<any>(service, isDataLoadedMethod).and.returnValue(of(true));
+
+      service[isDataLoadedMethod]();
+
+      expect(service[isDataLoadedMethod]).toHaveBeenCalledWith(of(true));
+    });
   });
 });
