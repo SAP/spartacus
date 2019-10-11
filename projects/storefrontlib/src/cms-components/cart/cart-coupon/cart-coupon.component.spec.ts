@@ -103,7 +103,7 @@ describe('CartCouponComponent', () => {
   it('should form is valid when inputting coupon code', () => {
     fixture.detectChanges();
     expect(component.form.valid).toBeFalsy();
-    
+
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
@@ -119,14 +119,14 @@ describe('CartCouponComponent', () => {
     const applyBtn = el.query(By.css('[data-test="button-coupon"]'))
       .nativeElement;
     expect(applyBtn.disabled).toBeTruthy();
-    
+
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
     expect(applyBtn.disabled).toBeFalsy();
   });
- 
+
   it('should disable button when coupon is in process', () => {
     mockCartService.getAddVoucherResultLoading.and.returnValue(
       hot('-a', { a: true })
