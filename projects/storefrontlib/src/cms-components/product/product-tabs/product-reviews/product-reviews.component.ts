@@ -6,7 +6,12 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Product, ProductReviewService, Review } from '@spartacus/core';
+import {
+  Product,
+  ProductReviewService,
+  Review,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
@@ -62,7 +67,9 @@ export class ProductReviewsComponent {
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
     private fb: FormBuilder,
-    protected cd?: ChangeDetectorRef
+    protected cd?: ChangeDetectorRef,
+    // TODO(issue:#4962) Deprecated since 1.3.0
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   initiateWriteReview(): void {
@@ -127,5 +134,18 @@ export class ProductReviewsComponent {
       rating: [0, [Validators.min(1), Validators.max(5)]],
       reviewerName: '',
     });
+  }
+
+  /**
+   * @deprecated since 1.3.0
+   * This function will be removed as submit button should not be disabled
+   *
+   * TODO(issue:#4962) Deprecated since 1.3.0
+   */
+  shouldDisableSubmitButton(): boolean {
+    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
+      return false;
+    }
+    return !this.reviewForm.valid;
   }
 }
