@@ -122,7 +122,7 @@ describe('SearchBoxComponent', () => {
     }).compileComponents();
   }));
 
-  fdescribe('Default config', () => {
+  describe('Default config', () => {
     beforeEach(() => {
       cmsComponentData = TestBed.get(CmsComponentData as Type<
         CmsComponentData<CmsSearchBoxComponent>
