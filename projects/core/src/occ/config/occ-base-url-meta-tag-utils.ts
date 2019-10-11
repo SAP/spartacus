@@ -4,14 +4,11 @@ import {
 } from './config-from-meta-tag-factory';
 
 // should be private
-/**
- * Utils for getting base url from the meta tag of the DOM, outside the scope of Angular.
- */
 export class OccBaseUrlMetaTagUtils {
   /**
    * Gets the OCC base url from the meta tag of the DOM.
    *
-   * **CAUTION** uses implicit global `document` - use only in browser
+   * **CAUTION**: Run it only in the browser, because it uses the native DOM!
    */
   static getFromDOM() {
     const meta = document.querySelector(
@@ -22,9 +19,9 @@ export class OccBaseUrlMetaTagUtils {
   }
 
   /**
-   * Gets the OCC base url from the meta tag of the given raw HTML string
+   * Gets the OCC base url from the meta tag of the given raw HTML string.
    *
-   * @param rawHtml this param should be used in server where there is no access to the `document` object, but only raw source of the index.html
+   * @param rawHtml raw source of the index.html
    */
   static getFromRawHtml(rawHtml: string) {
     const occBaseUrlMetaTagRegExp = /<meta\s+name\s*=\s*\"occ-backend-base-url\"\s+content\s*=\s*\"(.*)\"\s*\/?>/;

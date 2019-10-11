@@ -1,29 +1,27 @@
 import { DOCUMENT } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { CxTransferState } from '../util/cx-transfer-state';
+import { TransferData } from '../util/transfer-data';
 import { ExternalConfig } from './external-config';
 
-export const EXTERNAL_CONFIG_TRANSFER_STATE_SCRIPT_ID = 'external-config';
+export const EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID = 'cx-external-config';
 
-export function transferStateExternalConfig(
+export function transferExternalConfig(
   config: ExternalConfig,
   document: Document
 ) {
   const result = () => {
-    CxTransferState.transfer(
-      EXTERNAL_CONFIG_TRANSFER_STATE_SCRIPT_ID,
-      config,
-      document
-    );
+    TransferData.transfer(EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID, config, document);
   };
   return result;
 }
+
 @NgModule()
 export class ServerExternalConfigModule {
   /**
-   * Loading and calculating the external config before bootstrapping the Angular is expensive, because it's blocking.
+   * Transfers the External Config from SSR to the browser via JSON script in the DOM.
    *
-   * When it's already calculated in SSR, for optimization this module transfers it via JSON script in the rendered document to the browser.
+   * The reason to transfer this config is to avoid duplicate loading and calculation
+   * of this config both in SSR and then in the browser.
    */
   static forRoot(): ModuleWithProviders<ServerExternalConfigModule> {
     return {
@@ -32,7 +30,7 @@ export class ServerExternalConfigModule {
         {
           provide: APP_INITIALIZER,
           multi: true,
-          useFactory: transferStateExternalConfig,
+          useFactory: transferExternalConfig,
           deps: [ExternalConfig, DOCUMENT],
         },
       ],

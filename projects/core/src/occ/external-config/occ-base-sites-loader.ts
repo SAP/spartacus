@@ -15,12 +15,17 @@ export interface OccBaseSitesEndpointOptions {
 /**
  * Loads base sites from the OCC
  *
- * It's intended to be used before the initialization of an Angular app, so cannot use Angular utils.
- *
+ * It's intended to be used before the initialization of an Angular app
  */
 export class OccBaseSitesLoader {
+  private static readonly DEFAULT_PREFIX = '/rest/v2';
+  private static readonly DEFAULT_ENDPOINT =
+    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))';
+
   /**
-   * Loads base sites using XHR. Run it only in browser!
+   * Loads base sites using XHR.
+   *
+   * **CAUTION**: Run it only in browser, because it uses native XHR.
    *
    * @param endpointOptions parts of the url
    */
@@ -31,7 +36,7 @@ export class OccBaseSitesLoader {
   }
 
   /**
-   * Loads base sites using Node.js `https` client
+   * Loads base sites using the given Node.js `https` client
    *
    * @param endpointOptions parts of the url
    * @param httpsClient node `https` client
@@ -57,12 +62,12 @@ export class OccBaseSitesLoader {
     fetchFunction: (url: string) => Promise<any>
   ): Promise<Occ.BaseSites> {
     if (!OccBaseSitesLoader.areOptionsValid(endpointOptions)) {
-      return Promise.reject();
+      return Promise.reject(OccBaseSitesLoader.getError('Invalid url.'));
     }
 
     const url = OccBaseSitesLoader.getFullUrl(endpointOptions);
     return fetchFunction(url).catch(function() {
-      throw new Error(`Error: Could not fetch OCC base sites!`);
+      throw OccBaseSitesLoader.getError('Connection problem.');
     });
   }
 
@@ -91,11 +96,14 @@ export class OccBaseSitesLoader {
     endpointOptions: OccBaseSitesEndpointOptions
   ): string {
     const baseUrl = endpointOptions.baseUrl;
-    const prefix = endpointOptions.prefix || '/rest/v2';
+    const prefix = endpointOptions.prefix || OccBaseSitesLoader.DEFAULT_PREFIX;
     const endpoint =
-      endpointOptions.endpoint ||
-      '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))';
+      endpointOptions.endpoint || OccBaseSitesLoader.DEFAULT_ENDPOINT;
 
     return `${baseUrl}${prefix}${endpoint}`;
+  }
+
+  private static getError(message?: string): Error {
+    return new Error(`Error: Could not load OCC base sites! ${message}`);
   }
 }

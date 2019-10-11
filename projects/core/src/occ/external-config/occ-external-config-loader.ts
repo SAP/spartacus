@@ -1,7 +1,7 @@
 import { ExternalConfig } from '../../external-config/external-config';
-import { EXTERNAL_CONFIG_TRANSFER_STATE_SCRIPT_ID } from '../../external-config/server-external-config.module';
-import { CxTransferState } from '../../util/cx-transfer-state';
+import { EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID } from '../../external-config/server-external-config.module';
 import { NodeHttpsClient } from '../../util/load-json-utils';
+import { TransferData } from '../../util/transfer-data';
 import { OccBaseUrlMetaTagUtils } from '../config/occ-base-url-meta-tag-utils';
 import { OccBaseSites2ConfigConverter } from './occ-base-sites-2-config-converter';
 import {
@@ -16,8 +16,8 @@ export class OccExternalConfigLoader {
    * **CAUTION**: Run it only in browser, because it's using the native DOM.
    */
   static rehydrate(): Promise<ExternalConfig> {
-    const config = CxTransferState.rehydrate(
-      EXTERNAL_CONFIG_TRANSFER_STATE_SCRIPT_ID,
+    const config = TransferData.rehydrate(
+      EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID,
       document
     );
     return config ? Promise.resolve(config) : Promise.reject();
@@ -35,7 +35,6 @@ export class OccExternalConfigLoader {
     fetchOptions.baseUrl =
       fetchOptions.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
 
-    // needs to be in separate variable: (see https://github.com/ng-packagr/ng-packagr/issues/696)
     const thenFn = baseSites =>
       OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
     return OccBaseSitesLoader.load(fetchOptions).then(thenFn);
@@ -51,7 +50,6 @@ export class OccExternalConfigLoader {
     currentUrl: string,
     httpsClient: NodeHttpsClient
   ): Promise<ExternalConfig> {
-    // needs to be in separate variable: (see https://github.com/ng-packagr/ng-packagr/issues/696)
     const thenFn = baseSites => {
       return OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
     };

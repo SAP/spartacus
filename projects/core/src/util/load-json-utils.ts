@@ -11,7 +11,6 @@ export interface NodeHttpsClient {
 
 export class LoadJsonUtils {
   static loadXhr(url: string): Promise<any> {
-    // needs to be in separate variable: (see https://github.com/ng-packagr/ng-packagr/issues/696)
     const promiseFn = (resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
@@ -39,7 +38,6 @@ export class LoadJsonUtils {
     url: string,
     httpsClient: NodeHttpsClient
   ): Promise<any> {
-    // needs to be in separate variable: (see https://github.com/ng-packagr/ng-packagr/issues/696)
     const promiseFn = (resolve, reject) => {
       httpsClient
         .get(url, response => {
@@ -69,7 +67,6 @@ export class LoadJsonUtils {
   static loadNodeHttpsFactory(
     httpsClient: NodeHttpsClient
   ): (url: string) => Promise<any> {
-    // needs to be in separate variable: (see https://github.com/ng-packagr/ng-packagr/issues/696)
     const result = (url: string) =>
       LoadJsonUtils.loadNodeHttps(url, httpsClient);
     return result;

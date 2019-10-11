@@ -19,8 +19,8 @@ const EXTRACT_JAVA_REGEXP_MODIFIERS: RegExp = /^(\(\?([a-z]+)\))?(.*)/;
 // should be private
 export class JavaRegExpConverter {
   /**
-   * Converts RegExp from Java syntax to Javascript (with the limitations):
-   * - recognizes Java regexp modifiers that appear before the actual regex (i.e. case insensitive mode: `(?i)PATTERN` -> `/pattern/i`)
+   * Converts RegExp from Java syntax to Javascript, by recognizing Java regexp modifiers
+   * and converting them to the Javascript ones (i.e. case insensitive mode: `(?i)PATTERN` -> `/pattern/i`)
    *
    * **CAUTION!** Not all features and modifiers of Java regexps are valid in Javascript!
    * If unsupported feature or modifier is used, then `null` will be returned instead of Javascript RegExp.
@@ -28,9 +28,6 @@ export class JavaRegExpConverter {
    * See differences between Java and Javascript regexps:
    * - https://stackoverflow.com/questions/8754444/convert-javascript-regular-expression-to-java-syntax
    * - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines#Language_features
-   *
-   * Note: we don't replace manually double backslashes of Java regexps to single ones for JS,
-   *  because creating JS RegExp out of a string literal (`new RegExp(stringHere)`) treats double backslashes as single ones.
    */
   static convert(javaSyntax: string): RegExp {
     const parts = javaSyntax.match(EXTRACT_JAVA_REGEXP_MODIFIERS);

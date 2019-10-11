@@ -8,7 +8,7 @@ export function configFromExternalConfigFactory(config?: ExternalConfig) {
 }
 
 /**
- * Re-provides the external config chunk given on Angular bootstrap
+ * Re-provides the external config chunk given before Angular bootstrap
  */
 @NgModule()
 export class ExternalConfigModule {

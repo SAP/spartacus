@@ -1,5 +1,5 @@
 // should be private class
-export class CxTransferState {
+export class TransferData {
   /**
    * Rehydrates the value from the JSON script of the given id
    *

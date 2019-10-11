@@ -6,14 +6,14 @@ import { JavaRegExpConverter } from './java-reg-exp-converter';
  *  - `\s` means a "s" character
  *  - `\\s` means a backslash followed by the "s" character
  *
- * But in the implementation we create regular expression object from string literals, which implies:
+ * And in the implementation we create regular expression object from string literals, which implies:
  *  - `new RegExp('\\`) is `/\/`
  *  - `new RegExp('\t')` is `/ /`
  *  - `new RegExp('\\t')` is `/\t/`
  */
 describe(`JavaRegExpConverter`, () => {
   describe(`convert`, () => {
-    it(`should recognize single modifier`, () => {
+    it(`should recognize a single modifier`, () => {
       test_convert({ input: '(?i)pattern', expected: /pattern/i });
     });
 
@@ -34,15 +34,15 @@ describe(`JavaRegExpConverter`, () => {
 
     it(`should convert regexp when it's compatible in JS - with meta characters`, () => {
       test_convert({
-        input: '\\s test \\t tab \\n',
-        expected: /\s test \t tab \n/,
+        input: '(?i)\\s test \\t tab \\n',
+        expected: /\s test \t tab \n/i,
       });
     });
 
     it(`should convert regexp when it's compatible in JS - email domain validator`, () => {
       test_convert({
-        input: '[.][a-zA-Z]+$',
-        expected: /[.][a-zA-Z]+$/,
+        input: '(?i)[.][a-zA-Z]+$',
+        expected: /[.][a-zA-Z]+$/i,
       });
     });
 
@@ -52,8 +52,9 @@ describe(`JavaRegExpConverter`, () => {
          * Note that in string literal we escape the only the backslash with another backslash, i.e.  `\\-`.
          * But in regexp literal we escape the special (and meta) characters with backslash, i.e `\-`.
          */
-        input: '^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_\\-+{};:.,]).{6,}$',
-        expected: /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_\-+{};:.,]).{6,}$/,
+        input:
+          '(?i)^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_\\-+{};:.,]).{6,}$',
+        expected: /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_\-+{};:.,]).{6,}$/i,
       });
     });
   });
@@ -61,7 +62,7 @@ describe(`JavaRegExpConverter`, () => {
 
 /**
  * Given the regexp input, it compares the result regexp with the expected one, using the `toString()` method.
- * If a regexp is `null`, then let's don't use `toString()`, but the value itself.
+ * If a regexp is `null`, then it uses the value itself instead of the `toString()` result.
  */
 function test_convert({
   input,

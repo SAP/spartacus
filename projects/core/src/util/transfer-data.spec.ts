@@ -1,4 +1,4 @@
-import { CxTransferState } from './cx-transfer-state';
+import { TransferData } from './transfer-data';
 
 describe(`CxTransferState`, () => {
   const TEST_SCRIPT_ID = 'test-script-id';
@@ -14,7 +14,7 @@ describe(`CxTransferState`, () => {
       document.body.appendChild(script);
 
       // test
-      const result = CxTransferState.rehydrate(TEST_SCRIPT_ID, document);
+      const result = TransferData.rehydrate(TEST_SCRIPT_ID, document);
       expect(result).toEqual({});
 
       // clean up script

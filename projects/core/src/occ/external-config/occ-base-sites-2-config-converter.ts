@@ -143,7 +143,7 @@ export class OccBaseSites2ConfigConverter {
   }
 
   /**
-   * Returns and array of url parameters with site context.
+   * Returns an array of url encoding attributes.
    *
    * NOTE: it maps the string "storefront" (used in OCC) to the "baseSite" (used in Spartacus)
    */
