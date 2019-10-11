@@ -10,9 +10,9 @@ import {
   UrlModule,
   UserService,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/index';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../../cms-structure/page/index';
+import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { ConfigAttributeFooterComponent } from '../commons/config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';

@@ -11,7 +11,7 @@ import {
 } from '../../../../configurator/commons/connectors/converters';
 import { Configurator } from '../../../../model/configurator.model';
 import { ConverterService } from '../../../../util/converter.service';
-import { OccEndpointsService } from '../../../services';
+import { OccEndpointsService } from '../../../services/occ-endpoints.service';
 
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {

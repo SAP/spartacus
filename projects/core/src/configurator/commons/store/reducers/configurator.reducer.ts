@@ -1,4 +1,4 @@
-import { ConfiguratorActions } from '../actions/index';
+import * as ConfiguratorActions from '../actions/configurator.action';
 import { ConfigurationState } from '../configuration-state';
 
 export const initialState: ConfigurationState = {
