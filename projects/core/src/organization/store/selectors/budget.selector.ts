@@ -22,7 +22,7 @@ export const getBudgetsState: MemoizedSelector<
   LoaderState<Budget>
 > = createSelector(
   getBudgetManagmentState,
-  (state: EntityLoaderState<Budget>) => state.entities.value
+  (state: EntityLoaderState<Budget>) => state.entities
 );
 
 export const getBudgetState = (

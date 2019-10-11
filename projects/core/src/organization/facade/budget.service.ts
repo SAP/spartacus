@@ -31,10 +31,10 @@ export class BudgetService {
   }
 
   getBudgets() {
-    this.store.select(getBudgetsState);
+    return this.store.select(getBudgetsState);
   }
 
   getBudget(budgetCode: string) {
-    this.store.select(getBudgetState(budgetCode));
+    return this.store.select(getBudgetState(budgetCode));
   }
 }
