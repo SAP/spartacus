@@ -85,16 +85,4 @@ export class ProductInterestsEffect {
         )
     )
   );
-
-  // @Effect()
-  // resetProductInterests$: Observable<Action> = this.actions$.pipe(
-  //   ofType(
-  //     CLEAR_USER_MISCS_DATA,
-  //     UserActions.CLEAR_PRODUCT_INTERESTS,
-  //     UserActions.DELETE_PRODUCT_INTERESTS_SUCCESS
-  //   ),
-  //   map(() => {
-  //     return new UserActions.ClearProductInterests();
-  //   })
-  // );
 }

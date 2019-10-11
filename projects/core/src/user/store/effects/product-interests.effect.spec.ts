@@ -8,15 +8,16 @@ import { of, throwError } from 'rxjs';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { hot, cold } from 'jasmine-marbles';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
-
+import { UserInterestsAdapter } from '../../connectors/interests/user-interests.adapter';
+import { Type } from '@angular/core';
 const loadParams = {
-  userId: 'jack.ma@hybris.com',
+  userId: 'qingyu@sap.com',
   pageSize: 5,
   currentPage: 1,
   sort: 'name:asc',
 };
 const delParams = {
-  userId: 'jack.ma@hybris.com',
+  userId: 'qingyu@sap.com',
   item: {},
 };
 
@@ -29,17 +30,21 @@ describe('Product Interests Effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        UserInterestsConnector,
         fromInterestsEffect.ProductInterestsEffect,
+        { provide: UserInterestsAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    actions$ = TestBed.get(Actions);
+    // actions$ = TestBed.get(Actions);
     productInterestsEffect = TestBed.get(
-      fromInterestsEffect.ProductInterestsEffect
+      fromInterestsEffect.ProductInterestsEffect as Type<
+        fromInterestsEffect.ProductInterestsEffect
+      >
     );
-    userInterestConnector = TestBed.get(UserInterestsConnector);
+    userInterestConnector = TestBed.get(UserInterestsConnector as Type<
+      UserInterestsConnector
+    >);
   });
 
   describe('loadProductInteres$', () => {
@@ -76,22 +81,28 @@ describe('Product Interests Effect', () => {
     });
   });
 
-  describe('deleteProductInterests$', () => {
-    it('should be able to delete product interest', () => {
+  describe('removeProductInterests$', () => {
+    it('should be able to remove product interest', () => {
       const delRes = '200';
       spyOn(userInterestConnector, 'removeInterests').and.returnValue(
-        of([{ delRes }])
+        of([delRes])
       );
       const action = new UserActions.RemoveProductInterests(delParams);
-      const completion = new UserActions.RemoveProductInterestsSuccess(delRes);
+      const loadSuccess = new UserActions.LoadProductInterests({
+        userId: delParams.userId,
+      });
+      const removeSuccess = new UserActions.RemoveProductInterestsSuccess([
+        delRes,
+      ]);
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: loadSuccess, c: removeSuccess });
       expect(productInterestsEffect.removeProductInterests$).toBeObservable(
         expected
       );
     });
-    it('should be able to handle failures for delete product interests', () => {
+
+    it('should be able to handle failures for remove product interests', () => {
       spyOn(userInterestConnector, 'removeInterests').and.returnValue(
         throwError('Error')
       );
@@ -105,20 +116,4 @@ describe('Product Interests Effect', () => {
       );
     });
   });
-
-  // describe('resetProductInterests$', () => {
-  //   it('should be able to return a reset action', () => {
-  //     const action: Action = {
-  //       type: UserActions.REMOVE_PRODUCT_INTERESTS_SUCCESS,
-  //     };
-  //     const completion = new LoaderResetAction(PRODUCT_INTERESTS);
-
-  //     actions$ = hot('-a', { a: action });
-  //     const expected = cold('-b', { b: completion });
-
-  //     expect(productInterestsEffect.resetProductInterests$).toBeObservable(
-  //       expected
-  //     );
-  //   });
-  // });
 });

@@ -20,7 +20,7 @@ import { PROCESS_FEATURE } from '../../../process/store/process-state';
 const userId = 'qingyu@sap.com';
 const productCode = '343898';
 
-fdescribe('Product Interests Actions', () => {
+describe('Product Interests Actions', () => {
   describe('LoadProductInterests Actions', () => {
     it('should be able to create the action', () => {
       const payload = {
