@@ -268,7 +268,7 @@ describe('MyInterestsComponent', () => {
     );
   });
 
-  it('should be able to delete an interest item', () => {
+  it('should be able to remove an interest item', () => {
     productInterestService.getProdutInterests.and.returnValue(
       of(mockedInterests)
     );
