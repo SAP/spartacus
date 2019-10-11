@@ -1,55 +1,70 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MyInterestsComponent } from './my-interests.component';
-import { PipeTransform, Pipe, DebugElement } from '@angular/core';
-import { of, Observable } from 'rxjs';
 import {
-  UserToken,
+  PipeTransform,
+  Pipe,
+  Component,
+  DebugElement,
+  Input,
+} from '@angular/core';
+import { of } from 'rxjs';
+import { LayoutConfig } from '../../../layout/config/layout-config';
+import {
   I18nTestingModule,
-  AuthService,
-  UserService,
   ProductInterestSearchResult,
-  ProductInterestEntryRelation,
+  OccConfig,
   ImageType,
+  UserInterestsService,
+  ProductInterestEntryRelation,
 } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
-import { MediaModule } from '../../../shared/components/media/media.module';
 import { By } from '@angular/platform-browser';
+import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { cold, getTestScheduler } from 'jasmine-marbles';
+
+@Component({
+  template: '',
+  selector: 'cx-media',
+})
+class MockMediaComponent {
+  @Input() container;
+  @Input() format;
+}
+
+const MockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+    media: {
+      baseUrl: '',
+    },
+  },
+};
+const MockLayoutConfig: LayoutConfig = {};
 
 @Pipe({
-  name: 'cxTranslateUrl',
+  name: 'cxUrl',
 })
-class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+class MockUrlPipe implements PipeTransform {
+  transform(): any {}
 }
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ userId: 'test' } as UserToken);
-  }
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
-class MockUserService {
-  loadProductInterests(
-    _userId: string,
-    _pageSize: number,
-    _currentPage?: number,
-    _sort?: string
-  ): void {}
-  getProdutInterests(
-    _userId: string,
-    _pageSize: number
-  ): Observable<ProductInterestSearchResult> {
-    return of();
-  }
-  getProdutInterestsLoaded(): Observable<boolean> {
-    return of(true);
-  }
-  deleteProdutInterest(
-    _userId: string,
-    _item: ProductInterestEntryRelation
-  ): void {}
-  clearProductInterests(): void {}
-}
+
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
 
 const mockedInterests: ProductInterestSearchResult = {
   sorts: [{ code: 'name', asc: true }],
@@ -84,185 +99,194 @@ const mockedInterests: ProductInterestSearchResult = {
       },
       productInterestEntry: [
         {
-          dateAdded: new Date(),
+          dateAdded: new Date().toString(),
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '553638',
+        name: 'NV11',
+        images: {
+          PRIMARY: {
+            thumbnail: {
+              altText: 'NV11',
+              format: 'thumbnail',
+              imageType: ImageType.PRIMARY,
+              url: 'image-url',
+            },
+          },
+        },
+        price: {
+          formattedValue: '$188.69',
+        },
+        stock: {
+          stockLevel: 0,
+          stockLevelStatus: 'outOfStock',
+        },
+        baseOptions: [
+          {
+            selected: {
+              variantOptionQualifiers: [
+                {
+                  name: 'color',
+                  value: 'red',
+                },
+                {
+                  name: 'size',
+                  value: 'XL',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      productInterestEntry: [
+        {
+          dateAdded: new Date().toString(),
           interestType: 'BACK_IN_STOCK',
         },
       ],
     },
   ],
 };
+const emptyInterests: ProductInterestSearchResult = {
+  sorts: [{ code: 'name', asc: true }],
+  pagination: {},
+};
 
 describe('MyInterestsComponent', () => {
   let component: MyInterestsComponent;
   let fixture: ComponentFixture<MyInterestsComponent>;
-  let userService: UserService;
   let el: DebugElement;
+  const productInterestService = jasmine.createSpyObj('UserInterestsService', [
+    'loadProductInterests',
+    'getProdutInterests',
+    'getProdutInterestsLoading',
+    'getRemoveProdutInterestLoading',
+    'removeProdutInterest',
+    'clearProductInterests',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ListNavigationModule,
-        I18nTestingModule,
-        MediaModule,
-      ],
+      imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
       providers: [
-        { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: UserInterestsService, useValue: productInterestService },
       ],
-      declarations: [MyInterestsComponent, MockTranslateUrlPipe],
+      declarations: [
+        MyInterestsComponent,
+        MockUrlPipe,
+        MockMediaComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
+      ],
     }).compileComponents();
-
-    userService = TestBed.get(UserService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyInterestsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    fixture.detectChanges();
+
+    productInterestService.getProdutInterests.and.returnValue(
+      of(emptyInterests)
+    );
+    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
+    productInterestService.getRemoveProdutInterestLoading.and.returnValue(
+      of(false)
+    );
+    productInterestService.loadProductInterests.and.stub();
+    productInterestService.removeProdutInterest.and.stub();
+    productInterestService.clearProductInterests.and.stub();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should display title with empty interests', () => {
-    const emptyInterests: ProductInterestSearchResult = {
-      sorts: [{ code: 'name', asc: true }],
-      pagination: {},
-    };
-    spyOn(userService, 'getProdutInterests').and.returnValue(
-      of(emptyInterests)
-    );
-
-    component.ngOnInit();
+  it('should show loading spinner when data is loading', () => {
+    productInterestService.getProdutInterestsLoading.and.returnValue(of(true));
     fixture.detectChanges();
-
-    expect(el.query(By.css('.cx-product-interests-header'))).toBeTruthy();
+    expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
-  it('should display title with interests', () => {
-    const emptyInterests: ProductInterestSearchResult = {
-      sorts: [{ code: 'name', asc: true }],
-      pagination: {},
-      results: [],
-    };
-    spyOn(userService, 'getProdutInterests').and.returnValue(
-      of(emptyInterests)
-    );
-
-    component.ngOnInit();
+  it('should display message when no interest', () => {
     fixture.detectChanges();
-
-    expect(el.query(By.css('.cx-product-interests-header'))).toBeTruthy();
+    expect(el.query(By.css('[data-test="noInterestMessage"]'))).toBeTruthy();
   });
 
-  it('should display no interests message', () => {
-    const interests: ProductInterestSearchResult = {
-      sorts: [{ code: 'name', asc: true }],
-      pagination: {
-        count: 0,
-        page: 10,
-        totalCount: 0,
-        totalPages: 0,
-      },
-      results: [],
-    };
-    spyOn(userService, 'getProdutInterests').and.returnValue(of(interests));
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(el.query(By.css('.cx-product-interests-no-interests'))).toBeTruthy();
-  });
-
-  it('should display interests list correctly', () => {
-    spyOn(userService, 'getProdutInterests').and.returnValue(
+  it('should show interests list', () => {
+    productInterestService.getProdutInterests.and.returnValue(
       of(mockedInterests)
     );
-    component.ngOnInit();
+    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
-    expect(el.query(By.css('.cx-product-interests-table'))).toBeTruthy();
+
+    expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
+    expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productItem"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('cx-media')).length).toEqual(2);
+    expect(
+      el.queryAll(By.css('[data-test="productImageLink"]')).length
+    ).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productName"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productLink"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productCode"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="variantName"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="variantValue"]')).length).toEqual(2);
+    expect(
+      el.queryAll(By.css('[data-test="stockLevelStatus"]')).length
+    ).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="productPrice"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="interestType"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('[data-test="expirationDate"]')).length).toEqual(
+      2
+    );
+    expect(el.queryAll(By.css('[data-test="removeButton"]')).length).toEqual(2);
   });
 
-  it('should be able to click image and product hyperlink', () => {
-    spyOn(userService, 'getProdutInterests').and.returnValue(
-      of(mockedInterests)
-    );
-    component.ngOnInit();
+  it('should be able to change page/sort', () => {
     fixture.detectChanges();
 
-    const tr = el.query(By.css('.cx-product-interests-table tbody tr'));
-    expect(
-      tr.query(By.css('.cx-product-interests-product-image-link'))
-    ).toBeTruthy();
-    expect(
-      tr.query(By.css('.cx-product-interests-product-code-link'))
-    ).toBeTruthy();
+    component.sortChange('byNameAsc');
+    expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
+      10,
+      0,
+      'name:asc'
+    );
+
+    component.pageChange(2);
+    expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
+      10,
+      2,
+      'name:asc'
+    );
   });
 
   it('should be able to delete an interest item', () => {
-    const interests: ProductInterestSearchResult = { ...mockedInterests };
-    spyOn(userService, 'getProdutInterests').and.returnValue(of(interests));
-    spyOn(userService, 'deleteProdutInterest').and.callFake((_item: any) => {
-      interests.results = null;
-      interests.pagination.totalCount = 0;
-    });
-    component.ngOnInit();
+    productInterestService.getProdutInterests.and.returnValue(
+      of(mockedInterests)
+    );
+    productInterestService.getRemoveProdutInterestLoading.and.returnValue(
+      cold('-a|', { a: true })
+    );
     fixture.detectChanges();
-    el.query(By.css('.close')).nativeElement.click();
-    fixture.detectChanges();
+    const button = el.query(By.css('[data-test="removeButton"]')).nativeElement;
+    expect(button.disabled).toBeFalsy();
 
-    expect(el.query(By.css('.cx-product-interests-no-interests'))).toBeTruthy();
-  });
-
-  it('should not display stock status when in stock', () => {
-    const interests: ProductInterestSearchResult = { ...mockedInterests };
-    interests.results[0].product.stock.stockLevel = 10;
-    interests.results[0].product.stock.stockLevelStatus = 'inStock';
-    spyOn(userService, 'getProdutInterests').and.returnValue(of(interests));
-    component.ngOnInit();
+    button.click();
+    getTestScheduler().flush();
     fixture.detectChanges();
 
-    expect(el.query(By.css('.cx-product-interests-product-stock'))).toBeFalsy();
-  });
-
-  describe('pagination and sort', () => {
-    it('should be able to change sort', () => {
-      spyOn(userService, 'getProdutInterests').and.returnValue(
-        of(mockedInterests)
-      );
-      spyOn(userService, 'loadProductInterests').and.stub();
-
-      component.ngOnInit();
-      fixture.detectChanges();
-      component.sortChange('byNameDesc');
-
-      expect(userService.loadProductInterests).toHaveBeenCalledWith(
-        'test',
-        1,
-        0,
-        'name:desc'
-      );
-    });
-
-    it('should be able to change page', () => {
-      spyOn(userService, 'getProdutInterests').and.returnValue(
-        of(mockedInterests)
-      );
-      spyOn(userService, 'loadProductInterests').and.stub();
-
-      component.ngOnInit();
-      fixture.detectChanges();
-      component.pageChange(2);
-
-      expect(userService.loadProductInterests).toHaveBeenCalledWith(
-        'test',
-        1,
-        2,
-        'name:asc'
-      );
-    });
+    expect(button.disabled).toBeTruthy();
+    const item: ProductInterestEntryRelation = mockedInterests.results[0];
+    expect(productInterestService.removeProdutInterest).toHaveBeenCalledWith(
+      item
+    );
   });
 });
