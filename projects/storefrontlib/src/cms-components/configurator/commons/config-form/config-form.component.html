@@ -39,11 +39,6 @@
         [attribute]="attribute"
         (selectionChange)="updateConfiguration($event)"
       ></cx-config-attribute-drop-down>
-      <cx-config-attribute-input-field
-        *ngIf="attribute.uiType === UiType.STRING"
-        [attribute]="attribute"
-        (change)="updateConfiguration($event)"
-      ></cx-config-attribute-input-field>
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
         'configurator.attribute.notSupported' | cxTranslate
       }}</em>
