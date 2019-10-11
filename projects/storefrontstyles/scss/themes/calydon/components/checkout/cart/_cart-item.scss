@@ -23,7 +23,7 @@
     }
   }
 
-  .cx-image-container{
+  .cx-image-container {
     padding: 0;
   }
 
@@ -34,7 +34,8 @@
     }
   }
 
-  .cx-price, .cx-quantity {
+  .cx-price,
+  .cx-quantity {
     @include media-breakpoint-down(sm) {
       padding-bottom: 10px;
     }
