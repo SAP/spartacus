@@ -134,9 +134,13 @@ export class SearchBoxComponent {
   /**
    * Opens the PLP with the given query.
    *
-   * TODO: if there's a singe product match, we could open the PDP.
+   * TODO: if there's a single product match, we could open the PDP.
    */
   launchSearchResult(event: UIEvent, query: string): void {
+    if (query.trim() === '') {
+      console.log('caught');
+      return;
+    }
     this.close(event);
     this.searchBoxComponentService.launchSearchPage(query);
   }

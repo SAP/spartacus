@@ -122,7 +122,7 @@ describe('SearchBoxComponent', () => {
     }).compileComponents();
   }));
 
-  describe('Default config', () => {
+  fdescribe('Default config', () => {
     beforeEach(() => {
       cmsComponentData = TestBed.get(CmsComponentData as Type<
         CmsComponentData<CmsSearchBoxComponent>
@@ -158,11 +158,25 @@ describe('SearchBoxComponent', () => {
       expect(searchBoxComponent.search).toHaveBeenCalledWith('test input');
     });
 
-    it('should launch the search page', () => {
+    it('should launch the search page, given it is not an empty search', () => {
+      const input = fixture.debugElement.query(By.css('input'));
+      const PRODUCT_SEARCH_STRING = 'camera';
+
+      input.nativeElement.value = PRODUCT_SEARCH_STRING;
+      input.triggerEventHandler('keydown.enter', {});
+
+      fixture.detectChanges();
+
+      expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
+    });
+
+    it('should not launch search page on empty search', () => {
       const input = fixture.debugElement.query(By.css('input'));
       input.triggerEventHandler('keydown.enter', {});
+
       fixture.detectChanges();
-      expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
+
+      expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
     });
 
     describe('UI tests', () => {
