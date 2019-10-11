@@ -7,6 +7,9 @@ const configurator: string = 'CPQCONFIGURATOR';
 function goToConfigurationPage(configurator, testProduct) {
   cy.visit(`/electronics-spa/en/USD/configure${configurator}/${testProduct}`);
 }
+function goToProductDetailsPage(testProduct) {
+  cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`);
+}
 
 context('Product Configuration', () => {
   before(() => {
@@ -21,7 +24,9 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the product details page', () => {
-      //TODO: currently not possible
+      goToProductDetailsPage(testProduct);
+      configuration.clickOnConfigureButton();
+      configuration.verifyConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the cart', () => {
