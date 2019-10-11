@@ -1,7 +1,12 @@
 import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
 
-const testProduct: string = 'CPQ_LAPTOP';
+const testProduct: string = 'WCEM_DEPENDENCY_PC';
+const configurator: string = 'CPQCONFIGURATOR';
+
+function goToConfigurationPage(configurator, testProduct) {
+  cy.visit(`/electronics-spa/en/USD/configure${configurator}/${testProduct}`);
+}
 
 context('Product Configuration', () => {
   before(() => {
@@ -21,6 +26,35 @@ context('Product Configuration', () => {
 
     it('should be able to navigate from the cart', () => {
       //TODO: currently not possible
+    });
+  });
+
+  describe('Configure Product', () => {
+    it('Value should disappear on configuration change', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.verifyAttributeValueIsDisplayed(
+        'WCEM_DP_MONITOR_MODEL',
+        'radioGroup',
+        '247E3LSU'
+      );
+
+      configuration.selectAttribute(
+        'WCEM_DP_MONITOR_MNF',
+        'radioGroup',
+        'SAMSUNG'
+      );
+
+      configuration.verifyAttributeValueIsNotDisplayed(
+        'WCEM_DP_MONITOR_MODEL',
+        'radioGroup',
+        '247E3LSU'
+      );
+    });
+
+    it('Value should change on configuration change', () => {
+      //TODO:
     });
   });
 });
