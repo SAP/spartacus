@@ -139,7 +139,6 @@ describe('ProductReferencesComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReferencesComponent);
-    productReferenceService = TestBed.get(ProductReferenceService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
