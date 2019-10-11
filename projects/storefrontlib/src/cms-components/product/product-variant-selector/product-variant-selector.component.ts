@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  OccConfig,
-  Product,
-  RoutingService,
-  VariantOption,
-} from '@spartacus/core';
+import { OccConfig, Product, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
@@ -30,15 +25,6 @@ export class ProductVariantSelectorComponent {
     filter(v => !!v),
     distinctUntilChanged(),
     tap(p => {
-      if (!p.availableForPickup && p.stock && !p.stock.stockLevel) {
-        const variant = this.findApparelVariantAvailableForPickup(
-          p.variantOptions
-        );
-        if (variant) {
-          this.routeToVariant(variant.code);
-        }
-      }
-
       if (p.variantType && p.variantType === 'ApparelStyleVariantProduct') {
         this.styleVariants = p.variantOptions;
       }
@@ -68,18 +54,6 @@ export class ProductVariantSelectorComponent {
       });
     })
   );
-
-  private findApparelVariantAvailableForPickup(
-    variants: VariantOption[]
-  ): VariantOption {
-    let result: VariantOption;
-    variants.forEach(variant => {
-      if (!result && variant.stock && variant.stock.stockLevel) {
-        result = variant;
-      }
-    });
-    return variants.find(v => v.stock && v.stock.stockLevel);
-  }
 
   routeToVariant(code: string): void {
     this.routingService.go({

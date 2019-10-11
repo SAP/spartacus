@@ -6,7 +6,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry, Product } from '@spartacus/core';
+import {
+  CartService,
+  OrderEntry,
+  Product,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -25,9 +31,11 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   maxQuantity: number;
   modalRef: ModalRef;
 
-  hasStock = false;
+  hasStock = true;
   quantity = 1;
   increment = false;
+  isStyleVariantSelected = false;
+  isSizeVariantSelected = false;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -37,18 +45,20 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {
     if (this.productCode) {
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
-      this.hasStock = true;
     } else {
       this.subscription = this.currentProductService
         .getProduct()
         .pipe(filter(Boolean))
         .subscribe((product: Product) => {
+          this.checkForVariantTypesSelection(product);
+
           this.productCode = product.code;
           this.quantity = 1;
 
@@ -58,9 +68,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
             product.stock.stockLevel > 0
           ) {
             this.maxQuantity = product.stock.stockLevel;
-            this.hasStock = true;
-          } else {
-            this.hasStock = false;
           }
 
           this.cartEntry$ = this.cartService.getEntry(this.productCode);
@@ -75,6 +82,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   addToCart() {
+    const errorMessage = this.checkForErrorMessagesBeforeAction();
+
+    if (errorMessage) {
+      this.globalMessageService.add(
+        { key: errorMessage },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      return;
+    }
+
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
@@ -112,5 +129,33 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  resetVariantsSelections() {
+    this.isStyleVariantSelected = false;
+    this.isSizeVariantSelected = false;
+  }
+
+  checkForVariantTypesSelection(product: Product) {
+    this.resetVariantsSelections();
+    product.baseOptions.forEach(baseOption => {
+      if (baseOption.variantType === 'ApparelStyleVariantProduct') {
+        this.isStyleVariantSelected = true;
+      }
+      if (baseOption.variantType === 'ApparelSizeVariantProduct') {
+        this.isSizeVariantSelected = true;
+      }
+    });
+  }
+
+  checkForErrorMessagesBeforeAction() {
+    let result = '';
+    if (!this.isSizeVariantSelected) {
+      result = 'addToCart.pleaseSelectSize';
+    }
+    if (!this.isStyleVariantSelected) {
+      result = 'addToCart.pleaseSelectStyle';
+    }
+    return result;
   }
 }
