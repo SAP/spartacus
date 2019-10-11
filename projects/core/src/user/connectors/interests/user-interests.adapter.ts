@@ -38,7 +38,7 @@ export abstract class UserInterestsAdapter {
 
   /**
    * Abstract method to add a product interest for an user.
-   * 
+   *
    * @param userId The `userId` for given user
    * @param productCode The product code
    * @param notificationType The notification type

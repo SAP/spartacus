@@ -15,7 +15,10 @@ import {
   NotificationType,
 } from '../../model/product-interest.model';
 import { tap, map } from 'rxjs/operators';
-import { getProcessLoadingFactory, getProcessSuccessFactory } from '../../process/store/selectors/process.selectors';
+import {
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable({
@@ -119,19 +122,19 @@ export class UserInterestsService {
 
   /**
    * Add a new product interest.
-   * 
+   *
    * @param productCode the product code
    * @param notificationType the notification type
    */
   addProductInterest(
     productCode: string,
     notificationType: NotificationType
-  ): void{
+  ): void {
     this.store.dispatch(
       new UserActions.AddProductInterest({
         userId: OCC_USER_ID_CURRENT,
         productCode: productCode,
-        notificationType: notificationType
+        notificationType: notificationType,
       })
     );
   }
