@@ -39,7 +39,7 @@ describe('Product References selectors', () => {
 
   it('getSelectedProductReferencesFactory should return all references when no referenceType is provided', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(list));
-    
+
     let result: ProductReference[];
     const referenceType = '';
     store
@@ -58,7 +58,12 @@ describe('Product References selectors', () => {
   });
 
   it('getSelectedProductReferencesFactory should filter and return references for referenceType when provided', () => {
-    store.dispatch(new ProductActions.LoadProductReferencesSuccess({ 'productCode': productCode, 'list': list }));
+    store.dispatch(
+      new ProductActions.LoadProductReferencesSuccess({
+        productCode: productCode,
+        list: list,
+      })
+    );
 
     let result: ProductReference[];
     const referenceType = 'ACCESSORIES';
