@@ -31,7 +31,7 @@ export abstract class UserInterestsAdapter {
    * @param userId The `userId` for given user
    * @param ProductInterestRelation The product interest to be removed.
    */
-  abstract removeInterests(
+  abstract removeInterest(
     userId: string,
     item: ProductInterestEntryRelation
   ): Observable<any[]>;

@@ -7,14 +7,14 @@ import createSpy = jasmine.createSpy;
 import { ProductInterestEntryRelation } from '../../../model/product-interest.model';
 
 class MockUserInterestsAdapter implements UserInterestsAdapter {
-  removeInterests = createSpy('removeInterests').and.returnValue(of([]));
+  removeInterest = createSpy('removeInterest').and.returnValue(of([]));
   getInterests = createSpy('getInterests').and.callFake(userId =>
     of(`loadList-${userId}`)
   );
   addInterest = createSpy('addInterest').and.stub();
 }
 
-describe('UserInterestsConnector', () => {
+fdescribe('UserInterestsConnector', () => {
   let service: UserInterestsConnector;
   let adapter: UserInterestsAdapter;
 
@@ -40,10 +40,10 @@ describe('UserInterestsConnector', () => {
       productInterestEntry: [],
     };
     service
-      .removeInterests('user-id', relationData)
+      .removeInterest('user-id', relationData)
       .subscribe(res => (result = res));
     expect(result).toEqual({});
-    expect(adapter.removeInterests).toHaveBeenCalledWith(
+    expect(adapter.removeInterest).toHaveBeenCalledWith(
       'user-id',
       relationData
     );

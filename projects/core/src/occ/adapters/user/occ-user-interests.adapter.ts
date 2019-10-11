@@ -61,7 +61,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       );
   }
 
-  public removeInterests(
+  public removeInterest(
     userId: string,
     item: ProductInterestEntryRelation
   ): Observable<any[]> {

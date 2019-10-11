@@ -67,7 +67,7 @@ describe('OccUserInterestsAdapter', () => {
     }));
   });
 
-  describe('removeInterests', () => {
+  describe('removeInterest', () => {
     it('should remove interests for given user', () => {
       const mockRelation: ProductInterestEntryRelation = {
         product: {},
@@ -75,7 +75,7 @@ describe('OccUserInterestsAdapter', () => {
       const userId = 'jack.ma@hybris.com';
 
       service
-        .removeInterests(userId, mockRelation)
+        .removeInterest(userId, mockRelation)
         .subscribe(result => expect(result).toEqual([]));
 
       const mockReq = httpMock.expectOne(req => {

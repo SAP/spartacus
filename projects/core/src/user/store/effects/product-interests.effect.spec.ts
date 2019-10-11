@@ -84,7 +84,7 @@ describe('Product Interests Effect', () => {
   describe('removeProductInterests$', () => {
     it('should be able to remove product interest', () => {
       const delRes = '200';
-      spyOn(userInterestConnector, 'removeInterests').and.returnValue(
+      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
         of([delRes])
       );
       const action = new UserActions.RemoveProductInterest(delParams);
@@ -97,13 +97,13 @@ describe('Product Interests Effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: loadSuccess, c: removeSuccess });
-      expect(productInterestsEffect.removeProductInterests$).toBeObservable(
+      expect(productInterestsEffect.removeProductInterest$).toBeObservable(
         expected
       );
     });
 
     it('should be able to handle failures for remove product interest', () => {
-      spyOn(userInterestConnector, 'removeInterests').and.returnValue(
+      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
         throwError('Error')
       );
       const action = new UserActions.RemoveProductInterest(delParams);
@@ -111,7 +111,7 @@ describe('Product Interests Effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
-      expect(productInterestsEffect.removeProductInterests$).toBeObservable(
+      expect(productInterestsEffect.removeProductInterest$).toBeObservable(
         expected
       );
     });

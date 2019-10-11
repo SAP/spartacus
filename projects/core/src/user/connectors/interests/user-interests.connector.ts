@@ -30,11 +30,11 @@ export class UserInterestsConnector {
     );
   }
 
-  removeInterests(
+  removeInterest(
     userId: string,
     item: ProductInterestEntryRelation
   ): Observable<any[]> {
-    return this.adapter.removeInterests(userId, item);
+    return this.adapter.removeInterest(userId, item);
   }
 
   addInterest(

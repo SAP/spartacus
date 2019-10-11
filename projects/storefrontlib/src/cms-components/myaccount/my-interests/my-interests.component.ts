@@ -62,7 +62,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     this.getRemoveInterestsloading$ = this.productInterestService.getRemoveProdutInterestLoading();
   }
 
-  removeInterests(result: ProductInterestEntryRelation): void {
+  removeInterest(result: ProductInterestEntryRelation): void {
     this.productInterestService.removeProdutInterest(result);
   }
 
