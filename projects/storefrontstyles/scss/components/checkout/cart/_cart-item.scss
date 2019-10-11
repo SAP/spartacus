@@ -16,6 +16,7 @@
     @include type('5');
     overflow-wrap: break-word;
     padding: 0;
+    min-width: 17rem;
 
     .cx-link {
       color: var(--cx-color-text);
