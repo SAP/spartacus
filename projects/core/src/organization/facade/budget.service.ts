@@ -4,43 +4,37 @@ import { StateWithOrganization } from '../store/organization-state';
 import { BudgetActions } from '../store/actions/index';
 import {
   getBudgetsState,
-  // getBudgetState,
+  getBudgetState,
 } from '../store/selectors/budget.selector';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 
 @Injectable()
 export class BudgetService {
+  private user$ = this.authService.getOccUserId();
+
   constructor(
     protected store: Store<StateWithOrganization>,
     protected authService: AuthService
   ) {}
 
-  // private budgetManagment: { [code: string]: Observable<Budget> } = {};
-
   loadBudget(budgetCode: string) {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(uid =>
-        this.store.dispatch(new BudgetActions.LoadBudget({ uid, budgetCode }))
-      );
+    this.user$.pipe(take(1)).subscribe(uid =>
+      this.store.dispatch(new BudgetActions.LoadBudget({ uid, budgetCode }))
+    );
   }
 
   loadBudgets() {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(uid =>
-        this.store.dispatch(new BudgetActions.LoadBudgets(uid))
-      );
+    this.user$.pipe(take(1)).subscribe(uid =>
+      this.store.dispatch(new BudgetActions.LoadBudgets(uid))
+    );
   }
 
   getBudgets() {
     this.store.select(getBudgetsState);
   }
 
-  // getBudget(budgetCode: string) {
-  //   this.store.select(getBudgetState(budgetCode));
-  // }
+  getBudget(budgetCode: string) {
+    this.store.select(getBudgetState(budgetCode));
+  }
 }
