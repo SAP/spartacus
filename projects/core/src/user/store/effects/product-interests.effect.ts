@@ -67,12 +67,21 @@ export class ProductInterestsEffect {
     map((action: UserActions.AddProductInterest) => action.payload),
     switchMap(payload =>
       this.userInterestsConnector
-        .addInterest(payload.userId, payload.productCode, payload.notificationType)
+        .addInterest(
+          payload.userId,
+          payload.productCode,
+          payload.notificationType
+        )
         .pipe(
-          map((res: any) => new UserActions.RemoveProductInterestsSuccess(res)),
-          catchError(error =>
-            of(new UserActions.RemoveProductInterestsFail(error))
-          )
+          switchMap((res: any) => [
+            new UserActions.LoadProductInterests({
+              userId: payload.userId,
+              productCode: payload.productCode,
+              notificationType: payload.notificationType,
+            }),
+            new UserActions.AddProductInterestSuccess(res),
+          ]),
+          catchError(error => of(new UserActions.AddProductInterestFail(error)))
         )
     )
   );

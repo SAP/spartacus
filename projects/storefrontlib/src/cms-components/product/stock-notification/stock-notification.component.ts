@@ -9,7 +9,7 @@ import {
   Product,
   GlobalMessageService,
   TranslationService,
-  GlobalMessageType
+  GlobalMessageType,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, filter, tap, first } from 'rxjs/operators';
@@ -22,7 +22,6 @@ import { StockNotificationDialogComponent } from './stock-notification-dialog/st
   templateUrl: './stock-notification.component.html',
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
-
   anonymous$: Observable<boolean>;
   subscribed$: Observable<boolean>;
   prefsEnabled$: Observable<boolean>;
@@ -72,45 +71,59 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.subscribeSuccess$ = this.interestsService.getAddProductInterestLoading();
+    this.subscribeSuccess$ = this.interestsService.getAddProductInterestSuccess();
     this.unsubscribeLoading$ = this.interestsService.getRemoveProdutInterestLoading();
-    this.subscription.add(this.interestsService.getRemoveProdutInterestSuccess().subscribe(
-      success => {
-        if(success){
-          this.subscription.add(
-            this.translationService
-              .translate('stockNotification.unsubscribeSuccess')
-              .pipe(first())
-              .subscribe(text =>
-                this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_INFO)
-              )
-          )
-        }
-      }
-    ))
+    this.subscription.add(
+      this.interestsService
+        .getRemoveProdutInterestSuccess()
+        .subscribe(success => {
+          if (success) {
+            this.subscription.add(
+              this.translationService
+                .translate('stockNotification.unsubscribeSuccess')
+                .pipe(first())
+                .subscribe(text =>
+                  this.globalMessageService.add(
+                    text,
+                    GlobalMessageType.MSG_TYPE_INFO
+                  )
+                )
+            );
+            this.interestsService.resetRemoveInterestState();
+          }
+        })
+    );
   }
 
-  subscribe(){
-    this.interestsService.addProductInterest(this.productCode, NotificationType.BACK_IN_STOCK);
+  subscribe() {
     this.openDialog();
+    this.interestsService.addProductInterest(
+      this.productCode,
+      NotificationType.BACK_IN_STOCK
+    );
   }
 
-  unsubscribe(){
+  unsubscribe() {
     this.interestsService.removeProdutInterest({
       product: {
-        code: this.productCode
+        code: this.productCode,
       },
-      productInterestEntry: [{
-        interestType: NotificationType.BACK_IN_STOCK
-      }]
+      productInterestEntry: [
+        {
+          interestType: NotificationType.BACK_IN_STOCK,
+        },
+      ],
     });
   }
 
-  private openDialog(){
-    const modalInstance = this.modalService.open(StockNotificationDialogComponent, {
-      centered: true,
-      size: 'lg',
-    }).componentInstance;
+  private openDialog() {
+    const modalInstance = this.modalService.open(
+      StockNotificationDialogComponent,
+      {
+        centered: true,
+        size: 'lg',
+      }
+    ).componentInstance;
 
     modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
     modalInstance.enabledPrefs = this.enabledPrefs;

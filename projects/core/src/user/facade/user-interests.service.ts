@@ -15,7 +15,10 @@ import {
   NotificationType,
 } from '../../model/product-interest.model';
 import { tap, map } from 'rxjs/operators';
-import { getProcessLoadingFactory, getProcessSuccessFactory } from '../../process/store/selectors/process.selectors';
+import {
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable({
@@ -103,8 +106,8 @@ export class UserInterestsService {
    * Returns a loading flag for removing product interests.
    */
   getRemoveProdutInterestLoading(): Observable<boolean> {
-    return this.store.select(
-      getProcessLoadingFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID)
+    return this.store.pipe(
+      select(getProcessLoadingFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID))
     );
   }
 
@@ -112,26 +115,26 @@ export class UserInterestsService {
    * Returns a success flag for removing a product interests.
    */
   getRemoveProdutInterestSuccess(): Observable<boolean> {
-    return this.store.select(
-      getProcessSuccessFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID)
+    return this.store.pipe(
+      select(getProcessSuccessFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID))
     );
   }
 
   /**
    * Add a new product interest.
-   * 
+   *
    * @param productCode the product code
    * @param notificationType the notification type
    */
   addProductInterest(
     productCode: string,
     notificationType: NotificationType
-  ): void{
+  ): void {
     this.store.dispatch(
       new UserActions.AddProductInterest({
         userId: OCC_USER_ID_CURRENT,
         productCode: productCode,
-        notificationType: notificationType
+        notificationType: notificationType,
       })
     );
   }
@@ -140,9 +143,32 @@ export class UserInterestsService {
    * Returns a loading flag for adding a product interest.
    */
   getAddProductInterestLoading(): Observable<boolean> {
-    return this.store.select(
-      getProcessLoadingFactory(ADD_PRODUCT_INTEREST_PROCESS_ID)
+    return this.store.pipe(
+      select(getProcessLoadingFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
     );
+  }
+
+  /**
+   * Returns a success flag for adding a product interest.
+   */
+  getAddProductInterestSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Reset product interest adding state.
+   */
+  resetAddInterestState(): void {
+    this.store.dispatch(new UserActions.ResetAddInterestState());
+  }
+
+  /**
+   * Reset product interest removing state.
+   */
+  resetRemoveInterestState(): void {
+    this.store.dispatch(new UserActions.ResetRemoveInterestState());
   }
 
   /**

@@ -41,7 +41,7 @@ export class UserInterestsConnector {
     userId: string,
     productCode: string,
     notificationType: NotificationType
-    ): Observable<any>{
-      return this.adapter.addInterest(userId, productCode, notificationType);
-    }
+  ): Observable<any> {
+    return this.adapter.addInterest(userId, productCode, notificationType);
+  }
 }

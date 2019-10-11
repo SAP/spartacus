@@ -19,6 +19,7 @@ import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
+  EntityResetAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 
 export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
@@ -33,6 +34,9 @@ export const REMOVE_PRODUCT_INTERESTS_FAIL = 'Remove Product Interests Fail';
 export const ADD_PRODUCT_INTEREST = 'Add Product Interest';
 export const ADD_PRODUCT_INTEREST_FAIL = 'Add Product Interest Fail';
 export const ADD_PRODUCT_INTEREST_SUCCESS = 'Add Product Interest Success';
+
+export const ADD_PRODUCT_INTEREST_RESET = 'Add Product Interest Reset';
+export const REMOVE_PRODUCT_INTERESTS_RESET = 'Remove Product Interests Reset';
 
 export const CLEAR_PRODUCT_INTERESTS = 'Clear Product Interests';
 
@@ -106,16 +110,30 @@ export class AddProductInterest extends EntityLoadAction {
 }
 
 export class AddProductInterestSuccess extends EntitySuccessAction {
-  readonly type = REMOVE_PRODUCT_INTERESTS_SUCCESS;
+  readonly type = ADD_PRODUCT_INTEREST_SUCCESS;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID);
   }
 }
 
 export class AddProductInterestFail extends EntityFailAction {
-  readonly type = REMOVE_PRODUCT_INTERESTS_FAIL;
+  readonly type = ADD_PRODUCT_INTEREST_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID, payload);
+  }
+}
+
+export class ResetAddInterestState extends EntityResetAction {
+  readonly type = ADD_PRODUCT_INTEREST_RESET;
+  constructor() {
+    super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID);
+  }
+}
+
+export class ResetRemoveInterestState extends EntityResetAction {
+  readonly type = REMOVE_PRODUCT_INTERESTS_RESET;
+  constructor() {
+    super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID);
   }
 }
 
@@ -136,4 +154,6 @@ export type ProductInterestsAction =
   | AddProductInterest
   | AddProductInterestFail
   | AddProductInterestSuccess
+  | ResetAddInterestState
+  | ResetRemoveInterestState
   | ClearProductInterests;
