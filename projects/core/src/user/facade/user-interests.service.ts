@@ -95,7 +95,7 @@ export class UserInterestsService {
    */
   removeProdutInterest(item: ProductInterestEntryRelation): void {
     this.store.dispatch(
-      new UserActions.RemoveProductInterests({
+      new UserActions.RemoveProductInterest({
         userId: OCC_USER_ID_CURRENT,
         item: item,
       })

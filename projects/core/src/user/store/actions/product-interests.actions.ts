@@ -26,17 +26,17 @@ export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
 export const LOAD_PRODUCT_INTERESTS_FAIL = 'Load Product Interests Fail';
 export const LOAD_PRODUCT_INTERESTS_SUCCESS = 'Load Product Interests Success';
 
-export const REMOVE_PRODUCT_INTERESTS = 'Remove Product Interests';
-export const REMOVE_PRODUCT_INTERESTS_SUCCESS =
-  'Remove Product Interests Success';
-export const REMOVE_PRODUCT_INTERESTS_FAIL = 'Remove Product Interests Fail';
+export const REMOVE_PRODUCT_INTEREST = 'Remove Product Interest';
+export const REMOVE_PRODUCT_INTEREST_SUCCESS =
+  'Remove Product Interest Success';
+export const REMOVE_PRODUCT_INTEREST_FAIL = 'Remove Product Interest Fail';
 
 export const ADD_PRODUCT_INTEREST = 'Add Product Interest';
 export const ADD_PRODUCT_INTEREST_FAIL = 'Add Product Interest Fail';
 export const ADD_PRODUCT_INTEREST_SUCCESS = 'Add Product Interest Success';
 
 export const ADD_PRODUCT_INTEREST_RESET = 'Add Product Interest Reset';
-export const REMOVE_PRODUCT_INTERESTS_RESET = 'Remove Product Interests Reset';
+export const REMOVE_PRODUCT_INTEREST_RESET = 'Remove Product Interest Reset';
 
 export const CLEAR_PRODUCT_INTERESTS = 'Clear Product Interests';
 
@@ -70,8 +70,8 @@ export class LoadProductInterestsSuccess extends LoaderSuccessAction {
   }
 }
 
-export class RemoveProductInterests extends EntityLoadAction {
-  readonly type = REMOVE_PRODUCT_INTERESTS;
+export class RemoveProductInterest extends EntityLoadAction {
+  readonly type = REMOVE_PRODUCT_INTEREST;
   constructor(
     public payload: {
       userId: string;
@@ -82,15 +82,15 @@ export class RemoveProductInterests extends EntityLoadAction {
   }
 }
 
-export class RemoveProductInterestsSuccess extends EntitySuccessAction {
-  readonly type = REMOVE_PRODUCT_INTERESTS_SUCCESS;
+export class RemoveProductInterestSuccess extends EntitySuccessAction {
+  readonly type = REMOVE_PRODUCT_INTEREST_SUCCESS;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID);
   }
 }
 
-export class RemoveProductInterestsFail extends EntityFailAction {
-  readonly type = REMOVE_PRODUCT_INTERESTS_FAIL;
+export class RemoveProductInterestFail extends EntityFailAction {
+  readonly type = REMOVE_PRODUCT_INTEREST_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID, payload);
   }
@@ -131,7 +131,7 @@ export class ResetAddInterestState extends EntityResetAction {
 }
 
 export class ResetRemoveInterestState extends EntityResetAction {
-  readonly type = REMOVE_PRODUCT_INTERESTS_RESET;
+  readonly type = REMOVE_PRODUCT_INTEREST_RESET;
   constructor() {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID);
   }
@@ -148,9 +148,9 @@ export type ProductInterestsAction =
   | LoadProductInterests
   | LoadProductInterestsFail
   | LoadProductInterestsSuccess
-  | RemoveProductInterests
-  | RemoveProductInterestsSuccess
-  | RemoveProductInterestsFail
+  | RemoveProductInterest
+  | RemoveProductInterestSuccess
+  | RemoveProductInterestFail
   | AddProductInterest
   | AddProductInterestFail
   | AddProductInterestSuccess

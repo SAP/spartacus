@@ -87,11 +87,11 @@ describe('Product Interests Effect', () => {
       spyOn(userInterestConnector, 'removeInterests').and.returnValue(
         of([delRes])
       );
-      const action = new UserActions.RemoveProductInterests(delParams);
+      const action = new UserActions.RemoveProductInterest(delParams);
       const loadSuccess = new UserActions.LoadProductInterests({
         userId: delParams.userId,
       });
-      const removeSuccess = new UserActions.RemoveProductInterestsSuccess([
+      const removeSuccess = new UserActions.RemoveProductInterestSuccess([
         delRes,
       ]);
 
@@ -102,12 +102,12 @@ describe('Product Interests Effect', () => {
       );
     });
 
-    it('should be able to handle failures for remove product interests', () => {
+    it('should be able to handle failures for remove product interest', () => {
       spyOn(userInterestConnector, 'removeInterests').and.returnValue(
         throwError('Error')
       );
-      const action = new UserActions.RemoveProductInterests(delParams);
-      const completion = new UserActions.RemoveProductInterestsFail('Error');
+      const action = new UserActions.RemoveProductInterest(delParams);
+      const completion = new UserActions.RemoveProductInterestFail('Error');
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

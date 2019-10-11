@@ -73,9 +73,9 @@ describe('Product Interests Actions', () => {
         userId: userId,
         item: {},
       };
-      const action = new UserActions.RemoveProductInterests(payload);
+      const action = new UserActions.RemoveProductInterest(payload);
       expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_PRODUCT_INTERESTS,
+        type: UserActions.REMOVE_PRODUCT_INTEREST,
         payload: payload,
         meta: entityLoadMeta(
           PROCESS_FEATURE,
@@ -88,9 +88,9 @@ describe('Product Interests Actions', () => {
   describe('RemoveProductInterestsSuccess Actions', () => {
     it('should be able to create the action', () => {
       const payload = 'remove success';
-      const action = new UserActions.RemoveProductInterestsSuccess(payload);
+      const action = new UserActions.RemoveProductInterestSuccess(payload);
       expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_PRODUCT_INTERESTS_SUCCESS,
+        type: UserActions.REMOVE_PRODUCT_INTEREST_SUCCESS,
         payload: payload,
         meta: entitySuccessMeta(
           PROCESS_FEATURE,
@@ -103,9 +103,9 @@ describe('Product Interests Actions', () => {
   describe('RemoveProductInterestsFail Actions', () => {
     it('should be able to create the action', () => {
       const error = 'remove fail';
-      const action = new UserActions.RemoveProductInterestsFail(error);
+      const action = new UserActions.RemoveProductInterestFail(error);
       expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_PRODUCT_INTERESTS_FAIL,
+        type: UserActions.REMOVE_PRODUCT_INTEREST_FAIL,
         payload: error,
         meta: entityFailMeta(
           PROCESS_FEATURE,

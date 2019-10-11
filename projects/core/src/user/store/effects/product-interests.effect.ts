@@ -44,18 +44,18 @@ export class ProductInterestsEffect {
 
   @Effect()
   removeProductInterests$: Observable<Action> = this.actions$.pipe(
-    ofType(UserActions.REMOVE_PRODUCT_INTERESTS),
-    map((action: UserActions.RemoveProductInterests) => action.payload),
+    ofType(UserActions.REMOVE_PRODUCT_INTEREST),
+    map((action: UserActions.RemoveProductInterest) => action.payload),
     switchMap(payload =>
       this.userInterestsConnector
         .removeInterests(payload.userId, payload.item)
         .pipe(
           switchMap(data => [
             new UserActions.LoadProductInterests({ userId: payload.userId }),
-            new UserActions.RemoveProductInterestsSuccess(data),
+            new UserActions.RemoveProductInterestSuccess(data),
           ]),
           catchError(error =>
-            of(new UserActions.RemoveProductInterestsFail(error))
+            of(new UserActions.RemoveProductInterestFail(error))
           )
         )
     )
