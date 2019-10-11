@@ -28,7 +28,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 const userId = 'qingyu.sap.com';
 
-fdescribe('OccUserInterestsAdapter', () => {
+describe('OccUserInterestsAdapter', () => {
   let occUserInterestsAdapter: OccUserInterestsAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
