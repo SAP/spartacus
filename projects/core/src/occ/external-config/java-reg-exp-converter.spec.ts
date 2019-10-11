@@ -25,10 +25,12 @@ describe(`JavaRegExpConverter`, () => {
     });
 
     it(`should return null for unsupported JS modifiers`, () => {
+      spyOn(console, 'warn');
       test_convert({ input: '(?iX)pattern', expected: null });
     });
 
     it(`should return null for unsupported JS regexp features`, () => {
+      spyOn(console, 'warn');
       test_convert({ input: 'x*+', expected: null });
     });
 

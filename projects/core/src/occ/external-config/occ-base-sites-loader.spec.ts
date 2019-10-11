@@ -4,10 +4,11 @@ import { OccBaseSitesLoader } from './occ-base-sites-loader';
 describe(`OccBaseSitesLoader`, () => {
   describe(`load`, () => {
     beforeEach(() => {
-      spyOn(LoadJsonUtils, 'getXhr').and.returnValue(
+      spyOn(LoadJsonUtils, 'loadXhr').and.returnValue(
         Promise.resolve({ baseSites: [] })
       );
     });
+
     it(`should call GET xhr with given URL parts`, async () => {
       const result = await OccBaseSitesLoader.load({
         baseUrl: 'https://base.com',
@@ -39,7 +40,7 @@ describe(`OccBaseSitesLoader`, () => {
 
   describe(`loadSSR`, () => {
     beforeEach(() => {
-      spyOn(LoadJsonUtils, 'getNodeHttps').and.returnValue(
+      spyOn(LoadJsonUtils, 'loadNodeHttps').and.returnValue(
         Promise.resolve({ baseSites: [] })
       );
     });
