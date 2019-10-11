@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { ANONYMOUS_CONSENT_STATUS } from 'projects/core/src/model';
+import { OCC_USER_ID_ANONYMOUS } from 'projects/core/src/occ';
 import { UserConsentService } from 'projects/core/src/user';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -12,7 +14,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
-import { ANONYMOUS_CONSENT_STATUS } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -97,32 +98,43 @@ export class AnonymousConsentsEffects {
       )
     ),
     filter(([, registerAction]) => Boolean(registerAction)),
-    concatMap(() =>
-      this.anonymousConsentService
-        .getAnonymousConsentTemplate(
-          this.anonymousConsentsConfig.anonymousConsents.registerConsent
-        )
-        .pipe(
-          withLatestFrom(
-            this.anonymousConsentService.getAnonymousConsent(
-              this.anonymousConsentsConfig.anonymousConsents.registerConsent
-            ),
-            this.authService.getOccUserId()
-          ),
-          map(([template, consent, userId]) => {
+    switchMap(() =>
+      this.anonymousConsentService.getAnonymousConsents().pipe(
+        withLatestFrom(
+          this.authService.getOccUserId(),
+          this.anonymousConsentService.getAnonymousConsentTemplates()
+        ),
+        filter(([, userId]) => userId !== OCC_USER_ID_ANONYMOUS),
+        concatMap(([consents, userId, templates]) => {
+          const actions: UserActions.TransferAnonymousConsent[] = [];
+          for (const consent of consents) {
             if (
               consent.consentState ===
-              ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
+                ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN &&
+              !this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+                consent.templateCode
+              )
             ) {
-              return new UserActions.TransferAnonymousConsent({
-                userId: userId,
-                consentTemplateId: template.id,
-                consentTemplateVersion: template.version,
-              });
+              for (const template of templates) {
+                if (template.id === consent.templateCode) {
+                  actions.push(
+                    new UserActions.TransferAnonymousConsent({
+                      userId,
+                      consentTemplateId: template.id,
+                      consentTemplateVersion: template.version,
+                    })
+                  );
+                  break;
+                }
+              }
             }
-            return EMPTY;
-          })
-        )
+          }
+          if (actions.length > 0) {
+            return actions;
+          }
+          return EMPTY;
+        })
+      )
     )
   );
 
@@ -139,18 +151,19 @@ export class AnonymousConsentsEffects {
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
     filter(action => Boolean(action)),
-    switchMap(() =>
+    concatMap(() =>
       this.userConsentService.getConsentsResultSuccess().pipe(
         withLatestFrom(
           this.authService.getOccUserId(),
           this.userConsentService.getConsents()
         ),
-        concatMap(([loaded, userId, templates]) => {
+        filter(([, userId]) => userId !== OCC_USER_ID_ANONYMOUS),
+        concatMap(([loaded, userId, consents]) => {
           if (!loaded) {
             this.userConsentService.loadConsents();
           }
           const actions: UserActions.GiveUserConsent[] = [];
-          for (const template of templates) {
+          for (const template of consents) {
             if (
               (!template.currentConsent ||
                 !template.currentConsent.consentGivenDate ||
@@ -159,7 +172,6 @@ export class AnonymousConsentsEffects {
                 template.id
               )
             ) {
-              console.log(template);
               actions.push(
                 new UserActions.GiveUserConsent({
                   userId,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -41,7 +41,7 @@ export class UserConsentsEffect {
       UserActions.GIVE_USER_CONSENT,
       UserActions.TRANSFER_ANONYMOUS_CONSENT
     ),
-    switchMap(action =>
+    concatMap(action =>
       this.userConsentConnector
         .giveConsent(
           action.payload.userId,
