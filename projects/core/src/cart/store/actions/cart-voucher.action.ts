@@ -1,3 +1,4 @@
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
   EntityLoadAction,
@@ -10,7 +11,6 @@ import {
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
-import { PROCESS_FEATURE } from '@spartacus/core';
 
 export const CART_ADD_VOUCHER = '[Cart-voucher] Add Cart Vouchers';
 export const CART_ADD_VOUCHER_FAIL = '[Cart-voucher] Add Cart Voucher Fail';
