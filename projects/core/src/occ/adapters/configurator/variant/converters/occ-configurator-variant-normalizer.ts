@@ -85,6 +85,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.DROPDOWN;
         break;
       }
+      case OccConfigurator.UiType.STRING: {
+        uiType = Configurator.UiType.STRING;
+        break;
+      }
       default: {
         uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }

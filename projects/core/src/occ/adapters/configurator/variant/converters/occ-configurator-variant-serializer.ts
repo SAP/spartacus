@@ -59,7 +59,14 @@ export class OccConfiguratorVariantSerializer
       type: this.convertCharacteristicType(attribute.uiType),
     };
 
-    cstic.value = attribute.selectedSingleValue;
+    if (
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.RADIOBUTTON
+    ) {
+      cstic.value = attribute.selectedSingleValue;
+    } else {
+      cstic.value = attribute.userInput;
+    }
 
     occCstics.push(cstic);
   }
@@ -73,6 +80,10 @@ export class OccConfiguratorVariantSerializer
       }
       case Configurator.UiType.DROPDOWN: {
         uiType = OccConfigurator.UiType.DROPDOWN;
+        break;
+      }
+      case Configurator.UiType.STRING: {
+        uiType = OccConfigurator.UiType.STRING;
         break;
       }
       default: {
