@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
   CartService,
+  GlobalMessageService,
   I18nTestingModule,
   OrderEntry,
   Product,
@@ -14,6 +15,7 @@ import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';
 import { AddToCartComponent } from './add-to-cart.component';
+import createSpy = jasmine.createSpy;
 
 const productCode = '1234';
 const mockProduct: Product = {
@@ -64,6 +66,10 @@ class MockItemCounterComponent {
   @Input() value;
 }
 
+class MockGlobalMessageService {
+  add = createSpy();
+}
+
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
@@ -85,6 +91,7 @@ describe('AddToCartComponent', () => {
         { provide: ModalService, useValue: { open: () => {} } },
         { provide: CartService, useClass: MockCartService },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
   }));
