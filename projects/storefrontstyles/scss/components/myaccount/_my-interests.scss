@@ -1,7 +1,7 @@
 %cx-my-interests {
   .cx-product-interests {
     @include media-breakpoint-down(sm) {
-      max-width: 100%;
+      max-width: 1%;
       padding: 0;
     }
   }
@@ -80,6 +80,44 @@
   .cx-product-interests-thead-mobile {
     @include media-breakpoint-down(sm) {
       display: none;
+    }
+  }
+
+  // .cx-order-history-code {
+  //   text-decoration: underline;
+  // }
+
+  .cx-product-interests-placed {
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: left;
+    }
+  }
+
+  .cx-product-interests-status {
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: left;
+    }
+  }
+
+  .cx-product-interests-total {
+    text-align: right;
+
+    @include media-breakpoint-down(sm) {
+      text-align: left;
+    }
+  }
+
+  .cx-product-interests-label {
+    text-transform: uppercase;
+    color: var(--cx-color-secondary);
+
+    @include media-breakpoint-down(sm) {
+      @include type('8');
+      min-width: 110px;
     }
   }
 

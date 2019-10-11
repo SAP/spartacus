@@ -26,7 +26,7 @@
             </div>
           </div>
           <table class="table cx-product-interests-table">
-            <thead class="cx-order-history-thead-mobile">
+            <thead class="cx-product-interests-thead-mobile">
               <th scope="col">
                 {{ 'myInterests.item' | cxTranslate }}
               </th>
@@ -42,6 +42,9 @@
             <tbody>
               <tr *ngFor="let result of interests.results">
                 <td>
+                  <div class="d-md-none cx-product-interests-label">
+                    {{ 'myInterests.item' | cxTranslate }}
+                  </div>
                   <a
                     class="cx-product-interests-product-image-link"
                     [routerLink]="
@@ -76,17 +79,20 @@
                           }}</span>
                         </div>
 
-                        <div
-                          *ngFor="
-                            let variant of result.product
-                              .variantOptionQualifiers
-                          "
-                          class="cx-property"
+                        <ng-container
+                          *ngFor="let baseOptions of result.product.baseOptions"
                         >
-                          <div class="cx-label">{{ variant.name }}</div>
-                          <div class="cx-value">{{ variant.value }}</div>
-                        </div>
-
+                          <div
+                            *ngFor="
+                              let variant of baseOptions.selected
+                                ?.variantOptionQualifiers
+                            "
+                            class="cx-property"
+                          >
+                            <div class="cx-label">{{ variant.name }}</div>
+                            <div class="cx-value">{{ variant.value }}</div>
+                          </div>
+                        </ng-container>
                         <div
                           class="cx-property"
                           *ngIf="
@@ -105,11 +111,15 @@
                   </div>
                 </td>
                 <td>
-                  <div class="d-md-none ">PRICE</div>
+                  <div class="d-md-none cx-product-interests-label">
+                    {{ 'myInterests.price' | cxTranslate }}
+                  </div>
                   {{ result.product.price.formattedValue }}
                 </td>
                 <td>
-                  <div class="d-md-none "></div>
+                  <div class="d-md-none cx-product-interests-label">
+                    {{ 'myInterests.subcriptions' | cxTranslate }}
+                  </div>
                   <div
                     class="notificaitonPanel"
                     *ngFor="let ientry of result.productInterestEntry"
