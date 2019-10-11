@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { ANONYMOUS_CONSENT_STATUS } from 'projects/core/src/model';
-import { OCC_USER_ID_ANONYMOUS } from 'projects/core/src/occ';
-import { UserConsentService } from 'projects/core/src/user';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -13,7 +10,9 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
+import { ANONYMOUS_CONSENT_STATUS } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
+import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
@@ -101,9 +100,10 @@ export class AnonymousConsentsEffects {
       this.anonymousConsentService.getAnonymousConsents().pipe(
         withLatestFrom(
           this.authService.getOccUserId(),
-          this.anonymousConsentService.getAnonymousConsentTemplates()
+          this.anonymousConsentService.getAnonymousConsentTemplates(),
+          this.authService.isUserLoggedIn()
         ),
-        filter(([, userId]) => userId !== OCC_USER_ID_ANONYMOUS),
+        filter(([, , , loggedIn]) => loggedIn),
         concatMap(([consents, userId, templates]) => {
           const actions: UserActions.TransferAnonymousConsent[] = [];
           for (const consent of consents) {

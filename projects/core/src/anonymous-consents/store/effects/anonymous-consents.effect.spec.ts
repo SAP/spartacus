@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { UserConsentService } from 'projects/core/src/user';
 import { Observable, of } from 'rxjs';
 import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
@@ -12,6 +11,7 @@ import {
   ConsentTemplate,
 } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
+import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
@@ -243,6 +243,7 @@ describe('AnonymousConsentsEffects', () => {
         anonymousConsentService,
         'getAnonymousConsentTemplates'
       ).and.returnValue(of(mockTemplateList));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
 
       const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
