@@ -10,7 +10,6 @@ import {
   filter,
   map,
   mergeMap,
-  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
@@ -98,7 +97,7 @@ export class AnonymousConsentsEffects {
       )
     ),
     filter(([, registerAction]) => Boolean(registerAction)),
-    switchMap(() =>
+    concatMap(() =>
       this.anonymousConsentService.getAnonymousConsents().pipe(
         withLatestFrom(
           this.authService.getOccUserId(),
@@ -111,9 +110,11 @@ export class AnonymousConsentsEffects {
             if (
               consent.consentState ===
                 ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN &&
-              !this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
-                consent.templateCode
-              )
+              (!this.anonymousConsentsConfig.anonymousConsents
+                .requiredConsents ||
+                !this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+                  consent.templateCode
+                ))
             ) {
               for (const template of templates) {
                 if (template.id === consent.templateCode) {
@@ -155,15 +156,16 @@ export class AnonymousConsentsEffects {
       this.userConsentService.getConsentsResultSuccess().pipe(
         withLatestFrom(
           this.authService.getOccUserId(),
-          this.userConsentService.getConsents()
+          this.userConsentService.getConsents(),
+          this.authService.isUserLoggedIn()
         ),
-        filter(([, userId]) => userId !== OCC_USER_ID_ANONYMOUS),
-        concatMap(([loaded, userId, consents]) => {
+        filter(([, , , loggedIn]) => loggedIn),
+        concatMap(([loaded, userId, templates]) => {
           if (!loaded) {
             this.userConsentService.loadConsents();
           }
           const actions: UserActions.GiveUserConsent[] = [];
-          for (const template of consents) {
+          for (const template of templates) {
             if (
               (!template.currentConsent ||
                 !template.currentConsent.consentGivenDate ||

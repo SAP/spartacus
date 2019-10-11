@@ -137,6 +137,7 @@ class MockAnonymousConsentsService {
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   anonymousConsents: {
     registerConsent: 'MARKETING',
+    requiredConsents: ['MARKETING'],
   },
 };
 
@@ -439,6 +440,20 @@ describe('RegisterComponent', () => {
       expect(
         anonymousConsentService.giveAnonymousConsent
       ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('isConsentRequired', () => {
+    it('should disable form when register consent is required', () => {
+      expect(component.isConsentRequired()).toEqual(true);
+    });
+
+    it('should disable input when when register consent is required', () => {
+      spyOn(component, 'isConsentRequired').and.returnValue(true);
+
+      fixture.detectChanges();
+
+      expect(controls['newsletter'].status).toEqual('DISABLED');
     });
   });
 });
