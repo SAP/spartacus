@@ -3972,7 +3972,7 @@ export namespace Occ {
     uid?: string;
     stores?: BaseStore[];
     urlPatterns?: string[];
-    urlEncodingAttributes: string[];
+    urlEncodingAttributes?: string[];
   }
 
   export interface BaseStore {
