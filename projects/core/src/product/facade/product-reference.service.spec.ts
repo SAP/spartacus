@@ -86,6 +86,6 @@ describe('ReferenceService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.CleanProductReferences()
       );
-    })
-  })
+    });
+  });
 });

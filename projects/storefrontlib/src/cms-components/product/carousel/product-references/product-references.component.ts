@@ -6,7 +6,13 @@ import {
   ProductReferenceService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap, distinctUntilChanged } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap,
+  tap,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -39,7 +45,9 @@ export class ProductReferencesComponent {
     this.currentProductCode$,
     this.component.data$,
   ]).pipe(
-    switchMap(([code, data]) => this.getProductReferences(code, data.productReferenceTypes))
+    switchMap(([code, data]) =>
+      this.getProductReferences(code, data.productReferenceTypes)
+    )
   );
 
   constructor(
