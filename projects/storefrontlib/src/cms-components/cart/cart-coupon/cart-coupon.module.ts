@@ -29,9 +29,12 @@ import { CartCouponComponent } from './cart-coupon.component';
         CartApplyCouponComponent: {
           component: CartCouponComponent,
         },
+        CartCouponAnchorComponent: {
+          component: CartCouponAnchorComponent,
+        },
       },
     }),
   ],
-  entryComponents: [CartCouponComponent],
+  entryComponents: [CartCouponComponent, CartCouponAnchorComponent],
 })
 export class CartCouponModule {}

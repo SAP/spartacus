@@ -1,11 +1,20 @@
 @import '../../../theme';
 
+%cx-page-layout {
+  cx-page-slot {
+    > cx-cart-coupon-anchor {
+      flex: none;
+      padding: 0 0 2rem;
+    }
+  }
+}
+
 %cx-cart-coupon-anchor {
   .cx-cart-coupon-anchor {
     @include media-breakpoint-down(sm) {
       display: none;
     }
-    padding-top: 2rem;
+
     @include type('5');
 
     &-link {
