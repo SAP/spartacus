@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CartService, I18nTestingModule, Voucher } from '@spartacus/core';
+import { I18nTestingModule, Voucher, CartVoucherService } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 
@@ -36,7 +36,7 @@ describe('AppliedCouponsComponent', () => {
   let component: MockedCartCouponComponent;
   let fixture: ComponentFixture<MockedCartCouponComponent>;
 
-  const mockCartService = jasmine.createSpyObj('CartService', [
+  const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
     'removeVoucher',
   ]);
 
@@ -48,14 +48,16 @@ describe('AppliedCouponsComponent', () => {
         MockCxIconComponent,
         MockedCartCouponComponent,
       ],
-      providers: [{ provide: CartService, useValue: mockCartService }],
+      providers: [
+        { provide: CartVoucherService, useValue: mockCartVoucherService },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockedCartCouponComponent);
     component = fixture.componentInstance;
-    mockCartService.removeVoucher.and.stub();
+    mockCartVoucherService.removeVoucher.and.stub();
   });
 
   it('should create', () => {
@@ -139,7 +141,7 @@ describe('AppliedCouponsComponent', () => {
         .query(By.css('[data-test="remove-coupon"]'))
         .nativeElement.click();
 
-      expect(mockCartService.removeVoucher).toHaveBeenCalledWith(
+      expect(mockCartVoucherService.removeVoucher).toHaveBeenCalledWith(
         coupon1.voucherCode
       );
     });

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CartService, Voucher } from '@spartacus/core';
+import { Voucher, CartVoucherService } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 
 @Component({
@@ -16,7 +16,7 @@ export class AppliedCouponsComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartVoucherService: CartVoucherService) {}
 
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];
@@ -26,7 +26,7 @@ export class AppliedCouponsComponent implements OnInit {
   }
 
   removeVoucher(voucherId: string) {
-    this.cartService.removeVoucher(voucherId);
+    this.cartVoucherService.removeVoucher(voucherId);
   }
 
   ngOnInit() {}

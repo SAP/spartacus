@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Cart, CartService } from '@spartacus/core';
+import { Cart, CartService, CartVoucherService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
@@ -20,6 +20,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   constructor(
     private cartService: CartService,
+    private cartVoucherService: CartVoucherService,
     private formBuilder: FormBuilder,
     private element: ElementRef,
     private cartCouponAnchorService: CartCouponAnchorService
@@ -30,16 +31,16 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartIsLoading = !this.cartService.getLoaded();
 
-    this.cartService.resetAddVoucherProcessingState();
+    this.cartVoucherService.resetAddVoucherProcessingState();
 
     this.form = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
 
-    this.addVoucherIsLoading$ = this.cartService.getAddVoucherResultLoading();
+    this.addVoucherIsLoading$ = this.cartVoucherService.getAddVoucherResultLoading();
 
     this.subscription.add(
-      this.cartService.getAddVoucherResultSuccess().subscribe(success => {
+      this.cartVoucherService.getAddVoucherResultSuccess().subscribe(success => {
         this.onSuccess(success);
       })
     );
@@ -67,18 +68,18 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean) {
     if (success) {
       this.form.reset();
-      this.cartService.resetAddVoucherProcessingState();
+      this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }
 
   applyVoucher(): void {
-    this.cartService.addVoucher(this.form.value.couponCode);
+    this.cartVoucherService.addVoucher(this.form.value.couponCode);
   }
 
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.cartService.resetAddVoucherProcessingState();
+    this.cartVoucherService.resetAddVoucherProcessingState();
   }
 }
