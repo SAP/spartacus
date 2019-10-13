@@ -14,7 +14,7 @@ class MockAnonymousConsentsService {
   isAnonymousConsentsBannerVisible(): Observable<boolean> {
     return of();
   }
-  giveAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+  giveAllConsents(): Observable<ConsentTemplate[]> {
     return of();
   }
   getTemplatesUpdated(): Observable<boolean> {
@@ -123,18 +123,15 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   describe('allowAll', () => {
     it('should give all anonymous consents and call hideBanner()', () => {
       spyOn<any>(component['subscriptions'], 'add').and.callThrough();
-      spyOn(
-        anonymousConsentsService,
-        'giveAllAnonymousConsents'
-      ).and.returnValue(of([]));
+      spyOn(anonymousConsentsService, 'giveAllConsents').and.returnValue(
+        of([])
+      );
       spyOn(component, 'hideBanner').and.stub();
 
       component.allowAll();
 
       expect(component['subscriptions'].add).toHaveBeenCalled();
-      expect(
-        anonymousConsentsService.giveAllAnonymousConsents
-      ).toHaveBeenCalled();
+      expect(anonymousConsentsService.giveAllConsents).toHaveBeenCalled();
       expect(component.hideBanner).toHaveBeenCalled();
     });
   });

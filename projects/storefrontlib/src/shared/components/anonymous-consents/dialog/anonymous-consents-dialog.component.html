@@ -43,12 +43,13 @@
     <div *ngIf="consents$ | async as consents">
       <div
         class="cx-dialog-row col-sm-12 col-md-6"
-        *ngFor="let template of templates; let i = index"
+        *ngFor="let template of templates"
       >
         <cx-anonymous-consent-form
           [template]="template"
-          [consent]="consents[i]"
+          [consent]="getCorrespondingConsent(template, consents)"
           (consentChanged)="onConsentChange($event)"
+          [requiredConsents]="requiredConsents"
         ></cx-anonymous-consent-form>
       </div>
     </div>

@@ -42,6 +42,12 @@ class MockRoutingService {
 }
 
 @Component({
+  selector: 'cx-schema',
+  template: '',
+})
+class MockSchemaComponent {}
+
+@Component({
   selector: 'cx-page-layout',
   template: '',
 })
@@ -65,6 +71,7 @@ describe('StorefrontComponent', () => {
         MockPageLayoutComponent,
         MockAsmRootComponent,
         MockFeatureLevelDirective,
+        MockSchemaComponent,
       ],
       providers: [
         {
