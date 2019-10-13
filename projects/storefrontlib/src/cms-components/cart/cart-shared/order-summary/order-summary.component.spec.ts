@@ -1,5 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Cart, CartService, I18nTestingModule, CartVoucherService } from '@spartacus/core';
+import {
+  Cart,
+  CartService,
+  I18nTestingModule,
+  CartVoucherService,
+} from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { PromotionsModule } from '../../../checkout';
 import { CartCouponModule } from '../../cart-coupon/cart-coupon.module';
@@ -20,8 +25,6 @@ describe('OrderSummary', () => {
     },
     loadDetails: createSpy(),
   };
-
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

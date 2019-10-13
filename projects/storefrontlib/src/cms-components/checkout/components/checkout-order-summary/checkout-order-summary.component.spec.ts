@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Cart, CartService, I18nTestingModule, CartVoucherService } from '@spartacus/core';
+import {
+  Cart,
+  CartService,
+  I18nTestingModule,
+  CartVoucherService,
+} from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { OrderSummaryComponent } from '../../../../cms-components/cart/cart-shared/order-summary/order-summary.component';
 import { AppliedCouponsComponent } from '../../../cart/cart-coupon/applied-coupons/applied-coupons.component';

@@ -40,9 +40,11 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.addVoucherIsLoading$ = this.cartVoucherService.getAddVoucherResultLoading();
 
     this.subscription.add(
-      this.cartVoucherService.getAddVoucherResultSuccess().subscribe(success => {
-        this.onSuccess(success);
-      })
+      this.cartVoucherService
+        .getAddVoucherResultSuccess()
+        .subscribe(success => {
+          this.onSuccess(success);
+        })
     );
 
     this.subscription

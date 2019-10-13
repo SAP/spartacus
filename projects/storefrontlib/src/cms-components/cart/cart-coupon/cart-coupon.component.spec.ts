@@ -3,7 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { CartService, I18nTestingModule, Voucher, Cart, CartVoucherService } from '@spartacus/core';
+import {
+  CartService,
+  I18nTestingModule,
+  Voucher,
+  Cart,
+  CartVoucherService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
 import { CartCouponComponent } from './cart-coupon.component';
@@ -174,8 +180,12 @@ describe('CartCouponComponent', () => {
   });
 
   it('should disable button when apply coupon failed', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of(false));
-    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of(false));
+    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
+      of(false)
+    );
+    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(
+      of(false)
+    );
     fixture.detectChanges();
 
     input = el.query(By.css('[data-test="input-coupon"]')).nativeElement;
@@ -192,6 +202,8 @@ describe('CartCouponComponent', () => {
     fixture.detectChanges();
 
     component.ngOnDestroy();
-    expect(mockCartVoucherService.resetAddVoucherProcessingState).toHaveBeenCalled();
+    expect(
+      mockCartVoucherService.resetAddVoucherProcessingState
+    ).toHaveBeenCalled();
   });
 });

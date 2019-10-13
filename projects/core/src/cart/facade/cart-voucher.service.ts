@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  filter,
-} from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
