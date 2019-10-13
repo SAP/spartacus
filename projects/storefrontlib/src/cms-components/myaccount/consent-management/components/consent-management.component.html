@@ -12,6 +12,7 @@
           *ngFor="let consentTemplate of templateList$ | async"
           [consentTemplate]="consentTemplate"
           (consentChanged)="onConsentChange($event)"
+          [requiredConsents]="requiredConsents"
         ></cx-consent-management-form>
       </div>
     </div>

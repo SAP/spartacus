@@ -9,6 +9,9 @@ export class ConsentManagementFormComponent implements OnInit {
   @Input()
   consentTemplate: ConsentTemplate;
 
+  @Input()
+  requiredConsents: string[] = [];
+
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
@@ -34,5 +37,9 @@ export class ConsentManagementFormComponent implements OnInit {
       given: !this.consentGiven,
       template: this.consentTemplate,
     });
+  }
+
+  isRequired(templateId: string): boolean {
+    return this.requiredConsents.includes(templateId);
   }
 }

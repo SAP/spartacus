@@ -31,6 +31,7 @@ describe('ConsentManagementFormComponent', () => {
     describe('ngOnInit', () => {
       describe('when a consent is given', () => {
         const mockConsentTemplate: ConsentTemplate = {
+          id: 'TEMPLATE_ID',
           currentConsent: {
             consentGivenDate: new Date(),
           },
@@ -72,6 +73,24 @@ describe('ConsentManagementFormComponent', () => {
         });
       });
     });
+
+    describe('isRequired', () => {
+      it('should return TRUE if the id is included in the required array', () => {
+        const templateId = 'TEMPLATE_ID';
+        component.requiredConsents = [templateId, 'OTHER1', 'OTHER2'];
+
+        expect(component.isRequired(templateId)).toBeTruthy();
+      });
+      it('should return FALSE if the id is NOT included in the required array', () => {
+        const templateId = 'TEMPLATE_ID';
+        component.requiredConsents = ['OTHER1', 'OTHER2'];
+
+        expect(component.isRequired(templateId)).toBeFalsy();
+
+        component.requiredConsents = [];
+        expect(component.isRequired(templateId)).toBeFalsy();
+      });
+    });
   });
 
   describe('component UI tests', () => {
@@ -91,6 +110,16 @@ describe('ConsentManagementFormComponent', () => {
         checkbox.dispatchEvent(new MouseEvent('click'));
 
         expect(component.onConsentChange).toHaveBeenCalled();
+      });
+      it('should disable required consents', () => {
+        component.consentTemplate = mockConsentTemplate;
+        component.requiredConsents = [mockConsentTemplate.id];
+
+        fixture.detectChanges();
+
+        const checkbox = el.query(By.css('input')).nativeElement as HTMLElement;
+
+        expect(checkbox.hasAttribute('disabled')).toBeTruthy();
       });
     });
   });

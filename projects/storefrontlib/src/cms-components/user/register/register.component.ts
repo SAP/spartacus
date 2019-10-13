@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -46,7 +51,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
         [Validators.required, CustomFormValidators.passwordValidator],
       ],
       passwordconf: ['', Validators.required],
-      newsletter: [false],
+      newsletter: new FormControl({
+        value: false,
+        disabled: this.isConsentRequired(),
+      }),
       termsandconditions: [false, Validators.requiredTrue],
     },
     { validator: CustomFormValidators.matchPassword }
@@ -173,10 +181,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
     ) {
       this.anonymousConsent$ = combineLatest([
-        this.anonymousConsentsService.getAnonymousConsent(
+        this.anonymousConsentsService.getConsent(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
         ),
-        this.anonymousConsentsService.getAnonymousConsentTemplate(
+        this.anonymousConsentsService.getTemplate(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
         ),
       ]).pipe(
@@ -212,8 +220,22 @@ export class RegisterComponent implements OnInit, OnDestroy {
     };
   }
 
-  isConsentGiven(status: ANONYMOUS_CONSENT_STATUS): boolean {
-    return status === ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN;
+  isConsentGiven(consent: AnonymousConsent): boolean {
+    return this.anonymousConsentsService.isConsentGiven(consent);
+  }
+
+  isConsentRequired(): boolean {
+    if (
+      Boolean(this.anonymousConsentsService) &&
+      Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+      Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent) &&
+      Boolean(this.anonymousConsentsConfig.anonymousConsents.requiredConsents)
+    ) {
+      return this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+        this.anonymousConsentsConfig.anonymousConsents.registerConsent
+      );
+    }
+    return false;
   }
 
   private onRegisterUserSuccess(success: boolean): void {
@@ -224,7 +246,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
-        this.anonymousConsentsService.giveAnonymousConsent(
+        this.anonymousConsentsService.giveConsent(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
         );
       }

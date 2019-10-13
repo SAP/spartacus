@@ -5,6 +5,7 @@
       class="form-check-input"
       [checked]="consentGiven"
       (change)="onConsentChange()"
+      [disabled]="isRequired(consentTemplate?.id)"
     />
     <span class="form-check-label">
       {{ consentTemplate?.description }}
