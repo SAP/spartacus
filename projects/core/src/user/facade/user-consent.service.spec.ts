@@ -196,6 +196,44 @@ describe('UserConsentService', () => {
         );
       });
     });
+    describe('isConsentGiven', () => {
+      describe('when a falsy template is provided', () => {
+        it('should return false', () => {
+          expect(service.isConsentGiven(null)).toEqual(false);
+        });
+      });
+      describe('when the provided template does NOT have a consent', () => {
+        it('should return false', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+          };
+          expect(service.isConsentGiven(template)).toEqual(false);
+        });
+      });
+      describe('when the provided template has a consent with a given date and with a withdrawn date', () => {
+        it('should return false', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+            currentConsent: {
+              consentGivenDate: new Date(),
+              consentWithdrawnDate: new Date(),
+            },
+          };
+          expect(service.isConsentGiven(template)).toEqual(false);
+        });
+      });
+      describe('when the provided template has a consent with a given date but without a withdrawn date', () => {
+        it('should return true', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+            currentConsent: {
+              consentGivenDate: new Date(),
+            },
+          };
+          expect(service.isConsentGiven(template)).toEqual(true);
+        });
+      });
+    });
   });
 
   describe('withdraw consent', () => {
@@ -258,6 +296,44 @@ describe('UserConsentService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new UserActions.ResetWithdrawUserConsentProcess()
         );
+      });
+    });
+    describe('isConsentWithdrawn', () => {
+      describe('when a falsy template is provided', () => {
+        it('should return false', () => {
+          expect(service.isConsentWithdrawn(null)).toEqual(false);
+        });
+      });
+      describe('when the provided template does NOT have a consent', () => {
+        it('should return false', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+          };
+          expect(service.isConsentWithdrawn(template)).toEqual(false);
+        });
+      });
+      describe('when the provided template has a consent with a given date and with a withdrawn date', () => {
+        it('should return true', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+            currentConsent: {
+              consentGivenDate: new Date(),
+              consentWithdrawnDate: new Date(),
+            },
+          };
+          expect(service.isConsentWithdrawn(template)).toEqual(true);
+        });
+      });
+      describe('when the provided template has a consent with a withdrawn date but without a given date', () => {
+        it('should return true', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+            currentConsent: {
+              consentWithdrawnDate: new Date(),
+            },
+          };
+          expect(service.isConsentWithdrawn(template)).toEqual(true);
+        });
       });
     });
   });

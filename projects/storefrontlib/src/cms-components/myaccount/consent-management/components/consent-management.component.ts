@@ -8,7 +8,14 @@ import {
   UserConsentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  skipWhile,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -184,6 +191,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   private onConsentWithdrawnSuccess(success: boolean): void {
     if (success) {
       this.userConsentService.resetWithdrawConsentProcessState();
@@ -192,6 +200,42 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
+  }
+
+  rejectAll(templates: ConsentTemplate[]): void {
+    let consentsToWithdraw = 0;
+    templates.forEach(template => {
+      if (this.userConsentService.isConsentGiven(template)) {
+        consentsToWithdraw++;
+        this.userConsentService.withdrawConsent(template.currentConsent.code);
+      }
+    });
+    this.subscriptions.add(
+      this.loading$
+        .pipe(
+          filter(loading => !loading),
+          take(consentsToWithdraw)
+        )
+        .subscribe(_ => this.userConsentService.loadConsents())
+    );
+  }
+
+  allowAll(templates: ConsentTemplate[]): void {
+    let consentsToGive = 0;
+    templates.forEach(template => {
+      if (this.userConsentService.isConsentWithdrawn(template)) {
+        consentsToGive++;
+        this.userConsentService.giveConsent(template.id, template.version);
+      }
+    });
+    this.subscriptions.add(
+      this.loading$
+        .pipe(
+          filter(loading => !loading),
+          take(consentsToGive)
+        )
+        .subscribe(_ => this.userConsentService.loadConsents())
+    );
   }
 
   ngOnDestroy(): void {

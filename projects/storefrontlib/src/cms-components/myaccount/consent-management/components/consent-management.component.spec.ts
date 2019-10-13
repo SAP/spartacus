@@ -69,6 +69,12 @@ class UserConsentServiceMock {
     _consentTemplateId: string,
     _consentTemplateVersion: number
   ): void {}
+  isConsentGiven(_consentTemplate: ConsentTemplate): boolean {
+    return true;
+  }
+  isConsentWithdrawn(_consentTemplate: ConsentTemplate): boolean {
+    return true;
+  }
   resetGiveConsentProcessState(): void {}
   withdrawConsent(_consentCode: string): void {}
   resetWithdrawConsentProcessState(): void {}
@@ -469,6 +475,57 @@ describe('ConsentManagementComponent', () => {
             { key: 'consentManagementForm.message.success.withdrawn' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
+        });
+      });
+    });
+
+    describe('rejectAll', () => {
+      describe('when no consent is given', () => {
+        it('should not call userConsentService.withdrawConsent', () => {
+          spyOn(userService, 'withdrawConsent').and.stub();
+          spyOn(userService, 'loadConsents').and.stub();
+          component.rejectAll([]);
+          expect(userService.withdrawConsent).not.toHaveBeenCalled();
+        });
+      });
+      describe('when consents are given', () => {
+        it('should call userConsentService.withdrawConsent for each', () => {
+          spyOn(userService, 'withdrawConsent').and.stub();
+          spyOn(userService, 'loadConsents').and.stub();
+          spyOn(userService, 'isConsentGiven').and.returnValue(true);
+
+          component.rejectAll([mockConsentTemplate]);
+
+          expect(userService.withdrawConsent).toHaveBeenCalledWith(
+            mockConsentTemplate.currentConsent.code
+          );
+          expect(userService.withdrawConsent).toHaveBeenCalledTimes(1);
+        });
+      });
+    });
+
+    describe('allowAll', () => {
+      describe('when no consent is withdrawn', () => {
+        it('should not call userConsentService.giveConsent', () => {
+          spyOn(userService, 'giveConsent').and.stub();
+          spyOn(userService, 'loadConsents').and.stub();
+          component.allowAll([]);
+          expect(userService.giveConsent).not.toHaveBeenCalled();
+        });
+      });
+      describe('when consents are withdrawn', () => {
+        it('should call userConsentService.giveConsent for each', () => {
+          spyOn(userService, 'giveConsent').and.stub();
+          spyOn(userService, 'loadConsents').and.stub();
+          spyOn(userService, 'isConsentWithdrawn').and.returnValue(true);
+
+          component.allowAll([mockConsentTemplate]);
+
+          expect(userService.giveConsent).toHaveBeenCalledWith(
+            mockConsentTemplate.id,
+            mockConsentTemplate.version
+          );
+          expect(userService.giveConsent).toHaveBeenCalledTimes(1);
         });
       });
     });

@@ -6,14 +6,31 @@
   </div>
 
   <ng-template #consentManagementForm>
-    <div class="row d-flex justify-content-center">
-      <div class="col-md-8">
-        <cx-consent-management-form
-          *ngFor="let consentTemplate of templateList$ | async"
-          [consentTemplate]="consentTemplate"
-          (consentChanged)="onConsentChange($event)"
-        ></cx-consent-management-form>
+    <ng-container *ngIf="templateList$ | async as templateList">
+      <div class="cx-dialog-buttons">
+        <a
+          tabindex="0"
+          class="btn-link cx-action-link"
+          (click)="rejectAll(templateList)"
+          >{{ 'consentManagementForm.rejectAll' | cxTranslate }}</a
+        >
+        <span class="cx-links-separator">|</span>
+        <a
+          tabindex="0"
+          class="btn-link cx-action-link"
+          (click)="allowAll(templateList)"
+          >{{ 'consentManagementForm.allowAll' | cxTranslate }}</a
+        >
       </div>
-    </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+          <cx-consent-management-form
+            *ngFor="let consentTemplate of templateList"
+            [consentTemplate]="consentTemplate"
+            (consentChanged)="onConsentChange($event)"
+          ></cx-consent-management-form>
+        </div>
+      </div>
+    </ng-container>
   </ng-template>
 </ng-container>
