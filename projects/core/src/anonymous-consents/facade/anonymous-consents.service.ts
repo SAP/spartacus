@@ -11,8 +11,6 @@ import { AnonymousConsentsActions } from '../store/actions/index';
 import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
 import { AnonymousConsentsSelectors } from '../store/selectors/index';
 
-// TODO:#3899 - shorten method names and drop the anonoymous from all of them.
-
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
   constructor(protected store: Store<StateWithAnonymousConsents>) {}
@@ -39,9 +37,7 @@ export class AnonymousConsentsService {
    * Returns the anonymous consent templates with the given template code.
    * @param templateCode a template code by which to filter anonymous consent templates.
    */
-  getAnonymousConsentTemplate(
-    templateCode: string
-  ): Observable<ConsentTemplate> {
+  getTemplate(templateCode: string): Observable<ConsentTemplate> {
     return this.store.pipe(
       select(
         AnonymousConsentsSelectors.getAnonymousConsentTemplate(templateCode)
@@ -52,7 +48,7 @@ export class AnonymousConsentsService {
   /**
    * Returns an indicator for the loading status for the anonymous consent templates.
    */
-  getLoadAnonymousConsentTemplatesLoading(): Observable<boolean> {
+  getLoadTemplatesLoading(): Observable<boolean> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesLoading)
     );
@@ -61,7 +57,7 @@ export class AnonymousConsentsService {
   /**
    * Returns an indicator for the success status for the anonymous consent templates.
    */
-  getLoadAnonymousConsentTemplatesSuccess(): Observable<boolean> {
+  getLoadTemplatesSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesSuccess)
     );
@@ -70,7 +66,7 @@ export class AnonymousConsentsService {
   /**
    * Returns an indicator for the error status for the anonymous consent templates.
    */
-  getLoadAnonymousConsentTemplatesError(): Observable<boolean> {
+  getLoadTemplatesError(): Observable<boolean> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesError)
     );
@@ -79,7 +75,7 @@ export class AnonymousConsentsService {
   /**
    * Resets the loading, success and error indicators for the anonymous consent templates.
    */
-  resetLoadAnonymousConsentTemplatesState(): void {
+  resetLoadTemplatesState(): void {
     this.store.dispatch(
       new AnonymousConsentsActions.ResetLoadAnonymousConsentTemplates()
     );
@@ -88,7 +84,7 @@ export class AnonymousConsentsService {
   /**
    * Returns all the anonymous consents.
    */
-  getAnonymousConsents(): Observable<AnonymousConsent[]> {
+  getConsents(): Observable<AnonymousConsent[]> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsents)
     );
@@ -97,7 +93,7 @@ export class AnonymousConsentsService {
   /**
    * Puts the provided anonymous consents into the store.
    */
-  setAnonymousConsents(consents: AnonymousConsent[]): void {
+  setConsents(consents: AnonymousConsent[]): void {
     return this.store.dispatch(
       new AnonymousConsentsActions.SetAnonymousConsents(consents)
     );
@@ -107,7 +103,7 @@ export class AnonymousConsentsService {
    * Returns the anonymous consent with the given template code.
    * @param templateCode a template code by which to filter anonymous consent templates.
    */
-  getAnonymousConsent(templateCode: string): Observable<AnonymousConsent> {
+  getConsent(templateCode: string): Observable<AnonymousConsent> {
     return this.store.pipe(
       select(
         AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
@@ -121,7 +117,7 @@ export class AnonymousConsentsService {
    * Give a consent for the given `templateCode`
    * @param templateCode for which to give the consent
    */
-  giveAnonymousConsent(templateCode: string): void {
+  giveConsent(templateCode: string): void {
     this.store.dispatch(
       new AnonymousConsentsActions.GiveAnonymousConsent(templateCode)
     );
@@ -130,10 +126,10 @@ export class AnonymousConsentsService {
   /**
    * Sets all the anonymous consents' state to given.
    */
-  giveAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+  giveAllConsents(): Observable<ConsentTemplate[]> {
     return this.getTemplates().pipe(
       tap(templates =>
-        templates.forEach(template => this.giveAnonymousConsent(template.id))
+        templates.forEach(template => this.giveConsent(template.id))
       )
     );
   }
@@ -152,7 +148,7 @@ export class AnonymousConsentsService {
    * Withdraw a consent for the given `templateCode`
    * @param templateCode for which to withdraw the consent
    */
-  withdrawAnonymousConsent(templateCode: string): void {
+  withdrawConsent(templateCode: string): void {
     this.store.dispatch(
       new AnonymousConsentsActions.WithdrawAnonymousConsent(templateCode)
     );
@@ -161,12 +157,10 @@ export class AnonymousConsentsService {
   /**
    * Sets all the anonymous consents' state to withdrawn.
    */
-  withdrawAllAnonymousConsents(): Observable<ConsentTemplate[]> {
+  withdrawAllConsents(): Observable<ConsentTemplate[]> {
     return this.getTemplates().pipe(
       tap(templates =>
-        templates.forEach(template =>
-          this.withdrawAnonymousConsent(template.id)
-        )
+        templates.forEach(template => this.withdrawConsent(template.id))
       )
     );
   }

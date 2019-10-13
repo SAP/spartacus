@@ -181,10 +181,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
     ) {
       this.anonymousConsent$ = combineLatest([
-        this.anonymousConsentsService.getAnonymousConsent(
+        this.anonymousConsentsService.getConsent(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
         ),
-        this.anonymousConsentsService.getAnonymousConsentTemplate(
+        this.anonymousConsentsService.getTemplate(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
         ),
       ]).pipe(
@@ -246,7 +246,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
-        this.anonymousConsentsService.giveAnonymousConsent(
+        this.anonymousConsentsService.giveConsent(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
         );
       }

@@ -38,7 +38,7 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.templates$ = this.anonymousConsentsService.getTemplates();
-    this.consents$ = this.anonymousConsentsService.getAnonymousConsents();
+    this.consents$ = this.anonymousConsentsService.getConsents();
   }
 
   closeModal(reason?: any): void {
@@ -47,14 +47,14 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
 
   rejectAll(): void {
     this.subscriptions.add(
-      this.anonymousConsentsService.withdrawAllAnonymousConsents().subscribe()
+      this.anonymousConsentsService.withdrawAllConsents().subscribe()
     );
     this.closeModal('rejectAll');
   }
 
   allowAll(): void {
     this.subscriptions.add(
-      this.anonymousConsentsService.giveAllAnonymousConsents().subscribe()
+      this.anonymousConsentsService.giveAllConsents().subscribe()
     );
     this.closeModal('allowAll');
   }
@@ -67,9 +67,9 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
     template: ConsentTemplate;
   }): void {
     if (given) {
-      this.anonymousConsentsService.giveAnonymousConsent(template.id);
+      this.anonymousConsentsService.giveConsent(template.id);
     } else {
-      this.anonymousConsentsService.withdrawAnonymousConsent(template.id);
+      this.anonymousConsentsService.withdrawConsent(template.id);
     }
   }
 

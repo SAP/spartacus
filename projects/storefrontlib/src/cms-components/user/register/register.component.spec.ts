@@ -122,15 +122,13 @@ class MockRoutingService {
 }
 
 class MockAnonymousConsentsService {
-  getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
+  getConsent(_templateCode: string): Observable<AnonymousConsent> {
     return of();
   }
-  getAnonymousConsentTemplate(
-    _templateCode: string
-  ): Observable<ConsentTemplate> {
+  getTemplate(_templateCode: string): Observable<ConsentTemplate> {
     return of();
   }
-  giveAnonymousConsent(_templateCode: string): void {}
+  giveConsent(_templateCode: string): void {}
   isConsentGiven(_consent: AnonymousConsent): boolean {
     return true;
   }
@@ -422,7 +420,7 @@ describe('RegisterComponent', () => {
 
   describe('onRegisterUserSuccess', () => {
     beforeEach(() => {
-      spyOn(anonymousConsentService, 'giveAnonymousConsent').and.stub();
+      spyOn(anonymousConsentService, 'giveConsent').and.stub();
     });
 
     it('should give anonymous consent if consent was given', () => {
@@ -430,7 +428,7 @@ describe('RegisterComponent', () => {
 
       registerUserIsSuccess.next(true);
 
-      expect(anonymousConsentService.giveAnonymousConsent).toHaveBeenCalledWith(
+      expect(anonymousConsentService.giveConsent).toHaveBeenCalledWith(
         mockAnonymousConsentsConfig.anonymousConsents.registerConsent
       );
     });
@@ -439,9 +437,7 @@ describe('RegisterComponent', () => {
 
       registerUserIsSuccess.next(true);
 
-      expect(
-        anonymousConsentService.giveAnonymousConsent
-      ).not.toHaveBeenCalled();
+      expect(anonymousConsentService.giveConsent).not.toHaveBeenCalled();
     });
   });
 

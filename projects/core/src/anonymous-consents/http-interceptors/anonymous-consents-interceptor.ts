@@ -29,7 +29,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.anonymousConsentsService.getAnonymousConsents().pipe(
+    return this.anonymousConsentsService.getConsents().pipe(
       take(1),
       withLatestFrom(this.authService.isUserLoggedIn()),
       switchMap(([consents, isUserLoggedIn]) => {
@@ -111,6 +111,6 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       }
     }
 
-    this.anonymousConsentsService.setAnonymousConsents(consents);
+    this.anonymousConsentsService.setConsents(consents);
   }
 }

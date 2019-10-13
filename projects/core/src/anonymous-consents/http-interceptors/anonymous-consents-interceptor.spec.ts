@@ -39,10 +39,10 @@ class MockAuthService {
 }
 
 class MockAnonymousConsentsService {
-  getAnonymousConsents(): Observable<AnonymousConsent[]> {
+  getConsents(): Observable<AnonymousConsent[]> {
     return of();
   }
-  setAnonymousConsents(_consents: AnonymousConsent[]): void {}
+  setConsents(_consents: AnonymousConsent[]): void {}
 }
 
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
@@ -165,29 +165,25 @@ describe('AnonymousConsentsInterceptor', () => {
   const handleResponseMethod = 'handleResponse';
   describe(handleResponseMethod, () => {
     describe('when rawConsents are falsy', () => {
-      it('should NOT call anonymousConsentsService.setAnonymousConsents', () => {
-        spyOn(anonymousConsentsService, 'setAnonymousConsents').and.stub();
+      it('should NOT call anonymousConsentsService.setConsents', () => {
+        spyOn(anonymousConsentsService, 'setConsents').and.stub();
         interceptor[handleResponseMethod](null, true);
-        expect(
-          anonymousConsentsService.setAnonymousConsents
-        ).not.toHaveBeenCalled();
+        expect(anonymousConsentsService.setConsents).not.toHaveBeenCalled();
       });
     });
 
     describe('when rawCosents are NOT falsy', () => {
       describe('and user is logged in', () => {
-        it('should NOT call anonymousConsentsService.setAnonymousConsents', () => {
-          spyOn(anonymousConsentsService, 'setAnonymousConsents').and.stub();
+        it('should NOT call anonymousConsentsService.setConsents', () => {
+          spyOn(anonymousConsentsService, 'setConsents').and.stub();
           interceptor[handleResponseMethod]('dummy headers', true);
-          expect(
-            anonymousConsentsService.setAnonymousConsents
-          ).not.toHaveBeenCalled();
+          expect(anonymousConsentsService.setConsents).not.toHaveBeenCalled();
         });
       });
       describe('and user is NOT logged in', () => {
-        it('should call anonymousConsentsService.setAnonymousConsents', () => {
+        it('should call anonymousConsentsService.setConsents', () => {
           const mockHeaderValue = 'dummy headers';
-          spyOn(anonymousConsentsService, 'setAnonymousConsents').and.stub();
+          spyOn(anonymousConsentsService, 'setConsents').and.stub();
           spyOn<any>(interceptor, decodeAndDeserializeMethod).and.returnValue(
             mockAnonymousConsents
           );
@@ -196,9 +192,9 @@ describe('AnonymousConsentsInterceptor', () => {
           expect(interceptor[decodeAndDeserializeMethod]).toHaveBeenCalledWith(
             mockHeaderValue
           );
-          expect(
-            anonymousConsentsService.setAnonymousConsents
-          ).toHaveBeenCalledWith(mockAnonymousConsents);
+          expect(anonymousConsentsService.setConsents).toHaveBeenCalledWith(
+            mockAnonymousConsents
+          );
         });
       });
       const giveRequiredConsentsMethod = 'giveRequiredConsents';
@@ -217,12 +213,12 @@ describe('AnonymousConsentsInterceptor', () => {
             },
           ];
 
-          spyOn(anonymousConsentService, 'setAnonymousConsents').and.stub();
+          spyOn(anonymousConsentService, 'setConsents').and.stub();
 
           interceptor[giveRequiredConsentsMethod]([...consents]);
-          expect(
-            anonymousConsentService.setAnonymousConsents
-          ).toHaveBeenCalledWith(expectedConsents);
+          expect(anonymousConsentService.setConsents).toHaveBeenCalledWith(
+            expectedConsents
+          );
         });
       });
     });
@@ -236,10 +232,9 @@ describe('AnonymousConsentsInterceptor', () => {
         it(`should call ${handleRequestMethod}`, inject(
           [HttpClient],
           (http: HttpClient) => {
-            spyOn(
-              anonymousConsentsService,
-              'getAnonymousConsents'
-            ).and.returnValue(of(mockAnonymousConsents));
+            spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
+              of(mockAnonymousConsents)
+            );
             spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
             spyOn<any>(interceptor, handleRequestMethod).and.callThrough();
 

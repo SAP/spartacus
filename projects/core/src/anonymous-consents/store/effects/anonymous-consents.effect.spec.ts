@@ -65,7 +65,7 @@ class MockAnonymousConsentsService {
   ): Observable<ConsentTemplate> {
     return of();
   }
-  getAnonymousConsents(): Observable<AnonymousConsent[]> {
+  getConsents(): Observable<AnonymousConsent[]> {
     return of();
   }
   isConsentGiven(_consent: AnonymousConsent) {
@@ -238,7 +238,7 @@ describe('AnonymousConsentsEffects', () => {
     });
 
     it('should return TransferAnonymousConsent', () => {
-      spyOn(anonymousConsentService, 'getAnonymousConsents').and.returnValue(
+      spyOn(anonymousConsentService, 'getConsents').and.returnValue(
         of(mockAnonymousConsents)
       );
       spyOn(anonymousConsentService, 'getTemplates').and.returnValue(

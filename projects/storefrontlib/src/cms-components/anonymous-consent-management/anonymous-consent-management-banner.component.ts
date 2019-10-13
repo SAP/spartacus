@@ -48,7 +48,7 @@ export class AnonymousConsentManagementBannerComponent
   allowAll(): void {
     this.subscriptions.add(
       this.anonymousConsentsService
-        .giveAllAnonymousConsents()
+        .giveAllConsents()
         .pipe(tap(_ => this.hideBanner()))
         .subscribe()
     );

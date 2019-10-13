@@ -95,7 +95,7 @@ export class AnonymousConsentsEffects {
     ),
     filter(([, registerAction]) => Boolean(registerAction)),
     concatMap(() =>
-      this.anonymousConsentService.getAnonymousConsents().pipe(
+      this.anonymousConsentService.getConsents().pipe(
         withLatestFrom(
           this.authService.getOccUserId(),
           this.anonymousConsentService.getTemplates(),
