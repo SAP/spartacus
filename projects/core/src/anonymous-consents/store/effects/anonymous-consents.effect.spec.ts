@@ -54,7 +54,7 @@ class MockAnonymousConsentsService {
   ): boolean {
     return false;
   }
-  getAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
+  getTemplates(): Observable<ConsentTemplate[]> {
     return of();
   }
   getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
@@ -67,6 +67,9 @@ class MockAnonymousConsentsService {
   }
   getAnonymousConsents(): Observable<AnonymousConsent[]> {
     return of();
+  }
+  isConsentGiven(_consent: AnonymousConsent) {
+    return true;
   }
 }
 
@@ -195,10 +198,9 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(connector, 'loadAnonymousConsentTemplates').and.returnValue(
         of(mockTemplateList)
       );
-      spyOn(
-        anonymousConsentService,
-        'getAnonymousConsentTemplates'
-      ).and.returnValue(of(mockTemplateList));
+      spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
+        of(mockTemplateList)
+      );
       spyOn(anonymousConsentService, 'detectUpdatedTemplates').and.returnValue(
         false
       );
@@ -239,10 +241,9 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(anonymousConsentService, 'getAnonymousConsents').and.returnValue(
         of(mockAnonymousConsents)
       );
-      spyOn(
-        anonymousConsentService,
-        'getAnonymousConsentTemplates'
-      ).and.returnValue(of(mockTemplateList));
+      spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
+        of(mockTemplateList)
+      );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
 

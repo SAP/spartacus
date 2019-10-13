@@ -83,7 +83,7 @@ class UserConsentServiceMock {
 }
 
 class AnonymousConsentsServiceMock {
-  getAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
+  getTemplates(): Observable<ConsentTemplate[]> {
     return of([]);
   }
 }
@@ -262,10 +262,9 @@ describe('ConsentManagementComponent', () => {
           const mockAnonymousConsentTemplates: ConsentTemplate[] = [
             { id: 'MARKETING' },
           ];
-          spyOn(
-            anonymousConsentsService,
-            'getAnonymousConsentTemplates'
-          ).and.returnValue(of(mockAnonymousConsentTemplates));
+          spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
+            of(mockAnonymousConsentTemplates)
+          );
           anonymousConsentsConfig.anonymousConsents.consentManagementPage = {};
 
           component[consentListInitMethod]();
@@ -275,9 +274,7 @@ describe('ConsentManagementComponent', () => {
             .subscribe(templates => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
-          expect(
-            anonymousConsentsService.getAnonymousConsentTemplates
-          ).toHaveBeenCalled();
+          expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
           expect(component[hideAnonymousConsentsMethod]).toHaveBeenCalledWith(
             mockTemplateList,
             mockAnonymousConsentTemplates

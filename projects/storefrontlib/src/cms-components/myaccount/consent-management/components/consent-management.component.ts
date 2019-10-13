@@ -75,9 +75,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           this.userConsentService.loadConsents();
         }
       }),
-      withLatestFrom(
-        this.anonymousConsentsService.getAnonymousConsentTemplates()
-      ),
+      withLatestFrom(this.anonymousConsentsService.getTemplates()),
       map(([templateList, anonymousTemplates]) => {
         if (Boolean(this.anonymousConsentsConfig.anonymousConsents)) {
           if (

@@ -35,7 +35,7 @@ export class MockAnonymousConsentFormComponent {
 }
 
 class MockAnonymousConsentsService {
-  getAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
+  getTemplates(): Observable<ConsentTemplate[]> {
     return of();
   }
   getAnonymousConsents(): Observable<AnonymousConsent[]> {
@@ -112,16 +112,11 @@ describe('AnonymousConsentsDialogComponent', () => {
 
   describe('ngOnInit', () => {
     it('should set templates$ and consents$', () => {
-      spyOn(
-        anonymousConsentsService,
-        'getAnonymousConsentTemplates'
-      ).and.stub();
+      spyOn(anonymousConsentsService, 'getTemplates').and.stub();
       spyOn(anonymousConsentsService, 'getAnonymousConsents').and.stub();
 
       component.ngOnInit();
-      expect(
-        anonymousConsentsService.getAnonymousConsentTemplates
-      ).toHaveBeenCalled();
+      expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
       expect(anonymousConsentsService.getAnonymousConsents).toHaveBeenCalled();
     });
   });

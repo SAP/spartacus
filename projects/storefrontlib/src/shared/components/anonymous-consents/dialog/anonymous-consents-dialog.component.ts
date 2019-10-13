@@ -37,7 +37,7 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.templates$ = this.anonymousConsentsService.getAnonymousConsentTemplates();
+    this.templates$ = this.anonymousConsentsService.getTemplates();
     this.consents$ = this.anonymousConsentsService.getAnonymousConsents();
   }
 

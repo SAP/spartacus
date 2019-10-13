@@ -18,9 +18,9 @@ export class AnonymousConsentsService {
   constructor(protected store: Store<StateWithAnonymousConsents>) {}
 
   /**
-   * Retrieves only the anonymous consent templates.
+   * Retrieves the anonymous consent templates.
    */
-  loadAnonymousConsentTemplates(): void {
+  loadTemplates(): void {
     this.store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
     );
@@ -29,7 +29,7 @@ export class AnonymousConsentsService {
   /**
    * Returns all the anonymous consent templates.
    */
-  getAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
+  getTemplates(): Observable<ConsentTemplate[]> {
     return this.store.pipe(
       select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue)
     );
@@ -131,7 +131,7 @@ export class AnonymousConsentsService {
    * Sets all the anonymous consents' state to given.
    */
   giveAllAnonymousConsents(): Observable<ConsentTemplate[]> {
-    return this.getAnonymousConsentTemplates().pipe(
+    return this.getTemplates().pipe(
       tap(templates =>
         templates.forEach(template => this.giveAnonymousConsent(template.id))
       )
@@ -162,7 +162,7 @@ export class AnonymousConsentsService {
    * Sets all the anonymous consents' state to withdrawn.
    */
   withdrawAllAnonymousConsents(): Observable<ConsentTemplate[]> {
-    return this.getAnonymousConsentTemplates().pipe(
+    return this.getTemplates().pipe(
       tap(templates =>
         templates.forEach(template =>
           this.withdrawAnonymousConsent(template.id)

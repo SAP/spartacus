@@ -41,9 +41,7 @@ export class AnonymousConsentsEffects {
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
-          withLatestFrom(
-            this.anonymousConsentService.getAnonymousConsentTemplates()
-          ),
+          withLatestFrom(this.anonymousConsentService.getTemplates()),
           mergeMap(([newConsentTemplates, currentConsentTemplates]) => {
             let updated = false;
             if (
@@ -100,7 +98,7 @@ export class AnonymousConsentsEffects {
       this.anonymousConsentService.getAnonymousConsents().pipe(
         withLatestFrom(
           this.authService.getOccUserId(),
-          this.anonymousConsentService.getAnonymousConsentTemplates(),
+          this.anonymousConsentService.getTemplates(),
           this.authService.isUserLoggedIn()
         ),
         filter(([, , , loggedIn]) => loggedIn),

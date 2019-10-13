@@ -7,6 +7,7 @@ import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  ANONYMOUS_CONSENT_STATUS,
   AuthRedirectService,
   AuthService,
   ConsentTemplate,
@@ -124,14 +125,15 @@ class MockAnonymousConsentsService {
   getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
     return of();
   }
-
   getAnonymousConsentTemplate(
     _templateCode: string
   ): Observable<ConsentTemplate> {
     return of();
   }
-
   giveAnonymousConsent(_templateCode: string): void {}
+  isConsentGiven(_consent: AnonymousConsent): boolean {
+    return true;
+  }
 }
 
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
@@ -440,6 +442,19 @@ describe('RegisterComponent', () => {
       expect(
         anonymousConsentService.giveAnonymousConsent
       ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('isConsentGiven', () => {
+    it('should call anonymousConsentsService.isConsentGiven', () => {
+      spyOn(anonymousConsentService, 'isConsentGiven').and.stub();
+      const mockConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+      };
+      component.isConsentGiven(mockConsent);
+      expect(anonymousConsentService.isConsentGiven).toHaveBeenCalledWith(
+        mockConsent
+      );
     });
   });
 
