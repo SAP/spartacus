@@ -219,11 +219,7 @@ describe('AnonymousConsentsInterceptor', () => {
 
           spyOn(anonymousConsentService, 'setAnonymousConsents').and.stub();
 
-          // Clone array to not have the reference
-          interceptor[giveRequiredConsentsMethod](
-            JSON.parse(JSON.stringify(consents))
-          );
-
+          interceptor[giveRequiredConsentsMethod]([...consents]);
           expect(
             anonymousConsentService.setAnonymousConsents
           ).toHaveBeenCalledWith(expectedConsents);

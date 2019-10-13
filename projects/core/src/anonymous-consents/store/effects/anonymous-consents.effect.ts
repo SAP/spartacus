@@ -7,10 +7,10 @@ import {
   filter,
   map,
   mergeMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
-import { ANONYMOUS_CONSENT_STATUS } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
@@ -104,12 +104,11 @@ export class AnonymousConsentsEffects {
           this.authService.isUserLoggedIn()
         ),
         filter(([, , , loggedIn]) => loggedIn),
-        concatMap(([consents, userId, templates]) => {
+        concatMap(([consents, userId, templates, _loggedIn]) => {
           const actions: UserActions.TransferAnonymousConsent[] = [];
           for (const consent of consents) {
             if (
-              consent.consentState ===
-                ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN &&
+              this.anonymousConsentService.isConsentGiven(consent) &&
               (!this.anonymousConsentsConfig.anonymousConsents
                 .requiredConsents ||
                 !this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
@@ -140,7 +139,7 @@ export class AnonymousConsentsEffects {
   );
 
   @Effect()
-  giveMandatoryConsentsToUser$: Observable<
+  giveRequiredConsentsToUser$: Observable<
     UserActions.GiveUserConsent | Observable<never>
   > = this.actions$.pipe(
     filter(
@@ -160,10 +159,15 @@ export class AnonymousConsentsEffects {
           this.authService.isUserLoggedIn()
         ),
         filter(([, , , loggedIn]) => loggedIn),
-        concatMap(([loaded, userId, templates]) => {
+        tap(([loaded, _userId, _templates, _loggedIn]) => {
           if (!loaded) {
             this.userConsentService.loadConsents();
           }
+        }),
+        map(([_loaded, userId, templates, _loggedIn]) => {
+          return { userId, templates };
+        }),
+        concatMap(({ userId, templates }) => {
           const actions: UserActions.GiveUserConsent[] = [];
           for (const template of templates) {
             if (

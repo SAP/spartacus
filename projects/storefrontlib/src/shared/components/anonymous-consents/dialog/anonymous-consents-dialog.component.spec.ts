@@ -192,6 +192,23 @@ describe('AnonymousConsentsDialogComponent', () => {
     });
   });
 
+  describe('getCorrespondingConsent', () => {
+    it('should return null if no consent matches the provided template', () => {
+      expect(component.getCorrespondingConsent(mockTemplates[0], [])).toEqual(
+        null
+      );
+    });
+    it('should return the corresponding consent', () => {
+      const mockConsents: AnonymousConsent[] = [
+        { templateCode: 'XXX' },
+        { templateCode: 'MARKETING' },
+      ];
+      expect(
+        component.getCorrespondingConsent(mockTemplates[0], mockConsents)
+      ).toEqual(mockConsents[1]);
+    });
+  });
+
   describe('ngOnDestroy', () => {
     it('should call unsubscribe', () => {
       spyOn<any>(component['subscriptions'], 'unsubscribe').and.stub();

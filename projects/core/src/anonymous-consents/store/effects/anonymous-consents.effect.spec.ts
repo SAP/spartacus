@@ -267,7 +267,7 @@ describe('AnonymousConsentsEffects', () => {
     });
   });
 
-  describe('giveMandatoryConsentsToUser$', () => {
+  describe('giveRequiredConsentsToUser$', () => {
     it('should return GiveUserConsent for all required consents', () => {
       spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
         of(true)
@@ -300,7 +300,7 @@ describe('AnonymousConsentsEffects', () => {
       });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
-      expect(effect.giveMandatoryConsentsToUser$).toBeObservable(expected);
+      expect(effect.giveRequiredConsentsToUser$).toBeObservable(expected);
     });
 
     it('should get consents if they are not loaded', () => {
@@ -337,7 +337,7 @@ describe('AnonymousConsentsEffects', () => {
       });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
-      expect(effect.giveMandatoryConsentsToUser$).toBeObservable(expected);
+      expect(effect.giveRequiredConsentsToUser$).toBeObservable(expected);
 
       expect(userConsentService.loadConsents).toHaveBeenCalled();
     });
@@ -370,7 +370,7 @@ describe('AnonymousConsentsEffects', () => {
       });
       const expected = cold('');
 
-      expect(effect.giveMandatoryConsentsToUser$).toBeObservable(expected);
+      expect(effect.giveRequiredConsentsToUser$).toBeObservable(expected);
     });
   });
 });

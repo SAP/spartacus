@@ -16,7 +16,7 @@ import { ModalService } from '../../modal/index';
 export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
-  showLegalDescription: boolean;
+  showLegalDescription = true;
   iconTypes = ICON_TYPE;
   requiredConsents: string[] = [];
 
@@ -28,9 +28,11 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private anonymousConsentsService: AnonymousConsentsService
   ) {
-    this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
-    if (Boolean(this.config.anonymousConsents.requiredConsents)) {
-      this.requiredConsents = this.config.anonymousConsents.requiredConsents;
+    if (Boolean(this.config.anonymousConsents)) {
+      this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
+      if (Boolean(this.config.anonymousConsents.requiredConsents)) {
+        this.requiredConsents = this.config.anonymousConsents.requiredConsents;
+      }
     }
   }
 
@@ -69,6 +71,18 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
     } else {
       this.anonymousConsentsService.withdrawAnonymousConsent(template.id);
     }
+  }
+
+  getCorrespondingConsent(
+    template: ConsentTemplate,
+    consents: AnonymousConsent[] = []
+  ): AnonymousConsent {
+    for (const consent of consents) {
+      if (template.id === consent.templateCode) {
+        return consent;
+      }
+    }
+    return null;
   }
 
   ngOnDestroy(): void {

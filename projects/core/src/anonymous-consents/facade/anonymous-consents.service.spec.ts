@@ -210,6 +210,21 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
+  describe('isConsentGiven', () => {
+    it('should return true if the consent is given', () => {
+      const anonymousConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+      };
+      expect(service.isConsentGiven(anonymousConsent)).toEqual(true);
+    });
+    it('should return false if the consent is withdrawn', () => {
+      const anonymousConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+      };
+      expect(service.isConsentGiven(anonymousConsent)).toEqual(false);
+    });
+  });
+
   it('withdrawAnonymousConsent should dispatch WithdrawAnonymousConsent action', () => {
     service.withdrawAnonymousConsent(mockTemplateCode);
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -232,6 +247,21 @@ describe('AnonymousConsentsService', () => {
     expect(service.withdrawAnonymousConsent).toHaveBeenCalledTimes(
       mockConsentTemplates.length
     );
+  });
+
+  describe('isConsentWithdrawn', () => {
+    it('should return true if the consent is withdrawn', () => {
+      const anonymousConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+      };
+      expect(service.isConsentWithdrawn(anonymousConsent)).toEqual(true);
+    });
+    it('should return false if the consent is given', () => {
+      const anonymousConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+      };
+      expect(service.isConsentWithdrawn(anonymousConsent)).toEqual(false);
+    });
   });
 
   describe('toggleAnonymousConsentsBannerVisibility', () => {

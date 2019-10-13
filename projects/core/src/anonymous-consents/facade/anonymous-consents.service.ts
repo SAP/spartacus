@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AnonymousConsent, ConsentTemplate } from '../../model/index';
+import {
+  AnonymousConsent,
+  ANONYMOUS_CONSENT_STATUS,
+  ConsentTemplate,
+} from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
 import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
 import { AnonymousConsentsSelectors } from '../store/selectors/index';
@@ -135,6 +139,16 @@ export class AnonymousConsentsService {
   }
 
   /**
+   * Returns `true` if the provided `consent` is given.
+   * @param consent a consent to test
+   */
+  isConsentGiven(consent: AnonymousConsent): boolean {
+    return (
+      consent.consentState === ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
+    );
+  }
+
+  /**
    * Withdraw a consent for the given `templateCode`
    * @param templateCode for which to withdraw the consent
    */
@@ -154,6 +168,17 @@ export class AnonymousConsentsService {
           this.withdrawAnonymousConsent(template.id)
         )
       )
+    );
+  }
+
+  /**
+   * Returns `true` if the provided `consent` is withdrawn.
+   * @param consent a consent to test
+   */
+  isConsentWithdrawn(consent: AnonymousConsent): boolean {
+    return (
+      consent.consentState ===
+      ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN
     );
   }
 

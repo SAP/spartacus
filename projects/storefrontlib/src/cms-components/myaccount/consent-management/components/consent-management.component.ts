@@ -79,23 +79,27 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         this.anonymousConsentsService.getAnonymousConsentTemplates()
       ),
       map(([templateList, anonymousTemplates]) => {
-        if (
-          Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-          Boolean(
-            this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-          )
-        ) {
-          return this.hideAnonymousConsents(templateList, anonymousTemplates);
+        if (Boolean(this.anonymousConsentsConfig.anonymousConsents)) {
+          if (
+            Boolean(
+              this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+            )
+          ) {
+            this.requiredConsents = this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
+          }
+          if (
+            Boolean(
+              this.anonymousConsentsConfig.anonymousConsents
+                .consentManagementPage
+            )
+          ) {
+            return this.hideAnonymousConsents(templateList, anonymousTemplates);
+          }
         }
+
         return templateList;
       })
     );
-
-    if (
-      Boolean(this.anonymousConsentsConfig.anonymousConsents.requiredConsents)
-    ) {
-      this.requiredConsents = this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
-    }
   }
 
   private hideAnonymousConsents(
@@ -118,10 +122,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     if (
       Boolean(
         this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-          .hideConsents &&
-          this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-            .hideConsents.length > 0
-      )
+          .hideConsents
+      ) &&
+      this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        .hideConsents.length > 0
     ) {
       hideTemplateIds = this.anonymousConsentsConfig.anonymousConsents
         .consentManagementPage.hideConsents;

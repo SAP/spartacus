@@ -220,8 +220,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     };
   }
 
-  isConsentGiven(status: ANONYMOUS_CONSENT_STATUS): boolean {
-    return status === ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN;
+  isConsentGiven(consent: AnonymousConsent): boolean {
+    return this.anonymousConsentsService.isConsentGiven(consent);
   }
 
   isConsentRequired(): boolean {
