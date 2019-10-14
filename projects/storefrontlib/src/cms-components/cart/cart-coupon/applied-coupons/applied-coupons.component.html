@@ -18,20 +18,20 @@
 <ng-template #editableCoupons>
   <div class="row">
     <div
-      *ngFor="let v of sortedVouchers"
+      *ngFor="let voucher of sortedVouchers"
       class="col-sm-12 col-md-6 cx-coupon-card-grid"
       role="filter"
     >
       <div class="cx-coupon-apply cx-coupon-card cx-coupon-list-wrap">
         <span class="cx-cart-coupon-code " data-test="applied-coupon">{{
-          v.voucherCode
+          voucher.voucherCode
         }}</span>
         <button
           type="button"
           class="close"
           data-test="remove-coupon"
           aria-label="Close"
-          (click)="removeVoucher(v.voucherCode)"
+          (click)="removeVoucher(voucher.voucherCode)"
           [disabled]="cartIsLoading"
           [class.disabled]="cartIsLoading"
         >
