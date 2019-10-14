@@ -6,13 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  CartService,
-  OrderEntry,
-  Product,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { CartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -36,8 +30,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   increment = false;
   isStyleVariantSelected = false;
   isSizeVariantSelected = false;
-  isItemView = false;
-  isBaseProduct = true;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -47,15 +39,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef,
-    protected globalMessageService: GlobalMessageService
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     if (this.productCode) {
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
       this.hasStock = true;
-      this.isItemView = true;
     } else {
       this.subscription = this.currentProductService
         .getProduct()
@@ -67,9 +57,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
           this.productCode = product.code;
           this.quantity = 1;
-          this.isBaseProduct = !(
-            this.isSizeVariantSelected || this.isStyleVariantSelected
-          );
 
           if (
             product.stock &&
@@ -94,20 +81,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   addToCart() {
-    const errorMessage = this.checkForErrorMessagesBeforeAction();
-
-    if (!this.isItemView && errorMessage) {
-      this.globalMessageService.add(
-        { key: errorMessage },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      return;
-    }
-
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
-
     // check item is already present in the cart
     // so modal will have proper header text displayed
     this.cartService
