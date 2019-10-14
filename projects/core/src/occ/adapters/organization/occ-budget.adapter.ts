@@ -26,30 +26,35 @@ export class OccBudgetAdapter implements BudgetAdapter {
     userId: string,
     pageSize: number,
     currentPage: number,
-    sort: string
+    sort: string,
+    fields: string
   ): Observable<Budget[]> {
     return this.http
-      .get(this.getBudgetsEndpoint(userId, pageSize, currentPage, sort))
+      .get(
+        this.getBudgetsEndpoint(userId, { pageSize, currentPage, sort, fields })
+      )
       .pipe(
         pluck('budgets'),
         this.converter.pipeableMany(BUDGET_NORMALIZER)
       );
   }
 
+  post(userId: string, budget: Budget): Observable<Budget> {
+    return this.http.post<Budget>(this.getBudgetsEndpoint(userId), budget);
+  }
+
+  patch(userId: string, budget: Budget): Observable<Budget> {
+    return this.http.patch<Budget>(
+      this.getBudgetEndpoint(userId, budget.code),
+      budget
+    );
+  }
+
   protected getBudgetEndpoint(userId: string, budgetCode: string): string {
     return this.occEndpoints.getUrl('budget', { userId, budgetCode });
   }
 
-  protected getBudgetsEndpoint(
-    userId: string,
-    pageSize: number,
-    currentPage: number,
-    sort: string
-  ): string {
-    return this.occEndpoints.getUrl(
-      'budgets',
-      { userId },
-      { pageSize, currentPage, sort }
-    );
+  protected getBudgetsEndpoint(userId: string, params?): string {
+    return this.occEndpoints.getUrl('budgets', { userId }, params);
   }
 }

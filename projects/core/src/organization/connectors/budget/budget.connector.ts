@@ -17,8 +17,26 @@ export class BudgetConnector {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
+    fields?: string
   ): Observable<Budget[]> {
-    return this.adapter.loadBudgets(userId, pageSize, currentPage, sort);
+    return this.adapter.loadBudgets(
+      userId,
+      pageSize,
+      currentPage,
+      sort,
+      fields
+    );
   }
+
+  post(userId: string, budget: Budget): Observable<Budget> {
+    return this.adapter.post(userId, budget);
+  }
+
+  patch(
+    userId: string,
+    budget: Budget
+  ): Observable<Budget> {
+    return this.adapter.patch(userId, budget);
+  };
 }

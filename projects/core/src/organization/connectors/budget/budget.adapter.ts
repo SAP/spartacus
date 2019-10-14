@@ -16,6 +16,17 @@ export abstract class BudgetAdapter {
     userId: string,
     pageSize: number,
     currentPage: number,
-    sort: string
+    sort: string,
+    fields: string
   ): Observable<Budget[]>;
+
+  abstract post(
+    userId: string,
+    budget: Budget
+  ): Observable<Budget>;
+
+  abstract patch(
+    userId: string,
+    budget: Budget
+  ): Observable<Budget>;
 }
