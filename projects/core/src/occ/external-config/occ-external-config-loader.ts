@@ -20,7 +20,11 @@ export class OccExternalConfigLoader {
       EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID,
       document
     );
-    return config ? Promise.resolve(config) : Promise.reject();
+    return config
+      ? Promise.resolve(config)
+      : Promise.reject(
+          new Error('Error: Could not rehydrate OCC external config!')
+        );
   }
 
   /**
@@ -29,15 +33,15 @@ export class OccExternalConfigLoader {
    * **CAUTION**: Run it only in browser, because it's using the native DOM and XHR.
    */
   static load(
-    fetchOptions: OccBaseSitesEndpointOptions = {},
+    endpointOptions: OccBaseSitesEndpointOptions = {},
     currentUrl: string = document.location.href
   ): Promise<ExternalConfig> {
-    fetchOptions.baseUrl =
-      fetchOptions.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
+    endpointOptions.baseUrl =
+      endpointOptions.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
 
     const thenFn = baseSites =>
       OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
-    return OccBaseSitesLoader.load(fetchOptions).then(thenFn);
+    return OccBaseSitesLoader.load(endpointOptions).then(thenFn);
   }
 
   /**
@@ -46,13 +50,15 @@ export class OccExternalConfigLoader {
    * Run it in SSR, because it's using Node.js `https` client.
    */
   static loadSSR(
-    fetchOptions: OccBaseSitesEndpointOptions,
+    endpointOptions: OccBaseSitesEndpointOptions,
     currentUrl: string,
     httpsClient: NodeHttpsClient
   ): Promise<ExternalConfig> {
     const thenFn = baseSites => {
       return OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
     };
-    return OccBaseSitesLoader.loadSSR(fetchOptions, httpsClient).then(thenFn);
+    return OccBaseSitesLoader.loadSSR(endpointOptions, httpsClient).then(
+      thenFn
+    );
   }
 }

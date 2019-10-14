@@ -1,3 +1,5 @@
+import { isDevMode } from '@angular/core';
+
 // should be private class
 export class TransferData {
   /**
@@ -12,10 +14,12 @@ export class TransferData {
       try {
         return JSON.parse(unescapeHtml(script.textContent));
       } catch (e) {
-        console.warn(
-          'Exception while restoring the transferred state of the OCC base sites config',
-          e
-        );
+        if (isDevMode()) {
+          console.warn(
+            'Exception while restoring the transferred state of the OCC base sites config',
+            e
+          );
+        }
       }
     }
   }

@@ -2,7 +2,7 @@ import { Occ } from '../occ-models';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
 import { OccBaseSites2ConfigConverter } from './occ-base-sites-2-config-converter';
 
-fdescribe(`OccBaseSites2ConfigConverter`, () => {
+describe(`OccBaseSites2ConfigConverter`, () => {
   describe(`convert`, () => {
     let mockBaseSite: Occ.BaseSite;
 
