@@ -1,6 +1,5 @@
 import { isDevMode } from '@angular/core';
 
-// should be private class
 export class TransferData {
   /**
    * Rehydrates the value from the JSON script of the given id
@@ -12,7 +11,7 @@ export class TransferData {
     const script = doc.getElementById(scriptId);
     if (script && script.textContent) {
       try {
-        return JSON.parse(unescapeHtml(script.textContent));
+        return JSON.parse(TransferData.unescapeHtml(script.textContent));
       } catch (e) {
         if (isDevMode()) {
           console.warn(
@@ -28,29 +27,29 @@ export class TransferData {
     const script = document.createElement('script');
     script.id = scriptId;
     script.setAttribute('type', 'application/json');
-    script.textContent = escapeHtml(JSON.stringify(data));
+    script.textContent = TransferData.escapeHtml(JSON.stringify(data));
     document.body.appendChild(script);
   }
-}
 
-function escapeHtml(text: string): string {
-  const escapedText: { [k: string]: string } = {
-    '&': '&a;',
-    '"': '&q;',
-    "'": '&s;',
-    '<': '&l;',
-    '>': '&g;',
-  };
-  return text.replace(/[&"'<>]/g, s => escapedText[s]);
-}
+  private static escapeHtml(text: string): string {
+    const escapedText: { [k: string]: string } = {
+      '&': '&a;',
+      '"': '&q;',
+      "'": '&s;',
+      '<': '&l;',
+      '>': '&g;',
+    };
+    return text.replace(/[&"'<>]/g, s => escapedText[s]);
+  }
 
-function unescapeHtml(text: string): string {
-  const unescapedText: { [k: string]: string } = {
-    '&a;': '&',
-    '&q;': '"',
-    '&s;': "'",
-    '&l;': '<',
-    '&g;': '>',
-  };
-  return text.replace(/&[^;]+;/g, s => unescapedText[s]);
+  private static unescapeHtml(text: string): string {
+    const unescapedText: { [k: string]: string } = {
+      '&a;': '&',
+      '&q;': '"',
+      '&s;': "'",
+      '&l;': '<',
+      '&g;': '>',
+    };
+    return text.replace(/&[^;]+;/g, s => unescapedText[s]);
+  }
 }
