@@ -32,12 +32,20 @@ export interface PageBreadcrumbResolver {
   resolveBreadcrumbs(...args): Observable<{ breadcrumbs: any[] } | any[]>;
 }
 
-/**
- * Resolves the main image for the page. This is typically used
- * for social sharing (using `og:image` metatag)
- */
 export interface PageImageResolver {
-  resolveImage(...args): Observable<{ image: string } | string>;
+  /**
+   * Resolves the main image for the page. This is typically used
+   * for social sharing (using `og:image` metatag)
+   * @deprecated since version 1.3
+   * Use `resolveImage()` instead.
+   */
+  resolveImage(...args): Observable<string>;
+
+  /**
+   * Resolves the main image for the page. This is typically used
+   * for social sharing (using `og:image` metatag)
+   */
+  resolveImage(): Observable<{ image: string }>;
 }
 
 /**

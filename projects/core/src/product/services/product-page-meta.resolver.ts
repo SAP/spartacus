@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { PageMeta, USE_SEPARATE_RESOLVERS } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
@@ -26,13 +26,6 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageImageResolver {
-  /**
-   * Backwards compatibility is quarenteed with this flag during
-   * the 1.x releases. Customers who have extended this resolver
-   * can keep relying on the `resolve()` class.
-   */
-  version_1_only = true;
-
   /**
    * all resolvers need the product as an input
    */
@@ -190,28 +183,32 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   /**
+   *
+   * @param product
+   *
    * @deprecated since version 1.3
-   * The `product` argument will be removed with 2.0. The argument is optional since 1.3.
+   *
+   * In version 2.0, the resolveImage will not have arguments anymore
+   * and the responsetype includes the property, `{image: string}`.
    */
-  resolveImage(_product?: any): Observable<{ image: string } | string> {
-    return this.product$.pipe(
-      map((product: Product) => {
-        let result;
-        if (
-          product.images &&
-          product.images.PRIMARY &&
-          (<any>product.images.PRIMARY).zoom &&
-          (<any>product.images.PRIMARY).zoom.url
-        ) {
-          result = (<any>product.images.PRIMARY).zoom.url;
-        }
-        return result;
-      }),
-      map(image => {
-        // in the 1.x release we keep supporting the existing return value
-        return _product ? image : { image: image };
-      })
-    );
+  resolveImage(product?: Product): Observable<any> {
+    if (product) {
+      return of(this.getPrimaryImage(product));
+    } else {
+      return this.product$.pipe(
+        map((p: Product) => this.getPrimaryImage(p)),
+        map(image => ({ image }))
+      );
+    }
+  }
+
+  private getPrimaryImage(product: Product): boolean {
+    return product.images &&
+      product.images.PRIMARY &&
+      (<any>product.images.PRIMARY).zoom &&
+      (<any>product.images.PRIMARY).zoom.url
+      ? (<any>product.images.PRIMARY).zoom.url
+      : null;
   }
 
   private resolveFirstCategory(product: Product): string {
