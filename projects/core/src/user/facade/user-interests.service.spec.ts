@@ -86,6 +86,7 @@ describe('UserInterestsService', () => {
       new UserActions.RemoveProductInterest({
         userId: 'current',
         item: {},
+        singleDelete: undefined,
       })
     );
 
