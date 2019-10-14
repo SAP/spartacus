@@ -1,4 +1,50 @@
 import { product } from '../sample-data/checkout-flow';
+import { config, login, setSessionData } from '../support/utils/login';
+
+export const username = 'test-user-cypress@ydev.hybris.com';
+export const password = 'Password123.';
+export const firstName = 'Test';
+export const lastName = 'User';
+export const titleCode = 'mr';
+
+export function retrieveTokenAndLogin() {
+  function retrieveAuthToken() {
+    return cy.request({
+      method: 'POST',
+      url: config.tokenUrl,
+      body: {
+        ...config.client,
+        grant_type: 'client_credentials',
+      },
+      form: true,
+    });
+  }
+
+  login(username, password, false).then(res => {
+    if (res.status === 200) {
+      // User is already registered - only set session in localStorage
+      setSessionData({ ...res.body, userId: username });
+    } else {
+      // User needs to be registered
+      retrieveAuthToken().then(response =>
+        cy.request({
+          method: 'POST',
+          url: config.newUserUrl,
+          body: {
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            titleCode: titleCode,
+            uid: username,
+          },
+          headers: {
+            Authorization: `bearer ` + response.body.access_token,
+          },
+        })
+      );
+    }
+  });
+}
 
 export function loginSuccessfully() {
   cy.login('test-user-cypress@ydev.hybris.com', 'Password123.');
@@ -108,6 +154,11 @@ export function addPaymentMethod() {
 }
 
 export function selectShippingAddress() {
+  cy.server();
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
+  ).as('getdeliveryPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
@@ -115,9 +166,9 @@ export function selectShippingAddress() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
-  cy.getByText(/Ship to this address/i).click();
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
+  cy.wait('@getdeliveryPage');
 }
 
 export function selectDeliveryMethod() {
@@ -127,7 +178,7 @@ export function selectDeliveryMethod() {
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').check({ force: true });
+  cy.get('#deliveryMode-standard-gross').should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage');
 }
@@ -138,7 +189,6 @@ export function selectPaymentMethod() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
-  cy.getByText(/Use this payment/i).click();
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
 }
@@ -248,4 +298,54 @@ export function deletePaymentCard() {
         expect(response.status).to.eq(200);
       });
     });
+}
+
+export function checkoutAsPersistentUserTest() {
+  it('should login successfully', () => {
+    loginSuccessfully();
+  });
+
+  it('should add a shipping address', () => {
+    addShippingAddress();
+  });
+
+  it('should go to product page from category page', () => {
+    goToProductPageFromCategory();
+  });
+
+  it('should add product to cart', () => {
+    addProductToCart();
+  });
+
+  it('should get cartId and add a payment method', () => {
+    addPaymentMethod();
+  });
+
+  it('should proceed to checkout and select shipping address', () => {
+    selectShippingAddress();
+  });
+
+  it('should choose delivery', () => {
+    selectDeliveryMethod();
+  });
+
+  it('should select payment method', () => {
+    selectPaymentMethod();
+  });
+
+  it('should review and place order', () => {
+    verifyAndPlaceOrder();
+  });
+
+  it('should display summary page', () => {
+    displaySummaryPage();
+  });
+
+  it('should delete shipping address', () => {
+    deleteShippingAddress();
+  });
+
+  it('should delete payment card', () => {
+    deletePaymentCard();
+  });
 }

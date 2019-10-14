@@ -14,7 +14,6 @@ import * as fromUserReducers from '../../../user/store/reducers/index';
 import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
-import { CartService } from '../../facade/cart.service';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { CART_FEATURE } from '../cart-state';
@@ -58,6 +57,8 @@ describe('Cart effect', () => {
     class MockCartConnector {
       create = createSpy().and.returnValue(of(testCart));
       load = loadMock;
+      addEmail = createSpy().and.returnValue(of({}));
+      delete = createSpy().and.returnValue(of({}));
     }
 
     TestBed.configureTestingModule({
@@ -76,7 +77,6 @@ describe('Cart effect', () => {
         },
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        CartService,
         CartDataService,
         provideMockActions(() => actions$),
       ],
@@ -214,6 +214,37 @@ describe('Cart effect', () => {
           expected
         );
       });
+    });
+  });
+
+  describe('addEmail$', () => {
+    it('should add email to cart', () => {
+      const action = new CartActions.AddEmailToCart({
+        userId: userId,
+        cartId: cartId,
+        email: 'test@test.com',
+      });
+      const completion = new CartActions.AddEmailToCartSuccess({
+        userId,
+        cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.addEmail$).toBeObservable(expected);
+    });
+  });
+
+  describe('deleteCart$', () => {
+    it('should delete cart', () => {
+      const action = new CartActions.DeleteCart({ userId, cartId });
+      const completion = new CartActions.ClearCart();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(cartEffects.deleteCart$).toBeObservable(expected);
     });
   });
 });

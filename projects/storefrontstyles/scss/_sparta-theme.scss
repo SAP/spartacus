@@ -35,8 +35,8 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-product-intro, cx-card, cx-forgot-password, cx-banner-carousel,
   cx-update-password, cx-tracking-events, cx-config-attribute-header,
   cx-config-form, cx-configure-product, cx-config-attribute-radio-button,
-  cx-config-attribute-footer, cx-config-attribute-drop-down,
-  cx-config-attribute-read-only !default;
+  cx-config-attribute-footer, cx-config-attribute-drop-down, cx-asm-main-ui,
+  cx-customer-selection, cx-guest-register-form, cx-config-attribute-read-only !default;
 
 // future theme's, can be introduced during minors
 $theme: '' !default;
