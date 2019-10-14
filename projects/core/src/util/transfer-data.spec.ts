@@ -1,6 +1,6 @@
 import { TransferData } from './transfer-data';
 
-fdescribe(`CxTransferState`, () => {
+describe(`TransferData`, () => {
   describe(`rehydrate`, () => {
     function runWithDomScript(
       scriptOptions: { id: string; content: string },
