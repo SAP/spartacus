@@ -19,6 +19,7 @@ export enum TabbingOrderTypes {
   CX_MEDIA = 'cxMedia',
   H3 = 'h3',
   CX_PRODUCT_VIEW = 'cxProductView',
+  INDEX_OF_ELEMENT = 'indexOfElement',
 }
 
 export interface TabbingOrderConfig {
@@ -1249,116 +1250,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   productListDesktop: [
     {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    {
-      value: '«',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '1',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '»',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
-    },
-    {
-      value: 'DSC-WX1',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'DSC-WX1',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'EF 100mm f/2.8L Macro IS USM',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'NP-FV 70',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'ACC-BBV5',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: '32GB SDHC Card',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'FA-EB1AM',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    {
-      value: '«',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '1',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '»',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
-    },
-    {
       value: 'Stores',
       type: TabbingOrderTypes.LINK,
     },
@@ -1562,6 +1453,116 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Show more...',
       type: TabbingOrderTypes.LINK,
     },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '3',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '18',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
+    },
+    {
+      value: ['.cx-product-name', 0],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 1],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 2],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 3],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 4],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 5],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 6],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 7],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 8],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 9],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '3',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '18',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
+    },
   ],
   productListMobile: [
     {
@@ -1602,53 +1603,53 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CX_PRODUCT_VIEW,
     },
     {
-      value: 'DSC-WX1',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 0],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'DSC-WX1',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 1],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'EF 100mm f/2.8L Macro IS USM',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 2],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 3],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 4],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 5],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'NP-FV 70',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 6],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'ACC-BBV5',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 7],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: '32GB SDHC Card',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 8],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'FA-EB1AM',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 9],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
