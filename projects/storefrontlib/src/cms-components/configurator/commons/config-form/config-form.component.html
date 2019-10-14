@@ -39,6 +39,10 @@
         [attribute]="attribute"
         (selectionChange)="updateConfiguration($event)"
       ></cx-config-attribute-drop-down>
+      <cx-config-attribute-read-only
+        *ngIf="attribute.uiType === UiType.READ_ONLY"
+        [attribute]="attribute"
+      ></cx-config-attribute-read-only>
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
         'configurator.attribute.notSupported' | cxTranslate
       }}</em>

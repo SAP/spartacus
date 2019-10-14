@@ -85,6 +85,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.DROPDOWN;
         break;
       }
+      case OccConfigurator.UiType.READ_ONLY: {
+        uiType = Configurator.UiType.READ_ONLY;
+        break;
+      }
       default: {
         uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }
