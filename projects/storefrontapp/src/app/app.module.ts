@@ -9,7 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { ProductPageMetaResolver, TestConfigModule } from '@spartacus/core';
+import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
@@ -17,7 +17,6 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { CustomProductPageMetaResolver } from './custom-product-page-meta.resolver';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -75,12 +74,7 @@ if (!environment.production) {
 
     ...devImports,
   ],
-  providers: [
-    {
-      provide: ProductPageMetaResolver,
-      useExisting: CustomProductPageMetaResolver,
-    },
-  ],
+
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

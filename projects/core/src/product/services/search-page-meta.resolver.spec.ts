@@ -1,13 +1,6 @@
-import { Injectable, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import {
-  CmsService,
-  Page,
-  PageMeta,
-  PageMetaResolver,
-  PageMetaService,
-} from '../../cms';
+import { CmsService, Page, PageMeta, PageMetaService } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
@@ -20,30 +13,9 @@ const mockSearchPage: Page = {
   slots: {},
 };
 
-const mockContentPage: Page = {
-  type: PageType.CONTENT_PAGE,
-  template: 'AnyOrdinaryPage',
-  title: 'content page title',
-  slots: {},
-};
-
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of(mockSearchPage);
-  }
-}
-
-@Injectable()
-class FakeContentPageTitleResolver extends PageMetaResolver {
-  constructor(protected cms: CmsService) {
-    super();
-    this.pageType = PageType.CONTENT_PAGE;
-  }
-
-  resolve(): Observable<PageMeta> {
-    return of({
-      title: 'content page title',
-    });
   }
 }
 
@@ -70,78 +42,54 @@ class MockRoutingService {
 }
 
 describe('SearchPageMetaResolver', () => {
-  let service: PageMetaService;
-  let cmsService: CmsService;
+  let service: SearchPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        PageMetaService,
-        FakeContentPageTitleResolver,
         SearchPageMetaResolver,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: PageMetaResolver,
-          useExisting: FakeContentPageTitleResolver,
-          multi: true,
-        },
-        {
-          provide: PageMetaResolver,
-          useExisting: SearchPageMetaResolver,
-          multi: true,
-        },
       ],
     });
 
-    service = TestBed.get(PageMetaService as Type<PageMetaService>);
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    service = TestBed.get(SearchPageMetaResolver);
   });
 
-  describe('ContentPage with search results', () => {
-    beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockSearchPage));
-    });
+  it('PageTitleService should be created', inject(
+    [PageMetaService],
+    (pageTitleService: PageMetaService) => {
+      expect(pageTitleService).toBeTruthy();
+    }
+  ));
 
-    it('PageTitleService should be created', inject(
-      [PageMetaService],
-      (pageTitleService: PageMetaService) => {
-        expect(pageTitleService).toBeTruthy();
-      }
-    ));
+  it(`should return {title: 'pageMetaResolver.search.title count:3 query:Canon'} for resolve method`, () => {
+    let result: PageMeta;
+    service
+      .resolve()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
 
-    it('should resolve search results in title ', () => {
-      let result: PageMeta;
-      service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.title).toEqual(
-        'pageMetaResolver.search.title count:3 query:Canon'
-      );
+    expect(result).toEqual({
+      title: 'pageMetaResolver.search.title count:3 query:Canon',
     });
   });
 
-  describe('ContentPage without search results', () => {
-    beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockContentPage));
-    });
+  it('should return title for resolveTitle with arguments', () => {
+    let result: { title: string } | string;
+    service
+      .resolveTitle(100, 'MYBRAND')
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
 
-    it('should resolve content page title', () => {
-      let result: PageMeta;
-      service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.title).toEqual('content page title');
-    });
+    expect(result).toEqual(
+      'pageMetaResolver.search.title count:100 query:MYBRAND'
+    );
   });
 });

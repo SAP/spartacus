@@ -1,12 +1,12 @@
-import { Injectable, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
   CmsService,
   Page,
   PageMeta,
-  PageMetaResolver,
   PageMetaService,
+  USE_SEPARATE_RESOLVERS,
 } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
@@ -39,20 +39,6 @@ class MockCmsService {
   }
 }
 
-@Injectable()
-class ContentPageTitleResolver extends PageMetaResolver {
-  constructor(protected cms: CmsService) {
-    super();
-    this.pageType = PageType.CONTENT_PAGE;
-  }
-
-  resolve(): Observable<PageMeta> {
-    return of({
-      title: 'content page title',
-    });
-  }
-}
-
 class MockProductSearchService {
   getResults() {
     return of({
@@ -77,32 +63,20 @@ class MockProductSearchService {
 class MockRoutingService {}
 
 describe('CategoryPageMetaResolver', () => {
-  let service: PageMetaService;
+  let service: CategoryPageMetaResolver;
   let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        PageMetaService,
-        ContentPageTitleResolver,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: PageMetaResolver,
-          useExisting: ContentPageTitleResolver,
-          multi: true,
-        },
-        {
-          provide: PageMetaResolver,
-          useExisting: CategoryPageMetaResolver,
-          multi: true,
-        },
       ],
     });
 
-    service = TestBed.get(PageMetaService as Type<PageMetaService>);
+    service = TestBed.get(CategoryPageMetaResolver);
     cmsService = TestBed.get(CmsService as Type<CmsService>);
   });
 
@@ -123,7 +97,7 @@ describe('CategoryPageMetaResolver', () => {
     it('should resolve category page title with product listing', () => {
       let result: PageMeta;
       service
-        .getMeta()
+        .resolve()
         .subscribe(value => {
           result = value;
         })
@@ -137,7 +111,7 @@ describe('CategoryPageMetaResolver', () => {
     it('should resolve 2 breadcrumbs', () => {
       let result: PageMeta;
       service
-        .getMeta()
+        .resolve()
         .subscribe(value => {
           result = value;
         })
@@ -149,7 +123,7 @@ describe('CategoryPageMetaResolver', () => {
     it('should resolve 2nd breadcrumbs with facetValueName', () => {
       let result: PageMeta;
       service
-        .getMeta()
+        .resolve()
         .subscribe(value => {
           result = value;
         })
@@ -160,7 +134,7 @@ describe('CategoryPageMetaResolver', () => {
     it('should not resolve 3rd breadcrumbs for non-category facet', () => {
       let result: PageMeta;
       service
-        .getMeta()
+        .resolve()
         .subscribe(value => {
           result = value;
         })
@@ -179,13 +153,52 @@ describe('CategoryPageMetaResolver', () => {
     it('should resolve category page title', () => {
       let result: PageMeta;
       service
-        .getMeta()
+        .resolve()
         .subscribe(value => {
           result = value;
         })
         .unsubscribe();
 
       expect(result.title).toEqual('content page title');
+    });
+  });
+
+  describe('direct access to resolvers', () => {
+    beforeEach(() => {
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(
+        of(mockPageWithProductList)
+      );
+    });
+    it('should return USE_SEPARATE_RESOLVERS', () => {
+      expect(service.resolve(true)).toEqual(USE_SEPARATE_RESOLVERS);
+    });
+
+    it('should resolve {title: ...} for resolveTitle()', () => {
+      let result: PageMeta;
+      service
+        .resolveTitle()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+
+      expect(result).toEqual({
+        title:
+          'pageMetaResolver.category.title count:6 query:Hand-held Camcorders',
+      });
+    });
+
+    it('should resolve {breadcrumbs: ...} for resolveBreadcrumbs()', () => {
+      let result: any[];
+      service
+        .resolveBreadcrumbs()
+        .subscribe(value => {
+          console.log(value);
+          result = value;
+        })
+        .unsubscribe();
+
+      expect(result.length).toEqual(2);
     });
   });
 });

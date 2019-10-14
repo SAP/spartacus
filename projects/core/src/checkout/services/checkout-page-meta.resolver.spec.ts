@@ -77,4 +77,34 @@ describe('CheckoutPageMetaResolver', () => {
     expect(result.robots).not.toContain(PageRobotsMeta.FOLLOW);
     expect(result.robots).not.toContain(PageRobotsMeta.INDEX);
   });
+
+  it(`should return {title: 'pageMetaResolver.checkout.title count:5'} for resolveTitle`, () => {
+    let result: PageMeta;
+
+    service
+      .resolveTitle()
+      .subscribe(meta => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toEqual({
+      title: 'pageMetaResolver.checkout.title count:5',
+    });
+  });
+
+  it(`should resolve {robots:['NOFOLLOW', 'NOINDEX']} for resolveRobots`, () => {
+    let result: string[];
+
+    service
+      .resolveRobots()
+      .subscribe(meta => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result.length).toEqual(2);
+    expect(result).toContain(PageRobotsMeta.NOINDEX);
+    expect(result).toContain(PageRobotsMeta.NOFOLLOW);
+  });
 });

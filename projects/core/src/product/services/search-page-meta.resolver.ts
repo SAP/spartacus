@@ -8,6 +8,12 @@ import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
 
+/**
+ * Resolves the page data for the Search Result Page based on the
+ * `PageType.CATEGORY_PAGE` and the `SearchResultsListPageTemplate` template.
+ *
+ * Only the page title is resolved in the implemenation.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -51,7 +57,7 @@ export class SearchPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The arguments will get removed with 2.0. They've already made optional in 1.3.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveTitle(
     total?: number,

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { PageType } from '../../model/cms.model';
-import { Page, PageMeta, USE_SEPARATE_RESOLVERS } from '../model/page.model';
+import { Page, PageMeta } from '../model/page.model';
 
 export abstract class PageMetaResolver {
   pageType: PageType;
@@ -11,16 +11,20 @@ export abstract class PageMetaResolver {
    * The caller `PageMetaService` service is improved to expect all individual resolvers
    * instead, so that the code is easier extensible.
    *
+   * @deprecated since version 1.3
+   */
+  abstract resolve(): Observable<PageMeta>;
+  /**
+   * The resolve method is no longer preferred and will be removed with release 2.0.
+   * The caller `PageMetaService` service is improved to expect all individual resolvers
+   * instead, so that the code is easier extensible.
+   *
    * @param skip indicates that this method is not used. While this flag is used by the
    * calling `PageMetaService`, it is not ysed by custom subclasses when they call their `super`.
    *
    * @deprecated since version 1.3
    */
-  resolve(skipResolver?: boolean): Observable<PageMeta> | any {
-    if (skipResolver) {
-      return USE_SEPARATE_RESOLVERS;
-    }
-  }
+  abstract resolve(skip: boolean): boolean;
 
   getScore(page: Page): number {
     let score = 0;

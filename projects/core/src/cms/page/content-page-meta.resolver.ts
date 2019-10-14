@@ -8,6 +8,13 @@ import { Page, PageMeta, USE_SEPARATE_RESOLVERS } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 
+/**
+ * Resolves the page data for all Content Pages based on the `PageType.CONTENT_PAGE`.
+ * More specific resolvers for content pages can be implemented by making them more
+ * specific, for example by using the page template (see `CartPageMetaResolver`).
+ *
+ * The page title, and breadcrumbs are resolved in this implementation only.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -42,7 +49,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
     return this.cms$.pipe(
       switchMap((page: Page) =>
         combineLatest([
-          this.resolveTitle(),
+          this.resolveTitle(page),
           this.resolveBreadcrumbLabel().pipe(
             switchMap(label => this.resolveBreadcrumbs(page, label))
           ),
@@ -54,7 +61,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The `page` argument will be removed with 2.0. The argument is optional since 1.3.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveTitle(page?: Page): Observable<{ title: string } | any> {
     if (page) {
@@ -73,18 +80,21 @@ export class ContentPageMetaResolver extends PageMetaResolver
   }
 
   /**
-   * @deprecated
-   * since version 1.3. The arguments will get removed with 2.0.
-   * They've already made optional in 1.3.
+   * Resolves breadcrumb data based on the content page.
+   *
    * As long as we do not have CMSX-8689 in place we need specific
    * resolvers for nested pages.
+   *
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change.
+   *
    */
   resolveBreadcrumbs(
-    page?: Page,
+    _?: Page,
     breadcrumbLabel?: string
   ): Observable<{ breadcrumbs: any[] } | any> {
-    if (page && breadcrumbLabel) {
-      return of([{ label: page.label, link: '/' }]);
+    if (breadcrumbLabel) {
+      return of([{ label: breadcrumbLabel, link: '/' }]);
     } else {
       return this.translation.translate('common.home').pipe(
         map(label => [{ label: label, link: '/' }]),

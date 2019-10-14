@@ -37,7 +37,7 @@ class ContentPageResolver extends PageMetaResolver {
     this.pageType = PageType.CONTENT_PAGE;
   }
 
-  resolve(): Observable<PageMeta> {
+  resolve(_skip?: boolean): Observable<PageMeta> | any {
     return of({
       title: 'content page title',
     });
@@ -54,7 +54,7 @@ class AnotherPageResolver extends PageMetaResolver {
     this.pageTemplate = 'template';
   }
 
-  resolve(): Observable<PageMeta> {
+  resolve(_skip?: boolean): Observable<PageMeta> | any {
     return of({
       title: 'special page title',
     });
@@ -71,8 +71,8 @@ class NewPageResolver extends PageMetaResolver implements PageTitleResolver {
     this.pageTemplate = 'template-new';
   }
 
-  resolve(fallback: boolean): Observable<PageMeta> | any {
-    if (fallback) {
+  resolve(skip?: boolean): Observable<PageMeta> | any {
+    if (skip) {
       return USE_SEPARATE_RESOLVERS;
     }
     return of({
@@ -80,7 +80,7 @@ class NewPageResolver extends PageMetaResolver implements PageTitleResolver {
     });
   }
 
-  resolveTitle(): Observable<{ title: string }> {
+  resolveTitle(): Observable<{ title: string } | any> {
     return of({
       title: 'new title resolved by resolveTitle',
     });

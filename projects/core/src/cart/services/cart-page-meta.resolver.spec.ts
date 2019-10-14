@@ -91,4 +91,32 @@ describe('CartPageMetaResolver', () => {
     expect(result.robots).not.toContain(PageRobotsMeta.FOLLOW);
     expect(result.robots).not.toContain(PageRobotsMeta.INDEX);
   });
+
+  it(`should resolve {title: 'Shopping Cart'} for resolveTitle`, () => {
+    let result: PageMeta;
+
+    service
+      .resolveTitle()
+      .subscribe(meta => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toEqual({ title: 'Shopping Cart' });
+  });
+
+  it(`should resolve {robots: ['NOFOLLOW', 'NOINDEX']} with nofollow,noindex`, () => {
+    let result: string[];
+
+    service
+      .resolveRobots()
+      .subscribe(meta => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result.length).toEqual(2);
+    expect(result).toContain('NOFOLLOW');
+    expect(result).toContain('NOINDEX');
+  });
 });

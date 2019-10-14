@@ -15,6 +15,13 @@ import {
 } from '../../cms/page/page.resolvers';
 import { PageType } from '../../model/cms.model';
 
+/**
+ * Resolves the page data for all Content Pages based on the `PageType.CONTENT_PAGE`
+ * and the `CartPageTemplate`. If the cart page matches this template, the more generic
+ * `ContentPageMetaResolver` is overriden by this resolver.
+ *
+ * The page title and robots are resolved in this implementation only.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -57,7 +64,7 @@ export class CartPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The `page` argument will be removed with 2.0, the argument is optional since 1.3.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveTitle(page?: Page): Observable<{ title: string } | any> {
     if (page) {
@@ -69,7 +76,7 @@ export class CartPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The response will change with version 2 to `Observable<{ robots: PageRobotsMeta[] }>`.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveRobots(): Observable<{ robots: PageRobotsMeta[] } | any> {
     const robots: PageRobotsMeta[] = [

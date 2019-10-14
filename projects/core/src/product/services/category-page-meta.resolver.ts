@@ -18,11 +18,18 @@ import { ProductSearchPage } from '../../model/product-search.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
 
+/**
+ * Resolves the page data for the Product Listing Page
+ * based on the `PageType.CATEGORY_PAGE`.
+ *
+ * The page title, and breadcrumbs are resolved in this implementation only.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
+  // reusable observable for search page data
   private searchPage$: Observable<
     ProductSearchPage | Page
   > = this.cms.getCurrentPage().pipe(
@@ -52,7 +59,8 @@ export class CategoryPageMetaResolver extends PageMetaResolver
    * instead, so that the code is easier extensible.
    *
    * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not ysed by custom subclasses when they call their `super`.
+   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
+   * This is a temporaty solution to stay backwards compatible during release 1.x.
    *
    * @deprecated since version 1.3
    */
@@ -60,17 +68,37 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     if (skip) {
       return USE_SEPARATE_RESOLVERS;
     }
-    return combineLatest([this.resolveTitle(), this.resolveBreadcrumbs()]).pipe(
-      map(([title, breadcrumbs]) => ({
-        title,
-        breadcrumbs,
-      }))
+
+    return this.cms.getCurrentPage().pipe(
+      filter(Boolean),
+      switchMap((page: Page) => {
+        // only the existence of a plp component tells us if products
+        // are rendered or if this is an ordinary content page
+        if (this.hasProductListComponent(page)) {
+          return this.productSearchService.getResults().pipe(
+            filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
+            switchMap(data =>
+              combineLatest([
+                this.resolveTitle(data),
+                this.resolveBreadcrumbLabel().pipe(
+                  switchMap(label => this.resolveBreadcrumbs(data, label))
+                ),
+              ])
+            ),
+            map(([title, breadcrumbs]) => ({ title, breadcrumbs }))
+          );
+        } else {
+          return of({
+            title: page.title || page.name,
+          });
+        }
+      })
     );
   }
 
   /**
    * @deprecated since version 1.3
-   * The `page` argument will get removed with 2.0, it is already made optional in 1.3.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveTitle(page?: ProductSearchPage): Observable<{ title: string } | any> {
     if (page) {
@@ -101,7 +129,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The arguments will get removed with 2.0. They've already made optional in 1.3.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveBreadcrumbs(
     page?: ProductSearchPage,
@@ -122,15 +150,12 @@ export class CategoryPageMetaResolver extends PageMetaResolver
         this.searchPage$.pipe(),
         this.translation.translate('common.home'),
       ]).pipe(
-        switchMap(p =>
-          (<ProductSearchPage>p).breadcrumbs
-            ? this.translation.translate('common.home').pipe(
-                map(label =>
-                  this.resolveBreadcrumbData(<ProductSearchPage>p, label)
-                ),
-                map(breadcrumbs => ({ breadcrumbs }))
+        map(([p, label]: [ProductSearchPage, string]) =>
+          p.breadcrumbs
+            ? this.resolveBreadcrumbData(<ProductSearchPage>p, label).map(
+                breadcrumbs => ({ breadcrumbs })
               )
-            : of(null)
+            : null
         )
       );
     }

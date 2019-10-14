@@ -16,6 +16,13 @@ import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
 
+/**
+ * Resolves the page data for the Product Detail Page
+ * based on the `PageType.PRODUCT_PAGE`.
+ *
+ * The page title, heading, description, breadcrumbs and
+ * first GALLERY image are resolved if available in the data.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -26,9 +33,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageImageResolver {
-  /**
-   * all resolvers need the product as an input
-   */
+  // resuable observable for product data based on the current page
   private product$ = this.routingService.getRouterState().pipe(
     map(state => state.state.params['productCode']),
     filter(code => !!code),
@@ -52,6 +57,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
    *
    * @param skip indicates that this method is not used. While this flag is used by the
    * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
+   * This is a temporaty solution to stay backwards compatible during release 1.x.
    *
    * @deprecated since version 1.3
    */
@@ -85,7 +91,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The `product` argument will be removed with 2.0. The argument is optional since 1.3.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveHeading(product?: Product): Observable<{ heading: string } | any> {
     if (product) {
@@ -106,8 +112,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The `product` argument will be removed with 2.0. The argument is optional since 1.3.
-   * The return type will change to `{title: string}`.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveTitle(product?: Product): Observable<{ title: string } | any> {
     if (product) {
@@ -134,7 +139,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The `product` argument will be removed with 2.0. The argument is optional since 1.3.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveDescription(
     product?: Product
@@ -160,15 +165,15 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * This method will removed with with 2.0
+   * This method will be removed with with 2.0
    */
   resolveBreadcrumbLabel(): Observable<string> {
     return this.translation.translate('common.home');
   }
 
   /**
-   * @deprecated
-   * since version 1.3. The arguments will get removed with 2.0.
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveBreadcrumbs(
     product?: Product,
@@ -206,13 +211,8 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   /**
-   *
-   * @param product
-   *
    * @deprecated since version 1.3
-   *
-   * In version 2.0, the resolveImage will not have arguments anymore
-   * and the responsetype includes the property, `{image: string}`.
+   * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveImage(product?: Product): Observable<{ image: string } | any> {
     if (product) {
