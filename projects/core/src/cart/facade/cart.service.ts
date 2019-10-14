@@ -15,13 +15,8 @@ import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
-import {
-  getProcessErrorFactory,
-  getProcessLoadingFactory,
-  getProcessSuccessFactory,
-} from '../../process/store/selectors/process.selectors';
 import { CartActions } from '../store/actions/index';
-import { ADD_VOUCHER_PROCESS_ID, StateWithCart } from '../store/cart-state';
+import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 import { CartDataService } from './cart-data.service';
 
@@ -314,37 +309,5 @@ export class CartService {
         voucherId: voucherId,
       })
     );
-  }
-
-  removeVoucher(voucherId: string): void {
-    this.store.dispatch(
-      new CartActions.CartRemoveVoucher({
-        userId: this.cartData.userId,
-        cartId: this.cartData.cartId,
-        voucherId: voucherId,
-      })
-    );
-  }
-
-  getAddVoucherResultError(): Observable<boolean> {
-    return this.store.pipe(
-      select(getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID))
-    );
-  }
-
-  getAddVoucherResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
-      select(getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
-    );
-  }
-
-  getAddVoucherResultLoading(): Observable<boolean> {
-    return this.store.pipe(
-      select(getProcessLoadingFactory(ADD_VOUCHER_PROCESS_ID))
-    );
-  }
-
-  resetAddVoucherProcessingState(): void {
-    this.store.dispatch(new CartActions.CartResetAddVoucher());
   }
 }
