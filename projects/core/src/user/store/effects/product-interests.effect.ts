@@ -51,7 +51,9 @@ export class ProductInterestsEffect {
         .removeInterest(payload.userId, payload.item)
         .pipe(
           switchMap(data => [
-            new UserActions.LoadProductInterests({ userId: payload.userId }),
+            new UserActions.LoadProductInterests(payload.singleDelete ? {userId: payload.userId,
+            productCode: payload.item.product.code,
+            notificationType: payload.item.productInterestEntry[0].interestType}:{ userId: payload.userId }),
             new UserActions.RemoveProductInterestSuccess(data),
           ]),
           catchError(error =>

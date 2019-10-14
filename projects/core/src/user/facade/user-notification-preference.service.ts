@@ -26,6 +26,13 @@ export class UserNotificationPreferenceService {
   }
 
   /**
+   * Returns all enabled notification preferences.
+   */
+  getEnabledPreferences(): Observable<NotificationPreference[]> {
+    return this.store.pipe(select(UsersSelectors.getEnabledPreferences));
+  }
+
+  /**
    * Loads all notification preferences.
    */
   loadPreferences(): void {

@@ -76,6 +76,7 @@ export class RemoveProductInterest extends EntityLoadAction {
     public payload: {
       userId: string;
       item: ProductInterestEntryRelation;
+      singleDelete?: boolean;
     }
   ) {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID);

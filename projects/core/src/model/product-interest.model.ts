@@ -2,7 +2,7 @@ import { Product } from './product.model';
 import { Pagination, Sort } from './unused.model';
 
 export interface ProductInterestEntry {
-  interestType?: string;
+  interestType?: NotificationType;
   dateAdded?: string;
   expirationDate?: string;
 }

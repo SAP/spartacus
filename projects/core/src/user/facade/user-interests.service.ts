@@ -92,12 +92,14 @@ export class UserInterestsService {
   /**
    * Removes a ProductInterestRelation
    * @param item product interest relation item
+   * @param singleDelete flag to delete only one interest
    */
-  removeProdutInterest(item: ProductInterestEntryRelation): void {
+  removeProdutInterest(item: ProductInterestEntryRelation, singleDelete?: boolean): void {
     this.store.dispatch(
       new UserActions.RemoveProductInterest({
         userId: OCC_USER_ID_CURRENT,
         item: item,
+        singleDelete: singleDelete
       })
     );
   }

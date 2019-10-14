@@ -113,7 +113,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
           interestType: NotificationType.BACK_IN_STOCK,
         },
       ],
-    });
+    }, true);
   }
 
   private openDialog() {
@@ -139,20 +139,14 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
 
   private hasEnabledPrefs(): void {
     this.notificationPrefService.loadPreferences();
-    this.prefsEnabled$ = this.notificationPrefService.getPreferences().pipe(
-      map(prefs => {
-        this.enabledPrefs.splice(0, this.enabledPrefs.length);
-        prefs.forEach(pref => {
-          if (pref.enabled) {
-            this.enabledPrefs.push(pref);
-          }
-        });
-        return this.enabledPrefs.length > 0;
-      })
+    this.prefsEnabled$ = this.notificationPrefService.getEnabledPreferences().pipe(
+      tap(prefs =>this.enabledPrefs = prefs),
+      map(prefs => prefs.length > 0)
     );
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.interestsService.clearProductInterests();
   }
 }

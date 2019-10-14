@@ -1,9 +1,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { NotificationPreference } from 'projects/core/src/model';
-import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
+import { loaderValueSelector, loaderLoadingSelector } from '../../../state/utils/loader/loader.selectors';
 
 export const getPreferencesLoaderState: MemoizedSelector<
   StateWithUser,
@@ -19,7 +19,16 @@ export const getPreferences: MemoizedSelector<
 > = createSelector(
   getPreferencesLoaderState,
   (state: LoaderState<NotificationPreference[]>) =>
-    StateLoaderSelectors.loaderValueSelector(state)
+    loaderValueSelector(state)
+);
+
+export const getEnabledPreferences: MemoizedSelector<
+  StateWithUser,
+  NotificationPreference[]
+> = createSelector(
+  getPreferencesLoaderState,
+  (state: LoaderState<NotificationPreference[]>) =>
+    loaderValueSelector(state).filter(p => p.enabled)
 );
 
 export const getPreferencesLoading: MemoizedSelector<
@@ -28,5 +37,5 @@ export const getPreferencesLoading: MemoizedSelector<
 > = createSelector(
   getPreferencesLoaderState,
   (state: LoaderState<NotificationPreference[]>) =>
-    StateLoaderSelectors.loaderLoadingSelector(state)
+    loaderLoadingSelector(state)
 );
