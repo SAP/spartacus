@@ -16,6 +16,7 @@ import {
   ImageType,
   UserInterestsService,
   ProductInterestEntryRelation,
+  NotificationType,
 } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
@@ -100,7 +101,7 @@ const mockedInterests: ProductInterestSearchResult = {
       productInterestEntry: [
         {
           dateAdded: new Date().toString(),
-          interestType: 'BACK_IN_STOCK',
+          interestType: NotificationType.BACK_IN_STOCK,
         },
       ],
     },
@@ -145,7 +146,7 @@ const mockedInterests: ProductInterestSearchResult = {
       productInterestEntry: [
         {
           dateAdded: new Date().toString(),
-          interestType: 'BACK_IN_STOCK',
+          interestType: NotificationType.BACK_IN_STOCK,
         },
       ],
     },

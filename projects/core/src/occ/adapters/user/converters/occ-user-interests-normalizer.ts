@@ -20,7 +20,6 @@ export class OccUserInterestsNormalizer
     if (target === undefined) {
       target = { ...(source as any) };
     }
-    console.log(123);
     if (source && source.results) {
       target.results = source.results.map(result => ({
         ...result,
