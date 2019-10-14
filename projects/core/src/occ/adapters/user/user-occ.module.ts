@@ -13,10 +13,13 @@ import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
-import { UserNotificationPreferenceAdapter } from 'projects/core/src/user/connectors/notification-preference/user-notification-preference.adapter';
+import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference/user-notification-preference.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
+import { OccUserInterestsNormalizer } from './converters/occ-user-interests-normalizer';
+import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -37,6 +40,11 @@ import { UserInterestsAdapter } from '../../../user/connectors/interests/user-in
       useClass: OccUserNotificationPreferenceAdapter,
     },
     { provide: UserInterestsAdapter, useClass: OccUserInterestsAdapter },
+    {
+      provide: PRODUCT_INTERESTS_NORMALIZER,
+      useClass: OccUserInterestsNormalizer,
+      multi: true,
+    },
   ],
 })
 export class UserOccModule {}
