@@ -80,7 +80,7 @@ export class PageMetaService {
         map(
           // TODO: in 2.0 we'll do:
           // const result = Object.assign({}, ...data);
-          (data: any[]) => this.resolveWhileWereIn1x(data)
+          (data: any[]) => this.resolveFor1x(data)
         )
       );
     }
@@ -90,7 +90,7 @@ export class PageMetaService {
    * During release 1.x, we cannot simply return all assigned data
    * since some (custom) data streams still respond string values
    */
-  private resolveWhileWereIn1x(data: any[]): {} {
+  private resolveFor1x(data: any[]): {} {
     const result = {};
     data.forEach((d, index) => {
       if (typeof d === 'string') {

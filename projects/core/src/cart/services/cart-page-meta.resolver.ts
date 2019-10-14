@@ -20,13 +20,6 @@ import { PageType } from '../../model/cms.model';
 })
 export class CartPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  /**
-   * Backwards compatibility is quarenteed with this flag during
-   * the 1.x releases. Customers who have extended this resolver
-   * can keep relying on the `resolve()` class.
-   */
-  version_1_only = true;
-
   cms$: Observable<Page> = this.cms
     .getCurrentPage()
     .pipe(filter(page => !!page));
@@ -45,7 +38,7 @@ export class CartPageMetaResolver extends PageMetaResolver
    * instead, so that the code is easier extensible.
    *
    * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not ysed by custom subclasses when they call their `super`.
+   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
    *
    * @deprecated since version 1.3
    */
@@ -64,19 +57,21 @@ export class CartPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated since version 1.3
-   * The `page` argument will be removed with 2.0. The argument is optional since 1.3.
+   * The `page` argument will be removed with 2.0, the argument is optional since 1.3.
    */
-  resolveTitle(_page: Page): Observable<{ title: string } | string> {
-    return this.cms$.pipe(
-      map(page => (_page ? page.title : { title: page.title }))
-    );
+  resolveTitle(page?: Page): Observable<{ title: string } | any> {
+    if (page) {
+      return of(page.title);
+    } else {
+      return this.cms$.pipe(map(p => ({ title: p.title })));
+    }
   }
 
   /**
    * @deprecated since version 1.3
    * The response will change with version 2 to `Observable<{ robots: PageRobotsMeta[] }>`.
    */
-  resolveRobots(): Observable<{ robots: PageRobotsMeta[] } | PageRobotsMeta[]> {
+  resolveRobots(): Observable<{ robots: PageRobotsMeta[] } | any> {
     const robots: PageRobotsMeta[] = [
       PageRobotsMeta.NOFOLLOW,
       PageRobotsMeta.NOINDEX,

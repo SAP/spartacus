@@ -2,8 +2,8 @@ import { Injectable, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
-import { Page, PageMeta } from '../model/page.model';
-import { PageMetaResolver } from '../page';
+import { Page, PageMeta, USE_SEPARATE_RESOLVERS } from '../model/page.model';
+import { PageMetaResolver, PageTitleResolver } from '../page';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
 
@@ -15,6 +15,12 @@ const mockPage: Page = {
 const anotherMockPage: Page = {
   type: PageType.CONTENT_PAGE,
   template: 'template',
+  slots: {},
+};
+
+const NewMockPage: Page = {
+  type: PageType.CONTENT_PAGE,
+  template: 'template-new',
   slots: {},
 };
 
@@ -55,6 +61,32 @@ class AnotherPageResolver extends PageMetaResolver {
   }
 }
 
+@Injectable({
+  providedIn: 'root',
+})
+class NewPageResolver extends PageMetaResolver implements PageTitleResolver {
+  constructor(protected cms: CmsService) {
+    super();
+    this.pageType = PageType.CONTENT_PAGE;
+    this.pageTemplate = 'template-new';
+  }
+
+  resolve(fallback: boolean): Observable<PageMeta> | any {
+    if (fallback) {
+      return USE_SEPARATE_RESOLVERS;
+    }
+    return of({
+      title: 'new title resolved by resolve()',
+    });
+  }
+
+  resolveTitle(): Observable<{ title: string }> {
+    return of({
+      title: 'new title resolved by resolveTitle',
+    });
+  }
+}
+
 describe('PageTitleService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
@@ -76,6 +108,11 @@ describe('PageTitleService', () => {
           useExisting: AnotherPageResolver,
           multi: true,
         },
+        {
+          provide: PageMetaResolver,
+          useExisting: NewPageResolver,
+          multi: true,
+        },
       ],
     });
 
@@ -83,46 +120,48 @@ describe('PageTitleService', () => {
     cmsService = TestBed.get(CmsService as Type<CmsService>);
   });
 
-  describe('ContentPage', () => {
-    beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockPage));
-    });
+  it('PageTitleService should be created', inject(
+    [PageMetaService],
+    (pageTitleService: PageMetaService) => {
+      expect(pageTitleService).toBeTruthy();
+    }
+  ));
 
-    it('PageTitleService should be created', inject(
-      [PageMetaService],
-      (pageTitleService: PageMetaService) => {
-        expect(pageTitleService).toBeTruthy();
-      }
-    ));
+  it('should resolve content page title', () => {
+    let result: PageMeta;
+    service
+      .getMeta()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
 
-    it('should resolve content page title', () => {
-      let result: PageMeta;
-      service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.title).toEqual('content page title');
-    });
+    expect(result.title).toEqual('content page title');
   });
 
-  describe('Special ContentPage', () => {
-    beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(anotherMockPage));
-    });
+  it('should resolve special page title', () => {
+    spyOn(cmsService, 'getCurrentPage').and.returnValue(of(anotherMockPage));
+    let result: PageMeta;
+    service
+      .getMeta()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
 
-    it('should resolve special page title', () => {
-      let result: PageMeta;
-      service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
+    expect(result.title).toEqual('special page title');
+  });
 
-      expect(result.title).toEqual('special page title');
-    });
+  it('should resolve page title using resolveTitle()', () => {
+    spyOn(cmsService, 'getCurrentPage').and.returnValue(of(NewMockPage));
+    let result: PageMeta;
+    service
+      .getMeta()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result.title).toEqual('new title resolved by resolveTitle');
   });
 });

@@ -49,7 +49,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
       this.skipResolver = true;
       return USE_SEPARATE_RESOLVERS;
     }
-    return this.cartService.getActive().pipe(
+    return this.cart$.pipe(
       switchMap(cart =>
         combineLatest([this.resolveTitle(cart), this.resolveRobots()])
       ),
@@ -61,25 +61,28 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
    * @deprecated since version 1.3
    * The `cart` argument will be removed with 2.0. The argument is optional since 1.3.
    */
-  resolveTitle(_cart: Cart): Observable<{ title: string } | string> {
-    return this.cart$.pipe(
-      switchMap(cart =>
-        this.translation.translate('pageMetaResolver.checkout.title', {
-          count: cart.totalItems,
-        })
-      ),
-      map(title => {
-        // in the 1.x release we keep supporting the existing return value
-        return _cart ? title : { title };
-      })
-    );
+  resolveTitle(cart?: Cart): Observable<{ title: string } | any> {
+    if (cart) {
+      return this.translation.translate('pageMetaResolver.checkout.title', {
+        count: cart.totalItems,
+      });
+    } else {
+      return this.cart$.pipe(
+        switchMap(c =>
+          this.translation.translate('pageMetaResolver.checkout.title', {
+            count: c.totalItems,
+          })
+        ),
+        map(title => ({ title }))
+      );
+    }
   }
 
   /**
    * @deprecated since version 1.3
    * The response will change with version 2 to `Observable<{ robots: PageRobotsMeta[] }>`.
    */
-  resolveRobots(): Observable<{ robots: PageRobotsMeta[] } | PageRobotsMeta[]> {
+  resolveRobots(): Observable<{ robots: PageRobotsMeta[] } | any> {
     const robots: PageRobotsMeta[] = [
       PageRobotsMeta.NOFOLLOW,
       PageRobotsMeta.NOINDEX,

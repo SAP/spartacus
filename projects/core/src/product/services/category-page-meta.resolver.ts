@@ -23,13 +23,6 @@ import { ProductSearchService } from '../facade/product-search.service';
 })
 export class CategoryPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  /**
-   * Backwards compatibility is quarenteed with this flag during
-   * the 1.x releases. Customers who have extended this resolver
-   * can keep relying on the `resolve()` class.
-   */
-  version_1_only = true;
-
   private searchPage$: Observable<
     ProductSearchPage | Page
   > = this.cms.getCurrentPage().pipe(
@@ -75,18 +68,27 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(_data?: ProductSearchPage): Observable<string> {
-    return this.searchPage$.pipe(
-      switchMap(page =>
-        !!(<ProductSearchPage>page).pagination &&
-        !!(<ProductSearchPage>page).breadcrumbs
-          ? this.translation.translate('pageMetaResolver.category.title', {
-              count: (<ProductSearchPage>page).pagination.totalResults,
-              query: (<ProductSearchPage>page).breadcrumbs[0].facetValueName,
-            })
-          : of((<Page>page).title)
-      )
-    );
+  /**
+   * @deprecated since version 1.3
+   * The `page` argument will get removed with 2.0, it is already made optional in 1.3.
+   */
+  resolveTitle(page?: ProductSearchPage): Observable<{ title: string } | any> {
+    if (page) {
+      return this.translation.translate('pageMetaResolver.category.title', {
+        count: (<ProductSearchPage>page).pagination.totalResults,
+        query: (<ProductSearchPage>page).breadcrumbs[0].facetValueName,
+      });
+    } else {
+      return this.searchPage$.pipe(
+        switchMap(p =>
+          this.translation.translate('pageMetaResolver.category.title', {
+            count: (<ProductSearchPage>p).pagination.totalResults,
+            query: (<ProductSearchPage>p).breadcrumbs[0].facetValueName,
+          })
+        ),
+        map(label => ({ title: label }))
+      );
+    }
   }
 
   /**
@@ -100,29 +102,38 @@ export class CategoryPageMetaResolver extends PageMetaResolver
   /**
    * @deprecated since version 1.3
    * The arguments will get removed with 2.0. They've already made optional in 1.3.
-   * The `product` and `breadcrumbLabel` argument will be removed with 2.0. They've already
-   * become optional in 1.2.
    */
   resolveBreadcrumbs(
-    _data?: ProductSearchPage,
-    _breadcrumbLabel?: string
-  ): Observable<any[]> {
-    return combineLatest([
-      this.searchPage$.pipe(),
-      this.translation.translate('common.home'),
-    ]).pipe(
-      switchMap(page =>
-        !!(<ProductSearchPage>page).breadcrumbs
-          ? this.translation
-              .translate('common.home')
-              .pipe(
-                map(label =>
-                  this.resolveBreadcrumbData(<ProductSearchPage>page, label)
-                )
+    page?: ProductSearchPage,
+    breadcrumbLabel?: string
+  ): Observable<any[] | any> {
+    if (page && breadcrumbLabel) {
+      return page.breadcrumbs
+        ? this.translation
+            .translate('common.home')
+            .pipe(
+              map(label =>
+                this.resolveBreadcrumbData(<ProductSearchPage>page, label)
               )
-          : of(null)
-      )
-    );
+            )
+        : of(null);
+    } else {
+      return combineLatest([
+        this.searchPage$.pipe(),
+        this.translation.translate('common.home'),
+      ]).pipe(
+        switchMap(p =>
+          (<ProductSearchPage>p).breadcrumbs
+            ? this.translation.translate('common.home').pipe(
+                map(label =>
+                  this.resolveBreadcrumbData(<ProductSearchPage>p, label)
+                ),
+                map(breadcrumbs => ({ breadcrumbs }))
+              )
+            : of(null)
+        )
+      );
+    }
   }
 
   private resolveBreadcrumbData(page: ProductSearchPage, label: string): any[] {

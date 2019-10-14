@@ -51,7 +51,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * instead, so that the code is easier extensible.
    *
    * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not ysed by custom subclasses when they call their `super`.
+   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
    *
    * @deprecated since version 1.3
    */
@@ -87,39 +87,49 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * @deprecated since version 1.3
    * The `product` argument will be removed with 2.0. The argument is optional since 1.3.
    */
-  resolveHeading(_product?: Product): Observable<{ heading: string } | string> {
-    return this.product$.pipe(
-      switchMap((product: Product) =>
-        this.translation.translate('pageMetaResolver.product.heading', {
-          heading: product.name,
-        })
-      ),
-      map(heading => {
-        // in the 1.x release we keep supporting the existing return value
-        return _product ? heading : { heading };
-      })
-    );
+  resolveHeading(product?: Product): Observable<{ heading: string } | any> {
+    if (product) {
+      return this.translation.translate('pageMetaResolver.product.heading', {
+        heading: product.name,
+      });
+    } else {
+      return this.product$.pipe(
+        switchMap((p: Product) =>
+          this.translation.translate('pageMetaResolver.product.heading', {
+            heading: p.name,
+          })
+        ),
+        map(heading => ({ heading }))
+      );
+    }
   }
 
   /**
    * @deprecated since version 1.3
    * The `product` argument will be removed with 2.0. The argument is optional since 1.3.
+   * The return type will change to `{title: string}`.
    */
-  resolveTitle(_product?: Product): Observable<{ title: string } | string> {
-    return this.product$.pipe(
-      switchMap((p: Product) => {
-        let title = p.name;
-        title += this.resolveFirstCategory(p);
-        title += this.resolveManufacturer(p);
-        return this.translation.translate('pageMetaResolver.product.title', {
-          title: title,
-        });
-      }),
-      map(title => {
-        // in the 1.x release we keep supporting the existing return value
-        return _product ? title : { title };
-      })
-    );
+  resolveTitle(product?: Product): Observable<{ title: string } | any> {
+    if (product) {
+      let title = product.name;
+      title += this.resolveFirstCategory(product);
+      title += this.resolveManufacturer(product);
+      return this.translation.translate('pageMetaResolver.product.title', {
+        title: title,
+      });
+    } else {
+      return this.product$.pipe(
+        switchMap((p: Product) => {
+          let title = p.name;
+          title += this.resolveFirstCategory(p);
+          title += this.resolveManufacturer(p);
+          return this.translation.translate('pageMetaResolver.product.title', {
+            title: title,
+          });
+        }),
+        map(title => ({ title }))
+      );
+    }
   }
 
   /**
@@ -127,19 +137,25 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * The `product` argument will be removed with 2.0. The argument is optional since 1.3.
    */
   resolveDescription(
-    _product?: Product
-  ): Observable<{ description: string } | string> {
-    return this.product$.pipe(
-      switchMap((product: Product) =>
-        this.translation.translate('pageMetaResolver.product.description', {
+    product?: Product
+  ): Observable<{ description: string } | any> {
+    if (product) {
+      return this.translation.translate(
+        'pageMetaResolver.product.description',
+        {
           description: product.summary,
-        })
-      ),
-      map(description => {
-        // in the 1.x release we keep supporting the existing return value
-        return _product ? description : { description: description };
-      })
-    );
+        }
+      );
+    } else {
+      return this.product$.pipe(
+        switchMap((p: Product) =>
+          this.translation.translate('pageMetaResolver.product.description', {
+            description: p.summary,
+          })
+        ),
+        map(description => ({ description }))
+      );
+    }
   }
 
   /**
@@ -152,34 +168,41 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   /**
    * @deprecated
-   * since version 1.3. The arguments will get removed with 2.0. They've already made optional in 1.3.
-   * The `product` and `breadcrumbLabel` argument will be removed with 2.0. They've already
-   * become optional in 1.2.
+   * since version 1.3. The arguments will get removed with 2.0.
    */
   resolveBreadcrumbs(
-    _product?: Product,
-    _breadcrumbLabel?: string
-  ): Observable<{ breadcrumbs: any[] } | any[]> {
-    return combineLatest([
-      this.product$.pipe(),
-      this.translation.translate('common.home'),
-    ]).pipe(
-      map(([p, label]: [Product, string]) => {
-        const breadcrumbs = [];
-        breadcrumbs.push({ label: label, link: '/' });
-        for (const { name, code, url } of p.categories) {
-          breadcrumbs.push({
-            label: name || code,
-            link: url,
-          });
-        }
-        return breadcrumbs;
-      }),
-      map(breadcrumbs => {
-        // in the 1.x release we keep supporting the existing return value
-        return _product ? breadcrumbs : { breadcrumbs: breadcrumbs };
-      })
-    );
+    product?: Product,
+    breadcrumbLabel?: string
+  ): Observable<{ breadcrumbs: any[] } | any> {
+    if (product && breadcrumbLabel) {
+      const breadcrumbs = [];
+      breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
+      for (const { name, code, url } of product.categories) {
+        breadcrumbs.push({
+          label: name || code,
+          link: url,
+        });
+      }
+      return of(breadcrumbs);
+    } else {
+      return combineLatest([
+        this.product$.pipe(),
+        this.translation.translate('common.home'),
+      ]).pipe(
+        map(([p, label]: [Product, string]) => {
+          const breadcrumbs = [];
+          breadcrumbs.push({ label: label, link: '/' });
+          for (const { name, code, url } of p.categories) {
+            breadcrumbs.push({
+              label: name || code,
+              link: url,
+            });
+          }
+          return breadcrumbs;
+        }),
+        map(breadcrumbs => ({ breadcrumbs: breadcrumbs }))
+      );
+    }
   }
 
   /**
@@ -191,7 +214,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * In version 2.0, the resolveImage will not have arguments anymore
    * and the responsetype includes the property, `{image: string}`.
    */
-  resolveImage(product?: Product): Observable<any> {
+  resolveImage(product?: Product): Observable<{ image: string } | any> {
     if (product) {
       return of(this.getPrimaryImage(product));
     } else {
