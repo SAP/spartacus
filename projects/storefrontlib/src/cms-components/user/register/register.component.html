@@ -146,23 +146,37 @@
             </label>
           </div>
 
-          <div
-            class="form-group"
-            *ngIf="anonymousConsent$ | async as anonymousConsent"
-          >
+          <div class="form-group">
             <div class="form-check">
-              <label>
-                <input
-                  type="checkbox"
-                  name="newsletter"
-                  class="form-check-input"
-                  formControlName="newsletter"
-                  [checked]="isConsentGiven(anonymousConsent.consent)"
-                />
-                <span class="form-check-label">
-                  {{ anonymousConsent.template }}
-                </span>
-              </label>
+              <ng-container
+                *ngIf="isAnonymousConsentEnabled; else deprecatedNewsletter"
+              >
+                <label *ngIf="anonymousConsent$ | async as anonymousConsent">
+                  <input
+                    type="checkbox"
+                    name="newsletter"
+                    class="form-check-input"
+                    formControlName="newsletter"
+                    [checked]="isConsentGiven(anonymousConsent.consent)"
+                  />
+                  <span class="form-check-label">
+                    {{ anonymousConsent.template }}
+                  </span>
+                </label>
+              </ng-container>
+              <ng-template #deprecatedNewsletter
+                ><label>
+                  <input
+                    type="checkbox"
+                    name="newsletter"
+                    class="form-check-input"
+                    formControlName="newsletter"
+                  />
+                  <span class="form-check-label">
+                    {{ 'register.emailMarketing' | cxTranslate }}
+                  </span>
+                </label>
+              </ng-template>
             </div>
           </div>
 

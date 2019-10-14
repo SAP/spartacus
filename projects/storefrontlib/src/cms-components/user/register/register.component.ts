@@ -40,6 +40,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     template: string;
   }>;
 
+  // TODO(issue:4237) Register flow
+  isNewRegisterFlowEnabled: boolean =
+    this.featureConfig && this.featureConfig.isLevel('1.1');
+  // TODO(issue:4989) Anonymous consents
+  isAnonymousConsentEnabled =
+    this.featureConfig && this.featureConfig.isLevel('1.2');
+
   userRegistrationForm: FormGroup = this.fb.group(
     {
       titleCode: [''],
@@ -53,7 +60,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       passwordconf: ['', Validators.required],
       newsletter: new FormControl({
         value: false,
-        disabled: this.isConsentRequired(),
+        // TODO(issue:4989) Anonymous consents
+        disabled: this.isAnonymousConsentEnabled
+          ? this.isConsentRequired()
+          : false,
       }),
       termsandconditions: [false, Validators.requiredTrue],
     },
@@ -88,6 +98,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * protected anonymousConsentsConfig?: AnonymousConsentsConfig) instead
    *
    * TODO(issue:4237) Register flow
+   * TODO(issue:4989) Anonymous consents
    */
   constructor(
     auth: AuthService,
@@ -107,10 +118,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsService?: AnonymousConsentsService,
     protected anonymousConsentsConfig?: AnonymousConsentsConfig
   ) {}
-
-  // TODO(issue:4237) Register flow
-  isNewRegisterFlowEnabled: boolean =
-    this.featureConfig && this.featureConfig.isLevel('1.1');
 
   ngOnInit() {
     this.titles$ = this.userService.getTitles().pipe(
@@ -180,7 +187,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
 
     if (
-      Boolean(this.anonymousConsentsService) &&
+      this.isAnonymousConsentEnabled &&
       Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
       Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
     ) {
@@ -249,7 +256,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
+      // TODO(issue:4989) Anonymous consents
+      if (
+        this.isAnonymousConsentEnabled &&
+        Boolean(this.userRegistrationForm.get('newsletter').value)
+      ) {
         this.anonymousConsentsService.giveConsent(
           this.anonymousConsentsConfig.anonymousConsents.registerConsent
         );
