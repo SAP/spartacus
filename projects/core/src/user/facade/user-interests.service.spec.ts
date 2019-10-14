@@ -7,7 +7,10 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserInterestsService } from './user-interests.service';
 import { Type } from '@angular/core';
-import { ProductInterestSearchResult } from '../../model/product-interest.model';
+import {
+  ProductInterestSearchResult,
+  NotificationType,
+} from '../../model/product-interest.model';
 
 const emptyInterestList: ProductInterestSearchResult = {
   results: [],
@@ -85,6 +88,15 @@ describe('UserInterestsService', () => {
         item: {},
       })
     );
+
+    service.removeProdutInterest({}, true);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.RemoveProductInterest({
+        userId: 'current',
+        item: {},
+        singleDelete: true,
+      })
+    );
   });
 
   it('should be able to get removeProdutInterestLoading flag', () => {
@@ -103,6 +115,39 @@ describe('UserInterestsService', () => {
       .getRemoveProdutInterestSuccess()
       .subscribe(data => expect(data).toEqual(true))
       .unsubscribe();
+  });
+
+  it('should be able to add a product interest', () => {
+    service.addProductInterest('5514465', NotificationType.BACK_IN_STOCK);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.AddProductInterest({
+        userId: 'current',
+        productCode: '5514465',
+        notificationType: NotificationType.BACK_IN_STOCK,
+      })
+    );
+  });
+
+  it('should be able to get a product interest adding success flag', () => {
+    store.dispatch(new UserActions.AddProductInterestSuccess('success'));
+    service
+      .getAddProductInterestSuccess()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+
+  it('should be able to reset interest removing state', () => {
+    service.resetRemoveInterestState();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ResetRemoveInterestState()
+    );
+  });
+
+  it('should be able to reset interest adding state', () => {
+    service.resetAddInterestState();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ResetAddInterestState()
+    );
   });
 
   it('should be able to clear product interests', () => {

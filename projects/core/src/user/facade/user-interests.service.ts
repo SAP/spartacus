@@ -94,12 +94,15 @@ export class UserInterestsService {
    * @param item product interest relation item
    * @param singleDelete flag to delete only one interest
    */
-  removeProdutInterest(item: ProductInterestEntryRelation, singleDelete?: boolean): void {
+  removeProdutInterest(
+    item: ProductInterestEntryRelation,
+    singleDelete?: boolean
+  ): void {
     this.store.dispatch(
       new UserActions.RemoveProductInterest({
         userId: OCC_USER_ID_CURRENT,
         item: item,
-        singleDelete: singleDelete
+        singleDelete: singleDelete,
       })
     );
   }
@@ -138,15 +141,6 @@ export class UserInterestsService {
         productCode: productCode,
         notificationType: notificationType,
       })
-    );
-  }
-
-  /**
-   * Returns a loading flag for adding a product interest.
-   */
-  getAddProductInterestLoading(): Observable<boolean> {
-    return this.store.pipe(
-      select(getProcessLoadingFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
     );
   }
 
