@@ -8,9 +8,14 @@ export interface OccEndpoints {
   /**
    * Get product details
    *
-   * @member {string}
+   * @member {string | Object}
    */
-  product?: string;
+  product?: string | {
+    list?: string,
+    details?: string,
+    order?: string,
+    [scope: string]: string
+  };
   /**
    * Get reviews for a product
    *

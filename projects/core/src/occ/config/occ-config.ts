@@ -17,5 +17,12 @@ export abstract class OccConfig extends SiteContextConfig {
        */
       baseUrl?: string;
     };
+    entityScopes?: {
+      product?: {
+        [scope: string]: {
+          include?: string[]
+        }
+      }
+    }
   };
 }

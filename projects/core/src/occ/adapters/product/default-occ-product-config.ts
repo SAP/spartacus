@@ -4,8 +4,15 @@ export const defaultOccProductConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        product:
-          'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL)',
+        product: {
+          '':
+            'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL)',
+          list:
+            'products/${productCode}?fields=code,name,summary,price,images(DEFAULT,galleryIndex)',
+          details:
+            'products/${productCode}?fields=DEFAULT,images(FULL),classifications,numberOfReviews,categories(FULL),averageRating',
+          order: 'products/${productCode}?fields=price(FULL),stock(FULL)',
+        },
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
         // productReferences:
