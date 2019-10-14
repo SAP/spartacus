@@ -1,6 +1,6 @@
 import { StateLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_DATA } from '../configuration-state';
-import { ConfiguratorActions } from './index';
+import * as ConfiguratorActions from './configurator.action';
 
 describe('ConfiguratorActions', () => {
   it('should provide create action with proper type', () => {
