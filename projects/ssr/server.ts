@@ -46,9 +46,9 @@ app.get('*.*', express.static(DIST_FOLDER));
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
   OccExternalConfigLoader.loadSSR(
-    { baseUrl: occBaseUrl },
-    req.protocol + '://' + req.get('host') + req.originalUrl,
-    https
+    endpoint: { baseUrl: occBaseUrl },
+    currentUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
+    httpsClient: https
   )
     .then(config => {
       res.render('index', {

@@ -9,8 +9,7 @@ if (environment.production) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  OccExternalConfigLoader.rehydrate()
-    .catch(() => OccExternalConfigLoader.load())
+  OccExternalConfigLoader.load()
     .then(config => {
       platformBrowserDynamic([
         { provide: ExternalConfig, useValue: config },

@@ -11,37 +11,44 @@ import {
 
 export class OccExternalConfigLoader {
   /**
+   * Loads the external config from OCC.
+   *
+   * Tries to rehydrate the config first if the @param rehydrate is true (default).
+   *
+   * **CAUTION**: Run it only in browser, because it's using the native DOM and XHR.
+   */
+  static load({
+    endpoint,
+    currentUrl,
+    rehydrate,
+  }: {
+    endpoint?: OccBaseSitesEndpointOptions;
+    currentUrl?: string;
+    rehydrate?: boolean;
+  } = {}): Promise<ExternalConfig> {
+    endpoint = endpoint || {};
+    currentUrl = currentUrl || document.location.href;
+    rehydrate = rehydrate || true;
+
+    const config = rehydrate ? OccExternalConfigLoader.rehydrate() : undefined;
+    if (config) {
+      return Promise.resolve(config);
+    }
+
+    endpoint.baseUrl = endpoint.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
+
+    const thenFn = baseSites =>
+      OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+    return OccBaseSitesLoader.load(endpoint).then(thenFn);
+  }
+
+  /**
    * Rehydrates the transferred external config.
    *
    * **CAUTION**: Run it only in browser, because it's using the native DOM.
    */
-  static rehydrate(): Promise<ExternalConfig> {
-    const config = TransferData.rehydrate(
-      EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID,
-      document
-    );
-    return config
-      ? Promise.resolve(config)
-      : Promise.reject(
-          new Error('Error: Could not rehydrate OCC external config!')
-        );
-  }
-
-  /**
-   * Loads the external config from OCC.
-   *
-   * **CAUTION**: Run it only in browser, because it's using the native DOM and XHR.
-   */
-  static load(
-    endpointOptions: OccBaseSitesEndpointOptions = {},
-    currentUrl: string = document.location.href
-  ): Promise<ExternalConfig> {
-    endpointOptions.baseUrl =
-      endpointOptions.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
-
-    const thenFn = baseSites =>
-      OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
-    return OccBaseSitesLoader.load(endpointOptions).then(thenFn);
+  private static rehydrate(): ExternalConfig {
+    return TransferData.rehydrate(EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID, document);
   }
 
   /**
@@ -49,16 +56,18 @@ export class OccExternalConfigLoader {
    *
    * Run it in SSR, because it's using Node.js `https` client.
    */
-  static loadSSR(
-    endpointOptions: OccBaseSitesEndpointOptions,
-    currentUrl: string,
-    httpsClient: NodeHttpsClient
-  ): Promise<ExternalConfig> {
+  static loadSSR({
+    endpoint,
+    currentUrl,
+    httpsClient,
+  }: {
+    endpoint: OccBaseSitesEndpointOptions;
+    currentUrl: string;
+    httpsClient: NodeHttpsClient;
+  }): Promise<ExternalConfig> {
     const thenFn = baseSites => {
       return OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
     };
-    return OccBaseSitesLoader.loadSSR(endpointOptions, httpsClient).then(
-      thenFn
-    );
+    return OccBaseSitesLoader.loadSSR(endpoint, httpsClient).then(thenFn);
   }
 }

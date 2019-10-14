@@ -11,21 +11,6 @@ import {
 import { OccExternalConfigLoader } from './occ-external-config-loader';
 
 describe(`OccExternalConfigLoader`, () => {
-  describe(`rehydrate`, () => {
-    it(`should resolve promise with the rehydrated config`, async () => {
-      spyOn(TransferData, 'rehydrate').and.returnValue({ context: {} });
-      const result = await OccExternalConfigLoader.rehydrate();
-      expect(result).toEqual({ context: {} });
-    });
-
-    it(`should reject promise when cannot rehydrate the config`, async () => {
-      spyOn(TransferData, 'rehydrate').and.returnValue(undefined);
-      let rejected;
-      await OccExternalConfigLoader.rehydrate().catch(() => (rejected = true));
-      expect(rejected).toBe(true);
-    });
-  });
-
   describe(`load`, () => {
     let mockBaseSites: Occ.BaseSites;
     let mockConvertedConfig: ExternalConfig;
@@ -42,17 +27,24 @@ describe(`OccExternalConfigLoader`, () => {
       );
     });
 
+    it(`should resolve promise with the rehydrated config when it's available`, async () => {
+      debugger;
+      spyOn(TransferData, 'rehydrate').and.returnValue({});
+      const result = await OccExternalConfigLoader.load();
+      expect(result).toEqual({});
+    });
+
     it(`should load occ base sites and convert them into a config`, async () => {
-      const endpointOptions: OccBaseSitesEndpointOptions = {
+      const endpoint: OccBaseSitesEndpointOptions = {
         baseUrl: 'testOccBaseUrl',
       };
       const currentUrl = 'testCurrentUrl';
-      const result = await OccExternalConfigLoader.load(
-        endpointOptions,
-        currentUrl
-      );
+      const result = await OccExternalConfigLoader.load({
+        endpoint,
+        currentUrl,
+      });
 
-      expect(OccBaseSitesLoader.load).toHaveBeenCalledWith(endpointOptions);
+      expect(OccBaseSitesLoader.load).toHaveBeenCalledWith(endpoint);
       expect(OccBaseSites2ConfigConverter.convert).toHaveBeenCalledWith(
         mockBaseSites,
         currentUrl
@@ -64,7 +56,10 @@ describe(`OccExternalConfigLoader`, () => {
       spyOn(OccBaseUrlMetaTagUtils, 'getFromDOM').and.returnValue(
         'testOccBaseUrl'
       );
-      await OccExternalConfigLoader.load({}, 'testCurrentUrl');
+      await OccExternalConfigLoader.load({
+        endpoint: {},
+        currentUrl: 'testCurrentUrl',
+      });
       expect(OccBaseUrlMetaTagUtils.getFromDOM).toHaveBeenCalled();
       expect(OccBaseSitesLoader.load).toHaveBeenCalledWith(
         jasmine.objectContaining({ baseUrl: 'testOccBaseUrl' })
@@ -72,7 +67,9 @@ describe(`OccExternalConfigLoader`, () => {
     });
 
     it(`should use document.location.href when the current url is not given`, async () => {
-      await OccExternalConfigLoader.load({ baseUrl: 'testOccBaseUrl' });
+      await OccExternalConfigLoader.load({
+        endpoint: { baseUrl: 'testOccBaseUrl' },
+      });
       expect(OccBaseSites2ConfigConverter.convert).toHaveBeenCalledWith(
         mockBaseSites,
         document.location.href
@@ -97,19 +94,19 @@ describe(`OccExternalConfigLoader`, () => {
     });
 
     it(`should load occ base sites and convert them into a config`, async () => {
-      const endpointOptions: OccBaseSitesEndpointOptions = {
+      const endpoint: OccBaseSitesEndpointOptions = {
         baseUrl: 'testBaseUrl',
       };
       const currentUrl = 'testCurrentUrl';
       const httpsClient: NodeHttpsClient = 'testHttpsClient' as any;
-      const result = await OccExternalConfigLoader.loadSSR(
-        endpointOptions,
+      const result = await OccExternalConfigLoader.loadSSR({
+        endpoint,
         currentUrl,
-        httpsClient
-      );
+        httpsClient,
+      });
 
       expect(OccBaseSitesLoader.loadSSR).toHaveBeenCalledWith(
-        endpointOptions,
+        endpoint,
         httpsClient
       );
       expect(OccBaseSites2ConfigConverter.convert).toHaveBeenCalledWith(
