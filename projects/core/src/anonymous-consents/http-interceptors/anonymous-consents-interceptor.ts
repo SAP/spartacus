@@ -30,6 +30,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    // TODO(issue:4989) Anonymous consents - remove `iif()`, `condition` parameter and the `falseResult` parameter of it
     return iif(
       () => isFeatureLevel(this.config, '1.2'),
       this.anonymousConsentsService.getConsents().pipe(

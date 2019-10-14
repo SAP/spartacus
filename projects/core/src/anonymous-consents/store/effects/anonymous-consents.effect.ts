@@ -28,6 +28,7 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.LoadAnonymousConsentTemplates
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE, AuthActions.LOGOUT),
+    // TODO(issue:4989) Anonymous consents
     filter(_ => isFeatureLevel(this.anonymousConsentsConfig, '1.2')),
     withLatestFrom(this.authService.isUserLoggedIn()),
     filter(([_, isUserLoggedIn]) => !isUserLoggedIn),
@@ -39,6 +40,7 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
+    // TODO(issue:4989) Anonymous consents
     filter(_ => isFeatureLevel(this.anonymousConsentsConfig, '1.2')),
     concatMap(_ =>
       this.anonymousConsentTemplatesConnector
@@ -86,6 +88,7 @@ export class AnonymousConsentsEffects {
     ),
     filter(
       () =>
+        // TODO(issue:4989) Anonymous consents
         isFeatureLevel(this.anonymousConsentsConfig, '1.2') &&
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
         Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
@@ -149,6 +152,7 @@ export class AnonymousConsentsEffects {
     ),
     filter(
       action =>
+        // TODO(issue:4989) Anonymous consents
         isFeatureLevel(this.anonymousConsentsConfig, '1.2') &&
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
         Boolean(
