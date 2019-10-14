@@ -1,11 +1,11 @@
 <div class="quantity" *ngIf="productCode && showQuantity">
   <label>{{ 'addToCart.quantity' | cxTranslate }}</label>
   <cx-item-counter
-    [value]="quantity"
+    *ngIf="hasStock"
     isValueChangeable="true"
+    [value]="quantity"
     [min]="1"
     [max]="maxQuantity"
-    *ngIf="hasStock"
     (update)="updateCount($event)"
   ></cx-item-counter>
   <span class="info">{{

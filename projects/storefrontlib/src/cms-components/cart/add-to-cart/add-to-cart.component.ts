@@ -103,6 +103,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
+
     // check item is already present in the cart
     // so modal will have proper header text displayed
     this.cartService
