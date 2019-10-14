@@ -13,12 +13,11 @@ export class OccConfiguratorVariantSerializer
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration
   ): OccConfigurator.Configuration {
-    if (target === undefined) {
-      target = { ...(source as any) };
-    }
-    target.complete = source.complete;
-    target.groups = [];
-
+    target = {
+      configId: source.configId,
+      complete: source.complete,
+      groups: [],
+    };
     this.convertGroup(source, target.groups);
 
     return target;

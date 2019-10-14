@@ -13,11 +13,11 @@ export class OccConfiguratorVariantNormalizer
     source: OccConfigurator.Configuration,
     target?: Configurator.Configuration
   ): Configurator.Configuration {
-    if (target === undefined) {
-      target = { ...(source as any) };
-    }
-    target.complete = source.complete;
-    target.attributes = [];
+    target = {
+      configId: source.configId,
+      complete: source.complete,
+      attributes: [],
+    };
 
     source.groups.forEach(group => this.convertGroup(group, target.attributes));
     return target;
