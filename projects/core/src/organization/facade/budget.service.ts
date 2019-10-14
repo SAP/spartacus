@@ -15,6 +15,7 @@ import {
 import { BudgetActions } from '../store/actions/index';
 import {
   getBudgetsState,
+  getBudgetValueState,
   getBudgetState,
 } from '../store/selectors/budget.selector';
 
@@ -47,7 +48,11 @@ export class BudgetService {
     return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
   }
 
-  getBudget(budgetCode: string) {
+  getBudgetValue(budgetCode: string) {
+    return this.store.select(getBudgetValueState(budgetCode));
+  }
+
+  getBudgetState(budgetCode: string) {
     return this.store.select(getBudgetState(budgetCode));
   }
 
@@ -72,6 +77,21 @@ export class BudgetService {
           process.success || process.error
       ),
       map(([, budgets]: [LoaderState<void>, LoaderState<Budget>]) => budgets)
+      // shareReplay({ bufferSize: 1, refCount: true })
+    );
+  }
+
+  loadAndGetBudget(budgetCode: string) {
+    return this.getBudgetState(budgetCode).pipe(
+      filter(state => state && !state.loading),
+      tap(state => {
+        if (!state.success) {
+          this.loadBudget(budgetCode);
+        }
+      }),
+      filter(state => state.success || state.error),
+      map(state => state.value)
+      // shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 }
