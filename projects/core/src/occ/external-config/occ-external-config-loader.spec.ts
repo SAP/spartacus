@@ -28,7 +28,6 @@ describe(`OccExternalConfigLoader`, () => {
     });
 
     it(`should resolve promise with the rehydrated config when it's available`, async () => {
-      debugger;
       spyOn(TransferData, 'rehydrate').and.returnValue({});
       const result = await OccExternalConfigLoader.load();
       expect(result).toEqual({});
