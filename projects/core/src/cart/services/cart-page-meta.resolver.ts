@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
-import { Page, PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
+import {
+  Page,
+  PageMeta,
+  PageRobotsMeta,
+  USE_SEPARATE_RESOLVERS,
+} from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageRobotsResolver,
@@ -15,27 +20,67 @@ import { PageType } from '../../model/cms.model';
 })
 export class CartPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
+  /**
+   * Backwards compatibility is quarenteed with this flag during
+   * the 1.x releases. Customers who have extended this resolver
+   * can keep relying on the `resolve()` class.
+   */
+  version_1_only = true;
+
+  cms$: Observable<Page> = this.cms
+    .getCurrentPage()
+    .pipe(filter(page => !!page));
+
+  skipResolver: boolean;
+
   constructor(protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'CartPageTemplate';
   }
 
-  resolve(): Observable<PageMeta> {
-    return this.cms.getCurrentPage().pipe(
-      filter(page => page !== undefined),
+  /**
+   * The resolve method is no longer preferred and will be removed with release 2.0.
+   * The caller `PageMetaService` service is improved to expect all individual resolvers
+   * instead, so that the code is easier extensible.
+   *
+   * @param skip indicates that this method is not used. While this flag is used by the
+   * calling `PageMetaService`, it is not ysed by custom subclasses when they call their `super`.
+   *
+   * @deprecated since version 1.3
+   */
+  resolve(skip?: boolean): Observable<PageMeta> | any {
+    if (skip) {
+      this.skipResolver = true;
+      return USE_SEPARATE_RESOLVERS;
+    }
+    return this.cms$.pipe(
       switchMap(page =>
         combineLatest([this.resolveTitle(page), this.resolveRobots()])
       ),
-      map(([title, robots]) => ({ title, robots }))
+      map(([title, robots]: [string, any[]]) => ({ title, robots }))
     );
   }
 
-  resolveTitle(page: Page): Observable<string> {
-    return of(page.title);
+  /**
+   * @deprecated since version 1.3
+   * The `page` argument will be removed with 2.0. The argument is optional since 1.3.
+   */
+  resolveTitle(_page: Page): Observable<{ title: string } | string> {
+    return this.cms$.pipe(
+      map(page => (_page ? page.title : { title: page.title }))
+    );
   }
 
-  resolveRobots(): Observable<PageRobotsMeta[]> {
-    return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
+  /**
+   * @deprecated since version 1.3
+   * The response will change with version 2 to `Observable<{ robots: PageRobotsMeta[] }>`.
+   */
+  resolveRobots(): Observable<{ robots: PageRobotsMeta[] } | PageRobotsMeta[]> {
+    const robots: PageRobotsMeta[] = [
+      PageRobotsMeta.NOFOLLOW,
+      PageRobotsMeta.NOINDEX,
+    ];
+    return !this.skipResolver ? of(robots) : of({ robots: robots });
   }
 }
