@@ -60,6 +60,12 @@ export interface PageMeta {
   breadcrumbs?: BreadcrumbMeta[];
 }
 
+/**
+ * @deprecated since 1.3
+ */
+export const USE_SEPARATE_RESOLVERS =
+  'the overarching resolve method will no longer be used';
+
 export interface BreadcrumbMeta {
   label: string;
   link: string;

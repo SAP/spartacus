@@ -5,7 +5,7 @@ import { PageRobotsMeta } from '../model/page.model';
  * Resolves the page heading which is used in the UI.
  */
 export interface PageHeadingResolver {
-  resolveHeading(...args): Observable<string>;
+  resolveHeading(...args): Observable<{ heading: string } | string>;
 }
 
 /**
@@ -14,7 +14,7 @@ export interface PageHeadingResolver {
  * page heading in the UI.
  */
 export interface PageTitleResolver {
-  resolveTitle(...args): Observable<string>;
+  resolveTitle(...args): Observable<{ title: string } | string>;
 }
 
 /**
@@ -22,14 +22,14 @@ export interface PageTitleResolver {
  * in the Search Engine Result Page (SERP).
  */
 export interface PageDescriptionResolver {
-  resolveDescription(...args): Observable<string>;
+  resolveDescription(...args): Observable<{ description: string } | string>;
 }
 
 /**
  * Resolves breadcrumbs for the page, which is used in the `BreadcrumbComponent`/
  */
 export interface PageBreadcrumbResolver {
-  resolveBreadcrumbs(...args): Observable<any[]>;
+  resolveBreadcrumbs(...args): Observable<{ breadcrumbs: any[] } | any[]>;
 }
 
 /**
@@ -37,7 +37,7 @@ export interface PageBreadcrumbResolver {
  * for social sharing (using `og:image` metatag)
  */
 export interface PageImageResolver {
-  resolveImage(...args): Observable<string>;
+  resolveImage(...args): Observable<{ image: string } | string>;
 }
 
 /**
@@ -47,5 +47,7 @@ export interface PageImageResolver {
  *
  */
 export interface PageRobotsResolver {
-  resolveRobots(...args): Observable<PageRobotsMeta[]>;
+  resolveRobots(
+    ...args
+  ): Observable<{ robots: PageRobotsMeta[] } | PageRobotsMeta[]>;
 }
