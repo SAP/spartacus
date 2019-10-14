@@ -47,11 +47,13 @@ export class ProductVariantSelectorComponent {
         this.sizeVariants = p.baseOptions[0].options;
       }
 
-      this.styleVariants.forEach(style => {
-        if (style.code === p.code || style.code === p.baseProduct) {
-          this.selectedStyle = style.variantOptionQualifiers[0].value;
-        }
-      });
+      if (this.styleVariants && this.styleVariants.length) {
+        this.styleVariants.forEach(style => {
+          if (style.code === p.code || style.code === p.baseProduct) {
+            this.selectedStyle = style.variantOptionQualifiers[0].value;
+          }
+        });
+      }
     })
   );
 
