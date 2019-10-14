@@ -36,8 +36,9 @@ export class OccBaseSites2ConfigConverter {
     );
     if (!baseSite) {
       throw OccBaseSites2ConfigConverter.getError(
-        `Current url (${currentUrl}) doesn't match with any of url patterns of any base site.
-      (${baseSites.map(s => s.uid).join(', ')})`
+        `Current url (${currentUrl}) doesn't match with any of url patterns of any base site. Base sites: ${baseSites
+          .map(s => s.uid)
+          .join(', ')}`
       );
     }
 

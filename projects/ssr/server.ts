@@ -17,7 +17,6 @@ const DIST_FOLDER = join(process.cwd(), 'dist/storefrontapp');
 const {
   AppServerModuleNgFactory,
   ngExpressEngine,
-  isDevMode,
   ExternalConfig,
   OccBaseUrlMetaTagUtils,
   OccExternalConfigLoader,
@@ -44,19 +43,19 @@ app.set('views', DIST_FOLDER);
 app.get('*.*', express.static(DIST_FOLDER));
 
 // All regular routes use the Universal engine
-app.get('*', (req, res) => {
-  OccExternalConfigLoader.loadSSR(
+app.get('*', (req, res, next) => {
+  OccExternalConfigLoader.loadSSR({
     endpoint: { baseUrl: occBaseUrl },
     currentUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
-    httpsClient: https
-  )
+    httpsClient: https,
+  })
     .then(config => {
       res.render('index', {
         req,
         providers: [{ provide: ExternalConfig, useValue: config }],
       });
     })
-    .catch(error => isDevMode() && console.error(error));
+    .catch(next);
 });
 
 // Start up the Node server
