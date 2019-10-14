@@ -3,7 +3,12 @@ import { HamburgerMenuModule } from '../layout/index';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
 import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
-import { BannerModule, CmsParagraphModule, LinkModule } from './content/index';
+import {
+  BannerModule,
+  CmsParagraphModule,
+  LinkModule,
+  TabParagraphContainerModule,
+} from './content/index';
 import { SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
@@ -30,8 +35,8 @@ import {
   ProductCarouselModule,
   ProductIntroModule,
   ProductListModule,
-  // ProductReferencesModule,
   ProductTabsModule,
+  ProductReferencesModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
@@ -56,7 +61,7 @@ import { StoreFinderModule } from './storefinder/store-finder.module';
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
-    // ProductReferencesModule,
+    ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,
@@ -65,7 +70,7 @@ import { StoreFinderModule } from './storefinder/store-finder.module';
     ConsentManagementModule,
     CloseAccountModule,
     CartComponentModule,
-    // TabParagraphContainerModule,
+    TabParagraphContainerModule,
     OrderConfirmationModule,
     StoreFinderModule,
     ProductImagesModule,
