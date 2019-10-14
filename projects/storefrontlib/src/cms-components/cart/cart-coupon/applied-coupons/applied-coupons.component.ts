@@ -1,10 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Voucher, CartVoucherService } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 
 @Component({
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppliedCouponsComponent implements OnInit {
   @Input()
