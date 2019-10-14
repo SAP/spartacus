@@ -216,10 +216,15 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     let consentsToWithdraw = 0;
     templates.forEach(template => {
       if (this.userConsentService.isConsentGiven(template)) {
+        if (this.isRequiredConsent(template)) {
+          return;
+        }
+
         consentsToWithdraw++;
         this.userConsentService.withdrawConsent(template.currentConsent.code);
       }
     });
+
     this.subscriptions.add(
       this.loading$
         .pipe(
@@ -234,10 +239,15 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     let consentsToGive = 0;
     templates.forEach(template => {
       if (this.userConsentService.isConsentWithdrawn(template)) {
+        if (this.isRequiredConsent(template)) {
+          return;
+        }
+
         consentsToGive++;
         this.userConsentService.giveConsent(template.id, template.version);
       }
     });
+
     this.subscriptions.add(
       this.loading$
         .pipe(
@@ -245,6 +255,18 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           take(consentsToGive)
         )
         .subscribe(_ => this.userConsentService.loadConsents())
+    );
+  }
+
+  private isRequiredConsent(template: ConsentTemplate): boolean {
+    return (
+      Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+      Boolean(
+        this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+      ) &&
+      this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+        template.id
+      )
     );
   }
 

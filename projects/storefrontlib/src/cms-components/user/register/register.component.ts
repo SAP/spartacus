@@ -9,7 +9,6 @@ import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENT_STATUS,
   AuthRedirectService,
   AuthService,
   ConsentTemplate,
@@ -37,7 +36,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   anonymousConsent$: Observable<{
-    status: ANONYMOUS_CONSENT_STATUS;
+    consent: AnonymousConsent;
     template: string;
   }>;
 
@@ -195,7 +194,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ]).pipe(
         map(([consent, template]: [AnonymousConsent, ConsentTemplate]) => {
           return {
-            status: consent.consentState,
+            consent,
             template: template.description,
           };
         })

@@ -478,6 +478,30 @@ describe('ConsentManagementComponent', () => {
       });
     });
 
+    const isRequiredConsentMethod = 'isRequiredConsent';
+    describe(isRequiredConsentMethod, () => {
+      describe('when the requiredConsents is NOT configured', () => {
+        it('should return false', () => {
+          anonymousConsentsConfig.anonymousConsents.requiredConsents = undefined;
+          const result = component[isRequiredConsentMethod](
+            mockConsentTemplate
+          );
+          expect(result).toEqual(false);
+        });
+      });
+      describe('when the requiredConsents is configured', () => {
+        it('should return true', () => {
+          anonymousConsentsConfig.anonymousConsents.requiredConsents = [
+            mockConsentTemplate.id,
+          ];
+          const result = component[isRequiredConsentMethod](
+            mockConsentTemplate
+          );
+          expect(result).toEqual(true);
+        });
+      });
+    });
+
     describe('rejectAll', () => {
       describe('when no consent is given', () => {
         it('should not call userConsentService.withdrawConsent', () => {
@@ -499,6 +523,21 @@ describe('ConsentManagementComponent', () => {
             mockConsentTemplate.currentConsent.code
           );
           expect(userService.withdrawConsent).toHaveBeenCalledTimes(1);
+        });
+      });
+      describe('when the required consents are configured', () => {
+        it('should skip them', () => {
+          anonymousConsentsConfig.anonymousConsents.requiredConsents = [
+            mockConsentTemplate[0],
+          ];
+          spyOn(userService, 'withdrawConsent').and.stub();
+          spyOn(userService, 'loadConsents').and.stub();
+          spyOn(userService, 'isConsentGiven').and.returnValue(true);
+          spyOn<any>(component, isRequiredConsentMethod).and.returnValue(true);
+
+          component.rejectAll([mockConsentTemplate]);
+
+          expect(userService.withdrawConsent).not.toHaveBeenCalled();
         });
       });
     });
@@ -525,6 +564,21 @@ describe('ConsentManagementComponent', () => {
             mockConsentTemplate.version
           );
           expect(userService.giveConsent).toHaveBeenCalledTimes(1);
+        });
+      });
+      describe('when the required consents are configured', () => {
+        it('should skip them', () => {
+          anonymousConsentsConfig.anonymousConsents.requiredConsents = [
+            mockConsentTemplate[0],
+          ];
+          spyOn(userService, 'giveConsent').and.stub();
+          spyOn(userService, 'loadConsents').and.stub();
+          spyOn(userService, 'isConsentWithdrawn').and.returnValue(true);
+          spyOn<any>(component, isRequiredConsentMethod).and.returnValue(true);
+
+          component.allowAll([mockConsentTemplate]);
+
+          expect(userService.giveConsent).not.toHaveBeenCalled();
         });
       });
     });

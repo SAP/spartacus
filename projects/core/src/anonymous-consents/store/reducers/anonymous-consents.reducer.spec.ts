@@ -13,7 +13,7 @@ describe('anonymous consents reducer', () => {
     it('should give the consent', () => {
       const mockAnonymousConsents: AnonymousConsent[] = [
         {
-          consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+          consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
           templateCode: mockTemplateCode,
           version: 0,
         },
@@ -22,12 +22,12 @@ describe('anonymous consents reducer', () => {
       const result = fromReducer.toggleConsentStatus(
         mockAnonymousConsents,
         mockTemplateCode,
-        ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
+        ANONYMOUS_CONSENT_STATUS.GIVEN
       );
       expect(result).toEqual([
         {
           ...mockAnonymousConsents[0],
-          consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
         },
       ]);
     });
@@ -35,7 +35,7 @@ describe('anonymous consents reducer', () => {
     it('should withdraw the consent', () => {
       const mockAnonymousConsents: AnonymousConsent[] = [
         {
-          consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
           templateCode: mockTemplateCode,
           version: 0,
         },
@@ -44,12 +44,12 @@ describe('anonymous consents reducer', () => {
       const result = fromReducer.toggleConsentStatus(
         mockAnonymousConsents,
         mockTemplateCode,
-        ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN
+        ANONYMOUS_CONSENT_STATUS.WITHDRAWN
       );
       expect(result).toEqual([
         {
           ...mockAnonymousConsents[0],
-          consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+          consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
         },
       ]);
     });
@@ -88,7 +88,7 @@ describe('anonymous consents reducer', () => {
           {
             templateCode: mockTemplateCode,
             version: 0,
-            consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+            consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
           },
         ];
         expect(result).toEqual(expected);
@@ -105,7 +105,7 @@ describe('anonymous consents reducer', () => {
           {
             templateCode: mockTemplateCode,
             version: 0,
-            consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+            consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
           },
         ];
         expect(result).toEqual(expected);

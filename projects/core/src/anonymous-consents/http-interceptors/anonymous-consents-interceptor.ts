@@ -105,8 +105,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
             consent.templateCode
           )
         ) {
-          consent.consentState =
-            ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN;
+          consent.consentState = ANONYMOUS_CONSENT_STATUS.GIVEN;
         }
       }
     }

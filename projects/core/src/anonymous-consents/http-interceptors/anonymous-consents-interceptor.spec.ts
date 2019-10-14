@@ -209,7 +209,7 @@ describe('AnonymousConsentsInterceptor', () => {
             {
               templateCode: 'OTHER_CONSENT',
               version: 0,
-              consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+              consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
             },
           ];
 

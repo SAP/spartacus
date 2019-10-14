@@ -5,7 +5,8 @@ import {
   AnonymousConsentsService,
   ConsentTemplate,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../modal/index';
 
@@ -47,16 +48,58 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
 
   rejectAll(): void {
     this.subscriptions.add(
-      this.anonymousConsentsService.withdrawAllConsents().subscribe()
+      combineLatest([this.templates$, this.consents$])
+        .pipe(
+          take(1),
+          distinctUntilChanged(),
+          tap(([templates, consents]) =>
+            templates.forEach(template => {
+              const consent = this.getCorrespondingConsent(template, consents);
+              if (this.anonymousConsentsService.isConsentGiven(consent)) {
+                if (this.isRequiredConsent(template)) {
+                  return;
+                }
+
+                this.anonymousConsentsService.withdrawConsent(template.id);
+              }
+            })
+          )
+        )
+        .subscribe()
     );
     this.closeModal('rejectAll');
   }
 
   allowAll(): void {
     this.subscriptions.add(
-      this.anonymousConsentsService.giveAllConsents().subscribe()
+      combineLatest([this.templates$, this.consents$])
+        .pipe(
+          take(1),
+          distinctUntilChanged(),
+          tap(([templates, consents]) =>
+            templates.forEach(template => {
+              const consent = this.getCorrespondingConsent(template, consents);
+              if (this.anonymousConsentsService.isConsentWithdrawn(consent)) {
+                if (this.isRequiredConsent(template)) {
+                  return;
+                }
+
+                this.anonymousConsentsService.giveConsent(template.id);
+              }
+            })
+          )
+        )
+        .subscribe()
     );
     this.closeModal('allowAll');
+  }
+
+  private isRequiredConsent(template: ConsentTemplate): boolean {
+    return (
+      Boolean(this.config.anonymousConsents) &&
+      Boolean(this.config.anonymousConsents.requiredConsents) &&
+      this.config.anonymousConsents.requiredConsents.includes(template.id)
+    );
   }
 
   onConsentChange({

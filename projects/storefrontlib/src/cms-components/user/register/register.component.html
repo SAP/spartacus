@@ -146,7 +146,10 @@
             </label>
           </div>
 
-          <div class="form-group" *ngIf="anonymousConsent$ | async as consent">
+          <div
+            class="form-group"
+            *ngIf="anonymousConsent$ | async as anonymousConsent"
+          >
             <div class="form-check">
               <label>
                 <input
@@ -154,10 +157,10 @@
                   name="newsletter"
                   class="form-check-input"
                   formControlName="newsletter"
-                  [checked]="isConsentGiven(consent)"
+                  [checked]="isConsentGiven(anonymousConsent.consent)"
                 />
                 <span class="form-check-label">
-                  {{ consent.template }}
+                  {{ anonymousConsent.template }}
                 </span>
               </label>
             </div>
