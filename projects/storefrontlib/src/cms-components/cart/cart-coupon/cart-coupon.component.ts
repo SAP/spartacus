@@ -29,7 +29,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
 
-    this.cartIsLoading = !this.cartService.getLoaded();
+    this.cartService
+      .getLoaded()
+      .subscribe(loaded => (this.cartIsLoading = !loaded));
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
