@@ -30,6 +30,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   increment = false;
   isStyleVariantSelected = false;
   isSizeVariantSelected = false;
+  hasVariants = true;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -57,6 +58,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
           this.productCode = product.code;
           this.quantity = 1;
+          this.hasVariants = !!(
+            product.variantOptions && product.variantOptions.length
+          );
 
           if (
             product.stock &&
@@ -135,19 +139,5 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         this.isSizeVariantSelected = true;
       }
     });
-  }
-
-  checkForErrorMessagesBeforeAction() {
-    let result = '';
-    if (!this.hasStock) {
-      result = 'addToCart.outOfStock';
-    }
-    if (!this.isSizeVariantSelected) {
-      result = 'addToCart.pleaseSelectSize';
-    }
-    if (!this.isStyleVariantSelected) {
-      result = 'addToCart.pleaseSelectStyle';
-    }
-    return result;
   }
 }

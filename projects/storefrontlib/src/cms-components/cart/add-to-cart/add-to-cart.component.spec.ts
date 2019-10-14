@@ -209,15 +209,4 @@ describe('AddToCartComponent', () => {
     expect(addToCartComponent.isStyleVariantSelected).toBeFalsy();
     expect(addToCartComponent.isSizeVariantSelected).toBeTruthy();
   });
-
-  it('should return error message corresponding to selection flag', () => {
-    spyOn(currentProductService, 'getProduct').and.returnValue(
-      of(mockProduct2)
-    );
-    addToCartComponent.ngOnInit();
-
-    const errorMessage = addToCartComponent.checkForErrorMessagesBeforeAction();
-
-    expect(errorMessage).toEqual('addToCart.pleaseSelectStyle');
-  });
 });
