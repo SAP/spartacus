@@ -199,17 +199,65 @@ describe('AuthService', () => {
     );
   });
 
-  describe('isUserLoggedIn', () => {
-    it('should return true if the userToken and userToken.access_token are present', () => {
-      spyOn(service, 'getUserToken').and.returnValue(
-        of({ access_token: 'xxx' } as UserToken)
+  describe('isCustomerEmulationToken()', () => {
+    const mockCustomerEmulationToken = {
+      access_token: 'foo',
+    } as UserToken;
+
+    it('should return true if the userid is defined and not OCC_USER_ID_CURRENT', () => {
+      expect(
+        service.isCustomerEmulationToken({
+          ...mockCustomerEmulationToken,
+          userId: '1de31-d31d4-14d',
+        })
+      ).toBe(true);
+    });
+
+    it('should return false if there is no userId on the token', () => {
+      expect(service.isCustomerEmulationToken(mockCustomerEmulationToken)).toBe(
+        false
       );
-      let result = false;
+    });
+
+    it('should return false if the userid "current"', () => {
+      expect(
+        service.isCustomerEmulationToken({
+          ...mockCustomerEmulationToken,
+          userId: OCC_USER_ID_CURRENT,
+        })
+      ).toBe(false);
+    });
+  });
+
+  it('should return anonymous userid when no user token exists', () => {
+    let result: string;
+    service
+      .getOccUserId()
+      .subscribe(token => (result = token))
+      .unsubscribe();
+    expect(result).toEqual(OCC_USER_ID_ANONYMOUS);
+  });
+
+  it('should return the token userid when a user token exists', () => {
+    store.dispatch(new AuthActions.LoadUserTokenSuccess(mockToken));
+
+    let result: string;
+    service
+      .getOccUserId()
+      .subscribe(token => (result = token))
+      .unsubscribe();
+    expect(result).toEqual(mockToken.userId);
+  });
+
+  describe('isUserLoggedIn', () => {
+    it('should return false if the userToken is not present', () => {
+      spyOn(service, 'getUserToken').and.returnValue(of(null));
+      let result = true;
       service
         .isUserLoggedIn()
         .subscribe(value => (result = value))
         .unsubscribe();
-      expect(result).toEqual(true);
+      expect(result).toEqual(false);
     });
     it('should return false if the userToken is present but userToken.access_token is not', () => {
       spyOn(service, 'getUserToken').and.returnValue(of({} as UserToken));
@@ -220,71 +268,16 @@ describe('AuthService', () => {
         .unsubscribe();
       expect(result).toEqual(false);
     });
-    it('should return false if the userToken is not present', () => {
-      spyOn(service, 'getUserToken').and.returnValue(of(null));
-      let result = true;
+    it('should return true if the userToken and userToken.access_token are present', () => {
+      spyOn(service, 'getUserToken').and.returnValue(
+        of({ access_token: 'xxx' } as UserToken)
+      );
+      let result = false;
       service
         .isUserLoggedIn()
         .subscribe(value => (result = value))
         .unsubscribe();
-      expect(result).toEqual(false);
-    });
-    it('should return anonymous userid when no user token exists', () => {
-      let result: string;
-      service
-        .getOccUserId()
-        .subscribe(token => (result = token))
-        .unsubscribe();
-      expect(result).toEqual(OCC_USER_ID_ANONYMOUS);
-    });
-    describe('isCustomerEmulationToken()', () => {
-      const mockCustomerEmulationToken = {
-        access_token: 'foo',
-      } as UserToken;
-
-      it('should return true if the userid is defined and not OCC_USER_ID_CURRENT', () => {
-        expect(
-          service.isCustomerEmulationToken({
-            ...mockCustomerEmulationToken,
-            userId: '1de31-d31d4-14d',
-          })
-        ).toBe(true);
-      });
-
-      it('should return false if there is no userId on the token', () => {
-        expect(
-          service.isCustomerEmulationToken(mockCustomerEmulationToken)
-        ).toBe(false);
-      });
-
-      it('should return false if the userid "current"', () => {
-        expect(
-          service.isCustomerEmulationToken({
-            ...mockCustomerEmulationToken,
-            userId: OCC_USER_ID_CURRENT,
-          })
-        ).toBe(false);
-      });
-    });
-
-    it('should return anonymous userid when no user token exists', () => {
-      let result: string;
-      service
-        .getOccUserId()
-        .subscribe(token => (result = token))
-        .unsubscribe();
-      expect(result).toEqual(OCC_USER_ID_ANONYMOUS);
-    });
-
-    it('should return the token userid when a user token exists', () => {
-      store.dispatch(new AuthActions.LoadUserTokenSuccess(mockToken));
-
-      let result: string;
-      service
-        .getOccUserId()
-        .subscribe(token => (result = token))
-        .unsubscribe();
-      expect(result).toEqual(mockToken.userId);
+      expect(result).toEqual(true);
     });
   });
 });
