@@ -1,21 +1,20 @@
 import { OccConfig } from '../../../config/occ-config';
 
-export const defaultOccCartConfig: OccConfig = {
-  backend: {
-    occ: {
-      endpoints: {
-        // tslint:disable:max-line-length
+export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
+  console.log('Variant Configuration is loaded!');
+  return {
+    backend: {
+      occ: {
+        endpoints: {
+          createConfiguration:
+            'products/${productCode}/configurator/cpqconfigurator',
 
-        createConfiguration:
-          'products/${productCode}/configurator/cpqconfigurator',
+          readConfiguration: 'configuration/${configId}/cpqconfigurator',
 
-        readConfiguration: 'configuration/${configId}/cpqconfigurator',
-
-        updateConfiguration:
-          'products/${productCode}/configurator/cpqconfigurator',
-
-        // tslint:enable
+          updateConfiguration:
+            'products/${productCode}/configurator/cpqconfigurator',
+        },
       },
     },
-  },
-};
+  };
+}

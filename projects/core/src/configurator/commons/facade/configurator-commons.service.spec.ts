@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { ConfiguratorActions } from '../store/actions';
+import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';

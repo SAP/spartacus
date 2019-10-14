@@ -14,6 +14,10 @@ export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
 }
 
+export function searchForProduct(product: string) {
+  cy.get('cx-searchbox input').type(`${product}{enter}`);
+}
+
 export function assertFirstProduct() {
   cy.get(productNameSelector)
     .first()

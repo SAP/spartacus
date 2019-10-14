@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Configurator } from '../../../model/configurator.model';
-import { ConfiguratorActions } from '../store/actions/index';
+import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
-import { ConfiguratorSelectors } from '../store/selectors/index';
+import * as ConfiguratorSelectors from '../store/selectors/configurator.selector';
 
 @Injectable()
 export class ConfiguratorCommonsService {

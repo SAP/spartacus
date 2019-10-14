@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '@spartacus/core';
-import { ICON_TYPE } from '../../../misc/icon/index';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-header',

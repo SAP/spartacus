@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import * as fromConfigurationReducers from '../../store/reducers/index';
-import { ConfiguratorActions } from '../actions';
+import * as ConfiguratorActions from '../actions/configurator.action';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
 import { Configurator } from './../../../../model/configurator.model';
 import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
