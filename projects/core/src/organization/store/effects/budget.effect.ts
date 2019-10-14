@@ -37,11 +37,11 @@ export class BudgetEffects {
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(userId =>
+      // TODO: support this.budgetConnector.getBudgets(userId, pageSize, currentPage, sort ).pipe(
       this.budgetConnector.getBudgets(userId).pipe(
         mergeMap((budgets: Budget[]) => [
           new BudgetActions.LoadBudgetsSuccess(),
           new BudgetActions.LoadBudgetSuccess(budgets),
-          // return new BudgetActions.LoadBudget({uid: "linda.wolf@rustic-hw.com", budgetCode: "Monthly_50K_USD_2"})
         ]),
         catchError(error =>
           of(new BudgetActions.LoadBudgetsFail(makeErrorSerializable(error)))
