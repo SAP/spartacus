@@ -1,29 +1,39 @@
 import { Product } from '../../../model/product.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
+import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
 export const LOAD_PRODUCT_SUCCESS = '[Product] Load Product Data Success';
 
+export interface ProductMeta extends EntityLoaderMeta {
+  scope?: string;
+}
 export class LoadProduct extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = LOAD_PRODUCT;
-  constructor(public payload: string) {
+  readonly meta: ProductMeta;
+  constructor(public payload: string, scope?: string) {
     super(PRODUCT_DETAIL_ENTITY, payload);
+    this.meta.scope = scope;
   }
 }
 
 export class LoadProductFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = LOAD_PRODUCT_FAIL;
-  constructor(productCode: string, public payload: any) {
+  readonly meta: ProductMeta;
+  constructor(productCode: string, public payload: any, scope?: string) {
     super(PRODUCT_DETAIL_ENTITY, productCode, payload);
+    this.meta.scope = scope;
   }
 }
 
 export class LoadProductSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = LOAD_PRODUCT_SUCCESS;
-  constructor(public payload: Product) {
+  readonly meta: ProductMeta;
+  constructor(public payload: Product, scope?: string) {
     super(PRODUCT_DETAIL_ENTITY, payload.code);
+    this.meta.scope = scope;
   }
 }
 
