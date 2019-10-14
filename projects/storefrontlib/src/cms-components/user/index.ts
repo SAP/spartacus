@@ -1,3 +1,4 @@
+export * from './checkout-login/checkout-login.module';
 export * from './login-form/login-form.component';
 export * from './login-form/login-form.module';
 export * from './login/login.component';

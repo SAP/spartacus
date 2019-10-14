@@ -45,6 +45,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'addToCart',
     'CMSTabParagraphContainer',
   ],
-  user: ['forgottenPassword', 'loginForm', 'register'],
+
+  user: ['forgottenPassword', 'loginForm', 'register', 'checkoutLogin'],
   configurator: ['configurator.header', 'configurator.attribute'],
 };

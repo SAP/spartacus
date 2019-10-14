@@ -51,6 +51,22 @@ export class OccUserAdapter implements UserAdapter {
       .pipe(this.converter.pipeable(USER_NORMALIZER));
   }
 
+  registerGuest(guid: string, password: string): Observable<User> {
+    const url: string = this.occEndpoints.getUrl('userRegister');
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+
+    const httpParams: HttpParams = new HttpParams()
+      .set('guid', guid)
+      .set('password', password);
+
+    return this.http
+      .post<User>(url, httpParams, { headers })
+      .pipe(this.converter.pipeable(USER_NORMALIZER));
+  }
+
   requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
     const url = this.occEndpoints.getUrl('userForgotPassword');
     const httpParams: HttpParams = new HttpParams().set(

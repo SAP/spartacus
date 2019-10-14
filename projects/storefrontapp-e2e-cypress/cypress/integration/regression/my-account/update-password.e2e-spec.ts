@@ -1,8 +1,9 @@
 import {
   updatePasswordTest,
   verifyAsAnonymous,
+  registerAndLogin,
 } from '../../../helpers/update-password';
-import { formats } from '../../../sample-data/viewports';
+import * as login from '../../../helpers/login';
 
 describe('My Account - Update Password', () => {
   before(() =>
@@ -11,34 +12,32 @@ describe('My Account - Update Password', () => {
     })
   );
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
+  describe('update password test for anonymous user', () => {
+    verifyAsAnonymous();
   });
 
-  afterEach(() => {
-    cy.saveLocalStorage();
+  describe('update password test for logged in user', () => {
+    before(() => {
+      registerAndLogin();
+      cy.reload();
+      cy.visit('/');
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      cy.selectUserMenuOption({
+        option: 'Password',
+      });
+    });
+
+    updatePasswordTest();
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    after(() => {
+      login.signOutUser();
+    });
   });
-
-  verifyAsAnonymous();
-  updatePasswordTest();
-});
-
-describe(`${formats.mobile.width +
-  1}p resolution - Update Password page`, () => {
-  before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
-
-  verifyAsAnonymous();
-  updatePasswordTest();
 });

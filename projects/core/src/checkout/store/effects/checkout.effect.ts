@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
+import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -30,14 +31,29 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
-            return [
-              new UserActions.LoadUserAddresses(payload.userId),
-              new CheckoutActions.SetDeliveryAddress({
-                userId: payload.userId,
-                cartId: payload.cartId,
-                address: address,
-              }),
-            ];
+            if (payload.address.region && payload.address.region.isocodeShort) {
+              Object.assign(address.region, {
+                isocodeShort: payload.address.region.isocodeShort,
+              });
+            }
+            if (payload.userId === OCC_USER_ID_ANONYMOUS) {
+              return [
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
+            } else {
+              return [
+                new UserActions.LoadUserAddresses(payload.userId),
+                new CheckoutActions.SetDeliveryAddress({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  address: address,
+                }),
+              ];
+            }
           }),
           catchError(error =>
             of(
@@ -53,6 +69,8 @@ export class CheckoutEffects {
   @Effect()
   setDeliveryAddress$: Observable<
     | CheckoutActions.SetDeliveryAddressSuccess
+    | CheckoutActions.ClearSupportedDeliveryModes
+    | CheckoutActions.ClearCheckoutDeliveryMode
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
@@ -65,6 +83,11 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
+            new CheckoutActions.ClearCheckoutDeliveryMode({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
+            new CheckoutActions.ClearSupportedDeliveryModes(),
             new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
             new CheckoutActions.LoadSupportedDeliveryModes({
               userId: payload.userId,
@@ -132,6 +155,14 @@ export class CheckoutEffects {
   );
 
   @Effect()
+  clearCheckoutDataOnLogin$: Observable<
+    CheckoutActions.ClearCheckoutData
+  > = this.actions$.pipe(
+    ofType(AuthActions.LOGIN),
+    map(() => new CheckoutActions.ClearCheckoutData())
+  );
+
+  @Effect()
   setDeliveryMode$: Observable<
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
@@ -178,10 +209,16 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
-          mergeMap(details => [
-            new UserActions.LoadUserPaymentMethods(payload.userId),
-            new CheckoutActions.CreatePaymentDetailsSuccess(details),
-          ]),
+          mergeMap(details => {
+            if (payload.userId === OCC_USER_ID_ANONYMOUS) {
+              return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
+            } else {
+              return [
+                new UserActions.LoadUserPaymentMethods(payload.userId),
+                new CheckoutActions.CreatePaymentDetailsSuccess(details),
+              ];
+            }
+          }),
           catchError(error =>
             of(
               new CheckoutActions.CreatePaymentDetailsFail(
@@ -290,6 +327,7 @@ export class CheckoutEffects {
     map(
       (action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload
     ),
+    filter(payload => Boolean(payload.cartId)),
     switchMap(payload => {
       return this.checkoutConnector
         .clearCheckoutDeliveryAddress(payload.userId, payload.cartId)
@@ -313,11 +351,18 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
+    filter(payload => Boolean(payload.cartId)),
     switchMap(payload => {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
-          map(() => new CheckoutActions.ClearCheckoutDeliveryModeSuccess()),
+          map(
+            () =>
+              new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              })
+          ),
           catchError(error =>
             of(
               new CheckoutActions.ClearCheckoutDeliveryModeFail(

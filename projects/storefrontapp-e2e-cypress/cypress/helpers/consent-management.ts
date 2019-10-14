@@ -7,13 +7,7 @@ export function accessPageAsAnonymous() {
   cy.location('pathname').should('contain', '/login');
 }
 
-export function accessConsentManagementPage() {
-  cy.get('cx-page-layout cx-login')
-    .getByText('My Account')
-    .click({ force: true });
-  cy.get('nav')
-    .getByText('Consent Management')
-    .click({ force: true });
+export function verifyConsentManagementPage() {
   cy.get('cx-breadcrumb').within(() => {
     cy.get('h1').should('contain', 'Consent Management');
   });
@@ -55,7 +49,7 @@ export function verifyAsAnonymous() {
 
 export function consentManagementTest() {
   it('should be able to go to Consent Management Page', () => {
-    accessConsentManagementPage();
+    verifyConsentManagementPage();
   });
 
   it('should successfully give a consent', () => {

@@ -11,6 +11,7 @@
 @import './page-templates/order-detail-page';
 @import './page-templates/multistep-checkout-page';
 @import './page-templates/variant-configuration-page';
+@import './page-templates/store-finder-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -60,6 +61,10 @@ cx-category-navigation {
   @extend %LoginPageTemplate !optional;
 }
 
+.CheckoutLoginPageTemplate {
+  @extend %LoginPageTemplate !optional;
+}
+
 .AccountPageTemplate {
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
@@ -75,4 +80,8 @@ cx-category-navigation {
 
 .VariantConfigurationTemplate {
   @extend %VariantConfigurationTemplate !optional;
+}
+
+.StoreFinderPageTemplate {
+  @extend %StoreFinderPageTemplate !optional;
 }

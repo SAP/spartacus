@@ -52,6 +52,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   sameAsShippingAddress = true;
 
   @Input()
+  setAsDefaultField: boolean;
+
+  @Input()
   paymentMethodsCount: number;
 
   @Output()
@@ -196,10 +199,14 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   showSameAsShippingAddressCheckbox(): Observable<boolean> {
     return combineLatest([this.countries$, this.shippingAddress$]).pipe(
       map(([countries, address]) => {
-        return !!countries.filter(
-          (country: Country): boolean =>
-            country.isocode === address.country.isocode
-        ).length;
+        return (
+          address !== undefined &&
+          address.country !== undefined &&
+          !!countries.filter(
+            (country: Country): boolean =>
+              country.isocode === address.country.isocode
+          ).length
+        );
       })
     );
   }
