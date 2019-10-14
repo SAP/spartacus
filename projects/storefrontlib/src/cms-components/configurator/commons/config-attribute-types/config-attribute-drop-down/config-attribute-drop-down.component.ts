@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
@@ -19,11 +21,19 @@ export class ConfigAttributeDropDownComponent implements OnInit {
 
   @Input() attribute: Configurator.Attribute;
 
+  @Output() selectionChange = new EventEmitter();
+
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
   }
 
-  onSelect(value: Configurator.Value) {
-    console.log('DDLB selected value: ' + value.valueCode);
+  onSelect() {
+    const attribute: Configurator.Attribute = {
+      name: this.attribute.name,
+      selectedSingleValue: this.attributeDropDownForm.value,
+      uiType: this.attribute.uiType,
+    };
+
+    this.selectionChange.emit(attribute);
   }
 }

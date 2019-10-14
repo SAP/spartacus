@@ -14,4 +14,14 @@ export class ConfiguratorCommonsConnector {
   ): Observable<Configurator.Configuration> {
     return this.adapter.createConfiguration(productCode);
   }
+
+  readConfiguration(configId: string): Observable<Configurator.Configuration> {
+    return this.adapter.readConfiguration(configId);
+  }
+
+  updateConfiguration(
+    Configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return this.adapter.updateConfiguration(Configuration);
+  }
 }

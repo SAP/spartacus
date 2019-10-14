@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
@@ -19,7 +21,19 @@ export class ConfigAttributeRadioButtonComponent implements OnInit {
 
   @Input() attribute: Configurator.Attribute;
 
+  @Output() selectionChange = new EventEmitter();
+
   ngOnInit() {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
+  }
+
+  onSelect() {
+    const attribute: Configurator.Attribute = {
+      name: this.attribute.name,
+      selectedSingleValue: this.attributeRadioButtonForm.value,
+      uiType: this.attribute.uiType,
+    };
+
+    this.selectionChange.emit(attribute);
   }
 }

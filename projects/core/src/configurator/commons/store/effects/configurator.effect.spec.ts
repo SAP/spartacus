@@ -13,6 +13,7 @@ import { ConfiguratorCommonsConnector } from './../../connectors/configurator-co
 import * as fromEffects from './configurator.effect';
 
 const productCode = 'CONF_LAPTOP';
+const configId = '1234-56-7890';
 const productConfiguration: Configurator.Configuration = {
   configId: 'a',
   productCode: productCode,
@@ -22,6 +23,14 @@ const productConfiguration: Configurator.Configuration = {
 
 class MockConnector {
   createConfiguration(): Observable<Configurator.Configuration> {
+    return of(productConfiguration);
+  }
+
+  readConfiguration(): Observable<Configurator.Configuration> {
+    return of(productConfiguration);
+  }
+
+  updateConfiguration(): Observable<Configurator.Configuration> {
     return of(productConfiguration);
   }
 }
@@ -61,7 +70,7 @@ describe('ConfiguratorEffect', () => {
     expect(configEffects).toBeTruthy();
   });
 
-  it('should a success action with content for an action of type createConfiguration', () => {
+  it('should emit a success action with content for an action of type createConfiguration', () => {
     const payloadInput = { productCode: productCode };
     const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
 
@@ -74,7 +83,7 @@ describe('ConfiguratorEffect', () => {
     expect(configEffects.createConfiguration$).toBeObservable(expected);
   });
 
-  it('must not emit anything in case source action is not covered ', () => {
+  it('must not emit anything in case source action is not covered, createConfiguration', () => {
     const payloadInput = { productCode: productCode };
     const action = new ConfiguratorActions.CreateConfigurationSuccess(
       payloadInput
@@ -82,5 +91,51 @@ describe('ConfiguratorEffect', () => {
     actions$ = hot('-a', { a: action });
 
     configEffects.createConfiguration$.subscribe(emitted => fail(emitted));
+  });
+
+  it('should emit a success action with content for an action of type readConfiguration', () => {
+    const payloadInput = { configId: configId };
+    const action = new ConfiguratorActions.ReadConfiguration(payloadInput);
+
+    const completion = new ConfiguratorActions.ReadConfigurationSuccess(
+      productConfiguration
+    );
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(configEffects.readConfiguration$).toBeObservable(expected);
+  });
+
+  it('must not emit anything in case source action is not covered, readConfiguration', () => {
+    const payloadInput = { configId: configId };
+    const action = new ConfiguratorActions.ReadConfigurationSuccess(
+      payloadInput
+    );
+    actions$ = hot('-a', { a: action });
+
+    configEffects.readConfiguration$.subscribe(emitted => fail(emitted));
+  });
+
+  it('should emit a success action with content for an action of type updateConfiguration', () => {
+    const payloadInput = productConfiguration;
+    const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
+
+    const completion = new ConfiguratorActions.UpdateConfigurationSuccess(
+      productConfiguration
+    );
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(configEffects.updateConfiguration$).toBeObservable(expected);
+  });
+
+  it('must not emit anything in case source action is not covered, updateConfiguration', () => {
+    const payloadInput = productConfiguration;
+    const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+      payloadInput
+    );
+    actions$ = hot('-a', { a: action });
+
+    configEffects.updateConfiguration$.subscribe(emitted => fail(emitted));
   });
 });

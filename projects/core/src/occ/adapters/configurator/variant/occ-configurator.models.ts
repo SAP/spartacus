@@ -17,7 +17,12 @@ export namespace OccConfigurator {
   }
 
   export interface Group {
+    configurable?: boolean;
     cstics?: Characteristic[];
+    description?: string;
+    groupType?: GroupType;
+    id?: string;
+    name?: string;
   }
 
   export interface Characteristic {
@@ -26,6 +31,7 @@ export namespace OccConfigurator {
     type?: UiType;
     domainvalues?: Value[];
     required?: boolean;
+    value?: string;
   }
 
   export interface Value {
@@ -34,6 +40,10 @@ export namespace OccConfigurator {
     langdepname?: string;
     readonly?: boolean;
     selected?: boolean;
+  }
+
+  export enum GroupType {
+    CSTIC_GROUP = 'CSTIC_GROUP',
   }
 
   export enum UiType {

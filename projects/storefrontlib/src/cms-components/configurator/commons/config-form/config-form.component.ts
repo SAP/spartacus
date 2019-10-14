@@ -19,6 +19,7 @@ import { Observable, Subscription } from 'rxjs';
 export class ConfigFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
   subscription = new Subscription();
+  productCode: string;
   public UiType = Configurator.UiType;
 
   constructor(
@@ -35,9 +36,32 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
   }
 
   createConfiguration(routingData) {
+    this.productCode = routingData.state.params.rootProduct;
     this.configuration$ = this.configuratorCommonsService.createConfiguration(
       routingData.state.params.rootProduct
     );
+  }
+
+  updateConfiguration(changedAttribute) {
+    this.configuration$
+      .subscribe(configuration => {
+        //Make new configuration object as state configuration cannot be changed
+        const changedConfiguration: Configurator.Configuration = {
+          productCode: this.productCode,
+          consistent: configuration.consistent,
+          configId: configuration.configId,
+          complete: configuration.complete,
+          attributes: configuration.attributes.filter(
+            attribute => attribute.name !== changedAttribute.name
+          ),
+        };
+        changedConfiguration.attributes.push(changedAttribute);
+
+        this.configuration$ = this.configuratorCommonsService.updateConfiguration(
+          changedConfiguration
+        );
+      })
+      .unsubscribe();
   }
 
   ngOnDestroy(): void {
