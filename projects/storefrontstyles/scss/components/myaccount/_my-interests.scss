@@ -66,6 +66,10 @@
         border-width: 0;
         padding: 0 1.25rem;
 
+        cx-media.is-missing {
+          max-width: 96px;
+        }
+
         &:first-child {
           padding-top: 1.25rem;
         }

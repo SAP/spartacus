@@ -45,21 +45,20 @@
                 data-test="productItem"
               >
                 <td>
-                  <div class="d-md-none cx-product-interests-label">
-                    {{ 'myInterests.item' | cxTranslate }}
+                  <div class="cx-product-interests-label">
+                    <a
+                      class="cx-product-interests-product-image-link"
+                      data-test="productImageLink"
+                      [routerLink]="
+                        { route: 'product', params: result.product } | cxUrl
+                      "
+                    >
+                      <cx-media
+                        [container]="result.product.images?.PRIMARY"
+                        format="thumbnail"
+                      ></cx-media>
+                    </a>
                   </div>
-                  <a
-                    class="cx-product-interests-product-image-link"
-                    data-test="productImageLink"
-                    [routerLink]="
-                      { route: 'product', params: result.product } | cxUrl
-                    "
-                  >
-                    <cx-media
-                      [container]="result.product.images?.PRIMARY"
-                      format="thumbnail"
-                    ></cx-media>
-                  </a>
                 </td>
                 <td>
                   <div class="cx-info col-10">
