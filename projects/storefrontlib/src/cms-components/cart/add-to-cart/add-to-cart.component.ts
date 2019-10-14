@@ -37,6 +37,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   isStyleVariantSelected = false;
   isSizeVariantSelected = false;
   isItemView = false;
+  isBaseProduct = true;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -66,6 +67,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
           this.productCode = product.code;
           this.quantity = 1;
+          this.isBaseProduct = !(
+            this.isSizeVariantSelected || this.isStyleVariantSelected
+          );
 
           if (
             product.stock &&
@@ -159,6 +163,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   checkForErrorMessagesBeforeAction() {
     let result = '';
+    if (!this.hasStock) {
+      result = 'addToCart.outOfStock';
+    }
     if (!this.isSizeVariantSelected) {
       result = 'addToCart.pleaseSelectSize';
     }
