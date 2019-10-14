@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, isDevMode, Optional } from '@angular/core';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
@@ -75,13 +75,39 @@ export class OccEndpointsService {
    * @param urlParams  URL parameters
    * @param queryParams Query parameters
    */
-  getUrl(endpoint: string, urlParams?: object, queryParams?: object): string {
+  getUrl(
+    endpoint: string,
+    urlParams?: object,
+    queryParams?: object,
+    scope = ''
+  ): string {
     if (
       this.config.backend &&
       this.config.backend.occ &&
       this.config.backend.occ.endpoints[endpoint]
     ) {
-      endpoint = this.config.backend.occ.endpoints[endpoint];
+      const endpointConfig = this.config.backend.occ.endpoints[endpoint];
+
+      if (typeof endpointConfig === 'string') {
+        endpoint = endpointConfig;
+      } else {
+        if (endpointConfig[scope]) {
+          endpoint = endpointConfig[scope];
+        } else {
+          if (isDevMode()) {
+            if (!!scope) {
+              console.warn(
+                `You should specify scope for ${endpoint} endpoint.`
+              );
+            } else {
+              console.warn(
+                `Scope ${scope} specified is not configured for ${endpoint} endpoint.`
+              );
+            }
+          }
+          endpoint = endpointConfig[Object.keys(endpointConfig)[0]];
+        }
+      }
     }
 
     if (urlParams) {
