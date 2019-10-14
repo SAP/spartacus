@@ -3,10 +3,10 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Order } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class CheckoutService {
@@ -78,6 +78,9 @@ export class CheckoutService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== OCC_USER_ID_ANONYMOUS;
+    return (
+      this.cartData.userId !== OCC_USER_ID_ANONYMOUS ||
+      this.cartData.isGuestCart
+    );
   }
 }

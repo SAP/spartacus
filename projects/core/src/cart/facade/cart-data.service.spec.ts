@@ -1,14 +1,14 @@
-import { TestBed } from '@angular/core/testing';
-import { AuthService } from '../../auth/facade/auth.service';
-import { CartDataService } from './cart-data.service';
-import { Observable, ReplaySubject } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
-import { StateWithCart, CartActions } from '../store/index';
 import { Type } from '@angular/core';
-import * as fromReducers from '../store/reducers/index';
+import { TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { Observable, ReplaySubject } from 'rxjs';
+import { AuthService } from '../../auth/facade/auth.service';
 import { UserToken } from '../../auth/models/token-types.model';
 import { Cart } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { CartActions, StateWithCart } from '../store/index';
+import * as fromReducers from '../store/reducers/index';
+import { CartDataService } from './cart-data.service';
 
 const userToken$ = new ReplaySubject<UserToken | any>();
 
@@ -96,6 +96,37 @@ describe('CartDataService', () => {
       userToken$.next(testUserToken);
       store.dispatch(new CartActions.CreateCartSuccess(testCart));
       expect(service.cartId).toEqual(testCart.code);
+    });
+  });
+
+  describe('isGuestCart', () => {
+    it('should be able to check cart owned by guest or not', () => {
+      store.dispatch(
+        new CartActions.CreateCartSuccess({
+          guid: 'guid',
+          code: 'code',
+          user: { name: 'anonymous', uid: 'anonymous' },
+        })
+      );
+      expect(service.isGuestCart).toBeFalsy();
+
+      store.dispatch(
+        new CartActions.CreateCartSuccess({
+          guid: 'guid',
+          code: 'code',
+          user: { name: 'guest' },
+        })
+      );
+      expect(service.isGuestCart).toBeTruthy();
+
+      store.dispatch(
+        new CartActions.CreateCartSuccess({
+          guid: 'guid',
+          code: 'code',
+          user: { name: 'test', uid: 'use-guid|test@test.com' },
+        })
+      );
+      expect(service.isGuestCart).toBeTruthy();
     });
   });
 });

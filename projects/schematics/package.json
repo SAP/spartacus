@@ -1,27 +1,28 @@
 {
   "name": "@spartacus/schematics",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.2-beta.1",
   "description": "Spartacus schematics",
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "yarn build && jasmine src/**/*_spec.js"
-  },
   "keywords": [
     "spartacus",
     "schematics"
   ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "tsc -p tsconfig.json && jasmine src/**/*_spec.js"
+  },
   "author": "",
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^8.3.1",
-    "@angular-devkit/schematics": "^8.3.1",
-    "@types/jasmine": "^3.3.9",
-    "@types/node": "^10.9.4",
-    "jasmine": "^3.3.1",
-    "typescript": "3.5.3",
-    "@angular/cdk": "^8.1.4",
-    "@angular/pwa": "^0.803.1",
-    "@schematics/angular": "^8.3.1"
+    "@angular-devkit/core": "^8.3.5",
+    "@angular-devkit/schematics": "^8.3.5",
+    "@angular/cdk": "^8.2.1",
+    "@angular/pwa": "^0.803.5",
+    "@nguniversal/express-engine": "^8.1.1",
+    "@schematics/angular": "^8.3.5",
+    "@types/jasmine": "^3.4.0",
+    "@types/node": "^10.14.19",
+    "jasmine": "^3.5.0",
+    "typescript": "3.5.3"
   }
 }

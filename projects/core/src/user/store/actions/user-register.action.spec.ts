@@ -64,6 +64,43 @@ describe('User Register Actions', () => {
   });
 });
 
+describe('Guest Register Actions', () => {
+  describe('RegisterGuest Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.RegisterGuest({
+        guid: 'guid',
+        password: 'password',
+      });
+      expect({ ...action }).toEqual({
+        type: UserActions.REGISTER_GUEST,
+        payload: { guid: 'guid', password: 'password' },
+      });
+    });
+  });
+
+  describe('RegisterGuestFail Action', () => {
+    it('should create the action', () => {
+      const error = 'anError';
+      const action = new UserActions.RegisterGuestFail(error);
+
+      expect({ ...action }).toEqual({
+        type: UserActions.REGISTER_GUEST_FAIL,
+        payload: error,
+      });
+    });
+  });
+
+  describe('RegisterGuestSuccess Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.RegisterGuestSuccess();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.REGISTER_GUEST_SUCCESS,
+      });
+    });
+  });
+});
+
 describe('Remove User Actions', () => {
   describe('RemoveUser Action', () => {
     it('should create the action', () => {

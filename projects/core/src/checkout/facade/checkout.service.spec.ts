@@ -22,6 +22,9 @@ describe('CheckoutService', () => {
     get cartId() {
       return this.cart.code;
     }
+    get isGuestCart() {
+      return true;
+    }
   }
 
   beforeEach(() => {
@@ -132,5 +135,10 @@ describe('CheckoutService', () => {
       })
       .unsubscribe();
     expect(loaded).toBeFalsy();
+  });
+
+  it('should allow actions for login user or guest user', () => {
+    cartData.userId = 'anonymous';
+    expect(service['actionAllowed']()).toBeTruthy();
   });
 });

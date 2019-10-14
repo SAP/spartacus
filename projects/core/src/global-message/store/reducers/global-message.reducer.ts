@@ -27,12 +27,12 @@ export function reducer(
           },
         };
       } else {
-        const messages: Translatable[] = state.entities[message.type];
+        const currentMessages: Translatable[] = state.entities[message.type];
         return {
           ...state,
           entities: {
             ...state.entities,
-            [message.type]: [...messages, message.text],
+            [message.type]: [...currentMessages, message.text],
           },
         };
       }

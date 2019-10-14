@@ -464,6 +464,20 @@ describe('PaymentFormComponent', () => {
 
       expect(isContinueBtnDisabled()).toBeFalsy();
     });
+
+    it('should check setAsDefaultField to determine whether setAsDefault checkbox displayed or not', () => {
+      component.setAsDefaultField = false;
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.queryAll(By.css('.form-check-input')).length
+      ).toEqual(1);
+
+      component.setAsDefaultField = true;
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.queryAll(By.css('.form-check-input')).length
+      ).toEqual(2);
+    });
   });
 
   describe('UI close/back button', () => {

@@ -22,6 +22,13 @@ export function authStoreConfigFactory(): StateConfig {
           'auth.userToken.token.expiration_time': StorageSyncType.LOCAL_STORAGE,
           'auth.userToken.token.scope': StorageSyncType.LOCAL_STORAGE,
           'auth.userToken.token.userId': StorageSyncType.LOCAL_STORAGE,
+          'auth.csagentToken.value.access_token': StorageSyncType.LOCAL_STORAGE,
+          'auth.csagentToken.value.token_type': StorageSyncType.LOCAL_STORAGE,
+          'auth.csagentToken.value.expires_in': StorageSyncType.LOCAL_STORAGE,
+          'auth.csagentToken.value.expiration_time':
+            StorageSyncType.LOCAL_STORAGE,
+          'auth.csagentToken.value.scope': StorageSyncType.LOCAL_STORAGE,
+          'auth.csagentToken.value.userId': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
