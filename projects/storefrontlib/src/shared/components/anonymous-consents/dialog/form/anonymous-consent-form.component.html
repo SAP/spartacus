@@ -46,6 +46,7 @@
         type="checkbox"
         [checked]="consentGiven$ | async"
         (change)="onConsentChange()"
+        [disabled]="isRequired(template?.id)"
       />
 
       <label [for]="template?.id">

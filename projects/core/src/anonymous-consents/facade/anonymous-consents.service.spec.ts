@@ -68,14 +68,14 @@ describe('AnonymousConsentsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('loadAnonymousConsentTemplates should dispatch LoadAnonymousConsentTemplates action', () => {
-    service.loadAnonymousConsentTemplates();
+  it('loadTemplates should dispatch LoadAnonymousConsentTemplates action', () => {
+    service.loadTemplates();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
     );
   });
 
-  it('getAnonymousConsentTemplates should call getAnonymousConsentTemplatesValue selector', () => {
+  it('getTemplates should call getAnonymousConsentTemplatesValue selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
         mockConsentTemplates
@@ -84,13 +84,13 @@ describe('AnonymousConsentsService', () => {
 
     let result: ConsentTemplate[];
     service
-      .getAnonymousConsentTemplates()
+      .getTemplates()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockConsentTemplates);
   });
 
-  it('getAnonymousConsentTemplate should call getAnonymousConsentTemplate selector', () => {
+  it('getTemplate should call getAnonymousConsentTemplate selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
         mockConsentTemplates
@@ -99,26 +99,26 @@ describe('AnonymousConsentsService', () => {
 
     let result: ConsentTemplate;
     service
-      .getAnonymousConsentTemplate(mockTemplateCode)
+      .getTemplate(mockTemplateCode)
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockConsentTemplates[0]);
   });
 
-  it('getLoadAnonymousConsentTemplatesLoading should call getAnonymousConsentTemplatesLoading selector', () => {
+  it('getLoadTemplatesLoading should call getAnonymousConsentTemplatesLoading selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
     );
 
     let result = false;
     service
-      .getLoadAnonymousConsentTemplatesLoading()
+      .getLoadTemplatesLoading()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
 
-  it('getLoadAnonymousConsentTemplatesSuccess should call getAnonymousConsentTemplatesSuccess selector', () => {
+  it('getLoadTemplatesSuccess should call getAnonymousConsentTemplatesSuccess selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
         mockConsentTemplates
@@ -127,111 +127,137 @@ describe('AnonymousConsentsService', () => {
 
     let result = false;
     service
-      .getLoadAnonymousConsentTemplatesSuccess()
+      .getLoadTemplatesSuccess()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
 
-  it('getLoadAnonymousConsentTemplatesError should call getAnonymousConsentTemplatesError selector', () => {
+  it('getLoadTemplatesError should call getAnonymousConsentTemplatesError selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail('an error')
     );
 
     let result = false;
     service
-      .getLoadAnonymousConsentTemplatesError()
+      .getLoadTemplatesError()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
 
-  it('resetLoadAnonymousConsentTemplatesState should dispatch ResetLoadAnonymousConsentTemplates action', () => {
-    service.resetLoadAnonymousConsentTemplatesState();
+  it('resetLoadTemplatesState should dispatch ResetLoadAnonymousConsentTemplates action', () => {
+    service.resetLoadTemplatesState();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AnonymousConsentsActions.ResetLoadAnonymousConsentTemplates()
     );
   });
 
-  it('getAnonymousConsents should call getAnonymousConsents selector', () => {
+  it('getConsents should call getAnonymousConsents selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
     );
 
     let result: AnonymousConsent[];
     service
-      .getAnonymousConsents()
+      .getConsents()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockAnonymousConsents);
   });
 
-  it('setAnonymousConsents should dispatch ResetLoadAnonymousConsentTemplates action', () => {
-    service.setAnonymousConsents(mockAnonymousConsents);
+  it('setConsents should dispatch ResetLoadAnonymousConsentTemplates action', () => {
+    service.setConsents(mockAnonymousConsents);
     expect(store.dispatch).toHaveBeenCalledWith(
       new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
     );
   });
 
-  it('getAnonymousConsent should call getAnonymousConsentByTemplateCode selector', () => {
+  it('getConsent should call getAnonymousConsentByTemplateCode selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
     );
 
     let result: AnonymousConsent;
     service
-      .getAnonymousConsent(mockTemplateCode)
+      .getConsent(mockTemplateCode)
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockAnonymousConsents[0]);
   });
 
-  it('giveAnonymousConsent should dispatch GiveAnonymousConsent action', () => {
-    service.giveAnonymousConsent(mockTemplateCode);
+  it('giveConsent should dispatch GiveAnonymousConsent action', () => {
+    service.giveConsent(mockTemplateCode);
     expect(store.dispatch).toHaveBeenCalledWith(
       new AnonymousConsentsActions.GiveAnonymousConsent(mockTemplateCode)
     );
   });
 
-  it('giveAllAnonymousConsents should give anonymous consent for each consent template', () => {
-    spyOn(service, 'getAnonymousConsentTemplates').and.returnValue(
-      of(mockConsentTemplates)
-    );
-    spyOn(service, 'giveAnonymousConsent').and.stub();
+  it('giveAllConsents should give anonymous consent for each consent template', () => {
+    spyOn(service, 'getTemplates').and.returnValue(of(mockConsentTemplates));
+    spyOn(service, 'giveConsent').and.stub();
 
     service
-      .giveAllAnonymousConsents()
+      .giveAllConsents()
       .subscribe()
       .unsubscribe();
 
-    expect(service.getAnonymousConsentTemplates).toHaveBeenCalled();
-    expect(service.giveAnonymousConsent).toHaveBeenCalledTimes(
+    expect(service.getTemplates).toHaveBeenCalled();
+    expect(service.giveConsent).toHaveBeenCalledTimes(
       mockConsentTemplates.length
     );
   });
 
+  describe('isConsentGiven', () => {
+    it('should return true if the consent is given', () => {
+      const anonymousConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+      };
+      expect(service.isConsentGiven(anonymousConsent)).toEqual(true);
+    });
+    it('should return false if the consent is withdrawn', () => {
+      const anonymousConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+      };
+      expect(service.isConsentGiven(anonymousConsent)).toEqual(false);
+    });
+  });
+
   it('withdrawAnonymousConsent should dispatch WithdrawAnonymousConsent action', () => {
-    service.withdrawAnonymousConsent(mockTemplateCode);
+    service.withdrawConsent(mockTemplateCode);
     expect(store.dispatch).toHaveBeenCalledWith(
       new AnonymousConsentsActions.WithdrawAnonymousConsent(mockTemplateCode)
     );
   });
 
-  it('withdrawAllAnonymousConsents should withdraw anonymous consent for each consent template', () => {
-    spyOn(service, 'getAnonymousConsentTemplates').and.returnValue(
-      of(mockConsentTemplates)
-    );
-    spyOn(service, 'withdrawAnonymousConsent').and.stub();
+  it('withdrawAllConsents should withdraw anonymous consent for each consent template', () => {
+    spyOn(service, 'getTemplates').and.returnValue(of(mockConsentTemplates));
+    spyOn(service, 'withdrawConsent').and.stub();
 
     service
-      .withdrawAllAnonymousConsents()
+      .withdrawAllConsents()
       .subscribe()
       .unsubscribe();
 
-    expect(service.getAnonymousConsentTemplates).toHaveBeenCalled();
-    expect(service.withdrawAnonymousConsent).toHaveBeenCalledTimes(
+    expect(service.getTemplates).toHaveBeenCalled();
+    expect(service.withdrawConsent).toHaveBeenCalledTimes(
       mockConsentTemplates.length
     );
+  });
+
+  describe('isConsentWithdrawn', () => {
+    it('should return true if the consent is withdrawn', () => {
+      const anonymousConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+      };
+      expect(service.isConsentWithdrawn(anonymousConsent)).toEqual(true);
+    });
+    it('should return false if the consent is given', () => {
+      const anonymousConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+      };
+      expect(service.isConsentWithdrawn(anonymousConsent)).toEqual(false);
+    });
   });
 
   describe('toggleAnonymousConsentsBannerVisibility', () => {

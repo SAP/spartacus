@@ -7,12 +7,12 @@ import {
   filter,
   map,
   mergeMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
-import { GlobalMessageActions } from '../../../global-message/store/actions/index';
-import { ANONYMOUS_CONSENT_STATUS } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
+import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
@@ -41,9 +41,7 @@ export class AnonymousConsentsEffects {
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
-          withLatestFrom(
-            this.anonymousConsentService.getAnonymousConsentTemplates()
-          ),
+          withLatestFrom(this.anonymousConsentService.getTemplates()),
           mergeMap(([newConsentTemplates, currentConsentTemplates]) => {
             let updated = false;
             if (
@@ -78,9 +76,7 @@ export class AnonymousConsentsEffects {
 
   @Effect()
   transferAnonymousConsentsToUser$: Observable<
-    | UserActions.TransferAnonymousConsent
-    | Observable<never>
-    | GlobalMessageActions.RemoveMessagesByType
+    UserActions.TransferAnonymousConsent | Observable<never>
   > = this.actions$.pipe(
     filter(
       () =>
@@ -99,31 +95,102 @@ export class AnonymousConsentsEffects {
     ),
     filter(([, registerAction]) => Boolean(registerAction)),
     concatMap(() =>
-      this.anonymousConsentService
-        .getAnonymousConsentTemplate(
-          this.anonymousConsentsConfig.anonymousConsents.registerConsent
-        )
-        .pipe(
-          withLatestFrom(
-            this.anonymousConsentService.getAnonymousConsent(
-              this.anonymousConsentsConfig.anonymousConsents.registerConsent
-            ),
-            this.authService.getOccUserId()
-          ),
-          map(([template, consent, userId]) => {
+      this.anonymousConsentService.getConsents().pipe(
+        withLatestFrom(
+          this.authService.getOccUserId(),
+          this.anonymousConsentService.getTemplates(),
+          this.authService.isUserLoggedIn()
+        ),
+        filter(([, , , loggedIn]) => loggedIn),
+        concatMap(([consents, userId, templates, _loggedIn]) => {
+          const actions: UserActions.TransferAnonymousConsent[] = [];
+          for (const consent of consents) {
             if (
-              consent.consentState ===
-              ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
+              this.anonymousConsentService.isConsentGiven(consent) &&
+              (!this.anonymousConsentsConfig.anonymousConsents
+                .requiredConsents ||
+                !this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+                  consent.templateCode
+                ))
             ) {
-              return new UserActions.TransferAnonymousConsent({
-                userId: userId,
-                consentTemplateId: template.id,
-                consentTemplateVersion: template.version,
-              });
+              for (const template of templates) {
+                if (template.id === consent.templateCode) {
+                  actions.push(
+                    new UserActions.TransferAnonymousConsent({
+                      userId,
+                      consentTemplateId: template.id,
+                      consentTemplateVersion: template.version,
+                    })
+                  );
+                  break;
+                }
+              }
             }
-            return EMPTY;
-          })
-        )
+          }
+          if (actions.length > 0) {
+            return actions;
+          }
+          return EMPTY;
+        })
+      )
+    )
+  );
+
+  @Effect()
+  giveRequiredConsentsToUser$: Observable<
+    UserActions.GiveUserConsent | Observable<never>
+  > = this.actions$.pipe(
+    filter(
+      () =>
+        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+        Boolean(this.anonymousConsentsConfig.anonymousConsents.requiredConsents)
+    ),
+    ofType<AuthActions.LoadUserTokenSuccess>(
+      AuthActions.LOAD_USER_TOKEN_SUCCESS
+    ),
+    filter(action => Boolean(action)),
+    concatMap(() =>
+      this.userConsentService.getConsentsResultSuccess().pipe(
+        withLatestFrom(
+          this.authService.getOccUserId(),
+          this.userConsentService.getConsents(),
+          this.authService.isUserLoggedIn()
+        ),
+        filter(([, , , loggedIn]) => loggedIn),
+        tap(([loaded, _userId, _templates, _loggedIn]) => {
+          if (!loaded) {
+            this.userConsentService.loadConsents();
+          }
+        }),
+        map(([_loaded, userId, templates, _loggedIn]) => {
+          return { userId, templates };
+        }),
+        concatMap(({ userId, templates }) => {
+          const actions: UserActions.GiveUserConsent[] = [];
+          for (const template of templates) {
+            if (
+              (!template.currentConsent ||
+                !template.currentConsent.consentGivenDate ||
+                template.currentConsent.consentWithdrawnDate) &&
+              this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+                template.id
+              )
+            ) {
+              actions.push(
+                new UserActions.GiveUserConsent({
+                  userId,
+                  consentTemplateId: template.id,
+                  consentTemplateVersion: template.version,
+                })
+              );
+            }
+          }
+          if (actions.length > 0) {
+            return actions;
+          }
+          return EMPTY;
+        })
+      )
     )
   );
 
@@ -132,6 +199,7 @@ export class AnonymousConsentsEffects {
     private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
-    private anonymousConsentService: AnonymousConsentsService
+    private anonymousConsentService: AnonymousConsentsService,
+    private userConsentService: UserConsentService
   ) {}
 }
