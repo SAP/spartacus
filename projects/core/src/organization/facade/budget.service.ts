@@ -94,4 +94,12 @@ export class BudgetService {
       // shareReplay({ bufferSize: 1, refCount: true })
     );
   }
+
+  createBudget(budget: Budget) {
+    this.user$
+      .pipe(take(1))
+      .subscribe(uid =>
+        this.store.dispatch(new BudgetActions.CreateBudget({ uid, budget }))
+      );
+  }
 }

@@ -50,6 +50,22 @@ export class BudgetEffects {
     )
   );
 
+  @Effect()
+  $createBudget: Observable<
+    BudgetActions.CreateBudgetSuccess | BudgetActions.CreateBudgetFail
+  > = this.actions$.pipe(
+    ofType(BudgetActions.CREATE_BUDGET),
+    map((action: BudgetActions.CreateBudget) => action.payload),
+    switchMap(payload =>
+      this.budgetConnector.post(payload.uid, payload.budget).pipe(
+        map(data => new BudgetActions.CreateBudgetSuccess(data)),
+        catchError(error =>
+          of(new BudgetActions.CreateBudgetFail(makeErrorSerializable(error)))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private budgetConnector: BudgetConnector
