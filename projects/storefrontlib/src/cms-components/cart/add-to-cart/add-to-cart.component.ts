@@ -28,6 +28,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock = false;
   quantity = 1;
   increment = false;
+  isStyleVariantSelected = false;
+  isSizeVariantSelected = false;
+  hasVariants = false;
 
   cartEntry$: Observable<OrderEntry>;
 
@@ -49,8 +52,15 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .getProduct()
         .pipe(filter(Boolean))
         .subscribe((product: Product) => {
+          if (product.baseOptions && product.baseOptions.length) {
+            this.checkForVariantTypesSelection(product);
+          }
+
           this.productCode = product.code;
           this.quantity = 1;
+          this.hasVariants = !!(
+            product.variantOptions && product.variantOptions.length
+          );
 
           if (
             product.stock &&
@@ -112,5 +122,22 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  resetVariantsSelections() {
+    this.isStyleVariantSelected = false;
+    this.isSizeVariantSelected = false;
+  }
+
+  checkForVariantTypesSelection(product: Product) {
+    this.resetVariantsSelections();
+    product.baseOptions.forEach(baseOption => {
+      if (baseOption.variantType === 'ApparelStyleVariantProduct') {
+        this.isStyleVariantSelected = true;
+      }
+      if (baseOption.variantType === 'ApparelSizeVariantProduct') {
+        this.isSizeVariantSelected = true;
+      }
+    });
   }
 }

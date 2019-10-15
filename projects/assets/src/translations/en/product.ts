@@ -58,6 +58,7 @@ export const product = {
     quantity: 'Qty',
     outOfStock: 'Out of stock',
     inStock: 'In stock',
+    selectStyleAndSize: 'Select style and size to check stock',
   },
   CMSTabParagraphContainer: {
     tabs: {
