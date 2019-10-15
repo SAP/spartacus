@@ -16,8 +16,9 @@ import { ModalService } from '../../modal/index';
 export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
-  showLegalDescription: boolean;
+  showLegalDescription = true;
   iconTypes = ICON_TYPE;
+  requiredConsents: string[] = [];
 
   templates$: Observable<ConsentTemplate[]>;
   consents$: Observable<AnonymousConsent[]>;
@@ -27,12 +28,17 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private anonymousConsentsService: AnonymousConsentsService
   ) {
-    this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
+    if (Boolean(this.config.anonymousConsents)) {
+      this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
+      if (Boolean(this.config.anonymousConsents.requiredConsents)) {
+        this.requiredConsents = this.config.anonymousConsents.requiredConsents;
+      }
+    }
   }
 
   ngOnInit(): void {
-    this.templates$ = this.anonymousConsentsService.getAnonymousConsentTemplates();
-    this.consents$ = this.anonymousConsentsService.getAnonymousConsents();
+    this.templates$ = this.anonymousConsentsService.getTemplates();
+    this.consents$ = this.anonymousConsentsService.getConsents();
   }
 
   closeModal(reason?: any): void {
@@ -41,14 +47,14 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
 
   rejectAll(): void {
     this.subscriptions.add(
-      this.anonymousConsentsService.withdrawAllAnonymousConsents().subscribe()
+      this.anonymousConsentsService.withdrawAllConsents().subscribe()
     );
     this.closeModal('rejectAll');
   }
 
   allowAll(): void {
     this.subscriptions.add(
-      this.anonymousConsentsService.giveAllAnonymousConsents().subscribe()
+      this.anonymousConsentsService.giveAllConsents().subscribe()
     );
     this.closeModal('allowAll');
   }
@@ -61,10 +67,22 @@ export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
     template: ConsentTemplate;
   }): void {
     if (given) {
-      this.anonymousConsentsService.giveAnonymousConsent(template.id);
+      this.anonymousConsentsService.giveConsent(template.id);
     } else {
-      this.anonymousConsentsService.withdrawAnonymousConsent(template.id);
+      this.anonymousConsentsService.withdrawConsent(template.id);
     }
+  }
+
+  getCorrespondingConsent(
+    template: ConsentTemplate,
+    consents: AnonymousConsent[] = []
+  ): AnonymousConsent {
+    for (const consent of consents) {
+      if (template.id === consent.templateCode) {
+        return consent;
+      }
+    }
+    return null;
   }
 
   ngOnDestroy(): void {
