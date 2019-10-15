@@ -12,8 +12,8 @@ export class QualtricsLoaderService {
 
   constructor(private winRef: WindowRef, private config: QualtricsConfig) {
     if (Boolean(this.winRef.nativeWindow)) {
-      this.verifyQualtrics();
-      this.loadQualtrics();
+      this.initialize();
+      this.setup();
     }
   }
 
@@ -22,7 +22,6 @@ export class QualtricsLoaderService {
       filter(loaded => loaded),
       mergeMap(_ => {
         const qsi = this.winRef.nativeWindow['QSI'];
-
         return this.isDataLoaded().pipe(
           distinctUntilChanged(),
           tap(dataLoaded => {
@@ -42,13 +41,13 @@ export class QualtricsLoaderService {
     );
   }
 
-  private verifyQualtrics() {
+  private initialize() {
     fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded')
       .pipe(filter(_ => this.isQualtricsConfigured()))
       .subscribe(_ => this.qualtricsLoaded$.next(true));
   }
 
-  private loadQualtrics() {
+  private setup() {
     const qualtricsScript = this.winRef.document.createElement('script');
     qualtricsScript.type = 'text/javascript';
     qualtricsScript.defer = true;
