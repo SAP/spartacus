@@ -128,31 +128,35 @@
                   </div>
                 </td>
                 <td>
-                  <div class="d-md-none cx-product-interests-label">
-                    {{ 'myInterests.price' | cxTranslate }}
+                  <div class="cx-product-interests-product-price">
+                    <div class="d-md-none cx-product-interests-label">
+                      {{ 'myInterests.price' | cxTranslate }}
+                    </div>
+                    <span data-test="productPrice">{{
+                      result.product.price.formattedValue
+                    }}</span>
                   </div>
-                  <span data-test="productPrice">{{
-                    result.product.price.formattedValue
-                  }}</span>
                 </td>
                 <td>
-                  <div class="d-md-none cx-product-interests-label">
-                    {{ 'myInterests.subcriptions' | cxTranslate }}
-                  </div>
-                  <div
-                    class="notificaitonPanel"
-                    *ngFor="let ientry of result.productInterestEntry"
-                  >
-                    <span data-test="interestType">
-                      {{ ientry.interestType }}
-                    </span>
-                    <span data-test="expirationDate">
-                      {{
-                        'myInterests.expirationDate'
-                          | cxTranslate
-                            : { expirationDate: ientry.expirationDate | date }
-                      }}
-                    </span>
+                  <div class="cx-product-interests-subscriptions">
+                    <div class="d-md-none cx-product-interests-label">
+                      {{ 'myInterests.subcriptions' | cxTranslate }}
+                    </div>
+                    <div
+                      class="cx-product-interests-notification"
+                      *ngFor="let ientry of result.productInterestEntry"
+                    >
+                      <span class="cx-product-interests-type" data-test="interestType">
+                        {{ ientry.interestType }}
+                      </span>
+                      <span data-test="expirationDate">
+                        {{
+                          'myInterests.expirationDate'
+                            | cxTranslate
+                              : { expirationDate: ientry.expirationDate | date }
+                        }}
+                      </span>
+                    </div>
                   </div>
                 </td>
                 <td>
