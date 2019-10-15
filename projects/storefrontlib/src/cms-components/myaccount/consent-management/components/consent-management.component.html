@@ -1,4 +1,6 @@
-<ng-container *ngIf="isAnonymousConsentsEnabled; else legacyTemplate">
+<ng-container
+  *ngIf="isAnonymousConsentsEnabled; else legacyConsentManagementPage"
+>
   <div *ngIf="loading$ | async; else consentManagementForm">
     <div class="cx-spinner">
       <cx-spinner></cx-spinner>
@@ -22,8 +24,9 @@
           >{{ 'consentManagementForm.allowAll' | cxTranslate }}</a
         >
       </div>
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-8">
+
+      <div class="cx-dialog-body modal-body">
+        <div class="cx-dialog-row col-sm-12 col-md-6">
           <cx-consent-management-form
             *ngFor="let consentTemplate of templateList"
             [consentTemplate]="consentTemplate"
@@ -37,7 +40,7 @@
   </ng-template>
 </ng-container>
 
-<ng-template #legacyTemplate>
+<ng-template #legacyConsentManagementPage>
   <div *ngIf="loading$ | async; else consentManagementForm">
     <div class="cx-spinner">
       <cx-spinner></cx-spinner>

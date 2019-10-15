@@ -1,14 +1,81 @@
-<div class="form-check">
-  <label>
-    <input
-      type="checkbox"
-      class="form-check-input"
-      (change)="onConsentChange()"
-      [checked]="consentGiven"
-      [disabled]="isRequired(consentTemplate?.id)"
-    />
-    <span class="form-check-label">
-      {{ consentTemplate?.description }}
-    </span>
-  </label>
-</div>
+<ng-container
+  *ngIf="isAnonymousConsentsEnabled; else legacyConsentManagementForm"
+>
+  <div
+    class="form-check cx-accordion"
+    role="tablist"
+    aria-live="polite"
+    data-behavior="accordion"
+  >
+    <div
+      class="cx-accordion-item js-show-item-default"
+      data-binding="expand-accordion-item"
+    >
+      <div
+        [id]="'tab' + consentTemplate?.id"
+        tabindex="0"
+        class="cx-accordion-tab cx-keyb-focusable"
+        [attr.aria-controls]="'panel' + consentTemplate?.id"
+        role="tab"
+        [attr.aria-selected]="accordionExpanded"
+        [attr.aria-expanded]="accordionExpanded"
+        data-binding="expand-accordion-trigger"
+        (click)="toggleAccordion()"
+        (keydown)="toggleAccordion($event)"
+      >
+        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+        <span class="cx-accordion-title cx-keyb-visualfocus" tabindex="-1"
+          >{{ consentTemplate?.name }}
+        </span>
+      </div>
+
+      <div
+        [id]="'panel' + consentTemplate?.id"
+        class="cx-accordion-tabpanel"
+        role="tabpanel"
+        [attr.aria-hidden]="!accordionExpanded"
+        [attr.aria-labelledby]="'tab' + consentTemplate?.id"
+        data-binding="expand-accordion-container"
+        [style.height]="accordionHeight"
+      >
+        <div class="cx-accordion-content" #accordionContent>
+          <p>{{ consentTemplate?.description }}</p>
+        </div>
+      </div>
+
+      <div class="cx-toggle-button">
+        <input
+          type="checkbox"
+          [id]="consentTemplate?.id"
+          [checked]="consentGiven"
+          [disabled]="isRequired(consentTemplate?.id)"
+          (change)="onConsentChange()"
+        />
+
+        <label [for]="consentTemplate?.id">
+          <div class="cx-toggle-switch"></div>
+          <div class="cx-toggle-text">
+            {{ consentGivenTranslation$ | async | cxTranslate }}
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #legacyConsentManagementForm>
+  <div class="form-check">
+    <label>
+      <input
+        type="checkbox"
+        class="form-check-input"
+        (change)="onConsentChange()"
+        [checked]="consentGiven"
+        [disabled]="isRequired(consentTemplate?.id)"
+      />
+      <span class="form-check-label">
+        {{ consentTemplate?.description }}
+      </span>
+    </label>
+  </div>
+</ng-template>
