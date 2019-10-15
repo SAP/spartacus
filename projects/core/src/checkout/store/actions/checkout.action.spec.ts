@@ -497,9 +497,13 @@ describe('Checkout Actions', () => {
 
   describe('Clear Checkout Delivery Mode Success', () => {
     it('should create the action', () => {
-      const action = new CheckoutActions.ClearCheckoutDeliveryModeSuccess();
+      const action = new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+        userId,
+        cartId,
+      });
       expect({ ...action }).toEqual({
         type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
+        payload: { userId, cartId },
       });
     });
   });

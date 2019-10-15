@@ -16,6 +16,7 @@ import { ConfigAttributeHeaderComponent } from '../config-attribute-header/confi
 import { ConfigAttributeDropDownComponent } from '../config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
 import { ConfigAttributeInputFieldComponent } from '../config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
 import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
+import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigFormComponent } from './config-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -70,6 +71,7 @@ describe('ConfigurationFormComponent', () => {
         ConfigAttributeRadioButtonComponent,
         ConfigAttributeInputFieldComponent,
         ConfigAttributeDropDownComponent,
+        ConfigAttributeReadOnlyComponent,
         MockCxIconComponent,
       ],
       providers: [

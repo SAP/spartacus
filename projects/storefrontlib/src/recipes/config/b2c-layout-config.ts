@@ -58,7 +58,6 @@ export const b2cLayoutConfig: LayoutConfig = {
     },
     ProductDetailsPageTemplate: {
       slots: [
-        'TopHeaderSlot',
         'Summary',
         'UpSelling',
         'CrossSelling',
@@ -84,12 +83,8 @@ export const b2cLayoutConfig: LayoutConfig = {
     MultiStepCheckoutSummaryPageTemplate: {
       slots: ['TopContent', 'BodyContent', 'SideContent', 'BottomContent'],
     },
-    VariantConfigurationTemplate: {
-      slots: [
-        'VariantConfigTitle',
-        'VariantConfigHeader',
-        'VariantConfigContent',
-      ],
+    CheckoutLoginPageTemplate: {
+      slots: ['RightContentSlot'],
     },
   },
 };

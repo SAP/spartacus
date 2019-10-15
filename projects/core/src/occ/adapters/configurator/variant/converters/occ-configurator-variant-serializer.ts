@@ -13,12 +13,11 @@ export class OccConfiguratorVariantSerializer
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration
   ): OccConfigurator.Configuration {
-    if (target === undefined) {
-      target = { ...(source as any) };
-    }
-    target.complete = source.complete;
-    target.groups = [];
-
+    target = {
+      configId: source.configId,
+      complete: source.complete,
+      groups: [],
+    };
     this.convertGroup(source, target.groups);
 
     return target;
@@ -64,7 +63,10 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON
     ) {
       cstic.value = attribute.selectedSingleValue;
-    } else {
+    } else if (
+      attribute.uiType === Configurator.UiType.STRING ||
+      attribute.uiType === Configurator.UiType.INPUT
+    ) {
       cstic.value = attribute.userInput;
     }
 

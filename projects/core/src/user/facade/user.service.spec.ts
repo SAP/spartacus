@@ -1,6 +1,8 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
@@ -9,6 +11,12 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
+
+class MockAuthService {
+  getOccUserId(): Observable<string> {
+    return of('current');
+  }
+}
 
 describe('UserService', () => {
   let service: UserService;
@@ -24,7 +32,10 @@ describe('UserService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserService],
+      providers: [
+        UserService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
     store = TestBed.get(Store as Type<Store<StateWithUser>>);
@@ -86,6 +97,13 @@ describe('UserService', () => {
     service.register(userRegisterFormData);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.RegisterUser(userRegisterFormData)
+    );
+  });
+
+  it('should be able to register guest', () => {
+    service.registerGuest('guid', 'password');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.RegisterGuest({ guid: 'guid', password: 'password' })
     );
   });
 

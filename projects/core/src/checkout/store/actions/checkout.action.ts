@@ -329,7 +329,16 @@ export class ClearCheckoutDeliveryMode implements Action {
 
 export class ClearCheckoutDeliveryModeSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS;
-  constructor() {}
+  // tslint:disable-next-line:unified-signatures
+  constructor(payload: { userId: string; cartId: string });
+  /**
+   * @deprecated since version 1.2
+   * Use constructor(public payload: { userId: string; cartId: string }) instead
+   *
+   * TODO(issue:#4309) Deprecated since 1.2
+   */
+  constructor();
+  constructor(public payload?: { userId: string; cartId: string }) {}
 }
 
 export class ClearCheckoutDeliveryModeFail implements Action {

@@ -44,6 +44,10 @@
         [attribute]="attribute"
         (change)="updateConfiguration($event)"
       ></cx-config-attribute-input-field>
+      <cx-config-attribute-read-only
+        *ngIf="attribute.uiType === UiType.READ_ONLY"
+        [attribute]="attribute"
+      ></cx-config-attribute-read-only>
       <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
         'configurator.attribute.notSupported' | cxTranslate
       }}</em>

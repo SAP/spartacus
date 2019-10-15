@@ -13,11 +13,11 @@ export class OccConfiguratorVariantNormalizer
     source: OccConfigurator.Configuration,
     target?: Configurator.Configuration
   ): Configurator.Configuration {
-    if (target === undefined) {
-      target = { ...(source as any) };
-    }
-    target.complete = source.complete;
-    target.attributes = [];
+    target = {
+      configId: source.configId,
+      complete: source.complete,
+      attributes: [],
+    };
 
     source.groups.forEach(group => this.convertGroup(group, target.attributes));
     return target;
@@ -87,6 +87,10 @@ export class OccConfiguratorVariantNormalizer
       }
       case OccConfigurator.UiType.STRING: {
         uiType = Configurator.UiType.STRING;
+        break;
+      }
+      case OccConfigurator.UiType.READ_ONLY: {
+        uiType = Configurator.UiType.READ_ONLY;
         break;
       }
       default: {

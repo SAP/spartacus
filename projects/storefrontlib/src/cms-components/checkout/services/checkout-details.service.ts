@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 import {
   Address,
   CartService,
-  CheckoutService,
-  PaymentDetails,
   CheckoutDeliveryService,
   CheckoutPaymentService,
+  CheckoutService,
+  OCC_USER_ID_ANONYMOUS,
+  PaymentDetails,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
+  filter,
   map,
   shareReplay,
   skipWhile,
   switchMap,
   tap,
-  filter,
 } from 'rxjs/operators';
 
 @Injectable({
@@ -31,7 +32,15 @@ export class CheckoutDetailsService {
     private cartService: CartService
   ) {
     this.cartId$ = this.cartService.getActive().pipe(
-      map(cartData => cartData.code),
+      map(cartData => {
+        if (
+          (cartData.user && cartData.user.uid === OCC_USER_ID_ANONYMOUS) ||
+          this.cartService.isGuestCart()
+        ) {
+          return cartData.guid;
+        }
+        return cartData.code;
+      }),
       filter(cartId => !!cartId)
     );
 

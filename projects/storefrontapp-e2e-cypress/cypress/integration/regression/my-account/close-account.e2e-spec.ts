@@ -1,29 +1,43 @@
 import {
   closeAccountTest,
   verifyAsAnonymous,
+  registerAndLogin,
+  verifyAccountClosedTest,
 } from '../../../helpers/close-account';
-import { formats } from '../../../sample-data/viewports';
 
-describe('Close Account page', () => {
+describe('My Account - Close Account', () => {
   before(() =>
     cy.window().then(win => {
       win.sessionStorage.clear();
     })
   );
 
-  verifyAsAnonymous();
-  closeAccountTest();
-});
-
-describe(`${formats.mobile.width + 1}p resolution - Close Account page`, () => {
-  before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-  beforeEach(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
+  describe('close account test for anonymous user', () => {
+    verifyAsAnonymous();
   });
 
-  verifyAsAnonymous();
-  closeAccountTest();
+  describe('close account test for logged in user', () => {
+    before(() => {
+      registerAndLogin();
+      cy.reload();
+      cy.visit('/');
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      cy.selectUserMenuOption({
+        option: 'Close Account',
+      });
+    });
+
+    closeAccountTest();
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+  });
+
+  describe('verify user is disabled and cannot login', () => {
+    verifyAccountClosedTest();
+  });
 });
