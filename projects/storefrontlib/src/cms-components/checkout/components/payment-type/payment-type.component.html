@@ -24,6 +24,23 @@
         </label>
       </div>
     </ng-container>
+
+    <label>
+      <span class="label-content">{{
+        'checkoutType.poNumber' | cxTranslate
+      }}</span>
+      <input #poNumber class="form-control" type="text" />
+    </label>
+
+    <label aria-required="true" *ngIf="typeSelected === 'ACCOUNT'">
+      <span class="label-content required">{{
+        'checkoutType.costCenter' | cxTranslate
+      }}</span>
+      <select class="form-control">
+        <option value="">cost center 1</option>
+        <option value="">cost center 2</option>
+      </select>
+    </label>
   </div>
 </div>
 

@@ -3,8 +3,9 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutPaymentService,
@@ -26,14 +27,10 @@ export class PaymentTypeComponent extends AbstractCheckoutStepComponent
   implements OnInit, OnDestroy {
   paymentTypes$: Observable<PaymentType[]>;
 
+  @ViewChild('poNumber', { static: false }) poNumberInput: ElementRef;
   typeSelected: string;
 
-  form: FormGroup = this.fb.group({
-    typeCode: ['', Validators.required],
-  });
-
   constructor(
-    protected fb: FormBuilder,
     protected routingService: RoutingService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected checkoutConfigService: CheckoutConfigService,
@@ -68,7 +65,10 @@ export class PaymentTypeComponent extends AbstractCheckoutStepComponent
   }
 
   next(): void {
-    this.checkoutPaymentService.setPaymentType(this.typeSelected)
+    this.checkoutPaymentService.setPaymentType(
+      this.typeSelected,
+      this.poNumberInput.nativeElement.value
+    );
     this.routingService.go(this.checkoutStepUrlNext);
   }
 
