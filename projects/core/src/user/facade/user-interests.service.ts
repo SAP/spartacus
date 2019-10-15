@@ -53,10 +53,19 @@ export class UserInterestsService {
   }
 
   /**
-   * Returns product interests list
-   * @param pageSize page size
+   * Returns product interests
    */
-  getProdutInterests(
+  getProductInterests(): Observable<ProductInterestSearchResult> {
+    return this.store.pipe(select(UsersSelectors.getInterests));
+  }
+
+  /**
+   * Returns product interests
+   * @param pageSize the page size
+   * @param productCode the product code
+   * @param notificationType the notification type
+   */
+  getAndLoadProductInterests(
     pageSize?: number,
     productCode?: string,
     notificationType?: NotificationType

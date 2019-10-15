@@ -45,7 +45,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.interests$ = this.productInterestService
-      .getProdutInterests(this.DEFAULT_PAGE_SIZE)
+      .getAndLoadProductInterests(this.DEFAULT_PAGE_SIZE)
       .pipe(
         tap(
           interests =>
