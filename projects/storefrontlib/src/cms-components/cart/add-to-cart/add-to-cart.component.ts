@@ -25,12 +25,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   maxQuantity: number;
   modalRef: ModalRef;
 
-  hasStock = true;
+  hasStock = false;
   quantity = 1;
   increment = false;
   isStyleVariantSelected = false;
   isSizeVariantSelected = false;
-  hasVariants = true;
+  hasVariants = false;
 
   cartEntry$: Observable<OrderEntry>;
 
