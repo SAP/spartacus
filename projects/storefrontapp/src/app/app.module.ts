@@ -11,10 +11,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
 import {
-  //B2cStorefrontModule,
+  B2cStorefrontModule,
+  B2bStorefrontModule,
   JsonLdBuilderModule,
   StorefrontComponent,
-  B2bStorefrontModule,
   CheckoutStepType,
   DeliveryModePreferences,
 } from '@spartacus/storefront';
@@ -26,53 +26,13 @@ registerLocaleData(localeJa);
 registerLocaleData(localeZh);
 
 const devImports = [];
-
 if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
 }
 
-@NgModule({
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
-    BrowserTransferStateModule,
-
-    /*B2cStorefrontModule.withConfig({
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          legacy: false,
-        },
-      },
-      context: {
-        urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: [
-          'electronics-spa',
-          'electronics',
-          'apparel-de',
-          'apparel-uk',
-        ],
-      },
-
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-          },
-        },
-      },
-      // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en',
-      },
-      features: {
-        level: '1.2',
-      },
-    }),*/
-
-    // The following part is for B2b storefront
+const channelImports = [];
+if (environment.channel === 'b2b') {
+  channelImports.push(
     B2bStorefrontModule.withConfig({
       backend: {
         occ: {
@@ -83,6 +43,7 @@ if (!environment.production) {
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: ['powertools-spa'],
+        channel: ['b2b'],
       },
 
       // custom routing configuration for e2e testing
@@ -141,13 +102,59 @@ if (!environment.production) {
         defaultDeliveryMode: [DeliveryModePreferences.FREE],
         guest: false,
       },
-    }),
+    })
+  );
+} else {
+  channelImports.push(
+    B2cStorefrontModule.withConfig({
+      backend: {
+        occ: {
+          baseUrl: environment.occBaseUrl,
+          legacy: false,
+        },
+      },
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: [
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
+        ],
+      },
+
+      // custom routing configuration for e2e testing
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:productCode/:name', 'product/:productCode'],
+          },
+        },
+      },
+      // we bring in static translations to be up and running soon right away
+      i18n: {
+        resources: translations,
+        chunks: translationChunksConfig,
+        fallbackLang: 'en',
+      },
+      features: {
+        level: '1.2',
+      },
+    })
+  );
+}
+
+@NgModule({
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
+    BrowserTransferStateModule,
 
     JsonLdBuilderModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
+    ...channelImports,
     ...devImports,
   ],
 

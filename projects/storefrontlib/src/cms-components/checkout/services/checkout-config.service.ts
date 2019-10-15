@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CheckoutConfigService {
   allSteps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
-  steps = this.allSteps;
+  steps = this.allSteps.filter(step => step.enabled);
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     this.steps
   );
