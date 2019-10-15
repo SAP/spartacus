@@ -40,14 +40,15 @@ export class OccBudgetAdapter implements BudgetAdapter {
   }
 
   post(userId: string, budget: Budget): Observable<Budget> {
-    return this.http.post<Budget>(this.getBudgetsEndpoint(userId), budget);
+    return this.http
+      .post<Budget>(this.getBudgetsEndpoint(userId), budget)
+      .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
   patch(userId: string, budget: Budget): Observable<Budget> {
-    return this.http.patch<Budget>(
-      this.getBudgetEndpoint(userId, budget.code),
-      budget
-    );
+    return this.http
+      .patch<Budget>(this.getBudgetEndpoint(userId, budget.code), budget)
+      .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
   protected getBudgetEndpoint(userId: string, budgetCode: string): string {
