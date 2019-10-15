@@ -65,19 +65,25 @@ export class LoadBudgetsSuccess extends EntitySuccessAction {
   }
 }
 
-export class CreateBudget {
+export class CreateBudget extends EntityLoadAction {
   readonly type = CREATE_BUDGET;
-  constructor(public payload: { uid: string; budget: Budget }) {}
+  constructor(public payload: { uid: string; budget: Budget }) {
+    super(BUDGETS_FEATURE, payload.budget.code);
+  }
 }
 
-export class CreateBudgetFail {
+export class CreateBudgetFail extends EntityFailAction {
   readonly type = CREATE_BUDGET_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(BUDGETS_FEATURE, payload.code, payload);
+  }
 }
 
-export class CreateBudgetSuccess {
+export class CreateBudgetSuccess extends EntitySuccessAction {
   readonly type = CREATE_BUDGET_SUCCESS;
-  constructor(public payload: Budget) {}
+  constructor(public payload: Budget) {
+    super(BUDGETS_FEATURE, payload.code, payload);
+  }
 }
 
 export type BudgetAction =
