@@ -37,8 +37,8 @@ export class BudgetEffects {
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(userId =>
-      // TODO: support this.budgetConnector.getBudgets(userId, pageSize, currentPage, sort ).pipe(
-      this.budgetConnector.getBudgets(userId).pipe(
+      // TODO: support this.budgetConnector.getMany(userId, pageSize, currentPage, sort).pipe(
+      this.budgetConnector.getMany(userId).pipe(
         mergeMap((budgets: Budget[]) => [
           new BudgetActions.LoadBudgetsSuccess(),
           new BudgetActions.LoadBudgetSuccess(budgets),

@@ -13,7 +13,7 @@ export class BudgetConnector {
     return this.adapter.load(userId, budgetCode);
   }
 
-  getBudgets(
+  getMany(
     userId: string,
     pageSize?: number,
     currentPage?: number,
