@@ -1,5 +1,5 @@
 <ng-container *ngIf="cart$ | async as cart">
-  <div class="cx-cart-coupon-title" data-test="title-coupon">
+  <div class="cx-cart-coupon-title">
     {{ 'voucher.coupon' | cxTranslate }}
   </div>
   <div class="form-group ">
@@ -8,8 +8,7 @@
         <div class="col-md-8">
           <input
             type="text"
-            class="form-control"
-            data-test="input-coupon"
+            class="form-control input-coupon-code"
             id="applyVoucher"
             formControlName="couponCode"
             placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
@@ -17,8 +16,7 @@
         </div>
         <div class="col-md-4">
           <button
-            class="btn btn-block btn-action "
-            data-test="button-coupon"
+            class="btn btn-block btn-action apply-coupon-button"
             type="submit"
             [disabled]="submitDisabled$ | async"
             [class.disabled]="submitDisabled$ | async"

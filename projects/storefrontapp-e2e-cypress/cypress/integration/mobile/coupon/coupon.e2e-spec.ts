@@ -77,6 +77,6 @@ describe('Cart Coupon', () => {
 
   it('should not show anchor', () => {
     cartCoupon.addProductToCart(productCode1);
-    cy.get('[data-test=anchor-coupon]').should('not.exist');
+    cy.get('.cx-cart-coupon-anchor-link').should('not.exist');
   });
 });

@@ -35,7 +35,7 @@ describe('CartCouponAnchorComponent', () => {
     fixture.detectChanges();
 
     const anchorTitle = fixture.debugElement.query(
-      By.css('[data-test="anchor-coupon"]')
+      By.css('.cx-cart-coupon-anchor-link')
     ).nativeElement;
     anchorTitle.click();
     expect(cartCouponComponentService.scrollIn).toHaveBeenCalledWith();

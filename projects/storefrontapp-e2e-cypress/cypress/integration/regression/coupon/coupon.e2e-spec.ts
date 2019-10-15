@@ -72,7 +72,7 @@ describe('Cart Coupon', () => {
   });
   it('should test anchor works', () => {
     cartCoupon.addProductToCart(productCode1);
-    cy.get('[data-test=anchor-coupon]').click();
-    cy.get('[data-test=input-coupon]').should('have.focus');
+    cy.get('.cx-cart-coupon-anchor-link').click();
+    cy.get('.input-coupon-code').should('have.focus');
   });
 });
