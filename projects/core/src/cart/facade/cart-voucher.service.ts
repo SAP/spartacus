@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
-import { Cart } from '../../model/cart.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -17,56 +15,48 @@ import { CartSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class CartVoucherService {
-  private _userId = OCC_USER_ID_ANONYMOUS;
-  private _cart: Cart;
-
   constructor(
     protected store: Store<
       StateWithCart | fromProcessStore.StateWithProcess<void>
     >,
     protected authService: AuthService
-  ) {
+  ) {}
+
+  addVoucher(cartId: string, voucherId: string): void {
     this.authService
-      .getUserToken()
-      .pipe(filter(userToken => this._userId !== userToken.userId))
-      .subscribe(userToken => {
-        if (Object.keys(userToken).length !== 0) {
-          this._userId = userToken.userId;
-        } else {
-          this._userId = OCC_USER_ID_ANONYMOUS;
-        }
-      });
-
-    this.store.pipe(select(CartSelectors.getCartContent)).subscribe(cart => {
-      this._cart = cart;
-    });
-  }
-  get userId(): string {
-    return this._userId;
-  }
-
-  get cart(): Cart {
-    return this._cart;
-  }
-
-  addVoucher(voucherId: string): void {
-    this.store.dispatch(
-      new CartActions.CartAddVoucher({
-        userId: this.userId,
-        cartId: this.cart.code,
-        voucherId: voucherId,
-      })
-    );
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new CartActions.CartAddVoucher({
+            userId: occUserId,
+            cartId: cartId,
+            voucherId: voucherId,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   removeVoucher(voucherId: string): void {
-    this.store.dispatch(
-      new CartActions.CartRemoveVoucher({
-        userId: this.userId,
-        cartId: this.cart.code,
-        voucherId: voucherId,
-      })
-    );
+    combineLatest([
+      this.authService.getOccUserId(),
+      this.store.pipe(
+        select(CartSelectors.getCartContent),
+        map(cart => cart.code)
+      ),
+    ])
+      .pipe(take(1))
+      .subscribe(([occUserId, cartId]) =>
+        this.store.dispatch(
+          new CartActions.CartRemoveVoucher({
+            userId: occUserId,
+            cartId: cartId,
+            voucherId: voucherId,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   getAddVoucherResultError(): Observable<boolean> {

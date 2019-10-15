@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { AuthService, UserToken } from '../../auth/index';
+import { AuthService } from '../../auth/index';
 import { CartActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
@@ -13,18 +13,9 @@ import { Cart } from '../../model/cart.model';
 
 const userId = 'testUserId';
 
-const testUserToken: UserToken = {
-  access_token: 'access_token',
-  userId: userId,
-  refresh_token: 'refresh_token',
-  token_type: 'token_type',
-  expires_in: 1,
-  scope: ['scope'],
-};
-
 class AuthServiceStub {
-  getUserToken(): Observable<UserToken> {
-    return of(testUserToken);
+  getOccUserId(): Observable<string> {
+    return of(userId);
   }
 }
 
@@ -60,7 +51,7 @@ describe('CartVoucherService', () => {
   describe('add Voucher', () => {
     it('should dispatch addVoucher action', () => {
       spyOn(store, 'dispatch').and.stub();
-      service.addVoucher(voucherId);
+      service.addVoucher(cart.code, voucherId);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartAddVoucher({

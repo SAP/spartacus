@@ -4,7 +4,7 @@ import { Cart, CartService, CartVoucherService } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
-import { map, tap, startWith } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -15,6 +15,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   cartIsLoading$: Observable<boolean>;
   submitDisabled$: Observable<boolean>;
   cart$: Observable<Cart>;
+  cartId: string;
 
   private subscription = new Subscription();
 
@@ -27,7 +28,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
+    this.cart$ = this.cartService
+      .getActive()
+      .pipe(tap(cart => (this.cartId = cart.code)));
 
     this.cartIsLoading$ = this.cartService
       .getLoaded()
@@ -83,7 +86,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   }
 
   applyVoucher(): void {
-    this.cartVoucherService.addVoucher(this.form.value.couponCode);
+    this.cartVoucherService.addVoucher(this.cartId, this.form.value.couponCode);
   }
 
   ngOnDestroy(): void {

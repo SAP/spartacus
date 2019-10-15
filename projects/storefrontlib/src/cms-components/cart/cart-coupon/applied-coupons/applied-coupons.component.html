@@ -5,12 +5,12 @@
     </div>
   </div>
   <div
-    *ngFor="let v of sortedVouchers"
+    *ngFor="let voucher of sortedVouchers"
     class="coupon-summary cx-coupon-card textonly"
     role="filter"
   >
     <span class="cx-applied-coupon-code" data-test="applied-coupon">{{
-      v.voucherCode
+      voucher.voucherCode
     }}</span>
   </div>
 </div>

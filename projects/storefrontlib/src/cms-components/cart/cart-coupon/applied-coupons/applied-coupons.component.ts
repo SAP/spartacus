@@ -24,6 +24,8 @@ export class AppliedCouponsComponent implements OnInit {
 
   constructor(private cartVoucherService: CartVoucherService) {}
 
+  ngOnInit() {}
+
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];
     return this.vouchers.slice().sort((a, b) => {
@@ -34,6 +36,4 @@ export class AppliedCouponsComponent implements OnInit {
   removeVoucher(voucherId: string) {
     this.cartVoucherService.removeVoucher(voucherId);
   }
-
-  ngOnInit() {}
 }
