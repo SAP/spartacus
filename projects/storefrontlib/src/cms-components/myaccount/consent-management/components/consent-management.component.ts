@@ -215,7 +215,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   rejectAll(templates: ConsentTemplate[]): void {
     let consentsToWithdraw = 0;
     templates.forEach(template => {
-      if (this.userConsentService.isConsentGiven(template)) {
+      if (this.isConsentGiven(template)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
@@ -235,10 +235,18 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     );
   }
 
+  private isConsentGiven(consentTemplate: ConsentTemplate): boolean {
+    return (
+      Boolean(consentTemplate.currentConsent) &&
+      Boolean(consentTemplate.currentConsent.consentGivenDate) &&
+      !Boolean(consentTemplate.currentConsent.consentWithdrawnDate)
+    );
+  }
+
   allowAll(templates: ConsentTemplate[]): void {
     let consentsToGive = 0;
     templates.forEach(template => {
-      if (this.userConsentService.isConsentWithdrawn(template)) {
+      if (this.isConsentWithdrawn(template)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
@@ -256,6 +264,13 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         )
         .subscribe(_ => this.userConsentService.loadConsents())
     );
+  }
+
+  private isConsentWithdrawn(consentTemplate: ConsentTemplate): boolean {
+    if (Boolean(consentTemplate.currentConsent)) {
+      return Boolean(consentTemplate.currentConsent.consentWithdrawnDate);
+    }
+    return true;
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
