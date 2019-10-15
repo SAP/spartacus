@@ -49,7 +49,11 @@
           'stockNotification.subscriptionDialog.manageSubscriptionsPrefix'
             | cxTranslate
         }}
-        <a (click)="close()" [routerLink]="['/my-account/my-interests']" class="link-interests">
+        <a
+          (click)="close()"
+          [routerLink]="['/my-account/my-interests']"
+          class="link-interests"
+        >
           {{
             'stockNotification.subscriptionDialog.manageSubscriptionsLink'
               | cxTranslate

@@ -1,7 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StockNotificationDialogComponent } from './stock-notification-dialog.component';
-import { UserInterestsService, I18nTestingModule, NotificationPreference } from '@spartacus/core';
+import {
+  UserInterestsService,
+  I18nTestingModule,
+  NotificationPreference,
+} from '@spartacus/core';
 import { ModalService, SpinnerModule } from '../../../../shared';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement } from '@angular/core';
@@ -13,8 +17,12 @@ describe('StockNotificationDialogComponent', () => {
   let fixture: ComponentFixture<StockNotificationDialogComponent>;
   let el: DebugElement;
 
-  const modalService = jasmine.createSpyObj('ModalService', ['dismissActiveModal']);
-  const interestsService = jasmine.createSpyObj('interestsService', ['resetAddInterestState']);
+  const modalService = jasmine.createSpyObj('ModalService', [
+    'dismissActiveModal',
+  ]);
+  const interestsService = jasmine.createSpyObj('interestsService', [
+    'resetAddInterestState',
+  ]);
 
   const preferences: NotificationPreference[] = [
     {
@@ -22,17 +30,17 @@ describe('StockNotificationDialogComponent', () => {
       enabled: true,
       value: 'test@sap.com',
       visible: true,
-    }
+    },
   ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [StockNotificationDialogComponent],
-      imports: [I18nTestingModule, RouterTestingModule,SpinnerModule],
+      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
       providers: [
-        {provide: ModalService, useValue: modalService},
-        {provide: UserInterestsService, useValue: interestsService}
-      ]
+        { provide: ModalService, useValue: modalService },
+        { provide: UserInterestsService, useValue: interestsService },
+      ],
     }).compileComponents();
   }));
 
@@ -46,7 +54,7 @@ describe('StockNotificationDialogComponent', () => {
     modalService.dismissActiveModal.and.stub();
     interestsService.resetAddInterestState.and.stub();
   });
-  
+
   it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();

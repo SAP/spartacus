@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StockNotificationComponent } from './stock-notification.component';
-import { 
-  I18nTestingModule, 
-  NotificationPreference, 
-  AuthService, 
-  GlobalMessageService, 
-  TranslationService, 
-  UserNotificationPreferenceService, 
-  ProductInterestSearchResult, 
-  NotificationType, 
-  OCC_USER_ID_CURRENT, 
+import {
+  I18nTestingModule,
+  NotificationPreference,
+  AuthService,
+  GlobalMessageService,
+  TranslationService,
+  UserNotificationPreferenceService,
+  ProductInterestSearchResult,
+  NotificationType,
+  OCC_USER_ID_CURRENT,
   Product,
   OCC_USER_ID_ANONYMOUS,
-  UserInterestsService
+  UserInterestsService,
 } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement } from '@angular/core';
@@ -62,56 +62,69 @@ describe('StockNotificationComponent', () => {
       enabled: true,
       value: 'test@sap.com',
       visible: true,
-    }
+    },
   ];
   const interests: ProductInterestSearchResult = {
     results: [
       {
         product: {
-          code: '7566514'
+          code: '7566514',
         },
-        productInterestEntry: [{
-          interestType: NotificationType.BACK_IN_STOCK
-        }]
-      }
-    ]
+        productInterestEntry: [
+          {
+            interestType: NotificationType.BACK_IN_STOCK,
+          },
+        ],
+      },
+    ],
   };
   const product: Product = {
     code: '7566514',
     stock: {
-      stockLevelStatus: 'outOfStock'
-    }
-  }
+      stockLevelStatus: 'outOfStock',
+    },
+  };
   const modalInstance: {
     componentInstance?: {
       subscribeSuccess$?: Observable<boolean>;
       enabledPrefs?: NotificationPreference[];
     };
   } = {
-    componentInstance: {}
+    componentInstance: {},
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-      declarations: [StockNotificationComponent, StockNotificationDialogComponent],
+      declarations: [
+        StockNotificationComponent,
+        StockNotificationDialogComponent,
+      ],
       providers: [
-        {provide: AuthService, useValue: authService},
-        {provide: CurrentProductService, useValue: currentProductService},
-        {provide: GlobalMessageService, useValue: globalMessageService},
-        {provide: TranslationService, useValue: translationService},
-        {provide: ModalService, useValue: modalService},
-        {provide: UserNotificationPreferenceService, useValue: notificationPrefService},
-        {provide: StockNotificationDialogComponent, useValue: dialogComponent},
-        {provide: UserInterestsService, useValue: interestsService}
-      ]
+        { provide: AuthService, useValue: authService },
+        { provide: CurrentProductService, useValue: currentProductService },
+        { provide: GlobalMessageService, useValue: globalMessageService },
+        { provide: TranslationService, useValue: translationService },
+        { provide: ModalService, useValue: modalService },
+        {
+          provide: UserNotificationPreferenceService,
+          useValue: notificationPrefService,
+        },
+        {
+          provide: StockNotificationDialogComponent,
+          useValue: dialogComponent,
+        },
+        { provide: UserInterestsService, useValue: interestsService },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     authService.getOccUserId.and.returnValue(of(OCC_USER_ID_CURRENT));
     notificationPrefService.loadPreferences.and.stub();
-    notificationPrefService.getEnabledPreferences.and.returnValue(of(preferences));
+    notificationPrefService.getEnabledPreferences.and.returnValue(
+      of(preferences)
+    );
     currentProductService.getProduct.and.returnValue(of(product));
     interestsService.getProdutInterests.and.returnValue(of(interests));
     interestsService.getAddProductInterestSuccess.and.returnValue(of(false));
@@ -143,15 +156,13 @@ describe('StockNotificationComponent', () => {
     authService.getOccUserId.and.returnValue(of(OCC_USER_ID_ANONYMOUS));
     fixture.detectChanges();
 
-    expect(
-      el.query(By.css('a')).nativeElement
-    ).toBeTruthy();
+    expect(el.query(By.css('a')).nativeElement).toBeTruthy();
     expect(
       el.query(By.css('.stock-notification-notes')).nativeElement
     ).toBeTruthy();
-    expect(
-      el.query(By.css('.btn-notify')).nativeElement.disabled
-    ).toEqual(true);
+    expect(el.query(By.css('.btn-notify')).nativeElement.disabled).toEqual(
+      true
+    );
   });
 
   it('should show correct elements for active customer without enabled preferences', () => {
@@ -159,15 +170,13 @@ describe('StockNotificationComponent', () => {
     notificationPrefService.getEnabledPreferences.and.returnValue(of([]));
     fixture.detectChanges();
 
-    expect(
-      el.query(By.css('a')).nativeElement
-    ).toBeTruthy();
+    expect(el.query(By.css('a')).nativeElement).toBeTruthy();
     expect(
       el.query(By.css('.stock-notification-notes')).nativeElement
     ).toBeTruthy();
-    expect(
-      el.query(By.css('.btn-notify')).nativeElement.disabled
-    ).toEqual(true);
+    expect(el.query(By.css('.btn-notify')).nativeElement.disabled).toEqual(
+      true
+    );
   });
 
   it('should be able to show dialog for create stock notification for active user with channel set', () => {
@@ -181,7 +190,10 @@ describe('StockNotificationComponent', () => {
     button.click();
 
     expect(modalService.open).toHaveBeenCalled();
-    expect(interestsService.addProductInterest).toHaveBeenCalledWith(product.code, NotificationType.BACK_IN_STOCK);
+    expect(interestsService.addProductInterest).toHaveBeenCalledWith(
+      product.code,
+      NotificationType.BACK_IN_STOCK
+    );
   });
 
   it('should show global message when delete stock notification success for login user with channel set', () => {
@@ -192,9 +204,8 @@ describe('StockNotificationComponent', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('.stock-notification-notes')).nativeElement
-      ).toBeTruthy();
-    const button = el.query(By.css('button'))
-    .nativeElement;
+    ).toBeTruthy();
+    const button = el.query(By.css('button')).nativeElement;
     button.click();
     getTestScheduler().flush();
     fixture.detectChanges();
@@ -211,5 +222,4 @@ describe('StockNotificationComponent', () => {
     expect(component['subscription'].unsubscribe).toHaveBeenCalled();
     expect(interestsService.clearProductInterests).toHaveBeenCalled();
   });
-
 });

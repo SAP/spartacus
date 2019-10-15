@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   UserInterestsService,
   UserNotificationPreferenceService,
@@ -20,7 +25,7 @@ import { StockNotificationDialogComponent } from './stock-notification-dialog/st
 @Component({
   selector: 'cx-stock-notification',
   templateUrl: './stock-notification.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   anonymous$: Observable<boolean>;
@@ -43,7 +48,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     private translationService: TranslationService,
     private interestsService: UserInterestsService,
     private modalService: ModalService,
-    private notificationPrefService: UserNotificationPreferenceService,
+    private notificationPrefService: UserNotificationPreferenceService
   ) {}
 
   ngOnInit() {
