@@ -102,4 +102,48 @@ describe('CheckoutProgressComponent', () => {
 
     expect(steps.length).toBe(3);
   });
+
+  describe('isActive()', () => {
+    it('should return first step as active', () => {
+      expect(component.isActive(0)).toBe(true);
+    });
+
+    it('should return second step as NOT active', () => {
+      expect(component.isActive(1)).toBe(false);
+    });
+  });
+
+  describe('isDisabled()', () => {
+    it('should return first step as NOT disabled', () => {
+      expect(component.isDisabled(0)).toBe(false);
+    });
+
+    it('should return second step as disabled', () => {
+      expect(component.isDisabled(1)).toBe(true);
+    });
+  });
+
+  describe('getTabIndex()', () => {
+    beforeEach(() => {
+      component.activeStepIndex = 1;
+    });
+
+    it('should return first step as focusable via tabindex', () => {
+      expect(component.isActive(0)).toBe(false);
+      expect(component.isDisabled(0)).toBe(false);
+      expect(component.getTabIndex(0)).toBe(0);
+    });
+
+    it('should return second step as NOT focusable via tabindex', () => {
+      expect(component.isActive(1)).toBe(true);
+      expect(component.isDisabled(1)).toBe(false);
+      expect(component.getTabIndex(1)).toBe(-1);
+    });
+
+    it('should return third step as NOT focusable via tabindex', () => {
+      expect(component.isActive(2)).toBe(false);
+      expect(component.isDisabled(2)).toBe(true);
+      expect(component.getTabIndex(2)).toBe(-1);
+    });
+  });
 });
