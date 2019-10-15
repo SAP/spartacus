@@ -22,13 +22,17 @@ export const getSelectedProductReferencesFactory = (
   return createSelector(
     getProductReferencesState,
     referenceTypeData => {
-      if (referenceTypeData.productCode === productCode) {
-        return !!referenceTypeData.list
-          ? referenceType &&
-              referenceTypeData.list.filter(
-                item => item.referenceType === referenceType
-              )
-          : referenceTypeData.list;
+      if (
+        referenceTypeData.productCode === productCode &&
+        !!referenceTypeData.list
+      ) {
+        if (referenceType) {
+          return referenceTypeData.list.filter(
+            item => item.referenceType === referenceType
+          );
+        }
+
+        return referenceTypeData.list;
       }
     }
   );
