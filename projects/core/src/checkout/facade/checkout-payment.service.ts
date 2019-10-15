@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CartDataService } from '../../cart/facade/cart-data.service';
-import { CardType, PaymentDetails } from '../../model/cart.model';
+import { CardType, PaymentDetails, PaymentType } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
@@ -28,6 +28,15 @@ export class CheckoutPaymentService {
    */
   getCardTypes(): Observable<CardType[]> {
     return this.checkoutStore.pipe(select(CheckoutSelectors.getAllCardTypes));
+  }
+
+  /**
+   * Get payment types
+   */
+  getPaymentTypes(): Observable<PaymentType[]> {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getAllPaymentTypes)
+    );
   }
 
   /**

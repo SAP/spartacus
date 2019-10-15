@@ -1,5 +1,5 @@
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { CardType, PaymentDetails } from '../../model/cart.model';
+import { CardType, PaymentDetails, PaymentType } from '../../model/cart.model';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode, Order } from '../../model/order.model';
 
@@ -24,6 +24,10 @@ export interface CardTypesState {
   entities: { [code: string]: CardType };
 }
 
+export interface PaymentTypesState {
+  entities: { [code: string]: PaymentType };
+}
+
 export interface CheckoutStepsState {
   address: Address;
   deliveryMode: {
@@ -38,4 +42,5 @@ export interface CheckoutState {
   steps: LoaderState<CheckoutStepsState>;
   cardTypes: CardTypesState;
   addressVerification: AddressVerificationState;
+  paymentTypes: PaymentTypesState;
 }

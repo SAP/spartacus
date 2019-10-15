@@ -1,6 +1,10 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '../../../util/converter.service';
-import { CardType, PaymentDetails } from '../../../model/cart.model';
+import {
+  CardType,
+  PaymentDetails,
+  PaymentType,
+} from '../../../model/cart.model';
 
 export const PAYMENT_DETAILS_NORMALIZER = new InjectionToken<
   Converter<any, PaymentDetails>
@@ -13,3 +17,7 @@ export const PAYMENT_DETAILS_SERIALIZER = new InjectionToken<
 export const CARD_TYPE_NORMALIZER = new InjectionToken<
   Converter<any, CardType>
 >('CardTypeNormalizer');
+
+export const PAYMENT_TYPE_NORMALIZER = new InjectionToken<
+  Converter<any, PaymentType>
+>('PaymentTypeNormalizer');

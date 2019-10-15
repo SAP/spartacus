@@ -5,16 +5,22 @@ import { map, mergeMap } from 'rxjs/operators';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
 import {
   CARD_TYPE_NORMALIZER,
+  PAYMENT_TYPE_NORMALIZER,
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '../../../checkout/connectors/payment/converters';
-import { CardType, PaymentDetails } from '../../../model/cart.model';
+import {
+  CardType,
+  PaymentDetails,
+  PaymentType,
+} from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CustomEncoder } from '../cart/custom.encoder';
 
 const ENDPOINT_CARD_TYPES = 'cardtypes';
+const ENDPOINT_PAYMENT_TYPES = 'paymenttypes';
 
 @Injectable()
 export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
@@ -96,6 +102,17 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       .pipe(
         map(cardTypeList => cardTypeList.cardTypes),
         this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
+      );
+  }
+
+  loadPaymentTypes(): Observable<PaymentType[]> {
+    return this.http
+      .get<Occ.PaymentTypeList>(
+        this.occEndpoints.getEndpoint(ENDPOINT_PAYMENT_TYPES)
+      )
+      .pipe(
+        map(paymentTypeList => paymentTypeList.paymentTypes),
+        this.converter.pipeableMany(PAYMENT_TYPE_NORMALIZER)
       );
   }
 
