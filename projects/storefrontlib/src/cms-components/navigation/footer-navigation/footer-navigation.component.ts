@@ -69,7 +69,9 @@ export class FooterNavigationComponent {
       .pipe(
         map(
           isUserLoggedIn =>
-            !isUserLoggedIn && this.config.anonymousConsents.footerLink
+            !isUserLoggedIn &&
+            Boolean(this.config.anonymousConsents) &&
+            this.config.anonymousConsents.footerLink
         )
       );
   }

@@ -7,6 +7,7 @@ import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  ANONYMOUS_CONSENT_STATUS,
   AuthRedirectService,
   AuthService,
   ConsentTemplate,
@@ -121,22 +122,22 @@ class MockRoutingService {
 }
 
 class MockAnonymousConsentsService {
-  getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
+  getConsent(_templateCode: string): Observable<AnonymousConsent> {
     return of();
   }
-
-  getAnonymousConsentTemplate(
-    _templateCode: string
-  ): Observable<ConsentTemplate> {
+  getTemplate(_templateCode: string): Observable<ConsentTemplate> {
     return of();
   }
-
-  giveAnonymousConsent(_templateCode: string): void {}
+  giveConsent(_templateCode: string): void {}
+  isConsentGiven(_consent: AnonymousConsent): boolean {
+    return true;
+  }
 }
 
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   anonymousConsents: {
     registerConsent: 'MARKETING',
+    requiredConsents: ['MARKETING'],
   },
 };
 
@@ -419,7 +420,7 @@ describe('RegisterComponent', () => {
 
   describe('onRegisterUserSuccess', () => {
     beforeEach(() => {
-      spyOn(anonymousConsentService, 'giveAnonymousConsent').and.stub();
+      spyOn(anonymousConsentService, 'giveConsent').and.stub();
     });
 
     it('should give anonymous consent if consent was given', () => {
@@ -427,7 +428,7 @@ describe('RegisterComponent', () => {
 
       registerUserIsSuccess.next(true);
 
-      expect(anonymousConsentService.giveAnonymousConsent).toHaveBeenCalledWith(
+      expect(anonymousConsentService.giveConsent).toHaveBeenCalledWith(
         mockAnonymousConsentsConfig.anonymousConsents.registerConsent
       );
     });
@@ -436,9 +437,34 @@ describe('RegisterComponent', () => {
 
       registerUserIsSuccess.next(true);
 
-      expect(
-        anonymousConsentService.giveAnonymousConsent
-      ).not.toHaveBeenCalled();
+      expect(anonymousConsentService.giveConsent).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('isConsentGiven', () => {
+    it('should call anonymousConsentsService.isConsentGiven', () => {
+      spyOn(anonymousConsentService, 'isConsentGiven').and.stub();
+      const mockConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+      };
+      component.isConsentGiven(mockConsent);
+      expect(anonymousConsentService.isConsentGiven).toHaveBeenCalledWith(
+        mockConsent
+      );
+    });
+  });
+
+  describe('isConsentRequired', () => {
+    it('should disable form when register consent is required', () => {
+      expect(component.isConsentRequired()).toEqual(true);
+    });
+
+    it('should disable input when when register consent is required', () => {
+      spyOn(component, 'isConsentRequired').and.returnValue(true);
+
+      fixture.detectChanges();
+
+      expect(controls['newsletter'].status).toEqual('DISABLED');
     });
   });
 });

@@ -11,12 +11,25 @@ import {
   ConsentTemplate,
 } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
+import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
 import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import * as fromEffect from './anonymous-consents.effect';
+
+class MockUserContentService {
+  getConsentsResultSuccess(): Observable<boolean> {
+    return of(true);
+  }
+
+  getConsents(): Observable<ConsentTemplate[]> {
+    return of();
+  }
+
+  loadConsents(): void {}
+}
 
 class MockAnonymousConsentTemplatesConnector {
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
@@ -41,33 +54,45 @@ class MockAnonymousConsentsService {
   ): boolean {
     return false;
   }
-  getAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
+  getTemplates(): Observable<ConsentTemplate[]> {
     return of();
   }
   getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
     return of();
   }
-
   getAnonymousConsentTemplate(
     _templateCode: string
   ): Observable<ConsentTemplate> {
     return of();
   }
+  getConsents(): Observable<AnonymousConsent[]> {
+    return of();
+  }
+  isConsentGiven(_consent: AnonymousConsent) {
+    return true;
+  }
 }
 
 const mockTemplateList: ConsentTemplate[] = [
   {
-    id: 'xxx',
+    id: 'MARKETING',
     description: 'store user info consent template',
     version: 0,
   },
 ];
 
-const mockAnonymousConsent: AnonymousConsent = {
-  templateCode: 'xxx',
-  consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
-  version: 0,
-};
+const mockAnonymousConsents: AnonymousConsent[] = [
+  {
+    templateCode: 'MARKETING',
+    consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+    version: 0,
+  },
+  {
+    templateCode: 'xxx',
+    consentState: null,
+    version: 0,
+  },
+];
 
 const mockUserToken = {
   access_token: 'yyy',
@@ -76,8 +101,21 @@ const mockUserToken = {
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   anonymousConsents: {
     registerConsent: 'MARKETING',
+    requiredConsents: ['xxx', 'yyy'],
   },
 };
+
+const consentTemplateListMock: ConsentTemplate[] = [
+  {
+    id: 'xxx',
+    version: 0,
+    currentConsent: {
+      consentGivenDate: new Date(),
+      consentWithdrawnDate: new Date(),
+    },
+  },
+  { id: 'yyy', version: 0 },
+];
 
 describe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
@@ -85,6 +123,7 @@ describe('AnonymousConsentsEffects', () => {
   let actions$: Observable<Action>;
   let authService: AuthService;
   let anonymousConsentService: AnonymousConsentsService;
+  let userConsentService: UserConsentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -106,6 +145,10 @@ describe('AnonymousConsentsEffects', () => {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
+        {
+          provide: UserConsentService,
+          useClass: MockUserContentService,
+        },
         provideMockActions(() => actions$),
       ],
     });
@@ -120,6 +163,9 @@ describe('AnonymousConsentsEffects', () => {
       AnonymousConsentsService
     >);
     authService = TestBed.get(AuthService as Type<AuthService>);
+    userConsentService = TestBed.get(UserConsentService as Type<
+      UserConsentService
+    >);
   });
 
   describe('handleLogoutAndLanguageChange$', () => {
@@ -152,10 +198,9 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(connector, 'loadAnonymousConsentTemplates').and.returnValue(
         of(mockTemplateList)
       );
-      spyOn(
-        anonymousConsentService,
-        'getAnonymousConsentTemplates'
-      ).and.returnValue(of(mockTemplateList));
+      spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
+        of(mockTemplateList)
+      );
       spyOn(anonymousConsentService, 'detectUpdatedTemplates').and.returnValue(
         false
       );
@@ -193,13 +238,13 @@ describe('AnonymousConsentsEffects', () => {
     });
 
     it('should return TransferAnonymousConsent', () => {
-      spyOn(anonymousConsentService, 'getAnonymousConsent').and.returnValue(
-        of(mockAnonymousConsent)
+      spyOn(anonymousConsentService, 'getConsents').and.returnValue(
+        of(mockAnonymousConsents)
       );
-      spyOn(
-        anonymousConsentService,
-        'getAnonymousConsentTemplate'
-      ).and.returnValue(of(mockTemplateList[0]));
+      spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
+        of(mockTemplateList)
+      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
 
       const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
@@ -209,8 +254,8 @@ describe('AnonymousConsentsEffects', () => {
 
       const completion = new UserActions.TransferAnonymousConsent({
         userId: 'current',
-        consentTemplateId: mockAnonymousConsent.templateCode,
-        consentTemplateVersion: mockAnonymousConsent.version,
+        consentTemplateId: mockAnonymousConsents[0].templateCode,
+        consentTemplateVersion: mockAnonymousConsents[0].version,
       });
 
       actions$ = hot('-(ab)', {
@@ -220,6 +265,113 @@ describe('AnonymousConsentsEffects', () => {
       const expected = cold('-c', { c: completion });
 
       expect(effect.transferAnonymousConsentsToUser$).toBeObservable(expected);
+    });
+  });
+
+  describe('giveRequiredConsentsToUser$', () => {
+    it('should return GiveUserConsent for all required consents', () => {
+      spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
+        of(true)
+      );
+      spyOn(userConsentService, 'getConsents').and.returnValue(
+        of(consentTemplateListMock)
+      );
+
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+      spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
+
+      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
+        mockUserToken
+      );
+
+      const completion1 = new UserActions.GiveUserConsent({
+        userId: 'current',
+        consentTemplateId: consentTemplateListMock[0].id,
+        consentTemplateVersion: consentTemplateListMock[0].version,
+      });
+
+      const completion2 = new UserActions.GiveUserConsent({
+        userId: 'current',
+        consentTemplateId: consentTemplateListMock[1].id,
+        consentTemplateVersion: consentTemplateListMock[1].version,
+      });
+
+      actions$ = hot('-a', {
+        a: loadUserTokenSuccessAction,
+      });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(effect.giveRequiredConsentsToUser$).toBeObservable(expected);
+    });
+
+    it('should get consents if they are not loaded', () => {
+      spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
+        of(false)
+      );
+      spyOn(userConsentService, 'getConsents').and.returnValue(
+        of(consentTemplateListMock)
+      );
+
+      spyOn(userConsentService, 'loadConsents').and.stub();
+
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+      spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
+
+      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
+        mockUserToken
+      );
+
+      const completion1 = new UserActions.GiveUserConsent({
+        userId: 'current',
+        consentTemplateId: consentTemplateListMock[0].id,
+        consentTemplateVersion: consentTemplateListMock[0].version,
+      });
+
+      const completion2 = new UserActions.GiveUserConsent({
+        userId: 'current',
+        consentTemplateId: consentTemplateListMock[1].id,
+        consentTemplateVersion: consentTemplateListMock[1].version,
+      });
+
+      actions$ = hot('-a', {
+        a: loadUserTokenSuccessAction,
+      });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(effect.giveRequiredConsentsToUser$).toBeObservable(expected);
+
+      expect(userConsentService.loadConsents).toHaveBeenCalled();
+    });
+
+    it('should not dispatch if consent is given', () => {
+      spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
+        of(true)
+      );
+      spyOn(userConsentService, 'getConsents').and.returnValue(
+        of([
+          {
+            id: 'xxx',
+            version: 0,
+            currentConsent: {
+              consentGivenDate: new Date(),
+            },
+          },
+        ])
+      );
+
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+      spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
+
+      const loadUserTokenSuccessAction = new AuthActions.LoadUserTokenSuccess(
+        mockUserToken
+      );
+
+      actions$ = hot('-a', {
+        a: loadUserTokenSuccessAction,
+      });
+      const expected = cold('');
+
+      expect(effect.giveRequiredConsentsToUser$).toBeObservable(expected);
     });
   });
 });

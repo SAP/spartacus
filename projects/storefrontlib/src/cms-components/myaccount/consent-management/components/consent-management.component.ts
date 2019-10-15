@@ -20,6 +20,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
 
+  requiredConsents: string[] = [];
+
   constructor(
     userConsentService: UserConsentService,
     globalMessageService: GlobalMessageService,
@@ -73,18 +75,26 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           this.userConsentService.loadConsents();
         }
       }),
-      withLatestFrom(
-        this.anonymousConsentsService.getAnonymousConsentTemplates()
-      ),
+      withLatestFrom(this.anonymousConsentsService.getTemplates()),
       map(([templateList, anonymousTemplates]) => {
-        if (
-          Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-          Boolean(
-            this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-          )
-        ) {
-          return this.hideAnonymousConsents(templateList, anonymousTemplates);
+        if (Boolean(this.anonymousConsentsConfig.anonymousConsents)) {
+          if (
+            Boolean(
+              this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+            )
+          ) {
+            this.requiredConsents = this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
+          }
+          if (
+            Boolean(
+              this.anonymousConsentsConfig.anonymousConsents
+                .consentManagementPage
+            )
+          ) {
+            return this.hideAnonymousConsents(templateList, anonymousTemplates);
+          }
         }
+
         return templateList;
       })
     );
@@ -110,10 +120,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     if (
       Boolean(
         this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-          .hideConsents &&
-          this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-            .hideConsents.length > 0
-      )
+          .hideConsents
+      ) &&
+      this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        .hideConsents.length > 0
     ) {
       hideTemplateIds = this.anonymousConsentsConfig.anonymousConsents
         .consentManagementPage.hideConsents;
