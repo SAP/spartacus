@@ -13,6 +13,7 @@ export namespace Configurator {
     selectedSingleValue?: string;
     userInput?: string;
     isLineItem?: boolean;
+    maxlength?: number;
   }
 
   export interface Value {

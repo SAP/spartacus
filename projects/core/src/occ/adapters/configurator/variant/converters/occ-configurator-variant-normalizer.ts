@@ -42,6 +42,8 @@ export class OccConfiguratorVariantNormalizer
       required: cstic.required,
       uiType: this.convertCharacteristicType(cstic.type),
       values: [],
+      userInput: cstic.formattedValue ? cstic.formattedValue : cstic.value,
+      maxlength: cstic.maxlength,
     };
     if (cstic.domainvalues) {
       cstic.domainvalues.forEach(value =>

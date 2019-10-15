@@ -21,7 +21,7 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
 
   @Input() attribute: Configurator.Attribute;
 
-  @Output() change = new EventEmitter();
+  @Output() inputChange = new EventEmitter();
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.userInput);
@@ -34,6 +34,6 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
       uiType: this.attribute.uiType,
     };
 
-    this.change.emit(attribute);
+    this.inputChange.emit(attribute);
   }
 }

@@ -44,6 +44,13 @@ export class OccConfiguratorVariantSerializer
         );
         break;
       }
+      case 'WCEM_SIMPLE_TEST': {
+        this.createSimpleTestGroups(occGroups);
+        source.attributes.forEach(attribute =>
+          this.mapAttributesToSimpleTestGroups(attribute, occGroups)
+        );
+        break;
+      }
     }
   }
 
@@ -175,6 +182,16 @@ export class OccConfiguratorVariantSerializer
     });
   }
 
+  createSimpleTestGroups(occGroups: OccConfigurator.Group[]) {
+    occGroups.push({
+      configurable: true,
+      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id: '2-WCEM_SIMPLE_TEST._GEN',
+      name: '_GEN',
+      cstics: [],
+    });
+  }
+
   mapAttributesToLaptopGroups(
     attribute: Configurator.Attribute,
     occGroups: OccConfigurator.Group[]
@@ -198,6 +215,13 @@ export class OccConfiguratorVariantSerializer
         this.convertAttribute(attribute, occGroups[2].cstics);
         break;
     }
+  }
+
+  mapAttributesToSimpleTestGroups(
+    attribute: Configurator.Attribute,
+    occGroups: OccConfigurator.Group[]
+  ) {
+    this.convertAttribute(attribute, occGroups[0].cstics);
   }
 
   mapAttributesToPCGroups(

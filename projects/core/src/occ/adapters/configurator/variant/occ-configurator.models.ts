@@ -32,6 +32,8 @@ export namespace OccConfigurator {
     domainvalues?: Value[];
     required?: boolean;
     value?: string;
+    formattedValue?: string;
+    maxlength?: number;
   }
 
   export interface Value {
