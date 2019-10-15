@@ -85,5 +85,6 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.productInterestService.clearProductInterests();
+    this.productInterestService.resetRemoveInterestState();
   }
 }
