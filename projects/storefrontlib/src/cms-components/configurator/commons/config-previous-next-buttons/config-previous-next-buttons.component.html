@@ -1,0 +1,19 @@
+<div class="cx-config-previous-next-btns row">
+  <div class="col-md-12 col-lg-6">
+    <button class="cx-btn btn btn-block btn-secondary" (click)="onPrevious()">
+      {{ 'configurator.button.previous' | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button
+      class="cx-btn btn btn-block btn-primary"
+      [disabled]="
+        (!selectedAddress || !selectedAddress.id) &&
+        !(selectedAddress$ | async)?.shippingAddress
+      "
+      (click)="onNext()"
+    >
+      {{ 'configurator.button.next' | cxTranslate }}
+    </button>
+  </div>
+</div>

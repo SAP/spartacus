@@ -47,5 +47,9 @@ export const translationChunksConfig: TranslationChunksConfig = {
   ],
 
   user: ['forgottenPassword', 'loginForm', 'register', 'checkoutLogin'],
-  configurator: ['configurator.header', 'configurator.attribute'],
+  configurator: [
+    'configurator.header',
+    'configurator.attribute',
+    'configurator.button',
+  ],
 };
