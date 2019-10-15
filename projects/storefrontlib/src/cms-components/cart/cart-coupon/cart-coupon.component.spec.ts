@@ -126,7 +126,7 @@ describe('CartCouponComponent', () => {
     expect(component.form.valid).toBeTruthy();
   });
 
-  fit('should enable button when inputting coupon code', () => {
+  it('should enable button when inputting coupon code', () => {
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
       of(false)
     );
