@@ -167,13 +167,13 @@ export function changeLanguageTest() {
     // cy.wait(5000);
 
     openDialogUsingFooterLink();
-    checkTextConsentState(GIVEN);
+    checkAllTextConsentState(GIVEN);
     closeDialog();
 
     siteContextChange('/', LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
 
     openDialogUsingFooterLink();
-    checkTextConsentState(GIVEN);
+    checkAllTextConsentState(GIVEN);
   });
 }
 
@@ -209,22 +209,22 @@ export function testAsAnonymousUser() {
   it('should click the footer to check if all consents were accepted and withdraw all consents afterwards', () => {
     // cy.wait(5000);
     //theory for state did not work :/
-    navigateToHelp();
+    // navigateToHelp();
 
     openDialogUsingFooterLink();
 
-    checkTextConsentState(GIVEN);
+    checkAllTextConsentState(GIVEN);
 
     toggleAllConsentState(REJECT_ALL);
   });
 
   it('should click the footer to check if all consents were rejected and accept all consents again', () => {
     //theory for state did not work :/
-    navigateToHome();
+    // navigateToHome();
 
     openDialogUsingFooterLink();
 
-    checkTextConsentState(WITHDRAW);
+    checkAllTextConsentState(WITHDRAW);
 
     toggleAllConsentState(ALLOW_ALL);
   });
@@ -233,7 +233,7 @@ export function testAsAnonymousUser() {
   // I would put this here, but there's a problem (user can't login because it says dispatch had an error)
   // it('should transfer anonoymous consents when registered', () => {
   // openDialogUsingFooterLink();
-  // checkTextConsentState(GIVEN);
+  // checkAllTextConsentState(GIVEN);
 
   // toggleAnonymousConsent(2);
   // toggleAnonymousConsent(1);
@@ -247,12 +247,12 @@ export function testAsAnonymousUser() {
 
   // it('should pull the new consent templates but preserve the consents state', () => {
   //   openDialogUsingFooterLink();
-  //   checkTextConsentState(GIVEN);
+  //   checkAllTextConsentState(GIVEN);
 
   //   siteContextChange('/', LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
 
   //   openDialogUsingFooterLink();
-  //   checkTextConsentState(GIVEN);
+  //   checkAllTextConsentState(GIVEN);
   // });
 }
 

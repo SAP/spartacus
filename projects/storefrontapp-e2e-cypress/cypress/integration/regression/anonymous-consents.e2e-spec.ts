@@ -15,15 +15,7 @@ context('Anonymous consents', () => {
   //     cy.visit('/');
   //   });
 
-  //   beforeEach(() => {
-  //     cy.restoreLocalStorage();
-  //   });
-
   //   testAsAnonymousUser();
-
-  //   afterEach(() => {
-  //     cy.saveLocalStorage();
-  //   });
   // });
   // ---------------------------
 
@@ -46,7 +38,7 @@ context('Anonymous consents', () => {
   // ---------------------------
 
   // ---------------------------
-  // only one that works as intended perfectly
+  //  works as intended perfectly
   // describe('when registering a user and checking registration consent', () => {
   //   before(() => {
   //     cy.window().then(win => {
@@ -61,8 +53,7 @@ context('Anonymous consents', () => {
   // ---------------------------
 
   // ------------------
-  // still does not work
-  // uncomment after talking because this doesn't work when user does not click the register consent
+  // 1/3 with the state
   // describe('moving from the anonymous user to the registered user', () => {
   //   before(() => {
   //     cy.window().then(win => {
