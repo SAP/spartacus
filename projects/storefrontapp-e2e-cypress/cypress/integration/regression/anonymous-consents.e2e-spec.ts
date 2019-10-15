@@ -1,3 +1,6 @@
+context('Anonymous consents', () => {
+  before(() => {
+    cy.window().then(win => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });
@@ -104,4 +107,3 @@
   // });
   // -----------------
 });
-
