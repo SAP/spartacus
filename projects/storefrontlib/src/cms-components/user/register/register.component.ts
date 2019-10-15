@@ -43,9 +43,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // TODO(issue:4237) Register flow
   isNewRegisterFlowEnabled: boolean =
     this.featureConfig && this.featureConfig.isLevel('1.1');
-  // TODO(issue:4989) Anonymous consents
+  // TODO(issue:4989) Anonymous consents - remove
   isAnonymousConsentEnabled =
-    this.featureConfig && this.featureConfig.isLevel('1.2');
+    this.featureConfig && this.featureConfig.isLevel('1.3');
 
   userRegistrationForm: FormGroup = this.fb.group(
     {
@@ -188,6 +188,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     if (
       this.isAnonymousConsentEnabled &&
+      Boolean(this.anonymousConsentsConfig) &&
       Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
       Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
     ) {
@@ -256,7 +257,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      // TODO(issue:4989) Anonymous consents
       if (
         this.isAnonymousConsentEnabled &&
         Boolean(this.userRegistrationForm.get('newsletter').value)

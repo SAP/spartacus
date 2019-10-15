@@ -28,8 +28,8 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.LoadAnonymousConsentTemplates
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE, AuthActions.LOGOUT),
-    // TODO(issue:4989) Anonymous consents
-    filter(_ => isFeatureLevel(this.anonymousConsentsConfig, '1.2')),
+    // TODO(issue:4989) Anonymous consents - remove this filter
+    filter(_ => isFeatureLevel(this.anonymousConsentsConfig, '1.3')),
     withLatestFrom(this.authService.isUserLoggedIn()),
     filter(([_, isUserLoggedIn]) => !isUserLoggedIn),
     map(_ => new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
@@ -40,8 +40,8 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    // TODO(issue:4989) Anonymous consents
-    filter(_ => isFeatureLevel(this.anonymousConsentsConfig, '1.2')),
+    // TODO(issue:4989) Anonymous consents - remove this filter
+    filter(_ => isFeatureLevel(this.anonymousConsentsConfig, '1.3')),
     concatMap(_ =>
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
@@ -88,8 +88,8 @@ export class AnonymousConsentsEffects {
     ),
     filter(
       () =>
-        // TODO(issue:4989) Anonymous consents
-        isFeatureLevel(this.anonymousConsentsConfig, '1.2') &&
+        // TODO(issue:4989) Anonymous consents - remove the `isFeatureLevel(this.anonymousConsentsConfig, '1.3')` check
+        isFeatureLevel(this.anonymousConsentsConfig, '1.3') &&
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
         Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
     ),
@@ -152,8 +152,8 @@ export class AnonymousConsentsEffects {
     ),
     filter(
       action =>
-        // TODO(issue:4989) Anonymous consents
-        isFeatureLevel(this.anonymousConsentsConfig, '1.2') &&
+        // TODO(issue:4989) Anonymous consents - remove the `isFeatureLevel(this.anonymousConsentsConfig, '1.3')` check
+        isFeatureLevel(this.anonymousConsentsConfig, '1.3') &&
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
         Boolean(
           this.anonymousConsentsConfig.anonymousConsents.requiredConsents

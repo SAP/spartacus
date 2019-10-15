@@ -33,7 +33,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   // TODO(issue:4989) Anonymous consents - remove
   isAnonymousConsentsEnabled = isFeatureLevel(
     this.anonymousConsentsConfig,
-    '1.2'
+    '1.3'
   );
 
   constructor(
@@ -91,6 +91,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       }),
       withLatestFrom(this.anonymousConsentsService.getTemplates()),
       map(([templateList, anonymousTemplates]) => {
+        if (!this.isAnonymousConsentsEnabled) {
+          return templateList;
+        }
+
         if (Boolean(this.anonymousConsentsConfig.anonymousConsents)) {
           if (
             Boolean(

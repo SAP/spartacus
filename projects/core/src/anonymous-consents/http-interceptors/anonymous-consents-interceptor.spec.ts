@@ -50,7 +50,7 @@ const mockAnonymousConsentsConfig = {
     requiredConsents: ['OTHER_CONSENT'],
   },
   features: {
-    level: '1.2',
+    level: '1.3',
   },
 };
 

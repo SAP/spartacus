@@ -17,6 +17,8 @@ import { FooterNavigationComponent } from './footer-navigation.component';
     CommonModule,
     RouterModule,
     NavigationModule,
+    GenericLinkModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         FooterNavigationComponent: {
@@ -24,8 +26,6 @@ import { FooterNavigationComponent } from './footer-navigation.component';
         },
       },
     }),
-    GenericLinkModule,
-    I18nModule,
   ],
   providers: [{ provide: AnonymousConsentsConfig, useExisting: Config }],
   declarations: [FooterNavigationComponent],

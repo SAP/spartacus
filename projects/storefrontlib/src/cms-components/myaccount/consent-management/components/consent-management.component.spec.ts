@@ -111,7 +111,7 @@ const mockConsentTemplate: ConsentTemplate = {
 const mockAnonymousConsentsConfig = {
   anonymousConsents: {},
   features: {
-    level: '1.2',
+    level: '1.3',
   },
 };
 

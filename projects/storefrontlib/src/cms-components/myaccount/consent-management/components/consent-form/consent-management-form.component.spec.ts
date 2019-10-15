@@ -1,8 +1,14 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ConsentTemplate } from '@spartacus/core';
+import { ConsentTemplate, I18nTestingModule } from '@spartacus/core';
+import { ICON_TYPE } from '../../../../../cms-components/misc';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
+
+@Component({ selector: 'cx-icon', template: '' })
+class MockIconComponent {
+  @Input() type: ICON_TYPE;
+}
 
 describe('ConsentManagementFormComponent', () => {
   let component: ConsentManagementFormComponent;
@@ -11,7 +17,8 @@ describe('ConsentManagementFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConsentManagementFormComponent],
+      imports: [I18nTestingModule],
+      declarations: [MockIconComponent, ConsentManagementFormComponent],
     }).compileComponents();
   }));
 
@@ -61,14 +68,15 @@ describe('ConsentManagementFormComponent', () => {
         id: 'mock ID',
       };
       it('should emit an event', () => {
-        component.consentGiven = true;
+        const consentGiven = true;
+        component.consentGiven = consentGiven;
         component.consentTemplate = mockConsentTemplate;
         spyOn(component.consentChanged, 'emit').and.stub();
 
         component.onConsentChange();
 
         expect(component.consentChanged.emit).toHaveBeenCalledWith({
-          given: !component.consentGiven,
+          given: !consentGiven,
           template: mockConsentTemplate,
         });
       });

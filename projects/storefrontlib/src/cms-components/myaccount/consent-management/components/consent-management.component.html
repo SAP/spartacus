@@ -1,3 +1,4 @@
+<!-- TODO(issue:4989) Anonymous consents - remove the wrapping `<ng-container *ngIf="isAnonymousConsentsEnabled; else legacyConsentManagementPage">` -->
 <ng-container
   *ngIf="isAnonymousConsentsEnabled; else legacyConsentManagementPage"
 >
@@ -27,6 +28,7 @@
 
       <div class="cx-dialog-body modal-body">
         <div class="cx-dialog-row col-sm-12 col-md-6">
+          <!-- TODO(issue:4989) Anonymous consents - remove `[isAnonymousConsentsEnabled]="isAnonymousConsentsEnabled"` -->
           <cx-consent-management-form
             *ngFor="let consentTemplate of templateList"
             [consentTemplate]="consentTemplate"
@@ -40,6 +42,7 @@
   </ng-template>
 </ng-container>
 
+<!-- TODO(issue:4989) Anonymous consents - remove this whole `<ng-template>` -->
 <ng-template #legacyConsentManagementPage>
   <div *ngIf="loading$ | async; else consentManagementForm">
     <div class="cx-spinner">
