@@ -59,7 +59,7 @@
       .cx-name {
         a {
           color: $dark;
-          font-weight: var(--cx-font-weight-bold)
+          font-weight: var(--cx-font-weight-bold);
         }
       }
 
@@ -71,9 +71,10 @@
       }
 
       .cx-property {
-        .cx-label,.cx-value{
+        .cx-label,
+        .cx-value {
           display: inline;
-        }       
+        }
       }
 
       .cx-product-interests-product-stock {
@@ -86,11 +87,9 @@
         white-space: nowrap;
         .cx-product-interests-type {
           color: $dark;
-          font-weight: var(--cx-font-weight-bold)
+          font-weight: var(--cx-font-weight-bold);
         }
       }
-      
-      
 
       @include media-breakpoint-down(sm) {
         width: 100%;
