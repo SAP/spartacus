@@ -20,12 +20,8 @@
             class="btn btn-block btn-action "
             data-test="button-coupon"
             type="submit"
-            [disabled]="
-              cartIsLoading || !btnEnabled || (addVoucherIsLoading$ | async)
-            "
-            [class.disabled]="
-              cartIsLoading || !btnEnabled || (addVoucherIsLoading$ | async)
-            "
+            [disabled]="submitDisabled$ | async"
+            [class.disabled]="submitDisabled$ | async"
           >
             {{ 'voucher.apply' | cxTranslate }}
           </button>
@@ -36,7 +32,7 @@
 
   <cx-applied-coupons
     [vouchers]="cart.appliedVouchers"
-    [cartIsLoading]="cartIsLoading"
+    [cartIsLoading]="cartIsLoading$ | async"
     [isReadOnly]="false"
   >
   </cx-applied-coupons>

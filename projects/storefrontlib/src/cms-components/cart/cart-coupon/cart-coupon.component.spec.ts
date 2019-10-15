@@ -101,7 +101,11 @@ describe('CartCouponComponent', () => {
   });
 
   it('should show coupon input and submit buttom', () => {
+    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
+      of(false)
+    );
     fixture.detectChanges();
+
     expect(el.query(By.css('[data-test="title-coupon"]'))).toBeTruthy();
     expect(el.query(By.css('[data-test="input-coupon"]'))).toBeTruthy();
     expect(el.query(By.css('[data-test="button-coupon"]'))).toBeTruthy();
@@ -122,8 +126,10 @@ describe('CartCouponComponent', () => {
     expect(component.form.valid).toBeTruthy();
   });
 
-  it('should enable button when inputting coupon code', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(false);
+  fit('should enable button when inputting coupon code', () => {
+    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
+      of(false)
+    );
     fixture.detectChanges();
 
     const applyBtn = el.query(By.css('[data-test="button-coupon"]'))

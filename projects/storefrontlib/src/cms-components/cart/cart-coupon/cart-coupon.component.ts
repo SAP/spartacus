@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cart, CartService, CartVoucherService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
+import { map, tap, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -11,9 +12,8 @@ import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  btnEnabled: boolean;
-  cartIsLoading: boolean;
-  addVoucherIsLoading$: Observable<boolean>;
+  cartIsLoading$: Observable<boolean>;
+  submitDisabled$: Observable<boolean>;
   cart$: Observable<Cart>;
 
   private subscription = new Subscription();
@@ -29,9 +29,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
 
-    this.cartService
+    this.cartIsLoading$ = this.cartService
       .getLoaded()
-      .subscribe(loaded => (this.cartIsLoading = !loaded));
+      .pipe(map(loaded => !loaded));
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
@@ -39,7 +39,19 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       couponCode: ['', [Validators.required]],
     });
 
-    this.addVoucherIsLoading$ = this.cartVoucherService.getAddVoucherResultLoading();
+    this.submitDisabled$ = combineLatest([
+      this.cartIsLoading$,
+      this.form.valueChanges.pipe(
+        startWith(true),
+        map(() => this.form.valid)
+      ),
+      this.cartVoucherService.getAddVoucherResultLoading(),
+    ]).pipe(
+      map(
+        ([cartIsLoading, btnEnabled, addVoucherIsLoading]) =>
+          cartIsLoading || !btnEnabled || addVoucherIsLoading
+      )
+    );
 
     this.subscription.add(
       this.cartVoucherService
@@ -49,17 +61,11 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         })
     );
 
-    this.subscription
-      .add(
-        this.cartCouponAnchorService.getEventEmit().subscribe(() => {
-          this.scrollToView();
-        })
-      )
-      .add(
-        this.form.valueChanges.subscribe(
-          () => (this.btnEnabled = this.form.valid)
-        )
-      );
+    this.subscription.add(
+      this.cartCouponAnchorService.getEventEmit().subscribe(() => {
+        this.scrollToView();
+      })
+    );
   }
 
   scrollToView() {
