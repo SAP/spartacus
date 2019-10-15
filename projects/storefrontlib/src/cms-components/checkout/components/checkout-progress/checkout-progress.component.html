@@ -9,7 +9,7 @@
             ' is-active': isActive(i),
             ' is-disabled': isDisabled(i)
           }"
-          tabindex="{{ getTabIndex(i) }}"
+          [tabindex]="getTabIndex(i)"
         >
           {{ i + 1 }}. {{ step.name | cxTranslate }}
         </a>
