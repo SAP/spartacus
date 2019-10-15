@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { RoutingService, RoutingConfigService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CheckoutConfig } from '../../../config/checkout-config';
+//import { CheckoutConfig } from '../../../config/checkout-config';
 import { CheckoutStep } from '../../../model/checkout-step.model';
+import { CheckoutConfigService } from '../../../services/checkout-config.service';
 
 @Component({
   selector: 'cx-checkout-progress-mobile-bottom',
   templateUrl: './checkout-progress-mobile-bottom.component.html',
 })
-export class CheckoutProgressMobileBottomComponent implements OnInit {
+export class CheckoutProgressMobileBottomComponent
+  implements OnInit, OnDestroy {
   constructor(
-    protected config: CheckoutConfig,
+    //protected config: CheckoutConfig,
     protected routingService: RoutingService,
-    protected routingConfigService: RoutingConfigService
+    protected routingConfigService: RoutingConfigService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected cdr: ChangeDetectorRef
   ) {}
 
   steps: Array<CheckoutStep>;
@@ -21,8 +25,9 @@ export class CheckoutProgressMobileBottomComponent implements OnInit {
   activeStepIndex: number;
   activeStepUrl: string;
 
+  subscription: Subscription;
+
   ngOnInit() {
-    this.steps = this.config.checkout.steps;
     this.routerState$ = this.routingService.getRouterState().pipe(
       tap(router => {
         this.activeStepUrl = router.state.context.id;
@@ -37,5 +42,16 @@ export class CheckoutProgressMobileBottomComponent implements OnInit {
         });
       })
     );
+
+    this.subscription = this.checkoutConfigService.steps$.subscribe(steps => {
+      this.steps = steps;
+      this.cdr.detectChanges();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
