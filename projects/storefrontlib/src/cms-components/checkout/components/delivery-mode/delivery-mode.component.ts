@@ -14,18 +14,19 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { AbstractCheckoutStepComponent } from '../abstract-checkout-step/abstract-checkout-step.component';
 
 @Component({
   selector: 'cx-delivery-mode',
   templateUrl: './delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DeliveryModeComponent implements OnInit, OnDestroy {
+export class DeliveryModeComponent extends AbstractCheckoutStepComponent
+  implements OnInit, OnDestroy {
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
   currentDeliveryModeId: string;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
+
   private allowRedirect = false;
 
   deliveryModeSub: Subscription;
@@ -35,20 +36,17 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private fb: FormBuilder,
-    private checkoutDeliveryService: CheckoutDeliveryService,
-    private routingService: RoutingService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    protected fb: FormBuilder,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected routingService: RoutingService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute
+  ) {
+    super(checkoutConfigService, activatedRoute);
+  }
 
   ngOnInit() {
-    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-    this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
-      this.activatedRoute
-    );
+    super.ngOnInit();
 
     this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
 

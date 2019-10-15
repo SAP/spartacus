@@ -18,6 +18,7 @@ import { map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { AbstractCheckoutStepComponent } from '../abstract-checkout-step/abstract-checkout-step.component';
 
 export interface CardWithAddress {
   card: Card;
@@ -29,7 +30,8 @@ export interface CardWithAddress {
   templateUrl: './shipping-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShippingAddressComponent implements OnInit, OnDestroy {
+export class ShippingAddressComponent extends AbstractCheckoutStepComponent
+  implements OnInit, OnDestroy {
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   cards: Card[] = [];
@@ -43,8 +45,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     null
   );
   cards$: Observable<CardWithAddress[]>;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
+
   isGuestCheckout = false;
   forceLoader = false; // this helps with smoother steps transition
 
@@ -53,17 +54,18 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected cartService: CartService,
     protected routingService: RoutingService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
-    private translation: TranslationService
-  ) {}
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
+    protected translation: TranslationService
+  ) {
+    super(checkoutConfigService, activatedRoute);
+  }
 
   ngOnInit() {
+    super.ngOnInit();
+
     this.goTo = null;
-    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-    this.checkoutStepUrlPrevious = 'cart';
+
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
     this.cards$ = combineLatest([

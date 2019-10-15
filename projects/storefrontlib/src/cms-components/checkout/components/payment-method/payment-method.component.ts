@@ -23,13 +23,15 @@ import { filter, map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/icon';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { AbstractCheckoutStepComponent } from '../abstract-checkout-step/abstract-checkout-step.component';
 
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentMethodComponent implements OnInit, OnDestroy {
+export class PaymentMethodComponent extends AbstractCheckoutStepComponent
+  implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
@@ -41,8 +43,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   private getPaymentDetailsSub: Subscription;
 
   private deliveryAddress: Address;
-  private checkoutStepUrlNext: string;
-  private checkoutStepUrlPrevious: string;
 
   constructor(
     userPaymentService: UserPaymentService,
@@ -84,9 +84,13 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected cartService?: CartService
-  ) {}
+  ) {
+    super(checkoutConfigService, activatedRoute);
+  }
 
   ngOnInit() {
+    super.ngOnInit();
+
     this.allowRouting = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
 
@@ -95,13 +99,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     } else {
       this.isGuestCheckout = true;
     }
-
-    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-    this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
-      this.activatedRoute
-    );
 
     this.checkoutDeliveryService
       .getDeliveryAddress()

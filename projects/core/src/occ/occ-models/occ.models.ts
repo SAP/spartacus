@@ -552,7 +552,7 @@ export namespace Occ {
      */
     code?: string;
     /**
-     * @member {string} [name]
+     * @member {string} [displayName]
      */
     displayName?: string;
   }

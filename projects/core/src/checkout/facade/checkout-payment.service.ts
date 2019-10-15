@@ -72,6 +72,13 @@ export class CheckoutPaymentService {
   }
 
   /**
+   * Load the supported payment types
+   */
+  loadSupportedPaymentTypes(): void {
+    this.checkoutStore.dispatch(new CheckoutActions.LoadPaymentTypes());
+  }
+
+  /**
    * Create payment details using the given paymentDetails param
    * @param paymentDetails: the PaymentDetails to be created
    */

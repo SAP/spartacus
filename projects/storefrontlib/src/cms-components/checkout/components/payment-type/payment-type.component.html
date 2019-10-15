@@ -1,1 +1,47 @@
-aaa
+<div class="row">
+  <div class="col-md-12 col-lg-9">
+    <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'checkoutShipping.shippingMethod' | cxTranslate }}
+    </h3>
+
+    <ng-container *ngIf="(paymentTypes$ | async)?.length; else loading">
+      <div class="form-check" *ngFor="let type of paymentTypes$ | async">
+        <input
+          class="form-check-input"
+          role="radio"
+          type="radio"
+          id="deliveryMode-{{ type.code }}"
+          aria-checked="true"
+          (change)="changeType(type.code)"
+          [value]="type.code"
+        />
+        <label
+          class="cx-delivery-label form-check-label
+                      form-radio-label"
+          for="deliveryMode-{{ type.code }}"
+        >
+          <div class="cx-delivery-mode">{{ type.displayName }}</div>
+        </label>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="row cx-checkout-btns">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-action" (click)="back()">
+      {{ backButtonText | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-primary" (click)="next()">
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

@@ -12,8 +12,12 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class CheckoutConfigService {
-  allSteps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
-  steps = this.allSteps.filter(step => step.enabled);
+  // initial configured steps
+  intialSteps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
+  // all steps with modified data
+  allSteps: CheckoutStep[] = Object.assign([], this.intialSteps);
+  // all enabled steps
+  steps: CheckoutStep[] = this.allSteps.filter(step => step.enabled);
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     this.steps
   );
@@ -27,6 +31,12 @@ export class CheckoutConfigService {
     private checkoutConfig: CheckoutConfig,
     private routingConfigService: RoutingConfigService
   ) {}
+
+  resetSteps() {
+    this.allSteps = Object.assign([], this.intialSteps);
+    this.steps = this.allSteps.filter(step => step.enabled);
+    this.steps$.next(this.steps);
+  }
 
   disableStep(currentStepType: CheckoutStepType) {
     this.getCheckoutStep(currentStepType).enabled = false;
@@ -65,7 +75,7 @@ export class CheckoutConfigService {
 
     return stepIndex >= 0 && this.steps[stepIndex - 1]
       ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].routeName)
-      : null;
+      : 'cart';
   }
 
   getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null {
@@ -165,7 +175,9 @@ export class CheckoutConfigService {
 
   private getCheckoutStepIndex(key: string, value: any): number | null {
     return key && value
-      ? this.steps.findIndex((step: CheckoutStep) => step[key].includes(value))
+      ? this.allSteps.findIndex((step: CheckoutStep) =>
+          step[key].includes(value)
+        )
       : null;
   }
 }

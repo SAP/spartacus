@@ -34,11 +34,6 @@ export class CheckoutProgressComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   ngOnInit(): void {
-    this.subscription = this.checkoutConfigService.steps$.subscribe(steps => {
-      this.steps = steps;
-      this.cdr.detectChanges();
-    });
-
     this.routerState$ = this.routingService.getRouterState().pipe(
       tap(router => {
         this.activeStepUrl = router.state.context.id;
@@ -53,6 +48,11 @@ export class CheckoutProgressComponent implements OnInit, OnDestroy {
         });
       })
     );
+
+    this.subscription = this.checkoutConfigService.steps$.subscribe(steps => {
+      this.steps = steps;
+      this.cdr.detectChanges();
+    });
   }
 
   ngOnDestroy(): void {
