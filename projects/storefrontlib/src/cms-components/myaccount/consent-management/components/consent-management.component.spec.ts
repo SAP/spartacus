@@ -507,6 +507,41 @@ describe('ConsentManagementComponent', () => {
       });
     });
 
+    const isConsentWithdrawnMethod = 'isConsentWithdrawn';
+    describe('isConsentWithdrawn', () => {
+      describe('when the provided template does NOT have a consent', () => {
+        it('should return true', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+          };
+          expect(component[isConsentWithdrawnMethod](template)).toEqual(true);
+        });
+      });
+      describe('when the provided template has a consent with a given date and with a withdrawn date', () => {
+        it('should return true', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+            currentConsent: {
+              consentGivenDate: new Date(),
+              consentWithdrawnDate: new Date(),
+            },
+          };
+          expect(component[isConsentWithdrawnMethod](template)).toEqual(true);
+        });
+      });
+      describe('when the provided template has a consent with a withdrawn date but without a given date', () => {
+        it('should return true', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+            currentConsent: {
+              consentWithdrawnDate: new Date(),
+            },
+          };
+          expect(component[isConsentWithdrawnMethod](template)).toEqual(true);
+        });
+      });
+    });
+
     describe('rejectAll', () => {
       describe('when no consent is given', () => {
         it('should not call userConsentService.withdrawConsent', () => {
@@ -520,7 +555,7 @@ describe('ConsentManagementComponent', () => {
         it('should call userConsentService.withdrawConsent for each', () => {
           spyOn(userService, 'withdrawConsent').and.stub();
           spyOn(userService, 'loadConsents').and.stub();
-          spyOn(userService, 'isConsentGiven').and.returnValue(true);
+          spyOn<any>(component, 'isConsentGiven').and.returnValue(true);
 
           component.rejectAll([mockConsentTemplate]);
 
@@ -537,12 +572,47 @@ describe('ConsentManagementComponent', () => {
           ];
           spyOn(userService, 'withdrawConsent').and.stub();
           spyOn(userService, 'loadConsents').and.stub();
-          spyOn(userService, 'isConsentGiven').and.returnValue(true);
+          spyOn<any>(component, 'isConsentGiven').and.returnValue(true);
           spyOn<any>(component, isRequiredConsentMethod).and.returnValue(true);
 
           component.rejectAll([mockConsentTemplate]);
 
           expect(userService.withdrawConsent).not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    const isConsentGivenMethod = 'isConsentGiven';
+    describe('isConsentGiven', () => {
+      describe('when the provided template does NOT have a consent', () => {
+        it('should return false', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+          };
+          expect(component[isConsentGivenMethod](template)).toEqual(false);
+        });
+      });
+      describe('when the provided template has a consent with a given date and with a withdrawn date', () => {
+        it('should return false', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+            currentConsent: {
+              consentGivenDate: new Date(),
+              consentWithdrawnDate: new Date(),
+            },
+          };
+          expect(component[isConsentGivenMethod](template)).toEqual(false);
+        });
+      });
+      describe('when the provided template has a consent with a given date but without a withdrawn date', () => {
+        it('should return true', () => {
+          const template: ConsentTemplate = {
+            version: 0,
+            currentConsent: {
+              consentGivenDate: new Date(),
+            },
+          };
+          expect(component[isConsentGivenMethod](template)).toEqual(true);
         });
       });
     });
@@ -560,7 +630,7 @@ describe('ConsentManagementComponent', () => {
         it('should call userConsentService.giveConsent for each', () => {
           spyOn(userService, 'giveConsent').and.stub();
           spyOn(userService, 'loadConsents').and.stub();
-          spyOn(userService, 'isConsentWithdrawn').and.returnValue(true);
+          spyOn<any>(component, 'isConsentWithdrawn').and.returnValue(true);
 
           component.allowAll([mockConsentTemplate]);
 
@@ -578,7 +648,7 @@ describe('ConsentManagementComponent', () => {
           ];
           spyOn(userService, 'giveConsent').and.stub();
           spyOn(userService, 'loadConsents').and.stub();
-          spyOn(userService, 'isConsentWithdrawn').and.returnValue(true);
+          spyOn<any>(component, 'isConsentWithdrawn').and.returnValue(true);
           spyOn<any>(component, isRequiredConsentMethod).and.returnValue(true);
 
           component.allowAll([mockConsentTemplate]);

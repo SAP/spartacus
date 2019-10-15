@@ -143,19 +143,6 @@ export class UserConsentService {
   }
 
   /**
-   * Returns `true` if the provided `consentTemplate` contains a given consent; otherwise it returns `false`.
-   * @param consentTemplate to check
-   */
-  isConsentGiven(consentTemplate: ConsentTemplate): boolean {
-    return (
-      Boolean(consentTemplate) &&
-      Boolean(consentTemplate.currentConsent) &&
-      Boolean(consentTemplate.currentConsent.consentGivenDate) &&
-      !Boolean(consentTemplate.currentConsent.consentWithdrawnDate)
-    );
-  }
-
-  /**
    * Withdraw consent for the given `consentCode`
    * @param consentCode for which to withdraw the consent
    */
@@ -207,18 +194,6 @@ export class UserConsentService {
   resetWithdrawConsentProcessState(): void {
     return this.store.dispatch(
       new UserActions.ResetWithdrawUserConsentProcess()
-    );
-  }
-
-  /**
-   * Returns `true` if the provided `consentTemplate` contains a withdrawn consent; otherwise it returns `false`.
-   * @param consentTemplate to check
-   */
-  isConsentWithdrawn(consentTemplate: ConsentTemplate): boolean {
-    return (
-      Boolean(consentTemplate) &&
-      Boolean(consentTemplate.currentConsent) &&
-      Boolean(consentTemplate.currentConsent.consentWithdrawnDate)
     );
   }
 
