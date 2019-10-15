@@ -8,14 +8,28 @@ import {
   LANGUAGES,
   LANGUAGE_DE,
   LANGUAGE_LABEL,
-  LANGUAGE_REQUEST,
   siteContextChange,
-  stub,
 } from './site-context-selector';
 import { generateMail, randomString } from './user';
 
 const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
 const ANONYMOUS_DIALOG = 'cx-anonymous-consents-dialog';
+const GIVEN = 'ON';
+const WITHDRAW = 'OFF';
+const ALLOW_ALL = 'Allow All';
+const REJECT_ALL = 'Reject All';
+const BE_CHECKED = 'be.checked';
+const NOT_BE_CHECKED = 'not.be.checked';
+
+export function navigateToHome() {
+  cy.get('cx-generic-link a[title="SAP Commerce"]').click({ force: true });
+}
+
+export function navigateToHelp() {
+  cy.get('cx-link a')
+    .contains('Help')
+    .click();
+}
 
 export function seeBannerAsAnonymous() {
   cy.get(ANONYMOUS_BANNER).should('exist');
@@ -57,47 +71,43 @@ export function closeDialog() {
   cy.get(`${ANONYMOUS_DIALOG} button.close`).click({ force: true });
 }
 
-export function giveOrRemoveAnonymousConsent(position) {
+export function toggleAnonymousConsent(position) {
   cy.get(`.cx-dialog-row:nth-child(${position})`)
     .find('input')
     .click({ force: true });
 }
 
-export function checkConsentsGiven() {
+export function checkInputConsentState(position, state) {
+  cy.get('input[type="checkbox"]')
+    .eq(position)
+    .should(state);
+}
+
+export function checkAllTextConsentState(state) {
   cy.get('.cx-toggle-text').each($match => {
-    cy.wrap($match).should('contain.text', 'ON');
+    cy.wrap($match).should('contain.text', state);
   });
 }
 
-export function checkConsentsWithdrawn() {
-  cy.get('.cx-toggle-text').each($match => {
-    cy.wrap($match).should('contain.text', 'OFF');
-  });
+export function checkSingleTextConsentState(position, state) {
+  cy.get('.cx-toggle-text')
+    .eq(position)
+    .should('contain.text', state);
 }
 
-export function rejectAllConsent() {
+export function toggleAllConsentState(text) {
   cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
-    .contains('Reject All')
+    .contains(text)
     .click({ force: true });
 }
 
-export function acceptAllConsent() {
-  cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
-    .contains('Allow All')
-    .click({ force: true });
+export function loggedInUserBannerTest() {
+  cy.get(ANONYMOUS_BANNER).should('not.exist');
 }
 
-// export function loggedInUserBannerTest() {
-//   it('should not render the banner', () => {
-//     cy.get(ANONYMOUS_BANNER).should('not.exist');
-//   });
-// }
-
-// export function loggedInUserFooterLinkTest() {
-//   it('should not render the footer link', () => {
-//     cy.get('.anonymous-consents').should('not.exist');
-//   });
-// }
+export function loggedInUserFooterLinkTest() {
+  cy.get('.anonymous-consents').should('not.exist');
+}
 
 export function sessionLogin() {
   standardUser.registrationData.email = generateMail(randomString(), true);
@@ -111,11 +121,13 @@ export function moveAnonymousUserToLoggedInUser() {
     });
 
     giveConsent();
-    signOutUser();
+
+    navigateToHome();
     checkBanner();
+    signOutUser();
 
     clickViewDetailsFromBanner();
-    giveOrRemoveAnonymousConsent(2);
+    toggleAnonymousConsent(2);
     closeDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
@@ -132,50 +144,36 @@ export function moveAnonymousUserToLoggedInUser() {
       option: 'Consent Management',
     });
 
-    cy.get('input[type="checkbox"]')
-      .first()
-      .should('be.checked');
+    checkInputConsentState(0, BE_CHECKED);
+    checkInputConsentState(1, NOT_BE_CHECKED);
   });
 }
 
 export function movingFromAnonymousToRegisteredUser() {
   it('should transfer anonoymous consents when registered', () => {
     openDialogUsingFooterLink();
-    giveOrRemoveAnonymousConsent(2);
+    toggleAnonymousConsent(2);
     closeDialog();
 
-    registerUserAndCheckMyAccountConsent(false, 2);
+    registerUserAndCheckMyAccountConsent(false, 1);
   });
 }
 
-// export function movingFromLoggedInUserToAnonymousUser() {
-//   it('should restore anonoymous consents when logging out', () => {
-//     const newUser = registerUser();
-//     cy.visit(PAGE_URL_LOGIN);
-//     login(newUser.email, newUser.password);
-//     signOutUser();
-
-//     openDialogUsingFooterLink();
-//     giveOrRemoveAnonymousConsent(2);
-//     closeDialog();
-
-//     cy.visit(PAGE_URL_LOGIN);
-//     login(newUser.email, newUser.password);
-//     signOutUser();
-
-//     openDialogUsingFooterLink();
-//     cy.get('.cx-toggle-text:nth-child(2)').should('contain.text', 'ON');
-//   });
-// }
-
 export function changeLanguageTest() {
   it('should pull the new consent templates but preserve the consents state', () => {
+    clickViewDetailsFromBanner();
+    toggleAllConsentState(ALLOW_ALL);
+
+    // cy.wait(5000);
+
     openDialogUsingFooterLink();
-    acceptAllConsent();
+    checkTextConsentState(GIVEN);
+    closeDialog();
 
     siteContextChange('/', LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
+
     openDialogUsingFooterLink();
-    checkConsentsGiven();
+    checkTextConsentState(GIVEN);
   });
 }
 
@@ -189,14 +187,12 @@ export function registerUserAndCheckMyAccountConsent(
   cy.selectUserMenuOption({
     option: 'Consent Management',
   });
-  cy.get(`input[type="checkbox"]:nth-child(${position})`)
-    .first()
-    .should('be.checked');
+  checkInputConsentState(position, BE_CHECKED);
 }
 
 export function giveRegistrationConsentTest() {
   it('should give the registration consent', () => {
-    registerUserAndCheckMyAccountConsent(true, 1);
+    registerUserAndCheckMyAccountConsent(true, 0);
   });
 }
 
@@ -212,43 +208,85 @@ export function testAsAnonymousUser() {
 
   it('should click the footer to check if all consents were accepted and withdraw all consents afterwards', () => {
     // cy.wait(5000);
+    //theory for state did not work :/
+    navigateToHelp();
+
     openDialogUsingFooterLink();
 
-    checkConsentsGiven();
+    checkTextConsentState(GIVEN);
 
-    rejectAllConsent();
+    toggleAllConsentState(REJECT_ALL);
   });
 
   it('should click the footer to check if all consents were rejected and accept all consents again', () => {
+    //theory for state did not work :/
+    navigateToHome();
+
     openDialogUsingFooterLink();
 
-    checkConsentsWithdrawn();
+    checkTextConsentState(WITHDRAW);
 
-    acceptAllConsent();
+    toggleAllConsentState(ALLOW_ALL);
   });
 
+  // this is basically from the spec.ts, line 66
   // I would put this here, but there's a problem (user can't login because it says dispatch had an error)
   // it('should transfer anonoymous consents when registered', () => {
   // openDialogUsingFooterLink();
-  // checkConsentsGiven();
+  // checkTextConsentState(GIVEN);
 
-  // giveOrRemoveAnonymousConsent(2);
-  // giveOrRemoveAnonymousConsent(1);
-  // giveOrRemoveAnonymousConsent(3);
+  // toggleAnonymousConsent(2);
+  // toggleAnonymousConsent(1);
+  // toggleAnonymousConsent(3);
   // closeDialog();
 
-  // registerUserAndCheckMyAccountConsent(false, 2);
+  // registerUserAndCheckMyAccountConsent(false, 1);
   // });
 
-  stub(LANGUAGE_REQUEST, LANGUAGES);
+  // stub(LANGUAGE_REQUEST, LANGUAGES);
 
-  it('should pull the new consent templates but preserve the consents state', () => {
+  // it('should pull the new consent templates but preserve the consents state', () => {
+  //   openDialogUsingFooterLink();
+  //   checkTextConsentState(GIVEN);
+
+  //   siteContextChange('/', LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
+
+  //   openDialogUsingFooterLink();
+  //   checkTextConsentState(GIVEN);
+  // });
+}
+
+export function testAsLoggedInUser() {
+  it('should not render the banner', () => {
+    checkBanner();
+    loggedInUserBannerTest();
+  });
+
+  it('should not render the footer link', () => {
+    loggedInUserFooterLinkTest();
+  });
+
+  it('should restore anonoymous consents when logging out', () => {
+    checkBanner();
+    signOutUser();
+
+    clickViewDetailsFromBanner();
+    toggleAnonymousConsent(2);
+    closeDialog();
+
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    cy.getByText(/Sign in \/ Register/i).click();
+    cy.wait(`@${loginPage}`);
+
+    login(
+      standardUser.registrationData.email,
+      standardUser.registrationData.password
+    );
+
+    checkBanner();
+    signOutUser();
+
     openDialogUsingFooterLink();
-    checkConsentsGiven();
-
-    siteContextChange('/', LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
-
-    openDialogUsingFooterLink();
-    checkConsentsGiven();
+    checkSingleTextConsentState(1, GIVEN);
   });
 }
