@@ -6,10 +6,10 @@
           [routerLink]="{ cxRoute: step.routeName } | cxUrl"
           class="cx-link"
           [ngClass]="{
-            ' is-active': i === activeStepIndex,
-            ' is-disabled': i > activeStepIndex
+            ' is-active': isActive(i),
+            ' is-disabled': isDisabled(i)
           }"
-          tabindex="{{ i >= activeStepIndex ? -1 : 0 }}"
+          tabindex="{{ getTabIndex(i) }}"
         >
           {{ i + 1 }}. {{ step.name | cxTranslate }}
         </a>
