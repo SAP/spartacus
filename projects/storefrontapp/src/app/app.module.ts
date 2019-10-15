@@ -11,10 +11,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
 import {
-  // B2cStorefrontModule,
+  B2cStorefrontModule,
   JsonLdBuilderModule,
   StorefrontComponent,
-  B2bStorefrontModule,
+  // B2bStorefrontModule,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
@@ -34,44 +34,44 @@ if (!environment.production) {
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
 
-    // B2cStorefrontModule.withConfig({
-    //   backend: {
-    //     occ: {
-    //       baseUrl: environment.occBaseUrl,
-    //       legacy: false,
-    //     },
-    //   },
-    //   context: {
-    //     urlParameters: ['baseSite', 'language', 'currency'],
-    //     baseSite: [
-    //       'electronics-spa',
-    //       'electronics',
-    //       'apparel-de',
-    //       'apparel-uk',
-    //     ],
-    //   },
-    //
-    //   // custom routing configuration for e2e testing
-    //   routing: {
-    //     routes: {
-    //       product: {
-    //         paths: ['product/:productCode/:name', 'product/:productCode'],
-    //       },
-    //     },
-    //   },
-    //   // we bring in static translations to be up and running soon right away
-    //   i18n: {
-    //     resources: translations,
-    //     chunks: translationChunksConfig,
-    //     fallbackLang: 'en',
-    //   },
-    //   features: {
-    //     level: '1.2',
-    //   },
-    // }),
+    B2cStorefrontModule.withConfig({
+      backend: {
+        occ: {
+          baseUrl: environment.occBaseUrl,
+          legacy: false,
+        },
+      },
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: [
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
+        ],
+      },
 
+      // custom routing configuration for e2e testing
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:productCode/:name', 'product/:productCode'],
+          },
+        },
+      },
+      // we bring in static translations to be up and running soon right away
+      i18n: {
+        resources: translations,
+        chunks: translationChunksConfig,
+        fallbackLang: 'en',
+      },
+      features: {
+        level: '1.2',
+      },
+    }),
+    JsonLdBuilderModule,
     // The following part is for B2b storefront
-    B2bStorefrontModule.withConfig({
+    /*B2bStorefrontModule.withConfig({
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
@@ -97,11 +97,8 @@ if (!environment.production) {
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
-      features: {
-        level: '1.2',
-      },
-    }),
-    JsonLdBuilderModule,
+    }),*/
+
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
