@@ -73,7 +73,6 @@
         class="form-check-input"
         (change)="onConsentChange()"
         [checked]="consentGiven"
-        [disabled]="isRequired(consentTemplate?.id)"
       />
       <span class="form-check-label">
         {{ consentTemplate?.description }}
