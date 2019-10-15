@@ -60,7 +60,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       passwordconf: ['', Validators.required],
       newsletter: new FormControl({
         value: false,
-        // TODO(issue:4989) Anonymous consents
         disabled: this.isAnonymousConsentEnabled
           ? this.isConsentRequired()
           : false,
