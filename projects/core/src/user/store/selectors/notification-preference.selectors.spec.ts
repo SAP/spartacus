@@ -63,6 +63,23 @@ describe('Notification Preference Selectors', () => {
     });
   });
 
+  describe('getEnabledNotificationPreferences', () => {
+    it('should return a enabled preference list', () => {
+      let result: NotificationPreference[];
+      store
+        .pipe(select(UsersSelectors.getEnabledPreferences))
+        .subscribe(value => (result = value));
+      expect(result).toEqual([]);
+
+      store.dispatch(
+        new UserActions.LoadNotificationPreferencesSuccess(
+          mockNotificationPreference
+        )
+      );
+      expect(result).toEqual([]);
+    });
+  });
+
   describe('getPreferencesLoading', () => {
     it('should return isLoading flag', () => {
       let result: boolean;

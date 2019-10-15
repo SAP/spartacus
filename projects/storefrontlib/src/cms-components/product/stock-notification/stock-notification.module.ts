@@ -5,10 +5,9 @@ import {
   ConfigModule,
   CmsConfig,
   I18nModule,
-  UrlModule,
 } from '@spartacus/core';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
-import { SpinnerModule } from 'projects/storefrontlib/src/shared';
+import { SpinnerModule } from '../../../shared';;
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -24,7 +23,6 @@ import { RouterModule } from '@angular/router';
     }),
     RouterModule,
     I18nModule,
-    UrlModule,
     SpinnerModule,
   ],
   entryComponents: [

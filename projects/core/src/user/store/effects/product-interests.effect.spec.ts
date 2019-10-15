@@ -5,7 +5,10 @@ import * as fromInterestsEffect from './product-interests.effect';
 import { UserActions } from '../actions/index';
 import { Actions } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
-import { ProductInterestSearchResult } from '../../../model/product-interest.model';
+import {
+  ProductInterestSearchResult,
+  NotificationType,
+} from '../../../model/product-interest.model';
 import { hot, cold } from 'jasmine-marbles';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 import { UserInterestsAdapter } from '../../connectors/interests/user-interests.adapter';
@@ -15,10 +18,6 @@ const loadParams = {
   pageSize: 5,
   currentPage: 1,
   sort: 'name:asc',
-};
-const delParams = {
-  userId: 'qingyu@sap.com',
-  item: {},
 };
 
 describe('Product Interests Effect', () => {
@@ -82,7 +81,27 @@ describe('Product Interests Effect', () => {
   });
 
   describe('removeProductInterests$', () => {
-    it('should be able to remove product interest', () => {
+    const delParams = {
+      userId: 'qingyu@sap.com',
+      item: {},
+    };
+
+    const delParams1 = {
+      ...delParams,
+      item: {
+        product: {
+          code: '123456',
+        },
+        productInterestEntry: [
+          {
+            interestType: NotificationType.BACK_IN_STOCK,
+          },
+        ],
+      },
+      singleDelete: true,
+    };
+
+    it('should be able to remove product interests', () => {
       const delRes = '200';
       spyOn(userInterestConnector, 'removeInterest').and.returnValue(
         of([delRes])
@@ -97,6 +116,28 @@ describe('Product Interests Effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: loadSuccess, c: removeSuccess });
+      expect(productInterestsEffect.removeProductInterest$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should be able to remove single product interest', () => {
+      const delRes = '200';
+      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
+        of([delRes])
+      );
+      const removeAction = new UserActions.RemoveProductInterest(delParams1);
+      const loadAction = new UserActions.LoadProductInterests({
+        userId: delParams.userId,
+        productCode: delParams1.item.product.code,
+        notificationType: delParams1.item.productInterestEntry[0].interestType,
+      });
+      const removeSuccess = new UserActions.RemoveProductInterestSuccess([
+        delRes,
+      ]);
+
+      actions$ = hot('-a', { a: removeAction });
+      const expected = cold('-(bc)', { b: loadAction, c: removeSuccess });
       expect(productInterestsEffect.removeProductInterest$).toBeObservable(
         expected
       );
