@@ -131,8 +131,7 @@ describe('CartCouponComponent', () => {
     );
     fixture.detectChanges();
 
-    const applyBtn = el.query(By.css('.apply-coupon-button'))
-      .nativeElement;
+    const applyBtn = el.query(By.css('.apply-coupon-button')).nativeElement;
     expect(applyBtn.disabled).toBeTruthy();
 
     input = el.query(By.css('.input-coupon-code')).nativeElement;
@@ -148,8 +147,7 @@ describe('CartCouponComponent', () => {
     );
     fixture.detectChanges();
 
-    const applyBtn = el.query(By.css('.apply-coupon-button'))
-      .nativeElement;
+    const applyBtn = el.query(By.css('.apply-coupon-button')).nativeElement;
 
     input = el.query(By.css('.input-coupon-code')).nativeElement;
     input.value = 'couponCode1';
@@ -196,8 +194,7 @@ describe('CartCouponComponent', () => {
     input = el.query(By.css('.input-coupon-code')).nativeElement;
     expect(input.readOnly).toBeFalsy();
 
-    const button = el.query(By.css('.apply-coupon-button'))
-      .nativeElement;
+    const button = el.query(By.css('.apply-coupon-button')).nativeElement;
     expect(button.disabled).toBeTruthy();
   });
 
