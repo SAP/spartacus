@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { CartCouponAnchorService } from './cart-coupon-anchor.service';
+import { CartCouponComponentService } from '../cart-coupon.component.service';
 
 @Component({
   selector: 'cx-cart-coupon-anchor',
@@ -7,11 +7,11 @@ import { CartCouponAnchorService } from './cart-coupon-anchor.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartCouponAnchorComponent implements OnInit {
-  constructor(private cartCouponAnchorService: CartCouponAnchorService) {}
+  constructor(private cartCouponComponentService: CartCouponComponentService) {}
 
   ngOnInit() {}
 
   sendScrollEvent() {
-    this.cartCouponAnchorService.getEventEmit().emit();
+    this.cartCouponComponentService.scrollIn();
   }
 }

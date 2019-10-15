@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, DebugElement } from '@angular/core';
+import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ import {
   CartVoucherService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
+import { CartCouponComponentService } from './cart-coupon.component.service';
 import { CartCouponComponent } from './cart-coupon.component';
 import { ICON_TYPE } from '@spartacus/storefront';
 
@@ -45,10 +45,9 @@ class MockAppliedCouponsComponent {
 describe('CartCouponComponent', () => {
   let component: CartCouponComponent;
   let fixture: ComponentFixture<CartCouponComponent>;
-  let cartCouponAnchorService;
+  let cartCouponComponentService;
   let input: HTMLInputElement;
   let el: DebugElement;
-  const emitter = new EventEmitter<string>();
 
   const mockCartService = jasmine.createSpyObj('CartService', [
     'getActive',
@@ -74,7 +73,7 @@ describe('CartCouponComponent', () => {
       providers: [
         { provide: CartService, useValue: mockCartService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
-        CartCouponAnchorService,
+        CartCouponComponentService,
       ],
     }).compileComponents();
   }));
@@ -83,8 +82,8 @@ describe('CartCouponComponent', () => {
     fixture = TestBed.createComponent(CartCouponComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
-    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(emitter);
+    cartCouponComponentService = TestBed.get(CartCouponComponentService);
+    spyOn(cartCouponComponentService, 'scrollIn').and.callThrough();
 
     mockCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
     mockCartService.getLoaded.and.returnValue(of(true));

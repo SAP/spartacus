@@ -3,8 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cart, CartService, CartVoucherService } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { CartCouponAnchorService } from './cart-coupon-anchor/cart-coupon-anchor.service';
-import { map, startWith, tap } from 'rxjs/operators';
+import {
+  CartCouponComponentService,
+  COUPON_COMPONENT_EVENT,
+} from './cart-coupon.component.service';
+import { map, startWith, tap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -24,7 +27,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     private cartVoucherService: CartVoucherService,
     private formBuilder: FormBuilder,
     private element: ElementRef,
-    private cartCouponAnchorService: CartCouponAnchorService
+    private cartCouponComponentService: CartCouponComponentService
   ) {}
 
   ngOnInit() {
@@ -65,9 +68,11 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.cartCouponAnchorService.getEventEmit().subscribe(() => {
-        this.scrollToView();
-      })
+      this.cartCouponComponentService.events
+        .pipe(filter(event => event === COUPON_COMPONENT_EVENT.ScrollIn))
+        .subscribe(() => {
+          this.scrollToView();
+        })
     );
   }
 

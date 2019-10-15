@@ -2,31 +2,28 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { CartCouponAnchorComponent } from './cart-coupon-anchor.component';
-import { CartCouponAnchorService } from './cart-coupon-anchor.service';
+import { CartCouponComponentService } from '../cart-coupon.component.service';
 
 describe('CartCouponAnchorComponent', () => {
   let component: CartCouponAnchorComponent;
   let fixture: ComponentFixture<CartCouponAnchorComponent>;
 
-  let cartCouponAnchorService;
-  let spyEmitter;
+  let cartCouponComponentService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [CartCouponAnchorComponent],
-      providers: [CartCouponAnchorService],
+      providers: [CartCouponComponentService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartCouponAnchorComponent);
     component = fixture.componentInstance;
-    cartCouponAnchorService = TestBed.get(CartCouponAnchorService);
-    spyEmitter = jasmine.createSpyObj('EventEmitter', ['emit']);
-    spyOn(cartCouponAnchorService, 'getEventEmit').and.returnValue(spyEmitter);
+    cartCouponComponentService = TestBed.get(CartCouponComponentService);
     spyOn(component, 'sendScrollEvent').and.callThrough();
-    spyEmitter.emit.and.stub();
+    spyOn(cartCouponComponentService, 'scrollIn').and.callThrough();
   });
 
   it('should create', () => {
@@ -41,7 +38,7 @@ describe('CartCouponAnchorComponent', () => {
       By.css('[data-test="anchor-coupon"]')
     ).nativeElement;
     anchorTitle.click();
-    expect(spyEmitter.emit).toHaveBeenCalledWith();
+    expect(cartCouponComponentService.scrollIn).toHaveBeenCalledWith();
     expect(anchorTitle.innerText).toContain('voucher.anchorLabel');
   });
 });
