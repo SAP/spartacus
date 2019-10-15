@@ -12,11 +12,13 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
+  JsonLdBuilderModule,
   StorefrontComponent,
   // B2bStorefrontModule,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -67,7 +69,7 @@ if (!environment.production) {
         level: '1.2',
       },
     }),
-
+    JsonLdBuilderModule,
     // The following part is for B2b storefront
     /*B2bStorefrontModule.withConfig({
       backend: {
