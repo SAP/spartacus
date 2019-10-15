@@ -23,6 +23,10 @@ export const CREATE_BUDGET = '[Budget] Create Budget';
 export const CREATE_BUDGET_FAIL = '[Budget] Create Budget Fail';
 export const CREATE_BUDGET_SUCCESS = '[Budget] Create Budget Success';
 
+export const UPDATE_BUDGET = '[Budget] Update Budget';
+export const UPDATE_BUDGET_FAIL = '[Budget] Update Budget Fail';
+export const UPDATE_BUDGET_SUCCESS = '[Budget] Update Budget Success';
+
 export class LoadBudget extends EntityLoadAction {
   readonly type = LOAD_BUDGET;
   constructor(public payload: { uid: string; budgetCode: string }) {
@@ -86,6 +90,27 @@ export class CreateBudgetSuccess extends EntitySuccessAction {
   }
 }
 
+export class UpdateBudget extends EntityLoadAction {
+  readonly type = UPDATE_BUDGET;
+  constructor(public payload: { uid: string; budget: Budget }) {
+    super(BUDGETS_FEATURE, payload.budget.code);
+  }
+}
+
+export class UpdateBudgetFail extends EntityFailAction {
+  readonly type = UPDATE_BUDGET_FAIL;
+  constructor(public payload: any) {
+    super(BUDGETS_FEATURE, payload.code, payload);
+  }
+}
+
+export class UpdateBudgetSuccess extends EntitySuccessAction {
+  readonly type = UPDATE_BUDGET_SUCCESS;
+  constructor(public payload: Budget) {
+    super(BUDGETS_FEATURE, payload.code, payload);
+  }
+}
+
 export type BudgetAction =
   | LoadBudget
   | LoadBudgetFail
@@ -95,4 +120,7 @@ export type BudgetAction =
   | LoadBudgetsSuccess
   | CreateBudget
   | CreateBudgetFail
-  | CreateBudgetSuccess;
+  | CreateBudgetSuccess
+  | UpdateBudget
+  | UpdateBudgetFail
+  | UpdateBudgetSuccess;

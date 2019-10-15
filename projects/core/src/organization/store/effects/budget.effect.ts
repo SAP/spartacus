@@ -66,6 +66,22 @@ export class BudgetEffects {
     )
   );
 
+  @Effect()
+  $updateBudget: Observable<
+    BudgetActions.UpdateBudgetSuccess | BudgetActions.UpdateBudgetFail
+  > = this.actions$.pipe(
+    ofType(BudgetActions.UPDATE_BUDGET),
+    map((action: BudgetActions.UpdateBudget) => action.payload),
+    switchMap(payload =>
+      this.budgetConnector.patch(payload.uid, payload.budget).pipe(
+        map(data => new BudgetActions.UpdateBudgetSuccess(data)),
+        catchError(error =>
+          of(new BudgetActions.UpdateBudgetFail(makeErrorSerializable(error)))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private budgetConnector: BudgetConnector

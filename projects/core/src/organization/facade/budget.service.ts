@@ -102,4 +102,12 @@ export class BudgetService {
         this.store.dispatch(new BudgetActions.CreateBudget({ uid, budget }))
       );
   }
+
+  updateBudget(budget: Budget) {
+    this.user$
+      .pipe(take(1))
+      .subscribe(uid =>
+        this.store.dispatch(new BudgetActions.UpdateBudget({ uid, budget }))
+      );
+  }
 }
