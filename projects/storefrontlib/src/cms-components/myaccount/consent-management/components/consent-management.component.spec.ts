@@ -40,6 +40,8 @@ class MockConsentManagementFormComponent {
   consentTemplate: ConsentTemplate;
   @Input()
   requiredConsents: string[] = [];
+  @Input()
+  isAnonymousConsentsEnabled = true;
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
@@ -106,8 +108,11 @@ const mockConsentTemplate: ConsentTemplate = {
   },
 };
 
-const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+const mockAnonymousConsentsConfig = {
   anonymousConsents: {},
+  features: {
+    level: '1.2',
+  },
 };
 
 describe('ConsentManagementComponent', () => {

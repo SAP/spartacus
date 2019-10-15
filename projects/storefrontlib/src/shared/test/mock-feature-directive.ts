@@ -1,15 +1,15 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector: '[cxFeatureLevel]',
+  selector: '[cxFeature]',
 })
-export class MockFeatureLevelDirective {
+export class MockFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
     protected viewContainer: ViewContainerRef
   ) {}
 
-  @Input() set cxFeatureLevel(_feature: string | number) {
+  @Input() set cxFeature(_feature: string) {
     this.viewContainer.createEmbeddedView(this.templateRef);
   }
 }

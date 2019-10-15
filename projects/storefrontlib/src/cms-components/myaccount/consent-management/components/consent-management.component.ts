@@ -5,6 +5,7 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
+  isFeatureLevel,
   UserConsentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -28,6 +29,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
 
   requiredConsents: string[] = [];
+
+  // TODO(issue:4989) Anonymous consents - remove
+  isAnonymousConsentsEnabled = isFeatureLevel(
+    this.anonymousConsentsConfig,
+    '1.2'
+  );
 
   constructor(
     userConsentService: UserConsentService,

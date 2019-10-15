@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="isAnonymousConsentsEnabled; else legacyTemplate">
   <div *ngIf="loading$ | async; else consentManagementForm">
     <div class="cx-spinner">
       <cx-spinner></cx-spinner>
@@ -28,6 +28,7 @@
             *ngFor="let consentTemplate of templateList"
             [consentTemplate]="consentTemplate"
             [requiredConsents]="requiredConsents"
+            [isAnonymousConsentsEnabled]="isAnonymousConsentsEnabled"
             (consentChanged)="onConsentChange($event)"
           ></cx-consent-management-form>
         </div>
@@ -35,3 +36,23 @@
     </ng-container>
   </ng-template>
 </ng-container>
+
+<ng-template #legacyTemplate>
+  <div *ngIf="loading$ | async; else consentManagementForm">
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
+  </div>
+
+  <ng-template #consentManagementForm>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8">
+        <cx-consent-management-form
+          *ngFor="let consentTemplate of templateList$ | async"
+          [consentTemplate]="consentTemplate"
+          (consentChanged)="onConsentChange($event)"
+        ></cx-consent-management-form>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>
