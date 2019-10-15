@@ -1,5 +1,17 @@
-import { changeLanguageTest, giveRegistrationConsentTest, moveAnonymousUserToLoggedInUser, movingFromAnonymousToRegisteredUser, sessionLogin, testAsAnonymousUser, testAsLoggedInUser } from '../../helpers/anonymous-consents';
-import { LANGUAGES, LANGUAGE_REQUEST, stub } from '../../helpers/site-context-selector';
+import {
+  changeLanguageTest,
+  giveRegistrationConsentTest,
+  moveAnonymousUserToLoggedInUser,
+  movingFromAnonymousToRegisteredUser,
+  sessionLogin,
+  testAsAnonymousUser,
+  testAsLoggedInUser,
+} from '../../helpers/anonymous-consents';
+import {
+  LANGUAGES,
+  LANGUAGE_REQUEST,
+  stub,
+} from '../../helpers/site-context-selector';
 
 context('Anonymous consents', () => {
   describe('when anonymous user', () => {
