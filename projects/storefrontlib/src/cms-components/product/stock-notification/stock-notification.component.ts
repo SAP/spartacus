@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   UserInterestsService,
   UserNotificationPreferenceService,
@@ -20,6 +25,7 @@ import { StockNotificationDialogComponent } from './stock-notification-dialog/st
 @Component({
   selector: 'cx-stock-notification',
   templateUrl: './stock-notification.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   anonymous$: Observable<boolean>;
@@ -104,16 +110,19 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   }
 
   unsubscribe() {
-    this.interestsService.removeProdutInterest({
-      product: {
-        code: this.productCode,
-      },
-      productInterestEntry: [
-        {
-          interestType: NotificationType.BACK_IN_STOCK,
+    this.interestsService.removeProdutInterest(
+      {
+        product: {
+          code: this.productCode,
         },
-      ],
-    }, true);
+        productInterestEntry: [
+          {
+            interestType: NotificationType.BACK_IN_STOCK,
+          },
+        ],
+      },
+      true
+    );
   }
 
   private openDialog() {
@@ -124,7 +133,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
         size: 'lg',
       }
     ).componentInstance;
-
     modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
     modalInstance.enabledPrefs = this.enabledPrefs;
   }
@@ -139,10 +147,12 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
 
   private hasEnabledPrefs(): void {
     this.notificationPrefService.loadPreferences();
-    this.prefsEnabled$ = this.notificationPrefService.getEnabledPreferences().pipe(
-      tap(prefs =>this.enabledPrefs = prefs),
-      map(prefs => prefs.length > 0)
-    );
+    this.prefsEnabled$ = this.notificationPrefService
+      .getEnabledPreferences()
+      .pipe(
+        tap(prefs => (this.enabledPrefs = prefs)),
+        map(prefs => prefs.length > 0)
+      );
   }
 
   ngOnDestroy(): void {

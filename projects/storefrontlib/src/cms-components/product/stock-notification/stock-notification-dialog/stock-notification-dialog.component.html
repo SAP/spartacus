@@ -15,7 +15,7 @@
           'stockNotification.subscriptionDialog.notifiedPrefix' | cxTranslate
         }}
       </p>
-      <p *ngFor="let p of enabledPrefs">
+      <p *ngFor="let p of enabledPrefs" class="channels">
         {{ p.channel + ': ' + p.value }}
       </p>
       <p>
@@ -31,6 +31,7 @@
         <a
           (click)="close()"
           [routerLink]="['/my-account/notification-preference']"
+          class="link-prefs"
         >
           {{
             'stockNotification.subscriptionDialog.manageChannelsLink'
@@ -48,7 +49,11 @@
           'stockNotification.subscriptionDialog.manageSubscriptionsPrefix'
             | cxTranslate
         }}
-        <a (click)="close()" [routerLink]="['/my-account/my-interests']">
+        <a
+          (click)="close()"
+          [routerLink]="['/my-account/my-interests']"
+          class="link-interests"
+        >
           {{
             'stockNotification.subscriptionDialog.manageSubscriptionsLink'
               | cxTranslate
@@ -62,7 +67,7 @@
       <div class="row">
         <div class="cx-dialog-actions col-sm-12 col-md-6 offset-md-6">
           <button
-            class="btn btn-primary btn-block subscription-btn"
+            class="btn btn-primary btn-block btn-ok"
             type="button"
             (click)="close()"
           >

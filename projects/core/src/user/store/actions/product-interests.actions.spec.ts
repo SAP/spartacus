@@ -1,6 +1,7 @@
 import {
   PRODUCT_INTERESTS,
   REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
+  ADD_PRODUCT_INTEREST_PROCESS_ID,
 } from '../user-state';
 import { UserActions } from './index';
 import {
@@ -14,6 +15,7 @@ import {
   entityLoadMeta,
   entitySuccessMeta,
   entityFailMeta,
+  entityResetMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 
@@ -72,6 +74,7 @@ describe('Product Interests Actions', () => {
       const payload = {
         userId: userId,
         item: {},
+        singleDelete: true,
       };
       const action = new UserActions.RemoveProductInterest(payload);
       expect({ ...action }).toEqual({
@@ -112,6 +115,76 @@ describe('Product Interests Actions', () => {
           REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
           error
         ),
+      });
+    });
+  });
+
+  describe('AddProductInterest Action', () => {
+    it('should be able to create the action', () => {
+      const payload = {
+        userId: userId,
+        productCode: '858687',
+        notificationType: NotificationType.BACK_IN_STOCK,
+      };
+      const action = new UserActions.AddProductInterest(payload);
+      expect({ ...action }).toEqual({
+        type: UserActions.ADD_PRODUCT_INTEREST,
+        payload: payload,
+        meta: entityLoadMeta(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID),
+      });
+    });
+  });
+
+  describe('AddProductInterestSuccess Action', () => {
+    it('should be able to create the action', () => {
+      const payload = 'add success';
+      const action = new UserActions.AddProductInterestSuccess(payload);
+      expect({ ...action }).toEqual({
+        type: UserActions.ADD_PRODUCT_INTEREST_SUCCESS,
+        payload: payload,
+        meta: entitySuccessMeta(
+          PROCESS_FEATURE,
+          ADD_PRODUCT_INTEREST_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('AddProductInterestFail Action', () => {
+    it('should be able to create the action', () => {
+      const error = 'add fail';
+      const action = new UserActions.AddProductInterestFail(error);
+      expect({ ...action }).toEqual({
+        type: UserActions.ADD_PRODUCT_INTEREST_FAIL,
+        payload: error,
+        meta: entityFailMeta(
+          PROCESS_FEATURE,
+          ADD_PRODUCT_INTEREST_PROCESS_ID,
+          error
+        ),
+      });
+    });
+  });
+
+  describe('ResetRemoveInterestState Action', () => {
+    it('should be able to create the action', () => {
+      const action = new UserActions.ResetRemoveInterestState();
+      expect({ ...action }).toEqual({
+        type: UserActions.REMOVE_PRODUCT_INTEREST_RESET,
+        meta: entityResetMeta(
+          PROCESS_FEATURE,
+          REMOVE_PRODUCT_INTERESTS_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('ResetAddInterestState Action', () => {
+    it('should be able to create the action', () => {
+      const action = new UserActions.ResetAddInterestState();
+      expect({ ...action }).toEqual({
+        type: UserActions.ADD_PRODUCT_INTEREST_RESET,
+        meta: entityResetMeta(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID),
       });
     });
   });

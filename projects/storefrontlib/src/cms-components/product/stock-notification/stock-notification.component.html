@@ -6,7 +6,7 @@
           <label>{{ 'stockNotification.getNotified' | cxTranslate }}</label>
         </div>
         <button
-          class="btn btn-primary btn-block"
+          class="btn btn-primary btn-block btn-notify"
           type="button"
           (click)="subscribe()"
         >
@@ -27,7 +27,11 @@
       >{{ 'stockNotification.activateChannelsSuffix' | cxTranslate }}
     </label>
   </div>
-  <button class="btn btn-primary btn-block" type="button" disabled="true">
+  <button
+    class="btn btn-primary btn-block btn-notify"
+    type="button"
+    disabled="true"
+  >
     {{ 'stockNotification.notifyMe' | cxTranslate }}
   </button>
 </ng-template>
@@ -38,7 +42,7 @@
       <label>{{ 'stockNotification.notified' | cxTranslate }}</label>
     </div>
     <button
-      class="btn btn-primary btn-block"
+      class="btn btn-primary btn-block btn-stop-notify"
       type="button"
       (click)="unsubscribe()"
     >

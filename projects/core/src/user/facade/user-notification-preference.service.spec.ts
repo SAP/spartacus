@@ -66,6 +66,18 @@ describe('UserNotificationPreferenceService', () => {
     expect(notificationPreferences).toEqual(mockNotificationPreference);
   });
 
+  it('should be able to get enabled notification preferences', () => {
+    store.dispatch(
+      new UserActions.LoadNotificationPreferencesSuccess(
+        mockNotificationPreference
+      )
+    );
+    userNotificationPreferenceService
+      .getPreferences()
+      .subscribe(preferences => expect(preferences).toEqual([]))
+      .unsubscribe();
+  });
+
   it('should be able to load notification preferences', () => {
     userNotificationPreferenceService.loadPreferences();
     expect(store.dispatch).toHaveBeenCalledWith(

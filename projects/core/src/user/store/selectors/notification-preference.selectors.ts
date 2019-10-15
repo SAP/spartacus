@@ -3,7 +3,10 @@ import { NotificationPreference } from 'projects/core/src/model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
-import { loaderValueSelector, loaderLoadingSelector } from '../../../state/utils/loader/loader.selectors';
+import {
+  loaderValueSelector,
+  loaderLoadingSelector,
+} from '../../../state/utils/loader/loader.selectors';
 
 export const getPreferencesLoaderState: MemoizedSelector<
   StateWithUser,
@@ -18,8 +21,7 @@ export const getPreferences: MemoizedSelector<
   NotificationPreference[]
 > = createSelector(
   getPreferencesLoaderState,
-  (state: LoaderState<NotificationPreference[]>) =>
-    loaderValueSelector(state)
+  (state: LoaderState<NotificationPreference[]>) => loaderValueSelector(state)
 );
 
 export const getEnabledPreferences: MemoizedSelector<
@@ -36,6 +38,5 @@ export const getPreferencesLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getPreferencesLoaderState,
-  (state: LoaderState<NotificationPreference[]>) =>
-    loaderLoadingSelector(state)
+  (state: LoaderState<NotificationPreference[]>) => loaderLoadingSelector(state)
 );
