@@ -1,15 +1,11 @@
 import { giveConsent } from '../helpers/consent-management';
 import { standardUser } from '../sample-data/shared-users';
+import { switchSiteContext } from '../support/utils/switch-site-context';
 import { login } from './auth-forms';
 import { registerUser, waitForPage } from './checkout-flow';
 import { checkBanner } from './homepage';
 import { signOutUser } from './login';
-import {
-  LANGUAGES,
-  LANGUAGE_DE,
-  LANGUAGE_LABEL,
-  siteContextChange,
-} from './site-context-selector';
+import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
 
 const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
@@ -21,18 +17,26 @@ const REJECT_ALL = 'Reject All';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
 
+//TODO: improve anonymous consents e2e test
+//Problem: why we had to go this route is because anonymous consent is being set in every request.
+//and if we do not include this 'hotfix', then the consent will get overidden by the some requests making state to null when it is was given.
+export function waitFiveSeconds() {
+  cy.wait(5000);
+}
+
 export function navigateToHome() {
   cy.get('cx-generic-link a[title="SAP Commerce"]').click({ force: true });
 }
 
-export function navigateToHelp() {
-  cy.get('cx-link a')
-    .contains('Help')
-    .click();
+export function waitForConsents() {
+  cy.server();
+  cy.route(
+    '/rest/v2/electronics-spa/users/anonymous/consenttemplates?lang=en&curr=USD'
+  ).as('fetchConsents');
 }
 
 export function seeBannerAsAnonymous() {
-  cy.get(ANONYMOUS_BANNER).should('exist');
+  cy.get(ANONYMOUS_BANNER, { timeout: 5000 }).should('exist');
 }
 
 export function checkBannerHidden() {
@@ -42,7 +46,7 @@ export function checkBannerHidden() {
 export function clickAllowAllFromBanner() {
   cy.get(ANONYMOUS_BANNER)
     .find('.btn-primary')
-    .click({ force: true });
+    .click();
 }
 
 export function clickViewDetailsFromBanner() {
@@ -114,8 +118,67 @@ export function sessionLogin() {
   cy.requireLoggedIn(standardUser);
 }
 
+export function registerUserAndCheckMyAccountConsent(
+  consentCheckBox,
+  position
+) {
+  const newUser = registerUser(consentCheckBox);
+  login(newUser.email, newUser.password);
+  checkBanner();
+  cy.selectUserMenuOption({
+    option: 'Consent Management',
+  });
+  checkInputConsentState(position, BE_CHECKED);
+}
+
+export function testAsAnonymousUser() {
+  it('should be able to see the banner', () => {
+    waitFiveSeconds();
+    seeBannerAsAnonymous();
+  });
+
+  it('should close the banner and give all consents by clicking on "ALLOW ALL" in the banner', () => {
+    clickAllowAllFromBanner();
+    checkBannerHidden();
+  });
+
+  it('should click the footer to check if all consents were accepted and withdraw all consents afterwards', () => {
+    openDialogUsingFooterLink();
+    checkAllTextConsentState(GIVEN);
+    toggleAllConsentState(REJECT_ALL);
+  });
+
+  it('should click the footer to check if all consents were rejected and accept all consents again', () => {
+    openDialogUsingFooterLink();
+
+    checkAllTextConsentState(WITHDRAW);
+
+    toggleAllConsentState(ALLOW_ALL);
+  });
+}
+
+export function giveRegistrationConsentTest() {
+  it('should give the registration consent', () => {
+    waitFiveSeconds();
+    registerUserAndCheckMyAccountConsent(true, 0);
+  });
+}
+
+export function movingFromAnonymousToRegisteredUser() {
+  it('should transfer anonoymous consents when registered', () => {
+    waitFiveSeconds();
+    openDialogUsingFooterLink();
+    toggleAnonymousConsent(2);
+    closeDialog();
+
+    registerUserAndCheckMyAccountConsent(false, 1);
+  });
+}
+
 export function moveAnonymousUserToLoggedInUser() {
   it('should ignore the anonymous consents and load the previously given registered consents', () => {
+    waitFiveSeconds();
+
     cy.selectUserMenuOption({
       option: 'Consent Management',
     });
@@ -149,115 +212,9 @@ export function moveAnonymousUserToLoggedInUser() {
   });
 }
 
-export function movingFromAnonymousToRegisteredUser() {
-  it('should transfer anonoymous consents when registered', () => {
-    openDialogUsingFooterLink();
-    toggleAnonymousConsent(2);
-    closeDialog();
-
-    registerUserAndCheckMyAccountConsent(false, 1);
-  });
-}
-
-export function changeLanguageTest() {
-  it('should pull the new consent templates but preserve the consents state', () => {
-    clickViewDetailsFromBanner();
-    toggleAllConsentState(ALLOW_ALL);
-
-    // cy.wait(5000);
-
-    openDialogUsingFooterLink();
-    checkAllTextConsentState(GIVEN);
-    closeDialog();
-
-    siteContextChange('/', LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
-
-    openDialogUsingFooterLink();
-    checkAllTextConsentState(GIVEN);
-  });
-}
-
-export function registerUserAndCheckMyAccountConsent(
-  consentCheckBox,
-  position
-) {
-  const newUser = registerUser(consentCheckBox);
-  login(newUser.email, newUser.password);
-  checkBanner();
-  cy.selectUserMenuOption({
-    option: 'Consent Management',
-  });
-  checkInputConsentState(position, BE_CHECKED);
-}
-
-export function giveRegistrationConsentTest() {
-  it('should give the registration consent', () => {
-    registerUserAndCheckMyAccountConsent(true, 0);
-  });
-}
-
-export function testAsAnonymousUser() {
-  it('should be able to see the banner', () => {
-    seeBannerAsAnonymous();
-  });
-
-  it('should close the banner and give all consents by clicking on "ALLOW ALL" in the banner', () => {
-    clickAllowAllFromBanner();
-    checkBannerHidden();
-  });
-
-  it('should click the footer to check if all consents were accepted and withdraw all consents afterwards', () => {
-    // cy.wait(5000);
-    //theory for state did not work :/
-    // navigateToHelp();
-
-    openDialogUsingFooterLink();
-
-    checkAllTextConsentState(GIVEN);
-
-    toggleAllConsentState(REJECT_ALL);
-  });
-
-  it('should click the footer to check if all consents were rejected and accept all consents again', () => {
-    //theory for state did not work :/
-    // navigateToHome();
-
-    openDialogUsingFooterLink();
-
-    checkAllTextConsentState(WITHDRAW);
-
-    toggleAllConsentState(ALLOW_ALL);
-  });
-
-  // this is basically from the spec.ts, line 66
-  // I would put this here, but there's a problem (user can't login because it says dispatch had an error)
-  // it('should transfer anonoymous consents when registered', () => {
-  // openDialogUsingFooterLink();
-  // checkAllTextConsentState(GIVEN);
-
-  // toggleAnonymousConsent(2);
-  // toggleAnonymousConsent(1);
-  // toggleAnonymousConsent(3);
-  // closeDialog();
-
-  // registerUserAndCheckMyAccountConsent(false, 1);
-  // });
-
-  // stub(LANGUAGE_REQUEST, LANGUAGES);
-
-  // it('should pull the new consent templates but preserve the consents state', () => {
-  //   openDialogUsingFooterLink();
-  //   checkAllTextConsentState(GIVEN);
-
-  //   siteContextChange('/', LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
-
-  //   openDialogUsingFooterLink();
-  //   checkAllTextConsentState(GIVEN);
-  // });
-}
-
 export function testAsLoggedInUser() {
   it('should not render the banner', () => {
+    waitFiveSeconds();
     checkBanner();
     loggedInUserBannerTest();
   });
@@ -288,5 +245,25 @@ export function testAsLoggedInUser() {
 
     openDialogUsingFooterLink();
     checkSingleTextConsentState(1, GIVEN);
+  });
+}
+
+export function changeLanguageTest() {
+  it('should pull the new consent templates but preserve the consents state', () => {
+    waitFiveSeconds();
+
+    clickViewDetailsFromBanner();
+    toggleAllConsentState(ALLOW_ALL);
+
+    openDialogUsingFooterLink();
+    checkAllTextConsentState(GIVEN);
+    closeDialog();
+
+    cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
+    switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
+    cy.wait('@switchedContext');
+
+    openDialogUsingFooterLink();
+    checkAllTextConsentState(GIVEN);
   });
 }

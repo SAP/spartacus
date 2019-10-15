@@ -1,100 +1,85 @@
+import { changeLanguageTest, giveRegistrationConsentTest, moveAnonymousUserToLoggedInUser, movingFromAnonymousToRegisteredUser, sessionLogin, testAsAnonymousUser, testAsLoggedInUser } from '../../helpers/anonymous-consents';
+import { LANGUAGES, LANGUAGE_REQUEST, stub } from '../../helpers/site-context-selector';
+
 context('Anonymous consents', () => {
-  before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-      win.localStorage.clear();
+  describe('when anonymous user', () => {
+    before(() => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+      cy.reload();
+      cy.visit('/');
     });
+
+    testAsAnonymousUser();
   });
 
-  // ---------------------------
-  // same as below
-  // works 1/3 and state is not working as intended with cypress
-  // describe('when anonymous user', () => {
-  //   before(() => {
-  //     cy.reload();
-  //     cy.visit('/');
-  //   });
+  describe('when registering a user and checking registration consent', () => {
+    before(() => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+      cy.reload();
+      cy.visit('/');
+    });
+    giveRegistrationConsentTest();
+  });
 
-  //   testAsAnonymousUser();
-  // });
-  // ---------------------------
+  describe('moving from the anonymous user to the registered user', () => {
+    before(() => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+      cy.reload();
+      cy.visit('/');
+    });
 
-  // ---------------------------
-  // works 1/3 time need to explain the problem -- state not changing
-  // describe('when changing the language with consents', () => {
-  //   before(() => {
-  //     cy.window().then(win => {
-  //       win.sessionStorage.clear();
-  //       win.localStorage.clear();
-  //     });
-  //     cy.reload();
-  //     cy.visit('/');
-  //   });
+    movingFromAnonymousToRegisteredUser();
+  });
 
-  //   stub(LANGUAGE_REQUEST, LANGUAGES);
+  describe('moving from anonymous user to the logged in user', () => {
+    before(() => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+      sessionLogin();
+      cy.reload();
+      cy.visit('/');
+    });
 
-  //   changeLanguageTest();
-  // });
-  // ---------------------------
+    moveAnonymousUserToLoggedInUser();
+  });
 
-  // ---------------------------
-  //  works as intended perfectly
-  // describe('when registering a user and checking registration consent', () => {
-  //   before(() => {
-  //     cy.window().then(win => {
-  //       win.sessionStorage.clear();
-  //       win.localStorage.clear();
-  //     });
-  //     cy.reload();
-  //     cy.visit('/');
-  //   });
-  //   giveRegistrationConsentTest();
-  // });
-  // ---------------------------
+  describe('when a user is logged in', () => {
+    before(() => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+      sessionLogin();
+      cy.reload();
+      cy.visit('/');
+    });
 
-  // ------------------
-  // 1/3 with the state
-  // describe('moving from the anonymous user to the registered user', () => {
-  //   before(() => {
-  //     cy.window().then(win => {
-  //       win.sessionStorage.clear();
-  //       win.localStorage.clear();
-  //     });
-  //     cy.reload();
-  //     cy.visit('/');
-  //   });
+    testAsLoggedInUser();
+  });
 
-  //   movingFromAnonymousToRegisteredUser();
-  // });
-  // ------------------
+  describe('when changing the language with consents', () => {
+    before(() => {
+      cy.window().then(win => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+      cy.reload();
+      cy.visit('/');
+    });
 
-  // -------------------------
-  // works always
-  // describe('moving from anonymous user to the logged in user', () => {
-  //   before(() => {
-  //     sessionLogin();
-  //     cy.reload(true);
-  //     cy.visit('/');
-  //   });
+    stub(LANGUAGE_REQUEST, LANGUAGES);
 
-  //   moveAnonymousUserToLoggedInUser();
-  // });
-  // -------------------------
-
-  // -----------------
-  // good good
-  // describe('when a user is logged in', () => {
-  //   before(() => {
-  //     cy.window().then(win => {
-  //       win.sessionStorage.clear();
-  //       win.localStorage.clear();
-  //     });
-  //     sessionLogin();
-  //     cy.reload();
-  //     cy.visit('/');
-  //   });
-
-  //   testAsLoggedInUser();
-  // });
-  // -----------------
+    changeLanguageTest();
+  });
 });
