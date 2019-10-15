@@ -22,7 +22,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  loadBudgets(
+  loadMany(
     userId: string,
     pageSize: number,
     currentPage: number,

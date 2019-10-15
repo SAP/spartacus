@@ -20,7 +20,7 @@ export class BudgetConnector {
     sort?: string,
     fields?: string
   ): Observable<Budget[]> {
-    return this.adapter.loadBudgets(
+    return this.adapter.loadMany(
       userId,
       pageSize,
       currentPage,
