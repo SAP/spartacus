@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
 import {
@@ -114,6 +114,15 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         map(paymentTypeList => paymentTypeList.paymentTypes),
         this.converter.pipeableMany(PAYMENT_TYPE_NORMALIZER)
       );
+  }
+
+  setPaymentType(
+    _userId: string,
+    _cartId: string,
+    _paymentType: string,
+    _purchaseOrderNumber?: string
+  ): Observable<any> {
+    return of({});
   }
 
   protected getProviderSubInfo(

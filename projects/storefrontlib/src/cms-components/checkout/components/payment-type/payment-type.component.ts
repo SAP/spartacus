@@ -4,6 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutPaymentService,
@@ -25,7 +26,14 @@ export class PaymentTypeComponent extends AbstractCheckoutStepComponent
   implements OnInit, OnDestroy {
   paymentTypes$: Observable<PaymentType[]>;
 
+  typeSelected: string;
+
+  form: FormGroup = this.fb.group({
+    typeCode: ['', Validators.required],
+  });
+
   constructor(
+    protected fb: FormBuilder,
     protected routingService: RoutingService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected checkoutConfigService: CheckoutConfigService,
@@ -36,27 +44,31 @@ export class PaymentTypeComponent extends AbstractCheckoutStepComponent
 
   ngOnInit() {
     super.ngOnInit();
-    
+
     this.checkoutConfigService.resetSteps();
 
     this.paymentTypes$ = this.checkoutPaymentService.getPaymentTypes().pipe(
       tap(paymentTypes => {
         if (Object.keys(paymentTypes).length === 0) {
           this.checkoutPaymentService.loadSupportedPaymentTypes();
+        } else {
+          this.typeSelected = paymentTypes[0].code;
         }
       })
     );
   }
 
   changeType(code: string): void {
-    //if (code !== this.currentDeliveryModeId) {
-    //  this.currentDeliveryModeId = code;
-    //}
-    this.checkoutConfigService.disableStep(CheckoutStepType.PAYMENT_DETAILS);
-    console.log(code);
+    this.typeSelected = code;
+    if (this.typeSelected === 'ACCOUNT') {
+      this.checkoutConfigService.disableStep(CheckoutStepType.PAYMENT_DETAILS);
+    } else {
+      this.checkoutConfigService.enableStep(CheckoutStepType.PAYMENT_DETAILS);
+    }
   }
 
   next(): void {
+    this.checkoutPaymentService.setPaymentType(this.typeSelected)
     this.routingService.go(this.checkoutStepUrlNext);
   }
 

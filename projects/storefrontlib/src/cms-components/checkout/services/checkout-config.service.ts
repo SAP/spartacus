@@ -15,7 +15,7 @@ export class CheckoutConfigService {
   // initial configured steps
   intialSteps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
   // all steps with modified data
-  allSteps: CheckoutStep[] = Object.assign([], this.intialSteps);
+  allSteps: CheckoutStep[] = this.intialSteps.map(x => Object.assign({}, x));
   // all enabled steps
   steps: CheckoutStep[] = this.allSteps.filter(step => step.enabled);
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
@@ -33,7 +33,7 @@ export class CheckoutConfigService {
   ) {}
 
   resetSteps() {
-    this.allSteps = Object.assign([], this.intialSteps);
+    this.allSteps = this.intialSteps.map(x => Object.assign({}, x));
     this.steps = this.allSteps.filter(step => step.enabled);
     this.steps$.next(this.steps);
   }

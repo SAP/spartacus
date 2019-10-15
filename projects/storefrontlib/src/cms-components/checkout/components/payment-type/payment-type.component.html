@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12 col-lg-9">
     <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
-      {{ 'checkoutShipping.shippingMethod' | cxTranslate }}
+      {{ 'checkoutProgress.paymentType' | cxTranslate }}
     </h3>
 
     <ng-container *ngIf="(paymentTypes$ | async)?.length; else loading">
@@ -10,10 +10,10 @@
           class="form-check-input"
           role="radio"
           type="radio"
-          id="deliveryMode-{{ type.code }}"
           aria-checked="true"
           (change)="changeType(type.code)"
           [value]="type.code"
+          [checked]="type.code == typeSelected"
         />
         <label
           class="cx-delivery-label form-check-label

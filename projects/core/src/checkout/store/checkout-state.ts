@@ -11,6 +11,8 @@ export const SET_DELIVERY_MODE_PROCESS_ID = 'setDeliveryMode';
 export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID =
   'setSupportedDeliveryMode';
 export const SET_PAYMENT_DETAILS_PROCESS_ID = 'setPaymentDetails';
+export const SET_SUPPORTED_PAYMENT_TYPES_PROCESS_ID =
+  'setSupportedPaymentTypes';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
@@ -26,6 +28,7 @@ export interface CardTypesState {
 
 export interface PaymentTypesState {
   entities: { [code: string]: PaymentType };
+  selected: string;
 }
 
 export interface CheckoutStepsState {

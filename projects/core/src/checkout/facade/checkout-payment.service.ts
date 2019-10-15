@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
 import { CartDataService } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails, PaymentType } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
@@ -10,6 +11,7 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
+  SET_SUPPORTED_PAYMENT_TYPES_PROCESS_ID,
   StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
@@ -35,8 +37,35 @@ export class CheckoutPaymentService {
    */
   getPaymentTypes(): Observable<PaymentType[]> {
     return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getAllPaymentTypes)
+      select(CheckoutSelectors.getAllPaymentTypes),
+      withLatestFrom(
+        this.checkoutStore.pipe(
+          select(getProcessStateFactory(SET_SUPPORTED_PAYMENT_TYPES_PROCESS_ID))
+        )
+      ),
+      tap(([, loadingState]) => {
+        if (
+          !(loadingState.loading || loadingState.success || loadingState.error)
+        ) {
+          this.loadSupportedPaymentTypes();
+        }
+      }),
+      pluck(0),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
+  }
+
+  setPaymentType(typeCode: string, poNumber?: string): void {
+    if (this.actionAllowed()) {
+      this.checkoutStore.dispatch(
+        new CheckoutActions.SetPaymentType({
+          userId: this.cartData.userId,
+          cartId: this.cartData.cartId,
+          typeCode: typeCode,
+          poNumber: poNumber,
+        })
+      );
+    }
   }
 
   /**

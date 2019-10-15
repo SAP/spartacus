@@ -1,7 +1,11 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
-import { CardType, PaymentDetails, PaymentType } from '../../../model/cart.model';
+import {
+  CardType,
+  PaymentDetails,
+  PaymentType,
+} from '../../../model/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +35,14 @@ export class CheckoutPaymentConnector {
 
   getPaymentTypes(): Observable<PaymentType[]> {
     return this.adapter.loadPaymentTypes();
+  }
+
+  setPaymentType(
+    userId: string,
+    cartId: string,
+    typeCode: string,
+    poNumber?: string
+  ): Observable<any> {
+    return this.adapter.setPaymentType(userId, cartId, typeCode, poNumber);
   }
 }
