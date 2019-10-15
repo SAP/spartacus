@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule } from '../layout/index';
+import { AssistedServiceModule } from './asm/assisted-service.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
 import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
@@ -48,6 +49,7 @@ import { UserComponentModule } from './user/user.module';
 
 @NgModule({
   imports: [
+    AssistedServiceModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
