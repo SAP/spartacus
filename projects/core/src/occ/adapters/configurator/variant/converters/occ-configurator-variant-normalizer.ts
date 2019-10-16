@@ -50,6 +50,8 @@ export class OccConfiguratorVariantNormalizer
       required: cstic.required,
       uiType: this.convertCharacteristicType(cstic.type),
       values: [],
+      userInput: cstic.formattedValue ? cstic.formattedValue : cstic.value,
+      maxlength: cstic.maxlength,
     };
     if (cstic.domainvalues) {
       cstic.domainvalues.forEach(value =>
@@ -91,6 +93,10 @@ export class OccConfiguratorVariantNormalizer
       }
       case OccConfigurator.UiType.DROPDOWN: {
         uiType = Configurator.UiType.DROPDOWN;
+        break;
+      }
+      case OccConfigurator.UiType.STRING: {
+        uiType = Configurator.UiType.STRING;
         break;
       }
       case OccConfigurator.UiType.READ_ONLY: {
