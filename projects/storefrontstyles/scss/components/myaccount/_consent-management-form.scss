@@ -10,11 +10,19 @@
       font-size: 1.6rem;
     }
   }
-
   .cx-toggle-button {
-    margin-left: -19%;
+    margin-left: -6.5rem;
+    .cx-toggle-text {
+      @include type('8');
+    }
   }
-  .cx-accordion-title {
-    width: 80%;
+
+  .cx-accordion {
+    .cx-accordion-item {
+      margin: 15px 0;
+    }
+    .cx-accordion-title {
+      width: 79%;
+    }
   }
 }
