@@ -89,14 +89,14 @@ describe('NotificationPreferenceComponent', () => {
 
   it('should show channels', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('[data-test="message"]'))).toBeTruthy();
-    expect(el.query(By.css('[data-test="notes"]'))).toBeTruthy();
+    expect(el.query(By.css('.pref-header'))).toBeTruthy();
+    expect(el.query(By.css('.pref-note'))).toBeTruthy();
     expect(
-      el.queryAll(By.css('[data-test="checkbox"]')).length ===
+      el.queryAll(By.css('.form-check-input')).length ===
         notificationPreference.length
     ).toBeTruthy();
     expect(
-      el.queryAll(By.css('[data-test="channel"]')).length ===
+      el.queryAll(By.css('.pref-channel')).length ===
         notificationPreference.length
     ).toBeTruthy();
   });
@@ -116,7 +116,7 @@ describe('NotificationPreferenceComponent', () => {
     );
     fixture.detectChanges();
 
-    const cheboxies = el.queryAll(By.css('[data-test="checkbox"]'));
+    const cheboxies = el.queryAll(By.css('.form-check-input'));
     expect(cheboxies.length).toEqual(notificationPreference.length);
     const chx = cheboxies[0].nativeElement;
     chx.click();
@@ -137,7 +137,7 @@ describe('NotificationPreferenceComponent', () => {
     );
     fixture.detectChanges();
 
-    const cheboxies = el.queryAll(By.css('[data-test="checkbox"]'));
+    const cheboxies = el.queryAll(By.css('.form-check-input'));
     expect(cheboxies.length).toEqual(notificationPreference.length);
     const chx = cheboxies[0].nativeElement;
     chx.click();
