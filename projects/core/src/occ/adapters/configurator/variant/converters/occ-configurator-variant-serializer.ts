@@ -44,6 +44,13 @@ export class OccConfiguratorVariantSerializer
         );
         break;
       }
+      case 'WCEM_SIMPLE_TEST': {
+        this.createSimpleTestGroups(occGroups);
+        source.attributes.forEach(attribute =>
+          this.mapAttributesToSimpleTestGroups(attribute, occGroups)
+        );
+        break;
+      }
     }
   }
 
@@ -58,7 +65,14 @@ export class OccConfiguratorVariantSerializer
       type: this.convertCharacteristicType(attribute.uiType),
     };
 
-    cstic.value = attribute.selectedSingleValue;
+    if (
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.RADIOBUTTON
+    ) {
+      cstic.value = attribute.selectedSingleValue;
+    } else if (attribute.uiType === Configurator.UiType.STRING) {
+      cstic.value = attribute.userInput;
+    }
 
     occCstics.push(cstic);
   }
@@ -72,6 +86,10 @@ export class OccConfiguratorVariantSerializer
       }
       case Configurator.UiType.DROPDOWN: {
         uiType = OccConfigurator.UiType.DROPDOWN;
+        break;
+      }
+      case Configurator.UiType.STRING: {
+        uiType = OccConfigurator.UiType.STRING;
         break;
       }
       default: {
@@ -161,6 +179,16 @@ export class OccConfiguratorVariantSerializer
     });
   }
 
+  createSimpleTestGroups(occGroups: OccConfigurator.Group[]) {
+    occGroups.push({
+      configurable: true,
+      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+      id: '2-WCEM_SIMPLE_TEST._GEN',
+      name: '_GEN',
+      cstics: [],
+    });
+  }
+
   mapAttributesToLaptopGroups(
     attribute: Configurator.Attribute,
     occGroups: OccConfigurator.Group[]
@@ -184,6 +212,13 @@ export class OccConfiguratorVariantSerializer
         this.convertAttribute(attribute, occGroups[2].cstics);
         break;
     }
+  }
+
+  mapAttributesToSimpleTestGroups(
+    attribute: Configurator.Attribute,
+    occGroups: OccConfigurator.Group[]
+  ) {
+    this.convertAttribute(attribute, occGroups[0].cstics);
   }
 
   mapAttributesToPCGroups(

@@ -13,6 +13,7 @@ export namespace Configurator {
     selectedSingleValue?: string;
     userInput?: string;
     isLineItem?: boolean;
+    maxlength?: number;
   }
 
   export interface Value {
@@ -42,7 +43,7 @@ export namespace Configurator {
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',
-    INPUT = 'inputField',
+    STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
   }
 }

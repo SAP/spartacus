@@ -16,6 +16,7 @@ import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/pag
 import { ConfigAttributeFooterComponent } from '../commons/config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
+import { ConfigAttributeInputFieldComponent } from '../commons/config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
@@ -75,6 +76,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
+    ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
@@ -85,6 +87,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
+    ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
@@ -96,6 +99,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
+    ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
