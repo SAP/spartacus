@@ -7,6 +7,7 @@ import { ConfigAttributeInputFieldComponent } from './config-attribute-input-fie
 
 describe('ConfigAttributeInputFieldComponent', () => {
   let component: ConfigAttributeInputFieldComponent;
+
   let fixture: ComponentFixture<ConfigAttributeInputFieldComponent>;
 
   beforeEach(async(() => {
