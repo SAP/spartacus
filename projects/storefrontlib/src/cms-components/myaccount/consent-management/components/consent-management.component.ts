@@ -10,14 +10,7 @@ import {
   UserConsentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  filter,
-  map,
-  skipWhile,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -237,24 +230,19 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   rejectAll(templates: ConsentTemplate[]): void {
-    let consentsToWithdraw = 0;
     templates.forEach(template => {
       if (this.isConsentGiven(template)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
 
-        consentsToWithdraw++;
         this.userConsentService.withdrawConsent(template.currentConsent.code);
       }
     });
 
     this.subscriptions.add(
-      this.loading$
-        .pipe(
-          filter(loading => !loading),
-          take(consentsToWithdraw)
-        )
+      this.userConsentService
+        .getWithdrawConsentResultSuccess()
         .subscribe(_ => this.userConsentService.loadConsents())
     );
   }
@@ -268,24 +256,19 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   allowAll(templates: ConsentTemplate[]): void {
-    let consentsToGive = 0;
     templates.forEach(template => {
       if (this.isConsentWithdrawn(template)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
 
-        consentsToGive++;
         this.userConsentService.giveConsent(template.id, template.version);
       }
     });
 
     this.subscriptions.add(
-      this.loading$
-        .pipe(
-          filter(loading => !loading),
-          take(consentsToGive)
-        )
+      this.userConsentService
+        .getGiveConsentResultSuccess()
         .subscribe(_ => this.userConsentService.loadConsents())
     );
   }
