@@ -43,7 +43,6 @@ export namespace Configurator {
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',
-    INPUT = 'inputField',
     STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
   }
