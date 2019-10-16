@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page, PageMeta } from '../../cms';
+import { CmsService, Page } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
@@ -64,7 +64,7 @@ describe('SearchPageMetaResolver', () => {
 
   describe('deprecated resolvers', () => {
     it(`should return {title: 'pageMetaResolver.search.title count:3 query:Canon'} for resolve method`, () => {
-      let result: PageMeta;
+      let result: string;
       service
         .resolve()
         .subscribe(value => {
@@ -72,9 +72,9 @@ describe('SearchPageMetaResolver', () => {
         })
         .unsubscribe();
 
-      expect(result).toEqual({
-        title: 'pageMetaResolver.search.title count:3 query:Canon',
-      });
+      expect(result).toEqual(
+        'pageMetaResolver.search.title count:3 query:Canon'
+      );
     });
   });
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { PageMetaResolver } from '../../cms';
 import { PageMeta, USE_SEPARATE_RESOLVERS } from '../../cms/model/page.model';
@@ -63,23 +63,15 @@ export class SearchPageMetaResolver extends PageMetaResolver
     total?: number,
     query?: string
   ): Observable<{ title: string } | any> {
-    if (total && query) {
-      return this.translation
-        .translate('pageMetaResolver.search.title', {
-          count: total,
-          query: query,
+    const sources =
+      total && query ? [of(total), of(query)] : [this.total$, this.query$];
+    return combineLatest(sources).pipe(
+      switchMap(([t, q]: [number, string]) =>
+        this.translation.translate('pageMetaResolver.search.title', {
+          count: t,
+          query: q,
         })
-        .pipe(map(title => title));
-    } else {
-      return combineLatest([this.total$, this.query$]).pipe(
-        switchMap(([t, q]: [number, string]) =>
-          this.translation.translate('pageMetaResolver.search.title', {
-            count: t,
-            query: q,
-          })
-        ),
-        map(title => ({ title }))
-      );
-    }
+      )
+    );
   }
 }
