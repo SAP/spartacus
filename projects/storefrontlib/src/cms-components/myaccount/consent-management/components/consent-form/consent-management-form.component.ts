@@ -17,7 +17,9 @@ import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 })
 export class ConsentManagementFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
-  consentGivenTranslation$ = new BehaviorSubject<string>('');
+  consentGivenTranslation$ = new BehaviorSubject<string>(
+    'consentManagementForm.off'
+  );
   accordionExpanded = false;
   accordionHeight = '0px';
   consentGiven = false;

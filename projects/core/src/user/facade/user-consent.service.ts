@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsentTemplate } from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
@@ -45,8 +45,12 @@ export class UserConsentService {
   loadConsents(): void {
     this.authService
       .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
+      .pipe(
+        withLatestFrom(this.authService.isUserLoggedIn()),
+        filter(([_occUserId, isUserLoggedIn]) => isUserLoggedIn),
+        take(1)
+      )
+      .subscribe(([occUserId, _isUserLoggedIn]) =>
         this.store.dispatch(new UserActions.LoadUserConsents(occUserId))
       )
       .unsubscribe();

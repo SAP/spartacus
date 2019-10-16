@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  AuthService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
@@ -10,12 +11,12 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
-  filter,
   map,
   skipWhile,
   take,
   tap,
   withLatestFrom,
+  filter,
 } from 'rxjs/operators';
 
 @Component({
@@ -40,7 +41,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     userConsentService: UserConsentService,
     globalMessageService: GlobalMessageService,
     anonymousConsentsConfig: AnonymousConsentsConfig,
-    anonymousConsentsService: AnonymousConsentsService
+    anonymousConsentsService: AnonymousConsentsService,
+    authService: AuthService
   );
 
   /**
@@ -51,7 +53,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
      userConsentService: UserConsentService,
      globalMessageService: GlobalMessageService,
      anonymousConsentsConfig : AnonymousConsentsConfig,
-     anonymousConsentsService : AnonymousConsentsService
+     anonymousConsentsService : AnonymousConsentsService,
+     authService: AuthService,
    ) 
    ```
    */
@@ -63,7 +66,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     private userConsentService: UserConsentService,
     private globalMessageService: GlobalMessageService,
     private anonymousConsentsConfig?: AnonymousConsentsConfig,
-    private anonymousConsentsService?: AnonymousConsentsService
+    private anonymousConsentsService?: AnonymousConsentsService,
+    private authService?: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -71,10 +75,19 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       this.userConsentService.getConsentsResultLoading(),
       this.userConsentService.getGiveConsentResultLoading(),
       this.userConsentService.getWithdrawConsentResultLoading(),
+      this.authService.isUserLoggedIn(),
     ]).pipe(
       map(
-        ([consentLoading, giveConsentLoading, withdrawConsentLoading]) =>
-          consentLoading || giveConsentLoading || withdrawConsentLoading
+        ([
+          consentLoading,
+          giveConsentLoading,
+          withdrawConsentLoading,
+          isUserLoggedIn,
+        ]) =>
+          consentLoading ||
+          giveConsentLoading ||
+          withdrawConsentLoading ||
+          !isUserLoggedIn
       )
     );
     this.consentListInit();
