@@ -64,28 +64,20 @@ export class PageMetaService {
       return metaResolver.resolve();
     } else {
       // resolve individual resolvers to make the extension mechanism more flexible
-
-      const methods2: any[] = Object.keys(this.resolverMethods)
+      const resolveMethods: any[] = Object.keys(this.resolverMethods)
         .filter(key => metaResolver[this.resolverMethods[key]])
-        .map(key => ({
-          prop: key,
-          fn: metaResolver[this.resolverMethods[key]](),
-        }));
+        .map(key =>
+          metaResolver[this.resolverMethods[key]]().pipe(
+            map(data => ({
+              [key]: data,
+            }))
+          )
+        );
 
-      return combineLatest(methods2.map(m => m.fn)).pipe(
-        map((data: any[]) =>
-          this.storeDataInProperty(data, methods2.map(m => m.prop))
-        )
+      return combineLatest(resolveMethods).pipe(
+        map(data => Object.assign({}, ...data))
       );
     }
-  }
-
-  private storeDataInProperty(data: any[], properties): {} {
-    const result = {};
-    data.forEach((d, index) => {
-      result[properties[index]] = d;
-    });
-    return result;
   }
 
   /**
