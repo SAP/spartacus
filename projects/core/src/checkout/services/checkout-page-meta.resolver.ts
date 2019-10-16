@@ -30,8 +30,6 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   private cart$ = this.cartService.getActive();
 
-  private skipResolver = false;
-
   constructor(
     protected cartService: CartService,
     protected translation: TranslationService
@@ -53,7 +51,6 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
    */
   resolve(skip?: boolean): Observable<PageMeta> | any {
     if (skip) {
-      this.skipResolver = true;
       return USE_SEPARATE_RESOLVERS;
     }
     return this.cart$.pipe(
@@ -68,32 +65,22 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
    * @deprecated since version 1.3
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
-  resolveTitle(cart?: Cart): Observable<{ title: string } | any> {
-    if (cart) {
-      return this.translation.translate('pageMetaResolver.checkout.title', {
-        count: cart.totalItems,
-      });
-    } else {
-      return this.cart$.pipe(
-        switchMap(c =>
-          this.translation.translate('pageMetaResolver.checkout.title', {
-            count: c.totalItems,
-          })
-        ),
-        map(title => ({ title }))
-      );
-    }
+  resolveTitle(cart?: Cart): Observable<string> {
+    const cart$: Observable<Cart> = cart ? of(cart) : this.cart$;
+    return cart$.pipe(
+      switchMap(c =>
+        this.translation.translate('pageMetaResolver.checkout.title', {
+          count: c.totalItems,
+        })
+      )
+    );
   }
 
   /**
    * @deprecated since version 1.3
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
-  resolveRobots(): Observable<{ robots: PageRobotsMeta[] } | any> {
-    const robots: PageRobotsMeta[] = [
-      PageRobotsMeta.NOFOLLOW,
-      PageRobotsMeta.NOINDEX,
-    ];
-    return !this.skipResolver ? of(robots) : of({ robots: robots });
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
   }
 }

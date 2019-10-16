@@ -1,13 +1,7 @@
 import { Type } from '@angular/core';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import {
-  CmsService,
-  Page,
-  PageMeta,
-  PageMetaService,
-  USE_SEPARATE_RESOLVERS,
-} from '../../cms';
+import { CmsService, Page, PageMeta, USE_SEPARATE_RESOLVERS } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
@@ -80,90 +74,7 @@ describe('CategoryPageMetaResolver', () => {
     cmsService = TestBed.get(CmsService as Type<CmsService>);
   });
 
-  describe('CategoryPage with products', () => {
-    beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(
-        of(mockPageWithProductList)
-      );
-    });
-
-    it('PageTitleService should be created', inject(
-      [PageMetaService],
-      (pageTitleService: PageMetaService) => {
-        expect(pageTitleService).toBeTruthy();
-      }
-    ));
-
-    it('should resolve category page title with product listing', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.title).toEqual(
-        'pageMetaResolver.category.title count:6 query:Hand-held Camcorders'
-      );
-    });
-
-    it('should resolve 2 breadcrumbs', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.breadcrumbs.length).toEqual(2);
-    });
-
-    it('should resolve 2nd breadcrumbs with facetValueName', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-      expect(result.breadcrumbs[1].label).toEqual('Hand-held Camcorders');
-    });
-
-    it('should not resolve 3rd breadcrumbs for non-category facet', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-      expect(result.breadcrumbs.length).toEqual(2);
-    });
-  });
-
-  describe('CategoryPage with only content', () => {
-    beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(
-        of(mockProductWithContent)
-      );
-    });
-
-    it('should resolve category page title', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.title).toEqual('content page title');
-    });
-  });
-
-  describe('direct access to resolvers', () => {
+  describe('individual resolvers', () => {
     beforeEach(() => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(
         of(mockPageWithProductList)
@@ -173,8 +84,8 @@ describe('CategoryPageMetaResolver', () => {
       expect(service.resolve(true)).toEqual(USE_SEPARATE_RESOLVERS);
     });
 
-    it('should resolve {title: ...} for resolveTitle()', () => {
-      let result: PageMeta;
+    it(`should resolve 'pageMetaResolver.category.title count:6 query:Hand-held Camcorders' for resolveTitle()`, () => {
+      let result: string;
       service
         .resolveTitle()
         .subscribe(value => {
@@ -182,10 +93,9 @@ describe('CategoryPageMetaResolver', () => {
         })
         .unsubscribe();
 
-      expect(result).toEqual({
-        title:
-          'pageMetaResolver.category.title count:6 query:Hand-held Camcorders',
-      });
+      expect(result).toEqual(
+        'pageMetaResolver.category.title count:6 query:Hand-held Camcorders'
+      );
     });
 
     it('should resolve {breadcrumbs: ...} for resolveBreadcrumbs()', () => {
@@ -199,6 +109,88 @@ describe('CategoryPageMetaResolver', () => {
         .unsubscribe();
 
       expect(result.length).toEqual(2);
+    });
+  });
+
+  describe('deprecated resolvers', () => {
+    describe('CategoryPage with products', () => {
+      beforeEach(() => {
+        spyOn(cmsService, 'getCurrentPage').and.returnValue(
+          of(mockPageWithProductList)
+        );
+      });
+
+      it('CategoryPageMetaResolver should be created', () => {
+        expect(service).toBeTruthy();
+      });
+
+      it('should resolve category page title with product listing', () => {
+        let result: PageMeta;
+        service
+          .resolve()
+          .subscribe(value => {
+            result = value;
+          })
+          .unsubscribe();
+
+        expect(result.title).toEqual(
+          'pageMetaResolver.category.title count:6 query:Hand-held Camcorders'
+        );
+      });
+
+      it('should resolve 2 breadcrumbs', () => {
+        let result: PageMeta;
+        service
+          .resolve()
+          .subscribe(value => {
+            result = value;
+          })
+          .unsubscribe();
+
+        expect(result.breadcrumbs.length).toEqual(2);
+      });
+
+      it('should resolve 2nd breadcrumbs with facetValueName', () => {
+        let result: PageMeta;
+        service
+          .resolve()
+          .subscribe(value => {
+            result = value;
+          })
+          .unsubscribe();
+        expect(result.breadcrumbs[1].label).toEqual('Hand-held Camcorders');
+      });
+
+      it('should not resolve 3rd breadcrumbs for non-category facet', () => {
+        let result: PageMeta;
+        service
+          .resolve()
+          .subscribe(value => {
+            result = value;
+          })
+          .unsubscribe();
+        expect(result.breadcrumbs.length).toEqual(2);
+      });
+    });
+
+    describe('CategoryPage with only content', () => {
+      beforeEach(() => {
+        spyOn(cmsService, 'getCurrentPage').and.returnValue(
+          of(mockProductWithContent)
+        );
+      });
+
+      it('should resolve category page title', () => {
+        let result: PageMeta;
+        service
+          .resolve()
+          .subscribe(value => {
+            result = value;
+          })
+          .unsubscribe();
+
+        expect(result.title).toEqual('content page title');
+      });
     });
   });
 });

@@ -31,8 +31,6 @@ export class CartPageMetaResolver extends PageMetaResolver
     .getCurrentPage()
     .pipe(filter(page => !!page));
 
-  skipResolver: boolean;
-
   constructor(protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -51,7 +49,6 @@ export class CartPageMetaResolver extends PageMetaResolver
    */
   resolve(skip?: boolean): Observable<PageMeta> | any {
     if (skip) {
-      this.skipResolver = true;
       return USE_SEPARATE_RESOLVERS;
     }
     return this.cms$.pipe(
@@ -66,23 +63,15 @@ export class CartPageMetaResolver extends PageMetaResolver
    * @deprecated since version 1.3
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
-  resolveTitle(page?: Page): Observable<{ title: string } | any> {
-    if (page) {
-      return of(page.title);
-    } else {
-      return this.cms$.pipe(map(p => ({ title: p.title })));
-    }
+  resolveTitle(page?: Page): Observable<string> {
+    return page ? of(page.title) : this.cms$.pipe(map(p => p.title));
   }
 
   /**
    * @deprecated since version 1.3
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
-  resolveRobots(): Observable<{ robots: PageRobotsMeta[] } | any> {
-    const robots: PageRobotsMeta[] = [
-      PageRobotsMeta.NOFOLLOW,
-      PageRobotsMeta.NOINDEX,
-    ];
-    return !this.skipResolver ? of(robots) : of({ robots: robots });
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
   }
 }

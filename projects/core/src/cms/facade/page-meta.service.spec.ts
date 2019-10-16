@@ -80,10 +80,8 @@ class NewPageResolver extends PageMetaResolver implements PageTitleResolver {
     });
   }
 
-  resolveTitle(): Observable<{ title: string } | any> {
-    return of({
-      title: 'new title resolved by resolveTitle',
-    });
+  resolveTitle(): Observable<string> {
+    return of('new title resolved by resolveTitle');
   }
 }
 

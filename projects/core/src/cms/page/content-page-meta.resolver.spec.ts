@@ -53,62 +53,66 @@ describe('ContentPageMetaResolver', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should resolve content page title', () => {
-    let result: PageMeta;
+  describe('deprecated resolve()', () => {
+    it('should resolve content page title', () => {
+      let result: PageMeta;
 
-    service
-      .resolve()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
+      service
+        .resolve()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
 
-    expect(result.title).toEqual('Page title');
+      expect(result.title).toEqual('Page title');
+    });
+
+    it('should resolve one breadcrumb', () => {
+      let result: PageMeta;
+      service
+        .resolve()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result.breadcrumbs.length).toEqual(1);
+    });
+
+    it('should resolve home breadcrumb', () => {
+      let result: PageMeta;
+      service
+        .resolve()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result.breadcrumbs[0].label).toEqual('common.home');
+    });
   });
 
-  it('should resolve one breadcrumb', () => {
-    let result: PageMeta;
-    service
-      .resolve()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
-    expect(result.breadcrumbs.length).toEqual(1);
-  });
+  describe('individual resolvers', () => {
+    it(`should resolve 'Page title' for resolveTitle()`, () => {
+      let result: string;
 
-  it('should resolve home breadcrumb', () => {
-    let result: PageMeta;
-    service
-      .resolve()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
-    expect(result.breadcrumbs[0].label).toEqual('common.home');
-  });
+      service
+        .resolveTitle()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
 
-  it(`should resolve {title: 'Page title'} for resolveTitle()`, () => {
-    let result: PageMeta;
+      expect(result).toEqual('Page title');
+    });
 
-    service
-      .resolveTitle()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
-
-    expect(result).toEqual({ title: 'Page title' });
-  });
-
-  it('should resolve {breadcrumbs: []}  for resolveBreadcrumbs()', () => {
-    let result: PageMeta;
-    service
-      .resolveBreadcrumbs()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
-    expect(result.breadcrumbs.length).toEqual(1);
+    it('should resolve 1 breadcrumb for resolveBreadcrumbs()', () => {
+      let result: any[];
+      service
+        .resolveBreadcrumbs()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result.length).toEqual(1);
+    });
   });
 });

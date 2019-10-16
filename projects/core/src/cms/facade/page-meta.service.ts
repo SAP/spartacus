@@ -17,7 +17,6 @@ export class PageMetaService {
   ) {
     this.resolvers = this.resolvers || [];
   }
-
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
    *
@@ -27,11 +26,11 @@ export class PageMetaService {
    */
   resolverMethods = {
     title: 'resolveTitle',
-    // heading: 'resolveHeading',
-    // description: 'resolveDescription',
-    // breadcrumbs: 'resolveBreadcrumbs',
-    // image: 'resolveImage',
-    // robots: 'resolveRobots',
+    heading: 'resolveHeading',
+    description: 'resolveDescription',
+    breadcrumbs: 'resolveBreadcrumbs',
+    image: 'resolveImage',
+    robots: 'resolveRobots',
   };
 
   getMeta(): Observable<PageMeta> {

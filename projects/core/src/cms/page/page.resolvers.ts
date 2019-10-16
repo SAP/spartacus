@@ -14,12 +14,13 @@ export interface PageHeadingResolver {
    * @deprecated since version 1.3
    * Use `resolveHeading()` instead.
    */
+  // tslint:disable-next-line: unified-signatures
   resolveHeading(...args): Observable<string>;
 
   /**
    * Resolves the page heading.
    */
-  resolveHeading(): Observable<{ heading: string }>;
+  resolveHeading(): Observable<string>;
 }
 
 /**
@@ -34,6 +35,7 @@ export interface PageTitleResolver {
    * @deprecated since version 1.3
    * Use `resolveTitle()` instead.
    */
+  // tslint:disable-next-line: unified-signatures
   resolveTitle(...args): Observable<string>;
 
   /**
@@ -53,12 +55,13 @@ export interface PageDescriptionResolver {
    * @deprecated since version 1.3
    * Use `resolveHeading()` instead.
    */
+  // tslint:disable-next-line: unified-signatures
   resolveDescription(...args): Observable<string>;
 
   /**
    * Resolves the page description.
    */
-  resolveDescription(): Observable<{ description: string }>;
+  resolveDescription(): Observable<string>;
 }
 
 /**
@@ -71,12 +74,13 @@ export interface PageBreadcrumbResolver {
    * @deprecated since version 1.3
    * Use `resolveBreadcrumbs()` instead.
    */
+  // tslint:disable-next-line: unified-signatures
   resolveBreadcrumbs(...args): Observable<any[]>;
 
   /**
    * Resolves the breadcrumbs for the page.
    */
-  resolveBreadcrumbs(): Observable<{ breadcrumbs: any[] }>;
+  resolveBreadcrumbs(): Observable<any[]>;
 }
 
 /**
@@ -91,12 +95,13 @@ export interface PageImageResolver {
    * @deprecated since version 1.3
    * Use `resolveImage()` instead.
    */
+  // tslint:disable-next-line: unified-signatures
   resolveImage(...args): Observable<string>;
 
   /**
    * Resolves the main image for the page.
    */
-  resolveImage(): Observable<{ image: string }>;
+  resolveImage(): Observable<string>;
 }
 
 /**
@@ -112,10 +117,11 @@ export interface PageRobotsResolver {
    * @deprecated since version 1.3
    * Use `resolveRobots()` instead.
    */
+  // tslint:disable-next-line: unified-signatures
   resolveRobots(...args): Observable<PageRobotsMeta[]>;
 
   /**
    * Resolves the robots for the page.
    */
-  resolveRobots(): Observable<{ robots: PageRobotsMeta[] }>;
+  resolveRobots(): Observable<PageRobotsMeta[]>;
 }

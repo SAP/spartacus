@@ -38,7 +38,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
       // only the existence of a plp component tells us if products
       // are rendered or if this is an ordinary content page
       this.hasProductListComponent(page)
-        ? this.productSearchService.getResults()
+        ? this.productSearchService.getResults().pipe(filter(Boolean))
         : of(page)
     )
   );
@@ -100,23 +100,18 @@ export class CategoryPageMetaResolver extends PageMetaResolver
    * @deprecated since version 1.3
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
-  resolveTitle(page?: ProductSearchPage): Observable<{ title: string } | any> {
-    if (page) {
-      return this.translation.translate('pageMetaResolver.category.title', {
-        count: (<ProductSearchPage>page).pagination.totalResults,
-        query: (<ProductSearchPage>page).breadcrumbs[0].facetValueName,
-      });
-    } else {
-      return this.searchPage$.pipe(
-        switchMap(p =>
-          this.translation.translate('pageMetaResolver.category.title', {
-            count: (<ProductSearchPage>p).pagination.totalResults,
-            query: (<ProductSearchPage>p).breadcrumbs[0].facetValueName,
-          })
-        ),
-        map(label => ({ title: label }))
-      );
-    }
+  resolveTitle(searchPage?: ProductSearchPage): Observable<string> {
+    const searchPage$ = searchPage ? of(searchPage) : this.searchPage$;
+
+    return searchPage$.pipe(
+      filter((page: ProductSearchPage) => !!page.pagination),
+      switchMap(p =>
+        this.translation.translate('pageMetaResolver.category.title', {
+          count: (<ProductSearchPage>p).pagination.totalResults,
+          query: (<ProductSearchPage>p).breadcrumbs[0].facetValueName,
+        })
+      )
+    );
   }
 
   /**
@@ -132,33 +127,21 @@ export class CategoryPageMetaResolver extends PageMetaResolver
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveBreadcrumbs(
-    page?: ProductSearchPage,
+    searchPage?: ProductSearchPage,
     breadcrumbLabel?: string
-  ): Observable<any[] | any> {
-    if (page && breadcrumbLabel) {
-      return page.breadcrumbs
-        ? this.translation
-            .translate('common.home')
-            .pipe(
-              map(label =>
-                this.resolveBreadcrumbData(<ProductSearchPage>page, label)
-              )
-            )
-        : of(null);
-    } else {
-      return combineLatest([
-        this.searchPage$.pipe(),
-        this.translation.translate('common.home'),
-      ]).pipe(
-        map(([p, label]: [ProductSearchPage, string]) =>
-          p.breadcrumbs
-            ? this.resolveBreadcrumbData(<ProductSearchPage>p, label).map(
-                breadcrumbs => ({ breadcrumbs })
-              )
-            : null
-        )
-      );
-    }
+  ): Observable<any[]> {
+    const sources =
+      searchPage && breadcrumbLabel
+        ? [of(searchPage), of(breadcrumbLabel)]
+        : [this.searchPage$.pipe(), this.translation.translate('common.home')];
+
+    return combineLatest(sources).pipe(
+      map(([p, label]: [ProductSearchPage, string]) =>
+        p.breadcrumbs
+          ? this.resolveBreadcrumbData(<ProductSearchPage>p, label)
+          : null
+      )
+    );
   }
 
   private resolveBreadcrumbData(page: ProductSearchPage, label: string): any[] {

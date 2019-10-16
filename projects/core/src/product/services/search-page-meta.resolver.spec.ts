@@ -1,6 +1,6 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page, PageMeta, PageMetaService } from '../../cms';
+import { CmsService, Page, PageMeta } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
@@ -58,38 +58,39 @@ describe('SearchPageMetaResolver', () => {
     service = TestBed.get(SearchPageMetaResolver);
   });
 
-  it('PageTitleService should be created', inject(
-    [PageMetaService],
-    (pageTitleService: PageMetaService) => {
-      expect(pageTitleService).toBeTruthy();
-    }
-  ));
+  it('PageTitleService should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-  it(`should return {title: 'pageMetaResolver.search.title count:3 query:Canon'} for resolve method`, () => {
-    let result: PageMeta;
-    service
-      .resolve()
-      .subscribe(value => {
-        result = value;
-      })
-      .unsubscribe();
+  describe('deprecated resolvers', () => {
+    it(`should return {title: 'pageMetaResolver.search.title count:3 query:Canon'} for resolve method`, () => {
+      let result: PageMeta;
+      service
+        .resolve()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
 
-    expect(result).toEqual({
-      title: 'pageMetaResolver.search.title count:3 query:Canon',
+      expect(result).toEqual({
+        title: 'pageMetaResolver.search.title count:3 query:Canon',
+      });
     });
   });
 
-  it('should return title for resolveTitle with arguments', () => {
-    let result: { title: string } | string;
-    service
-      .resolveTitle(100, 'MYBRAND')
-      .subscribe(value => {
-        result = value;
-      })
-      .unsubscribe();
+  describe('individual resolvers', () => {
+    it('should return title for resolveTitle with arguments', () => {
+      let result: { title: string } | string;
+      service
+        .resolveTitle(100, 'MYBRAND')
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
 
-    expect(result).toEqual(
-      'pageMetaResolver.search.title count:100 query:MYBRAND'
-    );
+      expect(result).toEqual(
+        'pageMetaResolver.search.title count:100 query:MYBRAND'
+      );
+    });
   });
 });

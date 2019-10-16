@@ -78,14 +78,21 @@ export class ProductPageMetaResolver extends PageMetaResolver
           this.resolveImage(p),
         ])
       ),
-      map(([heading, title, description, breadcrumbs, image]: //
-      [string, string, string, any[], string]) => ({
-        heading,
-        title,
-        description,
-        breadcrumbs,
-        image,
-      }))
+      map(
+        ([heading, title, description, breadcrumbs, image]: [
+          string,
+          string,
+          string,
+          any[],
+          string
+        ]) => ({
+          heading,
+          title,
+          description,
+          breadcrumbs,
+          image,
+        })
+      )
     );
   }
 
@@ -93,21 +100,15 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * @deprecated since version 1.3
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
-  resolveHeading(product?: Product): Observable<{ heading: string } | any> {
-    if (product) {
-      return this.translation.translate('pageMetaResolver.product.heading', {
-        heading: product.name,
-      });
-    } else {
-      return this.product$.pipe(
-        switchMap((p: Product) =>
-          this.translation.translate('pageMetaResolver.product.heading', {
-            heading: p.name,
-          })
-        ),
-        map(heading => ({ heading }))
-      );
-    }
+  resolveHeading(product?: Product): Observable<string> {
+    const product$ = product ? of(product) : this.product$;
+    return product$.pipe(
+      switchMap((p: Product) =>
+        this.translation.translate('pageMetaResolver.product.heading', {
+          heading: p.name,
+        })
+      )
+    );
   }
 
   /**
@@ -115,8 +116,8 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveTitle(product?: Product): Observable<string> {
-    const r: Observable<Product> = product ? of(product) : this.product$;
-    return r.pipe(
+    const product$ = product ? of(product) : this.product$;
+    return product$.pipe(
       switchMap((p: Product) => {
         let title = p.name;
         title += this.resolveFirstCategory(p);
@@ -135,23 +136,14 @@ export class ProductPageMetaResolver extends PageMetaResolver
   resolveDescription(
     product?: Product
   ): Observable<{ description: string } | any> {
-    if (product) {
-      return this.translation.translate(
-        'pageMetaResolver.product.description',
-        {
-          description: product.summary,
-        }
-      );
-    } else {
-      return this.product$.pipe(
-        switchMap((p: Product) =>
-          this.translation.translate('pageMetaResolver.product.description', {
-            description: p.summary,
-          })
-        ),
-        map(description => ({ description }))
-      );
-    }
+    const product$: Observable<Product> = product ? of(product) : this.product$;
+    return product$.pipe(
+      switchMap((p: Product) =>
+        this.translation.translate('pageMetaResolver.product.description', {
+          description: p.summary,
+        })
+      )
+    );
   }
 
   /**
@@ -169,36 +161,25 @@ export class ProductPageMetaResolver extends PageMetaResolver
   resolveBreadcrumbs(
     product?: Product,
     breadcrumbLabel?: string
-  ): Observable<{ breadcrumbs: any[] } | any> {
-    if (product && breadcrumbLabel) {
-      const breadcrumbs = [];
-      breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
-      for (const { name, code, url } of product.categories) {
-        breadcrumbs.push({
-          label: name || code,
-          link: url,
-        });
-      }
-      return of(breadcrumbs);
-    } else {
-      return combineLatest([
-        this.product$.pipe(),
-        this.translation.translate('common.home'),
-      ]).pipe(
-        map(([p, label]: [Product, string]) => {
-          const breadcrumbs = [];
-          breadcrumbs.push({ label: label, link: '/' });
-          for (const { name, code, url } of p.categories) {
-            breadcrumbs.push({
-              label: name || code,
-              link: url,
-            });
-          }
-          return breadcrumbs;
-        }),
-        map(breadcrumbs => ({ breadcrumbs: breadcrumbs }))
-      );
-    }
+  ): Observable<any[]> {
+    const sources =
+      product && breadcrumbLabel
+        ? [of(product), of(breadcrumbLabel)]
+        : [this.product$.pipe(), this.translation.translate('common.home')];
+
+    return combineLatest(sources).pipe(
+      map(([p, label]: [Product, string]) => {
+        const breadcrumbs = [];
+        breadcrumbs.push({ label: label, link: '/' });
+        for (const { name, code, url } of p.categories) {
+          breadcrumbs.push({
+            label: name || code,
+            link: url,
+          });
+        }
+        return breadcrumbs;
+      })
+    );
   }
 
   /**
@@ -206,23 +187,17 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
   resolveImage(product?: Product): Observable<{ image: string } | any> {
-    if (product) {
-      return of(this.getPrimaryImage(product));
-    } else {
-      return this.product$.pipe(
-        map((p: Product) => this.getPrimaryImage(p)),
-        map(image => ({ image }))
-      );
-    }
-  }
-
-  private getPrimaryImage(product: Product): boolean {
-    return product.images &&
-      product.images.PRIMARY &&
-      (<any>product.images.PRIMARY).zoom &&
-      (<any>product.images.PRIMARY).zoom.url
-      ? (<any>product.images.PRIMARY).zoom.url
-      : null;
+    const product$: Observable<Product> = product ? of(product) : this.product$;
+    return product$.pipe(
+      map((p: Product) =>
+        p.images &&
+        p.images.PRIMARY &&
+        (<any>p.images.PRIMARY).zoom &&
+        (<any>p.images.PRIMARY).zoom.url
+          ? (<any>p.images.PRIMARY).zoom.url
+          : null
+      )
+    );
   }
 
   private resolveFirstCategory(product: Product): string {

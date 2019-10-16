@@ -63,12 +63,8 @@ export class ContentPageMetaResolver extends PageMetaResolver
    * @deprecated since version 1.3
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
-  resolveTitle(page?: Page): Observable<{ title: string } | any> {
-    if (page) {
-      return of(page.title);
-    } else {
-      return this.cms$.pipe(map(p => ({ title: p.title })));
-    }
+  resolveTitle(page?: Page): Observable<string> {
+    return page ? of(page.title) : this.cms$.pipe(map(p => p.title));
   }
 
   /**
@@ -90,16 +86,15 @@ export class ContentPageMetaResolver extends PageMetaResolver
    *
    */
   resolveBreadcrumbs(
-    _?: Page,
+    _page?: Page,
     breadcrumbLabel?: string
-  ): Observable<{ breadcrumbs: any[] } | any> {
+  ): Observable<any[]> {
     if (breadcrumbLabel) {
       return of([{ label: breadcrumbLabel, link: '/' }]);
     } else {
-      return this.translation.translate('common.home').pipe(
-        map(label => [{ label: label, link: '/' }]),
-        map(breadcrumb => ({ breadcrumbs: breadcrumb }))
-      );
+      return this.translation
+        .translate('common.home')
+        .pipe(map(label => [{ label: label, link: '/' }]));
     }
   }
 }
