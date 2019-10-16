@@ -11,12 +11,12 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
+  filter,
   map,
   skipWhile,
   take,
   tap,
   withLatestFrom,
-  filter,
 } from 'rxjs/operators';
 
 @Component({
