@@ -57,17 +57,39 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
 
   updateConfiguration(changedAttribute) {
     this.configuration$.pipe(take(1)).subscribe(configuration => {
+      const changedGroup: Configurator.Group[] = [];
+      //There should only be one active group in the array
+      configuration.groups
+        //.filter(group => group.active === true)
+        .forEach(group => {
+          const attributes: Configurator.Attribute[] = group.attributes.filter(
+            attribute => attribute.name !== changedAttribute.name
+          );
+
+          group.attributes.forEach(attribute => {
+            if (attribute.name === changedAttribute.name) {
+              attributes.push(changedAttribute);
+            }
+          });
+
+          changedGroup.push({
+            description: group.description,
+            attributes: attributes,
+            id: group.id,
+            name: group.name,
+            configurable: group.configurable,
+            groupType: group.groupType,
+          });
+        });
+
       //Make new configuration object as state configuration cannot be changed
       const changedConfiguration: Configurator.Configuration = {
         productCode: this.productCode,
         consistent: configuration.consistent,
         configId: configuration.configId,
         complete: configuration.complete,
-        attributes: configuration.attributes.filter(
-          attribute => attribute.name !== changedAttribute.name
-        ),
+        groups: changedGroup,
       };
-      changedConfiguration.attributes.push(changedAttribute);
 
       this.configuration$ = this.configuratorCommonsService.updateConfiguration(
         changedConfiguration

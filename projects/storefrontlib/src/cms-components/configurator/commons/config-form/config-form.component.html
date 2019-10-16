@@ -16,41 +16,46 @@
   <br />
   <div
     class="cx-item-list-row cx-config-group-attribute"
-    *ngFor="let attribute of configuration.attributes"
+    *ngFor="let group of configuration.groups"
   >
-    <div class="cx-config-attribute-header">
-      <cx-config-attribute-header
-        [attribute]="attribute"
-      ></cx-config-attribute-header>
-    </div>
     <div
-      class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
-      [class.cx-config-attribute-value-multi]="
-        attribute.uiType === UiType.RADIOBUTTON
-      "
+      class="cx-item-list-row cx-config-group-attribute"
+      *ngFor="let attribute of group.attributes"
     >
-      <cx-config-attribute-radio-button
-        *ngIf="attribute.uiType === UiType.RADIOBUTTON"
-        [attribute]="attribute"
-        (selectionChange)="updateConfiguration($event)"
-      ></cx-config-attribute-radio-button>
-      <cx-config-attribute-drop-down
-        *ngIf="attribute.uiType === UiType.DROPDOWN"
-        [attribute]="attribute"
-        (selectionChange)="updateConfiguration($event)"
-      ></cx-config-attribute-drop-down>
-      <cx-config-attribute-read-only
-        *ngIf="attribute.uiType === UiType.READ_ONLY"
-        [attribute]="attribute"
-      ></cx-config-attribute-read-only>
-      <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
-        'configurator.attribute.notSupported' | cxTranslate
-      }}</em>
-    </div>
-    <div class="cx-config-attribute-footer">
-      <cx-config-attribute-footer
-        [attribute]="attribute"
-      ></cx-config-attribute-footer>
+      <div class="cx-config-attribute-header">
+        <cx-config-attribute-header
+          [attribute]="attribute"
+        ></cx-config-attribute-header>
+      </div>
+      <div
+        class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
+        [class.cx-config-attribute-value-multi]="
+          attribute.uiType === UiType.RADIOBUTTON
+        "
+      >
+        <cx-config-attribute-radio-button
+          *ngIf="attribute.uiType === UiType.RADIOBUTTON"
+          [attribute]="attribute"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-config-attribute-radio-button>
+        <cx-config-attribute-drop-down
+          *ngIf="attribute.uiType === UiType.DROPDOWN"
+          [attribute]="attribute"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-config-attribute-drop-down>
+        <cx-config-attribute-read-only
+          *ngIf="attribute.uiType === UiType.READ_ONLY"
+          [attribute]="attribute"
+        ></cx-config-attribute-read-only>
+        <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
+          'configurator.attribute.notSupported' | cxTranslate
+        }}</em>
+      </div>
+      <div class="cx-config-attribute-footer">
+        <cx-config-attribute-footer
+          [attribute]="attribute"
+        ></cx-config-attribute-footer>
+      </div>
     </div>
   </div>
 </ng-container>
