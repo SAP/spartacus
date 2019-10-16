@@ -138,7 +138,7 @@
                       *ngFor="let ientry of result.productInterestEntry"
                     >
                       <span class="cx-product-interests-type">
-                        {{ ientry.interestType }}
+                        {{ 'myInterests.' + ientry.interestType | cxTranslate}}
                       </span>
                       <span class="cx-product-interests-expiration-date">
                         {{
