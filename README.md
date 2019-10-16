@@ -18,7 +18,7 @@ Spartacus is...
 
 
 
-# Storefront features
+# Storefront Features
 
 Spartacus provides core storefront features such as:
 
