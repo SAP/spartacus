@@ -10,6 +10,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-form',
@@ -31,37 +32,47 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.routingService
         .getRouterState()
-        .subscribe(state => this.createConfiguration(state))
+        .subscribe(state => this.initConfigurationForm(state))
     );
   }
 
-  createConfiguration(routingData) {
+  initConfigurationForm(routingData) {
     this.productCode = routingData.state.params.rootProduct;
-    this.configuration$ = this.configuratorCommonsService.createConfiguration(
-      routingData.state.params.rootProduct
-    );
+
+    this.configuratorCommonsService
+      .hasConfiguration(routingData.state.params.rootProduct)
+      .pipe(take(1))
+      .subscribe(hasConfiguration => {
+        if (hasConfiguration) {
+          this.configuration$ = this.configuratorCommonsService.getConfiguration(
+            routingData.state.params.rootProduct
+          );
+        } else {
+          this.configuration$ = this.configuratorCommonsService.createConfiguration(
+            routingData.state.params.rootProduct
+          );
+        }
+      });
   }
 
   updateConfiguration(changedAttribute) {
-    this.configuration$
-      .subscribe(configuration => {
-        //Make new configuration object as state configuration cannot be changed
-        const changedConfiguration: Configurator.Configuration = {
-          productCode: this.productCode,
-          consistent: configuration.consistent,
-          configId: configuration.configId,
-          complete: configuration.complete,
-          attributes: configuration.attributes.filter(
-            attribute => attribute.name !== changedAttribute.name
-          ),
-        };
-        changedConfiguration.attributes.push(changedAttribute);
+    this.configuration$.pipe(take(1)).subscribe(configuration => {
+      //Make new configuration object as state configuration cannot be changed
+      const changedConfiguration: Configurator.Configuration = {
+        productCode: this.productCode,
+        consistent: configuration.consistent,
+        configId: configuration.configId,
+        complete: configuration.complete,
+        attributes: configuration.attributes.filter(
+          attribute => attribute.name !== changedAttribute.name
+        ),
+      };
+      changedConfiguration.attributes.push(changedAttribute);
 
-        this.configuration$ = this.configuratorCommonsService.updateConfiguration(
-          changedConfiguration
-        );
-      })
-      .unsubscribe();
+      this.configuration$ = this.configuratorCommonsService.updateConfiguration(
+        changedConfiguration
+      );
+    });
   }
 
   ngOnDestroy(): void {

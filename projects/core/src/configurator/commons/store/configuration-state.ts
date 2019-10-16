@@ -1,18 +1,13 @@
 import { Configurator } from '../../../model/configurator.model';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
 
 export const CONFIGURATION_FEATURE = 'productConfiguration';
 export const CONFIGURATION_DATA = '[Configurator] Configuration Data';
 
 export interface StateWithConfiguration {
-  [CONFIGURATION_FEATURE]: ConfigurationsState;
-}
-
-export interface ConfigurationsState {
-  active: LoaderState<ConfigurationState>;
+  [CONFIGURATION_FEATURE]: ConfigurationState;
 }
 
 export interface ConfigurationState {
-  content: Configurator.Configuration;
-  refresh: boolean;
+  content: EntityLoaderState<Configurator.Configuration>;
 }

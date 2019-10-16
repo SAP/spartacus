@@ -71,8 +71,7 @@ describe('ConfiguratorEffect', () => {
   });
 
   it('should emit a success action with content for an action of type createConfiguration', () => {
-    const payloadInput = { productCode: productCode };
-    const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
+    const action = new ConfiguratorActions.CreateConfiguration(productCode);
 
     const completion = new ConfiguratorActions.CreateConfigurationSuccess(
       productConfiguration
@@ -84,9 +83,8 @@ describe('ConfiguratorEffect', () => {
   });
 
   it('must not emit anything in case source action is not covered, createConfiguration', () => {
-    const payloadInput = { productCode: productCode };
     const action = new ConfiguratorActions.CreateConfigurationSuccess(
-      payloadInput
+      productConfiguration
     );
     actions$ = hot('-a', { a: action });
 

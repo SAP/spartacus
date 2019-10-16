@@ -54,6 +54,20 @@ class MockConfiguratorCommonsService {
     };
     return of(productConfig);
   }
+  getConfiguration(
+    productCode: string
+  ): Observable<Configurator.Configuration> {
+    const productConfig: Configurator.Configuration = {
+      configId: 'a',
+      consistent: true,
+      complete: true,
+      productCode: productCode,
+    };
+    return of(productConfig);
+  }
+  hasConfiguration(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 describe('ConfigurationFormComponent', () => {
