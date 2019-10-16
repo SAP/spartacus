@@ -1,9 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Voucher, CartVoucherService } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 
@@ -12,7 +7,7 @@ import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
   templateUrl: './applied-coupons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppliedCouponsComponent implements OnInit {
+export class AppliedCouponsComponent {
   @Input()
   vouchers: Voucher[];
   @Input()
@@ -23,8 +18,6 @@ export class AppliedCouponsComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   constructor(private cartVoucherService: CartVoucherService) {}
-
-  ngOnInit() {}
 
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];
