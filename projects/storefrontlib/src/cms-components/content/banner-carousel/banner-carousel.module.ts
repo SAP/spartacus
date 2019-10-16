@@ -4,6 +4,7 @@ import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { PageComponentModule } from '../../../cms-structure/page/index';
 import { CarouselModule, MediaModule } from '../../../shared/components/index';
 import { BannerCarouselComponent } from './banner-carousel.component';
+import { IconModule } from '../../misc';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { BannerCarouselComponent } from './banner-carousel.component';
     PageComponentModule,
     CarouselModule,
     MediaModule,
+    IconModule,
   ],
   declarations: [BannerCarouselComponent],
   entryComponents: [BannerCarouselComponent],
