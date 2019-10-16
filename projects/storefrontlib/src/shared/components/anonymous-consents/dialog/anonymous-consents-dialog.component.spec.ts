@@ -193,7 +193,7 @@ describe('AnonymousConsentsDialogComponent', () => {
   });
 
   describe('allowAll', () => {
-    const mockConsent: AnonymousConsent[] = [
+    const mockConsents: AnonymousConsent[] = [
       {
         templateCode: mockTemplates[0].id,
         consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
@@ -217,7 +217,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(anonymousConsentsService, 'giveConsent').and.stub();
 
         component.templates$ = of(mockTemplates);
-        component.consents$ = of(mockConsent);
+        component.consents$ = of(mockConsents);
         component.allowAll();
 
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(1);
@@ -236,7 +236,39 @@ describe('AnonymousConsentsDialogComponent', () => {
         spyOn(anonymousConsentsService, 'giveConsent').and.stub();
 
         component.templates$ = of(mockTemplates);
-        component.consents$ = of(mockConsent);
+        component.consents$ = of(mockConsents);
+        component.allowAll();
+
+        expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(
+          mockTemplates.length
+        );
+        expect(component.closeModal).toHaveBeenCalledWith('allowAll');
+        expect(component['subscriptions'].add).toHaveBeenCalled();
+      });
+    });
+    describe('when the consents have null state', () => {
+      it('should be able to give consents and close the dialog', () => {
+        const nullStateMockConsents: AnonymousConsent[] = [
+          {
+            templateCode: mockTemplates[0].id,
+            consentState: null,
+          },
+          {
+            templateCode: mockTemplates[1].id,
+            consentState: null,
+          },
+        ];
+
+        spyOn(component, 'closeModal').and.stub();
+        spyOn<any>(component['subscriptions'], 'add').and.callThrough();
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
+          true,
+          true
+        );
+        spyOn(anonymousConsentsService, 'giveConsent').and.stub();
+
+        component.templates$ = of(mockTemplates);
+        component.consents$ = of(nullStateMockConsents);
         component.allowAll();
 
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(
