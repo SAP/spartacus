@@ -90,6 +90,7 @@ export class CheckoutConfigService {
         currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
       ) {
         stepIndex = index;
+        break;
       } else {
         index++;
       }

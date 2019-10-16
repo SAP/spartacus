@@ -1,31 +1,61 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
-import { of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { RoutingConfigService } from '@spartacus/core';
 import {
   CheckoutConfig,
   DeliveryModePreferences,
 } from '../config/checkout-config';
-import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutStep } from '../model';
+import { CheckoutStep, CheckoutStepType } from '../model';
 import { CheckoutConfigService } from './checkout-config.service';
 
-const mockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const mockCheckoutSteps: Array<CheckoutStep> = [
+  {
+    id: 'step0',
+    name: 'step 0',
+    routeName: 'route0',
+    type: [CheckoutStepType.PAYMENT_TYPES],
+    enabled: false,
+  },
+  {
+    id: 'step1',
+    name: 'step 1',
+    routeName: 'route1',
+    type: [CheckoutStepType.SHIPPING_ADDRESS],
+    enabled: true,
+  },
+  {
+    id: 'step2',
+    name: 'step 2',
+    routeName: 'route2',
+    type: [CheckoutStepType.DELIVERY_MODE],
+    enabled: true,
+  },
+  {
+    id: 'step3',
+    name: 'step 3',
+    routeName: 'route3',
+    type: [CheckoutStepType.PAYMENT_DETAILS],
+    enabled: true,
+  },
+];
 
-const mockCheckoutSteps: Array<CheckoutStep> =
-  defaultCheckoutConfig.checkout.steps;
-
-const mockRoutingConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-
-class MockActivatedRoute {
-  snapshot = of();
-}
+const mockCheckoutConfig: CheckoutConfig = {
+  checkout: { steps: mockCheckoutSteps },
+};
 
 class MockRoutingConfigService {
-  getRouteConfig(routeName: string) {
-    return mockCheckoutConfig[routeName].paths[0];
+  getRouteConfig(stepRoute) {
+    if (stepRoute === 'route0') {
+      return { paths: ['checkout/route0'] };
+    } else if (stepRoute === 'route1') {
+      return { paths: ['checkout/route1'] };
+    } else if (stepRoute === 'route2') {
+      return { paths: ['checkout/route2'] };
+    } else if (stepRoute === 'route3') {
+      return { paths: ['checkout/route3'] };
+    }
+    return null;
   }
 }
 
@@ -40,103 +70,106 @@ const [freeMode, standardMode, premiumMode] = [
   { deliveryCost: { value: 3 }, code: PREMIUM_CODE },
 ];
 
+const activatedRoute = new ActivatedRoute();
+activatedRoute.snapshot = new ActivatedRouteSnapshot();
+activatedRoute.snapshot.url = [
+  {
+    path: 'checkout',
+    parameterMap: null,
+    parameters: {},
+    toString: function() {
+      return this.path;
+    },
+  },
+  {
+    path: 'route1',
+    parameterMap: null,
+    parameters: {},
+    toString: function() {
+      return this.path;
+    },
+  },
+];
+
 describe('CheckoutConfigService', () => {
   let service: CheckoutConfigService;
-  let activatedRoute: ActivatedRoute;
-  let routingConfigService: RoutingConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: mockCheckoutConfig, useClass: CheckoutConfig },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        CheckoutConfigService,
+        { provide: CheckoutConfig, useValue: mockCheckoutConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     });
 
-    activatedRoute = TestBed.get(ActivatedRoute as Type<ActivatedRoute>);
-    routingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
-
-    service = new CheckoutConfigService(
-      mockCheckoutConfig,
-      routingConfigService
-    );
+    service = TestBed.get(CheckoutConfigService as Type<CheckoutConfigService>);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get checkout step by type', () => {
-    const type = mockCheckoutSteps[0].type[0];
-    expect(service.getCheckoutStep(type)).toEqual(mockCheckoutSteps[0]);
-  });
-
-  it('should get checkout step route by type', () => {
-    const type = mockCheckoutSteps[0].type[0];
-
-    expect(service.getCheckoutStepRoute(type)).toEqual(
-      mockCheckoutSteps[0].routeName
-    );
-  });
-
-  it('should get first checkout step route', () => {
+  it('should be able to reset the steps', () => {
+    // enable the first step
+    service.enableStep(CheckoutStepType.PAYMENT_TYPES);
     expect(service.getFirstCheckoutStepRoute()).toEqual(
       mockCheckoutSteps[0].routeName
     );
+    // reset
+    service.resetSteps();
+    expect(service.getFirstCheckoutStepRoute()).toEqual(
+      mockCheckoutSteps[1].routeName
+    );
   });
 
-  it('should get next checkout step url', () => {
-    const activeStepIndex = 1;
+  it('should be able to disable one step', () => {
+    service.disableStep(CheckoutStepType.SHIPPING_ADDRESS);
+    expect(service.steps[0]).not.toEqual(mockCheckoutSteps[1]);
+  });
 
-    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
-      '/' +
-        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
+  it('should be able to enable one step', () => {
+    service.enableStep(CheckoutStepType.PAYMENT_TYPES);
+    expect(service.steps[0].id).toEqual(mockCheckoutSteps[0].id);
+  });
+
+  it('should get checkout step by type', () => {
+    const type = CheckoutStepType.SHIPPING_ADDRESS;
+    expect(service.getCheckoutStep(type)).toEqual(mockCheckoutSteps[1]);
+  });
+
+  it('should get checkout step route by type', () => {
+    const type = CheckoutStepType.SHIPPING_ADDRESS;
+    expect(service.getCheckoutStepRoute(type)).toEqual(
+      mockCheckoutSteps[1].routeName
     );
+  });
 
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
-      return mockRoutingConfig[route].paths[0];
-    });
+  it('should get the first enabled checkout step route', () => {
+    expect(service.getFirstCheckoutStepRoute()).toEqual(
+      mockCheckoutSteps[1].routeName
+    );
+  });
 
+  it('should get the next enabled checkout step url', () => {
     expect(service.getNextCheckoutStepUrl(activatedRoute)).toBe(
-      mockRoutingConfig[mockCheckoutSteps[activeStepIndex + 1].routeName]
-        .paths[0]
+      'checkout/route2'
     );
   });
 
-  it('should get prev checkout step url', () => {
-    const activeStepIndex = 1;
+  it('should get the eanbled prev checkout step url', () => {
+    // since step0 is disabled, so it go back to cart
+    expect(service.getPreviousCheckoutStepUrl(activatedRoute)).toBe('cart');
 
-    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
-      '/' +
-        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
-    );
-
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
-      return mockRoutingConfig[route].paths[0];
-    });
-
+    // enable first step, then it goes to the first step
+    service.enableStep(CheckoutStepType.PAYMENT_TYPES);
     expect(service.getPreviousCheckoutStepUrl(activatedRoute)).toBe(
-      mockRoutingConfig[mockCheckoutSteps[activeStepIndex - 1].routeName]
-        .paths[0]
+      'checkout/route0'
     );
   });
 
   it('should return current step index', () => {
-    const activeStepIndex = 1;
-
-    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
-      '/' +
-        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
-    );
-
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
-      return mockRoutingConfig[route].paths[0];
-    });
-
-    expect(service.getCurrentStepIndex(activatedRoute)).toBe(1);
+    expect(service.getCurrentStepIndex(activatedRoute)).toBe(0);
   });
 
   describe('compareDeliveryCost', () => {
