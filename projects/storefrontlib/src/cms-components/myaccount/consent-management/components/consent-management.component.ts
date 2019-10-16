@@ -10,7 +10,7 @@ import {
   UserConsentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -90,12 +90,18 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   private consentListInit(): void {
     this.templateList$ = this.userConsentService.getConsents().pipe(
-      tap(templateList => {
+      withLatestFrom(
+        this.anonymousConsentsService.getTemplates(),
+        this.authService.isUserLoggedIn()
+      ),
+      filter(
+        ([_templateList, _anonymousTemplates, isUserLoggedIn]) => isUserLoggedIn
+      ),
+      tap(([templateList, _anonymousTemplates]) => {
         if (!this.consentsExists(templateList)) {
           this.userConsentService.loadConsents();
         }
       }),
-      withLatestFrom(this.anonymousConsentsService.getTemplates()),
       map(([templateList, anonymousTemplates]) => {
         if (!this.isAnonymousConsentsEnabled) {
           return templateList;
@@ -169,6 +175,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private withdrawConsentInit(): void {
+    console.log('withdrawConsentInit');
+
     this.userConsentService.resetWithdrawConsentProcessState();
     this.subscriptions.add(
       this.userConsentService

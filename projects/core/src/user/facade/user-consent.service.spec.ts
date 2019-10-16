@@ -24,7 +24,6 @@ class MockAuthService {
 describe('UserConsentService', () => {
   let service: UserConsentService;
   let store: Store<StateWithUser>;
-  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,7 +44,6 @@ describe('UserConsentService', () => {
     store = TestBed.get(Store as Type<Store<StateWithUser>>);
     spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.get(UserConsentService as Type<UserConsentService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
   });
 
   it('should UserConsentService is injected', inject(
@@ -63,13 +61,6 @@ describe('UserConsentService', () => {
       it('should dispatch an action', () => {
         service.loadConsents();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new UserActions.LoadUserConsents(userId)
-        );
-      });
-      it('should NOT dispatch an action if the user is not logged in', () => {
-        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-        service.loadConsents();
-        expect(store.dispatch).not.toHaveBeenCalledWith(
           new UserActions.LoadUserConsents(userId)
         );
       });
