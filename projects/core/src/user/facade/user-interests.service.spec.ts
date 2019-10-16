@@ -67,7 +67,12 @@ describe('UserInterestsService', () => {
     );
 
     service
-      .getProdutInterests()
+      .getAndLoadProductInterests()
+      .subscribe(data => expect(data).toEqual(emptyInterestList))
+      .unsubscribe();
+
+    service
+      .getProductInterests()
       .subscribe(data => expect(data).toEqual(emptyInterestList))
       .unsubscribe();
   });

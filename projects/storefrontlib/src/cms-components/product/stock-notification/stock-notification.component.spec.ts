@@ -52,8 +52,9 @@ describe('StockNotificationComponent', () => {
     'resetRemoveInterestState',
     'addProductInterest',
     'removeProdutInterest',
-    'getProdutInterests',
+    'getProductInterests',
     'clearProductInterests',
+    'loadProductInterests',
   ]);
 
   const preferences: NotificationPreference[] = [
@@ -126,7 +127,7 @@ describe('StockNotificationComponent', () => {
       of(preferences)
     );
     currentProductService.getProduct.and.returnValue(of(product));
-    interestsService.getProdutInterests.and.returnValue(of(interests));
+    interestsService.getProductInterests.and.returnValue(of(interests));
     interestsService.getAddProductInterestSuccess.and.returnValue(of(false));
     interestsService.getRemoveProdutInterestLoading.and.returnValue(of(true));
     interestsService.getRemoveProdutInterestSuccess.and.returnValue(of(false));
@@ -134,6 +135,7 @@ describe('StockNotificationComponent', () => {
     interestsService.removeProdutInterest.and.stub();
     interestsService.clearProductInterests.and.stub();
     interestsService.resetRemoveInterestState.and.stub();
+    interestsService.loadProductInterests.and.stub();
     modalService.open.and.returnValue(modalInstance);
     translationService.translate.and.returnValue(of(''));
 
@@ -153,6 +155,8 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should show elements for anonymous specific', () => {
+    interestsService.getProductInterests.and.returnValue(of({}));
+    notificationPrefService.getEnabledPreferences.and.returnValue(of([]));
     authService.getOccUserId.and.returnValue(of(OCC_USER_ID_ANONYMOUS));
     fixture.detectChanges();
 
@@ -166,7 +170,7 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should show correct elements for active customer without enabled preferences', () => {
-    interestsService.getProdutInterests.and.returnValue(of({}));
+    interestsService.getProductInterests.and.returnValue(of({}));
     notificationPrefService.getEnabledPreferences.and.returnValue(of([]));
     fixture.detectChanges();
 
@@ -180,7 +184,7 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should be able to show dialog for create stock notification for active user with channel set', () => {
-    interestsService.getProdutInterests.and.returnValue(of({}));
+    interestsService.getProductInterests.and.returnValue(of({}));
     fixture.detectChanges();
 
     expect(
@@ -215,11 +219,10 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should be able to unsubscribe and reset the state in destory', () => {
-    spyOn(component['subscription'], 'unsubscribe').and.stub();
-
+    spyOn(component['subscriptions'], 'unsubscribe').and.stub();
     component.ngOnDestroy();
 
-    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
+    expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();
     expect(interestsService.clearProductInterests).toHaveBeenCalled();
   });
 });

@@ -34,12 +34,11 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   outOfStock$: Observable<boolean>;
   subscribeSuccess$: Observable<boolean>;
   unsubscribeLoading$: Observable<boolean>;
-  unsubscribeSuccess$: Observable<boolean>;
 
   enabledPrefs: NotificationPreference[] = [];
   productCode: string;
 
-  private subscription = new Subscription();
+  private subscriptions = new Subscription();
 
   constructor(
     private authService: AuthService,
@@ -56,15 +55,32 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       filter(Boolean),
       tap((product: Product) => {
         this.productCode = product.code;
-        this.anonymous$ = this.authService.getOccUserId().pipe(
-          map(userId => {
-            if (userId !== OCC_USER_ID_ANONYMOUS) {
-              this.hasSubscribed(product.code);
-              this.hasEnabledPrefs();
-              return false;
-            }
-            return true;
-          })
+        this.subscribed$ = this.interestsService
+          .getProductInterests()
+          .pipe(
+            map(
+              interests => !!interests.results && interests.results.length > 0
+            )
+          );
+        this.subscriptions.add(
+          this.authService
+            .getOccUserId()
+            .pipe(
+              map(userId => userId === OCC_USER_ID_ANONYMOUS),
+              tap(anonymous => {
+                if (!anonymous) {
+                  this.notificationPrefService.loadPreferences();
+                  this.interestsService.loadProductInterests(
+                    null,
+                    null,
+                    null,
+                    product.code,
+                    NotificationType.BACK_IN_STOCK
+                  );
+                }
+              })
+            )
+            .subscribe()
         );
       }),
       map(
@@ -79,23 +95,18 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
 
     this.subscribeSuccess$ = this.interestsService.getAddProductInterestSuccess();
     this.unsubscribeLoading$ = this.interestsService.getRemoveProdutInterestLoading();
-    this.subscription.add(
+    this.prefsEnabled$ = this.notificationPrefService
+      .getEnabledPreferences()
+      .pipe(
+        tap(prefs => (this.enabledPrefs = prefs)),
+        map(prefs => prefs.length > 0)
+      );
+    this.subscriptions.add(
       this.interestsService
         .getRemoveProdutInterestSuccess()
         .subscribe(success => {
           if (success) {
-            this.subscription.add(
-              this.translationService
-                .translate('stockNotification.unsubscribeSuccess')
-                .pipe(first())
-                .subscribe(text =>
-                  this.globalMessageService.add(
-                    text,
-                    GlobalMessageType.MSG_TYPE_INFO
-                  )
-                )
-            );
-            this.interestsService.resetRemoveInterestState();
+            this.onInterestRemovingSuccess();
           }
         })
     );
@@ -125,6 +136,18 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     );
   }
 
+  private onInterestRemovingSuccess() {
+    this.subscriptions.add(
+      this.translationService
+        .translate('stockNotification.unsubscribeSuccess')
+        .pipe(first())
+        .subscribe(text =>
+          this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_INFO)
+        )
+    );
+    this.interestsService.resetRemoveInterestState();
+  }
+
   private openDialog() {
     const modalInstance = this.modalService.open(
       StockNotificationDialogComponent,
@@ -137,26 +160,8 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     modalInstance.enabledPrefs = this.enabledPrefs;
   }
 
-  private hasSubscribed(productCode: string): void {
-    this.subscribed$ = this.interestsService
-      .getProdutInterests(0, productCode, NotificationType.BACK_IN_STOCK)
-      .pipe(
-        map(interests => !!interests.results && interests.results.length > 0)
-      );
-  }
-
-  private hasEnabledPrefs(): void {
-    this.notificationPrefService.loadPreferences();
-    this.prefsEnabled$ = this.notificationPrefService
-      .getEnabledPreferences()
-      .pipe(
-        tap(prefs => (this.enabledPrefs = prefs)),
-        map(prefs => prefs.length > 0)
-      );
-  }
-
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.unsubscribe();
     this.interestsService.clearProductInterests();
   }
 }

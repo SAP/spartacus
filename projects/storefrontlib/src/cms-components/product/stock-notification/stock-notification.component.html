@@ -1,18 +1,16 @@
 <ng-container *ngIf="outOfStock$ | async">
-  <ng-container *ngIf="!(anonymous$ | async); else disableNotify">
-    <ng-container *ngIf="!(subscribed$ | async); else stopNotify">
-      <ng-container *ngIf="prefsEnabled$ | async; else disableNotify">
-        <div class="stock-notification-notes">
-          <label>{{ 'stockNotification.getNotified' | cxTranslate }}</label>
-        </div>
-        <button
-          class="btn btn-primary btn-block btn-notify"
-          type="button"
-          (click)="subscribe()"
-        >
-          {{ 'stockNotification.notifyMe' | cxTranslate }}
-        </button>
-      </ng-container>
+  <ng-container *ngIf="!(subscribed$ | async); else stopNotify">
+    <ng-container *ngIf="prefsEnabled$ | async; else disableNotify">
+      <div class="stock-notification-notes">
+        <label>{{ 'stockNotification.getNotified' | cxTranslate }}</label>
+      </div>
+      <button
+        class="btn btn-primary btn-block btn-notify"
+        type="button"
+        (click)="subscribe()"
+      >
+        {{ 'stockNotification.notifyMe' | cxTranslate }}
+      </button>
     </ng-container>
   </ng-container>
 </ng-container>

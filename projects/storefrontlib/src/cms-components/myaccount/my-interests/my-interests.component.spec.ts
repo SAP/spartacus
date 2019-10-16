@@ -163,7 +163,7 @@ describe('MyInterestsComponent', () => {
   let el: DebugElement;
   const productInterestService = jasmine.createSpyObj('UserInterestsService', [
     'loadProductInterests',
-    'getProdutInterests',
+    'getAndLoadProductInterests',
     'getProdutInterestsLoading',
     'getRemoveProdutInterestLoading',
     'removeProdutInterest',
@@ -193,7 +193,7 @@ describe('MyInterestsComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    productInterestService.getProdutInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.and.returnValue(
       of(emptyInterests)
     );
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
@@ -222,7 +222,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should show interests list', () => {
-    productInterestService.getProdutInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
@@ -270,7 +270,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should be able to remove an interest item', () => {
-    productInterestService.getProdutInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
     productInterestService.getRemoveProdutInterestLoading.and.returnValue(
