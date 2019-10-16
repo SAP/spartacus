@@ -10,24 +10,26 @@
 
   <ng-template #consentManagementForm>
     <ng-container *ngIf="templateList$ | async as templateList">
-      <div class="cx-dialog-buttons">
-        <a
-          tabindex="0"
-          class="btn-link cx-action-link"
-          (click)="rejectAll(templateList)"
-          >{{ 'consentManagementForm.rejectAll' | cxTranslate }}</a
-        >
-        <span class="cx-links-separator">|</span>
-        <a
-          tabindex="0"
-          class="btn-link cx-action-link"
-          (click)="allowAll(templateList)"
-          >{{ 'consentManagementForm.allowAll' | cxTranslate }}</a
-        >
+      <div class="cx-consent-action-links">
+        <div class="col-sm-12 col-md-6">
+          <a
+            tabindex="0"
+            class="btn-link cx-action-link"
+            (click)="rejectAll(templateList)"
+            >{{ 'consentManagementForm.rejectAll' | cxTranslate }}</a
+          >
+          <span class="cx-links-separator">|</span>
+          <a
+            tabindex="0"
+            class="btn-link cx-action-link"
+            (click)="allowAll(templateList)"
+            >{{ 'consentManagementForm.allowAll' | cxTranslate }}</a
+          >
+        </div>
       </div>
 
-      <div class="cx-dialog-body modal-body">
-        <div class="cx-dialog-row col-sm-12 col-md-6">
+      <div class="cx-consent-toggles">
+        <div class="col-sm-12 col-md-6">
           <!-- TODO(issue:4989) Anonymous consents - remove `[isAnonymousConsentsEnabled]="isAnonymousConsentsEnabled"` -->
           <cx-consent-management-form
             *ngFor="let consentTemplate of templateList"

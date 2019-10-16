@@ -1,0 +1,13 @@
+@import '../../theme';
+%cx-consent-management {
+  .cx-consent-action-links {
+    text-align: right;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cx-consent-toggles {
+    display: flex;
+    justify-content: center;
+  }
+}

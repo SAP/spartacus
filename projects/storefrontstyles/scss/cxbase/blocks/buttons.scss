@@ -248,7 +248,6 @@ button {
   label .cx-toggle-switch:after {
     content: '\00a0';
     position: absolute;
-    z-index: 5;
     text-transform: uppercase;
     text-align: center;
     transform: translate3d(0, 0, 0);
@@ -261,6 +260,7 @@ button {
     transition: transform 0.3s cubic-bezier(0, 1, 0.5, 1);
     border: 2px solid var(--cx-color-secondary);
     background-color: var(--cx-color-secondary);
+    z-index: 1;
   }
   //toggle text
   label .cx-toggle-text {
