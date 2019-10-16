@@ -2,7 +2,14 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartDataService } from '../../cart/facade/cart-data.service';
-import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
+import {
+  CardType,
+  Cart,
+  PaymentDetails,
+  PaymentType,
+} from '../../model/cart.model';
+import { PROCESS_FEATURE } from '@spartacus/core';
+import * as fromProcessReducers from '../../process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
@@ -35,6 +42,10 @@ describe('CheckoutPaymentService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         CheckoutPaymentService,
@@ -128,5 +139,57 @@ describe('CheckoutPaymentService', () => {
   it('should allow actions for login user or guest user', () => {
     cartData.userId = 'anonymous';
     expect(service['actionAllowed']()).toBeTruthy();
+  });
+
+  it('should be able to get the payment types if data exist', () => {
+    store.dispatch(
+      new CheckoutActions.LoadPaymentTypesSuccess([
+        { code: 'account', displayName: 'account' },
+        { code: 'card', displayName: 'masterCard' },
+      ])
+    );
+
+    let paymentTypes: PaymentType[];
+    service.getPaymentTypes().subscribe(data => {
+      paymentTypes = data;
+    });
+    expect(paymentTypes).toEqual([
+      { code: 'account', displayName: 'account' },
+      { code: 'card', displayName: 'masterCard' },
+    ]);
+  });
+
+  it('should be able to get the payment types after trigger data loading when they do not exist', () => {
+    spyOn(service, 'loadSupportedPaymentTypes').and.callThrough();
+
+    let types: PaymentType[];
+    service
+      .getPaymentTypes()
+      .subscribe(data => {
+        types = data;
+      })
+      .unsubscribe();
+
+    expect(types).toEqual([]);
+    expect(service.loadSupportedPaymentTypes).toHaveBeenCalled();
+  });
+
+  it('should be able to load supported payment types', () => {
+    service.loadSupportedPaymentTypes();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.LoadPaymentTypes()
+    );
+  });
+
+  it('should be able to set selected payment type to cart', () => {
+    service.setPaymentType('typeCode', 'poNumber');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.SetPaymentType({
+        userId: userId,
+        cartId: cartData.cart.code,
+        typeCode: 'typeCode',
+        poNumber: 'poNumber',
+      })
+    );
   });
 });

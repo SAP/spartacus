@@ -12,6 +12,8 @@ describe('CheckoutPaymentConnector', () => {
     create = createSpy().and.returnValue(of({}));
     set = createSpy().and.returnValue(of({}));
     loadCardTypes = createSpy().and.returnValue(of([]));
+    loadPaymentTypes = createSpy().and.returnValue(of([]));
+    setPaymentType = createSpy().and.returnValue(of({}));
   }
 
   let service: CheckoutPaymentConnector;
@@ -54,5 +56,24 @@ describe('CheckoutPaymentConnector', () => {
     service.getCardTypes().subscribe(res => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadCardTypes).toHaveBeenCalledWith();
+  });
+
+  it('getPaymentType should call adapter', () => {
+    let result;
+    service.getPaymentTypes().subscribe(res => (result = res));
+    expect(result).toEqual([]);
+    expect(adapter.loadPaymentTypes).toHaveBeenCalledWith();
+  });
+
+  it('setPaymentType should call adapter', () => {
+    service
+      .setPaymentType('userId', 'cartId', 'typeCode', 'poNumber')
+      .subscribe();
+    expect(adapter.setPaymentType).toHaveBeenCalledWith(
+      'userId',
+      'cartId',
+      'typeCode',
+      'poNumber'
+    );
   });
 });

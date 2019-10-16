@@ -9,6 +9,7 @@ import {
   ConverterService,
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
+  PAYMENT_TYPE_NORMALIZER,
 } from '@spartacus/core';
 import { Cart, PaymentDetails } from '../../../model/cart.model';
 import { Occ, OccConfig } from '../../index';
@@ -515,6 +516,43 @@ describe('OccCheckoutPaymentAdapter', () => {
         );
         expect(params['billTo_state']).toEqual('');
       });
+    });
+  });
+
+  describe('loadPaymentypes', () => {
+    it('should return cardTypes', () => {
+      const paymentTypesList: Occ.PaymentTypeList = {
+        paymentTypes: [
+          {
+            code: 'card',
+            displayName: 'card',
+          },
+          {
+            code: 'account',
+            displayName: 'account',
+          },
+        ],
+      };
+
+      service.loadPaymentTypes().subscribe(result => {
+        expect(result).toEqual(paymentTypesList.paymentTypes);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET' && req.url === '/paymenttypes';
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(paymentTypesList);
+    });
+
+    it('should use converter', () => {
+      service.loadPaymentTypes().subscribe();
+      httpMock.expectOne('/paymenttypes').flush({});
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        PAYMENT_TYPE_NORMALIZER
+      );
     });
   });
 });
