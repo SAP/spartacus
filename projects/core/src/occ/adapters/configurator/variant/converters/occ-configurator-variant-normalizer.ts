@@ -33,7 +33,7 @@ export class OccConfiguratorVariantNormalizer
       active: groupList.length === 0, //first group will be set to active
       description: source.description,
       configurable: source.configurable,
-      groupType: this.converGroupType(source.groupType),
+      groupType: this.convertGroupType(source.groupType),
       name: source.name,
       id: source.id,
       attributes: attributes,
@@ -110,7 +110,7 @@ export class OccConfiguratorVariantNormalizer
     return uiType;
   }
 
-  converGroupType(
+  convertGroupType(
     groupType: OccConfigurator.GroupType
   ): Configurator.GroupType {
     switch (groupType) {

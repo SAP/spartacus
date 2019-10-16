@@ -29,7 +29,7 @@ export class OccConfiguratorVariantSerializer
       name: source.name,
       id: source.id,
       configurable: source.configurable,
-      groupType: this.converGroupType(source.groupType),
+      groupType: this.convertGroupType(source.groupType),
       description: source.description,
       cstics: [],
     };
@@ -86,7 +86,7 @@ export class OccConfiguratorVariantSerializer
     return uiType;
   }
 
-  converGroupType(
+  convertGroupType(
     groupType: Configurator.GroupType
   ): OccConfigurator.GroupType {
     switch (groupType) {
