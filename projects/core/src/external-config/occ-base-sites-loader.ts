@@ -1,10 +1,10 @@
 import { isDevMode } from '@angular/core';
-import { LoadJsonUtils, NodeHttpsClient } from '../../util/load-json-utils';
 import {
   OCC_BASE_URL_META_TAG_NAME,
   OCC_BASE_URL_META_TAG_PLACEHOLDER,
-} from '../config/config-from-meta-tag-factory';
-import { Occ } from '../occ-models/occ.models';
+} from '../occ/config/config-from-meta-tag-factory';
+import { Occ } from '../occ/occ-models/occ.models';
+import { LoadJsonUtils, NodeHttpsClient } from '../util/load-json-utils';
 
 export interface OccBaseSitesEndpointOptions {
   baseUrl?: string;
@@ -20,7 +20,7 @@ export interface OccBaseSitesEndpointOptions {
 export class OccBaseSitesLoader {
   private static readonly DEFAULT_PREFIX = '/rest/v2';
   private static readonly DEFAULT_ENDPOINT =
-    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))';
+    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency(isocode),languages,defaultLanguage(isocode)))';
 
   /**
    * Loads base sites using XHR.

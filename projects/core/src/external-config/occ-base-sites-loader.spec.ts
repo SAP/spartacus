@@ -1,4 +1,4 @@
-import { LoadJsonUtils } from '../../util/load-json-utils';
+import { LoadJsonUtils } from '../util/load-json-utils';
 import { OccBaseSitesLoader } from './occ-base-sites-loader';
 
 describe(`OccBaseSitesLoader`, () => {

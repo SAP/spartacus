@@ -1,10 +1,10 @@
 import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
 import { provideConfigFactory } from '../config/config.module';
 import { ExternalConfig } from './external-config';
+import { ExternalConfigConverter } from './external-config-converter';
 
 export function configFromExternalConfigFactory(config?: ExternalConfig) {
-  // explicitly filter only `context` property not to allow for injecting other configs
-  return config && config.context ? { context: config.context } : {};
+  return (config && ExternalConfigConverter.toSiteContextConfig(config)) || {};
 }
 
 /**

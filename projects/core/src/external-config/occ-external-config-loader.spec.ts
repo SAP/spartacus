@@ -1,9 +1,9 @@
-import { ExternalConfig } from '../../external-config/external-config';
-import { NodeHttpsClient } from '../../util/load-json-utils';
-import { TransferData } from '../../util/transfer-data';
-import { OccBaseUrlMetaTagUtils } from '../config/occ-base-url-meta-tag-utils';
-import { Occ } from '../occ-models/occ.models';
-import { OccBaseSites2ConfigConverter } from './occ-base-sites-2-config-converter';
+import { OccBaseUrlMetaTagUtils } from '../occ/config/occ-base-url-meta-tag-utils';
+import { Occ } from '../occ/occ-models/occ.models';
+import { NodeHttpsClient } from '../util/load-json-utils';
+import { TransferData } from '../util/transfer-data';
+import { ExternalConfig } from './external-config';
+import { OccBaseSites2ExternalConfigConverter } from './occ-base-sites-2-external-config-converter';
 import {
   OccBaseSitesEndpointOptions,
   OccBaseSitesLoader,
@@ -19,7 +19,7 @@ describe(`OccExternalConfigLoader`, () => {
       mockBaseSites = { baseSites: [] };
       mockConvertedConfig = { context: {} };
 
-      spyOn(OccBaseSites2ConfigConverter, 'convert').and.returnValue(
+      spyOn(OccBaseSites2ExternalConfigConverter, 'convert').and.returnValue(
         mockConvertedConfig
       );
       spyOn(OccBaseSitesLoader, 'load').and.returnValue(
@@ -44,7 +44,7 @@ describe(`OccExternalConfigLoader`, () => {
       });
 
       expect(OccBaseSitesLoader.load).toHaveBeenCalledWith(endpoint);
-      expect(OccBaseSites2ConfigConverter.convert).toHaveBeenCalledWith(
+      expect(OccBaseSites2ExternalConfigConverter.convert).toHaveBeenCalledWith(
         mockBaseSites,
         currentUrl
       );
@@ -69,7 +69,7 @@ describe(`OccExternalConfigLoader`, () => {
       await OccExternalConfigLoader.load({
         endpoint: { baseUrl: 'testOccBaseUrl' },
       });
-      expect(OccBaseSites2ConfigConverter.convert).toHaveBeenCalledWith(
+      expect(OccBaseSites2ExternalConfigConverter.convert).toHaveBeenCalledWith(
         mockBaseSites,
         document.location.href
       );
@@ -84,7 +84,7 @@ describe(`OccExternalConfigLoader`, () => {
       mockBaseSites = { baseSites: [] };
       mockConvertedConfig = { context: {} };
 
-      spyOn(OccBaseSites2ConfigConverter, 'convert').and.returnValue(
+      spyOn(OccBaseSites2ExternalConfigConverter, 'convert').and.returnValue(
         mockConvertedConfig
       );
       spyOn(OccBaseSitesLoader, 'loadSSR').and.returnValue(
@@ -108,7 +108,7 @@ describe(`OccExternalConfigLoader`, () => {
         endpoint,
         httpsClient
       );
-      expect(OccBaseSites2ConfigConverter.convert).toHaveBeenCalledWith(
+      expect(OccBaseSites2ExternalConfigConverter.convert).toHaveBeenCalledWith(
         mockBaseSites,
         currentUrl
       );

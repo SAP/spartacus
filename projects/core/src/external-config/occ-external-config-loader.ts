@@ -1,13 +1,13 @@
-import { ExternalConfig } from '../../external-config/external-config';
-import { EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID } from '../../external-config/server-external-config.module';
-import { NodeHttpsClient } from '../../util/load-json-utils';
-import { TransferData } from '../../util/transfer-data';
-import { OccBaseUrlMetaTagUtils } from '../config/occ-base-url-meta-tag-utils';
-import { OccBaseSites2ConfigConverter } from './occ-base-sites-2-config-converter';
+import { OccBaseUrlMetaTagUtils } from '../occ/config/occ-base-url-meta-tag-utils';
+import { NodeHttpsClient } from '../util/load-json-utils';
+import { TransferData } from '../util/transfer-data';
+import { ExternalConfig } from './external-config';
+import { ExternalConfigConverter } from './external-config-converter';
 import {
   OccBaseSitesEndpointOptions,
   OccBaseSitesLoader,
 } from './occ-base-sites-loader';
+import { EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID } from './server-external-config.module';
 
 export class OccExternalConfigLoader {
   /**
@@ -38,7 +38,7 @@ export class OccExternalConfigLoader {
     endpoint.baseUrl = endpoint.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
 
     const thenFn = baseSites =>
-      OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+      ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl);
     return OccBaseSitesLoader.load(endpoint).then(thenFn);
   }
 
@@ -66,7 +66,7 @@ export class OccExternalConfigLoader {
     httpsClient: NodeHttpsClient;
   }): Promise<ExternalConfig> {
     const thenFn = baseSites => {
-      return OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+      return ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl);
     };
     return OccBaseSitesLoader.loadSSR(endpoint, httpsClient).then(thenFn);
   }

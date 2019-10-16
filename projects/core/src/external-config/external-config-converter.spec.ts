@@ -1,6 +1,6 @@
-import { Occ } from '../occ-models';
+import { Occ } from '../occ/occ-models';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
-import { OccBaseSites2ConfigConverter } from './occ-base-sites-2-config-converter';
+import { OccBaseSites2ExternalConfigConverter } from './occ-base-sites-2-external-config-converter';
 
 describe(`OccBaseSites2ConfigConverter`, () => {
   describe(`convert`, () => {
@@ -28,7 +28,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       const baseSites: Occ.BaseSites = undefined;
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ConfigConverter.convert(baseSites, currentUrl)
+        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -36,7 +36,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       const baseSites: Occ.BaseSites = { baseSites: undefined };
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ConfigConverter.convert(baseSites, currentUrl)
+        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -44,7 +44,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       const baseSites: Occ.BaseSites = { baseSites: [] };
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ConfigConverter.convert(baseSites, currentUrl)
+        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -57,7 +57,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       };
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ConfigConverter.convert(baseSites, currentUrl)
+        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -67,7 +67,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       };
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ConfigConverter.convert(baseSites, currentUrl)
+        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -92,7 +92,10 @@ describe(`OccBaseSites2ConfigConverter`, () => {
         ],
       };
       const currentUrl = 'testUrl2';
-      const res = OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+      const res = OccBaseSites2ExternalConfigConverter.convert(
+        baseSites,
+        currentUrl
+      );
       expect(JavaRegExpConverter.convert).toHaveBeenCalledTimes(3);
       expect(JavaRegExpConverter.convert).not.toHaveBeenCalledWith(
         '^testUrl22$'
@@ -110,7 +113,10 @@ describe(`OccBaseSites2ConfigConverter`, () => {
         ],
       };
       const currentUrl = 'testUrl';
-      const res = OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+      const res = OccBaseSites2ExternalConfigConverter.convert(
+        baseSites,
+        currentUrl
+      );
       expect(res.context.urlParameters).toEqual([
         'baseSite',
         'language',
@@ -141,7 +147,10 @@ describe(`OccBaseSites2ConfigConverter`, () => {
         ],
       };
       const currentUrl = 'testUrl';
-      const res = OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+      const res = OccBaseSites2ExternalConfigConverter.convert(
+        baseSites,
+        currentUrl
+      );
       expect(res.context.language).toEqual(['en']);
       expect(res.context.currency).toEqual(['USD']);
     });
@@ -171,7 +180,10 @@ describe(`OccBaseSites2ConfigConverter`, () => {
         ],
       };
       const currentUrl = 'testUrl';
-      const res = OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+      const res = OccBaseSites2ExternalConfigConverter.convert(
+        baseSites,
+        currentUrl
+      );
       expect(res.context.language).toEqual(['en', 'de', 'pl']);
       expect(res.context.currency).toEqual(['USD', 'EUR', 'PLN']);
     });
@@ -198,7 +210,10 @@ describe(`OccBaseSites2ConfigConverter`, () => {
         ],
       };
       const currentUrl = 'testUrl';
-      const res = OccBaseSites2ConfigConverter.convert(baseSites, currentUrl);
+      const res = OccBaseSites2ExternalConfigConverter.convert(
+        baseSites,
+        currentUrl
+      );
       expect(res.context.language).toEqual(['pl', 'de', 'en']);
     });
   });
