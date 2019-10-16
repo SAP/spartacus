@@ -137,7 +137,7 @@ export class SearchBoxComponent {
    * TODO: if there's a single product match, we could open the PDP.
    */
   launchSearchResult(event: UIEvent, query: string): void {
-    if (!query.trim()) {
+    if (!query || query.trim().length === 0) {
       return;
     }
     this.close(event);
