@@ -70,10 +70,7 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON
     ) {
       cstic.value = attribute.selectedSingleValue;
-    } else if (
-      attribute.uiType === Configurator.UiType.STRING ||
-      attribute.uiType === Configurator.UiType.INPUT
-    ) {
+    } else if (attribute.uiType === Configurator.UiType.STRING) {
       cstic.value = attribute.userInput;
     }
 

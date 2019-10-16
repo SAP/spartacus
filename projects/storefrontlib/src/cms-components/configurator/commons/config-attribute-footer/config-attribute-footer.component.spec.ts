@@ -79,8 +79,8 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   // Unit Tests
-  it('should return default message key for input attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.INPUT;
+  it('should return default message key for input string attributes', () => {
+    classUnderTest.attribute.uiType = Configurator.UiType.STRING;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'defaultRequiredMessage'
     );
