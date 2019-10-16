@@ -13,4 +13,12 @@ export class ConfigPreviousNextButtonsComponent {
 
   onPrevious() {}
   onNext() {}
+
+  isPreviousButtonDisabled() {
+    return false;
+  }
+
+  isNextButtonDisabled() {
+    return false;
+  }
 }
