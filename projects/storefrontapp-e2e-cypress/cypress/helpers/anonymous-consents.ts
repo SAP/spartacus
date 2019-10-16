@@ -17,9 +17,10 @@ const REJECT_ALL = 'Reject All';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
 
-//TODO: improve anonymous consents e2e test
-//Problem: why we had to go this route is because anonymous consent is being set in every request.
-//and if we do not include this 'hotfix', then the consent will get overidden by the some requests making state to null when it is was given.
+// As the consent state is synchronized with the back-end in a stateless way (using an http header)
+// We have to wait for the last one XHR request to finish before mutating the ngrx state;
+// Otherwise, the state would be overridden by anonymous-consents-interceptor.ts.
+// Currently, there's no support for this, thus the cy.wait(5000)
 export function waitFiveSeconds() {
   cy.wait(5000);
 }
@@ -36,7 +37,7 @@ export function waitForConsents() {
 }
 
 export function seeBannerAsAnonymous() {
-  cy.get(ANONYMOUS_BANNER, { timeout: 5000 }).should('exist');
+  cy.get(ANONYMOUS_BANNER).should('exist');
 }
 
 export function checkBannerHidden() {
