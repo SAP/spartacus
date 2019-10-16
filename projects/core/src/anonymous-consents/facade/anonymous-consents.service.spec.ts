@@ -32,12 +32,12 @@ const mockConsentTemplates: ConsentTemplate[] = [
 const mockAnonymousConsents: AnonymousConsent[] = [
   {
     templateCode: mockTemplateCode,
-    consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+    consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
     version: 0,
   },
   {
     templateCode: 'STORE_USER_INFO',
-    consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+    consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
     version: 0,
   },
 ];
@@ -211,13 +211,13 @@ describe('AnonymousConsentsService', () => {
   describe('isConsentGiven', () => {
     it('should return true if the consent is given', () => {
       const anonymousConsent: AnonymousConsent = {
-        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+        consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
       };
       expect(service.isConsentGiven(anonymousConsent)).toEqual(true);
     });
     it('should return false if the consent is withdrawn', () => {
       const anonymousConsent: AnonymousConsent = {
-        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+        consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
       };
       expect(service.isConsentGiven(anonymousConsent)).toEqual(false);
     });
@@ -248,13 +248,13 @@ describe('AnonymousConsentsService', () => {
   describe('isConsentWithdrawn', () => {
     it('should return true if the consent is withdrawn', () => {
       const anonymousConsent: AnonymousConsent = {
-        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+        consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
       };
       expect(service.isConsentWithdrawn(anonymousConsent)).toEqual(true);
     });
     it('should return false if the consent is given', () => {
       const anonymousConsent: AnonymousConsent = {
-        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+        consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
       };
       expect(service.isConsentWithdrawn(anonymousConsent)).toEqual(false);
     });

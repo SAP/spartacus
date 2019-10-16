@@ -35,7 +35,7 @@ export function reducer(
       return toggleConsentStatus(
         state,
         action.templateCode,
-        ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
+        ANONYMOUS_CONSENT_STATUS.GIVEN
       );
     }
 
@@ -43,7 +43,7 @@ export function reducer(
       return toggleConsentStatus(
         state,
         action.templateCode,
-        ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN
+        ANONYMOUS_CONSENT_STATUS.WITHDRAWN
       );
     }
 

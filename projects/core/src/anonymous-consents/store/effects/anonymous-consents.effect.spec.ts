@@ -84,7 +84,7 @@ const mockTemplateList: ConsentTemplate[] = [
 const mockAnonymousConsents: AnonymousConsent[] = [
   {
     templateCode: 'MARKETING',
-    consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+    consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
     version: 0,
   },
   {

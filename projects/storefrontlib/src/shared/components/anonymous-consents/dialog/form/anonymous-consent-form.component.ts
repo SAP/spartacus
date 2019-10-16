@@ -51,8 +51,7 @@ export class AnonymousConsentFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.consent) {
       this.consentGiven$.next(
-        this.consent.consentState ===
-          ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN
+        this.consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN
       );
     }
     this.consentGivenTranslation$ = this.consentGiven$.pipe(

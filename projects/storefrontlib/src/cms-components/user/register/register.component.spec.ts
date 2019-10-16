@@ -445,7 +445,7 @@ describe('RegisterComponent', () => {
     it('should call anonymousConsentsService.isConsentGiven', () => {
       spyOn(anonymousConsentService, 'isConsentGiven').and.stub();
       const mockConsent: AnonymousConsent = {
-        consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+        consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
       };
       component.isConsentGiven(mockConsent);
       expect(anonymousConsentService.isConsentGiven).toHaveBeenCalledWith(

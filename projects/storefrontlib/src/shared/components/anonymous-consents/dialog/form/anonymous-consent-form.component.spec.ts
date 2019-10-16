@@ -45,7 +45,7 @@ describe('AnonymousConsentFormComponent', () => {
         const mockAnonymousConsent: AnonymousConsent = {
           templateCode: 'MARKETING',
           version: 0,
-          consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_GIVEN,
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
         };
 
         spyOn(component.consentGiven$, 'next').and.callThrough();
@@ -62,7 +62,7 @@ describe('AnonymousConsentFormComponent', () => {
         const mockAnonymousConsent: AnonymousConsent = {
           templateCode: 'MARKETING',
           version: 0,
-          consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+          consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
         };
 
         spyOn(component.consentGiven$, 'next').and.callThrough();
@@ -130,7 +130,7 @@ describe('AnonymousConsentFormComponent', () => {
         const mockAnonymousConsent: AnonymousConsent = {
           templateCode: 'MARKETING',
           version: 0,
-          consentState: ANONYMOUS_CONSENT_STATUS.ANONYMOUS_CONSENT_WITHDRAWN,
+          consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
         };
 
         component.consent = mockAnonymousConsent;
