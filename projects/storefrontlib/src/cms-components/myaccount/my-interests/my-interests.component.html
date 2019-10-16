@@ -160,25 +160,27 @@
                   </div>
                 </td>
                 <td>
-                  <button
-                    type="button"
-                    class="close"
-                    aria-label="Close"
-                    data-test="removeButton"
-                    [class.disabled]="
-                      (getInterestsloading$ | async) ||
-                      (getRemoveInterestsloading$ | async)
-                    "
-                    [disabled]="
-                      (getInterestsloading$ | async) ||
-                      (getRemoveInterestsloading$ | async)
-                    "
-                    (click)="removeInterest(result)"
-                  >
-                    <span aria-hidden="true">
-                      <cx-icon [type]="iconTypes.CLOSE"></cx-icon
-                    ></span>
-                  </button>
+                  <div class="cx-product-interests-remove-button">
+                    <button
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                      data-test="removeButton"
+                      [class.disabled]="
+                        (getInterestsloading$ | async) ||
+                        (getRemoveInterestsloading$ | async)
+                      "
+                      [disabled]="
+                        (getInterestsloading$ | async) ||
+                        (getRemoveInterestsloading$ | async)
+                      "
+                      (click)="removeInterest(result)"
+                    >
+                      <span aria-hidden="true">
+                        <cx-icon [type]="iconTypes.CLOSE"></cx-icon
+                      ></span>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
