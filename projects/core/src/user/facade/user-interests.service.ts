@@ -63,7 +63,9 @@ export class UserInterestsService {
    * Returns product interests
    * @param pageSize the page size
    */
-  getAndLoadProductInterests(pageSize?: number): Observable<ProductInterestSearchResult> {
+  getAndLoadProductInterests(
+    pageSize?: number
+  ): Observable<ProductInterestSearchResult> {
     return this.store.pipe(
       select(UsersSelectors.getInterestsState),
       tap(interestListState => {
