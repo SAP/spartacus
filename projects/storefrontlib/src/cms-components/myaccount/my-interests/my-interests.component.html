@@ -42,13 +42,12 @@
             <tbody>
               <tr
                 *ngFor="let result of interests.results"
-                data-test="productItem"
+                class="cx-product-interests-product-item"
               >
                 <td>
                   <div class="cx-product-interests-label">
                     <a
                       class="cx-product-interests-product-image-link"
-                      data-test="productImageLink"
                       [routerLink]="
                         { cxRoute: 'product', params: result.product } | cxUrl
                       "
@@ -64,14 +63,9 @@
                   <div class="cx-info col-10">
                     <div class="cx-info-container row ">
                       <div>
-                        <div
-                          *ngIf="result.product.name"
-                          class="cx-name"
-                          data-test="productName"
-                        >
+                        <div *ngIf="result.product.name" class="cx-name">
                           <a
                             class="cx-link cx-product-interests-product-code-link"
-                            data-test="productLink"
                             [routerLink]="
                               { cxRoute: 'product', params: result.product }
                                 | cxUrl
@@ -80,11 +74,7 @@
                             {{ result.product.name }}
                           </a>
                         </div>
-                        <div
-                          *ngIf="result.product.code"
-                          class="cx-code"
-                          data-test="productCode"
-                        >
+                        <div *ngIf="result.product.code" class="cx-code">
                           <span>{{
                             'myInterests.productId'
                               | cxTranslate: { code: result.product.code }
@@ -101,10 +91,14 @@
                             "
                             class="cx-property"
                           >
-                            <div class="cx-label" data-test="variantName">
+                            <div
+                              class="cx-label cx-product-interests-variant-name"
+                            >
                               {{ variant.name }}
                             </div>
-                            <div class="cx-value" data-test="variantValue">
+                            <div
+                              class="cx-value cx-product-interests-variant-value"
+                            >
                               {{ variant.value }}
                             </div>
                           </div>
@@ -118,7 +112,6 @@
                         >
                           <div
                             class="cx-label cx-product-interests-product-stock"
-                            data-test="stockLevelStatus"
                           >
                             {{ 'myInterests.outOfStock' | cxTranslate }}
                           </div>
@@ -132,9 +125,7 @@
                     <div class="d-md-none cx-product-interests-label">
                       {{ 'myInterests.price' | cxTranslate }}
                     </div>
-                    <span data-test="productPrice">{{
-                      result.product.price.formattedValue
-                    }}</span>
+                    <span>{{ result.product.price.formattedValue }}</span>
                   </div>
                 </td>
                 <td>
@@ -146,13 +137,10 @@
                       class="cx-product-interests-notification"
                       *ngFor="let ientry of result.productInterestEntry"
                     >
-                      <span
-                        class="cx-product-interests-type"
-                        data-test="interestType"
-                      >
+                      <span class="cx-product-interests-type">
                         {{ ientry.interestType }}
                       </span>
-                      <span data-test="expirationDate">
+                      <span class="cx-product-interests-expiration-date">
                         {{
                           'myInterests.expirationDate'
                             | cxTranslate
@@ -166,9 +154,8 @@
                   <div class="cx-product-interests-remove-button">
                     <button
                       type="button"
-                      class="close"
+                      class="close cx-product-interests-remove-btn"
                       aria-label="Close"
-                      data-test="removeButton"
                       [class.disabled]="
                         (getInterestsloading$ | async) ||
                         (getRemoveInterestsloading$ | async)
@@ -214,7 +201,7 @@
       <!-- NO ORDER CONTAINER -->
       <ng-template #noInterest>
         <div class="col-sm-12 col-md-6 col-lg-4">
-          <div data-test="noInterestMessage">
+          <div class="cx-product-interests-message">
             {{ 'myInterests.noInterests' | cxTranslate }}
           </div>
         </div>
