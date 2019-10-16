@@ -2,12 +2,12 @@
   <div *ngIf="preferences.length > 0; else loading">
     <div class="row d-flex justify-content-center">
       <div class="col-md-8">
-        <label data-test="message">{{
+        <label class="pref-header">{{
           'notificationPreference.message' | cxTranslate
         }}</label>
         <div class="form-check">
           <ng-container *ngFor="let preference of preferences">
-            <label *ngIf="preference.visible" data-test="channel">
+            <label *ngIf="preference.visible" class="pref-channel">
               <input
                 class="form-check-input cx-np-checkbox"
                 role="checkbox"
@@ -18,7 +18,6 @@
                   getNotificationPreferencesloading ||
                   updateNotificationPreferencesLoading
                 "
-                data-test="checkbox"
               />
               <span class="form-check-label">
                 {{
@@ -29,7 +28,7 @@
             </label>
           </ng-container>
         </div>
-        <label data-test="notes"
+        <label class="pref-note"
           ><b>{{ 'notificationPreference.note' | cxTranslate }}</b
           >{{ 'notificationPreference.noteMessage' | cxTranslate }}
         </label>
