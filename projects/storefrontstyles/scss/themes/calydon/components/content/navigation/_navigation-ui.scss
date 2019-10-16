@@ -1,19 +1,20 @@
-// %nav-header {
+@mixin focusNav {
+  outline: var(--cx-color-visual-focus) auto 4px;
+  outline-offset: 2px;
+}
+
 %cx-navigation-ui {
   @include media-breakpoint-up(lg) {
     > nav {
       &:focus-within {
-        outline: var(--cx-color-visual-focus) auto 4px;
-        outline-offset: 2px;
+        @include focusNav();
       }
 
-      > .wrapper .childs > nav {
+      > .wrapper .childs[depth='2'] > nav {
         &:not(cx-generic-link):focus-within {
-          outline: var(--cx-color-visual-focus) auto 4px;
-          outline-offset: 2px;
+          @include focusNav();
         }
       }
     }
   }
 }
-// }
