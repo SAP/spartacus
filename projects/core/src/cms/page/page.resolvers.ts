@@ -39,7 +39,7 @@ export interface PageTitleResolver {
   /**
    * Resolves the page title.
    */
-  resolveTitle(): Observable<{ title: string }>;
+  resolveTitle(): Observable<string>;
 }
 
 /**

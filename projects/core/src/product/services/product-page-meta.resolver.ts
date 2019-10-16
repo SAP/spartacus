@@ -114,27 +114,18 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * @deprecated since version 1.3
    * With 2.0, the argument(s) will be removed and the return type will change.
    */
-  resolveTitle(product?: Product): Observable<{ title: string } | any> {
-    if (product) {
-      let title = product.name;
-      title += this.resolveFirstCategory(product);
-      title += this.resolveManufacturer(product);
-      return this.translation.translate('pageMetaResolver.product.title', {
-        title: title,
-      });
-    } else {
-      return this.product$.pipe(
-        switchMap((p: Product) => {
-          let title = p.name;
-          title += this.resolveFirstCategory(p);
-          title += this.resolveManufacturer(p);
-          return this.translation.translate('pageMetaResolver.product.title', {
-            title: title,
-          });
-        }),
-        map(title => ({ title }))
-      );
-    }
+  resolveTitle(product?: Product): Observable<string> {
+    const r: Observable<Product> = product ? of(product) : this.product$;
+    return r.pipe(
+      switchMap((p: Product) => {
+        let title = p.name;
+        title += this.resolveFirstCategory(p);
+        title += this.resolveManufacturer(p);
+        return this.translation.translate('pageMetaResolver.product.title', {
+          title: title,
+        });
+      })
+    );
   }
 
   /**

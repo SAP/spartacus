@@ -1,12 +1,7 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import {
-  Page,
-  PageMeta,
-  PageRobotsMeta,
-  USE_SEPARATE_RESOLVERS,
-} from '../model/page.model';
+import { Page, PageMeta, USE_SEPARATE_RESOLVERS } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
 
@@ -30,14 +25,14 @@ export class PageMetaService {
    *       aren't needed during browsing.
    * TODO: we can make the list of resolver types configurable
    */
-  resolverMethods: any[] = [
-    'resolveTitle',
-    'resolveHeading',
-    'resolveDescription',
-    'resolveBreadcrumbs',
-    'resolveImage',
-    'resolveRobots',
-  ];
+  resolverMethods = {
+    title: 'resolveTitle',
+    // heading: 'resolveHeading',
+    // description: 'resolveDescription',
+    // breadcrumbs: 'resolveBreadcrumbs',
+    // image: 'resolveImage',
+    // robots: 'resolveRobots',
+  };
 
   getMeta(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
@@ -69,60 +64,26 @@ export class PageMetaService {
       return metaResolver.resolve();
     } else {
       // resolve individual resolvers to make the extension mechanism more flexible
-      const methods = [];
-      this.resolverMethods.forEach(method => {
-        if (metaResolver[method]) {
-          methods.push(metaResolver[method]());
-        }
-      });
 
-      return combineLatest(methods).pipe(
-        map(
-          // TODO: in 2.0 we'll do:
-          // const result = Object.assign({}, ...data);
-          (data: any[]) => this.resolveFor1x(data)
+      const methods2: any[] = Object.keys(this.resolverMethods)
+        .filter(key => metaResolver[this.resolverMethods[key]])
+        .map(key => ({
+          prop: key,
+          fn: metaResolver[this.resolverMethods[key]](),
+        }));
+
+      return combineLatest(methods2.map(m => m.fn)).pipe(
+        map((data: any[]) =>
+          this.storeDataInProperty(data, methods2.map(m => m.prop))
         )
       );
     }
   }
 
-  /**
-   * During release 1.x, we cannot simply return all assigned data
-   * since some (custom) data streams still respond string values
-   */
-  private resolveFor1x(data: any[]): {} {
+  private storeDataInProperty(data: any[], properties): {} {
     const result = {};
     data.forEach((d, index) => {
-      if (typeof d === 'string') {
-        // find type
-        switch (this.resolverMethods[index]) {
-          case 'resolveTitle':
-            result['title'] = d;
-            break;
-          case 'resolveHeading':
-            result['heading'] = d;
-            break;
-          case 'resolveDescription':
-            result['description'] = d;
-            break;
-          case 'resolveImage':
-            result['image'] = d;
-            break;
-        }
-      } else if (d && d.constructor === Array) {
-        if (
-          d.includes(PageRobotsMeta.FOLLOW) ||
-          d.includes(PageRobotsMeta.NOFOLLOW) ||
-          d.includes(PageRobotsMeta.INDEX) ||
-          d.includes(PageRobotsMeta.NOINDEX)
-        ) {
-          result['robots'] = d;
-        } else {
-          result['breadcrumbs'] = d;
-        }
-      } else {
-        Object.assign(result, d);
-      }
+      result[properties[index]] = d;
     });
     return result;
   }
