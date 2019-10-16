@@ -218,7 +218,7 @@ describe('MyInterestsComponent', () => {
 
   it('should display message when no interest', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('[data-test="noInterestMessage"]'))).toBeTruthy();
+    expect(el.query(By.css('.cx-product-interests-message'))).toBeTruthy();
   });
 
   it('should show interests list', () => {
@@ -230,25 +230,37 @@ describe('MyInterestsComponent', () => {
 
     expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
     expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="productItem"]')).length).toEqual(2);
+    expect(
+      el.queryAll(By.css('.cx-product-interests-product-item')).length
+    ).toEqual(2);
     expect(el.queryAll(By.css('cx-media')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('[data-test="productImageLink"]')).length
+      el.queryAll(By.css('.cx-product-interests-product-image-link')).length
     ).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="productName"]')).length).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="productLink"]')).length).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="productCode"]')).length).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="variantName"]')).length).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="variantValue"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('.cx-name')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('[data-test="stockLevelStatus"]')).length
+      el.queryAll(By.css('.cx-product-interests-product-code-link')).length
     ).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="productPrice"]')).length).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="interestType"]')).length).toEqual(2);
-    expect(el.queryAll(By.css('[data-test="expirationDate"]')).length).toEqual(
-      2
-    );
-    expect(el.queryAll(By.css('[data-test="removeButton"]')).length).toEqual(2);
+    expect(el.queryAll(By.css('.cx-code')).length).toEqual(2);
+    expect(
+      el.queryAll(By.css('.cx-product-interests-variant-name')).length
+    ).toEqual(2);
+    expect(
+      el.queryAll(By.css('.cx-product-interests-variant-value')).length
+    ).toEqual(2);
+    expect(
+      el.queryAll(By.css('.cx-product-interests-product-stock')).length
+    ).toEqual(2);
+    expect(
+      el.queryAll(By.css('.cx-product-interests-product-price')).length
+    ).toEqual(2);
+    expect(el.queryAll(By.css('.cx-product-interests-type')).length).toEqual(2);
+    expect(
+      el.queryAll(By.css('.cx-product-interests-expiration-date')).length
+    ).toEqual(2);
+    expect(
+      el.queryAll(By.css('.cx-product-interests-remove-btn')).length
+    ).toEqual(2);
   });
 
   it('should be able to change page/sort', () => {
@@ -277,7 +289,8 @@ describe('MyInterestsComponent', () => {
       cold('-a|', { a: true })
     );
     fixture.detectChanges();
-    const button = el.query(By.css('[data-test="removeButton"]')).nativeElement;
+    const button = el.query(By.css('.cx-product-interests-remove-btn'))
+      .nativeElement;
     expect(button.disabled).toBeFalsy();
 
     button.click();
