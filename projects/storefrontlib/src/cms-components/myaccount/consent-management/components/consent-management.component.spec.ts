@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  AuthService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
@@ -100,6 +101,12 @@ class GlobalMessageServiceMock {
   add(_text: string | Translatable, _type: GlobalMessageType): void {}
 }
 
+class AuthServiceMock {
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
+  }
+}
+
 const mockConsentTemplate: ConsentTemplate = {
   id: 'mock ID',
   version: 0,
@@ -139,6 +146,10 @@ describe('ConsentManagementComponent', () => {
         {
           provide: AnonymousConsentsService,
           useClass: AnonymousConsentsServiceMock,
+        },
+        {
+          provide: AuthService,
+          useClass: AuthServiceMock,
         },
         {
           provide: AnonymousConsentsConfig,
