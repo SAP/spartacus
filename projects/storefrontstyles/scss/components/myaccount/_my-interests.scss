@@ -117,7 +117,8 @@
 
   .cx-product-interests-product-price {
     @include media-breakpoint-down(sm) {
-      .cx-product-interests-label,span {
+      .cx-product-interests-label,
+      span {
         display: inline;
       }
     }

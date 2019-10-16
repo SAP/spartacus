@@ -62,14 +62,8 @@ export class UserInterestsService {
   /**
    * Returns product interests
    * @param pageSize the page size
-   * @param productCode the product code
-   * @param notificationType the notification type
    */
-  getAndLoadProductInterests(
-    pageSize?: number,
-    productCode?: string,
-    notificationType?: NotificationType
-  ): Observable<ProductInterestSearchResult> {
+  getAndLoadProductInterests(pageSize?: number): Observable<ProductInterestSearchResult> {
     return this.store.pipe(
       select(UsersSelectors.getInterestsState),
       tap(interestListState => {
@@ -78,13 +72,7 @@ export class UserInterestsService {
           interestListState.success ||
           interestListState.error;
         if (!attemptedLoad) {
-          this.loadProductInterests(
-            pageSize,
-            null,
-            null,
-            productCode,
-            notificationType
-          );
+          this.loadProductInterests(pageSize);
         }
       }),
       map(interestListState => interestListState.value)
