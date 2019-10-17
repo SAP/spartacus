@@ -1,12 +1,30 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+  AuthService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
+  isFeatureLevel,
   UserConsentService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  concat,
+  Observable,
+  Subscription,
+} from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  scan,
+  skipWhile,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -14,13 +32,50 @@ import { map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
+  private allConsentsLoading = new BehaviorSubject<boolean>(false);
 
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
 
+  requiredConsents: string[] = [];
+
+  // TODO(issue:4989) Anonymous consents - remove
+  isAnonymousConsentsEnabled = isFeatureLevel(
+    this.anonymousConsentsConfig,
+    '1.3'
+  );
+
+  constructor(
+    userConsentService: UserConsentService,
+    globalMessageService: GlobalMessageService,
+    anonymousConsentsConfig: AnonymousConsentsConfig,
+    anonymousConsentsService: AnonymousConsentsService,
+    authService: AuthService
+  );
+
+  /**
+   * @deprecated since version 1.3
+   * Instead, use:
+   ```ts
+   constructor(
+     userConsentService: UserConsentService,
+     globalMessageService: GlobalMessageService,
+     anonymousConsentsConfig : AnonymousConsentsConfig,
+     anonymousConsentsService : AnonymousConsentsService,
+     authService: AuthService,
+   ) 
+   ```
+   */
+  constructor(
+    userConsentService: UserConsentService,
+    globalMessageService: GlobalMessageService
+  );
   constructor(
     private userConsentService: UserConsentService,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private anonymousConsentsConfig?: AnonymousConsentsConfig,
+    private anonymousConsentsService?: AnonymousConsentsService,
+    private authService?: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -28,10 +83,22 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       this.userConsentService.getConsentsResultLoading(),
       this.userConsentService.getGiveConsentResultLoading(),
       this.userConsentService.getWithdrawConsentResultLoading(),
+      this.authService.isUserLoggedIn(),
+      this.allConsentsLoading,
     ]).pipe(
       map(
-        ([consentLoading, giveConsentLoading, withdrawConsentLoading]) =>
-          consentLoading || giveConsentLoading || withdrawConsentLoading
+        ([
+          consentLoading,
+          giveConsentLoading,
+          withdrawConsentLoading,
+          isUserLoggedIn,
+          allConsentsLoading,
+        ]) =>
+          consentLoading ||
+          giveConsentLoading ||
+          withdrawConsentLoading ||
+          !isUserLoggedIn ||
+          allConsentsLoading
       )
     );
     this.consentListInit();
@@ -41,11 +108,78 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   private consentListInit(): void {
     this.templateList$ = this.userConsentService.getConsents().pipe(
-      tap(templateList => {
+      withLatestFrom(
+        this.anonymousConsentsService.getTemplates(),
+        this.authService.isUserLoggedIn()
+      ),
+      filter(
+        ([_templateList, _anonymousTemplates, isUserLoggedIn]) => isUserLoggedIn
+      ),
+      tap(([templateList, _anonymousTemplates]) => {
         if (!this.consentsExists(templateList)) {
           this.userConsentService.loadConsents();
         }
+      }),
+      map(([templateList, anonymousTemplates]) => {
+        if (!this.isAnonymousConsentsEnabled) {
+          return templateList;
+        }
+
+        if (Boolean(this.anonymousConsentsConfig.anonymousConsents)) {
+          if (
+            Boolean(
+              this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+            )
+          ) {
+            this.requiredConsents = this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
+          }
+          if (
+            Boolean(
+              this.anonymousConsentsConfig.anonymousConsents
+                .consentManagementPage
+            )
+          ) {
+            return this.hideAnonymousConsents(templateList, anonymousTemplates);
+          }
+        }
+
+        return templateList;
       })
+    );
+  }
+
+  private hideAnonymousConsents(
+    templateList: ConsentTemplate[],
+    anonymousTemplates: ConsentTemplate[] = []
+  ): ConsentTemplate[] {
+    let hideTemplateIds: string[] = [];
+
+    if (
+      !this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        .showAnonymousConsents
+    ) {
+      hideTemplateIds = anonymousTemplates.map(template => template.id);
+      return this.userConsentService.filterConsentTemplates(
+        templateList,
+        hideTemplateIds
+      );
+    }
+
+    if (
+      Boolean(
+        this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+          .hideConsents
+      ) &&
+      this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        .hideConsents.length > 0
+    ) {
+      hideTemplateIds = this.anonymousConsentsConfig.anonymousConsents
+        .consentManagementPage.hideConsents;
+    }
+
+    return this.userConsentService.filterConsentTemplates(
+      templateList,
+      hideTemplateIds
     );
   }
 
@@ -108,6 +242,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   private onConsentWithdrawnSuccess(success: boolean): void {
     if (success) {
       this.userConsentService.resetWithdrawConsentProcessState();
@@ -118,8 +253,131 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     }
   }
 
+  rejectAll(templates: ConsentTemplate[] = []): void {
+    const consentsToWithdraw: ConsentTemplate[] = [];
+    templates.forEach(template => {
+      if (this.isConsentGiven(template)) {
+        if (this.isRequiredConsent(template)) {
+          return;
+        }
+        consentsToWithdraw.push(template);
+      }
+    });
+
+    this.allConsentsLoading.next(true);
+
+    this.subscriptions.add(
+      this.setupWithdrawalStream(consentsToWithdraw)
+        .pipe(tap(_timesLoaded => this.allConsentsLoading.next(false)))
+        .subscribe()
+    );
+  }
+
+  private setupWithdrawalStream(
+    consentsToWithdraw: ConsentTemplate[] = []
+  ): Observable<number> {
+    const loading$ = concat(
+      this.userConsentService.getWithdrawConsentResultLoading()
+    ).pipe(
+      distinctUntilChanged(),
+      filter(loading => !loading)
+    );
+    const count$ = loading$.pipe(scan((acc, _value) => acc + 1, -1));
+    const withdraw$ = count$.pipe(
+      tap(i => {
+        if (i < consentsToWithdraw.length) {
+          this.userConsentService.withdrawConsent(
+            consentsToWithdraw[i].currentConsent.code
+          );
+        }
+      })
+    );
+    const checkTimesLoaded$ = withdraw$.pipe(
+      filter(timesLoaded => timesLoaded === consentsToWithdraw.length)
+    );
+
+    return checkTimesLoaded$;
+  }
+
+  private isConsentGiven(consentTemplate: ConsentTemplate): boolean {
+    return (
+      Boolean(consentTemplate.currentConsent) &&
+      Boolean(consentTemplate.currentConsent.consentGivenDate) &&
+      !Boolean(consentTemplate.currentConsent.consentWithdrawnDate)
+    );
+  }
+
+  allowAll(templates: ConsentTemplate[] = []): void {
+    const consentsToGive: ConsentTemplate[] = [];
+    templates.forEach(template => {
+      if (this.isConsentWithdrawn(template)) {
+        if (this.isRequiredConsent(template)) {
+          return;
+        }
+
+        consentsToGive.push(template);
+      }
+    });
+
+    this.allConsentsLoading.next(true);
+
+    this.subscriptions.add(
+      this.setupGiveStream(consentsToGive)
+        .pipe(tap(_timesLoaded => this.allConsentsLoading.next(false)))
+        .subscribe()
+    );
+  }
+
+  private setupGiveStream(
+    consentsToGive: ConsentTemplate[] = []
+  ): Observable<number> {
+    const loading$ = concat(
+      this.userConsentService.getGiveConsentResultLoading()
+    ).pipe(
+      distinctUntilChanged(),
+      filter(loading => !loading)
+    );
+    const count$ = loading$.pipe(scan((acc, _value) => acc + 1, -1));
+    const giveConsent$ = count$.pipe(
+      tap(i => {
+        if (i < consentsToGive.length) {
+          this.userConsentService.giveConsent(
+            consentsToGive[i].id,
+            consentsToGive[i].version
+          );
+        }
+      })
+    );
+    const checkTimesLoaded$ = giveConsent$.pipe(
+      filter(timesLoaded => timesLoaded === consentsToGive.length)
+    );
+
+    return checkTimesLoaded$;
+  }
+
+  private isConsentWithdrawn(consentTemplate: ConsentTemplate): boolean {
+    if (Boolean(consentTemplate.currentConsent)) {
+      return Boolean(consentTemplate.currentConsent.consentWithdrawnDate);
+    }
+    return true;
+  }
+
+  private isRequiredConsent(template: ConsentTemplate): boolean {
+    return (
+      Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+      Boolean(
+        this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+      ) &&
+      this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+        template.id
+      )
+    );
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.allConsentsLoading.unsubscribe();
+
     this.userConsentService.resetGiveConsentProcessState();
     this.userConsentService.resetWithdrawConsentProcessState();
   }

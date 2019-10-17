@@ -186,4 +186,13 @@ export class AuthService {
   protected isClientTokenLoaded(state: LoaderState<ClientToken>): boolean {
     return (state.success || state.error) && !state.loading;
   }
+
+  /**
+   * Returns `true` if the user is logged in; and `false` if the user is anonymous.
+   */
+  isUserLoggedIn(): Observable<boolean> {
+    return this.getUserToken().pipe(
+      map(userToken => Boolean(userToken) && Boolean(userToken.access_token))
+    );
+  }
 }
