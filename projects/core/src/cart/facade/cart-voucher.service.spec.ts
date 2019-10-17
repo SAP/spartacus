@@ -51,7 +51,7 @@ describe('CartVoucherService', () => {
   describe('add Voucher', () => {
     it('should dispatch addVoucher action', () => {
       spyOn(store, 'dispatch').and.stub();
-      service.addVoucher(cart.code, voucherId);
+      service.addVoucher(voucherId, cart.code);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartAddVoucher({

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import * as fromProcessStore from '../../process/store/process-state';
@@ -22,41 +22,28 @@ export class CartVoucherService {
     protected authService: AuthService
   ) {}
 
-  addVoucher(cartId: string, voucherId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new CartActions.CartAddVoucher({
-            userId: occUserId,
-            cartId: cartId,
-            voucherId: voucherId,
-          })
-        )
+  addVoucher(voucherId: string, cartId?: string): void {
+    this.combineUserAndCartId(cartId).subscribe(([occUserId, cartIdentifier]) =>
+      this.store.dispatch(
+        new CartActions.CartAddVoucher({
+          userId: occUserId,
+          cartId: cartIdentifier,
+          voucherId: voucherId,
+        })
       )
-      .unsubscribe();
+    );
   }
 
-  removeVoucher(voucherId: string): void {
-    combineLatest([
-      this.authService.getOccUserId(),
-      this.store.pipe(
-        select(CartSelectors.getCartContent),
-        map(cart => cart.code)
-      ),
-    ])
-      .pipe(take(1))
-      .subscribe(([occUserId, cartId]) =>
-        this.store.dispatch(
-          new CartActions.CartRemoveVoucher({
-            userId: occUserId,
-            cartId: cartId,
-            voucherId: voucherId,
-          })
-        )
+  removeVoucher(voucherId: string, cartId?: string): void {
+    this.combineUserAndCartId(cartId).subscribe(([occUserId, cartIdentifier]) =>
+      this.store.dispatch(
+        new CartActions.CartRemoveVoucher({
+          userId: occUserId,
+          cartId: cartIdentifier,
+          voucherId: voucherId,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   getAddVoucherResultError(): Observable<boolean> {
@@ -79,5 +66,17 @@ export class CartVoucherService {
 
   resetAddVoucherProcessingState(): void {
     this.store.dispatch(new CartActions.CartResetAddVoucher());
+  }
+
+  private combineUserAndCartId(cartId: string): Observable<[string, string]> {
+    return combineLatest([
+      this.authService.getOccUserId(),
+      cartId
+        ? of(cartId)
+        : this.store.pipe(
+            select(CartSelectors.getCartContent),
+            map(cart => cart.code)
+          ),
+    ]).pipe(take(1));
   }
 }

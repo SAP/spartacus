@@ -91,7 +91,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   }
 
   applyVoucher(): void {
-    this.cartVoucherService.addVoucher(this.cartId, this.form.value.couponCode);
+    this.cartVoucherService.addVoucher(this.form.value.couponCode, this.cartId);
   }
 
   ngOnDestroy(): void {
