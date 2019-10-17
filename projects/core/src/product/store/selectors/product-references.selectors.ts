@@ -16,13 +16,24 @@ export const getProductReferencesState: MemoizedSelector<
 );
 
 export const getSelectedProductReferencesFactory = (
-  productCode: string
+  productCode: string,
+  referenceType: string
 ): MemoizedSelector<StateWithProduct, ProductReference[]> => {
   return createSelector(
     getProductReferencesState,
     referenceTypeData => {
       if (referenceTypeData.productCode === productCode) {
-        return !!referenceTypeData.list ? referenceTypeData.list : [];
+        if (!!referenceTypeData.list) {
+          if (referenceType) {
+            return referenceTypeData.list.filter(
+              item => item.referenceType === referenceType
+            );
+          }
+
+          return referenceTypeData.list;
+        } else {
+          return [];
+        }
       }
     }
   );
