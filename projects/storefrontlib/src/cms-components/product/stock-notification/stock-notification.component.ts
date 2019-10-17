@@ -55,7 +55,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     this.outOfStock$ = this.currentProductService.getProduct().pipe(
       filter(Boolean),
       tap((product: Product) => {
-        console.log(product);
         this.productCode = product.code;
         this.subscribed$ = this.interestsService
           .getProductInterests()
@@ -103,8 +102,8 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       this.interestsService.getAddProductInterestError().subscribe(fail => {
         if (fail) {
           this.modalService.dismissActiveModal();
+          this.interestsService.resetAddInterestState();
         }
-        this.interestsService.resetAddInterestState();
       })
     );
     this.subscriptions.add(
