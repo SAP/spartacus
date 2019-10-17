@@ -6,14 +6,19 @@
   }
   .cx-dialog-body {
     padding-top: 0;
+    background-color: var(--cx-color-inverse);
 
-    @include media-breakpoint-down(xs) {
-      padding: 0;
+    @include media-breakpoint-only(xs) {
+      padding: 0 0 1.5rem;
+      border-top: 1px solid var(--cx-color-light);
     }
   }
   .cx-dialog-buttons {
     text-align: right;
     padding: 1rem 4rem;
+    @include media-breakpoint-only(xs) {
+      padding: 1rem;
+    }
   }
 
   .cx-action-link {

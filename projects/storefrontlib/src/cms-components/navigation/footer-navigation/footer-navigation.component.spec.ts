@@ -198,7 +198,6 @@ describe('FooterNavigationComponent', () => {
         {
           centered: true,
           size: 'lg',
-          scrollable: true,
         }
       );
     });

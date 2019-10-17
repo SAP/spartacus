@@ -8,24 +8,20 @@
     aria-live="polite"
     data-behavior="accordion"
   >
-    <div
-      class="cx-accordion-item js-show-item-default"
-      data-binding="expand-accordion-item"
-    >
+    <div class="cx-accordion-item">
       <div
         [id]="'tab' + consentTemplate?.id"
         tabindex="0"
-        class="cx-accordion-tab cx-keyb-focusable"
+        class="cx-accordion-tab"
         [attr.aria-controls]="'panel' + consentTemplate?.id"
         role="tab"
         [attr.aria-selected]="accordionExpanded"
         [attr.aria-expanded]="accordionExpanded"
-        data-binding="expand-accordion-trigger"
         (click)="toggleAccordion()"
         (keydown)="toggleAccordion($event)"
       >
         <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
-        <span class="cx-accordion-title cx-keyb-visualfocus" tabindex="-1"
+        <span class="cx-accordion-title" tabindex="-1"
           >{{ consentTemplate?.name }}
         </span>
       </div>
@@ -36,7 +32,6 @@
         role="tabpanel"
         [attr.aria-hidden]="!accordionExpanded"
         [attr.aria-labelledby]="'tab' + consentTemplate?.id"
-        data-binding="expand-accordion-container"
         [style.height]="accordionHeight"
       >
         <div class="cx-accordion-content" #accordionContent>
