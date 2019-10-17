@@ -53,7 +53,7 @@ class AnotherPageResolver extends PageMetaResolver {
     this.pageTemplate = 'template';
   }
 
-  resolve(_skip?: boolean): Observable<PageMeta> | any {
+  resolve(): Observable<PageMeta> | any {
     return of({
       title: 'special page title',
     });
