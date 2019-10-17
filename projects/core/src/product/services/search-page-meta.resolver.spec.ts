@@ -62,7 +62,7 @@ describe('SearchPageMetaResolver', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('deprecated resolvers', () => {
+  describe('deprecated resolve()', () => {
     it(`should return {title: 'pageMetaResolver.search.title count:3 query:Canon'} for resolve method`, () => {
       let result: string;
       service
@@ -78,7 +78,7 @@ describe('SearchPageMetaResolver', () => {
     });
   });
 
-  describe('individual resolvers', () => {
+  describe('resolvers', () => {
     it('should return title for resolveTitle with arguments', () => {
       let result: { title: string } | string;
       service

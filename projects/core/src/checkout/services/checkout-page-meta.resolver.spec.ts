@@ -49,7 +49,7 @@ describe('CheckoutPageMetaResolver', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('deprecated resolvers ', () => {
+  describe('deprecated resolve() ', () => {
     it('should resolve content page title with cart code', () => {
       let result: PageMeta;
 
@@ -79,7 +79,7 @@ describe('CheckoutPageMetaResolver', () => {
       expect(result.robots).not.toContain(PageRobotsMeta.INDEX);
     });
   });
-  describe('individual resolvers', () => {
+  describe('resolvers', () => {
     it(`should return 'pageMetaResolver.checkout.title count:5' for resolveTitle()`, () => {
       let result: string;
 

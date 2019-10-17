@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CartService } from '../../cart/facade/cart.service';
-import {
-  PageMeta,
-  PageRobotsMeta,
-  USE_SEPARATE_RESOLVERS,
-} from '../../cms/model/page.model';
+import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageRobotsResolver,
@@ -40,19 +36,13 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
   }
 
   /**
+   * @deprecated since version 1.3
+   *
    * The resolve method is no longer preferred and will be removed with release 2.0.
    * The caller `PageMetaService` service is improved to expect all individual resolvers
    * instead, so that the code is easier extensible.
-   *
-   * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
-   *
-   * @deprecated since version 1.3
    */
-  resolve(skip?: boolean): Observable<PageMeta> | any {
-    if (skip) {
-      return USE_SEPARATE_RESOLVERS;
-    }
+  resolve(): Observable<PageMeta> | any {
     return this.cart$.pipe(
       switchMap(cart =>
         combineLatest([this.resolveTitle(cart), this.resolveRobots()])
@@ -61,10 +51,13 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
     );
   }
 
+  resolveTitle(): Observable<string>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(cart: Cart): Observable<string>;
   resolveTitle(cart?: Cart): Observable<string> {
     const cart$: Observable<Cart> = cart ? of(cart) : this.cart$;
     return cart$.pipe(

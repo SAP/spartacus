@@ -63,7 +63,7 @@ describe('CartPageMetaResolver', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('deprecated resolve', () => {
+  describe('deprecated resolve()', () => {
     it('should resolve content page title', () => {
       let result: PageMeta;
 
@@ -94,7 +94,7 @@ describe('CartPageMetaResolver', () => {
     });
   });
 
-  describe('individual resolvers', () => {
+  describe('resolvers', () => {
     it(`should resolve {title: 'Shopping Cart'} for resolveTitle`, () => {
       let result: string;
 

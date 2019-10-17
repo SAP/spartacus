@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
-import {
-  Page,
-  PageMeta,
-  USE_SEPARATE_RESOLVERS,
-} from '../../cms/model/page.model';
+import { Page, PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageBreadcrumbResolver,
@@ -54,21 +50,13 @@ export class CategoryPageMetaResolver extends PageMetaResolver
   }
 
   /**
+   * @deprecated since version 1.3
+   *
    * The resolve method is no longer preferred and will be removed with release 2.0.
    * The caller `PageMetaService` service is improved to expect all individual resolvers
    * instead, so that the code is easier extensible.
-   *
-   * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
-   * This is a temporaty solution to stay backwards compatible during release 1.x.
-   *
-   * @deprecated since version 1.3
    */
-  resolve(skip?: boolean): Observable<PageMeta> | any {
-    if (skip) {
-      return USE_SEPARATE_RESOLVERS;
-    }
-
+  resolve(): Observable<PageMeta> | any {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
       switchMap((page: Page) => {
@@ -95,11 +83,13 @@ export class CategoryPageMetaResolver extends PageMetaResolver
       })
     );
   }
-
+  resolveTitle(): Observable<string>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(searchPage: ProductSearchPage): Observable<string>;
   resolveTitle(searchPage?: ProductSearchPage): Observable<string> {
     const searchPage$ = searchPage ? of(searchPage) : this.searchPage$;
 
@@ -122,10 +112,16 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     return this.translation.translate('common.home');
   }
 
+  resolveBreadcrumbs(): Observable<any[]>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveBreadcrumbs(
+    searchPage: ProductSearchPage,
+    breadcrumbLabel: string
+  ): Observable<any[]>;
   resolveBreadcrumbs(
     searchPage?: ProductSearchPage,
     breadcrumbLabel?: string

@@ -4,7 +4,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { CmsService } from '../facade/cms.service';
-import { Page, PageMeta, USE_SEPARATE_RESOLVERS } from '../model/page.model';
+import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 
@@ -33,19 +33,13 @@ export class ContentPageMetaResolver extends PageMetaResolver
   }
 
   /**
+   * @deprecated since version 1.3
+   *
    * The resolve method is no longer preferred and will be removed with release 2.0.
    * The caller `PageMetaService` service is improved to expect all individual resolvers
    * instead, so that the code is easier extensible.
-   *
-   * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
-   *
-   * @deprecated since version 1.3
    */
-  resolve(skip?: boolean): Observable<PageMeta> | any {
-    if (skip) {
-      return USE_SEPARATE_RESOLVERS;
-    }
+  resolve(): Observable<PageMeta> | any {
     return this.cms$.pipe(
       switchMap((page: Page) =>
         combineLatest([
@@ -59,10 +53,13 @@ export class ContentPageMetaResolver extends PageMetaResolver
     );
   }
 
+  resolveTitle(): Observable<string>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(page: Page): Observable<string>;
   resolveTitle(page?: Page): Observable<string> {
     return page ? of(page.title) : this.cms$.pipe(map(p => p.title));
   }
@@ -75,16 +72,13 @@ export class ContentPageMetaResolver extends PageMetaResolver
     return this.translation.translate('common.home');
   }
 
+  resolveBreadcrumbs(): Observable<any[]>;
   /**
-   * Resolves breadcrumb data based on the content page.
-   *
-   * As long as we do not have CMSX-8689 in place we need specific
-   * resolvers for nested pages.
-   *
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
-   *
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveBreadcrumbs()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveBreadcrumbs(_page: Page, breadcrumbLabel: string): Observable<any[]>;
   resolveBreadcrumbs(
     _page?: Page,
     breadcrumbLabel?: string

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { PageMetaResolver } from '../../cms';
-import { PageMeta, USE_SEPARATE_RESOLVERS } from '../../cms/model/page.model';
+import { PageMeta } from '../../cms/model/page.model';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
@@ -39,26 +39,23 @@ export class SearchPageMetaResolver extends PageMetaResolver
   }
 
   /**
+   * @deprecated since version 1.3
+   *
    * The resolve method is no longer preferred and will be removed with release 2.0.
    * The caller `PageMetaService` service is improved to expect all individual resolvers
    * instead, so that the code is easier extensible.
-   *
-   * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
-   *
-   * @deprecated since version 1.3
    */
-  resolve(skip?: boolean): Observable<PageMeta> | any {
-    if (skip) {
-      return USE_SEPARATE_RESOLVERS;
-    }
+  resolve(): Observable<PageMeta> | any {
     return this.resolveTitle();
   }
 
+  resolveTitle(): Observable<string>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(total: number, query: string): Observable<string>;
   resolveTitle(
     total?: number,
     query?: string

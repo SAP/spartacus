@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page, PageMeta, USE_SEPARATE_RESOLVERS } from '../../cms';
+import { CmsService, Page, PageMeta } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
@@ -74,14 +74,11 @@ describe('CategoryPageMetaResolver', () => {
     cmsService = TestBed.get(CmsService as Type<CmsService>);
   });
 
-  describe('individual resolvers', () => {
+  describe('resolvers', () => {
     beforeEach(() => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(
         of(mockPageWithProductList)
       );
-    });
-    it('should return USE_SEPARATE_RESOLVERS', () => {
-      expect(service.resolve(true)).toEqual(USE_SEPARATE_RESOLVERS);
     });
 
     it(`should resolve 'pageMetaResolver.category.title count:6 query:Hand-held Camcorders' for resolveTitle()`, () => {
@@ -112,7 +109,7 @@ describe('CategoryPageMetaResolver', () => {
     });
   });
 
-  describe('deprecated resolvers', () => {
+  describe('deprecated resolve()', () => {
     describe('CategoryPage with products', () => {
       beforeEach(() => {
         spyOn(cmsService, 'getCurrentPage').and.returnValue(

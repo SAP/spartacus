@@ -14,17 +14,6 @@ export abstract class PageMetaResolver {
    * @deprecated since version 1.3
    */
   abstract resolve(): Observable<PageMeta>;
-  /**
-   * The resolve method is no longer preferred and will be removed with release 2.0.
-   * The caller `PageMetaService` service is improved to expect all individual resolvers
-   * instead, so that the code is easier extensible.
-   *
-   * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
-   *
-   * @deprecated since version 1.3
-   */
-  abstract resolve(skip: boolean): boolean;
 
   getScore(page: Page): number {
     let score = 0;

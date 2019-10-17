@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { PageMeta, USE_SEPARATE_RESOLVERS } from '../../cms';
+import { PageMeta } from '../../cms';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
@@ -80,11 +80,7 @@ describe('ProductPageMetaResolver', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return USE_SEPARATE_RESOLVERS for resolve if skip is given', () => {
-    expect(service.resolve(true)).toEqual(USE_SEPARATE_RESOLVERS);
-  });
-
-  describe('individual resolvers', () => {
+  describe('resolvers', () => {
     it('should return product heading for resolveHeading()', () => {
       let result: string;
       service
@@ -156,7 +152,7 @@ describe('ProductPageMetaResolver', () => {
     });
   });
 
-  describe('deprecated resolvers', () => {
+  describe('deprecated resolve()', () => {
     it('should resolve product page heading', () => {
       let result: PageMeta;
       service

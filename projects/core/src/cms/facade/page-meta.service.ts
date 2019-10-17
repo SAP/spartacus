@@ -1,7 +1,8 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { Page, PageMeta, USE_SEPARATE_RESOLVERS } from '../model/page.model';
+import { FeatureConfigService } from '../../features-config';
+import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
 
@@ -13,7 +14,8 @@ export class PageMetaService {
     @Optional()
     @Inject(PageMetaResolver)
     protected resolvers: PageMetaResolver[],
-    protected cms: CmsService
+    protected cms: CmsService,
+    protected featureConfigService?: FeatureConfigService
   ) {
     this.resolvers = this.resolvers || [];
   }
@@ -56,10 +58,8 @@ export class PageMetaService {
   private resolve(metaResolver): Observable<PageMeta> {
     if (
       metaResolver.resolve &&
-      metaResolver.resolve(true) !== USE_SEPARATE_RESOLVERS
+      (!this.featureConfigService || !this.featureConfigService.isLevel('1.3'))
     ) {
-      // resolve backwards compatibility, will only be used in case
-      // customers have extended from the Resolvers
       return metaResolver.resolve();
     } else {
       // resolve individual resolvers to make the extension mechanism more flexible

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { PageMeta, USE_SEPARATE_RESOLVERS } from '../../cms/model/page.model';
+import { PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageBreadcrumbResolver,
@@ -51,21 +51,13 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   /**
+   * @deprecated since version 1.3
+   *
    * The resolve method is no longer preferred and will be removed with release 2.0.
    * The caller `PageMetaService` service is improved to expect all individual resolvers
    * instead, so that the code is easier extensible.
-   *
-   * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
-   * This is a temporaty solution to stay backwards compatible during release 1.x.
-   *
-   * @deprecated since version 1.3
    */
-  resolve(skip?: boolean): Observable<PageMeta> | any {
-    if (skip) {
-      return USE_SEPARATE_RESOLVERS;
-    }
-
+  resolve(): Observable<PageMeta> | any {
     return this.product$.pipe(
       switchMap((p: Product) =>
         combineLatest([
@@ -96,10 +88,13 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
+  resolveHeading(): Observable<string>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveHeading()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveHeading(product: Product): Observable<string>;
   resolveHeading(product?: Product): Observable<string> {
     const product$ = product ? of(product) : this.product$;
     return product$.pipe(
@@ -111,10 +106,13 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
+  resolveTitle(): Observable<string>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(product: Product): Observable<string>;
   resolveTitle(product?: Product): Observable<string> {
     const product$ = product ? of(product) : this.product$;
     return product$.pipe(
@@ -129,13 +127,14 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
+  resolveDescription(): Observable<string>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveDescription()` instead
    */
-  resolveDescription(
-    product?: Product
-  ): Observable<{ description: string } | any> {
+  // tslint:disable-next-line: unified-signatures
+  resolveDescription(product: Product): Observable<string>;
+  resolveDescription(product?: Product): Observable<string> {
     const product$: Observable<Product> = product ? of(product) : this.product$;
     return product$.pipe(
       switchMap((p: Product) =>
@@ -154,10 +153,16 @@ export class ProductPageMetaResolver extends PageMetaResolver
     return this.translation.translate('common.home');
   }
 
+  resolveBreadcrumbs(): Observable<any[]>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveBreadcrumbs()` instead
    */
+  // tslint:disable-next-line: unified-signatures
+  resolveBreadcrumbs(
+    product: Product,
+    breadcrumbLabel: string
+  ): Observable<any[]>;
   resolveBreadcrumbs(
     product?: Product,
     breadcrumbLabel?: string
@@ -182,11 +187,14 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
+  resolveImage(): Observable<string>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveImage()` instead
    */
-  resolveImage(product?: Product): Observable<{ image: string } | any> {
+  // tslint:disable-next-line: unified-signatures
+  resolveImage(product: Product): Observable<string>;
+  resolveImage(product?: Product): Observable<string> {
     const product$: Observable<Product> = product ? of(product) : this.product$;
     return product$.pipe(
       map((p: Product) =>
