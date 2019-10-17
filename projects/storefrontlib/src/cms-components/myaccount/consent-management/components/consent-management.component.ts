@@ -9,8 +9,22 @@ import {
   isFeatureLevel,
   UserConsentService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  concat,
+  Observable,
+  Subscription,
+} from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  scan,
+  skipWhile,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -18,6 +32,7 @@ import { filter, map, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
+  private allConsentsLoading = new BehaviorSubject<boolean>(false);
 
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
@@ -69,6 +84,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       this.userConsentService.getGiveConsentResultLoading(),
       this.userConsentService.getWithdrawConsentResultLoading(),
       this.authService.isUserLoggedIn(),
+      this.allConsentsLoading,
     ]).pipe(
       map(
         ([
@@ -76,11 +92,13 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           giveConsentLoading,
           withdrawConsentLoading,
           isUserLoggedIn,
+          allConsentsLoading,
         ]) =>
           consentLoading ||
           giveConsentLoading ||
           withdrawConsentLoading ||
-          !isUserLoggedIn
+          !isUserLoggedIn ||
+          allConsentsLoading
       )
     );
     this.consentListInit();
@@ -175,8 +193,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private withdrawConsentInit(): void {
-    console.log('withdrawConsentInit');
-
     this.userConsentService.resetWithdrawConsentProcessState();
     this.subscriptions.add(
       this.userConsentService
@@ -238,20 +254,34 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   rejectAll(templates: ConsentTemplate[]): void {
+    const consentsToWithdraw: ConsentTemplate[] = [];
     templates.forEach(template => {
       if (this.isConsentGiven(template)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
-
-        this.userConsentService.withdrawConsent(template.currentConsent.code);
+        consentsToWithdraw.push(template);
       }
     });
 
+    this.allConsentsLoading.next(true);
     this.subscriptions.add(
-      this.userConsentService
-        .getWithdrawConsentResultSuccess()
-        .subscribe(_ => this.userConsentService.loadConsents())
+      concat(this.userConsentService.getWithdrawConsentResultLoading())
+        .pipe(
+          distinctUntilChanged(),
+          filter(loading => !loading),
+          scan((acc, _value) => acc + 1, -1),
+          tap(i => {
+            if (i < consentsToWithdraw.length) {
+              this.userConsentService.withdrawConsent(
+                consentsToWithdraw[i].currentConsent.code
+              );
+            }
+          }),
+          filter(loadingTimes => loadingTimes === consentsToWithdraw.length),
+          tap(_loadingTimes => this.allConsentsLoading.next(false))
+        )
+        .subscribe()
     );
   }
 
@@ -264,20 +294,36 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   allowAll(templates: ConsentTemplate[]): void {
+    const consentsToGive: ConsentTemplate[] = [];
     templates.forEach(template => {
       if (this.isConsentWithdrawn(template)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
 
-        this.userConsentService.giveConsent(template.id, template.version);
+        consentsToGive.push(template);
       }
     });
 
+    this.allConsentsLoading.next(true);
     this.subscriptions.add(
-      this.userConsentService
-        .getGiveConsentResultSuccess()
-        .subscribe(_ => this.userConsentService.loadConsents())
+      concat(this.userConsentService.getGiveConsentResultLoading())
+        .pipe(
+          distinctUntilChanged(),
+          filter(loading => !loading),
+          scan((acc, _value) => acc + 1, -1),
+          tap(i => {
+            if (i < consentsToGive.length) {
+              this.userConsentService.giveConsent(
+                consentsToGive[i].id,
+                consentsToGive[i].version
+              );
+            }
+          }),
+          filter(loadingTimes => loadingTimes === consentsToGive.length),
+          tap(_loadingTimes => this.allConsentsLoading.next(false))
+        )
+        .subscribe()
     );
   }
 
@@ -302,6 +348,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.allConsentsLoading.unsubscribe();
+
     this.userConsentService.resetGiveConsentProcessState();
     this.userConsentService.resetWithdrawConsentProcessState();
   }
