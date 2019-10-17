@@ -4,6 +4,7 @@ import { login } from './auth-forms';
 
 export const password = 'Password123.';
 const newUid = generateMail(randomString(), true);
+
 export function accessPageAsAnonymous() {
   cy.visit('/my-account/notification-preference');
   cy.location('pathname').should('contain', '/login');
