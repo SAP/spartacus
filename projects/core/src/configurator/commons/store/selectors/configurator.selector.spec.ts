@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import * as ConfiguratorActions from '../actions/configurator.action';
+import { ConfiguratorActions } from '../actions';
 import { Configurator } from './../../../../model/configurator.model';
 import {
   CONFIGURATION_FEATURE,
@@ -29,26 +29,39 @@ describe('Configurator selectors', () => {
     });
 
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should return empty content when selecting with content selector initially', () => {
     let result: Configurator.Configuration;
     store
-      .pipe(select(ConfiguratorSelectors.getConfigurationContent))
+      .pipe(
+        select(
+          ConfiguratorSelectors.getConfigurationFactory(
+            configuration.productCode
+          )
+        )
+      )
       .subscribe(value => (result = value));
 
-    expect(result).toEqual(null);
+    expect(result).toEqual(undefined);
   });
 
-  it('should return content from state when selecting with content selector', () => {
+  it('should return configuration content when selecting with content selector when action was successful', () => {
     let result: Configurator.Configuration;
+    store
+      .pipe(
+        select(
+          ConfiguratorSelectors.getConfigurationFactory(
+            configuration.productCode
+          )
+        )
+      )
+      .subscribe(value => (result = value));
+
     store.dispatch(
       new ConfiguratorActions.CreateConfigurationSuccess(configuration)
     );
-
-    store
-      .pipe(select(ConfiguratorSelectors.getConfigurationContent))
-      .subscribe(value => (result = value));
 
     expect(result).toEqual(configuration);
   });

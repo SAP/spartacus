@@ -14,6 +14,7 @@ import { Observable, of } from 'rxjs';
 import { ConfigAttributeFooterComponent } from '../config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeDropDownComponent } from '../config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
+import { ConfigAttributeInputFieldComponent } from '../config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
 import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigPreviousNextButtonsComponent } from '../config-previous-next-buttons/config-previous-next-buttons.component';
@@ -55,6 +56,20 @@ class MockConfiguratorCommonsService {
     };
     return of(productConfig);
   }
+  getConfiguration(
+    productCode: string
+  ): Observable<Configurator.Configuration> {
+    const productConfig: Configurator.Configuration = {
+      configId: 'a',
+      consistent: true,
+      complete: true,
+      productCode: productCode,
+    };
+    return of(productConfig);
+  }
+  hasConfiguration(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 describe('ConfigurationFormComponent', () => {
@@ -69,6 +84,7 @@ describe('ConfigurationFormComponent', () => {
         ConfigAttributeHeaderComponent,
         ConfigAttributeFooterComponent,
         ConfigAttributeRadioButtonComponent,
+        ConfigAttributeInputFieldComponent,
         ConfigAttributeDropDownComponent,
         ConfigAttributeReadOnlyComponent,
         ConfigPreviousNextButtonsComponent,

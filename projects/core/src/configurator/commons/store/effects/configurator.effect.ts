@@ -27,13 +27,10 @@ export class ConfiguratorEffects {
     CreateConfiguration | CreateConfigurationSuccess | CreateConfigurationFail
   > = this.actions$.pipe(
     ofType(CREATE_CONFIGURATION),
-    map(
-      (action: { type: string; payload?: { productCode: string } }) =>
-        action.payload
-    ),
-    mergeMap(payload => {
+    map((action: { type: string; productCode?: string }) => action.productCode),
+    mergeMap(productCode => {
       return this.configuratorCommonsConnector
-        .createConfiguration(payload.productCode)
+        .createConfiguration(productCode)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             return [new CreateConfigurationSuccess(configuration)];
@@ -48,8 +45,10 @@ export class ConfiguratorEffects {
   > = this.actions$.pipe(
     ofType(READ_CONFIGURATION),
     map(
-      (action: { type: string; payload?: { configId: string } }) =>
-        action.payload
+      (action: {
+        type: string;
+        payload?: { configId: string; productCode: string };
+      }) => action.payload
     ),
     mergeMap(payload => {
       return this.configuratorCommonsConnector
@@ -59,7 +58,10 @@ export class ConfiguratorEffects {
             return [new ReadConfigurationSuccess(configuration)];
           }),
           catchError(error => [
-            new ReadConfigurationFail(makeErrorSerializable(error)),
+            new ReadConfigurationFail(
+              payload.productCode,
+              makeErrorSerializable(error)
+            ),
           ])
         );
     })
@@ -82,7 +84,10 @@ export class ConfiguratorEffects {
             return [new UpdateConfigurationSuccess(configuration)];
           }),
           catchError(error => [
-            new UpdateConfigurationFail(makeErrorSerializable(error)),
+            new UpdateConfigurationFail(
+              payload.productCode,
+              makeErrorSerializable(error)
+            ),
           ])
         );
     })

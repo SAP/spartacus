@@ -31,7 +31,7 @@ describe('ConfiguratorCommonsService', () => {
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
 
     spyOn(store, 'dispatch').and.stub();
-    spyOn(store, 'select').and.returnValue(of(productConfiguration));
+    spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
   });
 
   it('should create service', () => {
@@ -50,15 +50,14 @@ describe('ConfiguratorCommonsService', () => {
     );
     expect(productCode).toBe(PRODUCT_CODE);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.CreateConfiguration({
-        productCode: productCode,
-      })
+      new ConfiguratorActions.CreateConfiguration(productCode)
     );
   });
 
   it('should read a configuration, accessing the store', () => {
     const configurationFromStore = serviceUnderTest.readConfiguration(
-      CONFIG_ID
+      CONFIG_ID,
+      PRODUCT_CODE
     );
 
     expect(configurationFromStore).toBeDefined();
@@ -70,6 +69,7 @@ describe('ConfiguratorCommonsService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.ReadConfiguration({
         configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
       })
     );
   });

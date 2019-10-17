@@ -18,33 +18,27 @@ export class OccConfiguratorVariantSerializer
       complete: source.complete,
       groups: [],
     };
-    this.convertGroup(source, target.groups);
+
+    source.groups.forEach(group => this.convertGroup(group, target.groups));
 
     return target;
   }
 
-  convertGroup(
-    source: Configurator.Configuration,
-    occGroups: OccConfigurator.Group[]
-  ) {
-    // Currently only works with products CPQ_LAPTOP and WCEM_DEPENDENCY_PC
-    // Once groups are supported other products will work as well
-    switch (source.productCode) {
-      case 'CPQ_LAPTOP': {
-        this.createLaptopGroups(occGroups);
-        source.attributes.forEach(attribute =>
-          this.mapAttributesToLaptopGroups(attribute, occGroups)
-        );
-        break;
-      }
-      case 'WCEM_DEPENDENCY_PC': {
-        this.createPCGroups(occGroups);
-        source.attributes.forEach(attribute =>
-          this.mapAttributesToPCGroups(attribute, occGroups)
-        );
-        break;
-      }
-    }
+  convertGroup(source: Configurator.Group, occGroups: OccConfigurator.Group[]) {
+    const group: OccConfigurator.Group = {
+      name: source.name,
+      id: source.id,
+      configurable: source.configurable,
+      groupType: this.convertGroupType(source.groupType),
+      description: source.description,
+      cstics: [],
+    };
+
+    source.attributes.forEach(attribute =>
+      this.convertAttribute(attribute, group.cstics)
+    );
+
+    occGroups.push(group);
   }
 
   convertAttribute(
@@ -58,7 +52,14 @@ export class OccConfiguratorVariantSerializer
       type: this.convertCharacteristicType(attribute.uiType),
     };
 
-    cstic.value = attribute.selectedSingleValue;
+    if (
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.RADIOBUTTON
+    ) {
+      cstic.value = attribute.selectedSingleValue;
+    } else if (attribute.uiType === Configurator.UiType.STRING) {
+      cstic.value = attribute.userInput;
+    }
 
     occCstics.push(cstic);
   }
@@ -74,6 +75,10 @@ export class OccConfiguratorVariantSerializer
         uiType = OccConfigurator.UiType.DROPDOWN;
         break;
       }
+      case Configurator.UiType.STRING: {
+        uiType = OccConfigurator.UiType.STRING;
+        break;
+      }
       default: {
         uiType = OccConfigurator.UiType.NOT_IMPLEMENTED;
       }
@@ -81,147 +86,12 @@ export class OccConfiguratorVariantSerializer
     return uiType;
   }
 
-  /**
-   * MOCK IMPLEMENTATION FOR GROUPS.
-   * WILL BE REMOVED IN THE NEXT FEW WEEKS, ONCE GROUPS ARE SUPPORTED
-   */
-  createLaptopGroups(occGroups: OccConfigurator.Group[]) {
-    occGroups.push({
-      configurable: true,
-      description: 'Core components',
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      cstics: [],
-    });
-
-    occGroups.push({
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      cstics: [],
-    });
-
-    occGroups.push({
-      configurable: true,
-      description: 'Software',
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      cstics: [],
-    });
-  }
-
-  createPCGroups(occGroups: OccConfigurator.Group[]) {
-    occGroups.push({
-      configurable: true,
-      description: 'Monitor',
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id: '1-WCEM_DEPENDENCY_PC.MONITOR',
-      name: 'MONITOR',
-      cstics: [],
-    });
-
-    occGroups.push({
-      configurable: true,
-      description: 'Accessory',
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id: '1-WCEM_DEPENDENCY_PC.ACCESSORY',
-      name: 'ACCESSORY',
-      cstics: [],
-    });
-
-    occGroups.push({
-      configurable: true,
-      description: 'Multimedia',
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id: '1-WCEM_DEPENDENCY_PC.MULTIMEDIA',
-      name: 'MULTIMEDIA',
-      cstics: [],
-    });
-
-    occGroups.push({
-      configurable: true,
-      description: 'System set value test extra long title',
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id: '1-WCEM_DEPENDENCY_PC.SELECTABLE',
-      name: 'SELECTABLE',
-      cstics: [],
-    });
-
-    occGroups.push({
-      configurable: true,
-      description: 'Group to test static delta prices rendering',
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      id: '1-WCEM_DEPENDENCY_PC.DELTA_PRICES',
-      name: 'DELTA_PRICES',
-      cstics: [],
-    });
-  }
-
-  mapAttributesToLaptopGroups(
-    attribute: Configurator.Attribute,
-    occGroups: OccConfigurator.Group[]
-  ) {
-    switch (attribute.name) {
-      case 'EXP_NUMBER':
-      case 'CPQ_DISPLAY':
-      case 'CPQ_CPU':
-      case 'CPQ_RAM':
-        this.convertAttribute(attribute, occGroups[0].cstics);
-        break;
-
-      case 'CPQ_MONITOR':
-      case 'CPQ_PRINTER':
-        this.convertAttribute(attribute, occGroups[1].cstics);
-        break;
-
-      case 'CPQ_OS':
-      case 'CPQ_SECURITY':
-      case 'CPQ_SOFTWARE':
-        this.convertAttribute(attribute, occGroups[2].cstics);
-        break;
-    }
-  }
-
-  mapAttributesToPCGroups(
-    attribute: Configurator.Attribute,
-    occGroups: OccConfigurator.Group[]
-  ) {
-    switch (attribute.name) {
-      case 'WCEM_DP_MONITOR_MNF':
-      case 'WCEM_DP_MONITOR_MODEL':
-        this.convertAttribute(attribute, occGroups[0].cstics);
-        break;
-
-      case 'WCEM_DP_ACCESSORY':
-      case 'WCEM_DP_EXT_DD':
-        this.convertAttribute(attribute, occGroups[1].cstics);
-        break;
-
-      case 'WCEM_DP_SOUND_CARD':
-      case 'WCEM_DP_WEBCAM':
-        this.convertAttribute(attribute, occGroups[2].cstics);
-        break;
-
-      case 'WCEM_SIMPLE_FLAG':
-      case 'WCEM_FLAG_MULTI':
-      case 'WCEM_RO_REQ_INPUT':
-      case 'WCEM_SET_INPUT_RO':
-      case 'WCEM_SET_INPUT_REQ':
-        this.convertAttribute(attribute, occGroups[3].cstics);
-        break;
-      case 'WCEM_DP_RADIO_BUTTON':
-      case 'CPQ_HT_SPK_MODEL':
-      case 'CPQ_HT_VIDEO_SOURCES':
-      case 'WCEM_DP_DDLB':
-      case 'WCEM_DP_CHECKBOX':
-      case 'WCEM_DP_CHECKBOX_LIST':
-      case 'WCEM_DP_READ_ONLY':
-        this.convertAttribute(attribute, occGroups[4].cstics);
-        break;
+  convertGroupType(
+    groupType: Configurator.GroupType
+  ): OccConfigurator.GroupType {
+    switch (groupType) {
+      case Configurator.GroupType.CSTIC_GROUP:
+        return OccConfigurator.GroupType.CSTIC_GROUP;
     }
   }
 }

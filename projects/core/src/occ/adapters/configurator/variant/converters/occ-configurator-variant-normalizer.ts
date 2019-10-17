@@ -16,20 +16,28 @@ export class OccConfiguratorVariantNormalizer
     target = {
       configId: source.configId,
       complete: source.complete,
-      attributes: [],
+      groups: [],
     };
 
-    source.groups.forEach(group => this.convertGroup(group, target.attributes));
+    source.groups.forEach(group => this.convertGroup(group, target.groups));
     return target;
   }
 
-  convertGroup(
-    source: OccConfigurator.Group,
-    attributeList: Configurator.Attribute[]
-  ) {
+  convertGroup(source: OccConfigurator.Group, groupList: Configurator.Group[]) {
+    const attributes: Configurator.Attribute[] = [];
     source.cstics.forEach(cstic =>
-      this.convertCharacteristic(cstic, attributeList)
+      this.convertCharacteristic(cstic, attributes)
     );
+
+    groupList.push({
+      active: groupList.length === 0, //first group will be set to active
+      description: source.description,
+      configurable: source.configurable,
+      groupType: this.convertGroupType(source.groupType),
+      name: source.name,
+      id: source.id,
+      attributes: attributes,
+    });
   }
 
   convertCharacteristic(
@@ -42,6 +50,8 @@ export class OccConfiguratorVariantNormalizer
       required: cstic.required,
       uiType: this.convertCharacteristicType(cstic.type),
       values: [],
+      userInput: cstic.formattedValue ? cstic.formattedValue : cstic.value,
+      maxlength: cstic.maxlength,
     };
     if (cstic.domainvalues) {
       cstic.domainvalues.forEach(value =>
@@ -85,6 +95,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.DROPDOWN;
         break;
       }
+      case OccConfigurator.UiType.STRING: {
+        uiType = Configurator.UiType.STRING;
+        break;
+      }
       case OccConfigurator.UiType.READ_ONLY: {
         uiType = Configurator.UiType.READ_ONLY;
         break;
@@ -94,5 +108,14 @@ export class OccConfiguratorVariantNormalizer
       }
     }
     return uiType;
+  }
+
+  convertGroupType(
+    groupType: OccConfigurator.GroupType
+  ): Configurator.GroupType {
+    switch (groupType) {
+      case OccConfigurator.GroupType.CSTIC_GROUP:
+        return Configurator.GroupType.CSTIC_GROUP;
+    }
   }
 }

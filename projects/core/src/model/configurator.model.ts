@@ -13,6 +13,7 @@ export namespace Configurator {
     selectedSingleValue?: string;
     userInput?: string;
     isLineItem?: boolean;
+    maxlength?: number;
   }
 
   export interface Value {
@@ -26,12 +27,26 @@ export namespace Configurator {
     isCommerceProduct?: boolean;
   }
 
+  export interface Group {
+    attributes?: Attribute[];
+    active?: boolean;
+    id?: string;
+    name?: string;
+    description?: string;
+    groupType?: GroupType;
+    configurable?: boolean;
+  }
+
   export interface Configuration {
     configId: string;
     consistent?: boolean;
     complete?: boolean;
     productCode?: string;
-    attributes?: Attribute[];
+    groups?: Group[];
+  }
+
+  export enum GroupType {
+    CSTIC_GROUP = 'CSTIC_GROUP',
   }
 
   export enum UiType {
@@ -42,7 +57,7 @@ export namespace Configurator {
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',
-    INPUT = 'inputField',
+    STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
   }
 }
