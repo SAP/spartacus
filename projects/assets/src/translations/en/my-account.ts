@@ -129,7 +129,7 @@ export const myAccount = {
     inStock: 'In Stock',
     lowStock: 'Low Stock',
     outOfStock: 'Out of Stock',
-    BACK_IN_STOCK:'Back In Stock',
+    BACK_IN_STOCK: 'Back In Stock',
     sortByMostRecent: 'Sort by Most recent',
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
