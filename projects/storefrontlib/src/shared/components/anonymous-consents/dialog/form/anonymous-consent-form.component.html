@@ -4,7 +4,7 @@
   aria-live="polite"
   data-behavior="accordion"
 >
-  <div class="cx-accordion-item" data-binding="expand-accordion-item">
+  <div class="cx-accordion-item">
     <div
       [id]="'tab' + template?.id"
       tabindex="0"
@@ -13,7 +13,6 @@
       role="tab"
       [attr.aria-selected]="accordionExpanded"
       [attr.aria-expanded]="accordionExpanded"
-      data-binding="expand-accordion-trigger"
       (click)="toggleAccordion()"
       (keydown)="toggleAccordion($event)"
     >
@@ -29,7 +28,6 @@
       role="tabpanel"
       [attr.aria-hidden]="!accordionExpanded"
       [attr.aria-labelledby]="'tab' + template?.id"
-      data-binding="expand-accordion-container"
       [style.height]="accordionHeight"
     >
       <div class="cx-accordion-content" #accordionContent>
