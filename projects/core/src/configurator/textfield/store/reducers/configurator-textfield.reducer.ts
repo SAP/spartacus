@@ -1,7 +1,7 @@
 import * as ConfiguratorActions from '../actions/configurator-textfield.action';
-import { ConfigurationState } from '../configuration-textfield-state';
+import { ConfigurationTextfieldState } from '../configuration-textfield-state';
 
-export const initialState: ConfigurationState = {
+export const initialState: ConfigurationTextfieldState = {
   content: null,
   refresh: false,
 };
@@ -11,7 +11,7 @@ export function reducer(
   action:
     | ConfiguratorActions.CreateConfiguration
     | ConfiguratorActions.CreateConfigurationSuccess
-): ConfigurationState {
+): ConfigurationTextfieldState {
   switch (action.type) {
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS: {
       const content = { ...action.payload };

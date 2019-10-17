@@ -5,21 +5,23 @@ import {
 } from '@ngrx/store';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import {
-  ConfigurationsState,
-  CONFIGURATION_FEATURE,
-  StateWithConfiguration,
+  ConfigurationsTextfieldState,
+  CONFIGURATION_TEXTFIELD_FEATURE,
+  StateWithConfigurationTextfield,
 } from '../configuration-textfield-state';
 
-const getConfigurationContentSelector = (state: ConfigurationsState) =>
+const getConfigurationContentSelector = (state: ConfigurationsTextfieldState) =>
   state.active.value.content;
 
 const getConfigurationsState: MemoizedSelector<
-  StateWithConfiguration,
-  ConfigurationsState
-> = createFeatureSelector<ConfigurationsState>(CONFIGURATION_FEATURE);
+  StateWithConfigurationTextfield,
+  ConfigurationsTextfieldState
+> = createFeatureSelector<ConfigurationsTextfieldState>(
+  CONFIGURATION_TEXTFIELD_FEATURE
+);
 
 export const getConfigurationContent: MemoizedSelector<
-  StateWithConfiguration,
+  StateWithConfigurationTextfield,
   ConfiguratorTextfield.Configuration
 > = createSelector(
   getConfigurationsState,

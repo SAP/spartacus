@@ -1,5 +1,7 @@
-import { ConfiguratorEffects } from './configurator.effect';
+import { ConfiguratorTextfieldEffects } from './configurator-textfield.effect';
 
-export const configuratorEffects: any[] = [ConfiguratorEffects];
+export const configuratorTextfieldEffects: any[] = [
+  ConfiguratorTextfieldEffects,
+];
 
-export * from './configurator.effect';
+export * from './configurator-textfield.effect';

@@ -1,10 +1,10 @@
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../actions/index';
-import { ConfigurationState } from '../configuration-textfield-state';
+import { ConfigurationTextfieldState } from '../configuration-textfield-state';
 import { reducer } from './configurator-textfield.reducer';
 
 describe('ConfiguratorTextfieldReducer', () => {
-  const configurationState: ConfigurationState = {
+  const configurationState: ConfigurationTextfieldState = {
     content: null,
     refresh: false,
   };

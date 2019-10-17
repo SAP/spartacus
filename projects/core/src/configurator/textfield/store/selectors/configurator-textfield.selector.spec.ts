@@ -4,14 +4,14 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import * as ConfiguratorActions from '../actions/configurator-textfield.action';
 import {
-  CONFIGURATION_FEATURE,
-  StateWithConfiguration,
+  CONFIGURATION_TEXTFIELD_FEATURE,
+  StateWithConfigurationTextfield,
 } from '../configuration-textfield-state';
 import * as fromReducers from '../reducers/index';
 import { ConfiguratorTextFieldSelectors } from './index';
 
 describe('ConfiguratorTextfieldSelectors', () => {
-  let store: Store<StateWithConfiguration>;
+  let store: Store<StateWithConfigurationTextfield>;
   const configuration: ConfiguratorTextfield.Configuration = {
     configurationInfos: [],
   };
@@ -21,13 +21,13 @@ describe('ConfiguratorTextfieldSelectors', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
-          fromReducers.getConfiguratorReducers()
+          CONFIGURATION_TEXTFIELD_FEATURE,
+          fromReducers.getConfiguratorTextfieldReducers()
         ),
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.get(Store as Type<Store<StateWithConfigurationTextfield>>);
   });
 
   it('should return empty content when selecting with content selector initially', () => {
@@ -36,7 +36,7 @@ describe('ConfiguratorTextfieldSelectors', () => {
       .pipe(select(ConfiguratorTextFieldSelectors.getConfigurationContent))
       .subscribe(value => (result = value));
 
-    expect(result).toEqual(null);
+    expect(result).toBeNull();
   });
 
   it('should return content from state when selecting with content selector', () => {

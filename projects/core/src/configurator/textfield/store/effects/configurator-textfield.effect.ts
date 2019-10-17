@@ -12,7 +12,7 @@ import {
 } from '../actions/configurator-textfield.action';
 
 @Injectable()
-export class ConfiguratorEffects {
+export class ConfiguratorTextfieldEffects {
   @Effect()
   createConfiguration$: Observable<
     CreateConfiguration | CreateConfigurationSuccess | CreateConfigurationFail

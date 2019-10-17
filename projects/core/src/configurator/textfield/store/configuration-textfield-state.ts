@@ -1,18 +1,19 @@
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 
-export const CONFIGURATION_FEATURE = 'productConfigurationTextfield';
-export const CONFIGURATION_DATA = '[ConfiguratorTextfield] Configuration Data';
+export const CONFIGURATION_TEXTFIELD_FEATURE = 'productConfigurationTextfield';
+export const CONFIGURATION_TEXTFIELD_DATA =
+  '[ConfiguratorTextfield] Configuration Data';
 
-export interface StateWithConfiguration {
-  [CONFIGURATION_FEATURE]: ConfigurationsState;
+export interface StateWithConfigurationTextfield {
+  [CONFIGURATION_TEXTFIELD_FEATURE]: ConfigurationsTextfieldState;
 }
 
-export interface ConfigurationsState {
-  active: LoaderState<ConfigurationState>;
+export interface ConfigurationsTextfieldState {
+  active: LoaderState<ConfigurationTextfieldState>;
 }
 
-export interface ConfigurationState {
+export interface ConfigurationTextfieldState {
   content: ConfiguratorTextfield.Configuration;
   refresh: boolean;
 }

@@ -5,12 +5,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import * as fromConfigurationReducers from '../../store/reducers/index';
+import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
+import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import * as ConfiguratorActions from '../actions/configurator-textfield.action';
-import { CONFIGURATION_FEATURE } from '../configuration-textfield-state';
-import { ConfiguratorTextfield } from './../../../../model/configurator-textfield.model';
-import { ConfiguratorTextfieldConnector } from './../../connectors/configurator-textfield.connector';
-import * as fromEffects from './configurator.effect';
+import { CONFIGURATION_TEXTFIELD_FEATURE } from '../configuration-textfield-state';
+import * as reducers from '../reducers/index';
+import * as fromEffects from './configurator-textfield.effect';
 
 const productCode = 'CONF_LAPTOP';
 
@@ -25,7 +25,7 @@ class MockConnector {
 }
 
 describe('ConfiguratorTextfieldEffect', () => {
-  let configEffects: fromEffects.ConfiguratorEffects;
+  let configEffects: fromEffects.ConfiguratorTextfieldEffects;
 
   let actions$: Observable<any>;
 
@@ -35,13 +35,13 @@ describe('ConfiguratorTextfieldEffect', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          CONFIGURATION_FEATURE,
-          fromConfigurationReducers.getConfiguratorReducers()
+          CONFIGURATION_TEXTFIELD_FEATURE,
+          reducers.getConfiguratorTextfieldReducers()
         ),
       ],
 
       providers: [
-        fromEffects.ConfiguratorEffects,
+        fromEffects.ConfiguratorTextfieldEffects,
         provideMockActions(() => actions$),
         {
           provide: ConfiguratorTextfieldConnector,
@@ -50,9 +50,11 @@ describe('ConfiguratorTextfieldEffect', () => {
       ],
     });
 
-    configEffects = TestBed.get(fromEffects.ConfiguratorEffects as Type<
-      fromEffects.ConfiguratorEffects
-    >);
+    configEffects = TestBed.get(
+      fromEffects.ConfiguratorTextfieldEffects as Type<
+        fromEffects.ConfiguratorTextfieldEffects
+      >
+    );
   });
 
   it('should provide configuration effects', () => {

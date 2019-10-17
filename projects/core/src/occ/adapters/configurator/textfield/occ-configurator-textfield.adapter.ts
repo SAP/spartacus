@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfiguratorTextfieldAdapter } from '../../../../configurator/textfield/connectors/configurator-textfield.adapter';
-import { CONFIGURATION_NORMALIZER } from '../../../../configurator/textfield/connectors/converters';
+import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../../../../configurator/textfield/connectors/converters';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
@@ -24,6 +24,6 @@ export class OccConfiguratorTextfieldAdapter
       .get<OccConfiguratorTextfield.Configuration>(
         this.occEndpointsService.getUrl('createConfiguration', { productCode })
       )
-      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+      .pipe(this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER));
   }
 }

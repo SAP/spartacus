@@ -1,5 +1,5 @@
 import { StateLoaderActions } from '../../../../state/utils/index';
-import { CONFIGURATION_DATA } from '../configuration-textfield-state';
+import { CONFIGURATION_TEXTFIELD_DATA } from '../configuration-textfield-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
 export const CREATE_CONFIGURATION_FAIL =
@@ -10,21 +10,21 @@ export const CREATE_CONFIGURATION_SUCCESS =
 export class CreateConfiguration extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public payload: any) {
-    super(CONFIGURATION_DATA);
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
 export class CreateConfigurationFail extends StateLoaderActions.LoaderFailAction {
   readonly type = CREATE_CONFIGURATION_FAIL;
   constructor(public payload: any) {
-    super(CONFIGURATION_DATA, payload);
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
 }
 
 export class CreateConfigurationSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CREATE_CONFIGURATION_SUCCESS;
   constructor(public payload: any) {
-    super(CONFIGURATION_DATA);
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 

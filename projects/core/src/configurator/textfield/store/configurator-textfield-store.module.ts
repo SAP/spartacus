@@ -9,19 +9,19 @@ import {
   StorageSyncType,
 } from '../../../state/config/state-config';
 import { StateModule } from '../../../state/state.module';
-import { CONFIGURATION_FEATURE } from './configuration-textfield-state';
-import { configuratorEffects } from './effects/index';
+import { CONFIGURATION_TEXTFIELD_FEATURE } from './configuration-textfield-state';
+import { configuratorTextfieldEffects } from './effects/index';
 import {
-  configuratorReducerProvider,
-  configuratorReducerToken,
+  configuratorTextfieldReducerProvider,
+  configuratorTextfieldReducerToken,
 } from './reducers/index';
 
-export function configuratorStoreConfigFactory(): StateConfig {
+export function configuratorTextfieldStoreConfigFactory(): StateConfig {
   const config: StateConfig = {
     state: {
       storageSync: {
         keys: {
-          [`${CONFIGURATION_FEATURE}.active.value.content.configId`]: StorageSyncType.LOCAL_STORAGE,
+          [`${CONFIGURATION_TEXTFIELD_FEATURE}.active.value.content.configId`]: StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
@@ -34,10 +34,13 @@ export function configuratorStoreConfigFactory(): StateConfig {
     CommonModule,
     HttpClientModule,
     StateModule,
-    StoreModule.forFeature(CONFIGURATION_FEATURE, configuratorReducerToken),
-    EffectsModule.forFeature(configuratorEffects),
-    ConfigModule.withConfigFactory(configuratorStoreConfigFactory),
+    StoreModule.forFeature(
+      CONFIGURATION_TEXTFIELD_FEATURE,
+      configuratorTextfieldReducerToken
+    ),
+    EffectsModule.forFeature(configuratorTextfieldEffects),
+    ConfigModule.withConfigFactory(configuratorTextfieldStoreConfigFactory),
   ],
-  providers: [configuratorReducerProvider],
+  providers: [configuratorTextfieldReducerProvider],
 })
-export class ConfiguratorStoreModule {}
+export class ConfiguratorTextfieldStoreModule {}
