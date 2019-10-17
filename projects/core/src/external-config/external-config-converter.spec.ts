@@ -1,23 +1,30 @@
 import { Occ } from '../occ/occ-models';
+import {
+  BASE_SITE_CONTEXT_ID,
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID,
+} from '../site-context';
+import { ExternalConfig } from './external-config';
+import { ExternalConfigConverter } from './external-config-converter';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
-import { OccBaseSites2ExternalConfigConverter } from './occ-base-sites-2-external-config-converter';
 
-describe(`OccBaseSites2ConfigConverter`, () => {
-  describe(`convert`, () => {
+describe(`ExternalConfigConverter`, () => {
+  describe(`fromOccBaseSites`, () => {
     let mockBaseSite: Occ.BaseSite;
+    let mockBaseStore: Occ.BaseStore;
 
     beforeEach(() => {
+      mockBaseStore = {
+        languages: [],
+        currencies: [],
+        defaultLanguage: {},
+        defaultCurrency: {},
+      };
+
       mockBaseSite = {
         uid: 'test',
         urlPatterns: ['testUrl'],
-        stores: [
-          {
-            languages: [],
-            currencies: [],
-            defaultLanguage: {},
-            defaultCurrency: {},
-          },
-        ],
+        stores: [mockBaseStore],
         urlEncodingAttributes: [],
       };
 
@@ -28,7 +35,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       const baseSites: Occ.BaseSites = undefined;
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
+        ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -36,7 +43,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       const baseSites: Occ.BaseSites = { baseSites: undefined };
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
+        ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -44,7 +51,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       const baseSites: Occ.BaseSites = { baseSites: [] };
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
+        ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -57,7 +64,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       };
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
+        ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -67,7 +74,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       };
       const currentUrl = 'testUrl';
       expect(() =>
-        OccBaseSites2ExternalConfigConverter.convert(baseSites, currentUrl)
+        ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
       ).toThrowError();
     });
 
@@ -92,7 +99,7 @@ describe(`OccBaseSites2ConfigConverter`, () => {
         ],
       };
       const currentUrl = 'testUrl2';
-      const res = OccBaseSites2ExternalConfigConverter.convert(
+      const res = ExternalConfigConverter.fromOccBaseSites(
         baseSites,
         currentUrl
       );
@@ -100,28 +107,40 @@ describe(`OccBaseSites2ConfigConverter`, () => {
       expect(JavaRegExpConverter.convert).not.toHaveBeenCalledWith(
         '^testUrl22$'
       );
-      expect(res.context.baseSite).toEqual(['test2']);
+      expect(res.baseSite).toBe('test2');
     });
 
-    it(`should convert the base site config and map url param "storefront" to "baseSite"`, () => {
+    it(`should convert attributes of the matched base site`, () => {
       const baseSites: Occ.BaseSites = {
         baseSites: [
           {
-            ...mockBaseSite,
-            urlEncodingAttributes: ['storefront', 'language', 'currency'],
+            uid: 'test',
+            urlPatterns: ['testUrl'],
+            stores: [
+              {
+                languages: [{ isocode: 'de' }, { isocode: 'en' }],
+                defaultLanguage: { isocode: 'en' },
+                currencies: [{ isocode: 'EUR' }, { isocode: 'USD' }],
+                defaultCurrency: { isocode: 'EUR' },
+              },
+            ],
+            urlEncodingAttributes: ['language', 'currency'],
           },
         ],
       };
       const currentUrl = 'testUrl';
-      const res = OccBaseSites2ExternalConfigConverter.convert(
+      const res = ExternalConfigConverter.fromOccBaseSites(
         baseSites,
         currentUrl
       );
-      expect(res.context.urlParameters).toEqual([
-        'baseSite',
-        'language',
-        'currency',
-      ]);
+      expect(res).toEqual({
+        baseSite: 'test',
+        languages: [{ isocode: 'de' }, { isocode: 'en' }],
+        defaultLanguage: { isocode: 'en' },
+        currencies: [{ isocode: 'EUR' }, { isocode: 'USD' }],
+        defaultCurrency: { isocode: 'EUR' },
+        urlEncodingAttributes: ['language', 'currency'],
+      });
     });
 
     it(`should convert the base site config using it's first base store`, () => {
@@ -131,15 +150,11 @@ describe(`OccBaseSites2ConfigConverter`, () => {
             ...mockBaseSite,
             stores: [
               {
-                languages: [{ isocode: 'en' }],
-                currencies: [{ isocode: 'USD' }],
-                defaultLanguage: { isocode: 'en' },
+                ...mockBaseStore,
                 defaultCurrency: { isocode: 'USD' },
               },
               {
-                languages: [{ isocode: 'de' }],
-                currencies: [{ isocode: 'EUR' }],
-                defaultLanguage: { isocode: 'de' },
+                ...mockBaseStore,
                 defaultCurrency: { isocode: 'EUR' },
               },
             ],
@@ -147,45 +162,11 @@ describe(`OccBaseSites2ConfigConverter`, () => {
         ],
       };
       const currentUrl = 'testUrl';
-      const res = OccBaseSites2ExternalConfigConverter.convert(
+      const res = ExternalConfigConverter.fromOccBaseSites(
         baseSites,
         currentUrl
       );
-      expect(res.context.language).toEqual(['en']);
-      expect(res.context.currency).toEqual(['USD']);
-    });
-
-    it(`should convert the base site config and put the default language and currency as the first array elements`, () => {
-      const baseSites: Occ.BaseSites = {
-        baseSites: [
-          {
-            ...mockBaseSite,
-            stores: [
-              {
-                languages: [
-                  { isocode: 'de' },
-                  { isocode: 'en' },
-                  { isocode: 'pl' },
-                ],
-                currencies: [
-                  { isocode: 'EUR' },
-                  { isocode: 'USD' },
-                  { isocode: 'PLN' },
-                ],
-                defaultLanguage: { isocode: 'en' },
-                defaultCurrency: { isocode: 'USD' },
-              },
-            ],
-          },
-        ],
-      };
-      const currentUrl = 'testUrl';
-      const res = OccBaseSites2ExternalConfigConverter.convert(
-        baseSites,
-        currentUrl
-      );
-      expect(res.context.language).toEqual(['en', 'de', 'pl']);
-      expect(res.context.currency).toEqual(['USD', 'EUR', 'PLN']);
+      expect(res.defaultCurrency.isocode).toBe('USD');
     });
 
     it(`should convert the base site config using the default language of base site over the default language of base store`, () => {
@@ -196,25 +177,70 @@ describe(`OccBaseSites2ConfigConverter`, () => {
             defaultLanguage: { isocode: 'pl' },
             stores: [
               {
-                languages: [
-                  { isocode: 'de' },
-                  { isocode: 'en' },
-                  { isocode: 'pl' },
-                ],
-                currencies: [],
+                ...mockBaseStore,
                 defaultLanguage: { isocode: 'en' },
-                defaultCurrency: {},
               },
             ],
           },
         ],
       };
       const currentUrl = 'testUrl';
-      const res = OccBaseSites2ExternalConfigConverter.convert(
+      const res = ExternalConfigConverter.fromOccBaseSites(
         baseSites,
         currentUrl
       );
-      expect(res.context.language).toEqual(['pl', 'de', 'en']);
+      expect(res.defaultLanguage.isocode).toBe('pl');
+    });
+  });
+
+  describe(`toSiteContextConfig`, () => {
+    let mockExternalConfig: ExternalConfig;
+
+    beforeEach(() => {
+      mockExternalConfig = {
+        baseSite: 'test',
+        languages: [{ isocode: 'de' }, { isocode: 'en' }, { isocode: 'pl' }],
+        defaultLanguage: { isocode: 'en' },
+        currencies: [
+          { isocode: 'EUR' },
+          { isocode: 'USD' },
+          { isocode: 'PLN' },
+        ],
+        defaultCurrency: { isocode: 'USD' },
+        urlEncodingAttributes: ['storefront', 'language', 'currency'],
+      };
+    });
+
+    it(`should convert base site uid`, () => {
+      const res = ExternalConfigConverter.toSiteContextConfig(
+        mockExternalConfig
+      );
+      expect(res.context[BASE_SITE_CONTEXT_ID]).toEqual(['test']);
+    });
+
+    it(`should convert url encoding attributes and map "storefront" to "baseSite"`, () => {
+      const res = ExternalConfigConverter.toSiteContextConfig(
+        mockExternalConfig
+      );
+      expect(res.context.urlParameters).toEqual([
+        'baseSite',
+        'language',
+        'currency',
+      ]);
+    });
+
+    it(`should convert languages and put the default language as the first one`, () => {
+      const res = ExternalConfigConverter.toSiteContextConfig(
+        mockExternalConfig
+      );
+      expect(res.context[LANGUAGE_CONTEXT_ID]).toEqual(['en', 'de', 'pl']);
+    });
+
+    it(`should convert currencies and put the default currency as the first one`, () => {
+      const res = ExternalConfigConverter.toSiteContextConfig(
+        mockExternalConfig
+      );
+      expect(res.context[CURRENCY_CONTEXT_ID]).toEqual(['USD', 'EUR', 'PLN']);
     });
   });
 });

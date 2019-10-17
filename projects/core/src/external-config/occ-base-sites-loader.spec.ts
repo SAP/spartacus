@@ -26,7 +26,7 @@ describe(`OccBaseSitesLoader`, () => {
         baseUrl: 'https://base.com',
       });
       expect(LoadJsonUtils.loadXhr).toHaveBeenCalledWith(
-        'https://base.com/rest/v2/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))'
+        'https://base.com/rest/v2/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency(isocode),languages,defaultLanguage(isocode)))'
       );
     });
 
@@ -69,7 +69,7 @@ describe(`OccBaseSitesLoader`, () => {
         null
       );
       expect(LoadJsonUtils.loadNodeHttps).toHaveBeenCalledWith(
-        'https://base.com/rest/v2/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency,languages,defaultLanguage))',
+        'https://base.com/rest/v2/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency(isocode),languages,defaultLanguage(isocode)))',
         null
       );
     });

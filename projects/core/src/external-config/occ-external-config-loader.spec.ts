@@ -3,7 +3,7 @@ import { Occ } from '../occ/occ-models/occ.models';
 import { NodeHttpsClient } from '../util/load-json-utils';
 import { TransferData } from '../util/transfer-data';
 import { ExternalConfig } from './external-config';
-import { OccBaseSites2ExternalConfigConverter } from './occ-base-sites-2-external-config-converter';
+import { ExternalConfigConverter } from './external-config-converter';
 import {
   OccBaseSitesEndpointOptions,
   OccBaseSitesLoader,
@@ -13,14 +13,14 @@ import { OccExternalConfigLoader } from './occ-external-config-loader';
 describe(`OccExternalConfigLoader`, () => {
   describe(`load`, () => {
     let mockBaseSites: Occ.BaseSites;
-    let mockConvertedConfig: ExternalConfig;
+    let mockExternalConfig: ExternalConfig;
 
     beforeEach(() => {
       mockBaseSites = { baseSites: [] };
-      mockConvertedConfig = { context: {} };
+      mockExternalConfig = { baseSite: 'test' };
 
-      spyOn(OccBaseSites2ExternalConfigConverter, 'convert').and.returnValue(
-        mockConvertedConfig
+      spyOn(ExternalConfigConverter, 'fromOccBaseSites').and.returnValue(
+        mockExternalConfig
       );
       spyOn(OccBaseSitesLoader, 'load').and.returnValue(
         Promise.resolve(mockBaseSites)
@@ -44,11 +44,11 @@ describe(`OccExternalConfigLoader`, () => {
       });
 
       expect(OccBaseSitesLoader.load).toHaveBeenCalledWith(endpoint);
-      expect(OccBaseSites2ExternalConfigConverter.convert).toHaveBeenCalledWith(
+      expect(ExternalConfigConverter.fromOccBaseSites).toHaveBeenCalledWith(
         mockBaseSites,
         currentUrl
       );
-      expect(result).toBe(mockConvertedConfig);
+      expect(result).toBe(mockExternalConfig);
     });
 
     it(`should use occ base url from the DOM when no base url given`, async () => {
@@ -69,7 +69,7 @@ describe(`OccExternalConfigLoader`, () => {
       await OccExternalConfigLoader.load({
         endpoint: { baseUrl: 'testOccBaseUrl' },
       });
-      expect(OccBaseSites2ExternalConfigConverter.convert).toHaveBeenCalledWith(
+      expect(ExternalConfigConverter.fromOccBaseSites).toHaveBeenCalledWith(
         mockBaseSites,
         document.location.href
       );
@@ -78,14 +78,14 @@ describe(`OccExternalConfigLoader`, () => {
 
   describe(`loadSSR`, () => {
     let mockBaseSites: Occ.BaseSites;
-    let mockConvertedConfig: ExternalConfig;
+    let mockExternalConfig: ExternalConfig;
 
     beforeEach(() => {
       mockBaseSites = { baseSites: [] };
-      mockConvertedConfig = { context: {} };
+      mockExternalConfig = { baseSite: 'test' };
 
-      spyOn(OccBaseSites2ExternalConfigConverter, 'convert').and.returnValue(
-        mockConvertedConfig
+      spyOn(ExternalConfigConverter, 'fromOccBaseSites').and.returnValue(
+        mockExternalConfig
       );
       spyOn(OccBaseSitesLoader, 'loadSSR').and.returnValue(
         Promise.resolve(mockBaseSites)
@@ -108,11 +108,11 @@ describe(`OccExternalConfigLoader`, () => {
         endpoint,
         httpsClient
       );
-      expect(OccBaseSites2ExternalConfigConverter.convert).toHaveBeenCalledWith(
+      expect(ExternalConfigConverter.fromOccBaseSites).toHaveBeenCalledWith(
         mockBaseSites,
         currentUrl
       );
-      expect(result).toBe(mockConvertedConfig);
+      expect(result).toBe(mockExternalConfig);
     });
   });
 });

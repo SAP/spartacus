@@ -61,7 +61,7 @@ export class ExternalConfigConverter {
   }: ExternalConfig): SiteContextConfig {
     return {
       context: {
-        urlParameters: ExternalConfigConverter.toSiteContextUrlParams(
+        urlParameters: ExternalConfigConverter.getUrlParams(
           urlEncodingAttributes
         ),
         [BASE_SITE_CONTEXT_ID]: [baseSite],
@@ -97,7 +97,7 @@ export class ExternalConfigConverter {
    *
    * It maps the string "storefront" (used in OCC) to the "baseSite" (used in Spartacus)
    */
-  private static toSiteContextUrlParams(params: string[]): string[] {
+  private static getUrlParams(params: string[]): string[] {
     const STOREFRONT_PARAM = 'storefront';
 
     return (params || []).map(param =>
