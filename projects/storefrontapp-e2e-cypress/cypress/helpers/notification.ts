@@ -1,11 +1,25 @@
 import { standardUser } from '../sample-data/shared-users';
 import { generateMail, randomString } from './user';
 
-export function logout() {
-  cy.selectUserMenuOption({
-    option: 'Sign Out',
-  });
+export const configurableProductCode = '1934793';
+export const variantProductCode = '1978440_red';
+export const normalProductCode = '358639';
+
+export function registerAndLogin() {
+  standardUser.registrationData.email = generateMail(randomString(), true);
+  cy.requireLoggedIn(standardUser);
+  cy.reload();
 }
+
+export function notificationFlow(productCode) {
+  navigateToNotificationPreferencePage();
+  enableNotificationPreferenceChannel();
+  navigateToPDP(productCode);
+  subscribeStockNotification();
+  navigateToMyInterestsPageThroughSuccessDialog();
+  varifyCustomerInterest(productCode);
+}
+
 export function navigateToNotificationPreferencePage() {
   cy.selectUserMenuOption({
     option: 'Notification Preference',
@@ -18,17 +32,25 @@ export function navigateToMyInterestsPage() {
   });
 }
 
-export function registerAndLogin() {
-  standardUser.registrationData.email = generateMail(randomString(), true);
-  cy.requireLoggedIn(standardUser);
-  cy.reload();
+export function navigateToMyInterestsPageThroughSuccessDialog() {
+  cy.get('.link-interests').click();
+  cy.location('pathname').should('contain', '/my-account/my-interests');
 }
+
+export function navigateToNotificationPreferencePageThroughSuccessDialog() {
+  cy.get('.link-prefs').click();
+  cy.location('pathname').should(
+    'contain',
+    '/my-account/notification-preference'
+  );
+}
+
 export function navigateToPDP(productCode: string) {
   cy.get('cx-searchbox input')
     .clear()
     .type(`${productCode}{enter}`);
   cy.get('.cx-product-image > img')
-    .first()
+    .last()
     .click();
   cy.location('pathname').should('contain', `product/${productCode}`);
 }
@@ -48,14 +70,17 @@ export function enableNotificationPreferenceChannel() {
     .should('be.checked');
 }
 export function subscribeStockNotification() {
-  cy.get('cx-stock-notification > .btn').click();
+  cy.get('cx-stock-notification > .btn')
+    .should('contain', 'NOTIFY ME')
+    .click();
 }
-
-export function navigateToMyInterestsPageThroughSuccessDialog() {
-  cy.get('.link-interests').click();
-  cy.location('pathname').should('contain', '/my-account/my-interests');
+export function unsubscribeStockNotification() {
+  cy.get('cx-stock-notification > .btn')
+    .should('contain', 'STOP NOTIFICATION')
+    .click();
+  cy.get('.alert');
+  cy.get('cx-stock-notification > .btn').should('contain', 'NOTIFY ME');
 }
-
 export function varifyCustomerInterest(productCode: string) {
   cy.get('.cx-product-interests-product-item').within(() => {
     cy.get('.cx-code').should('contain', productCode);
@@ -68,4 +93,22 @@ export function varifyCustomerInterest(productCode: string) {
     ).should('contain', 'Back In Stock');
     cy.get('.cx-product-interests-remove-button > button').should('exist');
   });
+}
+export function removeCustomerInterest(productCode: string) {
+  cy.get('.cx-product-interests-product-item').within(() => {
+    cy.get('.cx-code').should('contain', productCode);
+    cy.get('.cx-product-interests-remove-button > button').click();
+  });
+  cy.get('.cx-product-interests-message').should('exist');
+}
+
+export function navigateToPDPThrougnCustomerInterest(productCode: string) {
+  cy.get('.cx-product-interests-product-item').within(() => {
+    cy.get('.cx-code').should('contain', productCode);
+    cy.get(
+      '.cx-product-interests-product-image-link > .is-initialized > img'
+    ).click();
+  });
+  cy.location('pathname').should('contain', `product/${productCode}`);
+  cy.get('cx-stock-notification > .btn').should('contain', 'STOP NOTIFICATION');
 }

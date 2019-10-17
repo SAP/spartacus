@@ -1,20 +1,35 @@
-import * as orderDetail from '../../../helpers/consignment-tracking';
+import * as notification from '../../../helpers/notification';
 
 describe('my interests', () => {
-  before(() => {
+  beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    orderDetail.loginUsingUserWithOrder();
+    cy.requireLoggedIn();
+    cy.visit('/');
   });
 
-  it('should subscribe stock notification using configurable product', () => {});
+  it('should subscribe stock notification using configurable product', () => {
+    notification.notificationFlow(notification.configurableProductCode);
+  });
 
-  it('should subscribe stock notification using variant product', () => {});
+  it('should subscribe stock notification using variant product', () => {
+    notification.notificationFlow(notification.variantProductCode);
+  });
 
-  it('should subscribe stock notification using normal product', () => {});
+  it('should subscribe stock notification using normal product', () => {
+    notification.notificationFlow(notification.normalProductCode);
+  });
 
-  it('should remove customer interest', () => {});
+  it('should remove customer interest', () => {
+    notification.notificationFlow(notification.normalProductCode);
+    notification.removeCustomerInterest(notification.normalProductCode);
+  });
 
-  it('should navigate to PDP when clicking product', () => {});
+  it('should navigate to PDP when clicking product', () => {
+    notification.notificationFlow(notification.normalProductCode);
+    notification.navigateToPDPThrougnCustomerInterest(
+      notification.normalProductCode
+    );
+  });
 
   it('?should page and sort', () => {});
 });
