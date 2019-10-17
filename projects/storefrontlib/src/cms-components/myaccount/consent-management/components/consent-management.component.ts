@@ -193,8 +193,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private withdrawConsentInit(): void {
-    console.log('withdrawConsentInit');
-
     this.userConsentService.resetWithdrawConsentProcessState();
     this.subscriptions.add(
       this.userConsentService

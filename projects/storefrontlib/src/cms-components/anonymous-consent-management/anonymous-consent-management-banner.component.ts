@@ -41,7 +41,6 @@ export class AnonymousConsentManagementBannerComponent
     this.modalService.open(AnonymousConsentsDialogComponent, {
       centered: true,
       size: 'lg',
-      scrollable: true,
     });
   }
 
