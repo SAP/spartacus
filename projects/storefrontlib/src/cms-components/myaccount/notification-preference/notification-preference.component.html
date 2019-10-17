@@ -2,12 +2,12 @@
   <div *ngIf="preferences.length > 0; else loading">
     <div class="row d-flex justify-content-center">
       <div class="col-md-8">
-        <label class="pref-header">{{
+        <div class="pref-header">{{
           'notificationPreference.message' | cxTranslate
-        }}</label>
-        <div class="form-check">
+        }}</div>
+        <div class="form-check cx-notification-channels">
           <ng-container *ngFor="let preference of preferences">
-            <label *ngIf="preference.visible" class="pref-channel">
+            <div *ngIf="preference.visible" class="pref-channel">
               <input
                 class="form-check-input cx-np-checkbox"
                 role="checkbox"
@@ -25,7 +25,7 @@
                 }}
                 {{ preference.value }}
               </span>
-            </label>
+            </div>
           </ng-container>
         </div>
         <label class="pref-note"
