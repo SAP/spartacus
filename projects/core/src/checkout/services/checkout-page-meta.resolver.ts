@@ -45,7 +45,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
    * instead, so that the code is easier extensible.
    *
    * @param skip indicates that this method is not used. While this flag is used by the
-   * calling `PageMetaService`, it is not ysed by custom subclasses when they call their `super`.
+   * calling `PageMetaService`, it is not used by custom subclasses when they call their `super`.
    *
    * @deprecated since version 1.3
    */
