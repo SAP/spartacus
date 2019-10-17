@@ -3,6 +3,7 @@ import { HamburgerMenuModule } from '../layout/index';
 import { AssistedServiceModule } from './asm/assisted-service.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
+import { TextfieldConfiguratorModule } from './configurator/textfield/textfield-configurator.module';
 import { VariantConfiguratorModule } from './configurator/variant/variant-configurator.module';
 import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
 import {
@@ -84,6 +85,7 @@ import { UserComponentModule } from './user/user.module';
     BannerCarouselModule,
     UserComponentModule,
     VariantConfiguratorModule,
+    TextfieldConfiguratorModule,
   ],
 })
 export class CmsLibModule {}
