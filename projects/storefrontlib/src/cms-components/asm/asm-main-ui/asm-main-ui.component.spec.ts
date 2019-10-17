@@ -87,7 +87,7 @@ class MockRoutingService {
   go() {}
 }
 
-describe('AsmMainUiComponent', () => {
+fdescribe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
@@ -286,5 +286,33 @@ describe('AsmMainUiComponent', () => {
     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
       visible: false,
     });
+  });
+
+  it("should end session on 'End Session' button click", () => {
+    //agent sign in
+    const agent_login = {
+      userId: 'asagent',
+      password: 'password',
+    };
+    component.loginCustomerSupportAgent(agent_login);
+
+    //customer login
+    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(userService, 'get').and.returnValue(of(testUser));
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    //Click button
+    const endSessionButton = fixture.debugElement.query(By.css('.end-session'));
+    endSessionButton.nativeElement.dispatchEvent(new MouseEvent('click'));
+    spyOn(component, 'endSession');
+
+    //assert
+    expect(component.endSession).toHaveBeenCalled();
   });
 });
