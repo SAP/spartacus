@@ -65,7 +65,7 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
       features: {
-        level: '1.2',
+        level: '1.3',
       },
     }),
     JsonLdBuilderModule,

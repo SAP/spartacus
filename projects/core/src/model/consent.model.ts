@@ -11,3 +11,14 @@ export interface Consent {
   consentGivenDate?: Date;
   consentWithdrawnDate?: Date;
 }
+
+export interface AnonymousConsent {
+  templateCode?: string;
+  version?: number;
+  consentState?: ANONYMOUS_CONSENT_STATUS;
+}
+
+export enum ANONYMOUS_CONSENT_STATUS {
+  GIVEN = 'GIVEN',
+  WITHDRAWN = 'WITHDRAWN',
+}
