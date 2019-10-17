@@ -76,10 +76,6 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
     );
   }
 
-  /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change.
-   */
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
   }
