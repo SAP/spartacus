@@ -118,7 +118,6 @@ describe('AnonymousConsentManagementBannerComponent', () => {
         {
           centered: true,
           size: 'lg',
-          scrollable: true,
         }
       );
     });
