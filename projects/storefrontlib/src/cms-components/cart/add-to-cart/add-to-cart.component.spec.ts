@@ -8,6 +8,7 @@ import {
   I18nTestingModule,
   OrderEntry,
   Product,
+  GlobalMessageService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/index';
@@ -44,10 +45,19 @@ class MockCartService {
   getActive(): Observable<Cart> {
     return of();
   }
+  getCartError(): Observable<boolean> {
+    return of();
+  }
 }
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
+    return of();
+  }
+}
+
+class MockGlobalMessageService {
+  get() {
     return of();
   }
 }
@@ -85,6 +95,7 @@ describe('AddToCartComponent', () => {
         { provide: ModalService, useValue: { open: () => {} } },
         { provide: CartService, useClass: MockCartService },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
   }));

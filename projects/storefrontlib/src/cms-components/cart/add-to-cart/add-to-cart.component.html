@@ -5,7 +5,7 @@
     isValueChangeable="true"
     [min]="1"
     [max]="maxQuantity"
-    *ngIf="hasStock"
+    *ngIf="hasStock && purchasable"
     (update)="updateCount($event)"
   ></cx-item-counter>
   <span class="info">{{
@@ -18,7 +18,7 @@
   *ngIf="hasStock"
   class="btn btn-primary btn-block"
   type="button"
-  [disabled]="quantity <= 0 || quantity > maxQuantity"
+  [disabled]="disableButton()"
   (click)="addToCart()"
 >
   {{ 'addToCart.addToCart' | cxTranslate }}

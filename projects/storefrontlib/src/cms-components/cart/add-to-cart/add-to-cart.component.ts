@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { CartService, OrderEntry, Product } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
 import { CurrentProductService } from '../../product/current-product.service';
@@ -20,6 +20,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
+  @Input() purchasable: boolean;
   @Input() showQuantity = true;
 
   maxQuantity: number;
@@ -30,8 +31,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   increment = false;
 
   cartEntry$: Observable<OrderEntry>;
-
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
 
   constructor(
     protected cartService: CartService,
@@ -50,6 +50,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .pipe(filter(Boolean))
         .subscribe((product: Product) => {
           this.productCode = product.code;
+          this.purchasable = product.purchasable;
           this.quantity = 1;
 
           if (
@@ -68,6 +69,18 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
         });
     }
+
+    // (GH-4363) This prevents the add-to-cart modal opening when an error is present
+    this.subscription.add(
+      combineLatest([
+        this.cartService.getLoaded(),
+        this.cartService.getCartError(),
+      ]).subscribe(([loaded, error]) => {
+        if (error && loaded) {
+          this.modalRef.close();
+        }
+      })
+    );
   }
 
   updateCount(value: number): void {
@@ -78,6 +91,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
+
     // check item is already present in the cart
     // so modal will have proper header text displayed
     this.cartService
@@ -86,8 +100,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         if (entry) {
           this.increment = true;
         }
-        this.openModal();
         this.cartService.addEntry(this.productCode, this.quantity);
+        this.openModal();
         this.increment = false;
       })
       .unsubscribe();
@@ -106,6 +120,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalInstance.loaded$ = this.cartService.getLoaded();
     modalInstance.quantity = this.quantity;
     modalInstance.increment = this.increment;
+  }
+
+  disableButton(): boolean {
+    return (
+      this.quantity < 0 || this.quantity > this.maxQuantity || !this.purchasable
+    );
   }
 
   ngOnDestroy() {
