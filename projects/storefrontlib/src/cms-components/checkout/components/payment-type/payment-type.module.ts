@@ -17,10 +17,7 @@ import { PaymentTypeComponent } from './payment-type.component';
       cmsComponents: {
         CheckoutPaymentType: {
           component: PaymentTypeComponent,
-          guards: [
-            CheckoutAuthGuard,
-            CartNotEmptyGuard,
-          ],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),

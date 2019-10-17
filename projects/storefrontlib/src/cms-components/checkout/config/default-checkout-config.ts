@@ -9,28 +9,28 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         name: 'checkoutProgress.shippingAddress',
         routeName: 'checkoutShippingAddress',
         type: [CheckoutStepType.SHIPPING_ADDRESS],
-        enabled: true
+        enabled: true,
       },
       {
         id: 'deliveryMode',
         name: 'checkoutProgress.deliveryMode',
         routeName: 'checkoutDeliveryMode',
         type: [CheckoutStepType.DELIVERY_MODE],
-        enabled: true
+        enabled: true,
       },
       {
         id: 'paymentDetails',
         name: 'checkoutProgress.paymentDetails',
         routeName: 'checkoutPaymentDetails',
         type: [CheckoutStepType.PAYMENT_DETAILS],
-        enabled: true
+        enabled: true,
       },
       {
         id: 'reviewOrder',
         name: 'checkoutProgress.reviewOrder',
         routeName: 'checkoutReviewOrder',
         type: [CheckoutStepType.REVIEW_ORDER],
-        enabled: true
+        enabled: true,
       },
     ],
     express: false,
