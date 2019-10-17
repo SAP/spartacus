@@ -92,7 +92,6 @@ export class FooterNavigationComponent {
       this.modalService.open(AnonymousConsentsDialogComponent, {
         centered: true,
         size: 'lg',
-        scrollable: true,
       });
     }
   }

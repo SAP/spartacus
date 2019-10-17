@@ -12,15 +12,6 @@
     }
   }
 
-  .cx-keyb-focusable:focus > .cx-keyb-visualfocus,
-  .cx-keyb-focusable:focus ~ .cx-keyb-visualfocus {
-    box-shadow: 0 0 2px 2px var(--cx-color-visual-focus);
-  }
-  .cx-keyb-focusable:focus,
-  .cx-keyb-visualfocus:focus {
-    outline: none;
-  }
-
   //cx-accordion customization
   .cx-accordion {
     @include media-breakpoint-down(xs) {
@@ -35,8 +26,9 @@
       }
       .cx-accordion-tab {
         .cx-accordion-title {
-          @include media-breakpoint-down(xs) {
-            width: 60%;
+          width: 80%;
+          @include media-breakpoint-only(xs) {
+            width: 78%;
           }
         }
       }
@@ -45,17 +37,10 @@
 
   //cx-toggle-button customization
   .cx-toggle-button {
-    @include media-breakpoint-down(xs) {
-      margin-left: -33%;
-    }
-    @include media-breakpoint-up(sm) {
-      margin-left: -16%;
-    }
-    @include media-breakpoint-up(md) {
-      margin-left: -15%;
-    }
-    @include media-breakpoint-up(lg) {
-      margin-left: -14%;
+    margin-left: -6.5rem;
+
+    .cx-toggle-text {
+      @include type('8');
     }
   }
 }
