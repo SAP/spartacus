@@ -383,7 +383,7 @@ describe('ShippingAddressComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'checkout.backToCart');
+        .find(el => el.nativeElement.innerText === 'common.back');
 
     it('should call "back" function after being clicked', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
