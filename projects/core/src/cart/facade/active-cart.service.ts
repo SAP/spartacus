@@ -176,7 +176,7 @@ export class ActiveCartService {
     );
   }
 
-  addEntry(productCode: string, quantity: number): void {
+  addEntry(productCode: string, quantity: number, guestMerge: boolean = false): void {
     let createInitialized = false;
     let attemptedLoad = false;
     this.lowLevelCartService.initAddEntryProcess();
@@ -186,7 +186,7 @@ export class ActiveCartService {
       .pipe(
         filter(() => !createInitialized),
         switchMap(cartState => {
-          if (this.isEmpty(cartState.value) && !cartState.loading) {
+          if ((this.isEmpty(cartState.value) && !cartState.loading) || (guestMerge && this.isGuestCart() && !cartState.loading)) {
             // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
             if (!attemptedLoad && this.userId !== OCC_USER_ID_ANONYMOUS) {
               this.load(undefined);
@@ -203,7 +203,7 @@ export class ActiveCartService {
           }
           return of(cartState);
         }),
-        filter(cartState => !this.isEmpty(cartState.value)),
+        filter(cartState => (!guestMerge && !this.isEmpty(cartState.value) || (guestMerge && !this.isGuestCart() && !this.isEmpty(cartState.value)))),
         take(1)
       )
       .subscribe(cartState => {
@@ -286,9 +286,9 @@ export class ActiveCartService {
    * Requires a created cart
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
-  addEntries(cartEntries: OrderEntry[]): void {
+  addEntries(cartEntries: OrderEntry[], guestMerge: boolean = false): void {
     cartEntries.forEach(entry => {
-      this.addEntry(entry.product.code, entry.quantity);
+      this.addEntry(entry.product.code, entry.quantity, guestMerge);
     })
   }
 
@@ -312,7 +312,7 @@ export class ActiveCartService {
       })
     );
 
-    this.addEntries(cartEntries);
+    this.addEntries(cartEntries, true);
   }
 
 
