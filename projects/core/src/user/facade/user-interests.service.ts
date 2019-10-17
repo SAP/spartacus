@@ -18,6 +18,7 @@ import { tap, map } from 'rxjs/operators';
 import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
+  getProcessErrorFactory,
 } from '../../process/store/selectors/process.selectors';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
@@ -149,6 +150,15 @@ export class UserInterestsService {
   getAddProductInterestSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns a error flag for adding a product interest.
+   */
+  getAddProductInterestError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
     );
   }
 

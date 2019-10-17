@@ -73,7 +73,7 @@ describe('UserNotificationPreferenceService', () => {
       )
     );
     userNotificationPreferenceService
-      .getPreferences()
+      .getEnabledPreferences()
       .subscribe(preferences => expect(preferences).toEqual([]))
       .unsubscribe();
   });

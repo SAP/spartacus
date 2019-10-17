@@ -33,6 +33,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   prefsEnabled$: Observable<boolean>;
   outOfStock$: Observable<boolean>;
   subscribeSuccess$: Observable<boolean>;
+  subscribeFail$: Observable<boolean>;
   unsubscribeLoading$: Observable<boolean>;
 
   enabledPrefs: NotificationPreference[] = [];
@@ -54,12 +55,13 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     this.outOfStock$ = this.currentProductService.getProduct().pipe(
       filter(Boolean),
       tap((product: Product) => {
+        console.log(product);
         this.productCode = product.code;
         this.subscribed$ = this.interestsService
           .getProductInterests()
           .pipe(
             map(
-              interests => !!interests.results && interests.results.length > 0
+              interests => !!interests.results && interests.results.length === 1
             )
           );
         this.subscriptions.add(
@@ -85,11 +87,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       }),
       map(
         (product: Product) =>
-          !(
-            !!product.stock &&
-            product.stock.stockLevelStatus !== 'outOfStock' &&
-            product.stock.stockLevel > 0
-          )
+          !!product.stock && product.stock.stockLevelStatus === 'outOfStock'
       )
     );
 
@@ -101,6 +99,14 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
         tap(prefs => (this.enabledPrefs = prefs)),
         map(prefs => prefs.length > 0)
       );
+    this.subscriptions.add(
+      this.interestsService.getAddProductInterestError().subscribe(fail => {
+        if (fail) {
+          this.modalService.dismissActiveModal();
+        }
+        this.interestsService.resetAddInterestState();
+      })
+    );
     this.subscriptions.add(
       this.interestsService
         .getRemoveProdutInterestSuccess()

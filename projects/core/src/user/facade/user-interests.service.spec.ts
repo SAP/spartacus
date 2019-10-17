@@ -142,6 +142,14 @@ describe('UserInterestsService', () => {
       .unsubscribe();
   });
 
+  it('should be able to get a product interest adding error flag', () => {
+    store.dispatch(new UserActions.AddProductInterestFail('error'));
+    service
+      .getAddProductInterestError()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+
   it('should be able to reset interest removing state', () => {
     service.resetRemoveInterestState();
     expect(store.dispatch).toHaveBeenCalledWith(

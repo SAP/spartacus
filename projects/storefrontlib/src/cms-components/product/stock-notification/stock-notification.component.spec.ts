@@ -31,7 +31,10 @@ describe('StockNotificationComponent', () => {
   const translationService = jasmine.createSpyObj('TranslationService', [
     'translate',
   ]);
-  const modalService = jasmine.createSpyObj('ModalService', ['open']);
+  const modalService = jasmine.createSpyObj('ModalService', [
+    'open',
+    'dismissActiveModal',
+  ]);
   const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
     'add',
   ]);
@@ -48,7 +51,9 @@ describe('StockNotificationComponent', () => {
     'getAddProductInterestSuccess',
     'getRemoveProdutInterestLoading',
     'getRemoveProdutInterestSuccess',
+    'getAddProductInterestError',
     'resetRemoveInterestState',
+    'resetAddInterestState',
     'addProductInterest',
     'removeProdutInterest',
     'getProductInterests',
@@ -93,6 +98,7 @@ describe('StockNotificationComponent', () => {
     componentInstance: {},
   };
   const removeSuccess = new BehaviorSubject<boolean>(false);
+  const addFail = new BehaviorSubject<boolean>(false);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -129,6 +135,7 @@ describe('StockNotificationComponent', () => {
     currentProductService.getProduct.and.returnValue(of(product));
     interestsService.getProductInterests.and.returnValue(of(interests));
     interestsService.getAddProductInterestSuccess.and.returnValue(of(false));
+    interestsService.getAddProductInterestError.and.returnValue(addFail);
     interestsService.getRemoveProdutInterestLoading.and.returnValue(of(false));
     interestsService.getRemoveProdutInterestSuccess.and.returnValue(
       removeSuccess
@@ -222,6 +229,25 @@ describe('StockNotificationComponent', () => {
 
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(interestsService.removeProdutInterest).toHaveBeenCalled();
+  });
+
+  it('should be able to close dialog when adding interest fail', () => {
+    interestsService.getProductInterests.and.returnValue(of({}));
+    fixture.detectChanges();
+    expect(
+      el.query(By.css('.stock-notification-notes')).nativeElement
+    ).toBeTruthy();
+    const button = el.query(By.css('.btn-notify')).nativeElement;
+    button.click();
+    addFail.next(true);
+
+    expect(modalService.open).toHaveBeenCalled();
+    expect(interestsService.addProductInterest).toHaveBeenCalledWith(
+      product.code,
+      NotificationType.BACK_IN_STOCK
+    );
+    expect(modalService.dismissActiveModal).toHaveBeenCalled();
+    expect(interestsService.resetAddInterestState).toHaveBeenCalled();
   });
 
   it('should be able to unsubscribe and reset the state in destory', () => {

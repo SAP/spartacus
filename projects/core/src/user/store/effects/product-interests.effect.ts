@@ -7,6 +7,7 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 import { UserActions } from '../actions/index';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 
 @Injectable()
 export class ProductInterestsEffect {
@@ -36,7 +37,11 @@ export class ProductInterestsEffect {
             return new UserActions.LoadProductInterestsSuccess(interests);
           }),
           catchError(error =>
-            of(new UserActions.LoadProductInterestsFail(error))
+            of(
+              new UserActions.LoadProductInterestsFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -64,7 +69,11 @@ export class ProductInterestsEffect {
             new UserActions.RemoveProductInterestSuccess(data),
           ]),
           catchError(error =>
-            of(new UserActions.RemoveProductInterestFail(error))
+            of(
+              new UserActions.RemoveProductInterestFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         )
     )
@@ -90,7 +99,13 @@ export class ProductInterestsEffect {
             }),
             new UserActions.AddProductInterestSuccess(res),
           ]),
-          catchError(error => of(new UserActions.AddProductInterestFail(error)))
+          catchError(error =>
+            of(
+              new UserActions.AddProductInterestFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
         )
     )
   );
