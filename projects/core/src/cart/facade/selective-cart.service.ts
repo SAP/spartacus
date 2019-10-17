@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StateWithMultiCart } from '../store/multi-cart-state';
-import { LowLevelCartService } from './low-level-cart.service';
+import { MultiCartService } from './multi-cart.service';
 import { UserService } from '../../user';
 import { AuthService } from '../../auth';
 import { OCC_USER_ID_CURRENT, OCC_USER_ID_ANONYMOUS } from '../../occ';
@@ -22,13 +22,13 @@ export class SelectiveCartService {
     'PREVIOUS_USER_ID_INITIAL_VALUE';
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
 
-  private cartSelector = this.lowLevelCartService.getCartEntity(this._cartId);
+  private cartSelector = this.multiCartService.getCartEntity(this._cartId);
 
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,
     protected authService: AuthService,
-    protected lowLevelCartService: LowLevelCartService
+    protected multiCartService: MultiCartService
   ) {
     this.userService.get().subscribe(user => {
       if (user && user.customerId) {
@@ -71,7 +71,7 @@ export class SelectiveCartService {
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.lowLevelCartService.getEntries(this._cartId);
+    return this.multiCartService.getEntries(this._cartId);
   }
 
   getLoaded(): Observable<boolean> {
@@ -81,7 +81,7 @@ export class SelectiveCartService {
   }
 
   private load() {
-    this.lowLevelCartService.loadCart({
+    this.multiCartService.loadCart({
       userId: this._userId,
       cartId: this._cartId,
     });
@@ -103,7 +103,7 @@ export class SelectiveCartService {
         take(1)
       )
       .subscribe(_ => {
-        this.lowLevelCartService.addEntry(
+        this.multiCartService.addEntry(
           this._userId,
           this._cartId,
           productCode,
@@ -113,7 +113,7 @@ export class SelectiveCartService {
   }
 
   removeEntry(entry: OrderEntry): void {
-    this.lowLevelCartService.removeEntry(
+    this.multiCartService.removeEntry(
       this._userId,
       this._cartId,
       entry.entryNumber
@@ -122,14 +122,14 @@ export class SelectiveCartService {
 
   updateEntry(entryNumber: number, quantity: number): void {
     if (quantity > 0) {
-      this.lowLevelCartService.updateEntry(
+      this.multiCartService.updateEntry(
         this._userId,
         this._cartId,
         entryNumber,
         quantity
       );
     } else {
-      this.lowLevelCartService.removeEntry(
+      this.multiCartService.removeEntry(
         this._userId,
         this._cartId,
         entryNumber
@@ -138,7 +138,7 @@ export class SelectiveCartService {
   }
 
   getEntry(productCode: string): Observable<OrderEntry> {
-    return this.lowLevelCartService.getEntry(this._cartId, productCode)
+    return this.multiCartService.getEntry(this._cartId, productCode)
   }
 
   private isEmpty(cart: Cart): boolean {

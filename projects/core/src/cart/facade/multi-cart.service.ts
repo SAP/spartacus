@@ -9,7 +9,7 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { Cart } from '../../model/cart.model';
 
 @Injectable()
-export class LowLevelCartService {
+export class MultiCartService {
   constructor(protected store: Store<StateWithMultiCart>) {}
 
   // TODO: docs for methods

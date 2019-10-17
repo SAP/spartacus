@@ -5,7 +5,7 @@ import { CartService } from './facade/index';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
-import { LowLevelCartService } from './facade/low-level-cart.service';
+import { MultiCartService } from './facade/multi-cart.service';
 import { ActiveCartService } from './facade/active-cart.service';
 import { SelectiveCartService } from './facade/selective-cart.service';
 
@@ -19,7 +19,7 @@ export class CartModule {
       providers: [
         CartDataService,
         CartService,
-        LowLevelCartService,
+        MultiCartService,
         ActiveCartService,
         SelectiveCartService,
         {

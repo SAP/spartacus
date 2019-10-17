@@ -16,7 +16,7 @@ import { OrderEntry } from '../../model/order.model';
 import { CartActions } from '../store/actions/index';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
-import { LowLevelCartService } from './low-level-cart.service';
+import { MultiCartService } from './multi-cart.service';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import {
   OCC_USER_ID_CURRENT,
@@ -52,16 +52,16 @@ export class ActiveCartService {
   private cartSelector = this.activeCartId.pipe(
     switchMap(cartId => {
       if (!cartId) {
-        return this.lowLevelCartService.getCartEntity(OCC_CART_ID_CURRENT);
+        return this.multiCartService.getCartEntity(OCC_CART_ID_CURRENT);
       }
-      return this.lowLevelCartService.getCartEntity(cartId);
+      return this.multiCartService.getCartEntity(cartId);
     })
   );
 
   constructor(
     protected store: Store<StateWithMultiCart | StateWithProcess<void>>,
     protected authService: AuthService,
-    protected lowLevelCartService: LowLevelCartService
+    protected multiCartService: MultiCartService
   ) {
     this.authService.getUserToken().subscribe(token => {
       if (token && token.userId) {
@@ -114,7 +114,7 @@ export class ActiveCartService {
 
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId.pipe(
-      switchMap(cartId => this.lowLevelCartService.getEntries(cartId))
+      switchMap(cartId => this.multiCartService.getEntries(cartId))
     );
   }
   getLoaded(): Observable<boolean> {
@@ -127,7 +127,7 @@ export class ActiveCartService {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
     if (!cartId) {
-      this.lowLevelCartService.loadCart({
+      this.multiCartService.loadCart({
         userId: this.userId,
         cartId: OCC_CART_ID_CURRENT,
         extraData: {
@@ -151,7 +151,7 @@ export class ActiveCartService {
 
   private load(cartId: string): void {
     if (this.userId !== OCC_USER_ID_ANONYMOUS) {
-      this.lowLevelCartService.loadCart({
+      this.multiCartService.loadCart({
         userId: this.userId,
         cartId: cartId ? cartId : OCC_CART_ID_CURRENT,
         extraData: {
@@ -159,7 +159,7 @@ export class ActiveCartService {
         },
       });
     } else if (cartId) {
-      this.lowLevelCartService.loadCart({
+      this.multiCartService.loadCart({
         userId: this.userId,
         cartId: cartId,
         extraData: {
@@ -179,7 +179,7 @@ export class ActiveCartService {
   addEntry(productCode: string, quantity: number, guestMerge: boolean = false): void {
     let createInitialized = false;
     let attemptedLoad = false;
-    this.lowLevelCartService.initAddEntryProcess();
+    this.multiCartService.initAddEntryProcess();
     this.entriesToAdd.push({productCode, quantity});
     if (!this.addEntrySub) {
       this.addEntrySub = this.cartSelector
@@ -194,7 +194,7 @@ export class ActiveCartService {
               return of(cartState);
             }
             createInitialized = true;
-            return this.lowLevelCartService.createCart({
+            return this.multiCartService.createCart({
               userId: this.userId,
               extraData: {
                 active: true,
@@ -207,7 +207,7 @@ export class ActiveCartService {
         take(1)
       )
       .subscribe(cartState => {
-        this.lowLevelCartService.addEntries(
+        this.multiCartService.addEntries(
           this.userId,
           getCartIdByUserId(cartState.value, this.userId),
           this.entriesToAdd
@@ -223,7 +223,7 @@ export class ActiveCartService {
   }
 
   removeEntry(entry: OrderEntry): void {
-    this.lowLevelCartService.removeEntry(
+    this.multiCartService.removeEntry(
       this.userId,
       this.cartId,
       entry.entryNumber
@@ -231,7 +231,7 @@ export class ActiveCartService {
   }
 
   updateEntry(entryNumber: number, quantity: number): void {
-    this.lowLevelCartService.updateEntry(
+    this.multiCartService.updateEntry(
       this.userId,
       this.cartId,
       entryNumber,
@@ -242,7 +242,7 @@ export class ActiveCartService {
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.activeCartId.pipe(
       switchMap(cartId =>
-        this.lowLevelCartService.getEntry(cartId, productCode)
+        this.multiCartService.getEntry(cartId, productCode)
       )
     );
   }
