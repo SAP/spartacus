@@ -1,12 +1,42 @@
-import * as orderDetail from '../../../helpers/consignment-tracking';
+import {
+  accessPageAsAnonymous,
+  verifyChannelStatus,
+  verifyAfterUpdateEmailAddress
+} from '../../../helpers/notification-preference';
+import {registerAndLogin} from '../../../helpers/update-email';
 
-describe('notification preference', () => {
+describe('My Account - Notification Preference', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    orderDetail.loginUsingUserWithOrder();
+    cy.window().then(win => {
+      win.sessionStorage.clear();
+    });
   });
 
-  it('should enable/disable notification preference', () => {});
+  describe('notification preference test for anonymous user', () => {
 
-  it('?should show correct email channel after update email address', () => {});
+    it('should redirect to login page for anonymous user', () => {
+      accessPageAsAnonymous();
+    });
+  });
+
+  describe('notification preference test for logged in user', () => {
+    beforeEach(() => {
+      registerAndLogin();
+      cy.visit('/');
+      cy.selectUserMenuOption({
+        option: 'Notification Preference',
+      });
+    });
+
+    it('should enable/disable notification preference', () => {
+      verifyChannelStatus();
+    });
+
+    it('should show correct email channel after update email address', () => {
+      verifyAfterUpdateEmailAddress();
+    });
+
+  });
 });
+
+
