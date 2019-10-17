@@ -8,11 +8,22 @@ import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 
+/**
+ * Resolves the page data for all Content Pages based on the `PageType.CONTENT_PAGE`.
+ * More specific resolvers for content pages can be implemented by making them more
+ * specific, for example by using the page template (see `CartPageMetaResolver`).
+ *
+ * The page title, and breadcrumbs are resolved in this implementation only.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ContentPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
+  private cms$: Observable<Page> = this.cms
+    .getCurrentPage()
+    .pipe(filter(p => !!p));
+
   constructor(
     protected cms: CmsService,
     protected translation: TranslationService
@@ -21,9 +32,15 @@ export class ContentPageMetaResolver extends PageMetaResolver
     this.pageType = PageType.CONTENT_PAGE;
   }
 
-  resolve(): Observable<PageMeta> {
-    return this.cms.getCurrentPage().pipe(
-      filter(Boolean),
+  /**
+   * @deprecated since version 1.3
+   *
+   * The resolve method is no longer preferred and will be removed with release 2.0.
+   * The caller `PageMetaService` service is improved to expect all individual resolvers
+   * instead, so that the code is easier extensible.
+   */
+  resolve(): Observable<PageMeta> | any {
+    return this.cms$.pipe(
       switchMap((page: Page) =>
         combineLatest([
           this.resolveTitle(page),
@@ -32,21 +49,46 @@ export class ContentPageMetaResolver extends PageMetaResolver
           ),
         ])
       ),
-      map(([title, breadcrumbs]) => ({ title, breadcrumbs }))
+      map(([title, breadcrumbs]: [string, any[]]) => ({ title, breadcrumbs }))
     );
   }
 
-  resolveTitle(page: Page): Observable<string> {
-    return of(page.title);
+  resolveTitle(): Observable<string>;
+  /**
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
+   */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(page: Page): Observable<string>;
+  resolveTitle(page?: Page): Observable<string> {
+    return page ? of(page.title) : this.cms$.pipe(map(p => p.title));
   }
 
+  /**
+   * @deprecated since version 1.3
+   * This method will removed with with 2.0
+   */
   resolveBreadcrumbLabel(): Observable<string> {
     return this.translation.translate('common.home');
   }
 
-  resolveBreadcrumbs(_page: Page, breadcrumbLabel: string): Observable<any[]> {
-    // as long as we do not have CMSX-8689 in place
-    // we need specific resolvers for nested pages
-    return of([{ label: breadcrumbLabel, link: '/' }]);
+  resolveBreadcrumbs(): Observable<any[]>;
+  /**
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveBreadcrumbs()` instead
+   */
+  // tslint:disable-next-line: unified-signatures
+  resolveBreadcrumbs(_page: Page, breadcrumbLabel: string): Observable<any[]>;
+  resolveBreadcrumbs(
+    _page?: Page,
+    breadcrumbLabel?: string
+  ): Observable<any[]> {
+    if (breadcrumbLabel) {
+      return of([{ label: breadcrumbLabel, link: '/' }]);
+    } else {
+      return this.translation
+        .translate('common.home')
+        .pipe(map(label => [{ label: label, link: '/' }]));
+    }
   }
 }
