@@ -13,6 +13,8 @@ import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
+import { UserNotificationPreferenceAdapter } from 'projects/core/src/user/connectors/notification-preference/user-notification-preference.adapter';
+import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 
 @NgModule({
   imports: [
@@ -29,6 +31,10 @@ import { OccUserAdapter } from './occ-user.adapter';
       useClass: OccUserPaymentAdapter,
     },
     { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
+    {
+      provide: UserNotificationPreferenceAdapter,
+      useClass: OccUserNotificationPreferenceAdapter,
+    },
   ],
 })
 export class UserOccModule {}

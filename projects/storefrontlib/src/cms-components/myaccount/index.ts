@@ -3,6 +3,7 @@ export * from './close-account/index';
 export * from './consent-management/index';
 export * from './forgot-password/forgot-password.component';
 export * from './forgot-password/forgot-password.module';
+export * from './notification-preference/index';
 export * from './order/index';
 export * from './payment-methods/payment-methods.component';
 export * from './payment-methods/payment-methods.module';
