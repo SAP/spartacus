@@ -20,9 +20,8 @@ import { DebugElement } from '@angular/core';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { CurrentProductService } from '../current-product.service';
 import { ModalService, SpinnerModule } from '../../../shared';
-import { of, Observable } from 'rxjs';
+import { of, Observable, BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { cold, getTestScheduler } from 'jasmine-marbles';
 
 describe('StockNotificationComponent', () => {
   let component: StockNotificationComponent;
@@ -93,6 +92,7 @@ describe('StockNotificationComponent', () => {
   } = {
     componentInstance: {},
   };
+  const removeSuccess = new BehaviorSubject<boolean>(false);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -129,8 +129,10 @@ describe('StockNotificationComponent', () => {
     currentProductService.getProduct.and.returnValue(of(product));
     interestsService.getProductInterests.and.returnValue(of(interests));
     interestsService.getAddProductInterestSuccess.and.returnValue(of(false));
-    interestsService.getRemoveProdutInterestLoading.and.returnValue(of(true));
-    interestsService.getRemoveProdutInterestSuccess.and.returnValue(of(false));
+    interestsService.getRemoveProdutInterestLoading.and.returnValue(of(false));
+    interestsService.getRemoveProdutInterestSuccess.and.returnValue(
+      removeSuccess
+    );
     interestsService.addProductInterest.and.stub();
     interestsService.removeProdutInterest.and.stub();
     interestsService.clearProductInterests.and.stub();
@@ -150,6 +152,15 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should not show element expcept out of stock product', () => {
+    currentProductService.getProduct.and.returnValue(
+      of({
+        ...product,
+        stock: {
+          stockLevelStatus: 'inStock',
+          stockLevel: 10,
+        },
+      })
+    );
     fixture.detectChanges();
     expect(el.query(By.css('button'))).toBeNull();
   });
@@ -201,18 +212,13 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should show global message when delete stock notification success for login user with channel set', () => {
-    interestsService.getRemoveProdutInterestLoading.and.returnValue(of(false));
-    interestsService.getRemoveProdutInterestSuccess.and.returnValue(
-      cold('-a|', { a: true })
-    );
     fixture.detectChanges();
     expect(
       el.query(By.css('.stock-notification-notes')).nativeElement
     ).toBeTruthy();
-    const button = el.query(By.css('button')).nativeElement;
+    const button = el.query(By.css('.btn-stop-notify')).nativeElement;
     button.click();
-    getTestScheduler().flush();
-    fixture.detectChanges();
+    removeSuccess.next(true);
 
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(interestsService.removeProdutInterest).toHaveBeenCalled();

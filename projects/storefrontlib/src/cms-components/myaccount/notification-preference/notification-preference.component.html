@@ -14,10 +14,7 @@
                 type="checkbox"
                 [checked]="preference.enabled"
                 (change)="updatePreference(preference)"
-                [disabled]="
-                  getNotificationPreferencesloading ||
-                  updateNotificationPreferencesLoading
-                "
+                [disabled]="isLoading$ | async"
               />
               <span class="form-check-label">
                 {{
