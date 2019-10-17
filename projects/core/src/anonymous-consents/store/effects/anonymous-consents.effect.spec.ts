@@ -98,10 +98,13 @@ const mockUserToken = {
   access_token: 'yyy',
 } as UserToken;
 
-const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+const mockAnonymousConsentsConfig = {
   anonymousConsents: {
     registerConsent: 'MARKETING',
     requiredConsents: ['xxx', 'yyy'],
+  },
+  features: {
+    level: '1.3',
   },
 };
 

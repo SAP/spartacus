@@ -6,6 +6,7 @@ import {
   AnonymousConsentsConfig,
   AuthService,
   CmsNavigationComponent,
+  FeaturesConfig,
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -39,9 +40,12 @@ class MockModalService {
   }
 }
 
-const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+const mockAnonymousConsentsConfig = {
   anonymousConsents: {
     footerLink: true,
+  },
+  features: {
+    level: '1.3',
   },
 };
 
@@ -58,7 +62,7 @@ describe('FooterNavigationComponent', () => {
   let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let element: DebugElement;
-  let config: AnonymousConsentsConfig;
+  let anonymousConsentsConfig: AnonymousConsentsConfig;
   let modalService: ModalService;
 
   const mockLinks: NavigationNode[] = [
@@ -124,7 +128,7 @@ describe('FooterNavigationComponent', () => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
-    config = TestBed.get(AnonymousConsentsConfig);
+    anonymousConsentsConfig = TestBed.get(AnonymousConsentsConfig);
     modalService = TestBed.get(ModalService as Type<ModalService>);
 
     component.node$ = of({
@@ -157,8 +161,16 @@ describe('FooterNavigationComponent', () => {
         .unsubscribe();
       expect(result).toEqual(true);
     });
-    it('should return false if the config is false', () => {
-      config.anonymousConsents.footerLink = false;
+    it('should return false if not enabled in the config', () => {
+      anonymousConsentsConfig.anonymousConsents.footerLink = false;
+      let result = true;
+      component.showConsentPreferences
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(false);
+    });
+    it('should return false the feature level is lower than 1.3', () => {
+      (anonymousConsentsConfig as FeaturesConfig).features.level = '1.2';
       let result = true;
       component.showConsentPreferences
         .subscribe(value => (result = value))

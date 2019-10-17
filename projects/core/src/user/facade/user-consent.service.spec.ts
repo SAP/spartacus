@@ -16,6 +16,9 @@ class MockAuthService {
   getOccUserId(): Observable<string> {
     return of(OCC_USER_ID_CURRENT);
   }
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 describe('UserConsentService', () => {

@@ -1,11 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigModule,
+  FeaturesConfigModule,
+  I18nModule,
+} from '@spartacus/core';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    I18nModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AnonymousConsentManagementBannerComponent: {
@@ -13,7 +20,6 @@ import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-m
         },
       },
     }),
-    I18nModule,
   ],
   declarations: [AnonymousConsentManagementBannerComponent],
   exports: [AnonymousConsentManagementBannerComponent],

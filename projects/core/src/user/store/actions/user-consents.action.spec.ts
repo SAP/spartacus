@@ -127,10 +127,6 @@ describe('user consent actions', () => {
         expect({ ...action }).toEqual({
           type: UserActions.TRANSFER_ANONYMOUS_CONSENT,
           payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            PROCESS_FEATURE,
-            GIVE_CONSENT_PROCESS_ID
-          ),
         });
       });
     });

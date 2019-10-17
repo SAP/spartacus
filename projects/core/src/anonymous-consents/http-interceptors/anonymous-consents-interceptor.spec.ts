@@ -45,9 +45,12 @@ class MockAnonymousConsentsService {
   setConsents(_consents: AnonymousConsent[]): void {}
 }
 
-const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+const mockAnonymousConsentsConfig = {
   anonymousConsents: {
     requiredConsents: ['OTHER_CONSENT'],
+  },
+  features: {
+    level: '1.3',
   },
 };
 
@@ -56,7 +59,6 @@ describe('AnonymousConsentsInterceptor', () => {
   let anonymousConsentsService: AnonymousConsentsService;
   let authService: AuthService;
   let interceptor: AnonymousConsentsInterceptor;
-  let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -86,9 +88,6 @@ describe('AnonymousConsentsInterceptor', () => {
       AnonymousConsentsService
     >);
     authService = TestBed.get(AuthService as Type<AuthService>);
-    anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
 
     const interceptors = TestBed.get(HTTP_INTERCEPTORS);
     interceptors.forEach((i: HttpInterceptor) => {
@@ -213,10 +212,10 @@ describe('AnonymousConsentsInterceptor', () => {
             },
           ];
 
-          spyOn(anonymousConsentService, 'setConsents').and.stub();
+          spyOn(anonymousConsentsService, 'setConsents').and.stub();
 
           interceptor[giveRequiredConsentsMethod]([...consents]);
-          expect(anonymousConsentService.setConsents).toHaveBeenCalledWith(
+          expect(anonymousConsentsService.setConsents).toHaveBeenCalledWith(
             expectedConsents
           );
         });

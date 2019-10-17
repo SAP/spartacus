@@ -106,6 +106,8 @@ export const myAccount = {
   consentManagementForm: {
     rejectAll: 'Reject all',
     allowAll: 'Allow all',
+    off: 'OFF',
+    on: 'ON',
     message: {
       success: {
         given: 'Consent successfully given.',

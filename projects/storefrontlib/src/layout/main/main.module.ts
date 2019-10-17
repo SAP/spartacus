@@ -10,6 +10,7 @@ import { PwaModule } from '../../cms-structure/pwa/pwa.module';
 import { SeoModule } from '../../cms-structure/seo/seo.module';
 import { AnonymousConsentsModule } from '../../shared/components/anonymous-consents/anonymous-consents.module';
 import { StorefrontComponent } from './storefront.component';
+
 @NgModule({
   imports: [
     CommonModule,

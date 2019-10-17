@@ -11,6 +11,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
+import { isFeatureLevel } from '../../../features-config/index';
 import { SiteContextActions } from '../../../site-context/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
@@ -27,6 +28,8 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.LoadAnonymousConsentTemplates
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE, AuthActions.LOGOUT),
+    // TODO(issue:4989) Anonymous consents - remove this filter
+    filter(_ => isFeatureLevel(this.anonymousConsentsConfig, '1.3')),
     withLatestFrom(this.authService.isUserLoggedIn()),
     filter(([_, isUserLoggedIn]) => !isUserLoggedIn),
     map(_ => new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
@@ -37,6 +40,8 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
+    // TODO(issue:4989) Anonymous consents - remove this filter
+    filter(_ => isFeatureLevel(this.anonymousConsentsConfig, '1.3')),
     concatMap(_ =>
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
@@ -78,13 +83,15 @@ export class AnonymousConsentsEffects {
   transferAnonymousConsentsToUser$: Observable<
     UserActions.TransferAnonymousConsent | Observable<never>
   > = this.actions$.pipe(
-    filter(
-      () =>
-        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-        Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
-    ),
     ofType<AuthActions.LoadUserTokenSuccess>(
       AuthActions.LOAD_USER_TOKEN_SUCCESS
+    ),
+    filter(
+      () =>
+        // TODO(issue:4989) Anonymous consents - remove the `isFeatureLevel(this.anonymousConsentsConfig, '1.3')` check
+        isFeatureLevel(this.anonymousConsentsConfig, '1.3') &&
+        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+        Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
     ),
     withLatestFrom(
       this.actions$.pipe(
@@ -140,15 +147,19 @@ export class AnonymousConsentsEffects {
   giveRequiredConsentsToUser$: Observable<
     UserActions.GiveUserConsent | Observable<never>
   > = this.actions$.pipe(
-    filter(
-      () =>
-        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-        Boolean(this.anonymousConsentsConfig.anonymousConsents.requiredConsents)
-    ),
     ofType<AuthActions.LoadUserTokenSuccess>(
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
-    filter(action => Boolean(action)),
+    filter(
+      action =>
+        // TODO(issue:4989) Anonymous consents - remove the `isFeatureLevel(this.anonymousConsentsConfig, '1.3')` check
+        isFeatureLevel(this.anonymousConsentsConfig, '1.3') &&
+        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+        Boolean(
+          this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+        ) &&
+        Boolean(action)
+    ),
     concatMap(() =>
       this.userConsentService.getConsentsResultSuccess().pipe(
         withLatestFrom(

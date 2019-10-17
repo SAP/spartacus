@@ -91,7 +91,7 @@ export class ResetGiveUserConsentProcess extends StateEntityLoaderActions.Entity
   }
 }
 
-export class TransferAnonymousConsent extends StateEntityLoaderActions.EntityLoadAction {
+export class TransferAnonymousConsent {
   readonly type = TRANSFER_ANONYMOUS_CONSENT;
   constructor(
     public payload: {
@@ -99,9 +99,7 @@ export class TransferAnonymousConsent extends StateEntityLoaderActions.EntityLoa
       consentTemplateId: string;
       consentTemplateVersion: number;
     }
-  ) {
-    super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
-  }
+  ) {}
 }
 
 export class WithdrawUserConsent extends StateEntityLoaderActions.EntityLoadAction {
