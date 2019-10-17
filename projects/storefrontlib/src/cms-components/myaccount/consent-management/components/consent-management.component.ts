@@ -253,7 +253,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  rejectAll(templates: ConsentTemplate[]): void {
+  rejectAll(templates: ConsentTemplate[] = []): void {
     const consentsToWithdraw: ConsentTemplate[] = [];
     templates.forEach(template => {
       if (this.isConsentGiven(template)) {
@@ -265,24 +265,38 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     });
 
     this.allConsentsLoading.next(true);
+
     this.subscriptions.add(
-      concat(this.userConsentService.getWithdrawConsentResultLoading())
-        .pipe(
-          distinctUntilChanged(),
-          filter(loading => !loading),
-          scan((acc, _value) => acc + 1, -1),
-          tap(i => {
-            if (i < consentsToWithdraw.length) {
-              this.userConsentService.withdrawConsent(
-                consentsToWithdraw[i].currentConsent.code
-              );
-            }
-          }),
-          filter(loadingTimes => loadingTimes === consentsToWithdraw.length),
-          tap(_loadingTimes => this.allConsentsLoading.next(false))
-        )
+      this.setupWithdrawalStream(consentsToWithdraw)
+        .pipe(tap(_timesLoaded => this.allConsentsLoading.next(false)))
         .subscribe()
     );
+  }
+
+  private setupWithdrawalStream(
+    consentsToWithdraw: ConsentTemplate[] = []
+  ): Observable<number> {
+    const loading$ = concat(
+      this.userConsentService.getWithdrawConsentResultLoading()
+    ).pipe(
+      distinctUntilChanged(),
+      filter(loading => !loading)
+    );
+    const count$ = loading$.pipe(scan((acc, _value) => acc + 1, -1));
+    const withdraw$ = count$.pipe(
+      tap(i => {
+        if (i < consentsToWithdraw.length) {
+          this.userConsentService.withdrawConsent(
+            consentsToWithdraw[i].currentConsent.code
+          );
+        }
+      })
+    );
+    const checkTimesLoaded$ = withdraw$.pipe(
+      filter(timesLoaded => timesLoaded === consentsToWithdraw.length)
+    );
+
+    return checkTimesLoaded$;
   }
 
   private isConsentGiven(consentTemplate: ConsentTemplate): boolean {
@@ -293,7 +307,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  allowAll(templates: ConsentTemplate[]): void {
+  allowAll(templates: ConsentTemplate[] = []): void {
     const consentsToGive: ConsentTemplate[] = [];
     templates.forEach(template => {
       if (this.isConsentWithdrawn(template)) {
@@ -306,25 +320,39 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     });
 
     this.allConsentsLoading.next(true);
+
     this.subscriptions.add(
-      concat(this.userConsentService.getGiveConsentResultLoading())
-        .pipe(
-          distinctUntilChanged(),
-          filter(loading => !loading),
-          scan((acc, _value) => acc + 1, -1),
-          tap(i => {
-            if (i < consentsToGive.length) {
-              this.userConsentService.giveConsent(
-                consentsToGive[i].id,
-                consentsToGive[i].version
-              );
-            }
-          }),
-          filter(loadingTimes => loadingTimes === consentsToGive.length),
-          tap(_loadingTimes => this.allConsentsLoading.next(false))
-        )
+      this.setupGiveStream(consentsToGive)
+        .pipe(tap(_timesLoaded => this.allConsentsLoading.next(false)))
         .subscribe()
     );
+  }
+
+  private setupGiveStream(
+    consentsToGive: ConsentTemplate[] = []
+  ): Observable<number> {
+    const loading$ = concat(
+      this.userConsentService.getGiveConsentResultLoading()
+    ).pipe(
+      distinctUntilChanged(),
+      filter(loading => !loading)
+    );
+    const count$ = loading$.pipe(scan((acc, _value) => acc + 1, -1));
+    const giveConsent$ = count$.pipe(
+      tap(i => {
+        if (i < consentsToGive.length) {
+          this.userConsentService.giveConsent(
+            consentsToGive[i].id,
+            consentsToGive[i].version
+          );
+        }
+      })
+    );
+    const checkTimesLoaded$ = giveConsent$.pipe(
+      filter(timesLoaded => timesLoaded === consentsToGive.length)
+    );
+
+    return checkTimesLoaded$;
   }
 
   private isConsentWithdrawn(consentTemplate: ConsentTemplate): boolean {
