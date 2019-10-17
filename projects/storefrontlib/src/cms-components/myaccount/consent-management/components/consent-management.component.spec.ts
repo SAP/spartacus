@@ -565,8 +565,10 @@ describe('ConsentManagementComponent', () => {
       describe('when consents are given', () => {
         it('should call userConsentService.withdrawConsent for each', () => {
           spyOn(userService, 'withdrawConsent').and.stub();
-          spyOn(userService, 'loadConsents').and.stub();
           spyOn<any>(component, 'isConsentGiven').and.returnValue(true);
+          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
+            of(false)
+          );
 
           component.rejectAll([mockConsentTemplate]);
 
@@ -640,8 +642,10 @@ describe('ConsentManagementComponent', () => {
       describe('when consents are withdrawn', () => {
         it('should call userConsentService.giveConsent for each', () => {
           spyOn(userService, 'giveConsent').and.stub();
-          spyOn(userService, 'loadConsents').and.stub();
           spyOn<any>(component, 'isConsentWithdrawn').and.returnValue(true);
+          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+            of(false)
+          );
 
           component.allowAll([mockConsentTemplate]);
 
