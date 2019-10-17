@@ -21,6 +21,7 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
   subscription = new Subscription();
   productCode: string;
+  private activeGroup: string;
   public UiType = Configurator.UiType;
 
   constructor(
@@ -34,6 +35,8 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
         .getRouterState()
         .subscribe(state => this.initConfigurationForm(state))
     );
+
+    this.activeGroup = undefined;
   }
 
   initConfigurationForm(routingData) {
@@ -95,6 +98,50 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
         changedConfiguration
       );
     });
+  }
+
+  navigateToNextGroup(currentGroup) {
+    const currentGroupIndex = this.getIndexOfGroup(currentGroup);
+    this.configuration$.pipe(take(1)).subscribe(config => {
+      if (currentGroupIndex < config.groups.length - 1) {
+        this.activeGroup = config.groups[currentGroupIndex + 1].id;
+      }
+    });
+    // TODO: Add call to configurator service to get configuration for next group
+    /**this.configuration$ = this.configuratorCommonsService.getConfiguration(
+      this.productCode
+    );**/
+  }
+
+  navigateToPreviousGroup(currentGroup) {
+    const currentGroupIndex = this.getIndexOfGroup(currentGroup);
+    this.configuration$.pipe(take(1)).subscribe(config => {
+      if (currentGroupIndex > 0) {
+        this.activeGroup = config.groups[currentGroupIndex - 1].id;
+      }
+    });
+    // TODO: Add call to configurator service to get configuration for next group
+    /**this.configuration$ = this.configuratorCommonsService.getConfiguration(
+      this.productCode
+    );**/
+  }
+
+  getIndexOfGroup(group: Configurator.Group): number {
+    let groupIndex: number;
+    this.configuration$.pipe(take(1)).subscribe(config => {
+      groupIndex = config.groups.indexOf(group);
+    });
+    return groupIndex;
+  }
+
+  getActiveGroup(): string {
+    if (this.activeGroup === undefined) {
+      this.configuration$.pipe(take(1)).subscribe(config => {
+        // TODO: replace with code that searches for first group with attributes
+        this.activeGroup = config.groups[0].id;
+      });
+    }
+    return this.activeGroup;
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { Configurator } from '@spartacus/core';
 
 @Component({
@@ -9,16 +15,24 @@ import { Configurator } from '@spartacus/core';
 export class ConfigPreviousNextButtonsComponent {
   constructor() {}
 
-  @Input() attribute: Configurator.Attribute;
+  @Input() group: Configurator.Group;
+  @Input() groupList: Configurator.Group[];
 
-  onPrevious() {}
-  onNext() {}
+  @Output() nextGroup = new EventEmitter();
+  @Output() previousGroup = new EventEmitter();
+
+  onPrevious() {
+    this.previousGroup.emit(this.group);
+  }
+  onNext() {
+    this.nextGroup.emit(this.group);
+  }
 
   isPreviousButtonDisabled() {
-    return false;
+    return this.groupList.indexOf(this.group) === 0;
   }
 
   isNextButtonDisabled() {
-    return false;
+    return this.groupList.indexOf(this.group) === this.groupList.length - 1;
   }
 }
