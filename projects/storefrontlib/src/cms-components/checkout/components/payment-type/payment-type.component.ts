@@ -46,9 +46,10 @@ export class PaymentTypeComponent extends AbstractCheckoutStepComponent
 
     this.paymentTypes$ = this.checkoutPaymentService.getPaymentTypes().pipe(
       tap(paymentTypes => {
-        if (Object.keys(paymentTypes).length === 0) {
-          this.checkoutPaymentService.loadSupportedPaymentTypes();
-        } else {
+        if (paymentTypes && paymentTypes.length > 0) {
+          // Now we use the first type as the default selected type
+          // This value should be read from cart.
+          // Since the `set PaymentType to cart` API is not ready, so it is just workaround.
           this.typeSelected = paymentTypes[0].code;
         }
       })

@@ -1,17 +1,18 @@
-/*import { Component, Type } from '@angular/core';
+import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CheckoutDeliveryService,
-  DeliveryMode,
+  CheckoutPaymentService,
   I18nTestingModule,
   RoutingService,
+  PaymentType,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
-import { DeliveryModeComponent } from './delivery-mode.component';
+import { PaymentTypeComponent } from './payment-type.component';
+import { CheckoutStepType } from '../../model/checkout-step.model';
 
 import createSpy = jasmine.createSpy;
 
@@ -21,13 +22,9 @@ import createSpy = jasmine.createSpy;
 })
 class MockSpinnerComponent {}
 
-class MockCheckoutDeliveryService {
-  loadSupportedDeliveryModes = createSpy();
-  setDeliveryMode = createSpy();
-  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return of();
-  }
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+class MockCheckoutPaymentService {
+  setPaymentType = createSpy();
+  getPaymentTypes(): Observable<PaymentType[]> {
     return of();
   }
 }
@@ -37,13 +34,13 @@ class MockRoutingService {
 }
 
 class MockCheckoutConfigService {
+  resetSteps = createSpy();
+  disableStep = createSpy();
+  enableStep = createSpy();
   getNextCheckoutStepUrl(): string {
     return '';
   }
   getPreviousCheckoutStepUrl(): string {
-    return '';
-  }
-  getPreferredDeliveryMode(): string {
     return '';
   }
 }
@@ -54,40 +51,27 @@ const mockActivatedRoute = {
   },
 };
 
-const mockDeliveryMode1: DeliveryMode = {
-  code: 'standard-gross',
-  name: 'Standard Delivery',
-  deliveryCost: { formattedValue: '$10.00' },
-};
-
-const mockDeliveryMode2: DeliveryMode = {
-  code: 'premium-gross',
-  name: 'Premium Delivery',
-  deliveryCost: { formattedValue: '$20.00' },
-};
-
-const mockSupportedDeliveryModes: DeliveryMode[] = [
-  mockDeliveryMode1,
-  mockDeliveryMode2,
+const mockPaymentTypes: PaymentType[] = [
+  { code: 'card', displayName: 'card' },
+  { code: 'account', displayName: 'account' },
 ];
 
-const mockStepUrl = 'test url';
+describe('PaymentTypeComponent', () => {
+  let component: PaymentTypeComponent;
+  let fixture: ComponentFixture<PaymentTypeComponent>;
 
-describe('DeliveryModeComponent', () => {
-  let component: DeliveryModeComponent;
-  let fixture: ComponentFixture<DeliveryModeComponent>;
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
   let mockRoutingService: MockRoutingService;
+  let mockCheckoutPaymentService: MockCheckoutPaymentService;
   let mockCheckoutConfigService: MockCheckoutConfigService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [DeliveryModeComponent, MockSpinnerComponent],
+      declarations: [PaymentTypeComponent, MockSpinnerComponent],
       providers: [
         {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
@@ -95,37 +79,115 @@ describe('DeliveryModeComponent', () => {
       ],
     }).compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
+    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
+      CheckoutPaymentService
     >);
     mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
     mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
       CheckoutConfigService
     >);
+
+    spyOn(mockCheckoutPaymentService, 'getPaymentTypes').and.returnValue(
+      of(mockPaymentTypes)
+    );
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeliveryModeComponent);
+    fixture = TestBed.createComponent(PaymentTypeComponent);
     component = fixture.componentInstance;
+
+    component.ngOnInit();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get supported delivery modes', () => {
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getSupportedDeliveryModes'
-    ).and.returnValue(of(mockSupportedDeliveryModes));
-    component.ngOnInit();
-
-    component.supportedDeliveryModes$.subscribe(modes => {
-      expect(modes).toBe(mockSupportedDeliveryModes);
+  it('should get all supported payment types', () => {
+    component.paymentTypes$.subscribe(types => {
+      expect(types).toBe(mockPaymentTypes);
     });
   });
 
-  it('should pre-select preferred delivery mode if not chosen before', () => {
+  it('should reset checkut steps', () => {
+    expect(mockCheckoutConfigService.resetSteps).toHaveBeenCalled();
+  });
+
+  it('should change step after invoking next()', () => {
+    component.checkoutStepUrlNext = 'next step';
+    component.poNumberInput = {
+      nativeElement: {
+        value: 'p.o. number',
+      },
+    };
+    component.next();
+    expect(mockRoutingService.go).toHaveBeenCalledWith('next step');
+  });
+
+  it('should set the selected payment type to cart after invoking next()', () => {
+    component.typeSelected = mockPaymentTypes[0].code;
+    component.checkoutStepUrlNext = 'next step';
+    component.poNumberInput = {
+      nativeElement: {
+        value: 'p.o. number',
+      },
+    };
+    spyOn(mockCheckoutConfigService, 'getNextCheckoutStepUrl').and.returnValue(
+      'next step'
+    );
+    component.next();
+    expect(mockCheckoutPaymentService.setPaymentType).toHaveBeenCalledWith(
+      component.typeSelected,
+      'p.o. number'
+    );
+  });
+
+  it('should change step after invoking back()', () => {
+    component.checkoutStepUrlPrevious = 'previous url';
+    component.back();
+
+    expect(mockRoutingService.go).toHaveBeenCalledWith('previous url');
+  });
+
+  it('should disable PAYMENT_DETAILS step when choosing type Account', () => {
+    component.changeType('ACCOUNT');
+    expect(mockCheckoutConfigService.disableStep).toHaveBeenCalledWith(
+      CheckoutStepType.PAYMENT_DETAILS
+    );
+
+    component.changeType('CARD');
+    expect(mockCheckoutConfigService.enableStep).toHaveBeenCalledWith(
+      CheckoutStepType.PAYMENT_DETAILS
+    );
+  });
+
+  describe('UI back button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
+
+    it('should call "back" function after being clicked', () => {
+      spyOn(component, 'back');
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+
+      expect(component.back).toHaveBeenCalled();
+    });
+  });
+
+  describe('UI continue button', () => {
+    const getContinueBtn = () =>
+      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
+
+    it('should call "next" function after being clicked', () => {
+      spyOn(component, 'next');
+      getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
+
+      expect(component.next).toHaveBeenCalled();
+    });
+  });
+
+  /*it('should pre-select preferred delivery mode if not chosen before', () => {
     spyOn(
       mockCheckoutDeliveryService,
       'getSupportedDeliveryModes'
@@ -169,80 +231,5 @@ describe('DeliveryModeComponent', () => {
     expect(component.currentDeliveryModeId).toBe(mockDeliveryMode2.code);
   });
 
-  it('should set delivery mode and change step after invoking next()', () => {
-    component.currentDeliveryModeId = mockDeliveryMode1.code;
-    spyOn(mockCheckoutConfigService, 'getNextCheckoutStepUrl').and.returnValue(
-      mockStepUrl
-    );
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getSelectedDeliveryMode'
-    ).and.returnValue(of(mockDeliveryMode1));
-
-    component.ngOnInit();
-    component.next();
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
-  });
-
-  it('should change step after invoking next()', () => {
-    component.checkoutStepUrlNext = mockStepUrl;
-    component.next();
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
-  });
-
-  it('should change step after invoking back()', () => {
-    component.checkoutStepUrlPrevious = mockStepUrl;
-    component.back();
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
-  });
-
-  it('should get deliveryModeInvalid()', () => {
-    const invalid = component.deliveryModeInvalid;
-
-    expect(invalid).toBe(true);
-  });
-
-  describe('UI continue button', () => {
-    const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
-
-    it('should be disabled when delivery mode is not selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(null);
-      fixture.detectChanges();
-
-      expect(getContinueBtn().nativeElement.disabled).toBe(true);
-    });
-
-    it('should be enabled when delivery mode is selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(
-        mockDeliveryMode1.code
-      );
-      fixture.detectChanges();
-
-      expect(getContinueBtn().nativeElement.disabled).toBe(false);
-    });
-
-    it('should call "next" function after being clicked', () => {
-      spyOn(component, 'next');
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
-
-      expect(component.next).toHaveBeenCalled();
-    });
-  });
-
-  describe('UI back button', () => {
-    const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
-
-    it('should call "back" function after being clicked', () => {
-      spyOn(component, 'back');
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
-
-      expect(component.back).toHaveBeenCalled();
-    });
-  });
-});*/
+  ;*/
+});
