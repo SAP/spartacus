@@ -55,7 +55,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           if (
             product.stock &&
             product.stock.stockLevelStatus !== 'outOfStock' &&
-            product.stock.stockLevel > 0
+            product.stock.stockLevel > 0 &&
+            product.purchasable
           ) {
             this.maxQuantity = product.stock.stockLevel;
             this.hasStock = true;
