@@ -20,6 +20,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmMainUiComponent } from './asm-main-ui.component';
+import { IconComponent, IconLoaderService } from '../../misc';
 
 const mockToken = {
   access_token: 'asdfasf',
@@ -87,7 +88,14 @@ class MockRoutingService {
   go() {}
 }
 
-describe('AsmMainUiComponent', () => {
+class MockIconLoaderService {
+  getSvgPath() {}
+  useSvg() {}
+  getStyleClasses() {}
+  addLinkResource() {}
+}
+
+fdescribe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
@@ -104,6 +112,7 @@ describe('AsmMainUiComponent', () => {
         AsmMainUiComponent,
         MockCSAgentLoginFormComponent,
         MockCustomerSelectionComponent,
+        IconComponent,
       ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
@@ -111,6 +120,7 @@ describe('AsmMainUiComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmService, useClass: MockAsmService },
+        { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
     }).compileComponents();
   }));
@@ -308,7 +318,9 @@ describe('AsmMainUiComponent', () => {
     fixture.detectChanges();
 
     //Click button
-    const endSessionButton = fixture.debugElement.query(By.css('.end-session'));
+    const endSessionButton = fixture.debugElement.query(
+      By.css('.fd-button--negative')
+    );
     spyOn(component, 'endSession');
     endSessionButton.nativeElement.click();
 
