@@ -29,7 +29,7 @@ export const getConfigurationState: MemoizedSelector<
   EntityLoaderState<Configurator.Configuration>
 > = createSelector(
   getConfigurationsState,
-  (state: ConfigurationState) => state.content
+  (state: ConfigurationState) => state.configurations
 );
 
 export const getConfigurationStateFactory = (

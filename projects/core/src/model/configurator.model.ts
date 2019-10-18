@@ -29,7 +29,6 @@ export namespace Configurator {
 
   export interface Group {
     attributes?: Attribute[];
-    active?: boolean;
     id?: string;
     name?: string;
     description?: string;

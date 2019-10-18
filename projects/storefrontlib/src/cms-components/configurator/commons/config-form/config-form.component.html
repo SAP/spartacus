@@ -1,3 +1,7 @@
+<ng-container *ngIf="currentGroup$ | async as currentGroup">
+  <div>{{ currentGroup }}</div>
+</ng-container>
+
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-total">
     {{ 'configurator.header.configId' | cxTranslate }} :

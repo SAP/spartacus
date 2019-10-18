@@ -7,6 +7,7 @@ import {
 import {
   Configurator,
   ConfiguratorCommonsService,
+  ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -19,14 +20,16 @@ import { take } from 'rxjs/operators';
 })
 export class ConfigFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
-  subscription = new Subscription();
+  currentGroup$: Observable<string>;
   productCode: string;
   private activeGroup: string;
+  subscription = new Subscription();
   public UiType = Configurator.UiType;
 
   constructor(
     private routingService: RoutingService,
-    private configuratorCommonsService: ConfiguratorCommonsService
+    private configuratorCommonsService: ConfiguratorCommonsService,
+    private configuratorGroupsService: ConfiguratorGroupsService
   ) {}
 
   ngOnInit(): void {
@@ -42,48 +45,38 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
   initConfigurationForm(routingData) {
     this.productCode = routingData.state.params.rootProduct;
 
-    this.configuratorCommonsService
-      .hasConfiguration(routingData.state.params.rootProduct)
-      .pipe(take(1))
-      .subscribe(hasConfiguration => {
-        if (hasConfiguration) {
-          this.configuration$ = this.configuratorCommonsService.getConfiguration(
-            routingData.state.params.rootProduct
-          );
-        } else {
-          this.configuration$ = this.configuratorCommonsService.createConfiguration(
-            routingData.state.params.rootProduct
-          );
-        }
-      });
+    this.configuration$ = this.configuratorCommonsService.getConfiguration(
+      this.productCode
+    );
+    this.currentGroup$ = this.configuratorGroupsService.getCurrentGroup(
+      this.productCode
+    );
   }
 
   updateConfiguration(changedAttribute) {
     this.configuration$.pipe(take(1)).subscribe(configuration => {
       const changedGroup: Configurator.Group[] = [];
-      //There should only be one active group in the array
-      configuration.groups
-        //.filter(group => group.active === true)
-        .forEach(group => {
-          const attributes: Configurator.Attribute[] = group.attributes.filter(
-            attribute => attribute.name !== changedAttribute.name
-          );
 
-          group.attributes.forEach(attribute => {
-            if (attribute.name === changedAttribute.name) {
-              attributes.push(changedAttribute);
-            }
-          });
+      configuration.groups.forEach(group => {
+        const attributes: Configurator.Attribute[] = group.attributes.filter(
+          attribute => attribute.name !== changedAttribute.name
+        );
 
-          changedGroup.push({
-            description: group.description,
-            attributes: attributes,
-            id: group.id,
-            name: group.name,
-            configurable: group.configurable,
-            groupType: group.groupType,
-          });
+        group.attributes.forEach(attribute => {
+          if (attribute.name === changedAttribute.name) {
+            attributes.push(changedAttribute);
+          }
         });
+
+        changedGroup.push({
+          description: group.description,
+          attributes: attributes,
+          id: group.id,
+          name: group.name,
+          configurable: group.configurable,
+          groupType: group.groupType,
+        });
+      });
 
       //Make new configuration object as state configuration cannot be changed
       const changedConfiguration: Configurator.Configuration = {
