@@ -20,17 +20,20 @@ const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'inStock', stockLevel: 20 },
+  purchasable: true,
 };
 const mockProduct2: Product = {
   name: 'mockPrduct2',
   code: 'code2',
   stock: { stockLevelStatus: 'inStock', stockLevel: 12 },
+  purchasable: true,
 };
 
 const mockNoStockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'outOfStock', stockLevel: 0 },
+  purchasable: false,
 };
 
 class MockCartService {
