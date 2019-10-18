@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { mergeMap, shareReplay, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 /**
@@ -12,7 +12,6 @@ export class ConfiguratorGroupsService {
 
   getCurrentGroup(productCode: string): Observable<string> {
     return this.configuratorCommonsService.getUiState(productCode).pipe(
-      take(1),
       mergeMap(uiState => {
         if (uiState && uiState.currentGroup) {
           return of(uiState.currentGroup);
@@ -53,7 +52,6 @@ export class ConfiguratorGroupsService {
 
   getNextGroup(productCode: string): Observable<string> {
     return this.getCurrentGroup(productCode).pipe(
-      take(1),
       mergeMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
@@ -76,13 +74,13 @@ export class ConfiguratorGroupsService {
               return nextGroup;
             })
           );
-      })
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
   getPreviousGroup(productCode: string): Observable<string> {
     return this.getCurrentGroup(productCode).pipe(
-      take(1),
       mergeMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
@@ -105,7 +103,8 @@ export class ConfiguratorGroupsService {
               return nextGroup;
             })
           );
-      })
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 }
