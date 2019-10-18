@@ -43,6 +43,9 @@ class MockConsentManagementFormComponent {
   requiredConsents: string[] = [];
   @Input()
   isAnonymousConsentsEnabled = true;
+  // TODO(issue:4989) Anonymous consents - remove `isLevel13`
+  @Input()
+  isLevel13 = false;
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
@@ -118,7 +121,9 @@ const mockConsentTemplate: ConsentTemplate = {
 const mockAnonymousConsentsConfig = {
   anonymousConsents: {},
   features: {
+    // TODO(issue:4989) Anonymous consents - remove `level: '1.3',`
     level: '1.3',
+    anonymousConsents: true,
   },
 };
 

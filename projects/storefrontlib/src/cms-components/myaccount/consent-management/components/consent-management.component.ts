@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  ANONYMOUS_CONSENTS_FEATURE,
   AuthService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
+  isFeatureEnabled,
   isFeatureLevel,
   UserConsentService,
 } from '@spartacus/core';
@@ -39,11 +41,13 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   requiredConsents: string[] = [];
 
-  // TODO(issue:4989) Anonymous consents - remove
-  isAnonymousConsentsEnabled = isFeatureLevel(
+  isAnonymousConsentsEnabled = isFeatureEnabled(
     this.anonymousConsentsConfig,
-    '1.3'
+    ANONYMOUS_CONSENTS_FEATURE
   );
+
+  // TODO(issue:4989) Anonymous consents - remove
+  isLevel13 = isFeatureLevel(this.anonymousConsentsConfig, '1.3');
 
   constructor(
     userConsentService: UserConsentService,
