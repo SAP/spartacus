@@ -1,10 +1,6 @@
+import { Configurator } from './configurator.model';
 export namespace ConfiguratorTextfield {
   export interface Configuration {
-    configurationInfos: ConfigurationInfo[];
-  }
-
-  export interface ConfigurationInfo {
-    configurationLabel?: string;
-    configurationValue?: string;
+    attributes: Configurator.Attribute[];
   }
 }

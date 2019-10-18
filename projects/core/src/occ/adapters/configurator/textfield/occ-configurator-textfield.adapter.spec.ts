@@ -59,11 +59,11 @@ describe('OccConfigurationTextfieldAdapter', () => {
     occConfiguratorVariantAdapter.createConfiguration(productCode).subscribe();
 
     const mockReq = httpMock.expectOne(req => {
-      return req.method === 'GET' && req.url === 'createConfiguration';
+      return req.method === 'GET' && req.url === 'createConfigurationTextfield';
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'createConfiguration',
+      'createConfigurationTextfield',
       {
         productCode,
       }

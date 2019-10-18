@@ -5,13 +5,25 @@
 
   <div
     class="cx-item-list-row cx-config-group-attribute"
-    *ngFor="let configurationInfo of configuration.configurationInfos"
+    *ngFor="let attribute of configuration.attributes"
   >
-    <label
-      id="{configurationInfo.configurationLabel}"
-      class="cx-config-attribute-label"
-      [attr.aria-label]="configurationInfo.configurationLabel"
-      >{{ configurationInfo.configurationLabel }}</label
+    <div class="cx-config-attribute-header">
+      <cx-config-attribute-header
+        [attribute]="attribute"
+      ></cx-config-attribute-header>
+    </div>
+    <div
+      class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
     >
+      <cx-config-attribute-input-field
+        [attribute]="attribute"
+        (inputChange)="updateConfiguration($event)"
+      ></cx-config-attribute-input-field>
+    </div>
+    <div class="cx-config-attribute-footer">
+      <cx-config-attribute-footer
+        [attribute]="attribute"
+      ></cx-config-attribute-footer>
+    </div>
   </div>
 </ng-container>

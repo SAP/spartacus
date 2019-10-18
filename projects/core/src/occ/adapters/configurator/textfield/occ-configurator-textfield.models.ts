@@ -9,5 +9,6 @@ export namespace OccConfiguratorTextfield {
   export interface ConfigurationInfo {
     configurationLabel?: string;
     configurationValue?: string;
+    status?: string;
   }
 }

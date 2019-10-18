@@ -10,7 +10,7 @@ import { ConfiguratorTextfieldService } from './configurator-textfield.service';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
-  configurationInfos: [],
+  attributes: [],
 };
 
 describe('ConfiguratorTextfieldService', () => {
@@ -45,7 +45,7 @@ describe('ConfiguratorTextfieldService', () => {
     expect(configurationFromStore).toBeDefined();
 
     configurationFromStore.subscribe(configuration =>
-      expect(configuration.configurationInfos.length).toBe(0)
+      expect(configuration.attributes.length).toBe(0)
     );
 
     expect(store.dispatch).toHaveBeenCalledWith(

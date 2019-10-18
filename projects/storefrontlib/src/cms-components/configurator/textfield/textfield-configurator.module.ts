@@ -12,13 +12,13 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
-import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
+import { VariantConfiguratorModule } from '../variant/variant-configurator.module';
 import { ConfigTextfieldFormComponent } from './config-textfield-form/config-textfield-form.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigureProductModule,
+    VariantConfiguratorModule,
     RouterModule.forChild([
       {
         path: 'configureTEXTFIELD/:rootProduct',

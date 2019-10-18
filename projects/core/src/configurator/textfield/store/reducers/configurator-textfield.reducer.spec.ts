@@ -10,7 +10,7 @@ describe('ConfiguratorTextfieldReducer', () => {
   };
   const productCode = 'CONF_LAPTOP';
   const configuration: ConfiguratorTextfield.Configuration = {
-    configurationInfos: [],
+    attributes: [],
   };
   it('should not change state on CreateConfiguration ', () => {
     const result = reducer(
