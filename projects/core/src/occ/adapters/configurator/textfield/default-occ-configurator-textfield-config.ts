@@ -6,7 +6,8 @@ export function defaultOccConfiguratorTextfieldConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
-          createConfiguration: 'products/${productCode}/configurator/textfield',
+          createConfigurationTextfield:
+            'products/${productCode}/configurator/textfield',
         },
       },
     },

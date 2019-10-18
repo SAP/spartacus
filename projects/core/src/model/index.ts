@@ -1,6 +1,7 @@
 export * from './address.model';
 export * from './cart.model';
 export * from './cms.model';
+export * from './configurator-textfield.model';
 export * from './configurator.model';
 export * from './consent.model';
 export * from './consignment-tracking.model';

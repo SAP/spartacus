@@ -22,7 +22,9 @@ export class OccConfiguratorTextfieldAdapter
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.http
       .get<OccConfiguratorTextfield.Configuration>(
-        this.occEndpointsService.getUrl('createConfiguration', { productCode })
+        this.occEndpointsService.getUrl('createConfigurationTextfield', {
+          productCode,
+        })
       )
       .pipe(this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER));
   }

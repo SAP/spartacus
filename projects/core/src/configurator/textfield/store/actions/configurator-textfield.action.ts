@@ -1,11 +1,12 @@
 import { StateLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_TEXTFIELD_DATA } from '../configuration-textfield-state';
 
-export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
+export const CREATE_CONFIGURATION =
+  '[Configurator] Create Configuration Textfield';
 export const CREATE_CONFIGURATION_FAIL =
-  '[Configurator] Create Configuration Fail';
+  '[Configurator] Create Configuration Textfield Fail';
 export const CREATE_CONFIGURATION_SUCCESS =
-  '[Configurator] Create Configuration Sucess';
+  '[Configurator] Create Configuration Textfield Success';
 
 export class CreateConfiguration extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;

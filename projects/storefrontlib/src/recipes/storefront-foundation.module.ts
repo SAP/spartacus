@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import {
+  AsmModule,
   AuthModule,
   CartModule,
   CheckoutModule,
   CmsModule,
   ConfigModule,
   ConfiguratorCommonsModule,
+  ConfiguratorTextfieldModule,
   FeaturesConfigModule,
   GlobalMessageModule,
   I18nModule,
@@ -14,7 +16,6 @@ import {
   provideConfigFromMetaTags,
   StateModule,
   UserModule,
-  AsmModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
@@ -39,6 +40,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     FeaturesConfigModule.forRoot('1.0'),
     LayoutModule,
     ConfiguratorCommonsModule.forRoot(),
+    ConfiguratorTextfieldModule.forRoot(),
   ],
   exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],

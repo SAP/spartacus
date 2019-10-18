@@ -1,5 +1,17 @@
-<ng-container>
+<ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-total">
-    {{ 'configurator.header.configId' | cxTranslate }} :
+    {{ 'configurator.attribute.caption' | cxTranslate }}
+  </div>
+
+  <div
+    class="cx-item-list-row cx-config-group-attribute"
+    *ngFor="let configurationInfo of configuration.configurationInfos"
+  >
+    <label
+      id="{configurationInfo.configurationLabel}"
+      class="cx-config-attribute-label"
+      [attr.aria-label]="configurationInfo.configurationLabel"
+      >{{ configurationInfo.configurationLabel }}</label
+    >
   </div>
 </ng-container>
