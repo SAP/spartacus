@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ConfiguratorCommonsService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 /**
  * Service to for group handling
