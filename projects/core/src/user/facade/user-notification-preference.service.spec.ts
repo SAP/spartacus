@@ -137,4 +137,11 @@ describe('UserNotificationPreferenceService', () => {
       new UserActions.ResetNotificationPreferences()
     );
   });
+
+  it('should be able to clear notification preferences', () => {
+    userNotificationPreferenceService.clearPreferences();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ClearNotificationPreferences()
+    );
+  });
 });

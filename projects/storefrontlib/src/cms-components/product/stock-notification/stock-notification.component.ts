@@ -168,5 +168,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.interestsService.clearProductInterests();
+    this.notificationPrefService.clearPreferences();
   }
 }

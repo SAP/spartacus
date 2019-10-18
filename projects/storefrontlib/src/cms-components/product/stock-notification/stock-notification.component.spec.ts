@@ -45,7 +45,7 @@ describe('StockNotificationComponent', () => {
   ]);
   const notificationPrefService = jasmine.createSpyObj(
     'UserNotificationPreferenceService',
-    ['loadPreferences', 'getEnabledPreferences']
+    ['loadPreferences', 'getEnabledPreferences', 'clearPreferences']
   );
   const interestsService = jasmine.createSpyObj('interestsService', [
     'getAddProductInterestSuccess',
@@ -129,6 +129,7 @@ describe('StockNotificationComponent', () => {
   beforeEach(() => {
     authService.getOccUserId.and.returnValue(of(OCC_USER_ID_CURRENT));
     notificationPrefService.loadPreferences.and.stub();
+    notificationPrefService.clearPreferences.and.stub();
     notificationPrefService.getEnabledPreferences.and.returnValue(
       of(preferences)
     );
@@ -250,11 +251,12 @@ describe('StockNotificationComponent', () => {
     expect(interestsService.resetAddInterestState).toHaveBeenCalled();
   });
 
-  it('should be able to unsubscribe and reset the state in destory', () => {
+  it('should be able to unsubscribe in destory', () => {
     spyOn(component['subscriptions'], 'unsubscribe').and.stub();
     component.ngOnDestroy();
 
     expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();
     expect(interestsService.clearProductInterests).toHaveBeenCalled();
+    expect(notificationPrefService.clearPreferences).toHaveBeenCalled();
   });
 });
