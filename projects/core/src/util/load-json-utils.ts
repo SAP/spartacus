@@ -11,7 +11,7 @@ export interface NodeHttpsClient {
 
 export class LoadJsonUtils {
   static loadXhr(url: string): Promise<any> {
-    const promiseFn = (resolve, reject) => {
+    const result = new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
       xhr.onload = () => {
@@ -30,15 +30,15 @@ export class LoadJsonUtils {
         reject(e);
       };
       xhr.send();
-    };
-    return new Promise(promiseFn);
+    });
+    return result;
   }
 
   static loadNodeHttps(
     url: string,
     httpsClient: NodeHttpsClient
   ): Promise<any> {
-    const promiseFn = (resolve, reject) => {
+    const result = new Promise((resolve, reject) => {
       httpsClient
         .get(url, response => {
           let data = '';
@@ -60,8 +60,8 @@ export class LoadJsonUtils {
         .on('error', err => {
           reject('Error: ' + err.message);
         });
-    };
-    return new Promise(promiseFn);
+    });
+    return result;
   }
 
   static loadNodeHttpsFactory(

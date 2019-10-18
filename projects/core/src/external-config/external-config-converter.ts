@@ -59,7 +59,7 @@ export class ExternalConfigConverter {
     defaultLanguage,
     urlEncodingAttributes,
   }: ExternalConfig): SiteContextConfig {
-    return {
+    const result = {
       context: {
         urlParameters: ExternalConfigConverter.getUrlParams(
           urlEncodingAttributes
@@ -75,6 +75,7 @@ export class ExternalConfigConverter {
         ),
       },
     };
+    return result;
   }
 
   private static isCurrentBaseSite(
@@ -112,10 +113,11 @@ export class ExternalConfigConverter {
     elements: { isocode?: string }[],
     defaultElement: { isocode?: string }
   ) {
-    return ExternalConfigConverter.moveAsFirst(
+    const result = ExternalConfigConverter.moveAsFirst(
       elements,
       el => el.isocode === defaultElement.isocode
     ).map(el => el.isocode);
+    return result;
   }
 
   /**

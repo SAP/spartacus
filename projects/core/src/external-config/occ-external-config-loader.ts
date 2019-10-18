@@ -37,9 +37,10 @@ export class OccExternalConfigLoader {
 
     endpoint.baseUrl = endpoint.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
 
-    const thenFn = baseSites =>
-      ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl);
-    return OccBaseSitesLoader.load(endpoint).then(thenFn);
+    const result = OccBaseSitesLoader.load(endpoint).then(baseSites =>
+      ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
+    );
+    return result;
   }
 
   /**
@@ -65,9 +66,10 @@ export class OccExternalConfigLoader {
     currentUrl: string;
     httpsClient: NodeHttpsClient;
   }): Promise<ExternalConfig> {
-    const thenFn = baseSites => {
-      return ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl);
-    };
-    return OccBaseSitesLoader.loadSSR(endpoint, httpsClient).then(thenFn);
+    const result = OccBaseSitesLoader.loadSSR(endpoint, httpsClient).then(
+      baseSites =>
+        ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
+    );
+    return result;
   }
 }
