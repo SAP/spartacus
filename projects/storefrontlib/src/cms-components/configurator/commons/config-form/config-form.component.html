@@ -39,6 +39,11 @@
         [attribute]="attribute"
         (selectionChange)="updateConfiguration($event)"
       ></cx-config-attribute-drop-down>
+      <cx-config-attribute-input-field
+        *ngIf="attribute.uiType === UiType.STRING"
+        [attribute]="attribute"
+        (inputChange)="updateConfiguration($event)"
+      ></cx-config-attribute-input-field>
       <cx-config-attribute-read-only
         *ngIf="attribute.uiType === UiType.READ_ONLY"
         [attribute]="attribute"
