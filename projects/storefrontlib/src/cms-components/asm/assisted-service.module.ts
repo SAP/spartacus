@@ -6,11 +6,13 @@ import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmRootComponent } from './asm-root/asm-root.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-form.component';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
+import { IconModule } from '../misc/icon/index';
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     I18nModule,
+    IconModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AsmComponent: {

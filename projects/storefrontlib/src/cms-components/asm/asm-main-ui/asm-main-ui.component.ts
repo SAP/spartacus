@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+import { ICON_TYPE } from '../../misc/icon/index';
 
 @Component({
   selector: 'cx-asm-main-ui',
@@ -21,6 +22,8 @@ export class AsmMainUiComponent implements OnInit {
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
   searchResultsLoading$: Observable<boolean>;
+  endSessionIcon = ICON_TYPE.STOP_CIRCLE;
+
   private startingCustomerSession = false;
 
   constructor(
@@ -91,7 +94,6 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   endSession() {
-    console.log('endSession() call');
     this.authService.logout();
     this.routing.go({ cxRoute: 'home' });
   }
