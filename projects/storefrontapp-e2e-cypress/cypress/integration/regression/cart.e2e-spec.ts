@@ -50,8 +50,8 @@ describe('Cart', () => {
       const storage = JSON.parse(
         window.localStorage.getItem('spartacus-local-data')
       );
-      const cartCode = storage.cart.active.value.content.code;
-      storage.cart.active.value.content.code = 'incorrect-code';
+      const cartCode = storage['multi-cart'].active;
+      storage['multi-cart'].active = 'incorrect-code';
       window.localStorage.setItem(
         'spartacus-local-data',
         JSON.stringify(storage)
@@ -61,6 +61,7 @@ describe('Cart', () => {
       cy.get('.cart-details-wrapper .cx-total').contains(`Cart #${cartCode}`);
     });
   });
+
 
   it('should be loaded after user login', () => {
     cy.server();
@@ -108,7 +109,7 @@ describe('Cart', () => {
   });
 
   // will fail right now, as this is not implemented yet
-  it.skip('should first try to load cart when adding first entry for logged user', () => {
+  it('should first try to load cart when adding first entry for logged user', () => {
     cy.server();
     login(
       cart.cartUser.registrationData.email,
@@ -157,7 +158,7 @@ describe('Cart', () => {
       'cart'
     );
     cart.addToCart();
-    cart.checkAddedToCartDialog();
+    cart.checkAddedToCartDialog(2);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
     cart.checkProductInCart(cart.products[1]);
