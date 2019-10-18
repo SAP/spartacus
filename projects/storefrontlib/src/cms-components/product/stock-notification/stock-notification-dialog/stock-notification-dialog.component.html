@@ -16,7 +16,8 @@
         }}
       </p>
       <p *ngFor="let p of enabledPrefs" class="channels">
-        {{ p.channel + ': ' + p.value }}
+        <span>{{ p.channel }}</span
+        ><span *ngIf="p.value">{{ ': ' + p.value }}</span>
       </p>
       <p>
         {{

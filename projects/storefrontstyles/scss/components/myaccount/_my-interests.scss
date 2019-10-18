@@ -1,6 +1,5 @@
 %cx-my-interests {
-
-  .cx-product-interests-title{
+  .cx-product-interests-title {
     text-transform: uppercase;
     margin: 0 auto;
   }
@@ -55,7 +54,6 @@
       }
 
       @include media-breakpoint-up(md) {
-
         &:last-child {
           text-align: center;
         }
@@ -132,7 +130,7 @@
       span {
         display: inline;
       }
-      span{
+      span {
         padding-left: 2rem;
       }
     }

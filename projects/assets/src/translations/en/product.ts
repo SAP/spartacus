@@ -70,8 +70,8 @@ export const product = {
   stockNotification: {
     notifyMe: 'NOTIFY ME',
     stopNotify: 'STOP NOTIFICATION',
-    activateChannelsPrefix:
-      'To get notified when this product is back in stock again please activate your ',
+    getNotify: 'Get notified when this product is available.',
+    activateChannelsPrefix: 'To be notified you need to activate the ',
     channelsLink: 'Notification Channels',
     activateChannelsSuffix: '.',
     notified: 'You will be notified when this product is back in stock.',
@@ -79,11 +79,11 @@ export const product = {
     unsubscribeSuccess:
       'You will not receive any notifications for this product.',
     subscriptionDialog: {
-      header: 'Out of Stock Subscription',
+      header: 'Out of stock subscription',
       notifiedPrefix: 'You will be notified on:',
       notifiedSuffix: 'as soons as this product is back in stock.',
       manageChannelsPrefix:
-        'Manage your preffered subscriptions channels at the ',
+        'Manage your preffered notification channels at the ',
       manageChannelsLink: 'Channel Settings',
       manageChannelsSuffix: ' page.',
       manageSubscriptionsPrefix: 'You can manage your subscriptions at ',

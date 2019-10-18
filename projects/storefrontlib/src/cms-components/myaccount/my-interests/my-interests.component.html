@@ -21,7 +21,9 @@
               >
               </cx-sorting>
             </div>
-            <div class="cx-product-interests-pagination cx-product-interests-thead-mobile">
+            <div
+              class="cx-product-interests-pagination cx-product-interests-thead-mobile"
+            >
               <cx-pagination
                 [pagination]="pagination"
                 (viewPageEvent)="pageChange($event)"
@@ -168,7 +170,7 @@
                       "
                       (click)="removeInterest(result)"
                     >
-                    {{ 'myInterests.remove' | cxTranslate }}
+                      {{ 'myInterests.remove' | cxTranslate }}
                     </button>
                   </div>
                 </td>
