@@ -9,7 +9,7 @@ class MockQualtricsLoaderService {
   }
 }
 
-fdescribe('QualtricsComponent', () => {
+describe('QualtricsComponent', () => {
   let component: QualtricsComponent;
   let fixture: ComponentFixture<QualtricsComponent>;
 
