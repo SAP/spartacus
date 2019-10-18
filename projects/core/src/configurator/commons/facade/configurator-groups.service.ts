@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 /**
@@ -25,6 +25,7 @@ export class ConfiguratorGroupsService {
                   configuration.groups &&
                   configuration.groups.length > 0
                 ) {
+                  this.setCurrentGroup(productCode, configuration.groups[0].id);
                   return of(configuration.groups[0].id);
                 } else {
                   return of(null); //no configuration with a group found
@@ -34,6 +35,18 @@ export class ConfiguratorGroupsService {
         }
       })
     );
+  }
+
+  setCurrentGroup(productCode: string, groupId: string) {
+    this.configuratorCommonsService
+      .getUiState(productCode)
+      .pipe(take(1))
+      .subscribe(uiState => {
+        this.configuratorCommonsService.setUiState(productCode, {
+          ...uiState,
+          currentGroup: groupId,
+        });
+      });
   }
 
   getNextGroup(productCode: string): Observable<string> {
