@@ -367,6 +367,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
+    if (!this.isAnonymousConsentsEnabled) {
+      return false;
+    }
+
     return (
       Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
       Boolean(

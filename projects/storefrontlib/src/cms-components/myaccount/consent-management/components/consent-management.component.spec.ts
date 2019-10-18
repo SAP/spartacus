@@ -521,6 +521,18 @@ describe('ConsentManagementComponent', () => {
           expect(result).toEqual(true);
         });
       });
+      describe('when the anonymous consents feature is not enabled', () => {
+        it('should return false', () => {
+          anonymousConsentsConfig.anonymousConsents.requiredConsents = [
+            mockConsentTemplate.id,
+          ];
+          mockAnonymousConsentsConfig.features.anonymousConsents = false;
+          const result = component[isRequiredConsentMethod](
+            mockConsentTemplate
+          );
+          expect(result).toEqual(true);
+        });
+      });
     });
 
     const isConsentWithdrawnMethod = 'isConsentWithdrawn';
