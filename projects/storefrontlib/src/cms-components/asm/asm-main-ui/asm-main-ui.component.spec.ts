@@ -309,8 +309,8 @@ fdescribe('AsmMainUiComponent', () => {
 
     //Click button
     const endSessionButton = fixture.debugElement.query(By.css('.end-session'));
-    endSessionButton.nativeElement.dispatchEvent(new MouseEvent('click'));
     spyOn(component, 'endSession');
+    endSessionButton.nativeElement.click();
 
     //assert
     expect(component.endSession).toHaveBeenCalled();

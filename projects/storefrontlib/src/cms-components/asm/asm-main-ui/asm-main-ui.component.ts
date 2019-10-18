@@ -91,6 +91,7 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   endSession() {
+    console.log('endSession() call');
     this.authService.logout();
     this.routing.go({ cxRoute: 'home' });
   }
