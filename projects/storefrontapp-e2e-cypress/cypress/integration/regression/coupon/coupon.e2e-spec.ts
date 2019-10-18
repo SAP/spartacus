@@ -70,9 +70,4 @@ describe('Cart Coupon', () => {
       cartCoupon.varifyOrderHistory(orderData);
     });
   });
-  it('should test anchor works', () => {
-    cartCoupon.addProductToCart(productCode1);
-    cy.get('.cx-cart-coupon-anchor-link').click();
-    cy.get('.input-coupon-code').should('have.focus');
-  });
 });

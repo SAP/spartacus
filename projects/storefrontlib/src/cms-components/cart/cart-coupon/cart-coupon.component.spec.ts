@@ -11,7 +11,6 @@ import {
   CartVoucherService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CartCouponComponentService } from './cart-coupon.component.service';
 import { CartCouponComponent } from './cart-coupon.component';
 import { ICON_TYPE } from '@spartacus/storefront';
 
@@ -22,12 +21,6 @@ import { ICON_TYPE } from '@spartacus/storefront';
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
-
-@Component({
-  selector: 'cx-cart-coupon-anchor',
-  template: '',
-})
-class MockCartCouponAnchorComponentComponent {}
 
 @Component({
   selector: 'cx-applied-coupons',
@@ -45,7 +38,6 @@ class MockAppliedCouponsComponent {
 describe('CartCouponComponent', () => {
   let component: CartCouponComponent;
   let fixture: ComponentFixture<CartCouponComponent>;
-  let cartCouponComponentService;
   let input: HTMLInputElement;
   let el: DebugElement;
 
@@ -68,12 +60,10 @@ describe('CartCouponComponent', () => {
         CartCouponComponent,
         MockAppliedCouponsComponent,
         MockCxIconComponent,
-        MockCartCouponAnchorComponentComponent,
       ],
       providers: [
         { provide: CartService, useValue: mockCartService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
-        CartCouponComponentService,
       ],
     }).compileComponents();
   }));
@@ -82,8 +72,6 @@ describe('CartCouponComponent', () => {
     fixture = TestBed.createComponent(CartCouponComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    cartCouponComponentService = TestBed.get(CartCouponComponentService);
-    spyOn(cartCouponComponentService, 'scrollIn').and.callThrough();
 
     mockCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
     mockCartService.getLoaded.and.returnValue(of(true));

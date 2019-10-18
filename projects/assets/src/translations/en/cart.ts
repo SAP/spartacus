@@ -26,10 +26,10 @@ export const cart = {
     total: 'Total:',
   },
   voucher: {
-    coupon: 'Coupon code',
+    coupon: 'Have a coupon?',
     coupon_plural: 'Coupon codes',
     apply: 'Apply',
-    placeholder: 'Enter coupon code',
+    placeholder: 'Promo code',
     applyVoucherSuccess: '{{voucherCode}} has been applied.',
     removeVoucherSuccess: '{{voucherCode}} has been removed.',
     anchorLabel: 'Enter or remove your coupon code',

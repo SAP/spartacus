@@ -74,9 +74,4 @@ describe('Cart Coupon', () => {
       cartCoupon.varifyOrderHistory(orderData);
     });
   });
-
-  it('should not show anchor', () => {
-    cartCoupon.addProductToCart(productCode1);
-    cy.get('.cx-cart-coupon-anchor-link').should('not.exist');
-  });
 });
