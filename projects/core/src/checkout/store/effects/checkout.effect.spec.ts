@@ -356,10 +356,11 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const completion1 = new CheckoutActions.PlaceOrderSuccess(orderDetails);
+      const completion1 = new CartActions.RemoveCart(cartId);
+      const completion2 = new CheckoutActions.PlaceOrderSuccess(orderDetails);
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(b)', { b: completion1 });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
     });

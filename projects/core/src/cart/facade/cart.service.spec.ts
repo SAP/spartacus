@@ -11,6 +11,7 @@ import { OCC_USER_ID_ANONYMOUS, OCC_CART_ID_CURRENT } from '../../occ/utils/occ-
 import { StateWithCart } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
+import { ActiveCartService } from './active-cart.service';
 
 class CartDataServiceStub {
   userId;
@@ -59,6 +60,7 @@ describe('CartService', () => {
         CartService,
         { provide: CartDataService, useClass: CartDataServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
+        { provide: ActiveCartService }
       ],
     });
 
