@@ -1,15 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { QualtricsConfig } from '../../../shared/config/qualtrics-config';
+import { of } from 'rxjs';
+import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 
-const IsQualtricsLoaded$ = new BehaviorSubject(false);
+// const IsQualtricsLoaded$ = new BehaviorSubject(false);
 const isDataLoadedMethod = 'isDataLoaded';
-const loadQualtricsMethod = 'loadQualtrics';
-const verifyQualtricsMethod = 'verifyQualtrics';
-const isQualtricsConfigured = 'isQualtricsConfigured';
+// const loadQualtricsMethod = 'loadQualtrics';
+// const verifyQualtricsMethod = 'verifyQualtrics';
+// const isQualtricsConfigured = 'isQualtricsConfigured';
 
 const mockQualtricsConfig: QualtricsConfig = {
   qualtrics: {},
@@ -27,7 +27,7 @@ const mockWindowRef = {
   },
 };
 
-fdescribe('QualtricsLoaderService', () => {
+describe('QualtricsLoaderService', () => {
   let service: QualtricsLoaderService;
   let winRef: WindowRef;
 

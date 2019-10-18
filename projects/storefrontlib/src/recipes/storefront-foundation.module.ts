@@ -17,7 +17,6 @@ import {
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
-import { QualtricsConfigModule } from '../shared/config/qualtrics-config.module';
 import { ViewConfigModule } from '../shared/config/view-config.module';
 
 @NgModule({
@@ -29,7 +28,6 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     RoutingModule.forRoot(),
     I18nModule.forRoot(),
     CmsModule.forRoot(),
-    QualtricsConfigModule,
     GlobalMessageModule.forRoot(),
     ProcessModule.forRoot(),
     CartModule.forRoot(),

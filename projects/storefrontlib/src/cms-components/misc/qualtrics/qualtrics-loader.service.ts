@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { BehaviorSubject, fromEvent, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
-import { QualtricsConfig } from '../../../shared/config/qualtrics-config';
+import { QualtricsConfig } from './config/qualtrics-config';
 
 @Injectable({
   providedIn: 'root',
