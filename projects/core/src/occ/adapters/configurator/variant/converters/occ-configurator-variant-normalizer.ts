@@ -30,7 +30,6 @@ export class OccConfiguratorVariantNormalizer
     );
 
     groupList.push({
-      active: groupList.length === 0, //first group will be set to active
       description: source.description,
       configurable: source.configurable,
       groupType: this.convertGroupType(source.groupType),
