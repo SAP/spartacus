@@ -1,5 +1,8 @@
 <ng-container *ngIf="interests$ | async as interests">
   <div class="container">
+    <div class="cx-product-interests-title h3">
+      <span> {{ 'myInterests.header' | cxTranslate }}</span>
+    </div>
     <div class="cx-product-interests-body">
       <ng-container *ngIf="!(getInterestsloading$ | async); else loading">
         <ng-container
@@ -18,7 +21,7 @@
               >
               </cx-sorting>
             </div>
-            <div class="cx-product-interests-pagination">
+            <div class="cx-product-interests-pagination cx-product-interests-thead-mobile">
               <cx-pagination
                 [pagination]="pagination"
                 (viewPageEvent)="pageChange($event)"
@@ -35,7 +38,7 @@
                 {{ 'myInterests.price' | cxTranslate }}
               </th>
               <th scope="col">
-                {{ 'myInterests.subcriptions' | cxTranslate }}
+                {{ 'myInterests.notifications' | cxTranslate }}
               </th>
               <th scope="col"></th>
             </thead>
@@ -131,7 +134,7 @@
                 <td>
                   <div class="cx-product-interests-subscriptions">
                     <div class="d-md-none cx-product-interests-label">
-                      {{ 'myInterests.subcriptions' | cxTranslate }}
+                      {{ 'myInterests.notifications' | cxTranslate }}
                     </div>
                     <div
                       class="cx-product-interests-notification"
@@ -151,11 +154,10 @@
                   </div>
                 </td>
                 <td>
-                  <div class="cx-product-interests-remove-button">
+                  <div class="cx-actions cx-product-interests-remove-button">
                     <button
                       type="button"
-                      class="close cx-product-interests-remove-btn"
-                      aria-label="Close"
+                      class="link cx-product-interests-remove-btn"
                       [class.disabled]="
                         (getInterestsloading$ | async) ||
                         (getRemoveInterestsloading$ | async)
@@ -166,9 +168,7 @@
                       "
                       (click)="removeInterest(result)"
                     >
-                      <span aria-hidden="true">
-                        <cx-icon [type]="iconTypes.CLOSE"></cx-icon
-                      ></span>
+                    {{ 'myInterests.remove' | cxTranslate }}
                     </button>
                   </div>
                 </td>
@@ -178,7 +178,7 @@
           <!-- Select Form and Pagination Bottom -->
           <div class="cx-product-interests-sort bottom row">
             <div
-              class="cx-product-interests-form-group form-group col-sm-12 col-md-4 col-lg-4"
+              class="cx-product-interests-form-group cx-product-interests-thead-mobile form-group col-sm-12 col-md-4 col-lg-4"
             >
               <cx-sorting
                 [sortOptions]="sortOptions"

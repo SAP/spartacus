@@ -1,4 +1,9 @@
 %cx-my-interests {
+
+  .cx-product-interests-title{
+    text-transform: uppercase;
+    margin: 0 auto;
+  }
   .cx-product-interests {
     @include media-breakpoint-down(sm) {
       max-width: 1%;
@@ -21,7 +26,7 @@
         border-style: solid;
 
         &:first-child {
-          border-width: 0;
+          border-width: 1px 0 0 0;
           padding: 1.25rem 0 0 0;
         }
       }
@@ -43,14 +48,13 @@
       &:first-child {
         width: 10%;
         padding-right: 1.25rem;
+        padding-left: 1.25rem;
       }
       &:last-child {
-        width: 10%;
-        padding-right: 5%;
+        justify-content: flex-end;
       }
 
       @include media-breakpoint-up(md) {
-        text-align: left;
 
         &:last-child {
           text-align: center;
@@ -61,6 +65,13 @@
         a {
           color: $dark;
           font-weight: var(--cx-font-weight-bold);
+        }
+      }
+
+      .cx-actions {
+        button.link {
+          font-weight: var(--cx-font-weight-bold);
+          font-size: var(--cx-font-size, 0.875rem);
         }
       }
 
@@ -98,14 +109,14 @@
         width: 100%;
         display: flex;
         border-width: 0;
-        padding: 0 1.25rem;
+        padding: 0 0 0.5rem 0;
 
         cx-media.is-missing {
           max-width: 96px;
         }
 
         &:first-child {
-          padding-top: 1.25rem;
+          padding-left: 0.5rem;
         }
 
         &:last-child {
@@ -120,6 +131,9 @@
       .cx-product-interests-label,
       span {
         display: inline;
+      }
+      span{
+        padding-left: 2rem;
       }
     }
   }
@@ -174,7 +188,7 @@
     margin-bottom: 0;
 
     @include media-breakpoint-down(sm) {
-      padding: 1.25rem;
+      padding: 1.25rem 0 1.25rem 0;
     }
   }
 
@@ -199,7 +213,6 @@
 
       @include media-breakpoint-down(sm) {
         flex-direction: column;
-        padding-top: 0;
       }
     }
   }
