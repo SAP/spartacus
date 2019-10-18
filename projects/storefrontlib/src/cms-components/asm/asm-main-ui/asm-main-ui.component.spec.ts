@@ -95,7 +95,7 @@ class MockIconLoaderService {
   addLinkResource() {}
 }
 
-describe('AsmMainUiComponent', () => {
+fdescribe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
@@ -298,14 +298,7 @@ describe('AsmMainUiComponent', () => {
     });
   });
 
-  it("should end session on 'End Session' button click", () => {
-    //agent sign in
-    const agent_login = {
-      userId: 'asagent',
-      password: 'password',
-    };
-    component.loginCustomerSupportAgent(agent_login);
-
+  it("should call endSession() on 'End Session' button click", () => {
     //customer login
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
@@ -326,5 +319,27 @@ describe('AsmMainUiComponent', () => {
 
     //assert
     expect(component.endSession).toHaveBeenCalled();
+  });
+
+  it('should route back to homepage on end session button click', () => {
+    //customer login
+    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
+    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(userService, 'get').and.returnValue(of(testUser));
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    //Click button
+    const endSessionButton = fixture.debugElement.query(
+      By.css('.fd-button--negative')
+    );
+    spyOn(routingService, 'go');
+    endSessionButton.nativeElement.click();
+
+    expect(routingService.go).toHaveBeenCalled();
   });
 });
