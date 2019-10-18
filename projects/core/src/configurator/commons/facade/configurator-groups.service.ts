@@ -12,6 +12,7 @@ export class ConfiguratorGroupsService {
 
   getCurrentGroup(productCode: string): Observable<string> {
     return this.configuratorCommonsService.getUiState(productCode).pipe(
+      take(1),
       mergeMap(uiState => {
         if (uiState && uiState.currentGroup) {
           return of(uiState.currentGroup);
@@ -19,6 +20,7 @@ export class ConfiguratorGroupsService {
           return this.configuratorCommonsService
             .getConfiguration(productCode)
             .pipe(
+              take(1),
               mergeMap(configuration => {
                 if (
                   configuration &&
@@ -51,6 +53,7 @@ export class ConfiguratorGroupsService {
 
   getNextGroup(productCode: string): Observable<string> {
     return this.getCurrentGroup(productCode).pipe(
+      take(1),
       mergeMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
@@ -59,6 +62,7 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService
           .getConfiguration(productCode)
           .pipe(
+            take(1),
             mergeMap(configuration => {
               let nextGroup = of(null);
               configuration.groups.forEach((group, index) => {
@@ -78,6 +82,7 @@ export class ConfiguratorGroupsService {
 
   getPreviousGroup(productCode: string): Observable<string> {
     return this.getCurrentGroup(productCode).pipe(
+      take(1),
       mergeMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
@@ -86,6 +91,7 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService
           .getConfiguration(productCode)
           .pipe(
+            take(1),
             mergeMap(configuration => {
               let nextGroup = of(null);
               configuration.groups.forEach((group, index) => {
