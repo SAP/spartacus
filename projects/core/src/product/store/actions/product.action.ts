@@ -17,8 +17,8 @@ export interface EntityScopedLoaderAction extends Action {
   readonly meta?: ProductMeta;
 }
 
-
-export class LoadProduct extends StateEntityLoaderActions.EntityLoadAction implements EntityScopedLoaderAction {
+export class LoadProduct extends StateEntityLoaderActions.EntityLoadAction
+  implements EntityScopedLoaderAction {
   readonly type = LOAD_PRODUCT;
   readonly meta: ProductMeta;
   constructor(public payload: string, scope?: string) {
@@ -27,7 +27,8 @@ export class LoadProduct extends StateEntityLoaderActions.EntityLoadAction imple
   }
 }
 
-export class LoadProductFail extends StateEntityLoaderActions.EntityFailAction implements EntityScopedLoaderAction {
+export class LoadProductFail extends StateEntityLoaderActions.EntityFailAction
+  implements EntityScopedLoaderAction {
   readonly type = LOAD_PRODUCT_FAIL;
   readonly meta: ProductMeta;
   constructor(productCode: string, public payload: any, scope?: string) {
@@ -36,7 +37,9 @@ export class LoadProductFail extends StateEntityLoaderActions.EntityFailAction i
   }
 }
 
-export class LoadProductSuccess extends StateEntityLoaderActions.EntitySuccessAction implements EntityScopedLoaderAction {
+export class LoadProductSuccess
+  extends StateEntityLoaderActions.EntitySuccessAction
+  implements EntityScopedLoaderAction {
   readonly type = LOAD_PRODUCT_SUCCESS;
   readonly meta: ProductMeta;
   constructor(public payload: Product, scope?: string) {
