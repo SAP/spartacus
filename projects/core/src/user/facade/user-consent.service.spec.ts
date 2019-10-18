@@ -16,6 +16,9 @@ class MockAuthService {
   getOccUserId(): Observable<string> {
     return of(OCC_USER_ID_CURRENT);
   }
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 describe('UserConsentService', () => {
@@ -258,6 +261,28 @@ describe('UserConsentService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new UserActions.ResetWithdrawUserConsentProcess()
         );
+      });
+    });
+  });
+
+  describe('filterConsentTemplates', () => {
+    const mockTemplateList: ConsentTemplate[] = [
+      { id: 'MARKETING' },
+      { id: 'PERSONALIZATION' },
+    ];
+
+    describe('when the empty hideTemplateIds is provided', () => {
+      it('should return the provided templateList', () => {
+        expect(service.filterConsentTemplates(mockTemplateList)).toEqual(
+          mockTemplateList
+        );
+      });
+    });
+    describe('when a list of IDs to hide is provided', () => {
+      it('should remove them from the provided templateList', () => {
+        expect(
+          service.filterConsentTemplates(mockTemplateList, ['MARKETING'])
+        ).toEqual([mockTemplateList[1]]);
       });
     });
   });
