@@ -228,6 +228,7 @@ describe('MyInterestsComponent', () => {
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
+    expect(el.queryAll(By.css('.cx-product-interests-title')).length).toEqual(1);
     expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
     expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
     expect(
