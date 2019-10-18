@@ -58,7 +58,7 @@ export function verifyProductSearch(
 }
 
 export function searchResult() {
-  cy.get(resultsTitleSelector).should('contain', '145 results for "camera"');
+  cy.get(resultsTitleSelector).should('contain', '144 results for "camera"');
   cy.get(productItemSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
