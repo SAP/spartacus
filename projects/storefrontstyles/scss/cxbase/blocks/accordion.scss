@@ -46,3 +46,44 @@
     }
   }
 }
+
+//cx-accordion is an alterative version of the accordion
+//media queries are to be added in each component
+//ex. anonymus consent dialog
+.cx-accordion {
+  margin: 5px auto;
+  line-height: 1.6;
+  list-style-type: none;
+  padding: 0;
+
+  .cx-accordion-item {
+    border: 1px solid var(--cx-color-light);
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .cx-accordion-tab {
+      background-color: var(--cx-color-inverse);
+      &:hover {
+        cursor: pointer;
+      }
+      .cx-accordion-title {
+        padding: 15px 15px 15px 50px;
+        display: block;
+        position: relative;
+        font-weight: 600;
+      }
+    }
+
+    .cx-accordion-tabpanel {
+      transition: height 0.3s ease-out;
+      height: 0;
+      overflow: hidden;
+      background-color: var(--cx-color-inverse);
+
+      .cx-accordion-content {
+        padding: 0 40px 10px 40px;
+      }
+    }
+  }
+}
