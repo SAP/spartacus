@@ -23,6 +23,7 @@ const occCsticWithValues: OccConfigurator.Characteristic = {
 };
 const configuration: OccConfigurator.Configuration = {
   complete: true,
+  kbKey: { productCode: 'CONF_PRODUCT' },
   groups: [{ cstics: [occCsticWithValues] }],
 };
 

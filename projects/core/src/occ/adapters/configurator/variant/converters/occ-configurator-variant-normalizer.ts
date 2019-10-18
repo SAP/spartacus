@@ -16,6 +16,7 @@ export class OccConfiguratorVariantNormalizer
     target = {
       configId: source.configId,
       complete: source.complete,
+      productCode: source.kbKey.productCode,
       groups: [],
     };
 

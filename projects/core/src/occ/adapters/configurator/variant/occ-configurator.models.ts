@@ -14,6 +14,11 @@ export namespace OccConfigurator {
     complete?: boolean;
 
     groups?: Group[];
+    kbKey?: KbKey;
+  }
+
+  export interface KbKey {
+    productCode?: string;
   }
 
   export interface Group {
