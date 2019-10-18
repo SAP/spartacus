@@ -17,6 +17,37 @@ export class QualtricsLoaderService {
     }
   }
 
+  private initialize(): void {
+    fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded')
+      .pipe(filter(_ => this.isQualtricsConfigured()))
+      .subscribe(_ => this.qualtricsLoaded$.next(true));
+  }
+
+  private setup(): void {
+    if (!this.isQualtricsConfigured()) {
+      return;
+    }
+    const qualtricsScript = this.winRef.document.createElement('script');
+    qualtricsScript.type = 'text/javascript';
+    qualtricsScript.defer = true;
+    qualtricsScript.src = 'assets/qualtricsIntegration.js';
+
+    const idScript = this.winRef.document.createElement('div');
+    idScript.id = this.config.qualtrics.projectId;
+
+    this.winRef.document
+      .getElementsByTagName('head')[0]
+      .appendChild(qualtricsScript);
+
+    this.winRef.document.getElementsByTagName('head')[0].appendChild(idScript);
+  }
+
+  private isQualtricsConfigured(): boolean {
+    return (
+      Boolean(this.config.qualtrics) && Boolean(this.config.qualtrics.projectId)
+    );
+  }
+
   load(): Observable<boolean> {
     return this.qualtricsLoaded$.pipe(
       filter(loaded => loaded),
@@ -32,36 +63,6 @@ export class QualtricsLoaderService {
           })
         );
       })
-    );
-  }
-
-  private initialize() {
-    fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded')
-      .pipe(filter(_ => this.isQualtricsConfigured()))
-      .subscribe(_ => this.qualtricsLoaded$.next(true));
-  }
-
-  private setup() {
-    const qualtricsScript = this.winRef.document.createElement('script');
-    qualtricsScript.type = 'text/javascript';
-    qualtricsScript.defer = true;
-    qualtricsScript.src = 'assets/qualtricsIntegration.js';
-
-    const idScript = this.winRef.document.createElement('div');
-    if (this.isQualtricsConfigured) {
-      idScript.id = this.config.qualtrics.projectId;
-    }
-
-    this.winRef.document
-      .getElementsByTagName('head')[0]
-      .appendChild(qualtricsScript);
-
-    this.winRef.document.getElementsByTagName('head')[0].appendChild(idScript);
-  }
-
-  private isQualtricsConfigured(): boolean {
-    return (
-      Boolean(this.config.qualtrics) && Boolean(this.config.qualtrics.projectId)
     );
   }
 
