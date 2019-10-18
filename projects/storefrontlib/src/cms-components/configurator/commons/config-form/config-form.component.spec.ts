@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ConfigAttributeFooterComponent } from '../config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeDropDownComponent } from '../config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
@@ -45,16 +46,56 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
+  public config: Configurator.Configuration = {
+    configId: '1234-56-7890',
+    groups: [
+      {
+        configurable: true,
+        description: 'Core components',
+        groupType: Configurator.GroupType.CSTIC_GROUP,
+        id: '1-CPQ_LAPTOP.1',
+        name: '1',
+        attributes: [
+          {
+            label: 'Expected Number',
+            name: 'EXP_NUMBER',
+            required: true,
+            uiType: Configurator.UiType.NOT_IMPLEMENTED,
+            values: [],
+          },
+          {
+            label: 'Processor',
+            name: 'CPQ_CPU',
+            required: true,
+            selectedSingleValue: 'INTELI5_35',
+            uiType: Configurator.UiType.RADIOBUTTON,
+            values: [],
+          },
+        ],
+      },
+      {
+        configurable: true,
+        description: 'Peripherals & Accessories',
+        groupType: Configurator.GroupType.CSTIC_GROUP,
+        id: '1-CPQ_LAPTOP.2',
+        name: '2',
+        attributes: [],
+      },
+      {
+        configurable: true,
+        description: 'Software',
+        groupType: Configurator.GroupType.CSTIC_GROUP,
+        id: '1-CPQ_LAPTOP.3',
+        name: '3',
+        attributes: [],
+      },
+    ],
+  };
   createConfiguration(
     productCode: string
   ): Observable<Configurator.Configuration> {
-    const productConfig: Configurator.Configuration = {
-      configId: 'a',
-      consistent: true,
-      complete: true,
-      productCode: productCode,
-    };
-    return of(productConfig);
+    this.config.productCode = productCode;
+    return of(this.config);
   }
   getConfiguration(
     productCode: string
@@ -137,5 +178,63 @@ describe('ConfigurationFormComponent', () => {
     );
 
     expect(productCode).toEqual(PRODUCT_CODE);
+  });
+
+  it('should return first group as active group', () => {
+    fixture.detectChanges();
+    expect(component.getActiveGroup()).toEqual('1-CPQ_LAPTOP.1');
+  });
+
+  it('should return index of group', () => {
+    fixture.detectChanges();
+    let currentGroup;
+    component.configuration$.pipe(take(1)).subscribe(config => {
+      currentGroup = config.groups[1];
+    });
+    expect(component.getIndexOfGroup(currentGroup)).toEqual(1);
+  });
+
+  it('should navigate to next group', () => {
+    fixture.detectChanges();
+    let currentGroup;
+    component.configuration$.pipe(take(1)).subscribe(config => {
+      currentGroup = config.groups[1];
+    });
+    component.navigateToNextGroup(currentGroup);
+    expect(component.getActiveGroup()).toEqual('1-CPQ_LAPTOP.3');
+  });
+
+  it('should stay on the same group if it is the last one', () => {
+    fixture.detectChanges();
+    let currentGroup;
+    component.configuration$.pipe(take(1)).subscribe(config => {
+      currentGroup = config.groups[1];
+    });
+    component.navigateToNextGroup(currentGroup);
+    component.configuration$.pipe(take(1)).subscribe(config => {
+      currentGroup = config.groups[2];
+    });
+    component.navigateToNextGroup(currentGroup);
+    expect(component.getActiveGroup()).toEqual('1-CPQ_LAPTOP.3');
+  });
+
+  it('should navigate to previous group', () => {
+    fixture.detectChanges();
+    let currentGroup;
+    component.configuration$.pipe(take(1)).subscribe(config => {
+      currentGroup = config.groups[1];
+    });
+    component.navigateToPreviousGroup(currentGroup);
+    expect(component.getActiveGroup()).toEqual('1-CPQ_LAPTOP.1');
+  });
+
+  it('should stay on the same group if it is the first one', () => {
+    fixture.detectChanges();
+    let currentGroup;
+    component.configuration$.pipe(take(1)).subscribe(config => {
+      currentGroup = config.groups[0];
+    });
+    component.navigateToPreviousGroup(currentGroup);
+    expect(component.getActiveGroup()).toEqual('1-CPQ_LAPTOP.1');
   });
 });
