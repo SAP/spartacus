@@ -39,7 +39,11 @@ class MockRoutingConfig {}
 
 class MockRouter {}
 
-class MockCmsService {}
+class MockCmsService {
+  getComponentData() {
+    return of();
+  }
+}
 
 fdescribe('CreateComponent', () => {
   let component: BannerCarouselComponent;
@@ -56,11 +60,11 @@ fdescribe('CreateComponent', () => {
       ],
       providers: [
         { provide: IconLoaderService, useClass: MockIconLoaderService },
+        { provide: CmsService, useClass: MockCmsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: Store, useClass: MockStore },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: Router, useClass: MockRouter },
-        { provide: CmsService, useClass: MockCmsService },
       ],
     }).compileComponents();
   }));
@@ -68,6 +72,7 @@ fdescribe('CreateComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerCarouselComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
