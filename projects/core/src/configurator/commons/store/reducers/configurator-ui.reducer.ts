@@ -15,7 +15,7 @@ export function reducer(
 
       return {
         ...state,
-        currentGroup: content,
+        ...content,
       };
     }
     case ConfiguratorUiActions.CREATE_UI_STATE:
