@@ -8,7 +8,7 @@ import { QualtricsConfig } from './config/qualtrics-config';
   providedIn: 'root',
 })
 export class QualtricsLoaderService {
-  qualtricsLoaded$ = new BehaviorSubject<boolean>(false);
+  private qualtricsLoaded$ = new BehaviorSubject<boolean>(false);
 
   constructor(private winRef: WindowRef, private config: QualtricsConfig) {
     if (
