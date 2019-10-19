@@ -1,4 +1,5 @@
 import {
+  AnonymousConsentsConfig,
   AuthConfig,
   CmsConfig,
   ExternalRoutesConfig,
@@ -20,6 +21,7 @@ import { LayoutConfig } from './layout/config/layout-config';
 import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =
+  | AnonymousConsentsConfig
   | AuthConfig
   | CmsConfig
   | OccConfig

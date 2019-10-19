@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
+  AnonymousConsentsModule,
   AsmModule,
   AuthModule,
   CartModule,
@@ -24,6 +25,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     AsmModule.forRoot(),
     StateModule.forRoot(),
     AuthModule.forRoot(),
+    AnonymousConsentsModule.forRoot(),
     ConfigModule.forRoot(),
     RoutingModule.forRoot(),
     I18nModule.forRoot(),

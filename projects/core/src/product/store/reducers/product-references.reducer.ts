@@ -18,9 +18,30 @@ export function reducer(
 
       return {
         ...state,
-        list,
+        list: [...state.list, ...(list ? list : [])].reduce(
+          (
+            productReferences: ProductReference[],
+            productReference: ProductReference
+          ) => {
+            if (
+              !productReferences.some(
+                obj =>
+                  obj.referenceType === productReference.referenceType &&
+                  obj.target.code === productReference.target.code
+              )
+            ) {
+              productReferences.push(productReference);
+            }
+            return productReferences;
+          },
+          []
+        ),
         productCode,
       };
+    }
+
+    case ProductActions.CLEAN_PRODUCT_REFERENCES: {
+      return initialState;
     }
   }
 
