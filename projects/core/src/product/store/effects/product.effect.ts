@@ -5,7 +5,7 @@ import { catchError, map, mergeMap, switchMapTo } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import { ProductActions } from '../actions/index';
-import { ProductWithScope } from '../../connectors/product/product-woth-scope';
+import { ProductWithScope } from '../../connectors/product/product-with-scope';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
 

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Product } from '../../../model/product.model';
-import { ProductWithScope } from './product-woth-scope';
+import { ProductWithScope } from './product-with-scope';
 
 export abstract class ProductAdapter {
   /**
