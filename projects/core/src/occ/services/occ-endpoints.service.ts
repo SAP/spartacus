@@ -74,6 +74,7 @@ export class OccEndpointsService {
    * @param endpoint Name of the OCC endpoint key config
    * @param urlParams  URL parameters
    * @param queryParams Query parameters
+   * @param scope
    */
   getUrl(
     endpoint: string,
@@ -121,7 +122,7 @@ export class OccEndpointsService {
     return this.getEndpoint(endpoint);
   }
 
-  private getEndpointForScope(endpoint: string, scope?: string): string {
+  private getEndpointForScope(endpoint: string, scope: string): string {
     if (
       this.config.backend &&
       this.config.backend.occ &&
@@ -130,17 +131,18 @@ export class OccEndpointsService {
       const endpointConfig = this.config.backend.occ.endpoints[endpoint];
 
       if (typeof endpointConfig === 'string') {
+        if (isDevMode() && scope) {
+          console.warn(`${endpoint} endpoint configuration is not optimal`);
+        }
         return endpointConfig;
       } else {
         if (endpointConfig[scope]) {
           return endpointConfig[scope];
         } else {
           if (isDevMode()) {
-            if (!!scope) {
-              console.warn('You should specify scope when loading product');
-            } else {
-              console.warn("Scope you specified doesn't exists");
-            }
+            console.warn(
+              `${endpoint} endpoint configuration missing for scope "${scope}"`
+            );
             return (
               endpointConfig[''] ||
               endpointConfig[Object.keys(endpointConfig)[0]]
