@@ -1,8 +1,8 @@
 import { Product } from '../../../model/product.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
 import { Action } from '@ngrx/store';
+import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
@@ -17,34 +17,23 @@ export interface EntityScopedLoaderAction extends Action {
   readonly meta?: ProductMeta;
 }
 
-export class LoadProduct extends StateEntityLoaderActions.EntityLoadAction
-  implements EntityScopedLoaderAction {
+export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadAction {
   readonly type = LOAD_PRODUCT;
-  readonly meta: ProductMeta;
   constructor(public payload: string, scope?: string) {
-    super(PRODUCT_DETAIL_ENTITY, payload);
-    this.meta.scope = scope;
+    super(PRODUCT_DETAIL_ENTITY, payload, scope);
   }
 }
 
-export class LoadProductFail extends StateEntityLoaderActions.EntityFailAction
-  implements EntityScopedLoaderAction {
+export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
   readonly type = LOAD_PRODUCT_FAIL;
-  readonly meta: ProductMeta;
   constructor(productCode: string, public payload: any, scope?: string) {
-    super(PRODUCT_DETAIL_ENTITY, productCode, payload);
-    this.meta.scope = scope;
+    super(PRODUCT_DETAIL_ENTITY, productCode, scope, payload);
   }
 }
 
-export class LoadProductSuccess
-  extends StateEntityLoaderActions.EntitySuccessAction
-  implements EntityScopedLoaderAction {
-  readonly type = LOAD_PRODUCT_SUCCESS;
-  readonly meta: ProductMeta;
+export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
   constructor(public payload: Product, scope?: string) {
-    super(PRODUCT_DETAIL_ENTITY, payload.code);
-    this.meta.scope = scope;
+    super(PRODUCT_DETAIL_ENTITY, payload.code, scope);
   }
 }
 
