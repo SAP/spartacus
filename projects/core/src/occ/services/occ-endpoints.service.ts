@@ -149,5 +149,6 @@ export class OccEndpointsService {
         }
       }
     }
+    return endpoint;
   }
 }
