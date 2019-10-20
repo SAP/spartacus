@@ -11,7 +11,10 @@ describe('OccEndpointsService', () => {
         prefix: '/test-occPrefix',
         endpoints: {
           login: '/authorizationserver/oauth/token',
-          product: 'configured-endpoint1/${test}?fields=abc',
+          product: {
+            '': 'configured-endpoint1/${test}?fields=abc',
+            test: 'configured-endpoint1/${test}?fields=test',
+          },
         },
       },
     },
@@ -58,6 +61,14 @@ describe('OccEndpointsService', () => {
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
+      );
+    });
+
+    it('should return endpoint from config with scope', () => {
+      const url = service.getUrl('product', undefined, undefined, 'test');
+
+      expect(url).toEqual(
+        baseEndpoint + '/configured-endpoint1/${test}?fields=test'
       );
     });
 
