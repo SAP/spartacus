@@ -6,48 +6,28 @@ import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
-import { OccConfig } from '../../occ/config/occ-config';
+import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 
 @Injectable()
 export class ProductService {
+  /**
+   * @deprecated since 1.4
+   */
+  constructor(store: Store<StateWithProduct>);
+  constructor(
+    store: Store<StateWithProduct>,
+    // tslint:disable-next-line:unified-signatures
+    loadingScopes: LoadingScopesService
+  );
+
   constructor(
     protected store: Store<StateWithProduct>,
-    protected config?: OccConfig
+    protected loadingScopes?: LoadingScopesService
   ) {}
 
   private products: {
     [code: string]: { [scope: string]: Observable<Product> };
   } = {};
-
-  /**
-   * Aims to expand scopes based on entityScopes config.
-   *
-   * I.e. if 'details' scope includes 'list' scope by configuration, you'll get ['details', 'list']
-   *
-   * @param scopes
-   */
-  private expandScopes(scopes: string | string[]): string[] {
-    scopes = [].concat(scopes);
-    const includedScopes = [];
-
-    const scopesConfig =
-      this.config &&
-      this.config.backend &&
-      this.config.backend.entityScopes &&
-      this.config.backend.entityScopes.product;
-
-    if (scopesConfig) {
-      scopes.forEach(scope => {
-        if (scopesConfig[scope] && scopesConfig[scope].include) {
-          includedScopes.push(...scopesConfig[scope].include);
-        }
-      });
-
-      return Array.from(new Set([...scopes, ...includedScopes]));
-    }
-
-    return scopes;
-  }
 
   /**
    * Returns the product observable. The product will be loaded
@@ -60,7 +40,12 @@ export class ProductService {
     productCode: string,
     scopes: string[] | string = ''
   ): Observable<Product> {
-    scopes = this.expandScopes(scopes);
+    scopes = [].concat(scopes);
+
+    if (this.loadingScopes) {
+      // TODO: Deprecated since 1.4, remove
+      scopes = this.loadingScopes.expand('product', scopes);
+    }
 
     this.initProductScopes(productCode, scopes);
 

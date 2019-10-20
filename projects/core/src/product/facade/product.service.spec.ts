@@ -8,9 +8,14 @@ import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductService } from './product.service';
-import { OccConfig } from '@spartacus/core';
+import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
+import createSpy = jasmine.createSpy;
 
-fdescribe('ProductService', () => {
+class MockLoadingScopesService {
+  expand = createSpy('expand').and.callFake((_, scopes) => scopes);
+}
+
+describe('ProductService', () => {
   let store: Store<StateWithProduct>;
   let service: ProductService;
   const mockProduct: Product = { code: 'testId' };
@@ -27,8 +32,8 @@ fdescribe('ProductService', () => {
       providers: [
         ProductService,
         {
-          provide: OccConfig,
-          useValue: {},
+          provide: LoadingScopesService,
+          useClass: MockLoadingScopesService,
         },
       ],
     });
@@ -81,6 +86,18 @@ fdescribe('ProductService', () => {
         })
         .unsubscribe();
       expect(result).toEqual({ ...productScopes[0], ...productScopes[1] });
+    });
+
+    it('should expand loading scopes', () => {
+      const loadingScopesService = TestBed.get(LoadingScopesService);
+      service
+        .get('testId', ['scope1', 'scope2'])
+        .subscribe()
+        .unsubscribe();
+      expect(loadingScopesService.expand).toHaveBeenCalledWith('product', [
+        'scope1',
+        'scope2',
+      ]);
     });
   });
 
