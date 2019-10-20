@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, queueScheduler } from 'rxjs';
 import { map, observeOn, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
@@ -31,19 +31,22 @@ export class ProductService {
     const includedScopes = [];
 
     const scopesConfig =
-      (this.config &&
-        this.config.backend &&
-        this.config.backend.entityScopes &&
-        this.config.backend.entityScopes.product) ||
-      [];
+      this.config &&
+      this.config.backend &&
+      this.config.backend.entityScopes &&
+      this.config.backend.entityScopes.product;
 
-    scopes.forEach(scope => {
-      if (scopesConfig[scope] && scopesConfig[scope].include) {
-        includedScopes.push(...scopesConfig[scope].include);
-      }
-    });
+    if (scopesConfig) {
+      scopes.forEach(scope => {
+        if (scopesConfig[scope] && scopesConfig[scope].include) {
+          includedScopes.push(...scopesConfig[scope].include);
+        }
+      });
 
-    return Array.from(new Set([...scopes, ...includedScopes]));
+      return Array.from(new Set([...scopes, ...includedScopes]));
+    }
+
+    return scopes;
   }
 
   /**
@@ -99,7 +102,7 @@ export class ProductService {
       select(
         ProductSelectors.getSelectedProductStateFactory(productCode, scope)
       ),
-      observeOn(asyncScheduler),
+      observeOn(queueScheduler),
       tap(productState => {
         const attemptedLoad =
           productState.loading || productState.success || productState.error;

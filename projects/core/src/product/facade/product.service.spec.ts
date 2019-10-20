@@ -8,8 +8,9 @@ import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductService } from './product.service';
+import { OccConfig } from '@spartacus/core';
 
-describe('ProductService', () => {
+fdescribe('ProductService', () => {
   let store: Store<StateWithProduct>;
   let service: ProductService;
   const mockProduct: Product = { code: 'testId' };
@@ -23,7 +24,13 @@ describe('ProductService', () => {
           fromStoreReducers.getReducers()
         ),
       ],
-      providers: [ProductService],
+      providers: [
+        ProductService,
+        {
+          provide: OccConfig,
+          useValue: {},
+        },
+      ],
     });
     store = TestBed.get(Store as Type<Store<StateWithProduct>>);
     service = TestBed.get(ProductService as Type<ProductService>);
@@ -39,10 +46,13 @@ describe('ProductService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to get product by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
-          value: mockProduct,
-        })
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        zula => (ala, bala) => {
+          console.log('ala', ala, bala, zula);
+          return of({
+            value: mockProduct,
+          });
+        }
       );
       let result: Product;
       service
@@ -52,6 +62,25 @@ describe('ProductService', () => {
         })
         .unsubscribe();
       expect(result).toBe(mockProduct);
+    });
+
+    it('should be able to get product data for multiple scopes', () => {
+      let callNo = 0;
+      const productScopes = [{ code: '333' }, { name: 'test ' }];
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          value: productScopes[callNo++], // serve different scope per call
+        })
+      );
+
+      let result: Product;
+      service
+        .get('testId', ['scope1', 'scope2'])
+        .subscribe(product => {
+          result = product;
+        })
+        .unsubscribe();
+      expect(result).toEqual({ ...productScopes[0], ...productScopes[1] });
     });
   });
 
