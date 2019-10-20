@@ -5,4 +5,6 @@ export interface ScopedLoaderState<T> {
   [scope: string]: LoaderState<T>;
 }
 
-export type EntityScopedLoaderState<T> = EntityState<ScopedLoaderState<T> | LoaderState<T>>;
+export type EntityScopedLoaderState<T> = EntityState<
+  ScopedLoaderState<T> | LoaderState<T>
+>;

@@ -14,7 +14,7 @@ export function scopedLoaderReducer<T>(entityType, reducer?) {
       action &&
       action.meta &&
       action.meta.scope &&
-      action.meta.entityId === entityType
+      action.meta.entityType === entityType
     ) {
       return {
         ...state,

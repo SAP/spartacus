@@ -10,12 +10,14 @@ export interface OccEndpoints {
    *
    * @member {string | Object}
    */
-  product?: string | {
-    list?: string,
-    details?: string,
-    order?: string,
-    [scope: string]: string
-  };
+  product?:
+    | string
+    | {
+        list?: string;
+        details?: string;
+        order?: string;
+        [scope: string]: string;
+      };
   /**
    * Get reviews for a product
    *
