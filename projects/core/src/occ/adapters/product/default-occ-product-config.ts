@@ -26,5 +26,12 @@ export const defaultOccProductConfig: OccConfig = {
         productSuggestions: 'products/suggestions',
       },
     },
+    loadingScopes: {
+      product: {
+        details: {
+          include: ['list'],
+        },
+      },
+    },
   },
 };

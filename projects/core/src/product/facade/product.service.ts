@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, queueScheduler } from 'rxjs';
+import { asyncScheduler, combineLatest, Observable } from 'rxjs';
 import { map, observeOn, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
@@ -86,7 +86,7 @@ export class ProductService {
       select(
         ProductSelectors.getSelectedProductStateFactory(productCode, scope)
       ),
-      observeOn(queueScheduler),
+      observeOn(asyncScheduler),
       tap(productState => {
         const attemptedLoad =
           productState.loading || productState.success || productState.error;

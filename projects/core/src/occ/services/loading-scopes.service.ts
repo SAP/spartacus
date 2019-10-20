@@ -10,11 +10,13 @@ export class LoadingScopesService {
   /**
    * Aims to expand scopes based on loading scopes config.
    *
-   * I.e. if 'details' scope includes 'list' scope by configuration, you'll get ['details', 'list']
+   * I.e. if 'details' scope includes 'list' scope by configuration, it'll return ['details', 'list']
    *
+   * @param model
    * @param scopes
    */
   expand(model: string, scopes: string[]): string[] {
+    console.log('exoand', scopes);
     const scopesConfig =
       this.config &&
       this.config.backend &&

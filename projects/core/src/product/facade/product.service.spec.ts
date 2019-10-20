@@ -9,6 +9,7 @@ import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductService } from './product.service';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
+import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 class MockLoadingScopesService {
@@ -50,26 +51,17 @@ describe('ProductService', () => {
   ));
 
   describe('get(productCode)', () => {
-    it('should be able to get product by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        zula => (ala, bala) => {
-          console.log('ala', ala, bala, zula);
-          return of({
-            value: mockProduct,
-          });
-        }
-      );
-      let result: Product;
-      service
-        .get('testId')
-        .subscribe(product => {
-          result = product;
+    it('should be able to get product by code', async () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          value: mockProduct,
         })
-        .unsubscribe();
+      );
+      const result: Product = await service.get('testId').toPromise();
       expect(result).toBe(mockProduct);
     });
 
-    it('should be able to get product data for multiple scopes', () => {
+    it('should be able to get product data for multiple scopes', async () => {
       let callNo = 0;
       const productScopes = [{ code: '333' }, { name: 'test ' }];
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
@@ -78,13 +70,9 @@ describe('ProductService', () => {
         })
       );
 
-      let result: Product;
-      service
+      const result: Product = await service
         .get('testId', ['scope1', 'scope2'])
-        .subscribe(product => {
-          result = product;
-        })
-        .unsubscribe();
+        .toPromise();
       expect(result).toEqual({ ...productScopes[0], ...productScopes[1] });
     });
 
@@ -147,71 +135,59 @@ describe('ProductService', () => {
   });
 
   describe('loadProduct(productCode)', () => {
-    it('should be able to trigger the product load action for a product.', () => {
-      service
+    it('should be able to trigger the product load action for a product.', async () => {
+      await service
         .get('productCode')
-        .subscribe()
-        .unsubscribe();
+        .pipe(take(1))
+        .toPromise();
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProduct('productCode')
       );
     });
 
-    it('should be not trigger multiple product load actions for multiple product subscription.', () => {
+    it('should be not trigger multiple product load actions for multiple product subscription.', async () => {
       const productMock = new BehaviorSubject({});
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         productMock
       );
 
-      service.get('productCode').subscribe();
-      service.get('productCode').subscribe();
-
-      productMock.complete();
+      service
+        .get('productCode')
+        .pipe(take(1))
+        .subscribe();
+      await service
+        .get('productCode')
+        .pipe(take(1))
+        .toPromise();
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('isProductLoaded(productCode)', () => {
-    it('should be true that the product is loaded when a product is returned by the store', () => {
+    it('should be true that the product is loaded when a product is returned by the store', async () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: mockProduct })
       );
-      let result: Product;
-      service
-        .get('existingProduct')
-        .subscribe(product => {
-          result = product;
-        })
-        .unsubscribe();
+      const result: Product = await service.get('existingProduct').toPromise();
       expect(result).toBeTruthy();
     });
 
-    it('should be false that the product is loaded when an empty object is returned by the store', () => {
+    it('should be false that the product is loaded when an empty object is returned by the store', async () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: {} })
       );
-      let result: Product;
-      service
+      const result: Product = await service
         .get('emptyObjectProduct')
-        .subscribe(product => {
-          result = product;
-        })
-        .unsubscribe();
+        .toPromise();
       expect(result).toEqual({});
     });
 
-    it('should be false that the product is loaded when undefined is returned by the store', () => {
+    it('should be false that the product is loaded when undefined is returned by the store', async () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: undefined })
       );
-      let result: Product;
-      service
-        .get('undefinedProduct')
-        .subscribe(product => {
-          result = product;
-        })
-        .unsubscribe();
+      const result: Product = await service.get('undefinedProduct').toPromise();
       expect(result).toBeFalsy();
     });
   });
