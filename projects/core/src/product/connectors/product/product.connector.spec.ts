@@ -49,4 +49,14 @@ describe('ProductConnector', () => {
       { code: '333', scope: 'test' },
     ]);
   });
+
+  it('getMany should fallback to load', () => {
+    const adapter = TestBed.get(ProductAdapter as Type<ProductAdapter>);
+    delete adapter.loadMany;
+
+    const products = [{ code: '333', scope: 'test' }];
+
+    service.getMany(products);
+    expect(adapter.load).toHaveBeenCalledWith('333', 'test');
+  });
 });
