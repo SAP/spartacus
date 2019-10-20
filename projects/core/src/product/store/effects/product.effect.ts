@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { merge, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMapTo } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  mergeMap,
+  startWith,
+  switchMapTo,
+} from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import { ProductActions } from '../actions/index';
@@ -12,25 +18,31 @@ import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
 @Injectable()
 export class ProductEffects {
   @Effect()
-  loadProduct$: Observable<
-    ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
-  > = this.actions$.pipe(
-    ofType(
-      SiteContextActions.CURRENCY_CHANGE,
-      SiteContextActions.LANGUAGE_CHANGE
-    ),
-    switchMapTo(this.actions$),
-    ofType(ProductActions.LOAD_PRODUCT),
-    map((action: ProductActions.LoadProduct) => ({
-      code: action.payload,
-      scope: action.meta.scope,
-    })),
-    bufferDebounceTime(0),
-    mergeMap(products =>
-      merge(
-        ...this.productConnector.getMany(products).map(this.productLoadEffect)
+  loadProduct$ = createEffect(
+    () => ({ scheduler, debounce = 0 } = {}): Observable<
+      ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
+    > =>
+      this.actions$.pipe(
+        ofType(
+          SiteContextActions.CURRENCY_CHANGE,
+          SiteContextActions.LANGUAGE_CHANGE
+        ),
+        startWith({}),
+        switchMapTo(this.actions$),
+        ofType(ProductActions.LOAD_PRODUCT),
+        map((action: ProductActions.LoadProduct) => ({
+          code: action.payload,
+          scope: action.meta.scope,
+        })),
+        bufferDebounceTime(debounce, scheduler),
+        mergeMap(products =>
+          merge(
+            ...this.productConnector
+              .getMany(products)
+              .map(this.productLoadEffect)
+          )
+        )
       )
-    )
   );
 
   private productLoadEffect(

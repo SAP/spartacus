@@ -43,7 +43,6 @@ export class ProductService {
     scopes = [].concat(scopes);
 
     if (this.loadingScopes) {
-      // TODO: Deprecated since 1.4, remove
       scopes = this.loadingScopes.expand('product', scopes);
     }
 
