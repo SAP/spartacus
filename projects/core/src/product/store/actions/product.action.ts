@@ -32,6 +32,7 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
 }
 
 export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
+  readonly type = LOAD_PRODUCT_SUCCESS;
   constructor(public payload: Product, scope = '') {
     super(PRODUCT_DETAIL_ENTITY, payload.code, scope);
   }
