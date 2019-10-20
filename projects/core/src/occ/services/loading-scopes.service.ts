@@ -22,15 +22,20 @@ export class LoadingScopesService {
       this.config.backend.loadingScopes[model];
 
     if (scopesConfig) {
-      const includedScopes = [];
+      let i = 0;
 
-      scopes.forEach(scope => {
-        if (scopesConfig[scope] && scopesConfig[scope].include) {
-          includedScopes.push(...scopesConfig[scope].include);
+      while (i < scopes.length) {
+        const includedScopes =
+          scopesConfig[scopes[i]] && scopesConfig[scopes[i]].include;
+        if (includedScopes) {
+          for (const includedScope of includedScopes) {
+            if (!scopes.includes(includedScope)) {
+              scopes.push(includedScope);
+            }
+          }
         }
-      });
-
-      return Array.from(new Set([...scopes, ...includedScopes]));
+        i++;
+      }
     }
 
     return scopes;
