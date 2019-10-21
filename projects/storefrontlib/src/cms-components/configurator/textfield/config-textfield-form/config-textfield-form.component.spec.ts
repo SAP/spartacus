@@ -70,4 +70,23 @@ describe('ConfigTextfieldFormComponent', () => {
   it('should create component', () => {
     expect(component).toBeDefined();
   });
+
+  it('should get product code from router state', () => {
+    component.ngOnInit();
+    expect(component.productCode).toBe(PRODUCT_CODE);
+  });
+
+  it('should know product configuration after init has been done', () => {
+    component.ngOnInit();
+    component.configuration$.subscribe(configuration =>
+      expect(configuration.attributes.length).toBe(0)
+    );
+  });
+
+  it('should release subscription on destroy ', () => {
+    component.ngOnInit();
+    expect(component.subscription.closed).toBe(false);
+    component.ngOnDestroy();
+    expect(component.subscription.closed).toBe(true);
+  });
 });

@@ -112,14 +112,11 @@ describe('ConfigurationFormComponent', () => {
 
     expect(productCode).toEqual(PRODUCT_CODE);
   });
-  it('should get product code as part of product configuration', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    let productCode: string;
-    component.configuration$.subscribe(
-      (data: Configurator.Configuration) => (productCode = data.productCode)
-    );
 
-    expect(productCode).toEqual(PRODUCT_CODE);
+  it('should release subscription on destroy ', () => {
+    component.ngOnInit();
+    expect(component.subscription.closed).toBe(false);
+    component.ngOnDestroy();
+    expect(component.subscription.closed).toBe(true);
   });
 });
