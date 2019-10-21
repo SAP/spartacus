@@ -1,11 +1,5 @@
-import { ModuleWithProviders, NgModule, Optional } from '@angular/core';
-import { provideConfigFactory } from '../config/config.module';
-import { ExternalConfig } from './external-config';
-import { ExternalConfigConverter } from './external-config-converter';
-
-export function configFromExternalConfigFactory(config?: ExternalConfig) {
-  return (config && ExternalConfigConverter.toSiteContextConfig(config)) || {};
-}
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { providers } from './external-config.providers';
 
 /**
  * Re-provides the external config chunk given before Angular bootstrap
@@ -15,11 +9,7 @@ export class ExternalConfigModule {
   static forRoot(): ModuleWithProviders<ExternalConfigModule> {
     return {
       ngModule: ExternalConfigModule,
-      providers: [
-        provideConfigFactory(configFromExternalConfigFactory, [
-          [new Optional(), ExternalConfig],
-        ]),
-      ],
+      providers,
     };
   }
 }

@@ -1,3 +1,4 @@
+import { I18nConfig } from '../i18n';
 import { Occ } from '../occ/occ-models/occ.models';
 import { SiteContextConfig } from '../site-context/config/site-context-config';
 import {
@@ -76,6 +77,10 @@ export class ExternalConfigConverter {
       },
     };
     return result;
+  }
+
+  static toI18nConfig({ defaultLanguage }: ExternalConfig): I18nConfig {
+    return { i18n: { fallbackLang: defaultLanguage.isocode } };
   }
 
   private static isCurrentBaseSite(

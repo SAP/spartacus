@@ -243,4 +243,19 @@ describe(`ExternalConfigConverter`, () => {
       expect(res.context[CURRENCY_CONTEXT_ID]).toEqual(['USD', 'EUR', 'PLN']);
     });
   });
+
+  describe(`to18nConfig`, () => {
+    let mockExternalConfig: ExternalConfig;
+
+    beforeEach(() => {
+      mockExternalConfig = {
+        defaultLanguage: { isocode: 'en' },
+      };
+    });
+
+    it(`should convert the fallback lang`, () => {
+      const res = ExternalConfigConverter.toI18nConfig(mockExternalConfig);
+      expect(res.i18n.fallbackLang).toBe('en');
+    });
+  });
 });
