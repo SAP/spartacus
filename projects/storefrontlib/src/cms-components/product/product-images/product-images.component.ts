@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductImagesComponent implements OnInit {
+export class ProductImagesComponent {
   private mainMediaContainer = new BehaviorSubject(null);
 
   private product$: Observable<
@@ -23,22 +23,19 @@ export class ProductImagesComponent implements OnInit {
   );
 
   thumbs$: Observable<any[]> = this.product$.pipe(
-    map(product => this.createThumbs(product))
+    map(product => this.createThumbs(product)),
+    tap(thumbs => {
+      if (thumbs.length === 0) this.isEmpty = true;
+    })
   );
 
   mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
     map(([, container]) => container)
   );
 
-  numberOfCarouselItems: number;
+  isEmpty: boolean;
 
   constructor(private currentProductService: CurrentProductService) {}
-
-  ngOnInit() {
-    this.thumbs$.subscribe(data => {
-      this.numberOfCarouselItems = data.length;
-    });
-  }
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
@@ -91,12 +88,5 @@ export class ProductImagesComponent implements OnInit {
     }
 
     return (<any[]>product.images.GALLERY).map(c => of({ container: c }));
-  }
-
-  /**
-   * Prevents carousel from being displayed if it is empty
-   */
-  carouselIsEmpty() {
-    return this.numberOfCarouselItems === 0;
   }
 }
