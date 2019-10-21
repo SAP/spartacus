@@ -13,12 +13,10 @@ import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
-  QualtricsLoaderService,
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { DemoQualtricsLoaderService } from './qualtrics-extended.service';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -69,9 +67,6 @@ if (!environment.production) {
         level: '1.3',
         anonymousConsents: true,
       },
-      qualtrics: {
-        projectId: 'ZN_6Y9SmdaSBA8Uogl',
-      },
     }),
     JsonLdBuilderModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
@@ -83,8 +78,5 @@ if (!environment.production) {
   ],
 
   bootstrap: [StorefrontComponent],
-  providers: [
-    { provide: QualtricsLoaderService, useClass: DemoQualtricsLoaderService },
-  ],
 })
 export class AppModule {}
