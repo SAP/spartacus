@@ -1,5 +1,4 @@
-<!-- TODO(issue:4989) Anonymous consents -->
-<ng-container *cxFeatureLevel="'1.3'">
+<ng-container *cxFeature="anonymousConsentsFeature">
   <ng-container *ngIf="templatesUpdated$ | async"></ng-container>
   <ng-container *ngIf="bannerVisible$ | async as bannerVisible">
     <div
