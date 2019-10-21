@@ -81,4 +81,29 @@ describe('Product References selectors', () => {
 
     expect(result).toEqual([{ referenceType: 'ACCESSORIES', target: product }]);
   });
+
+  it('getSelectedProductReferencesFactory should return empty array when there are no references', () => {
+    store.dispatch(
+      new ProductActions.LoadProductReferencesSuccess({
+        productCode: productCode,
+        list: [],
+      })
+    );
+
+    let result: ProductReference[];
+    const referenceType = '';
+    store
+      .pipe(
+        select(
+          ProductSelectors.getSelectedProductReferencesFactory(
+            productCode,
+            referenceType
+          )
+        )
+      )
+      .subscribe(data => (result = data))
+      .unsubscribe();
+
+    expect(result).toEqual([]);
+  });
 });
