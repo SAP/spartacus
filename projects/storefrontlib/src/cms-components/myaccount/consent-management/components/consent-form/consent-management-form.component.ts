@@ -33,9 +33,12 @@ export class ConsentManagementFormComponent implements OnInit {
   @Input()
   requiredConsents: string[] = [];
 
-  // TODO(issue:4989) Anonymous consents - remove
   @Input()
   isAnonymousConsentsEnabled = false;
+
+  // TODO(issue:4989) Anonymous consents - remove
+  @Input()
+  isLevel13 = false;
 
   @Output()
   consentChanged = new EventEmitter<{
@@ -86,7 +89,6 @@ export class ConsentManagementFormComponent implements OnInit {
   }
 
   isRequired(templateId: string): boolean {
-    // TODO(issue:4989) Anonymous consents - remove this.isAnonymousConsentsEnabled check
     return this.isAnonymousConsentsEnabled
       ? this.requiredConsents.includes(templateId)
       : false;

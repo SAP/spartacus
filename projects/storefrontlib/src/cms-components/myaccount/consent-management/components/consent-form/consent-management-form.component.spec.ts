@@ -121,6 +121,8 @@ describe('ConsentManagementFormComponent', () => {
         expect(component.onConsentChange).toHaveBeenCalled();
       });
       it('should disable required consents', () => {
+        // TODO(issue:4989) Anonymous consents - remove `component.isLevel13 = true`
+        component.isLevel13 = true;
         component.isAnonymousConsentsEnabled = true;
         component.consentTemplate = mockConsentTemplate;
         component.requiredConsents = [mockConsentTemplate.id];
