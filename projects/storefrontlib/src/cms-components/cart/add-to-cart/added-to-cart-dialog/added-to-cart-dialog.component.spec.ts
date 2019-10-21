@@ -22,6 +22,7 @@ import { ModalService } from '../../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 
 class MockCartService {
   getLoaded(): Observable<boolean> {
@@ -104,6 +105,7 @@ describe('AddedToCartDialogComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         AutoFocusDirectiveModule,
+        PromotionsModule,
       ],
       declarations: [
         AddedToCartDialogComponent,
@@ -217,6 +219,51 @@ describe('AddedToCartDialogComponent', () => {
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
       ' addToCart.itemsIncrementedInYourCart '
+    );
+  });
+
+  it('should show promotions item', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-promotions'))).toBeDefined();
+  });
+
+  it('should show promotion description', () => {
+    component.cart$ = of({
+      deliveryItemsQuantity: 1,
+      totalPrice: {
+        formattedValue: '$100.00',
+      },
+      appliedProductPromotions: [
+        {
+          description: "10% off on products EOS450D + 18-55 IS Kit",
+          promotion: {
+            code: 'product_percentage_discount',
+            promotionType: 'Rule Based Promotion'
+          }
+        }
+      ]
+    });
+    fixture.detectChanges();
+
+    const dialogTitleEl = el.query(By.css('cx-promotions')).nativeElement;
+    expect(dialogTitleEl.textContent).toEqual(
+      '10% off on products EOS450D + 18-55 IS Kit'
+    );
+  });
+
+  it('should not show promotion if no promotion is applied', () => {
+    component.cart$ = of({
+      deliveryItemsQuantity: 1,
+      totalPrice: {
+        formattedValue: '$100.00',
+      },
+      appliedProductPromotions: []
+    });
+    fixture.detectChanges();
+
+    const dialogTitleEl = el.query(By.css('cx-promotions')).nativeElement;
+    expect(dialogTitleEl.textContent).toEqual(
+      ''
     );
   });
 });
