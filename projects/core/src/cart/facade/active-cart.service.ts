@@ -38,7 +38,7 @@ export class ActiveCartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
-  private _activeCart$: Observable<Cart>;
+  private activeCart$: Observable<Cart>;
 
   private userId = OCC_USER_ID_ANONYMOUS;
   private cartId;
@@ -46,10 +46,10 @@ export class ActiveCartService {
   private addEntrySub: Subscription;
   private entriesToAdd: Array<{ productCode: string; quantity: number }> = [];
 
-  private activeCartId = this.store.pipe(
+  private activeCartId$ = this.store.pipe(
     select(MultiCartSelectors.getActiveCartId)
   );
-  private cartSelector = this.activeCartId.pipe(
+  private cartSelector$ = this.activeCartId$.pipe(
     switchMap(cartId => {
       if (!cartId) {
         return this.multiCartService.getCartEntity(OCC_CART_ID_CURRENT);
@@ -73,12 +73,12 @@ export class ActiveCartService {
       this.previousUserId = userId;
     });
 
-    this.activeCartId.subscribe(cartId => {
+    this.activeCartId$.subscribe(cartId => {
       this.cartId = cartId;
     });
 
-    this._activeCart$ = this.cartSelector.pipe(
-      withLatestFrom(this.activeCartId),
+    this.activeCart$ = this.cartSelector$.pipe(
+      withLatestFrom(this.activeCartId$),
       map(([cartEntity, activeCartId]: [LoaderState<Cart>, string]): {
         cart: Cart;
         cartId: string;
@@ -110,16 +110,16 @@ export class ActiveCartService {
   }
 
   getActive(): Observable<Cart> {
-    return this._activeCart$;
+    return this.activeCart$;
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.activeCartId.pipe(
+    return this.activeCartId$.pipe(
       switchMap(cartId => this.multiCartService.getEntries(cartId))
     );
   }
   getLoaded(): Observable<boolean> {
-    return this.cartSelector.pipe(
+    return this.cartSelector$.pipe(
       map(cart => (cart.success || cart.error) && !cart.loading)
     );
   }
@@ -187,7 +187,7 @@ export class ActiveCartService {
     this.multiCartService.initAddEntryProcess();
     this.entriesToAdd.push({ productCode, quantity });
     if (!this.addEntrySub) {
-      this.addEntrySub = this.cartSelector
+      this.addEntrySub = this.cartSelector$
         .pipe(
           filter(() => !createInitialized),
           switchMap(cartState => {
@@ -253,7 +253,7 @@ export class ActiveCartService {
   }
 
   getEntry(productCode: string): Observable<OrderEntry> {
-    return this.activeCartId.pipe(
+    return this.activeCartId$.pipe(
       switchMap(cartId => this.multiCartService.getEntry(cartId, productCode))
     );
   }
