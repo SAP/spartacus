@@ -71,6 +71,8 @@ export class CartEffects {
                   userId: loadCartParams.userId,
                   extraData: payload.extraData,
                 }),
+                // Removing cart from entity object under `current` key as it is no longer needed.
+                // Current cart is loaded under it's code entity.
                 new CartActions.RemoveCart(OCC_CART_ID_CURRENT),
               ];
               return returnArr;
