@@ -5,7 +5,6 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { Configurator } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,7 +15,6 @@ import { Observable } from 'rxjs';
 export class ConfigPreviousNextButtonsComponent {
   constructor() {}
 
-  @Input() group: Configurator.Group;
   @Input() isFirstGroup: Observable<Boolean>;
   @Input() isLastGroup: Observable<Boolean>;
 
@@ -24,9 +22,9 @@ export class ConfigPreviousNextButtonsComponent {
   @Output() previousGroup = new EventEmitter();
 
   onPrevious() {
-    this.previousGroup.emit(this.group);
+    this.previousGroup.emit();
   }
   onNext() {
-    this.nextGroup.emit(this.group);
+    this.nextGroup.emit();
   }
 }
