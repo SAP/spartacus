@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { ConfigModule } from '../../config/index';
 import { StateConfig, StorageSyncType } from '../../state/index';
 import { StateModule } from '../../state/state.module';
-import { ANONYMOUS_CONSENTS_FEATURE } from './anonymous-consents-state';
+import { ANONYMOUS_CONSENTS_STORE_FEATURE } from './anonymous-consents-state';
 import { effects } from './effects/index';
 import { reducerProvider, reducerToken } from './reducers/index';
 
@@ -28,7 +28,7 @@ export function anonymousConsentsStoreConfigFactory(): StateConfig {
     CommonModule,
     ReactiveFormsModule,
     StateModule,
-    StoreModule.forFeature(ANONYMOUS_CONSENTS_FEATURE, reducerToken),
+    StoreModule.forFeature(ANONYMOUS_CONSENTS_STORE_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
     ConfigModule.withConfigFactory(anonymousConsentsStoreConfigFactory),
   ],

@@ -9,6 +9,7 @@ import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  ANONYMOUS_CONSENTS_FEATURE,
   AuthRedirectService,
   AuthService,
   ConsentTemplate,
@@ -43,9 +44,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // TODO(issue:4237) Register flow
   isNewRegisterFlowEnabled: boolean =
     this.featureConfig && this.featureConfig.isLevel('1.1');
-  // TODO(issue:4989) Anonymous consents - remove
+
   isAnonymousConsentEnabled =
-    this.featureConfig && this.featureConfig.isLevel('1.3');
+    this.featureConfig &&
+    this.featureConfig.isEnabled(ANONYMOUS_CONSENTS_FEATURE);
 
   userRegistrationForm: FormGroup = this.fb.group(
     {
@@ -235,7 +237,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return this.anonymousConsentsService.isConsentGiven(consent);
   }
 
-  isConsentRequired(): boolean {
+  private isConsentRequired(): boolean {
     if (
       Boolean(this.anonymousConsentsService) &&
       Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
