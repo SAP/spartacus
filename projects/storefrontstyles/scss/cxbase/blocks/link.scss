@@ -11,3 +11,14 @@ a {
     opacity: 0.8;
   }
 }
+
+.cx-action-link {
+  @include type('8');
+  text-transform: uppercase;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-block;
+  &:hover {
+    color: var(--cx-color-primary);
+  }
+}
