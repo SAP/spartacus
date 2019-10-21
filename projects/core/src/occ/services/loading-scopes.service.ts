@@ -16,7 +16,6 @@ export class LoadingScopesService {
    * @param scopes
    */
   expand(model: string, scopes: string[]): string[] {
-    console.log('exoand', scopes);
     const scopesConfig =
       this.config &&
       this.config.backend &&
@@ -25,6 +24,8 @@ export class LoadingScopesService {
 
     if (scopesConfig) {
       let i = 0;
+
+      scopes.reverse(); // to ensure proper scopes merging order
 
       while (i < scopes.length) {
         const includedScopes =
@@ -38,6 +39,8 @@ export class LoadingScopesService {
         }
         i++;
       }
+
+      scopes.reverse();
     }
 
     return scopes;

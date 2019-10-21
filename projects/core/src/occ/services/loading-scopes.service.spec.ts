@@ -43,17 +43,17 @@ describe('LoadingScopesService', () => {
 
     it('should extend scopes', () => {
       const result = service.expand('product', ['list']);
-      expect(result).toEqual(['list', 'base']);
+      expect(result).toEqual(['base', 'list']);
     });
 
     it('should extend scopes multiple level deep', () => {
       const result = service.expand('product', ['detail']);
-      expect(result).toEqual(['detail', 'list', 'base']);
+      expect(result).toEqual(['base', 'list', 'detail']);
     });
 
     it('should not duplicate scopes', () => {
       const result = service.expand('product', ['detail', 'order', 'base']);
-      expect(result).toEqual(['detail', 'order', 'base', 'list']);
+      expect(result).toEqual(['list', 'detail', 'order', 'base']);
     });
   });
 });
