@@ -11,7 +11,7 @@ import {
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import { ProductActions } from '../actions/index';
-import { ProductWithScope } from '../../connectors/product/product-with-scope';
+import { ScopedProductData } from '../../connectors/product/scoped-product-data';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
 
@@ -31,7 +31,7 @@ export class ProductEffects {
         switchMapTo(this.actions$),
         ofType(ProductActions.LOAD_PRODUCT),
         map((action: ProductActions.LoadProduct) => ({
-          code: action.payload,
+          id: action.payload,
           scope: action.meta.scope,
         })),
         bufferDebounceTime(debounce, scheduler),
@@ -46,7 +46,7 @@ export class ProductEffects {
   );
 
   private productLoadEffect(
-    productLoad: ProductWithScope
+    productLoad: ScopedProductData
   ): Observable<
     ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
   > {
@@ -54,14 +54,14 @@ export class ProductEffects {
       map(
         data =>
           new ProductActions.LoadProductSuccess(
-            { code: productLoad.code, ...data },
+            { code: productLoad.id, ...data },
             productLoad.scope
           )
       ),
       catchError(error => {
         return of(
           new ProductActions.LoadProductFail(
-            productLoad.code,
+            productLoad.id,
             makeErrorSerializable(error),
             productLoad.scope
           )

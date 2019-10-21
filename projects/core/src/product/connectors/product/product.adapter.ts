@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Product } from '../../../model/product.model';
-import { ProductWithScope } from './product-with-scope';
+import { ScopedProductData } from './scoped-product-data';
 
 export abstract class ProductAdapter {
   /**
@@ -20,5 +20,5 @@ export abstract class ProductAdapter {
    *
    * @param products
    */
-  abstract loadMany?(products: ProductWithScope[]): ProductWithScope[];
+  abstract loadMany?(products: ScopedProductData[]): ScopedProductData[];
 }
