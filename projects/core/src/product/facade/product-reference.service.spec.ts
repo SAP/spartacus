@@ -79,4 +79,13 @@ describe('ReferenceService', () => {
       );
     });
   });
+
+  describe('cleanReferences', () => {
+    it('should clean references', () => {
+      service.cleanReferences();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ProductActions.CleanProductReferences()
+      );
+    });
+  });
 });
