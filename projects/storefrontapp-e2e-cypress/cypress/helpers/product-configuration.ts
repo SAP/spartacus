@@ -18,6 +18,28 @@ export function verifyConfigurationPageIsDisplayed() {
   cy.get('cx-config-form').should('be.visible');
 }
 
+export function verifyPreviousGroupButtonIsEnabled() {
+  cy.get('cx-config-previous-next-buttons div div:first button').should(
+    'be.not.disabled'
+  );
+}
+export function verifyPreviousGroupButtonIsDisabled() {
+  cy.get('cx-config-previous-next-buttons div div:first button').should(
+    'be.disabled'
+  );
+}
+
+export function verifyNextGroupButtonIsEnabled() {
+  cy.get('cx-config-previous-next-buttons div div:last button').should(
+    'be.not.disabled'
+  );
+}
+export function verifyNextGroupButtonIsDisabled() {
+  cy.get('cx-config-previous-next-buttons div div:last button').should(
+    'be.disabled'
+  );
+}
+
 export function verifyAttributeIsDisplayed(
   attributeName: string,
   uiType: string

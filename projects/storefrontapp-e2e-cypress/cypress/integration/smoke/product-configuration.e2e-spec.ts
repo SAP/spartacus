@@ -83,5 +83,20 @@ context('Product Configuration', () => {
         'DVD'
       );
     });
+
+    it('Check if group buttons are clickable', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.verifyNextGroupButtonIsEnabled();
+      configuration.verifyPreviousGroupButtonIsDisabled();
+
+      configuration.clickOnNextGroupButton();
+      configuration.verifyPreviousGroupButtonIsEnabled();
+      configuration.clickOnNextGroupButton();
+      configuration.clickOnNextGroupButton();
+      configuration.clickOnNextGroupButton();
+      configuration.verifyNextGroupButtonIsDisabled();
+    });
   });
 });
