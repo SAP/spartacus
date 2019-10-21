@@ -63,17 +63,15 @@ export class ActiveCartService {
     protected authService: AuthService,
     protected multiCartService: MultiCartService
   ) {
-    this.authService.getUserToken().subscribe(token => {
-      if (token && token.userId) {
-        this.userId = OCC_USER_ID_CURRENT;
-        if (this.isJustLoggedIn(token.userId)) {
+    this.authService.getOccUserId().subscribe(userId => {
+      this.userId = userId;
+      if (this.userId === OCC_USER_ID_CURRENT) {
+        if (this.isJustLoggedIn(userId)) {
           this.loadOrMerge(this.cartId);
         }
-      } else {
-        this.userId = OCC_USER_ID_ANONYMOUS;
       }
-      this.previousUserId = token.userId;
-    });
+      this.previousUserId = userId;
+    })
 
     this.activeCartId.subscribe(cartId => {
       this.cartId = cartId;
