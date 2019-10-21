@@ -49,5 +49,6 @@ describe('OccConfiguratorTextfieldNormalizer', () => {
     );
     expect(result.attributes.length).toBe(1);
     expect((result.attributes[0].name = csticName));
+    expect((result.attributes[0].userInput = valueName));
   });
 });

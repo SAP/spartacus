@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  Configurator,
   ConfiguratorTextfield,
   ConfiguratorTextfieldService,
   I18nTestingModule,
@@ -14,6 +15,7 @@ import { VariantConfiguratorModule } from '../../variant/variant-configurator.mo
 import { ConfigTextfieldFormComponent } from './config-textfield-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const ATTRIBUTE_NAME = 'AttributeName';
 const mockRouterState: any = {
   state: {
     params: {
@@ -30,7 +32,7 @@ class MockRoutingService {
 class MockConfiguratorTextfieldService {
   createConfiguration(): Observable<ConfiguratorTextfield.Configuration> {
     const productConfig: ConfiguratorTextfield.Configuration = {
-      attributes: [],
+      attributes: [{ name: ATTRIBUTE_NAME }],
     };
     return of(productConfig);
   }
@@ -78,9 +80,11 @@ describe('ConfigTextfieldFormComponent', () => {
 
   it('should know product configuration after init has been done', () => {
     component.ngOnInit();
-    component.configuration$.subscribe(configuration =>
-      expect(configuration.attributes.length).toBe(0)
-    );
+    component.configuration$.subscribe(configuration => {
+      const attributes: Configurator.Attribute[] = configuration.attributes;
+      expect(attributes.length).toBe(1);
+      expect(attributes[0].name).toBe(ATTRIBUTE_NAME);
+    });
   });
 
   it('should release subscription on destroy ', () => {
