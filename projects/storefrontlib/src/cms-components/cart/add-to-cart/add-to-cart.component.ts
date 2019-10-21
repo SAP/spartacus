@@ -5,8 +5,14 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
-import { CartService, OrderEntry, Product } from '@spartacus/core';
+import {
+  CartService,
+  OrderEntry,
+  Product,
+  ProductService,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -34,39 +40,63 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
+    cartService: CartService,
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef,
+    // tslint:disable-next-line: unified-signatures
+    productService: ProductService
+  );
+  /**
+   * @deprecated since version 1.4
+   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
+   *  authService: AuthService) instead
+   */
+  constructor(
+    cartService: CartService,
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef
+  );
+  constructor(
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    @Optional() private productService?: ProductService
   ) {}
 
   ngOnInit() {
     if (this.productCode) {
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
-      this.hasStock = true;
+      this.subscription = this.productService
+        .get(this.productCode)
+        .pipe(filter(p => !!p))
+        .subscribe((product: Product) => {
+          this.setStockInfo(product);
+          this.cd.markForCheck();
+        });
     } else {
       this.subscription = this.currentProductService
         .getProduct()
         .pipe(filter(Boolean))
         .subscribe((product: Product) => {
           this.productCode = product.code;
-          this.quantity = 1;
-
-          if (
-            product.stock &&
-            product.stock.stockLevelStatus !== 'outOfStock' &&
-            product.stock.stockLevel > 0
-          ) {
-            this.maxQuantity = product.stock.stockLevel;
-            this.hasStock = true;
-          } else {
-            this.hasStock = false;
-          }
-
+          this.setStockInfo(product);
           this.cartEntry$ = this.cartService.getEntry(this.productCode);
-
           this.cd.markForCheck();
         });
+    }
+  }
+
+  private setStockInfo(product: Product): void {
+    this.quantity = 1;
+    this.hasStock =
+      product.stock &&
+      product.stock.stockLevelStatus !== 'outOfStock' &&
+      product.stock.stockLevel > 0;
+    if (this.hasStock) {
+      this.maxQuantity = product.stock.stockLevel;
     }
   }
 
