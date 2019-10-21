@@ -1,7 +1,5 @@
-<!-- TODO(issue:4989) Anonymous consents - remove the wrapping `<ng-container *ngIf="isAnonymousConsentsEnabled; else legacyConsentManagementPage">` -->
-<ng-container
-  *ngIf="isAnonymousConsentsEnabled; else legacyConsentManagementPage"
->
+<!-- TODO(issue:4989) Anonymous consents - remove the wrapping `<ng-container *ngIf="isLevel13; else legacyConsentManagementPage">` -->
+<ng-container *ngIf="isLevel13; else legacyConsentManagementPage">
   <div *ngIf="loading$ | async; else consentManagementForm">
     <div class="cx-spinner">
       <cx-spinner></cx-spinner>
@@ -30,12 +28,13 @@
 
       <div class="cx-consent-toggles">
         <div class="col-sm-12 col-md-8 col-lg-6">
-          <!-- TODO(issue:4989) Anonymous consents - remove `[isAnonymousConsentsEnabled]="isAnonymousConsentsEnabled"` -->
+          <!-- TODO(issue:4989) Anonymous consents - remove `[isLevel13]="isLevel13"` -->
           <cx-consent-management-form
             *ngFor="let consentTemplate of templateList"
             [consentTemplate]="consentTemplate"
             [requiredConsents]="requiredConsents"
             [isAnonymousConsentsEnabled]="isAnonymousConsentsEnabled"
+            [isLevel13]="isLevel13"
             (consentChanged)="onConsentChange($event)"
           ></cx-consent-management-form>
         </div>

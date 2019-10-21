@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AnonymousConsentsConfig,
+  ANONYMOUS_CONSENTS_FEATURE,
   AuthService,
   CmsNavigationComponent,
-  isFeatureLevel,
+  isFeatureEnabled,
 } from '@spartacus/core';
 import { iif, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -64,11 +65,13 @@ export class FooterNavigationComponent {
   ) {}
 
   get showConsentPreferences(): Observable<boolean> {
-    // TODO(issue:4989) Anonymous consents - remove the `iif` operator and just return the `trueResult` parameter
     return iif(
       () =>
         Boolean(this.anonymousConsentsConfig) &&
-        isFeatureLevel(this.anonymousConsentsConfig, '1.3'),
+        isFeatureEnabled(
+          this.anonymousConsentsConfig,
+          ANONYMOUS_CONSENTS_FEATURE
+        ),
       this.authService
         .isUserLoggedIn()
         .pipe(
@@ -86,8 +89,7 @@ export class FooterNavigationComponent {
   openDialog(): void {
     if (
       Boolean(this.anonymousConsentsConfig) &&
-      // TODO(issue:4989) Anonymous consents - remove `isFeatureLevel(this.anonymousConsentsConfig, '1.3')` check
-      isFeatureLevel(this.anonymousConsentsConfig, '1.3')
+      isFeatureEnabled(this.anonymousConsentsConfig, ANONYMOUS_CONSENTS_FEATURE)
     ) {
       this.modalService.open(AnonymousConsentsDialogComponent, {
         centered: true,
