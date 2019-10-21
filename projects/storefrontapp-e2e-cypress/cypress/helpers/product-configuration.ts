@@ -1,15 +1,20 @@
+const nextGroupButtonSelector =
+  'cx-config-previous-next-buttons div div:last button';
+const previousGroupButtonSelector =
+  'cx-config-previous-next-buttons div div:first button';
+
 export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
 }
 
 export function clickOnNextGroupButton() {
-  cy.get('cx-config-previous-next-buttons div div:last button').click({
+  cy.get(nextGroupButtonSelector).click({
     force: true,
   });
 }
 
 export function clickOnPreviousGroupButton() {
-  cy.get('cx-config-previous-next-buttons div div:first button').click({
+  cy.get(previousGroupButtonSelector).click({
     force: true,
   });
 }
@@ -19,25 +24,19 @@ export function verifyConfigurationPageIsDisplayed() {
 }
 
 export function verifyPreviousGroupButtonIsEnabled() {
-  cy.get('cx-config-previous-next-buttons div div:first button').should(
-    'be.not.disabled'
-  );
+  cy.get(previousGroupButtonSelector).should('be.not.disabled');
 }
+
 export function verifyPreviousGroupButtonIsDisabled() {
-  cy.get('cx-config-previous-next-buttons div div:first button').should(
-    'be.disabled'
-  );
+  cy.get(previousGroupButtonSelector).should('be.disabled');
 }
 
 export function verifyNextGroupButtonIsEnabled() {
-  cy.get('cx-config-previous-next-buttons div div:last button').should(
-    'be.not.disabled'
-  );
+  cy.get(nextGroupButtonSelector).should('be.not.disabled');
 }
+
 export function verifyNextGroupButtonIsDisabled() {
-  cy.get('cx-config-previous-next-buttons div div:last button').should(
-    'be.disabled'
-  );
+  cy.get(nextGroupButtonSelector).should('be.disabled');
 }
 
 export function verifyAttributeIsDisplayed(
