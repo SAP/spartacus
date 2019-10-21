@@ -23,7 +23,6 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
-    classUnderTest.groupList = [];
     fixture.detectChanges();
   });
 

@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { Configurator } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -16,7 +17,8 @@ export class ConfigPreviousNextButtonsComponent {
   constructor() {}
 
   @Input() group: Configurator.Group;
-  @Input() groupList: Configurator.Group[];
+  @Input() isFirstGroup: Observable<Boolean>;
+  @Input() isLastGroup: Observable<Boolean>;
 
   @Output() nextGroup = new EventEmitter();
   @Output() previousGroup = new EventEmitter();
@@ -26,13 +28,5 @@ export class ConfigPreviousNextButtonsComponent {
   }
   onNext() {
     this.nextGroup.emit(this.group);
-  }
-
-  isPreviousButtonDisabled() {
-    return this.groupList.indexOf(this.group) === 0;
-  }
-
-  isNextButtonDisabled() {
-    return this.groupList.indexOf(this.group) === this.groupList.length - 1;
   }
 }

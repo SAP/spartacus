@@ -2,7 +2,7 @@
   <div class="col-md-12 col-lg-6">
     <button
       class="cx-btn btn btn-block btn-secondary"
-      [disabled]="isPreviousButtonDisabled()"
+      [disabled]="isFirstGroup | async"
       (click)="onPrevious()"
     >
       {{ 'configurator.button.previous' | cxTranslate }}
@@ -11,7 +11,7 @@
   <div class="col-md-12 col-lg-6">
     <button
       class="cx-btn btn btn-block btn-primary"
-      [disabled]="isNextButtonDisabled()"
+      [disabled]="isLastGroup | async"
       (click)="onNext()"
     >
       {{ 'configurator.button.next' | cxTranslate }}

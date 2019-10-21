@@ -10,8 +10,8 @@ import {
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { mergeMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-form',
@@ -22,7 +22,6 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<string>;
   productCode: string;
-  private activeGroup: string;
   subscription = new Subscription();
   public UiType = Configurator.UiType;
 
@@ -38,8 +37,6 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
         .getRouterState()
         .subscribe(state => this.initConfigurationForm(state))
     );
-
-    this.activeGroup = undefined;
   }
 
   initConfigurationForm(routingData) {
@@ -93,48 +90,50 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  navigateToNextGroup(currentGroup) {
-    const currentGroupIndex = this.getIndexOfGroup(currentGroup);
-    this.configuration$.pipe(take(1)).subscribe(config => {
-      if (currentGroupIndex < config.groups.length - 1) {
-        this.activeGroup = config.groups[currentGroupIndex + 1].id;
-      }
+  navigateToNextGroup() {
+    this.currentGroup$ = this.configuratorGroupsService.getNextGroup(
+      this.productCode
+    );
+    this.currentGroup$.pipe(take(1)).subscribe(groupId => {
+      this.configuratorGroupsService.setCurrentGroup(this.productCode, groupId);
+      // TODO: Add call to configurator service to get configuration for next group
+    });
+  }
+
+  navigateToPreviousGroup() {
+    this.currentGroup$ = this.configuratorGroupsService.getPreviousGroup(
+      this.productCode
+    );
+    this.currentGroup$.pipe(take(1)).subscribe(groupId => {
+      this.configuratorGroupsService.setCurrentGroup(this.productCode, groupId);
     });
     // TODO: Add call to configurator service to get configuration for next group
-    /**this.configuration$ = this.configuratorCommonsService.getConfiguration(
-      this.productCode
-    );**/
   }
 
-  navigateToPreviousGroup(currentGroup) {
-    const currentGroupIndex = this.getIndexOfGroup(currentGroup);
-    this.configuration$.pipe(take(1)).subscribe(config => {
-      if (currentGroupIndex > 0) {
-        this.activeGroup = config.groups[currentGroupIndex - 1].id;
-      }
-    });
-    // TODO: Add call to configurator service to get configuration for next group
-    /**this.configuration$ = this.configuratorCommonsService.getConfiguration(
-      this.productCode
-    );**/
+  isFirstGroup(): Observable<Boolean> {
+    return this.configuratorGroupsService
+      .getPreviousGroup(this.productCode)
+      .pipe(
+        mergeMap(group => {
+          if (!group) {
+            return of(true);
+          } else {
+            return of(false);
+          }
+        })
+      );
   }
 
-  getIndexOfGroup(group: Configurator.Group): number {
-    let groupIndex: number;
-    this.configuration$.pipe(take(1)).subscribe(config => {
-      groupIndex = config.groups.indexOf(group);
-    });
-    return groupIndex;
-  }
-
-  getActiveGroup(): string {
-    if (this.activeGroup === undefined) {
-      this.configuration$.pipe(take(1)).subscribe(config => {
-        // TODO: replace with code that searches for first group with attributes
-        this.activeGroup = config.groups[0].id;
-      });
-    }
-    return this.activeGroup;
+  isLastGroup(): Observable<Boolean> {
+    return this.configuratorGroupsService.getNextGroup(this.productCode).pipe(
+      mergeMap(group => {
+        if (!group) {
+          return of(true);
+        } else {
+          return of(false);
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {
