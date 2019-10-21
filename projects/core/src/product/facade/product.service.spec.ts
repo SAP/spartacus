@@ -16,7 +16,7 @@ class MockLoadingScopesService {
   expand = createSpy('expand').and.callFake((_, scopes) => scopes);
 }
 
-fdescribe('ProductService', () => {
+describe('ProductService', () => {
   let store: Store<StateWithProduct>;
   let service: ProductService;
   const mockProduct: Product = { code: 'testId' };
