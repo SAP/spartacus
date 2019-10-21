@@ -5,7 +5,7 @@ import { MultiCartService } from './multi-cart.service';
 import { UserService } from '../../user';
 import { AuthService } from '../../auth';
 import { OCC_USER_ID_CURRENT, OCC_USER_ID_ANONYMOUS } from '../../occ';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Cart } from '../../model/cart.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { map, filter, tap, shareReplay, switchMap, take } from 'rxjs/operators';
@@ -17,12 +17,18 @@ export class SelectiveCartService {
   _userId: string;
   _cartId: string;
   _selectiveCart$: Observable<Cart>;
+  cartId$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
 
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
 
-  private cartSelector = this.multiCartService.getCartEntity(this._cartId);
+  private cartSelector = this.cartId$.pipe(
+    switchMap(cartId => {
+        this._cartId = cartId;
+        return this.multiCartService.getCartEntity(cartId);
+    })
+  );
 
   constructor(
     protected store: Store<StateWithMultiCart>,
@@ -33,7 +39,7 @@ export class SelectiveCartService {
     this.userService.get().subscribe(user => {
       if (user && user.customerId) {
         this._customerId = user.customerId;
-        this._cartId = `selectivecart${this._customerId}`;
+        this.cartId$.next(`selectivecart${this._customerId}`);
       }
     });
 
@@ -55,13 +61,13 @@ export class SelectiveCartService {
         cartEntity.loading,
         (cartEntity.error || cartEntity.success) && !cartEntity.loading,
       ]),
-      filter(([, , loading]) => !loading),
+      filter(([, loading]) => !loading),
       tap(([cart, , loaded]) => {
-        if (this.isEmpty(cart) && !loaded) {
+        if (this._cartId && this.isEmpty(cart) && !loaded) {
           this.load();
         }
       }),
-      map(cart => (cart ? cart : {})),
+      map(([cart]) => (cart ? cart : {})),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
@@ -121,20 +127,12 @@ export class SelectiveCartService {
   }
 
   updateEntry(entryNumber: number, quantity: number): void {
-    if (quantity > 0) {
-      this.multiCartService.updateEntry(
-        this._userId,
-        this._cartId,
-        entryNumber,
-        quantity
-      );
-    } else {
-      this.multiCartService.removeEntry(
-        this._userId,
-        this._cartId,
-        entryNumber
-      );
-    }
+    this.multiCartService.updateEntry(
+      this._userId,
+      this._cartId,
+      entryNumber,
+      quantity
+    );
   }
 
   getEntry(productCode: string): Observable<OrderEntry> {
