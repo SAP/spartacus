@@ -7,6 +7,7 @@ import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
+import { deepMerge } from '../../config/utils/deep-merge';
 
 @Injectable()
 export class ProductService {
@@ -51,7 +52,12 @@ export class ProductService {
     if (scopes.length > 1) {
       return combineLatest(
         scopes.map(scope => this.products[productCode][scope])
-      ).pipe(map(productPart => Object.assign({}, ...productPart)));
+      ).pipe(
+        map(
+          productParts =>
+            productParts.find(Boolean) && deepMerge({}, ...productParts)
+        )
+      );
     } else {
       return this.products[productCode][scopes[0]];
     }

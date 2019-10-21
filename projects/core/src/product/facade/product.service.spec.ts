@@ -16,7 +16,7 @@ class MockLoadingScopesService {
   expand = createSpy('expand').and.callFake((_, scopes) => scopes);
 }
 
-describe('ProductService', () => {
+fdescribe('ProductService', () => {
   let store: Store<StateWithProduct>;
   let service: ProductService;
   const mockProduct: Product = { code: 'testId' };
@@ -63,7 +63,7 @@ describe('ProductService', () => {
 
     it('should be able to get product data for multiple scopes', async () => {
       let callNo = 0;
-      const productScopes = [{ code: '333' }, { name: 'test ' }];
+      const productScopes = [{ code: '333' }, { name: 'test' }];
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
           value: productScopes[callNo++], // serve different scope per call
@@ -73,7 +73,37 @@ describe('ProductService', () => {
       const result: Product = await service
         .get('testId', ['scope1', 'scope2'])
         .toPromise();
-      expect(result).toEqual({ ...productScopes[0], ...productScopes[1] });
+      expect(result).toEqual({ code: '333', name: 'test' });
+    });
+
+    it('should emit partial product data for multiple scopes', async () => {
+      let callNo = 0;
+      const productScopes = [undefined, { name: 'test' }];
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          value: productScopes[callNo++], // serve different scope per call
+        })
+      );
+
+      const result: Product = await service
+        .get('testId', ['scope1', 'scope2'])
+        .toPromise();
+      expect(result).toEqual({ name: 'test' });
+    });
+
+    it('should emit undefined if there is no scope ready', async () => {
+      let callNo = 0;
+      const productScopes = [undefined, undefined];
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          value: productScopes[callNo++], // serve different scope per call
+        })
+      );
+
+      const result: Product = await service
+        .get('testId', ['scope1', 'scope2'])
+        .toPromise();
+      expect(result).toEqual(undefined);
     });
 
     it('should expand loading scopes', () => {
