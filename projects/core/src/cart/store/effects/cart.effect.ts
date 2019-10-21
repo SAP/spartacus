@@ -43,7 +43,6 @@ export class CartEffects {
     ofType(CartActions.LOAD_CART),
     map((action: CartActions.LoadCart) => action.payload),
     mergeMap(payload => {
-      // TODO: get rid of cartData
       const loadCartParams = {
         userId: (payload && payload.userId) || this.cartData.userId,
         cartId: (payload && payload.cartId) || this.cartData.cartId,
