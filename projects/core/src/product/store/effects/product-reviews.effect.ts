@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ErrorModel } from '../../../model/misc.model';
 import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
 import { ProductActions } from '../actions/index';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from '../../../global-message/index';
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -55,8 +59,20 @@ export class ProductReviewsEffects {
     })
   );
 
+  @Effect({ dispatch: false })
+  showGlobalMessageOnPostProductReviewSuccess$ = this.actions$.pipe(
+    ofType(ProductActions.POST_PRODUCT_REVIEW_SUCCESS),
+    tap(() => {
+      this.globalMessageService.add(
+        { key: 'productReview.thankYouForReview' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
-    private productReviewsConnector: ProductReviewsConnector
+    private productReviewsConnector: ProductReviewsConnector,
+    private globalMessageService: GlobalMessageService
   ) {}
 }
