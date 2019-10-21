@@ -67,6 +67,7 @@ if (!environment.production) {
       },
       features: {
         level: '1.3',
+        anonymousConsents: true,
       },
       qualtrics: {
         projectId: 'ZN_6Y9SmdaSBA8Uogl',

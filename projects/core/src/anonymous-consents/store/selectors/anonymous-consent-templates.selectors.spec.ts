@@ -5,7 +5,7 @@ import { ConsentTemplate } from '../../../model/index';
 import { LoaderState } from '../../../state/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import {
-  ANONYMOUS_CONSENTS_FEATURE,
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
   StateWithAnonymousConsents,
 } from '../anonymous-consents-state';
 import * as fromReducers from '../reducers/index';
@@ -19,7 +19,7 @@ describe('anonymous consent templates selectors', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          ANONYMOUS_CONSENTS_FEATURE,
+          ANONYMOUS_CONSENTS_STORE_FEATURE,
           fromReducers.getReducers()
         ),
       ],
