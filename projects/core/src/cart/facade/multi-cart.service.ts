@@ -44,6 +44,9 @@ export class MultiCartService {
         toMergeCartGuid,
       })
     );
+    // to keep track of cart creation process we use cart with `fresh` id
+    // after creating cart we switch to entity with `code` or `guid`
+    // for loading/error state we need `fresh` cart entity
     return this.getCartEntity('fresh');
   }
 
