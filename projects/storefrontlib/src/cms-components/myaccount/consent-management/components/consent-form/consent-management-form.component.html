@@ -1,7 +1,5 @@
-<!-- TODO(issue:4989) Anonymous consents - remove the wrapping `<ng-container *ngIf="isAnonymousConsentsEnabled; else legacyConsentManagementForm">` -->
-<ng-container
-  *ngIf="isAnonymousConsentsEnabled; else legacyConsentManagementForm"
->
+<!-- TODO(issue:4989) Anonymous consents - remove the wrapping `<ng-container *ngIf="isLevel13; else legacyConsentManagementForm">` -->
+<ng-container *ngIf="isLevel13; else legacyConsentManagementForm">
   <div
     class="form-check cx-accordion"
     role="tablist"
