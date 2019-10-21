@@ -134,7 +134,7 @@ export class CartEffects {
 
   @Effect()
   setFreshCart$ = this.actions$.pipe(
-    ofType(CartActions.SET_FRESH_CART_ID),
+    ofType(CartActions.SET_FRESH_CART),
     map(() => {
       return new CartActions.ResetFreshCart();
     })

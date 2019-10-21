@@ -48,7 +48,7 @@ export function cartEntitiesReducer(
     case CartActions.LOAD_MULTI_CART_SUCCESS:
     case CartActions.CREATE_MULTI_CART_SUCCESS:
       return action.payload.cart;
-    case CartActions.SET_FRESH_CART_ID:
+    case CartActions.SET_FRESH_CART:
       return action.payload;
   }
   return state;

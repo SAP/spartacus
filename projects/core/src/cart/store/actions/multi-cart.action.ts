@@ -27,7 +27,7 @@ export const RESET_MULTI_CART_DETAILS = '[Multi Cart] Reset Cart Details';
 
 export const CLEAR_MULTI_CART = '[Multi Cart] Clear Cart';
 
-export const SET_FRESH_CART_ID = '[Multi Cart] Set Fresh Cart Id';
+export const SET_FRESH_CART = '[Multi Cart] Set Fresh Cart';
 
 export const SET_CART_LOADING = '[Multi Cart] Set Cart Loading';
 
@@ -41,7 +41,7 @@ export class ResetFreshCart extends EntityResetAction {
 }
 
 export class SetFreshCart extends EntitySuccessAction {
-  readonly type = SET_FRESH_CART_ID;
+  readonly type = SET_FRESH_CART;
   constructor(public payload: Cart) {
     super(MULTI_CART_FEATURE, 'fresh', payload);
   }
