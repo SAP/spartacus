@@ -25,8 +25,8 @@ export class SelectiveCartService {
 
   private cartSelector = this.cartId$.pipe(
     switchMap(cartId => {
-        this._cartId = cartId;
-        return this.multiCartService.getCartEntity(cartId);
+      this._cartId = cartId;
+      return this.multiCartService.getCartEntity(cartId);
     })
   );
 
@@ -43,31 +43,36 @@ export class SelectiveCartService {
       }
     });
 
-    this.authService.getUserToken().subscribe(userToken => {
-      if (userToken && userToken.userId) {
-        this._userId = OCC_USER_ID_CURRENT;
-        if (this.isJustLoggedIn(userToken.userId)) {
+    this.authService.getOccUserId().subscribe(userId => {
+      this._userId = userId;
+      if (this._userId !== OCC_USER_ID_ANONYMOUS) {
+        if (this.isJustLoggedIn(userId)) {
           this.load();
         }
-      } else {
-        this._userId = OCC_USER_ID_ANONYMOUS;
       }
-      this.previousUserId = userToken.userId;
+      this.previousUserId = userId;
     });
 
     this._selectiveCart$ = this.cartSelector.pipe(
-      map((cartEntity: LoaderState<Cart>): [Cart, boolean, boolean] => [
-        cartEntity.value,
-        cartEntity.loading,
-        (cartEntity.error || cartEntity.success) && !cartEntity.loading,
-      ]),
-      filter(([, loading]) => !loading),
-      tap(([cart, , loaded]) => {
+      map((cartEntity: LoaderState<Cart>): {
+        cart: Cart;
+        loading: boolean;
+        loaded: boolean;
+      } => {
+        return {
+          cart: cartEntity.value,
+          loading: cartEntity.loading,
+          loaded:
+            (cartEntity.error || cartEntity.success) && !cartEntity.loading,
+        };
+      }),
+      filter(({ loading }) => !loading),
+      tap(({ cart, loaded }) => {
         if (this._cartId && this.isEmpty(cart) && !loaded) {
           this.load();
         }
       }),
-      map(([cart]) => (cart ? cart : {})),
+      map(({ cart }) => (cart ? cart : {})),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }

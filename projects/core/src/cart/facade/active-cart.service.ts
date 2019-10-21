@@ -71,7 +71,7 @@ export class ActiveCartService {
         }
       }
       this.previousUserId = userId;
-    })
+    });
 
     this.activeCartId.subscribe(cartId => {
       this.cartId = cartId;
@@ -79,24 +79,27 @@ export class ActiveCartService {
 
     this._activeCart$ = this.cartSelector.pipe(
       withLatestFrom(this.activeCartId),
-      map(([cartEntity, activeCartId]: [LoaderState<Cart>, string]): [
-        Cart,
-        string,
-        boolean,
-        boolean
-      ] => [
-        cartEntity.value,
-        activeCartId,
-        cartEntity.loading,
-        (cartEntity.error || cartEntity.success) && !cartEntity.loading,
-      ]),
-      filter(([, , loading]) => !loading),
-      tap(([cart, activeCartId, , loaded]) => {
+      map(([cartEntity, activeCartId]: [LoaderState<Cart>, string]): {
+        cart: Cart;
+        cartId: string;
+        loading: boolean;
+        loaded: boolean;
+      } => {
+        return {
+          cart: cartEntity.value,
+          cartId: activeCartId,
+          loading: cartEntity.loading,
+          loaded:
+            (cartEntity.error || cartEntity.success) && !cartEntity.loading,
+        };
+      }),
+      filter(({ loading }) => !loading),
+      tap(({ cart, cartId, loaded }) => {
         if (this.isEmpty(cart) && !loaded) {
-          this.load(activeCartId);
+          this.load(cartId);
         }
       }),
-      map(([cart]) => (cart ? cart : {})),
+      map(({ cart }) => (cart ? cart : {})),
       tap(cart => {
         if (cart) {
           this.cartUser = cart.user;
