@@ -1,4 +1,7 @@
-import { StateLoaderActions, StateEntityLoaderActions } from '../../../state/utils/index';
+import {
+  StateLoaderActions,
+  StateEntityLoaderActions,
+} from '../../../state/utils/index';
 import { CART_DATA, ADD_ENTRY_PROCESS_ID } from '../cart-state';
 import { Action } from '@ngrx/store';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
@@ -19,9 +22,12 @@ export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
 export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
-export const CART_START_ADD_ENTRIES_PROCESS = '[Cart-entry] Start Add Entries Process';
-export const CART_SUCCESS_ADD_ENTRIES_PROCESS = '[Cart-entry] Success Add Entries Process';
-export const CART_FAIL_ADD_ENTRIES_PROCESS = '[Cart-entry] Fail Add Entries Process';
+export const CART_START_ADD_ENTRIES_PROCESS =
+  '[Cart-entry] Start Add Entries Process';
+export const CART_SUCCESS_ADD_ENTRIES_PROCESS =
+  '[Cart-entry] Success Add Entries Process';
+export const CART_FAIL_ADD_ENTRIES_PROCESS =
+  '[Cart-entry] Fail Add Entries Process';
 
 export class CartAddEntry extends StateLoaderActions.LoaderLoadAction {
   readonly type = CART_ADD_ENTRY;

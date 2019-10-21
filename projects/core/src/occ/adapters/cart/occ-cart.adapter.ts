@@ -13,7 +13,10 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-import { OCC_USER_ID_ANONYMOUS, OCC_CART_ID_CURRENT } from '../../utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_CART_ID_CURRENT,
+} from '../../utils/occ-constants';
 
 // TODO: Deprecated, remove Issue: #4125. Use configurable endpoints.
 const DETAILS_PARAMS =

@@ -41,7 +41,9 @@ export class CartEntryEffects {
 
   @Effect()
   addEntries$: Observable<
-    CartActions.CartAddEntriesSuccess | CartActions.LoadCart | CartActions.CartSuccessAddEntriesProcess
+    | CartActions.CartAddEntriesSuccess
+    | CartActions.LoadCart
+    | CartActions.CartSuccessAddEntriesProcess
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRIES),
     map((action: CartActions.CartAddEntries) => action.payload),

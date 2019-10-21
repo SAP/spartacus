@@ -62,7 +62,6 @@ describe('Cart', () => {
     });
   });
 
-
   it('should be loaded after user login', () => {
     cy.server();
     cart.registerCartUser();

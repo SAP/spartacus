@@ -44,7 +44,7 @@ export class ActiveCartService {
   private cartId;
   private cartUser: User;
   private addEntrySub: Subscription;
-  private entriesToAdd: Array<{ productCode: string, quantity: number}> = [];
+  private entriesToAdd: Array<{ productCode: string; quantity: number }> = [];
 
   private activeCartId = this.store.pipe(
     select(MultiCartSelectors.getActiveCartId)
@@ -99,7 +99,7 @@ export class ActiveCartService {
         }
       }),
       map(([cart]) => (cart ? cart : {})),
-      tap((cart) => {
+      tap(cart => {
         if (cart) {
           this.cartUser = cart.user;
         }
@@ -176,50 +176,62 @@ export class ActiveCartService {
     );
   }
 
-  addEntry(productCode: string, quantity: number, guestMerge: boolean = false): void {
+  addEntry(
+    productCode: string,
+    quantity: number,
+    guestMerge: boolean = false
+  ): void {
     let createInitialized = false;
     let attemptedLoad = false;
     this.multiCartService.initAddEntryProcess();
-    this.entriesToAdd.push({productCode, quantity});
+    this.entriesToAdd.push({ productCode, quantity });
     if (!this.addEntrySub) {
       this.addEntrySub = this.cartSelector
-      .pipe(
-        filter(() => !createInitialized),
-        switchMap(cartState => {
-          if ((this.isEmpty(cartState.value) && !cartState.loading) || (guestMerge && this.isGuestCart() && !cartState.loading)) {
-            // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
-            if (!attemptedLoad && this.userId !== OCC_USER_ID_ANONYMOUS) {
-              this.load(undefined);
-              attemptedLoad = true;
-              return of(cartState);
+        .pipe(
+          filter(() => !createInitialized),
+          switchMap(cartState => {
+            if (
+              (this.isEmpty(cartState.value) && !cartState.loading) ||
+              (guestMerge && this.isGuestCart() && !cartState.loading)
+            ) {
+              // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
+              if (!attemptedLoad && this.userId !== OCC_USER_ID_ANONYMOUS) {
+                this.load(undefined);
+                attemptedLoad = true;
+                return of(cartState);
+              }
+              createInitialized = true;
+              return this.multiCartService.createCart({
+                userId: this.userId,
+                extraData: {
+                  active: true,
+                },
+              });
             }
-            createInitialized = true;
-            return this.multiCartService.createCart({
-              userId: this.userId,
-              extraData: {
-                active: true,
-              },
-            });
-          }
-          return of(cartState);
-        }),
-        filter(cartState => (!guestMerge && !this.isEmpty(cartState.value) || (guestMerge && !this.isGuestCart() && !this.isEmpty(cartState.value)))),
-        take(1)
-      )
-      .subscribe(cartState => {
-        this.multiCartService.addEntries(
-          this.userId,
-          getCartIdByUserId(cartState.value, this.userId),
-          this.entriesToAdd
-        );
-        this.entriesToAdd = [];
-        setTimeout(() => {
-          this.addEntrySub.unsubscribe();
-          this.addEntrySub = undefined;
-        })
-      });
+            return of(cartState);
+          }),
+          filter(
+            cartState =>
+              (!guestMerge && !this.isEmpty(cartState.value)) ||
+              (guestMerge &&
+                !this.isGuestCart() &&
+                !this.isEmpty(cartState.value))
+          ),
+          take(1)
+        )
+        .subscribe(cartState => {
+          this.multiCartService.addEntries(
+            this.userId,
+            getCartIdByUserId(cartState.value, this.userId),
+            this.entriesToAdd
+          );
+          this.entriesToAdd = [];
+          setTimeout(() => {
+            this.addEntrySub.unsubscribe();
+            this.addEntrySub = undefined;
+          });
+        });
     }
-
   }
 
   removeEntry(entry: OrderEntry): void {
@@ -241,9 +253,7 @@ export class ActiveCartService {
 
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.activeCartId.pipe(
-      switchMap(cartId =>
-        this.multiCartService.getEntry(cartId, productCode)
-      )
+      switchMap(cartId => this.multiCartService.getEntry(cartId, productCode))
     );
   }
 
@@ -254,7 +264,7 @@ export class ActiveCartService {
         cartId: this.cartId,
         email,
       })
-    )
+    );
   }
 
   getAssignedUser(): Observable<User> {
@@ -289,7 +299,7 @@ export class ActiveCartService {
   addEntries(cartEntries: OrderEntry[], guestMerge: boolean = false): void {
     cartEntries.forEach(entry => {
       this.addEntry(entry.product.code, entry.quantity, guestMerge);
-    })
+    });
   }
 
   // TODO: Remove once backend is updated
@@ -314,7 +324,6 @@ export class ActiveCartService {
 
     this.addEntries(cartEntries, true);
   }
-
 
   private isEmpty(cart: Cart): boolean {
     return (

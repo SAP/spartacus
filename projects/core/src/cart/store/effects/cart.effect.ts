@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, from, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, exhaustMap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  mergeMap,
+  switchMap,
+  exhaustMap,
+} from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -55,11 +61,11 @@ export class CartEffects {
           mergeMap((cart: Cart) => {
             let returnArr = [];
             if (payload.extraData && payload.extraData.addEntries) {
-              returnArr.push(
-                new CartActions.CartSuccessAddEntriesProcess())
+              returnArr.push(new CartActions.CartSuccessAddEntriesProcess());
             }
             if (loadCartParams.cartId === OCC_CART_ID_CURRENT && cart) {
-              returnArr = [...returnArr,
+              returnArr = [
+                ...returnArr,
                 new CartActions.LoadCartSuccess(cart),
                 new CartActions.LoadMultiCartSuccess({
                   cart,
@@ -70,7 +76,8 @@ export class CartEffects {
               ];
               return returnArr;
             } else if (cart) {
-              returnArr = [...returnArr,
+              returnArr = [
+                ...returnArr,
                 new CartActions.LoadCartSuccess(cart),
                 new CartActions.LoadMultiCartSuccess({
                   cart,

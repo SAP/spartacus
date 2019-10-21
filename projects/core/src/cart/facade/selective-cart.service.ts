@@ -138,7 +138,7 @@ export class SelectiveCartService {
   }
 
   getEntry(productCode: string): Observable<OrderEntry> {
-    return this.multiCartService.getEntry(this._cartId, productCode)
+    return this.multiCartService.getEntry(this._cartId, productCode);
   }
 
   private isEmpty(cart: Cart): boolean {

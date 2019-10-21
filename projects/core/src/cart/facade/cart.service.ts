@@ -14,7 +14,10 @@ import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS, OCC_CART_ID_CURRENT } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_CART_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
@@ -128,7 +131,9 @@ export class CartService {
       this.store.dispatch(
         new CartActions.LoadCart({
           userId: this.cartData.userId,
-          cartId: this.cartData.cartId ? this.cartData.cartId : OCC_CART_ID_CURRENT,
+          cartId: this.cartData.cartId
+            ? this.cartData.cartId
+            : OCC_CART_ID_CURRENT,
         })
       );
     } else {

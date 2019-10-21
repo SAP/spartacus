@@ -7,7 +7,10 @@ import { CartActions } from '../../cart/store/actions/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS, OCC_CART_ID_CURRENT } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_CART_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { StateWithCart } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
@@ -60,7 +63,7 @@ describe('CartService', () => {
         CartService,
         { provide: CartDataService, useClass: CartDataServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
-        { provide: ActiveCartService }
+        { provide: ActiveCartService },
       ],
     });
 
