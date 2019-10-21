@@ -8,7 +8,9 @@ import { PageLayoutModule } from '../../cms-structure/page/page-layout/page-layo
 import { PageSlotModule } from '../../cms-structure/page/slot/page-slot.module';
 import { PwaModule } from '../../cms-structure/pwa/pwa.module';
 import { SeoModule } from '../../cms-structure/seo/seo.module';
+import { AnonymousConsentsModule } from '../../shared/components/anonymous-consents/anonymous-consents.module';
 import { StorefrontComponent } from './storefront.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,6 +21,7 @@ import { StorefrontComponent } from './storefront.component';
     PageLayoutModule,
     SeoModule,
     PageSlotModule,
+    AnonymousConsentsModule,
     FeaturesConfigModule,
   ],
   declarations: [StorefrontComponent],

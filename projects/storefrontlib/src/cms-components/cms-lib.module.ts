@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule } from '../layout/index';
+import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
 import { AssistedServiceModule } from './asm/assisted-service.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
@@ -49,6 +50,7 @@ import { UserComponentModule } from './user/user.module';
 
 @NgModule({
   imports: [
+    AnonymousConsentManagementBannerModule,
     AssistedServiceModule,
     HamburgerMenuModule,
     CmsParagraphModule,
