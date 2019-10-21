@@ -1,7 +1,7 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
