@@ -25,12 +25,7 @@ const mockWindowRef = {
       },
     },
   },
-  document: {
-    createElement: () => {
-      return { type: '', src: '', defer: true };
-    },
-    getElementsByTagName: () => [{ appendChild: () => {} }],
-  },
+  document: {},
 };
 
 describe('QualtricsLoaderService', () => {
