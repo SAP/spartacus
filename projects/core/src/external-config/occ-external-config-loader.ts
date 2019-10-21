@@ -7,7 +7,7 @@ import {
   OccBaseSitesEndpointOptions,
   OccBaseSitesLoader,
 } from './occ-base-sites-loader';
-import { EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID } from './server-external-config.module';
+import { EXTERNAL_CONFIG_TRANSFER_ID } from './server-external-config.module';
 
 export class OccExternalConfigLoader {
   /**
@@ -49,7 +49,7 @@ export class OccExternalConfigLoader {
    * **CAUTION**: Run it only in browser, because it's using the native DOM.
    */
   private static rehydrate(): ExternalConfig {
-    return TransferData.rehydrate(EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID, document);
+    return TransferData.rehydrate(EXTERNAL_CONFIG_TRANSFER_ID, document);
   }
 
   /**

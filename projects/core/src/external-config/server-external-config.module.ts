@@ -1,16 +1,23 @@
 import { DOCUMENT } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+} from '@angular/core';
 import { TransferData } from '../util/transfer-data';
 import { ExternalConfig } from './external-config';
 
-export const EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID = 'cx-external-config';
+export const EXTERNAL_CONFIG_TRANSFER_ID = 'cx-external-config';
 
 export function transferExternalConfig(
-  config: ExternalConfig,
-  document: Document
+  document: Document,
+  config?: ExternalConfig
 ) {
   const result = () => {
-    TransferData.transfer(EXTERNAL_CONFIG_TRANSFER_SCRIPT_ID, config, document);
+    if (config) {
+      TransferData.transfer(EXTERNAL_CONFIG_TRANSFER_ID, config, document);
+    }
   };
   return result;
 }
@@ -31,7 +38,7 @@ export class ServerExternalConfigModule {
           provide: APP_INITIALIZER,
           multi: true,
           useFactory: transferExternalConfig,
-          deps: [ExternalConfig, DOCUMENT],
+          deps: [DOCUMENT, [new Optional(), ExternalConfig]],
         },
       ],
     };
