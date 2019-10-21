@@ -62,4 +62,26 @@ context('Product Configuration', () => {
       //TODO:
     });
   });
+
+  describe('Group handling', () => {
+    it('Navigate between group', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.clickOnNextGroupButton();
+      configuration.clickOnNextGroupButton();
+      configuration.verifyAttributeValueIsDisplayed(
+        'WCEM_DP_SOUND_CARD',
+        'radioGroup',
+        'TITANIUM'
+      );
+
+      configuration.clickOnPreviousGroupButton();
+      configuration.verifyAttributeValueIsDisplayed(
+        'WCEM_DP_EXT_DD',
+        'radioGroup',
+        'DVD'
+      );
+    });
+  });
 });

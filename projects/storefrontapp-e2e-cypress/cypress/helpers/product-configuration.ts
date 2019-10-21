@@ -2,6 +2,18 @@ export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
 }
 
+export function clickOnNextGroupButton() {
+  cy.get('cx-config-previous-next-buttons div div:last button').click({
+    force: true,
+  });
+}
+
+export function clickOnPreviousGroupButton() {
+  cy.get('cx-config-previous-next-buttons div div:first button').click({
+    force: true,
+  });
+}
+
 export function verifyConfigurationPageIsDisplayed() {
   cy.get('cx-config-form').should('be.visible');
 }
