@@ -235,13 +235,13 @@ describe('AddedToCartDialogComponent', () => {
       },
       appliedProductPromotions: [
         {
-          description: "10% off on products EOS450D + 18-55 IS Kit",
+          description: '10% off on products EOS450D + 18-55 IS Kit',
           promotion: {
             code: 'product_percentage_discount',
-            promotionType: 'Rule Based Promotion'
-          }
-        }
-      ]
+            promotionType: 'Rule Based Promotion',
+          },
+        },
+      ],
     });
     fixture.detectChanges();
 
@@ -257,13 +257,11 @@ describe('AddedToCartDialogComponent', () => {
       totalPrice: {
         formattedValue: '$100.00',
       },
-      appliedProductPromotions: []
+      appliedProductPromotions: [],
     });
     fixture.detectChanges();
 
     const dialogTitleEl = el.query(By.css('cx-promotions')).nativeElement;
-    expect(dialogTitleEl.textContent).toEqual(
-      ''
-    );
+    expect(dialogTitleEl.textContent).toEqual('');
   });
 });
