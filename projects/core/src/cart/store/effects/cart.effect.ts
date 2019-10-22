@@ -19,16 +19,6 @@ import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartEffects {
-  // TODO: remove when removing cart store module
-  @Effect()
-  loadCart2$: Observable<CartActions.LoadMultiCart> = this.actions$.pipe(
-    ofType(CartActions.LOAD_CART),
-    map(
-      (action: CartActions.LoadCart) =>
-        new CartActions.LoadMultiCart(action.payload)
-    )
-  );
-
   // TODO: change to listen on LoadMultiCart action, remove old actions usage
   @Effect()
   loadCart$: Observable<
@@ -119,24 +109,6 @@ export class CartEffects {
     })
   );
 
-  // TODO: remove when removing cart store module
-  @Effect()
-  createCart2$: Observable<CartActions.CreateMultiCart> = this.actions$.pipe(
-    ofType(CartActions.CREATE_CART),
-    map(
-      (action: CartActions.CreateCart) =>
-        new CartActions.CreateMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
-  setFreshCart$ = this.actions$.pipe(
-    ofType(CartActions.SET_FRESH_CART),
-    map(() => {
-      return new CartActions.ResetFreshCart();
-    })
-  );
-
   // TODO: change to listen on CreateMultiCart action, remove old actions usage
   @Effect()
   createCart$: Observable<
@@ -198,18 +170,6 @@ export class CartEffects {
     })
   );
 
-  // TODO: remove when removing cart store module
-  @Effect()
-  mergeCart2$: Observable<
-    CartActions.MergeWithCurrentCart
-  > = this.actions$.pipe(
-    ofType(CartActions.MERGE_CART),
-    map(
-      (action: CartActions.MergeCart) =>
-        new CartActions.MergeWithCurrentCart(action.payload)
-    )
-  );
-
   // TODO replace in 2.0 with multi cart action
   @Effect()
   mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
@@ -229,30 +189,6 @@ export class CartEffects {
         })
       );
     })
-  );
-
-  @Effect()
-  setLoading$: Observable<CartActions.SetCartLoading> = this.actions$.pipe(
-    ofType(
-      CartActions.MERGE_CART,
-      CartActions.CART_ADD_ENTRY,
-      CartActions.CART_UPDATE_ENTRY,
-      CartActions.CART_REMOVE_ENTRY
-    ),
-    map(
-      (
-        action:
-          | CartActions.MergeCart
-          | CartActions.CartAddEntry
-          | CartActions.CartUpdateEntry
-          | CartActions.CartRemoveEntry
-      ) => action.payload
-    ),
-    mergeMap(payload => [
-      new CartActions.SetCartLoading({
-        cartId: payload.cartId,
-      }),
-    ])
   );
 
   // TODO: remove old actions usage (LoadCart)
@@ -287,7 +223,7 @@ export class CartEffects {
     )
   );
 
-  // TODO: remove old actions usage, replace with new
+  // TODO: remove old actions usage
   @Effect()
   resetCartDetailsOnSiteContextChange$: Observable<
     CartActions.ResetCartDetails | CartActions.ResetMultiCartDetails
@@ -304,9 +240,13 @@ export class CartEffects {
     })
   );
 
+  // TODO: remove old actions usage
   @Effect()
   addEmail$: Observable<
-    CartActions.AddEmailToCartSuccess | CartActions.AddEmailToCartFail
+    | CartActions.AddEmailToCartSuccess
+    | CartActions.AddEmailToCartFail
+    | CartActions.AddEmailToMultiCartFail
+    | CartActions.AddEmailToMultiCartSuccess
   > = this.actions$.pipe(
     ofType(CartActions.ADD_EMAIL_TO_CART),
     map((action: CartActions.AddEmailToCart) => action.payload),
@@ -314,14 +254,27 @@ export class CartEffects {
       this.cartConnector
         .addEmail(payload.userId, payload.cartId, payload.email)
         .pipe(
-          map(() => {
-            return new CartActions.AddEmailToCartSuccess({
-              userId: payload.userId,
-              cartId: payload.cartId,
-            });
+          mergeMap(() => {
+            return [
+              new CartActions.AddEmailToCartSuccess({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
+              new CartActions.AddEmailToMultiCartSuccess({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
+            ];
           }),
           catchError(error =>
-            of(new CartActions.AddEmailToCartFail(makeErrorSerializable(error)))
+            from([
+              new CartActions.AddEmailToCartFail(makeErrorSerializable(error)),
+              new CartActions.AddEmailToMultiCartFail({
+                error: makeErrorSerializable(error),
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
+            ])
           )
         )
     )

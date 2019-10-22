@@ -260,9 +260,13 @@ describe('Cart effect', () => {
         userId,
         cartId,
       });
+      const completion2 = new CartActions.AddEmailToMultiCartSuccess({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion, c: completion2 });
 
       expect(cartEffects.addEmail$).toBeObservable(expected);
     });

@@ -17,7 +17,9 @@ export class SelectiveCartService {
   private userId: string;
   private cartId: string;
   private selectiveCart$: Observable<Cart>;
-  private cartId$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
+  private cartId$: BehaviorSubject<string> = new BehaviorSubject<string>(
+    undefined
+  );
 
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';

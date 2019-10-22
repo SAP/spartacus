@@ -31,6 +31,10 @@ export const SET_CART_LOADING = '[Multi Cart] Set Cart Loading';
 
 export const REMOVE_CART = '[Multi Cart] Remove Cart';
 
+export const ADD_EMAIL_TO_MULTI_CART = '[Multi Cart] Add Email';
+export const ADD_EMAIL_TO_MULTI_CART_FAIL = '[Multi Cart] Add Email Fail';
+export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
+
 export class ResetFreshCart extends EntityResetAction {
   readonly type = RESET_FRESH_CART;
   constructor() {
@@ -123,6 +127,29 @@ export class RemoveCart extends EntityRemoveAction {
   }
 }
 
+export class AddEmailToMultiCart extends EntityLoadAction {
+  readonly type = ADD_EMAIL_TO_MULTI_CART;
+  constructor(
+    public payload: { userId: string; cartId: string; email: string }
+  ) {
+    super(MULTI_CART_FEATURE, payload.cartId);
+  }
+}
+
+export class AddEmailToMultiCartFail extends EntityFailAction {
+  readonly type = ADD_EMAIL_TO_MULTI_CART_FAIL;
+  constructor(public payload: { userId: string; cartId: string; error: any }) {
+    super(MULTI_CART_FEATURE, payload.cartId, payload.error);
+  }
+}
+
+export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
+  readonly type = ADD_EMAIL_TO_MULTI_CART_SUCCESS;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(MULTI_CART_FEATURE, payload.cartId);
+  }
+}
+
 export type MultiCartActions =
   | ResetFreshCart
   | SetFreshCart
@@ -136,4 +163,7 @@ export type MultiCartActions =
   | MergeMultiCartSuccess
   | ResetMultiCartDetails
   | SetCartLoading
-  | RemoveCart;
+  | RemoveCart
+  | AddEmailToMultiCart
+  | AddEmailToMultiCartFail
+  | AddEmailToMultiCartSuccess;
