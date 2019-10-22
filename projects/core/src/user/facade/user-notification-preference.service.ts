@@ -42,6 +42,13 @@ export class UserNotificationPreferenceService {
   }
 
   /**
+   * Clear all notification preferences.
+   */
+  clearPreferences(): void {
+    this.store.dispatch(new UserActions.ClearNotificationPreferences());
+  }
+
+  /**
    * Returns a loading flag for notification preferences.
    */
   getPreferencesLoading(): Observable<boolean> {

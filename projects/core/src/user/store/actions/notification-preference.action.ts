@@ -26,6 +26,8 @@ export const UPDATE_NOTIFICATION_PREFERENCES_SUCCESS =
   '[User] Update Notification Preferences Success';
 export const RESET_NOTIFICATION_PREFERENCES =
   '[User] Reset Notification Preferences';
+export const CLEAR_NOTIFICATION_PREFERENCES =
+  '[User] Clear Notification Preferences';
 
 export class LoadNotificationPreferences extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES;
@@ -78,6 +80,13 @@ export class ResetNotificationPreferences extends EntityResetAction {
   }
 }
 
+export class ClearNotificationPreferences extends StateLoaderActions.LoaderResetAction {
+  readonly type = CLEAR_NOTIFICATION_PREFERENCES;
+  constructor() {
+    super(NOTIFICATION_PREFERENCES);
+  }
+}
+
 export type NotificationPreferenceAction =
   | LoadNotificationPreferences
   | LoadNotificationPreferencesFail
@@ -85,4 +94,5 @@ export type NotificationPreferenceAction =
   | UpdateNotificationPreferences
   | UpdateNotificationPreferencesFail
   | UpdateNotificationPreferencesSuccess
-  | ResetNotificationPreferences;
+  | ResetNotificationPreferences
+  | ClearNotificationPreferences;

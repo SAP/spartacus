@@ -18,6 +18,7 @@
 <ng-template #disableNotify>
   <div class="stock-notification-notes">
     <label>
+      {{ 'stockNotification.getNotify' | cxTranslate }}<br />
       {{ 'stockNotification.activateChannelsPrefix' | cxTranslate
       }}<a [routerLink]="['/my-account/notification-preference']">{{
         'stockNotification.channelsLink' | cxTranslate

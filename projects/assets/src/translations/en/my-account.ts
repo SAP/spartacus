@@ -128,7 +128,7 @@ export const myAccount = {
     header: 'My Interests',
     item: 'ITEM',
     price: 'PRICE',
-    subcriptions: 'SUBSCRIPTIONS',
+    notifications: 'NOTIFICATIONS',
     noInterests: 'You have no registered interests yet.',
     inStock: 'In Stock',
     lowStock: 'Low Stock',
@@ -137,5 +137,6 @@ export const myAccount = {
     sortByMostRecent: 'Sort by Most recent',
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
+    remove: 'REMOVE',
   },
 };

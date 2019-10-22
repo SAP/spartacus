@@ -7,6 +7,7 @@ import {
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
   NOTIFICATION_PREFERENCES,
 } from '../user-state';
+import { resetMeta } from '../../../state/utils/loader/loader.action';
 
 const userId = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [
@@ -115,6 +116,16 @@ describe('Notification Preference Actions', () => {
           PROCESS_FEATURE,
           UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID
         ),
+      });
+    });
+  });
+
+  describe('ClearNotificationPreferences', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ClearNotificationPreferences();
+      expect({ ...action }).toEqual({
+        type: UserActions.CLEAR_NOTIFICATION_PREFERENCES,
+        meta: resetMeta(NOTIFICATION_PREFERENCES),
       });
     });
   });
