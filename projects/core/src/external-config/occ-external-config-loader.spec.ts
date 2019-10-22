@@ -34,16 +34,16 @@ describe(`OccExternalConfigLoader`, () => {
     });
 
     it(`should load occ base sites and convert them into a config`, async () => {
-      const endpoint: OccBaseSitesEndpointOptions = {
+      const endpointOptions: OccBaseSitesEndpointOptions = {
         baseUrl: 'testOccBaseUrl',
       };
       const currentUrl = 'testCurrentUrl';
       const result = await OccExternalConfigLoader.load({
-        endpoint,
+        endpointOptions,
         currentUrl,
       });
 
-      expect(OccBaseSitesLoader.load).toHaveBeenCalledWith(endpoint);
+      expect(OccBaseSitesLoader.load).toHaveBeenCalledWith(endpointOptions);
       expect(ExternalConfigConverter.fromOccBaseSites).toHaveBeenCalledWith(
         mockBaseSites,
         currentUrl
@@ -56,7 +56,7 @@ describe(`OccExternalConfigLoader`, () => {
         'testOccBaseUrl'
       );
       await OccExternalConfigLoader.load({
-        endpoint: {},
+        endpointOptions: {},
         currentUrl: 'testCurrentUrl',
       });
       expect(OccBaseUrlMetaTagUtils.getFromDOM).toHaveBeenCalled();
@@ -67,7 +67,7 @@ describe(`OccExternalConfigLoader`, () => {
 
     it(`should use document.location.href when the current url is not given`, async () => {
       await OccExternalConfigLoader.load({
-        endpoint: { baseUrl: 'testOccBaseUrl' },
+        endpointOptions: { baseUrl: 'testOccBaseUrl' },
       });
       expect(ExternalConfigConverter.fromOccBaseSites).toHaveBeenCalledWith(
         mockBaseSites,
@@ -93,19 +93,19 @@ describe(`OccExternalConfigLoader`, () => {
     });
 
     it(`should load occ base sites and convert them into a config`, async () => {
-      const endpoint: OccBaseSitesEndpointOptions = {
+      const endpointOptions: OccBaseSitesEndpointOptions = {
         baseUrl: 'testBaseUrl',
       };
       const currentUrl = 'testCurrentUrl';
       const httpsClient: NodeHttpsClient = 'testHttpsClient' as any;
       const result = await OccExternalConfigLoader.loadSSR({
-        endpoint,
+        endpointOptions,
         currentUrl,
         httpsClient,
       });
 
       expect(OccBaseSitesLoader.loadSSR).toHaveBeenCalledWith(
-        endpoint,
+        endpointOptions,
         httpsClient
       );
       expect(ExternalConfigConverter.fromOccBaseSites).toHaveBeenCalledWith(

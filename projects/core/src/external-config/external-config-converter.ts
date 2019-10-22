@@ -118,7 +118,7 @@ export class ExternalConfigConverter {
     elements: { isocode?: string }[],
     defaultElement: { isocode?: string }
   ) {
-    const result = ExternalConfigConverter.moveAsFirst(
+    const result = ExternalConfigConverter.moveToFirst(
       elements,
       el => el.isocode === defaultElement.isocode
     ).map(el => el.isocode);
@@ -131,7 +131,7 @@ export class ExternalConfigConverter {
    * @param array array to modify
    * @param predicate function called on elements
    */
-  private static moveAsFirst(
+  private static moveToFirst(
     array: any[],
     predicate: (el: any) => boolean
   ): any[] {

@@ -18,15 +18,15 @@ export class OccExternalConfigLoader {
    * **CAUTION**: Run it only in browser, because it's using the native DOM and XHR.
    */
   static load({
-    endpoint,
+    endpointOptions,
     currentUrl,
     rehydrate,
   }: {
-    endpoint?: OccBaseSitesEndpointOptions;
+    endpointOptions?: OccBaseSitesEndpointOptions;
     currentUrl?: string;
     rehydrate?: boolean;
   } = {}): Promise<ExternalConfig> {
-    endpoint = endpoint || {};
+    endpointOptions = endpointOptions || {};
     currentUrl = currentUrl || document.location.href;
     rehydrate = rehydrate || true;
 
@@ -35,9 +35,10 @@ export class OccExternalConfigLoader {
       return Promise.resolve(config);
     }
 
-    endpoint.baseUrl = endpoint.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
+    endpointOptions.baseUrl =
+      endpointOptions.baseUrl || OccBaseUrlMetaTagUtils.getFromDOM();
 
-    const result = OccBaseSitesLoader.load(endpoint).then(baseSites =>
+    const result = OccBaseSitesLoader.load(endpointOptions).then(baseSites =>
       ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
     );
     return result;
@@ -58,17 +59,19 @@ export class OccExternalConfigLoader {
    * Run it in SSR, because it's using Node.js `https` client.
    */
   static loadSSR({
-    endpoint,
+    endpointOptions,
     currentUrl,
     httpsClient,
   }: {
-    endpoint: OccBaseSitesEndpointOptions;
+    endpointOptions: OccBaseSitesEndpointOptions;
     currentUrl: string;
     httpsClient: NodeHttpsClient;
   }): Promise<ExternalConfig> {
-    const result = OccBaseSitesLoader.loadSSR(endpoint, httpsClient).then(
-      baseSites =>
-        ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
+    const result = OccBaseSitesLoader.loadSSR(
+      endpointOptions,
+      httpsClient
+    ).then(baseSites =>
+      ExternalConfigConverter.fromOccBaseSites(baseSites, currentUrl)
     );
     return result;
   }
