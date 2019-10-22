@@ -25,8 +25,6 @@ export const MERGE_MULTI_CART_SUCCESS = '[Multi Cart] Merge Cart Success';
 
 export const RESET_MULTI_CART_DETAILS = '[Multi Cart] Reset Cart Details';
 
-export const CLEAR_MULTI_CART = '[Multi Cart] Clear Cart';
-
 export const SET_FRESH_CART = '[Multi Cart] Set Fresh Cart';
 
 export const SET_CART_LOADING = '[Multi Cart] Set Cart Loading';
@@ -111,13 +109,6 @@ export class ResetMultiCartDetails extends EntityResetAction {
   }
 }
 
-export class ClearMultiCart extends EntityRemoveAction {
-  readonly type = CLEAR_MULTI_CART;
-  constructor(public payload: { cartId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
-  }
-}
-
 export class SetCartLoading extends EntityLoadAction {
   readonly type = SET_CART_LOADING;
   constructor(public payload: { cartId: string }) {
@@ -144,6 +135,5 @@ export type MultiCartActions =
   | MergeWithCurrentCart
   | MergeMultiCartSuccess
   | ResetMultiCartDetails
-  | ClearMultiCart
   | SetCartLoading
   | RemoveCart;

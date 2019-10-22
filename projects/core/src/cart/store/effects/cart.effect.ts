@@ -37,7 +37,6 @@ export class CartEffects {
     | CartActions.LoadCartSuccess
     | CartActions.LoadMultiCartSuccess
     | CartActions.ClearCart
-    | CartActions.ClearMultiCart
     | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
@@ -104,9 +103,7 @@ export class CartEffects {
               if (cartNotFoundErrors.length > 0) {
                 return from([
                   new CartActions.ClearCart(),
-                  new CartActions.ClearMultiCart({
-                    cartId: loadCartParams.cartId,
-                  }),
+                  new CartActions.RemoveCart(loadCartParams.cartId),
                 ]);
               }
             }

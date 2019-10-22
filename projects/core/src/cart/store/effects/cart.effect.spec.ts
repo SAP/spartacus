@@ -119,7 +119,7 @@ describe('Cart effect', () => {
         })
       );
       const completion = new CartActions.ClearCart();
-      const completion2 = new CartActions.ClearMultiCart({ cartId });
+      const completion2 = new CartActions.RemoveCart(cartId);
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion, c: completion2 });
       expect(cartEffects.loadCart$).toBeObservable(expected);
