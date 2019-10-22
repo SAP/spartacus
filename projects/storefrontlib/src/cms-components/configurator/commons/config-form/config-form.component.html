@@ -1,3 +1,7 @@
+<ng-container *ngIf="currentGroup$ | async as currentGroup">
+  <div>{{ currentGroup }}</div>
+</ng-container>
+
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-total">
     {{ 'configurator.header.configId' | cxTranslate }} :
@@ -65,11 +69,10 @@
           </div>
         </div>
         <cx-config-previous-next-buttons
-          [group]="group"
           [isFirstGroup]="isFirstGroup()"
           [isLastGroup]="isLastGroup()"
-          (previousGroup)="navigateToPreviousGroup($event)"
-          (nextGroup)="navigateToNextGroup($event)"
+          (previousGroup)="navigateToPreviousGroup()"
+          (nextGroup)="navigateToNextGroup()"
         ></cx-config-previous-next-buttons>
       </div>
     </ng-container>
