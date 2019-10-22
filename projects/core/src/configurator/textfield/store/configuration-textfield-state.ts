@@ -6,10 +6,10 @@ export const CONFIGURATION_TEXTFIELD_DATA =
   '[ConfiguratorTextfield] Configuration Data';
 
 export interface StateWithConfigurationTextfield {
-  [CONFIGURATION_TEXTFIELD_FEATURE]: ConfigurationsTextfieldState;
+  [CONFIGURATION_TEXTFIELD_FEATURE]: ConfigurationTextfieldLoaderState;
 }
 
-export interface ConfigurationsTextfieldState {
+export interface ConfigurationTextfieldLoaderState {
   active: LoaderState<ConfigurationTextfieldState>;
 }
 

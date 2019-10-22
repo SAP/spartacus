@@ -1,15 +1,15 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 import { loaderReducer } from '../../../../state/utils/loader/loader.reducer';
 import {
-  ConfigurationsTextfieldState,
+  ConfigurationTextfieldLoaderState,
   ConfigurationTextfieldState,
   CONFIGURATION_TEXTFIELD_DATA,
 } from '../configuration-textfield-state';
 import { reducer as configurationReducer } from './configurator-textfield.reducer';
 
 export function getConfiguratorTextfieldReducers(): ActionReducerMap<
-  ConfigurationsTextfieldState
+  ConfigurationTextfieldLoaderState
 > {
   return {
     active: loaderReducer<ConfigurationTextfieldState>(
@@ -20,8 +20,8 @@ export function getConfiguratorTextfieldReducers(): ActionReducerMap<
 }
 
 export const configuratorTextfieldReducerToken: InjectionToken<
-  ActionReducerMap<ConfigurationsTextfieldState>
-> = new InjectionToken<ActionReducerMap<ConfigurationsTextfieldState>>(
+  ActionReducerMap<ConfigurationTextfieldLoaderState>
+> = new InjectionToken<ActionReducerMap<ConfigurationTextfieldLoaderState>>(
   'ConfiguratorReducers'
 );
 
@@ -29,5 +29,3 @@ export const configuratorTextfieldReducerProvider: Provider = {
   provide: configuratorTextfieldReducerToken,
   useFactory: getConfiguratorTextfieldReducers,
 };
-
-export const metaConfiguratorTextfieldReducers: MetaReducer<any>[] = [];

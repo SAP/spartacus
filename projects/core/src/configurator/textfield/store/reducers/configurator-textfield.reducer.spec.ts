@@ -9,10 +9,11 @@ describe('ConfiguratorTextfieldReducer', () => {
     refresh: false,
   };
   const productCode = 'CONF_LAPTOP';
+  const attributeName = 'attributeName';
   const configuration: ConfiguratorTextfield.Configuration = {
-    attributes: [],
+    attributes: [{ name: attributeName }],
   };
-  it('should not change state on CreateConfiguration ', () => {
+  it('should not change state in case action is different from CreateConfigurationSuccess', () => {
     const result = reducer(
       configurationState,
       new ConfiguratorTextfieldActions.CreateConfiguration(productCode)
@@ -27,6 +28,6 @@ describe('ConfiguratorTextfieldReducer', () => {
       new ConfiguratorTextfieldActions.CreateConfigurationSuccess(configuration)
     );
     expect(result).toBeDefined();
-    expect(result.content).toBeDefined();
+    expect(result.content).toEqual(configuration);
   });
 });
