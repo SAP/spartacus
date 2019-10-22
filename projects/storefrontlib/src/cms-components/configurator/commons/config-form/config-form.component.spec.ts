@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  ConfiguratorGroupsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -55,6 +56,25 @@ class MockConfiguratorCommonsService {
     };
     return of(productConfig);
   }
+  getConfiguration(
+    productCode: string
+  ): Observable<Configurator.Configuration> {
+    const productConfig: Configurator.Configuration = {
+      configId: 'a',
+      consistent: true,
+      complete: true,
+      productCode: productCode,
+    };
+    return of(productConfig);
+  }
+  hasConfiguration(): Observable<boolean> {
+    return of(false);
+  }
+}
+class MockConfiguratorGroupsService {
+  getCurrentGroup() {
+    return of('');
+  }
 }
 
 describe('ConfigurationFormComponent', () => {
@@ -83,6 +103,11 @@ describe('ConfigurationFormComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
       ],
     })

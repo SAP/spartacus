@@ -4,24 +4,52 @@ import {
   MemoizedSelector,
 } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
+import { EntityLoaderState } from '../../../../state/utils/entity-loader/entity-loader-state';
 import {
-  ConfigurationsState,
+  StateEntityLoaderSelectors,
+  StateLoaderSelectors,
+} from '../../../../state/utils/index';
+import { LoaderState } from '../../../../state/utils/loader/loader-state';
+import {
+  ConfigurationState,
   CONFIGURATION_FEATURE,
   StateWithConfiguration,
 } from '../configuration-state';
 
-const getConfigurationContentSelector = (state: ConfigurationsState) =>
-  state.active.value.content;
+// const getConfigurationContentSelector = (state: ConfigurationState) =>
+//   state.content;
 
-const getConfigurationsState: MemoizedSelector<
+export const getConfigurationsState: MemoizedSelector<
   StateWithConfiguration,
-  ConfigurationsState
-> = createFeatureSelector<ConfigurationsState>(CONFIGURATION_FEATURE);
+  ConfigurationState
+> = createFeatureSelector<ConfigurationState>(CONFIGURATION_FEATURE);
 
-export const getConfigurationContent: MemoizedSelector<
+export const getConfigurationState: MemoizedSelector<
   StateWithConfiguration,
-  Configurator.Configuration
+  EntityLoaderState<Configurator.Configuration>
 > = createSelector(
   getConfigurationsState,
-  getConfigurationContentSelector
+  (state: ConfigurationState) => state.configurations
 );
+
+export const getConfigurationStateFactory = (
+  code: string
+): MemoizedSelector<
+  StateWithConfiguration,
+  LoaderState<Configurator.Configuration>
+> => {
+  return createSelector(
+    getConfigurationState,
+    details => StateEntityLoaderSelectors.entityStateSelector(details, code)
+  );
+};
+
+export const getConfigurationFactory = (
+  code: string
+): MemoizedSelector<StateWithConfiguration, Configurator.Configuration> => {
+  return createSelector(
+    getConfigurationStateFactory(code),
+    configurationState =>
+      StateLoaderSelectors.loaderValueSelector(configurationState)
+  );
+};

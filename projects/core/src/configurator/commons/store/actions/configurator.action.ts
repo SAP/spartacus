@@ -1,4 +1,5 @@
-import { StateLoaderActions } from '../../../../state/utils/index';
+import { Configurator } from '../../../../model/configurator.model';
+import { StateEntityLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
@@ -16,66 +17,66 @@ export const UPDATE_CONFIGURATION_FAIL =
 export const UPDATE_CONFIGURATION_SUCCESS =
   '[Configurator] Update Configuration Sucess';
 
-export class CreateConfiguration extends StateLoaderActions.LoaderLoadAction {
+export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA);
+  constructor(public productCode: string) {
+    super(CONFIGURATION_DATA, productCode);
   }
 }
 
-export class CreateConfigurationFail extends StateLoaderActions.LoaderFailAction {
+export class CreateConfigurationFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = CREATE_CONFIGURATION_FAIL;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA, payload);
+  constructor(productCode: string, public payload: any) {
+    super(CONFIGURATION_DATA, productCode, payload);
   }
 }
 
-export class CreateConfigurationSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class CreateConfigurationSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = CREATE_CONFIGURATION_SUCCESS;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA);
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
   }
 }
 
-export class ReadConfiguration extends StateLoaderActions.LoaderLoadAction {
+export class ReadConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = READ_CONFIGURATION;
   constructor(public payload: any) {
-    super(CONFIGURATION_DATA);
+    super(CONFIGURATION_DATA, payload.productCode);
   }
 }
 
-export class ReadConfigurationFail extends StateLoaderActions.LoaderFailAction {
+export class ReadConfigurationFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = READ_CONFIGURATION_FAIL;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA, payload);
+  constructor(productCode: string, public payload: any) {
+    super(CONFIGURATION_DATA, productCode, payload);
   }
 }
 
-export class ReadConfigurationSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class ReadConfigurationSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = READ_CONFIGURATION_SUCCESS;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA);
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
   }
 }
 
-export class UpdateConfiguration extends StateLoaderActions.LoaderLoadAction {
+export class UpdateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = UPDATE_CONFIGURATION;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA);
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
   }
 }
 
-export class UpdateConfigurationFail extends StateLoaderActions.LoaderFailAction {
+export class UpdateConfigurationFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = UPDATE_CONFIGURATION_FAIL;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA, payload);
+  constructor(productCode: string, public payload: any) {
+    super(CONFIGURATION_DATA, productCode, payload);
   }
 }
 
-export class UpdateConfigurationSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class UpdateConfigurationSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_SUCCESS;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA);
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
   }
 }
 
