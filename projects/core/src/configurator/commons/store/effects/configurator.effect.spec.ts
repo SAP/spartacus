@@ -98,10 +98,11 @@ describe('ConfiguratorEffect', () => {
       status: 404,
     });
     createMock.and.returnValue(throwError(errorResponse));
-    const payloadInput = { productCode: productCode };
-    const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
+
+    const action = new ConfiguratorActions.CreateConfiguration(productCode);
 
     const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
+      productCode,
       makeErrorSerializable(errorResponse)
     );
     actions$ = hot('-a', { a: action });

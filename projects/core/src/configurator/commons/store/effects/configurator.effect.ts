@@ -36,7 +36,10 @@ export class ConfiguratorEffects {
             return [new CreateConfigurationSuccess(configuration)];
           }),
           catchError(error => [
-            new CreateConfigurationFail(makeErrorSerializable(error)),
+            new CreateConfigurationFail(
+              productCode,
+              makeErrorSerializable(error)
+            ),
           ])
         );
     })
