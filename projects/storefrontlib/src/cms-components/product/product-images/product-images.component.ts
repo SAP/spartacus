@@ -22,12 +22,12 @@ export class ProductImagesComponent {
     )
   );
 
-  isEmpty: boolean;
+  isThumbsEmpty: boolean;
 
   thumbs$: Observable<any[]> = this.product$.pipe(
     map(product => this.createThumbs(product)),
     tap(thumbs => {
-      this.isEmpty = thumbs.length === 0;
+      this.isThumbsEmpty = thumbs.length === 0;
     })
   );
 

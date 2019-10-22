@@ -89,12 +89,11 @@ fdescribe('ProductImagesComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
-  beforeEach(() => {
+
     currentProductService = TestBed.get(CurrentProductService as Type<
       CurrentProductService
     >);
-  });
+  }));
 
   describe('with multiple pictures', () => {
     beforeEach(() => {
@@ -171,22 +170,16 @@ fdescribe('ProductImagesComponent', () => {
       let items: Observable<Product>[];
       component.thumbs$.subscribe(i => (items = i));
       expect(items.length).toBe(0);
+      expect(component.isThumbsEmpty).toBeTruthy();
     }));
 
     describe('(UI test)', () => {
       it('should not render cx-carousel for one GALLERY image', () => {
-        const carousel = fixture.debugElement.queryAll(
-          By.css('cx-carousel cx-media')
-        );
-        expect(carousel.length).toEqual(0);
-      });
-    });
+        component.thumbs$.subscribe();
+        fixture.detectChanges();
 
-    describe('Product Detail Page', () => {
-      it('should not render the carousel if it is empty', () => {
-        console.log(component.isEmpty);
         const carousel = fixture.debugElement.query(By.css('cx-carousel'));
-        console.log(carousel.nativeElement);
+        expect(carousel).toBeNull();
       });
     });
   });
