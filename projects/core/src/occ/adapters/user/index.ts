@@ -1,3 +1,4 @@
+export * from './occ-anonymous-consent-templates.adapter';
 export * from './occ-user-address.adapter';
 export * from './occ-user-consent.adapter';
 export * from './occ-user-notification-preference.adapter';

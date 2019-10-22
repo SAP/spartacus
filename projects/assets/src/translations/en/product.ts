@@ -45,6 +45,8 @@ export const product = {
     writeReview: 'Write a Review',
     more: 'More',
     less: 'Less',
+    thankYouForReview:
+      'Thank you for the review! Note that reviews may require review before appearing here.',
   },
   addToCart: {
     itemsAddedToYourCart: 'Item(s) added to your cart',
@@ -71,20 +73,21 @@ export const product = {
     notifyMe: 'NOTIFY ME',
     stopNotify: 'STOP NOTIFICATION',
     getNotify: 'Get notified when this product is available.',
+    getNotifySuffix: 'to get notified when this product is available.',
     activateChannelsPrefix: 'To be notified you need to activate the ',
     channelsLink: 'Notification Channels',
     activateChannelsSuffix: '.',
     notified: 'You will be notified when this product is back in stock.',
     getNotified: 'Get notified when this product is back in stock.',
     unsubscribeSuccess:
-      'You will not receive any notifications for this product.',
+      'You will not receive back-in-stock notification for this product.',
     subscriptionDialog: {
       header: 'Out of stock subscription',
       notifiedPrefix: 'You will be notified on:',
       notifiedSuffix: 'as soons as this product is back in stock.',
       manageChannelsPrefix:
-        'Manage your preffered notification channels at the ',
-      manageChannelsLink: 'Channel Settings',
+        'Manage your prefered notification channels at the ',
+      manageChannelsLink: 'Notification Preference',
       manageChannelsSuffix: ' page.',
       manageSubscriptionsPrefix: 'You can manage your subscriptions at ',
       manageSubscriptionsLink: 'My Interests',

@@ -1,9 +1,9 @@
 import {
   accessPageAsAnonymous,
   verifyChannelStatus,
-  verifyAfterUpdateEmailAddress
+  verifyAfterUpdateEmailAddress,
 } from '../../../helpers/notification-preference';
-import {registerAndLogin} from '../../../helpers/update-email';
+import { registerAndLogin } from '../../../helpers/update-email';
 import { formats } from '../../../sample-data/viewports';
 
 describe('My Account - Notification Preference', () => {
@@ -18,7 +18,6 @@ describe('My Account - Notification Preference', () => {
   });
 
   describe('notification preference test for anonymous user', () => {
-
     it('should redirect to login page for anonymous user', () => {
       accessPageAsAnonymous();
     });
@@ -40,8 +39,5 @@ describe('My Account - Notification Preference', () => {
     it('should show correct email channel after update email address', () => {
       verifyAfterUpdateEmailAddress();
     });
-
   });
 });
-
-

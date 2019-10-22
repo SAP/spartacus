@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { AnonymousConsentTemplatesAdapter } from '../../../anonymous-consents/connectors/anonymous-consent-templates.adapter';
 import { ConfigModule } from '../../../config/config.module';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
@@ -8,6 +9,7 @@ import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adap
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { UserAdapter } from '../../../user/connectors/user/user.adapter';
 import { defaultOccUserConfig } from './default-occ-user-config';
+import { OccAnonymousConsentTemplatesAdapter } from './occ-anonymous-consent-templates.adapter';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
@@ -30,6 +32,10 @@ import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests
     { provide: UserAdapter, useClass: OccUserAdapter },
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },
     { provide: UserConsentAdapter, useClass: OccUserConsentAdapter },
+    {
+      provide: AnonymousConsentTemplatesAdapter,
+      useClass: OccAnonymousConsentTemplatesAdapter,
+    },
     {
       provide: UserPaymentAdapter,
       useClass: OccUserPaymentAdapter,
