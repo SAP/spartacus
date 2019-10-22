@@ -53,11 +53,10 @@ export const getCartEntriesSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, OrderEntry[]> => {
   return createSelector(
     getMultiCartsEntities,
-    (state: EntityLoaderState<Cart>) =>
-      entityValueSelector(state, cartId) &&
-      entityValueSelector(state, cartId).entries
-        ? entityValueSelector(state, cartId).entries
-        : []
+    (state: EntityLoaderState<Cart>) => {
+      const entityValue = entityValueSelector(state, cartId);
+      return entityValue && entityValue.entries ? entityValue.entries : [];
+    }
   );
 };
 
@@ -67,13 +66,12 @@ export const getCartEntrySelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, OrderEntry> => {
   return createSelector(
     getMultiCartsEntities,
-    (state: EntityLoaderState<Cart>) =>
-      entityValueSelector(state, cartId) &&
-      entityValueSelector(state, cartId).entries
-        ? entityValueSelector(state, cartId).entries.find(
-            entry => entry.product.code === productCode
-          )
-        : null
+    (state: EntityLoaderState<Cart>) => {
+      const entityValue = entityValueSelector(state, cartId);
+      return entityValue && entityValue.entries
+        ? entityValue.entries.find(entry => entry.product.code === productCode)
+        : null;
+    }
   );
 };
 
