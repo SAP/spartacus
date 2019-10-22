@@ -38,6 +38,7 @@ export function clearAuthState(
 ): ActionReducer<AuthState, Action> {
   return function(state, action) {
     if (action.type === AuthActions.LOGOUT) {
+      console.log('LOGOUT: Clear Standard Auth State');
       state = {
         ...state,
         userToken: undefined,
@@ -52,6 +53,7 @@ export function clearCustomerSupportAgentAuthState(
 ): ActionReducer<AuthState, Action> {
   return function(state, action) {
     if (action.type === AuthActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
+      console.log('LOGOUT: Clear ASAgent Auth State');
       state = {
         ...state,
         csagentToken: undefined,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -137,7 +137,25 @@ export class AuthService {
    * Logout a storefront customer
    */
   logout(): void {
-    this.store.dispatch(new AuthActions.Logout());
+    this.getUserToken()
+      .pipe(take(1))
+      .subscribe(userToken => {
+        // if it's NOT a customer emulation:
+
+        if (this.isCustomerEmulationToken) {
+          console.log(
+            'AuthService.logout(): Customer Emulation Token, do local logout only. ',
+            userToken
+          );
+          this.store.dispatch(new AuthActions.Logout());
+        } else {
+          console.log(
+            'AuthService.logout(): Regular session token: will revoke this token ',
+            userToken
+          );
+          this.store.dispatch(new AuthActions.RevokeToken(userToken));
+        }
+      });
   }
 
   /**

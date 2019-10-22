@@ -6,6 +6,12 @@ export interface OccEndpoints {
    */
   login?: string;
   /**
+   * Client lgoout (revoke authorization token)
+   *
+   * @member {string}
+   */
+  revoke?: string;
+  /**
    * Get product details
    *
    * @member {string}

@@ -64,4 +64,19 @@ export class UserAuthenticationTokenService {
       .post<UserToken>(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  revokeToken(token: UserToken): Observable<{}> {
+    console.log(
+      'UserAuthenticationTokenService: Call token revocation endpoint for: ',
+      token
+    );
+    const url = this.occEndpointsService.getRawEndpoint('revoke');
+    const params = new HttpParams().set('token', token.access_token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    return this.http
+      .post<{}>(url, params, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
 }
