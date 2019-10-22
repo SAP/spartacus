@@ -185,7 +185,7 @@ fdescribe('ProductImagesComponent', () => {
     describe('Product Detail Page', () => {
       it('should not render the carousel if it is empty', () => {
         console.log(component.isEmpty);
-        const carousel = fixture.debugElement.query(By.css('.test'));
+        const carousel = fixture.debugElement.query(By.css('cx-carousel'));
         console.log(carousel.nativeElement);
       });
     });
