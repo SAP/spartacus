@@ -1,14 +1,8 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ConsentTemplate, I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '../../../../../cms-components/misc';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
-
-@Component({ selector: 'cx-icon', template: '' })
-class MockIconComponent {
-  @Input() type: ICON_TYPE;
-}
 
 describe('ConsentManagementFormComponent', () => {
   let component: ConsentManagementFormComponent;
@@ -18,7 +12,7 @@ describe('ConsentManagementFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [MockIconComponent, ConsentManagementFormComponent],
+      declarations: [ConsentManagementFormComponent],
     }).compileComponents();
   }));
 

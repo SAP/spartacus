@@ -28,13 +28,11 @@
 
       <div class="cx-consent-toggles">
         <div class="col-sm-12 col-md-8 col-lg-6">
-          <!-- TODO(issue:4989) Anonymous consents - remove `[isLevel13]="isLevel13"` -->
           <cx-consent-management-form
             *ngFor="let consentTemplate of templateList"
             [consentTemplate]="consentTemplate"
             [requiredConsents]="requiredConsents"
             [isAnonymousConsentsEnabled]="isAnonymousConsentsEnabled"
-            [isLevel13]="isLevel13"
             (consentChanged)="onConsentChange($event)"
           ></cx-consent-management-form>
         </div>

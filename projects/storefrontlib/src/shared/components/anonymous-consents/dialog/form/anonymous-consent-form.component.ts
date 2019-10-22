@@ -1,12 +1,10 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import {
   AnonymousConsent,
@@ -15,21 +13,14 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 
 @Component({
   selector: 'cx-anonymous-consent-form',
   templateUrl: './anonymous-consent-form.component.html',
 })
 export class AnonymousConsentFormComponent implements OnInit, OnDestroy {
-  iconTypes = ICON_TYPE;
   consentGiven$ = new BehaviorSubject<boolean>(false);
   consentGivenTranslation$: Observable<string>;
-  accordionExpanded = false;
-  accordionHeight = '0px';
-
-  @ViewChild('accordionContent', { static: false })
-  accordionContent: ElementRef<HTMLDivElement>;
 
   @Input()
   template: ConsentTemplate;
@@ -68,20 +59,6 @@ export class AnonymousConsentFormComponent implements OnInit, OnDestroy {
       given: this.consentGiven$.value,
       template: this.template,
     });
-  }
-
-  toggleAccordion(keyEvent?: KeyboardEvent): void {
-    let expand = true;
-    if (keyEvent && keyEvent.key !== ' ' && keyEvent.key !== 'Enter') {
-      expand = false;
-    }
-
-    if (expand) {
-      this.accordionExpanded = !this.accordionExpanded;
-      this.accordionHeight = this.accordionExpanded
-        ? `${this.accordionContent.nativeElement.clientHeight}px`
-        : '0px';
-    }
   }
 
   isRequired(templateId: string): boolean {

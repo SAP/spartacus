@@ -45,12 +45,13 @@
         class="cx-dialog-row col-sm-12 col-md-6"
         *ngFor="let template of templates"
       >
-        <cx-anonymous-consent-form
-          [template]="template"
-          [consent]="getCorrespondingConsent(template, consents)"
-          (consentChanged)="onConsentChange($event)"
+        <cx-consent-management-form
+          [consentTemplate]="template"
           [requiredConsents]="requiredConsents"
-        ></cx-anonymous-consent-form>
+          [consent]="getCorrespondingConsent(template, consents)"
+          [isAnonymousConsentsEnabled]="true"
+          (consentChanged)="onConsentChange($event)"
+        ></cx-consent-management-form>
       </div>
     </div>
   </div>
