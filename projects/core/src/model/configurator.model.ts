@@ -27,12 +27,25 @@ export namespace Configurator {
     isCommerceProduct?: boolean;
   }
 
+  export interface Group {
+    attributes?: Attribute[];
+    id?: string;
+    name?: string;
+    description?: string;
+    groupType?: GroupType;
+    configurable?: boolean;
+  }
+
   export interface Configuration {
     configId: string;
     consistent?: boolean;
     complete?: boolean;
     productCode?: string;
-    attributes?: Attribute[];
+    groups?: Group[];
+  }
+
+  export enum GroupType {
+    CSTIC_GROUP = 'CSTIC_GROUP',
   }
 
   export enum UiType {

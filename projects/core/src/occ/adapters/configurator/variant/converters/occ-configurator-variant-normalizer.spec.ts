@@ -23,6 +23,7 @@ const occCsticWithValues: OccConfigurator.Characteristic = {
 };
 const configuration: OccConfigurator.Configuration = {
   complete: true,
+  kbKey: { productCode: 'CONF_PRODUCT' },
   groups: [{ cstics: [occCsticWithValues] }],
 };
 
@@ -62,7 +63,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should convert attributes and values', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
-    const attributes = result.attributes;
+    const attributes = result.groups[0].attributes;
     expect(attributes).toBeDefined();
     expect(attributes.length).toBe(1);
     const attribute = attributes[0];

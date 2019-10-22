@@ -1,27 +1,33 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { loaderReducer } from '../../../../state/utils/loader/loader.reducer';
+import { Configurator } from '../../../../model/configurator.model';
+import { entityLoaderReducer } from '../../../../state/utils/entity-loader/entity-loader.reducer';
+import { entityReducer } from '../../../../state/utils/entity/entity.reducer';
 import {
-  ConfigurationsState,
   ConfigurationState,
   CONFIGURATION_DATA,
+  CONFIGURATION_UI_DATA,
+  UiState,
 } from './../configuration-state';
-import { reducer as configurationReducer } from './configurator.reducer';
+import * as UiStateReduce from './configurator-ui.reducer';
 
 export function getConfiguratorReducers(): ActionReducerMap<
-  ConfigurationsState
+  ConfigurationState
 > {
   return {
-    active: loaderReducer<ConfigurationState>(
-      CONFIGURATION_DATA,
-      configurationReducer
+    configurations: entityLoaderReducer<Configurator.Configuration>(
+      CONFIGURATION_DATA
+    ),
+    uiState: entityReducer<UiState>(
+      CONFIGURATION_UI_DATA,
+      UiStateReduce.reducer
     ),
   };
 }
 
 export const configuratorReducerToken: InjectionToken<
-  ActionReducerMap<ConfigurationsState>
-> = new InjectionToken<ActionReducerMap<ConfigurationsState>>(
+  ActionReducerMap<ConfigurationState>
+> = new InjectionToken<ActionReducerMap<ConfigurationState>>(
   'ConfiguratorReducers'
 );
 

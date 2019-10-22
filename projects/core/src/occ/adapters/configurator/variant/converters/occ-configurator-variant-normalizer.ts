@@ -16,20 +16,28 @@ export class OccConfiguratorVariantNormalizer
     target = {
       configId: source.configId,
       complete: source.complete,
-      attributes: [],
+      productCode: source.kbKey.productCode,
+      groups: [],
     };
 
-    source.groups.forEach(group => this.convertGroup(group, target.attributes));
+    source.groups.forEach(group => this.convertGroup(group, target.groups));
     return target;
   }
 
-  convertGroup(
-    source: OccConfigurator.Group,
-    attributeList: Configurator.Attribute[]
-  ) {
+  convertGroup(source: OccConfigurator.Group, groupList: Configurator.Group[]) {
+    const attributes: Configurator.Attribute[] = [];
     source.cstics.forEach(cstic =>
-      this.convertCharacteristic(cstic, attributeList)
+      this.convertCharacteristic(cstic, attributes)
     );
+
+    groupList.push({
+      description: source.description,
+      configurable: source.configurable,
+      groupType: this.convertGroupType(source.groupType),
+      name: source.name,
+      id: source.id,
+      attributes: attributes,
+    });
   }
 
   convertCharacteristic(
@@ -100,5 +108,14 @@ export class OccConfiguratorVariantNormalizer
       }
     }
     return uiType;
+  }
+
+  convertGroupType(
+    groupType: OccConfigurator.GroupType
+  ): Configurator.GroupType {
+    switch (groupType) {
+      case OccConfigurator.GroupType.CSTIC_GROUP:
+        return Configurator.GroupType.CSTIC_GROUP;
+    }
   }
 }

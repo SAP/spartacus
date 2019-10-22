@@ -21,6 +21,7 @@ import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigImageComponent } from '../commons/config-image/config-image.component';
+import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
 import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
 
@@ -80,6 +81,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
+    ConfigPreviousNextButtonsComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -91,6 +93,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
+    ConfigPreviousNextButtonsComponent,
   ],
   providers: [UserService],
   entryComponents: [
@@ -103,6 +106,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
+    ConfigPreviousNextButtonsComponent,
   ],
 })
 export class VariantConfiguratorModule {}

@@ -1,9 +1,42 @@
+const nextGroupButtonSelector =
+  'cx-config-previous-next-buttons div div:last button';
+const previousGroupButtonSelector =
+  'cx-config-previous-next-buttons div div:first button';
+
 export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
 }
 
+export function clickOnNextGroupButton() {
+  cy.get(nextGroupButtonSelector).click({
+    force: true,
+  });
+}
+
+export function clickOnPreviousGroupButton() {
+  cy.get(previousGroupButtonSelector).click({
+    force: true,
+  });
+}
+
 export function verifyConfigurationPageIsDisplayed() {
   cy.get('cx-config-form').should('be.visible');
+}
+
+export function verifyPreviousGroupButtonIsEnabled() {
+  cy.get(previousGroupButtonSelector).should('be.not.disabled');
+}
+
+export function verifyPreviousGroupButtonIsDisabled() {
+  cy.get(previousGroupButtonSelector).should('be.disabled');
+}
+
+export function verifyNextGroupButtonIsEnabled() {
+  cy.get(nextGroupButtonSelector).should('be.not.disabled');
+}
+
+export function verifyNextGroupButtonIsDisabled() {
+  cy.get(nextGroupButtonSelector).should('be.disabled');
 }
 
 export function verifyAttributeIsDisplayed(
