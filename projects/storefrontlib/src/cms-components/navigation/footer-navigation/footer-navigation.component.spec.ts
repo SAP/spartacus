@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { AnonymousConsentsDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
+import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
@@ -196,7 +196,7 @@ describe('FooterNavigationComponent', () => {
       spyOn(modalService, 'open').and.stub();
       component.openDialog();
       expect(modalService.open).toHaveBeenCalledWith(
-        AnonymousConsentsDialogComponent,
+        AnonymousConsentDialogComponent,
         {
           centered: true,
           size: 'lg',
