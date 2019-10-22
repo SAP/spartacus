@@ -73,13 +73,14 @@ export const product = {
     notifyMe: 'NOTIFY ME',
     stopNotify: 'STOP NOTIFICATION',
     getNotify: 'Get notified when this product is available.',
+    getNotifySuffix: 'to get notified when this product is available.',
     activateChannelsPrefix: 'To be notified you need to activate the ',
     channelsLink: 'Notification Channels',
     activateChannelsSuffix: '.',
     notified: 'You will be notified when this product is back in stock.',
     getNotified: 'Get notified when this product is back in stock.',
     unsubscribeSuccess:
-      'You will not receive back in stock notification for this product.',
+      'You will not receive back-in-stock notification for this product.',
     subscriptionDialog: {
       header: 'Out of stock subscription',
       notifiedPrefix: 'You will be notified on:',
