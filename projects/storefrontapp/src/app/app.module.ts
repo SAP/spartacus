@@ -63,9 +63,6 @@ if (!environment.production) {
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
-      anonymousConsents: {
-        requiredConsents: ['MARKETING_NEWSLETTER'],
-      },
       features: {
         level: '1.3',
         anonymousConsents: true,
