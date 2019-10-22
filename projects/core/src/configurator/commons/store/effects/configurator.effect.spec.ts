@@ -1,10 +1,12 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import * as ConfiguratorActions from '../actions/configurator.action';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
@@ -21,26 +23,25 @@ const productConfiguration: Configurator.Configuration = {
   consistent: true,
 };
 
-class MockConnector {
-  createConfiguration(): Observable<Configurator.Configuration> {
-    return of(productConfiguration);
-  }
-
-  readConfiguration(): Observable<Configurator.Configuration> {
-    return of(productConfiguration);
-  }
-
-  updateConfiguration(): Observable<Configurator.Configuration> {
-    return of(productConfiguration);
-  }
-}
-
 describe('ConfiguratorEffect', () => {
+  let createMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
 
   let actions$: Observable<any>;
 
   beforeEach(() => {
+    createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
+    class MockConnector {
+      createConfiguration = createMock;
+
+      readConfiguration(): Observable<Configurator.Configuration> {
+        return of(productConfiguration);
+      }
+
+      updateConfiguration(): Observable<Configurator.Configuration> {
+        return of(productConfiguration);
+      }
+    }
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -91,6 +92,24 @@ describe('ConfiguratorEffect', () => {
     actions$ = hot('-a', { a: action });
 
     configEffects.createConfiguration$.subscribe(emitted => fail(emitted));
+  });
+
+  it('should emit a fail action in case something goes wrong', () => {
+    const errorResponse: HttpErrorResponse = new HttpErrorResponse({
+      error: 'notFound',
+      status: 404,
+    });
+    createMock.and.returnValue(throwError(errorResponse));
+    const payloadInput = { productCode: productCode };
+    const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
+
+    const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
+      makeErrorSerializable(errorResponse)
+    );
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-b', { b: completionFailure });
+
+    expect(configEffects.createConfiguration$).toBeObservable(expected);
   });
 
   it('should emit a success action with content for an action of type readConfiguration', () => {

@@ -1,8 +1,4 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <div class="cx-total">
-    {{ 'configurator.attribute.caption' | cxTranslate }}
-  </div>
-
   <div
     class="cx-item-list-row cx-config-group-attribute"
     *ngFor="let attribute of configuration.attributes"

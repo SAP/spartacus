@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
+import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import {
   CreateConfiguration,
@@ -28,7 +29,10 @@ export class ConfiguratorTextfieldEffects {
         .pipe(
           switchMap((configuration: ConfiguratorTextfield.Configuration) => {
             return [new CreateConfigurationSuccess(configuration)];
-          })
+          }),
+          catchError(error =>
+            of(new CreateConfigurationFail(makeErrorSerializable(error)))
+          )
         );
     })
   );
