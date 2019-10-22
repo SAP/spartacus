@@ -1,7 +1,7 @@
 <div class="cx-config-previous-next-btns row">
   <div class="col-md-12 col-lg-6">
     <button
-      class="cx-btn btn btn-block btn-secondary"
+      class="cx-btn btn btn-block btn-action"
       [disabled]="isFirstGroup | async"
       (click)="onPrevious()"
     >
@@ -10,7 +10,7 @@
   </div>
   <div class="col-md-12 col-lg-6">
     <button
-      class="cx-btn btn btn-block btn-primary"
+      class="cx-btn btn btn-block btn-secondary"
       [disabled]="isLastGroup | async"
       (click)="onNext()"
     >
