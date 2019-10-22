@@ -19,8 +19,8 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AsmMainUiComponent } from './asm-main-ui.component';
 import { IconComponent, IconLoaderService } from '../../misc';
+import { AsmMainUiComponent } from './asm-main-ui.component';
 
 const mockToken = {
   access_token: 'asdfasf',
@@ -89,7 +89,6 @@ class MockRoutingService {
 }
 
 class MockIconLoaderService {
-  getSvgPath() {}
   useSvg() {}
   getStyleClasses() {}
   addLinkResource() {}
@@ -340,6 +339,6 @@ describe('AsmMainUiComponent', () => {
     spyOn(routingService, 'go');
     endSessionButton.nativeElement.click();
 
-    expect(routingService.go).toHaveBeenCalled();
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 });
