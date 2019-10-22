@@ -10,8 +10,8 @@ import {
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { mergeMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-form',
@@ -22,7 +22,6 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<string>;
   productCode: string;
-
   subscription = new Subscription();
   public UiType = Configurator.UiType;
 
@@ -89,6 +88,52 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
         changedConfiguration
       );
     });
+  }
+
+  navigateToNextGroup() {
+    this.currentGroup$ = this.configuratorGroupsService.getNextGroup(
+      this.productCode
+    );
+    this.currentGroup$.pipe(take(1)).subscribe(groupId => {
+      this.configuratorGroupsService.setCurrentGroup(this.productCode, groupId);
+      // TODO: Add call to configurator service to get configuration for next group
+    });
+  }
+
+  navigateToPreviousGroup() {
+    this.currentGroup$ = this.configuratorGroupsService.getPreviousGroup(
+      this.productCode
+    );
+    this.currentGroup$.pipe(take(1)).subscribe(groupId => {
+      this.configuratorGroupsService.setCurrentGroup(this.productCode, groupId);
+    });
+    // TODO: Add call to configurator service to get configuration for next group
+  }
+
+  isFirstGroup(): Observable<Boolean> {
+    return this.configuratorGroupsService
+      .getPreviousGroup(this.productCode)
+      .pipe(
+        mergeMap(group => {
+          if (!group) {
+            return of(true);
+          } else {
+            return of(false);
+          }
+        })
+      );
+  }
+
+  isLastGroup(): Observable<Boolean> {
+    return this.configuratorGroupsService.getNextGroup(this.productCode).pipe(
+      mergeMap(group => {
+        if (!group) {
+          return of(true);
+        } else {
+          return of(false);
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {

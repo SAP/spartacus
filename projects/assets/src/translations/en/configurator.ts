@@ -14,5 +14,9 @@ export const configurator = {
       singleSelectRequiredMessage: 'Select a value',
       multiSelectRequiredMessage: 'Select one or more values',
     },
+    button: {
+      previous: 'Previous',
+      next: 'Next',
+    },
   },
 };
