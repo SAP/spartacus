@@ -19,7 +19,6 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { IconComponent, IconLoaderService } from '../../misc';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
 const mockToken = {
@@ -88,12 +87,6 @@ class MockRoutingService {
   go() {}
 }
 
-class MockIconLoaderService {
-  useSvg() {}
-  getStyleClasses() {}
-  addLinkResource() {}
-}
-
 describe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
@@ -111,7 +104,6 @@ describe('AsmMainUiComponent', () => {
         AsmMainUiComponent,
         MockCSAgentLoginFormComponent,
         MockCustomerSelectionComponent,
-        IconComponent,
       ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
@@ -119,7 +111,6 @@ describe('AsmMainUiComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmService, useClass: MockAsmService },
-        { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
     }).compileComponents();
   }));
