@@ -3964,6 +3964,17 @@ export namespace Occ {
     Order = 'order',
   }
 
+  export interface AnonymousConsent {
+    templateCode?: string;
+    version?: number;
+    consentState?: CONSENT_STATUS;
+  }
+
+  export enum CONSENT_STATUS {
+    ANONYMOUS_CONSENT_GIVEN = 'GIVEN',
+    ANONYMOUS_CONSENT_WITHDRAWN = 'WITHDRAWN',
+  }
+
   export interface ConsentTemplate {
     id?: string;
     name?: string;

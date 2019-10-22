@@ -15,6 +15,7 @@ export const defaultOccUserConfig: OccConfig = {
         paymentDetail: 'users/${userId}/paymentdetails/${paymentDetailId}',
         orderHistory: 'users/${userId}/orders',
         orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
+        anonymousConsentTemplates: 'users/anonymous/consenttemplates',
         consentTemplates: 'users/${userId}/consenttemplates',
         consents: 'users/${userId}/consents',
         consentDetail: 'users/${userId}/consents/${consentId}',

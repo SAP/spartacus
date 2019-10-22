@@ -122,13 +122,7 @@ export class PaymentMethodComponent extends AbstractCheckoutStepComponent
         } else {
           Object.keys(paymentInfo).forEach(key => {
             if (key.startsWith('InvalidField')) {
-              this.globalMessageService.add(
-                {
-                  key: 'paymentMethods.invalidField',
-                  params: { field: paymentInfo[key] },
-                },
-                GlobalMessageType.MSG_TYPE_ERROR
-              );
+              this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
             }
           });
           this.checkoutService.clearCheckoutStep(3);
@@ -137,6 +131,10 @@ export class PaymentMethodComponent extends AbstractCheckoutStepComponent
   }
 
   getCardContent(payment: PaymentDetails): Observable<Card> {
+    if (!this.selectedPayment && payment.defaultPayment) {
+      this.selectedPayment = payment;
+    }
+
     return combineLatest([
       this.translation.translate('paymentCard.expires', {
         month: payment.expiryMonth,
@@ -153,26 +151,18 @@ export class PaymentMethodComponent extends AbstractCheckoutStepComponent
           textDefaultPaymentMethod,
           textSelected,
         ]) => {
-          const card: Card = {
-            title: payment.defaultPayment ? textDefaultPaymentMethod : '',
-            textBold: payment.accountHolderName,
-            text: [payment.cardNumber, textExpires],
-            img: this.getCardIcon(payment.cardType.code),
-            actions: [{ name: textUseThisPayment, event: 'send' }],
-          };
-          if (!this.selectedPayment && payment.defaultPayment) {
-            this.selectedPayment = payment;
-          }
-          if (this.selectedPayment && this.selectedPayment.id === payment.id) {
-            card.header = textSelected;
-          }
-          return card;
+          return this.createCard(payment, {
+            textExpires,
+            textUseThisPayment,
+            textDefaultPaymentMethod,
+            textSelected,
+          });
         }
       )
     );
   }
 
-  paymentMethodSelected(paymentDetails: PaymentDetails) {
+  selectPaymentMethod(paymentDetails: PaymentDetails): void {
     this.selectedPayment = paymentDetails;
   }
 
@@ -182,17 +172,6 @@ export class PaymentMethodComponent extends AbstractCheckoutStepComponent
 
   hideNewPaymentForm(): void {
     this.newPaymentFormManuallyOpened = false;
-  }
-
-  next(): void {
-    this.setPaymentDetails({
-      paymentDetails: this.selectedPayment,
-      isNewPayment: false,
-    });
-  }
-
-  back(): void {
-    this.routingService.go(this.checkoutStepUrlPrevious);
   }
 
   setPaymentDetails({
@@ -237,5 +216,69 @@ export class PaymentMethodComponent extends AbstractCheckoutStepComponent
     }
 
     return ccIcon;
+  }
+
+  protected sendPaymentMethodFailGlobalMessage(msg: string) {
+    this.globalMessageService.add(
+      {
+        key: 'paymentMethods.invalidField',
+        params: { field: msg },
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  }
+
+  protected createCard(paymentDetails, cardLabels) {
+    return {
+      title: paymentDetails.defaultPayment
+        ? cardLabels.textDefaultPaymentMethod
+        : '',
+      textBold: paymentDetails.accountHolderName,
+      text: [paymentDetails.cardNumber, cardLabels.textExpires],
+      img: this.getCardIcon(paymentDetails.cardType.code),
+      actions: [{ name: cardLabels.textUseThisPayment, event: 'send' }],
+      header:
+        this.selectedPayment && this.selectedPayment.id === paymentDetails.id
+          ? cardLabels.textSelected
+          : undefined,
+    };
+  }
+
+  goNext(): void {
+    this.setPaymentDetails({
+      paymentDetails: this.selectedPayment,
+      isNewPayment: false,
+    });
+  }
+
+  goPrevious(): void {
+    this.routingService.go(this.checkoutStepUrlPrevious);
+  }
+
+  /**
+   * @deprecated since version 1.3
+   * This method will no longer be in use. Use goNext() instead.
+   * TODO(issue:#4992) deprecated since 1.3
+   */
+  next(): void {
+    this.goNext();
+  }
+
+  /**
+   * @deprecated since version 1.3
+   * This method will no longer be in use. Use goPrevious() instead.
+   * TODO(issue:#4992) deprecated since 1.3
+   */
+  back(): void {
+    this.goPrevious();
+  }
+
+  /**
+   * @deprecated since version 1.3
+   * This method will no longer be in use. Use selectPaymentMethod() instead.
+   * TODO(issue:#4992) deprecated since 1.3
+   */
+  paymentMethodSelected(paymentDetails: PaymentDetails): void {
+    this.selectPaymentMethod(paymentDetails);
   }
 }
