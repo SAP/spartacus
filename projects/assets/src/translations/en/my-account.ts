@@ -104,6 +104,10 @@ export const myAccount = {
     profileUpdateSuccess: 'Personal details successfully updated',
   },
   consentManagementForm: {
+    rejectAll: 'Reject all',
+    allowAll: 'Allow all',
+    off: 'OFF',
+    on: 'ON',
     message: {
       success: {
         given: 'Consent successfully given.',

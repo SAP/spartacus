@@ -18,7 +18,7 @@ export function reducer(
 
       return {
         ...state,
-        list: [...state.list, ...list].reduce(
+        list: [...state.list, ...(list ? list : [])].reduce(
           (
             productReferences: ProductReference[],
             productReference: ProductReference
