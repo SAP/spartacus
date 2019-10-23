@@ -37,9 +37,7 @@ const mockNoStockProduct: Product = {
 };
 
 class MockCartService {
-  addEntry(_productCode: string, _quantity: number): void {
-    console.log('yolo');
-  }
+  addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }

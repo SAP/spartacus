@@ -93,15 +93,18 @@ describe('Cart effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const completion = new CartActions.LoadCartSuccess(testCart);
-      const completion2 = new CartActions.LoadMultiCartSuccess({
+      const loadCartCompletion = new CartActions.LoadCartSuccess(testCart);
+      const loadMultiCartCompletion = new CartActions.LoadMultiCartSuccess({
         cart: testCart,
         userId,
         extraData: undefined,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion, c: completion2 });
+      const expected = cold('-(bc)', {
+        b: loadCartCompletion,
+        c: loadMultiCartCompletion,
+      });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
@@ -118,10 +121,13 @@ describe('Cart effect', () => {
           },
         })
       );
-      const completion = new CartActions.ClearCart();
-      const completion2 = new CartActions.RemoveCart(cartId);
+      const clearCartCompletion = new CartActions.ClearCart();
+      const removeCartCompletion = new CartActions.RemoveCart(cartId);
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion, c: completion2 });
+      const expected = cold('-(bc)', {
+        b: clearCartCompletion,
+        c: removeCartCompletion,
+      });
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
   });
@@ -129,19 +135,23 @@ describe('Cart effect', () => {
   describe('createCart$', () => {
     it('should create a cart', () => {
       const action = new CartActions.CreateCart({ userId });
-      const completion = new CartActions.CreateCartSuccess(testCart);
-      const completion2 = new CartActions.CreateMultiCartSuccess({
-        cart: testCart,
-        userId,
-        extraData: undefined,
-      });
-      const completion3 = new CartActions.SetFreshCart(testCart);
+      const createCartSuccessCompletion = new CartActions.CreateCartSuccess(
+        testCart
+      );
+      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
+        {
+          cart: testCart,
+          userId,
+          extraData: undefined,
+        }
+      );
+      const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
-        b: completion,
-        c: completion2,
-        d: completion3,
+        b: createCartSuccessCompletion,
+        c: createMultiCartSuccessCompletion,
+        d: setFreshCartCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -236,11 +246,14 @@ describe('Cart effect', () => {
     siteContextChangeActions.forEach(actionName => {
       it(`should reset cart details on ${actionName}`, () => {
         const action = new SiteContextActions[actionName]();
-        const completion = new CartActions.ResetCartDetails();
-        const completion2 = new CartActions.ResetMultiCartDetails();
+        const resetCartDetailsCompletion = new CartActions.ResetCartDetails();
+        const resetMultiCartDetailsCompletion = new CartActions.ResetMultiCartDetails();
 
         actions$ = hot('-a', { a: action });
-        const expected = cold('-(bc)', { b: completion, c: completion2 });
+        const expected = cold('-(bc)', {
+          b: resetCartDetailsCompletion,
+          c: resetMultiCartDetailsCompletion,
+        });
 
         expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
           expected
@@ -256,17 +269,22 @@ describe('Cart effect', () => {
         cartId: cartId,
         email: 'test@test.com',
       });
-      const completion = new CartActions.AddEmailToCartSuccess({
+      const addEmailToCartCompletion = new CartActions.AddEmailToCartSuccess({
         userId,
         cartId,
       });
-      const completion2 = new CartActions.AddEmailToMultiCartSuccess({
-        userId,
-        cartId,
-      });
+      const addEmailToMultiCartCompletion = new CartActions.AddEmailToMultiCartSuccess(
+        {
+          userId,
+          cartId,
+        }
+      );
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion, c: completion2 });
+      const expected = cold('-(bc)', {
+        b: addEmailToCartCompletion,
+        c: addEmailToMultiCartCompletion,
+      });
 
       expect(cartEffects.addEmail$).toBeObservable(expected);
     });
