@@ -16,7 +16,7 @@ import {
   TranslationService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, filter, tap, first } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 import { ModalService } from '../../../shared';
