@@ -5,8 +5,8 @@ import {
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { HamburgerMenuService } from 'projects/storefrontlib/src/layout/header/hamburger-menu/hamburger-menu.service';
 import { Observable, Subscription } from 'rxjs';
+import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ICON_TYPE } from '../../../misc/icon/index';
 
 @Component({
