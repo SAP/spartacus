@@ -20,7 +20,7 @@ export interface OccBaseSitesEndpointOptions {
 export class OccBaseSitesLoader {
   private static readonly DEFAULT_PREFIX = '/rest/v2';
   private static readonly DEFAULT_ENDPOINT =
-    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies,defaultCurrency(isocode),languages,defaultLanguage(isocode)))';
+    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))';
 
   /**
    * Loads base sites using XHR.

@@ -44,11 +44,17 @@ export class ExternalConfigConverter {
 
     return {
       baseSite: baseSite.uid,
-      languages: baseStore.languages,
-      currencies: baseStore.currencies,
-      defaultLanguage: baseSite.defaultLanguage || baseStore.defaultLanguage,
-      defaultCurrency: baseStore.defaultCurrency,
-      urlEncodingAttributes: baseSite.urlEncodingAttributes,
+      languages: ExternalConfigConverter.getIsoCodes(
+        baseStore.languages,
+        baseSite.defaultLanguage || baseStore.defaultLanguage
+      ),
+      currencies: ExternalConfigConverter.getIsoCodes(
+        baseStore.currencies,
+        baseStore.defaultCurrency
+      ),
+      urlParameters: ExternalConfigConverter.getUrlParams(
+        baseSite.urlEncodingAttributes
+      ),
     };
   }
 
@@ -56,31 +62,21 @@ export class ExternalConfigConverter {
     baseSite,
     languages,
     currencies,
-    defaultCurrency,
-    defaultLanguage,
-    urlEncodingAttributes,
+    urlParameters: urlEncodingAttributes,
   }: ExternalConfig): SiteContextConfig {
     const result = {
       context: {
-        urlParameters: ExternalConfigConverter.getUrlParams(
-          urlEncodingAttributes
-        ),
+        urlParameters: urlEncodingAttributes,
         [BASE_SITE_CONTEXT_ID]: [baseSite],
-        [LANGUAGE_CONTEXT_ID]: ExternalConfigConverter.getIsoCodes(
-          languages,
-          defaultLanguage
-        ),
-        [CURRENCY_CONTEXT_ID]: ExternalConfigConverter.getIsoCodes(
-          currencies,
-          defaultCurrency
-        ),
+        [LANGUAGE_CONTEXT_ID]: languages,
+        [CURRENCY_CONTEXT_ID]: currencies,
       },
     };
     return result;
   }
 
-  static toI18nConfig({ defaultLanguage }: ExternalConfig): I18nConfig {
-    return { i18n: { fallbackLang: defaultLanguage.isocode } };
+  static toI18nConfig({ languages }: ExternalConfig): I18nConfig {
+    return { i18n: { fallbackLang: languages[0] } };
   }
 
   private static isCurrentBaseSite(

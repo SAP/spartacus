@@ -107,7 +107,7 @@ describe(`ExternalConfigConverter`, () => {
       expect(JavaRegExpConverter.convert).not.toHaveBeenCalledWith(
         '^testUrl22$'
       );
-      expect(res.baseSite).toBe('test2');
+      expect(res.baseSite).toEqual('test2');
     });
 
     it(`should convert attributes of the matched base site`, () => {
@@ -135,11 +135,9 @@ describe(`ExternalConfigConverter`, () => {
       );
       expect(res).toEqual({
         baseSite: 'test',
-        languages: [{ isocode: 'de' }, { isocode: 'en' }],
-        defaultLanguage: { isocode: 'en' },
-        currencies: [{ isocode: 'EUR' }, { isocode: 'USD' }],
-        defaultCurrency: { isocode: 'EUR' },
-        urlEncodingAttributes: ['language', 'currency'],
+        languages: ['en', 'de'],
+        currencies: ['EUR', 'USD'],
+        urlParameters: ['language', 'currency'],
       });
     });
 
@@ -151,10 +149,12 @@ describe(`ExternalConfigConverter`, () => {
             stores: [
               {
                 ...mockBaseStore,
+                currencies: [{ isocode: 'USD' }],
                 defaultCurrency: { isocode: 'USD' },
               },
               {
                 ...mockBaseStore,
+                currencies: [{ isocode: 'EUR' }],
                 defaultCurrency: { isocode: 'EUR' },
               },
             ],
@@ -166,7 +166,7 @@ describe(`ExternalConfigConverter`, () => {
         baseSites,
         currentUrl
       );
-      expect(res.defaultCurrency.isocode).toBe('USD');
+      expect(res.currencies).toEqual(['USD']);
     });
 
     it(`should convert the base site config using the default language of base site over the default language of base store`, () => {
@@ -178,6 +178,7 @@ describe(`ExternalConfigConverter`, () => {
             stores: [
               {
                 ...mockBaseStore,
+                languages: [{ isocode: 'en' }, { isocode: 'pl' }],
                 defaultLanguage: { isocode: 'en' },
               },
             ],
@@ -189,7 +190,78 @@ describe(`ExternalConfigConverter`, () => {
         baseSites,
         currentUrl
       );
-      expect(res.defaultLanguage.isocode).toBe('pl');
+      expect(res.languages).toEqual(['pl', 'en']);
+    });
+
+    it(`should convert languages and put the default language as the first one`, () => {
+      const baseSites: Occ.BaseSites = {
+        baseSites: [
+          {
+            ...mockBaseSite,
+            stores: [
+              {
+                ...mockBaseStore,
+                languages: [
+                  { isocode: 'en' },
+                  { isocode: 'pl' },
+                  { isocode: 'de' },
+                ],
+                defaultLanguage: { isocode: 'pl' },
+              },
+            ],
+          },
+        ],
+      };
+      const currentUrl = 'testUrl';
+      const res = ExternalConfigConverter.fromOccBaseSites(
+        baseSites,
+        currentUrl
+      );
+      expect(res.languages[0]).toEqual('pl');
+    });
+
+    it(`should convert currencies and put the default language as the first one`, () => {
+      const baseSites: Occ.BaseSites = {
+        baseSites: [
+          {
+            ...mockBaseSite,
+            stores: [
+              {
+                ...mockBaseStore,
+                currencies: [
+                  { isocode: 'USD' },
+                  { isocode: 'PLN' },
+                  { isocode: 'EUR' },
+                ],
+                defaultCurrency: { isocode: 'PLN' },
+              },
+            ],
+          },
+        ],
+      };
+      const currentUrl = 'testUrl';
+      const res = ExternalConfigConverter.fromOccBaseSites(
+        baseSites,
+        currentUrl
+      );
+      expect(res.currencies[0]).toEqual('PLN');
+    });
+
+    it(`should convert url encoding attributes and map "storefront" to "baseSite"`, () => {
+      const baseSites: Occ.BaseSites = {
+        baseSites: [
+          {
+            ...mockBaseSite,
+            urlEncodingAttributes: ['storefront', 'language', 'currency'],
+          },
+        ],
+      };
+      const currentUrl = 'testUrl';
+      const res = ExternalConfigConverter.fromOccBaseSites(
+        baseSites,
+        currentUrl
+      );
+      expect(res.urlParameters).toEqual(['baseSite', 'language', 'currency']);
     });
   });
 
@@ -199,15 +271,9 @@ describe(`ExternalConfigConverter`, () => {
     beforeEach(() => {
       mockExternalConfig = {
         baseSite: 'test',
-        languages: [{ isocode: 'de' }, { isocode: 'en' }, { isocode: 'pl' }],
-        defaultLanguage: { isocode: 'en' },
-        currencies: [
-          { isocode: 'EUR' },
-          { isocode: 'USD' },
-          { isocode: 'PLN' },
-        ],
-        defaultCurrency: { isocode: 'USD' },
-        urlEncodingAttributes: ['storefront', 'language', 'currency'],
+        languages: ['de', 'en', 'pl'],
+        currencies: ['EUR', 'USD', 'PLN'],
+        urlParameters: ['baseSite', 'language', 'currency'],
       };
     });
 
@@ -218,29 +284,18 @@ describe(`ExternalConfigConverter`, () => {
       expect(res.context[BASE_SITE_CONTEXT_ID]).toEqual(['test']);
     });
 
-    it(`should convert url encoding attributes and map "storefront" to "baseSite"`, () => {
+    it(`should convert languages`, () => {
       const res = ExternalConfigConverter.toSiteContextConfig(
         mockExternalConfig
       );
-      expect(res.context.urlParameters).toEqual([
-        'baseSite',
-        'language',
-        'currency',
-      ]);
+      expect(res.context[LANGUAGE_CONTEXT_ID]).toEqual(['de', 'en', 'pl']);
     });
 
-    it(`should convert languages and put the default language as the first one`, () => {
+    it(`should convert currencies`, () => {
       const res = ExternalConfigConverter.toSiteContextConfig(
         mockExternalConfig
       );
-      expect(res.context[LANGUAGE_CONTEXT_ID]).toEqual(['en', 'de', 'pl']);
-    });
-
-    it(`should convert currencies and put the default currency as the first one`, () => {
-      const res = ExternalConfigConverter.toSiteContextConfig(
-        mockExternalConfig
-      );
-      expect(res.context[CURRENCY_CONTEXT_ID]).toEqual(['USD', 'EUR', 'PLN']);
+      expect(res.context[CURRENCY_CONTEXT_ID]).toEqual(['EUR', 'USD', 'PLN']);
     });
   });
 
@@ -249,13 +304,13 @@ describe(`ExternalConfigConverter`, () => {
 
     beforeEach(() => {
       mockExternalConfig = {
-        defaultLanguage: { isocode: 'en' },
+        languages: ['en', 'de', 'pl'],
       };
     });
 
     it(`should convert the fallback lang`, () => {
       const res = ExternalConfigConverter.toI18nConfig(mockExternalConfig);
-      expect(res.i18n.fallbackLang).toBe('en');
+      expect(res.i18n.fallbackLang).toEqual('en');
     });
   });
 });
