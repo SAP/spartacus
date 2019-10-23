@@ -22,8 +22,8 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   sort = 'byNameAsc';
   sortLabels = {
-    byNameAsc: 'NAME(ASCENDING)',
-    byNameDesc: 'NAME(DESCENDING)',
+    byNameAsc: 'Name (Ascending)',
+    byNameDesc: 'Name (Descending)',
   };
   sortOptions = [
     {

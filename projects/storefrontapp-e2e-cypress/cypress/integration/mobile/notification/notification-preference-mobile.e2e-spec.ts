@@ -1,5 +1,6 @@
 import {registerAndLogin} from '../../../helpers/update-email';
 import * as notification from '../../../helpers/notification';
+
 import { formats } from '../../../sample-data/viewports';
 
 context(`${formats.mobile.width + 1}My Account - Notification Preference`, () => {
@@ -9,7 +10,6 @@ context(`${formats.mobile.width + 1}My Account - Notification Preference`, () =>
   });
 
   describe('notification preference test for anonymous user', () => {
-
     it('should redirect to login page for anonymous user', () => {
       notification.accessPageAsAnonymous();
 
@@ -25,8 +25,5 @@ context(`${formats.mobile.width + 1}My Account - Notification Preference`, () =>
     });
 
     notification.notificationPreferenceTests();
-
   });
 });
-
-
