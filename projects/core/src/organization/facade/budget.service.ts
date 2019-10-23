@@ -63,22 +63,24 @@ export class BudgetService {
   }
 
   getList() {
+    type budgetsLoaders = [LoaderState<void>, LoaderState<Budget>];
+
     return combineLatest([this.getBudgetsProcess(), this.getBudgets()]).pipe(
       debounceTime(0),
       filter(
-        ([process]: [LoaderState<void>, LoaderState<Budget>]) =>
+        ([process]: budgetsLoaders) =>
           !process.loading
       ),
-      tap(([process]: [LoaderState<void>, LoaderState<Budget>]) => {
+      tap(([process]: budgetsLoaders) => {
         if (!process.success) {
           this.loadBudgets();
         }
       }),
       filter(
-        ([process]: [LoaderState<void>, LoaderState<Budget>]) =>
+        ([process]: budgetsLoaders) =>
           process.success || process.error
       ),
-      map(([, budgets]: [LoaderState<void>, LoaderState<Budget>]) => budgets)
+      map(([, budgets]: budgetsLoaders) => budgets)
       // shareReplay({ bufferSize: 1, refCount: true })
     );
   }
