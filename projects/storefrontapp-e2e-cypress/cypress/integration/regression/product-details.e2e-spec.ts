@@ -1,9 +1,6 @@
 import * as productDetails from '../../helpers/product-details';
 import { formats } from '../../sample-data/viewports';
 
-const electronicSPAProduct = 'electronics-spa/en/USD/product/266685';
-const apparelSPAProduct = 'apparel-uk-spa/en/GBP/product/100191';
-
 function productDetailsTest() {
   it('should contain correct product details', () => {
     productDetails.verifyProductDetails();
@@ -28,42 +25,75 @@ function productDetailsTest() {
   it('should be able to add different quantities of product to cart', () => {
     productDetails.verifyQuantityInCart();
   });
+}
 
+function apparelProductDetailsTest() {
   it('should be able to select style variant on base product page', () => {
-    cy.visit(apparelSPAProduct);
     productDetails.selectProductStyleVariant();
   });
 
   it('should be able to select size variant with selected style option', () => {
-    cy.visit(apparelSPAProduct);
     productDetails.selectProductSizeVariant();
   });
 
   it('should show out of stock label when size variant without stock was selected', () => {
-    cy.visit(apparelSPAProduct);
     productDetails.selectProductSizeVariantWithoutStock();
   });
+}
 
+function configureDefaultProduct() {
+  cy.window().then(win => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['electronics-spa'],
+      currency: ['USD'],
+    },
+  });
+  cy.visit('/product/266685');
+}
+
+function configureApparelProduct() {
+  cy.window().then(win => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['apparel-uk-spa'],
+      currency: ['GBP'],
+    },
+  });
+  cy.visit('/product/100191');
 }
 
 context('Product details', () => {
-  before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.visit(electronicSPAProduct);
+  describe('Default', () => {
+    before(configureDefaultProduct);
+
+    productDetailsTest();
   });
 
-  productDetailsTest();
+  describe('Apparel', () => {
+    before(configureApparelProduct);
+
+    apparelProductDetailsTest();
+  });
 });
 
 context(`${formats.mobile.width + 1}p resolution - Product details`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.visit(electronicSPAProduct);
   });
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  productDetailsTest();
+  describe('Default', () => {
+    before(configureDefaultProduct);
+
+    productDetailsTest();
+  });
+
+  describe('Apparel', () => {
+    before(configureApparelProduct);
+
+    apparelProductDetailsTest();
+  });
 });

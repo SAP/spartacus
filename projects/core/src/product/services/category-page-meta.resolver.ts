@@ -165,8 +165,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     return !!Object.keys(page.slots).find(
       key =>
         !!page.slots[key].components.find(
-          comp => comp.typeCode === 'CMSProductListComponent' 
-          || comp.typeCode === 'ProductGridComponent'
+          comp =>
+            comp.typeCode === 'CMSProductListComponent' ||
+            comp.typeCode === 'ProductGridComponent'
         )
     );
   }
