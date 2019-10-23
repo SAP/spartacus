@@ -9,11 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import {
-  ConfigModule,
-  ExternalConfigModule,
-  TestConfigModule,
-} from '@spartacus/core';
+import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
@@ -39,8 +35,18 @@ if (!environment.production) {
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
+          baseUrl: environment.occBaseUrl,
           legacy: false,
         },
+      },
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: [
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
+        ],
       },
 
       // custom routing configuration for e2e testing
@@ -63,7 +69,6 @@ if (!environment.production) {
       },
     }),
     JsonLdBuilderModule,
-    ExternalConfigModule.forRoot(),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.

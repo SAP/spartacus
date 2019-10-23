@@ -7,9 +7,4 @@ if (environment.production) {
 
 export { ngExpressEngine } from '@nguniversal/express-engine';
 export { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
-export {
-  ExternalConfig,
-  OccBaseUrlMetaTagUtils,
-  OccExternalConfigLoader,
-} from '@spartacus/core';
 export { AppServerModule } from './app/app.server.module';

@@ -17,17 +17,7 @@ const DIST_FOLDER = join(process.cwd(), 'dist/storefrontapp');
 const {
   AppServerModuleNgFactory,
   ngExpressEngine,
-  ExternalConfig,
-  OccBaseUrlMetaTagUtils,
-  OccExternalConfigLoader,
 } = require('../../dist/storefrontapp-server/main');
-
-const fs = require('fs');
-const https = require('https');
-
-const occBaseUrl = OccBaseUrlMetaTagUtils.getFromRawHtml(
-  fs.readFileSync(join(DIST_FOLDER, 'index.html')).toString()
-);
 
 app.engine(
   'html',
@@ -43,19 +33,8 @@ app.set('views', DIST_FOLDER);
 app.get('*.*', express.static(DIST_FOLDER));
 
 // All regular routes use the Universal engine
-app.get('*', (req, res, next) => {
-  OccExternalConfigLoader.loadSSR({
-    endpointOptions: { baseUrl: occBaseUrl },
-    currentUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
-    httpsClient: https,
-  })
-    .then(config => {
-      res.render('index', {
-        req,
-        providers: [{ provide: ExternalConfig, useValue: config }],
-      });
-    })
-    .catch(next);
+app.get('*', (req, res) => {
+  res.render('index', { req });
 });
 
 // Start up the Node server

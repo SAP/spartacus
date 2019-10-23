@@ -1,6 +1,5 @@
-import { enableProdMode, isDevMode } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { ExternalConfig, OccExternalConfigLoader } from '@spartacus/core';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
@@ -9,11 +8,5 @@ if (environment.production) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  OccExternalConfigLoader.load()
-    .then(config => {
-      platformBrowserDynamic([
-        { provide: ExternalConfig, useValue: config },
-      ]).bootstrapModule(AppModule);
-    })
-    .catch(error => isDevMode() && console.error(error));
+  platformBrowserDynamic().bootstrapModule(AppModule);
 });
