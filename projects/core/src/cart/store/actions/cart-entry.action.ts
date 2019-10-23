@@ -143,4 +143,10 @@ export type CartEntryAction =
   | CartRemoveEntryFail
   | CartUpdateEntry
   | CartUpdateEntrySuccess
-  | CartUpdateEntryFail;
+  | CartUpdateEntryFail
+  | CartAddEntries
+  | CartAddEntriesFail
+  | CartAddEntriesSuccess
+  | CartStartAddEntriesProcess
+  | CartSuccessAddEntriesProcess
+  | CartFailAddEntriesProcess;
