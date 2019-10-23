@@ -49,7 +49,7 @@ export class CartEffects {
           mergeMap((cart: Cart) => {
             let returnArr = [];
             if (payload.extraData && payload.extraData.addEntries) {
-              returnArr.push(new CartActions.CartSuccessAddEntriesProcess());
+              returnArr.push(new CartActions.CartSuccessAddEntryProcess());
             }
             if (loadCartParams.cartId === OCC_CART_ID_CURRENT && cart) {
               returnArr = [

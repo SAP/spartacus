@@ -43,7 +43,7 @@ export class CartEntryEffects {
   addEntries$: Observable<
     | CartActions.CartAddEntriesSuccess
     | CartActions.CartAddEntriesFail
-    | CartActions.CartFailAddEntriesProcess
+    | CartActions.CartFailAddEntryProcess
     | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRIES),
@@ -82,7 +82,7 @@ export class CartEntryEffects {
         catchError(error =>
           from([
             new CartActions.CartAddEntriesFail(makeErrorSerializable(error)),
-            new CartActions.CartFailAddEntriesProcess(),
+            new CartActions.CartFailAddEntryProcess(),
           ])
         )
       );

@@ -177,12 +177,12 @@ describe('Cart-entry Actions', () => {
     });
   });
 
-  describe('AddEntriesProcess Actions', () => {
-    describe('CartStartAddEntriesProcess', () => {
+  describe('AddEntryProcess Actions', () => {
+    describe('CartStartAddEntryProcess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartStartAddEntriesProcess();
+        const action = new CartActions.CartStartAddEntryProcess();
         expect({ ...action }).toEqual({
-          type: CartActions.CART_START_ADD_ENTRIES_PROCESS,
+          type: CartActions.CART_START_ADD_ENTRY_PROCESS,
           meta: StateEntityLoaderActions.entityLoadMeta(
             PROCESS_FEATURE,
             ADD_ENTRY_PROCESS_ID
@@ -191,11 +191,11 @@ describe('Cart-entry Actions', () => {
       });
     });
 
-    describe('CartSuccessAddEntriesProcess', () => {
+    describe('CartSuccessAddEntryProcess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartSuccessAddEntriesProcess();
+        const action = new CartActions.CartSuccessAddEntryProcess();
         expect({ ...action }).toEqual({
-          type: CartActions.CART_SUCCESS_ADD_ENTRIES_PROCESS,
+          type: CartActions.CART_SUCCESS_ADD_ENTRY_PROCESS,
           payload: undefined,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             PROCESS_FEATURE,
@@ -205,11 +205,11 @@ describe('Cart-entry Actions', () => {
       });
     });
 
-    describe('CartFailAddEntriesProcess', () => {
+    describe('CartFailAddEntryProcess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartFailAddEntriesProcess();
+        const action = new CartActions.CartFailAddEntryProcess();
         expect({ ...action }).toEqual({
-          type: CartActions.CART_FAIL_ADD_ENTRIES_PROCESS,
+          type: CartActions.CART_FAIL_ADD_ENTRY_PROCESS,
           meta: StateEntityLoaderActions.entityFailMeta(
             PROCESS_FEATURE,
             ADD_ENTRY_PROCESS_ID

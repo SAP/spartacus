@@ -22,12 +22,12 @@ export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
 export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
-export const CART_START_ADD_ENTRIES_PROCESS =
-  '[Cart-entry] Start Add Entries Process';
-export const CART_SUCCESS_ADD_ENTRIES_PROCESS =
-  '[Cart-entry] Success Add Entries Process';
-export const CART_FAIL_ADD_ENTRIES_PROCESS =
-  '[Cart-entry] Fail Add Entries Process';
+export const CART_START_ADD_ENTRY_PROCESS =
+  '[Cart-entry] Start Add Entry Process';
+export const CART_SUCCESS_ADD_ENTRY_PROCESS =
+  '[Cart-entry] Success Add Entry Process';
+export const CART_FAIL_ADD_ENTRY_PROCESS =
+  '[Cart-entry] Fail Add Entry Process';
 
 export class CartAddEntry extends StateLoaderActions.LoaderLoadAction {
   readonly type = CART_ADD_ENTRY;
@@ -71,22 +71,22 @@ export class CartAddEntriesFail implements Action {
   constructor(public payload: any) {}
 }
 
-export class CartStartAddEntriesProcess extends StateEntityLoaderActions.EntityLoadAction {
-  readonly type = CART_START_ADD_ENTRIES_PROCESS;
+export class CartStartAddEntryProcess extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = CART_START_ADD_ENTRY_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, ADD_ENTRY_PROCESS_ID);
   }
 }
 
-export class CartSuccessAddEntriesProcess extends StateEntityLoaderActions.EntitySuccessAction {
-  readonly type = CART_SUCCESS_ADD_ENTRIES_PROCESS;
+export class CartSuccessAddEntryProcess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = CART_SUCCESS_ADD_ENTRY_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, ADD_ENTRY_PROCESS_ID);
   }
 }
 
-export class CartFailAddEntriesProcess extends StateEntityLoaderActions.EntityFailAction {
-  readonly type = CART_FAIL_ADD_ENTRIES_PROCESS;
+export class CartFailAddEntryProcess extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = CART_FAIL_ADD_ENTRY_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, ADD_ENTRY_PROCESS_ID);
   }
@@ -147,6 +147,6 @@ export type CartEntryAction =
   | CartAddEntries
   | CartAddEntriesFail
   | CartAddEntriesSuccess
-  | CartStartAddEntriesProcess
-  | CartSuccessAddEntriesProcess
-  | CartFailAddEntriesProcess;
+  | CartStartAddEntryProcess
+  | CartSuccessAddEntryProcess
+  | CartFailAddEntryProcess;

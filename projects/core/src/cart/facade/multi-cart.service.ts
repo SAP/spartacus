@@ -105,7 +105,7 @@ export class MultiCartService {
   }
 
   initAddEntryProcess() {
-    this.store.dispatch(new CartActions.CartStartAddEntriesProcess());
+    this.store.dispatch(new CartActions.CartStartAddEntryProcess());
   }
 
   removeEntry(userId: string, cartId: string, entryNumber: number): void {
