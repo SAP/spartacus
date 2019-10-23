@@ -1,4 +1,4 @@
-import {registerAndLogin} from '../../../helpers/update-email';
+import { registerAndLogin } from '../../../helpers/update-email';
 import * as notification from '../../../helpers/notification';
 
 describe('My Account - Notification Preference', () => {

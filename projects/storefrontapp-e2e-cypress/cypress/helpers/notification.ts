@@ -5,8 +5,19 @@ import { login } from './auth-forms';
 export const configurableProductCode = '1934793';
 export const variantProductCode = '1978440_red';
 export const normalProductCode = '358639';
-export const productCodeList = ['553637', '592506', '932577', '3357724', '4205431', '358639'
-                                , '2053266', '898520', '816379', '1978440_red', '1934793'];
+export const productCodeList = [
+  '553637',
+  '592506',
+  '932577',
+  '3357724',
+  '4205431',
+  '358639',
+  '2053266',
+  '898520',
+  '816379',
+  '1978440_red',
+  '1934793',
+];
 
 export const password = 'Password123.';
 const newUid = generateMail(randomString(), true);
@@ -17,39 +28,47 @@ export function accessPageAsAnonymous() {
 }
 
 export function verifyEmailChannel() {
-  cy.get('cx-notification-preference').within(()=>{
-    cy.get('.pref-channel .form-check-label').should('contain', 'Email: '+ standardUser.registrationData.email);
-    cy.get('[type="checkbox"]').first().should('not.be.checked');
-  }
-  );
+  cy.get('cx-notification-preference').within(() => {
+    cy.get('.pref-channel .form-check-label').should(
+      'contain',
+      'Email: ' + standardUser.registrationData.email
+    );
+    cy.get('[type="checkbox"]')
+      .first()
+      .should('not.be.checked');
+  });
 }
 
 export function enableFirstChannel() {
-  cy.get('[type="checkbox"]').first().check() 
+  cy.get('[type="checkbox"]')
+    .first()
+    .check();
 }
 
 export function disableFirstChannel() {
-  cy.get('[type="checkbox"]').first().uncheck()
+  cy.get('[type="checkbox"]')
+    .first()
+    .uncheck();
 }
 
-export function goToHomePageAndBack(){
+export function goToHomePageAndBack() {
   cy.visit('/');
   cy.selectUserMenuOption({
     option: 'Notification Preference',
   });
 }
 
-export function channelEnable(){
+export function channelEnable() {
   enableFirstChannel();
   goToHomePageAndBack();
 }
 
-export function channelDisable(){
-  disableFirstChannel()
+export function channelDisable() {
+  disableFirstChannel();
   goToHomePageAndBack();
 }
 
-export function updateEmail() { 
+export function updateEmail() {
   cy.selectUserMenuOption({
     option: 'Email Address',
   });
@@ -141,7 +160,7 @@ export function unsubscribeStockNotification() {
   cy.get('cx-stock-notification > .btn').should('contain', 'NOTIFY ME');
 }
 
-export function subscribeStockNotificationOK(){
+export function subscribeStockNotificationOK() {
   cy.get('.btn-ok')
     .should('contain', 'OK')
     .click();
@@ -175,7 +194,7 @@ export function navigateToPDPThrougnCustomerInterest(productCode: string) {
   });
 }
 
-export function subscribeProductList(productCodesList: string[]){
+export function subscribeProductList(productCodesList: string[]) {
   productCodesList.forEach(productCode => {
     navigateToPDP(productCode);
     subscribeStockNotification();
@@ -183,9 +202,9 @@ export function subscribeProductList(productCodesList: string[]){
   });
 }
 
-export function notificationPreferenceTests(){
+export function notificationPreferenceTests() {
   it('should enable/disable notification preference', () => {
-    navigateToNotificationPreferencePage()
+    navigateToNotificationPreferencePage();
     channelEnable();
     verifyChannelEnabled();
 
@@ -203,14 +222,14 @@ export function notificationPreferenceTests(){
   });
 }
 
-export function stockNotificationGuestTests(){
+export function stockNotificationGuestTests() {
   it('should login first when guest subscribing stock notification', () => {
     navigateToPDP(normalProductCode);
     guestSubscribeStockNotification();
   });
 }
 
-export function stockNotificationCustomerNoChannelSetTests(){
+export function stockNotificationCustomerNoChannelSetTests() {
   it('should navigate to notification preference page through product detail page', () => {
     navigateToPDP(normalProductCode);
     navigateToNotificationPreferencePage();
@@ -219,18 +238,18 @@ export function stockNotificationCustomerNoChannelSetTests(){
   });
 }
 
-export function stockNotificationCustomerTests(){
+export function stockNotificationCustomerTests() {
   it('should navigate to my interest page through success dialog', () => {
     subscribeGotoMyInterestPage();
     verifyCustomerInterest(normalProductCode);
   });
 
-  it ('should navigate to notification preference page through success dialog', () => {
+  it('should navigate to notification preference page through success dialog', () => {
     unsubscribeStockNotification();
     subscribeGotoNotificationPreferencePage();
 
     cy.location('pathname').should('contain', '/notification-preference');
-  })
+  });
 
   it('should unsubscribe in product detail page', () => {
     unsubscribeStockNotification();
@@ -239,7 +258,7 @@ export function stockNotificationCustomerTests(){
   });
 }
 
-export function myInterestTests(){
+export function myInterestTests() {
   it('should subscribe stock notification using configurable product', () => {
     navigateToPDP(configurableProductCode);
     subscribeGotoMyInterestPage();
@@ -272,9 +291,7 @@ export function myInterestTests(){
   it('should navigate to PDP when clicking product', () => {
     navigateToPDP(normalProductCode);
     subscribeGotoMyInterestPage();
-    navigateToPDPThrougnCustomerInterest(
-      normalProductCode
-    );
+    navigateToPDPThrougnCustomerInterest(normalProductCode);
 
     verifyProductPage(normalProductCode);
   });
@@ -303,15 +320,22 @@ function verifyUnsubscribe() {
 }
 
 function verifyChannelDisabled() {
-  cy.get('[type="checkbox"]').first().should("not.be.checked");
+  cy.get('[type="checkbox"]')
+    .first()
+    .should('not.be.checked');
 }
 
 function verifyChannelEnabled() {
-  cy.get('[type="checkbox"]').first().should("be.checked");
+  cy.get('[type="checkbox"]')
+    .first()
+    .should('be.checked');
 }
 
 function verifyUpdatedEmailChannel() {
-  cy.get('.pref-channel .form-check-label').should('contain', 'Email: '+ newUid);
+  cy.get('.pref-channel .form-check-label').should(
+    'contain',
+    'Email: ' + newUid
+  );
 }
 
 function verifyMyInterestPath() {
