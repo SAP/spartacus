@@ -64,20 +64,14 @@ export class ProductListComponentService {
       });
   }
 
-  private startNewSearch = false;
   latestScrollCriteria: SearchCriteria;
   autoScrollPosition: [number, number] = [0, 0];
 
   private searchResults$: Observable<
     ProductSearchPage
-  > = this.productSearchService.getResults().pipe(
-    tap(
-      searchResult =>
-        (this.startNewSearch =
-          Object.keys(searchResult).length === 0 ? true : false)
-    ),
-    filter(searchResult => Object.keys(searchResult).length > 0)
-  );
+  > = this.productSearchService
+    .getResults()
+    .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
 
   private searchByRouting$: Observable<
     ActivatedRouterStateSnapshot
@@ -101,7 +95,6 @@ export class ProductListComponentService {
       );
       // reset the latest scroll search criteria
       if (
-        this.startNewSearch &&
         this.latestScrollCriteria &&
         criteria.query !== this.latestScrollCriteria.query
       ) {
