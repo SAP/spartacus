@@ -9,7 +9,7 @@ import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
 
 const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
-const ANONYMOUS_DIALOG = 'cx-anonymous-consents-dialog';
+const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
 const GIVEN = 'ON';
 const WITHDRAW = 'OFF';
 const ALLOW_ALL = 'Allow All';
@@ -57,8 +57,8 @@ export function clickViewDetailsFromBanner() {
 }
 
 export function openDialogUsingFooterLink() {
-  cy.get('.anonymous-consents').within(() => {
-    const link = cy.get('a');
+  cy.get('cx-anonymous-consent-open-dialog').within(() => {
+    const link = cy.get('button');
     link.should('exist');
     link.click({ force: true });
   });
@@ -100,7 +100,7 @@ export function checkSingleTextConsentState(position, state) {
     .should('contain.text', state);
 }
 
-export function toggleAllConsentState(text) {
+export function toggleAllConsentState(text: string) {
   cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
     .contains(text)
     .click({ force: true });
