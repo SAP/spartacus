@@ -35,7 +35,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   it('should display previous button as disabled if it is the first group', () => {
     classUnderTest.isFirstGroup = of(true);
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-secondary'))
+    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
       .nativeElement;
     expect(prevBtn.disabled).toBe(true);
   });
@@ -43,7 +43,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   it('should display previous button as enabled if it is not the first group', () => {
     classUnderTest.isFirstGroup = of(false);
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-secondary'))
+    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
       .nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
@@ -51,7 +51,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   it('should display next button as disabled if it is the last group', () => {
     classUnderTest.isLastGroup = of(true);
     fixture.detectChanges();
-    const lastBtn = fixture.debugElement.query(By.css('.btn-primary'))
+    const lastBtn = fixture.debugElement.query(By.css('.btn-secondary'))
       .nativeElement;
     expect(lastBtn.disabled).toBe(true);
   });
@@ -59,7 +59,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   it('should display next button as enabled if it is not the last group', () => {
     classUnderTest.isLastGroup = of(false);
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-primary'))
+    const prevBtn = fixture.debugElement.query(By.css('.btn-secondary'))
       .nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
