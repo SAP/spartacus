@@ -11,3 +11,5 @@ export * from './navigation/navigation-ui.component';
 export * from './navigation/navigation.module';
 export * from './navigation/navigation.service';
 export * from './search-box/index';
+export * from './group-skipper/group-skipper.component';
+export * from './group-skipper/group-skipper.module';

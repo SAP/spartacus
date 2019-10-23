@@ -7,6 +7,7 @@ export * from './src/checkout/index';
 export * from './src/cms/index';
 export * from './src/config/index';
 export * from './src/global-message/index';
+export * from './src/group-skipper/index';
 export * from './src/i18n/index';
 export * from './src/kyma/index';
 export * from './src/model/index';

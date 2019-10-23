@@ -29,6 +29,7 @@ import {
   FooterNavigationModule,
   NavigationModule,
   SearchBoxModule,
+  GroupSkipperModule,
 } from './navigation/index';
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
@@ -80,6 +81,7 @@ import { StoreFinderModule } from './storefinder/store-finder.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    GroupSkipperModule,
   ],
 })
 export class CmsLibModule {}

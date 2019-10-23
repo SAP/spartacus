@@ -17,6 +17,7 @@ import {
   CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
+  GroupSkipperService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentMapperService } from './component-mapper.service';
@@ -39,6 +40,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private dynamicAttributeService: DynamicAttributeService,
     private renderer: Renderer2,
     private config: CmsConfig,
+    private groupSkipperService: GroupSkipperService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -77,6 +79,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       if (this.cmsService.isLaunchInSmartEdit()) {
         this.addSmartEditContract(this.cmpRef.location.nativeElement);
       }
+
+      this.renderSkipperIfEnabled();
     }
   }
 
@@ -105,6 +109,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       if (this.cmsService.isLaunchInSmartEdit()) {
         this.addSmartEditContract(this.webElement);
       }
+
+      this.renderSkipperIfEnabled();
     }
   }
 
@@ -139,6 +145,22 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       element,
       this.renderer
     );
+  }
+
+  private renderSkipperIfEnabled(): void {
+    const isGroupSkipperEnabled = (
+      this.config.cmsComponents[this.cxComponentWrapper.flexType] || {}
+    ).groupSkipper;
+    console.log(this.cxComponentWrapper.flexType);
+    if (
+      isGroupSkipperEnabled &&
+      isGroupSkipperEnabled.groupSkipper &&
+      isGroupSkipperEnabled.groupSkipper.enabled
+    ) {
+      const element: Element = this.cmpRef.location.nativeElement;
+      this.renderer.setAttribute(element, 'uid', this.cxComponentWrapper.uid);
+      this.groupSkipperService.renderAnchor(element, this.renderer);
+    }
   }
 
   ngOnDestroy() {

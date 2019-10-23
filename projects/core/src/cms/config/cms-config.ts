@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { AuthConfig } from '../../auth/config/auth-config';
 import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';
+import { GroupSkipperConfig } from '../../group-skipper';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -43,6 +44,7 @@ export interface CmsComponentMapping {
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
+  groupSkipper?: GroupSkipperConfig;
 }
 
 export interface CMSComponentConfig

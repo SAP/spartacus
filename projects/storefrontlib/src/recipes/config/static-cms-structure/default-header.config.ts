@@ -12,11 +12,15 @@ export const headerComponents: {
     flexType: 'LoginComponent',
     uid: 'LoginComponent',
   },
+  GroupSkipperComponent: {
+    typeCode: 'GroupSkipperComponent',
+    flexType: 'GroupSkipperComponent',
+  },
 };
 
 export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
   PreHeader: {
-    componentIds: ['HamburgerMenuComponent'],
+    componentIds: ['GroupSkipperComponent', 'HamburgerMenuComponent'],
   },
   SiteLogin: {
     componentIds: ['LoginComponent'],
