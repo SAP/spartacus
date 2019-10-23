@@ -357,10 +357,15 @@ describe('Checkout effect', () => {
         cartId: cartId,
       });
       const removeCartCompletion = new CartActions.RemoveCart(cartId);
-      const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(orderDetails);
+      const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(
+        orderDetails
+      );
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: removeCartCompletion, c: placeOrderSuccessCompletion });
+      const expected = cold('-(bc)', {
+        b: removeCartCompletion,
+        c: placeOrderSuccessCompletion,
+      });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
     });

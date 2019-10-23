@@ -170,7 +170,7 @@ export class ActiveCartService {
     }
   }
 
-  getAddEntryLoading() {
+  getAddEntryLoaded() {
     return this.store.pipe(
       select(getProcessStateFactory(ADD_ENTRY_PROCESS_ID)),
       map(payload => !payload.loading && payload.success)

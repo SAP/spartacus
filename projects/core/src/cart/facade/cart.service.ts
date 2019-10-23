@@ -86,6 +86,9 @@ export class CartService {
     return this.store.pipe(select(CartSelectors.getCartEntries));
   }
 
+  // TODO: to remove in 2.0
+  // doesn't seem useful for end developers
+  // there shouldn't be a need for such low level information
   getCartMergeComplete(): Observable<boolean> {
     return this.store.pipe(select(CartSelectors.getCartMergeComplete));
   }
@@ -99,7 +102,7 @@ export class CartService {
 
   getAddEntryLoaded(): Observable<boolean> {
     if (this.activeCartService) {
-      return this.activeCartService.getAddEntryLoading();
+      return this.activeCartService.getAddEntryLoaded();
     }
     return this.getLoaded();
   }
@@ -238,10 +241,16 @@ export class CartService {
   }
 
   getAssignedUser(): Observable<User> {
+    if (this.activeCartService) {
+      return this.activeCartService.getAssignedUser();
+    }
     return this.store.pipe(select(CartSelectors.getCartUser));
   }
 
   isGuestCart(): boolean {
+    if (this.activeCartService) {
+      return this.activeCartService.isGuestCart();
+    }
     return this.cartData.isGuestCart;
   }
 
@@ -252,7 +261,7 @@ export class CartService {
    */
   addEntries(cartEntries: OrderEntry[]): void {
     if (this.activeCartService) {
-      this.activeCartService.addEntries(cartEntries);
+      return this.activeCartService.addEntries(cartEntries);
     }
     let newEntries = 0;
     this.getEntries()
