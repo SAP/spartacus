@@ -10,8 +10,8 @@ import {
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-form',
@@ -86,56 +86,6 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
 
       this.configuratorCommonsService.updateConfiguration(changedConfiguration);
     });
-  }
-
-  navigateToNextGroup() {
-    this.configuratorGroupsService
-      .getNextGroup(this.productCode)
-      .pipe(take(1))
-      .subscribe(groupId => {
-        this.configuratorGroupsService.setCurrentGroup(
-          this.productCode,
-          groupId
-        );
-      });
-  }
-
-  navigateToPreviousGroup() {
-    this.configuratorGroupsService
-      .getPreviousGroup(this.productCode)
-      .pipe(take(1))
-      .subscribe(groupId => {
-        this.configuratorGroupsService.setCurrentGroup(
-          this.productCode,
-          groupId
-        );
-      });
-  }
-
-  isFirstGroup(): Observable<Boolean> {
-    return this.configuratorGroupsService
-      .getPreviousGroup(this.productCode)
-      .pipe(
-        mergeMap(group => {
-          if (!group) {
-            return of(true);
-          } else {
-            return of(false);
-          }
-        })
-      );
-  }
-
-  isLastGroup(): Observable<Boolean> {
-    return this.configuratorGroupsService.getNextGroup(this.productCode).pipe(
-      mergeMap(group => {
-        if (!group) {
-          return of(true);
-        } else {
-          return of(false);
-        }
-      })
-    );
   }
 
   ngOnDestroy(): void {
