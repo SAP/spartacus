@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -14,7 +19,7 @@ import { ICON_TYPE } from '../../../misc/icon/index';
   templateUrl: './config-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigGroupMenuComponent {
+export class ConfigGroupMenuComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
   iconType = ICON_TYPE;
   productCode: string;
@@ -47,5 +52,10 @@ export class ConfigGroupMenuComponent {
     this.configuratorGroupsService.setCurrentGroup(this.productCode, group.id);
 
     this.hamburgerMenuService.toggle(true);
+  }
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
