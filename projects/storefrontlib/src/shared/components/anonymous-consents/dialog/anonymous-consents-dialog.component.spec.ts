@@ -21,18 +21,21 @@ export class MockCxIconComponent {
 }
 
 @Component({
-  selector: 'cx-anonymous-consent-form',
+  selector: 'cx-consent-management-form',
   template: ``,
 })
-export class MockAnonymousConsentFormComponent {
+export class MockConsentManagementFormComponent {
   @Input()
-  template: ConsentTemplate;
-
-  @Input()
-  consent: AnonymousConsent;
+  consentTemplate: ConsentTemplate;
 
   @Input()
   requiredConsents: string[] = [];
+
+  @Input()
+  isAnonymousConsentsEnabled = false;
+
+  @Input()
+  consent: AnonymousConsent;
 }
 
 class MockAnonymousConsentsService {
@@ -78,7 +81,7 @@ describe('AnonymousConsentsDialogComponent', () => {
       declarations: [
         AnonymousConsentsDialogComponent,
         MockCxIconComponent,
-        MockAnonymousConsentFormComponent,
+        MockConsentManagementFormComponent,
       ],
       providers: [
         {
