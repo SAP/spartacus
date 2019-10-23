@@ -76,6 +76,9 @@ class MockFeatureConfigService {
   isLevel(_level: string): boolean {
     return isLevelBool.value;
   }
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
 }
 
 const registerUserIsLoading: BehaviorSubject<boolean> = new BehaviorSubject(
@@ -454,13 +457,14 @@ describe('RegisterComponent', () => {
     });
   });
 
+  const isConsentRequiredMethod = 'isConsentRequired';
   describe('isConsentRequired', () => {
     it('should disable form when register consent is required', () => {
-      expect(component.isConsentRequired()).toEqual(true);
+      expect(component[isConsentRequiredMethod]()).toEqual(true);
     });
 
-    it('should disable input when when register consent is required', () => {
-      spyOn(component, 'isConsentRequired').and.returnValue(true);
+    it('should disable input when register consent is required', () => {
+      spyOn<any>(component, isConsentRequiredMethod).and.returnValue(true);
 
       fixture.detectChanges();
 

@@ -45,7 +45,7 @@ const mockAnonymousConsentsConfig = {
     footerLink: true,
   },
   features: {
-    level: '1.3',
+    anonymousConsents: true,
   },
 };
 
@@ -128,7 +128,9 @@ describe('FooterNavigationComponent', () => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
-    anonymousConsentsConfig = TestBed.get(AnonymousConsentsConfig);
+    anonymousConsentsConfig = TestBed.get(AnonymousConsentsConfig as Type<
+      AnonymousConsentsConfig
+    >);
     modalService = TestBed.get(ModalService as Type<ModalService>);
 
     component.node$ = of({
@@ -169,8 +171,8 @@ describe('FooterNavigationComponent', () => {
         .unsubscribe();
       expect(result).toEqual(false);
     });
-    it('should return false the feature level is lower than 1.3', () => {
-      (anonymousConsentsConfig as FeaturesConfig).features.level = '1.2';
+    it('should return false the anonymous consents feature is turned off', () => {
+      (anonymousConsentsConfig as FeaturesConfig).features.anonymousConsents = false;
       let result = true;
       component.showConsentPreferences
         .subscribe(value => (result = value))

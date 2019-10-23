@@ -9,7 +9,10 @@ import { Injectable } from '@angular/core';
 import { iif, Observable } from 'rxjs';
 import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
-import { isFeatureLevel } from '../../features-config/index';
+import {
+  ANONYMOUS_CONSENTS_FEATURE,
+  isFeatureEnabled,
+} from '../../features-config/index';
 import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
@@ -30,9 +33,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // TODO(issue:4989) Anonymous consents - remove `iif()`, `condition` parameter and the `falseResult` parameter of it
     return iif(
-      () => isFeatureLevel(this.config, '1.3'),
+      () => isFeatureEnabled(this.config, ANONYMOUS_CONSENTS_FEATURE),
       this.anonymousConsentsService.getConsents().pipe(
         take(1),
         withLatestFrom(this.authService.isUserLoggedIn()),
