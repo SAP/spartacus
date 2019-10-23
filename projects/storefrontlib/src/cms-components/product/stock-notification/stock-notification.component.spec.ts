@@ -16,7 +16,7 @@ import {
   UserInterestsService,
 } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { CurrentProductService } from '../current-product.service';
 import { ModalService, SpinnerModule } from '../../../shared';
@@ -100,12 +100,20 @@ describe('StockNotificationComponent', () => {
   const removeSuccess = new BehaviorSubject<boolean>(false);
   const addFail = new BehaviorSubject<boolean>(false);
 
+  @Pipe({
+    name: 'cxUrl',
+  })
+  class MockUrlPipe implements PipeTransform {
+    transform(): any {}
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
       declarations: [
         StockNotificationComponent,
         StockNotificationDialogComponent,
+        MockUrlPipe,
       ],
       providers: [
         { provide: AuthService, useValue: authService },

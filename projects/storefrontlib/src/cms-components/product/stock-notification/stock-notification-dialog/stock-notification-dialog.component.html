@@ -15,9 +15,9 @@
           'stockNotification.subscriptionDialog.notifiedPrefix' | cxTranslate
         }}
       </p>
-      <p *ngFor="let p of enabledPrefs" class="channels">
-        <span>{{ p.channel }}</span
-        ><span *ngIf="p.value">{{ ': ' + p.value }}</span>
+      <p *ngFor="let preference of enabledPrefs" class="channels">
+        <span>{{ preference.channel }}</span
+        ><span *ngIf="preference.value">{{ ': ' + preference.value }}</span>
       </p>
       <p>
         {{

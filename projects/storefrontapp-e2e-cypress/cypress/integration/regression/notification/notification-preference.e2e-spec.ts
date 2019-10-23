@@ -1,4 +1,4 @@
-import {registerAndLogin} from '../../../helpers/update-email';
+import { registerAndLogin } from '../../../helpers/update-email';
 import * as notification from '../../../helpers/notification';
 
 describe('My Account - Notification Preference', () => {
@@ -20,6 +20,22 @@ describe('My Account - Notification Preference', () => {
       cy.visit('/');
     });
 
-    notification.notificationPreferenceTests();
+    it('should enable/disable notification preference', () => {
+      notification.navigateToNotificationPreferencePage();
+      notification.channelEnable();
+      notification.verifyChannelEnabled();
+
+      notification.channelDisable();
+      notification.verifyChannelDisabled();
+    });
+
+    it('should show correct email channel after update email address', () => {
+      notification.navigateToNotificationPreferencePage();
+      notification.verifyEmailChannel();
+      notification.updateEmail();
+      notification.navigateToNotificationPreferencePage();
+
+      notification.verifyUpdatedEmailChannel();
+    });
   });
 });

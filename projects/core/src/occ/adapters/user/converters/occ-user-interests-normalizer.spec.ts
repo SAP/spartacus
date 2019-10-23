@@ -61,7 +61,7 @@ describe('OccUserInterestsNormalizer', () => {
     expect(occUserInterestsNormalizer).toBeTruthy();
   });
 
-  it('should convert cart entries', () => {
+  it('should convert product', () => {
     const result = occUserInterestsNormalizer.convert(mockedInterests);
     expect(result.results[0].product.code).toBe('553637converted');
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);

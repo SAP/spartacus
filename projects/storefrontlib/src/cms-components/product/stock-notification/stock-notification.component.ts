@@ -93,11 +93,11 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
         tap(prefs => (this.enabledPrefs = prefs)),
         map(prefs => prefs.length > 0)
       );
+
     this.subscriptions.add(
-      this.interestsService.getAddProductInterestError().subscribe(fail => {
-        if (fail) {
-          this.modalService.dismissActiveModal();
-          this.interestsService.resetAddInterestState();
+      this.interestsService.getAddProductInterestError().subscribe(error => {
+        if (error) {
+          this.onInterestAddingError();
         }
       })
     );
@@ -146,6 +146,11 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
         )
     );
     this.interestsService.resetRemoveInterestState();
+  }
+
+  private onInterestAddingError() {
+    this.modalService.dismissActiveModal();
+    this.interestsService.resetAddInterestState();
   }
 
   private openDialog() {
