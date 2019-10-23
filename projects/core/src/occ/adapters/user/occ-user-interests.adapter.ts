@@ -46,9 +46,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       params = params.set('notificationType', notificationType.toString());
     }
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    const headers = this.getHeaders();
 
     return this.http
       .get(this.occEndpoints.getUrl('productInterests', { userId }), {
@@ -89,9 +87,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     const params = new HttpParams()
       .set('productCode', productCode)
       .set('notificationType', notificationType.toString());
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    const headers = this.getHeaders();
     return this.http
       .post(
         this.occEndpoints.getUrl('productInterests', { userId }),
@@ -102,5 +98,11 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
         }
       )
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  protected getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
   }
 }
