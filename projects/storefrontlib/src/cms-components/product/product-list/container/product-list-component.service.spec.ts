@@ -122,12 +122,6 @@ describe('ProductListComponentService', () => {
       expect(result).toEqual({ products: [] });
     });
 
-    it('should set startNewSearch true when there is no search results', () => {
-      productSearch.next({});
-      service.model$.subscribe();
-      expect(service['startNewSearch']).toBeTruthy();
-    });
-
     describe('should perform search on change of routing', () => {
       it('with default "pageSize" 10', () => {
         service.model$.subscribe();
