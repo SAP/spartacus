@@ -10,10 +10,6 @@ import { generateMail, randomString } from './user';
 
 const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
 const ANONYMOUS_DIALOG = 'cx-anonymous-consents-dialog';
-const GIVEN = 'ON';
-const WITHDRAW = 'OFF';
-const ALLOW_ALL = 'Allow All';
-const CLEAR_ALL = 'Select All';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
 
@@ -94,15 +90,15 @@ export function checkAllInputConsentState(state) {
   });
 }
 
-export function checkSingleTextConsentState(position, state) {
-  cy.get('.cx-toggle-text')
-    .eq(position)
-    .should('contain.text', state);
+export function selectAllConsent() {
+  cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
+    .eq(1)
+    .click({ force: true });
 }
 
-export function toggleAllConsentState(text) {
+export function clearAllConsent() {
   cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
-    .contains(text)
+    .first()
     .click({ force: true });
 }
 
@@ -146,7 +142,7 @@ export function testAsAnonymousUser() {
   it('should click the footer to check if all consents were accepted and withdraw all consents afterwards', () => {
     openDialogUsingFooterLink();
     checkAllInputConsentState(BE_CHECKED);
-    toggleAllConsentState(CLEAR_ALL);
+    clearAllConsent();
   });
 
   it('should click the footer to check if all consents were rejected and accept all consents again', () => {
@@ -154,7 +150,7 @@ export function testAsAnonymousUser() {
 
     checkAllInputConsentState(NOT_BE_CHECKED);
 
-    toggleAllConsentState(ALLOW_ALL);
+    selectAllConsent();
   });
 }
 
@@ -245,7 +241,7 @@ export function testAsLoggedInUser() {
     signOutUser();
 
     openDialogUsingFooterLink();
-    checkSingleTextConsentState(1, GIVEN);
+    checkInputConsentState(1, BE_CHECKED);
   });
 }
 
@@ -254,7 +250,7 @@ export function changeLanguageTest() {
     waitFiveSeconds();
 
     clickViewDetailsFromBanner();
-    toggleAllConsentState(ALLOW_ALL);
+    selectAllConsent();
 
     openDialogUsingFooterLink();
     checkAllInputConsentState(BE_CHECKED);
