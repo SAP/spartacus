@@ -183,26 +183,6 @@ export function subscribeProductList(productCodesList: string[]){
   });
 }
 
-export function notificationPreferenceTests(){
-  it('should enable/disable notification preference', () => {
-    navigateToNotificationPreferencePage()
-    channelEnable();
-    verifyChannelEnabled();
-
-    channelDisable();
-    verifyChannelDisabled();
-  });
-
-  it('should show correct email channel after update email address', () => {
-    navigateToNotificationPreferencePage();
-    verifyEmailChannel();
-    updateEmail();
-    navigateToNotificationPreferencePage();
-
-    verifyUpdatedEmailChannel();
-  });
-}
-
 export function stockNotificationGuestTests(){
   it('should login first when guest subscribing stock notification', () => {
     navigateToPDP(normalProductCode);
@@ -210,110 +190,33 @@ export function stockNotificationGuestTests(){
   });
 }
 
-export function stockNotificationCustomerNoChannelSetTests(){
-  it('should navigate to notification preference page through product detail page', () => {
-    navigateToPDP(normalProductCode);
-    navigateToNotificationPreferencePage();
-
-    cy.location('pathname').should('contain', '/notification-preference');
-  });
-}
-
-export function stockNotificationCustomerTests(){
-  it('should navigate to my interest page through success dialog', () => {
-    subscribeGotoMyInterestPage();
-    verifyCustomerInterest(normalProductCode);
-  });
-
-  it ('should navigate to notification preference page through success dialog', () => {
-    unsubscribeStockNotification();
-    subscribeGotoNotificationPreferencePage();
-
-    cy.location('pathname').should('contain', '/notification-preference');
-  })
-
-  it('should unsubscribe in product detail page', () => {
-    unsubscribeStockNotification();
-
-    verifyUnsubscribe();
-  });
-}
-
-export function myInterestTests(){
-  it('should subscribe stock notification using configurable product', () => {
-    navigateToPDP(configurableProductCode);
-    subscribeGotoMyInterestPage();
-
-    verifyCustomerInterest(configurableProductCode);
-  });
-
-  it('should subscribe stock notification using variant product', () => {
-    navigateToPDP(variantProductCode);
-    subscribeGotoMyInterestPage();
-
-    verifyCustomerInterest(variantProductCode);
-  });
-
-  it('should subscribe stock notification using normal product', () => {
-    navigateToPDP(normalProductCode);
-    subscribeGotoMyInterestPage();
-
-    verifyCustomerInterest(normalProductCode);
-  });
-
-  it('should remove customer interest', () => {
-    navigateToPDP(normalProductCode);
-    subscribeGotoMyInterestPage();
-    removeCustomerInterest(normalProductCode);
-
-    cy.get('.cx-product-interests-message').should('exist');
-  });
-
-  it('should navigate to PDP when clicking product', () => {
-    navigateToPDP(normalProductCode);
-    subscribeGotoMyInterestPage();
-    navigateToPDPThrougnCustomerInterest(
-      normalProductCode
-    );
-
-    verifyProductPage(normalProductCode);
-  });
-
-  it('should page and sort', () => {
-    subscribeProductList(productCodeList);
-    navigateToMyInterestsPage();
-
-    verifyPagingSort();
-  });
-}
-
-function verifyPagingSort() {
+export function verifyPagingSort() {
   cy.get('.top cx-sorting .ng-select').ngSelect('NAME(ASCENDING)');
   cy.get('.cx-product-interests-product-item').should('have.length', 10);
 }
 
-function verifyProductPage(productCode: string) {
+export function verifyProductPage(productCode: string) {
   cy.location('pathname').should('contain', `product/${productCode}`);
   cy.get('cx-stock-notification > .btn').should('contain', 'STOP NOTIFICATION');
 }
 
-function verifyUnsubscribe() {
+export function verifyUnsubscribe() {
   cy.get('.alert');
   cy.get('cx-stock-notification > .btn').should('contain', 'NOTIFY ME');
 }
 
-function verifyChannelDisabled() {
+export function verifyChannelDisabled() {
   cy.get('[type="checkbox"]').first().should("not.be.checked");
 }
 
-function verifyChannelEnabled() {
+export function verifyChannelEnabled() {
   cy.get('[type="checkbox"]').first().should("be.checked");
 }
 
-function verifyUpdatedEmailChannel() {
+export function verifyUpdatedEmailChannel() {
   cy.get('.pref-channel .form-check-label').should('contain', 'Email: '+ newUid);
 }
 
-function verifyMyInterestPath() {
+export function verifyMyInterestPath() {
   cy.location('pathname').should('contain', '/my-account/my-interests');
 }
