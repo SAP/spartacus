@@ -46,7 +46,7 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let result of interests.results"
+                *ngFor="let interest of interests.results"
                 class="cx-product-interests-product-item"
               >
                 <td>
@@ -58,7 +58,7 @@
                       "
                     >
                       <cx-media
-                        [container]="result.product.images?.PRIMARY"
+                        [container]="interest.product.images?.PRIMARY"
                         format="thumbnail"
                       ></cx-media>
                     </a>
@@ -68,7 +68,7 @@
                   <div class="cx-info col-10">
                     <div class="cx-info-container row ">
                       <div>
-                        <div *ngIf="result.product.name" class="cx-name">
+                        <div *ngIf="interest.product.name" class="cx-name">
                           <a
                             class="cx-link cx-product-interests-product-code-link"
                             [routerLink]="
@@ -76,18 +76,20 @@
                                 | cxUrl
                             "
                           >
-                            {{ result.product.name }}
+                            {{ interest.product.name }}
                           </a>
                         </div>
-                        <div *ngIf="result.product.code" class="cx-code">
+                        <div *ngIf="interest.product.code" class="cx-code">
                           <span>{{
                             'myInterests.productId'
-                              | cxTranslate: { code: result.product.code }
+                              | cxTranslate: { code: interest.product.code }
                           }}</span>
                         </div>
 
                         <ng-container
-                          *ngFor="let baseOptions of result.product.baseOptions"
+                          *ngFor="
+                            let baseOptions of interest.product.baseOptions
+                          "
                         >
                           <div
                             *ngFor="
@@ -111,7 +113,7 @@
                         <div
                           class="cx-property"
                           *ngIf="
-                            result.product.stock.stockLevelStatus ===
+                            interest.product.stock.stockLevelStatus ===
                             'outOfStock'
                           "
                         >
@@ -130,7 +132,7 @@
                     <div class="d-md-none cx-product-interests-label">
                       {{ 'myInterests.price' | cxTranslate }}
                     </div>
-                    <span>{{ result.product.price.formattedValue }}</span>
+                    <span>{{ interest.product.price.formattedValue }}</span>
                   </div>
                 </td>
                 <td>
@@ -140,16 +142,24 @@
                     </div>
                     <div
                       class="cx-product-interests-notification"
-                      *ngFor="let ientry of result.productInterestEntry"
+                      *ngFor="
+                        let interestEntry of interest.productInterestEntry
+                      "
                     >
                       <span class="cx-product-interests-type">
-                        {{ 'myInterests.' + ientry.interestType | cxTranslate }}
+                        {{
+                          'myInterests.' + interestEntry.interestType
+                            | cxTranslate
+                        }}
                       </span>
                       <span class="cx-product-interests-expiration-date">
                         {{
                           'myInterests.expirationDate'
                             | cxTranslate
-                              : { expirationDate: ientry.expirationDate | date }
+                              : {
+                                  expirationDate:
+                                    interestEntry.expirationDate | date
+                                }
                         }}
                       </span>
                     </div>
@@ -168,7 +178,7 @@
                         (getInterestsloading$ | async) ||
                         (getRemoveInterestsloading$ | async)
                       "
-                      (click)="removeInterest(result)"
+                      (click)="removeInterest(interest)"
                     >
                       {{ 'myInterests.remove' | cxTranslate }}
                     </button>

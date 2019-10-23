@@ -25,22 +25,23 @@ context(
         cy.visit('/');
       });
 
-    it('should enable/disable notification preference', () => {
-      notification.navigateToNotificationPreferencePage()
-      notification.channelEnable();
-      notification.verifyChannelEnabled();
-  
-      notification.channelDisable();
-      notification.verifyChannelDisabled();
+      it('should enable/disable notification preference', () => {
+        notification.navigateToNotificationPreferencePage();
+        notification.channelEnable();
+        notification.verifyChannelEnabled();
+
+        notification.channelDisable();
+        notification.verifyChannelDisabled();
+      });
+
+      it('should show correct email channel after update email address', () => {
+        notification.navigateToNotificationPreferencePage();
+        notification.verifyEmailChannel();
+        notification.updateEmail();
+        notification.navigateToNotificationPreferencePage();
+
+        notification.verifyUpdatedEmailChannel();
+      });
     });
-  
-    it('should show correct email channel after update email address', () => {
-      notification.navigateToNotificationPreferencePage();
-      notification.verifyEmailChannel();
-      notification.updateEmail();
-      notification.navigateToNotificationPreferencePage();
-  
-      notification.verifyUpdatedEmailChannel();
-    });
-  });
-});
+  }
+);

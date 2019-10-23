@@ -23,7 +23,7 @@ describe('stock notification', () => {
     it('should navigate to notification preference page through product detail page', () => {
       notification.navigateToPDP(notification.normalProductCode);
       notification.navigateToNotificationPreferencePage();
-  
+
       cy.location('pathname').should('contain', '/notification-preference');
     });
   });
@@ -44,17 +44,17 @@ describe('stock notification', () => {
       notification.subscribeGotoMyInterestPage();
       notification.verifyCustomerInterest(notification.normalProductCode);
     });
-  
-    it ('should navigate to notification preference page through success dialog', () => {
+
+    it('should navigate to notification preference page through success dialog', () => {
       notification.unsubscribeStockNotification();
       notification.subscribeGotoNotificationPreferencePage();
-  
+
       cy.location('pathname').should('contain', '/notification-preference');
-    })
-  
+    });
+
     it('should unsubscribe in product detail page', () => {
       notification.unsubscribeStockNotification();
-  
+
       notification.verifyUnsubscribe();
     });
   });
