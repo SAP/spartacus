@@ -10,6 +10,10 @@
         padding: 0;
       }
     }
+
+    .cx-action-link {
+      margin: 0 0.35rem;
+    }
   }
 
   .cx-consent-toggles {
@@ -22,7 +26,7 @@
 
     & > div {
       @include media-breakpoint-only(xs) {
-        padding: 0;
+        padding-top: 15px;
       }
     }
   }
