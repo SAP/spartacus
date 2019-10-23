@@ -23,18 +23,11 @@ export class OccBudgetAdapter implements BudgetAdapter {
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  loadMany(
-    userId: string,
-    params?: BudgetSearchConfig
-  ): Observable<Budget[]> {
-    return this.http
-      .get(
-        this.getBudgetsEndpoint(userId, params)
-      )
-      .pipe(
-        pluck('budgets'),
-        this.converter.pipeableMany(BUDGET_NORMALIZER)
-      );
+  loadMany(userId: string, params?: BudgetSearchConfig): Observable<Budget[]> {
+    return this.http.get(this.getBudgetsEndpoint(userId, params)).pipe(
+      pluck('budgets'),
+      this.converter.pipeableMany(BUDGET_NORMALIZER)
+    );
   }
 
   create(userId: string, budget: Budget): Observable<Budget> {
@@ -53,7 +46,10 @@ export class OccBudgetAdapter implements BudgetAdapter {
     return this.occEndpoints.getUrl('budget', { userId, budgetCode });
   }
 
-  protected getBudgetsEndpoint(userId: string, params?): string {
+  protected getBudgetsEndpoint(
+    userId: string,
+    params?: BudgetSearchConfig
+  ): string {
     return this.occEndpoints.getUrl('budgets', { userId }, params);
   }
 }
