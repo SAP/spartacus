@@ -34,7 +34,9 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-tab-paragraph-container, cx-add-to-cart, cx-global-message,
   cx-product-intro, cx-card, cx-forgot-password, cx-banner-carousel,
   cx-update-password, cx-tracking-events, cx-asm-main-ui, cx-customer-selection,
-  cx-guest-register-form !default;
+  cx-guest-register-form, cx-anonymous-consent-management-banner,
+  cx-anonymous-consent-form, cx-anonymous-consents-dialog,
+  cx-consent-management-form, cx-consent-management !default;
 
 // future theme's, can be introduced during minors
 $theme: '' !default;
