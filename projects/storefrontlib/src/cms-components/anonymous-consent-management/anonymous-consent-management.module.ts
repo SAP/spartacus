@@ -7,7 +7,7 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { AnonymousConsentManagementBannerComponent } from './banner/anonymous-consent-management-banner.component';
-import { AnonymousConsentFooterLinkComponent } from './footer-link/anonymous-consent-footer-link-component';
+import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-consent-open-dialog.component';
 
 @NgModule({
   imports: [
@@ -19,23 +19,23 @@ import { AnonymousConsentFooterLinkComponent } from './footer-link/anonymous-con
         AnonymousConsentManagementBannerComponent: {
           component: AnonymousConsentManagementBannerComponent,
         },
-        AnonymousConsentFooterLinkComponent: {
-          component: AnonymousConsentFooterLinkComponent,
+        AnonymousConsentOpenDialogComponent: {
+          component: AnonymousConsentOpenDialogComponent,
         },
       },
     }),
   ],
   declarations: [
     AnonymousConsentManagementBannerComponent,
-    AnonymousConsentFooterLinkComponent,
+    AnonymousConsentOpenDialogComponent,
   ],
   exports: [
     AnonymousConsentManagementBannerComponent,
-    AnonymousConsentFooterLinkComponent,
+    AnonymousConsentOpenDialogComponent,
   ],
   entryComponents: [
     AnonymousConsentManagementBannerComponent,
-    AnonymousConsentFooterLinkComponent,
+    AnonymousConsentOpenDialogComponent,
   ],
 })
 export class AnonymousConsentManagementBannerModule {}

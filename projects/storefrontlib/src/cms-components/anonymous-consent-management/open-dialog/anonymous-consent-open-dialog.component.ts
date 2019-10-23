@@ -3,10 +3,10 @@ import { AnonymousConsentDialogComponent } from '../../../shared/components/anon
 import { ModalService } from '../../../shared/index';
 
 @Component({
-  selector: 'cx-anonymous-consent-footer-link',
-  templateUrl: './anonymous-consent-footer-link-component.html',
+  selector: 'cx-anonymous-consent-open-dialog',
+  templateUrl: './anonymous-consent-open-dialog.component.html',
 })
-export class AnonymousConsentFooterLinkComponent {
+export class AnonymousConsentOpenDialogComponent {
   constructor(protected modalService: ModalService) {}
 
   openDialog(): void {
