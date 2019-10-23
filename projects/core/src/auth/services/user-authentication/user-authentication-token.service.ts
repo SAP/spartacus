@@ -3,6 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
+import {
+  InterceptorUtil,
+  TOKEN_REVOCATION,
+} from '../../../occ/utils/interceptor-util';
 import { AuthConfig } from '../../config/auth-config';
 import { UserToken } from '../../models/token-types.model';
 
@@ -72,9 +76,13 @@ export class UserAuthenticationTokenService {
     );
     const url = this.occEndpointsService.getRawEndpoint('revoke');
     const params = new HttpParams().set('token', token.access_token);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
+    const headers = InterceptorUtil.createHeader(
+      TOKEN_REVOCATION,
+      true,
+      new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      })
+    );
     return this.http
       .post<{}>(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)));

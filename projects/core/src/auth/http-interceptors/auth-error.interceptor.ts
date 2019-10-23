@@ -10,6 +10,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
   InterceptorUtil,
+  TOKEN_REVOCATION,
   USE_CLIENT_TOKEN,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
@@ -66,6 +67,10 @@ export class AuthErrorInterceptor implements HttpInterceptor {
         request
       );
     }
+    const isTokenRevocationRequest = this.isTokenRevocationRequest(request);
+    if (isTokenRevocationRequest) {
+      request = InterceptorUtil.removeHeader(TOKEN_REVOCATION, request);
+    }
 
     return next.handle(request).pipe(
       catchError((errResponse: any) => {
@@ -82,6 +87,8 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                 // user token request
               } else if (isCustomerSupportAgentRequest) {
                 this.csagentErrorHandlingService.terminateCustomerSupportAgentExpiredSession();
+                return of();
+              } else if (isTokenRevocationRequest) {
                 return of();
               } else {
                 if (this.isExpiredToken(errResponse)) {
@@ -129,6 +136,14 @@ export class AuthErrorInterceptor implements HttpInterceptor {
   private isCustomerSupportAgentRequest(request: HttpRequest<any>): boolean {
     const isRequestMapping = InterceptorUtil.getInterceptorParam(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+      request.headers
+    );
+    return Boolean(isRequestMapping);
+  }
+
+  private isTokenRevocationRequest(request: HttpRequest<any>): boolean {
+    const isRequestMapping = InterceptorUtil.getInterceptorParam(
+      TOKEN_REVOCATION,
       request.headers
     );
     return Boolean(isRequestMapping);

@@ -66,7 +66,10 @@ export class UserTokenEffects {
         'revoke$ effect: Caught revoke action for token: ',
         userToken
       );
-      return of(new AuthActions.Logout());
+      return this.userTokenService.revokeToken(userToken).pipe(
+        map(_ => new AuthActions.Logout()),
+        catchError(_ => of(new AuthActions.Logout()))
+      );
     })
   );
 

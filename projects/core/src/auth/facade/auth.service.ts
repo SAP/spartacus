@@ -142,7 +142,7 @@ export class AuthService {
       .subscribe(userToken => {
         // if it's NOT a customer emulation:
 
-        if (this.isCustomerEmulationToken) {
+        if (this.isCustomerEmulationToken(userToken)) {
           console.log(
             'AuthService.logout(): Customer Emulation Token, do local logout only. ',
             userToken

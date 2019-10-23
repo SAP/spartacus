@@ -8,6 +8,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import {
+  InterceptorUtil,
+  TOKEN_REVOCATION,
+} from '../../occ/utils/interceptor-util';
 import { AuthService } from '../facade/auth.service';
 
 @Injectable()
@@ -21,12 +25,15 @@ export class UserTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (this.isTokenRevocationRequest(request)) {
+      console.log('UserTokenInterceptor, request: ', request);
+    }
     return this.authService.getUserToken().pipe(
       take(1),
       switchMap(token => {
         if (
           token &&
-          this.isOccUrl(request.url) &&
+          this.isAuthorizationRequiredForRequest(request) &&
           !request.headers.get('Authorization')
         ) {
           request = request.clone({
@@ -43,5 +50,16 @@ export class UserTokenInterceptor implements HttpInterceptor {
 
   private isOccUrl(url: string): boolean {
     return url.includes(this.occEndpoints.getBaseEndpoint());
+  }
+
+  private isTokenRevocationRequest(request: HttpRequest<any>) {
+    return !!InterceptorUtil.getInterceptorParam(
+      TOKEN_REVOCATION,
+      request.headers
+    );
+  }
+
+  private isAuthorizationRequiredForRequest(request: HttpRequest<any>) {
+    return this.isTokenRevocationRequest(request) || this.isOccUrl(request.url);
   }
 }
