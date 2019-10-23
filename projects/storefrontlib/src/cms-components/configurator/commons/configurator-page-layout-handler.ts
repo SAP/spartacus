@@ -17,7 +17,9 @@ export class ConfiguratorPageLayoutHandler implements PageLayoutHandler {
       (section === 'header' || section === 'navigation')
     ) {
       slots$.pipe(take(1)).subscribe(slots => {
-        let configurationSlots = slots.filter(slot => slot !== 'NavigationBar');
+        const configurationSlots = slots.filter(
+          slot => slot !== 'NavigationBar'
+        );
         slots$ = of(configurationSlots);
       });
     } else if (
@@ -25,7 +27,7 @@ export class ConfiguratorPageLayoutHandler implements PageLayoutHandler {
       section === 'navigation'
     ) {
       slots$.pipe(take(1)).subscribe(slots => {
-        let configurationSlots = slots.filter(
+        const configurationSlots = slots.filter(
           slot => slot !== 'VariantConfigMenu'
         );
         slots$ = of(configurationSlots);
