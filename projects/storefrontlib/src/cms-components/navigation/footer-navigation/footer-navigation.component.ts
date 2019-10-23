@@ -36,6 +36,12 @@ export class FooterNavigationComponent {
     )
   );
 
+  constructor(
+    componentData: CmsComponentData<CmsNavigationComponent>,
+    service: NavigationService,
+    // tslint:disable-next-line: unified-signatures
+    anonymousConsentsConfig: AnonymousConsentsConfig
+  );
   /**
    * @deprecated since version 1.3
    * Instead, use:

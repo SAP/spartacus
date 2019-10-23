@@ -3,11 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AuthService,
+  AnonymousConsentsConfig,
   CmsNavigationComponent,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
@@ -24,11 +24,11 @@ class MockNavigationUIComponent {
   @Input() node: NavigationNode;
 }
 
-class MockAuthService {
-  isUserLoggedIn(): Observable<boolean> {
-    return of(false);
-  }
-}
+const mockAnonymousConsentsConfig = {
+  features: {
+    anonymousConsents: false,
+  },
+};
 
 @Component({
   selector: 'cx-generic-link',
@@ -88,8 +88,8 @@ describe('FooterNavigationComponent', () => {
           useValue: MockCmsNavigationComponent,
         },
         {
-          provide: AuthService,
-          useClass: MockAuthService,
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
         },
       ],
     }).compileComponents();
@@ -122,9 +122,9 @@ describe('FooterNavigationComponent', () => {
     expect(navigationUI.nativeElement.classList).toContain('footer-styling');
   });
 
-  describe('consent preferences link', () => {
+  describe('notice', () => {
     it('should be visible when the anonymous consents feature is NOT enabled', () => {
-      const consentPreferences = element.query(By.css('.anonymous-consents'));
+      const consentPreferences = element.query(By.css('.notice'));
       expect(consentPreferences).toBeTruthy();
     });
   });
