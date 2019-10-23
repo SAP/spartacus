@@ -43,6 +43,10 @@ if (!environment.production) {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: [
           'apparel-uk-spa',
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
         ],
         currency: ['GBP'],
       },
