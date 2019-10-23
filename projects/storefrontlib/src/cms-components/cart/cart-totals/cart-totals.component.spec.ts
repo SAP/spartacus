@@ -94,11 +94,4 @@ describe('CartTotalsComponent', () => {
     component.entries$.subscribe((data: OrderEntry[]) => (entries = data));
     expect(entries).toEqual(entriesMock);
   });
-
-  it('should display cart coupon anchor information', () => {
-    const anchorComponent = fixture.debugElement.nativeElement.querySelector(
-      'cx-cart-coupon-anchor'
-    );
-    expect(anchorComponent).toBeDefined();
-  });
 });

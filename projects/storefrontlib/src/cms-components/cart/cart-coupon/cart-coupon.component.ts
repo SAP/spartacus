@@ -1,13 +1,9 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cart, CartService, CartVoucherService } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
-import {
-  CartCouponComponentService,
-  COUPON_COMPONENT_EVENT,
-} from './cart-coupon.component.service';
-import { map, startWith, tap, filter } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -25,9 +21,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   constructor(
     private cartService: CartService,
     private cartVoucherService: CartVoucherService,
-    private formBuilder: FormBuilder,
-    private element: ElementRef,
-    private cartCouponComponentService: CartCouponComponentService
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -66,21 +60,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
           this.onSuccess(success);
         })
     );
-
-    this.subscription.add(
-      this.cartCouponComponentService.events
-        .pipe(filter(event => event === COUPON_COMPONENT_EVENT.ScrollIn))
-        .subscribe(() => {
-          this.scrollToView();
-        })
-    );
-  }
-
-  scrollToView() {
-    const inputEl = this.element.nativeElement.querySelector('input');
-    if (inputEl) {
-      inputEl.focus();
-    }
   }
 
   onSuccess(success: boolean) {

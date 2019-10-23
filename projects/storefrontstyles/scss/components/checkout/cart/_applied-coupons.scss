@@ -25,10 +25,8 @@
 
   .cx-coupon-card {
     background: var(--cx-color-background);
-    border-width: var(--cx-border-width, 1px);
-    border-style: var(--cx-border-style, solid);
-    border-color: var(--cx-color-light);
-    border-radius: var(--cx-buttons-border-radius);
+    border: 1px solid $light;
+    border-radius: $border-radius;
   }
 
   .textonly {
@@ -37,10 +35,9 @@
   }
 
   .cx-coupon-apply {
+    @include type('6');
     padding: 1rem 1rem;
     align-items: flex-start;
     word-break: break-all;
-    font-size: 15px;
-    font-weight: 600;
   }
 }
