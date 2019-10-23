@@ -1,7 +1,11 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ConsentTemplate, I18nTestingModule } from '@spartacus/core';
+import {
+  ANONYMOUS_CONSENT_STATUS,
+  ConsentTemplate,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
 
 describe('ConsentManagementFormComponent', () => {
@@ -30,6 +34,14 @@ describe('ConsentManagementFormComponent', () => {
 
   describe('component method tests', () => {
     describe('ngOnInit', () => {
+      describe('when anonymous consents feature is enabled and consent is provided', () => {
+        it('should set consentGiven according to the state of the provided consent', () => {
+          component.consent = { consentState: ANONYMOUS_CONSENT_STATUS.GIVEN };
+          component.isAnonymousConsentsEnabled = true;
+          component.ngOnInit();
+          expect(component.consentGiven).toEqual(true);
+        });
+      });
       describe('when a consent is given', () => {
         const mockConsentTemplate: ConsentTemplate = {
           id: 'TEMPLATE_ID',

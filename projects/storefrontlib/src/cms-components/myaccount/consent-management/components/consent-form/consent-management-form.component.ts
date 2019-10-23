@@ -33,7 +33,7 @@ export class ConsentManagementFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    if (this.consent) {
+    if (this.isAnonymousConsentsEnabled && this.consent) {
       this.consentGiven = Boolean(
         this.consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN
       );
