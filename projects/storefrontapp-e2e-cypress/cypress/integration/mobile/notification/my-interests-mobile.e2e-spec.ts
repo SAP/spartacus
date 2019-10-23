@@ -1,8 +1,9 @@
 import * as notification from '../../../helpers/notification';
+import { formats } from '../../../sample-data/viewports';
 
-describe('my interests', () => {
+context(`${formats.mobile.width + 1}my interests`, () => {
   beforeEach(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.requireLoggedIn();
     cy.visit('/');
     notification.enableNotificationPreferenceChannel();
