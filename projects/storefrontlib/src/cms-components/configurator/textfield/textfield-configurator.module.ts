@@ -12,13 +12,12 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
-import { VariantConfiguratorModule } from '../variant/variant-configurator.module';
 import { ConfigTextfieldFormComponent } from './config-textfield-form/config-textfield-form.component';
+import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-field/config-textfield-input-field.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    VariantConfiguratorModule,
     RouterModule.forChild([
       {
         path: 'configureTEXTFIELD/:rootProduct',
@@ -48,9 +47,15 @@ import { ConfigTextfieldFormComponent } from './config-textfield-form/config-tex
     I18nModule,
   ],
 
-  declarations: [ConfigTextfieldFormComponent],
-  exports: [ConfigTextfieldFormComponent],
+  declarations: [
+    ConfigTextfieldFormComponent,
+    ConfigTextfieldInputFieldComponent,
+  ],
+  exports: [ConfigTextfieldFormComponent, ConfigTextfieldInputFieldComponent],
   providers: [UserService],
-  entryComponents: [ConfigTextfieldFormComponent],
+  entryComponents: [
+    ConfigTextfieldFormComponent,
+    ConfigTextfieldInputFieldComponent,
+  ],
 })
 export class TextfieldConfiguratorModule {}

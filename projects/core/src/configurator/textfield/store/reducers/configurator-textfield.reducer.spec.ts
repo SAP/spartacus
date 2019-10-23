@@ -11,7 +11,7 @@ describe('ConfiguratorTextfieldReducer', () => {
   const productCode = 'CONF_LAPTOP';
   const attributeName = 'attributeName';
   const configuration: ConfiguratorTextfield.Configuration = {
-    attributes: [{ name: attributeName }],
+    configurationInfos: [{ configurationLabel: attributeName }],
   };
   it('should not change state in case action is different from CreateConfigurationSuccess', () => {
     const result = reducer(

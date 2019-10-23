@@ -17,7 +17,7 @@ import * as fromEffects from './configurator-textfield.effect';
 const productCode = 'CONF_LAPTOP';
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
-  attributes: [],
+  configurationInfos: [],
 };
 
 describe('ConfiguratorTextfieldEffect', () => {

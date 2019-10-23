@@ -47,8 +47,8 @@ describe('OccConfiguratorTextfieldNormalizer', () => {
     const result: ConfiguratorTextfield.Configuration = occConfiguratorTextfieldNormalizer.convert(
       configuration
     );
-    expect(result.attributes.length).toBe(1);
-    expect((result.attributes[0].name = csticName));
-    expect((result.attributes[0].userInput = valueName));
+    expect(result.configurationInfos.length).toBe(1);
+    expect((result.configurationInfos[0].configurationLabel = csticName));
+    expect((result.configurationInfos[0].configurationValue = valueName));
   });
 });

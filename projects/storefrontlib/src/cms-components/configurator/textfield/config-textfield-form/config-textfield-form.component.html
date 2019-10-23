@@ -1,24 +1,14 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div
     class="cx-item-list-row cx-config-group-attribute"
-    *ngFor="let attribute of configuration.attributes"
+    *ngFor="let attribute of configuration.configurationInfos"
   >
-    <div class="cx-config-attribute-header">
-      <cx-config-attribute-header
-        [attribute]="attribute"
-      ></cx-config-attribute-header>
-    </div>
     <div
       class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
     >
-      <cx-config-attribute-input-field
+      <cx-config-textfield-input-field
         [attribute]="attribute"
-      ></cx-config-attribute-input-field>
-    </div>
-    <div class="cx-config-attribute-footer">
-      <cx-config-attribute-footer
-        [attribute]="attribute"
-      ></cx-config-attribute-footer>
+      ></cx-config-textfield-input-field>
     </div>
   </div>
 </ng-container>

@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  Configurator,
   ConfiguratorTextfield,
   ConfiguratorTextfieldService,
   I18nTestingModule,
@@ -12,6 +11,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { PageLayoutModule } from '../../../../cms-structure/page/page-layout/page-layout.module';
 import { VariantConfiguratorModule } from '../../variant/variant-configurator.module';
+import { ConfigTextfieldInputFieldComponent } from '../config-textfield-input-field/config-textfield-input-field.component';
 import { ConfigTextfieldFormComponent } from './config-textfield-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -32,7 +32,7 @@ class MockRoutingService {
 class MockConfiguratorTextfieldService {
   createConfiguration(): Observable<ConfiguratorTextfield.Configuration> {
     const productConfig: ConfiguratorTextfield.Configuration = {
-      attributes: [{ name: ATTRIBUTE_NAME }],
+      configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
     };
     return of(productConfig);
   }
@@ -50,7 +50,10 @@ describe('ConfigTextfieldFormComponent', () => {
         VariantConfiguratorModule,
         PageLayoutModule,
       ],
-      declarations: [ConfigTextfieldFormComponent],
+      declarations: [
+        ConfigTextfieldFormComponent,
+        ConfigTextfieldInputFieldComponent,
+      ],
       providers: [
         {
           provide: RoutingService,
@@ -81,9 +84,10 @@ describe('ConfigTextfieldFormComponent', () => {
   it('should know product configuration after init has been done', () => {
     component.ngOnInit();
     component.configuration$.subscribe(configuration => {
-      const attributes: Configurator.Attribute[] = configuration.attributes;
+      const attributes: ConfiguratorTextfield.ConfigurationInfo[] =
+        configuration.configurationInfos;
       expect(attributes.length).toBe(1);
-      expect(attributes[0].name).toBe(ATTRIBUTE_NAME);
+      expect(attributes[0].configurationLabel).toBe(ATTRIBUTE_NAME);
     });
   });
 

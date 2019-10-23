@@ -12,7 +12,7 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const ATTRIBUTE_NAME = 'AttributeName';
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
-  attributes: [{ name: ATTRIBUTE_NAME }],
+  configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
 };
 
 describe('ConfiguratorTextfieldService', () => {
@@ -47,7 +47,7 @@ describe('ConfiguratorTextfieldService', () => {
     expect(configurationFromStore).toBeDefined();
 
     configurationFromStore.subscribe(configuration =>
-      expect(configuration.attributes.length).toBe(1)
+      expect(configuration.configurationInfos.length).toBe(1)
     );
 
     expect(store.dispatch).toHaveBeenCalledWith(

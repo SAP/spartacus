@@ -13,7 +13,7 @@ import { ConfiguratorTextFieldSelectors } from './index';
 describe('ConfiguratorTextfieldSelectors', () => {
   let store: Store<StateWithConfigurationTextfield>;
   const configuration: ConfiguratorTextfield.Configuration = {
-    attributes: [],
+    configurationInfos: [],
   };
 
   beforeEach(() => {
