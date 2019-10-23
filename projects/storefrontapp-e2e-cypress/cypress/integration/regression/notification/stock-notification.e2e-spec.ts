@@ -8,7 +8,10 @@ describe('stock notification', () => {
     before(() => {
       cy.visit('/');
     });
-    notification.stockNotificationGuestTests();
+    it('should login first when guest subscribing stock notification', () => {
+      notification.navigateToPDP(notification.normalProductCode);
+      notification.guestSubscribeStockNotification();
+    });
   });
 
   describe('Stock Notification for Customer without Channel Enbaled', () => {

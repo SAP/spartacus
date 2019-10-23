@@ -12,7 +12,10 @@ context(`${formats.mobile.width + 1}stock notification`, () => {
       cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.visit('/');
     });
-    notification.stockNotificationGuestTests();
+    it('should login first when guest subscribing stock notification', () => {
+      notification.navigateToPDP(notification.normalProductCode);
+      notification.guestSubscribeStockNotification();
+    });
   });
 
   describe('Stock Notification for Customer without Channel Enbaled', () => {

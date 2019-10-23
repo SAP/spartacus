@@ -16,7 +16,7 @@ import {
   TranslationService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, filter, tap, first } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 import { ModalService } from '../../../shared';
@@ -63,26 +63,20 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
               interests => !!interests.results && interests.results.length === 1
             )
           );
-        this.subscriptions.add(
-          this.authService
-            .getOccUserId()
-            .pipe(
-              map(userId => userId === OCC_USER_ID_ANONYMOUS),
-              tap(anonymous => {
-                this.anonymous$ = of(anonymous);
-                if (!anonymous) {
-                  this.notificationPrefService.loadPreferences();
-                  this.interestsService.loadProductInterests(
-                    null,
-                    null,
-                    null,
-                    product.code,
-                    NotificationType.BACK_IN_STOCK
-                  );
-                }
-              })
-            )
-            .subscribe()
+        this.anonymous$ = this.authService.getOccUserId().pipe(
+          map(userId => userId === OCC_USER_ID_ANONYMOUS),
+          tap(anonymous => {
+            if (!anonymous) {
+              this.notificationPrefService.loadPreferences();
+              this.interestsService.loadProductInterests(
+                null,
+                null,
+                null,
+                product.code,
+                NotificationType.BACK_IN_STOCK
+              );
+            }
+          })
         );
       }),
       map(

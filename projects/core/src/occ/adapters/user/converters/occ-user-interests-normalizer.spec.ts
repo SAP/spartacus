@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccUserInterestsNormalizer } from './occ-user-interests-normalizer';
+import { Product } from 'projects/core/src/model';
 
 class MockConverterService {
   convert() {}
@@ -50,9 +51,9 @@ describe('OccUserInterestsNormalizer', () => {
       OccUserInterestsNormalizer
     >);
     converter = TestBed.get(ConverterService as Type<ConverterService>);
-    spyOn(converter, 'convert').and.callFake((product => ({
-      ...product,
-      code: product.code + 'converted',
+    spyOn(converter, 'convert').and.callFake(((p: Product) => ({
+      ...p,
+      code: p.code + 'converted',
     })) as any);
   });
 
@@ -60,7 +61,7 @@ describe('OccUserInterestsNormalizer', () => {
     expect(occUserInterestsNormalizer).toBeTruthy();
   });
 
-  it('should convert cart entries', () => {
+  it('should convert product', () => {
     const result = occUserInterestsNormalizer.convert(mockedInterests);
     expect(result.results[0].product.code).toBe('553637converted');
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
