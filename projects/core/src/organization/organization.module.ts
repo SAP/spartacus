@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BudgetService } from './facade/budget.service';
 
-import { OrganizationStoreModule } from './store/organization.module';
+import { OrganizationStoreModule } from './store/organization-store.module';
 
 @NgModule({
   imports: [OrganizationStoreModule],

@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { Budget } from '../../../model/budget.model';
+import { BudgetSearchConfig } from '../../model/search-config';
 
 export abstract class BudgetAdapter {
   /**
@@ -14,19 +15,10 @@ export abstract class BudgetAdapter {
 
   abstract loadMany(
     userId: string,
-    pageSize: number,
-    currentPage: number,
-    sort: string,
-    fields: string
+    params?: BudgetSearchConfig
   ): Observable<Budget[]>;
 
-  abstract post(
-    userId: string,
-    budget: Budget
-  ): Observable<Budget>;
+  abstract create(userId: string, budget: Budget): Observable<Budget>;
 
-  abstract patch(
-    userId: string,
-    budget: Budget
-  ): Observable<Budget>;
+  abstract update(userId: string, budget: Budget): Observable<Budget>;
 }

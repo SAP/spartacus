@@ -2,7 +2,7 @@ import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader
 import { Budget } from '../../model/budget.model';
 
 export const ORGANIZATION_FEATURE = 'organization';
-export const BUDGETS_FEATURE = 'budgetManagment';
+export const BUDGET_FEATURE = 'budget';
 
 export const LOAD_BUDGETS_PROCESS_ID = 'budgets';
 
@@ -11,6 +11,6 @@ export interface StateWithOrganization {
 }
 
 export interface OrganizationState {
-  [BUDGETS_FEATURE]: EntityLoaderState<Budget>;
+  [BUDGET_FEATURE]: EntityLoaderState<Budget>;
 }
 

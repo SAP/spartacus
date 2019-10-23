@@ -15,7 +15,7 @@ import {
 import { BudgetActions } from '../store/actions/index';
 import {
   getBudgetsState,
-  getBudgetValueState,
+  // getBudgetValueState,
   getBudgetState,
 } from '../store/selectors/budget.selector';
 
@@ -28,39 +28,41 @@ export class BudgetService {
     protected authService: AuthService
   ) {}
 
-  loadBudget(budgetCode: string) {
+  private loadBudget(budgetCode: string) {
     this.user$
       .pipe(take(1))
-      .subscribe(uid =>
-        this.store.dispatch(new BudgetActions.LoadBudget({ uid, budgetCode }))
+      .subscribe(userId =>
+        this.store.dispatch(
+          new BudgetActions.LoadBudget({ userId, budgetCode })
+        )
       );
   }
 
-  loadBudgets() {
+  private loadBudgets() {
     this.user$
       .pipe(take(1))
-      .subscribe(uid =>
-        this.store.dispatch(new BudgetActions.LoadBudgets(uid))
+      .subscribe(userId =>
+        this.store.dispatch(new BudgetActions.LoadBudgets({userId}))
       );
   }
 
-  getBudgetsProcess() {
+  private getBudgetsProcess() {
     return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
   }
 
-  getBudgetValue(budgetCode: string) {
-    return this.store.select(getBudgetValueState(budgetCode));
-  }
+  // private getBudgetValue(budgetCode: string) {
+  //   return this.store.select(getBudgetValueState(budgetCode));
+  // }
 
-  getBudgetState(budgetCode: string) {
+  private getBudgetState(budgetCode: string) {
     return this.store.select(getBudgetState(budgetCode));
   }
 
-  getBudgets() {
+  private getBudgets() {
     return this.store.select(getBudgetsState);
   }
 
-  loadAndGetBudgets() {
+  getList() {
     return combineLatest([this.getBudgetsProcess(), this.getBudgets()]).pipe(
       debounceTime(0),
       filter(
@@ -81,7 +83,7 @@ export class BudgetService {
     );
   }
 
-  loadAndGetBudget(budgetCode: string) {
+  get(budgetCode: string) {
     return this.getBudgetState(budgetCode).pipe(
       filter(state => state && !state.loading),
       tap(state => {
@@ -95,19 +97,19 @@ export class BudgetService {
     );
   }
 
-  createBudget(budget: Budget) {
+  create(budget: Budget) {
     this.user$
       .pipe(take(1))
-      .subscribe(uid =>
-        this.store.dispatch(new BudgetActions.CreateBudget({ uid, budget }))
+      .subscribe(userId =>
+        this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
       );
   }
 
-  updateBudget(budget: Budget) {
+  update(budget: Budget) {
     this.user$
       .pipe(take(1))
-      .subscribe(uid =>
-        this.store.dispatch(new BudgetActions.UpdateBudget({ uid, budget }))
+      .subscribe(userId =>
+        this.store.dispatch(new BudgetActions.UpdateBudget({ userId, budget }))
       );
   }
 }

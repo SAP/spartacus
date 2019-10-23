@@ -16,8 +16,8 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGET),
     map((action: BudgetActions.LoadBudget) => action.payload),
-    switchMap(({ uid, budgetCode }) => {
-      return this.budgetConnector.get(uid, budgetCode).pipe(
+    switchMap(({ userId, budgetCode }) => {
+      return this.budgetConnector.get(userId, budgetCode).pipe(
         map((budget: Budget) => {
           return new BudgetActions.LoadBudgetSuccess([budget]);
         }),
@@ -36,17 +36,18 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
-    switchMap(userId =>
-      // TODO: support this.budgetConnector.getMany(userId, pageSize, currentPage, sort).pipe(
-      this.budgetConnector.getMany(userId).pipe(
-        mergeMap((budgets: Budget[]) => [
-          new BudgetActions.LoadBudgetsSuccess(),
-          new BudgetActions.LoadBudgetSuccess(budgets),
-        ]),
-        catchError(error =>
-          of(new BudgetActions.LoadBudgetsFail(makeErrorSerializable(error)))
+    switchMap(({ userId, pageSize, currentPage, sort }) =>
+      this.budgetConnector
+        .getMany(userId, { pageSize, currentPage, sort })
+        .pipe(
+          mergeMap((budgets: Budget[]) => [
+            new BudgetActions.LoadBudgetsSuccess(),
+            new BudgetActions.LoadBudgetSuccess(budgets),
+          ]),
+          catchError(error =>
+            of(new BudgetActions.LoadBudgetsFail(makeErrorSerializable(error)))
+          )
         )
-      )
     )
   );
 
@@ -57,7 +58,7 @@ export class BudgetEffects {
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
     switchMap(payload =>
-      this.budgetConnector.post(payload.uid, payload.budget).pipe(
+      this.budgetConnector.create(payload.userId, payload.budget).pipe(
         map(data => new BudgetActions.CreateBudgetSuccess(data)),
         catchError(error =>
           of(new BudgetActions.CreateBudgetFail(makeErrorSerializable(error)))
@@ -73,7 +74,7 @@ export class BudgetEffects {
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
     switchMap(payload =>
-      this.budgetConnector.patch(payload.uid, payload.budget).pipe(
+      this.budgetConnector.update(payload.userId, payload.budget).pipe(
         map(data => new BudgetActions.UpdateBudgetSuccess(data)),
         catchError(error =>
           of(new BudgetActions.UpdateBudgetFail(makeErrorSerializable(error)))

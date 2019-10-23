@@ -29,6 +29,88 @@ export class BreadcrumbComponent implements OnInit {
     this.setCrumbs();
   }
 
+  // loadBudgets() {
+  //   this.budgetService.loadBudgets();
+  // }
+
+  loadAndGetBudgets() {
+    this.budgetService
+      .getList()
+      .pipe(take(5))
+      .subscribe(console.log);
+  }
+  // loadBudget(code) {
+  //   this.budgetService.loadBudget(code);
+  // }
+  // getBudgets() {
+  //   this.budgetService
+  //     .getBudgets()
+  //     .pipe(take(1))
+  //     .subscribe(console.log);
+  // }
+  // getBudgetValue(code) {
+  //   this.budgetService
+  //     .getBudgetValue(code)
+  //     .pipe(take(1))
+  //     .subscribe(console.log);
+  // }
+  // getBudget(code) {
+  //   this.budgetService
+  //     .getBudgetState(code)
+  //     .pipe(take(1))
+  //     .subscribe(console.log);
+  // }
+  loadAndGetBudget(code) {
+    this.budgetService
+      .get(code)
+      .pipe(take(1))
+      .subscribe(console.log);
+  }
+  createBudget() {
+    const code = 'r' + Date.now() + Math.floor(Math.random() * 100);
+    const budget: Budget = {
+      active: false,
+      budget: 40000.55,
+      code: code,
+      currency: {
+        active: true,
+        isocode: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+      endDate: '2020-12-31T09:00:00+0000',
+      name: code,
+      orgUnit: {
+        name: 'Rustic',
+        uid: 'Rustic',
+      },
+      startDate: '2020-01-01T09:00:00+0000',
+    };
+    this.budgetService.create(budget);
+  }
+
+  updateBudget() {
+    const budget: Budget = {
+      active: false,
+      budget: 40033.55,
+      code: 'r157115880455542',
+      currency: {
+        active: true,
+        isocode: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+      endDate: '2020-12-31T09:00:00+0000',
+      name: 'Money money money',
+      orgUnit: {
+        name: 'Rustic',
+        uid: 'Rustic',
+      },
+      startDate: '2020-01-01T09:00:00+0000',
+    };
+    this.budgetService.update(budget);
+  }
+
   private setTitle(): void {
     this.title$ = this.pageMetaService.getMeta().pipe(
       filter(Boolean),

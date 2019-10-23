@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Budget } from '../../../model/budget.model';
 import { BudgetAdapter } from './budget.adapter';
+import { BudgetSearchConfig } from '../../model/search-config';
 
 @Injectable({
   providedIn: 'root',
@@ -15,28 +16,16 @@ export class BudgetConnector {
 
   getMany(
     userId: string,
-    pageSize?: number,
-    currentPage?: number,
-    sort?: string,
-    fields?: string
+    params?: BudgetSearchConfig
   ): Observable<Budget[]> {
-    return this.adapter.loadMany(
-      userId,
-      pageSize,
-      currentPage,
-      sort,
-      fields
-    );
+    return this.adapter.loadMany(userId, params);
   }
 
-  post(userId: string, budget: Budget): Observable<Budget> {
-    return this.adapter.post(userId, budget);
+  create(userId: string, budget: Budget): Observable<Budget> {
+    return this.adapter.create(userId, budget);
   }
 
-  patch(
-    userId: string,
-    budget: Budget
-  ): Observable<Budget> {
-    return this.adapter.patch(userId, budget);
-  };
+  update(userId: string, budget: Budget): Observable<Budget> {
+    return this.adapter.update(userId, budget);
+  }
 }

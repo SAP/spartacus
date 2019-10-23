@@ -7,6 +7,7 @@ import { ConverterService } from '../../../util/converter.service';
 import { BUDGET_NORMALIZER } from '../../../organization/connectors/budget/converters';
 import { Budget } from '../../../model/budget.model';
 import { pluck } from 'rxjs/operators';
+import { BudgetSearchConfig } from '../../../organization/model/search-config';
 
 @Injectable()
 export class OccBudgetAdapter implements BudgetAdapter {
@@ -24,14 +25,11 @@ export class OccBudgetAdapter implements BudgetAdapter {
 
   loadMany(
     userId: string,
-    pageSize: number,
-    currentPage: number,
-    sort: string,
-    fields: string
+    params?: BudgetSearchConfig
   ): Observable<Budget[]> {
     return this.http
       .get(
-        this.getBudgetsEndpoint(userId, { pageSize, currentPage, sort, fields })
+        this.getBudgetsEndpoint(userId, params)
       )
       .pipe(
         pluck('budgets'),
@@ -39,13 +37,13 @@ export class OccBudgetAdapter implements BudgetAdapter {
       );
   }
 
-  post(userId: string, budget: Budget): Observable<Budget> {
+  create(userId: string, budget: Budget): Observable<Budget> {
     return this.http
       .post<Budget>(this.getBudgetsEndpoint(userId), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  patch(userId: string, budget: Budget): Observable<Budget> {
+  update(userId: string, budget: Budget): Observable<Budget> {
     return this.http
       .patch<Budget>(this.getBudgetEndpoint(userId, budget.code), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
