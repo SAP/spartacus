@@ -18,6 +18,9 @@ export const headerCartButton = `${header} cx-mini-cart .count`;
 export const itemCounter = 'cx-item-counter';
 export const itemCounterButtons = `${itemCounter} button`;
 export const breadcrumbContainer = 'cx-breadcrumb';
+export const variantSelectorContainer = '.variant-selector';
+export const variantStyleList = `${variantSelectorContainer} ul.variant-list`;
+
 
 export const PRODUCT_NAME = 'Battery Video Light';
 
@@ -134,4 +137,34 @@ export function verifyQuantityInCart() {
     .click();
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
+}
+
+export function selectProductStyleVariant() {
+  cy.get(`${variantStyleList} li a.colorVariant`)
+    .first()
+    .click();
+
+  cy.get(`${variantStyleList} li.selected-variant`)
+    .should('exist');
+}
+
+export function selectProductSizeVariant() {
+  cy.get(`${variantStyleList} li a.colorVariant`)
+    .first()
+    .click();
+
+  cy.get('.variant-selector select').select('M');
+
+  cy.get('cx-add-to-cart .quantity .info').should('contain', 'In stock');
+  cy.get('cx-add-to-cart > button').should('exist').and('be.visible');
+}
+
+export function selectProductSizeVariantWithoutStock() {
+  cy.get(`${variantStyleList} li a.colorVariant`)
+    .first()
+    .click();
+
+  cy.get('.variant-selector select').select('L');
+
+  cy.get('cx-add-to-cart .quantity .info').should('contain', 'Out of stock');
 }

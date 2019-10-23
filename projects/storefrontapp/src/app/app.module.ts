@@ -44,7 +44,7 @@ if (!environment.production) {
         baseSite: [
           'apparel-uk-spa',
         ],
-        currency: ['GBP'],
+        currency: ['GBP']
       },
 
       // custom routing configuration for e2e testing
