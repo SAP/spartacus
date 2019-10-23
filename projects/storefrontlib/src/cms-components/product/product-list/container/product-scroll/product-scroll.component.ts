@@ -202,8 +202,8 @@ export class ProductScrollComponent implements AfterViewChecked {
       this.productListComponentService.autoScrollPosition[1] !== 0
     ) {
       // 1. no scroll done then do the scroll.
-      // 2. even the scroll done, but we want another scroll if there is a view change during 300ms.
-      if (!this.doneAutoScroll || Date.now() - this.lastScrollTime < 300) {
+      // 2. even the scroll done, but we want another scroll if there is a view change during 1000ms.
+      if (!this.doneAutoScroll || Date.now() - this.lastScrollTime < 1000) {
         this.viewportScroller.scrollToPosition(
           this.productListComponentService.autoScrollPosition
         );
