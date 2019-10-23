@@ -184,6 +184,8 @@ export class ActiveCartService {
   ): void {
     let createInitialized = false;
     let attemptedLoad = false;
+    // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
+    // That's why add entry process was used instead of relying on loading flag from entity
     this.multiCartService.initAddEntryProcess();
     this.entriesToAdd.push({ productCode, quantity });
     if (!this.addEntrySub) {
@@ -195,7 +197,6 @@ export class ActiveCartService {
               (this.isEmpty(cartState.value) && !cartState.loading) ||
               (guestMerge && this.isGuestCart() && !cartState.loading)
             ) {
-              // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
               if (!attemptedLoad && this.userId !== OCC_USER_ID_ANONYMOUS) {
                 this.load(undefined);
                 attemptedLoad = true;

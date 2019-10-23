@@ -52,7 +52,13 @@ export class CartAddEntryFail extends StateLoaderActions.LoaderFailAction {
 
 export class CartAddEntries implements Action {
   readonly type = CART_ADD_ENTRIES;
-  constructor(public payload: any) {}
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      products: Array<{ productCode: string; quantity: number }>;
+    }
+  ) {}
 }
 
 export class CartAddEntriesSuccess implements Action {

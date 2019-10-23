@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { Observable, of, from } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
@@ -42,8 +42,9 @@ export class CartEntryEffects {
   @Effect()
   addEntries$: Observable<
     | CartActions.CartAddEntriesSuccess
+    | CartActions.CartAddEntriesFail
+    | CartActions.CartFailAddEntriesProcess
     | CartActions.LoadCart
-    | CartActions.CartSuccessAddEntriesProcess
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRIES),
     map((action: CartActions.CartAddEntries) => action.payload),
@@ -66,7 +67,6 @@ export class CartEntryEffects {
         return of({});
       };
       return addEntry(payload.products, payload.userId, payload.cartId).pipe(
-        tap(result => console.log(result)),
         mergeMap(() => {
           return [
             new CartActions.CartAddEntriesSuccess({}),
@@ -78,7 +78,13 @@ export class CartEntryEffects {
               },
             }),
           ];
-        })
+        }),
+        catchError(error =>
+          from([
+            new CartActions.CartAddEntriesFail(makeErrorSerializable(error)),
+            new CartActions.CartFailAddEntriesProcess(),
+          ])
+        )
       );
     })
   );

@@ -1,6 +1,10 @@
-import { StateLoaderActions } from '../../../state/utils/index';
-import { CART_DATA } from '../cart-state';
+import {
+  StateLoaderActions,
+  StateEntityLoaderActions,
+} from '../../../state/utils/index';
+import { CART_DATA, ADD_ENTRY_PROCESS_ID } from '../cart-state';
 import { CartActions } from './index';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 
 const userId = 'xxx@xxx.xxx';
 const cartId = 'testCartId';
@@ -127,6 +131,89 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_UPDATE_ENTRY_SUCCESS,
           payload: {},
           meta: StateLoaderActions.successMeta(CART_DATA),
+        });
+      });
+    });
+  });
+
+  describe('AddCartEntries Actions', () => {
+    describe('CartAddEntries', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId: userId,
+          cartId: cartId,
+          products: [{ productCode, quantity: 1 }],
+        };
+        const action = new CartActions.CartAddEntries(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.CART_ADD_ENTRIES,
+          payload,
+        });
+      });
+    });
+
+    describe('CartAddEntriesFail', () => {
+      it('should create the action', () => {
+        const payload = {
+          error: 'error',
+        };
+        const action = new CartActions.CartAddEntriesFail(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.CART_ADD_ENTRIES_FAIL,
+          payload,
+        });
+      });
+    });
+
+    describe('CartAddEntriesSuccess', () => {
+      it('should create the action', () => {
+        const payload = {};
+        const action = new CartActions.CartAddEntriesSuccess(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.CART_ADD_ENTRIES_SUCCESS,
+          payload,
+        });
+      });
+    });
+  });
+
+  describe('AddEntriesProcess Actions', () => {
+    describe('CartStartAddEntriesProcess', () => {
+      it('should create the action', () => {
+        const action = new CartActions.CartStartAddEntriesProcess();
+        expect({ ...action }).toEqual({
+          type: CartActions.CART_START_ADD_ENTRIES_PROCESS,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            PROCESS_FEATURE,
+            ADD_ENTRY_PROCESS_ID
+          ),
+        });
+      });
+    });
+
+    describe('CartSuccessAddEntriesProcess', () => {
+      it('should create the action', () => {
+        const action = new CartActions.CartSuccessAddEntriesProcess();
+        expect({ ...action }).toEqual({
+          type: CartActions.CART_SUCCESS_ADD_ENTRIES_PROCESS,
+          payload: undefined,
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            PROCESS_FEATURE,
+            ADD_ENTRY_PROCESS_ID
+          ),
+        });
+      });
+    });
+
+    describe('CartFailAddEntriesProcess', () => {
+      it('should create the action', () => {
+        const action = new CartActions.CartFailAddEntriesProcess();
+        expect({ ...action }).toEqual({
+          type: CartActions.CART_FAIL_ADD_ENTRIES_PROCESS,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            PROCESS_FEATURE,
+            ADD_ENTRY_PROCESS_ID
+          ),
         });
       });
     });
