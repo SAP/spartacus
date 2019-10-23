@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ANONYMOUS_CONSENTS_FEATURE } from '@spartacus/core';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalService } from '../../../shared/index';
 
@@ -7,6 +8,8 @@ import { ModalService } from '../../../shared/index';
   templateUrl: './anonymous-consent-open-dialog.component.html',
 })
 export class AnonymousConsentOpenDialogComponent {
+  anonymousConsentsFeature = ANONYMOUS_CONSENTS_FEATURE;
+
   constructor(protected modalService: ModalService) {}
 
   openDialog(): void {
