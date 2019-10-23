@@ -1,0 +1,23 @@
+<!--
+<div
+  *ngIf="node?.children.length > 1"
+  class="back is-open"
+  (click)="back()"
+>
+  <h5>
+    <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+    {{ 'common.back' | cxTranslate }}
+  </h5>
+</div>
+-->
+<nav>
+  <ul class="cx-config-menu">
+    <ng-container *ngIf="configuration$ | async as configuration">
+      <ng-container *ngFor="let group of configuration.groups">
+        <li class="cx-config-menu-item">
+          <a (click)="click(group)" role="link">{{ group.description }}</a>
+        </li>
+      </ng-container>
+    </ng-container>
+  </ul>
+</nav>

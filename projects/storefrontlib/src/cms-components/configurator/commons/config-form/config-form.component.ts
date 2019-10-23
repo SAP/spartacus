@@ -84,30 +84,32 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
         groups: changedGroup,
       };
 
-      this.configuration$ = this.configuratorCommonsService.updateConfiguration(
-        changedConfiguration
-      );
+      this.configuratorCommonsService.updateConfiguration(changedConfiguration);
     });
   }
 
   navigateToNextGroup() {
-    this.currentGroup$ = this.configuratorGroupsService.getNextGroup(
-      this.productCode
-    );
-    this.currentGroup$.pipe(take(1)).subscribe(groupId => {
-      this.configuratorGroupsService.setCurrentGroup(this.productCode, groupId);
-      // TODO: Add call to configurator service to get configuration for next group
-    });
+    this.configuratorGroupsService
+      .getNextGroup(this.productCode)
+      .pipe(take(1))
+      .subscribe(groupId => {
+        this.configuratorGroupsService.setCurrentGroup(
+          this.productCode,
+          groupId
+        );
+      });
   }
 
   navigateToPreviousGroup() {
-    this.currentGroup$ = this.configuratorGroupsService.getPreviousGroup(
-      this.productCode
-    );
-    this.currentGroup$.pipe(take(1)).subscribe(groupId => {
-      this.configuratorGroupsService.setCurrentGroup(this.productCode, groupId);
-    });
-    // TODO: Add call to configurator service to get configuration for next group
+    this.configuratorGroupsService
+      .getPreviousGroup(this.productCode)
+      .pipe(take(1))
+      .subscribe(groupId => {
+        this.configuratorGroupsService.setCurrentGroup(
+          this.productCode,
+          groupId
+        );
+      });
   }
 
   isFirstGroup(): Observable<Boolean> {

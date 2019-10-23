@@ -1,0 +1,34 @@
+%cx-config-group-menu {
+  .cx-config-menu {
+    list-style-type: none;
+    padding: 0;
+    background-color: #ffffff;
+
+    @include media-breakpoint-down(md) {
+      background-color: var(--cx-color-background);
+    }
+
+    .cx-config-menu-item {
+      line-height: var(--cx-line-height, 1.6);
+      padding: 10px;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
+      color: var(--cx-color-text);
+      margin: 0 25px 0 0;
+
+      @include media-breakpoint-down(md) {
+        margin: 0 0 0 0;
+      }
+
+      a {
+        display: block;
+
+        &:hover {
+          cursor: pointer;
+          color: var(--cx-color-primary);
+        }
+      }
+    }
+  }
+}
