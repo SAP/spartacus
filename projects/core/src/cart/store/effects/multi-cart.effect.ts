@@ -36,13 +36,11 @@ export class MultiCartEffects {
 
   // TODO: remove when removing cart store module
   @Effect()
-  mergeCart2$: Observable<
-    CartActions.MergeWithCurrentCart
-  > = this.actions$.pipe(
+  mergeCart2$: Observable<CartActions.MergeMultiCart> = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map(
       (action: CartActions.MergeCart) =>
-        new CartActions.MergeWithCurrentCart(action.payload)
+        new CartActions.MergeMultiCart(action.payload)
     )
   );
 

@@ -91,7 +91,7 @@ export class LoadMultiCartSuccess extends EntitySuccessAction {
   }
 }
 
-export class MergeWithCurrentCart implements Action {
+export class MergeMultiCart implements Action {
   readonly type = MERGE_MULTI_CART;
   constructor(public payload: any) {}
 }
@@ -159,7 +159,7 @@ export type MultiCartActions =
   | LoadMultiCart
   | LoadMultiCartFail
   | LoadMultiCartSuccess
-  | MergeWithCurrentCart
+  | MergeMultiCart
   | MergeMultiCartSuccess
   | ResetMultiCartDetails
   | SetCartLoading
