@@ -11,7 +11,10 @@ export const initialState: CartState = {
 
 export function reducer(
   state = initialState,
-  action: CartActions.CartAction | CartActions.CartEntryAction
+  action:
+    | CartActions.CartAction
+    | CartActions.CartEntryAction
+    | CartActions.CartVoucherAction
 ): CartState {
   switch (action.type) {
     case CartActions.MERGE_CART: {
@@ -67,6 +70,8 @@ export function reducer(
       };
     }
 
+    case CartActions.CART_ADD_VOUCHER_SUCCESS:
+    case CartActions.CART_REMOVE_VOUCHER_SUCCESS:
     case CartActions.CART_REMOVE_ENTRY_SUCCESS:
     case CartActions.CART_UPDATE_ENTRY_SUCCESS:
     case CartActions.CART_ADD_ENTRY_SUCCESS:

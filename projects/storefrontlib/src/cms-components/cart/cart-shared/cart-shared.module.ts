@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { ItemCounterModule, MediaModule } from '../../../shared/index';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
+import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
@@ -14,6 +15,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
   imports: [
     CommonModule,
     RouterModule,
+    CartCouponModule,
     ReactiveFormsModule,
     UrlModule,
     NgbModule,

@@ -23,7 +23,7 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
   function createCart() {
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics/users/current/carts`,
+      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts`,
       body: {
         fields: 'DEFAULT',
       },
@@ -37,7 +37,7 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
   function addToCart(cartCode: any, productData: any) {
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics/users/current/carts/${cartCode}/entries`,
+      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/${cartCode}/entries`,
       body: {
         code: productData.code,
         qty: 1,

@@ -27,4 +27,16 @@
   .cx-summary-total {
     font-weight: var(--cx-font-weight-bold);
   }
+  .cx-coupon-code-pill {
+    background: var(--cx-g-color-light);
+    padding: 7px 15px 7px 13px;
+    margin: 10px 10px 5px 0;
+    display: inline-flex;
+    align-items: flex-start;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+  .cx-coupon-code--pill-value {
+    line-height: 1.7;
+  }
 }

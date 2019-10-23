@@ -73,6 +73,7 @@ describe('Cart reducer', () => {
           currencyIso: 'USD',
           value: 0,
         },
+        appliedVouchers: [{ code: 'testVoucherId' }],
       };
 
       const { initialState } = fromCart;
@@ -105,6 +106,19 @@ describe('Cart reducer', () => {
       const { initialState } = fromCart;
 
       const action = new CartActions.CartAddEntrySuccess({});
+      const state = fromCart.reducer(initialState, action);
+      expect(state.refresh).toEqual(true);
+    });
+  });
+
+  describe('REMOVE_VOUCHER_SUCCESS or ADD_VOUCHER_SUCCESS action', () => {
+    it('should set refresh to true', () => {
+      const { initialState } = fromCart;
+
+      const action = new CartActions.CartAddVoucherSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+      });
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });

@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import {
-  UrlModule,
-  ConfigModule,
   CmsConfig,
+  ConfigModule,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
-import { CartTotalsComponent } from './cart-totals.component';
+import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
+import { CartTotalsComponent } from './cart-totals.component';
 
 @NgModule({
   imports: [
@@ -25,6 +25,7 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
     }),
     CartSharedModule,
     I18nModule,
+    CartCouponModule,
   ],
   declarations: [CartTotalsComponent],
   exports: [CartTotalsComponent],
