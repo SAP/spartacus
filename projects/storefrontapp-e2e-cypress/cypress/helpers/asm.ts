@@ -149,6 +149,35 @@ export function asmTests() {
         cy.get('cx-customer-selection').should('not.exist');
       });
 
+      it('should log in as an ASM agent, emulate customer and end the session with the end session button.', () => {
+        // should login as ASM agent
+        const authenticationRequestAlias = asm.listenForAuthenticationRequest();
+        cy.get('cx-csagent-login-form').should('exist');
+        cy.get('cx-customer-selection').should('not.exist');
+        cy.get('input[formcontrolname="userId"]').type('asagent');
+        cy.get('input[formcontrolname="password"]').type('123456');
+        cy.get('button[type="submit"]').click();
+
+        cy.wait(authenticationRequestAlias)
+          .its('status')
+          .should('eq', 200);
+
+        // should emulate a customer
+        cy.get('cx-csagent-login-form').should('not.exist');
+        cy.get('cx-customer-selection').should('exist');
+
+        cy.get('cx-customer-selection form input').type(customer.email);
+        cy.get('cx-customer-selection form button').click();
+
+        cy.get('cx-customer-selection').should('not.exist');
+        cy.get('div.cx-customer-emulation').should('exist');
+
+        // should end a user's session when clicking on the end session button
+        cy.get('div.cx-customer-emulation button').click();
+        cy.get('div.cx-customer-emulation').should('not.exist');
+        cy.get('cx-customer-selection').should('exist');
+      });
+
       it('agent should close the ASM UI.', () => {
         cy.get('a[title="Close ASM"]').click();
         cy.get('cx-asm-main-ui').should('not.exist');
@@ -207,35 +236,6 @@ export function asmTests() {
         cy.get('cx-asm').should('exist');
         cy.get('cx-asm-main-ui').should('exist');
         cy.get('cx-csagent-login-form').should('exist');
-      });
-
-      it('should log in as an ASM agent, emulate customer and end the session with the end session button.', () => {
-        // should login as ASM agent
-        const authenticationRequestAlias = asm.listenForAuthenticationRequest();
-        cy.get('cx-csagent-login-form').should('exist');
-        cy.get('cx-customer-selection').should('not.exist');
-        cy.get('input[formcontrolname="userId"]').type('asagent');
-        cy.get('input[formcontrolname="password"]').type('123456');
-        cy.get('button[type="submit"]').click();
-
-        cy.wait(authenticationRequestAlias)
-          .its('status')
-          .should('eq', 200);
-
-        // should emulate a customer
-        cy.get('cx-csagent-login-form').should('not.exist');
-        cy.get('cx-customer-selection').should('exist');
-
-        cy.get('cx-customer-selection form input').type(customer.email);
-        cy.get('cx-customer-selection form button').click();
-
-        cy.get('cx-customer-selection').should('not.exist');
-        cy.get('div.cx-customer-emulation').should('exist');
-
-        // should end a user's session when clicking on the end session button
-        cy.get('div.cx-customer-emulation button').click();
-        cy.get('div.cx-customer-emulation').should('not.exist');
-        cy.get('cx-customer-selection').should('exist');
       });
     });
   });
