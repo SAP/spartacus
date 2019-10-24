@@ -36,18 +36,16 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
-    switchMap(({ userId, pageSize, currentPage, sort }) =>
-      this.budgetConnector
-        .getMany(userId, { pageSize, currentPage, sort })
-        .pipe(
-          mergeMap((budgets: Budget[]) => [
-            new BudgetActions.LoadBudgetsSuccess(),
-            new BudgetActions.LoadBudgetSuccess(budgets),
-          ]),
-          catchError(error =>
-            of(new BudgetActions.LoadBudgetsFail(makeErrorSerializable(error)))
-          )
+    switchMap(payload =>
+      this.budgetConnector.getMany(payload.userId, payload.params).pipe(
+        mergeMap((budgets: Budget[]) => [
+          new BudgetActions.LoadBudgetsSuccess(),
+          new BudgetActions.LoadBudgetSuccess(budgets),
+        ]),
+        catchError(error =>
+          of(new BudgetActions.LoadBudgetsFail(makeErrorSerializable(error)))
         )
+      )
     )
   );
 
