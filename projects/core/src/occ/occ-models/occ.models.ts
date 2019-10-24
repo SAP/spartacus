@@ -3990,37 +3990,38 @@ export namespace Occ {
   export interface OrgUnit {
     uid?: string;
     name?: string;
-    addresses?: Address2[];
+    addresses?: OrgUnitAddress[];
   }
 
-  export interface Address2 {
-    cellphone: string;
-    companyName: string;
-    country: {
-      isocode: string;
-      name: string;
+  export interface OrgUnitAddress {
+    cellphone?: string;
+    companyName?: string;
+    country?: {
+      isocode?: string;
+      name?: string;
     };
-    defaultAddress: true;
-    district: string;
-    email: string;
-    firstName: string;
-    formattedAddress: string;
-    id: string;
-    lastName: string;
-    line1: string;
-    line2: string;
-    phone: string;
-    postalCode: string;
-    region: {
-      countryIso: string;
-      isocode: string;
-      isocodeShort: string;
-      name: string;
+    defaultAddress?: true;
+    district?: string;
+    email?: string;
+    firstName?: string;
+    formattedAddress?: string;
+    id?: string;
+    lastName?: string;
+    line1?: string;
+    line2?: string;
+    phone?: string;
+    postalCode?: string;
+    region?: {
+      countryIso?: string;
+      isocode?: string;
+      isocodeShort?: string;
+      name?: string;
     };
-    shippingAddress: true;
-    title: string;
-    titleCode: string;
-    town: string;
-    visibleInAddressBook: true;
+    shippingAddress?: true;
+    title?: string;
+    titleCode?: string;
+    town?: string;
+    visibleInAddressBook?: true;
   }
+
 }
