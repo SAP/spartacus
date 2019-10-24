@@ -35,8 +35,8 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-product-intro, cx-card, cx-forgot-password, cx-banner-carousel,
   cx-update-password, cx-tracking-events, cx-asm-main-ui, cx-customer-selection,
   cx-guest-register-form, cx-anonymous-consent-management-banner,
-  cx-anonymous-consents-dialog, cx-consent-management,
-  cx-stock-notification, cx-stock-notification-dialog, cx-my-interests !default;
+  cx-anonymous-consents-dialog, cx-consent-management, cx-stock-notification,
+  cx-stock-notification-dialog, cx-my-interests !default;
 
 // future theme's, can be introduced during minors
 $theme: '' !default;

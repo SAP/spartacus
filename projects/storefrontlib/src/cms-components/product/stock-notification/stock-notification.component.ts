@@ -56,7 +56,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       this.currentProductService.getProduct().pipe(filter(Boolean)),
       this.authService.getOccUserId(),
     ]).pipe(
-      map(([product, userId]: [Product, String]) => {
+      tap(([product, userId]: [Product, String]) => {
         this.productCode = product.code;
         if (userId !== OCC_USER_ID_ANONYMOUS) {
           this.anonymous = false;
@@ -69,10 +69,11 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
             NotificationType.BACK_IN_STOCK
           );
         }
-        return (
+      }),
+      map(
+        ([product]: [Product, String]) =>
           !!product.stock && product.stock.stockLevelStatus === 'outOfStock'
-        );
-      })
+      )
     );
 
     this.subscribed$ = this.interestsService
