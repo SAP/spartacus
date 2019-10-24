@@ -7,7 +7,8 @@
 See spartacus documentation below for prerequisties. Also see the files in ./.vscode for recommended settings and extensions
 
 ## Configure
-See the 'client_secret' in ./projects/storefrontapp/src/app/app.module.ts for the user 'mobile_android' 
+For connecting to EC: the 'client_secret' in ./projects/storefrontapp/src/app/app.module.ts for the user 'mobile_android' 
+For configuring Profiletag: edit the 'profiletag' section in ./projects/storefrontapp/src/app/app.module.ts
 
 ## Install
 yarn install
