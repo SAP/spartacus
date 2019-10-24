@@ -15,7 +15,6 @@ import {
   GlobalMessageService,
   TranslationService,
   GlobalMessageType,
-  ProductService,
 } from '@spartacus/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, filter, tap, first } from 'rxjs/operators';
@@ -49,8 +48,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     private translationService: TranslationService,
     private interestsService: UserInterestsService,
     private modalService: ModalService,
-    private notificationPrefService: UserNotificationPreferenceService,
-    private productService: ProductService
+    private notificationPrefService: UserNotificationPreferenceService
   ) {}
 
   ngOnInit() {
@@ -59,6 +57,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       this.authService.getOccUserId(),
     ]).pipe(
       map(([product, userId]: [Product, String]) => {
+        this.productCode = product.code;
         if (userId !== OCC_USER_ID_ANONYMOUS) {
           this.anonymous = false;
           this.notificationPrefService.loadPreferences();
@@ -147,7 +146,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   private onInterestAddingError() {
     this.modalService.dismissActiveModal();
     this.interestsService.resetAddInterestState();
-    this.productService.reload(this.productCode);
   }
 
   private openDialog() {
