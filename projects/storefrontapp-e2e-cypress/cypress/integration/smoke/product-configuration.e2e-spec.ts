@@ -1,5 +1,6 @@
 import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
+import { formats } from '../../sample-data/viewports';
 
 const testProduct: string = 'WCEM_DEPENDENCY_PC';
 const configurator: string = 'CPQCONFIGURATOR';
@@ -119,6 +120,28 @@ context('Product Configuration', () => {
       );
       configuration.clickOnGroup(1);
       configuration.verifyAttributeIsDisplayed('WCEM_DP_EXT_DD', 'radioGroup');
+    });
+
+    it('should navigate using the group menu in mobile resolution', () => {
+      cy.window().then(win => win.sessionStorage.clear());
+      cy.viewport(formats.mobile.width, formats.mobile.height);
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyGroupMenuIsNotDisplayed();
+      configuration.verifyHamburgerIsDisplayed();
+      configuration.verifyAttributeIsDisplayed(
+        'WCEM_DP_MONITOR_MNF',
+        'radioGroup'
+      );
+
+      configuration.clickHamburger();
+      configuration.verifyGroupMenuIsDisplayed();
+
+      configuration.clickOnGroup(2);
+      configuration.verifyAttributeIsDisplayed(
+        'WCEM_DP_SOUND_CARD',
+        'radioGroup'
+      );
     });
   });
 });

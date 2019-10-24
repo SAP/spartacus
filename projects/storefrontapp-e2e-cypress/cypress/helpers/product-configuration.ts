@@ -125,3 +125,11 @@ export function clickOnGroup(groupIndex: number) {
     .children('a')
     .click({ force: true });
 }
+
+export function clickHamburger() {
+  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
+}
+
+export function verifyHamburgerIsDisplayed() {
+  cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
+}
