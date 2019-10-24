@@ -19,7 +19,6 @@ export class ConfiguratorGroupsService {
           return this.configuratorCommonsService
             .getConfiguration(productCode)
             .pipe(
-              take(1),
               mergeMap(configuration => {
                 if (
                   configuration &&
@@ -60,7 +59,6 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService
           .getConfiguration(productCode)
           .pipe(
-            take(1),
             mergeMap(configuration => {
               let nextGroup = of(null);
               configuration.groups.forEach((group, index) => {
@@ -89,7 +87,6 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService
           .getConfiguration(productCode)
           .pipe(
-            take(1),
             mergeMap(configuration => {
               let nextGroup = of(null);
               configuration.groups.forEach((group, index) => {

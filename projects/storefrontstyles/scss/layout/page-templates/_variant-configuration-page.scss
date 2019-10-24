@@ -1,11 +1,24 @@
 %VariantConfigurationTemplate {
   max-width: 1140px;
-  padding: 2rem 1.5rem 0 1.5rem;
-  margin: auto;
+  padding: 2rem 0 2rem 0;
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
-  background-color: var(--cx-color-background);
+
+  @include media-breakpoint-down(md) {
+    background-color: var(--cx-color-background);
+  }
+
+  @include media-breakpoint-up(lg) {
+    cx-page-slot.VariantConfigMenu {
+      max-width: 25%;
+    }
+
+    cx-page-slot.VariantConfigContent {
+      max-width: 75%;
+    }
+  }
 }

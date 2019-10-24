@@ -12,7 +12,9 @@ import {
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
+import { PAGE_LAYOUT_HANDLER } from '../../../cms-structure/page/page-layout/page-layout-handler';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
+import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { ConfigAttributeFooterComponent } from '../commons/config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
@@ -20,9 +22,11 @@ import { ConfigAttributeInputFieldComponent } from '../commons/config-attribute-
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
+import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { ConfigImageComponent } from '../commons/config-image/config-image.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
+import { ConfiguratorPageLayoutHandler } from '../commons/configurator-page-layout-handler';
 import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
 
 @NgModule({
@@ -51,14 +55,28 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
           component: ConfigImageComponent,
           guards: [],
         },
+        VariantConfigurationMenu: {
+          component: ConfigGroupMenuComponent,
+          guards: [],
+        },
       },
       layoutSlots: {
         VariantConfigurationTemplate: {
-          slots: [
-            'VariantConfigTitle',
-            'VariantConfigHeader',
-            'VariantConfigContent',
-          ],
+          md: {
+            slots: [
+              'VariantConfigHeader',
+              'VariantConfigTitle',
+              'VariantConfigMenu',
+              'VariantConfigContent',
+            ],
+          },
+          xs: {
+            slots: [
+              'VariantConfigHeader',
+              'VariantConfigTitle',
+              'VariantConfigContent',
+            ],
+          },
         },
       },
     }),
@@ -67,6 +85,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ReactiveFormsModule,
     NgSelectModule,
     UrlModule,
+    HamburgerMenuModule,
     I18nModule,
     IconModule,
   ],
@@ -82,6 +101,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
+    ConfigGroupMenuComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -94,8 +114,16 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
+    ConfigGroupMenuComponent,
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    {
+      provide: PAGE_LAYOUT_HANDLER,
+      useClass: ConfiguratorPageLayoutHandler,
+      multi: true,
+    },
+  ],
   entryComponents: [
     ConfigFormComponent,
     ConfigTitleComponent,
@@ -107,6 +135,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
+    ConfigGroupMenuComponent,
   ],
 })
 export class VariantConfiguratorModule {}

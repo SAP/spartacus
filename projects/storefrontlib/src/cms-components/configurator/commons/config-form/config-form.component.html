@@ -1,29 +1,10 @@
-<ng-container *ngIf="currentGroup$ | async as currentGroup">
-  <div>{{ currentGroup }}</div>
-</ng-container>
-
 <ng-container *ngIf="configuration$ | async as configuration">
-  <div class="cx-total">
-    {{ 'configurator.header.configId' | cxTranslate }} :
-    {{ configuration.configId }}
-    <br />
-    {{ 'configurator.header.consistent' | cxTranslate }} :
-    {{ configuration.consistent }}
-    <br />
-    {{ 'configurator.header.complete' | cxTranslate }} :
-    {{ configuration.complete }}
-  </div>
-  <br />
   <ng-container *ngFor="let group of configuration.groups">
     <ng-container *ngIf="currentGroup$ | async as currentGroup">
       <div
         class="cx-item-list-row cx-config-group-attribute"
         *ngIf="currentGroup === group.id"
       >
-        <div class="cx-total">
-          {{ group.description }}
-        </div>
-        <br />
         <div
           class="cx-item-list-row cx-config-group-attribute"
           *ngFor="let attribute of group.attributes"
