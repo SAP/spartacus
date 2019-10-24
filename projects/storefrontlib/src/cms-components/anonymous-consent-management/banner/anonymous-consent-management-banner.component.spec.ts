@@ -8,7 +8,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
-import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
 
 class MockAnonymousConsentsService {
@@ -39,10 +38,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [
-        AnonymousConsentManagementBannerComponent,
-        MockFeatureDirective,
-      ],
+      declarations: [AnonymousConsentManagementBannerComponent],
       providers: [
         {
           provide: AnonymousConsentsService,
