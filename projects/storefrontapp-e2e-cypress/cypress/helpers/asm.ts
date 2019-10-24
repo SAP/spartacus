@@ -46,7 +46,7 @@ export function asmTests() {
         cy.get('cx-customer-selection').should('exist');
       });
       it('agent should start customer emulation.', () => {
-        const customerSearchRequestAlias = asm.listenForCusrtomerSearchRequest();
+        const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
         const userDetailsRequestAlias = asm.listenForUserDetailsRequest();
 
         cy.get('cx-csagent-login-form').should('not.exist');
@@ -200,6 +200,44 @@ export function asmTests() {
         checkout.signOutUser();
       });
     });
+
+    describe('End Session Button', () => {
+      it('should display the asm menu for an agent when ?asm=true is passed into the url', () => {
+        checkout.visitHomePage('asm=true');
+        cy.get('cx-asm').should('exist');
+        cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-csagent-login-form').should('exist');
+      });
+
+      it('should log in as an ASM agent, emulate customer and end the session with the end session button.', () => {
+        // should login as ASM agent
+        const authenticationRequestAlias = asm.listenForAuthenticationRequest();
+        cy.get('cx-csagent-login-form').should('exist');
+        cy.get('cx-customer-selection').should('not.exist');
+        cy.get('input[formcontrolname="userId"]').type('asagent');
+        cy.get('input[formcontrolname="password"]').type('123456');
+        cy.get('button[type="submit"]').click();
+
+        cy.wait(authenticationRequestAlias)
+          .its('status')
+          .should('eq', 200);
+
+        // should emulate a customer
+        cy.get('cx-csagent-login-form').should('not.exist');
+        cy.get('cx-customer-selection').should('exist');
+
+        cy.get('cx-customer-selection form input').type(customer.email);
+        cy.get('cx-customer-selection form button').click();
+
+        cy.get('cx-customer-selection').should('not.exist');
+        cy.get('div.cx-customer-emulation').should('exist');
+
+        // should end a user's session when clicking on the end session button
+        cy.get('div.cx-customer-emulation button').click();
+        cy.get('div.cx-customer-emulation').should('not.exist');
+        cy.get('cx-customer-selection').should('exist');
+      });
+    });
   });
 }
 
@@ -209,7 +247,7 @@ export function listenForAuthenticationRequest(): string {
   cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
   return `@${aliasName}`;
 }
-export function listenForCusrtomerSearchRequest(): string {
+export function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
   cy.server();
   cy.route(
