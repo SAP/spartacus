@@ -16,7 +16,7 @@ import {
   TranslationService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, filter, tap, first } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 import { ModalService } from '../../../shared';
@@ -52,45 +52,34 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.outOfStock$ = this.currentProductService.getProduct().pipe(
-      filter(Boolean),
-      tap((product: Product) => {
+    this.outOfStock$ = combineLatest([
+      this.currentProductService.getProduct().pipe(filter(Boolean)),
+      this.authService.getOccUserId(),
+    ]).pipe(
+      map(([product, userId]: [Product, String]) => {
         this.productCode = product.code;
-        this.subscribed$ = this.interestsService
-          .getProductInterests()
-          .pipe(
-            map(
-              interests => !!interests.results && interests.results.length === 1
-            )
+        if (userId !== OCC_USER_ID_ANONYMOUS) {
+          this.anonymous = false;
+          this.notificationPrefService.loadPreferences();
+          this.interestsService.loadProductInterests(
+            null,
+            null,
+            null,
+            product.code,
+            NotificationType.BACK_IN_STOCK
           );
-        this.subscriptions.add(
-          this.authService
-            .getOccUserId()
-            .pipe(
-              map(userId => userId === OCC_USER_ID_ANONYMOUS),
-              tap(anonymous => {
-                if (!anonymous) {
-                  this.anonymous = anonymous;
-                  this.notificationPrefService.loadPreferences();
-                  this.interestsService.loadProductInterests(
-                    null,
-                    null,
-                    null,
-                    product.code,
-                    NotificationType.BACK_IN_STOCK
-                  );
-                }
-              })
-            )
-            .subscribe()
-        );
-      }),
-      map(
-        (product: Product) =>
+        }
+        return (
           !!product.stock && product.stock.stockLevelStatus === 'outOfStock'
-      )
+        );
+      })
     );
 
+    this.subscribed$ = this.interestsService
+      .getProductInterests()
+      .pipe(
+        map(interests => !!interests.results && interests.results.length === 1)
+      );
     this.subscribeSuccess$ = this.interestsService.getAddProductInterestSuccess();
     this.unsubscribeLoading$ = this.interestsService.getRemoveProdutInterestLoading();
     this.prefsEnabled$ = this.notificationPrefService
