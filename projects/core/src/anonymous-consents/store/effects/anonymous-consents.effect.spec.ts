@@ -11,12 +11,18 @@ import {
   ConsentTemplate,
 } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
+import { DEFAULT_LOCAL_STORAGE_KEY } from '../../../state/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions';
+import { WindowRef } from '../../../window/index';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
 import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
+import {
+  AnonymousConsentsState,
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
+} from '../anonymous-consents-state';
 import * as fromEffect from './anonymous-consents.effect';
 
 class MockUserContentService {
@@ -120,13 +126,21 @@ const consentTemplateListMock: ConsentTemplate[] = [
   { id: 'yyy', version: 0 },
 ];
 
-describe('AnonymousConsentsEffects', () => {
+const mockWinRef = {
+  get nativeWindow(): Window {
+    return window;
+  },
+};
+
+fdescribe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
   let connector: MockAnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
   let authService: AuthService;
   let anonymousConsentService: AnonymousConsentsService;
   let userConsentService: UserConsentService;
+  let winRef: WindowRef;
+  console.log(winRef);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -152,6 +166,10 @@ describe('AnonymousConsentsEffects', () => {
           provide: UserConsentService,
           useClass: MockUserContentService,
         },
+        {
+          provide: WindowRef,
+          useValue: mockWinRef,
+        },
         provideMockActions(() => actions$),
       ],
     });
@@ -169,6 +187,7 @@ describe('AnonymousConsentsEffects', () => {
     userConsentService = TestBed.get(UserConsentService as Type<
       UserConsentService
     >);
+    winRef = TestBed.get(WindowRef as Type<WindowRef>);
   });
 
   describe('handleLogoutAndLanguageChange$', () => {
@@ -375,6 +394,41 @@ describe('AnonymousConsentsEffects', () => {
       const expected = cold('');
 
       expect(effect.giveRequiredConsentsToUser$).toBeObservable(expected);
+    });
+  });
+
+  describe('synchronizeBannerAcrossTabs$', () => {
+    it('should return AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility when StorageEvent is fired', done => {
+      effect.synchronizeBannerAcrossTabs$.subscribe(result => {
+        expect(result).toEqual(
+          new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+            true
+          )
+        );
+        done();
+      });
+
+      const newValueObject = {
+        [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
+          ui: {
+            bannerVisible: true,
+          },
+        } as AnonymousConsentsState,
+      };
+      const newValue = JSON.stringify(newValueObject);
+
+      const storageEventOld = new StorageEvent('storage', {
+        key: DEFAULT_LOCAL_STORAGE_KEY,
+        oldValue: newValue,
+      });
+      const storageEventNew = new StorageEvent('storage', {
+        key: DEFAULT_LOCAL_STORAGE_KEY,
+        oldValue: newValue,
+        newValue,
+      });
+
+      winRef.nativeWindow.dispatchEvent(storageEventOld);
+      winRef.nativeWindow.dispatchEvent(storageEventNew);
     });
   });
 });

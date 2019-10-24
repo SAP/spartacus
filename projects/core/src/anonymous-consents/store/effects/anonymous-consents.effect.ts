@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, fromEvent, iif, Observable, of } from 'rxjs';
 import {
   catchError,
   concatMap,
+  debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   mergeMap,
@@ -16,13 +18,19 @@ import {
   isFeatureEnabled,
 } from '../../../features-config/index';
 import { SiteContextActions } from '../../../site-context/index';
+import { DEFAULT_LOCAL_STORAGE_KEY } from '../../../state/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { WindowRef } from '../../../window/index';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
+import {
+  AnonymousConsentsState,
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
+} from '../anonymous-consents-state';
 
 @Injectable()
 export class AnonymousConsentsEffects {
@@ -214,12 +222,47 @@ export class AnonymousConsentsEffects {
     )
   );
 
+  @Effect()
+  synchronizeBannerAcrossTabs$: Observable<
+    AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility
+  > = iif(
+    () => Boolean(this.winRef.nativeWindow),
+    fromEvent<StorageEvent>(this.winRef.nativeWindow, 'storage').pipe(
+      filter(
+        storageEvent =>
+          storageEvent.key === DEFAULT_LOCAL_STORAGE_KEY &&
+          storageEvent.newValue !== null &&
+          storageEvent.oldValue !== null
+      ),
+      distinctUntilChanged(),
+      // Clicking on "Allow All" on the banner hides the banner, causing an infinite loop of firing events.
+      debounceTime(100),
+      map(storageEvent => {
+        const newState = JSON.parse(storageEvent.newValue);
+        const newUiFlag = (newState[
+          ANONYMOUS_CONSENTS_STORE_FEATURE
+        ] as AnonymousConsentsState).ui.bannerVisible;
+
+        return newUiFlag;
+      }),
+      distinctUntilChanged(),
+      map(
+        newUiFlag =>
+          new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+            newUiFlag
+          )
+      )
+    ),
+    EMPTY
+  );
+
   constructor(
     private actions$: Actions,
     private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService,
-    private userConsentService: UserConsentService
+    private userConsentService: UserConsentService,
+    private winRef: WindowRef
   ) {}
 }
