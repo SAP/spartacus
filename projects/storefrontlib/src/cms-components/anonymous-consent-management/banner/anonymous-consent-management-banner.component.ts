@@ -31,13 +31,11 @@ export class AnonymousConsentManagementBannerComponent
       .pipe(
         tap(updated => {
           if (updated) {
-            this.anonymousConsentsService.toggleAnonymousConsentsBannerVisibility(
-              true
-            );
+            this.anonymousConsentsService.toggleBannerVisibility(true);
           }
         })
       );
-    this.bannerVisible$ = this.anonymousConsentsService.isAnonymousConsentsBannerVisible();
+    this.bannerVisible$ = this.anonymousConsentsService.isBannerVisible();
   }
 
   viewDetails(): void {
@@ -58,9 +56,7 @@ export class AnonymousConsentManagementBannerComponent
   }
 
   hideBanner(): void {
-    this.anonymousConsentsService.toggleAnonymousConsentsBannerVisibility(
-      false
-    );
+    this.anonymousConsentsService.toggleBannerVisibility(false);
   }
 
   ngOnDestroy(): void {

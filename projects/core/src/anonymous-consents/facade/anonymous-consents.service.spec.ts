@@ -260,9 +260,9 @@ describe('AnonymousConsentsService', () => {
     });
   });
 
-  describe('toggleAnonymousConsentsBannerVisibility', () => {
+  describe('toggleBannerVisibility', () => {
     it('should just dispatch ToggleAnonymousConsentsBannerVisibility action when toggling off', () => {
-      service.toggleAnonymousConsentsBannerVisibility(false);
+      service.toggleBannerVisibility(false);
       expect(store.dispatch).toHaveBeenCalledWith(
         new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
           false
@@ -271,7 +271,7 @@ describe('AnonymousConsentsService', () => {
     });
     it('should dispatch ToggleAnonymousConsentsBannerVisibility action and call toggleTemplatesUpdated(false) when toggling on', () => {
       spyOn(service, 'toggleTemplatesUpdated').and.stub();
-      service.toggleAnonymousConsentsBannerVisibility(false);
+      service.toggleBannerVisibility(false);
       expect(store.dispatch).toHaveBeenCalledWith(
         new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
           false
@@ -281,7 +281,7 @@ describe('AnonymousConsentsService', () => {
     });
   });
 
-  it('isAnonymousConsentsBannerVisible should call getAnonymousConsentsBannerVisibility selector', () => {
+  it('isBannerVisible should call getAnonymousConsentsBannerVisibility selector', () => {
     store.dispatch(
       new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
         false
@@ -290,7 +290,7 @@ describe('AnonymousConsentsService', () => {
 
     let result = true;
     service
-      .isAnonymousConsentsBannerVisible()
+      .isBannerVisible()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
