@@ -5,7 +5,7 @@ import { register as authRegister } from '../auth-forms';
 import { user } from '../../sample-data/checkout-flow';
 
 export interface TabElement {
-  value?: string;
+  value?: string | any[];
   type: TabbingOrderTypes;
 }
 
@@ -112,8 +112,18 @@ export function checkElement(tabElement: TabElement) {
     case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
       cy.focused()
         .parent()
-        .contains(tabElement.value);
+        .should('contain', tabElement.value);
       break;
+    }
+    case TabbingOrderTypes.INDEX_OF_ELEMENT: {
+      const selector = tabElement.value[0];
+      const index = tabElement.value[1];
+
+      cy.focused().then(focusedElement => {
+        cy.get(selector)
+          .eq(index)
+          .should('match', focusedElement.get()[0]);
+      });
     }
   }
 }

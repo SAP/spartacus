@@ -20,7 +20,8 @@ export function productListTabbingOrderDesktop(
   cy.get('cx-breadcrumb').should('contain', 'Home');
   cy.get('cx-breadcrumb').should('contain', 'Brands');
 
-  cy.get('cx-product-list cx-sorting input')
+  cy.get('.cx-facet-header-link')
+    .contains('Stores')
     .first()
     .focus();
 
