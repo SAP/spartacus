@@ -9,6 +9,7 @@ import {
   filter,
   map,
   mergeMap,
+  switchMap,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -104,9 +105,7 @@ export class AnonymousConsentsEffects {
         isFeatureEnabled(
           this.anonymousConsentsConfig,
           ANONYMOUS_CONSENTS_FEATURE
-        ) &&
-        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-        Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
+        ) && Boolean(this.anonymousConsentsConfig.anonymousConsents)
     ),
     withLatestFrom(
       this.actions$.pipe(
@@ -116,7 +115,7 @@ export class AnonymousConsentsEffects {
       )
     ),
     filter(([, registerAction]) => Boolean(registerAction)),
-    concatMap(() =>
+    switchMap(() =>
       this.anonymousConsentService.getConsents().pipe(
         withLatestFrom(
           this.authService.getOccUserId(),
