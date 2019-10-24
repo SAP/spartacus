@@ -18,7 +18,7 @@
 <ng-template #disableNotify>
   <div class="stock-notification-notes">
     <label>
-      <ng-container *ngIf="anonymous$ | async; else loggedIn">
+      <ng-container *ngIf="anonymous; else loggedIn">
         <a [routerLink]="{ cxRoute: 'login' } | cxUrl">
           {{ 'miniLogin.signInRegister' | cxTranslate }}</a
         >
