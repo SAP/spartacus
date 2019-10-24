@@ -131,7 +131,9 @@ class MockAnonymousConsentsService {
   getTemplate(_templateCode: string): Observable<ConsentTemplate> {
     return of();
   }
+  withdrawConsent(_templateCode: string): void {}
   giveConsent(_templateCode: string): void {}
+  with(_templateCode: string): void {}
   isConsentGiven(_consent: AnonymousConsent): boolean {
     return true;
   }
