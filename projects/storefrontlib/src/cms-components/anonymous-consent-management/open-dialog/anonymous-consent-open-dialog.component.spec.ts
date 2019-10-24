@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
 
 class MockModalService {
@@ -19,7 +20,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [AnonymousConsentOpenDialogComponent],
+      declarations: [AnonymousConsentOpenDialogComponent, MockFeatureDirective],
       providers: [
         {
           provide: ModalService,
