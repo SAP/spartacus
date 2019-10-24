@@ -257,6 +257,13 @@ export interface OccEndpoints {
    * @member {string}
    */
   createConfiguration?: string;
+
+  /**
+   * Endpoint for create configuration for the textfield configurator
+   *
+   * @member {string}
+   */
+  createConfigurationTextfield?: string;
   /**
    * Endpoint to read configuration
    *

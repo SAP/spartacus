@@ -5,6 +5,7 @@ import { AsmOccModule } from './adapters/asm/asm-occ.module';
 import { CartOccModule } from './adapters/cart/cart-occ.module';
 import { CheckoutOccModule } from './adapters/checkout/checkout-occ.module';
 import { CmsOccModule } from './adapters/cms/cms-occ.module';
+import { ConfiguratorTextfieldOccModule } from './adapters/configurator/textfield/configurator-textfield-occ.module';
 import { ConfiguratorVariantOccModule } from './adapters/configurator/variant/configurator-variant-occ.module';
 import { ProductOccModule } from './adapters/product/product-occ.module';
 import { SiteContextOccModule } from './adapters/site-context/site-context-occ.module';
@@ -25,6 +26,7 @@ import { occConfigValidator } from './config/occ-config-validator';
     StoreFinderOccModule,
     UserOccModule,
     ConfiguratorVariantOccModule,
+    ConfiguratorTextfieldOccModule,
   ],
 })
 export class OccModule {
