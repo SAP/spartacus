@@ -18,7 +18,6 @@ import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/h
   templateUrl: './config-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class ConfigGroupMenuComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
   productCode: string;
