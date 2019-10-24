@@ -48,8 +48,9 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
             tap(event => {
               if (event instanceof HttpResponse) {
                 this.handleResponse(
+                  isUserLoggedIn,
                   event.headers.get(ANONYMOUS_CONSENTS_HEADER),
-                  isUserLoggedIn
+                  consents
                 );
               }
             })
@@ -60,10 +61,19 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     );
   }
 
-  private handleResponse(rawConsents: string, isUserLoggedIn: boolean): void {
-    if (rawConsents && !isUserLoggedIn) {
-      const consents = this.decodeAndDeserialize(rawConsents);
-      this.giveRequiredConsents(consents);
+  private handleResponse(
+    isUserLoggedIn: boolean,
+    newRawConsents: string,
+    previousConsents: AnonymousConsent[]
+  ): void {
+    if (!isUserLoggedIn && newRawConsents) {
+      let newConsents: AnonymousConsent[] = [];
+      newConsents = this.decodeAndDeserialize(newRawConsents);
+      newConsents = this.giveRequiredConsents(newConsents);
+
+      if (this.consentsUpdated(newConsents, previousConsents)) {
+        this.anonymousConsentsService.setConsents(newConsents);
+      }
     }
   }
 
@@ -102,12 +112,16 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     return url.includes(this.occEndpoints.getBaseEndpoint());
   }
 
-  private giveRequiredConsents(consents: AnonymousConsent[]): void {
+  private giveRequiredConsents(
+    consents: AnonymousConsent[]
+  ): AnonymousConsent[] {
+    const givenConsents = [...consents];
+
     if (
       Boolean(this.config.anonymousConsents) &&
       Boolean(this.config.anonymousConsents.requiredConsents)
     ) {
-      for (const consent of consents) {
+      for (const consent of givenConsents) {
         if (
           this.config.anonymousConsents.requiredConsents.includes(
             consent.templateCode
@@ -117,7 +131,15 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
         }
       }
     }
+    return givenConsents;
+  }
 
-    this.anonymousConsentsService.setConsents(consents);
+  private consentsUpdated(
+    newConsents: AnonymousConsent[],
+    previousConsents: AnonymousConsent[]
+  ): boolean {
+    const newRawConsents = this.serializeAndEncode(newConsents);
+    const previousRawConsents = this.serializeAndEncode(previousConsents);
+    return newRawConsents !== previousRawConsents;
   }
 }

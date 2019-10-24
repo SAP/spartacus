@@ -100,6 +100,12 @@ describe('AnonymousConsentsInterceptor', () => {
   });
 
   const serializeAndEncodeMethod = 'serializeAndEncode';
+  const handleRequestMethod = 'handleRequest';
+  const decodeAndDeserializeMethod = 'decodeAndDeserialize';
+  const giveRequiredConsentsMethod = 'giveRequiredConsents';
+  const handleResponseMethod = 'handleResponse';
+  const consentsUpdatedMethod = 'consentsUpdated';
+
   describe(serializeAndEncodeMethod, () => {
     it('should return an empty string if a falsy parameter is passed', () => {
       expect(interceptor[serializeAndEncodeMethod](null)).toEqual('');
@@ -114,7 +120,6 @@ describe('AnonymousConsentsInterceptor', () => {
     });
   });
 
-  const handleRequestMethod = 'handleRequest';
   describe('handleRequestMethod', () => {
     it('should return the provided request if the consents are falsy', () => {
       spyOn<any>(interceptor, serializeAndEncodeMethod).and.stub();
@@ -149,7 +154,6 @@ describe('AnonymousConsentsInterceptor', () => {
     });
   });
 
-  const decodeAndDeserializeMethod = 'decodeAndDeserialize';
   describe(decodeAndDeserializeMethod, () => {
     it('should decode and unserialize the provided value', () => {
       const mockRawConsents = encodeURIComponent(
@@ -161,96 +165,179 @@ describe('AnonymousConsentsInterceptor', () => {
     });
   });
 
-  const handleResponseMethod = 'handleResponse';
   describe(handleResponseMethod, () => {
-    describe('when rawConsents are falsy', () => {
-      it('should NOT call anonymousConsentsService.setConsents', () => {
-        spyOn(anonymousConsentsService, 'setConsents').and.stub();
-        interceptor[handleResponseMethod](null, true);
-        expect(anonymousConsentsService.setConsents).not.toHaveBeenCalled();
+    describe('when newRawConsents are falsy', () => {
+      it('should NOT call decodeAndDeserialize and giveRequiredConsents', () => {
+        spyOn<any>(interceptor, decodeAndDeserializeMethod).and.stub();
+        spyOn<any>(interceptor, giveRequiredConsentsMethod).and.stub();
+
+        interceptor[handleResponseMethod](true, null, []);
+
+        expect(interceptor[decodeAndDeserializeMethod]).not.toHaveBeenCalled();
+        expect(interceptor[giveRequiredConsentsMethod]).not.toHaveBeenCalled();
       });
     });
 
     describe('when rawCosents are NOT falsy', () => {
       describe('and user is logged in', () => {
-        it('should NOT call anonymousConsentsService.setConsents', () => {
-          spyOn(anonymousConsentsService, 'setConsents').and.stub();
-          interceptor[handleResponseMethod]('dummy headers', true);
-          expect(anonymousConsentsService.setConsents).not.toHaveBeenCalled();
+        it('should NOT call decodeAndDeserialize and giveRequiredConsents', () => {
+          spyOn<any>(interceptor, decodeAndDeserializeMethod).and.stub();
+          spyOn<any>(interceptor, giveRequiredConsentsMethod).and.stub();
+
+          interceptor[handleResponseMethod](true, 'dummy headers', []);
+
+          expect(
+            interceptor[decodeAndDeserializeMethod]
+          ).not.toHaveBeenCalled();
+          expect(
+            interceptor[giveRequiredConsentsMethod]
+          ).not.toHaveBeenCalled();
         });
       });
       describe('and user is NOT logged in', () => {
-        it('should call anonymousConsentsService.setConsents', () => {
+        it(`should call ${consentsUpdatedMethod}`, () => {
           const mockHeaderValue = 'dummy headers';
-          spyOn(anonymousConsentsService, 'setConsents').and.stub();
-          spyOn<any>(interceptor, decodeAndDeserializeMethod).and.returnValue(
+          spyOn<any>(interceptor, decodeAndDeserializeMethod).and.stub();
+          spyOn<any>(interceptor, giveRequiredConsentsMethod).and.returnValue(
+            mockAnonymousConsents
+          );
+          spyOn<any>(interceptor, consentsUpdatedMethod).and.returnValue(false);
+
+          interceptor[handleResponseMethod](
+            false,
+            mockHeaderValue,
             mockAnonymousConsents
           );
 
-          interceptor[handleResponseMethod](mockHeaderValue, false);
           expect(interceptor[decodeAndDeserializeMethod]).toHaveBeenCalledWith(
             mockHeaderValue
           );
-          expect(anonymousConsentsService.setConsents).toHaveBeenCalledWith(
+          expect(interceptor[consentsUpdatedMethod]).toHaveBeenCalledWith(
+            mockAnonymousConsents,
             mockAnonymousConsents
           );
         });
       });
-      const giveRequiredConsentsMethod = 'giveRequiredConsents';
-      describe(`${giveRequiredConsentsMethod}`, () => {
-        it('should giveAnonymousConsent', () => {
-          const consents: AnonymousConsent[] = [
-            { templateCode: 'MARKETING', version: 0, consentState: null },
-            { templateCode: 'OTHER_CONSENT', version: 0, consentState: null },
-          ];
-          const expectedConsents: AnonymousConsent[] = [
-            { templateCode: 'MARKETING', version: 0, consentState: null },
-            {
-              templateCode: 'OTHER_CONSENT',
-              version: 0,
-              consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
-            },
-          ];
-
+      describe(`when the ${consentsUpdatedMethod} returns true`, () => {
+        it('should call anonymousConsentsService.setConsents()', () => {
+          const mockHeaderValue = 'dummy headers';
+          spyOn<any>(interceptor, decodeAndDeserializeMethod).and.stub();
+          spyOn<any>(interceptor, giveRequiredConsentsMethod).and.returnValue(
+            mockAnonymousConsents
+          );
+          spyOn<any>(interceptor, consentsUpdatedMethod).and.returnValue(true);
           spyOn(anonymousConsentsService, 'setConsents').and.stub();
 
-          interceptor[giveRequiredConsentsMethod]([...consents]);
+          interceptor[handleResponseMethod](
+            false,
+            mockHeaderValue,
+            mockAnonymousConsents
+          );
+
+          expect(interceptor[decodeAndDeserializeMethod]).toHaveBeenCalledWith(
+            mockHeaderValue
+          );
+          expect(interceptor[consentsUpdatedMethod]).toHaveBeenCalledWith(
+            mockAnonymousConsents,
+            mockAnonymousConsents
+          );
           expect(anonymousConsentsService.setConsents).toHaveBeenCalledWith(
-            expectedConsents
+            mockAnonymousConsents
           );
         });
       });
     });
+  });
 
-    describe('intercept', () => {
-      afterEach(() => {
-        httpMock.verify();
-      });
+  describe(`${giveRequiredConsentsMethod}`, () => {
+    it('should giveAnonymousConsent', () => {
+      const consents: AnonymousConsent[] = [
+        { templateCode: 'MARKETING', version: 0, consentState: null },
+        { templateCode: 'OTHER_CONSENT', version: 0, consentState: null },
+      ];
+      const expectedConsents: AnonymousConsent[] = [
+        { templateCode: 'MARKETING', version: 0, consentState: null },
+        {
+          templateCode: 'OTHER_CONSENT',
+          version: 0,
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+        },
+      ];
 
-      describe('when sending a request', () => {
-        it(`should call ${handleRequestMethod}`, inject(
-          [HttpClient],
-          (http: HttpClient) => {
-            spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-              of(mockAnonymousConsents)
-            );
-            spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-            spyOn<any>(interceptor, handleRequestMethod).and.callThrough();
+      const result = interceptor[giveRequiredConsentsMethod]([...consents]);
+      expect(result).toEqual(expectedConsents);
+    });
+  });
 
-            http
-              .get('/xxx')
-              .subscribe(result => {
-                expect(result).toBeTruthy();
-              })
-              .unsubscribe();
+  describe(`${consentsUpdatedMethod}`, () => {
+    it('should return true when the newConsents are different from previousConsents', () => {
+      const newConsents: AnonymousConsent[] = [
+        {
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+          templateCode: 'a',
+          version: 0,
+        },
+      ];
+      const previousConsents: AnonymousConsent[] = [
+        {
+          consentState: null,
+          templateCode: 'b',
+          version: 1,
+        },
+      ];
 
-            httpMock.expectOne(req => {
-              return req.method === 'GET';
-            });
-            expect(interceptor[handleRequestMethod]).toHaveBeenCalled();
-          }
-        ));
-      });
+      const result = interceptor[consentsUpdatedMethod](
+        newConsents,
+        previousConsents
+      );
+      expect(result).toEqual(true);
+    });
+    it('should return false when the newConsents are the same as previousConsents', () => {
+      const newConsents: AnonymousConsent[] = [
+        {
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+          templateCode: 'a',
+          version: 0,
+        },
+      ];
+      const previousConsents: AnonymousConsent[] = [...newConsents];
+
+      const result = interceptor[consentsUpdatedMethod](
+        newConsents,
+        previousConsents
+      );
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('intercept', () => {
+    afterEach(() => {
+      httpMock.verify();
+    });
+
+    describe('when sending a request', () => {
+      it(`should call ${handleRequestMethod}`, inject(
+        [HttpClient],
+        (http: HttpClient) => {
+          spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
+            of(mockAnonymousConsents)
+          );
+          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+          spyOn<any>(interceptor, handleRequestMethod).and.callThrough();
+
+          http
+            .get('/xxx')
+            .subscribe(result => {
+              expect(result).toBeTruthy();
+            })
+            .unsubscribe();
+
+          httpMock.expectOne(req => {
+            return req.method === 'GET';
+          });
+          expect(interceptor[handleRequestMethod]).toHaveBeenCalled();
+        }
+      ));
     });
   });
 });
