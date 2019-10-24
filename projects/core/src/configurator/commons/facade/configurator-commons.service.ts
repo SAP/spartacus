@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { filter, mergeMap, take, tap } from 'rxjs/operators';
+import { filter, mergeMap, tap } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
@@ -46,8 +46,7 @@ export class ConfiguratorCommonsService {
           );
         }
       }),
-      filter(configuration => this.isConfigurationCreated(configuration)),
-      take(1)
+      filter(configuration => this.isConfigurationCreated(configuration))
     );
   }
 
@@ -89,8 +88,7 @@ export class ConfiguratorCommonsService {
           this.store.dispatch(new UiActions.CreateUiState(productCode));
         }
       }),
-      filter(uiState => this.isUiStateCreated(uiState)),
-      take(1)
+      filter(uiState => this.isUiStateCreated(uiState))
     );
   }
 

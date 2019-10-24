@@ -37,8 +37,8 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-config-form, cx-configure-product, cx-config-attribute-radio-button,
   cx-config-attribute-footer, cx-config-attribute-drop-down, cx-asm-main-ui,
   cx-customer-selection, cx-guest-register-form, cx-config-attribute-read-only,
-  cx-config-previous-next-buttons, cx-config-attribute-input-field,
-  cx-config-textfield-input-field !default;
+  cx-config-previous-next-buttons, cx-config-textfield-input-field,
+  cx-config-group-menu, cx-config-attribute-input-field !default;
 
 // future theme's, can be introduced during minors
 $theme: '' !default;

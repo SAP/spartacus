@@ -22,7 +22,13 @@ export const b2cLayoutConfig: LayoutConfig = {
     navigation: {
       md: { slots: [] },
       xs: {
-        slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
+        slots: [
+          'SiteLogin',
+          'NavigationBar',
+          'VariantConfigMenu',
+          'SiteContext',
+          'SiteLinks',
+        ],
       },
     },
     footer: {
