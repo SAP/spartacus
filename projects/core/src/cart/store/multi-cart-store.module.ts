@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
@@ -30,7 +29,6 @@ export function multiCartStoreConfigFactory(): StateConfig {
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
     StateModule,
     StoreModule.forFeature(MULTI_CART_FEATURE, multiCartReducerToken, {
       metaReducers: multiCartMetaReducers,
