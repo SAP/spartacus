@@ -64,7 +64,7 @@ context('Product Configuration', () => {
   });
 
   describe('Group handling', () => {
-    it('Navigate between group', () => {
+    it('should navigate between groups', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
 
@@ -84,7 +84,7 @@ context('Product Configuration', () => {
       );
     });
 
-    it('Check if group buttons are clickable', () => {
+    it('should check if group buttons are clickable', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
 
@@ -97,6 +97,28 @@ context('Product Configuration', () => {
       configuration.clickOnNextGroupButton();
       configuration.clickOnNextGroupButton();
       configuration.verifyNextGroupButtonIsDisabled();
+    });
+
+    it('should navigate using the group menu', () => {
+      goToProductDetailsPage(testProduct);
+      configuration.verifyCategoryNavigationIsDisplayed();
+
+      configuration.clickOnConfigureButton();
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyCategoryNavigationIsNotDisplayed();
+      configuration.verifyGroupMenuIsDisplayed();
+      configuration.verifyAttributeIsDisplayed(
+        'WCEM_DP_MONITOR_MNF',
+        'radioGroup'
+      );
+
+      configuration.clickOnGroup(2);
+      configuration.verifyAttributeIsDisplayed(
+        'WCEM_DP_SOUND_CARD',
+        'radioGroup'
+      );
+      configuration.clickOnGroup(1);
+      configuration.verifyAttributeIsDisplayed('WCEM_DP_EXT_DD', 'radioGroup');
     });
   });
 });
