@@ -102,3 +102,34 @@ export function selectAttribute(
         .type(value);
   }
 }
+
+export function verifyGroupMenuIsDisplayed() {
+  cy.get('cx-config-group-menu').should('be.visible');
+}
+
+export function verifyGroupMenuIsNotDisplayed() {
+  cy.get('cx-config-group-menu').should('not.be.visible');
+}
+
+export function verifyCategoryNavigationIsDisplayed() {
+  cy.get('cx-category-navigation').should('be.visible');
+}
+
+export function verifyCategoryNavigationIsNotDisplayed() {
+  cy.get('cx-category-navigation').should('not.be.visible');
+}
+
+export function clickOnGroup(groupIndex: number) {
+  cy.get('.cx-config-menu-item')
+    .eq(groupIndex)
+    .children('a')
+    .click({ force: true });
+}
+
+export function clickHamburger() {
+  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
+}
+
+export function verifyHamburgerIsDisplayed() {
+  cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
+}
