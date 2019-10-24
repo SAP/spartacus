@@ -28,7 +28,6 @@ import { StockNotificationDialogComponent } from './stock-notification-dialog/st
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
-  anonymous$: Observable<boolean>;
   subscribed$: Observable<boolean>;
   prefsEnabled$: Observable<boolean>;
   outOfStock$: Observable<boolean>;
@@ -37,6 +36,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   unsubscribeLoading$: Observable<boolean>;
 
   enabledPrefs: NotificationPreference[] = [];
+  anonymous = true;
   productCode: string;
 
   private subscriptions = new Subscription();
@@ -63,20 +63,26 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
               interests => !!interests.results && interests.results.length === 1
             )
           );
-        this.anonymous$ = this.authService.getOccUserId().pipe(
-          map(userId => userId === OCC_USER_ID_ANONYMOUS),
-          tap(anonymous => {
-            if (!anonymous) {
-              this.notificationPrefService.loadPreferences();
-              this.interestsService.loadProductInterests(
-                null,
-                null,
-                null,
-                product.code,
-                NotificationType.BACK_IN_STOCK
-              );
-            }
-          })
+        this.subscriptions.add(
+          this.authService
+            .getOccUserId()
+            .pipe(
+              map(userId => userId === OCC_USER_ID_ANONYMOUS),
+              tap(anonymous => {
+                if (!anonymous) {
+                  this.anonymous = anonymous;
+                  this.notificationPrefService.loadPreferences();
+                  this.interestsService.loadProductInterests(
+                    null,
+                    null,
+                    null,
+                    product.code,
+                    NotificationType.BACK_IN_STOCK
+                  );
+                }
+              })
+            )
+            .subscribe()
         );
       }),
       map(
