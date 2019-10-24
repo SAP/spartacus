@@ -91,7 +91,7 @@ class MockConfiguratorCommonsService {
   }
 }
 
-describe('ConfigurationFormComponent', () => {
+describe('ConfigurationGroupMenuComponent', () => {
   let component: ConfigGroupMenuComponent;
   let fixture: ComponentFixture<ConfigGroupMenuComponent>;
   let configuratorGroupsService: ConfiguratorGroupsService;
@@ -143,13 +143,9 @@ describe('ConfigurationFormComponent', () => {
 
   it('should get product code as part of product configuration', () => {
     component.ngOnInit();
-    fixture.detectChanges();
-    let productCode: string;
-    component.configuration$.subscribe(
-      (data: Configurator.Configuration) => (productCode = data.productCode)
-    );
-
-    expect(productCode).toEqual(PRODUCT_CODE);
+    component.configuration$.subscribe((data: Configurator.Configuration) => {
+      expect(data.productCode).toEqual(PRODUCT_CODE);
+    });
   });
 
   it('should render 3 groups', () => {

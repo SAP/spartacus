@@ -87,7 +87,7 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
       this.configuratorCommonsService.updateConfiguration(changedConfiguration);
     });
   }
-
+  
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();

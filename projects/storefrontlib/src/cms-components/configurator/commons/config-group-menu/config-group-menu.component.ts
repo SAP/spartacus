@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -7,16 +12,15 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { ICON_TYPE } from '../../../misc/icon/index';
 
 @Component({
   selector: 'cx-config-group-menu',
   templateUrl: './config-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigGroupMenuComponent {
+
+export class ConfigGroupMenuComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
-  iconType = ICON_TYPE;
   productCode: string;
   subscription = new Subscription();
 
@@ -47,5 +51,11 @@ export class ConfigGroupMenuComponent {
     this.configuratorGroupsService.setCurrentGroup(this.productCode, group.id);
 
     this.hamburgerMenuService.toggle(true);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
