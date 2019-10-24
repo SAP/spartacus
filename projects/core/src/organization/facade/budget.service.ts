@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs';
-import { debounceTime, filter, map, take, tap } from 'rxjs/operators';
+import { asyncScheduler } from 'rxjs';
+import { filter, map, observeOn, switchMap, take, tap } from 'rxjs/operators';
 
 import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
 import { StateWithProcess } from '../../process/store/process-state';
@@ -42,7 +42,7 @@ export class BudgetService {
     this.user$
       .pipe(take(1))
       .subscribe(userId =>
-        this.store.dispatch(new BudgetActions.LoadBudgets({userId}))
+        this.store.dispatch(new BudgetActions.LoadBudgets({ userId }))
       );
   }
 
@@ -63,39 +63,28 @@ export class BudgetService {
   }
 
   getList() {
-    type budgetsLoaders = [LoaderState<void>, LoaderState<Budget>];
-
-    return combineLatest([this.getBudgetsProcess(), this.getBudgets()]).pipe(
-      debounceTime(0),
-      filter(
-        ([process]: budgetsLoaders) =>
-          !process.loading
-      ),
-      tap(([process]: budgetsLoaders) => {
-        if (!process.success) {
+    return this.getBudgetsProcess().pipe(
+      observeOn(asyncScheduler),
+      tap((process: LoaderState<void>) => {
+        if (!(process.loading || process.success || process.error)) {
           this.loadBudgets();
         }
       }),
-      filter(
-        ([process]: budgetsLoaders) =>
-          process.success || process.error
-      ),
-      map(([, budgets]: budgetsLoaders) => budgets)
-      // shareReplay({ bufferSize: 1, refCount: true })
+      filter((process: LoaderState<void>) => process.success || process.error),
+      switchMap(() => this.getBudgets())
     );
   }
 
   get(budgetCode: string) {
     return this.getBudgetState(budgetCode).pipe(
-      filter(state => state && !state.loading),
+      observeOn(asyncScheduler),
       tap(state => {
-        if (!state.success) {
+        if (!(state.loading || state.success || state.error)) {
           this.loadBudget(budgetCode);
         }
       }),
       filter(state => state.success || state.error),
       map(state => state.value)
-      // shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
