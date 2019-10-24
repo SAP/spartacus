@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  Configurator,
-  ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   I18nTestingModule,
   RouterState,
@@ -28,73 +26,6 @@ class MockRoutingService {
   }
 }
 
-class MockConfiguratorCommonsService {
-  public config: Configurator.Configuration = {
-    configId: '1234-56-7890',
-    groups: [
-      {
-        configurable: true,
-        description: 'Core components',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.1',
-        name: '1',
-        attributes: [
-          {
-            label: 'Expected Number',
-            name: 'EXP_NUMBER',
-            required: true,
-            uiType: Configurator.UiType.NOT_IMPLEMENTED,
-            values: [],
-          },
-          {
-            label: 'Processor',
-            name: 'CPQ_CPU',
-            required: true,
-            selectedSingleValue: 'INTELI5_35',
-            uiType: Configurator.UiType.RADIOBUTTON,
-            values: [],
-          },
-        ],
-      },
-      {
-        configurable: true,
-        description: 'Peripherals & Accessories',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.2',
-        name: '2',
-        attributes: [],
-      },
-      {
-        configurable: true,
-        description: 'Software',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.3',
-        name: '3',
-        attributes: [],
-      },
-    ],
-  };
-  createConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    this.config.productCode = productCode;
-    return of(this.config);
-  }
-  getConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    const productConfig: Configurator.Configuration = {
-      configId: 'a',
-      consistent: true,
-      complete: true,
-      productCode: productCode,
-    };
-    return of(productConfig);
-  }
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
-  }
-}
 class MockConfiguratorGroupsService {
   getCurrentGroup() {
     return of('');
@@ -121,12 +52,6 @@ describe('ConfigPreviousNextButtonsComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,

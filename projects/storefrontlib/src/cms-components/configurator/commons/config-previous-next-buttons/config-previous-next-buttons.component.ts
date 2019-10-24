@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import {
   Configurator,
-  ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
@@ -26,7 +25,6 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   constructor(
     private routingService: RoutingService,
-    private configuratorCommonsService: ConfiguratorCommonsService,
     private configuratorGroupsService: ConfiguratorGroupsService
   ) {}
 
@@ -43,10 +41,6 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   initConfigurationGroups(routingData) {
     this.productCode = routingData.state.params.rootProduct;
-
-    this.configuration$ = this.configuratorCommonsService.getConfiguration(
-      this.productCode
-    );
   }
 
   onPrevious() {
