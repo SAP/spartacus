@@ -132,7 +132,7 @@ const mockWinRef = {
   },
 };
 
-fdescribe('AnonymousConsentsEffects', () => {
+describe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
   let connector: MockAnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
