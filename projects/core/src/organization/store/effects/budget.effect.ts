@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
@@ -38,7 +38,7 @@ export class BudgetEffects {
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(payload =>
       this.budgetConnector.getMany(payload.userId, payload.params).pipe(
-        mergeMap((budgets: Budget[]) => [
+        switchMap((budgets: Budget[]) => [
           new BudgetActions.LoadBudgetsSuccess(),
           new BudgetActions.LoadBudgetSuccess(budgets),
         ]),
