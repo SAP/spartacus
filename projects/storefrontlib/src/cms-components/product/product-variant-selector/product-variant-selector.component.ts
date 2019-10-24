@@ -58,11 +58,12 @@ export class ProductVariantSelectorComponent {
   );
 
   routeToVariant(code: string): void {
-    this.routingService.go({
-      cxRoute: 'product',
-      params: { code },
-    });
-
+    if (code) {
+      this.routingService.go({
+        cxRoute: 'product',
+        params: { code },
+      });
+    }
     return null;
   }
 }
