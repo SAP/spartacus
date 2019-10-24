@@ -12,7 +12,6 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { ICON_TYPE } from '../../../misc/icon/index';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -21,7 +20,6 @@ import { ICON_TYPE } from '../../../misc/icon/index';
 })
 export class ConfigGroupMenuComponent implements OnInit, OnDestroy {
   configuration$: Observable<Configurator.Configuration>;
-  iconType = ICON_TYPE;
   productCode: string;
   subscription = new Subscription();
 

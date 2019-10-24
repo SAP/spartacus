@@ -1,15 +1,3 @@
-<!--
-<div
-  *ngIf="node?.children.length > 1"
-  class="back is-open"
-  (click)="back()"
->
-  <h5>
-    <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
-    {{ 'common.back' | cxTranslate }}
-  </h5>
-</div>
--->
 <nav>
   <ul class="cx-config-menu">
     <ng-container *ngIf="configuration$ | async as configuration">
