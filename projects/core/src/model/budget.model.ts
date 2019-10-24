@@ -1,21 +1,15 @@
-import { Occ } from '../occ/occ-models/occ.models';
+import { Currency } from './misc.model';
 
 export interface Budget {
   active: boolean;
   budget: number;
   code: string;
-  currency: Occ.Currency;
+  currency: Currency;
   endDate: string;
   startDate: string;
   name: string;
   orgUnit?: OrgUnit;
   costCenters?: CostCenter[];
-}
-
-export interface OrgUnit {
-  uid: string;
-  name: string;
-  addresses?: Address[];
 }
 
 export interface CostCenter {
@@ -24,6 +18,12 @@ export interface CostCenter {
   name: string;
   originalCode: string;
   unit?: OrgUnit;
+}
+
+export interface OrgUnit {
+  uid: string;
+  name: string;
+  addresses?: Address[];
 }
 
 export interface Address {
