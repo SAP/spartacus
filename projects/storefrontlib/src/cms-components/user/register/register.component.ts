@@ -258,13 +258,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      if (
-        this.isAnonymousConsentEnabled &&
-        Boolean(this.userRegistrationForm.get('newsletter').value)
-      ) {
-        this.anonymousConsentsService.giveConsent(
-          this.anonymousConsentsConfig.anonymousConsents.registerConsent
-        );
+      if (this.isAnonymousConsentEnabled) {
+        if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
+          this.anonymousConsentsService.giveConsent(
+            this.anonymousConsentsConfig.anonymousConsents.registerConsent
+          );
+        } else {
+          this.anonymousConsentsService.withdrawConsent(
+            this.anonymousConsentsConfig.anonymousConsents.registerConsent
+          );
+        }
       }
     }
   }

@@ -424,6 +424,7 @@ describe('RegisterComponent', () => {
   describe('onRegisterUserSuccess', () => {
     beforeEach(() => {
       spyOn(anonymousConsentService, 'giveConsent').and.stub();
+      spyOn(anonymousConsentService, 'withdrawConsent').and.stub();
     });
 
     it('should give anonymous consent if consent was given', () => {
@@ -435,12 +436,14 @@ describe('RegisterComponent', () => {
         mockAnonymousConsentsConfig.anonymousConsents.registerConsent
       );
     });
-    it('should give anonymous consent if consent was NOT given', () => {
+    it('should widthdraw anonymous consent if consent was NOT given', () => {
       component.userRegistrationForm.get('newsletter').setValue(false);
 
       registerUserIsSuccess.next(true);
 
-      expect(anonymousConsentService.giveConsent).not.toHaveBeenCalled();
+      expect(anonymousConsentService.withdrawConsent).toHaveBeenCalledWith(
+        mockAnonymousConsentsConfig.anonymousConsents.registerConsent
+      );
     });
   });
 
