@@ -151,15 +151,20 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     const isGroupSkipperEnabled = (
       this.config.cmsComponents[this.cxComponentWrapper.flexType] || {}
     ).groupSkipper;
-    console.log(this.cxComponentWrapper.flexType);
     if (
       isGroupSkipperEnabled &&
       isGroupSkipperEnabled.groupSkipper &&
       isGroupSkipperEnabled.groupSkipper.enabled
     ) {
       const element: Element = this.cmpRef.location.nativeElement;
-      this.renderer.setAttribute(element, 'uid', this.cxComponentWrapper.uid);
-      this.groupSkipperService.renderAnchor(element, this.renderer);
+      this.renderer.setAttribute(element, 'id', this.cxComponentWrapper.uid);
+      this.groupSkipperService.renderAnchor(
+        element,
+        this.renderer,
+        this.cxComponentWrapper.uid,
+        this.config.cmsComponents[this.cxComponentWrapper.flexType].groupSkipper
+          .groupSkipper.title
+      );
     }
   }
 
