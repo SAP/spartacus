@@ -423,32 +423,6 @@ describe('RegisterComponent', () => {
     });
   });
 
-  describe('onRegisterUserSuccess', () => {
-    beforeEach(() => {
-      spyOn(anonymousConsentService, 'giveConsent').and.stub();
-      spyOn(anonymousConsentService, 'withdrawConsent').and.stub();
-    });
-
-    it('should give anonymous consent if consent was given', () => {
-      component.userRegistrationForm.get('newsletter').setValue(true);
-
-      registerUserIsSuccess.next(true);
-
-      expect(anonymousConsentService.giveConsent).toHaveBeenCalledWith(
-        mockAnonymousConsentsConfig.anonymousConsents.registerConsent
-      );
-    });
-    it('should widthdraw anonymous consent if consent was NOT given', () => {
-      component.userRegistrationForm.get('newsletter').setValue(false);
-
-      registerUserIsSuccess.next(true);
-
-      expect(anonymousConsentService.withdrawConsent).toHaveBeenCalledWith(
-        mockAnonymousConsentsConfig.anonymousConsents.registerConsent
-      );
-    });
-  });
-
   const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
   describe(`${toggleAnonymousConsentMethod}`, () => {
     it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
