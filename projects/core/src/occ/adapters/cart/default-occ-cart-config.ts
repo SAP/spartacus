@@ -16,6 +16,7 @@ export const defaultOccCartConfig: OccConfig = {
         removeEntries: 'users/${userId}/carts/${cartId}/entries/${entryNumber}',
         addEmail: 'users/${userId}/carts/${cartId}/email',
         deleteCart: 'users/${userId}/carts/${cartId}',
+        cartVoucher: 'users/${userId}/carts/${cartId}/vouchers',
         // tslint:enable
       },
     },

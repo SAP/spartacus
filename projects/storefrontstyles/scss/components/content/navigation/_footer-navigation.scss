@@ -27,19 +27,6 @@
     }
   }
 
-  .anonymous-consents {
-    display: flex;
-    justify-content: center;
-    margin: 0 3vw 3vw 3vw;
-
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
-    }
-    a {
-      color: var(--cx-color-inverse);
-    }
-  }
-
   .notice {
     padding: 32px 0;
     text-align: center;
