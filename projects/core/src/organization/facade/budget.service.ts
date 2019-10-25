@@ -18,6 +18,7 @@ import {
   // getBudgetValueState,
   getBudgetState,
 } from '../store/selectors/budget.selector';
+import { BudgetSearchConfig } from '../model/search-config';
 
 @Injectable()
 export class BudgetService {
@@ -38,11 +39,11 @@ export class BudgetService {
       );
   }
 
-  private loadBudgets() {
+  private loadBudgets(params?: BudgetSearchConfig) {
     this.user$
       .pipe(take(1))
       .subscribe(userId =>
-        this.store.dispatch(new BudgetActions.LoadBudgets({ userId }))
+        this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
       );
   }
 
@@ -62,12 +63,12 @@ export class BudgetService {
     return this.store.select(getBudgetsState);
   }
 
-  getList() {
+  getList(params?: BudgetSearchConfig) {
     return this.getBudgetsProcess().pipe(
       observeOn(asyncScheduler),
       tap((process: LoaderState<void>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadBudgets();
+          this.loadBudgets(params);
         }
       }),
       filter((process: LoaderState<void>) => process.success || process.error),
