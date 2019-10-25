@@ -34,6 +34,10 @@ class MockRouter {
   public events = of('');
 }
 
+class MockConfiguratorGroupService {
+  public setCurrentGroup() {}
+}
+
 class MockConfiguratorCommonsService {
   public config: Configurator.Configuration = {
     configId: '1234-56-7890',
@@ -94,7 +98,7 @@ class MockConfiguratorCommonsService {
 describe('ConfigurationGroupMenuComponent', () => {
   let component: ConfigGroupMenuComponent;
   let fixture: ComponentFixture<ConfigGroupMenuComponent>;
-  let configuratorGroupsService: ConfiguratorGroupsService;
+  let configuratorGroupsService: MockConfiguratorGroupService;
   let hamburgerMenuService: HamburgerMenuService;
   let htmlElem: HTMLElement;
 
@@ -103,7 +107,6 @@ describe('ConfigurationGroupMenuComponent', () => {
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [ConfigGroupMenuComponent],
       providers: [
-        ConfiguratorGroupsService,
         HamburgerMenuService,
         {
           provide: Router,
@@ -118,6 +121,10 @@ describe('ConfigurationGroupMenuComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
+        },
       ],
     });
   }));
@@ -126,9 +133,8 @@ describe('ConfigurationGroupMenuComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
-    configuratorGroupsService = TestBed.get(ConfiguratorGroupsService as Type<
-      ConfiguratorGroupsService
-    >);
+    configuratorGroupsService = TestBed.get(ConfiguratorGroupsService);
+
     hamburgerMenuService = TestBed.get(HamburgerMenuService as Type<
       HamburgerMenuService
     >);
