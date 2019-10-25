@@ -4,6 +4,7 @@ export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 export const newTitle = 'dr';
 export const newFirstName = 'N';
 export const newLastName = 'Z';
+export const newFullName = `${newFirstName} ${newLastName}`;
 
 export function accessPageAsAnonymous() {
   cy.visit(UPDATE_PROFILE_URL);
