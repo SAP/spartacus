@@ -9,7 +9,7 @@ import {
 } from '../../model/index';
 import {
   AnonymousConsentsActions,
-  ANONYMOUS_CONSENTS_FEATURE,
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
   StateWithAnonymousConsents,
 } from '../store/index';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -51,7 +51,7 @@ describe('AnonymousConsentsService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          ANONYMOUS_CONSENTS_FEATURE,
+          ANONYMOUS_CONSENTS_STORE_FEATURE,
           fromStoreReducers.getReducers()
         ),
       ],

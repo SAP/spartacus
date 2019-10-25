@@ -104,7 +104,7 @@ const mockAnonymousConsentsConfig = {
     requiredConsents: ['xxx', 'yyy'],
   },
   features: {
-    level: '1.3',
+    anonymousConsents: true,
   },
 };
 

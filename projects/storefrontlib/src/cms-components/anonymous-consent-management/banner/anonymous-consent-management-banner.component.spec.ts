@@ -6,9 +6,8 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AnonymousConsentsDialogComponent } from '../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
-import { ModalOptions, ModalRef, ModalService } from '../../shared/index';
-import { MockFeatureLevelDirective } from '../../shared/test/mock-feature-level-directive';
+import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
+import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
 
 class MockAnonymousConsentsService {
@@ -39,10 +38,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [
-        AnonymousConsentManagementBannerComponent,
-        MockFeatureLevelDirective,
-      ],
+      declarations: [AnonymousConsentManagementBannerComponent],
       providers: [
         {
           provide: AnonymousConsentsService,
@@ -114,7 +110,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
       expect(component.hideBanner).toHaveBeenCalled();
       expect(modalService.open).toHaveBeenCalledWith(
-        AnonymousConsentsDialogComponent,
+        AnonymousConsentDialogComponent,
         {
           centered: true,
           size: 'lg',

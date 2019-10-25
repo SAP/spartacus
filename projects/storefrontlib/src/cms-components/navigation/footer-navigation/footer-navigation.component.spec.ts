@@ -1,18 +1,14 @@
-import { Component, DebugElement, Input, Type } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AnonymousConsentsConfig,
-  AuthService,
   CmsNavigationComponent,
-  FeaturesConfig,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { AnonymousConsentsDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
-import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { NavigationService } from '../navigation/navigation.service';
@@ -28,24 +24,9 @@ class MockNavigationUIComponent {
   @Input() node: NavigationNode;
 }
 
-class MockAuthService {
-  isUserLoggedIn(): Observable<boolean> {
-    return of(false);
-  }
-}
-
-class MockModalService {
-  open(_content: any, _options?: ModalOptions): ModalRef {
-    return undefined;
-  }
-}
-
 const mockAnonymousConsentsConfig = {
-  anonymousConsents: {
-    footerLink: true,
-  },
   features: {
-    level: '1.3',
+    anonymousConsents: false,
   },
 };
 
@@ -62,8 +43,6 @@ describe('FooterNavigationComponent', () => {
   let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let element: DebugElement;
-  let anonymousConsentsConfig: AnonymousConsentsConfig;
-  let modalService: ModalService;
 
   const mockLinks: NavigationNode[] = [
     {
@@ -109,14 +88,6 @@ describe('FooterNavigationComponent', () => {
           useValue: MockCmsNavigationComponent,
         },
         {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: ModalService,
-          useClass: MockModalService,
-        },
-        {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
@@ -128,8 +99,6 @@ describe('FooterNavigationComponent', () => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
-    anonymousConsentsConfig = TestBed.get(AnonymousConsentsConfig);
-    modalService = TestBed.get(ModalService as Type<ModalService>);
 
     component.node$ = of({
       children: [
@@ -153,53 +122,10 @@ describe('FooterNavigationComponent', () => {
     expect(navigationUI.nativeElement.classList).toContain('footer-styling');
   });
 
-  describe('showConsentPreferences', () => {
-    it('should return true if the authService.isUserLoggedIn() returns false', () => {
-      let result = false;
-      component.showConsentPreferences
-        .subscribe(value => (result = value))
-        .unsubscribe();
-      expect(result).toEqual(true);
-    });
-    it('should return false if not enabled in the config', () => {
-      anonymousConsentsConfig.anonymousConsents.footerLink = false;
-      let result = true;
-      component.showConsentPreferences
-        .subscribe(value => (result = value))
-        .unsubscribe();
-      expect(result).toEqual(false);
-    });
-    it('should return false the feature level is lower than 1.3', () => {
-      (anonymousConsentsConfig as FeaturesConfig).features.level = '1.2';
-      let result = true;
-      component.showConsentPreferences
-        .subscribe(value => (result = value))
-        .unsubscribe();
-      expect(result).toEqual(false);
-    });
-  });
-
-  describe('consent preferences link', () => {
-    it('should be visible when the user is NOT logged in', () => {
-      spyOnProperty(component, 'showConsentPreferences').and.returnValue(
-        of(true)
-      );
-      const consentPreferences = element.query(By.css('.anonymous-consents'));
+  describe('notice', () => {
+    it('should be visible when the anonymous consents feature is NOT enabled', () => {
+      const consentPreferences = element.query(By.css('.notice'));
       expect(consentPreferences).toBeTruthy();
-    });
-  });
-
-  describe('openDialog', () => {
-    it('should call modalService.open', () => {
-      spyOn(modalService, 'open').and.stub();
-      component.openDialog();
-      expect(modalService.open).toHaveBeenCalledWith(
-        AnonymousConsentsDialogComponent,
-        {
-          centered: true,
-          size: 'lg',
-        }
-      );
     });
   });
 });

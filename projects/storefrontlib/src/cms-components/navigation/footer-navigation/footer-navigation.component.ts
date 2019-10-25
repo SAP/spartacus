@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AnonymousConsentsConfig,
-  AuthService,
+  ANONYMOUS_CONSENTS_FEATURE,
   CmsNavigationComponent,
-  isFeatureLevel,
+  isFeatureEnabled,
 } from '@spartacus/core';
-import { iif, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { AnonymousConsentsDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
-import { ModalService } from '../../../shared/components/modal/index';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
 
@@ -27,16 +25,23 @@ export class FooterNavigationComponent {
     map(d => d.styleClass)
   );
 
-  data$ = this.componentData.data$;
+  // in order to preserve the backwards compatibility, this should render only if anonymous consents feature is disabled
+  data$ = this.componentData.data$.pipe(
+    filter(
+      _ =>
+        !isFeatureEnabled(
+          this.anonymousConsentsConfig,
+          ANONYMOUS_CONSENTS_FEATURE
+        )
+    )
+  );
 
   constructor(
     componentData: CmsComponentData<CmsNavigationComponent>,
     service: NavigationService,
-    anonymousConsentsConfig: AnonymousConsentsConfig,
-    authService: AuthService,
-    modalService: ModalService
+    // tslint:disable-next-line: unified-signatures
+    anonymousConsentsConfig: AnonymousConsentsConfig
   );
-
   /**
    * @deprecated since version 1.3
    * Instead, use:
@@ -45,9 +50,7 @@ export class FooterNavigationComponent {
       constructor(
       componentData: CmsComponentData<CmsNavigationComponent>,
       service: NavigationService,
-      anonymousConsentsConfig: AnonymousConsentsConfig,
-      authService: AuthService,
-      modalService: ModalService
+      anonymousConsentsConfig: AnonymousConsentsConfig
     )
     ```
    */
@@ -58,41 +61,6 @@ export class FooterNavigationComponent {
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
     protected service: NavigationService,
-    protected anonymousConsentsConfig?: AnonymousConsentsConfig,
-    protected authService?: AuthService,
-    protected modalService?: ModalService
+    protected anonymousConsentsConfig?: AnonymousConsentsConfig
   ) {}
-
-  get showConsentPreferences(): Observable<boolean> {
-    // TODO(issue:4989) Anonymous consents - remove the `iif` operator and just return the `trueResult` parameter
-    return iif(
-      () =>
-        Boolean(this.anonymousConsentsConfig) &&
-        isFeatureLevel(this.anonymousConsentsConfig, '1.3'),
-      this.authService
-        .isUserLoggedIn()
-        .pipe(
-          map(
-            isUserLoggedIn =>
-              !isUserLoggedIn &&
-              Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-              this.anonymousConsentsConfig.anonymousConsents.footerLink
-          )
-        ),
-      of(false)
-    );
-  }
-
-  openDialog(): void {
-    if (
-      Boolean(this.anonymousConsentsConfig) &&
-      // TODO(issue:4989) Anonymous consents - remove `isFeatureLevel(this.anonymousConsentsConfig, '1.3')` check
-      isFeatureLevel(this.anonymousConsentsConfig, '1.3')
-    ) {
-      this.modalService.open(AnonymousConsentsDialogComponent, {
-        centered: true,
-        size: 'lg',
-      });
-    }
-  }
 }
