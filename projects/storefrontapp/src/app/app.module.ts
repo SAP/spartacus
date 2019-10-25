@@ -46,6 +46,7 @@ if (!environment.production) {
           'electronics',
           'apparel-de',
           'apparel-uk',
+          'apparel-uk-spa',
         ],
       },
 
