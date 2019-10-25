@@ -68,19 +68,20 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   ): void {
     if (!isUserLoggedIn && newRawConsents) {
       let newConsents: AnonymousConsent[] = [];
-      newConsents = this.decodeAndDeserialize(newRawConsents);
+      newConsents = this.anonymousConsentsService.decodeAndDeserialize(
+        newRawConsents
+      );
       newConsents = this.giveRequiredConsents(newConsents);
 
-      if (this.consentsUpdated(newConsents, previousConsents)) {
+      if (
+        this.anonymousConsentsService.consentsUpdated(
+          newConsents,
+          previousConsents
+        )
+      ) {
         this.anonymousConsentsService.setConsents(newConsents);
       }
     }
-  }
-
-  private decodeAndDeserialize(rawConsents: string): AnonymousConsent[] {
-    const decoded = decodeURIComponent(rawConsents);
-    const unserialized = JSON.parse(decoded) as AnonymousConsent[];
-    return unserialized;
   }
 
   private handleRequest(
@@ -91,21 +92,14 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       return request;
     }
 
-    const rawConsents = this.serializeAndEncode(consents);
+    const rawConsents = this.anonymousConsentsService.serializeAndEncode(
+      consents
+    );
     return request.clone({
       setHeaders: {
         [ANONYMOUS_CONSENTS_HEADER]: rawConsents,
       },
     });
-  }
-
-  private serializeAndEncode(consents: AnonymousConsent[]): string {
-    if (!consents) {
-      return '';
-    }
-    const serialized = JSON.stringify(consents);
-    const encoded = encodeURIComponent(serialized);
-    return encoded;
   }
 
   private isOccUrl(url: string): boolean {
@@ -132,14 +126,5 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       }
     }
     return givenConsents;
-  }
-
-  private consentsUpdated(
-    newConsents: AnonymousConsent[],
-    previousConsents: AnonymousConsent[]
-  ): boolean {
-    const newRawConsents = this.serializeAndEncode(newConsents);
-    const previousRawConsents = this.serializeAndEncode(previousConsents);
-    return newRawConsents !== previousRawConsents;
   }
 }

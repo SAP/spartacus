@@ -18,6 +18,7 @@ import {
   ANONYMOUS_CONSENTS_FEATURE,
   isFeatureEnabled,
 } from '../../../features-config/index';
+import { AnonymousConsent } from '../../../model/index';
 import { SiteContextActions } from '../../../site-context/index';
 import { DEFAULT_LOCAL_STORAGE_KEY } from '../../../state/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
@@ -225,18 +226,9 @@ export class AnonymousConsentsEffects {
   synchronizeBannerAcrossTabs$: Observable<
     AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility
   > = iif(
-    () => Boolean(this.winRef.nativeWindow),
+    () => this.checkFeatureAndSsrEnabled(),
     fromEvent<StorageEvent>(this.winRef.nativeWindow, 'storage').pipe(
-      filter(
-        storageEvent =>
-          isFeatureEnabled(
-            this.anonymousConsentsConfig,
-            ANONYMOUS_CONSENTS_FEATURE
-          ) &&
-          storageEvent.key === DEFAULT_LOCAL_STORAGE_KEY &&
-          storageEvent.newValue !== null &&
-          storageEvent.oldValue !== null
-      ),
+      filter(storageEvent => this.checkStorageEvent(storageEvent)),
       distinctUntilChanged(),
       // Clicking on "Allow All" on the banner hides the banner, causing an infinite loop of firing events.
       debounceTime(100),
@@ -258,6 +250,87 @@ export class AnonymousConsentsEffects {
     ),
     EMPTY
   );
+
+  @Effect()
+  synchronizeConsentStateAcrossTabs$: Observable<
+    | (
+        | AnonymousConsentsActions.GiveAnonymousConsent
+        | AnonymousConsentsActions.WithdrawAnonymousConsent)
+    | Observable<never>
+  > = iif(
+    () => this.checkFeatureAndSsrEnabled(),
+    fromEvent<StorageEvent>(this.winRef.nativeWindow, 'storage').pipe(
+      filter(storageEvent => this.checkStorageEvent(storageEvent)),
+      distinctUntilChanged(),
+      // Clicking on "Allow All" on the banner hides the banner, causing an infinite loop of firing events.
+      debounceTime(100),
+      mergeMap(storageEvent => {
+        const newState = JSON.parse(storageEvent.newValue);
+        const newConsets = (newState[
+          ANONYMOUS_CONSENTS_STORE_FEATURE
+        ] as AnonymousConsentsState).consents;
+
+        const oldState = JSON.parse(storageEvent.oldValue);
+        const oldConsents = (oldState[
+          ANONYMOUS_CONSENTS_STORE_FEATURE
+        ] as AnonymousConsentsState).consents;
+
+        if (
+          this.anonymousConsentService.consentsUpdated(newConsets, oldConsents)
+        ) {
+          return this.createStateUpdateActions(newConsets);
+        }
+
+        return EMPTY;
+      })
+    ),
+    EMPTY
+  );
+
+  private checkFeatureAndSsrEnabled(): boolean {
+    return (
+      isFeatureEnabled(
+        this.anonymousConsentsConfig,
+        ANONYMOUS_CONSENTS_FEATURE
+      ) && Boolean(this.winRef.nativeWindow)
+    );
+  }
+
+  private checkStorageEvent(storageEvent: StorageEvent): boolean {
+    return (
+      Boolean(storageEvent) &&
+      storageEvent.key === DEFAULT_LOCAL_STORAGE_KEY &&
+      storageEvent.newValue !== null &&
+      storageEvent.oldValue !== null
+    );
+  }
+
+  private createStateUpdateActions(
+    newConsets: AnonymousConsent[]
+  ): (
+    | AnonymousConsentsActions.GiveAnonymousConsent
+    | AnonymousConsentsActions.WithdrawAnonymousConsent)[] {
+    const consentStateActions: (
+      | AnonymousConsentsActions.GiveAnonymousConsent
+      | AnonymousConsentsActions.WithdrawAnonymousConsent)[] = [];
+    for (const consent of newConsets) {
+      if (this.anonymousConsentService.isConsentGiven(consent)) {
+        consentStateActions.push(
+          new AnonymousConsentsActions.GiveAnonymousConsent(
+            consent.templateCode
+          )
+        );
+      } else if (this.anonymousConsentService.isConsentWithdrawn(consent)) {
+        consentStateActions.push(
+          new AnonymousConsentsActions.WithdrawAnonymousConsent(
+            consent.templateCode
+          )
+        );
+      }
+    }
+
+    return consentStateActions;
+  }
 
   constructor(
     private actions$: Actions,

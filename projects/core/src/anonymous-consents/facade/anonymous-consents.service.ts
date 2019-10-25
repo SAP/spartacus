@@ -239,4 +239,44 @@ export class AnonymousConsentsService {
 
     return false;
   }
+
+  /**
+   * Serializes using `JSON.stringify()` and encodes using `encodeURIComponent()` methods
+   * @param consents to serialize and encode
+   */
+  serializeAndEncode(consents: AnonymousConsent[]): string {
+    if (!consents) {
+      return '';
+    }
+    const serialized = JSON.stringify(consents);
+    const encoded = encodeURIComponent(serialized);
+    return encoded;
+  }
+
+  /**
+   * Decodes using `decodeURIComponent()` and deserializes using `JSON.parse()`
+   * @param rawConsents to decode an deserialize
+   */
+  decodeAndDeserialize(rawConsents: string): AnonymousConsent[] {
+    const decoded = decodeURIComponent(rawConsents);
+    const unserialized = JSON.parse(decoded) as AnonymousConsent[];
+    return unserialized;
+  }
+
+  /**
+   *
+   * Compares the given `newConsents` and `previousConsents` and returns `true` if there are differences (the `newConsents` are updates).
+   * Otherwise it returns `false`.
+   *
+   * @param newConsents new consents to compare
+   * @param previousConsents old consents to compare
+   */
+  consentsUpdated(
+    newConsents: AnonymousConsent[],
+    previousConsents: AnonymousConsent[]
+  ): boolean {
+    const newRawConsents = this.serializeAndEncode(newConsents);
+    const previousRawConsents = this.serializeAndEncode(previousConsents);
+    return newRawConsents !== previousRawConsents;
+  }
 }

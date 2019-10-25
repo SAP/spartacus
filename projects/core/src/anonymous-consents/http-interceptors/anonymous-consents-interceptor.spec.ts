@@ -43,6 +43,18 @@ class MockAnonymousConsentsService {
     return of();
   }
   setConsents(_consents: AnonymousConsent[]): void {}
+  serializeAndEncode(_consents: AnonymousConsent[]): string {
+    return '';
+  }
+  decodeAndDeserialize(_rawConsents: string): AnonymousConsent[] {
+    return [];
+  }
+  consentsUpdated(
+    _newConsents: AnonymousConsent[],
+    _previousConsents: AnonymousConsent[]
+  ): boolean {
+    return false;
+  }
 }
 
 const mockAnonymousConsentsConfig = {
@@ -99,40 +111,25 @@ describe('AnonymousConsentsInterceptor', () => {
     spyOn<any>(interceptor, 'isOccUrl').and.returnValue(true);
   });
 
-  const serializeAndEncodeMethod = 'serializeAndEncode';
   const handleRequestMethod = 'handleRequest';
-  const decodeAndDeserializeMethod = 'decodeAndDeserialize';
   const giveRequiredConsentsMethod = 'giveRequiredConsents';
   const handleResponseMethod = 'handleResponse';
-  const consentsUpdatedMethod = 'consentsUpdated';
-
-  describe(serializeAndEncodeMethod, () => {
-    it('should return an empty string if a falsy parameter is passed', () => {
-      expect(interceptor[serializeAndEncodeMethod](null)).toEqual('');
-    });
-    it('should return stringify and encode the provided consents', () => {
-      const result = interceptor[serializeAndEncodeMethod](
-        mockAnonymousConsents
-      );
-      expect(result).toEqual(
-        encodeURIComponent(JSON.stringify(mockAnonymousConsents))
-      );
-    });
-  });
 
   describe('handleRequestMethod', () => {
     it('should return the provided request if the consents are falsy', () => {
-      spyOn<any>(interceptor, serializeAndEncodeMethod).and.stub();
+      spyOn(anonymousConsentsService, 'serializeAndEncode').and.stub();
 
       const request = new HttpRequest('GET', 'xxx');
       const result = interceptor[handleRequestMethod](null, request);
-      expect(interceptor[serializeAndEncodeMethod]).not.toHaveBeenCalled();
+      expect(
+        anonymousConsentsService.serializeAndEncode
+      ).not.toHaveBeenCalled();
       expect(result).toEqual(request);
     });
 
-    it(`should call ${serializeAndEncodeMethod} and add the consents to the headers`, () => {
+    it('should call serializeAndEncode and add the consents to the headers', () => {
       const mockHeaderValue = 'dummy headers';
-      spyOn<any>(interceptor, serializeAndEncodeMethod).and.returnValue(
+      spyOn(anonymousConsentsService, 'serializeAndEncode').and.returnValue(
         mockHeaderValue
       );
 
@@ -141,7 +138,7 @@ describe('AnonymousConsentsInterceptor', () => {
         mockAnonymousConsents,
         request
       );
-      expect(interceptor[serializeAndEncodeMethod]).toHaveBeenCalledWith(
+      expect(anonymousConsentsService.serializeAndEncode).toHaveBeenCalledWith(
         mockAnonymousConsents
       );
       expect(result).toEqual(
@@ -154,26 +151,17 @@ describe('AnonymousConsentsInterceptor', () => {
     });
   });
 
-  describe(decodeAndDeserializeMethod, () => {
-    it('should decode and unserialize the provided value', () => {
-      const mockRawConsents = encodeURIComponent(
-        JSON.stringify(mockAnonymousConsents)
-      );
-
-      const result = interceptor[decodeAndDeserializeMethod](mockRawConsents);
-      expect(result).toEqual(mockAnonymousConsents);
-    });
-  });
-
   describe(handleResponseMethod, () => {
     describe('when newRawConsents are falsy', () => {
       it('should NOT call decodeAndDeserialize and giveRequiredConsents', () => {
-        spyOn<any>(interceptor, decodeAndDeserializeMethod).and.stub();
+        spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.stub();
         spyOn<any>(interceptor, giveRequiredConsentsMethod).and.stub();
 
         interceptor[handleResponseMethod](true, null, []);
 
-        expect(interceptor[decodeAndDeserializeMethod]).not.toHaveBeenCalled();
+        expect(
+          anonymousConsentsService.decodeAndDeserialize
+        ).not.toHaveBeenCalled();
         expect(interceptor[giveRequiredConsentsMethod]).not.toHaveBeenCalled();
       });
     });
@@ -181,13 +169,13 @@ describe('AnonymousConsentsInterceptor', () => {
     describe('when rawCosents are NOT falsy', () => {
       describe('and user is logged in', () => {
         it('should NOT call decodeAndDeserialize and giveRequiredConsents', () => {
-          spyOn<any>(interceptor, decodeAndDeserializeMethod).and.stub();
+          spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.stub();
           spyOn<any>(interceptor, giveRequiredConsentsMethod).and.stub();
 
           interceptor[handleResponseMethod](true, 'dummy headers', []);
 
           expect(
-            interceptor[decodeAndDeserializeMethod]
+            anonymousConsentsService.decodeAndDeserialize
           ).not.toHaveBeenCalled();
           expect(
             interceptor[giveRequiredConsentsMethod]
@@ -195,13 +183,15 @@ describe('AnonymousConsentsInterceptor', () => {
         });
       });
       describe('and user is NOT logged in', () => {
-        it(`should call ${consentsUpdatedMethod}`, () => {
+        it('should call consentsUpdated', () => {
           const mockHeaderValue = 'dummy headers';
-          spyOn<any>(interceptor, decodeAndDeserializeMethod).and.stub();
+          spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.stub();
           spyOn<any>(interceptor, giveRequiredConsentsMethod).and.returnValue(
             mockAnonymousConsents
           );
-          spyOn<any>(interceptor, consentsUpdatedMethod).and.returnValue(false);
+          spyOn(anonymousConsentsService, 'consentsUpdated').and.returnValue(
+            false
+          );
 
           interceptor[handleResponseMethod](
             false,
@@ -209,23 +199,25 @@ describe('AnonymousConsentsInterceptor', () => {
             mockAnonymousConsents
           );
 
-          expect(interceptor[decodeAndDeserializeMethod]).toHaveBeenCalledWith(
-            mockHeaderValue
-          );
-          expect(interceptor[consentsUpdatedMethod]).toHaveBeenCalledWith(
+          expect(
+            anonymousConsentsService.decodeAndDeserialize
+          ).toHaveBeenCalledWith(mockHeaderValue);
+          expect(anonymousConsentsService.consentsUpdated).toHaveBeenCalledWith(
             mockAnonymousConsents,
             mockAnonymousConsents
           );
         });
       });
-      describe(`when the ${consentsUpdatedMethod} returns true`, () => {
+      describe('when the consentsUpdated returns true', () => {
         it('should call anonymousConsentsService.setConsents()', () => {
           const mockHeaderValue = 'dummy headers';
-          spyOn<any>(interceptor, decodeAndDeserializeMethod).and.stub();
+          spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.stub();
           spyOn<any>(interceptor, giveRequiredConsentsMethod).and.returnValue(
             mockAnonymousConsents
           );
-          spyOn<any>(interceptor, consentsUpdatedMethod).and.returnValue(true);
+          spyOn(anonymousConsentsService, 'consentsUpdated').and.returnValue(
+            true
+          );
           spyOn(anonymousConsentsService, 'setConsents').and.stub();
 
           interceptor[handleResponseMethod](
@@ -234,10 +226,10 @@ describe('AnonymousConsentsInterceptor', () => {
             mockAnonymousConsents
           );
 
-          expect(interceptor[decodeAndDeserializeMethod]).toHaveBeenCalledWith(
-            mockHeaderValue
-          );
-          expect(interceptor[consentsUpdatedMethod]).toHaveBeenCalledWith(
+          expect(
+            anonymousConsentsService.decodeAndDeserialize
+          ).toHaveBeenCalledWith(mockHeaderValue);
+          expect(anonymousConsentsService.consentsUpdated).toHaveBeenCalledWith(
             mockAnonymousConsents,
             mockAnonymousConsents
           );
@@ -266,47 +258,6 @@ describe('AnonymousConsentsInterceptor', () => {
 
       const result = interceptor[giveRequiredConsentsMethod]([...consents]);
       expect(result).toEqual(expectedConsents);
-    });
-  });
-
-  describe(`${consentsUpdatedMethod}`, () => {
-    it('should return true when the newConsents are different from previousConsents', () => {
-      const newConsents: AnonymousConsent[] = [
-        {
-          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
-          templateCode: 'a',
-          version: 0,
-        },
-      ];
-      const previousConsents: AnonymousConsent[] = [
-        {
-          consentState: null,
-          templateCode: 'b',
-          version: 1,
-        },
-      ];
-
-      const result = interceptor[consentsUpdatedMethod](
-        newConsents,
-        previousConsents
-      );
-      expect(result).toEqual(true);
-    });
-    it('should return false when the newConsents are the same as previousConsents', () => {
-      const newConsents: AnonymousConsent[] = [
-        {
-          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
-          templateCode: 'a',
-          version: 0,
-        },
-      ];
-      const previousConsents: AnonymousConsent[] = [...newConsents];
-
-      const result = interceptor[consentsUpdatedMethod](
-        newConsents,
-        previousConsents
-      );
-      expect(result).toEqual(false);
     });
   });
 

@@ -343,4 +343,62 @@ describe('AnonymousConsentsService', () => {
       ).toEqual(false);
     });
   });
+
+  describe('serializeAndEncode', () => {
+    it('should return an empty string if a falsy parameter is passed', () => {
+      expect(service.serializeAndEncode(null)).toEqual('');
+    });
+    it('should return stringify and encode the provided consents', () => {
+      const result = service.serializeAndEncode(mockAnonymousConsents);
+      expect(result).toEqual(
+        encodeURIComponent(JSON.stringify(mockAnonymousConsents))
+      );
+    });
+  });
+
+  describe('decodeAndDeserialize', () => {
+    it('should decode and unserialize the provided value', () => {
+      const mockRawConsents = encodeURIComponent(
+        JSON.stringify(mockAnonymousConsents)
+      );
+
+      const result = service.decodeAndDeserialize(mockRawConsents);
+      expect(result).toEqual(mockAnonymousConsents);
+    });
+  });
+
+  describe('consentsUpdated', () => {
+    it('should return true when the newConsents are different from previousConsents', () => {
+      const newConsents: AnonymousConsent[] = [
+        {
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+          templateCode: 'a',
+          version: 0,
+        },
+      ];
+      const previousConsents: AnonymousConsent[] = [
+        {
+          consentState: null,
+          templateCode: 'b',
+          version: 1,
+        },
+      ];
+
+      const result = service.consentsUpdated(newConsents, previousConsents);
+      expect(result).toEqual(true);
+    });
+    it('should return false when the newConsents are the same as previousConsents', () => {
+      const newConsents: AnonymousConsent[] = [
+        {
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+          templateCode: 'a',
+          version: 0,
+        },
+      ];
+      const previousConsents: AnonymousConsent[] = [...newConsents];
+
+      const result = service.consentsUpdated(newConsents, previousConsents);
+      expect(result).toEqual(false);
+    });
+  });
 });
