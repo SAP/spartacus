@@ -18,6 +18,15 @@ export function reducer(
         ...content,
       };
     }
+    case ConfiguratorUiActions.SET_CURRENT_GROUP: {
+      const newCurrentGroup: string = action.payload;
+      const changedState = { currentGroup: newCurrentGroup };
+
+      return {
+        ...state,
+        ...changedState,
+      };
+    }
     case ConfiguratorUiActions.CREATE_UI_STATE:
     case ConfiguratorUiActions.REMOVE_UI_STATE: {
       return state;

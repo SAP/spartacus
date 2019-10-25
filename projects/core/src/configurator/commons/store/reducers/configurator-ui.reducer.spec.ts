@@ -37,6 +37,23 @@ describe('Cart reducer', () => {
     });
   });
 
+  describe('SetCurrentGroup action', () => {
+    it('should change the current group', () => {
+      const { initialState } = uiReducer;
+      uiReducer.reducer(
+        initialState,
+        new ConfiguratorUiActions.CreateUiState(PRODUCT_CODE)
+      );
+
+      const state = uiReducer.reducer(
+        initialState,
+        new ConfiguratorUiActions.SetCurrentGroup(PRODUCT_CODE, CURRENT_GROUP)
+      );
+
+      expect(state.currentGroup).toEqual(CURRENT_GROUP);
+    });
+  });
+
   describe('RemoveUiState action', () => {
     it('should set the initial state', () => {
       const { initialState } = uiReducer;

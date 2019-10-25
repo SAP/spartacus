@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import * as UiActions from '../store/actions/configurator-ui.action';
 import { StateWithConfiguration, UiState } from '../store/configuration-state';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
@@ -98,5 +99,14 @@ describe('ConfiguratorGroupsService', () => {
     currentGroup.subscribe(groupId => {
       expect(groupId).toBe(GROUP_ID_1);
     });
+  });
+
+  it('should delegate setting the current group to the store', () => {
+    serviceUnderTest.setCurrentGroup(PRODUCT_CODE, GROUP_ID_1);
+    const expectedAction = new UiActions.SetCurrentGroup(
+      PRODUCT_CODE,
+      GROUP_ID_1
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

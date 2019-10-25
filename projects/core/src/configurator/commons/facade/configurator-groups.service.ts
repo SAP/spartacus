@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { mergeMap, shareReplay, take } from 'rxjs/operators';
+import { mergeMap, shareReplay } from 'rxjs/operators';
+import * as UiActions from '../store/actions/configurator-ui.action';
+import { StateWithConfiguration } from '../store/configuration-state';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 /**
@@ -8,7 +11,10 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
  */
 @Injectable()
 export class ConfiguratorGroupsService {
-  constructor(private configuratorCommonsService: ConfiguratorCommonsService) {}
+  constructor(
+    private store: Store<StateWithConfiguration>,
+    private configuratorCommonsService: ConfiguratorCommonsService
+  ) {}
 
   getCurrentGroup(productCode: string): Observable<string> {
     return this.configuratorCommonsService.getUiState(productCode).pipe(
@@ -38,15 +44,7 @@ export class ConfiguratorGroupsService {
   }
 
   setCurrentGroup(productCode: string, groupId: string) {
-    this.configuratorCommonsService
-      .getUiState(productCode)
-      .pipe(take(1))
-      .subscribe(uiState => {
-        this.configuratorCommonsService.setUiState(productCode, {
-          ...uiState,
-          currentGroup: groupId,
-        });
-      });
+    this.store.dispatch(new UiActions.SetCurrentGroup(productCode, groupId));
   }
 
   getNextGroup(productCode: string): Observable<string> {
