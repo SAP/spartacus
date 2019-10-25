@@ -6,7 +6,6 @@ import { CartActions } from '../actions/index';
 
 @Injectable()
 export class MultiCartEffects {
-  // TODO: remove when removing cart store module
   @Effect()
   loadCart2$: Observable<CartActions.LoadMultiCart> = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
@@ -16,7 +15,6 @@ export class MultiCartEffects {
     )
   );
 
-  // TODO: remove when removing cart store module
   @Effect()
   createCart2$: Observable<CartActions.CreateMultiCart> = this.actions$.pipe(
     ofType(CartActions.CREATE_CART),
@@ -34,7 +32,6 @@ export class MultiCartEffects {
     })
   );
 
-  // TODO: remove when removing cart store module
   @Effect()
   mergeCart2$: Observable<CartActions.MergeMultiCart> = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
@@ -44,7 +41,6 @@ export class MultiCartEffects {
     )
   );
 
-  // TODO: remove when removing cart store module
   @Effect()
   addEmail2$: Observable<CartActions.AddEmailToMultiCart> = this.actions$.pipe(
     ofType(CartActions.ADD_EMAIL_TO_CART),
