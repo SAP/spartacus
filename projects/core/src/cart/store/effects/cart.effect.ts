@@ -19,7 +19,6 @@ import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartEffects {
-  // TODO: change to listen on LoadMultiCart action, remove old actions usage
   @Effect()
   loadCart$: Observable<
     | CartActions.LoadCartFail
@@ -47,43 +46,31 @@ export class CartEffects {
         .load(loadCartParams.userId, loadCartParams.cartId)
         .pipe(
           mergeMap((cart: Cart) => {
-            let returnArr = [];
+            let actions = [];
             if (payload.extraData && payload.extraData.addEntries) {
-              returnArr.push(new CartActions.CartSuccessAddEntryProcess());
+              actions.push(new CartActions.CartSuccessAddEntryProcess());
             }
-            if (loadCartParams.cartId === OCC_CART_ID_CURRENT && cart) {
-              returnArr = [
-                ...returnArr,
-                new CartActions.LoadCartSuccess(cart),
-                new CartActions.LoadMultiCartSuccess({
+            if (cart) {
+              actions.push(new CartActions.LoadCartSuccess(cart));
+              actions.push(new CartActions.LoadMultiCartSuccess({
                   cart,
                   userId: loadCartParams.userId,
                   extraData: payload.extraData,
-                }),
-                // Removing cart from entity object under `current` key as it is no longer needed.
-                // Current cart is loaded under it's code entity.
-                new CartActions.RemoveCart(OCC_CART_ID_CURRENT),
-              ];
-              return returnArr;
-            } else if (cart) {
-              returnArr = [
-                ...returnArr,
-                new CartActions.LoadCartSuccess(cart),
-                new CartActions.LoadMultiCartSuccess({
-                  cart,
-                  userId: loadCartParams.userId,
-                  extraData: payload.extraData,
+                }));
+                if (loadCartParams.cartId === OCC_CART_ID_CURRENT) {
+                  // Removing cart from entity object under `current` key as it is no longer needed.
+                  // Current cart is loaded under it's code entity.
+                  actions.push(new CartActions.RemoveCart(OCC_CART_ID_CURRENT));
+                }
+            } else {
+              actions = [
+                new CartActions.LoadCartFail({}),
+                new CartActions.LoadMultiCartFail({
+                  cartId: loadCartParams.cartId,
                 }),
               ];
-              return returnArr;
             }
-            returnArr = [
-              new CartActions.LoadCartFail({}),
-              new CartActions.LoadMultiCartFail({
-                cartId: loadCartParams.cartId,
-              }),
-            ];
-            return returnArr;
+            return actions;
           }),
           catchError(error => {
             if (error && error.error && error.error.errors) {
@@ -109,7 +96,6 @@ export class CartEffects {
     })
   );
 
-  // TODO: change to listen on CreateMultiCart action, remove old actions usage
   @Effect()
   createCart$: Observable<
     | CartActions.MergeCartSuccess
@@ -170,7 +156,6 @@ export class CartEffects {
     })
   );
 
-  // TODO replace in 2.0 with multi cart action
   @Effect()
   mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
@@ -191,7 +176,6 @@ export class CartEffects {
     })
   );
 
-  // TODO: remove old actions usage (LoadCart)
   @Effect()
   refresh$: Observable<CartActions.LoadCart> = this.actions$.pipe(
     ofType(
@@ -223,7 +207,6 @@ export class CartEffects {
     )
   );
 
-  // TODO: remove old actions usage
   @Effect()
   resetCartDetailsOnSiteContextChange$: Observable<
     CartActions.ResetCartDetails | CartActions.ResetMultiCartDetails
@@ -240,7 +223,6 @@ export class CartEffects {
     })
   );
 
-  // TODO: remove old actions usage
   @Effect()
   addEmail$: Observable<
     | CartActions.AddEmailToCartSuccess
