@@ -1,22 +1,24 @@
 %cx-order-detail-shipping-calydon {
-  .cx-summary {
-    margin-bottom: 48px;
-  }
-
-  .cx-account-summary {
-    background-color: var(--cx-background-color, var(--cx-color-background));
-
-    @include media-breakpoint-up(md) {
-      padding: 5px 18px 12px;
+  cx-order-details-shipping {
+    .cx-summary {
+      margin-bottom: 48px;
     }
 
-    .cx-card-title {
-      font-size: $font-size-base * 1.125;
-      font-weight: bold;
-    }
+    .cx-account-summary {
+      background-color: var(--cx-background-color, var(--cx-color-background));
 
-    .cx-card-label-bold {
-      font-weight: bold;
+      @include media-breakpoint-up(md) {
+        padding: 5px 18px 12px;
+      }
+
+      .cx-card-title {
+        font-size: $font-size-base * 1.125;
+        font-weight: bold;
+      }
+
+      .cx-card-label-bold {
+        font-weight: bold;
+      }
     }
   }
 }
