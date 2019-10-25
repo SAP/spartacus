@@ -5,8 +5,8 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AnonymousConsentsDialogComponent } from '../../shared/components/anonymous-consents/dialog/anonymous-consents-dialog.component';
-import { ModalService } from '../../shared/components/modal/index';
+import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
+import { ModalService } from '../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
@@ -42,7 +42,7 @@ export class AnonymousConsentManagementBannerComponent
 
   viewDetails(): void {
     this.hideBanner();
-    this.modalService.open(AnonymousConsentsDialogComponent, {
+    this.modalService.open(AnonymousConsentDialogComponent, {
       centered: true,
       size: 'lg',
     });
