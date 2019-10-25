@@ -266,9 +266,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      if (this.isAnonymousConsentEnabled) {
-        this.toggleAnonymousConsent();
-      }
     }
   }
 
