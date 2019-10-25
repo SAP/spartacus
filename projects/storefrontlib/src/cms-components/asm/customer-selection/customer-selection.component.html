@@ -1,37 +1,44 @@
-<ng-container *ngIf="!(searchResultsLoading$ | async); else spinner">
-  <form (submit)="onSubmit()" [formGroup]="form">
-    <div class="fd-container">
-      <div class="fd-col--6">
-        <label>
-          <input
-            type="text"
-            class="form-control"
-            [class.is-invalid]="isNotValid('searchTerm')"
-            formControlName="searchTerm"
-            placeholder="{{
-              'asm.customerSearch.searchTerm.label' | cxTranslate
-            }}"
-          />
-          <div class="invalid-feedback" *ngIf="isNotValid('searchTerm')">
-            <span>{{
-              'asm.customerSearch.searchTerm.required' | cxTranslate
-            }}</span>
-          </div>
-        </label>
-      </div>
-
-      <div class="fd-col--3">
-        <button
-          type="submit"
-          class="fd-button--emphasized fd-button--positive sap-icon--media-play"
-        >
-          {{ 'asm.customerSearch.submit' | cxTranslate }}
-        </button>
-      </div>
+<form (submit)="onSubmit()" [formGroup]="form">
+  <div class="fd-container">
+    <div class="fd-col--6">
+      <label>
+        <input
+          type="text"
+          class="form-control"
+          [class.is-invalid]="isNotValid('searchTerm')"
+          formControlName="searchTerm"
+          placeholder="{{
+            'asm.customerSearch.searchTerm.label' | cxTranslate
+          }}"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('searchTerm')">
+          <span>{{
+            'asm.customerSearch.searchTerm.required' | cxTranslate
+          }}</span>
+        </div>
+      </label>
     </div>
-  </form>
-</ng-container>
-<ng-template #spinner>
+
+    <div class="fd-col--3">
+      <button
+        type="submit"
+        class="fd-button--emphasized fd-button--positive sap-icon--media-play"
+      >
+        {{ 'asm.customerSearch.submit' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="searchResults.length > 0" class="results">
+  <div>
+    <a *ngFor="let result of searchResults" (click)="selectCustomer(result)"
+      >- {{ result.uid }}</a
+    >
+  </div>
+</div>
+
+<ng-container *ngIf="searchResultsLoading$ | async">
   <div class="sap-spinner">
     <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
       <div></div>
@@ -39,4 +46,4 @@
       <div></div>
     </div>
   </div>
-</ng-template>
+</ng-container>

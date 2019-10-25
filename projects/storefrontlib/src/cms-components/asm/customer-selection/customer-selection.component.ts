@@ -10,7 +10,6 @@ import {
   AsmService,
   CustomerSearchPage,
   GlobalMessageService,
-  GlobalMessageType,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
@@ -24,6 +23,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   private submitClicked = false;
   private subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
+  searchResults: any;
   @Output()
   submitEvent = new EventEmitter<{ customerId: string }>();
 
@@ -44,30 +44,39 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
         this.handleSearchResults(results);
       })
     );
+
+    this.form.controls.searchTerm.valueChanges.subscribe(value => {
+      console.log(`Search term: value: ${value}, lenght: ${value.length}`);
+      if (value.trim().length >= 3) {
+        console.log('value length >= 3');
+        this.asmService.customerSearch({
+          query: value,
+        });
+      } else {
+        this.asmService.customerSearchReset();
+      }
+    });
   }
 
   private handleSearchResults(results: CustomerSearchPage): void {
     if (!!results && results.entries) {
-      const customerHit = results.entries.find(
-        element =>
-          element.uid.toLowerCase() ===
-          this.form.controls.searchTerm.value.toLowerCase()
-      );
-      if (customerHit) {
-        this.submitEvent.emit({ customerId: customerHit.customerId });
-      } else {
-        this.globalMessageService.add(
-          {
-            key: 'asm.customerSearch.noMatch',
-            params: { uid: this.form.controls.searchTerm.value },
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      }
+      this.searchResults = results.entries;
+      results.entries.forEach(result => {
+        console.log(`${result.firstName} ${result.lastName}, ${result.uid}`);
+      });
+    } else {
+      this.searchResults = [];
+      console.log('No results');
     }
   }
 
+  selectCustomer(customer: any) {
+    console.log('selectCustomer', customer);
+    this.submitEvent.emit({ customerId: customer.customerId });
+  }
+
   onSubmit(): void {
+    console.log('onSumbmit');
     this.submitClicked = true;
     if (this.form.invalid) {
       return;
