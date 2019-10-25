@@ -229,6 +229,10 @@ export class AnonymousConsentsEffects {
     fromEvent<StorageEvent>(this.winRef.nativeWindow, 'storage').pipe(
       filter(
         storageEvent =>
+          isFeatureEnabled(
+            this.anonymousConsentsConfig,
+            ANONYMOUS_CONSENTS_FEATURE
+          ) &&
           storageEvent.key === DEFAULT_LOCAL_STORAGE_KEY &&
           storageEvent.newValue !== null &&
           storageEvent.oldValue !== null
