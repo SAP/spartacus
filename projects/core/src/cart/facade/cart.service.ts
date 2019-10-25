@@ -23,7 +23,12 @@ import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 import { CartDataService } from './cart-data.service';
 
-// TODO: Add deprecation comment
+/**
+ * @deprecated since version 1.4
+ * Use ActiveCartService instead (API is almost the same)
+ * From 1.4 version CartService uses ActiveCartService if it is available
+ * Fixes and improvements will be only implemented in ActiveCartService
+ */
 @Injectable()
 export class CartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =

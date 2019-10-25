@@ -9,6 +9,7 @@ import {
   tap,
   switchMap,
   withLatestFrom,
+  distinctUntilChanged,
 } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
@@ -111,6 +112,13 @@ export class ActiveCartService {
 
   getActive(): Observable<Cart> {
     return this.activeCart$;
+  }
+
+  getActiveCartId(): Observable<string> {
+    return this.activeCart$.pipe(
+      map(cart => getCartIdByUserId(cart, this.userId)),
+      distinctUntilChanged()
+    );
   }
 
   getEntries(): Observable<OrderEntry[]> {
@@ -273,13 +281,6 @@ export class ActiveCartService {
     return this.getActive().pipe(map(cart => cart.user));
   }
 
-  private isEmail(str: string): boolean {
-    if (str) {
-      return str.match(EMAIL_PATTERN) ? true : false;
-    }
-    return false;
-  }
-
   isGuestCart(): boolean {
     return (
       this.cartUser &&
@@ -302,6 +303,13 @@ export class ActiveCartService {
     cartEntries.forEach(entry => {
       this.addEntry(entry.product.code, entry.quantity, guestMerge);
     });
+  }
+
+  private isEmail(str: string): boolean {
+    if (str) {
+      return str.match(EMAIL_PATTERN) ? true : false;
+    }
+    return false;
   }
 
   // TODO: Remove once backend is updated
