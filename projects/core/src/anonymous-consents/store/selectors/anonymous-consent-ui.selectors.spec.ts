@@ -49,9 +49,10 @@ describe('anonymous consent ui selectors', () => {
   });
   describe('getAnonymousConsentsBannerVisibility', () => {
     it('should return the banner slice of the state', () => {
+      const visible = false;
       store.dispatch(
         new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-          false
+          visible
         )
       );
 
@@ -65,7 +66,7 @@ describe('anonymous consent ui selectors', () => {
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual(false);
+      expect(result).toEqual(visible);
     });
   });
 });
