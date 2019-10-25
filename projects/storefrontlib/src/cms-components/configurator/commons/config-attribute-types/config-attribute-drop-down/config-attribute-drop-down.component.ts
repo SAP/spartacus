@@ -20,6 +20,7 @@ export class ConfigAttributeDropDownComponent implements OnInit {
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   @Input() attribute: Configurator.Attribute;
+  @Input() group: String;
 
   @Output() selectionChange = new EventEmitter();
 
@@ -28,12 +29,15 @@ export class ConfigAttributeDropDownComponent implements OnInit {
   }
 
   onSelect() {
-    const attribute: Configurator.Attribute = {
-      name: this.attribute.name,
-      selectedSingleValue: this.attributeDropDownForm.value,
-      uiType: this.attribute.uiType,
+    const event = {
+      changedAttribute: {
+        name: this.attribute.name,
+        selectedSingleValue: this.attributeDropDownForm.value,
+        uiType: this.attribute.uiType,
+      },
+      group: this.group,
     };
 
-    this.selectionChange.emit(attribute);
+    this.selectionChange.emit(event);
   }
 }

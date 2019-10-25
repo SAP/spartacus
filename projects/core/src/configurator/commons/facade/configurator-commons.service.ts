@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { filter, mergeMap, tap } from 'rxjs/operators';
+import { filter, mergeMap, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
@@ -67,17 +67,26 @@ export class ConfiguratorCommonsService {
   }
 
   updateConfiguration(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Configuration> {
-    this.store.dispatch(
-      new ConfiguratorActions.UpdateConfiguration(configuration)
-    );
-
-    return this.store.pipe(
-      select(
-        ConfiguratorSelectors.getConfigurationFactory(configuration.productCode)
+    productCode: string,
+    groupId: string,
+    changedAttribute: Configurator.Attribute
+  ): void {
+    this.store
+      .pipe(
+        select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
+        take(1)
       )
-    );
+      .subscribe(configuration => {
+        this.store.dispatch(
+          new ConfiguratorActions.UpdateConfiguration(
+            this.mergeChangesToNewObject(
+              groupId,
+              changedAttribute,
+              configuration
+            )
+          )
+        );
+      });
   }
 
   getUiState(productCode: string): Observable<UiState> {
@@ -109,5 +118,40 @@ export class ConfiguratorCommonsService {
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
     return configuration !== undefined;
+  }
+
+  mergeChangesToNewObject(
+    groupId: string,
+    changedAttribute: Configurator.Attribute,
+    configuration: Configurator.Configuration
+  ): Configurator.Configuration {
+    const newConfiguration: Configurator.Configuration = JSON.parse(
+      JSON.stringify(configuration)
+    );
+
+    newConfiguration.groups.forEach(group => {
+      if (group.id !== groupId) {
+        return;
+      }
+
+      group.attributes.forEach(attribute => {
+        if (attribute.name !== changedAttribute.name) {
+          return;
+        }
+
+        switch (attribute.uiType) {
+          case Configurator.UiType.RADIOBUTTON:
+          case Configurator.UiType.DROPDOWN:
+            attribute.selectedSingleValue =
+              changedAttribute.selectedSingleValue;
+            break;
+          case Configurator.UiType.STRING:
+            attribute.userInput = changedAttribute.userInput;
+            break;
+        }
+      });
+    });
+
+    return newConfiguration;
   }
 }
