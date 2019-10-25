@@ -49,4 +49,8 @@ export class ScriptService {
     // w.Y_TRACKING = w.Y_TRACKING || {}
     // w.Y_TRACKING.config = options;
   }
+
+  // private addToCart() {
+  //   w.Y_TRACKING.push(event_name, data)
+  // }
 }
