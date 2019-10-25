@@ -52,16 +52,18 @@ export class CartEffects {
             }
             if (cart) {
               actions.push(new CartActions.LoadCartSuccess(cart));
-              actions.push(new CartActions.LoadMultiCartSuccess({
+              actions.push(
+                new CartActions.LoadMultiCartSuccess({
                   cart,
                   userId: loadCartParams.userId,
                   extraData: payload.extraData,
-                }));
-                if (loadCartParams.cartId === OCC_CART_ID_CURRENT) {
-                  // Removing cart from entity object under `current` key as it is no longer needed.
-                  // Current cart is loaded under it's code entity.
-                  actions.push(new CartActions.RemoveCart(OCC_CART_ID_CURRENT));
-                }
+                })
+              );
+              if (loadCartParams.cartId === OCC_CART_ID_CURRENT) {
+                // Removing cart from entity object under `current` key as it is no longer needed.
+                // Current cart is loaded under it's code entity.
+                actions.push(new CartActions.RemoveCart(OCC_CART_ID_CURRENT));
+              }
             } else {
               actions = [
                 new CartActions.LoadCartFail({}),

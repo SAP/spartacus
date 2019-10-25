@@ -19,6 +19,7 @@ import { CartActions } from '../actions/index';
 import { CART_FEATURE } from '../cart-state';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
+import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -104,6 +105,79 @@ describe('Cart effect', () => {
       const expected = cold('-(bc)', {
         b: loadCartCompletion,
         c: loadMultiCartCompletion,
+      });
+
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('should complete add entry process when dispatched with extraData', () => {
+      const action = new CartActions.LoadCart({
+        userId,
+        cartId,
+        extraData: {
+          addEntries: true,
+        },
+      });
+      const loadCartCompletion = new CartActions.LoadCartSuccess(testCart);
+      const loadMultiCartCompletion = new CartActions.LoadMultiCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: {
+          addEntries: true,
+        },
+      });
+      const cartSuccessAddEntryProcessCompletion = new CartActions.CartSuccessAddEntryProcess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: cartSuccessAddEntryProcessCompletion,
+        c: loadCartCompletion,
+        d: loadMultiCartCompletion,
+      });
+
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('should remove current cart for current load', () => {
+      const action = new CartActions.LoadCart({
+        userId,
+        cartId: 'current',
+      });
+      const loadCartCompletion = new CartActions.LoadCartSuccess(testCart);
+      const loadMultiCartCompletion = new CartActions.LoadMultiCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: undefined,
+      });
+      const removeCartCompletion = new CartActions.RemoveCart(
+        OCC_CART_ID_CURRENT
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: loadCartCompletion,
+        c: loadMultiCartCompletion,
+        d: removeCartCompletion,
+      });
+
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('return fail actions on empty cart', () => {
+      const action = new CartActions.LoadCart({
+        userId,
+        cartId,
+      });
+      loadMock.and.returnValue(of(null));
+      const loadCartFailCompletion = new CartActions.LoadCartFail({});
+      const loadMultiCartFailCompletion = new CartActions.LoadMultiCartFail({
+        cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: loadCartFailCompletion,
+        c: loadMultiCartFailCompletion,
       });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
