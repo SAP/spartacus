@@ -3,10 +3,6 @@ import { OccConfig } from '../../occ/config/occ-config';
 export abstract class AnonymousConsentsConfig extends OccConfig {
   anonymousConsents?: {
     /**
-     * Show the link in the footer that opens the anonymous consents dialog.
-     */
-    footerLink?: boolean;
-    /**
      * Specify the consent template ID to be show on the registration page.
      */
     registerConsent?: string;
