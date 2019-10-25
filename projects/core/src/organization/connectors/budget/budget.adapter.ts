@@ -13,7 +13,7 @@ export abstract class BudgetAdapter {
    */
   abstract load(userId: string, budgetCode: string): Observable<Budget>;
 
-  abstract loadMany(
+  abstract loadList(
     userId: string,
     params?: BudgetSearchConfig
   ): Observable<Budget[]>;

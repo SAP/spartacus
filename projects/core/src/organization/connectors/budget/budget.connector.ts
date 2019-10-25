@@ -14,11 +14,11 @@ export class BudgetConnector {
     return this.adapter.load(userId, budgetCode);
   }
 
-  getMany(
+  getList(
     userId: string,
     params?: BudgetSearchConfig
   ): Observable<Budget[]> {
-    return this.adapter.loadMany(userId, params);
+    return this.adapter.loadList(userId, params);
   }
 
   create(userId: string, budget: Budget): Observable<Budget> {

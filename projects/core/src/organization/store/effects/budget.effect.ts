@@ -37,7 +37,7 @@ export class BudgetEffects {
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(payload =>
-      this.budgetConnector.getMany(payload.userId, payload.params).pipe(
+      this.budgetConnector.getList(payload.userId, payload.params).pipe(
         switchMap((budgets: Budget[]) => [
           new BudgetActions.LoadBudgetSuccess(budgets),
           new BudgetActions.LoadBudgetsSuccess(),

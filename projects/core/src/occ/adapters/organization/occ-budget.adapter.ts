@@ -23,7 +23,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  loadMany(userId: string, params?: BudgetSearchConfig): Observable<Budget[]> {
+  loadList(userId: string, params?: BudgetSearchConfig): Observable<Budget[]> {
     return this.http.get(this.getBudgetsEndpoint(userId, params)).pipe(
       pluck('budgets'),
       this.converter.pipeableMany(BUDGET_NORMALIZER)
