@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { asyncScheduler } from 'rxjs';
+import { queueScheduler } from 'rxjs';
 import { filter, map, observeOn, switchMap, take, tap } from 'rxjs/operators';
 
 import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
@@ -65,12 +65,13 @@ export class BudgetService {
 
   getList(params?: BudgetSearchConfig) {
     return this.getBudgetsProcess().pipe(
-      observeOn(asyncScheduler),
+      observeOn(queueScheduler),
       tap((process: LoaderState<void>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadBudgets(params);
         }
       }),
+      tap(data => console.log('x',data )),
       filter((process: LoaderState<void>) => process.success || process.error),
       switchMap(() => this.getBudgets())
     );
@@ -78,12 +79,13 @@ export class BudgetService {
 
   get(budgetCode: string) {
     return this.getBudgetState(budgetCode).pipe(
-      observeOn(asyncScheduler),
+      observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
           this.loadBudget(budgetCode);
         }
       }),
+      tap(data => console.log('x',data )),
       filter(state => state.success || state.error),
       map(state => state.value)
     );
