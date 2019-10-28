@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import {
   UserInterestsService,
   ProductInterestSearchResult,
   ProductInterestEntryRelation,
   PaginationModel,
+  TranslationService,
 } from '@spartacus/core';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 @Component({
   selector: 'cx-my-interests',
@@ -21,10 +22,6 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   };
 
   sort = 'byNameAsc';
-  sortLabels = {
-    byNameAsc: 'Name (Ascending)',
-    byNameDesc: 'Name (Descending)',
-  };
   sortOptions = [
     {
       code: 'byNameAsc',
@@ -41,7 +38,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   getInterestsloading$: Observable<boolean>;
   getRemoveInterestsloading$: Observable<boolean>;
 
-  constructor(private productInterestService: UserInterestsService) {}
+  constructor(
+    private productInterestService: UserInterestsService,
+    private translationService: TranslationService
+  ) {}
 
   ngOnInit() {
     this.interests$ = this.productInterestService
@@ -64,6 +64,20 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   removeInterest(result: ProductInterestEntryRelation): void {
     this.productInterestService.removeProdutInterest(result);
+  }
+
+  getSortLabels(): Observable<{ byNameAsc: string; byNameDesc: string }> {
+    return combineLatest([
+      this.translationService.translate('myInterests.sorting.byNameAsc'),
+      this.translationService.translate('myInterests.sorting.byNameDesc'),
+    ]).pipe(
+      map(([asc, desc]) => {
+        return {
+          byNameAsc: asc,
+          byNameDesc: desc,
+        };
+      })
+    );
   }
 
   sortChange(sort: string): void {

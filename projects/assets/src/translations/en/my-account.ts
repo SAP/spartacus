@@ -136,5 +136,9 @@ export const myAccount = {
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
     remove: 'REMOVE',
+    sorting: {
+      byNameAsc: 'Name (Ascending)',
+      byNameDesc: 'Name (Descending)',
+    },
   },
 };
