@@ -159,24 +159,4 @@ describe('anonymous consent templates selectors', () => {
       expect(result).toEqual(mockConsentTemplates[0]);
     });
   });
-  describe('getAnonymousConsentTemplatesUpdate', () => {
-    it('should return the update state slice', () => {
-      const updated = true;
-      store.dispatch(
-        new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-          updated
-        )
-      );
-
-      let result = false;
-      store
-        .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
-        )
-        .subscribe(value => (result = value))
-        .unsubscribe();
-
-      expect(result).toEqual(updated);
-    });
-  });
 });
