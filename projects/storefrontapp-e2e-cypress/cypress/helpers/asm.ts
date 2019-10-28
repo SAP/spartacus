@@ -32,12 +32,13 @@ export function asmTests() {
       });
 
       it('agent should authenticate.', () => {
-        asm.agentAuthentication();
+        asm.startCustomerEmulation();
       });
 
       it('agent should start customer emulation.', () => {
         asm.customerAuthentication(customer.fullName);
       });
+      // Winston Ruumford, <email address>
     });
 
     describe('Customer Emulation - Checkout', () => {
@@ -119,7 +120,10 @@ export function asmTests() {
       });
 
       it('end session using the end session button', () => {
-        asm.customerAuthentication(profile.newFullName);
+        asm.customerAuthentication(
+          `${profile.newFirstName} ${profile.newLastName}`
+        );
+        // N Z, <email address>
 
         // should end a user's session when clicking on the end session button
         cy.get('div.cx-customer-emulation button').click();
@@ -207,11 +211,10 @@ export function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
   cy.server();
   cy.route('GET', '/rest/v2/electronics-spa/users/*').as(aliasName);
-  cy.log(aliasName);
   return `@${aliasName}`;
 }
 
-export const agentAuthentication = () => {
+export const startCustomerEmulation = () => {
   const aliasRequest = asm.listenForAuthenticationRequest();
 
   cy.get('cx-csagent-login-form').should('exist');
