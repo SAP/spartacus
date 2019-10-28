@@ -1,6 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Cart, CartService, OrderEntry } from '@spartacus/core';
+import {
+  Cart,
+  CartService,
+  OrderEntry,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
@@ -60,6 +65,13 @@ export class AddedToCartDialogComponent implements OnInit {
 
   updateEntry({ item, updatedQuantity }): void {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
+  }
+
+  getAppliedPromotions(cart: Cart): PromotionResult[] {
+    const appliedPromotions = [];
+    appliedPromotions.push(...(cart.appliedProductPromotions || []));
+
+    return [...appliedPromotions];
   }
 
   private createEntryFormGroup(entry: OrderEntry): FormGroup {
