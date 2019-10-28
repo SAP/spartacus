@@ -26,5 +26,5 @@ export const enum CartEventType {
   ENTRY_UPDATED = '[CART ENTRY] UPDATED',
 
   /** Indicates the succesful removal of a cart entry. */
-  ENTRY_REMOVED = '[CART ENTRY] DELETED',
+  ENTRY_REMOVED = '[CART ENTRY] REMOVED',
 }

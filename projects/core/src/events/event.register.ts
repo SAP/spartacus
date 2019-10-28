@@ -12,7 +12,7 @@ export class EventRegister {
    * @param eventName
    * @param callback
    */
-  register(eventName: any, callback: Observable<any>) {
+  register(eventName: any, callback: Observable<any>): void {
     this._register[eventName] = callback;
   }
 
