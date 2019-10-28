@@ -32,11 +32,11 @@ export function asmTests() {
       });
 
       it('agent should authenticate.', () => {
-        asm.startCustomerEmulation();
+        asm.agentLogin();
       });
 
       it('agent should start customer emulation.', () => {
-        asm.customerAuthentication(customer.fullName);
+        asm.startCustomerEmulation(customer.fullName);
       });
       // Winston Ruumford, <email address>
     });
@@ -120,7 +120,7 @@ export function asmTests() {
       });
 
       it('end session using the end session button', () => {
-        asm.customerAuthentication(
+        asm.startCustomerEmulation(
           `${profile.newFirstName} ${profile.newLastName}`
         );
         // N Z, <email address>
