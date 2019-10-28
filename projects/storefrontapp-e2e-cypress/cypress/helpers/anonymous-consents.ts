@@ -9,7 +9,7 @@ import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
 
 const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
-const ANONYMOUS_DIALOG = 'cx-anonymous-consents-dialog';
+const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
 
@@ -53,8 +53,8 @@ export function clickViewDetailsFromBanner() {
 }
 
 export function openDialogUsingFooterLink() {
-  cy.get('.anonymous-consents').within(() => {
-    const link = cy.get('a');
+  cy.get('cx-anonymous-consent-open-dialog').within(() => {
+    const link = cy.get('button');
     link.should('exist');
     link.click({ force: true });
   });
