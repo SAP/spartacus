@@ -208,6 +208,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
           };
         })
       );
+
+      this.subscription.add(
+        this.userRegistrationForm
+          .get('newsletter')
+          .valueChanges.subscribe(_ => {
+            this.toggleAnonymousConsent();
+          })
+      );
     }
   }
 
@@ -258,14 +266,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      if (
-        this.isAnonymousConsentEnabled &&
-        Boolean(this.userRegistrationForm.get('newsletter').value)
-      ) {
-        this.anonymousConsentsService.giveConsent(
-          this.anonymousConsentsConfig.anonymousConsents.registerConsent
-        );
-      }
+    }
+  }
+
+  toggleAnonymousConsent(): void {
+    if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
+      this.anonymousConsentsService.giveConsent(
+        this.anonymousConsentsConfig.anonymousConsents.registerConsent
+      );
+    } else {
+      this.anonymousConsentsService.withdrawConsent(
+        this.anonymousConsentsConfig.anonymousConsents.registerConsent
+      );
     }
   }
 
