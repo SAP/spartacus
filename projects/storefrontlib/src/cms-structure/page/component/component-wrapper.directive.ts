@@ -18,6 +18,7 @@ import {
   ContentSlotComponentData,
   DynamicAttributeService,
   GroupSkipperService,
+  GroupSkipperConfig,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentMapperService } from './component-mapper.service';
@@ -80,7 +81,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.addSmartEditContract(this.cmpRef.location.nativeElement);
       }
 
-      this.renderSkipperIfEnabled();
+      // console.log(cmsComponentData);
+      this.renderGroupSkipperIfEnabled(this.cmpRef.location.nativeElement);
     }
   }
 
@@ -110,7 +112,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.addSmartEditContract(this.webElement);
       }
 
-      this.renderSkipperIfEnabled();
+      this.renderGroupSkipperIfEnabled(this.webElement);
+      console.log(cmsComponentData);
     }
   }
 
@@ -147,23 +150,18 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     );
   }
 
-  private renderSkipperIfEnabled(): void {
-    const isGroupSkipperEnabled = (
+  private renderGroupSkipperIfEnabled(skipElement: HTMLElement): void {
+    const groupSkipperConfig: GroupSkipperConfig = (
       this.config.cmsComponents[this.cxComponentWrapper.flexType] || {}
     ).groupSkipper;
-    if (
-      isGroupSkipperEnabled &&
-      isGroupSkipperEnabled.groupSkipper &&
-      isGroupSkipperEnabled.groupSkipper.enabled
-    ) {
-      const element: Element = this.cmpRef.location.nativeElement;
-      this.renderer.setAttribute(element, 'id', this.cxComponentWrapper.uid);
+    console.log(skipElement);
+    console.log(this.config.cmsComponents[this.cxComponentWrapper.flexType]);
+    if (groupSkipperConfig && groupSkipperConfig.enabled) {
       this.groupSkipperService.renderAnchor(
-        element,
         this.renderer,
-        this.cxComponentWrapper.uid,
+        skipElement,
         this.config.cmsComponents[this.cxComponentWrapper.flexType].groupSkipper
-          .groupSkipper.title
+          .title
       );
     }
   }
