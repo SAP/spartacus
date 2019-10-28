@@ -6,7 +6,16 @@ import { BudgetConnector } from './budget.connector';
 import createSpy = jasmine.createSpy;
 
 class MockBudgetAdapter implements BudgetAdapter {
-  loadB = createSpy('BudgetAdapter.load').and.callFake(code =>
+  load = createSpy('BudgetAdapter.load').and.callFake(code =>
+    of('product' + code)
+  );
+  loadList = createSpy('BudgetAdapter.loadList').and.callFake(code =>
+    of('product' + code)
+  );
+  create = createSpy('BudgetAdapter.create').and.callFake(code =>
+    of('product' + code)
+  );
+  update = createSpy('BudgetAdapter.update').and.callFake(code =>
     of('product' + code)
   );
 }
