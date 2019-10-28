@@ -17,6 +17,7 @@ export class ConfigAttributeReadOnlyComponent implements OnInit {
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   @Input() attribute: Configurator.Attribute;
+  @Input() group: String;
 
   @Output() selectionChange = new EventEmitter();
 

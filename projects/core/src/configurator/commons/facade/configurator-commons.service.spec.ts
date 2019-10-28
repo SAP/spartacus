@@ -9,9 +9,24 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
+const GROUP_ID_1 = '1234-56-7891';
+const ATTRIBUTE_NAME_1 = 'Attribute_1';
+
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  groups: [
+    {
+      id: GROUP_ID_1,
+      attributes: [
+        {
+          name: ATTRIBUTE_NAME_1,
+          uiType: Configurator.UiType.STRING,
+          userInput: null,
+        },
+      ],
+    },
+  ],
 };
 
 describe('ConfiguratorCommonsService', () => {
@@ -30,6 +45,7 @@ describe('ConfiguratorCommonsService', () => {
     >);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
 
+    spyOn(serviceUnderTest, 'mergeChangesToNewObject').and.callThrough();
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
   });
@@ -75,18 +91,24 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   it('should update a configuration, accessing the store', () => {
-    const configurationFromStore = serviceUnderTest.updateConfiguration(
-      productConfiguration
-    );
+    const changedAttribute: Configurator.Attribute = {
+      name: 'changedAttribute',
+    };
 
-    expect(configurationFromStore).toBeDefined();
-    let productCode: string;
-    configurationFromStore.subscribe(
-      configuration => (productCode = configuration.productCode)
+    serviceUnderTest.updateConfiguration(
+      PRODUCT_CODE,
+      GROUP_ID_1,
+      changedAttribute
     );
-    expect(productCode).toBe(PRODUCT_CODE);
+    expect(serviceUnderTest.mergeChangesToNewObject).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.UpdateConfiguration(productConfiguration)
+      new ConfiguratorActions.UpdateConfiguration(
+        serviceUnderTest.mergeChangesToNewObject(
+          GROUP_ID_1,
+          changedAttribute,
+          productConfiguration
+        )
+      )
     );
   });
 });

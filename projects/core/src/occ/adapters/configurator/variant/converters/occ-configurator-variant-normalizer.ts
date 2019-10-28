@@ -52,6 +52,7 @@ export class OccConfiguratorVariantNormalizer
       values: [],
       userInput: cstic.formattedValue ? cstic.formattedValue : cstic.value,
       maxlength: cstic.maxlength,
+      selectedSingleValue: null,
     };
     if (cstic.domainvalues) {
       cstic.domainvalues.forEach(value =>

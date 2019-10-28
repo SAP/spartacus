@@ -20,6 +20,7 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   @Input() attribute: Configurator.Attribute;
+  @Input() group: String;
 
   @Output() inputChange = new EventEmitter();
 
@@ -28,12 +29,15 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
   }
 
   onChange() {
-    const attribute: Configurator.Attribute = {
-      name: this.attribute.name,
-      userInput: this.attributeInputForm.value,
-      uiType: this.attribute.uiType,
+    const event = {
+      changedAttribute: {
+        name: this.attribute.name,
+        userInput: this.attributeInputForm.value,
+        uiType: this.attribute.uiType,
+      },
+      group: this.group,
     };
 
-    this.inputChange.emit(attribute);
+    this.inputChange.emit(event);
   }
 }
