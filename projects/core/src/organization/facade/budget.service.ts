@@ -71,7 +71,6 @@ export class BudgetService {
           this.loadBudgets(params);
         }
       }),
-      tap(data => console.log('x',data )),
       filter((process: LoaderState<void>) => process.success || process.error),
       switchMap(() => this.getBudgets())
     );
@@ -85,7 +84,6 @@ export class BudgetService {
           this.loadBudget(budgetCode);
         }
       }),
-      tap(data => console.log('x',data )),
       filter(state => state.success || state.error),
       map(state => state.value)
     );
