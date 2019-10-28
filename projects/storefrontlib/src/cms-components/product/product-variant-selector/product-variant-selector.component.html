@@ -9,8 +9,7 @@
         <li
           *ngFor="let v of styleVariants"
           [ngClass]="{
-            'selected-variant':
-              v.code === product.code || v.code === product.baseProduct
+            'selected-variant': v.code === selectedStyle
           }"
         >
           <a
