@@ -51,6 +51,7 @@ export class ConfigGroupMenuComponent implements OnInit, OnDestroy {
 
     this.hamburgerMenuService.toggle(true);
   }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();

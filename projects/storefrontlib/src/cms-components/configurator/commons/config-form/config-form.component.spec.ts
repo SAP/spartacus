@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -127,7 +127,6 @@ class MockConfiguratorGroupsService {
 describe('ConfigurationFormComponent', () => {
   let component: ConfigFormComponent;
   let fixture: ComponentFixture<ConfigFormComponent>;
-  let configurationGroupsService: ConfiguratorGroupsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -170,9 +169,6 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigFormComponent);
     component = fixture.componentInstance;
-    configurationGroupsService = TestBed.get(ConfiguratorGroupsService as Type<
-      ConfiguratorGroupsService
-    >);
   });
 
   it('should create component', () => {
@@ -189,64 +185,11 @@ describe('ConfigurationFormComponent', () => {
 
     expect(productCode).toEqual(PRODUCT_CODE);
   });
-  it('should get product code as part of product configuration', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    let productCode: string;
-    component.configuration$.subscribe(
-      (data: Configurator.Configuration) => (productCode = data.productCode)
-    );
 
-    expect(productCode).toEqual(PRODUCT_CODE);
-  });
-
-  it('isFirstGroup should return true if the previous group of current group is null', () => {
+  it('should release subscription on destroy ', () => {
     component.ngOnInit();
-    fixture.detectChanges();
-    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
-      of(null)
-    );
-    const isFirstGroup = component.isFirstGroup();
-    expect(isFirstGroup).toBeDefined();
-    isFirstGroup.subscribe(group => {
-      expect(group).toEqual(true);
-    });
-  });
-
-  it('isFirstGroup should return false if the previous group of current group is not null', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
-      of('anyGroupId')
-    );
-    const isFirstGroup = component.isFirstGroup();
-    expect(isFirstGroup).toBeDefined();
-    isFirstGroup.subscribe(group => {
-      expect(group).toEqual(false);
-    });
-  });
-
-  it('isLastGroup should return true if the next group of current group is null', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(of(null));
-    const isLastGroup = component.isLastGroup();
-    expect(isLastGroup).toBeDefined();
-    isLastGroup.subscribe(group => {
-      expect(group).toEqual(true);
-    });
-  });
-
-  it('isLastGroup should return false if the next group of current group is not null', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
-      of('anyGroupId')
-    );
-    const isLastGroup = component.isLastGroup();
-    expect(isLastGroup).toBeDefined();
-    isLastGroup.subscribe(group => {
-      expect(group).toEqual(false);
-    });
+    expect(component.subscription.closed).toBe(false);
+    component.ngOnDestroy();
+    expect(component.subscription.closed).toBe(true);
   });
 });

@@ -10,7 +10,8 @@
 @import './page-templates/error-page';
 @import './page-templates/order-detail-page';
 @import './page-templates/multistep-checkout-page';
-@import './page-templates/variant-configuration-page';
+@import './page-templates/configuration-variant-page';
+@import './page-templates/configuration-textfield-page';
 @import './page-templates/store-finder-page';
 
 cx-page-layout {
@@ -80,6 +81,10 @@ cx-category-navigation {
 
 .VariantConfigurationTemplate {
   @extend %VariantConfigurationTemplate !optional;
+}
+
+.TextfieldConfigurationTemplate {
+  @extend %TextfieldConfigurationTemplate !optional;
 }
 
 .StoreFinderPageTemplate {

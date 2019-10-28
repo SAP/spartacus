@@ -34,7 +34,13 @@ export class ConfiguratorEffects {
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             return [new CreateConfigurationSuccess(configuration)];
-          })
+          }),
+          catchError(error => [
+            new CreateConfigurationFail(
+              productCode,
+              makeErrorSerializable(error)
+            ),
+          ])
         );
     })
   );

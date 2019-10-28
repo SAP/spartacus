@@ -1,0 +1,14 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <div
+    class="cx-item-list-row cx-config-textfield-attribute"
+    *ngFor="let attribute of configuration.configurationInfos"
+  >
+    <div
+      class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
+    >
+      <cx-config-textfield-input-field
+        [attribute]="attribute"
+      ></cx-config-textfield-input-field>
+    </div>
+  </div>
+</ng-container>

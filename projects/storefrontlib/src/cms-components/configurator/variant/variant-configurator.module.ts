@@ -59,6 +59,10 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
           component: ConfigGroupMenuComponent,
           guards: [],
         },
+        VariantConfigurationPrevNext: {
+          component: ConfigPreviousNextButtonsComponent,
+          guards: [],
+        },
       },
       layoutSlots: {
         VariantConfigurationTemplate: {
