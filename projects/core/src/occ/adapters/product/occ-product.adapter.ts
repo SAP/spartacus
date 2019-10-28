@@ -8,7 +8,7 @@ import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converte
 import { Product } from '../../../model/product.model';
 import { ScopedProductData } from '../../../product/connectors/product/scoped-product-data';
 import {
-  OccFieldsLoadData,
+  OccFieldsModels,
   OccFieldsService,
 } from '../../services/occ-fields.service';
 import { Occ } from '../../occ-models';
@@ -29,15 +29,19 @@ export class OccProductAdapter implements ProductAdapter {
   }
 
   loadMany(products: ScopedProductData[]): ScopedProductData[] {
-    const loadInfo: OccFieldsLoadData[] = products.map(curr => ({
-      model: curr,
-      url: this.getEndpoint(curr.id, curr.scope),
+    const oddFieldsModels: OccFieldsModels[] = products.map(model => ({
+      model,
+      url: this.getEndpoint(model.id, model.scope),
     }));
 
-    return this.occFields.optimalLoad<Occ.Product>(loadInfo).map(load => ({
-      ...load,
-      data$: load.data$.pipe(this.converter.pipeable(PRODUCT_NORMALIZER)),
-    }));
+    return this.occFields
+      .optimalLoad<Occ.Product>(oddFieldsModels)
+      .map(scopedProduct => ({
+        ...scopedProduct,
+        data$: scopedProduct.data$.pipe(
+          this.converter.pipeable(PRODUCT_NORMALIZER)
+        ),
+      }));
   }
 
   protected getEndpoint(code: string, scope: string): string {

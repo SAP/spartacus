@@ -6,80 +6,82 @@ import { deepMerge } from '../../config/utils/deep-merge';
  * @param fields Fields definition as string or object
  */
 export function mergeFields(fields: (string | object)[]): string {
-  const parsed = fields.map(f => (typeof f === 'string' ? parseFields(f) : f));
+  const parsedFields = fields.map(f =>
+    typeof f === 'string' ? parseFields(f) : f
+  );
 
-  const merged = optimizeFields(deepMerge({}, ...parsed));
+  const mergedFields = optimizeFields(deepMerge({}, ...parsedFields));
 
-  return stringifyFields(merged);
+  return stringifyFields(mergedFields);
 }
 
 /**
  * Optimize fields definition by removing not needed groups
  *
- * @param def
+ * @param fields
  */
-export function optimizeFields(def: any = {}) {
-  const keys = Object.keys(def);
+export function optimizeFields(fields: object = {}): object {
+  const keys = Object.keys(fields);
   if (keys.includes('FULL')) {
-    delete def['DEFAULT'];
-    delete def['BASIC'];
+    delete fields['DEFAULT'];
+    delete fields['BASIC'];
   } else if (keys.includes('DEFAULT')) {
-    delete def['BASIC'];
+    delete fields['BASIC'];
   }
   keys.forEach(key => {
-    def[key] = optimizeFields(def[key]);
+    fields[key] = optimizeFields(fields[key]);
   });
-  return def;
+  return fields;
 }
 
 /**
  * Parse sting field definition to an AST object
  *
- * @param fields
- * @param s
+ * @param fields Fields string definition
+ * @param startIndex User for recurrence
  */
-export function parseFields(fields, s = 0): [any, number] | any {
-  const res = {};
+export function parseFields(fields, startIndex = 0): [object, number] | object {
+  const parsedFields = {};
 
-  let i = s;
+  let i = startIndex;
   while (i < fields.length) {
     if (fields[i] === ',') {
-      res[fields.substr(s, i - s)] = {};
-      s = i + 1;
+      parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+      startIndex = i + 1;
     } else if (fields[i] === '(') {
       const subFields = parseFields(fields, i + 1);
       if (Array.isArray(subFields)) {
-        res[fields.substr(s, i - s)] = subFields[0];
-        s = subFields[1] + 1;
-        i = s + 1;
+        parsedFields[fields.substr(startIndex, i - startIndex)] = subFields[0];
+        startIndex = subFields[1] + 1;
+        i = startIndex + 1;
       } else {
-        return res;
+        return parsedFields;
       }
     } else if (fields[i] === ')') {
-      if (i > s) {
-        res[fields.substr(s, i - s)] = {};
+      if (i > startIndex) {
+        parsedFields[fields.substr(startIndex, i - startIndex)] = {};
       }
-      return [res, i + 1];
+      return [parsedFields, i + 1];
     }
     i++;
   }
 
-  if (s < fields.length) {
-    res[fields.substr(s, i - s)] = {};
+  if (startIndex < fields.length) {
+    parsedFields[fields.substr(startIndex, i - startIndex)] = {};
   }
 
-  return res;
+  return parsedFields;
 }
 
 /**
  * Convert AST object fields definition to string representation
  *
- * @param parsed
+ * @param fields
  */
-export function stringifyFields(parsed: object): string {
-  return Object.keys(parsed)
+export function stringifyFields(fields: object): string {
+  return Object.keys(fields)
     .map(key => {
-      const subFields = stringifyFields(parsed[key]);
+      const subFields = stringifyFields(fields[key]);
       return subFields ? `${key}(${subFields})` : key;
     })
     .join(',');
@@ -91,31 +93,26 @@ export function stringifyFields(parsed: object): string {
  * @param data
  * @param fields
  */
-export function extractFields(data, fields: string | object) {
-  const parsed = typeof fields === 'string' ? parseFields(fields) : fields;
-  console.log('EXTRACT', data, fields, getObjectPart(data, parsed));
-  return getObjectPart(data, parsed);
+export function extractFields<T>(data: T, fields: string | object): T {
+  const parsedFields =
+    typeof fields === 'string' ? parseFields(fields) : fields;
+  return getObjectPart<T>(data, parsedFields);
 }
 
-/**
- *
- * @param object
- * @param parts
- */
-function getObjectPart(object, parts) {
-  const keys = Object.keys(parts);
+function getObjectPart<T>(data: T, fields: object): T {
+  const keys = Object.keys(fields);
 
   if (
     keys.length === 0 ||
     keys.find(el => el === 'BASIC' || el === 'DEFAULT' || el === 'FULL')
   ) {
-    return object;
+    return data;
   }
 
-  const result = {};
+  const result = {} as T;
 
   keys.forEach(key => {
-    result[key] = getObjectPart(object[key], parts[key]);
+    result[key] = getObjectPart(data[key], fields[key]);
   });
 
   return result;
