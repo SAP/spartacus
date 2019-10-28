@@ -42,9 +42,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
         SearchResultsListComponent: {
           component: ProductListComponent,
         },
-        SearchResultsGridComponent: {
-          component: ProductListComponent,
-        },
         ProductRefinementComponent: {
           component: ProductFacetNavigationComponent,
         },

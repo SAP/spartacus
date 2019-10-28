@@ -35,7 +35,7 @@ export class SearchPageMetaResolver extends PageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
-    this.pageTemplate = 'SearchResultsGridPageTemplate';
+    this.pageTemplate = 'SearchResultsListPageTemplate';
   }
 
   /**
