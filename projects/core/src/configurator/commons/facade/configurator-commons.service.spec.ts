@@ -11,6 +11,7 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '1234-56-7891';
 const ATTRIBUTE_NAME_1 = 'Attribute_1';
+
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
