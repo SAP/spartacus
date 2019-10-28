@@ -24,7 +24,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   private submitClicked = false;
   private subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
-  searchResults: any;
+  searchResults: Observable<CustomerSearchPage>;
   selectedCustomer: any;
 
   @Output()
@@ -40,36 +40,26 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       searchTerm: [''],
     });
-    this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
     this.asmService.customerSearchReset();
+    this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
+    this.searchResults = this.asmService.getCustomerSearchResults();
+
     this.subscription.add(
-      this.asmService.getCustomerSearchResults().subscribe(results => {
-        this.handleSearchResults(results);
-      })
+      this.form.controls.searchTerm.valueChanges
+        .pipe(debounceTime(500))
+        .subscribe(value => {
+          if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
+            this.selectedCustomer = undefined;
+          }
+          if (value.trim().length >= 3) {
+            this.asmService.customerSearch({
+              query: value,
+            });
+          } else {
+            this.asmService.customerSearchReset();
+          }
+        })
     );
-
-    this.form.controls.searchTerm.valueChanges
-      .pipe(debounceTime(500))
-      .subscribe(value => {
-        if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
-          this.selectedCustomer = undefined;
-        }
-        if (value.trim().length >= 3) {
-          this.asmService.customerSearch({
-            query: value,
-          });
-        } else {
-          this.asmService.customerSearchReset();
-        }
-      });
-  }
-
-  private handleSearchResults(results: CustomerSearchPage): void {
-    if (!!results && results.entries) {
-      this.searchResults = results.entries;
-    } else {
-      this.searchResults = [];
-    }
   }
 
   selectCustomerFromList(customer: any) {

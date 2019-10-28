@@ -31,10 +31,10 @@
   </div>
 </form>
 
-<div *ngIf="searchResults.length > 0" class="results">
+<div *ngIf="searchResults | async as results" class="results">
   <div>
     <a
-      *ngFor="let result of searchResults"
+      *ngFor="let result of results.entries"
       (click)="selectCustomerFromList(result)"
       >{{ result.name }} {{ result.uid }}</a
     >
