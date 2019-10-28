@@ -131,6 +131,7 @@ class MockAnonymousConsentsService {
   getTemplate(_templateCode: string): Observable<ConsentTemplate> {
     return of();
   }
+  withdrawConsent(_templateCode: string): void {}
   giveConsent(_templateCode: string): void {}
   isConsentGiven(_consent: AnonymousConsent): boolean {
     return true;
@@ -421,26 +422,23 @@ describe('RegisterComponent', () => {
     });
   });
 
-  describe('onRegisterUserSuccess', () => {
-    beforeEach(() => {
+  const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
+  describe(`${toggleAnonymousConsentMethod}`, () => {
+    it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
       spyOn(anonymousConsentService, 'giveConsent').and.stub();
+      component.ngOnInit();
+
+      controls['newsletter'].setValue(true);
+      component.toggleAnonymousConsent();
+      expect(anonymousConsentService.giveConsent).toHaveBeenCalled();
     });
+    it('should call anonymousConsentsService.withdrawConsent when the consent is NOT given', () => {
+      spyOn(anonymousConsentService, 'withdrawConsent').and.stub();
+      component.ngOnInit();
 
-    it('should give anonymous consent if consent was given', () => {
-      component.userRegistrationForm.get('newsletter').setValue(true);
-
-      registerUserIsSuccess.next(true);
-
-      expect(anonymousConsentService.giveConsent).toHaveBeenCalledWith(
-        mockAnonymousConsentsConfig.anonymousConsents.registerConsent
-      );
-    });
-    it('should give anonymous consent if consent was NOT given', () => {
-      component.userRegistrationForm.get('newsletter').setValue(false);
-
-      registerUserIsSuccess.next(true);
-
-      expect(anonymousConsentService.giveConsent).not.toHaveBeenCalled();
+      controls['newsletter'].setValue(false);
+      component.toggleAnonymousConsent();
+      expect(anonymousConsentService.withdrawConsent).toHaveBeenCalled();
     });
   });
 
