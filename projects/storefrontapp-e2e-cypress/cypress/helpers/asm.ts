@@ -214,7 +214,7 @@ export function listenForUserDetailsRequest(): string {
   return `@${aliasName}`;
 }
 
-export const startCustomerEmulation = () => {
+export const agentLogin = () => {
   const aliasRequest = asm.listenForAuthenticationRequest();
 
   cy.get('cx-csagent-login-form').should('exist');
@@ -232,7 +232,7 @@ export const startCustomerEmulation = () => {
   cy.get('cx-customer-selection').should('exist');
 };
 
-export const customerAuthentication = fullname => {
+export const startCustomerEmulation = fullname => {
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   const userDetailsRequestAlias = asm.listenForUserDetailsRequest();
 
