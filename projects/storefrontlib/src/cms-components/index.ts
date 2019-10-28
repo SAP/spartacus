@@ -1,3 +1,4 @@
+export * from './anonymous-consent-management/index';
 export * from './cart/index';
 export * from './checkout/index';
 export * from './cms-lib.module';

@@ -118,14 +118,6 @@ function addServerConfigInAngularJsonFile(options: any): Rule {
       projectArchitectObject['server'] = {
         builder: '@angular-devkit/build-angular:server',
         options: {
-          outputPath: 'dist/server',
-          main: 'src/main.server.ts',
-          tsConfig: 'tsconfig.server.json',
-        },
-      };
-      projectArchitectObject['server'] = {
-        builder: '@angular-devkit/build-angular:server',
-        options: {
           outputPath: `dist/${options.project}-server`,
           main: 'src/main.server.ts',
           tsConfig: 'tsconfig.server.json',
