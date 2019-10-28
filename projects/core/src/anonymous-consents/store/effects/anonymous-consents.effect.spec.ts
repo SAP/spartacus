@@ -478,94 +478,100 @@ describe('AnonymousConsentsEffects', () => {
   });
 
   describe('synchronizeConsentStateAcrossTabs$', () => {
-    describe('when the consent state change is detected because a consent was given', () => {
-      it('should return GiveAnonymousConsent action', done => {
-        const mockAction = new AnonymousConsentsActions.GiveAnonymousConsent(
-          'xxx'
-        );
-        spyOn(anonymousConsentService, 'consentsUpdated').and.returnValue(true);
-        spyOn<any>(effect, createStateUpdateActionsMethod).and.returnValue([
-          mockAction,
-        ]);
+    describe('when the consent state change is detected', () => {
+      describe('because a consent was given', () => {
+        it('should return GiveAnonymousConsent action', done => {
+          const mockAction = new AnonymousConsentsActions.GiveAnonymousConsent(
+            'xxx'
+          );
+          spyOn(anonymousConsentService, 'consentsUpdated').and.returnValue(
+            true
+          );
+          spyOn<any>(effect, createStateUpdateActionsMethod).and.returnValue([
+            mockAction,
+          ]);
 
-        effect.synchronizeConsentStateAcrossTabs$.subscribe(result => {
-          expect(result).toEqual(mockAction);
-          done();
+          effect.synchronizeConsentStateAcrossTabs$.subscribe(result => {
+            expect(result).toEqual(mockAction);
+            done();
+          });
+
+          const oldValueObject = {
+            [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
+              ui: { bannerVisible: false },
+              consents: [{ consentState: null }],
+            } as AnonymousConsentsState,
+          };
+          const oldValue = JSON.stringify(oldValueObject);
+
+          const newValueObject = {
+            [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
+              ui: { bannerVisible: true },
+              consents: [{ consentState: ANONYMOUS_CONSENT_STATUS.GIVEN }],
+            } as AnonymousConsentsState,
+          };
+          const newValue = JSON.stringify(newValueObject);
+
+          const storageEventOld = new StorageEvent('storage', {
+            key: DEFAULT_LOCAL_STORAGE_KEY,
+            oldValue,
+          });
+          const storageEventNew = new StorageEvent('storage', {
+            key: DEFAULT_LOCAL_STORAGE_KEY,
+            oldValue,
+            newValue,
+          });
+
+          winRef.nativeWindow.dispatchEvent(storageEventOld);
+          winRef.nativeWindow.dispatchEvent(storageEventNew);
         });
-
-        const oldValueObject = {
-          [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-            ui: { bannerVisible: false },
-            consents: [{ consentState: null }],
-          } as AnonymousConsentsState,
-        };
-        const oldValue = JSON.stringify(oldValueObject);
-
-        const newValueObject = {
-          [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-            ui: { bannerVisible: true },
-            consents: [{ consentState: ANONYMOUS_CONSENT_STATUS.GIVEN }],
-          } as AnonymousConsentsState,
-        };
-        const newValue = JSON.stringify(newValueObject);
-
-        const storageEventOld = new StorageEvent('storage', {
-          key: DEFAULT_LOCAL_STORAGE_KEY,
-          oldValue,
-        });
-        const storageEventNew = new StorageEvent('storage', {
-          key: DEFAULT_LOCAL_STORAGE_KEY,
-          oldValue,
-          newValue,
-        });
-
-        winRef.nativeWindow.dispatchEvent(storageEventOld);
-        winRef.nativeWindow.dispatchEvent(storageEventNew);
       });
-    });
-    describe('when the consent state change is detected because a consent was dithdrawn', () => {
-      it('should return WithdrawAnonymousConsent action', done => {
-        const mockAction = new AnonymousConsentsActions.WithdrawAnonymousConsent(
-          'xxx'
-        );
-        spyOn(anonymousConsentService, 'consentsUpdated').and.returnValue(true);
-        spyOn<any>(effect, createStateUpdateActionsMethod).and.returnValue([
-          mockAction,
-        ]);
+      describe('because a consent was withdrawn', () => {
+        it('should return WithdrawAnonymousConsent action', done => {
+          const mockAction = new AnonymousConsentsActions.WithdrawAnonymousConsent(
+            'xxx'
+          );
+          spyOn(anonymousConsentService, 'consentsUpdated').and.returnValue(
+            true
+          );
+          spyOn<any>(effect, createStateUpdateActionsMethod).and.returnValue([
+            mockAction,
+          ]);
 
-        effect.synchronizeConsentStateAcrossTabs$.subscribe(result => {
-          expect(result).toEqual(mockAction);
-          done();
+          effect.synchronizeConsentStateAcrossTabs$.subscribe(result => {
+            expect(result).toEqual(mockAction);
+            done();
+          });
+
+          const oldValueObject = {
+            [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
+              ui: { bannerVisible: false },
+              consents: [{ consentState: null }],
+            } as AnonymousConsentsState,
+          };
+          const oldValue = JSON.stringify(oldValueObject);
+
+          const newValueObject = {
+            [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
+              ui: { bannerVisible: true },
+              consents: [{ consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN }],
+            } as AnonymousConsentsState,
+          };
+          const newValue = JSON.stringify(newValueObject);
+
+          const storageEventOld = new StorageEvent('storage', {
+            key: DEFAULT_LOCAL_STORAGE_KEY,
+            oldValue,
+          });
+          const storageEventNew = new StorageEvent('storage', {
+            key: DEFAULT_LOCAL_STORAGE_KEY,
+            oldValue,
+            newValue,
+          });
+
+          winRef.nativeWindow.dispatchEvent(storageEventOld);
+          winRef.nativeWindow.dispatchEvent(storageEventNew);
         });
-
-        const oldValueObject = {
-          [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-            ui: { bannerVisible: false },
-            consents: [{ consentState: null }],
-          } as AnonymousConsentsState,
-        };
-        const oldValue = JSON.stringify(oldValueObject);
-
-        const newValueObject = {
-          [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-            ui: { bannerVisible: true },
-            consents: [{ consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN }],
-          } as AnonymousConsentsState,
-        };
-        const newValue = JSON.stringify(newValueObject);
-
-        const storageEventOld = new StorageEvent('storage', {
-          key: DEFAULT_LOCAL_STORAGE_KEY,
-          oldValue,
-        });
-        const storageEventNew = new StorageEvent('storage', {
-          key: DEFAULT_LOCAL_STORAGE_KEY,
-          oldValue,
-          newValue,
-        });
-
-        winRef.nativeWindow.dispatchEvent(storageEventOld);
-        winRef.nativeWindow.dispatchEvent(storageEventNew);
       });
     });
   });
