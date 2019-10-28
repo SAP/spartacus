@@ -11,7 +11,6 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-form',
