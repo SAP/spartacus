@@ -61,27 +61,60 @@ describe('OccBudgetAdapter', () => {
   describe('load budget details', () => {
     it('should load budget details for given budget code', () => {
       service.load(userId, budgetCode).subscribe();
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === 'budget' + budgetCode;
-      });
-
+      const mockReq = httpMock.expectOne(
+        req => req.method === 'GET' && req.url === 'budget' + budgetCode
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(budget);
       expect(converterService.pipeable).toHaveBeenCalledWith(BUDGET_NORMALIZER);
     });
+  });
 
+  describe('load budget list', () => {
     it('should load budget list', () => {
       service.loadList(userId).subscribe();
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === 'budgets';
-      });
+      const mockReq = httpMock.expectOne(
+        req => req.method === 'GET' && req.url === 'budgets'
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([budget]);
       expect(converterService.pipeableMany).toHaveBeenCalledWith(
         BUDGET_NORMALIZER
       );
+    });
+  });
+
+  describe('create budget', () => {
+    it('should create budget', () => {
+      service.create(userId, budget).subscribe();
+      const mockReq = httpMock.expectOne(
+        req =>
+          req.method === 'POST' &&
+          req.url === 'budgets' &&
+          req.body.code === budget.code
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(budget);
+      expect(converterService.pipeable).toHaveBeenCalledWith(BUDGET_NORMALIZER);
+    });
+  });
+
+  describe('update budget', () => {
+    it('should update budget', () => {
+      service.update(userId, budget).subscribe();
+      const mockReq = httpMock.expectOne(
+        req =>
+          req.method === 'PATCH' &&
+          req.url === 'budget' + budgetCode &&
+          req.body.code === budget.code
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(budget);
+      expect(converterService.pipeable).toHaveBeenCalledWith(BUDGET_NORMALIZER);
     });
   });
 });
