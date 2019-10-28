@@ -1,7 +1,12 @@
-import { Component, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectorRef,
+  AfterViewChecked,
+} from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 import { ProductSearchPage } from '@spartacus/core';
 import { ViewModes } from '../../product-view/product-view.component';
-import { Subscription } from 'rxjs';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ViewConfig } from '../../../../../shared/config/view-config';
 
@@ -9,9 +14,7 @@ import { ViewConfig } from '../../../../../shared/config/view-config';
   selector: 'cx-product-scroll',
   templateUrl: './product-scroll.component.html',
 })
-export class ProductScrollComponent implements OnDestroy {
-  private subscription = new Subscription();
-
+export class ProductScrollComponent implements AfterViewChecked {
   @Input('scrollConfig')
   set setConfig(inputConfig: ViewConfig) {
     this.setComponentConfigurations(inputConfig);
@@ -49,9 +52,29 @@ export class ProductScrollComponent implements OnDestroy {
   isLastPage = false;
   isEmpty = false;
 
+  doneAutoScroll = false;
+  lastScrollTime = 0;
+  isDataReady = false;
+
+  constructor(
+    productListComponentService: ProductListComponentService,
+    ref: ChangeDetectorRef,
+    viewportScroller: ViewportScroller // tslint:disable-line
+  );
+  /**
+   * @deprecated since 1.2
+   * NOTE: check issue:#4362 for more info
+   *
+   * TODO(issue:#4362) Deprecated since 1.2
+   */
+  constructor(
+    productListComponentService: ProductListComponentService,
+    ref: ChangeDetectorRef
+  );
   constructor(
     private productListComponentService: ProductListComponentService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private viewportScroller?: ViewportScroller
   ) {}
 
   scrollPage(pageNumber: number): void {
@@ -66,7 +89,7 @@ export class ProductScrollComponent implements OnDestroy {
   }
 
   scrollToTop(): void {
-    window.scroll(0, 0);
+    this.viewportScroller.scrollToPosition([0, 0]);
   }
 
   private setComponentConfigurations(scrollConfig: ViewConfig): void {
@@ -94,6 +117,19 @@ export class ProductScrollComponent implements OnDestroy {
     }
     this.setConditions();
     this.ref.markForCheck();
+
+    if (
+      this.productListComponentService.latestScrollCriteria &&
+      this.model.pagination.currentPage <
+        this.productListComponentService.latestScrollCriteria.currentPage
+    ) {
+      // load next page to expend the list
+      this.loadNextPage(this.model.pagination.currentPage + 1);
+      // will have more items displayed, so need scroll again
+      this.doneAutoScroll = false;
+    } else {
+      this.isDataReady = true;
+    }
   }
 
   private resetListOnViewModeChange(): void {
@@ -164,7 +200,33 @@ export class ProductScrollComponent implements OnDestroy {
     return false;
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  ngAfterViewChecked(): void {
+    // if auto scroll positon exists
+    if (
+      this.productListComponentService.autoScrollPosition[0] !== 0 ||
+      this.productListComponentService.autoScrollPosition[1] !== 0
+    ) {
+      if (
+        this.isDataReady &&
+        this.lastScrollTime !== 0 &&
+        Date.now() - this.lastScrollTime >= 300
+      ) {
+        // reset auto scroll position
+        this.productListComponentService.autoScrollPosition = [0, 0];
+        return;
+      }
+
+      // 1. scroll not done then do the scroll.
+      // 2. even the scroll done, but we want other scrolls for any view changes when all data is loaded.
+      if (!this.doneAutoScroll || this.isDataReady) {
+        this.viewportScroller.scrollToPosition(
+          this.productListComponentService.autoScrollPosition
+        );
+        if (this.isDataReady) {
+          this.lastScrollTime = Date.now();
+        }
+        this.doneAutoScroll = true;
+      }
+    }
   }
 }
