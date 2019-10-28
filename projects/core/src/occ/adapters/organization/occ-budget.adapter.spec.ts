@@ -60,10 +60,7 @@ describe('OccBudgetAdapter', () => {
 
   describe('load budget details', () => {
     it('should load budget details for given budget code', () => {
-      service.load(userId, budgetCode).subscribe(result => {
-        expect(result).toEqual(budget);
-      });
-
+      service.load(userId, budgetCode).subscribe();
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === 'budget' + budgetCode;
       });
@@ -71,29 +68,20 @@ describe('OccBudgetAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(budget);
-    });
-
-    it('should use converter', () => {
-      const converter = TestBed.get(ConverterService as Type<ConverterService>);
-
-      service.load(userId, budgetCode).subscribe();
-      httpMock.expectOne('budget' + budgetCode).flush(budget);
-
-      expect(converter.pipeable).toHaveBeenCalledWith(BUDGET_NORMALIZER);
+      expect(converterService.pipeable).toHaveBeenCalledWith(BUDGET_NORMALIZER);
     });
 
     it('should load budget list', () => {
-      service.loadList(userId).subscribe(result => {
-        expect(result).toEqual([budget]);
-      });
-
+      service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === 'budgets';
       });
-
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(budget);
+      mockReq.flush([budget]);
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
+        BUDGET_NORMALIZER
+      );
     });
   });
 });

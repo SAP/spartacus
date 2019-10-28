@@ -25,7 +25,10 @@ describe('BudgetConnector', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: BudgetAdapter, useClass: MockBudgetAdapter }],
+      providers: [
+        BudgetConnector,
+        { provide: BudgetAdapter, useClass: MockBudgetAdapter },
+      ],
     });
 
     service = TestBed.get(BudgetConnector as Type<BudgetConnector>);
