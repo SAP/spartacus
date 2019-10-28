@@ -82,7 +82,7 @@ export class ConfiguratorCommonsService {
 
   getUiState(productCode: string): Observable<UiState> {
     return this.store.pipe(
-      select(UiSelectors.getUiStateFactory(productCode)),
+      select(UiSelectors.getUiStateForProduct(productCode)),
       tap(uiState => {
         if (!this.isUiStateCreated(uiState)) {
           this.store.dispatch(new UiActions.CreateUiState(productCode));

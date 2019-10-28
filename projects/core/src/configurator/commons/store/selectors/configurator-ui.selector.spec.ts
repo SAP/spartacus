@@ -13,8 +13,9 @@ import { ConfiguratorUiSelectors } from './index';
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;
   const PRODUCT_CODE = 'CONF_PRODUCT';
+  const GROUP_ID = 'currentGroupId';
   const uiState: UiState = {
-    currentGroup: 'currentGroupId',
+    currentGroup: GROUP_ID,
   };
 
   beforeEach(() => {
@@ -35,20 +36,25 @@ describe('Configurator selectors', () => {
   it('should return empty content when selecting with content selector initially', () => {
     let result: UiState;
     store
-      .pipe(select(ConfiguratorUiSelectors.getUiStateFactory(PRODUCT_CODE)))
+      .pipe(select(ConfiguratorUiSelectors.getUiStateForProduct(PRODUCT_CODE)))
       .subscribe(value => (result = value));
 
     expect(result).toEqual(undefined);
   });
 
   it('should return configuration content when selecting with content selector when action was successful', () => {
-    let result: UiState;
-    store
-      .pipe(select(ConfiguratorUiSelectors.getUiStateFactory(PRODUCT_CODE)))
-      .subscribe(value => (result = value));
-
     store.dispatch(new ConfiguratorUiActions.SetUiState(PRODUCT_CODE, uiState));
+    store
+      .pipe(select(ConfiguratorUiSelectors.getUiStateForProduct(PRODUCT_CODE)))
+      .subscribe(value => expect(value).toEqual(uiState));
+  });
 
-    expect(result).toEqual(uiState);
+  it('should return current group content selector when action was successful', () => {
+    store.dispatch(new ConfiguratorUiActions.SetUiState(PRODUCT_CODE, uiState));
+    store
+      .pipe(
+        select(ConfiguratorUiSelectors.getCurrentGroupForProduct(PRODUCT_CODE))
+      )
+      .subscribe(value => expect(value).toEqual(GROUP_ID));
   });
 });
