@@ -35,7 +35,7 @@
         (change)="routeToVariant($event.target.value)"
         class="form-control variant-select"
       >
-        <option>{{ 'variant.selectSize' | cxTranslate }}</option>
+        <option value="">{{ 'variant.selectSize' | cxTranslate }}</option>
         <option
           *ngFor="let v of sizeVariants"
           value="{{ v.code }}"
