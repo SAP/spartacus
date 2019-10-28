@@ -23,12 +23,20 @@
       cx-cart-totals {
         max-width: 50%;
       }
+
+      cx-cart-coupon {
+        max-width: 100%;
+      }
     }
 
     @include media-breakpoint-down(sm) {
       --cx-flex-basis: 100%;
 
       cx-cart-totals {
+        max-width: none;
+      }
+
+      cx-cart-coupon {
         max-width: none;
       }
     }
