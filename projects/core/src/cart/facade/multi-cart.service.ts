@@ -12,19 +12,33 @@ import { Cart } from '../../model/cart.model';
 export class MultiCartService {
   constructor(protected store: Store<StateWithMultiCart>) {}
 
-  // TODO: docs for methods
+  /**
+   * Returns cart from store as an observable
+   *
+   * @param cartId
+   */
   getCart(cartId: string): Observable<Cart> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartSelectorFactory(cartId))
     );
   }
 
+  /**
+   * Returns cart entity from store (cart with loading, error, success flags) as an observable
+   *
+   * @param cartId
+   */
   getCartEntity(cartId: string): Observable<LoaderState<Cart>> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntitySelectorFactory(cartId))
     );
   }
 
+  /**
+   * Create or merge cart
+   *
+   * @param params Object with userId, oldCartId, toMergeCartGuid and extraData
+   */
   createCart({
     userId,
     oldCartId,
@@ -50,6 +64,11 @@ export class MultiCartService {
     return this.getCartEntity('fresh');
   }
 
+  /**
+   * Load cart
+   *
+   * @param params Object with userId, cartId and extraData
+   */
   loadCart({
     cartId,
     userId,
@@ -68,12 +87,24 @@ export class MultiCartService {
     );
   }
 
+  /**
+   * Get cart entries as an observable
+   * @param cartId
+   */
   getEntries(cartId: string): Observable<OrderEntry[]> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId))
     );
   }
 
+  /**
+   * Add entry to cart
+   *
+   * @param userId
+   * @param cartId
+   * @param productCode
+   * @param quantity
+   */
   addEntry(
     userId: string,
     cartId: string,
@@ -90,6 +121,13 @@ export class MultiCartService {
     );
   }
 
+  /**
+   * Add multiple entries to cart
+   *
+   * @param userId
+   * @param cartId
+   * @param products Array with items (productCode and quantity)
+   */
   addEntries(
     userId: string,
     cartId: string,
@@ -104,10 +142,20 @@ export class MultiCartService {
     );
   }
 
-  initAddEntryProcess() {
+  /**
+   * Initialize add entry process used for loading status
+   */
+  initAddEntryProcess(): void {
     this.store.dispatch(new CartActions.CartStartAddEntryProcess());
   }
 
+  /**
+   * Remove entry from cart
+   *
+   * @param userId
+   * @param cartId
+   * @param entryNumber
+   */
   removeEntry(userId: string, cartId: string, entryNumber: number): void {
     this.store.dispatch(
       new CartActions.CartRemoveEntry({
@@ -118,6 +166,14 @@ export class MultiCartService {
     );
   }
 
+  /**
+   * Update entry in cart. For quantity = 0 it removes entry
+   *
+   * @param userId
+   * @param cartId
+   * @param entryNumber
+   * @param quantity
+   */
   updateEntry(
     userId: string,
     cartId: string,
@@ -138,6 +194,12 @@ export class MultiCartService {
     }
   }
 
+  /**
+   * Get specific entry from cart
+   *
+   * @param cartId
+   * @param productCode
+   */
   getEntry(cartId: string, productCode: string): Observable<OrderEntry | null> {
     return this.store.pipe(
       select(
