@@ -42,7 +42,6 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
 
     SmartEditModule.forRoot(), // should be custom
     PersonalizationModule.forRoot(), // should be custom
-
     // opt-in explicitly
     OccModule.forRoot(),
     ProductDetailsPageModule,

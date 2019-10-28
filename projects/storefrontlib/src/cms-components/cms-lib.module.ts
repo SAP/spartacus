@@ -11,7 +11,7 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
-import { SiteContextSelectorModule } from './misc/index';
+import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
@@ -59,6 +59,7 @@ import { UserComponentModule } from './user/user.module';
     BreadcrumbModule,
     SearchBoxModule,
     SiteContextSelectorModule,
+    QualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
     ProductListModule,

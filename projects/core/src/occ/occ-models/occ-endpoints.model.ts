@@ -276,4 +276,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   asmCustomerSearch?: string;
+  /**
+   * Endpoint for cart voucher
+   *
+   * @member {string}
+   */
+  cartVoucher?: string;
 }
