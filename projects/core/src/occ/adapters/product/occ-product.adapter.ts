@@ -12,7 +12,6 @@ import {
   OccFieldsService,
 } from '../../services/occ-fields.service';
 import { Occ } from '../../occ-models';
-import { ScopedModelData } from '../../../model';
 
 @Injectable()
 export class OccProductAdapter implements ProductAdapter {
@@ -30,12 +29,10 @@ export class OccProductAdapter implements ProductAdapter {
   }
 
   loadMany(products: ScopedProductData[]): ScopedProductData[] {
-    const loadInfo: OccFieldsLoadData<Occ.Product>[] = products.map(
-      curr => ({
-        model: (curr as any) as ScopedModelData<Occ.Product>,
-        url: this.getEndpoint(curr.id, curr.scope),
-      })
-    );
+    const loadInfo: OccFieldsLoadData[] = products.map(curr => ({
+      model: curr,
+      url: this.getEndpoint(curr.id, curr.scope),
+    }));
 
     return this.occFields.optimalLoad<Occ.Product>(loadInfo).map(load => ({
       ...load,

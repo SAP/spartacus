@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { extractFields, mergeFields, parseFields } from '../utils/occ-fields';
-import { ScopedModelData, ScopedProductData } from '@spartacus/core';
+import { ScopedModelData } from '@spartacus/core';
 import { map, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-export interface OccFieldsLoadData<T> {
+export interface OccFieldsLoadData {
   url?: string;
   fields?: object;
-  model: ScopedModelData<T>;
+  model: ScopedModelData<any>;
 }
 
-interface MergedUrls<T> {
+interface MergedUrls {
   [url: string]: {
-    [scope: string]: OccFieldsLoadData<T>;
+    [scope: string]: OccFieldsLoadData;
   };
 }
 
@@ -32,10 +32,10 @@ export class OccFieldsService {
    * @param dataFactory
    */
   optimalLoad<T>(
-    loads: OccFieldsLoadData<T>[],
+    loads: OccFieldsLoadData[],
     dataFactory?: (url: string) => Observable<T>
-  ): ScopedProductData[] {
-    const merged = this.getMergedUrls<T>(loads);
+  ): ScopedModelData<T>[] {
+    const merged = this.getMergedUrls(loads);
     const result = [];
 
     if (!dataFactory) {
@@ -46,7 +46,7 @@ export class OccFieldsService {
       ([url, scopes]: [
         string,
         {
-          [scope: string]: OccFieldsLoadData<T>;
+          [scope: string]: OccFieldsLoadData;
         }
       ]) => {
         const scopesForUrl = Object.values(scopes);
@@ -84,8 +84,8 @@ export class OccFieldsService {
    *
    * @param loads
    */
-  getMergedUrls<T>(loads: OccFieldsLoadData<T>[]): MergedUrls<T> {
-    const groupedByUrls: MergedUrls<T> = {};
+  getMergedUrls(loads: OccFieldsLoadData[]): MergedUrls {
+    const groupedByUrls: MergedUrls = {};
     for (const load of loads) {
       const [urlPart, fields] = this.splitFields(load.url);
       if (!groupedByUrls[urlPart]) {
@@ -95,7 +95,7 @@ export class OccFieldsService {
       groupedByUrls[urlPart][load.model.scope] = load;
     }
 
-    const mergedUrls: MergedUrls<T> = {};
+    const mergedUrls: MergedUrls = {};
     for (const [url, load] of Object.entries(groupedByUrls)) {
       const urlWithFields = this.getUrlWithFields(
         url,
