@@ -8,5 +8,16 @@
         "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "baseSites",
+      "urls": ["*/rest/v2/basesites*"],
+      "cacheConfig": {
+        "maxSize": 1,
+        "maxAge": "1d",
+        "strategy": "performance"
+      }
+    }
   ]
 }
