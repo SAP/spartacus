@@ -25,6 +25,23 @@ describe('ConfiguratorUiActions', () => {
       });
     });
 
+    describe('SetCurrentGroup Actions', () => {
+      it('should create the action', () => {
+        const action = new ConfiguratorUiActions.SetCurrentGroup(
+          PRODUCT_CODE,
+          GROUP_ID
+        );
+        expect({ ...action }).toEqual({
+          type: ConfiguratorUiActions.SET_CURRENT_GROUP,
+          payload: GROUP_ID,
+          meta: StateEntityActions.entityMeta(
+            CONFIGURATION_UI_DATA,
+            PRODUCT_CODE
+          ),
+        });
+      });
+    });
+
     describe('CreateUiState Action', () => {
       it('Should create the action', () => {
         const action = new ConfiguratorUiActions.CreateUiState(PRODUCT_CODE);
