@@ -6,24 +6,51 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { Product } from '../../../model/product.model';
+import { ScopedProductData } from '../../../product/connectors/product/scoped-product-data';
+import {
+  OccFieldsLoadData,
+  OccFieldsService,
+} from '../../services/occ-fields.service';
+import { Occ } from '../../occ-models';
+import { ScopedModelData } from '../../../model';
 
 @Injectable()
 export class OccProductAdapter implements ProductAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected occFields: OccFieldsService
   ) {}
 
-  load(productCode: string): Observable<Product> {
+  load(productCode: string, scope?: string): Observable<Product> {
     return this.http
-      .get(this.getEndpoint(productCode))
+      .get(this.getEndpoint(productCode, scope))
       .pipe(this.converter.pipeable(PRODUCT_NORMALIZER));
   }
 
-  protected getEndpoint(code: string): string {
-    return this.occEndpoints.getUrl('product', {
-      productCode: code,
-    });
+  loadMany(products: ScopedProductData[]): ScopedProductData[] {
+    const loadInfo: OccFieldsLoadData<Occ.Product>[] = products.map(
+      curr => ({
+        model: (curr as any) as ScopedModelData<Occ.Product>,
+        url: this.getEndpoint(curr.id, curr.scope),
+      })
+    );
+
+    return this.occFields.optimalLoad<Occ.Product>(loadInfo).map(load => ({
+      ...load,
+      data$: load.data$.pipe(this.converter.pipeable(PRODUCT_NORMALIZER)),
+    }));
+  }
+
+  protected getEndpoint(code: string, scope: string): string {
+    return this.occEndpoints.getUrl(
+      'product',
+      {
+        productCode: code,
+      },
+      undefined,
+      scope
+    );
   }
 }
