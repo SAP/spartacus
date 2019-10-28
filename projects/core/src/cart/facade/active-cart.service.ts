@@ -110,10 +110,16 @@ export class ActiveCartService {
     );
   }
 
+  /**
+   * Returns active cart
+   */
   getActive(): Observable<Cart> {
     return this.activeCart$;
   }
 
+  /**
+   * Returns active cart id
+   */
   getActiveCartId(): Observable<string> {
     return this.activeCart$.pipe(
       map(cart => getCartIdByUserId(cart, this.userId)),
@@ -121,11 +127,18 @@ export class ActiveCartService {
     );
   }
 
+  /**
+   * Returns cart entries
+   */
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap(cartId => this.multiCartService.getEntries(cartId))
     );
   }
+
+  /**
+   * Returns loaded flag (success or error)
+   */
   getLoaded(): Observable<boolean> {
     return this.cartSelector$.pipe(
       map(cart => (cart.success || cart.error) && !cart.loading)
@@ -178,6 +191,9 @@ export class ActiveCartService {
     }
   }
 
+  /**
+   * Returns loaded flag for add entry process (success)
+   */
   getAddEntryLoaded() {
     return this.store.pipe(
       select(getProcessStateFactory(ADD_ENTRY_PROCESS_ID)),
@@ -185,6 +201,13 @@ export class ActiveCartService {
     );
   }
 
+  /**
+   * Add entry to active cart
+   *
+   * @param productCode
+   * @param quantity
+   * @param guestMerge
+   */
   addEntry(
     productCode: string,
     quantity: number,
@@ -244,6 +267,11 @@ export class ActiveCartService {
     }
   }
 
+  /**
+   * Remove entry
+   *
+   * @param entry
+   */
   removeEntry(entry: OrderEntry): void {
     this.multiCartService.removeEntry(
       this.userId,
@@ -252,6 +280,12 @@ export class ActiveCartService {
     );
   }
 
+  /**
+   * Update entry
+   *
+   * @param entryNumber
+   * @param quantity
+   */
   updateEntry(entryNumber: number, quantity: number): void {
     this.multiCartService.updateEntry(
       this.userId,
@@ -261,20 +295,36 @@ export class ActiveCartService {
     );
   }
 
+  /**
+   * Returns cart entry
+   *
+   * @param productCode
+   */
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.activeCartId$.pipe(
       switchMap(cartId => this.multiCartService.getEntry(cartId, productCode))
     );
   }
 
+  /**
+   * Assign email to cart
+   *
+   * @param email
+   */
   addEmail(email: string): void {
     this.multiCartService.assignEmail(this.cartId, this.userId, email);
   }
 
+  /**
+   * Get assigned user to cart
+   */
   getAssignedUser(): Observable<User> {
     return this.getActive().pipe(map(cart => cart.user));
   }
 
+  /**
+   * Returns true for guest cart
+   */
   isGuestCart(): boolean {
     return (
       this.cartUser &&
@@ -290,7 +340,7 @@ export class ActiveCartService {
 
   /**
    * Add multiple entries to a cart
-   * Requires a created cart
+   *
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[], guestMerge: boolean = false): void {
