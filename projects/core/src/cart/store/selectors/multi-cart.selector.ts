@@ -17,16 +17,16 @@ import { EntityLoaderState } from '../../../state';
 import { OrderEntry } from '../../../model/order.model';
 import { Cart } from '../../../model/cart.model';
 
-export const getMultiCartsState: MemoizedSelector<
+export const getMultiCartState: MemoizedSelector<
   StateWithMultiCart,
   MultiCartState
 > = createFeatureSelector<MultiCartState>(MULTI_CART_FEATURE);
 
-export const getMultiCartsEntities: MemoizedSelector<
+export const getMultiCartEntities: MemoizedSelector<
   StateWithMultiCart,
   EntityLoaderState<Cart>
 > = createSelector(
-  getMultiCartsState,
+  getMultiCartState,
   (state: MultiCartState) => state.carts
 );
 
@@ -34,7 +34,7 @@ export const getCartEntitySelectorFactory = (
   cartId: string
 ): MemoizedSelector<StateWithMultiCart, LoaderState<Cart>> => {
   return createSelector(
-    getMultiCartsEntities,
+    getMultiCartEntities,
     (state: EntityLoaderState<Cart>) => entityStateSelector(state, cartId)
   );
 };
@@ -43,7 +43,7 @@ export const getCartSelectorFactory = (
   cartId: string
 ): MemoizedSelector<StateWithMultiCart, Cart> => {
   return createSelector(
-    getMultiCartsEntities,
+    getMultiCartEntities,
     (state: EntityLoaderState<Cart>) => entityValueSelector(state, cartId)
   );
 };
@@ -52,7 +52,7 @@ export const getCartEntriesSelectorFactory = (
   cartId: string
 ): MemoizedSelector<StateWithMultiCart, OrderEntry[]> => {
   return createSelector(
-    getMultiCartsEntities,
+    getMultiCartEntities,
     (state: EntityLoaderState<Cart>) => {
       const entityValue = entityValueSelector(state, cartId);
       return entityValue && entityValue.entries ? entityValue.entries : [];
@@ -65,7 +65,7 @@ export const getCartEntrySelectorFactory = (
   productCode: string
 ): MemoizedSelector<StateWithMultiCart, OrderEntry> => {
   return createSelector(
-    getMultiCartsEntities,
+    getMultiCartEntities,
     (state: EntityLoaderState<Cart>) => {
       const entityValue = entityValueSelector(state, cartId);
       return entityValue && entityValue.entries
@@ -79,6 +79,6 @@ export const getActiveCartId: MemoizedSelector<
   StateWithMultiCart,
   string
 > = createSelector(
-  getMultiCartsState,
+  getMultiCartState,
   (state: MultiCartState) => state.active
 );
