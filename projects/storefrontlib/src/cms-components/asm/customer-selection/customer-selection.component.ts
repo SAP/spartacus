@@ -55,10 +55,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       ) {
         this.selectedCustomer = undefined;
       }
-      //this.selectedCustomer = undefined;
-      console.log(`Search term: value: ${value}, lenght: ${value.length}`);
       if (value.trim().length >= 3) {
-        console.log('value length >= 3');
         this.asmService.customerSearch({
           query: value,
         });
@@ -71,34 +68,21 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   private handleSearchResults(results: CustomerSearchPage): void {
     if (!!results && results.entries) {
       this.searchResults = results.entries;
-      results.entries.forEach(result => {
-        console.log(`${result.firstName} ${result.lastName}, ${result.uid}`);
-      });
     } else {
       this.searchResults = [];
-      console.log('No results');
     }
   }
 
   selectCustomerFromList(customer: any) {
-    console.log('selectCustomerFromList', customer);
     this.selectedCustomer = customer;
     this.form.controls.searchTerm.setValue(
       this.selectedCustomer.firstName + this.selectedCustomer.lastName
     );
-    //this.submitEvent.emit({ customerId: customer.customerId });
   }
 
   onSubmit(): void {
-    console.log('onSumbmit:', this.selectedCustomer);
-
     if (!!this.selectedCustomer) {
-      console.log('emit submit event', {
-        customerId: this.selectedCustomer.customerId,
-      });
       this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
-    } else {
-      console.log('No selected cuastomer.  No emit.');
     }
   }
 
