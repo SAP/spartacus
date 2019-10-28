@@ -5,7 +5,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   AsmService,
   CustomerSearchPage,
@@ -37,7 +37,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      searchTerm: ['', [Validators.required]],
+      searchTerm: [''],
     });
     this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
     this.asmService.customerSearchReset();
@@ -48,11 +48,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     );
 
     this.form.controls.searchTerm.valueChanges.subscribe(value => {
-      if (
-        !!this.selectedCustomer &&
-        value !==
-          this.selectedCustomer.firstName + this.selectedCustomer.lastName
-      ) {
+      if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
         this.selectedCustomer = undefined;
       }
       if (value.trim().length >= 3) {
@@ -75,9 +71,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   selectCustomerFromList(customer: any) {
     this.selectedCustomer = customer;
-    this.form.controls.searchTerm.setValue(
-      this.selectedCustomer.firstName + this.selectedCustomer.lastName
-    );
+    this.form.controls.searchTerm.setValue(this.selectedCustomer.name);
   }
 
   onSubmit(): void {

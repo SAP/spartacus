@@ -36,7 +36,7 @@
     <a
       *ngFor="let result of searchResults"
       (click)="selectCustomerFromList(result)"
-      >- {{ result.uid }}</a
+      >{{ result.name }} {{ result.uid }}</a
     >
   </div>
 </div>
