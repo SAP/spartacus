@@ -21,7 +21,7 @@ export const asm = {
         required: 'Customer Email Address is required',
       },
       submit: 'Start Session',
-      noMatch: 'No customer found for "{{uid}}"',
+      noMatch: 'No customer found.',
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
   },

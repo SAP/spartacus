@@ -3,6 +3,7 @@
     <div class="fd-col--6">
       <label>
         <input
+          #searchTerm
           type="text"
           class="form-control"
           [class.is-invalid]="isNotValid('searchTerm')"
@@ -39,14 +40,23 @@
       >{{ result.name }} {{ result.uid }}</a
     >
   </div>
-</div>
-
-<ng-container *ngIf="searchResultsLoading$ | async">
-  <div class="sap-spinner">
-    <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+  <div
+    *ngIf="
+      !(searchResultsLoading$ | async) &&
+      searchTerm.value.length >= 3 &&
+      results.entries.length <= 0
+    "
+  >
+    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
   </div>
-</ng-container>
+
+  <ng-container *ngIf="searchResultsLoading$ | async">
+    <div class="sap-spinner">
+      <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </ng-container>
+</div>
