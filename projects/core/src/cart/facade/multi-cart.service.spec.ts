@@ -296,7 +296,7 @@ describe('MultiCartService', () => {
         new CartActions.AddEmailToCart({
           userId: 'userId',
           cartId: 'cartId',
-          email: 'test@email.com'
+          email: 'test@email.com',
         })
       );
     });
@@ -309,7 +309,7 @@ describe('MultiCartService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.DeleteCart({
           userId: 'userId',
-          cartId: 'cartId'
+          cartId: 'cartId',
         })
       );
     });
