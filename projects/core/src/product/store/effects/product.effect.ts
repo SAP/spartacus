@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { merge, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -17,7 +17,6 @@ import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
 
 @Injectable()
 export class ProductEffects {
-  @Effect()
   loadProduct$ = createEffect(
     () => ({ scheduler, debounce = 0 } = {}): Observable<
       ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
