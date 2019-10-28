@@ -54,6 +54,7 @@ export class ProductScrollComponent implements AfterViewChecked {
 
   doneAutoScroll = false;
   lastScrollTime = 0;
+  isDataReady = false;
 
   constructor(
     productListComponentService: ProductListComponentService,
@@ -124,6 +125,10 @@ export class ProductScrollComponent implements AfterViewChecked {
     ) {
       // load next page to expend the list
       this.loadNextPage(this.model.pagination.currentPage + 1);
+      // will have more items displayed, so need scroll again
+      this.doneAutoScroll = false;
+    } else {
+      this.isDataReady = true;
     }
   }
 
@@ -201,17 +206,26 @@ export class ProductScrollComponent implements AfterViewChecked {
       this.productListComponentService.autoScrollPosition[0] !== 0 ||
       this.productListComponentService.autoScrollPosition[1] !== 0
     ) {
-      // 1. no scroll done then do the scroll.
-      // 2. even the scroll done, but we want another scroll if there is a view change during 1000ms.
-      if (!this.doneAutoScroll || Date.now() - this.lastScrollTime < 1000) {
+      if (
+        this.isDataReady &&
+        this.lastScrollTime !== 0 &&
+        Date.now() - this.lastScrollTime >= 300
+      ) {
+        // reset auto scroll position
+        this.productListComponentService.autoScrollPosition = [0, 0];
+        return;
+      }
+
+      // 1. scroll not done then do the scroll.
+      // 2. even the scroll done, but we want other scrolls for any view changes when all data is loaded.
+      if (!this.doneAutoScroll || this.isDataReady) {
         this.viewportScroller.scrollToPosition(
           this.productListComponentService.autoScrollPosition
         );
-        this.lastScrollTime = Date.now();
+        if (this.isDataReady) {
+          this.lastScrollTime = Date.now();
+        }
         this.doneAutoScroll = true;
-      } else {
-        // reset auto scroll position
-        this.productListComponentService.autoScrollPosition = [0, 0];
       }
     }
   }

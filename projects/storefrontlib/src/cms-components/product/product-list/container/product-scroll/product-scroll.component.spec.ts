@@ -266,9 +266,10 @@ describe('ProductScrollComponent', () => {
         expect(component.doneAutoScroll).toBeTruthy();
       });
 
-      it('should do another auto scroll if there is a view change during 300ms', () => {
+      it('should do another auto scroll if all data is loaded and there is a view change during 300ms', () => {
         component.doneAutoScroll = true;
         component.lastScrollTime = Date.now() - 1;
+        component.isDataReady = true;
         component.ngAfterViewChecked();
         expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
           0,
@@ -276,9 +277,10 @@ describe('ProductScrollComponent', () => {
         ]);
       });
 
-      it('should not do auto scroll and reset autoScrollPosition if the last scroll happens 300ms ago', () => {
+      it('should not do auto scroll and reset autoScrollPosition if all data is loaded and the last scroll happens 300ms ago', () => {
         component.doneAutoScroll = true;
-        component.lastScrollTime = Date.now() - 1000;
+        component.lastScrollTime = Date.now() - 300;
+        component.isDataReady = true;
         component.ngAfterViewChecked();
         expect(viewportScroller.scrollToPosition).not.toHaveBeenCalledWith([
           0,
