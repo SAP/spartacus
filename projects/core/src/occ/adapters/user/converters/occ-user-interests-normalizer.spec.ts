@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccUserInterestsNormalizer } from './occ-user-interests-normalizer';
-import { Product } from '../../../../model';
+import { Product } from '../../../../model/product.model';
 
 class MockConverterService {
   convert() {}

@@ -1,61 +1,24 @@
 import * as notification from '../../../helpers/notification';
-describe('stock notification', () => {
+describe('Stock Notification for Guest', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+    cy.visit('/');
   });
-
-  describe('Stock Notification for Guest', () => {
-    before(() => {
-      cy.visit('/');
-    });
-    it('should login first when guest subscribing stock notification', () => {
-      notification.navigateToPDP(notification.normalProductCode);
-      notification.guestSubscribeStockNotification();
-    });
+  it('should login first when guest want to subcribe notification', () => {
+    notification.verifyStockNotificationAsGuest();
   });
+});
 
-  describe('Stock Notification for Customer without Channel Enbaled', () => {
-    before(() => {
-      notification.registerAndLogin();
-      cy.reload();
-      cy.visit('/');
-    });
-    it('should navigate to notification preference page through product detail page', () => {
-      notification.navigateToPDP(notification.normalProductCode);
-      notification.navigateToNotificationPreferencePage();
-
-      cy.location('pathname').should('contain', '/notification-preference');
-    });
+describe('Stock Notification for Customer', () => {
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+    cy.requireLoggedIn();
+    cy.visit('/');
   });
-
-  describe('Stock Notification for Customer  with Channel Enbaled', () => {
-    before(() => {
-      notification.registerAndLogin();
-      cy.reload();
-      cy.visit('/');
-      notification.enableNotificationPreferenceChannel();
-    });
-    beforeEach(() => {
-      notification.navigateToPDP(notification.normalProductCode);
-      cy.restoreLocalStorage();
-    });
-
-    it('should navigate to my interest page through success dialog', () => {
-      notification.subscribeGotoMyInterestPage();
-      notification.verifyCustomerInterest(notification.normalProductCode);
-    });
-
-    it('should navigate to notification preference page through success dialog', () => {
-      notification.unsubscribeStockNotification();
-      notification.subscribeGotoNotificationPreferencePage();
-
-      cy.location('pathname').should('contain', '/notification-preference');
-    });
-
-    it('should unsubscribe in product detail page', () => {
-      notification.unsubscribeStockNotification();
-
-      notification.verifyUnsubscribe();
-    });
+  it('should navigate to notification preference page through product detail page', () => {
+    notification.verifyStockNotificationWithoutChannel();
+  });
+  it('should subcribe/unsubscribe notification', () => {
+    notification.verifyStockNotification();
   });
 });
