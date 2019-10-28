@@ -9,22 +9,14 @@ const userId = 'userId';
 const budgetCode = 'budgetCode';
 
 const budget = {
-  code: budgetCode
+  code: budgetCode,
 };
 
 class MockBudgetAdapter implements BudgetAdapter {
-  load = createSpy('BudgetAdapter.load').and.callFake(() =>
-    of(budget)
-  );
-  loadList = createSpy('BudgetAdapter.loadList').and.callFake(() =>
-    of([budget])
-  );
-  create = createSpy('BudgetAdapter.create').and.callFake(() =>
-    of(budget)
-  );
-  update = createSpy('BudgetAdapter.update').and.callFake(() =>
-    of(budget)
-  );
+  load = createSpy('BudgetAdapter.load').and.returnValue(of(budget));
+  loadList = createSpy('BudgetAdapter.loadList').and.returnValue(of([budget]));
+  create = createSpy('BudgetAdapter.create').and.returnValue(of(budget));
+  update = createSpy('BudgetAdapter.update').and.returnValue(of(budget));
 }
 
 describe('BudgetConnector', () => {
