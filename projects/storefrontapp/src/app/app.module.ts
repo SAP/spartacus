@@ -48,6 +48,7 @@ if (!environment.production) {
         baseSite: [
           'electronics-spa',
           'electronics',
+          'apparel-de',
           'apparel-uk',
         ],
       },
