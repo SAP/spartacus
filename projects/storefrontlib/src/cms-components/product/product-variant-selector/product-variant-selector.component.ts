@@ -3,6 +3,7 @@ import { OccConfig, Product, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
+import { BaseOption } from '../../../../../core/src/model';
 
 @Component({
   selector: 'cx-product-variant-selector',
@@ -36,6 +37,7 @@ export class ProductVariantSelectorComponent {
       ) {
         this.styleVariants = p.baseOptions[0].options;
         this.sizeVariants = p.variantOptions;
+        this.setSelectedApparelStyle(p.baseOptions[0]);
       }
       if (
         p.baseOptions[1] &&
@@ -45,14 +47,7 @@ export class ProductVariantSelectorComponent {
       ) {
         this.styleVariants = p.baseOptions[1].options;
         this.sizeVariants = p.baseOptions[0].options;
-      }
-
-      if (this.styleVariants && this.styleVariants.length) {
-        this.styleVariants.forEach(style => {
-          if (style.code === p.code || style.code === p.baseProduct) {
-            this.selectedStyle = style.variantOptionQualifiers[0].value;
-          }
-        });
+        this.setSelectedApparelStyle(p.baseOptions[1]);
       }
     })
   );
@@ -64,5 +59,11 @@ export class ProductVariantSelectorComponent {
     });
 
     return null;
+  }
+
+  setSelectedApparelStyle(option: BaseOption) {
+    if (option && option.selected) {
+      this.selectedStyle = option.selected.code;
+    }
   }
 }
