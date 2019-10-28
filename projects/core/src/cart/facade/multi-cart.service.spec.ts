@@ -287,4 +287,31 @@ describe('MultiCartService', () => {
       done();
     });
   });
+
+  describe('assignEmail', () => {
+    it('should dispatch AddEmailToCart action', () => {
+      service.assignEmail('cartId', 'userId', 'test@email.com');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.AddEmailToCart({
+          userId: 'userId',
+          cartId: 'cartId',
+          email: 'test@email.com'
+        })
+      );
+    });
+  });
+
+  describe('deleteCart', () => {
+    it('should dispatch DeleteCart action', () => {
+      service.deleteCart('cartId', 'userId');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.DeleteCart({
+          userId: 'userId',
+          cartId: 'cartId'
+        })
+      );
+    });
+  });
 });

@@ -207,4 +207,36 @@ export class MultiCartService {
       )
     );
   }
+
+  /**
+   * Assign email to the cart
+   *
+   * @param cartId
+   * @param userId
+   * @param email
+   */
+  assignEmail(cartId: string, userId: string, email: string): void {
+    this.store.dispatch(
+      new CartActions.AddEmailToCart({
+        userId,
+        cartId,
+        email,
+      })
+    );
+  }
+
+  /**
+   * Delete cart
+   *
+   * @param cartId
+   * @param userId
+   */
+  deleteCart(cartId: string, userId: string) {
+    this.store.dispatch(
+      new CartActions.DeleteCart({
+        userId,
+        cartId,
+      })
+    );
+  }
 }

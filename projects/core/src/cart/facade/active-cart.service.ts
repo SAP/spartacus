@@ -268,13 +268,7 @@ export class ActiveCartService {
   }
 
   addEmail(email: string): void {
-    this.store.dispatch(
-      new CartActions.AddEmailToCart({
-        userId: this.userId,
-        cartId: this.cartId,
-        email,
-      })
-    );
+    this.multiCartService.assignEmail(this.cartId, this.userId, email);
   }
 
   getAssignedUser(): Observable<User> {
@@ -325,12 +319,7 @@ export class ActiveCartService {
         cartEntries = entries;
       });
 
-    this.store.dispatch(
-      new CartActions.DeleteCart({
-        userId: OCC_USER_ID_ANONYMOUS,
-        cartId: cartId,
-      })
-    );
+    this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
 
     this.addEntries(cartEntries, true);
   }
