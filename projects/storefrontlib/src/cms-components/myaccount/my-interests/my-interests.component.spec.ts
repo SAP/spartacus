@@ -168,6 +168,7 @@ describe('MyInterestsComponent', () => {
     'getRemoveProdutInterestLoading',
     'removeProdutInterest',
     'clearProductInterests',
+    'resetRemoveInterestState',
   ]);
 
   beforeEach(async(() => {
@@ -203,6 +204,7 @@ describe('MyInterestsComponent', () => {
     productInterestService.loadProductInterests.and.stub();
     productInterestService.removeProdutInterest.and.stub();
     productInterestService.clearProductInterests.and.stub();
+    productInterestService.resetRemoveInterestState.and.stub();
   });
 
   it('should create', () => {
