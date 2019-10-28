@@ -12,6 +12,7 @@ import {
   GlobalMessageService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
 @Component({
@@ -47,18 +48,20 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.form.controls.searchTerm.valueChanges.subscribe(value => {
-      if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
-        this.selectedCustomer = undefined;
-      }
-      if (value.trim().length >= 3) {
-        this.asmService.customerSearch({
-          query: value,
-        });
-      } else {
-        this.asmService.customerSearchReset();
-      }
-    });
+    this.form.controls.searchTerm.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe(value => {
+        if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
+          this.selectedCustomer = undefined;
+        }
+        if (value.trim().length >= 3) {
+          this.asmService.customerSearch({
+            query: value,
+          });
+        } else {
+          this.asmService.customerSearchReset();
+        }
+      });
   }
 
   private handleSearchResults(results: CustomerSearchPage): void {
