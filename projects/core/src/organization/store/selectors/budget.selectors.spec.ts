@@ -4,14 +4,14 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { Budget } from '../../../model/budget.model';
 import { BudgetActions } from '../actions/index';
 import {
-  BUDGET_FEATURE,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { BudgetSelectors } from '../selectors/index';
+import { EntityLoaderState, LoaderState } from '@spartacus/core';
 
-describe('Cms Component Selectors', () => {
+describe('Budget Selectors', () => {
   let store: Store<StateWithOrganization>;
 
   const code = 'testCode';
@@ -19,10 +19,9 @@ describe('Cms Component Selectors', () => {
     code,
     name: 'testBudget',
   };
-  const state = {
-    [ORGANIZATION_FEATURE]: {
-      [BUDGET_FEATURE]: { entities: {} },
-    },
+  const budget2: Budget = {
+    code: 'testCode2',
+    name: 'testBudget2',
   };
 
   const entities = {
@@ -32,13 +31,22 @@ describe('Cms Component Selectors', () => {
       success: true,
       value: budget,
     },
+    testCode2: {
+      loading: false,
+      error: false,
+      success: true,
+      value: budget2,
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(BUDGET_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(
+          ORGANIZATION_FEATURE,
+          fromReducers.getReducers()
+        ),
       ],
     });
 
@@ -46,16 +54,42 @@ describe('Cms Component Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getBudgetManagmentState', () => {
-    it('should return budget by code', () => {
-      let result: Budget[];
+  describe('getBudgetManagmentState ', () => {
+    it('should return budgets state', () => {
+      let result: EntityLoaderState<Budget>;
       store
-        .pipe(select(BudgetSelectors.getBudgetManagmentState(state)))
+        .pipe(select(BudgetSelectors.getBudgetManagmentState))
         .subscribe(value => (result = value));
 
-      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget]));
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      expect(result).toEqual({ entities });
+    });
+  });
 
-      expect(result).toEqual([entities['testCode'].value]);
+  describe('getBudgets', () => {
+    it('should return budgets', () => {
+      let result: LoaderState<Budget>;
+
+      store
+        .pipe(select(BudgetSelectors.getBudgetsState))
+        .subscribe(value => (result = value));
+
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      // @ts-ignore
+      expect(result).toEqual(entities);
+    });
+  });
+
+  describe('getBudget', () => {
+    it('should return budget by id', () => {
+      let result: LoaderState<Budget>;
+
+      store
+        .pipe(select(BudgetSelectors.getBudgetState(code)))
+        .subscribe(value => (result = value));
+
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      expect(result).toEqual(entities.testCode);
     });
   });
 });
