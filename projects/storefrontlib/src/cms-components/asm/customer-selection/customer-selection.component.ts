@@ -24,6 +24,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: any;
+  selectedCustomer: any;
+
   @Output()
   submitEvent = new EventEmitter<{ customerId: string }>();
 
@@ -46,6 +48,14 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     );
 
     this.form.controls.searchTerm.valueChanges.subscribe(value => {
+      if (
+        !!this.selectedCustomer &&
+        value !==
+          this.selectedCustomer.firstName + this.selectedCustomer.lastName
+      ) {
+        this.selectedCustomer = undefined;
+      }
+      //this.selectedCustomer = undefined;
       console.log(`Search term: value: ${value}, lenght: ${value.length}`);
       if (value.trim().length >= 3) {
         console.log('value length >= 3');
@@ -70,20 +80,26 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectCustomer(customer: any) {
-    console.log('selectCustomer', customer);
-    this.submitEvent.emit({ customerId: customer.customerId });
+  selectCustomerFromList(customer: any) {
+    console.log('selectCustomerFromList', customer);
+    this.selectedCustomer = customer;
+    this.form.controls.searchTerm.setValue(
+      this.selectedCustomer.firstName + this.selectedCustomer.lastName
+    );
+    //this.submitEvent.emit({ customerId: customer.customerId });
   }
 
   onSubmit(): void {
-    console.log('onSumbmit');
-    this.submitClicked = true;
-    if (this.form.invalid) {
-      return;
+    console.log('onSumbmit:', this.selectedCustomer);
+
+    if (!!this.selectedCustomer) {
+      console.log('emit submit event', {
+        customerId: this.selectedCustomer.customerId,
+      });
+      this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
+    } else {
+      console.log('No selected cuastomer.  No emit.');
     }
-    this.asmService.customerSearch({
-      query: this.form.controls.searchTerm.value,
-    });
   }
 
   isNotValid(formControlName: string): boolean {
