@@ -1,5 +1,4 @@
 import * as addressBook from '../helpers/address-book';
-import * as asm from '../helpers/asm';
 import * as checkout from '../helpers/checkout-flow';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
@@ -32,11 +31,11 @@ export function asmTests() {
       });
 
       it('agent should authenticate.', () => {
-        asm.agentLogin();
+        agentLogin();
       });
 
       it('agent should start customer emulation.', () => {
-        asm.startCustomerEmulation(customer.fullName);
+        startCustomerEmulation();
       });
       // Winston Ruumford, <email address>
     });
@@ -78,6 +77,10 @@ export function asmTests() {
           option: 'Personal Details',
         });
         profile.updateProfile();
+        customer.firstName = profile.newFirstName;
+        customer.lastName = profile.newLastName;
+        customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
+        customer.titleCode = profile.newTitle;
       });
 
       it('agent should delete address', () => {
@@ -120,9 +123,7 @@ export function asmTests() {
       });
 
       it('end session using the end session button', () => {
-        asm.startCustomerEmulation(
-          `${profile.newFirstName} ${profile.newLastName}`
-        );
+        startCustomerEmulation();
         // N Z, <email address>
 
         // should end a user's session when clicking on the end session button
@@ -192,13 +193,13 @@ export function asmTests() {
   });
 }
 
-export function listenForAuthenticationRequest(): string {
+function listenForAuthenticationRequest(): string {
   const aliasName = 'csAgentAuthentication';
   cy.server();
   cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
   return `@${aliasName}`;
 }
-export function listenForCustomerSearchRequest(): string {
+function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
   cy.server();
   cy.route(
@@ -207,15 +208,16 @@ export function listenForCustomerSearchRequest(): string {
   ).as(aliasName);
   return `@${aliasName}`;
 }
-export function listenForUserDetailsRequest(): string {
+
+function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
   cy.server();
   cy.route('GET', '/rest/v2/electronics-spa/users/*').as(aliasName);
   return `@${aliasName}`;
 }
 
-export const agentLogin = () => {
-  const aliasRequest = asm.listenForAuthenticationRequest();
+function agentLogin(): void {
+  const aliasRequest = listenForAuthenticationRequest();
 
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
@@ -230,19 +232,16 @@ export const agentLogin = () => {
     .should('eq', 200);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
-};
+}
 
-export const startCustomerEmulation = fullname => {
-  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = asm.listenForUserDetailsRequest();
-
-  cy.log(customer.fullName);
+function startCustomerEmulation(): void {
+  const customerSearchRequestAlias = listenForCustomerSearchRequest();
+  const userDetailsRequestAlias = listenForUserDetailsRequest();
 
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type(customer.email);
-    cy.log(customer);
     cy.get('button[type="submit"]').click();
   });
   cy.wait(customerSearchRequestAlias)
@@ -251,10 +250,9 @@ export const startCustomerEmulation = fullname => {
   cy.wait(userDetailsRequestAlias)
     .its('status')
     .should('eq', 200);
-  cy.log(customer.fullName);
   cy.get('div.cx-customer-emulation input')
     .invoke('attr', 'placeholder')
-    .should('contain', `${fullname}, ${customer.email}`);
+    .should('contain', customer.fullName);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('not.exist');
-};
+}
