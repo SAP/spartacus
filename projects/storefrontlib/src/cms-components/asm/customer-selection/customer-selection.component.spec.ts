@@ -1,5 +1,11 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
@@ -62,7 +68,6 @@ const mockCustomerSearchPage: CustomerSearchPage = {
 fdescribe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
-  //let searchTermFormControl: AbstractControl;
   let asmService: AsmService;
   let el: DebugElement;
 
@@ -86,8 +91,6 @@ fdescribe('CustomerSelectionComponent', () => {
     asmService = TestBed.get(AsmService);
     el = fixture.debugElement;
     fixture.detectChanges();
-    //searchTermFormControl = component.form.controls['searchTerm'];
-    spyOn(asmService, 'customerSearch').and.stub();
   });
 
   it('should create', () => {
@@ -160,16 +163,16 @@ fdescribe('CustomerSelectionComponent', () => {
     });
   });
 
-  it('should trigger search for valid search term', () => {
+  it('should trigger search for valid search term', fakeAsync(() => {
+    spyOn(asmService, 'customerSearch').and.callThrough();
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-    
+    tick(1000);
     expect(asmService.customerSearch).toHaveBeenCalledWith({
       query: validSearchTerm,
     });
-
-  });
+  }));
 
   xit('should display search results for valid search term', () => {
     const searchResultBehaviorSubject = new BehaviorSubject<CustomerSearchPage>(

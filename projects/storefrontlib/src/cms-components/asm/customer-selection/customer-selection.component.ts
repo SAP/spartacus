@@ -47,7 +47,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.form.controls.searchTerm.valueChanges
-        .pipe(debounceTime(500))
+        .pipe(debounceTime(300))
         .subscribe(value => {
           if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
             this.selectedCustomer = undefined;
