@@ -77,13 +77,14 @@ export class ConfigInitializerService {
       return;
     }
 
-    const ongoingScopes = ['initializing'];
+    const ongoingScopes: string[] = ['initializing'];
 
-    const asyncConfigs = [];
+    const asyncConfigs: Promise<void>[] = [];
 
     for (const initializer of this.initializers) {
       if (isDevMode() && !(initializer.scopes && initializer.scopes.length)) {
         console.error('CONFIG_INITIALIZER should provide scope!');
+        continue;
       }
 
       if (isDevMode() && !this.areReady(initializer.scopes, ongoingScopes)) {
