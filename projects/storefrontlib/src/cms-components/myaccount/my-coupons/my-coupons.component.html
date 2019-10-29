@@ -1,0 +1,81 @@
+<div class="cx-section">
+  <ng-container *ngIf="!(couponsStateLoading$ | async); else loading">
+    <ng-container *ngIf="couponResult$ | async as couponResult">
+      <ng-container
+        *ngIf="couponResult.pagination.totalCount > 0; else noCoupons"
+      >
+        <div class="cx-my-coupons-sort top row">
+          <div
+            class="cx-my-coupons-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="sortOptions"
+              [sortLabels]="sortLabels"
+              (sortListEvent)="sortChange($event)"
+              [selectedOption]="sort"
+              placeholder="{{ 'myCoupons.sortByMostRecent' | cxTranslate }}"
+            >
+            </cx-sorting>
+          </div>
+          <div class="cx-my-coupons-pagination">
+            <cx-pagination
+              [pagination]="pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+
+        <div class="row cx-coupon-deck">
+          <div
+            *ngFor="let coupon of couponResult.coupons"
+            class="col-md-6 cx-coupon-card"
+          >
+            <cx-coupon-card
+              [coupon]="coupon"
+              [couponLoading]="
+                (couponsSubscribeLoading$ | async) ||
+                (couponsUnsubscribeLoading$ | async)
+              "
+              (notificationChanged)="onNotificationChange($event)"
+            ></cx-coupon-card>
+          </div>
+        </div>
+
+        <div class="cx-my-coupons-sort bottom row">
+          <div
+            class="cx-my-coupons-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="sortOptions"
+              [sortLabels]="sortLabels"
+              (sortListEvent)="sortChange($event)"
+              [selectedOption]="sort"
+              placeholder="{{ 'myCoupons.sortByMostRecent' | cxTranslate }}"
+            >
+            </cx-sorting>
+          </div>
+          <div class="cx-my-coupons-pagination">
+            <cx-pagination
+              [pagination]="pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #noCoupons>
+      <section>
+        <p class="cx-section-msg">
+          {{ 'myCoupons.noCouponsMessage' | cxTranslate }}
+        </p>
+      </section>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="col-md-12 cx-coupon-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
+  </ng-template>
+</div>

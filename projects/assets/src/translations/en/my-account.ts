@@ -113,4 +113,18 @@ export const myAccount = {
       },
     },
   },
+  myCoupons: {
+    sortByMostRecent: 'Sort by Most recent',
+    noCouponsMessage: 'You have no coupons available.',
+    effectiveTitle: 'Effective:',
+    Effective: 'EFFECTIVE',
+    PreSession: 'EFFECTIVE SOON',
+    ExpireSoon: 'EXPIRING SOON',
+    readMore: 'Read more',
+    notification: 'Notification',
+    findProducts: 'Find Products',
+    status: 'Status:',
+    dialogTitle: 'Coupon',
+    claimCustomerCoupon: 'You have successfully claimed this coupon.',
+  },
 };

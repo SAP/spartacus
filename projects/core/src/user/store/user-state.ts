@@ -5,6 +5,7 @@ import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { LoaderState } from '../../state';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
@@ -20,6 +21,12 @@ export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
 export const REGIONS = '[User] Regions';
+
+export const CUSTOMER_COUPONS = '[User] Customer Coupons';
+export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID = 'subscribeCustomerCoupon';
+export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID =
+  'unsubscribeCustomerCoupon';
+export const CLAIM_CUSTOMER_COUPON_PROCESS_ID = 'claimCustomerCoupon';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -38,6 +45,7 @@ export interface UserState {
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
+  customerCoupons: LoaderState<CustomerCouponSearchResult>;
 }
 
 export interface OrderDetailsState {
