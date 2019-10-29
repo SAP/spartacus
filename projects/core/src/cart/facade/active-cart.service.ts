@@ -382,13 +382,8 @@ export class ActiveCartService {
 
   private isJustLoggedIn(userId: string): boolean {
     return (
-      this.isLoggedIn(userId) &&
       this.previousUserId !== userId && // *just* logged in
       this.previousUserId !== this.PREVIOUS_USER_ID_INITIAL_VALUE // not app initialization
     );
-  }
-
-  private isLoggedIn(userId: string): boolean {
-    return typeof userId !== 'undefined';
   }
 }
