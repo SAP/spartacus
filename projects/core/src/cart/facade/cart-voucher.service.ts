@@ -12,6 +12,7 @@ import {
 import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID, StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
+import { Cart, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 
 @Injectable()
 export class CartVoucherService {
@@ -69,14 +70,25 @@ export class CartVoucherService {
   }
 
   private combineUserAndCartId(cartId: string): Observable<[string, string]> {
+    const userId$ = this.authService.getOccUserId();
     return combineLatest([
-      this.authService.getOccUserId(),
+      userId$,
       cartId
         ? of(cartId)
         : this.store.pipe(
             select(CartSelectors.getCartContent),
-            map(cart => cart.code)
+            map(cart => this.getCartId(cart, userId$))
           ),
     ]).pipe(take(1));
+  }
+
+  private getCartId(cart: Cart, userId$: Observable<string>): string {
+    let cartId = cart.code;
+    userId$.subscribe(userId => {
+      if (userId === OCC_USER_ID_ANONYMOUS) {
+        cartId = cart.guid;
+      }
+    });
+    return cartId;
   }
 }
