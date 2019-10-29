@@ -9,11 +9,7 @@ import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
 
 const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
-const ANONYMOUS_DIALOG = 'cx-anonymous-consents-dialog';
-const GIVEN = 'ON';
-const WITHDRAW = 'OFF';
-const ALLOW_ALL = 'Allow All';
-const REJECT_ALL = 'Reject All';
+const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
 
@@ -57,8 +53,8 @@ export function clickViewDetailsFromBanner() {
 }
 
 export function openDialogUsingFooterLink() {
-  cy.get('.anonymous-consents').within(() => {
-    const link = cy.get('a');
+  cy.get('cx-anonymous-consent-open-dialog').within(() => {
+    const link = cy.get('button');
     link.should('exist');
     link.click({ force: true });
   });
@@ -88,21 +84,21 @@ export function checkInputConsentState(position, state) {
     .should(state);
 }
 
-export function checkAllTextConsentState(state) {
-  cy.get('.cx-toggle-text').each($match => {
-    cy.wrap($match).should('contain.text', state);
+export function checkAllInputConsentState(state) {
+  cy.get('input[type="checkbox"]').each($match => {
+    cy.wrap($match).should(state);
   });
 }
 
-export function checkSingleTextConsentState(position, state) {
-  cy.get('.cx-toggle-text')
-    .eq(position)
-    .should('contain.text', state);
+export function selectAllConsent() {
+  cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
+    .eq(1)
+    .click({ force: true });
 }
 
-export function toggleAllConsentState(text) {
+export function clearAllConsent() {
   cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
-    .contains(text)
+    .first()
     .click({ force: true });
 }
 
@@ -145,16 +141,16 @@ export function testAsAnonymousUser() {
 
   it('should click the footer to check if all consents were accepted and withdraw all consents afterwards', () => {
     openDialogUsingFooterLink();
-    checkAllTextConsentState(GIVEN);
-    toggleAllConsentState(REJECT_ALL);
+    checkAllInputConsentState(BE_CHECKED);
+    clearAllConsent();
   });
 
   it('should click the footer to check if all consents were rejected and accept all consents again', () => {
     openDialogUsingFooterLink();
 
-    checkAllTextConsentState(WITHDRAW);
+    checkAllInputConsentState(NOT_BE_CHECKED);
 
-    toggleAllConsentState(ALLOW_ALL);
+    selectAllConsent();
   });
 }
 
@@ -245,7 +241,7 @@ export function testAsLoggedInUser() {
     signOutUser();
 
     openDialogUsingFooterLink();
-    checkSingleTextConsentState(1, GIVEN);
+    checkInputConsentState(1, BE_CHECKED);
   });
 }
 
@@ -254,10 +250,10 @@ export function changeLanguageTest() {
     waitFiveSeconds();
 
     clickViewDetailsFromBanner();
-    toggleAllConsentState(ALLOW_ALL);
+    selectAllConsent();
 
     openDialogUsingFooterLink();
-    checkAllTextConsentState(GIVEN);
+    checkAllInputConsentState(BE_CHECKED);
     closeDialog();
 
     cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
@@ -265,6 +261,6 @@ export function changeLanguageTest() {
     cy.wait('@switchedContext');
 
     openDialogUsingFooterLink();
-    checkAllTextConsentState(GIVEN);
+    checkAllInputConsentState(BE_CHECKED);
   });
 }

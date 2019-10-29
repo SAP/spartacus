@@ -4,7 +4,7 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { AnonymousConsent } from '../../../model/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import {
-  ANONYMOUS_CONSENTS_FEATURE,
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
   StateWithAnonymousConsents,
 } from '../anonymous-consents-state';
 import * as fromReducers from '../reducers/index';
@@ -27,7 +27,7 @@ describe('anonymous consents selectors', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          ANONYMOUS_CONSENTS_FEATURE,
+          ANONYMOUS_CONSENTS_STORE_FEATURE,
           fromReducers.getReducers()
         ),
       ],
@@ -77,28 +77,6 @@ describe('anonymous consents selectors', () => {
         .unsubscribe();
 
       expect(result).toEqual(expected);
-    });
-  });
-
-  describe('getAnonymousConsentsBannerVisibility', () => {
-    it('should return the banner slice of the state', () => {
-      store.dispatch(
-        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-          false
-        )
-      );
-
-      let result = true;
-      store
-        .pipe(
-          select(
-            AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility
-          )
-        )
-        .subscribe(value => (result = value))
-        .unsubscribe();
-
-      expect(result).toEqual(false);
     });
   });
 });

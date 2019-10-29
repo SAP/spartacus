@@ -5,7 +5,7 @@ import { ConsentTemplate } from '../../../model/index';
 import { LoaderState } from '../../../state/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import {
-  ANONYMOUS_CONSENTS_FEATURE,
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
   StateWithAnonymousConsents,
 } from '../anonymous-consents-state';
 import * as fromReducers from '../reducers/index';
@@ -19,7 +19,7 @@ describe('anonymous consent templates selectors', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          ANONYMOUS_CONSENTS_FEATURE,
+          ANONYMOUS_CONSENTS_STORE_FEATURE,
           fromReducers.getReducers()
         ),
       ],
@@ -157,26 +157,6 @@ describe('anonymous consent templates selectors', () => {
         .unsubscribe();
 
       expect(result).toEqual(mockConsentTemplates[0]);
-    });
-  });
-  describe('getAnonymousConsentTemplatesUpdate', () => {
-    it('should return the update state slice', () => {
-      const updated = true;
-      store.dispatch(
-        new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-          updated
-        )
-      );
-
-      let result = false;
-      store
-        .pipe(
-          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
-        )
-        .subscribe(value => (result = value))
-        .unsubscribe();
-
-      expect(result).toEqual(updated);
     });
   });
 });

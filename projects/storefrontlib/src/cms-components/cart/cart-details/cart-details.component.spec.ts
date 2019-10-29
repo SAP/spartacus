@@ -6,6 +6,7 @@ import {
   Cart,
   CartService,
   I18nTestingModule,
+  Order,
   OrderEntry,
   PromotionResult,
 } from '@spartacus/core';
@@ -42,6 +43,18 @@ class MockCartItemListComponent {
   cartIsLoading: Observable<boolean>;
 }
 
+@Component({
+  template: '',
+  selector: 'cx-cart-coupon',
+})
+class MockCartCouponComponent {
+  @Input()
+  cart: Cart | Order;
+  @Input()
+  cartIsLoading = false;
+  userId: string;
+}
+
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -49,7 +62,11 @@ describe('CartDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
-      declarations: [CartDetailsComponent, MockCartItemListComponent],
+      declarations: [
+        CartDetailsComponent,
+        MockCartItemListComponent,
+        MockCartCouponComponent,
+      ],
       providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));

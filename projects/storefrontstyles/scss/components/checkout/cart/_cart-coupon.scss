@@ -1,0 +1,20 @@
+@import '../../../theme';
+
+%cx-cart-coupon {
+  padding: 2rem 3rem;
+
+  @include media-breakpoint-down(md) {
+    padding: 0 3rem 2rem 3rem;
+  }
+
+  .cx-cart-coupon-title {
+    @include type('5');
+    margin: 1.125rem 0 0.5rem;
+  }
+
+  .form-group .col-md-4 {
+    @include media-breakpoint-up(md) {
+      padding-left: 0;
+    }
+  }
+}

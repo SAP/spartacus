@@ -149,7 +149,7 @@
           <div class="form-group">
             <div class="form-check">
               <ng-container
-                *ngIf="isAnonymousConsentEnabled; else deprecatedNewsletter"
+                *ngIf="isAnonymousConsentEnabled; else hardcodedNewsletter"
               >
                 <label *ngIf="anonymousConsent$ | async as anonymousConsent">
                   <input
@@ -164,7 +164,7 @@
                   </span>
                 </label>
               </ng-container>
-              <ng-template #deprecatedNewsletter
+              <ng-template #hardcodedNewsletter
                 ><label>
                   <input
                     type="checkbox"
