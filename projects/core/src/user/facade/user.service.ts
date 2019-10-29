@@ -329,7 +329,7 @@ export class UserService {
             newPassword,
           })
         )
-      )
+      );
   }
 
   /**

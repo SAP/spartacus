@@ -4023,5 +4023,4 @@ export namespace Occ {
     town?: string;
     visibleInAddressBook?: true;
   }
-
 }

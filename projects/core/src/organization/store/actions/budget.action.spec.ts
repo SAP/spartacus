@@ -32,15 +32,15 @@ describe('Budget Actions', () => {
 
     describe('LoadBudgetFail', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.LoadBudgetFail({...budget, error});
+        const action = new BudgetActions.LoadBudgetFail({ ...budget, error });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET_FAIL,
-          payload: {...budget, error},
+          payload: { ...budget, error },
           meta: StateEntityLoaderActions.entityFailMeta(
             BUDGET_FEATURE,
             budgetCode,
-            {...budget, error}
+            { ...budget, error }
           ),
         });
       });
@@ -126,15 +126,15 @@ describe('Budget Actions', () => {
 
     describe('CreateBudgetFail', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.CreateBudgetFail({...budget, error});
+        const action = new BudgetActions.CreateBudgetFail({ ...budget, error });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.CREATE_BUDGET_FAIL,
-          payload: {...budget, error},
+          payload: { ...budget, error },
           meta: StateEntityLoaderActions.entityFailMeta(
             BUDGET_FEATURE,
             budgetCode,
-            {...budget, error}
+            { ...budget, error }
           ),
         });
       });
@@ -173,15 +173,15 @@ describe('Budget Actions', () => {
 
     describe('UpdateBudgetFail', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.UpdateBudgetFail({...budget, error});
+        const action = new BudgetActions.UpdateBudgetFail({ ...budget, error });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.UPDATE_BUDGET_FAIL,
-          payload: {...budget, error},
+          payload: { ...budget, error },
           meta: StateEntityLoaderActions.entityFailMeta(
             BUDGET_FEATURE,
             budgetCode,
-            {...budget, error}
+            { ...budget, error }
           ),
         });
       });
