@@ -29,6 +29,7 @@ class MockRoutingService {
     return of(router);
   }
 }
+const error = 'error';
 const budgetCode = 'testCode';
 const userId = 'testUser';
 const budget: Budget = {
@@ -97,9 +98,7 @@ describe('Budget Effects', () => {
     });
 
     it('should return LoadBudgetFail action if budget not updated', () => {
-      const error = 'error';
       budgetConnector.get = createSpy().and.returnValue(throwError(error));
-
       const action = new BudgetActions.LoadBudget({ userId, budgetCode });
       const completion = new BudgetActions.LoadBudgetFail(error);
 
@@ -123,9 +122,7 @@ describe('Budget Effects', () => {
     });
 
     it('should return LoadBudgetsFail action if budgets not loaded', () => {
-      const error = 'error';
       budgetConnector.getList = createSpy().and.returnValue(throwError(error));
-
       const action = new BudgetActions.LoadBudgets({ userId });
       const completion = new BudgetActions.LoadBudgetsFail(error);
 
@@ -148,9 +145,7 @@ describe('Budget Effects', () => {
     });
 
     it('should return CreateBudgetFail action if budget not created', () => {
-      const error = 'error';
       budgetConnector.create = createSpy().and.returnValue(throwError(error));
-
       const action = new BudgetActions.CreateBudget({ userId, budget });
       const completion = new BudgetActions.CreateBudgetFail(error);
 
@@ -173,9 +168,7 @@ describe('Budget Effects', () => {
     });
 
     it('should return UpdateBudgetFail action if budget not created', () => {
-      const error = 'error';
       budgetConnector.update = createSpy().and.returnValue(throwError(error));
-
       const action = new BudgetActions.UpdateBudget({ userId, budget });
       const completion = new BudgetActions.UpdateBudgetFail(error);
 
