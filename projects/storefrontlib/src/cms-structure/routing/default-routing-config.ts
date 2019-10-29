@@ -42,6 +42,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orders: {
     paths: ['my-account/orders'],
   },
+  couponClaim: {
+    paths: ['my-account/coupon/claim/:couponCode'],
+    paramsMapping: { couponCode: 'code' },
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {
