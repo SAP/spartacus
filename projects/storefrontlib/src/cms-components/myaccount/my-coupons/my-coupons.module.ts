@@ -33,11 +33,11 @@ import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/pag
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MyCouponsComponent: {
-          selector: 'cx-my-coupons',
+          component: MyCouponsComponent,
           guards: [AuthGuard],
         },
         CouponClaimComponent: {
-          selector: 'cx-coupon-claim',
+          component: CouponClaimComponent,
           guards: [AuthGuard],
         },
       },
