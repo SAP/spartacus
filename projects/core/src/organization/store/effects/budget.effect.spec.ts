@@ -86,7 +86,7 @@ describe('Budget Effects', () => {
   });
 
   describe('loadBudget$', () => {
-    it('should return loadBudgetSuccess action', () => {
+    it('should return LoadBudgetSuccess action', () => {
       const action = new BudgetActions.LoadBudget({ userId, budgetCode });
       const completion = new BudgetActions.LoadBudgetSuccess([budget]);
 
@@ -96,7 +96,7 @@ describe('Budget Effects', () => {
       expect(budgetConnector.get).toHaveBeenCalledWith(userId, budgetCode);
     });
 
-    it('should return LoadBudgetFail action if budget not loaded', () => {
+    it('should return LoadBudgetFail action if budget not updated', () => {
       const error = 'error';
       budgetConnector.get = createSpy().and.returnValue(throwError(error));
 
@@ -111,7 +111,7 @@ describe('Budget Effects', () => {
   });
 
   describe('loadBudgets$', () => {
-    it('should return loadBudgetSuccess action', () => {
+    it('should return LoadBudgetSuccess action', () => {
       const action = new BudgetActions.LoadBudgets({ userId });
       const completion = new BudgetActions.LoadBudgetSuccess([budget]);
       const completion2 = new BudgetActions.LoadBudgetsSuccess();
