@@ -11,7 +11,7 @@ import { LoadBudgetSuccess } from '../actions/budget.action';
 @Injectable()
 export class BudgetEffects {
   @Effect()
-  $loadBudget: Observable<
+  loadBudget$: Observable<
     BudgetActions.LoadBudgetSuccess | BudgetActions.LoadBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGET),
@@ -29,7 +29,7 @@ export class BudgetEffects {
   );
 
   @Effect()
-  $loadBudgets: Observable<
+  loadBudgets$: Observable<
     | BudgetActions.LoadBudgetsSuccess
     | LoadBudgetSuccess
     | BudgetActions.LoadBudgetsFail
@@ -50,7 +50,7 @@ export class BudgetEffects {
   );
 
   @Effect()
-  $createBudget: Observable<
+  createBudget$: Observable<
     BudgetActions.CreateBudgetSuccess | BudgetActions.CreateBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
@@ -66,7 +66,7 @@ export class BudgetEffects {
   );
 
   @Effect()
-  $updateBudget: Observable<
+  updateBudget$: Observable<
     BudgetActions.UpdateBudgetSuccess | BudgetActions.UpdateBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
