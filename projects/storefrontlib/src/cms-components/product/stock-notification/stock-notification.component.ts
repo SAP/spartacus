@@ -19,7 +19,7 @@ import {
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, filter, tap, first } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
-import { ModalService } from '../../../shared';
+import { ModalService } from '../../../shared/components/modal/modal.service';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 
 @Component({

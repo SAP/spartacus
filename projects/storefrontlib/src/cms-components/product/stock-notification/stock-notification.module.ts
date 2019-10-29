@@ -8,7 +8,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
-import { SpinnerModule } from '../../../shared';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
