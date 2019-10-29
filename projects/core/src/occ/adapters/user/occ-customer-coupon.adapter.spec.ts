@@ -27,10 +27,6 @@ const MockOccModuleConfig: OccConfig = {
       prefix: '',
     },
   },
-
-  site: {
-    baseSite: '',
-  },
 };
 
 describe('OccCustomerCouponAdapter', () => {

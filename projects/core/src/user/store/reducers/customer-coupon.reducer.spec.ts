@@ -1,4 +1,4 @@
-import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
+import { UserActions } from '../actions/index';
 
 import * as fromCustomerCouponsReducer from './customer-coupon.reducer';
 import {
@@ -54,7 +54,7 @@ describe('CustomerCoupon Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromCustomerCouponsReducer;
-      const action = {} as fromCustomerCouponsAction.CustomerCouponAction;
+      const action = {} as UserActions.CustomerCouponAction;
       const state = fromCustomerCouponsReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -64,7 +64,7 @@ describe('CustomerCoupon Reducer', () => {
   describe('LOAD_CUSTOMER_COUPON_SUCCESS action', () => {
     it('should populate the customer coupon state', () => {
       const { initialState } = fromCustomerCouponsReducer;
-      const action = new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
+      const action = new UserActions.LoadCustomerCouponsSuccess(
         customerSearcherResult1
       );
       const state = fromCustomerCouponsReducer.reducer(initialState, action);
@@ -75,7 +75,7 @@ describe('CustomerCoupon Reducer', () => {
 
   describe('SUBSCRIBE_CUSTOMER_COUPON_SUCCESS action', () => {
     it('should populate the customer coupon state', () => {
-      const action = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
+      const action = new UserActions.SubscribeCustomerCouponSuccess(
         customerCouponNotification
       );
       const state = fromCustomerCouponsReducer.reducer(
@@ -89,7 +89,7 @@ describe('CustomerCoupon Reducer', () => {
 
   describe('UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS action', () => {
     it('should populate the customer coupon state', () => {
-      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
+      const action = new UserActions.UnsubscribeCustomerCouponSuccess(
         'coupon1'
       );
       const state = fromCustomerCouponsReducer.reducer(

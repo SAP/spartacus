@@ -10,12 +10,12 @@ import {
   CustomerCoupon2Customer,
 } from '../../../model/customer-coupon.model';
 import { User } from '../../../model/misc.model';
-import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import { CustomerCouponAdapter } from '../../connectors/customer-coupon/customer-coupon.adapter';
 import { UserService } from '../../facade/user.service';
 import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 import * as fromCustomerCouponsEffect from './customer-coupon.effect';
+import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 
 class MockUserService {
   loadAddresses = jasmine.createSpy();
@@ -134,7 +134,7 @@ describe('Customer Coupon effect', () => {
   describe('subscribeCustomerCoupon$', () => {
     it('should subscribe customer coupon', () => {
       const action = new fromCustomerCouponsAction.SubscribeCustomerCoupon({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         couponCode: 'testCoupon',
       });
       const completion = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
@@ -152,7 +152,7 @@ describe('Customer Coupon effect', () => {
   describe('unsubscribeCustomerCoupon$', () => {
     it('should unsubscribe customer coupon', () => {
       const action = new fromCustomerCouponsAction.UnsubscribeCustomerCoupon({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         couponCode: 'testCoupon',
       });
       const completion = new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
@@ -170,7 +170,7 @@ describe('Customer Coupon effect', () => {
   describe('claimCustomerCoupon$', () => {
     it('should load CustomerCoupons', () => {
       const action = new fromCustomerCouponsAction.ClaimCustomerCoupon({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         couponCode: 'testCoupon',
       });
       const completion = new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(

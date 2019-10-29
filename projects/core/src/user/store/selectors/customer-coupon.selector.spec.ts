@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule, select } from '@ngrx/store';
 
 import { StateWithUser, USER_FEATURE } from '../user-state';
-import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
-import * as fromSelectors from '../selectors/index';
+import { UserActions } from '../actions/index';
+import { UsersSelectors } from '../selectors/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   CustomerCoupon,
@@ -58,7 +58,7 @@ describe('Customer Coupon Selectors', () => {
     it('should return customer coupon state', () => {
       let result: LoaderState<CustomerCouponSearchResult>;
       store
-        .pipe(select(fromSelectors.getCustomerCouponsState))
+        .pipe(select(UsersSelectors.getCustomerCouponsState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -75,13 +75,13 @@ describe('Customer Coupon Selectors', () => {
     it('should return customer coupons', () => {
       let result: CustomerCouponSearchResult;
       store
-        .pipe(select(fromSelectors.getCustomerCoupons))
+        .pipe(select(UsersSelectors.getCustomerCoupons))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(emptyCustomerSearcherResult);
 
       store.dispatch(
-        new fromActions.LoadCustomerCouponsSuccess(customerSearcherResult)
+        new UserActions.LoadCustomerCouponsSuccess(customerSearcherResult)
       );
       expect(result).toEqual(customerSearcherResult);
     });
@@ -91,13 +91,13 @@ describe('Customer Coupon Selectors', () => {
     it('should return success flag of orders state', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getCustomerCouponsLoaded))
+        .pipe(select(UsersSelectors.getCustomerCouponsLoaded))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
       store.dispatch(
-        new fromActions.LoadCustomerCouponsSuccess(customerSearcherResult)
+        new UserActions.LoadCustomerCouponsSuccess(customerSearcherResult)
       );
       expect(result).toEqual(true);
     });
