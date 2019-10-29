@@ -10,18 +10,23 @@ import {
   UiState,
 } from './../configuration-state';
 import * as UiStateReduce from './configurator-ui.reducer';
+import * as StateReduce from './configurator.reducer';
 
 export function getConfiguratorReducers(): ActionReducerMap<
   ConfigurationState
 > {
   return {
     configurations: entityLoaderReducer<Configurator.Configuration>(
-      CONFIGURATION_DATA
+      CONFIGURATION_DATA,
+      StateReduce.reducer
     ),
+
     uiState: entityReducer<UiState>(
       CONFIGURATION_UI_DATA,
       UiStateReduce.reducer
     ),
+
+    changeCounter: StateReduce.reducerPendingChanges,
   };
 }
 

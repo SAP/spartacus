@@ -16,6 +16,8 @@ export const UPDATE_CONFIGURATION_FAIL =
   '[Configurator] Update Configuration Fail';
 export const UPDATE_CONFIGURATION_SUCCESS =
   '[Configurator] Update Configuration Sucess';
+export const UPDATE_CONFIGURATION_FINALLY =
+  '[Configurator] Update Configuration Finally';
 
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -80,6 +82,13 @@ export class UpdateConfigurationSuccess extends StateEntityLoaderActions.EntityS
   }
 }
 
+export class UpdateConfigurationFinally extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = UPDATE_CONFIGURATION_FINALLY;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -89,4 +98,5 @@ export type ConfiguratorAction =
   | ReadConfigurationSuccess
   | UpdateConfiguration
   | UpdateConfigurationFail
-  | UpdateConfigurationSuccess;
+  | UpdateConfigurationSuccess
+  | UpdateConfigurationFinally;

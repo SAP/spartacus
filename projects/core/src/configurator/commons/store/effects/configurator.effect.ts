@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { Configurator } from '../../../../model/configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
+import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import {
   CreateConfiguration,
   CreateConfigurationFail,
@@ -16,9 +25,12 @@ import {
   READ_CONFIGURATION,
   UpdateConfiguration,
   UpdateConfigurationFail,
+  UpdateConfigurationFinally,
   UpdateConfigurationSuccess,
   UPDATE_CONFIGURATION,
+  UPDATE_CONFIGURATION_SUCCESS,
 } from '../actions/configurator.action';
+import { StateWithConfiguration } from '../configuration-state';
 
 @Injectable()
 export class ConfiguratorEffects {
@@ -99,8 +111,30 @@ export class ConfiguratorEffects {
     })
   );
 
+  @Effect()
+  checkUpdateNeeded$: Observable<
+    UpdateConfigurationFinally | UpdateConfigurationFail
+  > = this.actions$.pipe(
+    ofType(UPDATE_CONFIGURATION_SUCCESS),
+    map(
+      (action: { type: string; payload?: Configurator.Configuration }) =>
+        action.payload
+    ),
+    mergeMap(payload => {
+      return this.store.pipe(
+        select(ConfiguratorSelectors.getPendingChanges),
+        filter(value => value === 0),
+        take(1),
+        switchMap(() => {
+          return [new UpdateConfigurationFinally(payload)];
+        })
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
-    private configuratorCommonsConnector: ConfiguratorCommonsConnector
+    private configuratorCommonsConnector: ConfiguratorCommonsConnector,
+    private store: Store<StateWithConfiguration>
   ) {}
 }
