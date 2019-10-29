@@ -8,7 +8,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+<<<<<<< HEAD
 export class ProfileTagInjector {
+=======
+export class ScriptService {
+>>>>>>> 6a0469c59a3bb5d43f3c6c63b5f9b7a0d2bb5a93
   profiletagConfig: ProfileTagConfig
   bannerVisible$: Observable<boolean>
   constructor(
@@ -21,7 +25,11 @@ export class ProfileTagInjector {
     this.profiletagConfig = this.config.cds.profileTag;
     this.addTracker();
     this.addScript();
+<<<<<<< HEAD
     this.bannerVisible$ = this.anonymousConsentsService.isBannerVisible();
+=======
+    this.bannerVisible$ = this.anonymousConsentsService.isAnonymousConsentsBannerVisible();
+>>>>>>> 6a0469c59a3bb5d43f3c6c63b5f9b7a0d2bb5a93
   }
 
   private addTracker(): void {

@@ -9,17 +9,39 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["esnext", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
-      "@spartacus/vendor": ["projects/vendor/public_api"],
-      "@spartacus/assets": ["projects/assets/src/public_api"]
+      "@spartacus/core": [
+        "projects/core/public_api"
+      ],
+      "@spartacus/storefront": [
+        "projects/storefrontlib/src/public_api"
+      ],
+      "@spartacus/vendor": [
+        "projects/vendor/public_api"
+      ],
+      "@spartacus/assets": [
+        "projects/assets/src/public_api"
+      ],
+      "cds": [
+        "dist/cds"
+      ],
+      "cds/*": [
+        "dist/cds/*"
+      ]
     }
   },
-  "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
+  "exclude": [
+    "./dist",
+    "./projects/storefrontapp-e2e-cypress"
+  ]
 }

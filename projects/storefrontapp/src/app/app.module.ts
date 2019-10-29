@@ -32,6 +32,7 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
+<<<<<<< HEAD
     CdsModule,
     ConfigModule.withConfig(<CdsConfig>{
       cds: {
@@ -44,12 +45,18 @@ if (!environment.production) {
         }
       }
     }),
+=======
+>>>>>>> 6a0469c59a3bb5d43f3c6c63b5f9b7a0d2bb5a93
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
           legacy: false,
         },
+      },
+      authentication: {
+        client_id: 'mobile_android',
+        client_secret: 'edit me'
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
@@ -82,7 +89,18 @@ if (!environment.production) {
     }),
     JsonLdBuilderModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-
+    CdsModule,
+    ConfigModule.withConfig(<CdsConfig>{
+      cds: {
+        profileTag: {
+          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
+          configUrl: 'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
+          siteId: 'electronics',
+          tenant: 'argotest',
+          allowInsecureCookies: true
+        }
+      }
+    }),
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
