@@ -21,6 +21,7 @@ export class AsmMainUiComponent implements OnInit {
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
   searchResultsLoading$: Observable<boolean>;
+
   private startingCustomerSession = false;
 
   constructor(
@@ -88,5 +89,10 @@ export class AsmMainUiComponent implements OnInit {
 
   hideUi(): void {
     this.asmService.updateAsmUiState({ visible: false });
+  }
+
+  endSession() {
+    this.authService.logout();
+    this.routing.go({ cxRoute: 'home' });
   }
 }
