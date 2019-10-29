@@ -11,10 +11,10 @@ import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../modal/index';
 
 @Component({
-  selector: 'cx-anonymous-consents-dialog',
-  templateUrl: './anonymous-consents-dialog.component.html',
+  selector: 'cx-anonymous-consent-dialog',
+  templateUrl: './anonymous-consent-dialog.component.html',
 })
-export class AnonymousConsentsDialogComponent implements OnInit, OnDestroy {
+export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   showLegalDescription = true;
