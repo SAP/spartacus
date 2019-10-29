@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 import { Budget } from '../../model/budget.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
@@ -15,11 +16,10 @@ import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '@spartacus/core';
-import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const budgetCode = 'testBudget';
-const budget1 = { code: budgetCode };
+const budget = { code: budgetCode };
 const budget2 = { code: 'testBudget2' };
 
 class MockAuthService {
@@ -81,7 +81,7 @@ describe('BudgetService', () => {
     });
 
     it('get() should be able to get budget details when they are present in the store', () => {
-      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget1, budget2]));
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
       let budgetDetails: Budget;
       service
         .get(budgetCode)
@@ -91,7 +91,7 @@ describe('BudgetService', () => {
         .unsubscribe();
 
       expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(budgetDetails).toEqual(budget1);
+      expect(budgetDetails).toEqual(budget);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudget({ userId, budgetCode })
       );
@@ -118,7 +118,7 @@ describe('BudgetService', () => {
     });
 
     it('getList() should be able to get budgets when they are present in the store', () => {
-      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget1, budget2]));
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
       store.dispatch(new BudgetActions.LoadBudgetsSuccess());
       let budgets: LoaderState<Budget>;
       service
@@ -130,11 +130,11 @@ describe('BudgetService', () => {
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(budgets).toEqual({
-        [budget1.code]: {
+        [budget.code]: {
           loading: false,
           error: false,
           success: true,
-          value: budget1,
+          value: budget,
         },
         [budget2.code]: {
           loading: false,
@@ -151,22 +151,22 @@ describe('BudgetService', () => {
 
   describe('create budget', () => {
     it('create() should should dispatch CreateBudget action', () => {
-      service.create(budget1);
+      service.create(budget);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new BudgetActions.CreateBudget({ userId, budget: budget1 })
+        new BudgetActions.CreateBudget({ userId, budget })
       );
     });
   });
 
   describe('update budget', () => {
     it('update() should should dispatch UpdateBudget action', () => {
-      service.update(budget1);
+      service.update(budget);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new BudgetActions.UpdateBudget({ userId, budget: budget1 })
+        new BudgetActions.UpdateBudget({ userId, budget })
       );
     });
   });
