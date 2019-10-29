@@ -23,6 +23,6 @@ export class MiniCartComponent {
   );
 
   constructor(protected cartService: CartService, emitter: EventEmitter) {
-    emitter.get(CartEventType.BUSY).subscribe(console.log);
+    emitter.on(CartEventType.BUSY).subscribe(console.log);
   }
 }

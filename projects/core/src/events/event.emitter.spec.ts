@@ -31,7 +31,7 @@ describe('EventEmitter', () => {
   });
 
   it('should return event subscription', () => {
-    service.get('event');
+    service.on('event');
     expect(eventRegister.get).toHaveBeenCalledWith('event');
   });
 });

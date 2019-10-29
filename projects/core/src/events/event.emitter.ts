@@ -11,7 +11,7 @@ export class EventEmitter {
   /**
    * Returns an observable for the given eventName.
    */
-  get(eventName: string): Observable<any> {
+  on(eventName: string): Observable<any> {
     return this.eventRegiser.get(eventName);
   }
 }
