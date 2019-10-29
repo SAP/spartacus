@@ -18,7 +18,7 @@
       position: absolute;
       white-space: nowrap;
       top: 117px;
-      width: 515px;
+      // width: 515px;
       z-index: 11;
       -webkit-box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
       box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
@@ -29,12 +29,13 @@
       -webkit-transform: translateY(0);
       transform: translateY(0);
       font-size: 14px;
-      padding: 4px 12px;
+      // padding: 4px 12px;
 
       a {
         color: #51555a;
-        display: table-row;
+        display: block;
         cursor: pointer;
+        padding: 10px 24px;
         &:hover {
           color: #32363a;
           background-color: #fafafa;
@@ -540,6 +541,10 @@
     .fd-col--6 {
       width: 100%;
       clear: left;
+    }
+
+    .fd-popover__body {
+      width: 90%;
     }
 
     .fd-button,
