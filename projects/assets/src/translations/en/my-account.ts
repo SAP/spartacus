@@ -137,8 +137,8 @@ export const myAccount = {
     productId: 'ID {{ code }}',
     remove: 'REMOVE',
     sorting: {
-      byNameAsc: 'Name (Ascending)',
-      byNameDesc: 'Name (Descending)',
+      byNameAsc: 'Name (ascending)',
+      byNameDesc: 'Name (descending)',
     },
   },
 };
