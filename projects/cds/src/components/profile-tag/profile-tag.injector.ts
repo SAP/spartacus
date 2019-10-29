@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BaseSiteService, WindowRef, AnonymousConsentsService } from '@spartacus/core';
 import { filter } from 'rxjs/operators';
 import { CdsConfig, ProfileTagConfig } from '../../config/config.model';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileTagInjector {
+export class ProfileTagInjector implements OnDestroy {
   profiletagConfig: ProfileTagConfig
   bannerVisible$: Observable<boolean>
   constructor(
@@ -41,7 +41,6 @@ export class ProfileTagInjector {
     profileTagScript.type = 'text/javascript';
     profileTagScript.async = true;
     profileTagScript.src = this.profiletagConfig.javascriptUrl;
-
     doc.getElementsByTagName('head')[0].appendChild(profileTagScript);
   }
 
