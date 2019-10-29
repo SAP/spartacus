@@ -1,19 +1,19 @@
+// import { CommonModule } from '@angular/common';
+import { Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BannerCarouselComponent } from './banner-carousel.component';
-import { CarouselComponent } from 'projects/storefrontlib/src/shared';
-import { IconComponent, IconLoaderService } from '../../misc';
-import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {
-  RoutingConfig,
+  CmsBannerCarouselComponent as model,
   CmsService,
   ContentSlotComponentData,
-  CmsBannerCarouselComponent as model,
+  RoutingConfig,
 } from '@spartacus/core';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { Directive, Input } from '@angular/core';
-import { of, Observable } from 'rxjs';
+import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
+import { CarouselComponent } from 'projects/storefrontlib/src/shared';
+import { Observable, of } from 'rxjs';
+import { IconComponent, IconLoaderService } from '../../misc';
+import { BannerCarouselComponent } from './banner-carousel.component';
 
 const mockCmsComponentData = {
   uid: 'test',
@@ -51,7 +51,6 @@ fdescribe('CreateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule],
       declarations: [
         BannerCarouselComponent,
         CarouselComponent,
