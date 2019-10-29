@@ -25,15 +25,6 @@ export const getBudgetsState: MemoizedSelector<
   (state: EntityLoaderState<Budget>) => state.entities
 );
 
-// TODO: cleanup
-// export const getBudgetValueState = (
-//   budgetCode: string
-// ): MemoizedSelector<StateWithOrganization, Budget> =>
-//   createSelector(
-//     getBudgetManagmentState,
-//     (state: EntityLoaderState<Budget>) => entityValueSelector(state, budgetCode)
-//   );
-
 export const getBudgetState = (
   budgetCode: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<Budget>> =>
