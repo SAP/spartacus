@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CartEventType, CartService, EventEmitter } from '@spartacus/core';
+import { CartService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
@@ -22,7 +22,5 @@ export class MiniCartComponent {
     map(cart => cart.totalPrice.formattedValue)
   );
 
-  constructor(protected cartService: CartService, emitter: EventEmitter) {
-    emitter.on(CartEventType.BUSY).subscribe(console.log);
-  }
+  constructor(protected cartService: CartService) {}
 }
