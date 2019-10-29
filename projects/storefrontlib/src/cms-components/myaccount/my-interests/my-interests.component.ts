@@ -44,6 +44,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.productInterestService.clearProductInterests();
     this.interests$ = this.productInterestService
       .getAndLoadProductInterests(this.DEFAULT_PAGE_SIZE)
       .pipe(
