@@ -21,26 +21,26 @@
   }
 
   .cx-my-coupons-sort {
-    display: var(--cx-display, flex);
-    justify-content: var(--cx-justify-content, space-between);
+    display: flex;
+    justify-content: space-between;
     margin: var(--cx-margin, 0);
 
     @include media-breakpoint-down(sm) {
-      flex-direction: var(--cx-flex-direction, column);
+      flex-direction: column;
       padding-top: var(--cx-padding, 0);
     }
     &.top {
       padding: var(--cx-padding, 1rem 0);
       border-width: 0 0 1px 0;
       border-style: solid;
-      border-color: var(--cx-g-color-light);
+      border-color: var(--cx-color-light);
     }
 
     &.bottom {
       padding: var(--cx-padding, 2rem 0 1rem 0);
       border-width: 1px 0 0 0;
       border-style: solid;
-      border-color: var(--cx-g-color-light);
+      border-color: var(--cx-color-light);
     }
   }
 

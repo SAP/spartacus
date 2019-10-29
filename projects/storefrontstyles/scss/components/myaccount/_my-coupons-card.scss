@@ -1,16 +1,16 @@
 %cx-coupon-card {
   .cx-coupon-card-row {
-    display: var(--cx-display, flex);
-    justify-content: var(--cx-justify-content, space-between);
+    display: flex;
+    justify-content: space-between;
     &.top {
-      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
+      font-weight: var(--cx-font-weight-bold);
       height: 48px;
     }
 
     &.bottom {
       padding: 1rem 0 0 0;
       @include media-breakpoint-down(md) {
-        flex-direction: var(--cx-flex-direction, column);
+        flex-direction: column;;
         .cx-coupon-find-product {
           padding: 0;
         }
@@ -31,13 +31,13 @@
       text-transform: uppercase;
       white-space: nowrap;
       &.effective {
-        color: var(--cx-g-color-success);
+        color: var(--cx-color-success);
       }
       &.expiresoon {
-        color: var(--cx-g-color-danger);
+        color: var(--cx-color-danger);
       }
       &.presession {
-        color: var(--cx-g-color-warning);
+        color: var(--cx-color-warning);
       }
     }
   }
@@ -82,11 +82,11 @@
   }
 
   .cx-my-coupons-sort {
-    display: var(--cx-display, flex);
-    justify-content: var(--cx-justify-content, space-between);
+    display: flex;
+    justify-content: space-between;
     margin: var(--cx-margin, 0);
     @include media-breakpoint-down(sm) {
-      flex-direction: var(--cx-flex-direction, column);
+      flex-direction: column;;
       padding-top: var(--cx-padding, 0);
     }
     &.top {
