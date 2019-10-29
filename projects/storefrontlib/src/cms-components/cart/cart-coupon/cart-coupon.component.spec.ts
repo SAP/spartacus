@@ -62,9 +62,7 @@ describe('CartCouponComponent', () => {
     'getAddVoucherResultLoading',
   ]);
 
-  const mockAuthService = jasmine.createSpyObj('AuthService', [
-    'getOccUserId'
-  ]);
+  const mockAuthService = jasmine.createSpyObj('AuthService', ['getOccUserId']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
