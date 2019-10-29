@@ -86,12 +86,12 @@ export class ConfigInitializerService {
 
     for (const initializer of this.initializers) {
       if (isDevMode() && !(initializer.scopes && initializer.scopes.length)) {
-        console.error('ConfigInitializer should provide scope!');
+        console.error('CONFIG_INITIALIZER should provide scope!');
       }
 
       if (isDevMode() && !this.areReady(ongoingScopes, initializer.scopes)) {
         console.warn(
-          'More that one ConfigInitializer is initializing the same config scope'
+          'More that one CONFIG_INITIALIZER is initializing the same config scope'
         );
       }
 
