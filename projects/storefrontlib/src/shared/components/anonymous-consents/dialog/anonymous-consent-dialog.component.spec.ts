@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ModalService } from '../../modal/index';
-import { AnonymousConsentsDialogComponent } from './anonymous-consents-dialog.component';
+import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
   selector: 'cx-icon',
@@ -21,18 +21,21 @@ export class MockCxIconComponent {
 }
 
 @Component({
-  selector: 'cx-anonymous-consent-form',
+  selector: 'cx-consent-management-form',
   template: ``,
 })
-export class MockAnonymousConsentFormComponent {
+export class MockConsentManagementFormComponent {
   @Input()
-  template: ConsentTemplate;
-
-  @Input()
-  consent: AnonymousConsent;
+  consentTemplate: ConsentTemplate;
 
   @Input()
   requiredConsents: string[] = [];
+
+  @Input()
+  isAnonymousConsentsEnabled = false;
+
+  @Input()
+  consent: AnonymousConsent;
 }
 
 class MockAnonymousConsentsService {
@@ -66,8 +69,8 @@ const mockTemplates: ConsentTemplate[] = [
 ];
 
 describe('AnonymousConsentsDialogComponent', () => {
-  let component: AnonymousConsentsDialogComponent;
-  let fixture: ComponentFixture<AnonymousConsentsDialogComponent>;
+  let component: AnonymousConsentDialogComponent;
+  let fixture: ComponentFixture<AnonymousConsentDialogComponent>;
   let anonymousConsentsService: AnonymousConsentsService;
   let modalService: ModalService;
   let anonymousConsentsConfig: AnonymousConsentsConfig;
@@ -76,9 +79,9 @@ describe('AnonymousConsentsDialogComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
-        AnonymousConsentsDialogComponent,
+        AnonymousConsentDialogComponent,
         MockCxIconComponent,
-        MockAnonymousConsentFormComponent,
+        MockConsentManagementFormComponent,
       ],
       providers: [
         {
@@ -98,7 +101,7 @@ describe('AnonymousConsentsDialogComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnonymousConsentsDialogComponent);
+    fixture = TestBed.createComponent(AnonymousConsentDialogComponent);
     component = fixture.componentInstance;
     anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
       AnonymousConsentsService
