@@ -12,6 +12,37 @@
     display: flex;
   }
 
+  cx-customer-selection {
+    .fd-popover__body {
+      border: solid 1px #89919a;
+      position: absolute;
+      white-space: nowrap;
+      top: 117px;
+      width: 515px;
+      z-index: 11;
+      -webkit-box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
+      box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
+      background-color: #fff;
+      border-radius: 4px;
+      -webkit-transition: all 125ms;
+      transition: all 125ms;
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      font-size: 14px;
+      padding: 4px 12px;
+
+      a {
+        color: #51555a;
+        display: table-row;
+        cursor: pointer;
+        &:hover {
+          color: #32363a;
+          background-color: #fafafa;
+        }
+      }
+    }
+  }
+
   .cx-customer-emulation {
     padding: 2rem;
   }
