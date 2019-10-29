@@ -1,17 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { EventRegister } from './event.register';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventEmitter {
-  constructor(protected eventRegiser: EventRegister) {}
+  private _register = {};
 
   /**
-   * Returns an observable for the given eventName.
+   *
+   * @param eventName
+   * @param callback
    */
-  get(eventName: string): Observable<any> {
-    return this.eventRegiser.get(eventName);
+  register(eventName: any, callback: Observable<any>): void {
+    this._register[eventName] = callback;
+  }
+
+  emit(eventName: any, payload: any): void {
+    if (!this._register[eventName]) {
+      this._register[eventName] = new Subject();
+    }
+    this._register[eventName].next(payload);
+  }
+
+  /**
+   * Returns an observable to emit the event
+   */
+  get(event: string): Observable<any> {
+    if (!this._register[event]) {
+      this._register[event] = new Subject();
+    }
+    return this._register[event];
   }
 }

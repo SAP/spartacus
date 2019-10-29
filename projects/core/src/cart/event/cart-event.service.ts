@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EventRegister } from '../../events';
+import { EventEmitter } from '../../events';
 import { CartEventBuilder } from './cart-event.builder';
 import { CartEventType } from './cart-event.model';
 
@@ -8,25 +8,29 @@ import { CartEventType } from './cart-event.model';
 })
 export class CartEventService {
   constructor(
-    protected eventRegister: EventRegister,
+    protected eventEmitter: EventEmitter,
     protected builder: CartEventBuilder
   ) {
-    eventRegister.register(CartEventType.BUSY, builder.buildBusyEvent());
-    eventRegister.register(CartEventType.ERROR, builder.buildErrorEvent());
-    eventRegister.register(CartEventType.LOAD, builder.buildLoadEvent());
-    eventRegister.register(CartEventType.CHANGE, builder.buildChangeEvent());
-    eventRegister.register(CartEventType.MERGE, builder.buildMergeEvent());
-    eventRegister.register(CartEventType.ADD, builder.buildAddEvent());
+    builder
+      .buildBusyEvent()
+      .subscribe(event => eventEmitter.emit(CartEventType.BUSY, event));
 
-    eventRegister.register(
+    // eventEmitter.register(CartEventType.BUSY, builder.buildBusyEvent());
+    eventEmitter.register(CartEventType.ERROR, builder.buildErrorEvent());
+    eventEmitter.register(CartEventType.LOAD, builder.buildLoadEvent());
+    eventEmitter.register(CartEventType.CHANGE, builder.buildChangeEvent());
+    eventEmitter.register(CartEventType.MERGE, builder.buildMergeEvent());
+    eventEmitter.register(CartEventType.ADD, builder.buildAddEvent());
+
+    eventEmitter.register(
       CartEventType.ENTRY_CREATED,
       builder.buildEntryCreateEvent()
     );
-    eventRegister.register(
+    eventEmitter.register(
       CartEventType.ENTRY_UPDATED,
       builder.buildEntryUpdateEvent()
     );
-    eventRegister.register(
+    eventEmitter.register(
       CartEventType.ENTRY_REMOVED,
       builder.buildEntryRemoveEvent()
     );

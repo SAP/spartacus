@@ -1,37 +1,45 @@
 import { TestBed } from '@angular/core/testing';
-import { EventEmitter } from './event.emitter';
-import { EventRegister } from './event.register';
+import { BehaviorSubject, of } from 'rxjs';
+import { EventRegister as EventEmitter } from './event.emitter';
 
-class MockEventRegister {
-  get(_eventName: string) {}
-}
-
-describe('EventEmitter', () => {
+describe('EventRegister', () => {
   let service: EventEmitter;
-  let eventRegister: EventRegister;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        EventEmitter,
-        {
-          provide: EventRegister,
-          useClass: MockEventRegister,
-        },
-      ],
+      imports: [],
+      providers: [EventEmitter],
     });
 
     service = TestBed.get(EventEmitter);
-    eventRegister = TestBed.get(EventRegister);
-    spyOn(eventRegister, 'get').and.callThrough();
   });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return event subscription', () => {
-    service.get('event');
-    expect(eventRegister.get).toHaveBeenCalledWith('event');
+  it('should return subscription for registered event', () => {
+    let result;
+
+    service.register('test', of({ foo: 'bar' }));
+
+    service.get('test').subscribe(value => (result = value));
+    expect(result).toEqual({ foo: 'bar' });
+  });
+
+  it('should get latest emitted value for registered event', () => {
+    let result;
+
+    const subject: BehaviorSubject<any> = new BehaviorSubject({ foo: 'bar' });
+    service.register('test', subject);
+    subject.next({ bar: 'foo' });
+    service.get('test').subscribe(value => (result = value));
+    expect(result).toEqual({ bar: 'foo' });
+  });
+
+  it('should return empty subscription for unregistered event', () => {
+    let result;
+    service.get('unknown').subscribe(value => (result = value));
+    expect(result).toBeFalsy();
   });
 });
