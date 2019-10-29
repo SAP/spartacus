@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { Currency, Language, BaseSite } from '../../model/misc.model';
 import { Country, CountryType, Region } from '../../model/address.model';
+import { BaseSite, Currency, Language } from '../../model/misc.model';
 
 export abstract class SiteAdapter {
   /**
@@ -27,4 +27,9 @@ export abstract class SiteAdapter {
    * Abstract method used to get base site data.
    */
   abstract loadBaseSite(): Observable<BaseSite>;
+
+  /**
+   * Abstract method used to get base site data.
+   */
+  abstract loadBaseSites(): Observable<BaseSite[]>;
 }

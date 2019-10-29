@@ -1,4 +1,6 @@
+import { Injectable } from '@angular/core';
 import { I18nConfig } from '../i18n';
+import { BaseSite } from '../model/misc.model';
 import { Occ } from '../occ/occ-models/occ.models';
 import { SiteContextConfig } from '../site-context/config/site-context-config';
 import {
@@ -9,27 +11,16 @@ import {
 import { ExternalConfig } from './external-config';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
 
+@Injectable({ providedIn: 'root' })
 export class ExternalConfigConverter {
-  static fromOccBaseSites(
-    occBaseSites: Occ.BaseSites,
-    currentUrl: string
-  ): ExternalConfig {
-    if (
-      !occBaseSites ||
-      !occBaseSites.baseSites ||
-      !occBaseSites.baseSites.length
-    ) {
-      throw ExternalConfigConverter.getError(
-        `No base sites returned from backend:
-      ${JSON.stringify(occBaseSites)}`
-      );
-    }
-    const { baseSites } = occBaseSites;
+  constructor(private javaRegExpConverter: JavaRegExpConverter) {}
+
+  fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): ExternalConfig {
     const baseSite = baseSites.find(site =>
-      ExternalConfigConverter.isCurrentBaseSite(site, currentUrl)
+      this.isCurrentBaseSite(site, currentUrl)
     );
     if (!baseSite) {
-      throw ExternalConfigConverter.getError(
+      throw this.getError(
         `Current url (${currentUrl}) doesn't match with any of url patterns of any base site.`
       );
     }
@@ -37,28 +28,26 @@ export class ExternalConfigConverter {
     // Although `stores` property is an array, typically there is only one store. So we return the first store from the list.
     const baseStore = baseSite.stores && baseSite.stores[0];
     if (!baseStore) {
-      throw ExternalConfigConverter.getError(
+      throw this.getError(
         `Current base site (${baseSite.uid}) doesn't have any base store.`
       );
     }
 
     return {
       baseSite: baseSite.uid,
-      languages: ExternalConfigConverter.getIsoCodes(
+      languages: this.getIsoCodes(
         baseStore.languages,
         baseSite.defaultLanguage || baseStore.defaultLanguage
       ),
-      currencies: ExternalConfigConverter.getIsoCodes(
+      currencies: this.getIsoCodes(
         baseStore.currencies,
         baseStore.defaultCurrency
       ),
-      urlParameters: ExternalConfigConverter.getUrlParams(
-        baseSite.urlEncodingAttributes
-      ),
+      urlParameters: this.getUrlParams(baseSite.urlEncodingAttributes),
     };
   }
 
-  static toSiteContextConfig({
+  toSiteContextConfig({
     baseSite,
     languages,
     currencies,
@@ -75,16 +64,13 @@ export class ExternalConfigConverter {
     return result;
   }
 
-  static toI18nConfig({ languages }: ExternalConfig): I18nConfig {
+  toI18nConfig({ languages }: ExternalConfig): I18nConfig {
     return { i18n: { fallbackLang: languages[0] } };
   }
 
-  private static isCurrentBaseSite(
-    site: Occ.BaseSite,
-    currentUrl: string
-  ): boolean {
+  private isCurrentBaseSite(site: Occ.BaseSite, currentUrl: string): boolean {
     const index = (site.urlPatterns || []).findIndex(javaRegexp => {
-      const jsRegexp = JavaRegExpConverter.convert(javaRegexp);
+      const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
       if (jsRegexp) {
         const result = jsRegexp.test(currentUrl);
         return result;
@@ -99,7 +85,7 @@ export class ExternalConfigConverter {
    *
    * It maps the string "storefront" (used in OCC) to the "baseSite" (used in Spartacus)
    */
-  private static getUrlParams(params: string[]): string[] {
+  private getUrlParams(params: string[]): string[] {
     const STOREFRONT_PARAM = 'storefront';
 
     return (params || []).map(param =>
@@ -110,11 +96,11 @@ export class ExternalConfigConverter {
   /**
    * Returns iso codes in a array, where the first element is the default iso code.
    */
-  private static getIsoCodes(
+  private getIsoCodes(
     elements: { isocode?: string }[],
     defaultElement: { isocode?: string }
   ) {
-    const result = ExternalConfigConverter.moveToFirst(
+    const result = this.moveToFirst(
       elements,
       el => el.isocode === defaultElement.isocode
     ).map(el => el.isocode);
@@ -127,10 +113,7 @@ export class ExternalConfigConverter {
    * @param array array to modify
    * @param predicate function called on elements
    */
-  private static moveToFirst(
-    array: any[],
-    predicate: (el: any) => boolean
-  ): any[] {
+  private moveToFirst(array: any[], predicate: (el: any) => boolean): any[] {
     array = [...array];
     const index = array.findIndex(predicate);
     if (index !== -1) {
@@ -140,7 +123,7 @@ export class ExternalConfigConverter {
     return array;
   }
 
-  private static getError(message: string): Error {
+  private getError(message: string): Error {
     return new Error(`Error: Cannot get base site config! ${message}`);
   }
 }

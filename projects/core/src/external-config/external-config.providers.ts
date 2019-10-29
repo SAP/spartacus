@@ -1,53 +1,28 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Optional, PLATFORM_ID, Provider, SkipSelf } from '@angular/core';
-import { provideConfigFactory } from '../config/config.module';
-import { TransferData } from '../util/transfer-data';
-import { ExternalConfig } from './external-config';
-import { ExternalConfigConverter } from './external-config-converter';
-import { EXTERNAL_CONFIG_TRANSFER_ID } from './server-external-config.module';
+import { APP_INITIALIZER, Provider } from '@angular/core';
+import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
+import { ExternalConfigService } from './external-config.service';
 
-export const deps = [[new Optional(), ExternalConfig]];
-
-export function externalSiteContextConfigFactory(config?: ExternalConfig) {
-  return (config && ExternalConfigConverter.toSiteContextConfig(config)) || {};
-}
-
-export function externalI18nConfigFactory(config?: ExternalConfig) {
-  return (config && ExternalConfigConverter.toI18nConfig(config)) || {};
-}
+export const EXTERNAL_CONFIG_TRANSFER_ID = 'cx-external-config';
 
 /**
- * Returns the external config provided on Angular bootstrap.
- *
- * When no external config was provided on Angular bootstrap,
- * it tries to rehydrate the config (from the JSON script in DOM).
- *
- * @param config external config
- * @param document document object
+ * Initializes the Spartacus config asynchronously basing on the external config
  */
-export function externalConfigFactory(
-  platform: any,
-  document: Document,
-  config?: ExternalConfig
-): ExternalConfig | null {
-  if (config) {
-    return config;
-  }
-  if (isPlatformBrowser(platform)) {
-    return TransferData.rehydrate(EXTERNAL_CONFIG_TRANSFER_ID, document);
-  }
+export function initConfig(
+  externalConfigService: ExternalConfigService,
+  configService: ConfigInitializerService
+) {
+  const result = () =>
+    externalConfigService.getConfigChunks().then(chunks => {
+      configService.add(...chunks);
+    });
+  return result;
 }
 
 export const providers: Provider[] = [
   {
-    provide: ExternalConfig,
-    useFactory: externalConfigFactory,
-    deps: [
-      PLATFORM_ID,
-      DOCUMENT,
-      [new Optional(), new SkipSelf(), ExternalConfig],
-    ],
+    provide: APP_INITIALIZER, // spike todo use CONFIG_INITIALIZER after #5181
+    useFactory: initConfig,
+    deps: [ExternalConfigService, ConfigInitializerService],
+    multi: true,
   },
-  provideConfigFactory(externalSiteContextConfigFactory, deps),
-  provideConfigFactory(externalI18nConfigFactory, deps),
 ];
