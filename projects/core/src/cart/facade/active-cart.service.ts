@@ -20,7 +20,6 @@ import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import {
-  OCC_USER_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_GUEST,
@@ -66,7 +65,7 @@ export class ActiveCartService {
   ) {
     this.authService.getOccUserId().subscribe(userId => {
       this.userId = userId;
-      if (this.userId === OCC_USER_ID_CURRENT) {
+      if (this.userId !== OCC_USER_ID_ANONYMOUS) {
         if (this.isJustLoggedIn(userId)) {
           this.loadOrMerge(this.cartId);
         }
