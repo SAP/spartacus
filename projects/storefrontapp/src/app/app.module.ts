@@ -32,7 +32,6 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-<<<<<<< HEAD
     CdsModule,
     ConfigModule.withConfig(<CdsConfig>{
       cds: {
@@ -45,8 +44,6 @@ if (!environment.production) {
         }
       }
     }),
-=======
->>>>>>> 6a0469c59a3bb5d43f3c6c63b5f9b7a0d2bb5a93
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
