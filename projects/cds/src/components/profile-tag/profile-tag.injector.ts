@@ -52,10 +52,8 @@ export class ScriptService {
     };
     const spaOptions = {
       ...options, spa: true, profileTagLoaded: () => {
-        this.router.events.subscribe((event) => {
-          if (event instanceof NavigationEnd) {
-            w.Y_TRACKING.push({ event: 'Navigated' });
-          }
+        this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+          w.Y_TRACKING.push({ event: 'Navigated' });
         });
         this.bannerVisible$.subscribe((visible: Boolean) => {
           w.Y_TRACKING.push({ event: 'ConsentChanged', granted: !visible });
@@ -63,11 +61,5 @@ export class ScriptService {
       }
     }
     w.Y_TRACKING(spaOptions);
-    // w.Y_TRACKING = w.Y_TRACKING || {}
-    // w.Y_TRACKING.config = options;
   }
-
-  // private addToCart() {
-  //   w.Y_TRACKING.push(event_name, data)
-  // }
 }
