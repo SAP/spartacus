@@ -1,7 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { AnonymousConsent } from '../../../model/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import {
   ANONYMOUS_CONSENTS_STORE_FEATURE,
@@ -10,16 +9,7 @@ import {
 import * as fromReducers from '../reducers/index';
 import { AnonymousConsentsSelectors } from '../selectors/index';
 
-const mockTemplateCode = 'MARKETING';
-const mockAnonymousConsents: AnonymousConsent[] = [
-  {
-    consentState: undefined,
-    templateCode: mockTemplateCode,
-    version: 0,
-  },
-];
-
-describe('anonymous consents selectors', () => {
+describe('anonymous consent ui selectors', () => {
   let store: Store<StateWithAnonymousConsents>;
 
   beforeEach(() => {
@@ -37,46 +27,46 @@ describe('anonymous consents selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getAnonymousConsents', () => {
-    it('should return the consents from the state', () => {
+  describe('getAnonymousConsentTemplatesUpdate', () => {
+    it('should return the update state slice', () => {
+      const updated = true;
       store.dispatch(
-        new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
+        new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+          updated
+        )
       );
 
-      let result: AnonymousConsent[];
+      let result = false;
       store
-        .pipe(select(AnonymousConsentsSelectors.getAnonymousConsents))
+        .pipe(
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+        )
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual(mockAnonymousConsents);
+      expect(result).toEqual(updated);
     });
   });
-
-  describe('getAnonymousConsentByTemplateCode', () => {
-    it('should return the consents from the state', () => {
+  describe('getAnonymousConsentsBannerVisibility', () => {
+    it('should return the banner slice of the state', () => {
+      const visible = false;
       store.dispatch(
-        new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+          visible
+        )
       );
-      const expected: AnonymousConsent = {
-        consentState: undefined,
-        templateCode: mockTemplateCode,
-        version: 0,
-      };
 
-      let result: AnonymousConsent;
+      let result = true;
       store
         .pipe(
           select(
-            AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
-              mockTemplateCode
-            )
+            AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility
           )
         )
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual(expected);
+      expect(result).toEqual(visible);
     });
   });
 });
