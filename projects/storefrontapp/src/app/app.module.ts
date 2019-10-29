@@ -17,6 +17,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { CdsModule, CdsConfig } from 'projects/cds/public_api';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -31,7 +32,18 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-
+    CdsModule,
+    ConfigModule.withConfig(<CdsConfig>{
+      cds: {
+        profileTag: {
+          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
+          configUrl: 'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
+          siteId: 'electronics',
+          tenant: 'argotest',
+          allowInsecureCookies: true
+        }
+      }
+    }),
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
@@ -79,4 +91,4 @@ if (!environment.production) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule { }

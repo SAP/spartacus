@@ -21,7 +21,7 @@ export class ScriptService {
     this.profiletagConfig = this.config.cds.profileTag;
     this.addTracker();
     this.addScript();
-    this.bannerVisible$ = this.anonymousConsentsService.isAnonymousConsentsBannerVisible();
+    this.bannerVisible$ = this.anonymousConsentsService.isBannerVisible();
   }
 
   private addTracker(): void {
