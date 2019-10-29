@@ -3,8 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ConfigInitializerService } from './config-initializer.service';
 import { ConfigChunk } from '../config.module';
 
-function configInitializerFactory(configInitializer: ConfigInitializerService) {
-  return async () => configInitializer.initialize();
+export function configInitializerFactory(
+  configInitializer: ConfigInitializerService
+) {
+  const init = () => configInitializer.initialize();
+  return init;
 }
 
 @NgModule({
