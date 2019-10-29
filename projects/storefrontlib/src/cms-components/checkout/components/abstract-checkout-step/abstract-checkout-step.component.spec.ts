@@ -39,7 +39,7 @@ describe('AbstractCheckoutStepComponent', () => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
       providers: [
-        { provide: CheckoutConfigService, useValue: MockCheckoutConfigService },
+        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
       ],
     }).compileComponents();
@@ -56,5 +56,34 @@ describe('AbstractCheckoutStepComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get previous step and next step urls', () => {
+    spyOn(checkoutConfigService, 'getNextCheckoutStepUrl').and.stub();
+    spyOn(checkoutConfigService, 'getPreviousCheckoutStepUrl').and.stub();
+
+    component.ngOnInit();
+    expect(checkoutConfigService.getNextCheckoutStepUrl).toHaveBeenCalledWith(
+      activatedRoute
+    );
+    expect(
+      checkoutConfigService.getPreviousCheckoutStepUrl
+    ).toHaveBeenCalledWith(activatedRoute);
+  });
+
+  it('should set previous button text to "back to cart" ', () => {
+    spyOn(checkoutConfigService, 'getPreviousCheckoutStepUrl').and.returnValue(
+      'cart'
+    );
+    component.ngOnInit();
+    expect(component.backButtonText).toEqual('checkout.backToCart');
+  });
+
+  it('should set previous button text to "back"', () => {
+    spyOn(checkoutConfigService, 'getPreviousCheckoutStepUrl').and.returnValue(
+      'step1'
+    );
+    component.ngOnInit();
+    expect(component.backButtonText).toEqual('common.back');
   });
 });
