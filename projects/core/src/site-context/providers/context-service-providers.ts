@@ -1,17 +1,29 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
-import { LanguageService } from '../facade/language.service';
-import { CurrencyService } from '../facade/currency.service';
+import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { BaseSiteService } from '../facade/base-site.service';
+import { CurrencyService } from '../facade/currency.service';
+import { LanguageService } from '../facade/language.service';
 
 export function inititializeContext(
   baseSiteService: BaseSiteService,
   langService: LanguageService,
-  currService: CurrencyService
+  currService: CurrencyService,
+  configService?: ConfigInitializerService
 ) {
   return () => {
-    baseSiteService.initialize();
-    langService.initialize();
-    currService.initialize();
+    function initialize() {
+      baseSiteService.initialize();
+      langService.initialize();
+      currService.initialize();
+    }
+
+    if (configService) {
+      configService.getStableConfig('context').then(() => {
+        initialize();
+      });
+    } else {
+      initialize();
+    }
   };
 }
 
@@ -22,7 +34,12 @@ export const contextServiceProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
     useFactory: inititializeContext,
-    deps: [BaseSiteService, LanguageService, CurrencyService],
+    deps: [
+      BaseSiteService,
+      LanguageService,
+      CurrencyService,
+      ConfigInitializerService,
+    ],
     multi: true,
   },
 ];
