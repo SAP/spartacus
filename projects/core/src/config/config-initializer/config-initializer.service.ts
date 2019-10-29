@@ -19,14 +19,13 @@ export class ConfigInitializerService {
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
 
   async getStableConfig(...scopes: string[]): Promise<any> {
-    console.log('aaa', scopes);
     if (!this.config.initializing) {
       return this.config;
     }
     return this.ongoingScopes$
       .pipe(
         filter(
-          ongoingScopes => ongoingScopes && this.areReady(ongoingScopes, scopes)
+          ongoingScopes => ongoingScopes && this.areReady(scopes, ongoingScopes)
         ),
         take(1),
         mapTo(this.config)
@@ -34,7 +33,7 @@ export class ConfigInitializerService {
       .toPromise();
   }
 
-  protected finishScope(scopes: string[]) {
+  protected finishScopes(scopes: string[]) {
     const newScopes = [...this.ongoingScopes$.value];
     for (const scope of scopes) {
       newScopes.splice(newScopes.indexOf(scope), 1);
@@ -42,28 +41,25 @@ export class ConfigInitializerService {
     this.ongoingScopes$.next(newScopes);
   }
 
-  protected areReady(ongoing: string[], waitingFor: string[]): boolean {
-    if (!waitingFor.length) {
-      return !ongoing.length;
+  protected areReady(scopes: string[], ongoingScopes: string[]): boolean {
+    if (!scopes.length) {
+      return !ongoingScopes.length;
     }
-    for (const waitingScope of waitingFor) {
-      if (!this.isReady(ongoing, waitingScope)) {
-        return false;
+    for (const scope of scopes) {
+      for (const ongoingScope of ongoingScopes) {
+        if (this.scopesOverlap(scope, ongoingScope)) {
+          return false;
+        }
       }
     }
     return true;
   }
 
-  protected isReady(ongoing: string[], waitingScope: string): boolean {
-    for (const scope of ongoing) {
-      if (
-        waitingScope.startsWith(scope) &&
-        (waitingScope[scope.length] || '.' === '.')
-      ) {
-        return false;
-      }
+  protected scopesOverlap(a: string, b: string): boolean {
+    if (b.length > a.length) {
+      [a, b] = [b, a];
     }
-    return true;
+    return a.startsWith(b) && (a[b.length] || '.') === '.';
   }
 
   /**
@@ -90,9 +86,9 @@ export class ConfigInitializerService {
         console.error('CONFIG_INITIALIZER should provide scope!');
       }
 
-      if (isDevMode() && !this.areReady(ongoingScopes, initializer.scopes)) {
+      if (isDevMode() && !this.areReady(initializer.scopes, ongoingScopes)) {
         console.warn(
-          'More that one CONFIG_INITIALIZER is initializing the same config scope'
+          'More than one CONFIG_INITIALIZER is initializing the same config scope.'
         );
       }
 
@@ -101,7 +97,7 @@ export class ConfigInitializerService {
       asyncConfigs.push(
         (async () => {
           deepMerge(this.config, await initializer.configFactory());
-          this.finishScope(initializer.scopes);
+          this.finishScopes(initializer.scopes);
         })()
       );
     }
@@ -115,7 +111,7 @@ export class ConfigInitializerService {
       );
     } else {
       deepMerge(this.config, { initializing: false });
-      this.finishScope(['initializing']);
+      this.finishScopes(['initializing']);
     }
   }
 }
