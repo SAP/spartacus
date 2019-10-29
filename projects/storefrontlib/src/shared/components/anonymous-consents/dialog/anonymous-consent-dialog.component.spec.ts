@@ -35,6 +35,9 @@ export class MockConsentManagementFormComponent {
   isAnonymousConsentsEnabled = false;
 
   @Input()
+  isLevel13 = false;
+
+  @Input()
   consent: AnonymousConsent;
 }
 
