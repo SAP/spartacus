@@ -19,7 +19,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { CurrentProductService } from '../current-product.service';
-import { ModalService, SpinnerModule } from '../../../shared';
+import { ModalService } from '../../../shared/components/modal/modal.service';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 

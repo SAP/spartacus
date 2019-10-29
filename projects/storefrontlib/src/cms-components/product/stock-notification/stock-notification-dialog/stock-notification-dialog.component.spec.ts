@@ -6,7 +6,8 @@ import {
   I18nTestingModule,
   NotificationPreference,
 } from '@spartacus/core';
-import { ModalService, SpinnerModule } from '../../../../shared';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement } from '@angular/core';
 import { of } from 'rxjs';

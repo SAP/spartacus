@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NotificationPreference, UserInterestsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ModalService } from '../../../../shared';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-stock-notification-dialog',
