@@ -19,6 +19,7 @@ describe('Budget Actions', () => {
           userId,
           budgetCode,
         });
+
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET,
           payload: { userId, budgetCode },
@@ -49,6 +50,7 @@ describe('Budget Actions', () => {
     describe('LoadBudgetSuccess', () => {
       it('should create the action', () => {
         const action = new BudgetActions.LoadBudgetSuccess([budget]);
+
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET_SUCCESS,
           payload: [budget],
@@ -66,6 +68,7 @@ describe('Budget Actions', () => {
         const action = new BudgetActions.LoadBudgets({
           userId,
         });
+
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS,
           payload: { userId },
@@ -96,6 +99,7 @@ describe('Budget Actions', () => {
     describe('LoadBudgetsSuccess', () => {
       it('should create the action', () => {
         const action = new BudgetActions.LoadBudgetsSuccess();
+
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS_SUCCESS,
           payload: undefined,
@@ -143,6 +147,7 @@ describe('Budget Actions', () => {
     describe('CreateBudgetSuccess', () => {
       it('should create the action', () => {
         const action = new BudgetActions.CreateBudgetSuccess(budget);
+
         expect({ ...action }).toEqual({
           type: BudgetActions.CREATE_BUDGET_SUCCESS,
           payload: budget,
@@ -190,6 +195,7 @@ describe('Budget Actions', () => {
     describe('UpdateBudgetSuccess', () => {
       it('should create the action', () => {
         const action = new BudgetActions.UpdateBudgetSuccess(budget);
+
         expect({ ...action }).toEqual({
           type: BudgetActions.UPDATE_BUDGET_SUCCESS,
           payload: budget,

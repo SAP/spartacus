@@ -19,7 +19,6 @@ import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const budgetCode = 'testBudget';
-const params = undefined;
 const budget1 = { code: budgetCode };
 const budget2 = { code: 'testBudget2' };
 
@@ -100,6 +99,8 @@ describe('BudgetService', () => {
   });
 
   describe('get budgets', () => {
+    const params = undefined;
+
     it('getList() should trigger load budgets when they are not present in the store', () => {
       let budgets: LoaderState<Budget>;
       service
