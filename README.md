@@ -1,5 +1,24 @@
 ![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
+# Argonauts specific
+!Do not branch from this develop branch. Instead, use the source develop branch, branch from there, and then push that branch to this repo. This creates a 'fork' between the two github servers.
+
+See spartacus documentation below for prerequisties. Also see the files in ./.vscode for recommended settings and extensions
+
+## Configure
+For connecting to EC: the 'client_secret' in ./projects/storefrontapp/src/app/app.module.ts for the user 'mobile_android' 
+For configuring Profiletag: edit the 'profiletag' section in ./projects/storefrontapp/src/app/app.module.ts
+
+## Install
+yarn install
+
+## Run
+yarn start
+
+## Debug
+See ./.vscode/README.md
+
+
 # What is Spartacus?
 
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
