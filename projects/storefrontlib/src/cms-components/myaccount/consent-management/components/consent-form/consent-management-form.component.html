@@ -7,6 +7,10 @@
       [checked]="consentGiven"
       [disabled]="isRequired(consentTemplate?.id)"
     />
+    <!-- TODO(issue:4989) Anonymous consents - remove the *ngIf="isLevel13" -->
+    <strong *ngIf="isLevel13" class="form-check-label">
+      {{ consentTemplate?.name }}
+    </strong>
     <span class="form-check-label">
       {{ consentTemplate?.description }}
     </span>
