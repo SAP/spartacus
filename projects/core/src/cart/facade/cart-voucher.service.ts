@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import * as fromProcessStore from '../../process/store/process-state';
@@ -70,25 +70,27 @@ export class CartVoucherService {
   }
 
   private combineUserAndCartId(cartId: string): Observable<[string, string]> {
-    const userId$ = this.authService.getOccUserId();
-    return combineLatest([
-      userId$,
-      cartId
-        ? of(cartId)
-        : this.store.pipe(
-            select(CartSelectors.getCartContent),
-            map(cart => this.getCartId(cart, userId$))
-          ),
-    ]).pipe(take(1));
-  }
-
-  private getCartId(cart: Cart, userId$: Observable<string>): string {
-    let cartId = cart.code;
-    userId$.subscribe(userId => {
-      if (userId === OCC_USER_ID_ANONYMOUS) {
-        cartId = cart.guid;
-      }
-    });
-    return cartId;
+    if (cartId) {
+      return this.authService.getOccUserId().pipe(
+        take(1),
+        map(userId => [userId, cartId])
+      );
+    } else {
+      return combineLatest([
+        this.authService.getOccUserId(),
+        this.store.pipe(
+          select(CartSelectors.getCartContent),
+          map(cart => cart)
+        ),
+      ]).pipe(
+        take(1),
+        map(([userId, cart]: [string, Cart]) => {
+          return [
+            userId,
+            userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code,
+          ];
+        })
+      );
+    }
   }
 }
