@@ -27,13 +27,13 @@ export class MockCxIconComponent {
 export class MockConsentManagementFormComponent {
   @Input()
   consentTemplate: ConsentTemplate;
-
   @Input()
   requiredConsents: string[] = [];
-
   @Input()
   isAnonymousConsentsEnabled = false;
-
+  // TODO(issue:4989) Anonymous consents - remove
+  @Input()
+  isLevel13 = false;
   @Input()
   consent: AnonymousConsent;
 }
