@@ -18,7 +18,8 @@ export class ConfigInitializerService {
 
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
 
-  async getStableConfig(scopes: string[] = []): Promise<any> {
+  async getStableConfig(...scopes: string[]): Promise<any> {
+    console.log('aaa', scopes);
     if (!this.config.initializing) {
       return this.config;
     }
