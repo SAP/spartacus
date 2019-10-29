@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ScriptService {
+export class ProfileTagInjector {
   profiletagConfig: ProfileTagConfig
   bannerVisible$: Observable<boolean>
   constructor(
@@ -51,9 +51,20 @@ export class ScriptService {
       (w.Y_TRACKING.q = w.Y_TRACKING.q || []).push(arguments);
     };
     const spaOptions = {
-      ...options, spa: true, profileTagLoaded: this.addProfileTagListeners.bind(this)
+      ...options, spa: true, profileTagEventReciever: this.profileTagEventTriggered.bind(this)
     }
     w.Y_TRACKING(spaOptions);
+  }
+
+  private profileTagEventTriggered(profileTagEvent) {
+    switch (profileTagEvent.eventName) {
+      case 'Loaded':
+        this.addProfileTagListeners();
+        break;
+      default:
+        //add logger from spartacus. this.logger.info(`Unsupported Event ${profileTagEvent.eventName}`)
+        break;
+    }
   }
 
   private addProfileTagListeners() {

@@ -1,7 +1,7 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { ScriptService } from './profile-tag.injector';
+import { ProfileTagInjector } from './profile-tag.injector';
 
-export function profileTagFactory(service: ScriptService): any {
+export function profileTagFactory(service: ProfileTagInjector): any {
   const result = () => service;
   return result;
 }
@@ -11,9 +11,9 @@ export function profileTagFactory(service: ScriptService): any {
     {
       provide: APP_INITIALIZER,
       useFactory: profileTagFactory,
-      deps: [ScriptService],
+      deps: [ProfileTagInjector],
       multi: true,
     },
   ],
 })
-export class ProfileTagModule {}
+export class ProfileTagModule { }
