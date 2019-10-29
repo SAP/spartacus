@@ -55,7 +55,10 @@ export class ConfigInitializerService {
 
   protected isReady(ongoing: string[], waitingScope: string): boolean {
     for (const scope of ongoing) {
-      if (waitingScope.includes(scope)) {
+      if (
+        waitingScope.startsWith(scope) &&
+        (waitingScope[scope.length] || '.' === '.')
+      ) {
         return false;
       }
     }
