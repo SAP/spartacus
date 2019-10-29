@@ -1,7 +1,7 @@
 ![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
 # Argonauts specific
-!Do not branch from this develop branch. Instead, use the source develop branch, branch from there, and then push that branch to this repo. This creates a 'fork' between the two github servers.
+**Do not branch from this develop branch. Instead, use the source develop branch, branch from there, and then push that branch to this repo. This creates a 'fork' between the two github servers.
 
 See spartacus documentation below for prerequisties. Also see the files in ./.vscode for recommended settings and extensions
 
