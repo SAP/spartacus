@@ -10,6 +10,7 @@ import {
   AsmService,
   CustomerSearchPage,
   GlobalMessageService,
+  User,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -25,7 +26,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
-  selectedCustomer: any;
+  selectedCustomer: User;
 
   @Output()
   submitEvent = new EventEmitter<{ customerId: string }>();
@@ -51,6 +52,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
           if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
             this.selectedCustomer = undefined;
           }
+          if (!!this.selectedCustomer) {
+            return;
+          }
           if (value.trim().length >= 3) {
             this.asmService.customerSearch({
               query: value,
@@ -62,9 +66,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     );
   }
 
-  selectCustomerFromList(customer: any) {
+  selectCustomerFromList(customer: User) {
     this.selectedCustomer = customer;
     this.form.controls.searchTerm.setValue(this.selectedCustomer.name);
+    this.asmService.customerSearchReset();
   }
 
   onSubmit(): void {
