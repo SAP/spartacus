@@ -9,6 +9,7 @@ import {
   Voucher,
   Cart,
   CartVoucherService,
+  AuthService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartCouponComponentService } from './cart-coupon.component.service';
@@ -61,6 +62,10 @@ describe('CartCouponComponent', () => {
     'getAddVoucherResultLoading',
   ]);
 
+  const mockAuthService = jasmine.createSpyObj('AuthService', [
+    'getOccUserId'
+  ]);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
@@ -73,6 +78,7 @@ describe('CartCouponComponent', () => {
       providers: [
         { provide: CartService, useValue: mockCartService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
+        { provide: AuthService, useValue: mockAuthService },
         CartCouponComponentService,
       ],
     }).compileComponents();
@@ -92,6 +98,7 @@ describe('CartCouponComponent', () => {
     mockCartVoucherService.addVoucher.and.stub();
     mockCartVoucherService.resetAddVoucherProcessingState.and.stub();
     mockCartVoucherService.resetAddVoucherProcessingState.calls.reset();
+    mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
   });
 
   it('should create', () => {
