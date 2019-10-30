@@ -5,6 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 
 @Injectable()
 export class CustomerCouponEffects {
@@ -31,7 +32,11 @@ export class CustomerCouponEffects {
             );
           }),
           catchError(error =>
-            of(new fromCustomerCouponsAction.LoadCustomerCouponsFail(error))
+            of(
+              new fromCustomerCouponsAction.LoadCustomerCouponsFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -56,7 +61,11 @@ export class CustomerCouponEffects {
             );
           }),
           catchError(error =>
-            of(new fromCustomerCouponsAction.SubscribeCustomerCouponFail(error))
+            of(
+              new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -82,7 +91,9 @@ export class CustomerCouponEffects {
           }),
           catchError(error =>
             of(
-              new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(error)
+              new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
+                makeErrorSerializable(error)
+              )
             )
           )
         );
@@ -107,7 +118,11 @@ export class CustomerCouponEffects {
             );
           }),
           catchError(error =>
-            of(new fromCustomerCouponsAction.ClaimCustomerCouponFail(error))
+            of(
+              new fromCustomerCouponsAction.ClaimCustomerCouponFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })

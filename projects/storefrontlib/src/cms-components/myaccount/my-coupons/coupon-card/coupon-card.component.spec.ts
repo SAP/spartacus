@@ -29,7 +29,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-my-coupons',
   templateUrl: `<cx-coupon-card [coupond]="mockCoupon"></cx-coupon-card>`,
 })
-class MyCouponsComponent{}
+class MyCouponsComponent {}
 
 describe('CouponCardComponent', () => {
   let component: CouponCardComponent;

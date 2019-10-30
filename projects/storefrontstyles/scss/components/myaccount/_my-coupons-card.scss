@@ -10,7 +10,7 @@
     &.bottom {
       padding: 1rem 0 0 0;
       @include media-breakpoint-down(md) {
-        flex-direction: column;;
+        flex-direction: column;
         .cx-coupon-find-product {
           padding: 0;
         }
@@ -86,7 +86,7 @@
     justify-content: space-between;
     margin: var(--cx-margin, 0);
     @include media-breakpoint-down(sm) {
-      flex-direction: column;;
+      flex-direction: column;
       padding-top: var(--cx-padding, 0);
     }
     &.top {

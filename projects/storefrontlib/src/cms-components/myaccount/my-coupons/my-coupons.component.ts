@@ -8,7 +8,6 @@ import {
 } from '@spartacus/core';
 import { tap, map } from 'rxjs/operators';
 
-
 @Component({
   selector: 'cx-my-coupons',
   templateUrl: './my-coupons.component.html',
@@ -50,9 +49,12 @@ export class MyCouponsComponent implements OnInit {
 
   pagination: PaginationModel;
 
-  constructor(private couponService: CustomerCouponService, private translation: TranslationService) {}
+  constructor(
+    private couponService: CustomerCouponService,
+    private translation: TranslationService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.couponService.loadCustomerCoupons(this.PAGE_SIZE);
     this.couponResult$ = this.couponService
       .getCustomerCoupons(this.PAGE_SIZE)
@@ -73,21 +75,33 @@ export class MyCouponsComponent implements OnInit {
     this.couponsUnsubscribeLoading$ = this.couponService.getUnsubscribeCustomerCouponResultLoading();
   }
 
-  getSortLabels(): Observable<{ byStartDateAsc: string; byStartDateDesc: string; byEndDateAsc: string; byEndDateDesc: string }> {
+  getSortLabels(): Observable<{
+    byStartDateAsc: string;
+    byStartDateDesc: string;
+    byEndDateAsc: string;
+    byEndDateDesc: string;
+  }> {
     return combineLatest([
       this.translation.translate('myCoupons.startDateAsc'),
       this.translation.translate('myCoupons.startDateDesc'),
       this.translation.translate('myCoupons.endDateAsc'),
       this.translation.translate('myCoupons.endDateDesc'),
     ]).pipe(
-      map(([textByStartDateAsc, textByStartDateDesc,textByEndDateAsc,textByEndDateDesc]) => {
-        return {
-          byStartDateAsc: textByStartDateAsc,
-          byStartDateDesc: textByStartDateDesc,
-          byEndDateAsc: textByEndDateAsc,
-          byEndDateDesc: textByEndDateDesc,
-        };
-      })
+      map(
+        ([
+          textByStartDateAsc,
+          textByStartDateDesc,
+          textByEndDateAsc,
+          textByEndDateDesc,
+        ]) => {
+          return {
+            byStartDateAsc: textByStartDateAsc,
+            byStartDateDesc: textByStartDateDesc,
+            byEndDateAsc: textByEndDateAsc,
+            byEndDateDesc: textByEndDateDesc,
+          };
+        }
+      )
     );
   }
 

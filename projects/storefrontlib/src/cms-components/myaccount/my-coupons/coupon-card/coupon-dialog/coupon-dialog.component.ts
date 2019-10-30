@@ -11,7 +11,7 @@ export class CouponDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   coupon: CustomerCoupon;
 
-  @ViewChild('dialog', { static: false,read: ElementRef })
+  @ViewChild('dialog', { static: false, read: ElementRef })
   dialog: ElementRef;
 
   constructor(protected modalService: ModalService) {}
