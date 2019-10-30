@@ -2,10 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsService,
   ANONYMOUS_CONSENTS_FEATURE,
-  ConsentTemplate,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { pluck, tap } from 'rxjs/operators';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalService } from '../../../shared/components/modal/index';
 
@@ -19,8 +18,6 @@ export class AnonymousConsentManagementBannerComponent
 
   anonymousConsentsFeature = ANONYMOUS_CONSENTS_FEATURE;
   bannerVisible$: Observable<boolean>;
-  templatesUpdated$: Observable<boolean>;
-  templates$: Observable<ConsentTemplate[]>;
 
   constructor(
     private modalService: ModalService,
@@ -28,14 +25,7 @@ export class AnonymousConsentManagementBannerComponent
   ) {}
 
   ngOnInit(): void {
-    this.templates$ = this.anonymousConsentsService.getTemplates().pipe(
-      tap(templates => {
-        if (!Boolean(templates)) {
-          this.anonymousConsentsService.loadTemplates();
-        }
-      })
-    );
-    this.templatesUpdated$ = this.anonymousConsentsService
+    const templatesUpdated$ = this.anonymousConsentsService
       .getTemplatesUpdated()
       .pipe(
         tap(updated => {
@@ -44,7 +34,19 @@ export class AnonymousConsentManagementBannerComponent
           }
         })
       );
-    this.bannerVisible$ = this.anonymousConsentsService.isBannerVisible();
+    const templates$ = this.anonymousConsentsService.getTemplates().pipe(
+      tap(templates => {
+        if (!Boolean(templates)) {
+          this.anonymousConsentsService.loadTemplates();
+        }
+      })
+    );
+
+    this.bannerVisible$ = combineLatest([
+      this.anonymousConsentsService.isBannerVisible(),
+      templatesUpdated$,
+      templates$,
+    ]).pipe(pluck(0));
   }
 
   viewDetails(): void {

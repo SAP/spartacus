@@ -79,7 +79,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       spyOn(anonymousConsentsService, 'loadTemplates').and.stub();
 
       component.ngOnInit();
-      component.templates$.subscribe().unsubscribe();
+      component.bannerVisible$.subscribe().unsubscribe();
 
       expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
       expect(anonymousConsentsService.loadTemplates).toHaveBeenCalled();
@@ -100,7 +100,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       spyOn(anonymousConsentsService, 'toggleBannerVisibility').and.stub();
 
       component.ngOnInit();
-      component.templatesUpdated$.subscribe().unsubscribe();
+      component.bannerVisible$.subscribe().unsubscribe();
 
       expect(anonymousConsentsService.getTemplatesUpdated).toHaveBeenCalled();
       expect(
