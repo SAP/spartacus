@@ -15,8 +15,8 @@ export class CustomerEmulationComponent implements OnInit {
   customer$: Observable<User>;
 
   constructor(
-    protected userService: UserService,
     protected authService: AuthService,
+    protected userService: UserService,
     protected routingService: RoutingService
   ) {}
 
