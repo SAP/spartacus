@@ -15,6 +15,7 @@
 
   .CenterRightContentSlot {
     --cx-flex-basis: 30%;
+    align-content: start;
 
     @include media-breakpoint-down(md) {
       --cx-flex-basis: 50%;
