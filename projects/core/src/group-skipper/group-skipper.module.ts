@@ -1,12 +1,14 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { Config } from '../config/config.module';
-import { GroupSkipperConfig } from './config/group-skipper.config';
+import { Config, provideConfig } from '../config/config.module';
+import { GroupSkipperSlotConfig } from './config/group-skipper.config';
 import { GroupSkipperService } from './facade/group-skipper.service';
+import { defaultGroupSkipperSlotConfig } from './config/default-group-skipper.config';
 
 @NgModule({
   providers: [
     GroupSkipperService,
-    { provide: GroupSkipperConfig, useExisting: Config },
+    { provide: GroupSkipperSlotConfig, useExisting: Config },
+    provideConfig(defaultGroupSkipperSlotConfig),
   ],
 })
 export class GroupSkipperModule {
@@ -15,7 +17,8 @@ export class GroupSkipperModule {
       ngModule: GroupSkipperModule,
       providers: [
         GroupSkipperService,
-        { provide: GroupSkipperConfig, useExisting: Config },
+        { provide: GroupSkipperSlotConfig, useExisting: Config },
+        provideConfig(defaultGroupSkipperSlotConfig),
       ],
     };
   }

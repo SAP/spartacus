@@ -17,8 +17,8 @@ import {
   CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
+  GroupSkipperComponentConfig,
   GroupSkipperService,
-  GroupSkipperConfig,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentMapperService } from './component-mapper.service';
@@ -81,7 +81,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.addSmartEditContract(this.cmpRef.location.nativeElement);
       }
 
-      // console.log(cmsComponentData);
       this.renderGroupSkipperIfEnabled(this.cmpRef.location.nativeElement);
     }
   }
@@ -113,7 +112,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       }
 
       this.renderGroupSkipperIfEnabled(this.webElement);
-      console.log(cmsComponentData);
     }
   }
 
@@ -151,13 +149,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private renderGroupSkipperIfEnabled(skipElement: HTMLElement): void {
-    const groupSkipperConfig: GroupSkipperConfig = (
+    const groupSkipperConfig: GroupSkipperComponentConfig = (
       this.config.cmsComponents[this.cxComponentWrapper.flexType] || {}
     ).groupSkipper;
-    console.log(skipElement);
-    console.log(this.config.cmsComponents[this.cxComponentWrapper.flexType]);
     if (groupSkipperConfig && groupSkipperConfig.enabled) {
-      this.groupSkipperService.renderAnchor(
+      this.groupSkipperService.createGroupSkipperAnchor(
         this.renderer,
         skipElement,
         this.config.cmsComponents[this.cxComponentWrapper.flexType].groupSkipper
