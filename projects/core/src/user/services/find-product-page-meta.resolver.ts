@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, take } from 'rxjs/operators';
 import {
   PageMetaResolver,
   PageTitleResolver,
@@ -17,11 +17,17 @@ import { ProductSearchService } from '../../product/facade/product-search.servic
 })
 export class FindProductPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-
-    total$: Observable<number> = this.productSearchService.getResults().pipe(
+  totalAndCode$: Observable<any[]> = combineLatest([
+    this.productSearchService.getResults().pipe(
       filter(data => !!(data && data.pagination)),
       map(results => results.pagination.totalResults)
-    );
+    ),
+    this.routingService.getRouterState().pipe(
+      map(state => state.state.params['query']),
+      filter(Boolean)
+    ),
+  ]);
+
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
@@ -39,16 +45,9 @@ export class FindProductPageMetaResolver extends PageMetaResolver
    * The caller `PageMetaService` service is improved to expect all individual resolvers
    * instead, so that the code is easier extensible.
    */
-  resolve(): Observable<PageMeta> {
-    return this.productSearchService.getResults().pipe(
-      filter(data => !!(data && data.pagination)),
-      map(results => results.pagination.totalResults),
-      switchMap((_total: number) =>
-        combineLatest([
-          this.resolveTitle(),
-          this.resolveBreadcrumbs(),
-        ])
-      ),
+  resolve(): Observable<PageMeta> | any {
+    return (
+      combineLatest([this.resolveTitle(), this.resolveBreadcrumbs()]),
       map(([title, breadcrumbs]) => ({
         title,
         breadcrumbs,
@@ -63,14 +62,15 @@ export class FindProductPageMetaResolver extends PageMetaResolver
     return of(breadcrumbs);
   }
 
-
-  resolveTitle(): Observable<string> {
-    return this.total$.pipe(
-      switchMap(total => this.translation.translate('pageMetaResolver.search.findProductTitle',{
-        count:total,
-      }))
+  resolveTitle(): Observable<string> | any {
+    return this.totalAndCode$.pipe(
+      switchMap(([total, code]) =>
+        this.translation.translate('pageMetaResolver.search.findProductTitle', {
+          count: total,
+          coupon: this.correctCouponCode(code),
+        })
+      )
     );
-    
   }
 
   getScore(page: Page): number {
@@ -95,5 +95,11 @@ export class FindProductPageMetaResolver extends PageMetaResolver
       })
       .unsubscribe();
     return score;
+  }
+
+  private correctCouponCode(code: string): string {
+    return code.indexOf('customerCouponCode:') !== -1
+      ? code.split('customerCouponCode:')[1]
+      : code;
   }
 }
