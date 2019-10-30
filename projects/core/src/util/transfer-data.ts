@@ -7,7 +7,7 @@ export class TransferData {
    * @param scriptId the id of the JSON script with the data to rehydrate
    * @param doc document object (default: global `document` object)
    */
-  static rehydrate(scriptId: string, doc: Document = document): any {
+  static rehydrate(scriptId: string, doc: Document): any {
     const script = doc.getElementById(scriptId);
     if (script && script.textContent) {
       try {

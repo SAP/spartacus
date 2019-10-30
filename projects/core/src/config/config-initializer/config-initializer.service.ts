@@ -8,7 +8,7 @@ export class ConfigInitializerService {
   private resolve: Function;
   private readonly donePromise: Promise<void>;
 
-  constructor(@Inject(Config) private config: object) {
+  constructor(@Inject(Config) private config: any) {
     this.donePromise = new Promise(res => {
       this.resolve = res;
     });

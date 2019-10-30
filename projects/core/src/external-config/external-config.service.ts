@@ -1,8 +1,9 @@
 import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SiteConnector } from '../site-context/connectors/site.connector';
+import { SERVER_REQUEST_URL } from '../ssr/ssr.providers';
 import { TransferData } from '../util/transfer-data';
 import { ExternalConfig } from './external-config';
 import { ExternalConfigConverter } from './external-config-converter';
@@ -11,11 +12,21 @@ import { ExternalConfigConverter } from './external-config-converter';
 export class ExternalConfigService {
   protected readonly EXTERNAL_CONFIG_TRANSFER_ID = 'cx-external-config';
 
+  private get currentUrl(): string {
+    return isPlatformBrowser(this.platform)
+      ? this.document.location.href
+      : this.serverRequestUrl || '';
+  }
+
   constructor(
     @Inject(PLATFORM_ID) protected platform: any,
-    @Inject(DOCUMENT) protected document: Document,
+    @Inject(DOCUMENT) protected document: any,
     protected siteConnector: SiteConnector,
-    protected converter: ExternalConfigConverter
+    protected converter: ExternalConfigConverter,
+
+    @Optional()
+    @Inject(SERVER_REQUEST_URL)
+    protected serverRequestUrl?: string
   ) {}
 
   /**
@@ -49,14 +60,13 @@ export class ExternalConfigService {
    * Loads the external config from backend
    */
   protected load(): Observable<ExternalConfig> {
-    return this.siteConnector.getBaseSites().pipe(
-      map(baseSites =>
-        this.converter.fromOccBaseSites(
-          baseSites,
-          document.location.href // spike todo replace it with URL for SSR
+    return this.siteConnector
+      .getBaseSites()
+      .pipe(
+        map(baseSites =>
+          this.converter.fromOccBaseSites(baseSites, this.currentUrl)
         )
-      )
-    );
+      );
   }
 
   /**
@@ -64,7 +74,10 @@ export class ExternalConfigService {
    */
   protected rehydrate(): ExternalConfig {
     if (isPlatformBrowser(this.platform)) {
-      return TransferData.rehydrate(this.EXTERNAL_CONFIG_TRANSFER_ID, document);
+      return TransferData.rehydrate(
+        this.EXTERNAL_CONFIG_TRANSFER_ID,
+        this.document
+      );
     }
   }
 
@@ -78,7 +91,7 @@ export class ExternalConfigService {
       TransferData.transfer(
         this.EXTERNAL_CONFIG_TRANSFER_ID,
         externalConfig,
-        document
+        this.document
       );
     }
   }
