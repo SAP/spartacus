@@ -39,24 +39,26 @@
       (click)="selectCustomerFromList(result)"
       >{{ result.name }} {{ result.uid }}</a
     >
+    <a
+      *ngIf="
+        !(searchResultsLoading$ | async) &&
+        searchTerm.value.length >= 3 &&
+        (!!results.entries && results.entries.length <= 0)
+      "
+      >{{ 'asm.customerSearch.noMatch' | cxTranslate }}</a
+    >
   </div>
-  <div
-    *ngIf="
-      !(searchResultsLoading$ | async) &&
-      searchTerm.value.length >= 3 &&
-      (!!results.entries && results.entries.length <= 0)
-    "
-  >
-    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
-  </div>
-
-  <ng-container *ngIf="searchResultsLoading$ | async">
-    <div class="sap-spinner">
-      <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
-        <div></div>
-        <div></div>
-        <div></div>
+</div>
+<div *ngIf="searchResultsLoading$ | async" class="results fd-popover__body">
+  <div>
+    <a>
+      <div class="sap-spinner">
+        <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
-    </div>
-  </ng-container>
+    </a>
+  </div>
 </div>

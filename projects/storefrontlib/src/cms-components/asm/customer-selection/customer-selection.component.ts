@@ -55,12 +55,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
           if (!!this.selectedCustomer) {
             return;
           }
+          this.asmService.customerSearchReset();
           if (value.trim().length >= 3) {
             this.asmService.customerSearch({
               query: value,
             });
-          } else {
-            this.asmService.customerSearchReset();
           }
         })
     );
