@@ -90,11 +90,19 @@ describe('LanguageService', () => {
     });
   });
 
-  describe('set activeLanguage(isocode)', () => {
-    it('shouldselect active language', () => {
+  describe('set activeLanguage(isocode, isInitial)', () => {
+    it('should set active language initially', () => {
       service.setActive('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SiteContextActions.SetActiveLanguage('ja')
+        new SiteContextActions.SetActiveLanguage('ja', true)
+      );
+    });
+
+    it('should set active language non-initially', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+      service.setActive('zh');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new SiteContextActions.SetActiveLanguage('zh', false)
       );
     });
   });

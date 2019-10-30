@@ -52,6 +52,15 @@ describe('Languages Effects', () => {
   });
 
   describe('activateLanguage$', () => {
+    it('should set the active language initially', () => {
+      const action = new SiteContextActions.SetActiveLanguage('zh', true);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('----');
+
+      expect(effects.activateLanguage$).toBeObservable(expected);
+    });
+
     it('should change the active language', () => {
       const action = new SiteContextActions.SetActiveLanguage('zh');
       const completion = new SiteContextActions.LanguageChange();

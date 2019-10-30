@@ -54,6 +54,15 @@ describe('Currencies Effects', () => {
   });
 
   describe('activateCurrency$', () => {
+    it('should set the active currency initially', () => {
+      const action = new SiteContextActions.SetActiveCurrency('USD', true);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('----');
+
+      expect(effects.activateCurrency$).toBeObservable(expected);
+    });
+
     it('should change the active currency', () => {
       const action = new SiteContextActions.SetActiveCurrency('USD');
       const completion = new SiteContextActions.CurrencyChange();

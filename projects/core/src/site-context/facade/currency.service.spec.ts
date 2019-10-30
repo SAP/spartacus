@@ -100,12 +100,11 @@ describe('CurrencyService', () => {
     });
   });
 
-  describe('setActive(isocode)', () => {
-    it('should be able to set active currency', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+  describe('setActive(isocode, isInitial)', () => {
+    it('should be able to set active currency initially', () => {
       service.setActive('EUR');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SiteContextActions.SetActiveCurrency('EUR')
+        new SiteContextActions.SetActiveCurrency('EUR', true)
       );
     });
 
@@ -114,6 +113,14 @@ describe('CurrencyService', () => {
       service.setActive(mockActiveCurr);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new SiteContextActions.SetActiveCurrency(mockActiveCurr)
+      );
+    });
+
+    it('should be able to set active currency non-initially', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+      service.setActive('EUR');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new SiteContextActions.SetActiveCurrency('EUR', false)
       );
     });
   });

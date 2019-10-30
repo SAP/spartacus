@@ -50,6 +50,16 @@ describe('Languages Actions', () => {
       expect({ ...action }).toEqual({
         type: SiteContextActions.SET_ACTIVE_LANGUAGE,
         payload: 'en',
+        isInitial: undefined,
+      });
+    });
+
+    it('should create an action', () => {
+      const action = new SiteContextActions.SetActiveLanguage('en', true);
+      expect({ ...action }).toEqual({
+        type: SiteContextActions.SET_ACTIVE_LANGUAGE,
+        payload: 'en',
+        isInitial: true,
       });
     });
   });

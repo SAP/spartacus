@@ -45,6 +45,16 @@ describe('Currencies Actions', () => {
       expect({ ...action }).toEqual({
         type: SiteContextActions.SET_ACTIVE_CURRENCY,
         payload: 'USD',
+        isInitial: undefined,
+      });
+    });
+
+    it('should create an action', () => {
+      const action = new SiteContextActions.SetActiveCurrency('USD', true);
+      expect({ ...action }).toEqual({
+        type: SiteContextActions.SET_ACTIVE_CURRENCY,
+        payload: 'USD',
+        isInitial: true,
       });
     });
   });
