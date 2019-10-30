@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
 import { StateEntityLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_DATA } from '../configuration-state';
@@ -91,11 +92,8 @@ export class UpdateConfigurationFinalize extends StateEntityLoaderActions.Entity
   }
 }
 
-export class UpdateConfigurationChangesPending extends StateEntityLoaderActions.EntitySuccessAction {
+export class UpdateConfigurationChangesPending implements Action {
   readonly type = UPDATE_CONFIGURATION_CHANGES_PENDING;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.productCode);
-  }
 }
 
 export type ConfiguratorAction =

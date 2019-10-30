@@ -122,7 +122,7 @@ export class ConfiguratorEffects {
           if (pendingChanges === 0) {
             return new UpdateConfigurationFinalize(payload);
           } else {
-            return new UpdateConfigurationChangesPending(payload);
+            return new UpdateConfigurationChangesPending();
           }
         })
       );
