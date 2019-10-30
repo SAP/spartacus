@@ -12,7 +12,8 @@ import {
 import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID, StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
-import { OCC_USER_ID_ANONYMOUS, Cart } from '@spartacus/core';
+import { Cart } from '../../model/cart.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartVoucherService {
