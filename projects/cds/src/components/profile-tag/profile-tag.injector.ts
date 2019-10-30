@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BaseSiteService, WindowRef, AnonymousConsentsService } from '@spartacus/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { AnonymousConsentsService, BaseSiteService, WindowRef } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CdsConfig, ProfileTagConfig } from '../../config/config.model';
-import { Router, NavigationEnd } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +19,12 @@ export class ProfileTagInjector {
     private anonymousConsentsService: AnonymousConsentsService
   ) {
     this.profiletagConfig = this.config.cds.profileTag;
-    this.addTracker();
-    this.addScript();
     this.bannerVisible$ = this.anonymousConsentsService.isBannerVisible();
   }
-
+  start() {
+    this.addTracker();
+    this.addScript();
+  }
   private addTracker(): void {
     this.baseSiteService
       .getActive()

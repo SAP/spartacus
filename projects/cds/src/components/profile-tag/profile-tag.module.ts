@@ -1,19 +1,23 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { ProfileTagInjector } from './profile-tag.injector';
-
-export function profileTagFactory(service: ProfileTagInjector): any {
-  const result = () => service;
-  return result;
-}
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { ProfileTagComponent } from './profile-tag.component';
 
 @NgModule({
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: profileTagFactory,
-      deps: [ProfileTagInjector],
-      multi: true,
-    },
+  imports: [
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        ProfileTagComponent: {
+          component: ProfileTagComponent,
+        },
+      },
+    }),
+    CommonModule,
   ],
+  exports: [
+    ProfileTagComponent,
+  ],
+  declarations: [ProfileTagComponent],
+  entryComponents: [ProfileTagComponent],
 })
 export class ProfileTagModule { }
