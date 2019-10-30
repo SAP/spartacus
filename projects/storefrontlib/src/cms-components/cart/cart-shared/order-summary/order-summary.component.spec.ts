@@ -4,8 +4,6 @@ import {
   CartService,
   I18nTestingModule,
   CartVoucherService,
-  FeaturesConfigModule,
-  FeaturesConfig,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { PromotionsModule } from '../../../checkout';
@@ -34,18 +32,11 @@ describe('OrderSummary', () => {
         PromotionsModule,
         I18nTestingModule,
         CartCouponModule,
-        FeaturesConfigModule,
       ],
       declarations: [OrderSummaryComponent],
       providers: [
         { provide: CartService, useValue: mockCartService },
         { provide: CartVoucherService, useValue: {} },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { testFeature: true, disabledFeature: false },
-          },
-        },
       ],
     }).compileComponents();
   }));
