@@ -37,7 +37,10 @@ export const getPendingChanges: MemoizedSelector<
   number
 > = createSelector(
   getConfigurationsState,
-  state => (state.changeCounter ? state.changeCounter.pendingChanges : 0)
+  state =>
+    state.changeCounter && state.changeCounter.pendingChanges
+      ? state.changeCounter.pendingChanges
+      : 0
 );
 
 export const getConfigurationStateFactory = (

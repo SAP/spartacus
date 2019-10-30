@@ -133,27 +133,43 @@ describe('ConfiguratorEffect', () => {
 
     configEffects.readConfiguration$.subscribe(emitted => fail(emitted));
   });
+  describe('Effect updateConfiguration', () => {
+    it('should emit a success action with content for an action of type updateConfiguration', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
 
-  it('should emit a success action with content for an action of type updateConfiguration', () => {
-    const payloadInput = productConfiguration;
-    const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
+      const completion = new ConfiguratorActions.UpdateConfigurationSuccess(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
 
-    const completion = new ConfiguratorActions.UpdateConfigurationSuccess(
-      productConfiguration
-    );
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
+      expect(configEffects.updateConfiguration$).toBeObservable(expected);
+    });
 
-    expect(configEffects.updateConfiguration$).toBeObservable(expected);
+    it('must not emit anything in case source action is not covered, updateConfiguration', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      actions$ = hot('-a', { a: action });
+
+      configEffects.updateConfiguration$.subscribe(emitted => fail(emitted));
+    });
   });
 
-  it('must not emit anything in case source action is not covered, updateConfiguration', () => {
-    const payloadInput = productConfiguration;
-    const action = new ConfiguratorActions.UpdateConfigurationSuccess(
-      payloadInput
-    );
-    actions$ = hot('-a', { a: action });
-
-    configEffects.updateConfiguration$.subscribe(emitted => fail(emitted));
+  describe('Effect checkUpdateNeeded', () => {
+    it('should raise UpdateConfigurationFinalize on UpdateConfigurationSuccess in case no changes are pending', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      const completion = new ConfiguratorActions.UpdateConfigurationFinalize(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(configEffects.checkUpdateNeeded$).toBeObservable(expected);
+    });
   });
 });

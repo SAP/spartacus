@@ -2,14 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../../../../model/configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
@@ -24,8 +17,9 @@ import {
   ReadConfigurationSuccess,
   READ_CONFIGURATION,
   UpdateConfiguration,
+  UpdateConfigurationChangesPending,
   UpdateConfigurationFail,
-  UpdateConfigurationFinally,
+  UpdateConfigurationFinalize,
   UpdateConfigurationSuccess,
   UPDATE_CONFIGURATION,
   UPDATE_CONFIGURATION_SUCCESS,
@@ -113,7 +107,7 @@ export class ConfiguratorEffects {
 
   @Effect()
   checkUpdateNeeded$: Observable<
-    UpdateConfigurationFinally | UpdateConfigurationFail
+    UpdateConfigurationFinalize | UpdateConfigurationChangesPending
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_SUCCESS),
     map(
@@ -123,10 +117,13 @@ export class ConfiguratorEffects {
     mergeMap(payload => {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
-        filter(value => value === 0),
         take(1),
-        switchMap(() => {
-          return [new UpdateConfigurationFinally(payload)];
+        map(pendingChanges => {
+          if (pendingChanges === 0) {
+            return new UpdateConfigurationFinalize(payload);
+          } else {
+            return new UpdateConfigurationChangesPending(payload);
+          }
         })
       );
     })

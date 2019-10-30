@@ -125,31 +125,21 @@ export class ConfiguratorCommonsService {
     changedAttribute: Configurator.Attribute,
     configuration: Configurator.Configuration
   ): Configurator.Configuration {
-    const newConfiguration: Configurator.Configuration = JSON.parse(
-      JSON.stringify(configuration)
-    );
+    const newConfiguration: Configurator.Configuration = {
+      configId: configuration.configId,
+      groups: [],
+    };
 
-    newConfiguration.groups.forEach(group => {
-      if (group.id !== groupId) {
-        return;
+    configuration.groups.forEach(group => {
+      if (group.id === groupId) {
+        const changedGroup: Configurator.Group = {
+          groupType: group.groupType,
+          id: group.id,
+          attributes: [changedAttribute],
+        };
+
+        newConfiguration.groups.push(changedGroup);
       }
-
-      group.attributes.forEach(attribute => {
-        if (attribute.name !== changedAttribute.name) {
-          return;
-        }
-
-        switch (attribute.uiType) {
-          case Configurator.UiType.RADIOBUTTON:
-          case Configurator.UiType.DROPDOWN:
-            attribute.selectedSingleValue =
-              changedAttribute.selectedSingleValue;
-            break;
-          case Configurator.UiType.STRING:
-            attribute.userInput = changedAttribute.userInput;
-            break;
-        }
-      });
     });
 
     return newConfiguration;
