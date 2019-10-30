@@ -12,14 +12,29 @@ const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
 const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
-const user1: RegisterUser = {
+export const MARKETING_NEWSLETTER = 'MARKETING_NEWSLETTER';
+export const PERSONALIZATION = 'PERSONALIZATION';
+export const STORE_USER_INFORMATION = 'STORE_USER_INFORMATION';
+
+const marketingConsentLabel = 'marketing consent';
+const personalizationConsentLabel = 'personalization';
+const storeUserConsentLabel = 'store user information';
+
+const userGiveConsentRegistrationTest: RegisterUser = {
   firstName: '1',
   lastName: '2',
   email: generateMail(randomString(), true),
   password: 'Password123!',
 };
 
-const user2: RegisterUser = {
+const userTransferConsentTest: RegisterUser = {
+  firstName: 'a',
+  lastName: 'b',
+  email: generateMail(randomString(), true),
+  password: 'Password123!',
+};
+
+const userFromConfigTest: RegisterUser = {
   firstName: 'a',
   lastName: 'b',
   email: generateMail(randomString(), true),
@@ -39,7 +54,7 @@ export function anonoymousConsentConfig(
   registerConsent: string,
   showLegalDescriptionInDialog: boolean,
   requiredConsents: string[],
-  consentManagementPage?: {
+  consentManagementPage: {
     showAnonymousConsents: boolean;
     hideConsents: string[];
   }
@@ -74,11 +89,12 @@ export function navigateToHome() {
   cy.get('cx-generic-link a[title="SAP Commerce"]').click({ force: true });
 }
 
-export function waitForConsents() {
-  cy.server();
-  cy.route(
-    '/rest/v2/electronics-spa/users/anonymous/consenttemplates?lang=en&curr=USD'
-  ).as('fetchConsents');
+export function navigateToConsentPage() {
+  const consentsPage = waitForPage('/my-account/consents', 'getConsentsPage');
+  cy.selectUserMenuOption({
+    option: 'Consent Management',
+  });
+  cy.wait(`@${consentsPage}`);
 }
 
 export function seeBannerAsAnonymous() {
@@ -87,6 +103,14 @@ export function seeBannerAsAnonymous() {
 
 export function checkBannerHidden() {
   cy.get(ANONYMOUS_BANNER).should('not.be.visible');
+}
+
+export function checkDialogDescroption() {
+  cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-description`).should('not.exist');
+}
+
+export function checkConsentsInConsentPage() {
+  cy.get('.cx-consent-toggles cx-consent-management-form').should('not.exist');
 }
 
 export function clickAllowAllFromBanner() {
@@ -151,6 +175,22 @@ export function clearAllConsent() {
     .click({ force: true });
 }
 
+export function checkConsentExist(text) {
+  cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-row`)
+    .find('label')
+    .each($match => {
+      cy.wrap($match).should('contain', text);
+    });
+}
+
+export function checkConsentNotExist(text) {
+  cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-row`)
+    .find('label')
+    .each($match => {
+      cy.wrap($match).should('not.contain', text);
+    });
+}
+
 export function loggedInUserBannerTest() {
   cy.get(ANONYMOUS_BANNER).should('not.exist');
 }
@@ -171,9 +211,7 @@ export function registerUserAndCheckMyAccountConsent(
 ) {
   registerNewUserAndLogin(user, consentCheckBox);
   checkBanner();
-  cy.selectUserMenuOption({
-    option: 'Consent Management',
-  });
+  navigateToConsentPage();
   checkInputConsentState(position, BE_CHECKED);
 }
 
@@ -206,7 +244,11 @@ export function testAsAnonymousUser() {
 export function giveRegistrationConsentTest() {
   it('should give the registration consent', () => {
     // waitFiveSeconds();
-    registerUserAndCheckMyAccountConsent(user1, true, 0);
+    registerUserAndCheckMyAccountConsent(
+      userGiveConsentRegistrationTest,
+      true,
+      0
+    );
   });
 }
 
@@ -217,7 +259,7 @@ export function movingFromAnonymousToRegisteredUser() {
     toggleAnonymousConsent(2);
     closeDialog();
 
-    registerUserAndCheckMyAccountConsent(user2, false, 1);
+    registerUserAndCheckMyAccountConsent(userTransferConsentTest, false, 1);
   });
 }
 
@@ -225,10 +267,7 @@ export function moveAnonymousUserToLoggedInUser() {
   it('should ignore the anonymous consents and load the previously given registered consents', () => {
     // waitFiveSeconds();
 
-    cy.selectUserMenuOption({
-      option: 'Consent Management',
-    });
-
+    navigateToConsentPage();
     giveConsent();
 
     navigateToHome();
@@ -249,10 +288,7 @@ export function moveAnonymousUserToLoggedInUser() {
     );
     checkBanner();
 
-    cy.selectUserMenuOption({
-      option: 'Consent Management',
-    });
-
+    navigateToConsentPage();
     checkInputConsentState(0, BE_CHECKED);
     checkInputConsentState(1, NOT_BE_CHECKED);
   });
@@ -311,5 +347,27 @@ export function changeLanguageTest() {
 
     openDialogUsingFooterLink();
     checkAllInputConsentState(BE_CHECKED);
+  });
+}
+
+export function showAnonymousConfigTest() {
+  it('should not display the consents on the consents management page', () => {
+    navigateToConsentPage();
+    checkConsentsInConsentPage();
+
+    signOutUser();
+  });
+
+  it('should not display the legal in the dialog', () => {
+    clickViewDetailsFromBanner();
+    checkDialogDescroption();
+    closeDialog();
+  });
+}
+
+export function anonymousConfigTestFlow() {
+  it('should not have the store user information consent visible', () => {
+    openDialogUsingFooterLink();
+    checkConsentNotExist(personalizationConsentLabel);
   });
 }

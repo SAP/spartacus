@@ -6,14 +6,14 @@ import {
   sessionLogin,
   testAsAnonymousUser,
   testAsLoggedInUser,
-} from '../../helpers/anonymous-consents';
+} from '../../../helpers/anonymous-consents';
 import {
   LANGUAGES,
   LANGUAGE_REQUEST,
   stub,
-} from '../../helpers/site-context-selector';
+} from '../../../helpers/site-context-selector';
 
-context.only('Anonymous consents - normal flow', () => {
+context('Anonymous consents - normal flow', () => {
   describe('when anonymous user', () => {
     before(() => {
       cy.window().then(win => {
@@ -93,51 +93,5 @@ context.only('Anonymous consents - normal flow', () => {
     stub(LANGUAGE_REQUEST, LANGUAGES);
 
     changeLanguageTest();
-  });
-});
-
-context('Anonymous consents - config flow', () => {
-  describe('test1', () => {
-    before(() => {
-      cy.window().then(win => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      cy.reload();
-      cy.visit('/');
-    });
-  });
-
-  describe('test2', () => {
-    before(() => {
-      cy.window().then(win => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      cy.reload();
-      cy.visit('/');
-    });
-  });
-
-  describe('test3', () => {
-    before(() => {
-      cy.window().then(win => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      cy.reload();
-      cy.visit('/');
-    });
-  });
-
-  describe('test4', () => {
-    before(() => {
-      cy.window().then(win => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      cy.reload();
-      cy.visit('/');
-    });
   });
 });
