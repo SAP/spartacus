@@ -28,11 +28,7 @@ describe('OrderSummary', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        PromotionsModule,
-        I18nTestingModule,
-        CartCouponModule,
-      ],
+      imports: [PromotionsModule, I18nTestingModule, CartCouponModule],
       declarations: [OrderSummaryComponent],
       providers: [
         { provide: CartService, useValue: mockCartService },
