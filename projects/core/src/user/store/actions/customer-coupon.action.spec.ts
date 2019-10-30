@@ -25,7 +25,7 @@ import {
 
 import { PROCESS_FEATURE } from '../../../process/store';
 
-import { UserActions } from './index';;
+import { UserActions } from './index';
 
 const userId = '123';
 const pageSize = 5;
@@ -94,9 +94,7 @@ describe('Customer Coupon Actions', () => {
   describe('LoadCustomerCouponsFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.LoadCustomerCouponsFail(
-        error
-      );
+      const action = new UserActions.LoadCustomerCouponsFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_CUSTOMER_COUPONS_FAIL,
@@ -141,9 +139,7 @@ describe('Customer Coupon Actions', () => {
   describe('SubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.SubscribeCustomerCouponFail(
-        error
-      );
+      const action = new UserActions.SubscribeCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
@@ -209,9 +205,7 @@ describe('Customer Coupon Actions', () => {
   describe('UnsubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.UnsubscribeCustomerCouponFail(
-        error
-      );
+      const action = new UserActions.UnsubscribeCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL,
@@ -228,9 +222,7 @@ describe('Customer Coupon Actions', () => {
   describe('UnsubscribeCustomerCouponSuccess Action', () => {
     it('should create the action', () => {
       const success = 'mockSuccess';
-      const action = new UserActions.UnsubscribeCustomerCouponSuccess(
-        success
-      );
+      const action = new UserActions.UnsubscribeCustomerCouponSuccess(success);
 
       expect({ ...action }).toEqual({
         type: UserActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
@@ -248,8 +240,7 @@ describe('Customer Coupon Actions', () => {
       const action = new UserActions.ResetUnsubscribeCustomerCouponProcess();
 
       expect({ ...action }).toEqual({
-        type:
-        UserActions.RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS,
+        type: UserActions.RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS,
         meta: StateEntityLoaderActions.entityResetMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
@@ -268,7 +259,10 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CLAIM_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: StateEntityLoaderActions.entityLoadMeta(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID),
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          CLAIM_CUSTOMER_COUPON_PROCESS_ID
+        ),
       });
     });
   });
@@ -276,9 +270,7 @@ describe('Customer Coupon Actions', () => {
   describe('ClaimCustomerCouponFail Action', () => {
     it('should create the action', () => {
       const error = 'mockError';
-      const action = new UserActions.ClaimCustomerCouponFail(
-        error
-      );
+      const action = new UserActions.ClaimCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.CLAIM_CUSTOMER_COUPON_FAIL,

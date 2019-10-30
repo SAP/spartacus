@@ -16,22 +16,22 @@ import { AuthService } from '../../auth/facade/auth.service';
 import { Type } from '@angular/core';
 
 describe('CustomerCouponService', () => {
-    const coupon: CustomerCoupon = {
-      couponId: 'coupon',
-      name: 'coupon',
-      startDate: new Date(),
-      endDate: new Date(),
-      status: 'Effective',
-      description: '',
-      notificationOn: true,
-      solrFacets: '',
-    };
+  const coupon: CustomerCoupon = {
+    couponId: 'coupon',
+    name: 'coupon',
+    startDate: new Date(),
+    endDate: new Date(),
+    status: 'Effective',
+    description: '',
+    notificationOn: true,
+    solrFacets: '',
+  };
 
-    class MockAuthService {
-        getOccUserId(): Observable<string> {
-          return of(OCC_USER_ID_CURRENT);
-        }
-      }
+  class MockAuthService {
+    getOccUserId(): Observable<string> {
+      return of(OCC_USER_ID_CURRENT);
+    }
+  }
 
   let service: CustomerCouponService;
   let store: Store<StateWithUser>;
@@ -57,163 +57,163 @@ describe('CustomerCouponService', () => {
     service = TestBed.get(CustomerCouponService as Type<CustomerCouponService>);
   });
 
-    it('should be able to load customer coupons data', () => {
-      service.loadCustomerCoupons(10, 1, 'byDate');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.LoadCustomerCoupons({
-          userId: OCC_USER_ID_CURRENT,
-          pageSize: 10,
-          currentPage: 1,
-          sort: 'byDate',
-        })
-      );
-    });
+  it('should be able to load customer coupons data', () => {
+    service.loadCustomerCoupons(10, 1, 'byDate');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadCustomerCoupons({
+        userId: OCC_USER_ID_CURRENT,
+        pageSize: 10,
+        currentPage: 1,
+        sort: 'byDate',
+      })
+    );
+  });
 
-    it('should be able to get customer coupon list', () => {
-      store.dispatch(
-        new UserActions.LoadCustomerCouponsSuccess({
-          coupons: [],
-          pagination: {},
-          sorts: [],
-        })
-      );
-
-      let customerCouponSearchResult: CustomerCouponSearchResult;
-      service
-        .getCustomerCoupons(1)
-        .subscribe(data => {
-          customerCouponSearchResult = data;
-        })
-        .unsubscribe();
-      expect(customerCouponSearchResult).toEqual({
+  it('should be able to get customer coupon list', () => {
+    store.dispatch(
+      new UserActions.LoadCustomerCouponsSuccess({
         coupons: [],
         pagination: {},
         sorts: [],
-      });
+      })
+    );
+
+    let customerCouponSearchResult: CustomerCouponSearchResult;
+    service
+      .getCustomerCoupons(1)
+      .subscribe(data => {
+        customerCouponSearchResult = data;
+      })
+      .unsubscribe();
+    expect(customerCouponSearchResult).toEqual({
+      coupons: [],
+      pagination: {},
+      sorts: [],
     });
+  });
 
-    it('should be able to get customer coupon list loaded flag', () => {
-      store.dispatch(new UserActions.LoadCustomerCouponsSuccess({}));
+  it('should be able to get customer coupon list loaded flag', () => {
+    store.dispatch(new UserActions.LoadCustomerCouponsSuccess({}));
 
-      let customerCouponLoaded: boolean;
-      service
-        .getCustomerCouponsLoaded()
-        .subscribe(data => {
-          customerCouponLoaded = data;
-        })
-        .unsubscribe();
-      expect(customerCouponLoaded).toEqual(true);
-    });
+    let customerCouponLoaded: boolean;
+    service
+      .getCustomerCouponsLoaded()
+      .subscribe(data => {
+        customerCouponLoaded = data;
+      })
+      .unsubscribe();
+    expect(customerCouponLoaded).toEqual(true);
+  });
 
-    it('should be able to subscribe customer coupons', () => {
-      service.subscribeCustomerCoupon('couponCode');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.SubscribeCustomerCoupon({
-          userId: OCC_USER_ID_CURRENT,
-          couponCode: 'couponCode',
-        })
-      );
-    });
+  it('should be able to subscribe customer coupons', () => {
+    service.subscribeCustomerCoupon('couponCode');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.SubscribeCustomerCoupon({
+        userId: OCC_USER_ID_CURRENT,
+        couponCode: 'couponCode',
+      })
+    );
+  });
 
-    it('should getSubscribeCustomerCouponResultLoading() return loading flag', () => {
-      store.dispatch(
-        new UserActions.SubscribeCustomerCoupon({
-          userId: OCC_USER_ID_CURRENT,
-          couponCode: 'couponCode',
-        })
-      );
+  it('should getSubscribeCustomerCouponResultLoading() return loading flag', () => {
+    store.dispatch(
+      new UserActions.SubscribeCustomerCoupon({
+        userId: OCC_USER_ID_CURRENT,
+        couponCode: 'couponCode',
+      })
+    );
 
-      let result = false;
-      service
-        .getSubscribeCustomerCouponResultLoading()
-        .subscribe(loading => (result = loading))
-        .unsubscribe();
+    let result = false;
+    service
+      .getSubscribeCustomerCouponResultLoading()
+      .subscribe(loading => (result = loading))
+      .unsubscribe();
 
-      expect(result).toEqual(true);
-    });
+    expect(result).toEqual(true);
+  });
 
-    it('should getSubscribeCustomerCouponResultSuccess() return the success flag', () => {
-      store.dispatch(new UserActions.SubscribeCustomerCouponSuccess(coupon));
+  it('should getSubscribeCustomerCouponResultSuccess() return the success flag', () => {
+    store.dispatch(new UserActions.SubscribeCustomerCouponSuccess(coupon));
 
-      let result = false;
-      service
-        .getSubscribeCustomerCouponResultSuccess()
-        .subscribe(loading => (result = loading))
-        .unsubscribe();
+    let result = false;
+    service
+      .getSubscribeCustomerCouponResultSuccess()
+      .subscribe(loading => (result = loading))
+      .unsubscribe();
 
-      expect(result).toEqual(true);
-    });
+    expect(result).toEqual(true);
+  });
 
-    it('should getSubscribeCustomerCouponResultError() return the error flag', () => {
-      store.dispatch(new UserActions.SubscribeCustomerCouponFail('error'));
+  it('should getSubscribeCustomerCouponResultError() return the error flag', () => {
+    store.dispatch(new UserActions.SubscribeCustomerCouponFail('error'));
 
-      let result = false;
-      service
-        .getSubscribeCustomerCouponResultError()
-        .subscribe(loading => (result = loading))
-        .unsubscribe();
+    let result = false;
+    service
+      .getSubscribeCustomerCouponResultError()
+      .subscribe(loading => (result = loading))
+      .unsubscribe();
 
-      expect(result).toEqual(true);
-    });
+    expect(result).toEqual(true);
+  });
 
-    it('should be able to unsubscribe customer coupons', () => {
-      service.unsubscribeCustomerCoupon('couponCode');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.UnsubscribeCustomerCoupon({
-          userId: OCC_USER_ID_CURRENT,
-          couponCode: 'couponCode',
-        })
-      );
-    });
+  it('should be able to unsubscribe customer coupons', () => {
+    service.unsubscribeCustomerCoupon('couponCode');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.UnsubscribeCustomerCoupon({
+        userId: OCC_USER_ID_CURRENT,
+        couponCode: 'couponCode',
+      })
+    );
+  });
 
-    it('should getUnsubscribeCustomerCouponResultLoading() return loading flag', () => {
-      store.dispatch(
-        new UserActions.UnsubscribeCustomerCoupon({
-          userId: OCC_USER_ID_CURRENT,
-          couponCode: 'couponCode',
-        })
-      );
+  it('should getUnsubscribeCustomerCouponResultLoading() return loading flag', () => {
+    store.dispatch(
+      new UserActions.UnsubscribeCustomerCoupon({
+        userId: OCC_USER_ID_CURRENT,
+        couponCode: 'couponCode',
+      })
+    );
 
-      let result = false;
-      service
-        .getUnsubscribeCustomerCouponResultLoading()
-        .subscribe(loading => (result = loading))
-        .unsubscribe();
+    let result = false;
+    service
+      .getUnsubscribeCustomerCouponResultLoading()
+      .subscribe(loading => (result = loading))
+      .unsubscribe();
 
-      expect(result).toEqual(true);
-    });
+    expect(result).toEqual(true);
+  });
 
-    it('should getUnsubscribeCustomerCouponResultSuccess() return the success flag', () => {
-      store.dispatch(new UserActions.UnsubscribeCustomerCouponSuccess('coupon'));
+  it('should getUnsubscribeCustomerCouponResultSuccess() return the success flag', () => {
+    store.dispatch(new UserActions.UnsubscribeCustomerCouponSuccess('coupon'));
 
-      let result = false;
-      service
-        .getUnsubscribeCustomerCouponResultSuccess()
-        .subscribe(loading => (result = loading))
-        .unsubscribe();
+    let result = false;
+    service
+      .getUnsubscribeCustomerCouponResultSuccess()
+      .subscribe(loading => (result = loading))
+      .unsubscribe();
 
-      expect(result).toEqual(true);
-    });
+    expect(result).toEqual(true);
+  });
 
-    it('should getUnsubscribeCustomerCouponResultError() return the error flag', () => {
-      store.dispatch(new UserActions.UnsubscribeCustomerCouponFail('error'));
+  it('should getUnsubscribeCustomerCouponResultError() return the error flag', () => {
+    store.dispatch(new UserActions.UnsubscribeCustomerCouponFail('error'));
 
-      let result = false;
-      service
-        .getUnsubscribeCustomerCouponResultError()
-        .subscribe(loading => (result = loading))
-        .unsubscribe();
+    let result = false;
+    service
+      .getUnsubscribeCustomerCouponResultError()
+      .subscribe(loading => (result = loading))
+      .unsubscribe();
 
-      expect(result).toEqual(true);
-    });
+    expect(result).toEqual(true);
+  });
 
-    it('should be able to claim a customer coupon', () => {
-      service.claimCustomerCoupon('couponCode');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.ClaimCustomerCoupon({
-          userId: OCC_USER_ID_CURRENT,
-          couponCode: 'couponCode',
-        })
-      );
-    });
-  })
+  it('should be able to claim a customer coupon', () => {
+    service.claimCustomerCoupon('couponCode');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ClaimCustomerCoupon({
+        userId: OCC_USER_ID_CURRENT,
+        couponCode: 'couponCode',
+      })
+    );
+  });
+});

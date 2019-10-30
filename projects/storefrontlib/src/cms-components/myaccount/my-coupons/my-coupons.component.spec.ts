@@ -1,9 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyCouponsComponent } from './my-coupons.component';
-import {
-  I18nTestingModule,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -24,9 +22,7 @@ describe('MyCouponsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [
-        MyCouponsComponent,
-      ],
+      declarations: [MyCouponsComponent],
     }).compileComponents();
   }));
 
@@ -108,8 +104,8 @@ describe('MyCouponsComponent', () => {
       notification: false,
       couponId: 'CustomerCoupon1',
     });
-    expect(customerCouponService.unsubscribeCustomerCoupon).toHaveBeenCalledWith(
-      'CustomerCoupon1'
-    );
+    expect(
+      customerCouponService.unsubscribeCustomerCoupon
+    ).toHaveBeenCalledWith('CustomerCoupon1');
   });
 });
