@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import {
   CustomerCouponService,
   CustomerCouponSearchResult,
   PaginationModel,
+  TranslationService,
 } from '@spartacus/core';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'cx-my-coupons',
@@ -26,12 +28,7 @@ export class MyCouponsComponent implements OnInit {
     byEndDateDesc: 'endDate:desc',
   };
   sort = 'byStartDateAsc';
-  sortLabels = {
-    byStartDateAsc: 'Start Date (ascending)',
-    byStartDateDesc: 'Start Date (descending)',
-    byEndDateAsc: 'End Date (ascending)',
-    byEndDateDesc: 'End Date (descending)',
-  };
+
   sortOptions = [
     {
       code: 'byStartDateAsc',
@@ -53,7 +50,7 @@ export class MyCouponsComponent implements OnInit {
 
   pagination: PaginationModel;
 
-  constructor(private couponService: CustomerCouponService) {}
+  constructor(private couponService: CustomerCouponService, private translation: TranslationService) {}
 
   ngOnInit() {
     this.couponService.loadCustomerCoupons(this.PAGE_SIZE);
@@ -74,6 +71,24 @@ export class MyCouponsComponent implements OnInit {
     this.couponsStateLoading$ = this.couponService.getCustomerCouponsLoading();
     this.couponsSubscribeLoading$ = this.couponService.getSubscribeCustomerCouponResultLoading();
     this.couponsUnsubscribeLoading$ = this.couponService.getUnsubscribeCustomerCouponResultLoading();
+  }
+
+  getSortLabels(): Observable<{ byStartDateAsc: string; byStartDateDesc: string; byEndDateAsc: string; byEndDateDesc: string }> {
+    return combineLatest([
+      this.translation.translate('myCoupons.startDateAsc'),
+      this.translation.translate('myCoupons.startDateDesc'),
+      this.translation.translate('myCoupons.endDateAsc'),
+      this.translation.translate('myCoupons.endDateDesc'),
+    ]).pipe(
+      map(([textByStartDateAsc, textByStartDateDesc,textByEndDateAsc,textByEndDateDesc]) => {
+        return {
+          byStartDateAsc: textByStartDateAsc,
+          byStartDateDesc: textByStartDateDesc,
+          byEndDateAsc: textByEndDateAsc,
+          byEndDateDesc: textByEndDateDesc,
+        };
+      })
+    );
   }
 
   sortChange(sort: string): void {

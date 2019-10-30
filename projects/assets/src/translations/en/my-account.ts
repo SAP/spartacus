@@ -126,5 +126,10 @@ export const myAccount = {
     status: 'Status:',
     dialogTitle: 'Coupon',
     claimCustomerCoupon: 'You have successfully claimed this coupon.',
+    myCoupons: 'My coupons',
+    startDateAsc: 'Start Date (ascending)',
+    startDateDesc: 'Start Date (descending)',
+    endDateAsc: 'End Date (ascending)',
+    endDateDesc: 'End Date (descending)',
   },
 };

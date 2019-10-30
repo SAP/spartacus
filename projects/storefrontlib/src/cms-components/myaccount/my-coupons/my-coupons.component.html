@@ -1,6 +1,10 @@
 <div class="cx-section">
   <ng-container *ngIf="!(couponsStateLoading$ | async); else loading">
     <ng-container *ngIf="couponResult$ | async as couponResult">
+      <div class="cx-my-coupons-header">
+          <h3>{{ 'myCoupons.myCoupons' | cxTranslate }}</h3>
+      </div>
+
       <ng-container
         *ngIf="couponResult.pagination.totalCount > 0; else noCoupons"
       >
@@ -10,7 +14,7 @@
           >
             <cx-sorting
               [sortOptions]="sortOptions"
-              [sortLabels]="sortLabels"
+              [sortLabels]="getSortLabels() | async"
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
               placeholder="{{ 'myCoupons.sortByMostRecent' | cxTranslate }}"
@@ -47,7 +51,7 @@
           >
             <cx-sorting
               [sortOptions]="sortOptions"
-              [sortLabels]="sortLabels"
+              [sortLabels]="getSortLabels() | async"
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
               placeholder="{{ 'myCoupons.sortByMostRecent' | cxTranslate }}"
