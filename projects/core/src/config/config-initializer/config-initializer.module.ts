@@ -6,8 +6,8 @@ import { provideConfig } from '../config.module';
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService
 ) {
-  const init = () => configInitializer.initialize();
-  return init;
+  const isReady = () => configInitializer.getStableConfig();
+  return isReady;
 }
 
 @NgModule({

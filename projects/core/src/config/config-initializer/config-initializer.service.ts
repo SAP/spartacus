@@ -14,12 +14,20 @@ export class ConfigInitializerService {
     @Optional()
     @Inject(CONFIG_INITIALIZER)
     protected initializers: ConfigInitializer[]
-  ) {}
+  ) {
+    this.initialize();
+  }
+
+  protected static readonly INITIALIZING_KEY = 'initializing';
 
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
 
+  private get isInitialized(): boolean {
+    return this.ongoingScopes$.value && this.ongoingScopes$.value.length === 0;
+  }
+
   async getStableConfig(...scopes: string[]): Promise<any> {
-    if (!this.config.initializing) {
+    if (this.isInitialized) {
       return this.config;
     }
     return this.ongoingScopes$
@@ -62,29 +70,21 @@ export class ConfigInitializerService {
     return a.startsWith(b) && (a[b.length] || '.') === '.';
   }
 
-  /**
-   * @internal
-   */
-  async initialize() {
-    if (this.ongoingScopes$.value) {
-      // guard against multiple initialization calls
-      return;
-    }
-
+  private initialize() {
     if (!(this.initializers && this.initializers.length)) {
       deepMerge(this.config, { initializing: false });
       this.ongoingScopes$.next([]);
       return;
     }
 
-    const ongoingScopes: string[] = ['initializing'];
+    const ongoingScopes: string[] = [ConfigInitializerService.INITIALIZING_KEY];
 
     const asyncConfigs: Promise<void>[] = [];
 
     for (const initializer of this.initializers) {
-      if (isDevMode() && !(initializer.scopes && initializer.scopes.length)) {
-        console.error('CONFIG_INITIALIZER should provide scope!');
-        continue;
+      if (!(initializer.scopes && initializer.scopes.length)) {
+        this.ongoingScopes$.error('CONFIG_INITIALIZER should provide scope!');
+        return;
       }
 
       if (isDevMode() && !this.areReady(initializer.scopes, ongoingScopes)) {
@@ -103,16 +103,14 @@ export class ConfigInitializerService {
       );
     }
     this.ongoingScopes$.next(ongoingScopes);
-    await Promise.all(asyncConfigs);
 
-    if (this.ongoingScopes$.value.length > 1) {
-      console.error(
-        "Config couldn't initialize properly!",
-        this.ongoingScopes$.value.slice(1)
-      );
-    } else {
-      deepMerge(this.config, { initializing: false });
-      this.finishScopes(['initializing']);
-    }
+    Promise.all(asyncConfigs)
+      .then(() => {
+        deepMerge(this.config, {
+          [ConfigInitializerService.INITIALIZING_KEY]: false,
+        });
+        this.finishScopes([ConfigInitializerService.INITIALIZING_KEY]);
+      })
+      .catch(error => this.ongoingScopes$.error(error));
   }
 }
