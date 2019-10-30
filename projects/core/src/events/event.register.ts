@@ -1,25 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { merge, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventRegister {
-  private _register = {};
+  private events = {};
 
   /**
    *
    * @param eventName
-   * @param callback
+   * @param source
    */
-  register(eventName: any, callback: Observable<any>): void {
-    this._register[eventName] = callback;
+  register(eventName: any, source: Observable<any>): void {
+    if (this.events[eventName]) {
+      // we merge sources if multiple are registered
+      this.events[eventName] = merge(this.events[eventName], source);
+    } else {
+      this.events[eventName] = source;
+    }
   }
 
   /**
    * Returns an observable to emit the event
    */
   get(event: string): Observable<any> {
-    return this._register[event] ? this._register[event] : of();
+    return this.events[event] ? this.events[event] : of();
   }
 }
