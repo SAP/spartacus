@@ -36,10 +36,10 @@ export class CouponClaimComponent implements OnInit, OnDestroy {
                   GlobalMessageType.MSG_TYPE_CONFIRMATION
                 );
               }
-              this.routingService.go('/my-account/coupons');
+              this.routingService.go({ cxRoute: 'coupons' });
             });
         } else {
-          this.routingService.go('/not-found');
+          this.routingService.go({ cxRoute: 'notFound' });
         }
       })
       .unsubscribe();
