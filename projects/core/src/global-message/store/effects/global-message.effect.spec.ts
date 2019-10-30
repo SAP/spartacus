@@ -57,16 +57,8 @@ describe('GlobalMessage Effects', () => {
           initialState: <StateWithGlobalMessage>{
             [GLOBAL_MESSAGE_FEATURE]: {
               entities: {
-                [message.type]: [
-                  {
-                    key: 'test',
-                  },
-                ],
-                [errorMessage.type]: [
-                  {
-                    key: 'error',
-                  },
-                ],
+                [message.type]: [message2.text],
+                [errorMessage.type]: [errorMessage.text],
               },
             },
           },
@@ -128,6 +120,23 @@ describe('GlobalMessage Effects', () => {
     });
   });
   describe('removeDuplicated$', () => {
+    it('should not remove message if there is only one', () => {
+      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(1);
+      spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
+
+      const action = new GlobalMessageActions.AddMessage(message2);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('--');
+
+      expect(effects.removeDuplicated$).toBeObservable(expected);
+      expect(utils.countOfDeepEqualObjects).toHaveBeenCalledWith(
+        message2.text,
+        [message2.text]
+      );
+      expect(utils.indexOfFirstOccurrence).not.toHaveBeenCalled();
+    });
+
     it('should remove message if already exist', () => {
       spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(2);
       spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
@@ -142,10 +151,12 @@ describe('GlobalMessage Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.removeDuplicated$).toBeObservable(expected);
+      expect(utils.countOfDeepEqualObjects).toHaveBeenCalledWith(
+        message2.text,
+        [message2.text]
+      );
       expect(utils.indexOfFirstOccurrence).toHaveBeenCalledWith(message2.text, [
-        {
-          key: 'test',
-        },
+        message2.text,
       ]);
     });
   });
