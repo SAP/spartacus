@@ -555,4 +555,54 @@
       width: 100%;
     }
   }
+
+  // Extra small devices (portrait phones, less than 576px)
+  @media (max-width: 575.98px) {
+    .fd-popover__body {
+      width: 87%;
+    }
+    .fd-col--6 {
+      width: 100%;
+    }
+  }
+
+  // Small devices (landscape phones, 576px and up)
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    .fd-popover__body {
+      width: 92%;
+    }
+    .fd-col--6 {
+      width: 100%;
+    }
+  }
+
+  // Medium devices (tablets, 768px and up)
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .fd-popover__body {
+      width: 516px;
+    }
+    .fd-col--6 {
+      width: 516px;
+    }
+  }
+
+  // Large devices (desktops, 992px and up)
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+    .fd-popover__body {
+      width: 516px;
+    }
+    .fd-col--6 {
+      width: 516px;
+    }
+  }
+
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 1200px) {
+    .fd-popover__body {
+      width: 516px;
+    }
+    .fd-col--6 {
+      width: 516px;
+    }
+  }
 }
