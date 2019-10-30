@@ -12,6 +12,13 @@
     display: flex;
   }
 
+  cx-csagent-login-form {
+    .sap-spinner {
+      margin-top: 50px;
+      background-color: #f1f4f5;
+    }
+  }
+
   cx-customer-selection {
     .fd-popover__body {
       border: solid 1px #89919a;
@@ -29,7 +36,13 @@
       -webkit-transform: translateY(0);
       transform: translateY(0);
       font-size: 14px;
-      // padding: 4px 12px;
+      padding: 4px 0;
+      min-height: 100px;
+
+      .sap-spinner {
+        margin-top: 0;
+        // background-color: #fff;
+      }
 
       a {
         color: #51555a;
@@ -465,10 +478,8 @@
 
   // Fiori Spinner
   .sap-spinner {
-    margin-top: 50px;
     display: flex;
     width: 100%;
-    background-color: #f1f4f5;
     height: 100px;
     justify-content: center;
     align-items: center;
