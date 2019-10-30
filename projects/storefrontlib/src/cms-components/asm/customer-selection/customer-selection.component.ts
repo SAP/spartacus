@@ -6,12 +6,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import {
-  AsmService,
-  CustomerSearchPage,
-  GlobalMessageService,
-  User,
-} from '@spartacus/core';
+import { AsmService, CustomerSearchPage, User } from '@spartacus/core';
+import { AsmConfig } from 'projects/core/src/asm/config/asm-config';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
@@ -34,7 +30,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private asmService: AsmService,
-    protected globalMessageService: GlobalMessageService
+    private config: AsmConfig
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +55,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
           if (value.trim().length >= 3) {
             this.asmService.customerSearch({
               query: value,
+              pageSize: this.config.asm.customeSearch.maxResults,
             });
           }
         })

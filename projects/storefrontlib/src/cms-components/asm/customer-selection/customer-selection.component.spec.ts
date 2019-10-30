@@ -9,6 +9,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
+  AsmConfig,
   AsmService,
   CustomerSearchPage,
   GlobalMessageService,
@@ -65,6 +66,15 @@ const mockCustomer3: User = {
 const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockCustomer, mockCustomer2, mockCustomer3],
 };
+
+const MockAsmConfig: AsmConfig = {
+  asm: {
+    customeSearch: {
+      maxResults: 20,
+    },
+  },
+};
+
 describe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
@@ -80,6 +90,7 @@ describe('CustomerSelectionComponent', () => {
       providers: [
         { provide: AsmService, useClass: MockAsmService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: AsmConfig, useValue: MockAsmConfig },
       ],
     }).compileComponents();
   }));
@@ -178,6 +189,7 @@ describe('CustomerSelectionComponent', () => {
     tick(1000);
     expect(asmService.customerSearch).toHaveBeenCalledWith({
       query: validSearchTerm,
+      pageSize: 20,
     });
   }));
 
