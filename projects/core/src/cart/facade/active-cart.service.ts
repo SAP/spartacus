@@ -31,8 +31,6 @@ import { getProcessStateFactory } from '../../process/store/selectors/process.se
 import { User } from '../../model/misc.model';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
 
-// TODO document methods
-
 @Injectable()
 export class ActiveCartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
@@ -77,6 +75,10 @@ export class ActiveCartService {
       this.cartId = cartId;
     });
 
+    this.initActiveCart();
+  }
+
+  private initActiveCart() {
     this.activeCart$ = this.cartSelector$.pipe(
       withLatestFrom(this.activeCartId$),
       map(([cartEntity, activeCartId]: [LoaderState<Cart>, string]): {
