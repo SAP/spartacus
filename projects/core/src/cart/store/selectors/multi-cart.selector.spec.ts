@@ -14,7 +14,11 @@ describe('Multi Cart selectors', () => {
     code: 'xxx',
     guid: 'xxx',
     totalItems: 0,
-    entries: [{ entryNumber: 0, product: { code: '1234' } }],
+    entries: [
+      { entryNumber: 0, product: { code: '1234' } },
+      { entryNumber: 1, product: { code: '01234' } },
+      { entryNumber: 2, product: { code: '3234' } },
+    ],
     totalPrice: {
       currencyIso: 'USD',
       value: 0,
