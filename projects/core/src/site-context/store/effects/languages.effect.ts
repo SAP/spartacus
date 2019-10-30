@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { Observable, of, EMPTY } from 'rxjs';
+import { catchError, exhaustMap, map, tap, mergeMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
@@ -33,7 +33,7 @@ export class LanguagesEffects {
 
   @Effect()
   activateLanguage$: Observable<
-    SiteContextActions.LanguageChange
+    SiteContextActions.LanguageChange | Observable<never>
   > = this.actions$.pipe(
     ofType(SiteContextActions.SET_ACTIVE_LANGUAGE),
     tap((action: SiteContextActions.SetActiveLanguage) => {
@@ -41,7 +41,9 @@ export class LanguagesEffects {
         this.winRef.sessionStorage.setItem('language', action.payload);
       }
     }),
-    map(() => new SiteContextActions.LanguageChange())
+    mergeMap((action: SiteContextActions.SetActiveLanguage) =>
+      action.isInitial ? EMPTY : of(new SiteContextActions.LanguageChange())
+    )
   );
 
   constructor(

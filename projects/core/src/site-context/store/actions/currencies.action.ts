@@ -23,7 +23,7 @@ export class LoadCurrenciesSuccess implements Action {
 
 export class SetActiveCurrency implements Action {
   readonly type = SET_ACTIVE_CURRENCY;
-  constructor(public payload: string) {}
+  constructor(public payload: string, public isInitial?: boolean) {}
 }
 
 export class CurrencyChange implements Action {

@@ -67,7 +67,10 @@ export class CurrencyService implements SiteContext<Currency> {
       .subscribe(activeCurrency => {
         if (activeCurrency !== isocode) {
           this.store.dispatch(
-            new SiteContextActions.SetActiveCurrency(isocode)
+            new SiteContextActions.SetActiveCurrency(
+              isocode,
+              activeCurrency === null
+            )
           );
         }
       });

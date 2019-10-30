@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { Observable, of, EMPTY } from 'rxjs';
+import { catchError, exhaustMap, map, tap, mergeMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
@@ -33,7 +33,7 @@ export class CurrenciesEffects {
 
   @Effect()
   activateCurrency$: Observable<
-    SiteContextActions.CurrencyChange
+    SiteContextActions.CurrencyChange | Observable<never>
   > = this.actions$.pipe(
     ofType(SiteContextActions.SET_ACTIVE_CURRENCY),
     tap((action: SiteContextActions.SetActiveCurrency) => {
@@ -41,7 +41,9 @@ export class CurrenciesEffects {
         this.winRef.sessionStorage.setItem('currency', action.payload);
       }
     }),
-    map(() => new SiteContextActions.CurrencyChange())
+    mergeMap((action: SiteContextActions.SetActiveCurrency) =>
+      action.isInitial ? EMPTY : of(new SiteContextActions.CurrencyChange())
+    )
   );
 
   constructor(

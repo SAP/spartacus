@@ -67,7 +67,10 @@ export class LanguageService implements SiteContext<Language> {
       .subscribe(activeLanguage => {
         if (activeLanguage !== isocode) {
           this.store.dispatch(
-            new SiteContextActions.SetActiveLanguage(isocode)
+            new SiteContextActions.SetActiveLanguage(
+              isocode,
+              activeLanguage === null
+            )
           );
         }
       });

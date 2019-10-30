@@ -23,7 +23,7 @@ export class LoadLanguagesSuccess implements Action {
 
 export class SetActiveLanguage implements Action {
   readonly type = SET_ACTIVE_LANGUAGE;
-  constructor(public payload: string) {}
+  constructor(public payload: string, public isInitial?: boolean) {}
 }
 
 export class LanguageChange implements Action {
