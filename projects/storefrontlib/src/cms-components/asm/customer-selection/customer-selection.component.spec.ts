@@ -15,7 +15,7 @@ import {
   I18nTestingModule,
   User,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
@@ -65,7 +65,7 @@ const mockCustomer3: User = {
 const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockCustomer, mockCustomer2, mockCustomer3],
 };
-fdescribe('CustomerSelectionComponent', () => {
+describe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
   let asmService: AsmService;
@@ -112,6 +112,10 @@ fdescribe('CustomerSelectionComponent', () => {
     it('should be disabled by default', () => {
       spyOn(component, 'onSubmit').and.stub();
 
+      expect(
+        el.query(By.css('button[type="submit"]')).nativeElement.disabled
+      ).toBeTruthy();
+
       testUtils.clickSubmit(fixture);
 
       expect(component.onSubmit).not.toHaveBeenCalled();
@@ -122,6 +126,9 @@ fdescribe('CustomerSelectionComponent', () => {
 
       component.selectedCustomer = mockCustomer;
       fixture.detectChanges();
+      expect(
+        el.query(By.css('button[type="submit"]')).nativeElement.disabled
+      ).toBeFalsy();
 
       testUtils.clickSubmit(fixture);
 
@@ -174,49 +181,49 @@ fdescribe('CustomerSelectionComponent', () => {
     });
   }));
 
-  xit('should display search results for valid search term', () => {
-    const searchResultBehaviorSubject = new BehaviorSubject<CustomerSearchPage>(
-      { entries: [] }
-    );
+  it('should display 3 search results for valid search term', () => {
     spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
-      searchResultBehaviorSubject
+      of(mockCustomerSearchPage)
     );
     component.ngOnInit();
-    fixture.detectChanges();
-
     component.form.controls.searchTerm.setValue(validSearchTerm);
-    searchResultBehaviorSubject.next(mockCustomerSearchPage);
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('div.results div a')).length).toEqual(
+      mockCustomerSearchPage.entries.length
+    );
   });
 
-  xit('should find customer', () => {
-    const searchResultBehaviorSubject = new BehaviorSubject<CustomerSearchPage>(
-      { entries: [] }
-    );
-    spyOn(component.submitEvent, 'emit').and.callThrough();
+  it('should display no results message when no results are found', () => {
     spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
-      searchResultBehaviorSubject
+      of(<CustomerSearchPage>{ entries: [] })
     );
-    component.ngOnInit();
-    fixture.detectChanges();
 
+    component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
-    searchResultBehaviorSubject.next(mockCustomerSearchPage);
-    expect(component.submitEvent.emit).toHaveBeenCalled();
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('div.results div a')).length).toEqual(1);
+    expect(
+      el.query(By.css('div.results div a')).nativeElement.innerText
+    ).toEqual('asm.customerSearch.noMatch');
   });
 
-  xit('should not find customer', () => {
-    const searchResultBehaviorSubject = new BehaviorSubject<CustomerSearchPage>(
-      { entries: [] }
-    );
-    spyOn(component.submitEvent, 'emit').and.callThrough();
+  it('should be able to select a customer from the result list.', () => {
     spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
-      searchResultBehaviorSubject
+      of(mockCustomerSearchPage)
     );
+    spyOn(component, 'selectCustomerFromList').and.callThrough();
     component.ngOnInit();
+    component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-
-    component.form.controls.searchTerm.setValue('nomatch@test.com');
-    searchResultBehaviorSubject.next(mockCustomerSearchPage);
-    expect(component.submitEvent.emit).not.toHaveBeenCalled();
+    el.query(By.css('div.results div a')).nativeElement.dispatchEvent(
+      new MouseEvent('click')
+    );
+    fixture.detectChanges();
+    expect(component.selectCustomerFromList).toHaveBeenCalled();
+    expect(component.selectedCustomer).toEqual(mockCustomer);
+    expect(component.form.controls.searchTerm.value).toEqual(mockCustomer.name);
+    expect(
+      el.query(By.css('button[type="submit"]')).nativeElement.disabled
+    ).toBeFalsy();
   });
 });
