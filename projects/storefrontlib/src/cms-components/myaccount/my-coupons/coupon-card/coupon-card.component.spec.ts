@@ -4,7 +4,7 @@ import { CouponCardComponent } from './coupon-card.component';
 import { I18nTestingModule, CustomerCoupon } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { ModalService } from '../../../../shared/components/modal/index';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Component } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 const mockCoupon: CustomerCoupon = {
@@ -24,6 +24,12 @@ const mockCoupon: CustomerCoupon = {
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
+
+@Component({
+  selector: 'cx-my-coupons',
+  templateUrl: `<cx-coupon-card [coupond]="mockCoupon"></cx-coupon-card>`,
+})
+class MyCouponsComponent{}
 
 describe('CouponCardComponent', () => {
   let component: CouponCardComponent;
