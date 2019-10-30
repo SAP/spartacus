@@ -1,54 +1,15 @@
 <ng-container *ngIf="product$ | async as product">
-  <div class="variant-section" *ngIf="sizeVariants || styleVariants">
-    <div class="variant-selector" *ngIf="styleVariants">
-      <div class="variant-name">
-        {{ 'variant.style' | cxTranslate }}:
-        <span class="style-name">{{ selectedStyle }}</span>
-      </div>
-      <ul class="variant-list">
-        <li
-          *ngFor="let v of styleVariants"
-          [ngClass]="{
-            'selected-variant': v.code === selectedStyle
-          }"
-        >
-          <a
-            [routerLink]="
-              { cxRoute: 'product', params: { code: v.code } } | cxUrl
-            "
-            class="colorVariant"
-          >
-            <img
-              src="{{ baseUrl }}{{ v.variantOptionQualifiers[0].image.url }}"
-              title="{{ v.variantOptionQualifiers[0].value }}"
-              alt="{{ v.variantOptionQualifiers[0].value }}"
-            />
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="variant-selector" *ngIf="sizeVariants">
-      <div class="variant-name">{{ 'variant.size' | cxTranslate }}:</div>
-      <select
-        (change)="routeToVariant($event.target.value)"
-        class="form-control variant-select"
-      >
-        <option value="">{{ 'variant.selectSize' | cxTranslate }}</option>
-        <option
-          *ngFor="let v of sizeVariants"
-          value="{{ v.code }}"
-          [selected]="v.code === product.code"
-          >{{ v.variantOptionQualifiers[0].value }}</option
-        >
-      </select>
-      <a
-        href="#"
-        class="size-guide"
-        title="{{ 'variant.sizeGuideLabel' | cxTranslate }}"
-      >
-        {{ 'variant.sizeGuideLabel' | cxTranslate }}
-      </a>
-    </div>
+  <div class="variant-section" *ngIf="styleVariants || sizeVariants">
+    <cx-style-selector
+      *ngIf="styleVariants"
+      [product]="product"
+      [styleVariants]="styleVariants"
+    ></cx-style-selector>
+    <cx-size-selector
+      *ngIf="sizeVariants"
+      [product]="product"
+      [sizeVariants]="sizeVariants"
+      (changeSizeEvent)="routeToVariant($event)"
+    ></cx-size-selector>
   </div>
 </ng-container>

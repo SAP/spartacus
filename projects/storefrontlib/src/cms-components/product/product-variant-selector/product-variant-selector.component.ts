@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OccConfig, Product, RoutingService } from '@spartacus/core';
+import { Product, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
@@ -12,16 +12,15 @@ import { BaseOption } from '../../../../../core/src/model';
 })
 export class ProductVariantSelectorComponent {
   constructor(
-    private routingService: RoutingService,
     private currentProductService: CurrentProductService,
-    private config: OccConfig
+    private routingService: RoutingService
   ) {}
 
   styleVariants: any;
   sizeVariants: any;
-  sizeGuideLabel = 'Style Guide';
-  baseUrl = this.config.backend.occ.baseUrl;
   selectedStyle: string;
+
+  // TODO: Refactor entire pipe content
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
     filter(v => !!v),
     distinctUntilChanged(),
@@ -52,6 +51,12 @@ export class ProductVariantSelectorComponent {
     })
   );
 
+  setSelectedApparelStyle(option: BaseOption) {
+    if (option && option.selected) {
+      this.selectedStyle = option.selected.code;
+    }
+  }
+
   routeToVariant(code: string): void {
     if (code) {
       this.routingService.go({
@@ -60,11 +65,5 @@ export class ProductVariantSelectorComponent {
       });
     }
     return null;
-  }
-
-  setSelectedApparelStyle(option: BaseOption) {
-    if (option && option.selected) {
-      this.selectedStyle = option.selected.code;
-    }
   }
 }

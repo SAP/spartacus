@@ -8,6 +8,8 @@ import {
 } from '@spartacus/core';
 import { ProductVariantSelectorComponent } from './product-variant-selector.component';
 import { RouterModule } from '@angular/router';
+import { VariantStyleSelectorModule } from './style-selector/style-selector.module';
+import { VariantSizeSelectorModule } from './size-selector/size-selector.module';
 
 @NgModule({
   imports: [
@@ -22,6 +24,8 @@ import { RouterModule } from '@angular/router';
       },
     }),
     I18nModule,
+    VariantStyleSelectorModule,
+    VariantSizeSelectorModule,
   ],
   declarations: [ProductVariantSelectorComponent],
   entryComponents: [ProductVariantSelectorComponent],
