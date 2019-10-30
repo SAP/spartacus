@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsService,
   ANONYMOUS_CONSENTS_FEATURE,
+  ConsentTemplate,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -19,6 +20,7 @@ export class AnonymousConsentManagementBannerComponent
   anonymousConsentsFeature = ANONYMOUS_CONSENTS_FEATURE;
   bannerVisible$: Observable<boolean>;
   templatesUpdated$: Observable<boolean>;
+  templates$: Observable<ConsentTemplate[]>;
 
   constructor(
     private modalService: ModalService,
@@ -26,6 +28,13 @@ export class AnonymousConsentManagementBannerComponent
   ) {}
 
   ngOnInit(): void {
+    this.templates$ = this.anonymousConsentsService.getTemplates().pipe(
+      tap(templates => {
+        if (!Boolean(templates)) {
+          this.anonymousConsentsService.loadTemplates();
+        }
+      })
+    );
     this.templatesUpdated$ = this.anonymousConsentsService
       .getTemplatesUpdated()
       .pipe(
