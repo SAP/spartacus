@@ -24,5 +24,6 @@ export const asm = {
       noMatch: 'No customer found.',
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
+    endSession: 'End Session',
   },
 };

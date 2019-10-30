@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ModalService } from '../../modal/index';
-import { AnonymousConsentsDialogComponent } from './anonymous-consents-dialog.component';
+import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
   selector: 'cx-icon',
@@ -27,13 +27,13 @@ export class MockCxIconComponent {
 export class MockConsentManagementFormComponent {
   @Input()
   consentTemplate: ConsentTemplate;
-
   @Input()
   requiredConsents: string[] = [];
-
   @Input()
   isAnonymousConsentsEnabled = false;
-
+  // TODO(issue:4989) Anonymous consents - remove
+  @Input()
+  isLevel13 = false;
   @Input()
   consent: AnonymousConsent;
 }
@@ -69,8 +69,8 @@ const mockTemplates: ConsentTemplate[] = [
 ];
 
 describe('AnonymousConsentsDialogComponent', () => {
-  let component: AnonymousConsentsDialogComponent;
-  let fixture: ComponentFixture<AnonymousConsentsDialogComponent>;
+  let component: AnonymousConsentDialogComponent;
+  let fixture: ComponentFixture<AnonymousConsentDialogComponent>;
   let anonymousConsentsService: AnonymousConsentsService;
   let modalService: ModalService;
   let anonymousConsentsConfig: AnonymousConsentsConfig;
@@ -79,7 +79,7 @@ describe('AnonymousConsentsDialogComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
-        AnonymousConsentsDialogComponent,
+        AnonymousConsentDialogComponent,
         MockCxIconComponent,
         MockConsentManagementFormComponent,
       ],
@@ -101,7 +101,7 @@ describe('AnonymousConsentsDialogComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnonymousConsentsDialogComponent);
+    fixture = TestBed.createComponent(AnonymousConsentDialogComponent);
     component = fixture.componentInstance;
     anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
       AnonymousConsentsService
