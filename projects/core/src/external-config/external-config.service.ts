@@ -1,17 +1,23 @@
 import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import {
+  makeStateKey,
+  StateKey,
+  TransferState,
+} from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SiteConnector } from '../site-context/connectors/site.connector';
 import { SERVER_REQUEST_URL } from '../ssr/ssr.providers';
-import { TransferData } from '../util/transfer-data';
 import { ExternalConfig } from './external-config';
 import { ExternalConfigConverter } from './external-config-converter';
 
+export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
+  string
+>('cx-external-config');
+
 @Injectable({ providedIn: 'root' })
 export class ExternalConfigService {
-  protected readonly EXTERNAL_CONFIG_TRANSFER_ID = 'cx-external-config';
-
   private get currentUrl(): string {
     return isPlatformBrowser(this.platform)
       ? this.document.location.href
@@ -23,6 +29,7 @@ export class ExternalConfigService {
     @Inject(DOCUMENT) protected document: any,
     protected siteConnector: SiteConnector,
     protected converter: ExternalConfigConverter,
+    protected transferState: TransferState,
 
     @Optional()
     @Inject(SERVER_REQUEST_URL)
@@ -74,10 +81,7 @@ export class ExternalConfigService {
    */
   protected rehydrate(): ExternalConfig {
     if (isPlatformBrowser(this.platform)) {
-      return TransferData.rehydrate(
-        this.EXTERNAL_CONFIG_TRANSFER_ID,
-        this.document
-      );
+      return this.transferState.get(EXTERNAL_CONFIG_TRANSFER_ID, undefined);
     }
   }
 
@@ -88,11 +92,7 @@ export class ExternalConfigService {
    */
   protected transfer(externalConfig: ExternalConfig) {
     if (isPlatformServer(this.platform) && externalConfig) {
-      TransferData.transfer(
-        this.EXTERNAL_CONFIG_TRANSFER_ID,
-        externalConfig,
-        this.document
-      );
+      this.transferState.set(EXTERNAL_CONFIG_TRANSFER_ID, externalConfig);
     }
   }
 }
