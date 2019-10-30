@@ -25,6 +25,7 @@ export class CartEffects {
     | CartActions.LoadMultiCartFail
     | CartActions.LoadCartSuccess
     | CartActions.LoadMultiCartSuccess
+    | CartActions.ClearExpiredCoupons
     | CartActions.ClearCart
     | CartActions.RemoveCart
   > = this.actions$.pipe(
@@ -75,6 +76,13 @@ export class CartEffects {
             return actions;
           }),
           catchError(error => {
+            const couponExpiredErrors = error.error.errors.filter(
+              err => err.reason === 'invalid'
+            );
+            if (couponExpiredErrors.length > 0) {
+              return of(new CartActions.ClearExpiredCoupons({}));
+            }
+
             if (error && error.error && error.error.errors) {
               const cartNotFoundErrors = error.error.errors.filter(
                 err => err.reason === 'notFound' || 'UnknownResourceError'
@@ -186,7 +194,12 @@ export class CartEffects {
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.ADD_EMAIL_TO_CART_SUCCESS,
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.CART_ADD_VOUCHER_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_FAIL,
+      CartActions.CLEAR_EXPIRED_COUPONS
     ),
     map(
       (
@@ -197,6 +210,10 @@ export class CartEffects {
           | CartActions.CartRemoveEntrySuccess
           | CartActions.AddEmailToCartSuccess
           | CheckoutActions.ClearCheckoutDeliveryModeSuccess
+          | CartActions.CartAddVoucherSuccess
+          | CartActions.CartRemoveVoucherSuccess
+          | CartActions.CartRemoveVoucherFail
+          | CartActions.ClearExpiredCoupons
       ) => action.payload
     ),
     map(

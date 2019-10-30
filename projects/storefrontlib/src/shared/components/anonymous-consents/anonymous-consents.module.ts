@@ -2,16 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
-import { AnonymousConsentsDialogComponent } from './dialog/anonymous-consents-dialog.component';
-import { AnonymousConsentFormComponent } from './dialog/form/anonymous-consent-form.component';
+import { ConsentManagementModule } from '../../../cms-components/myaccount/consent-management/consent-management.module';
+import { AnonymousConsentDialogComponent } from './dialog/anonymous-consent-dialog.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule],
-  declarations: [
-    AnonymousConsentsDialogComponent,
-    AnonymousConsentFormComponent,
-  ],
-  entryComponents: [AnonymousConsentsDialogComponent],
-  exports: [AnonymousConsentsDialogComponent, AnonymousConsentFormComponent],
+  imports: [CommonModule, I18nModule, IconModule, ConsentManagementModule],
+  declarations: [AnonymousConsentDialogComponent],
+  entryComponents: [AnonymousConsentDialogComponent],
+  exports: [AnonymousConsentDialogComponent],
 })
 export class AnonymousConsentsModule {}

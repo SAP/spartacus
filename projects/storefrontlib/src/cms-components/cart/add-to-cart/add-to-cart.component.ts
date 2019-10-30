@@ -5,14 +5,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
-import {
-  CartService,
-  OrderEntry,
-  Product,
-  ProductService,
-} from '@spartacus/core';
+import { CartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -27,6 +21,12 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
 export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
   @Input() showQuantity = true;
+
+  /**
+   * As long as we do not support #5026, we require product input, as we need
+   *  a reference to the product model to fetch the stock data.
+   */
+  @Input() product: Product;
 
   maxQuantity: number;
   modalRef: ModalRef;
@@ -43,39 +43,28 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     cartService: CartService,
     modalService: ModalService,
     currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    // tslint:disable-next-line: unified-signatures
-    productService: ProductService
-  );
-  /**
-   * @deprecated since version 1.4
-   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
-   *  authService: AuthService) instead
-   */
-  constructor(
-    cartService: CartService,
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
     cd: ChangeDetectorRef
   );
+
   constructor(
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef,
-    @Optional() private productService?: ProductService
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    if (this.productCode) {
+    if (this.product) {
+      this.productCode = this.product.code;
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
-      this.subscription = this.productService
-        .get(this.productCode)
-        .pipe(filter(p => !!p))
-        .subscribe((product: Product) => {
-          this.setStockInfo(product);
-          this.cd.markForCheck();
-        });
+      this.setStockInfo(this.product);
+      this.cd.markForCheck();
+    } else if (this.productCode) {
+      this.cartEntry$ = this.cartService.getEntry(this.productCode);
+      // force hasStock and quanity for the time being, as we do not have more info:
+      this.quantity = 1;
+      this.hasStock = true;
+      this.cd.markForCheck();
     } else {
       this.subscription = this.currentProductService
         .getProduct()
@@ -92,10 +81,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   private setStockInfo(product: Product): void {
     this.quantity = 1;
     this.hasStock =
-      product.stock &&
-      product.stock.stockLevelStatus !== 'outOfStock' &&
-      product.stock.stockLevel > 0;
-    if (this.hasStock) {
+      product.stock && product.stock.stockLevelStatus !== 'outOfStock';
+    if (this.hasStock && product.stock.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
     }
   }

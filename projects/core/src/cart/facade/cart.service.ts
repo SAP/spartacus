@@ -356,4 +356,14 @@ export class CartService {
         this.addEntries(cartEntries);
       });
   }
+
+  addVoucher(voucherId: string): void {
+    this.store.dispatch(
+      new CartActions.CartAddVoucher({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+        voucherId: voucherId,
+      })
+    );
+  }
 }
