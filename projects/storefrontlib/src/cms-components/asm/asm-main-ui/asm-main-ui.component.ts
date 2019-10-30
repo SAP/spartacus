@@ -90,9 +90,4 @@ export class AsmMainUiComponent implements OnInit {
   hideUi(): void {
     this.asmService.updateAsmUiState({ visible: false });
   }
-
-  endSession() {
-    this.authService.logout();
-    this.routingService.go({ cxRoute: 'home' });
-  }
 }
