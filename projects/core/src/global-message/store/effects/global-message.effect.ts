@@ -6,7 +6,6 @@ import {
   delay,
   filter,
   pluck,
-  concatMap,
   switchMap,
   map,
   withLatestFrom,
@@ -66,7 +65,7 @@ export class GlobalMessageEffect {
   > = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload', 'type'),
-    concatMap((type: GlobalMessageType) => {
+    switchMap((type: GlobalMessageType) => {
       const config = this.config.globalMessages[type];
       return this.store.pipe(
         select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
