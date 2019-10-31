@@ -29,8 +29,4 @@ export class SiteConnector {
   getBaseSite(): Observable<BaseSite> {
     return this.adapter.loadBaseSite();
   }
-
-  getBaseSites(): Observable<BaseSite[]> {
-    return this.adapter.loadBaseSites();
-  }
 }

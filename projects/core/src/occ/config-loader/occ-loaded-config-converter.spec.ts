@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { Occ } from '../occ/occ-models';
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
-} from '../site-context';
-import { ExternalConfig } from './external-config';
-import { ExternalConfigConverter } from './external-config-converter';
+} from '../../site-context';
+import { Occ } from '../occ-models';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
+import { OccLoadedConfig } from './occ-loaded-config';
+import { OccLoadedConfigConverter } from './occ-loaded-config.converter';
 
-describe(`ExternalConfigConverter`, () => {
-  let converter: ExternalConfigConverter;
+describe(`OccLoadedConfigConverter`, () => {
+  let converter: OccLoadedConfigConverter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,7 +24,7 @@ describe(`ExternalConfigConverter`, () => {
       ],
     });
 
-    converter = TestBed.get(ExternalConfigConverter);
+    converter = TestBed.get(OccLoadedConfigConverter);
   });
 
   describe(`fromOccBaseSites`, () => {
@@ -240,7 +240,7 @@ describe(`ExternalConfigConverter`, () => {
   });
 
   describe(`toSiteContextConfig`, () => {
-    let mockExternalConfig: ExternalConfig;
+    let mockExternalConfig: OccLoadedConfig;
 
     beforeEach(() => {
       mockExternalConfig = {
@@ -268,7 +268,7 @@ describe(`ExternalConfigConverter`, () => {
   });
 
   describe(`to18nConfig`, () => {
-    let mockExternalConfig: ExternalConfig;
+    let mockExternalConfig: OccLoadedConfig;
 
     beforeEach(() => {
       mockExternalConfig = {

@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { I18nConfig } from '../i18n';
-import { BaseSite } from '../model/misc.model';
-import { Occ } from '../occ/occ-models/occ.models';
-import { SiteContextConfig } from '../site-context/config/site-context-config';
+import { I18nConfig } from '../../i18n';
+import { BaseSite } from '../../model/misc.model';
+import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
-} from '../site-context/providers/context-ids';
-import { ExternalConfig } from './external-config';
+} from '../../site-context/providers/context-ids';
+import { Occ } from '../occ-models/occ.models';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
+import { OccLoadedConfig } from './occ-loaded-config';
 
 @Injectable({ providedIn: 'root' })
-export class ExternalConfigConverter {
+export class OccLoadedConfigConverter {
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}
 
-  fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): ExternalConfig {
+  fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): OccLoadedConfig {
     const baseSite = baseSites.find(site =>
       this.isCurrentBaseSite(site, currentUrl)
     );
@@ -52,7 +52,7 @@ export class ExternalConfigConverter {
     languages,
     currencies,
     urlParameters: urlEncodingAttributes,
-  }: ExternalConfig): SiteContextConfig {
+  }: OccLoadedConfig): SiteContextConfig {
     const result = {
       context: {
         urlParameters: urlEncodingAttributes,
@@ -64,7 +64,7 @@ export class ExternalConfigConverter {
     return result;
   }
 
-  toI18nConfig({ languages }: ExternalConfig): I18nConfig {
+  toI18nConfig({ languages }: OccLoadedConfig): I18nConfig {
     return { i18n: { fallbackLang: languages[0] } };
   }
 

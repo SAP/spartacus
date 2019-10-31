@@ -13,22 +13,22 @@ import {
 } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SiteConnector } from '../site-context/connectors/site.connector';
-import { SERVER_REQUEST_URL } from '../ssr/ssr.providers';
-import { ExternalConfig } from './external-config';
-import { ExternalConfigConverter } from './external-config-converter';
+import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
+import { OccLoadedConfig } from './occ-loaded-config';
+import { OccLoadedConfigConverter } from './occ-loaded-config.converter';
+import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
 export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
   string
 >('cx-external-config');
 
 @Injectable({ providedIn: 'root' })
-export class ExternalConfigService {
+export class OccConfigLoaderService {
   constructor(
     @Inject(PLATFORM_ID) protected platform: any,
     @Inject(DOCUMENT) protected document: any,
-    protected siteConnector: SiteConnector,
-    protected converter: ExternalConfigConverter,
+    protected siteConfigLoader: OccSitesConfigLoader,
+    protected converter: OccLoadedConfigConverter,
     protected transferState: TransferState,
 
     @Optional()
@@ -69,7 +69,7 @@ export class ExternalConfigService {
   /**
    * Returns the external config
    */
-  protected get(): Observable<ExternalConfig> {
+  protected get(): Observable<OccLoadedConfig> {
     const rehydratedExternalConfig = this.rehydrate();
 
     return rehydratedExternalConfig
@@ -80,9 +80,9 @@ export class ExternalConfigService {
   /**
    * Loads the external config from backend
    */
-  protected load(): Observable<ExternalConfig> {
-    return this.siteConnector
-      .getBaseSites()
+  protected load(): Observable<OccLoadedConfig> {
+    return this.siteConfigLoader
+      .load()
       .pipe(
         map(baseSites =>
           this.converter.fromOccBaseSites(baseSites, this.currentUrl)
@@ -93,7 +93,7 @@ export class ExternalConfigService {
   /**
    * Tries to rehydrate external config in the browser from SSR
    */
-  protected rehydrate(): ExternalConfig {
+  protected rehydrate(): OccLoadedConfig {
     if (isPlatformBrowser(this.platform)) {
       return this.transferState.get(EXTERNAL_CONFIG_TRANSFER_ID, undefined);
     }
@@ -104,7 +104,7 @@ export class ExternalConfigService {
    *
    * @param externalConfig
    */
-  protected transfer(externalConfig: ExternalConfig) {
+  protected transfer(externalConfig: OccLoadedConfig) {
     if (isPlatformServer(this.platform) && externalConfig) {
       this.transferState.set(EXTERNAL_CONFIG_TRANSFER_ID, externalConfig);
     }

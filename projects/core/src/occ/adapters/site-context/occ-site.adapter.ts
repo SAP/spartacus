@@ -85,18 +85,4 @@ export class OccSiteAdapter implements SiteAdapter {
         })
       );
   }
-
-  loadBaseSites(): Observable<BaseSite[]> {
-    const endpoint =
-      '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))';
-
-    const baseUrl = this.occEndpointsService.getBaseEndpoint();
-    const urlSplits = baseUrl.split('/');
-    urlSplits.pop(); // remove the value of the base site
-    const url = urlSplits.join('/') + endpoint;
-
-    return this.http
-      .get<Occ.BaseSites>(url)
-      .pipe(map(({ baseSites }) => baseSites));
-  }
 }

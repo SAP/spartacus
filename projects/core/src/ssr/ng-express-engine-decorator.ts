@@ -51,7 +51,7 @@ export class NgExpressEngineDecorator {
         const engineInstance = ngExpressEngine({
           ...setupOptions,
           providers: [
-            ...getProviders(options.req),
+            ...getServerRequestProviders(options),
             ...(setupOptions.providers || []),
           ],
         });
@@ -62,11 +62,18 @@ export class NgExpressEngineDecorator {
   }
 }
 
-function getProviders(req: any): StaticProvider[] {
+/**
+ * Returns Spartacus' providers to be passed to the Angular express engine (in SSR)
+ *
+ * @param options
+ */
+export function getServerRequestProviders(
+  options: RenderOptions
+): StaticProvider[] {
   return [
     {
       provide: SERVER_REQUEST_URL,
-      useValue: getRequestUrl(req),
+      useValue: getRequestUrl(options.req),
     },
   ];
 }

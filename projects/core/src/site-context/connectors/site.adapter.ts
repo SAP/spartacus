@@ -27,9 +27,4 @@ export abstract class SiteAdapter {
    * Abstract method used to get base site data.
    */
   abstract loadBaseSite(): Observable<BaseSite>;
-
-  /**
-   * Abstract method used to get base site data.
-   */
-  abstract loadBaseSites(): Observable<BaseSite[]>;
 }

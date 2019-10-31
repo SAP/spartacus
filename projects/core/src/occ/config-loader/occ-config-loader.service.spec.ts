@@ -2,22 +2,23 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TransferState } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { I18nConfig } from '../i18n';
-import { BaseSite } from '../model/misc.model';
-import { SiteConnector, SiteContextConfig } from '../site-context';
-import { SERVER_REQUEST_URL } from '../ssr/ssr.providers';
-import { ExternalConfig } from './external-config';
-import { ExternalConfigConverter } from './external-config-converter';
-import { ExternalConfigService } from './external-config.service';
+import { I18nConfig } from '../../i18n';
+import { BaseSite } from '../../model/misc.model';
+import { SiteConnector, SiteContextConfig } from '../../site-context';
+import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
+import { OccConfigLoaderService } from './occ-config-loader.service';
+import { OccLoadedConfig } from './occ-loaded-config';
+import { OccLoadedConfigConverter } from './occ-loaded-config.converter';
+import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
-describe(`ExternalConfigService`, () => {
-  let service: ExternalConfigService;
+describe(`OccConfigLoaderService`, () => {
+  let service: OccConfigLoaderService;
   let transferState: TransferState;
-  let externalConfigConverter: ExternalConfigConverter;
-  let siteConnector: SiteConnector;
+  let externalConfigConverter: OccLoadedConfigConverter;
+  let sitesConfigLoader: OccSitesConfigLoader;
   let mockBaseSites: BaseSite[];
 
-  let mockExternalConfig: ExternalConfig;
+  let mockExternalConfig: OccLoadedConfig;
   let mockSiteContextConfig: SiteContextConfig;
   let mockI18nConfig: I18nConfig;
 
@@ -54,7 +55,7 @@ describe(`ExternalConfigService`, () => {
       providers: [
         { provide: SiteConnector, useValue: mockSiteConnector },
         {
-          provide: ExternalConfigConverter,
+          provide: OccLoadedConfigConverter,
           useValue: mockExternalConfigConverter,
         },
         { provide: TransferState, useValue: mockTransferState },
@@ -63,10 +64,10 @@ describe(`ExternalConfigService`, () => {
       ],
     });
 
-    service = TestBed.get(ExternalConfigService);
+    service = TestBed.get(OccConfigLoaderService);
     transferState = TestBed.get(TransferState);
-    externalConfigConverter = TestBed.get(ExternalConfigConverter);
-    siteConnector = TestBed.get(SiteConnector);
+    externalConfigConverter = TestBed.get(OccLoadedConfigConverter);
+    sitesConfigLoader = TestBed.get(OccSitesConfigLoader);
 
     spyOn(transferState, 'set');
   }
@@ -86,7 +87,7 @@ describe(`ExternalConfigService`, () => {
         it(`should return chunks based on the rehydrated config`, async () => {
           const result = await service.getConfigChunks();
 
-          expect(siteConnector.getBaseSites).not.toHaveBeenCalled();
+          expect(sitesConfigLoader.load).not.toHaveBeenCalled();
           expect(
             externalConfigConverter.toSiteContextConfig
           ).toHaveBeenCalledWith(rehydratedExternalConfig);
@@ -115,7 +116,7 @@ describe(`ExternalConfigService`, () => {
         it(`should return chunks based on loaded sites data and current BROWSER url`, async () => {
           const result = await service.getConfigChunks();
 
-          expect(siteConnector.getBaseSites).toHaveBeenCalled();
+          expect(sitesConfigLoader.load).toHaveBeenCalled();
           expect(
             externalConfigConverter.toSiteContextConfig
           ).toHaveBeenCalledWith(mockExternalConfig);
@@ -143,7 +144,7 @@ describe(`ExternalConfigService`, () => {
       it(`should return chunks based on loaded sites data and current SERVER url`, async () => {
         const result = await service.getConfigChunks();
 
-        expect(siteConnector.getBaseSites).toHaveBeenCalled();
+        expect(sitesConfigLoader.load).toHaveBeenCalled();
         expect(
           externalConfigConverter.toSiteContextConfig
         ).toHaveBeenCalledWith(mockExternalConfig);

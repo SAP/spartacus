@@ -4,7 +4,7 @@ import {
   NgExpressEngineInstance,
   NgSetupOptions,
   RenderOptions,
-} from './ng-express-engine-factory';
+} from './ng-express-engine-decorator';
 import { SERVER_REQUEST_URL } from './ssr.providers';
 
 describe('NgExpressEngineDecorator', () => {

@@ -1,4 +1,4 @@
-export interface ExternalConfig {
+export interface OccLoadedConfig {
   /**
    * Uid of the base site
    */

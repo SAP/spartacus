@@ -31,10 +31,6 @@ class MockSiteAdapter implements SiteAdapter {
   loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
     of(mockBaseSite)
   );
-
-  loadBaseSites = createSpy('SiteAdapter.loadBaseSites').and.callFake(() =>
-    of([mockBaseSite])
-  );
 }
 
 describe('SiteConnector', () => {
@@ -87,12 +83,5 @@ describe('SiteConnector', () => {
     service.getBaseSite().subscribe(res => (result = res));
     expect(result).toBe(mockBaseSite);
     expect(adapter.loadBaseSite).toHaveBeenCalled();
-  });
-
-  it('getBaseSites should call adapter', () => {
-    let result;
-    service.getBaseSites().subscribe(res => (result = res));
-    expect(result).toEqual([mockBaseSite]);
-    expect(adapter.loadBaseSites).toHaveBeenCalled();
   });
 });
