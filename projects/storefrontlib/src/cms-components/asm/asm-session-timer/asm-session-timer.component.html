@@ -1,2 +1,3 @@
-Session Timeout: {{ timeLeft | formatTimer }} min
-<button (click)="reset()">Reset</button>
+{{ 'asm.sessionTimer.label' | cxTranslate }}: {{ timeLeft | formatTimer }}
+{{ 'asm.sessionTimer.minutes' | cxTranslate }}
+<button (click)="reset()">{{ 'asm.sessionTimer.reset' | cxTranslate }}</button>
