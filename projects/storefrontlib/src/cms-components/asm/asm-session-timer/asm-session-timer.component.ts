@@ -6,7 +6,7 @@ import { AuthService, RoutingService } from '@spartacus/core';
   templateUrl: './asm-session-timer.component.html',
 })
 export class AsmSessionTimerComponent implements OnInit {
-  timerStartDelay = 10;
+  timerStartDelay = 600;
   timeLeft: number = this.timerStartDelay;
   interval: any;
 
