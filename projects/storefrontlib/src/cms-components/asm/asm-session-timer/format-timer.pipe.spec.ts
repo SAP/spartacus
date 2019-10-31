@@ -1,6 +1,6 @@
 import { FormatTimerPipe } from './format-timer.pipe';
 
-fdescribe('FormatTimerPipe', () => {
+describe('FormatTimerPipe', () => {
   let pipe: FormatTimerPipe;
 
   beforeEach(() => {
