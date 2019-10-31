@@ -79,11 +79,11 @@ export class CartVoucherEffects {
   private showGlobalMessage(
     text: string,
     param: string,
-    type: GlobalMessageType
+    messageType: GlobalMessageType
   ) {
     this.messageService.add(
       { key: text, params: { voucherCode: param } },
-      type
+      messageType
     );
   }
 }
