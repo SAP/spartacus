@@ -1,26 +1,41 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Product } from '../../../model/product.model';
-import { ProductActions } from '../actions/index';
-import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
+import { Budget } from '../../../model/budget.model';
+import { BudgetActions } from '../actions/index';
+import {
+  ORGANIZATION_FEATURE,
+  StateWithOrganization,
+} from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import { ProductSelectors } from '../selectors/index';
+import { BudgetSelectors } from '../selectors/index';
+import { EntityLoaderState, LoaderState } from '@spartacus/core';
 
-describe('Cms Component Selectors', () => {
-  let store: Store<StateWithProduct>;
+describe('Budget Selectors', () => {
+  let store: Store<StateWithOrganization>;
 
   const code = 'testCode';
-  const product: Product = {
+  const budget: Budget = {
     code,
-    name: 'testProduct',
+    name: 'testBudget',
   };
+  const budget2: Budget = {
+    code: 'testCode2',
+    name: 'testBudget2',
+  };
+
   const entities = {
     testCode: {
       loading: false,
       error: false,
       success: true,
-      value: product,
+      value: budget,
+    },
+    testCode2: {
+      loading: false,
+      error: false,
+      success: true,
+      value: budget2,
     },
   };
 
@@ -28,97 +43,50 @@ describe('Cms Component Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(PRODUCT_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(
+          ORGANIZATION_FEATURE,
+          fromReducers.getReducers()
+        ),
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
+    store = TestBed.get(Store as Type<Store<StateWithOrganization>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getSelectedProductsFactory', () => {
-    it('should return product by code', () => {
-      let result: Product[];
+  describe('getBudgetManagementState ', () => {
+    it('should return budgets state', () => {
+      let result: EntityLoaderState<Budget>;
       store
-        .pipe(select(ProductSelectors.getSelectedProductsFactory(['testCode'])))
+        .pipe(select(BudgetSelectors.getBudgetManagementState))
         .subscribe(value => (result = value));
 
-      store.dispatch(new ProductActions.LoadProductSuccess(product));
-
-      expect(result).toEqual([entities['testCode'].value]);
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      expect(result).toEqual({ entities });
     });
   });
 
-  describe('getAllProductCodes', () => {
-    it('should return product codes as an array', () => {
-      let result: string[];
+  describe('getBudgets', () => {
+    it('should return budgets', () => {
+      let result: { [id: string]: LoaderState<Budget> };
       store
-        .pipe(select(ProductSelectors.getAllProductCodes))
+        .pipe(select(BudgetSelectors.getBudgetsState))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
-
-      store.dispatch(new ProductActions.LoadProductSuccess(product));
-
-      expect(result).toEqual(['testCode']);
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      expect(result).toEqual(entities);
     });
   });
 
-  describe('getSelectedProductFactory', () => {
-    it('should return a single product by productCode', () => {
-      let result: Product;
+  describe('getBudget', () => {
+    it('should return budget by id', () => {
+      let result: LoaderState<Budget>;
       store
-        .pipe(select(ProductSelectors.getSelectedProductFactory(code)))
+        .pipe(select(BudgetSelectors.getBudgetState(code)))
         .subscribe(value => (result = value));
 
-      store.dispatch(new ProductActions.LoadProductSuccess(product));
-      expect(result).toEqual(product);
-    });
-  });
-
-  describe('getSelectedProductLoadingFactory', () => {
-    it('should return isLoading information', () => {
-      let result: boolean;
-
-      store
-        .pipe(select(ProductSelectors.getSelectedProductLoadingFactory(code)))
-        .subscribe(value => (result = value));
-
-      store.dispatch(new ProductActions.LoadProduct(product.code));
-      expect(result).toBeTruthy();
-
-      store.dispatch(new ProductActions.LoadProductSuccess(product));
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe('getSelectedProductSuccessFactory', () => {
-    it('should return success information', () => {
-      let result: boolean;
-
-      store
-        .pipe(select(ProductSelectors.getSelectedProductSuccessFactory(code)))
-        .subscribe(value => (result = value));
-
-      expect(result).toBeFalsy();
-
-      store.dispatch(new ProductActions.LoadProductSuccess(product));
-      expect(result).toBeTruthy();
-    });
-  });
-
-  describe('getSelectedProductErrorFactory', () => {
-    it('should return error information', () => {
-      let result: boolean;
-
-      store
-        .pipe(select(ProductSelectors.getSelectedProductErrorFactory(code)))
-        .subscribe(value => (result = value));
-
-      expect(result).toBeFalsy();
-
-      store.dispatch(new ProductActions.LoadProductFail(code, undefined));
-      expect(result).toBeTruthy();
+      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      expect(result).toEqual(entities.testCode);
     });
   });
 });

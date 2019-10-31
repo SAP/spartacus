@@ -14,10 +14,7 @@ export class BudgetConnector {
     return this.adapter.load(userId, budgetCode);
   }
 
-  getList(
-    userId: string,
-    params?: BudgetSearchConfig
-  ): Observable<Budget[]> {
+  getList(userId: string, params?: BudgetSearchConfig): Observable<Budget[]> {
     return this.adapter.loadList(userId, params);
   }
 

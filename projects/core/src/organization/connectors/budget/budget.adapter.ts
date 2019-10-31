@@ -4,12 +4,12 @@ import { BudgetSearchConfig } from '../../model/search-config';
 
 export abstract class BudgetAdapter {
   /**
-   * Abstract method used to load budgetManagment's details data.
+   * Abstract method used to load budgetManagement's details data.
    * Budget's data can be loaded from alternative sources, as long as the structure
    * converts to the `Budget`.
    *
-   * @param userId The `userId` for given budgetManagment
-   * @param budgetCode The `budgetCode` for given budgetManagment
+   * @param userId The `userId` for given budgetManagement
+   * @param budgetCode The `budgetCode` for given budgetManagement
    */
   abstract load(userId: string, budgetCode: string): Observable<Budget>;
 

@@ -6,12 +6,11 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import { Budget } from '../../../model/budget.model';
-import { LoadBudgetSuccess } from '../actions/budget.action';
 
 @Injectable()
 export class BudgetEffects {
   @Effect()
-  $loadBudget: Observable<
+  loadBudget$: Observable<
     BudgetActions.LoadBudgetSuccess | BudgetActions.LoadBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGET),
@@ -22,16 +21,21 @@ export class BudgetEffects {
           return new BudgetActions.LoadBudgetSuccess([budget]);
         }),
         catchError(error =>
-          of(new BudgetActions.LoadBudgetFail(makeErrorSerializable(error)))
+          of(
+            new BudgetActions.LoadBudgetFail(
+              budgetCode,
+              makeErrorSerializable(error)
+            )
+          )
         )
       );
     })
   );
 
   @Effect()
-  $loadBudgets: Observable<
+  loadBudgets$: Observable<
     | BudgetActions.LoadBudgetsSuccess
-    | LoadBudgetSuccess
+    | BudgetActions.LoadBudgetSuccess
     | BudgetActions.LoadBudgetsFail
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
@@ -50,7 +54,7 @@ export class BudgetEffects {
   );
 
   @Effect()
-  $createBudget: Observable<
+  createBudget$: Observable<
     BudgetActions.CreateBudgetSuccess | BudgetActions.CreateBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
@@ -59,14 +63,19 @@ export class BudgetEffects {
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
         map(data => new BudgetActions.CreateBudgetSuccess(data)),
         catchError(error =>
-          of(new BudgetActions.CreateBudgetFail(makeErrorSerializable(error)))
+          of(
+            new BudgetActions.CreateBudgetFail(
+              payload.budget.code,
+              makeErrorSerializable(error)
+            )
+          )
         )
       )
     )
   );
 
   @Effect()
-  $updateBudget: Observable<
+  updateBudget$: Observable<
     BudgetActions.UpdateBudgetSuccess | BudgetActions.UpdateBudgetFail
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
@@ -75,7 +84,12 @@ export class BudgetEffects {
       this.budgetConnector.update(payload.userId, payload.budget).pipe(
         map(data => new BudgetActions.UpdateBudgetSuccess(data)),
         catchError(error =>
-          of(new BudgetActions.UpdateBudgetFail(makeErrorSerializable(error)))
+          of(
+            new BudgetActions.UpdateBudgetFail(
+              payload.budget.code,
+              makeErrorSerializable(error)
+            )
+          )
         )
       )
     )

@@ -13,4 +13,3 @@ export interface StateWithOrganization {
 export interface OrganizationState {
   [BUDGET_FEATURE]: EntityLoaderState<Budget>;
 }
-
