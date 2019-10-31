@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { EventRegister } from '../../events';
 import { CartEventBuilder } from './cart-event.builder';
 import {
+  CartAddEntryEvent,
   CartAddEvent,
   CartBusyEvent,
   CartChangeEvent,
-  CartEntryAddEvent,
-  CartEntryRemoveEvent,
-  CartEntryUpdateEvent,
   CartErrorEvent,
   CartLoadEvent,
   CartMergeEvent,
+  CartRemoveEntryEvent,
+  CartUpdateEntryEvent,
 } from './cart-event.model';
 
 @Injectable({
@@ -27,13 +27,13 @@ export class CartEventService {
     eventRegister.register(CartChangeEvent, builder.buildChangeEvent());
     eventRegister.register(CartMergeEvent, builder.buildMergeEvent());
     eventRegister.register(CartAddEvent, builder.buildAddEvent());
-    eventRegister.register(CartEntryAddEvent, builder.buildEntryCreateEvent());
+    eventRegister.register(CartAddEntryEvent, builder.buildEntryCreateEvent());
     eventRegister.register(
-      CartEntryUpdateEvent,
+      CartUpdateEntryEvent,
       builder.buildEntryUpdateEvent()
     );
     eventRegister.register(
-      CartEntryRemoveEvent,
+      CartRemoveEntryEvent,
       builder.buildEntryRemoveEvent()
     );
   }

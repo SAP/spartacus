@@ -1,7 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { EventRegister } from '../../events';
 import { CartEventBuilder } from './cart-event.builder';
-import { CartEventType } from './cart-event.model';
+import {
+  CartAddEntryEvent,
+  CartAddEvent,
+  CartBusyEvent,
+  CartChangeEvent,
+  CartErrorEvent,
+  CartLoadEvent,
+  CartMergeEvent,
+  CartRemoveEntryEvent,
+  CartUpdateEntryEvent,
+} from './cart-event.model';
 import { CartEventService } from './cart-event.service';
 
 class MockEventRegister {
@@ -24,7 +34,6 @@ class MockCartEventBuilder {
   buildMergeEvent() {
     return 'MERGE';
   }
-
   buildEntryCreateEvent() {
     return 'ENTRY_CREATED';
   }
@@ -68,49 +77,40 @@ describe('CartEventService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should have register BUSY event', () => {
+  it('should have register CartBusyEvent', () => {
     TestBed.get(CartEventService);
-    expect(register.register).toHaveBeenCalledWith(CartEventType.BUSY, 'BUSY');
+    expect(register.register).toHaveBeenCalledWith(CartBusyEvent, 'BUSY');
   });
 
-  it('should have register ERROR event', () => {
+  it('should have register CartErrorEvent', () => {
+    TestBed.get(CartEventService);
+    expect(register.register).toHaveBeenCalledWith(CartErrorEvent, 'ERROR');
+  });
+
+  it('should have register CartLoadEvent', () => {
+    TestBed.get(CartEventService);
+    expect(register.register).toHaveBeenCalledWith(CartLoadEvent, 'LOAD');
+  });
+
+  it('should have register CartChangeEvent', () => {
+    TestBed.get(CartEventService);
+    expect(register.register).toHaveBeenCalledWith(CartChangeEvent, 'CHANGE');
+  });
+
+  it('should have register CartMergeEvent', () => {
+    TestBed.get(CartEventService);
+    expect(register.register).toHaveBeenCalledWith(CartMergeEvent, 'MERGE');
+  });
+
+  it('should have register CartAddEvent', () => {
+    TestBed.get(CartEventService);
+    expect(register.register).toHaveBeenCalledWith(CartAddEvent, 'ADD');
+  });
+
+  it('should have register CartAddEntryEvent', () => {
     TestBed.get(CartEventService);
     expect(register.register).toHaveBeenCalledWith(
-      CartEventType.ERROR,
-      'ERROR'
-    );
-  });
-
-  it('should have register LOAD event', () => {
-    TestBed.get(CartEventService);
-    expect(register.register).toHaveBeenCalledWith(CartEventType.LOAD, 'LOAD');
-  });
-
-  it('should have register CHANGE event', () => {
-    TestBed.get(CartEventService);
-    expect(register.register).toHaveBeenCalledWith(
-      CartEventType.CHANGE,
-      'CHANGE'
-    );
-  });
-
-  it('should have register MERGE event', () => {
-    TestBed.get(CartEventService);
-    expect(register.register).toHaveBeenCalledWith(
-      CartEventType.MERGE,
-      'MERGE'
-    );
-  });
-
-  it('should have register ADD event', () => {
-    TestBed.get(CartEventService);
-    expect(register.register).toHaveBeenCalledWith(CartEventType.ADD, 'ADD');
-  });
-
-  it('should have register ENTRY_CREATED event', () => {
-    TestBed.get(CartEventService);
-    expect(register.register).toHaveBeenCalledWith(
-      CartEventType.ENTRY_CREATED,
+      CartAddEntryEvent,
       'ENTRY_CREATED'
     );
   });
@@ -118,7 +118,7 @@ describe('CartEventService', () => {
   it('should have register ENTRY_UPDATED event', () => {
     TestBed.get(CartEventService);
     expect(register.register).toHaveBeenCalledWith(
-      CartEventType.ENTRY_UPDATED,
+      CartUpdateEntryEvent,
       'ENTRY_UPDATED'
     );
   });
@@ -126,7 +126,7 @@ describe('CartEventService', () => {
   it('should have register ENTRY_REMOVED event', () => {
     TestBed.get(CartEventService);
     expect(register.register).toHaveBeenCalledWith(
-      CartEventType.ENTRY_REMOVED,
+      CartRemoveEntryEvent,
       'ENTRY_REMOVED'
     );
   });

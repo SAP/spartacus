@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
-import { BaseEvent } from './event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,7 @@ export class EventRegister {
    * @param eventClass
    * @param source an Observable which will be emited when an event handler is registered
    */
-  register(eventClass: new () => BaseEvent, source: Observable<any>): void {
+  register<T>(eventClass: Type<T>, source: Observable<any>): void {
     if (!eventClass.name) {
       return;
     }
@@ -32,9 +31,9 @@ export class EventRegister {
   /**
    * Returns an observable to emit the event
    */
-  get(eventClass: new () => BaseEvent): Observable<any> {
-    return eventClass.name && this.events[eventClass.name]
-      ? this.events[eventClass.name]
+  getValue<T>(eventClass: Type<T>): Observable<T> {
+    return eventClass['name'] && this.events[eventClass['name']]
+      ? this.events[eventClass['name']]
       : of();
   }
 }
