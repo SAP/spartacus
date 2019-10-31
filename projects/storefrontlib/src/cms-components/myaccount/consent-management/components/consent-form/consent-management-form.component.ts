@@ -24,6 +24,10 @@ export class ConsentManagementFormComponent implements OnInit {
   @Input()
   consent: AnonymousConsent;
 
+  // TODO(issue:4989) Anonymous consents - remove
+  @Input()
+  isLevel13 = false;
+
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
