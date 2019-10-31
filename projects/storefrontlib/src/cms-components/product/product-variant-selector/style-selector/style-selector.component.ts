@@ -16,6 +16,8 @@ export class VariantStyleSelectorComponent {
   @Input()
   styleVariants: any; // TODO: Create custom interface?
 
+  @Input()
+  selectedStyle: string;
+
   baseUrl = this.config.backend.occ.baseUrl; // TODO: Get rid of this one
-  selectedStyle: string; // TODO: Use parent component property?
 }
