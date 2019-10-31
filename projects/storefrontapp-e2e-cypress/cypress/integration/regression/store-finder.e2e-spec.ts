@@ -59,7 +59,7 @@ context('Store finder', () => {
   it('should call back action and go to country all stores', () => {
     cy.get('.cx-store').should('exist');
     cy.get('.btn-action')
-      .should('have.text', ' Back to list ')
+      .contains(' Back to list ')
       .click();
     cy.url().should('contain', '/store-finder/country/');
   });
