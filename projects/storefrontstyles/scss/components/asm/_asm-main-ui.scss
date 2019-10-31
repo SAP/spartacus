@@ -574,6 +574,14 @@
       width: 88%;
       overflow: hidden;
       top: 130px;
+      a {
+        .result-name,
+        .result-id {
+          width: 100%;
+          display: block;
+          clear: both;
+        }
+      }
     }
 
     .fd-button,
@@ -589,6 +597,13 @@
     .fd-popover__body {
       width: 360px;
       top: 117px;
+      a {
+        .result-name,
+        .result-id {
+          width: 40%;
+          display: inline-block;
+        }
+      }
     }
     .fd-col--6 {
       width: 360px;
@@ -604,6 +619,13 @@
     .fd-popover__body {
       width: 516px;
       top: 117px;
+      a {
+        .result-name,
+        .result-id {
+          width: 40%;
+          display: inline-block;
+        }
+      }
     }
     .fd-col--6 {
       width: 516px;

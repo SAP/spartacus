@@ -37,7 +37,8 @@
     <a
       *ngFor="let result of results.entries"
       (click)="selectCustomerFromList(result)"
-      >{{ result.name }} {{ result.uid }}</a
+      ><span class="result-name">{{ result.name }}</span>
+      <span class="result-id">{{ result.uid }}</span></a
     >
     <a
       *ngIf="
