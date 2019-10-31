@@ -14,7 +14,7 @@ import { tap, map } from 'rxjs/operators';
 })
 export class MyCouponsComponent implements OnInit {
   couponResult$: Observable<CustomerCouponSearchResult>;
-  couponsStateLoading$: Observable<boolean>;
+  couponsLoaded$: Observable<boolean>;
   couponLoading$: Observable<boolean>;
 
   private PAGE_SIZE = 10;
@@ -68,11 +68,13 @@ export class MyCouponsComponent implements OnInit {
             })
         )
       );
-    this.couponsStateLoading$ = this.couponService.getCustomerCouponsLoading();
+    this.couponsLoaded$ = this.couponService.getCustomerCouponsLoaded();
     this.couponLoading$ = combineLatest([
       this.couponService.getSubscribeCustomerCouponResultLoading(),
-      this.couponService.getUnsubscribeCustomerCouponResultLoading()
-    ]).pipe(map(([subscribing, unsubscribing]) => subscribing || unsubscribing));
+      this.couponService.getUnsubscribeCustomerCouponResultLoading(),
+    ]).pipe(
+      map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
+    );
   }
 
   getSortLabels(): Observable<{

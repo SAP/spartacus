@@ -23,13 +23,9 @@ export class CouponCardComponent implements OnInit {
     couponId: string;
     notification: boolean;
   }>();
-
-  notification = false;
-
   constructor(protected modalService: ModalService) {}
 
   ngOnInit() {
-    this.notification = this.coupon.notificationOn;
     // Because the response of solarFacates is encoded and contains ' " ', we need to decode it and remove the ' " '
     this.decodedUrl = decodeURIComponent(this.coupon.solrFacets).replace(
       /\"/g,
@@ -38,18 +34,13 @@ export class CouponCardComponent implements OnInit {
   }
 
   notificationChange(): void {
-    this.notification = this.coupon.notificationOn;
     this.notificationChanged.emit({
       couponId: this.coupon.couponId,
-      notification: !this.notification,
+      notification: !this.coupon.notificationOn,
     });
   }
 
   readMore() {
-    this.openModal();
-  }
-
-  private openModal() {
     let modalInstance: any;
     this.modalRef = this.modalService.open(CouponDialogComponent, {
       centered: true,

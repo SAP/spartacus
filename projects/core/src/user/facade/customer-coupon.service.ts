@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap, take } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { map, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -18,21 +17,13 @@ import {
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
+import { OCC_USER_ID_CURRENT } from '../../occ';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerCouponService {
-  constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    // tslint:disable-next-line:unified-signatures
-    authService: AuthService
-  );
-
-  constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService?: AuthService
-  ) {}
+  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
 
   /**
    * Retrieves customer's coupons
@@ -45,20 +36,14 @@ export class CustomerCouponService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.LoadCustomerCoupons({
-            userId: occUserId,
-            pageSize: pageSize,
-            currentPage: currentPage,
-            sort: sort,
-          })
-        )
-      )
-      .unsubscribe();
+    this.store.dispatch(
+      new UserActions.LoadCustomerCoupons({
+        userId: OCC_USER_ID_CURRENT,
+        pageSize: pageSize,
+        currentPage: currentPage,
+        sort: sort,
+      })
+    );
   }
 
   /**
@@ -100,18 +85,12 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   subscribeCustomerCoupon(couponCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.SubscribeCustomerCoupon({
-            userId: occUserId,
-            couponCode: couponCode,
-          })
-        )
-      )
-      .unsubscribe();
+    this.store.dispatch(
+      new UserActions.SubscribeCustomerCoupon({
+        userId: OCC_USER_ID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
   }
 
   /**
@@ -146,18 +125,12 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   unsubscribeCustomerCoupon(couponCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UnsubscribeCustomerCoupon({
-            userId: occUserId,
-            couponCode: couponCode,
-          })
-        )
-      )
-      .unsubscribe();
+    this.store.dispatch(
+      new UserActions.UnsubscribeCustomerCoupon({
+        userId: OCC_USER_ID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
   }
 
   /**
@@ -192,18 +165,12 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   claimCustomerCoupon(couponCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.ClaimCustomerCoupon({
-            userId: occUserId,
-            couponCode: couponCode,
-          })
-        )
-      )
-      .unsubscribe();
+    this.store.dispatch(
+      new UserActions.ClaimCustomerCoupon({
+        userId: OCC_USER_ID_CURRENT,
+        couponCode: couponCode,
+      })
+    );
   }
 
   /**

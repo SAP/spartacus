@@ -1,7 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MyCouponsComponent } from './my-coupons.component';
-import { I18nTestingModule } from '@spartacus/core';
-import { of } from 'rxjs';
+import {
+  I18nTestingModule,
+  CustomerCouponService,
+  CustomerCoupon,
+  CustomerCouponSearchResult,
+} from '@spartacus/core';
+import { of, BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -11,7 +16,6 @@ import {
   EventEmitter,
   DebugElement,
 } from '@angular/core';
-import { CustomerCoupon } from 'projects/core/src/model/customer-coupon.model';
 
 @Component({
   selector: 'cx-coupon-card',
@@ -41,6 +45,63 @@ class MockedCouponCardComponent {
   }
 }
 
+const subLoading$ = new BehaviorSubject<boolean>(false);
+const unsubLoading$ = new BehaviorSubject<boolean>(false);
+
+const emptyCouponResult: CustomerCouponSearchResult = {
+  pagination: {
+    page: 0,
+    count: 0,
+    totalPages: 0,
+    totalCount: 0,
+  },
+  sorts: [],
+  coupons: [],
+};
+
+const couponsSearchResult: CustomerCouponSearchResult = {
+  pagination: {
+    page: 0,
+    count: 0,
+    totalPages: 0,
+    totalCount: 0,
+  },
+  sorts: [
+    {
+      asc: true,
+      code: 'startDate',
+    },
+  ],
+  coupons: [
+    {
+      couponId: 'CustomerCoupon1',
+      description: 'CustomerCoupon1',
+      endDate: new Date('2019-12-30T23:59:59+0000'),
+      name: 'CustomerCoupon1:name',
+      notificationOn: false,
+      solrFacets: '%3Arelevance%3Acategory%3A1',
+      startDate: new Date('1970-01-01T00:00:00+0000'),
+      status: 'Effective',
+    },
+    {
+      couponId: 'CustomerCoupon2',
+      description: 'CustomerCoupon2',
+      endDate: new Date('9999-12-30T23:59:59+0000'),
+      name: 'CustomerCoupon2:name',
+      notificationOn: false,
+      solrFacets: '%3Arelevance%3Acategory%3A1',
+      startDate: new Date('2019-01-01T00:00:00+0000'),
+      status: 'Effective',
+    },
+  ],
+};
+const sortLabels = {
+  byStartDateAsc: 'Start date asc',
+  byStartDateDesc: 'Start date desc',
+  byEndDateAsc: 'End date asc',
+  byEndDateDesc: 'End date asc',
+};
+
 describe('MyCouponsComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
@@ -48,18 +109,24 @@ describe('MyCouponsComponent', () => {
 
   const customerCouponService = jasmine.createSpyObj('CustomerCouponService', [
     'getCustomerCoupons',
-    'getCustomerCouponsLoading',
+    'getCustomerCouponsLoaded',
     'loadCustomerCoupons',
     'subscribeCustomerCoupon',
     'unsubscribeCustomerCoupon',
     'getSubscribeCustomerCouponResultLoading',
     'getUnsubscribeCustomerCouponResultLoading',
   ]);
+  const translationService = jasmine.createSpyObj('TranslationService', [
+    'translate',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
       declarations: [MyCouponsComponent, MockedCouponCardComponent],
+      providers: [
+        { provide: CustomerCouponService, useValue: customerCouponService },
+      ],
     }).compileComponents();
   }));
 
@@ -68,15 +135,21 @@ describe('MyCouponsComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    customerCouponService.getCustomerCoupons.and.returnValue(of(''));
-    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(false));
+    customerCouponService.getCustomerCoupons.and.returnValue(
+      of(emptyCouponResult)
+    );
+    customerCouponService.getCustomerCouponsLoaded.and.returnValue(of(true));
     customerCouponService.loadCustomerCoupons.and.stub();
+    customerCouponService.subscribeCustomerCoupon.and.stub();
+    customerCouponService.unsubscribeCustomerCoupon.and.stub();
     customerCouponService.getSubscribeCustomerCouponResultLoading.and.returnValue(
-      of(true)
+      subLoading$
     );
     customerCouponService.getUnsubscribeCustomerCouponResultLoading.and.returnValue(
-      of(true)
+      unsubLoading$
     );
+
+    translationService.translate.and.returnValue(of(sortLabels));
   });
 
   it('should create', () => {
@@ -92,6 +165,9 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to show coupons', () => {
+    customerCouponService.getCustomerCoupons.and.returnValue(
+      of(couponsSearchResult)
+    );
     fixture.detectChanges();
 
     const message = el.queryAll(By.css('.cx-section-msg'));
@@ -109,6 +185,7 @@ describe('MyCouponsComponent', () => {
     );
     expect(couponCardComponent.length).toBe(2);
   });
+
   it('should be able to change sort', () => {
     fixture.detectChanges();
     component.sortChange('byStartDateAsc');
@@ -118,10 +195,10 @@ describe('MyCouponsComponent', () => {
       'startDate:asc'
     );
   });
+
   it('should be able to change page', () => {
-    customerCouponService.getCustomerCoupons.and.returnValue(of());
-    component.pageChange(1);
     fixture.detectChanges();
+    component.pageChange(1);
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
       10,
       1,
@@ -130,6 +207,9 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to change coupon notification', () => {
+    customerCouponService.getCustomerCoupons.and.returnValue(
+      of(couponsSearchResult)
+    );
     fixture.detectChanges();
     el.query(By.css('form-check-input')).triggerEventHandler('click', null);
     expect(customerCouponService.subscribeCustomerCoupon).toHaveBeenCalledWith(
