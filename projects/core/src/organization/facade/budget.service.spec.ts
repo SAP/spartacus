@@ -10,6 +10,7 @@ import * as fromProcessReducers from '../../process/store/reducers';
 import { BudgetActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
+import { BudgetSearchConfig } from '../model/search-config';
 import {
   AuthService,
   LoaderState,
@@ -99,7 +100,7 @@ describe('BudgetService', () => {
   });
 
   describe('get budgets', () => {
-    const params = undefined;
+    const params: BudgetSearchConfig = { sort: 'code' };
 
     it('getList() should trigger load budgets when they are not present in the store', () => {
       let budgets: LoaderState<Budget>;

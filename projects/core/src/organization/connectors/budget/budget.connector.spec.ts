@@ -1,9 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
+import createSpy = jasmine.createSpy;
+
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetConnector } from './budget.connector';
-import createSpy = jasmine.createSpy;
+import { BudgetSearchConfig } from '../../model/search-config';
 
 const userId = 'userId';
 const budgetCode = 'budgetCode';
@@ -45,8 +47,9 @@ describe('BudgetConnector', () => {
   });
 
   it('should load budgets', () => {
-    service.getList(userId);
-    expect(adapter.loadList).toHaveBeenCalledWith(userId, undefined);
+    const params: BudgetSearchConfig = { sort: 'code' };
+    service.getList(userId, params);
+    expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
   });
 
   it('should create budget', () => {

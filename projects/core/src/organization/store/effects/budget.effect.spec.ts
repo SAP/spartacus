@@ -16,6 +16,7 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import * as fromEffects from './budget.effect';
+import { BudgetSearchConfig } from '../../model/search-config';
 
 const router = {
   state: {
@@ -114,7 +115,7 @@ describe('Budget Effects', () => {
   });
 
   describe('loadBudgets$', () => {
-    const params = undefined;
+    const params: BudgetSearchConfig = { sort: 'code' };
 
     it('should return LoadBudgetSuccess action', () => {
       const action = new BudgetActions.LoadBudgets({ userId, params });

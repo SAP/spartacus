@@ -49,4 +49,9 @@ describe('BudgetNormalizer', () => {
     const result = service.convert(budget);
     expect(result).toEqual(convertedBudget);
   });
+
+  it('should convert budget with applied target', () => {
+    const result = service.convert(budget, {});
+    expect(result).toEqual({});
+  });
 });
