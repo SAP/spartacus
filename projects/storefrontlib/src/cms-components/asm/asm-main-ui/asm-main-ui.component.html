@@ -56,6 +56,9 @@
     </div>
   </div>
 </div>
+<cx-asm-session-timer
+  *ngIf="(csAgentToken$ | async)?.access_token"
+></cx-asm-session-timer>
 
 <ng-container *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm">
   <ng-container
