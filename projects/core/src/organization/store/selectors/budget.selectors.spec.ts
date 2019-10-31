@@ -74,7 +74,6 @@ describe('Budget Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      // @ts-ignore
       expect(result).toEqual(entities);
     });
   });
