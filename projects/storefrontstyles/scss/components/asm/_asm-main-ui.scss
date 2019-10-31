@@ -48,7 +48,7 @@
         color: #51555a;
         display: block;
         cursor: pointer;
-        padding: 10px 24px;
+        padding: 10px;
         &:hover {
           color: #32363a;
           background-color: #fafafa;
@@ -568,8 +568,17 @@
   // }
 
   // Extra small devices (portrait phones, less than 576px)
-  @media (max-width: 575.98px) {
-    height: auto;
+  @media (max-width: 575px) {
+    height: 200px;
+
+    cx-customer-selection {
+      padding-left: 6%;
+    }
+
+    form {
+      width: 88%;
+      position: absolute;
+    }
 
     .fd-col--3,
     .fd-col--6 {
@@ -578,7 +587,8 @@
     }
 
     .fd-popover__body {
-      width: 90%;
+      width: 88%;
+      overflow: hidden;
     }
 
     .fd-button,
@@ -589,7 +599,7 @@
   }
 
   // Small devices (landscape phones, 576px and up)
-  @media (min-width: 576px) and (max-width: 767.98px) {
+  @media (min-width: 576px) and (max-width: 767px) {
     height: auto;
     .fd-popover__body {
       width: 360px;
