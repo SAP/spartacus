@@ -1,14 +1,16 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService, RoutingService } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
 })
-export class AsmSessionTimerComponent implements OnInit {
-  timerStartDelay = 600;
+export class AsmSessionTimerComponent implements OnInit, OnDestroy {
+  private subscriptions = new Subscription();
+  private timerStartDelay = 600;
+  private interval: any;
   timeLeft: number = this.timerStartDelay;
-  interval: any;
 
   constructor(
     protected authService: AuthService,
@@ -20,13 +22,21 @@ export class AsmSessionTimerComponent implements OnInit {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
-        console.log('timeleft', this.timeLeft);
       } else {
         clearInterval(this.interval);
         this.logout();
       }
       this.changeDetectorRef.markForCheck();
     }, 1000);
+
+    this.subscriptions.add(
+      this.routingService.isNavigating().subscribe(isNavigating => {
+        console.log('isNavigating', isNavigating);
+        if (isNavigating) {
+          this.reset();
+        }
+      })
+    );
   }
 
   reset() {
@@ -41,5 +51,13 @@ export class AsmSessionTimerComponent implements OnInit {
     this.authService.logoutCustomerSupportAgent();
     this.routingService.go({ cxRoute: 'home' });
     console.log('LOGOUT');
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    if (this.interval) {
+      console.log('interval cleared');
+      clearInterval(this.interval);
+    }
   }
 }
