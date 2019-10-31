@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AsmSessionTimerComponent } from './asm-session-timer.component';
 
 describe('AsmSessionTimerComponent', () => {
@@ -8,9 +7,8 @@ describe('AsmSessionTimerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AsmSessionTimerComponent ]
-    })
-    .compileComponents();
+      declarations: [AsmSessionTimerComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
