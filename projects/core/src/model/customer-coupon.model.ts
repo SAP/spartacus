@@ -9,7 +9,7 @@ export interface CustomerCoupon {
   status?: string;
   description?: string;
   notificationOn?: boolean;
-  solrFacets?: string;
+  allProductsApplicable?: boolean;
 }
 
 export interface CustomerCouponNotification {

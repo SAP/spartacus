@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap, take } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import {
   PageMetaResolver,
   PageTitleResolver,
@@ -23,7 +23,9 @@ export class FindProductPageMetaResolver extends PageMetaResolver
       map(results => results.pagination.totalResults)
     ),
     this.routingService.getRouterState().pipe(
-      map(state => state.state.params['query']),
+      map(state => {
+        return state.state.queryParams['couponcode'];
+      }),
       filter(Boolean)
     ),
   ]);
@@ -62,9 +64,9 @@ export class FindProductPageMetaResolver extends PageMetaResolver
     return of(breadcrumbs);
   }
 
-  resolveTitle(): Observable<string> | any {
+  resolveTitle(): Observable<string> {
     return this.totalAndCode$.pipe(
-      switchMap(([total, code]) =>
+      switchMap(([total, code]: [number, string]) =>
         this.translation.translate('pageMetaResolver.search.findProductTitle', {
           count: total,
           coupon: this.correctCouponCode(code),
@@ -75,7 +77,6 @@ export class FindProductPageMetaResolver extends PageMetaResolver
 
   getScore(page: Page): number {
     let score = 0;
-
     if (this.pageType) {
       score += page.type === this.pageType ? 1 : -1;
     }
@@ -85,12 +86,15 @@ export class FindProductPageMetaResolver extends PageMetaResolver
     this.routingService
       .getRouterState()
       .pipe(
-        map(state => state.state.params['query']),
+        map(state => {
+          console.log(JSON.stringify(state));
+          return state.state.queryParams;
+        }),
         filter(Boolean)
       )
-      .subscribe((query: string) => {
-        if (query) {
-          score += query.match(':relevance:category:1') ? 1 : -1;
+      .subscribe((queryParams: any) => {
+        if (queryParams) {
+          score += queryParams['couponcode'] ? 1 : -1;
         }
       })
       .unsubscribe();

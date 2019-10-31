@@ -43,12 +43,7 @@
         </div>
 
         <div class="cx-coupon-find-product col-lg-6 col-md-12 col-sm-6">
-          <button
-            [routerLink]="
-              { cxRoute: 'search', params: { query: decodedUrl } } | cxUrl
-            "
-            class="btn btn-block btn-action"
-          >
+          <button class="btn btn-block btn-action" (click)="findProduct()">
             {{ 'myCoupons.findProducts' | cxTranslate }}
           </button>
         </div>
