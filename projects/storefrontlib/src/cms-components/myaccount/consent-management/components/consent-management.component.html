@@ -14,21 +14,19 @@
             tabindex="0"
             class="btn-link cx-action-link"
             (click)="rejectAll(templateList)"
-            >{{ 'consentManagementForm.rejectAll' | cxTranslate }}</a
+            >{{ 'consentManagementForm.clearAll' | cxTranslate }}</a
           >
-          <span class="cx-links-separator">|</span>
           <a
             tabindex="0"
             class="btn-link cx-action-link"
             (click)="allowAll(templateList)"
-            >{{ 'consentManagementForm.allowAll' | cxTranslate }}</a
+            >{{ 'consentManagementForm.selectAll' | cxTranslate }}</a
           >
         </div>
       </div>
 
       <div class="cx-consent-toggles">
         <div class="col-sm-12 col-md-8 col-lg-6">
-          <!-- TODO(issue:4989) Anonymous consents - remove `[isLevel13]="isLevel13"` -->
           <cx-consent-management-form
             *ngFor="let consentTemplate of templateList"
             [consentTemplate]="consentTemplate"

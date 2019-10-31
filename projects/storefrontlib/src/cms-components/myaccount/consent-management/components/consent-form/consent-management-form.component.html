@@ -1,75 +1,20 @@
-<!-- TODO(issue:4989) Anonymous consents - remove the wrapping `<ng-container *ngIf="isLevel13; else legacyConsentManagementForm">` -->
-<ng-container *ngIf="isLevel13; else legacyConsentManagementForm">
-  <div
-    class="form-check cx-accordion"
-    role="tablist"
-    aria-live="polite"
-    data-behavior="accordion"
-  >
-    <div class="cx-accordion-item">
-      <div
-        [id]="'tab' + consentTemplate?.id"
-        tabindex="0"
-        class="cx-accordion-tab"
-        [attr.aria-controls]="'panel' + consentTemplate?.id"
-        role="tab"
-        [attr.aria-selected]="accordionExpanded"
-        [attr.aria-expanded]="accordionExpanded"
-        (click)="toggleAccordion()"
-        (keydown)="toggleAccordion($event)"
-      >
-        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
-        <span class="cx-accordion-title" tabindex="-1"
-          >{{ consentTemplate?.name }}
-        </span>
-      </div>
-
-      <div
-        [id]="'panel' + consentTemplate?.id"
-        class="cx-accordion-tabpanel"
-        role="tabpanel"
-        [attr.aria-hidden]="!accordionExpanded"
-        [attr.aria-labelledby]="'tab' + consentTemplate?.id"
-        [style.height]="accordionHeight"
-      >
-        <div class="cx-accordion-content" #accordionContent>
-          <p>{{ consentTemplate?.description }}</p>
-        </div>
-      </div>
-
-      <div class="cx-toggle-button">
-        <input
-          type="checkbox"
-          [id]="consentTemplate?.id"
-          [checked]="consentGiven"
-          [disabled]="isRequired(consentTemplate?.id)"
-          (change)="onConsentChange()"
-        />
-
-        <label [for]="consentTemplate?.id">
-          <div class="cx-toggle-switch"></div>
-          <div class="cx-toggle-text">
-            {{ consentGivenTranslation$ | async | cxTranslate }}
-          </div>
-        </label>
-      </div>
-    </div>
-  </div>
-</ng-container>
-
-<!-- TODO(issue:4989) Anonymous consents - remove the whole `<ng-template #legacyConsentManagementForm>...</ng-template>` block -->
-<ng-template #legacyConsentManagementForm>
-  <div class="form-check">
-    <label>
-      <input
-        type="checkbox"
-        class="form-check-input"
-        (change)="onConsentChange()"
-        [checked]="consentGiven"
-      />
-      <span class="form-check-label">
-        {{ consentTemplate?.description }}
-      </span>
-    </label>
-  </div>
-</ng-template>
+<div class="form-check">
+  <label>
+    <input
+      type="checkbox"
+      class="form-check-input"
+      (change)="onConsentChange()"
+      [checked]="consentGiven"
+      [disabled]="isRequired(consentTemplate?.id)"
+    />
+    <!-- TODO(issue:4989) Anonymous consents - remove the *ngIf="isLevel13" -->
+    <span *ngIf="isLevel13" class="form-check-label cx-be-bold">
+      {{ consentTemplate?.name }}
+    </span>
+    <!-- TODO(issue:4989) Anonymous consents - remove the *ngIf="isLevel13" -->
+    <br *ngIf="isLevel13" />
+    <span class="form-check-label">
+      {{ consentTemplate?.description }}
+    </span>
+  </label>
+</div>

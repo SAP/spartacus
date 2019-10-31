@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
 import {
@@ -11,6 +12,7 @@ import {
   MediaComponent,
   SpinnerModule,
 } from '../../../../shared';
+import { ViewConfig } from '../../../../shared/config/view-config';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -19,10 +21,8 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
-import createSpy = jasmine.createSpy;
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { ViewConfig } from '../../../../shared/config/view-config';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-star-rating',
@@ -71,7 +71,7 @@ export class MockCxIconComponent {
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode;
+  @Input() product;
   @Input() showQuantity;
 }
 
