@@ -24,7 +24,6 @@
       border: solid 1px #89919a;
       position: absolute;
       white-space: nowrap;
-      top: 117px;
       z-index: 11;
       -webkit-box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
       box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
@@ -544,10 +543,19 @@
   // Media Queries
   // Extra small devices (portrait phones, less than 576px)
   @media (max-width: 575px) {
-    height: 200px;
+    height: 230px;
 
     cx-customer-selection {
       padding-left: 6%;
+      padding-top: 45px;
+    }
+
+    cx-csagent-login-form {
+      padding-left: 6%;
+      padding-top: 20px;
+      .sap-spinner {
+        height: 180px;
+      }
     }
 
     form {
@@ -564,6 +572,7 @@
     .fd-popover__body {
       width: 88%;
       overflow: hidden;
+      top: 130px;
     }
 
     .fd-button,
@@ -578,6 +587,7 @@
     height: auto;
     .fd-popover__body {
       width: 360px;
+      top: 117px;
     }
     .fd-col--6 {
       width: 360px;
@@ -592,6 +602,7 @@
   @media (min-width: 768px) {
     .fd-popover__body {
       width: 516px;
+      top: 117px;
     }
     .fd-col--6 {
       width: 516px;
