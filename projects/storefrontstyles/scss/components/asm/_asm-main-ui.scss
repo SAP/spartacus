@@ -25,7 +25,6 @@
       position: absolute;
       white-space: nowrap;
       top: 117px;
-      // width: 515px;
       z-index: 11;
       -webkit-box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
       box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
@@ -41,7 +40,6 @@
 
       .sap-spinner {
         margin-top: 0;
-        // background-color: #fff;
       }
 
       a {
@@ -167,7 +165,6 @@
   }
 
   // Grid
-
   [class^='fd-col'] {
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -182,13 +179,11 @@
   .fd-col--3 {
     float: left;
     margin-right: 8px;
-    // width: 20%;
   }
 
   .fd-col--6 {
     float: left;
     margin-right: 8px;
-    // width: 40%;
   }
 
   // Button Common styles
@@ -313,7 +308,6 @@
   }
 
   // Input styles
-
   .fd-input,
   input[type='date'],
   input[type='email'],
@@ -547,26 +541,7 @@
     }
   }
 
-  // Mobile Media Queries
-  // @media (max-width: 576px) {
-  //   height: auto;
-  //   .fd-col--3,
-  //   .fd-col--6 {
-  //     width: 100%;
-  //     clear: left;
-  //   }
-
-  //   .fd-popover__body {
-  //     width: 90%;
-  //   }
-
-  //   .fd-button,
-  //   [class*='fd-button--'],
-  //   a[class*='fd-button--'] {
-  //     width: 100%;
-  //   }
-  // }
-
+  // Media Queries
   // Extra small devices (portrait phones, less than 576px)
   @media (max-width: 575px) {
     height: 200px;
@@ -612,26 +587,6 @@
       width: 135px;
     }
   }
-
-  // Medium devices (tablets, 768px and up)
-  // @media (min-width: 768px) and (max-width: 991.98px) {
-  //   .fd-popover__body {
-  //     width: 516px;
-  //   }
-  //   .fd-col--6 {
-  //     width: 516px;
-  //   }
-  // }
-
-  // Large devices (desktops, 992px and up)
-  // @media (min-width: 768) and (max-width: 1199.98px) {
-  //   .fd-popover__body {
-  //     width: 516px;
-  //   }
-  //   .fd-col--6 {
-  //     width: 516px;
-  //   }
-  // }
 
   // Extra large devices (large desktops, 1200px and up)
   @media (min-width: 768px) {
