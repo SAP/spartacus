@@ -13,6 +13,7 @@ import {
 } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Config } from '../../config/config.module';
 import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config.converter';
@@ -27,6 +28,7 @@ export class OccConfigLoaderService {
   constructor(
     @Inject(PLATFORM_ID) protected platform: any,
     @Inject(DOCUMENT) protected document: any,
+    @Inject(Config) protected config: any,
     protected siteConfigLoader: OccSitesConfigLoader,
     protected converter: OccLoadedConfigConverter,
     protected transferState: TransferState,
@@ -61,9 +63,26 @@ export class OccConfigLoaderService {
 
         return [
           this.converter.toSiteContextConfig(externalConfig),
-          this.converter.toI18nConfig(externalConfig),
+          ...(this.shouldReturnI18nChunk()
+            ? [this.converter.toI18nConfig(externalConfig)]
+            : []),
         ];
       });
+  }
+
+  private shouldReturnI18nChunk(): boolean {
+    const fallbackLangExists =
+      typeof (
+        this.config &&
+        this.config.i18n &&
+        this.config.i18n.fallbackLang
+      ) !== 'undefined';
+    if (fallbackLangExists && isDevMode()) {
+      console.warn(
+        `Loaded i18n fallback lang from OCC, but using the already provided static value of 'i18n.fallbackLang'`
+      );
+    }
+    return !fallbackLangExists;
   }
 
   /**

@@ -8,7 +8,7 @@ export function inititializeContext(
   baseSiteService: BaseSiteService,
   langService: LanguageService,
   currService: CurrencyService,
-  configService?: ConfigInitializerService
+  configInit?: ConfigInitializerService
 ) {
   return () => {
     function initialize() {
@@ -17,8 +17,8 @@ export function inititializeContext(
       currService.initialize();
     }
 
-    if (configService) {
-      configService.getStableConfig('context').then(() => {
+    if (configInit) {
+      configInit.getStableConfig('context').then(() => {
         initialize();
       });
     } else {
