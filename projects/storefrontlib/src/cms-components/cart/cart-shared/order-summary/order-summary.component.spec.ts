@@ -3,14 +3,15 @@ import {
   Cart,
   CartService,
   I18nTestingModule,
-  CartVoucherService, Voucher,
+  CartVoucherService,
+  Voucher,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { PromotionsModule } from '../../../checkout';
 import { OrderSummaryComponent } from './order-summary.component';
-import {Component, Directive, Input} from "@angular/core";
-import {CommonModule} from "@angular/common";
-
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 class MockCartService {
   getActive(): BehaviorSubject<Cart> {
@@ -34,14 +35,6 @@ class MockAppliedCouponsComponent {
   isReadOnly = false;
 }
 
-@Directive({
-  selector: '[cxFeatureLevel]',
-})
-class MockFeatureLevelDirective {
-  @Input() cxFeatureLevel() {}
-}
-
-
 describe('OrderSummary', () => {
   let component: OrderSummaryComponent;
   let fixture: ComponentFixture<OrderSummaryComponent>;
@@ -49,7 +42,11 @@ describe('OrderSummary', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, PromotionsModule, I18nTestingModule],
-      declarations: [OrderSummaryComponent, MockAppliedCouponsComponent, MockFeatureLevelDirective],
+      declarations: [
+        OrderSummaryComponent,
+        MockAppliedCouponsComponent,
+        MockFeatureLevelDirective,
+      ],
       providers: [
         { provide: CartService, useValue: MockCartService },
         { provide: CartVoucherService, useValue: {} },
