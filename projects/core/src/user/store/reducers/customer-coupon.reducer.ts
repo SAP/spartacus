@@ -20,22 +20,27 @@ export function reducer(
 
     case fromActions.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCustomerCoupon = action.payload.coupon;
-      state.coupons.map((customerCoupon: CustomerCoupon) =>
+      const customerCoupons = new Array<CustomerCoupon>(state.coupons.length);
+      state.coupons.forEach((customerCoupon: CustomerCoupon, index) =>
         customerCoupon.couponId === updatedCustomerCoupon.couponId
-          ? (customerCoupon.notificationOn = true)
-          : customerCoupon
+          ? (customerCoupons[index] = updatedCustomerCoupon)
+          : (customerCoupons[index] = customerCoupon)
       );
-      return { ...state };
+      return { ...state, coupons: customerCoupons };
     }
 
     case fromActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCouponCode = action.payload;
-      state.coupons.map((customerCoupon: CustomerCoupon) =>
+      const customerCoupons = new Array<CustomerCoupon>(state.coupons.length);
+      state.coupons.forEach((customerCoupon: CustomerCoupon, index) =>
         customerCoupon.couponId === updatedCouponCode
-          ? (customerCoupon.notificationOn = false)
-          : customerCoupon
+          ? (customerCoupons[index] = {
+              ...customerCoupon,
+              notificationOn: false,
+            })
+          : (customerCoupons[index] = customerCoupon)
       );
-      return { ...state };
+      return { ...state, coupons: customerCoupons };
     }
   }
   return state;

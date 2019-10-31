@@ -18,7 +18,7 @@ export class UserModule {
           useExisting: FindProductPageMetaResolver,
           multi: true,
         },
-     ],
+      ],
     };
   }
 }

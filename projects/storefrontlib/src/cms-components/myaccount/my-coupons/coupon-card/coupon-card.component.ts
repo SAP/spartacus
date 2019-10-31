@@ -14,7 +14,7 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
 })
 export class CouponCardComponent implements OnInit {
   @Input() coupon: CustomerCoupon;
-  @Input() couponLoading = true;
+  @Input() couponLoading$: Observable<boolean>;
   modalRef: ModalRef;
 
   @Output()
@@ -34,19 +34,14 @@ export class CouponCardComponent implements OnInit {
     this.notification = this.coupon.notificationOn;
   }
 
-  onNotificationChange(): void {
-    this.notification = this.coupon.notificationOn;
+  notificationChange(): void {
     this.notificationChanged.emit({
       couponId: this.coupon.couponId,
-      notification: !this.notification,
+      notification: !this.coupon.notificationOn,
     });
   }
 
   readMore() {
-    this.openModal();
-  }
-
-  private openModal() {
     let modalInstance: any;
     this.modalRef = this.modalService.open(CouponDialogComponent, {
       centered: true,

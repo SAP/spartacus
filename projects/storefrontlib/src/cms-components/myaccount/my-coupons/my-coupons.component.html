@@ -1,5 +1,5 @@
 <div class="cx-section">
-  <ng-container *ngIf="!(couponsStateLoading$ | async); else loading">
+  <ng-container *ngIf="couponsLoaded$ | async; else loading">
     <ng-container *ngIf="couponResult$ | async as couponResult">
       <div class="cx-my-coupons-header">
         <h3>{{ 'myCoupons.myCoupons' | cxTranslate }}</h3>
@@ -36,11 +36,8 @@
           >
             <cx-coupon-card
               [coupon]="coupon"
-              [couponLoading]="
-                (couponsSubscribeLoading$ | async) ||
-                (couponsUnsubscribeLoading$ | async)
-              "
-              (notificationChanged)="onNotificationChange($event)"
+              [couponLoading$]="couponLoading$"
+              (notificationChanged)="notificationChange($event)"
             ></cx-coupon-card>
           </div>
         </div>

@@ -255,6 +255,7 @@
   a.fd-button--negative {
     color: #bb0000;
     border-color: #bb0000;
+    fill: #bb0000;
     font-size: 14px;
   }
   .fd-button--negative .is-hover,
@@ -263,6 +264,7 @@
   a.fd-button--negative:hover {
     background-color: #b00;
     color: #fff;
+    fill: #fff;
   }
 
   // Input styles
