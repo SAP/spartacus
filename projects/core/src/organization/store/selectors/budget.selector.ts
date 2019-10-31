@@ -19,7 +19,7 @@ export const getBudgetManagementState: MemoizedSelector<
 
 export const getBudgetsState: MemoizedSelector<
   StateWithOrganization,
-  LoaderState<Budget>
+  { [id: string]: LoaderState<Budget> }
 > = createSelector(
   getBudgetManagementState,
   (state: EntityLoaderState<Budget>) => state.entities

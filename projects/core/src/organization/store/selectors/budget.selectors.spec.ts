@@ -82,7 +82,6 @@ describe('Budget Selectors', () => {
   describe('getBudget', () => {
     it('should return budget by id', () => {
       let result: LoaderState<Budget>;
-
       store
         .pipe(select(BudgetSelectors.getBudgetState(code)))
         .subscribe(value => (result = value));
