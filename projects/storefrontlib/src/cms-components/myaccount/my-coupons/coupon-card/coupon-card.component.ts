@@ -7,6 +7,7 @@ import {
 import { CouponDialogComponent } from './coupon-dialog/coupon-dialog.component';
 import { CustomerCoupon } from '@spartacus/core';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-coupon-card',
