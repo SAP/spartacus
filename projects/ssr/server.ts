@@ -7,18 +7,21 @@ import 'zone.js/dist/zone-node';
 // Express server
 const app = express();
 
+// spike todo remove:
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const PORT = process.env.PORT || 4200;
 const DIST_FOLDER = join(process.cwd(), 'dist/storefrontapp');
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const {
   AppServerModuleNgFactory,
-  cxExpressEngine,
+  ngExpressEngine,
 } = require('../../dist/storefrontapp-server/main');
 
 app.engine(
   'html',
-  cxExpressEngine({
+  ngExpressEngine({
     bootstrap: AppServerModuleNgFactory,
   })
 );

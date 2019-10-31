@@ -1,5 +1,11 @@
 import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  isDevMode,
+  Optional,
+  PLATFORM_ID,
+} from '@angular/core';
 import {
   makeStateKey,
   StateKey,
@@ -18,12 +24,6 @@ export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
 
 @Injectable({ providedIn: 'root' })
 export class ExternalConfigService {
-  private get currentUrl(): string {
-    return isPlatformBrowser(this.platform)
-      ? this.document.location.href
-      : this.serverRequestUrl || '';
-  }
-
   constructor(
     @Inject(PLATFORM_ID) protected platform: any,
     @Inject(DOCUMENT) protected document: any,
@@ -35,6 +35,20 @@ export class ExternalConfigService {
     @Inject(SERVER_REQUEST_URL)
     protected serverRequestUrl?: string
   ) {}
+
+  private get currentUrl(): string {
+    if (isPlatformBrowser(this.platform)) {
+      return this.document.location.href;
+    }
+    if (this.serverRequestUrl) {
+      return this.serverRequestUrl;
+    }
+    if (isDevMode()) {
+      console.error(
+        `Please provide token 'SERVER_REQUEST_URL' with the requested URL for SSR`
+      );
+    }
+  }
 
   /**
    * Initializes the Spartacus config asynchronously basing on the external config

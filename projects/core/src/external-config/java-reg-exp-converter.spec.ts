@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
 
 /**
@@ -12,13 +13,38 @@ import { JavaRegExpConverter } from './java-reg-exp-converter';
  *  - `new RegExp('\\t')` is `/\t/`
  */
 describe(`JavaRegExpConverter`, () => {
-  describe(`convert`, () => {
+  let converter: JavaRegExpConverter;
+
+  /**
+   * Given the regexp input, it compares the result regexp with the expected one, using the `toString()` method.
+   * If a regexp is `null`, then it uses the value itself instead of the `toString()` result.
+   */
+  function test_toJsRegExp({
+    input,
+    expected,
+  }: {
+    input: string;
+    expected: RegExp;
+  }) {
+    const result = converter.toJsRegExp(input);
+    const resultToString = result ? result.toString() : result;
+    const expectedToString = expected ? expected.toString() : expected;
+
+    expect(resultToString).toEqual(expectedToString);
+  }
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    converter = TestBed.get(JavaRegExpConverter);
+  });
+
+  describe(`toJsRegExp`, () => {
     it(`should recognize a single modifier`, () => {
-      test_convert({ input: '(?i)pattern', expected: /pattern/i });
+      test_toJsRegExp({ input: '(?i)pattern', expected: /pattern/i });
     });
 
     it(`should recognize multiple modifiers`, () => {
-      test_convert({
+      test_toJsRegExp({
         input: '(?gimu)pattern',
         expected: /pattern/gimu,
       });
@@ -26,30 +52,30 @@ describe(`JavaRegExpConverter`, () => {
 
     it(`should return null for unsupported JS modifiers`, () => {
       spyOn(console, 'warn');
-      test_convert({ input: '(?iX)pattern', expected: null });
+      test_toJsRegExp({ input: '(?iX)pattern', expected: null });
     });
 
     it(`should return null for unsupported JS regexp features`, () => {
       spyOn(console, 'warn');
-      test_convert({ input: 'x*+', expected: null });
+      test_toJsRegExp({ input: 'x*+', expected: null });
     });
 
     it(`should convert regexp when it's compatible in JS - with meta characters`, () => {
-      test_convert({
+      test_toJsRegExp({
         input: '(?i)\\s test \\t tab \\n',
         expected: /\s test \t tab \n/i,
       });
     });
 
     it(`should convert regexp when it's compatible in JS - email domain validator`, () => {
-      test_convert({
+      test_toJsRegExp({
         input: '(?i)[.][a-zA-Z]+$',
         expected: /[.][a-zA-Z]+$/i,
       });
     });
 
     it(`should convert regexp when it's compatible in JS - password validator`, () => {
-      test_convert({
+      test_toJsRegExp({
         /**
          * Note that in string literal we escape the only the backslash with another backslash, i.e.  `\\-`.
          * But in regexp literal we escape the special (and meta) characters with backslash, i.e `\-`.
@@ -61,21 +87,3 @@ describe(`JavaRegExpConverter`, () => {
     });
   });
 });
-
-/**
- * Given the regexp input, it compares the result regexp with the expected one, using the `toString()` method.
- * If a regexp is `null`, then it uses the value itself instead of the `toString()` result.
- */
-function test_convert({
-  input,
-  expected,
-}: {
-  input: string;
-  expected: RegExp;
-}) {
-  const result = JavaRegExpConverter.convert(input);
-  const resultToString = result ? result.toString() : result;
-  const expectedToString = expected ? expected.toString() : expected;
-
-  expect(resultToString).toEqual(expectedToString);
-}

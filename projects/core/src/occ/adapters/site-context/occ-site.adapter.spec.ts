@@ -256,4 +256,23 @@ describe('OccSiteAdapter', () => {
       mockReq.flush({ baseSites: [baseSite] });
     });
   });
+
+  describe('loadBaseSites', () => {
+    it('should load minimal required fields for base sites', () => {
+      const baseSite = { uid: 'test-site' };
+
+      occSiteAdapter.loadBaseSites().subscribe(result => {
+        expect(result).toEqual([baseSite]);
+      });
+      const mockReq: TestRequest = httpMock.expectOne({
+        method: 'GET',
+        url:
+          'base-url/rest/v2/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))',
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush({ baseSites: [baseSite] });
+    });
+  });
 });
