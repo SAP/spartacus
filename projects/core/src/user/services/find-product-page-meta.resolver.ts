@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap, take } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import {
   PageMetaResolver,
   PageTitleResolver,

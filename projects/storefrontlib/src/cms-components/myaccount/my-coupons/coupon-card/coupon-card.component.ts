@@ -6,6 +6,7 @@ import {
 } from '../../../../shared/components/modal/index';
 import { CouponDialogComponent } from './coupon-dialog/coupon-dialog.component';
 import { CustomerCoupon } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-coupon-card',
@@ -13,7 +14,7 @@ import { CustomerCoupon } from '@spartacus/core';
 })
 export class CouponCardComponent implements OnInit {
   @Input() coupon: CustomerCoupon;
-  @Input() couponLoading = true;
+  @Input() couponLoading$: Observable<boolean>;
   modalRef: ModalRef;
   decodedUrl = '';
 
@@ -36,7 +37,7 @@ export class CouponCardComponent implements OnInit {
     );
   }
 
-  onNotificationChange(): void {
+  notificationChange(): void {
     this.notification = this.coupon.notificationOn;
     this.notificationChanged.emit({
       couponId: this.coupon.couponId,

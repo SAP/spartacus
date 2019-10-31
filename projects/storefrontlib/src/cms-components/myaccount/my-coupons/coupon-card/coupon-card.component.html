@@ -32,9 +32,9 @@
               type="checkbox"
               class="form-check-input"
               [checked]="coupon?.notificationOn"
-              [class.disabled]="couponLoading"
-              [disabled]="couponLoading"
-              (change)="onNotificationChange()"
+              [class.disabled]="couponLoading$ | async"
+              [disabled]="couponLoading$ | async"
+              (change)="notificationChange()"
             />
             <span class="form-check-label">
               {{ 'myCoupons.notification' | cxTranslate }}
