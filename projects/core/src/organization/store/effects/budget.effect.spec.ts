@@ -105,7 +105,7 @@ describe('Budget Effects', () => {
     it('should return LoadBudgetFail action if budget not updated', () => {
       budgetConnector.get = createSpy().and.returnValue(throwError(error));
       const action = new BudgetActions.LoadBudget({ userId, budgetCode });
-      const completion = new BudgetActions.LoadBudgetFail(error);
+      const completion = new BudgetActions.LoadBudgetFail(budgetCode, error);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -154,7 +154,7 @@ describe('Budget Effects', () => {
     it('should return CreateBudgetFail action if budget not created', () => {
       budgetConnector.create = createSpy().and.returnValue(throwError(error));
       const action = new BudgetActions.CreateBudget({ userId, budget });
-      const completion = new BudgetActions.CreateBudgetFail(error);
+      const completion = new BudgetActions.CreateBudgetFail(budget.code, error);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -177,7 +177,7 @@ describe('Budget Effects', () => {
     it('should return UpdateBudgetFail action if budget not created', () => {
       budgetConnector.update = createSpy().and.returnValue(throwError(error));
       const action = new BudgetActions.UpdateBudget({ userId, budget });
-      const completion = new BudgetActions.UpdateBudgetFail(error);
+      const completion = new BudgetActions.UpdateBudgetFail(budget.code, error);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
