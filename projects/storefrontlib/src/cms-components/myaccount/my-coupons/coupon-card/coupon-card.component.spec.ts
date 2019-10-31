@@ -21,7 +21,6 @@ const mockCoupon: CustomerCoupon = {
   endDate: new Date('2019-12-30T23:59:59+0000'),
   name: 'CustomerCoupon:name',
   notificationOn: false,
-  solrFacets: '%3Arelevance%3Acategory%3A1',
   startDate: new Date('1970-01-01T00:00:00+0000'),
   status: 'Effective',
 };

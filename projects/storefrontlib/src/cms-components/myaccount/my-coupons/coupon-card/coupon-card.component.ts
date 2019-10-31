@@ -24,15 +24,12 @@ export class CouponCardComponent implements OnInit {
     notification: boolean;
   }>();
 
-  notification = false;
-
   constructor(
     protected modalService: ModalService,
     protected myCouponsComponentService: MyCouponsComponentService
   ) {}
 
   ngOnInit() {
-    this.notification = this.coupon.notificationOn;
   }
 
   notificationChange(): void {
