@@ -1,1 +1,15 @@
-<cx-asm-main-ui *ngIf="(asmUi$ | async)?.visible"></cx-asm-main-ui>
+<div *ngIf="expanded; else collapse">
+  <button (click)="collapseUi()">
+    <i class="fas fa-angle-double-up"></i>
+  </button>
+</div>
+<ng-template #collapse>
+  <div>
+    <button (click)="expandUi()">
+      <i class="fas fa-angle-double-down"></i>
+    </button>
+  </div>
+</ng-template>
+
+<cx-asm-main-ui [class.collapse]="!expanded" *ngIf="(asmUi$ | async)?.visible">
+</cx-asm-main-ui>

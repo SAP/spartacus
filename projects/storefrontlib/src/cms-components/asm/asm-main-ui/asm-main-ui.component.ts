@@ -88,7 +88,7 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   hideUi(): void {
-    this.asmService.updateAsmUiState({ visible: false });
+    this.asmService.updateAsmUiState({ visible: false, expanded: false });
   }
 
   endSession() {

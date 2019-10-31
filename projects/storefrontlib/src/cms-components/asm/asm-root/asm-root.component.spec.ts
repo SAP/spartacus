@@ -67,7 +67,10 @@ describe('AsmRootComponent', () => {
     spyOn(mockQueryParamMap, 'get').and.returnValue('true');
     component.ngOnInit();
     fixture.detectChanges();
-    expect(asmService.updateAsmUiState).toHaveBeenCalledWith({ visible: true });
+    expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
+      visible: true,
+      expanded: true,
+    });
   });
 
   it('should not show the main asm UI if UI state is not visisble', () => {
