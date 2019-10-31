@@ -545,7 +545,8 @@
   @media (max-width: 575px) {
     height: 230px;
 
-    cx-customer-selection {
+    cx-customer-selection,
+    .cx-customer-emulation {
       padding-left: 6%;
       padding-top: 45px;
     }
