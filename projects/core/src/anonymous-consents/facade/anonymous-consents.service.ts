@@ -197,7 +197,7 @@ export class AnonymousConsentsService {
 
   /**
    * Returns `true` if the consent templates were updated on the back-end.
-   * If the templates are not present in the store, it trigger the load.
+   * If the templates are not present in the store, it triggers the load.
    */
   getTemplatesUpdated(): Observable<boolean> {
     return this.getTemplates().pipe(
