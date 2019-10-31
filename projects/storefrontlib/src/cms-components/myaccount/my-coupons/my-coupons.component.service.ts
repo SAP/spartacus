@@ -10,12 +10,10 @@ export class MyCouponsComponentService {
   constructor(protected routingService: RoutingService) {}
 
   launchSearchPage(coupon: CustomerCoupon): void {
-    const query = this.buildSearchParam(coupon);
-    console.log('query: ' + query);
     this.routingService.go(
       {
         cxRoute: 'search',
-        params: { query: query },
+        params: { query: this.buildSearchParam(coupon) },
       },
       { couponcode: coupon.couponId }
     );
