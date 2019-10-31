@@ -224,7 +224,7 @@ export class AnonymousConsentsEffects {
 
   @Effect()
   synchronizeBannerAcrossTabs$: Observable<
-    AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility
+    AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed
   > = iif(
     () => this.checkFeatureAndSsrEnabled(),
     fromEvent<StorageEvent>(this.winRef.nativeWindow, 'storage').pipe(
@@ -236,14 +236,14 @@ export class AnonymousConsentsEffects {
         const newState = JSON.parse(storageEvent.newValue);
         const newUiFlag = (newState[
           ANONYMOUS_CONSENTS_STORE_FEATURE
-        ] as AnonymousConsentsState).ui.bannerVisible;
+        ] as AnonymousConsentsState).ui.bannerDismissed;
 
         return newUiFlag;
       }),
       distinctUntilChanged(),
       map(
         newUiFlag =>
-          new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+          new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
             newUiFlag
           )
       )

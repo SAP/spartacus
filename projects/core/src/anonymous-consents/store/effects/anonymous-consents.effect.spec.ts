@@ -446,7 +446,7 @@ describe('AnonymousConsentsEffects', () => {
     it('should return AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility when StorageEvent is fired', done => {
       effect.synchronizeBannerAcrossTabs$.subscribe(result => {
         expect(result).toEqual(
-          new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+          new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
             true
           )
         );
@@ -456,7 +456,7 @@ describe('AnonymousConsentsEffects', () => {
       const newValueObject = {
         [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
           ui: {
-            bannerVisible: true,
+            bannerDismissed: true,
           },
         } as AnonymousConsentsState,
       };
@@ -498,7 +498,7 @@ describe('AnonymousConsentsEffects', () => {
 
           const oldValueObject = {
             [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-              ui: { bannerVisible: false },
+              ui: { bannerDismissed: false },
               consents: [{ consentState: null }],
             } as AnonymousConsentsState,
           };
@@ -506,7 +506,7 @@ describe('AnonymousConsentsEffects', () => {
 
           const newValueObject = {
             [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-              ui: { bannerVisible: true },
+              ui: { bannerDismissed: true },
               consents: [{ consentState: ANONYMOUS_CONSENT_STATUS.GIVEN }],
             } as AnonymousConsentsState,
           };
@@ -545,7 +545,7 @@ describe('AnonymousConsentsEffects', () => {
 
           const oldValueObject = {
             [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-              ui: { bannerVisible: false },
+              ui: { bannerDismissed: false },
               consents: [{ consentState: null }],
             } as AnonymousConsentsState,
           };
@@ -553,7 +553,7 @@ describe('AnonymousConsentsEffects', () => {
 
           const newValueObject = {
             [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-              ui: { bannerVisible: true },
+              ui: { bannerDismissed: true },
               consents: [{ consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN }],
             } as AnonymousConsentsState,
           };

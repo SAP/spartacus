@@ -260,37 +260,83 @@ describe('AnonymousConsentsService', () => {
     });
   });
 
-  describe('toggleBannerVisibility', () => {
-    it('should just dispatch ToggleAnonymousConsentsBannerVisibility action when toggling off', () => {
-      service.toggleBannerVisibility(false);
+  describe('isBannerVisible', () => {
+    it('should return true if isBannerDismissed() returns false', () => {
+      spyOn(service, 'isBannerDismissed').and.returnValue(of(false));
+      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(false));
+
+      let result = false;
+      service
+        .isBannerVisible()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(service.isBannerDismissed).toHaveBeenCalled();
+      expect(service.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(true);
+    });
+    it('should return true if getTemplatesUpdated() returns true', () => {
+      spyOn(service, 'isBannerDismissed').and.returnValue(of(true));
+      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(true));
+
+      let result = false;
+      service
+        .isBannerVisible()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(service.isBannerDismissed).toHaveBeenCalled();
+      expect(service.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if isBannerDismissed() returns true and getTemplatesUpdated() returns false', () => {
+      spyOn(service, 'isBannerDismissed').and.returnValue(of(true));
+      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(false));
+
+      let result = true;
+      service
+        .isBannerVisible()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(service.isBannerDismissed).toHaveBeenCalled();
+      expect(service.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('toggleBannerDismissed', () => {
+    it('should just dispatch ToggleAnonymousConsentsBannerDissmissed action when dismissing', () => {
+      service.toggleBannerDismissed(false);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
           false
         )
       );
     });
-    it('should dispatch ToggleAnonymousConsentsBannerVisibility action and call toggleTemplatesUpdated(false) when toggling on', () => {
+    it('should dispatch ToggleAnonymousConsentsBannerDissmissed action and call toggleTemplatesUpdated(false) when showing', () => {
       spyOn(service, 'toggleTemplatesUpdated').and.stub();
-      service.toggleBannerVisibility(false);
+      service.toggleBannerDismissed(true);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-          false
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
+          true
         )
       );
       expect(service.toggleTemplatesUpdated).toHaveBeenCalledWith(false);
     });
   });
 
-  it('isBannerVisible should call getAnonymousConsentsBannerVisibility selector', () => {
+  it('isBannerDismissed should call getAnonymousConsentsBannerDismissed selector', () => {
     store.dispatch(
-      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
         false
       )
     );
 
     let result = true;
     service
-      .isBannerVisible()
+      .isBannerDismissed()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
