@@ -4,7 +4,7 @@ import {
   ANONYMOUS_CONSENTS_FEATURE,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { pluck, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalService } from '../../../shared/components/modal/index';
 
@@ -25,28 +25,10 @@ export class AnonymousConsentManagementBannerComponent
   ) {}
 
   ngOnInit(): void {
-    const templatesUpdated$ = this.anonymousConsentsService
-      .getTemplatesUpdated()
-      .pipe(
-        tap(updated => {
-          if (updated) {
-            this.anonymousConsentsService.toggleBannerVisibility(true);
-          }
-        })
-      );
-    const templates$ = this.anonymousConsentsService.getTemplates().pipe(
-      tap(templates => {
-        if (!Boolean(templates)) {
-          this.anonymousConsentsService.loadTemplates();
-        }
-      })
-    );
-
     this.bannerVisible$ = combineLatest([
       this.anonymousConsentsService.isBannerVisible(),
-      templatesUpdated$,
-      templates$,
-    ]).pipe(pluck(0));
+      this.anonymousConsentsService.getTemplatesUpdated(),
+    ]).pipe(map(([visible, updated]) => visible || updated));
   }
 
   viewDetails(): void {

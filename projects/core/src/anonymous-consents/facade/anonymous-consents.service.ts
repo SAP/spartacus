@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -197,10 +197,20 @@ export class AnonymousConsentsService {
 
   /**
    * Returns `true` if the consent templates were updated on the back-end.
+   * If the templates are not present in the store, it trigger the load.
    */
   getTemplatesUpdated(): Observable<boolean> {
-    return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+    return this.getTemplates().pipe(
+      tap(templates => {
+        if (!Boolean(templates)) {
+          this.loadTemplates();
+        }
+      }),
+      switchMap(_ =>
+        this.store.pipe(
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+        )
+      )
     );
   }
 

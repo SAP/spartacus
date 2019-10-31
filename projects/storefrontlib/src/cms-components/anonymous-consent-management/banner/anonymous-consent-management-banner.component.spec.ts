@@ -21,10 +21,6 @@ class MockAnonymousConsentsService {
     return of();
   }
   toggleBannerVisibility(_visible: boolean): void {}
-  getTemplates(): Observable<ConsentTemplate[]> {
-    return of();
-  }
-  loadTemplates(): void {}
 }
 
 class MockModalService {
@@ -74,38 +70,60 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call getTemplates() and loadTemplates() if there are no templates already loaded', () => {
-      spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(of(null));
-      spyOn(anonymousConsentsService, 'loadTemplates').and.stub();
-
-      component.ngOnInit();
-      component.bannerVisible$.subscribe().unsubscribe();
-
-      expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
-      expect(anonymousConsentsService.loadTemplates).toHaveBeenCalled();
-    });
-    it('should call anonymousConsentsService.isBannerVisible()', () => {
+    it('should return true if anonymousConsentsService.isBannerVisible() returns true', () => {
       spyOn(anonymousConsentsService, 'isBannerVisible').and.returnValue(
+        of(true)
+      );
+      spyOn(anonymousConsentsService, 'getTemplatesUpdated').and.returnValue(
         of(false)
       );
 
       component.ngOnInit();
+      let result = false;
+      component.bannerVisible$
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(anonymousConsentsService.isBannerVisible).toHaveBeenCalled();
+      expect(anonymousConsentsService.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(true);
     });
-    it('should call getTemplatesUpdated and toggleBannerVisibility', () => {
+    it('should return true if anonymousConsentsService.getTemplatesUpdated() returns true', () => {
+      spyOn(anonymousConsentsService, 'isBannerVisible').and.returnValue(
+        of(false)
+      );
       spyOn(anonymousConsentsService, 'getTemplatesUpdated').and.returnValue(
         of(true)
       );
-      spyOn(anonymousConsentsService, 'toggleBannerVisibility').and.stub();
 
       component.ngOnInit();
-      component.bannerVisible$.subscribe().unsubscribe();
+      let result = false;
+      component.bannerVisible$
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
+      expect(anonymousConsentsService.isBannerVisible).toHaveBeenCalled();
       expect(anonymousConsentsService.getTemplatesUpdated).toHaveBeenCalled();
-      expect(
-        anonymousConsentsService.toggleBannerVisibility
-      ).toHaveBeenCalledWith(true);
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if both anonymousConsentsService.isBannerVisible() and anonymousConsentsService.getTemplatesUpdated() return false', () => {
+      spyOn(anonymousConsentsService, 'isBannerVisible').and.returnValue(
+        of(false)
+      );
+      spyOn(anonymousConsentsService, 'getTemplatesUpdated').and.returnValue(
+        of(false)
+      );
+
+      component.ngOnInit();
+      let result = true;
+      component.bannerVisible$
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(anonymousConsentsService.isBannerVisible).toHaveBeenCalled();
+      expect(anonymousConsentsService.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(false);
     });
   });
 
