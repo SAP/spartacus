@@ -54,11 +54,11 @@ describe('Budget Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getBudgetManagmentState ', () => {
+  describe('getBudgetManagementState ', () => {
     it('should return budgets state', () => {
       let result: EntityLoaderState<Budget>;
       store
-        .pipe(select(BudgetSelectors.getBudgetManagmentState))
+        .pipe(select(BudgetSelectors.getBudgetManagementState))
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
@@ -69,7 +69,6 @@ describe('Budget Selectors', () => {
   describe('getBudgets', () => {
     it('should return budgets', () => {
       let result: LoaderState<Budget>;
-
       store
         .pipe(select(BudgetSelectors.getBudgetsState))
         .subscribe(value => (result = value));

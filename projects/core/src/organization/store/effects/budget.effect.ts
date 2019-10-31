@@ -6,7 +6,6 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import { Budget } from '../../../model/budget.model';
-import { LoadBudgetSuccess } from '../actions/budget.action';
 
 @Injectable()
 export class BudgetEffects {
@@ -31,7 +30,7 @@ export class BudgetEffects {
   @Effect()
   loadBudgets$: Observable<
     | BudgetActions.LoadBudgetsSuccess
-    | LoadBudgetSuccess
+    | BudgetActions.LoadBudgetSuccess
     | BudgetActions.LoadBudgetsFail
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),

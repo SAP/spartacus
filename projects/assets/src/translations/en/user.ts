@@ -51,7 +51,7 @@ export const user = {
       label: 'Confirm password',
       placeholder: 'Confirm Password',
     },
-    managmentInMyAccount: 'Management in My Account.',
+    ManagementInMyAccount: 'Management in My Account.',
     termsAndConditions: 'Terms & Conditions',
     signIn: 'I already have an account. Sign In',
     register: 'Register',
