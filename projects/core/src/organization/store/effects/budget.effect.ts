@@ -21,7 +21,12 @@ export class BudgetEffects {
           return new BudgetActions.LoadBudgetSuccess([budget]);
         }),
         catchError(error =>
-          of(new BudgetActions.LoadBudgetFail(makeErrorSerializable(error)))
+          of(
+            new BudgetActions.LoadBudgetFail(
+              budgetCode,
+              makeErrorSerializable(error)
+            )
+          )
         )
       );
     })
@@ -58,7 +63,12 @@ export class BudgetEffects {
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
         map(data => new BudgetActions.CreateBudgetSuccess(data)),
         catchError(error =>
-          of(new BudgetActions.CreateBudgetFail(makeErrorSerializable(error)))
+          of(
+            new BudgetActions.CreateBudgetFail(
+              payload.budget.code,
+              makeErrorSerializable(error)
+            )
+          )
         )
       )
     )
@@ -74,7 +84,12 @@ export class BudgetEffects {
       this.budgetConnector.update(payload.userId, payload.budget).pipe(
         map(data => new BudgetActions.UpdateBudgetSuccess(data)),
         catchError(error =>
-          of(new BudgetActions.UpdateBudgetFail(makeErrorSerializable(error)))
+          of(
+            new BudgetActions.UpdateBudgetFail(
+              payload.budget.code,
+              makeErrorSerializable(error)
+            )
+          )
         )
       )
     )

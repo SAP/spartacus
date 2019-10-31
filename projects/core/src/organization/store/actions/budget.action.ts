@@ -34,8 +34,8 @@ export class LoadBudget extends EntityLoadAction {
 
 export class LoadBudgetFail extends EntityFailAction {
   readonly type = LOAD_BUDGET_FAIL;
-  constructor(public payload: any) {
-    super(BUDGET_FEATURE, payload.code, payload);
+  constructor(budgetCode: string, public payload: any) {
+    super(BUDGET_FEATURE, budgetCode, payload);
   }
 }
 
@@ -81,8 +81,8 @@ export class CreateBudget extends EntityLoadAction {
 
 export class CreateBudgetFail extends EntityFailAction {
   readonly type = CREATE_BUDGET_FAIL;
-  constructor(public payload: any) {
-    super(BUDGET_FEATURE, payload.code, payload);
+  constructor(budgetCode: string, public payload: any) {
+    super(BUDGET_FEATURE, budgetCode, payload);
   }
 }
 
@@ -102,8 +102,8 @@ export class UpdateBudget extends EntityLoadAction {
 
 export class UpdateBudgetFail extends EntityFailAction {
   readonly type = UPDATE_BUDGET_FAIL;
-  constructor(public payload: any) {
-    super(BUDGET_FEATURE, payload.code, payload);
+  constructor(budgetCode: string, public payload: any) {
+    super(BUDGET_FEATURE, budgetCode, payload);
   }
 }
 
