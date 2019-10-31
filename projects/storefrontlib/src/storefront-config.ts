@@ -1,5 +1,6 @@
 import {
   AnonymousConsentsConfig,
+  AsmConfig,
   AuthConfig,
   CmsConfig,
   ExternalRoutesConfig,
@@ -12,7 +13,6 @@ import {
   SiteContextConfig,
   StateConfig,
 } from '@spartacus/core';
-import { AsmConfig } from 'projects/core/src/asm/config/asm-config';
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/index';
 import { QualtricsConfig } from './cms-components/misc/qualtrics/index';

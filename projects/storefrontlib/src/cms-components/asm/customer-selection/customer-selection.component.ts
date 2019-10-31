@@ -6,8 +6,12 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AsmService, CustomerSearchPage, User } from '@spartacus/core';
-import { AsmConfig } from 'projects/core/src/asm/config/asm-config';
+import {
+  AsmConfig,
+  AsmService,
+  CustomerSearchPage,
+  User,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
