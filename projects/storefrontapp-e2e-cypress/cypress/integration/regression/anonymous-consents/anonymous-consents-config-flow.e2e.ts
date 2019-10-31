@@ -47,26 +47,4 @@ context('Anonymous consents - config flow', () => {
 
     anonymousConfigTestFlow();
   });
-
-  describe('test3', () => {
-    before(() => {
-      cy.window().then(win => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      cy.reload();
-      cy.visit('/');
-    });
-  });
-
-  describe('test4', () => {
-    before(() => {
-      cy.window().then(win => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      cy.reload();
-      cy.visit('/');
-    });
-  });
 });

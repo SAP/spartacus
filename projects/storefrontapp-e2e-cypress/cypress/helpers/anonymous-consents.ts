@@ -12,43 +12,31 @@ const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
 const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
+const BE_DISABLED = 'be.disabled';
+const NOT_EXIST = 'not.exist';
 export const MARKETING_NEWSLETTER = 'MARKETING_NEWSLETTER';
 export const PERSONALIZATION = 'PERSONALIZATION';
 export const STORE_USER_INFORMATION = 'STORE_USER_INFORMATION';
 
-const marketingConsentLabel = 'marketing consent';
 const personalizationConsentLabel = 'personalization';
-const storeUserConsentLabel = 'store user information';
-
 const userGiveConsentRegistrationTest: RegisterUser = {
   firstName: '1',
   lastName: '2',
   email: generateMail(randomString(), true),
   password: 'Password123!',
 };
-
 const userTransferConsentTest: RegisterUser = {
   firstName: 'a',
   lastName: 'b',
   email: generateMail(randomString(), true),
   password: 'Password123!',
 };
-
 const userFromConfigTest: RegisterUser = {
-  firstName: 'a',
-  lastName: 'b',
+  firstName: 'x',
+  lastName: 'x',
   email: generateMail(randomString(), true),
   password: 'Password123!',
 };
-
-// As the consent state is synchronized with the back-end in a stateless way (using an http header)
-// We have to wait for the last one XHR request to finish before mutating the ngrx state;
-// Otherwise, the state would be overridden by anonymous-consents-interceptor.ts.
-// Currently, there's no support for this, thus the cy.wait(5000)
-// will remove once all the test case for improvements are done
-export function waitFiveSeconds() {
-  cy.wait(5000);
-}
 
 export function anonoymousConsentConfig(
   registerConsent: string,
@@ -71,7 +59,8 @@ export function anonoymousConsentConfig(
 
 export function registerNewUserAndLogin(
   newUser: RegisterUser,
-  giveRegistrationConsent = false
+  giveRegistrationConsent = false,
+  hiddenConsent?
 ) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
@@ -79,7 +68,7 @@ export function registerNewUserAndLogin(
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
-  register(newUser, giveRegistrationConsent);
+  register(newUser, giveRegistrationConsent, hiddenConsent);
   cy.get('cx-breadcrumb').contains('Login');
 
   login(newUser.email, newUser.password);
@@ -106,11 +95,11 @@ export function checkBannerHidden() {
 }
 
 export function checkDialogDescroption() {
-  cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-description`).should('not.exist');
+  cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-description`).should(NOT_EXIST);
 }
 
 export function checkConsentsInConsentPage() {
-  cy.get('.cx-consent-toggles cx-consent-management-form').should('not.exist');
+  cy.get('.cx-consent-toggles cx-consent-management-form').should(NOT_EXIST);
 }
 
 export function clickAllowAllFromBanner() {
@@ -138,7 +127,7 @@ export function checkDialogOpen() {
 }
 
 export function checkDialogClosed() {
-  cy.get(ANONYMOUS_DIALOG).should('not.exist');
+  cy.get(ANONYMOUS_DIALOG).should(NOT_EXIST);
 }
 
 export function closeDialog() {
@@ -175,14 +164,6 @@ export function clearAllConsent() {
     .click({ force: true });
 }
 
-export function checkConsentExist(text) {
-  cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-row`)
-    .find('label')
-    .each($match => {
-      cy.wrap($match).should('contain', text);
-    });
-}
-
 export function checkConsentNotExist(text) {
   cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-row`)
     .find('label')
@@ -192,11 +173,11 @@ export function checkConsentNotExist(text) {
 }
 
 export function loggedInUserBannerTest() {
-  cy.get(ANONYMOUS_BANNER).should('not.exist');
+  cy.get(ANONYMOUS_BANNER).should(NOT_EXIST);
 }
 
 export function loggedInUserFooterLinkTest() {
-  cy.get('.anonymous-consents').should('not.exist');
+  cy.get('.anonymous-consents').should(NOT_EXIST);
 }
 
 export function sessionLogin() {
@@ -207,9 +188,10 @@ export function sessionLogin() {
 export function registerUserAndCheckMyAccountConsent(
   user,
   consentCheckBox,
-  position
+  position,
+  hiddenConsent?
 ) {
-  registerNewUserAndLogin(user, consentCheckBox);
+  registerNewUserAndLogin(user, consentCheckBox, hiddenConsent);
   checkBanner();
   navigateToConsentPage();
   checkInputConsentState(position, BE_CHECKED);
@@ -217,7 +199,6 @@ export function registerUserAndCheckMyAccountConsent(
 
 export function testAsAnonymousUser() {
   it('should be able to see the banner', () => {
-    // waitFiveSeconds();
     seeBannerAsAnonymous();
   });
 
@@ -243,7 +224,6 @@ export function testAsAnonymousUser() {
 
 export function giveRegistrationConsentTest() {
   it('should give the registration consent', () => {
-    // waitFiveSeconds();
     registerUserAndCheckMyAccountConsent(
       userGiveConsentRegistrationTest,
       true,
@@ -254,7 +234,6 @@ export function giveRegistrationConsentTest() {
 
 export function movingFromAnonymousToRegisteredUser() {
   it('should transfer anonoymous consents when registered', () => {
-    // waitFiveSeconds();
     openDialogUsingFooterLink();
     toggleAnonymousConsent(2);
     closeDialog();
@@ -265,8 +244,6 @@ export function movingFromAnonymousToRegisteredUser() {
 
 export function moveAnonymousUserToLoggedInUser() {
   it('should ignore the anonymous consents and load the previously given registered consents', () => {
-    // waitFiveSeconds();
-
     navigateToConsentPage();
     giveConsent();
 
@@ -296,7 +273,6 @@ export function moveAnonymousUserToLoggedInUser() {
 
 export function testAsLoggedInUser() {
   it('should not render the banner', () => {
-    // waitFiveSeconds();
     checkBanner();
     loggedInUserBannerTest();
   });
@@ -332,8 +308,6 @@ export function testAsLoggedInUser() {
 
 export function changeLanguageTest() {
   it('should pull the new consent templates but preserve the consents state', () => {
-    // waitFiveSeconds();
-
     clickViewDetailsFromBanner();
     selectAllConsent();
 
@@ -366,8 +340,21 @@ export function showAnonymousConfigTest() {
 }
 
 export function anonymousConfigTestFlow() {
-  it('should not have the store user information consent visible', () => {
+  it('should check if marketing consent in the dialog is disabled', () => {
     openDialogUsingFooterLink();
-    checkConsentNotExist(personalizationConsentLabel);
+    checkInputConsentState(0, BE_DISABLED);
+    closeDialog();
+  });
+
+  it('should check new register consent and personalizing not visible in consent management page', () => {
+    registerUserAndCheckMyAccountConsent(
+      userFromConfigTest,
+      true,
+      1,
+      personalizationConsentLabel
+    );
+
+    checkInputConsentState(0, BE_DISABLED);
+    checkInputConsentState(3, NOT_EXIST);
   });
 }

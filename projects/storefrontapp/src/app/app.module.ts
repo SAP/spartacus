@@ -67,14 +67,6 @@ if (!environment.production) {
         level: '1.3',
         anonymousConsents: true,
       },
-      // anonymousConsents: {
-      //   registerConsent: 'PERSONALIZATION',
-      //   showLegalDescriptionInDialog: true,
-      //   requiredConsents: ['MARKETING_NEWSLETTER'],
-      //   consentManagementPage: {
-      //     hideConsents: ['PERSONALIZATION'],
-      //   },
-      // },
     }),
     JsonLdBuilderModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
