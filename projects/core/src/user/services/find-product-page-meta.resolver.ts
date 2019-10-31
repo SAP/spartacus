@@ -11,6 +11,7 @@ import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
 import { ProductSearchService } from '../../product/facade/product-search.service';
+import { AuthGuard } from '../../auth/guards/auth.guard';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,8 @@ export class FindProductPageMetaResolver extends PageMetaResolver
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected authGuard: AuthGuard
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -60,7 +62,12 @@ export class FindProductPageMetaResolver extends PageMetaResolver
   resolveBreadcrumbs(): Observable<any[]> {
     const breadcrumbs = [];
     breadcrumbs.push({ label: 'Home', link: '/' });
-    breadcrumbs.push({ label: 'My Coupons', link: '/my-account/coupons' });
+    this.authGuard.canActivate().subscribe(active => {
+      if (active) {
+        breadcrumbs.push({ label: 'My Coupons', link: '/my-account/coupons' });
+      }
+    });
+
     return of(breadcrumbs);
   }
 
@@ -69,7 +76,7 @@ export class FindProductPageMetaResolver extends PageMetaResolver
       switchMap(([total, code]: [number, string]) =>
         this.translation.translate('pageMetaResolver.search.findProductTitle', {
           count: total,
-          coupon: this.correctCouponCode(code),
+          coupon: code,
         })
       )
     );
@@ -87,7 +94,6 @@ export class FindProductPageMetaResolver extends PageMetaResolver
       .getRouterState()
       .pipe(
         map(state => {
-          console.log(JSON.stringify(state));
           return state.state.queryParams;
         }),
         filter(Boolean)
@@ -99,11 +105,5 @@ export class FindProductPageMetaResolver extends PageMetaResolver
       })
       .unsubscribe();
     return score;
-  }
-
-  private correctCouponCode(code: string): string {
-    return code.indexOf('customerCouponCode:') !== -1
-      ? code.split('customerCouponCode:')[1]
-      : code;
   }
 }
