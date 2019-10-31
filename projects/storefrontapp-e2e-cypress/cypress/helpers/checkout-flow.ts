@@ -107,7 +107,7 @@ export function verifyDeliveryMethod() {
     '/checkout/payment-details',
     'getPaymentPage'
   );
-  cy.get('button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary').click();
   cy.wait(`@${paymentPage}`);
 }
 
