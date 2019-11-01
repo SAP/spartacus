@@ -6,14 +6,9 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import {
-  AsmConfig,
-  AuthService,
-  I18nTestingModule,
-  RoutingService,
-  UserToken,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { AsmConfig, I18nTestingModule, RoutingService } from '@spartacus/core';
+import { of } from 'rxjs';
+import { AsmComponentService } from '../asm-component.service';
 import { AsmSessionTimerComponent } from './asm-session-timer.component';
 import createSpy = jasmine.createSpy;
 
@@ -25,24 +20,15 @@ const MockAsmConfig: AsmConfig = {
   },
 };
 
+class MockAsmComponentService {
+  logoutCustomerSupportAgentAndCustomer(): void {}
+}
 class MockRoutingService {
   go() {}
   isNavigating() {
     return of(false);
   }
 }
-
-class MockAuthService {
-  logoutCustomerSupportAgent(): void {}
-  logout(): void {}
-  getUserToken(): Observable<UserToken> {
-    return of({} as UserToken);
-  }
-}
-
-const mockToken = {
-  access_token: 'asdfasf',
-} as UserToken;
 
 @Pipe({
   name: 'formatTimer',
@@ -55,7 +41,7 @@ describe('AsmSessionTimerComponent', () => {
   let component: AsmSessionTimerComponent;
   let fixture: ComponentFixture<AsmSessionTimerComponent>;
   let config: AsmConfig;
-  let authService: AuthService;
+  let asmComponentService: AsmComponentService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -68,7 +54,7 @@ describe('AsmSessionTimerComponent', () => {
           useValue: { markForCheck: createSpy('markForCheck') },
         },
         { provide: AsmConfig, useValue: MockAsmConfig },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
@@ -77,7 +63,7 @@ describe('AsmSessionTimerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmSessionTimerComponent);
     config = TestBed.get(AsmConfig);
-    authService = TestBed.get(AuthService);
+    asmComponentService = TestBed.get(AsmComponentService);
     routingService = TestBed.get(RoutingService);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -89,39 +75,31 @@ describe('AsmSessionTimerComponent', () => {
 
   it('should logout when time left is zero.', fakeAsync(() => {
     config.asm.sessionTimer.startingDelayInSeconds = 1;
-    spyOn<any>(component, 'logout').and.stub();
+    spyOn(
+      asmComponentService,
+      'logoutCustomerSupportAgentAndCustomer'
+    ).and.stub();
     component.ngOnInit();
     tick(2000);
-    expect(component['logout']).toHaveBeenCalled();
+    expect(
+      asmComponentService.logoutCustomerSupportAgentAndCustomer
+    ).toHaveBeenCalled();
     component.ngOnDestroy();
   }));
 
   it('should not call logout when there is some time left.', fakeAsync(() => {
     config.asm.sessionTimer.startingDelayInSeconds = 10;
-    spyOn<any>(component, 'logout').and.stub();
+    spyOn(
+      asmComponentService,
+      'logoutCustomerSupportAgentAndCustomer'
+    ).and.stub();
     component.ngOnInit();
     tick(1000);
-    expect(component['logout']).not.toHaveBeenCalled();
+    expect(
+      asmComponentService.logoutCustomerSupportAgentAndCustomer
+    ).not.toHaveBeenCalled();
     component.ngOnDestroy();
   }));
-
-  it('should logout asagent when no emulation is in progress.', () => {
-    spyOn(authService, 'logout').and.stub();
-    spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
-    component['logout']();
-    expect(authService.logout).not.toHaveBeenCalled();
-    expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
-  });
-
-  it('should logout asagent and customer emulation session when emulation is in progress.', () => {
-    spyOn(authService, 'logout').and.stub();
-    spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    component['logout']();
-    expect(authService.logout).toHaveBeenCalled();
-    expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
-  });
 
   it('should reset the time left when user navigates on a new page.', () => {
     spyOn(component, 'resetTimer').and.callThrough();

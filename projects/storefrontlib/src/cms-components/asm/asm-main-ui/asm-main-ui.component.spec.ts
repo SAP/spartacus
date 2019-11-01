@@ -19,6 +19,7 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { AsmComponentService } from '../asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
 const mockToken = {
@@ -93,6 +94,10 @@ class MockRoutingService {
   go() {}
 }
 
+class MockAsmComponentService {
+  logoutCustomerSupportAgentAndCustomer(): void {}
+}
+
 describe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
@@ -102,6 +107,7 @@ describe('AsmMainUiComponent', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
   let asmService: AsmService;
+  let asmComponentService: AsmComponentService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -118,6 +124,7 @@ describe('AsmMainUiComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmService, useClass: MockAsmService },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
       ],
     }).compileComponents();
   }));
@@ -129,6 +136,7 @@ describe('AsmMainUiComponent', () => {
     globalMessageService = TestBed.get(GlobalMessageService);
     asmService = TestBed.get(AsmService);
     routingService = TestBed.get(RoutingService);
+    asmComponentService = TestBed.get(AsmComponentService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -149,11 +157,15 @@ describe('AsmMainUiComponent', () => {
       password
     );
   });
-
-  it('should call logoutCustomerSupportAgent() on agent logout', () => {
-    spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
-    component.logoutCustomerSupportAgent();
-    expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
+  it('should call logoutCustomerSupportAgentAndCustomer() on agent logout', () => {
+    spyOn(
+      asmComponentService,
+      'logoutCustomerSupportAgentAndCustomer'
+    ).and.stub();
+    component.logout();
+    expect(
+      asmComponentService.logoutCustomerSupportAgentAndCustomer
+    ).toHaveBeenCalled();
   });
 
   it('should call authService.startCustomerEmulationSession() when startCustomerEmulationSession() is called', () => {
@@ -181,7 +193,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-asm-session-timer'))).toBeFalsy();
   });
 
-  it('should display the customer selection when an agent is signed in', () => {
+  it('should display the customer selection state when an agent is signed in', () => {
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
@@ -195,24 +207,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
   });
 
-  it('should not display the agent logout button when starting a customer emulation session', () => {
-    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
-    );
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
-    spyOn(userService, 'get').and.returnValue(of({}));
-    spyOn(asmService, 'getCustomerSearchResultsLoading').and.returnValue(
-      of(true)
-    );
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
-    expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
-    expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
-    expect(el.query(By.css('a[title="asm.logout"]'))).toBeFalsy();
-  });
-
-  it('should display only user info during customer emulation.', () => {
+  it('should display customer emulation state when a customer is signed in.', () => {
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
@@ -229,6 +224,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
     expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
+    expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
   });
 
   it('should redirect to home when starting a customer emulation session.', () => {

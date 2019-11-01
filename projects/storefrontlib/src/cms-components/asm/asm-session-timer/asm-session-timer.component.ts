@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
+import { AsmConfig, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { AsmComponentService } from '../asm-component.service';
 
 @Component({
   selector: 'cx-asm-session-timer',
@@ -14,7 +14,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
   constructor(
     private config: AsmConfig,
-    private authService: AuthService,
+    private asmComponentService: AsmComponentService,
     private routingService: RoutingService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -26,7 +26,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
         this.timeLeft--;
       } else {
         clearInterval(this.interval);
-        this.logout();
+        this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
       }
       this.changeDetectorRef.markForCheck();
     }, 1000);
@@ -44,19 +44,6 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     if (this.timeLeft > 0) {
       this.timeLeft = this.config.asm.sessionTimer.startingDelayInSeconds;
     }
-  }
-
-  private logout(): void {
-    this.authService
-      .getUserToken()
-      .pipe(take(1))
-      .subscribe(token => {
-        if (!!token && token.access_token) {
-          this.authService.logout();
-          this.routingService.go({ cxRoute: 'home' });
-        }
-        this.authService.logoutCustomerSupportAgent();
-      });
   }
 
   ngOnDestroy(): void {
