@@ -211,7 +211,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
     expect(el.query(By.css('a[title="asm.logout"]'))).toBeFalsy();
   });
-  // change this
+
   it('should display customer emulation component during curtomer emulation.', () => {
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
