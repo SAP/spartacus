@@ -93,7 +93,7 @@ class MockRoutingService {
   go() {}
 }
 
-fdescribe('AsmMainUiComponent', () => {
+describe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
