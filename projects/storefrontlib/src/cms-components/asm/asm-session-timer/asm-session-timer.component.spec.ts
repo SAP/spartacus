@@ -51,7 +51,7 @@ class MockFormatTimerPipe implements PipeTransform {
   transform() {}
 }
 
-fdescribe('AsmSessionTimerComponent', () => {
+describe('AsmSessionTimerComponent', () => {
   let component: AsmSessionTimerComponent;
   let fixture: ComponentFixture<AsmSessionTimerComponent>;
   let config: AsmConfig;
