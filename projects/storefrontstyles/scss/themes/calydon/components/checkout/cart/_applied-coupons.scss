@@ -1,0 +1,17 @@
+%cx-applied-coupons {
+  .cx-coupon-card-grid {
+    @include media-breakpoint-down(md) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .cx-coupon-apply {
+    display: inline-flex;
+    align-items: center;
+
+    .cx-cart-coupon-code {
+      flex: 1;
+    }
+  }
+}
