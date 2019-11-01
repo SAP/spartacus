@@ -18,30 +18,30 @@ export interface AngularComponentSchema {
   /**
    * When true, the new component is the entry component of the declaring NgModule.
    */
-  entryComponent?: boolean;
+  entryComponent: boolean;
   /**
    * When true, the declaring NgModule exports this component.
    */
-  export?: boolean;
+  export: boolean;
   /**
    * When true, creates the new files at the top level of the current project.
    */
-  flat?: boolean;
+  flat: boolean;
   /**
    * When true, includes styles inline in the component.ts file. Only CSS styles can be
    * included inline. By default, an external styles file is created and referenced in the
    * component.ts file.
    */
-  inlineStyle?: boolean;
+  inlineStyle: boolean;
   /**
    * When true, includes template inline in the component.ts file. By default, an external
    * template file is created and referenced in the component.ts file.
    */
-  inlineTemplate?: boolean;
+  inlineTemplate: boolean;
   /**
    * When true, applies lint fixes after generating the component.
    */
-  lintFix?: boolean;
+  lintFix: boolean;
   /**
    * The declaring NgModule.
    */

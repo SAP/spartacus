@@ -1,11 +1,7 @@
 import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
-import {
-  Change,
-  InsertChange,
-  NoopChange,
-} from '@schematics/angular/utility/change';
+import { Change, InsertChange } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
@@ -58,7 +54,7 @@ export enum InsertDirection {
   RIGHT,
 }
 
-// TODO:#12
+// TODO:#12 test
 export function commitChanges(
   host: Tree,
   path: string,
@@ -83,6 +79,7 @@ export function commitChanges(
   host.commitUpdate(recorder);
 }
 
+// TODO:#12 test
 export function inject(
   nodes: ts.Node[],
   path: string,
@@ -91,19 +88,19 @@ export function inject(
 ): Change {
   const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
 
+  // we could add a constructor here, but since angular generates a component with the constructor, there's no need
   if (!constructorNode) {
-    // TODO:#12 create the constructor
-    // constructorNode = createConstructor();
-    return new NoopChange();
+    throw new SchematicsException(`No constructor found in ${path}.`);
   }
 
-  const siblings = constructorNode.getChildren();
-  const parameterListNode = siblings.find(
-    n => n.kind === ts.SyntaxKind.SyntaxList
-  );
+  const parameterListNode = constructorNode
+    .getChildren()
+    .find(n => n.kind === ts.SyntaxKind.SyntaxList);
+
   if (!parameterListNode) {
-    // TODO:#12 what to do here?
-    return new NoopChange();
+    throw new SchematicsException(
+      `No no parameter list found in ${path}'s constructor.`
+    );
   }
 
   propertyName = propertyName || strings.camelize(serviceName);

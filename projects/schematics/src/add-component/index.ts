@@ -16,8 +16,12 @@ import {
   getSourceNodes,
   insertImport,
 } from '@schematics/angular/utility/ast-utils';
-import { Change } from '@schematics/angular/utility/change';
-import { ANGULAR_SCHEMATICS, SPARTACUS_CORE } from '../shared/constants';
+import { Change, NoopChange } from '@schematics/angular/utility/change';
+import {
+  ANGULAR_SCHEMATICS,
+  COMPONENT_DATA_PROPERTY_NAME,
+  SPARTACUS_CORE,
+} from '../shared/constants';
 import {
   commitChanges,
   getPathResultsForFile,
@@ -130,10 +134,12 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     if (!options.cmsComponentData) {
       return;
     }
-    // TODO:#12 throw an exception if options.cmsComponentDataModel is undefined
-    const cmsComponentDataModel = options.cmsComponentDataModel || '';
+    if (!options.cmsComponentDataModel) {
+      throw new SchematicsException(`"cmsComponentDataModel" can't be falsy`);
+    }
+
     const cmsComponentData = `CmsComponentData<${strings.classify(
-      cmsComponentDataModel
+      options.cmsComponentDataModel
     )}>`;
 
     const componentFileName = `${strings.camelize(
@@ -156,7 +162,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     const cmsComponentImport = insertImport(
       componentTs,
       componentPath,
-      strings.classify(cmsComponentDataModel),
+      strings.classify(options.cmsComponentDataModel),
       options.cmsComponentDataModelPath,
       false
     );
@@ -175,14 +181,30 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       nodes,
       componentPath,
       cmsComponentData,
-      'componentData'
+      COMPONENT_DATA_PROPERTY_NAME
     );
     changes.push(injectionChange);
 
-    commitChanges(tree, componentPath, changes, InsertDirection.RIGHT);
+    let templateChange: Change;
+    if (options.inlineTemplate) {
+      templateChange = updateInlineTemplate();
+    } else {
+      templateChange = updateTemplateFile();
+    }
+    changes.push(templateChange);
 
-    // TODO:12 - check if the template is inline or a separate file.
+    commitChanges(tree, componentPath, changes, InsertDirection.RIGHT);
   };
+}
+
+function updateInlineTemplate(): Change {
+  // TODO:#12
+  return new NoopChange();
+}
+
+function updateTemplateFile(): Change {
+  // TODO:#12
+  return new NoopChange();
 }
 
 function validateArguments(options: CxCmsComponentSchema): void {
