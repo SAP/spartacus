@@ -16,6 +16,12 @@
   <div class="fd-shellbar__group fd-shellbar__group--end">
     <div class="fd-shellbar__actions">
       <div class="fd-shellbar__action fd-shellbar__action--show-always">
+        <div class="session-timer">
+          <cx-asm-session-timer
+            *ngIf="(csAgentToken$ | async)?.access_token"
+          ></cx-asm-session-timer>
+        </div>
+
         <div class="sap-icon--decline">
           <a
             title="{{ 'asm.hideUi' | cxTranslate }}"
@@ -56,9 +62,6 @@
     </div>
   </div>
 </div>
-<cx-asm-session-timer
-  *ngIf="(csAgentToken$ | async)?.access_token"
-></cx-asm-session-timer>
 
 <ng-container *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm">
   <ng-container
