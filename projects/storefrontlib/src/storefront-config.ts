@@ -11,6 +11,7 @@ import {
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
+  AsmConfig
 } from '@spartacus/core';
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/index';
@@ -39,4 +40,5 @@ export type StorefrontConfig =
   | GlobalMessageConfig
   | ExternalRoutesConfig
   | ViewConfig
-  | FeatureToggles;
+  | FeatureToggles
+  | AsmConfig;

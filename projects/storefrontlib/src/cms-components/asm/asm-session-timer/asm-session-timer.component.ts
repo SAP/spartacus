@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,17 +8,18 @@ import { Subscription } from 'rxjs';
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
-  private timerStartDelay = 600;
   private interval: any;
-  timeLeft: number = this.timerStartDelay;
+  timeLeft: number;
 
   constructor(
-    protected authService: AuthService,
-    protected routingService: RoutingService,
-    protected changeDetectorRef: ChangeDetectorRef
+    private config: AsmConfig,
+    private authService: AuthService,
+    private routingService: RoutingService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    this.timeLeft = this.config.asm.sessionTimer.startingDelayInSeconds;
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
@@ -41,9 +42,8 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
   reset() {
     if (this.timeLeft > 0) {
-      this.timeLeft = this.timerStartDelay;
+      this.timeLeft = this.config.asm.sessionTimer.startingDelayInSeconds;
     }
-    console.log('reset');
   }
 
   private logout(): void {
