@@ -54,6 +54,12 @@ class MockUserService {
 }
 
 @Component({
+  selector: 'cx-asm-session-timer',
+  template: '',
+})
+class MockAsmSessionTimerComponent {}
+
+@Component({
   selector: 'cx-customer-selection',
   template: '',
 })
@@ -87,7 +93,7 @@ class MockRoutingService {
   go() {}
 }
 
-describe('AsmMainUiComponent', () => {
+fdescribe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
@@ -104,6 +110,7 @@ describe('AsmMainUiComponent', () => {
         AsmMainUiComponent,
         MockCSAgentLoginFormComponent,
         MockCustomerSelectionComponent,
+        MockAsmSessionTimerComponent,
       ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
@@ -171,6 +178,7 @@ describe('AsmMainUiComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeTruthy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
+    expect(el.query(By.css('cx-asm-session-timer'))).toBeFalsy();
   });
 
   it('should display the customer selection when an agent is signed in', () => {
@@ -183,6 +191,7 @@ describe('AsmMainUiComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
+    expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
     expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
   });
 
@@ -199,6 +208,7 @@ describe('AsmMainUiComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
+    expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
     expect(el.query(By.css('a[title="asm.logout"]'))).toBeFalsy();
   });
 
@@ -218,6 +228,7 @@ describe('AsmMainUiComponent', () => {
     ).toEqual(`${testUser.name}, ${testUser.uid}`);
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
+    expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
   });
 
   it('should redirect to home when starting a customer emulation session.', () => {
