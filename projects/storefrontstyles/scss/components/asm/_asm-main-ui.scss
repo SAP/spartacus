@@ -120,7 +120,6 @@
     overflow: hidden;
     max-width: 100%;
     text-overflow: ellipsis;
-    display: inline-block;
   }
 
   .fd-shellbar__action > div {
@@ -526,8 +525,9 @@
     }
   }
 
-  // Mobile Media Queries
-  @media (max-width: 576px) {
+  // Media Queries
+  // Extra small devices (portrait phones, less than 576px)
+  @media (max-width: 575px) {
     height: auto;
     .fd-col--3,
     .fd-col--6 {
@@ -539,6 +539,29 @@
     [class*='fd-button--'],
     a[class*='fd-button--'] {
       width: 100%;
+    }
+
+    .fd-shellbar__title {
+      display: none;
+    }
+    cx-asm-session-timer {
+      .session-label {
+        display: none;
+      }
+    }
+  }
+
+  // Small devices (landscape phones, 576px and up)
+  @media (min-width: 576px) and (max-width: 767px) {
+    .fd-shellbar__title {
+      display: inline-block;
+    }
+  }
+
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 768px) {
+    .fd-shellbar__title {
+      display: inline-block;
     }
   }
 }
