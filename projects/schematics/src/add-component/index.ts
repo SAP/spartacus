@@ -23,47 +23,65 @@ import {
 } from '../shared/utils/file-utils';
 import { importModule } from '../shared/utils/module-file-utils';
 import { getWorkspace } from '../shared/utils/workspace-utils';
-import { ComponentSchema } from './schema';
+import { CxCmsComponentSchema } from './schema';
 
 const DELETE_ME = true;
 
-function buildModuleName(options: ComponentSchema): string {
+function buildModuleName(options: CxCmsComponentSchema): string {
   const specifiedModule = options.module || '';
   return options.createModule ? options.name : specifiedModule;
 }
 
-function test(options: ComponentSchema): Rule {
+function print(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (DELETE_ME) {
-      const moduleName = buildModuleName(options);
-      const modulePath = findModuleFromOptions(tree, { name: moduleName });
-      if (DELETE_ME) {
-        console.log(
-          `*** module '${moduleName}' on the path '${modulePath}' ***`
-        );
-      }
-      if (!modulePath) {
-        context.logger.error(`Could not find the ${modulePath}`);
-        return;
-      }
-
-      const buffer = tree.read(modulePath);
-      if (!buffer) {
-        if (DELETE_ME) {
-          console.log('no buffer for the file');
+      {
+        const moduleName = buildModuleName(options);
+        const modulePath = findModuleFromOptions(tree, { name: moduleName });
+        if (!modulePath) {
+          context.logger.error(`Could not find the ${modulePath}`);
+          return;
         }
-        return;
+
+        const moduleBuffer = tree.read(modulePath);
+        if (!moduleBuffer) {
+          console.log('no buffer for the module');
+          return;
+        }
+
+        const moduleContent = moduleBuffer.toString();
+        console.log('\n', moduleContent);
       }
 
-      const content = buffer.toString();
-      if (DELETE_ME) {
-        console.log('content', content);
+      {
+        const componentFileName = `${strings.camelize(
+          options.name
+        )}.${strings.camelize(options.type)}.ts`;
+        const possibleProjectFiles = ['/angular.json', '/.angular.json'];
+        const { workspace } = getWorkspace(tree, possibleProjectFiles);
+        const project = getProjectFromWorkspace(workspace, options.project);
+
+        const componentPath = getPathResultsForFile(
+          tree,
+          componentFileName,
+          project.sourceRoot
+        )[0];
+        console.log('component path', componentPath);
+
+        const componentBuffer = tree.read(componentPath);
+        if (!componentBuffer) {
+          console.log('no buffer for the component');
+          return;
+        }
+
+        const componentContent = componentBuffer.toString();
+        console.log('\n', componentContent);
       }
     }
   };
 }
 
-function updateModule(options: ComponentSchema): Rule {
+function updateModule(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const moduleName = buildModuleName(options);
     const modulePath = findModuleFromOptions(tree, { name: moduleName });
@@ -103,9 +121,11 @@ function updateModule(options: ComponentSchema): Rule {
   };
 }
 
-function updateComponent(options: ComponentSchema): Rule {
+function updateComponent(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    const componentFileName = `${strings.camelize(options.name)}.component.ts`;
+    const componentFileName = `${strings.camelize(
+      options.name
+    )}.${strings.camelize(options.type)}.ts`;
 
     const possibleProjectFiles = ['/angular.json', '/.angular.json'];
     const { workspace } = getWorkspace(tree, possibleProjectFiles);
@@ -125,7 +145,7 @@ function updateComponent(options: ComponentSchema): Rule {
   };
 }
 
-function validateArguments(options: ComponentSchema): void {
+function validateArguments(options: CxCmsComponentSchema): void {
   if (!options.createModule && !Boolean(options.module)) {
     throw new SchematicsException(
       'You have to either specify a path to an existing module or set "createModule" to true.'
@@ -133,21 +153,28 @@ function validateArguments(options: ComponentSchema): void {
   }
 }
 
-export function addComponent(options: ComponentSchema): Rule {
+export function addComponent(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     validateArguments(options);
 
-    const componentName = options.name;
+    const changeDetection = options.changeDetection;
     const createModule = options.createModule;
-    const moduleName = buildModuleName(options);
     const entryComponent = options.entryComponent;
     const exportOption = options.export;
+    const flat = options.flat;
+    const inlineStyle = options.inlineStyle;
+    const inlineTemplate = options.inlineTemplate;
+    const lintFix = options.lintFix;
+    const moduleName = buildModuleName(options);
+    const componentName = options.name;
+    const prefix = options.prefix;
     const project = options.project;
     const selector = options.selector;
     const skipSelector = options.skipSelector;
-    const flat = options.flat;
-    const skipTests = options.skipTests;
     const type = options.type;
+    const skipTests = options.skipTests;
+    const style = options.style;
+    const viewEncapsulation = options.viewEncapsulation;
 
     return chain([
       createModule
@@ -157,20 +184,27 @@ export function addComponent(options: ComponentSchema): Rule {
           })
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
-        project,
-        name: componentName,
+        changeDetection,
         entryComponent,
-        module: moduleName,
         export: exportOption,
+        flat,
+        inlineStyle,
+        inlineTemplate,
+        lintFix,
+        module: moduleName,
+        name: componentName,
+        prefix,
+        project,
         selector,
         skipSelector,
-        flat,
-        skipTests,
         type,
+        skipTests,
+        style,
+        viewEncapsulation,
       }),
       updateModule(options),
       updateComponent(options),
-      test(options),
+      print(options),
     ])(tree, context);
   };
 }
