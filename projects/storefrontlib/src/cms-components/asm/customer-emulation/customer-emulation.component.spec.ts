@@ -25,7 +25,7 @@ class MockUserService {
   }
 }
 
-fdescribe('CustomerEmulationComponent', () => {
+describe('CustomerEmulationComponent', () => {
   let component: CustomerEmulationComponent;
   let fixture: ComponentFixture<CustomerEmulationComponent>;
   let userService: UserService;
