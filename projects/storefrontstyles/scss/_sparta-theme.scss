@@ -38,9 +38,6 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-anonymous-consent-dialog, cx-anonymous-consent-open-dialog,
   cx-consent-management-form, cx-consent-management, cx-consent-management-form !default;
 
-// future theme's, can be introduced during minors
-$theme: '' !default;
-
 @each $selector in $selectors {
   #{$selector} {
     // skip selectors if they're added to the $skipComponentStyles list
