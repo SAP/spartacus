@@ -33,19 +33,19 @@ export class AsmRootComponent implements OnInit, OnDestroy {
     });
   }
 
-  private showUi(): void {
-    this.asmService.updateAsmUiState({ visible: true, expanded: true });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   expandUi(): void {
     this.asmService.updateAsmUiState({ visible: true, expanded: true });
   }
 
   collapseUi(): void {
     this.asmService.updateAsmUiState({ visible: true, expanded: false });
+  }
+
+  private showUi(): void {
+    this.asmService.updateAsmUiState({ visible: true, expanded: true });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
