@@ -63,15 +63,15 @@ describe('anonymous consent actions', () => {
         });
       });
     });
-    describe('ToggleAnonymousConsentsBannerVisibility', () => {
+    describe('ToggleAnonymousConsentsBannerDissmissed', () => {
       it('should create the action', () => {
         const visible = true;
-        const action = new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+        const action = new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
           visible
         );
         expect({ ...action }).toEqual({
           type:
-            AnonymousConsentsActions.TOGGLE_ANONYMOUS_CONSENTS_BANNER_VISIBILITY,
+            AnonymousConsentsActions.TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED,
           visible,
         });
       });
