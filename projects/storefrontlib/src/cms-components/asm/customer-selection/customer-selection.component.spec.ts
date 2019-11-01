@@ -18,7 +18,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
-import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
 class MockGlobalMessageService {
@@ -106,17 +105,6 @@ describe('CustomerSelectionComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('isNotValid() should delegate to FormUtils.isNotValidField()', () => {
-    spyOn(FormUtils, 'isNotValidField').and.stub();
-
-    component.isNotValid('searchTerm');
-    expect(FormUtils.isNotValidField).toHaveBeenCalledWith(
-      component.form,
-      'searchTerm',
-      component['submitClicked']
-    );
   });
 
   describe('Start session button', () => {

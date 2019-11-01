@@ -6,17 +6,11 @@
           #searchTerm
           type="text"
           class="form-control"
-          [class.is-invalid]="isNotValid('searchTerm')"
           formControlName="searchTerm"
           placeholder="{{
             'asm.customerSearch.searchTerm.label' | cxTranslate
           }}"
         />
-        <div class="invalid-feedback" *ngIf="isNotValid('searchTerm')">
-          <span>{{
-            'asm.customerSearch.searchTerm.required' | cxTranslate
-          }}</span>
-        </div>
       </label>
     </div>
 

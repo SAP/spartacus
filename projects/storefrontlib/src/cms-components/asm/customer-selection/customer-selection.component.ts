@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
 @Component({
   selector: 'cx-customer-selection',
@@ -22,7 +21,6 @@ import { FormUtils } from '../../../shared/utils/forms/form-utils';
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  private submitClicked = false;
   private subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
@@ -78,13 +76,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  isNotValid(formControlName: string): boolean {
-    return FormUtils.isNotValidField(
-      this.form,
-      formControlName,
-      this.submitClicked
-    );
-  }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
