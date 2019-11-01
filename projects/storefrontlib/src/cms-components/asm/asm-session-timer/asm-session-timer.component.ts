@@ -34,13 +34,13 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.routingService.isNavigating().subscribe(isNavigating => {
         if (isNavigating) {
-          this.reset();
+          this.resetTimer();
         }
       })
     );
   }
 
-  reset() {
+  resetTimer() {
     if (this.timeLeft > 0) {
       this.timeLeft = this.config.asm.sessionTimer.startingDelayInSeconds;
     }
