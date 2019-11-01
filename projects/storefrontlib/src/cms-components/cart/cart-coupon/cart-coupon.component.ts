@@ -1,6 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Cart, CartService, CartVoucherService } from '@spartacus/core';
+import {
+  Cart,
+  CartService,
+  CartVoucherService,
+  AuthService,
+  OCC_USER_ID_ANONYMOUS,
+} from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -20,14 +26,23 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   constructor(
     private cartService: CartService,
+    private authService: AuthService,
     private cartVoucherService: CartVoucherService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService
-      .getActive()
-      .pipe(tap(cart => (this.cartId = cart.code)));
+    this.cart$ = combineLatest([
+      this.cartService.getActive(),
+      this.authService.getOccUserId(),
+    ]).pipe(
+      tap(
+        ([cart, userId]: [Cart, string]) =>
+          (this.cartId =
+            userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code)
+      ),
+      map(([cart]: [Cart, string]) => cart)
+    );
 
     this.cartIsLoading$ = this.cartService
       .getLoaded()
