@@ -20,7 +20,7 @@ class MockAnonymousConsentsService {
   getTemplatesUpdated(): Observable<boolean> {
     return of();
   }
-  toggleBannerVisibility(_visible: boolean): void {}
+  toggleBannerDismissed(_dismissed: boolean): void {}
 }
 
 class MockModalService {
@@ -69,32 +69,6 @@ describe('AnonymousConsentManagementBannerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should call anonymousConsentsService.isBannerVisible()', () => {
-      spyOn(anonymousConsentsService, 'isBannerVisible').and.returnValue(
-        of(false)
-      );
-
-      component.ngOnInit();
-
-      expect(anonymousConsentsService.isBannerVisible).toHaveBeenCalled();
-    });
-    it('should call getTemplatesUpdated and toggleBannerVisibility', () => {
-      spyOn(anonymousConsentsService, 'getTemplatesUpdated').and.returnValue(
-        of(true)
-      );
-      spyOn(anonymousConsentsService, 'toggleBannerVisibility').and.stub();
-
-      component.ngOnInit();
-      component.templatesUpdated$.subscribe().unsubscribe();
-
-      expect(anonymousConsentsService.getTemplatesUpdated).toHaveBeenCalled();
-      expect(
-        anonymousConsentsService.toggleBannerVisibility
-      ).toHaveBeenCalledWith(true);
-    });
-  });
-
   describe('viewDetails', () => {
     it('should hide the banner and open the dialog', () => {
       spyOn(component, 'hideBanner').and.stub();
@@ -130,12 +104,12 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   });
 
   describe('hideBanner', () => {
-    it('should anonymousConsentsService.toggleBannerVisibility call with false as an argument', () => {
-      spyOn(anonymousConsentsService, 'toggleBannerVisibility').and.stub();
+    it('should anonymousConsentsService.toggleBannerDismissed call with true as an argument', () => {
+      spyOn(anonymousConsentsService, 'toggleBannerDismissed').and.stub();
       component.hideBanner();
       expect(
-        anonymousConsentsService.toggleBannerVisibility
-      ).toHaveBeenCalledWith(false);
+        anonymousConsentsService.toggleBannerDismissed
+      ).toHaveBeenCalledWith(true);
     });
   });
 
