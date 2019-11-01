@@ -6,4 +6,12 @@ export interface ComponentSchema extends Schema {
   name: string;
   createModule: boolean;
   module?: string;
+
+  export: boolean;
+  entryComponent: boolean;
+  selector?: string;
+  skipSelector: boolean;
+  flat: boolean;
+  skipTests: boolean;
+  type: string;
 }

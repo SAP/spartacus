@@ -8,16 +8,21 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { findModuleFromOptions } from '@angular/cdk/schematics';
+import {
+  findModuleFromOptions,
+  getProjectFromWorkspace,
+} from '@angular/cdk/schematics';
 import { insertImport } from '@schematics/angular/utility/ast-utils';
 import { Change } from '@schematics/angular/utility/change';
 import { ANGULAR_SCHEMATICS, SPARTACUS_CORE } from '../shared/constants';
 import {
   commitChanges,
+  getPathResultsForFile,
   getTsSourceFile,
   InsertDirection,
 } from '../shared/utils/file-utils';
 import { importModule } from '../shared/utils/module-file-utils';
+import { getWorkspace } from '../shared/utils/workspace-utils';
 import { ComponentSchema } from './schema';
 
 const DELETE_ME = true;
@@ -34,7 +39,7 @@ function test(options: ComponentSchema): Rule {
       const modulePath = findModuleFromOptions(tree, { name: moduleName });
       if (DELETE_ME) {
         console.log(
-          `*** updating module '${moduleName}' on the path '${modulePath}' ***`
+          `*** module '${moduleName}' on the path '${modulePath}' ***`
         );
       }
       if (!modulePath) {
@@ -62,32 +67,14 @@ function updateModule(options: ComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const moduleName = buildModuleName(options);
     const modulePath = findModuleFromOptions(tree, { name: moduleName });
-    if (DELETE_ME) {
-      console.log(
-        `*** updating module '${moduleName}' on the path '${modulePath}' ***`
-      );
-    }
     if (!modulePath) {
       context.logger.error(`Could not find the ${modulePath}`);
       return;
     }
 
-    const buffer = tree.read(modulePath);
-    if (!buffer) {
-      if (DELETE_ME) {
-        console.log('no buffer for the file');
-      }
-      return;
-    }
-
-    const content = buffer.toString();
-    if (DELETE_ME) {
-      console.log('content', content);
-    }
-
-    const moduleTs = getTsSourceFile(tree, modulePath);
     const changes: Change[] = [];
 
+    const moduleTs = getTsSourceFile(tree, modulePath);
     const insertImportChange = insertImport(
       moduleTs,
       modulePath,
@@ -97,7 +84,8 @@ function updateModule(options: ComponentSchema): Rule {
     );
     changes.push(insertImportChange);
 
-    const componentName = strings.classify(options.name);
+    // TODO:#12 - if createModule option is false, then try to add the component to the CMS config
+    const componentName = `${strings.classify(options.name)}${options.type}`;
     const insertModuleChanges = importModule(
       tree,
       modulePath,
@@ -115,6 +103,28 @@ function updateModule(options: ComponentSchema): Rule {
   };
 }
 
+function updateComponent(options: ComponentSchema): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const componentFileName = `${strings.camelize(options.name)}.component.ts`;
+
+    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
+    const { workspace } = getWorkspace(tree, possibleProjectFiles);
+    const project = getProjectFromWorkspace(workspace, options.project);
+
+    const componentPath = getPathResultsForFile(
+      tree,
+      componentFileName,
+      project.sourceRoot
+    )[0];
+
+    if (DELETE_ME) {
+      console.log('*** options, keep an eye to path ***', options);
+      console.log('*** looking for a component ***', componentFileName);
+      console.log('*** component path ***', componentPath);
+    }
+  };
+}
+
 function validateArguments(options: ComponentSchema): void {
   if (!options.createModule && !Boolean(options.module)) {
     throw new SchematicsException(
@@ -125,34 +135,41 @@ function validateArguments(options: ComponentSchema): void {
 
 export function addComponent(options: ComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    if (DELETE_ME) {
-      console.log('*** running schematics v32 ***');
-      console.log('*** options ***', options);
-    }
     validateArguments(options);
 
     const componentName = options.name;
     const createModule = options.createModule;
     const moduleName = buildModuleName(options);
-
-    if (DELETE_ME) {
-      console.log('*** moduleName ***', moduleName);
-    }
+    const entryComponent = options.entryComponent;
+    const exportOption = options.export;
+    const project = options.project;
+    const selector = options.selector;
+    const skipSelector = options.skipSelector;
+    const flat = options.flat;
+    const skipTests = options.skipTests;
+    const type = options.type;
 
     return chain([
       createModule
         ? externalSchematic(ANGULAR_SCHEMATICS, 'module', {
-            project: options.project,
+            project,
             name: moduleName,
           })
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
-        project: options.project,
+        project,
         name: componentName,
-        entryComponent: true,
+        entryComponent,
         module: moduleName,
+        export: exportOption,
+        selector,
+        skipSelector,
+        flat,
+        skipTests,
+        type,
       }),
       updateModule(options),
+      updateComponent(options),
       test(options),
     ])(tree, context);
   };
