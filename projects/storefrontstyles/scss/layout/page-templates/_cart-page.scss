@@ -1,3 +1,13 @@
+%CartPageTemplate-calydon {
+  .CenterRightContentSlot {
+    flex-direction: column;
+    justify-content: flex-start;
+    > * {
+      flex: none;
+    }
+  }
+}
+
 %CartPageTemplate {
   max-width: 1140px;
   padding: 0 1.5rem;
