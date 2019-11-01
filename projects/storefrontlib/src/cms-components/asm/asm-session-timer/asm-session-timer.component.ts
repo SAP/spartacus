@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-asm-session-timer',
@@ -32,7 +33,6 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       this.routingService.isNavigating().subscribe(isNavigating => {
-        console.log('isNavigating', isNavigating);
         if (isNavigating) {
           this.reset();
         }
@@ -47,10 +47,16 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   }
 
   private logout(): void {
-    this.authService.logout();
-    this.authService.logoutCustomerSupportAgent();
-    this.routingService.go({ cxRoute: 'home' });
-    console.log('LOGOUT');
+    this.authService
+      .getUserToken()
+      .pipe(take(1))
+      .subscribe(token => {
+        if (!!token && token.access_token) {
+          this.authService.logout();
+          this.routingService.go({ cxRoute: 'home' });
+        }
+        this.authService.logoutCustomerSupportAgent();
+      });
   }
 
   ngOnDestroy(): void {
