@@ -13,13 +13,15 @@ Run the following command from your project root:
 - `baseUrl`: Base url of your CX OCC backend
 - `baseSite`: Name of your base site
 - `useMetaTags`: Whether or not to configure baseUrl and mediaUrl in the meta tags from `index.html`
-- `featureLevel`: Application feature level. (default: '1.2')
+- `featureLevel`: Application feature level. (default: '1.3')
 - `overwriteAppComponent`: Overwrite content of app.component.html file. (default: false)
 - `pwa`: Include PWA features while constructing application.
 - `ssr`: Include Server-side Rendering configuration.
 
-### Other commands:
+### Other commands
+
 By defaut `ng add @spartacus/schematics` will add only basic spartacus configuration. You are able extend application with features like *PWA* or *SSR* with commands listed below:
+
 - `ng g @spartacus/schematics:add-pwa` - adds Spartacus-specific PWA module
 - `ng g @spartacus/schematics:add-ssr` - adds server-side rendering configuration
 
@@ -35,7 +37,6 @@ By defaut `ng add @spartacus/schematics` will add only basic spartacus configura
 7. If `--ssr` flag included:
     - Add ssr dependencies
     - Provide additional files required for SSR
-
 
 ## Building and using Spartacus Schematics from source
 
@@ -55,5 +56,6 @@ Install angular schematics globally: `npm install -g @angular-devkit/schematics-
 1. Run `npm pack` in schematics directory. It will generate the `spartacus-schematics-x.x.x.tgz` file.
 2. Generate a new Angular app (using `ng new` command) or choose an existing one
 3. Install and run schematics in your app using either:
- - `ng add path-to-file/spartacus-schematics-x.x.x.tgz` (it will execute default schematics)
- - `yarn add path-to-file/spartacus-schematics-x.x.x.tgz` and `ng g @spartacus/schematics:add-spartacus`
+
+- `ng add path-to-file/spartacus-schematics-x.x.x.tgz` (it will execute default schematics)
+- `yarn add path-to-file/spartacus-schematics-x.x.x.tgz` and `ng g @spartacus/schematics:add-spartacus`

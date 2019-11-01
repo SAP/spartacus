@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SpartacusSchematics",
+  "title": "Spartacus Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the component.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the component?"
+    },
+    "module": {
+      "type": "string",
+      "description": "The declaring NgModule.",
+      "alias": "m"
+    },
+    "createModule": {
+      "type": "boolean",
+      "description": "Generate the module with the component.",
+      "default": true
+    }
+  }
+}

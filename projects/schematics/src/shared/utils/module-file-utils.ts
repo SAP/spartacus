@@ -1,11 +1,11 @@
 import { Tree } from '@angular-devkit/schematics';
-import { getTsSourceFile } from './file-utils';
 import {
   addSymbolToNgModuleMetadata,
   insertImport,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
-import { InsertChange } from '@schematics/angular/utility/change';
+import { Change } from '@schematics/angular/utility/change';
+import { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
 
 export function addImport(
   host: Tree,
@@ -21,34 +21,30 @@ export function addImport(
       importText,
       importPath
     );
-    if (change) {
-      const recorder = host.beginUpdate(modulePath);
-      recorder.insertLeft(
-        (change as InsertChange).pos,
-        (change as InsertChange).toAdd
-      );
-      host.commitUpdate(recorder);
-    }
+    commitChanges(host, modulePath, [change], InsertDirection.LEFT);
   }
 }
 
+// TODO:#12 test
 export function importModule(
   host: Tree,
   modulePath: string,
   importText: string
-) {
+): Change[] {
   const moduleSource = getTsSourceFile(host, modulePath);
-  const metadataChanges = addSymbolToNgModuleMetadata(
+  return addSymbolToNgModuleMetadata(
     moduleSource,
     modulePath,
     'imports',
     importText
   );
-  if (metadataChanges) {
-    const recorder = host.beginUpdate(modulePath);
-    metadataChanges.forEach((change: InsertChange) => {
-      recorder.insertRight(change.pos, change.toAdd);
-    });
-    host.commitUpdate(recorder);
-  }
+}
+
+export function importModuleAndCommitChanges(
+  host: Tree,
+  modulePath: string,
+  importText: string
+): void {
+  const metadataChanges = importModule(host, modulePath, importText);
+  commitChanges(host, modulePath, metadataChanges, InsertDirection.RIGHT);
 }

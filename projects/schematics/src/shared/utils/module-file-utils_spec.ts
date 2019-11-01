@@ -1,10 +1,10 @@
-import * as path from 'path';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import * as path from 'path';
 import { getPathResultsForFile } from './file-utils';
-import { addImport, importModule } from './module-file-utils';
+import { addImport, importModuleAndCommitChanges } from './module-file-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -78,7 +78,11 @@ describe('Module file utils', () => {
         'src'
       )[0];
       expect(appModulePath).toBeTruthy();
-      importModule(appTree, appModulePath, 'MockUnitTestModule');
+      importModuleAndCommitChanges(
+        appTree,
+        appModulePath,
+        'MockUnitTestModule'
+      );
 
       const buffer = appTree.read(appModulePath);
       expect(buffer).toBeTruthy();

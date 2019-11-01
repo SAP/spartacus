@@ -1,7 +1,8 @@
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import * as ts from 'typescript';
 import { experimental } from '@angular-devkit/core';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
+import { Change, InsertChange } from '@schematics/angular/utility/change';
+import * as ts from 'typescript';
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
@@ -46,4 +47,34 @@ export function getPathResultsForFile(
   });
 
   return results;
+}
+
+export enum InsertDirection {
+  LEFT,
+  RIGHT,
+}
+
+// TODO:#12
+export function commitChanges(
+  host: Tree,
+  path: string,
+  changes: Change[] | null,
+  insertDirection: InsertDirection
+): void {
+  if (!changes) {
+    return;
+  }
+
+  const recorder = host.beginUpdate(path);
+  changes.forEach(change => {
+    const pos = (change as InsertChange).pos;
+    const toAdd = (change as InsertChange).toAdd;
+
+    if (insertDirection === InsertDirection.LEFT) {
+      recorder.insertLeft(pos, toAdd);
+    } else {
+      recorder.insertRight(pos, toAdd);
+    }
+  });
+  host.commitUpdate(recorder);
 }

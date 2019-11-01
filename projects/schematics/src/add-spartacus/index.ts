@@ -20,15 +20,18 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
-import { Schema as SpartacusOptions } from './schema';
-import { addImport, importModule } from '../shared/utils/module-file-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
-import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import {
+  addImport,
+  importModuleAndCommitChanges,
+} from '../shared/utils/module-file-utils';
 import { getAngularVersion } from '../shared/utils/package-utils';
+import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = '^1.1.0';
+    const spartacusVersion = '^1.2.2';
     const ngrxVersion = '^8.3.0';
     const angularVersion = getAngularVersion(tree);
 
@@ -166,7 +169,7 @@ function updateAppModule(options: SpartacusOptions): Rule {
     addImport(host, modulePath, 'translationChunksConfig', '@spartacus/assets');
     addImport(host, modulePath, 'B2cStorefrontModule', '@spartacus/storefront');
 
-    importModule(
+    importModuleAndCommitChanges(
       host,
       modulePath,
       `B2cStorefrontModule.withConfig(${getStorefrontConfig(options)})`

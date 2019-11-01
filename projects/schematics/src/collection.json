@@ -21,6 +21,11 @@
       "description": "Add server-side rendering.",
       "factory": "./add-ssr/index#addSSR",
       "schema": "./add-spartacus/schema.json"
+    },
+    "add-component": {
+      "description": "Add a component.",
+      "factory": "./add-component/index#addComponent",
+      "schema": "./add-component/schema.json"
     }
   }
 }
