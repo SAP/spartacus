@@ -1,11 +1,6 @@
-@import './cart/index';
 @import './steps/index';
 @import './order-confirmation/index';
 @import './promotions';
-
-$cart-components-whitelist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
-  cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
-  cx-cart-totals, cx-cart-coupon, cx-applied-coupons !default;
 
 $checkout-components-whitelist: cx-payment-method, cx-payment-method,
   cx-payment-methods, cx-checkout-progress, cx-checkout-progress-mobile-top,
