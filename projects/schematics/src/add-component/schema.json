@@ -9,6 +9,24 @@
       "description": "Generate the module with the component.",
       "default": true
     },
+    "cmsComponentData": {
+      "type": "boolean",
+      "description": "Inject the CmsComponentData.",
+      "default": false,
+      "alias": "cms"
+    },
+    "cmsComponentDataModel": {
+      "type": "string",
+      "description": "Specify the model for the CmsComponentData.",
+      "alias": "cms-data"
+    },
+    "cmsComponentDataModelPath": {
+      "type": "string",
+      "description": "Specify the import path for the CmsComponentData. Default is '@spartacus/core'",
+      "alias": "cms-data-path",
+      "default": "@spartacus/core"
+    },
+
     "project": {
       "type": "string",
       "description": "The name of the project.",

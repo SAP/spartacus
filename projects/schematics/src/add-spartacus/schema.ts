@@ -110,6 +110,7 @@ export declare enum ViewEncapsulation {
   ShadowDom = 'ShadowDom',
 }
 
+// TODO:#12 - copy module's schema.json and ts interface
 export interface AngularModuleSchema {
   name: string;
 }

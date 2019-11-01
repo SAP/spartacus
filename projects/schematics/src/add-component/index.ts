@@ -12,13 +12,17 @@ import {
   findModuleFromOptions,
   getProjectFromWorkspace,
 } from '@angular/cdk/schematics';
-import { insertImport } from '@schematics/angular/utility/ast-utils';
+import {
+  getSourceNodes,
+  insertImport,
+} from '@schematics/angular/utility/ast-utils';
 import { Change } from '@schematics/angular/utility/change';
 import { ANGULAR_SCHEMATICS, SPARTACUS_CORE } from '../shared/constants';
 import {
   commitChanges,
   getPathResultsForFile,
   getTsSourceFile,
+  inject,
   InsertDirection,
 } from '../shared/utils/file-utils';
 import { importModule } from '../shared/utils/module-file-utils';
@@ -96,13 +100,13 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     const insertImportChange = insertImport(
       moduleTs,
       modulePath,
-      'ConfigModule, CmsConfig',
+      `ConfigModule, CmsConfig`,
       SPARTACUS_CORE,
       false
     );
     changes.push(insertImportChange);
 
-    // TODO:#12 - if createModule option is false, then try to add the component to the CMS config
+    // TODO:#12 - if createModule option is false, then try to add the component to the CMS config. This is under assumption that ConfigModule.withConfig already exists (if not, add it)
     const componentName = `${strings.classify(options.name)}${options.type}`;
     const insertModuleChanges = importModule(
       tree,
@@ -123,6 +127,15 @@ function updateModule(options: CxCmsComponentSchema): Rule {
 
 function updateComponent(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, _context: SchematicContext) => {
+    if (!options.cmsComponentData) {
+      return;
+    }
+    // TODO:#12 throw an exception if options.cmsComponentDataModel is undefined
+    const cmsComponentDataModel = options.cmsComponentDataModel || '';
+    const cmsComponentData = `CmsComponentData<${strings.classify(
+      cmsComponentDataModel
+    )}>`;
+
     const componentFileName = `${strings.camelize(
       options.name
     )}.${strings.camelize(options.type)}.ts`;
@@ -137,11 +150,38 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       project.sourceRoot
     )[0];
 
-    if (DELETE_ME) {
-      console.log('*** options, keep an eye to path ***', options);
-      console.log('*** looking for a component ***', componentFileName);
-      console.log('*** component path ***', componentPath);
-    }
+    const changes: Change[] = [];
+
+    const componentTs = getTsSourceFile(tree, componentPath);
+    const cmsComponentImport = insertImport(
+      componentTs,
+      componentPath,
+      strings.classify(cmsComponentDataModel),
+      options.cmsComponentDataModelPath,
+      false
+    );
+    changes.push(cmsComponentImport);
+    const cmsComponentDataImport = insertImport(
+      componentTs,
+      componentPath,
+      'CmsComponentData',
+      SPARTACUS_CORE,
+      false
+    );
+    changes.push(cmsComponentDataImport);
+
+    const nodes = getSourceNodes(componentTs);
+    const injectionChange = inject(
+      nodes,
+      componentPath,
+      cmsComponentData,
+      'componentData'
+    );
+    changes.push(injectionChange);
+
+    commitChanges(tree, componentPath, changes, InsertDirection.RIGHT);
+
+    // TODO:12 - check if the template is inline or a separate file.
   };
 }
 
@@ -149,6 +189,12 @@ function validateArguments(options: CxCmsComponentSchema): void {
   if (!options.createModule && !Boolean(options.module)) {
     throw new SchematicsException(
       'You have to either specify a path to an existing module or set "createModule" to true.'
+    );
+  }
+
+  if (options.cmsComponentData && !Boolean(options.cmsComponentDataModel)) {
+    throw new SchematicsException(
+      'You have to specify "cmsComponentDataModel".'
     );
   }
 }

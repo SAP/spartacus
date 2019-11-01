@@ -10,5 +10,21 @@ export interface CxCmsComponentSchema
   extends Schema,
     AngularComponentSchema,
     AngularModuleSchema {
+  /**
+   * Generate the module with the component.
+   */
   createModule: boolean;
+  /**
+   * Inject the CmsComponentData.
+   */
+  cmsComponentData?: boolean;
+  /**
+   * Specify the model for the CmsComponentData.
+   */
+  cmsComponentDataModel?: string;
+  /**
+   * Specify the import path for the CmsComponentData.
+   * Default is '@spartacus/core'
+   */
+  cmsComponentDataModelPath: string;
 }

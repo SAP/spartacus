@@ -1,7 +1,11 @@
-import { experimental } from '@angular-devkit/core';
+import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
-import { Change, InsertChange } from '@schematics/angular/utility/change';
+import {
+  Change,
+  InsertChange,
+  NoopChange,
+} from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
@@ -77,4 +81,32 @@ export function commitChanges(
     }
   });
   host.commitUpdate(recorder);
+}
+
+export function inject(
+  nodes: ts.Node[],
+  path: string,
+  serviceName: string,
+  propertyName?: string
+): Change {
+  const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
+
+  if (!constructorNode) {
+    // TODO:#12 create the constructor
+    // constructorNode = createConstructor();
+    return new NoopChange();
+  }
+
+  const siblings = constructorNode.getChildren();
+  const parameterListNode = siblings.find(
+    n => n.kind === ts.SyntaxKind.SyntaxList
+  );
+  if (!parameterListNode) {
+    // TODO:#12 what to do here?
+    return new NoopChange();
+  }
+
+  propertyName = propertyName || strings.camelize(serviceName);
+  const toAdd = `private ${propertyName}: ${strings.classify(serviceName)}`;
+  return new InsertChange(path, parameterListNode.pos, toAdd);
 }
