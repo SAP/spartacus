@@ -193,6 +193,20 @@ describe('CustomerSelectionComponent', () => {
     );
   });
 
+  it('should close the result list when we click out of the result list area', () => {
+    spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
+      of(mockCustomerSearchPage)
+    );
+    spyOn(asmService, 'customerSearchReset').and.stub();
+    component.ngOnInit();
+    component.form.controls.searchTerm.setValue(validSearchTerm);
+    fixture.detectChanges();
+    expect(el.query(By.css('div.results'))).toBeTruthy();
+    el.nativeElement.dispatchEvent(new MouseEvent('click'));
+    fixture.detectChanges();
+    expect(asmService.customerSearchReset).toHaveBeenCalled();
+  });
+
   it('should display no results message when no results are found', () => {
     spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
       of(<CustomerSearchPage>{ entries: [] })
@@ -211,6 +225,7 @@ describe('CustomerSelectionComponent', () => {
     spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
       of(mockCustomerSearchPage)
     );
+    spyOn(asmService, 'customerSearchReset').and.stub();
     spyOn(component, 'selectCustomerFromList').and.callThrough();
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
@@ -225,5 +240,6 @@ describe('CustomerSelectionComponent', () => {
     expect(
       el.query(By.css('button[type="submit"]')).nativeElement.disabled
     ).toBeFalsy();
+    expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 });

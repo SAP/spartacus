@@ -1,9 +1,11 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
@@ -18,6 +20,9 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'cx-customer-selection',
   templateUrl: './customer-selection.component.html',
+  host: {
+    '(document:click)': 'onDocumentClick($event)',
+  },
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -28,6 +33,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   @Output()
   submitEvent = new EventEmitter<{ customerId: string }>();
+
+  @ViewChild('resultList', { static: false }) resultList: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -47,21 +54,25 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       this.form.controls.searchTerm.valueChanges
         .pipe(debounceTime(300))
         .subscribe(value => {
-          if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
-            this.selectedCustomer = undefined;
-          }
-          if (!!this.selectedCustomer) {
-            return;
-          }
-          this.asmService.customerSearchReset();
-          if (value.trim().length >= 3) {
-            this.asmService.customerSearch({
-              query: value,
-              pageSize: this.config.asm.customeSearch.maxResults,
-            });
-          }
+          this.handleSearchTerm(value);
         })
     );
+  }
+
+  private handleSearchTerm(value: string) {
+    if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
+      this.selectedCustomer = undefined;
+    }
+    if (!!this.selectedCustomer) {
+      return;
+    }
+    this.asmService.customerSearchReset();
+    if (value.trim().length >= 3) {
+      this.asmService.customerSearch({
+        query: value,
+        pageSize: this.config.asm.customeSearch.maxResults,
+      });
+    }
   }
 
   selectCustomerFromList(customer: User) {
@@ -78,5 +89,13 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  onDocumentClick(event) {
+    if (!!this.resultList) {
+      if (!this.resultList.nativeElement.contains(event.target)) {
+        this.asmService.customerSearchReset();
+      }
+    }
   }
 }
