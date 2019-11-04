@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { GroupSkipperService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-group-skipper',
@@ -6,5 +7,5 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupSkipperComponent {
-  constructor() {}
+  constructor(public groupSkipperService: GroupSkipperService) {}
 }

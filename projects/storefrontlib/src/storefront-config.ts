@@ -10,7 +10,7 @@ import {
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
-  GroupSkipperSlotConfig,
+  GroupSkipperConfig,
 } from '@spartacus/core';
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/index';
@@ -37,4 +37,4 @@ export type StorefrontConfig =
   | ExternalRoutesConfig
   | ViewConfig
   | FeatureToggles
-  | GroupSkipperSlotConfig;
+  | GroupSkipperConfig;

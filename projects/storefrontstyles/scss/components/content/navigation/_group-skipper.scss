@@ -17,4 +17,10 @@
       opacity: 1;
     }
   }
+
+  &:not(:focus-within) {
+    a {
+      top: -100%;
+    }
+  }
 }

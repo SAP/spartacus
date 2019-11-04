@@ -29,7 +29,7 @@ import {
   FooterNavigationModule,
   NavigationModule,
   SearchBoxModule,
-  GroupSkipperModule,
+  GroupSkipperComponentModule,
 } from './navigation/index';
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
@@ -81,7 +81,7 @@ import { StoreFinderModule } from './storefinder/store-finder.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
-    GroupSkipperModule,
+    GroupSkipperComponentModule,
   ],
 })
 export class CmsLibModule {}

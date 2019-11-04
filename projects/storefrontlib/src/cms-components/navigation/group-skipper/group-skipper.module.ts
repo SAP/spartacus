@@ -18,4 +18,4 @@ import { GroupSkipperComponent } from './group-skipper.component';
   exports: [GroupSkipperComponent],
   entryComponents: [GroupSkipperComponent],
 })
-export class GroupSkipperModule {}
+export class GroupSkipperComponentModule {}
