@@ -12,9 +12,12 @@
   so a variable was created to make this available for other themes.
 
 */
+
 @import 'functions';
-@import 'mixins';
 @import '~bootstrap/scss/variables';
+
+// future themes can be introduced during minors
+$theme: '' !default;
 
 $background: $white !default;
 $inverse: $white !default;
