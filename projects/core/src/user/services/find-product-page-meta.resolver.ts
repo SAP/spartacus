@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import {
   PageMetaResolver,
@@ -11,22 +11,20 @@ import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
 import { ProductSearchService } from '../../product/facade/product-search.service';
-import { AuthGuard } from '../../auth/guards/auth.guard';
+import { AuthService } from '../../auth/facade/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FindProductPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  totalAndCode$: Observable<any[]> = combineLatest([
+  totalAndCode$: Observable<[number, any]> = combineLatest([
     this.productSearchService.getResults().pipe(
       filter(data => !!(data && data.pagination)),
       map(results => results.pagination.totalResults)
     ),
     this.routingService.getRouterState().pipe(
-      map(state => {
-        return state.state.queryParams['couponcode'];
-      }),
+      map(state => state.state.queryParams['couponcode']),
       filter(Boolean)
     ),
   ]);
@@ -35,7 +33,7 @@ export class FindProductPageMetaResolver extends PageMetaResolver
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
     protected translation: TranslationService,
-    protected authGuard: AuthGuard
+    protected authService: AuthService
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -49,10 +47,9 @@ export class FindProductPageMetaResolver extends PageMetaResolver
    * The caller `PageMetaService` service is improved to expect all individual resolvers
    * instead, so that the code is easier extensible.
    */
-  resolve(): Observable<PageMeta> | any {
-    return (
-      combineLatest([this.resolveTitle(), this.resolveBreadcrumbs()]),
-      map(([title, breadcrumbs]) => ({
+  resolve(): Observable<PageMeta> {
+    return combineLatest([this.resolveTitle(), this.resolveBreadcrumbs()]).pipe(
+      map(([title, breadcrumbs]: [string, any[]]) => ({
         title,
         breadcrumbs,
       }))
@@ -62,12 +59,11 @@ export class FindProductPageMetaResolver extends PageMetaResolver
   resolveBreadcrumbs(): Observable<any[]> {
     const breadcrumbs = [];
     breadcrumbs.push({ label: 'Home', link: '/' });
-    this.authGuard.canActivate().subscribe(active => {
-      if (active) {
+    this.authService.getUserToken().subscribe(token => {
+      if (token) {
         breadcrumbs.push({ label: 'My Coupons', link: '/my-account/coupons' });
       }
     });
-
     return of(breadcrumbs);
   }
 
@@ -94,6 +90,7 @@ export class FindProductPageMetaResolver extends PageMetaResolver
       .getRouterState()
       .pipe(
         map(state => {
+          console.log(JSON.stringify(state));
           return state.state.queryParams;
         }),
         filter(Boolean)

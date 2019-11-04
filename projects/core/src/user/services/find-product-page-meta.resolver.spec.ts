@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
@@ -14,6 +14,9 @@ import { RoutingService } from '../../routing';
 
 import { FindProductPageMetaResolver } from './find-product-page-meta.resolver';
 import { ProductSearchService } from '../../product/facade/product-search.service';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
+import { AuthService } from '../../auth/facade/auth.service';
+import { Router } from '@angular/router';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -28,7 +31,9 @@ const mockContentPage: Page = {
   slots: {},
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 class FakeContentPageTitleResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
     super();
@@ -42,7 +47,9 @@ class FakeContentPageTitleResolver extends PageMetaResolver {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 class FakeSearchPageTitleResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
     super();
@@ -60,12 +67,19 @@ class FakeSearchPageTitleResolver extends PageMetaResolver {
 describe('FindProductSearchPageMetaResolver', () => {
   let service: PageMetaService;
   let cmsService = jasmine.createSpyObj('CmsService', ['getCurrentPage']);
+  const featureConfigService = jasmine.createSpyObj('FeatureConfigService', [
+    'isLevel',
+  ]);
+
   const prductSearchService = jasmine.createSpyObj('PrductSearchService', [
     'getResults',
   ]);
   const routingService = jasmine.createSpyObj('RoutingService', [
     'getRouterState',
   ]);
+  const authService = jasmine.createSpyObj('AuthService', ['getUserToken']);
+  const router = jasmine.createSpyObj('Router', ['']);
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -77,6 +91,12 @@ describe('FindProductSearchPageMetaResolver', () => {
         { provide: CmsService, useValue: cmsService },
         { provide: ProductSearchService, useValue: prductSearchService },
         { provide: RoutingService, useValue: routingService },
+        { provide: Router, useValue: router },
+        {
+          provide: FeatureConfigService,
+          useValue: featureConfigService,
+        },
+        { provide: AuthService, useValue: authService },
         {
           provide: PageMetaResolver,
           useExisting: FakeContentPageTitleResolver,
@@ -95,6 +115,8 @@ describe('FindProductSearchPageMetaResolver', () => {
       ],
     });
     cmsService.getCurrentPage.and.returnValue(of());
+    featureConfigService.isLevel.and.returnValue(false);
+    authService.getUserToken.and.returnValue(of(false));
     prductSearchService.getResults.and.returnValue(
       of({
         pagination: {
@@ -102,23 +124,23 @@ describe('FindProductSearchPageMetaResolver', () => {
         },
       })
     );
+    routingService.getRouterState.and.returnValue(
+      of({
+        state: {
+          queryParams: {
+            couponcode: 'coupon1',
+          },
+        },
+      })
+    );
 
-    service = TestBed.get(PageMetaService);
-    cmsService = TestBed.get(CmsService);
+    service = TestBed.get(PageMetaService as Type<PageMetaService>);
+    cmsService = TestBed.get(CmsService as Type<CmsService>);
   });
 
   describe('ContentPage with customer coupon find product results', () => {
     beforeEach(() => {
       cmsService.getCurrentPage.and.returnValue(of(mockSearchPage));
-      routingService.getRouterState.and.returnValue(
-        of({
-          state: {
-            params: {
-              query: ':relevance:category:1:couponTest',
-            },
-          },
-        })
-      );
     });
 
     it('PageTitleService should be created', inject(
@@ -136,13 +158,26 @@ describe('FindProductSearchPageMetaResolver', () => {
           result = value;
         })
         .unsubscribe();
-
-      expect(result.title).toEqual(
-        'pageMetaResolver.search.findProductTitle count:3'
+      expect(result['title']).toEqual(
+        'pageMetaResolver.search.findProductTitle count:3 coupon:coupon1'
       );
     });
 
-    it('should resolve 2 breadcrumbs', () => {
+    it('should resolve 1 breadcrumbs when anonymous search', () => {
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+
+      expect(result.breadcrumbs.length).toEqual(1);
+      expect(result.breadcrumbs[0].label).toEqual('Home');
+    });
+
+    it('should resolve 2 breadcrumbs when customer search', () => {
+      authService.getUserToken.and.returnValue(of(true));
       let result: PageMeta;
       service
         .getMeta()
