@@ -78,6 +78,12 @@ class MockCSAgentLoginFormComponent {
   @Input()
   csAgentTokenLoading = false;
 }
+@Component({
+  template: '',
+  selector: 'cx-customer-emulation',
+})
+class MockCustomerEmulationComponent {}
+
 class MockGlobalMessageService {
   remove() {}
 }
@@ -117,6 +123,7 @@ describe('AsmMainUiComponent', () => {
         MockCSAgentLoginFormComponent,
         MockCustomerSelectionComponent,
         MockAsmSessionTimerComponent,
+        MockCustomerEmulationComponent,
       ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
@@ -191,6 +198,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-csagent-login-form'))).toBeTruthy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
     expect(el.query(By.css('cx-asm-session-timer'))).toBeFalsy();
+    expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
   });
 
   it('should display the customer selection state when an agent is signed in', () => {
@@ -204,6 +212,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
     expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
+    expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
     expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
   });
 
@@ -217,10 +226,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(
-      el.query(By.css('input[formcontrolname="customer"]')).nativeElement
-        .placeholder
-    ).toEqual(`${testUser.name}, ${testUser.uid}`);
+    expect(el.query(By.css('cx-customer-emulation'))).toBeTruthy();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
     expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
@@ -293,50 +299,5 @@ describe('AsmMainUiComponent', () => {
     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
       visible: false,
     });
-  });
-
-  it("should call endSession() on 'End Session' button click", () => {
-    //customer login
-    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
-    );
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(userService, 'get').and.returnValue(of(testUser));
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    //Click button
-    const endSessionButton = fixture.debugElement.query(
-      By.css('.fd-button--negative')
-    );
-    spyOn(component, 'endSession');
-    endSessionButton.nativeElement.click();
-
-    //assert
-    expect(component.endSession).toHaveBeenCalled();
-  });
-
-  it('should route back to homepage on end session button click', () => {
-    //customer login
-    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
-      of(mockToken)
-    );
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(userService, 'get').and.returnValue(of(testUser));
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    //Click button
-    const endSessionButton = fixture.debugElement.query(
-      By.css('.fd-button--negative')
-    );
-    spyOn(routingService, 'go');
-    endSessionButton.nativeElement.click();
-
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 });

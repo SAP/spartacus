@@ -15,7 +15,7 @@ export function getReducers(): ActionReducerMap<AnonymousConsentsState> {
     templates: loaderReducer<ConsentTemplate[]>(ANONYMOUS_CONSENTS),
     consents: fromAnonymousConsents.reducer,
     ui: combineReducers({
-      bannerVisible: fromAnonymousConsentsBanner.reducer,
+      bannerDismissed: fromAnonymousConsentsBanner.reducer,
       updated: fromAnonymousConsentsUpdate.reducer,
     }),
   };

@@ -8,6 +8,7 @@ import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-fo
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
+import { CustomerEmulationComponent } from './customer-emulation/customer-emulation.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +29,7 @@ import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
     AsmRootComponent,
     AsmSessionTimerComponent,
     FormatTimerPipe,
+    CustomerEmulationComponent,
   ],
   exports: [AsmRootComponent],
   entryComponents: [AsmRootComponent],

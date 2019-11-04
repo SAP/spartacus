@@ -31,7 +31,7 @@ export class AsmMainUiComponent implements OnInit {
     protected asmService: AsmService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
-    protected routing: RoutingService
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class AsmMainUiComponent implements OnInit {
     ) {
       this.startingCustomerSession = false;
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-      this.routing.go('/');
+      this.routingService.go('/');
     }
   }
 
@@ -91,10 +91,5 @@ export class AsmMainUiComponent implements OnInit {
 
   hideUi(): void {
     this.asmService.updateAsmUiState({ visible: false });
-  }
-
-  endSession() {
-    this.authService.logout();
-    this.routing.go({ cxRoute: 'home' });
   }
 }
