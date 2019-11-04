@@ -83,7 +83,7 @@ describe('OccUserInterestsAdapter', () => {
       });
 
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'productInterests',
+        'getProductInterests',
         {
           userId: userId,
         }
