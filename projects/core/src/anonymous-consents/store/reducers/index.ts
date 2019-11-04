@@ -1,5 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, combineReducers } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
@@ -14,8 +14,10 @@ export function getReducers(): ActionReducerMap<AnonymousConsentsState> {
   return {
     templates: loaderReducer<ConsentTemplate[]>(ANONYMOUS_CONSENTS),
     consents: fromAnonymousConsents.reducer,
-    bannerVisible: fromAnonymousConsentsBanner.reducer,
-    updated: fromAnonymousConsentsUpdate.reducer,
+    ui: combineReducers({
+      bannerDismissed: fromAnonymousConsentsBanner.reducer,
+      updated: fromAnonymousConsentsUpdate.reducer,
+    }),
   };
 }
 
