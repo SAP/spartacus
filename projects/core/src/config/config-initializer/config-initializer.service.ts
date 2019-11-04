@@ -119,7 +119,7 @@ export class ConfigInitializerService {
    * Not a part of a public API, used by APP_INITIALIZER to initialize all provided CONFIG_INITIALIZERS
    *
    */
-  async initialize(initializers: ConfigInitializer[]) {
+  async initialize(initializers?: ConfigInitializer[]) {
     if (this.ongoingScopes$.value) {
       // guard for double initialization
       return;
