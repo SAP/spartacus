@@ -1,6 +1,6 @@
-import {Pipe, PipeTransform, Type} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
+import { Pipe, PipeTransform, Type } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   OccConfig,
@@ -10,10 +10,10 @@ import {
   UrlCommands,
   VariantType,
 } from '@spartacus/core';
-import {CurrentProductService} from '@spartacus/storefront';
-import {Observable, of} from 'rxjs';
-import {ProductVariantSelectorComponent} from './product-variant-selector.component';
-import {NavigationExtras} from '@angular/router';
+import { CurrentProductService } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { ProductVariantSelectorComponent } from './product-variant-selector.component';
+import { NavigationExtras } from '@angular/router';
 
 const mockVariantProduct: Product = {
   name: 'mockVariantProduct',
@@ -67,7 +67,6 @@ describe('ProductVariantSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantSelectorComponent>;
   let currentProductService: CurrentProductService;
   let routingService: RoutingService;
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
