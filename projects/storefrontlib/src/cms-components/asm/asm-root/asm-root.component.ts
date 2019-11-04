@@ -10,7 +10,6 @@ import { Observable, Subscription } from 'rxjs';
 export class AsmRootComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   asmUi$: Observable<AsmUi>;
-  // expanded: boolean;
 
   constructor(
     protected asmService: AsmService,
@@ -27,10 +26,6 @@ export class AsmRootComponent implements OnInit, OnDestroy {
         }
       })
     );
-
-    // this.asmUi$.subscribe(expandedState => {
-    //   this.expanded = expandedState.expanded;
-    // });
   }
 
   expandUi(): void {
