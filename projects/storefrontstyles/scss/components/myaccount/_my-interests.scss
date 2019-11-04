@@ -219,20 +219,4 @@
       margin: var(--cx-margin, 0 auto);
     }
   }
-
-  .cx-product-interests-no-interests {
-    @include type('5');
-    font-weight: $font-weight-normal;
-    min-height: 415px;
-
-    @include media-breakpoint-down(sm) {
-      min-height: 474px;
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
-    }
-
-    .btn {
-      margin: 1.25rem 0;
-    }
-  }
 }
