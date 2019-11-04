@@ -1,6 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
 
-/** @internal */
 @Injectable({ providedIn: 'root' })
 export class JavaRegExpConverter {
   /**
