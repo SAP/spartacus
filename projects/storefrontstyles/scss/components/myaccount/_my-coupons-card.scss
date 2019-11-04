@@ -45,12 +45,6 @@
     }
   }
 
-  .cx-mycoupon-thead-mobile {
-    @include media-breakpoint-down(sm) {
-      display: none;
-    }
-  }
-
   .cx-coupon-card-date {
     padding: 1rem 0 0 0;
     p {

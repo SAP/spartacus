@@ -14,10 +14,6 @@
   .cx-my-coupons-form-group {
     padding: var(--cx-padding, 0);
     margin-bottom: var(--cx-margin, 0);
-
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 1.25rem);
-    }
   }
 
   .cx-my-coupons-sort {
@@ -44,9 +40,9 @@
     }
   }
 
-  .cx-my-coupons-pagination {
+  .cx-mycoupon-thead-mobile {
     @include media-breakpoint-down(sm) {
-      margin: var(--cx-margin, 0 auto);
+      display: none;
     }
   }
 }
