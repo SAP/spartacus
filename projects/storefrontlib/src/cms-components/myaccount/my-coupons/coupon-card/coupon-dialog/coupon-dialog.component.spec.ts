@@ -9,11 +9,11 @@ import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
   description: 'CustomerCouponDescription',
-  endDate: new Date('2019-12-30T23:59:59+0000'),
+  endDate: '2019-12-30T23:59:59+0000',
   name: 'CustomerCoupon:name',
   notificationOn: false,
   allProductsApplicable: false,
-  startDate: new Date('1970-01-01T00:00:00+0000'),
+  startDate: '1970-01-01T00:00:00+0000',
   status: 'Effective',
 };
 

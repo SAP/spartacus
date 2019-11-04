@@ -14,8 +14,8 @@ import {
 const coupon: CustomerCoupon = {
   couponId: 'coupon',
   name: 'coupon',
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: '',
+  endDate: '',
   status: 'Effective',
   description: '',
   notificationOn: true,
