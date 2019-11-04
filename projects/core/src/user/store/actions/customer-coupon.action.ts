@@ -120,7 +120,6 @@ export class ResetSubscribeCustomerCouponProcess extends EntityResetAction {
   }
 }
 
-// Unsubscribe address actions
 export class UnsubscribeCustomerCoupon extends EntityLoadAction {
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON;
   constructor(
