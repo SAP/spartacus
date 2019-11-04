@@ -4,7 +4,9 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-layout-handler';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CartPageLayoutHandler implements PageLayoutHandler {
   constructor(private cartService: CartService) {}
 

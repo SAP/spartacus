@@ -1,2 +1,4 @@
 @import './asm-main-ui';
 @import './customer-selection';
+
+$asm-components-whitelist: cx-asm-main-ui, cx-customer-selection !default;
