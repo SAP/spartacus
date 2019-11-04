@@ -1,9 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, RoutingService } from '@spartacus/core';
+import {
+  Product,
+  RoutingService,
+  BaseOption,
+  VariantOption,
+  VariantType,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
-import { BaseOption } from '../../../../../core/src/model';
 
 @Component({
   selector: 'cx-product-variant-selector',
@@ -16,37 +21,39 @@ export class ProductVariantSelectorComponent {
     private routingService: RoutingService
   ) {}
 
-  styleVariants: any;
-  sizeVariants: any;
+  styleVariants: VariantOption[];
+  sizeVariants: VariantOption[];
   selectedStyle: string;
 
-  // TODO: Refactor entire pipe content
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
-    filter(v => !!v),
+    filter(product => !!product),
     distinctUntilChanged(),
-    tap(p => {
-      if (p.variantType && p.variantType === 'ApparelStyleVariantProduct') {
-        this.styleVariants = p.variantOptions;
+    tap(product => {
+      if (
+        product.variantType &&
+        product.variantType === VariantType.APPAREL_STYLE_VARIANT
+      ) {
+        this.styleVariants = product.variantOptions;
       }
       if (
-        p.baseOptions[0] &&
-        p.baseOptions[0].options &&
-        Object.keys(p.baseOptions[0].options).length > 0 &&
-        p.baseOptions[0].variantType === 'ApparelStyleVariantProduct'
+        product.baseOptions[0] &&
+        product.baseOptions[0].options &&
+        Object.keys(product.baseOptions[0].options).length > 0 &&
+        product.baseOptions[0].variantType === VariantType.APPAREL_STYLE_VARIANT
       ) {
-        this.styleVariants = p.baseOptions[0].options;
-        this.sizeVariants = p.variantOptions;
-        this.setSelectedApparelStyle(p.baseOptions[0]);
+        this.styleVariants = product.baseOptions[0].options;
+        this.sizeVariants = product.variantOptions;
+        this.setSelectedApparelStyle(product.baseOptions[0]);
       }
       if (
-        p.baseOptions[1] &&
-        p.baseOptions[1].options &&
-        Object.keys(p.baseOptions[1].options).length > 0 &&
-        p.baseOptions[0].variantType === 'ApparelSizeVariantProduct'
+        product.baseOptions[1] &&
+        product.baseOptions[1].options &&
+        Object.keys(product.baseOptions[1].options).length > 0 &&
+        product.baseOptions[0].variantType === VariantType.APPAREL_SIZE_VARIANT
       ) {
-        this.styleVariants = p.baseOptions[1].options;
-        this.sizeVariants = p.baseOptions[0].options;
-        this.setSelectedApparelStyle(p.baseOptions[1]);
+        this.styleVariants = product.baseOptions[1].options;
+        this.sizeVariants = product.baseOptions[0].options;
+        this.setSelectedApparelStyle(product.baseOptions[1]);
       }
     })
   );

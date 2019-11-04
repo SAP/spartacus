@@ -5,8 +5,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { OccConfig } from '@spartacus/core';
-import { Product } from '../../../../../../core/src/model';
+import { OccConfig, Product, VariantOption } from '@spartacus/core';
 
 @Component({
   selector: 'cx-size-selector',
@@ -20,11 +19,11 @@ export class VariantSizeSelectorComponent {
   product: Product;
 
   @Input()
-  sizeVariants: any; // TODO: Create custom interface?
+  sizeVariants: VariantOption[];
 
   @Output() changeSizeEvent = new EventEmitter<string>();
 
-  baseUrl = this.config.backend.occ.baseUrl; // TODO: Get rid of this one
+  baseUrl = this.config.backend.occ.baseUrl;
 
   changeSize(productCode: string) {
     this.changeSizeEvent.next(productCode);
