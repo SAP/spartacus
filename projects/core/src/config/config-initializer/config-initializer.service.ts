@@ -1,5 +1,5 @@
-import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
-import { CONFIG_INITIALIZER, ConfigInitializer } from './config-initializer';
+import { Inject, Injectable, isDevMode } from '@angular/core';
+import { ConfigInitializer } from './config-initializer';
 import { Config } from '../config.module';
 import { BehaviorSubject } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
@@ -9,14 +9,7 @@ import { deepMerge } from '../utils/deep-merge';
   providedIn: 'root',
 })
 export class ConfigInitializerService {
-  constructor(
-    @Inject(Config) protected config: any,
-    @Optional()
-    @Inject(CONFIG_INITIALIZER)
-    protected initializers: ConfigInitializer[]
-  ) {
-    this.initialize();
-  }
+  constructor(@Inject(Config) protected config: any) {}
 
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
 
@@ -68,20 +61,22 @@ export class ConfigInitializerService {
     return a.startsWith(b) && (a[b.length] || '.') === '.';
   }
 
-  private initialize() {
+  /**
+   * @internal
+   */
+  async initialize(initializers: ConfigInitializer[]) {
     const ongoingScopes: string[] = [];
 
-    if (!(this.initializers && this.initializers.length)) {
+    if (!initializers || !initializers.length) {
       this.ongoingScopes$.next(ongoingScopes);
       return;
     }
 
     const asyncConfigs: Promise<void>[] = [];
 
-    for (const initializer of this.initializers) {
+    for (const initializer of initializers) {
       if (!(initializer.scopes && initializer.scopes.length)) {
-        this.ongoingScopes$.error('CONFIG_INITIALIZER should provide scope!');
-        return;
+        throw new Error('CONFIG_INITIALIZER should provide scope!');
       }
 
       if (isDevMode() && !this.areReady(initializer.scopes, ongoingScopes)) {
@@ -101,6 +96,6 @@ export class ConfigInitializerService {
     }
     this.ongoingScopes$.next(ongoingScopes);
 
-    Promise.all(asyncConfigs).catch(error => this.ongoingScopes$.error(error));
+    await Promise.all(asyncConfigs);
   }
 }

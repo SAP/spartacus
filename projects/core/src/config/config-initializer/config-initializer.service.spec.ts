@@ -22,6 +22,17 @@ function initScope2(): ConfigInitializer {
   };
 }
 
+const configInitializers2 = [
+  {
+    scopes: ['scope1'],
+    configFactory: async () => ({ scope1: 'final' }),
+  },
+  {
+    scopes: ['scope2.nested'],
+    configFactory: async () => ({ scope2: { nested: true } }),
+  },
+];
+
 const configInitializers = [
   {
     provide: CONFIG_INITIALIZER,
@@ -42,16 +53,17 @@ describe('ConfigInitializerService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: Config, useValue: MockConfig }],
     });
+    service = TestBed.get(ConfigInitializerService);
   });
 
   it('should be created', () => {
-    service = TestBed.get(ConfigInitializerService);
     expect(service).toBeTruthy();
   });
 
   describe('when no config initializers are present', () => {
     beforeEach(() => {
       service = TestBed.get(ConfigInitializerService);
+      service.initialize([]);
     });
 
     it('should get final config', async () => {
@@ -67,10 +79,8 @@ describe('ConfigInitializerService', () => {
 
   describe('with config initializers', () => {
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [...configInitializers],
-      });
       service = TestBed.get(ConfigInitializerService);
+      service.initialize(configInitializers2);
     });
 
     it('initializers should contribute to final config', async () => {
@@ -130,24 +140,15 @@ describe('ConfigInitializerService', () => {
   });
 
   it('should fail if one initializer will fail', async () => {
-    TestBed.configureTestingModule({
-      providers: [
-        ...configInitializers,
-        {
-          provide: CONFIG_INITIALIZER,
-          multi: true,
-          useValue: {
-            scopes: ['test'],
-            configFactory: () => new Promise((_, rej) => rej('error')),
-          },
-        },
-      ],
-    });
-    service = TestBed.get(ConfigInitializerService);
-
     let failed;
     try {
-      await service.getStableConfig();
+      await service.initialize([
+        ...configInitializers2,
+        {
+          scopes: ['test'],
+          configFactory: () => Promise.reject('error'),
+        },
+      ]);
     } catch (e) {
       failed = e;
     }
@@ -155,35 +156,23 @@ describe('ConfigInitializerService', () => {
   });
 
   it('should fail with incorrect initializers', async () => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: CONFIG_INITIALIZER,
-          useValue: {},
-          multi: true,
-        },
-      ],
-    });
-    service = TestBed.get(ConfigInitializerService);
-
-    let failed;
+    let initFailed;
     try {
-      await service.getStableConfig();
+      await service.initialize([{} as ConfigInitializer]);
     } catch (e) {
-      failed = e;
+      initFailed = e;
     }
-    expect(failed).toEqual('CONFIG_INITIALIZER should provide scope!');
+    expect(initFailed).toBeTruthy();
+    expect(initFailed.message).toEqual(
+      'CONFIG_INITIALIZER should provide scope!'
+    );
   });
 
   describe('should warn for duplicate scopes', async () => {
-    function getProvidersForScopes(...scopes) {
+    function getInitializersForScopes(...scopes) {
       return scopes.map(scope => ({
-        provide: CONFIG_INITIALIZER,
-        useValue: {
-          scopes: scope,
-          configFactory: async () => ({}),
-        },
-        multi: true,
+        scopes: scope,
+        configFactory: async () => ({}),
       }));
     }
 
@@ -195,18 +184,16 @@ describe('ConfigInitializerService', () => {
     });
 
     it('scope1, scope1', async () => {
-      TestBed.configureTestingModule({
-        providers: [...getProvidersForScopes(['scope1'], ['scope1'])],
-      });
-      await TestBed.get(ConfigInitializerService).getStableConfig();
+      await service.initialize(
+        getInitializersForScopes(['scope1'], ['scope1'])
+      );
       expect(console.warn).toHaveBeenCalledWith(duplicateWarn);
     });
 
     it('scope1, scope1.nested', async () => {
-      TestBed.configureTestingModule({
-        providers: [...getProvidersForScopes(['scope1'], ['scope1.nested'])],
-      });
-      await TestBed.get(ConfigInitializerService).getStableConfig();
+      await service.initialize(
+        getInitializersForScopes(['scope1'], ['scope1.nested'])
+      );
       expect(console.warn).toHaveBeenCalledWith(duplicateWarn);
     });
   });
