@@ -14,7 +14,7 @@
             >
               <cx-sorting
                 [sortOptions]="sortOptions"
-                [sortLabels]="getSortLabels() | async"
+                [sortLabels]="sortLabels | async"
                 (sortListEvent)="sortChange($event)"
                 [selectedOption]="sort"
                 placeholder="{{ 'myInterests.sortByMostRecent' | cxTranslate }}"
@@ -194,7 +194,7 @@
             >
               <cx-sorting
                 [sortOptions]="sortOptions"
-                [sortLabels]="getSortLabels() | async"
+                [sortLabels]="sortLabels | async"
                 (sortListEvent)="sortChange($event)"
                 [selectedOption]="sort"
                 placeholder="{{ 'myInterests.sortByMostRecent' | cxTranslate }}"
