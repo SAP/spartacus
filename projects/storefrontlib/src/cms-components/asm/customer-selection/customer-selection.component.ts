@@ -85,13 +85,13 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (!!this.selectedCustomer) {
+    if (Boolean(this.selectedCustomer)) {
       this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
     }
   }
 
   onDocumentClick(event) {
-    if (!!this.resultList) {
+    if (Boolean(this.resultList)) {
       if (!this.resultList.nativeElement.contains(event.target)) {
         this.asmService.customerSearchReset();
       }
