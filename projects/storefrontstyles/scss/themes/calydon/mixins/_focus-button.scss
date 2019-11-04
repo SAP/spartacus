@@ -1,0 +1,15 @@
+@import './mixin-variables';
+
+@mixin focus-button {
+  box-shadow: 0 0 0 $focus-button-width var(--cx-color-visual-focus);
+}
+
+@mixin focus-button-primary {
+  box-shadow: 0 0 0 $focus-button-width var(--cx-color-primary-lighter);
+  border-color: var(--cx-color-primary-darker);
+}
+
+@mixin focus-button-secondary {
+  box-shadow: 0 0 0 $focus-button-width var(--cx-color-secondary-lighter);
+  border-color: var(--cx-color-secondary-darker);
+}
