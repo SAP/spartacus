@@ -80,7 +80,7 @@ export function commitChanges(
 }
 
 // TODO:#12 test
-export function inject(
+export function injectService(
   nodes: ts.Node[],
   path: string,
   serviceName: string,
@@ -106,4 +106,27 @@ export function inject(
   propertyName = propertyName || strings.camelize(serviceName);
   const toAdd = `private ${propertyName}: ${strings.classify(serviceName)}`;
   return new InsertChange(path, parameterListNode.pos, toAdd);
+}
+
+// as this is copied from https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/app-shell/index.ts#L211, no need to test Angular's code
+export function getMetadataProperty(
+  metadata: ts.Node,
+  propertyName: string
+): ts.PropertyAssignment {
+  const properties = (metadata as ts.ObjectLiteralExpression).properties;
+  const property = properties
+    .filter(prop => prop.kind === ts.SyntaxKind.PropertyAssignment)
+    .filter((prop: ts.PropertyAssignment) => {
+      const name = prop.name;
+      switch (name.kind) {
+        case ts.SyntaxKind.Identifier:
+          return (name as ts.Identifier).getText() === propertyName;
+        case ts.SyntaxKind.StringLiteral:
+          return (name as ts.StringLiteral).text === propertyName;
+      }
+
+      return false;
+    })[0];
+
+  return property as ts.PropertyAssignment;
 }

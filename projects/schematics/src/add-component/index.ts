@@ -13,20 +13,24 @@ import {
   getProjectFromWorkspace,
 } from '@angular/cdk/schematics';
 import {
+  getDecoratorMetadata,
   getSourceNodes,
   insertImport,
 } from '@schematics/angular/utility/ast-utils';
-import { Change, NoopChange } from '@schematics/angular/utility/change';
+import { Change } from '@schematics/angular/utility/change';
 import {
+  ANGULAR_CORE,
   ANGULAR_SCHEMATICS,
   COMPONENT_DATA_PROPERTY_NAME,
   SPARTACUS_CORE,
+  UTF_8,
 } from '../shared/constants';
 import {
   commitChanges,
+  getMetadataProperty,
   getPathResultsForFile,
   getTsSourceFile,
-  inject,
+  injectService,
   InsertDirection,
 } from '../shared/utils/file-utils';
 import { importModule } from '../shared/utils/module-file-utils';
@@ -52,13 +56,12 @@ function print(options: CxCmsComponentSchema): Rule {
         }
 
         const moduleBuffer = tree.read(modulePath);
-        if (!moduleBuffer) {
+        if (moduleBuffer) {
+          const moduleContent = moduleBuffer.toString(UTF_8);
+          console.log('\n', moduleContent);
+        } else {
           console.log('no buffer for the module');
-          return;
         }
-
-        const moduleContent = moduleBuffer.toString();
-        console.log('\n', moduleContent);
       }
 
       {
@@ -77,13 +80,34 @@ function print(options: CxCmsComponentSchema): Rule {
         console.log('component path', componentPath);
 
         const componentBuffer = tree.read(componentPath);
-        if (!componentBuffer) {
+        if (componentBuffer) {
+          const componentContent = componentBuffer.toString(UTF_8);
+          console.log('\n', componentContent);
+        } else {
           console.log('no buffer for the component');
-          return;
         }
+      }
 
-        const componentContent = componentBuffer.toString();
-        console.log('\n', componentContent);
+      {
+        const possibleProjectFiles = ['/angular.json', '/.angular.json'];
+        const { workspace } = getWorkspace(tree, possibleProjectFiles);
+        const project = getProjectFromWorkspace(workspace, options.project);
+
+        const componentTemplateFileName = `${strings.camelize(
+          options.name
+        )}.${strings.camelize(options.type)}.html`;
+        const templatePath = getPathResultsForFile(
+          tree,
+          componentTemplateFileName,
+          project.sourceRoot
+        )[0];
+        const componentTemplateBuffer = tree.read(templatePath);
+        if (componentTemplateBuffer) {
+          const content = componentTemplateBuffer.toString(UTF_8);
+          console.log('\n', content);
+        } else {
+          console.log('no buffer for the template');
+        }
       }
     }
   };
@@ -177,34 +201,57 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     changes.push(cmsComponentDataImport);
 
     const nodes = getSourceNodes(componentTs);
-    const injectionChange = inject(
+    const injectionChange = injectService(
       nodes,
       componentPath,
       cmsComponentData,
       COMPONENT_DATA_PROPERTY_NAME
     );
+    // TODO: define `componentData$: Observable<Model> = this.componentData.data$`
     changes.push(injectionChange);
 
-    let templateChange: Change;
-    if (options.inlineTemplate) {
-      templateChange = updateInlineTemplate();
-    } else {
-      templateChange = updateTemplateFile();
-    }
-    changes.push(templateChange);
-
     commitChanges(tree, componentPath, changes, InsertDirection.RIGHT);
+
+    let templatePath = '';
+    let templateContent = '';
+    let startIndex: number;
+    if (options.inlineTemplate) {
+      templatePath = componentPath;
+      const componentSourceTs = getTsSourceFile(tree, componentPath);
+      const decorator = getDecoratorMetadata(
+        componentSourceTs,
+        'Component',
+        ANGULAR_CORE
+      )[0];
+
+      const inlineTemplate = getMetadataProperty(decorator, 'template');
+      templateContent = inlineTemplate.getText();
+      startIndex = inlineTemplate.name.parent.end - 1;
+    } else {
+      const componentTemplateFileName = `${strings.camelize(
+        options.name
+      )}.${strings.camelize(options.type)}.html`;
+      templatePath = getPathResultsForFile(
+        tree,
+        componentTemplateFileName,
+        project.sourceRoot
+      )[0];
+      const buffer = tree.read(templatePath);
+      templateContent = buffer ? buffer.toString(UTF_8) : '';
+      startIndex = templateContent.length;
+    }
+
+    if (Boolean(templateContent)) {
+      const insertion =
+        `  <ng-container *ngIf="${COMPONENT_DATA_PROPERTY_NAME}$ | async as data">` +
+        `\n      {{data | json}}` +
+        `\n    </ng-container>`;
+      const recorder = tree.beginUpdate(templatePath);
+
+      recorder.insertLeft(startIndex, insertion);
+      tree.commitUpdate(recorder);
+    }
   };
-}
-
-function updateInlineTemplate(): Change {
-  // TODO:#12
-  return new NoopChange();
-}
-
-function updateTemplateFile(): Change {
-  // TODO:#12
-  return new NoopChange();
 }
 
 function validateArguments(options: CxCmsComponentSchema): void {
