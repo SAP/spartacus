@@ -110,22 +110,104 @@ describe('ConfigInitializerService', () => {
     it('getConfigStable should fulfil gradually', async () => {
       const results = [];
 
-      const stable = async () => {
-        await service.getStableConfig('scope1');
-        results.push('scope1');
-      };
-      const scope1 = async () => {
+      const scope2 = async () => {
         await service.getStableConfig('scope2');
         results.push('scope2');
       };
-      const scope2 = async () => {
+      const stable = async () => {
         await service.getStableConfig();
         results.push('stable');
       };
+      const scope1 = async () => {
+        await service.getStableConfig('scope1');
+        results.push('scope1');
+      };
 
-      await Promise.all([stable(), scope1(), scope2()]);
+      await Promise.all([scope2(), stable(), scope1()]);
 
       expect(results).toEqual(['scope1', 'scope2', 'stable']);
+    });
+  });
+
+  it('should fail if one initializer will fail', async () => {
+    TestBed.configureTestingModule({
+      providers: [
+        ...configInitializers,
+        {
+          provide: CONFIG_INITIALIZER,
+          multi: true,
+          useValue: {
+            scopes: ['test'],
+            configFactory: () => new Promise((_, rej) => rej('error')),
+          },
+        },
+      ],
+    });
+    service = TestBed.get(ConfigInitializerService);
+
+    let failed;
+    try {
+      await service.getStableConfig();
+    } catch (e) {
+      failed = e;
+    }
+    expect(failed).toEqual('error');
+  });
+
+  it('should fail with incorrect initializers', async () => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: CONFIG_INITIALIZER,
+          useValue: {},
+          multi: true,
+        },
+      ],
+    });
+    service = TestBed.get(ConfigInitializerService);
+
+    let failed;
+    try {
+      await service.getStableConfig();
+    } catch (e) {
+      failed = e;
+    }
+    expect(failed).toEqual('CONFIG_INITIALIZER should provide scope!');
+  });
+
+  describe('should warn for duplicate scopes', async () => {
+    function getProvidersForScopes(...scopes) {
+      return scopes.map(scope => ({
+        provide: CONFIG_INITIALIZER,
+        useValue: {
+          scopes: scope,
+          configFactory: async () => ({}),
+        },
+        multi: true,
+      }));
+    }
+
+    const duplicateWarn =
+      'More than one CONFIG_INITIALIZER is initializing the same config scope.';
+
+    beforeEach(() => {
+      spyOn(console, 'warn');
+    });
+
+    it('scope1, scope1', async () => {
+      TestBed.configureTestingModule({
+        providers: [...getProvidersForScopes(['scope1'], ['scope1'])],
+      });
+      await TestBed.get(ConfigInitializerService).getStableConfig();
+      expect(console.warn).toHaveBeenCalledWith(duplicateWarn);
+    });
+
+    it('scope1, scope1.nested', async () => {
+      TestBed.configureTestingModule({
+        providers: [...getProvidersForScopes(['scope1'], ['scope1.nested'])],
+      });
+      await TestBed.get(ConfigInitializerService).getStableConfig();
+      expect(console.warn).toHaveBeenCalledWith(duplicateWarn);
     });
   });
 });
