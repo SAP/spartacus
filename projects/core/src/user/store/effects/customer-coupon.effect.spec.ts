@@ -42,7 +42,6 @@ const coupon1: CustomerCoupon = {
   status: 'Effective',
   description: '',
   notificationOn: true,
-  solrFacets: '',
 };
 const coupon2: CustomerCoupon = {
   couponId: 'coupon2',
@@ -52,7 +51,6 @@ const coupon2: CustomerCoupon = {
   status: 'Effective',
   description: '',
   notificationOn: true,
-  solrFacets: '',
 };
 
 const mockCustomerCoupons: CustomerCoupon[] = [coupon1, coupon2];
@@ -183,6 +181,30 @@ describe('Customer Coupon effect', () => {
       expect(customerCouponsEffect.claimCustomerCoupon$).toBeObservable(
         expected
       );
+    });
+  });
+
+  describe('reloadCustomerCoupons$', () => {
+    const customerCouponSubscriptionFailActions = [
+      'SubscribeCustomerCouponFail',
+      'UnsubscribeCustomerCouponFail',
+    ];
+
+    customerCouponSubscriptionFailActions.forEach(actionName => {
+      it(`should reload custioner coupon on ${actionName}`, () => {
+        const action = new fromCustomerCouponsAction[actionName]({});
+        const completion = new fromCustomerCouponsAction.LoadCustomerCoupons({
+          userId: OCC_USER_ID_CURRENT,
+          pageSize: 10,
+        });
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+
+        expect(customerCouponsEffect.reloadCustomerCoupons$).toBeObservable(
+          expected
+        );
+      });
     });
   });
 });

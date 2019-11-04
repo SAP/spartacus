@@ -63,7 +63,6 @@ describe('OccCustomerCouponAdapter', () => {
         status: 'Effective',
         description: '',
         notificationOn: true,
-        solrFacets: '',
       };
       const couponSearchResult: CustomerCouponSearchResult = {
         coupons: [customerCoupon],
@@ -100,7 +99,6 @@ describe('OccCustomerCouponAdapter', () => {
         status: 'Effective',
         description: '',
         notificationOn: true,
-        solrFacets: '',
       };
       const customerCouponNotification: CustomerCouponNotification = {
         coupon: customerCoupon,
@@ -163,7 +161,6 @@ describe('OccCustomerCouponAdapter', () => {
         status: 'Effective',
         description: '',
         notificationOn: true,
-        solrFacets: '',
       };
       const customerCoupon2Customer: CustomerCoupon2Customer = {
         coupon: customerCoupon,

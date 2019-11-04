@@ -19,7 +19,6 @@ const coupon: CustomerCoupon = {
   status: 'Effective',
   description: '',
   notificationOn: true,
-  solrFacets: '',
 };
 
 const customerSearcherResult: CustomerCouponSearchResult = {

@@ -24,7 +24,6 @@ describe('CustomerCouponService', () => {
     status: 'Effective',
     description: '',
     notificationOn: true,
-    solrFacets: '',
   };
 
   class MockAuthService {

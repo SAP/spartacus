@@ -9,12 +9,6 @@ import {
   failMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
-// import {
-//   entityFailMeta,
-//   entityLoadMeta,
-//   entitySuccessMeta,
-//   entityResetMeta,
-// } from '../../../state';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import {
   CustomerCoupon,
@@ -41,7 +35,7 @@ const coupon1: CustomerCoupon = {
   status: 'Effective',
   description: '',
   notificationOn: true,
-  solrFacets: '',
+  allProductsApplicable: false,
 };
 const coupon2: CustomerCoupon = {
   couponId: 'coupon2',
@@ -51,7 +45,7 @@ const coupon2: CustomerCoupon = {
   status: 'Effective',
   description: '',
   notificationOn: true,
-  solrFacets: '',
+  allProductsApplicable: false,
 };
 
 const customerCouponNotification: CustomerCouponNotification = {

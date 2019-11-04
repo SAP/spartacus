@@ -15,7 +15,7 @@ const coupon1: CustomerCoupon = {
   status: 'Effective',
   description: '',
   notificationOn: false,
-  solrFacets: '',
+  allProductsApplicable: false,
 };
 
 const coupon2: CustomerCoupon = {
@@ -26,7 +26,7 @@ const coupon2: CustomerCoupon = {
   status: 'Effective',
   description: '',
   notificationOn: true,
-  solrFacets: '',
+  allProductsApplicable: false,
 };
 
 const mockCustomerCoupons1: CustomerCoupon[] = [coupon1];
