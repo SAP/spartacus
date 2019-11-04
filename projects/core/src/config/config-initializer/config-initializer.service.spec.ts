@@ -35,7 +35,7 @@ describe('ConfigInitializerService', () => {
 
   describe('when no config initializers are present', () => {
     beforeEach(() => {
-      service.initialize(undefined);
+      service.initialize();
     });
 
     it('should get final config', async () => {

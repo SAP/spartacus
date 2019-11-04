@@ -105,21 +105,19 @@ export class ConfigInitializerService {
   /**
    * @internal
    *
-   * Not part of public API, used by APP_INITIALIZER to initialize all provided CONFIG_INITIALIZERS
+   * Not a part of a public API, used by APP_INITIALIZER to initialize all provided CONFIG_INITIALIZERS
    *
    */
-  async initialize(initializers: ConfigInitializer[]) {
+  async initialize(initializers: ConfigInitializer[] = []) {
     const ongoingScopes: string[] = [];
-
-    if (!initializers || !initializers.length) {
-      this.ongoingScopes$.next(ongoingScopes);
-      return;
-    }
 
     const asyncConfigs: Promise<void>[] = [];
 
     for (const initializer of initializers) {
-      if (!(initializer.scopes && initializer.scopes.length)) {
+      if (!initializer) {
+        continue;
+      }
+      if (!initializer.scopes || !initializer.scopes.length) {
         throw new Error('CONFIG_INITIALIZER should provide scope!');
       }
 
@@ -140,6 +138,8 @@ export class ConfigInitializerService {
     }
     this.ongoingScopes$.next(ongoingScopes);
 
-    await Promise.all(asyncConfigs);
+    if (asyncConfigs.length) {
+      await Promise.all(asyncConfigs);
+    }
   }
 }
