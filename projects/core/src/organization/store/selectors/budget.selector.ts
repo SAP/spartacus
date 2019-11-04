@@ -9,7 +9,7 @@ import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 
-export const getBudgetManagmentState: MemoizedSelector<
+export const getBudgetManagementState: MemoizedSelector<
   StateWithOrganization,
   EntityLoaderState<Budget>
 > = createSelector(
@@ -19,25 +19,16 @@ export const getBudgetManagmentState: MemoizedSelector<
 
 export const getBudgetsState: MemoizedSelector<
   StateWithOrganization,
-  LoaderState<Budget>
+  { [id: string]: LoaderState<Budget> }
 > = createSelector(
-  getBudgetManagmentState,
+  getBudgetManagementState,
   (state: EntityLoaderState<Budget>) => state.entities
 );
-
-// TODO: cleanup
-// export const getBudgetValueState = (
-//   budgetCode: string
-// ): MemoizedSelector<StateWithOrganization, Budget> =>
-//   createSelector(
-//     getBudgetManagmentState,
-//     (state: EntityLoaderState<Budget>) => entityValueSelector(state, budgetCode)
-//   );
 
 export const getBudgetState = (
   budgetCode: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<Budget>> =>
   createSelector(
-    getBudgetManagmentState,
+    getBudgetManagementState,
     (state: EntityLoaderState<Budget>) => entityStateSelector(state, budgetCode)
   );

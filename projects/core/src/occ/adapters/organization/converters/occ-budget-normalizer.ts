@@ -25,5 +25,4 @@ export class OccBudgetNormalizer implements Converter<Occ.Budget, Budget> {
     // }
     return target;
   }
-
 }

@@ -15,7 +15,6 @@ import {
 import { BudgetActions } from '../store/actions/index';
 import {
   getBudgetsState,
-  // getBudgetValueState,
   getBudgetState,
 } from '../store/selectors/budget.selector';
 import { BudgetSearchConfig } from '../model/search-config';
@@ -51,30 +50,12 @@ export class BudgetService {
     return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
   }
 
-  // private getBudgetValue(budgetCode: string) {
-  //   return this.store.select(getBudgetValueState(budgetCode));
-  // }
-
   private getBudgetState(budgetCode: string) {
     return this.store.select(getBudgetState(budgetCode));
   }
 
   private getBudgets() {
     return this.store.select(getBudgetsState);
-  }
-
-  getList(params?: BudgetSearchConfig) {
-    return this.getBudgetsProcess().pipe(
-      observeOn(queueScheduler),
-      tap((process: LoaderState<void>) => {
-        if (!(process.loading || process.success || process.error)) {
-          this.loadBudgets(params);
-        }
-      }),
-      tap(data => console.log('x',data )),
-      filter((process: LoaderState<void>) => process.success || process.error),
-      switchMap(() => this.getBudgets())
-    );
   }
 
   get(budgetCode: string) {
@@ -85,9 +66,21 @@ export class BudgetService {
           this.loadBudget(budgetCode);
         }
       }),
-      tap(data => console.log('x',data )),
       filter(state => state.success || state.error),
       map(state => state.value)
+    );
+  }
+
+  getList(params?: BudgetSearchConfig) {
+    return this.getBudgetsProcess().pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<void>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadBudgets(params);
+        }
+      }),
+      filter((process: LoaderState<void>) => process.success || process.error),
+      switchMap(() => this.getBudgets())
     );
   }
 
