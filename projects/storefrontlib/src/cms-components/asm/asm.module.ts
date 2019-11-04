@@ -34,4 +34,4 @@ import { CustomerEmulationComponent } from './customer-emulation/customer-emulat
   exports: [AsmRootComponent],
   entryComponents: [AsmRootComponent],
 })
-export class AssistedServiceModule {}
+export class AsmModule {}
