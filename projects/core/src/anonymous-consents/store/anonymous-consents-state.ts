@@ -12,7 +12,7 @@ export interface AnonymousConsentsState {
   templates: LoaderState<ConsentTemplate[]>;
   consents: AnonymousConsent[];
   ui: {
-    bannerVisible: boolean;
+    bannerDismissed: boolean;
     updated: boolean;
   };
 }
