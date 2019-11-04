@@ -18,16 +18,14 @@ export class ConfigInitializerService {
     this.initialize();
   }
 
-  protected static readonly INITIALIZING_KEY = 'initializing';
-
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
 
-  private get isInitialized(): boolean {
+  get isStable(): boolean {
     return this.ongoingScopes$.value && this.ongoingScopes$.value.length === 0;
   }
 
   async getStableConfig(...scopes: string[]): Promise<any> {
-    if (this.isInitialized) {
+    if (this.isStable) {
       return this.config;
     }
     return this.ongoingScopes$
@@ -71,13 +69,12 @@ export class ConfigInitializerService {
   }
 
   private initialize() {
+    const ongoingScopes: string[] = [];
+
     if (!(this.initializers && this.initializers.length)) {
-      deepMerge(this.config, { initializing: false });
-      this.ongoingScopes$.next([]);
+      this.ongoingScopes$.next(ongoingScopes);
       return;
     }
-
-    const ongoingScopes: string[] = [ConfigInitializerService.INITIALIZING_KEY];
 
     const asyncConfigs: Promise<void>[] = [];
 
@@ -104,13 +101,6 @@ export class ConfigInitializerService {
     }
     this.ongoingScopes$.next(ongoingScopes);
 
-    Promise.all(asyncConfigs)
-      .then(() => {
-        deepMerge(this.config, {
-          [ConfigInitializerService.INITIALIZING_KEY]: false,
-        });
-        this.finishScopes([ConfigInitializerService.INITIALIZING_KEY]);
-      })
-      .catch(error => this.ongoingScopes$.error(error));
+    Promise.all(asyncConfigs).catch(error => this.ongoingScopes$.error(error));
   }
 }
