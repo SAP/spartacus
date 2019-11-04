@@ -10,23 +10,20 @@ import { OccConfig } from '../config/occ-config';
   providedIn: 'root',
 })
 export class OccEndpointsService {
-  private _activeBaseSite: string;
+  private activeBaseSite: string;
 
-  private get activeBaseSite(): string {
-    if (this.baseSiteService) {
-      this.baseSiteService
-        .getActive()
-        .subscribe(value => (this._activeBaseSite = value))
-        .unsubscribe();
-    }
-    return this._activeBaseSite;
-  }
   constructor(
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
   ) {
-    this._activeBaseSite =
+    this.activeBaseSite =
       getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID) || '';
+
+    if (this.baseSiteService) {
+      this.baseSiteService
+        .getActive()
+        .subscribe(value => (this.activeBaseSite = value));
+    }
   }
 
   /**
