@@ -4,7 +4,6 @@ import { CxEvent } from '../../events/event.model';
  * Indicates any (asynchronize) processing of the cart.
  * A boolean value is emited whenever the state changes.
  */
-// export class CartBusyEvent extends Boolean {}
 
 export class CartBusyEvent extends CxEvent<Boolean> {}
 

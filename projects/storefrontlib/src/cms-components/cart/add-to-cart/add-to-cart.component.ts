@@ -6,7 +6,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry, Product } from '@spartacus/core';
+import {
+  CartAddEvent,
+  CartService,
+  EventRegister,
+  OrderEntry,
+  Product,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -43,14 +49,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     cartService: CartService,
     modalService: ModalService,
     currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef
+    cd: ChangeDetectorRef,
+    eventRegister?: EventRegister
   );
 
   constructor(
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private eventRegister?: EventRegister
   ) {}
 
   ngOnInit() {
@@ -91,7 +99,11 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.quantity = value;
   }
 
-  addToCart() {
+  addToCart(event: MouseEvent) {
+    if (this.eventRegister) {
+      this.eventRegister.emit(CartAddEvent, { mouseEvent: event });
+    }
+
     if (!this.productCode || this.quantity <= 0) {
       return;
     }

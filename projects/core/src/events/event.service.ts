@@ -1,6 +1,5 @@
 import { Injectable, Type } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CxEvent } from './event.model';
 import { EventRegister } from './event.register';
 
@@ -10,9 +9,7 @@ import { EventRegister } from './event.register';
 export class EventService {
   constructor(protected eventRegiser: EventRegister) {}
 
-  on<T>(eventClass: Type<T>): Observable<CxEvent<T>> {
-    return this.eventRegiser
-      .getValue(eventClass)
-      .pipe(map(value => <CxEvent<T>>{ value }));
+  on<T>(eventType: Type<T>): Observable<CxEvent<T>> {
+    return this.eventRegiser.getValue(eventType);
   }
 }

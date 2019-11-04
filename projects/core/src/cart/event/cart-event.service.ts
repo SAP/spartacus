@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { EventRegister } from '../../events';
 import { CartEventBuilder } from './cart-event.builder';
 import {
@@ -21,20 +23,21 @@ export class CartEventService {
     protected eventRegister: EventRegister,
     protected builder: CartEventBuilder
   ) {
-    eventRegister.register(CartBusyEvent, builder.buildBusyEvent());
-    eventRegister.register(CartErrorEvent, builder.buildErrorEvent());
-    eventRegister.register(CartLoadEvent, builder.buildLoadEvent());
-    eventRegister.register(CartChangeEvent, builder.buildChangeEvent());
-    eventRegister.register(CartMergeEvent, builder.buildMergeEvent());
-    eventRegister.register(CartAddEvent, builder.buildAddEvent());
-    eventRegister.register(CartAddEntryEvent, builder.buildEntryCreateEvent());
-    eventRegister.register(
-      CartUpdateEntryEvent,
-      builder.buildEntryUpdateEvent()
-    );
-    eventRegister.register(
-      CartRemoveEntryEvent,
-      builder.buildEntryRemoveEvent()
+    this.registerEvent(CartBusyEvent, builder.buildBusyEvent());
+    this.registerEvent(CartErrorEvent, builder.buildErrorEvent());
+    this.registerEvent(CartLoadEvent, builder.buildLoadEvent());
+    this.registerEvent(CartChangeEvent, builder.buildChangeEvent());
+    this.registerEvent(CartMergeEvent, builder.buildMergeEvent());
+    this.registerEvent(CartAddEvent, builder.buildAddEvent());
+    this.registerEvent(CartAddEntryEvent, builder.buildEntryCreateEvent());
+    this.registerEvent(CartUpdateEntryEvent, builder.buildEntryUpdateEvent());
+    this.registerEvent(CartRemoveEntryEvent, builder.buildEntryRemoveEvent());
+  }
+
+  private registerEvent<T>(eventType: Type<T>, value$: Observable<any>) {
+    this.eventRegister.registerEmitter(
+      eventType,
+      value$.pipe(map(value => ({ value })))
     );
   }
 }
