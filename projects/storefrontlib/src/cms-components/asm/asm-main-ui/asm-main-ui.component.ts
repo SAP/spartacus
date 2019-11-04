@@ -21,6 +21,7 @@ export class AsmMainUiComponent implements OnInit {
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
   searchResultsLoading$: Observable<boolean>;
+
   private startingCustomerSession = false;
 
   constructor(
@@ -28,7 +29,7 @@ export class AsmMainUiComponent implements OnInit {
     protected userService: UserService,
     protected asmService: AsmService,
     protected globalMessageService: GlobalMessageService,
-    protected routing: RoutingService
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +55,7 @@ export class AsmMainUiComponent implements OnInit {
     ) {
       this.startingCustomerSession = false;
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-      this.routing.go('/');
+      this.routingService.go('/');
     }
   }
 

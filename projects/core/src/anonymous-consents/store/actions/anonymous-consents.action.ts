@@ -25,8 +25,8 @@ export const GIVE_ANONYMOUS_CONSENT =
 export const WITHDRAW_ANONYMOUS_CONSENT =
   '[Anonymous Consents] Withdraw Anonymous Consent';
 
-export const TOGGLE_ANONYMOUS_CONSENTS_BANNER_VISIBILITY =
-  '[Anonymous Consents] Toggle Anonymous Consents Banner Visibility';
+export const TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED =
+  '[Anonymous Consents] Toggle Anonymous Consents Banner Dismissed';
 export const TOGGLE_ANONYMOUS_CONSENT_TEMPLATES_UPDATED =
   '[Anonymous Consents] Anonymous Consent Templates Updated';
 
@@ -82,8 +82,8 @@ export class WithdrawAnonymousConsent {
   constructor(public templateCode: string) {}
 }
 
-export class ToggleAnonymousConsentsBannerVisibility {
-  readonly type = TOGGLE_ANONYMOUS_CONSENTS_BANNER_VISIBILITY;
+export class ToggleAnonymousConsentsBannerDissmissed {
+  readonly type = TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED;
   constructor(public visible: boolean) {}
 }
 
@@ -102,5 +102,5 @@ export type AnonymousConsentsActions =
   | GetAnonymousConsent
   | GiveAnonymousConsent
   | WithdrawAnonymousConsent
-  | ToggleAnonymousConsentsBannerVisibility
+  | ToggleAnonymousConsentsBannerDissmissed
   | ToggleAnonymousConsentTemplatesUpdated;

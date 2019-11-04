@@ -11,6 +11,8 @@ export interface StateWithAnonymousConsents {
 export interface AnonymousConsentsState {
   templates: LoaderState<ConsentTemplate[]>;
   consents: AnonymousConsent[];
-  bannerVisible: boolean;
-  updated: boolean;
+  ui: {
+    bannerDismissed: boolean;
+    updated: boolean;
+  };
 }

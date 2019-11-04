@@ -6,6 +6,7 @@ import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmRootComponent } from './asm-root/asm-root.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-form.component';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
+import { CustomerEmulationComponent } from './customer-emulation/customer-emulation.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +25,7 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
     CSAgentLoginFormComponent,
     CustomerSelectionComponent,
     AsmRootComponent,
+    CustomerEmulationComponent,
   ],
   exports: [AsmRootComponent],
   entryComponents: [AsmRootComponent],

@@ -71,6 +71,15 @@ class MockAnonymousConsentsService {
   isConsentGiven(_consent: AnonymousConsent) {
     return true;
   }
+  isConsentWithdrawn(_consent: AnonymousConsent): boolean {
+    return false;
+  }
+  consentsUpdated(
+    _newConsents: AnonymousConsent[],
+    _previousConsents: AnonymousConsent[]
+  ): boolean {
+    return false;
+  }
 }
 
 const mockTemplateList: ConsentTemplate[] = [

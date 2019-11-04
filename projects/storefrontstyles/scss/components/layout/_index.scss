@@ -1,3 +1,5 @@
-@import './header';
 @import './progress-bar';
 @import './storefront';
+@import './header/index';
+
+$layout-components-whitelist: cx-storefront, header, cx-site-context-selector !default;

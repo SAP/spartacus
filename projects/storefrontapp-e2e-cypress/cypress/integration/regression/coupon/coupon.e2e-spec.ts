@@ -15,7 +15,7 @@ describe('Cart Coupon', () => {
     cy.visit('/');
   });
 
-  it.skip('should show the promotion for cart, discount in price and success message when applied a coupon with cart total action successfully.', () => {
+  it('should show the promotion for cart, discount in price and success message when applied a coupon with cart total action successfully.', () => {
     const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
       .auth;
     cartCoupon.addProductToCart(productCode1);
@@ -26,7 +26,7 @@ describe('Cart Coupon', () => {
     });
   });
 
-  it.skip('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
+  it('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
     const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
       .auth;
     cartCoupon.addProductToCart(productCode2);
@@ -37,7 +37,7 @@ describe('Cart Coupon', () => {
     });
   });
 
-  it.skip('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
+  it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
     const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
       .auth;
     cartCoupon.addProductToCart(productCode3);
@@ -55,7 +55,7 @@ describe('Cart Coupon', () => {
     cartCoupon.applyWrongCoupon();
   });
 
-  it.skip('should remove the coupon when back to cart and place order without coupon', () => {
+  it('should remove the coupon when back to cart and place order without coupon', () => {
     const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
       .auth;
     cartCoupon.addProductToCart(productCode1);
