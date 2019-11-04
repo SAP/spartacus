@@ -60,7 +60,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   private handleSearchTerm(searchTermValue: string) {
-    if (Boolean(this.selectedCustomer) && searchTermValue !== this.selectedCustomer.name) {
+    if (
+      Boolean(this.selectedCustomer) &&
+      searchTermValue !== this.selectedCustomer.name
+    ) {
       this.selectedCustomer = undefined;
     }
     if (Boolean(this.selectedCustomer)) {
