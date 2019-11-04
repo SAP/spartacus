@@ -260,53 +260,114 @@ describe('AnonymousConsentsService', () => {
     });
   });
 
-  describe('toggleAnonymousConsentsBannerVisibility', () => {
-    it('should just dispatch ToggleAnonymousConsentsBannerVisibility action when toggling off', () => {
-      service.toggleAnonymousConsentsBannerVisibility(false);
+  describe('isBannerVisible', () => {
+    it('should return true if isBannerDismissed() returns false', () => {
+      spyOn(service, 'isBannerDismissed').and.returnValue(of(false));
+      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(false));
+
+      let result = false;
+      service
+        .isBannerVisible()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(service.isBannerDismissed).toHaveBeenCalled();
+      expect(service.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(true);
+    });
+    it('should return true if getTemplatesUpdated() returns true', () => {
+      spyOn(service, 'isBannerDismissed').and.returnValue(of(true));
+      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(true));
+
+      let result = false;
+      service
+        .isBannerVisible()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(service.isBannerDismissed).toHaveBeenCalled();
+      expect(service.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if isBannerDismissed() returns true and getTemplatesUpdated() returns false', () => {
+      spyOn(service, 'isBannerDismissed').and.returnValue(of(true));
+      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(false));
+
+      let result = true;
+      service
+        .isBannerVisible()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(service.isBannerDismissed).toHaveBeenCalled();
+      expect(service.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('toggleBannerDismissed', () => {
+    it('should just dispatch ToggleAnonymousConsentsBannerDissmissed action when dismissing', () => {
+      service.toggleBannerDismissed(false);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
           false
         )
       );
     });
-    it('should dispatch ToggleAnonymousConsentsBannerVisibility action and call toggleTemplatesUpdated(false) when toggling on', () => {
+    it('should dispatch ToggleAnonymousConsentsBannerDissmissed action and call toggleTemplatesUpdated(false) when showing', () => {
       spyOn(service, 'toggleTemplatesUpdated').and.stub();
-      service.toggleAnonymousConsentsBannerVisibility(false);
+      service.toggleBannerDismissed(true);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-          false
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
+          true
         )
       );
       expect(service.toggleTemplatesUpdated).toHaveBeenCalledWith(false);
     });
   });
 
-  it('isAnonymousConsentsBannerVisible should call getAnonymousConsentsBannerVisibility selector', () => {
+  it('isBannerDismissed should call getAnonymousConsentsBannerDismissed selector', () => {
     store.dispatch(
-      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
+      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
         false
       )
     );
 
     let result = true;
     service
-      .isAnonymousConsentsBannerVisible()
+      .isBannerDismissed()
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });
 
-  it('getTemplatesUpdated should call getAnonymousConsentTemplatesUpdate selector', () => {
-    store.dispatch(
-      new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(false)
-    );
+  describe('getTemplatesUpdated', () => {
+    it('should call getAnonymousConsentTemplatesUpdate selector', () => {
+      spyOn(service, 'getTemplates').and.returnValue(of([]));
+      store.dispatch(
+        new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+          false
+        )
+      );
 
-    let result = true;
-    service
-      .getTemplatesUpdated()
-      .subscribe(value => (result = value))
-      .unsubscribe();
-    expect(result).toEqual(false);
+      let result = true;
+      service
+        .getTemplatesUpdated()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(false);
+    });
+    it('should call loadTemplates() if there are no templates', () => {
+      spyOn(service, 'getTemplates').and.returnValue(of(null));
+      spyOn(service, 'loadTemplates').and.stub();
+
+      service
+        .getTemplatesUpdated()
+        .subscribe()
+        .unsubscribe();
+      expect(service.loadTemplates).toHaveBeenCalled();
+    });
   });
 
   it('toggleTemplatesUpdated should dispatch AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated', () => {
@@ -341,6 +402,64 @@ describe('AnonymousConsentsService', () => {
           mockConsentTemplates
         )
       ).toEqual(false);
+    });
+  });
+
+  describe('serializeAndEncode', () => {
+    it('should return an empty string if a falsy parameter is passed', () => {
+      expect(service.serializeAndEncode(null)).toEqual('');
+    });
+    it('should return stringify and encode the provided consents', () => {
+      const result = service.serializeAndEncode(mockAnonymousConsents);
+      expect(result).toEqual(
+        encodeURIComponent(JSON.stringify(mockAnonymousConsents))
+      );
+    });
+  });
+
+  describe('decodeAndDeserialize', () => {
+    it('should decode and unserialize the provided value', () => {
+      const mockRawConsents = encodeURIComponent(
+        JSON.stringify(mockAnonymousConsents)
+      );
+
+      const result = service.decodeAndDeserialize(mockRawConsents);
+      expect(result).toEqual(mockAnonymousConsents);
+    });
+  });
+
+  describe('consentsUpdated', () => {
+    it('should return true when the newConsents are different from previousConsents', () => {
+      const newConsents: AnonymousConsent[] = [
+        {
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+          templateCode: 'a',
+          version: 0,
+        },
+      ];
+      const previousConsents: AnonymousConsent[] = [
+        {
+          consentState: null,
+          templateCode: 'b',
+          version: 1,
+        },
+      ];
+
+      const result = service.consentsUpdated(newConsents, previousConsents);
+      expect(result).toEqual(true);
+    });
+    it('should return false when the newConsents are the same as previousConsents', () => {
+      const newConsents: AnonymousConsent[] = [
+        {
+          consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+          templateCode: 'a',
+          version: 0,
+        },
+      ];
+      const previousConsents: AnonymousConsent[] = [...newConsents];
+
+      const result = service.consentsUpdated(newConsents, previousConsents);
+      expect(result).toEqual(false);
     });
   });
 });

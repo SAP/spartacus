@@ -4,12 +4,6 @@
   [ngClass]="styleClass$ | async"
 ></cx-navigation-ui>
 
-<div *ngIf="showConsentPreferences | async" class="anonymous-consents">
-  <a role="link" (click)="openDialog()">{{
-    'anonymousConsents.preferences' | cxTranslate
-  }}</a>
-</div>
-
 <div class="notice" *ngIf="data$ | async as data">
   {{ data.notice }}
 </div>

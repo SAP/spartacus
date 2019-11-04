@@ -1,0 +1,29 @@
+<ng-container>
+  <div class="variant-selector">
+    <div class="variant-name">
+      {{ 'variant.style' | cxTranslate }}:
+      <span class="style-name">{{ selectedStyle }}</span>
+    </div>
+    <ul class="variant-list">
+      <li
+        *ngFor="let v of styleVariants"
+        [ngClass]="{
+          'selected-variant': v.code === selectedStyle
+        }"
+      >
+        <a
+          [routerLink]="
+            { cxRoute: 'product', params: { code: v.code } } | cxUrl
+          "
+          class="colorVariant"
+        >
+          <img
+            src="{{ baseUrl }}{{ v.variantOptionQualifiers[0].image.url }}"
+            title="{{ v.variantOptionQualifiers[0].value }}"
+            alt="{{ v.variantOptionQualifiers[0].value }}"
+          />
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>

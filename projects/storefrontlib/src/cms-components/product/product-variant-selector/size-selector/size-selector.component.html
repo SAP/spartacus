@@ -1,0 +1,24 @@
+<ng-container>
+  <div class="variant-selector">
+    <div class="variant-name">{{ 'variant.size' | cxTranslate }}:</div>
+    <select
+      (change)="changeSize($event.target.value)"
+      class="form-control variant-select"
+    >
+      <option value="">{{ 'variant.selectSize' | cxTranslate }}</option>
+      <option
+        *ngFor="let v of sizeVariants"
+        value="{{ v.code }}"
+        [selected]="v.code === product.code"
+        >{{ v.variantOptionQualifiers[0].value }}</option
+      >
+    </select>
+    <a
+      href="#"
+      class="size-guide"
+      title="{{ 'variant.sizeGuideLabel' | cxTranslate }}"
+    >
+      {{ 'variant.sizeGuideLabel' | cxTranslate }}
+    </a>
+  </div>
+</ng-container>

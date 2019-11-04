@@ -1,23 +1,24 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import {Pipe, PipeTransform, Type} from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 import {
+  I18nTestingModule,
   OccConfig,
   Product,
   RoutingService,
   UrlCommandRoute,
-  I18nTestingModule,
   UrlCommands,
+  VariantType,
 } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { ProductVariantSelectorComponent } from './product-variant-selector.component';
-import { NavigationExtras } from '@angular/router';
+import {CurrentProductService} from '@spartacus/storefront';
+import {Observable, of} from 'rxjs';
+import {ProductVariantSelectorComponent} from './product-variant-selector.component';
+import {NavigationExtras} from '@angular/router';
 
 const mockVariantProduct: Product = {
   name: 'mockVariantProduct',
   code: 'code1',
-  variantType: 'ApparelStyleVariantProduct',
+  variantType: VariantType.APPAREL_STYLE,
   baseOptions: [],
   variantOptions: [{ code: 'mock_code_1' }, { code: 'mock_code_2' }],
 };
@@ -27,7 +28,7 @@ const mockProduct: Product = {
   code: 'code2',
   baseOptions: [
     {
-      variantType: 'ApparelStyleVariantProduct',
+      variantType: VariantType.APPAREL_STYLE,
       options: [
         {
           code: 'mock_code_3',
@@ -66,6 +67,7 @@ describe('ProductVariantSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantSelectorComponent>;
   let currentProductService: CurrentProductService;
   let routingService: RoutingService;
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

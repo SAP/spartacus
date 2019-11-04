@@ -14,6 +14,7 @@ import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import * as fromProcessStore from '../../process/store/process-state';
 import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
@@ -27,7 +28,9 @@ export class CartService {
   private _activeCart$: Observable<Cart>;
 
   constructor(
-    protected store: Store<StateWithCart>,
+    protected store: Store<
+      StateWithCart | fromProcessStore.StateWithProcess<void>
+    >,
     protected cartData: CartDataService,
     protected authService: AuthService
   ) {
@@ -296,5 +299,15 @@ export class CartService {
       .subscribe(() => {
         this.addEntries(cartEntries);
       });
+  }
+
+  addVoucher(voucherId: string): void {
+    this.store.dispatch(
+      new CartActions.CartAddVoucher({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+        voucherId: voucherId,
+      })
+    );
   }
 }

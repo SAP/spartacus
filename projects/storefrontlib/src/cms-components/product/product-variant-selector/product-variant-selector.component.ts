@@ -1,9 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { OccConfig, Product, RoutingService } from '@spartacus/core';
+import {
+  Product,
+  RoutingService,
+  BaseOption,
+  VariantOption,
+  VariantType,
+  OccConfig,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
-import { VariantOption } from '../../../../../core/src/model/product.model';
 
 @Component({
   selector: 'cx-product-variant-selector',
@@ -12,14 +18,13 @@ import { VariantOption } from '../../../../../core/src/model/product.model';
 })
 export class ProductVariantSelectorComponent implements OnInit {
   constructor(
-    private routingService: RoutingService,
     private currentProductService: CurrentProductService,
+    private routingService: RoutingService,
     private config: OccConfig
   ) {}
 
   styleVariants: VariantOption[];
   sizeVariants: VariantOption[];
-  sizeGuideLabel = 'Style Guide';
   baseUrl = this.config.backend.occ.baseUrl;
   selectedStyle: string;
   product$: Observable<Product>;
@@ -28,46 +33,50 @@ export class ProductVariantSelectorComponent implements OnInit {
     this.product$ = this.currentProductService.getProduct().pipe(
       filter(v => !!v),
       distinctUntilChanged(),
-      tap(p => {
-        if (p.variantType && p.variantType === 'ApparelStyleVariantProduct') {
-          this.styleVariants = p.variantOptions;
+      tap(product => {
+        if (
+          product.variantType &&
+          product.variantType === VariantType.APPAREL_STYLE
+        ) {
+          this.styleVariants = product.variantOptions;
         }
         if (
-          p.baseOptions[0] &&
-          p.baseOptions[0].options &&
-          Object.keys(p.baseOptions[0].options).length > 0 &&
-          p.baseOptions[0].variantType === 'ApparelStyleVariantProduct'
+          product.baseOptions[0] &&
+          product.baseOptions[0].options &&
+          Object.keys(product.baseOptions[0].options).length > 0 &&
+          product.baseOptions[0].variantType === VariantType.APPAREL_STYLE
         ) {
-          this.styleVariants = p.baseOptions[0].options;
-          this.sizeVariants = p.variantOptions;
+          this.styleVariants = product.baseOptions[0].options;
+          this.sizeVariants = product.variantOptions;
+          this.setSelectedApparelStyle(product.baseOptions[0]);
         }
         if (
-          p.baseOptions[1] &&
-          p.baseOptions[1].options &&
-          Object.keys(p.baseOptions[1].options).length > 0 &&
-          p.baseOptions[0].variantType === 'ApparelSizeVariantProduct'
+          product.baseOptions[1] &&
+          product.baseOptions[1].options &&
+          Object.keys(product.baseOptions[1].options).length > 0 &&
+          product.baseOptions[0].variantType === VariantType.APPAREL_SIZE
         ) {
-          this.styleVariants = p.baseOptions[1].options;
-          this.sizeVariants = p.baseOptions[0].options;
-        }
-
-        if (this.styleVariants && this.styleVariants.length) {
-          this.styleVariants.forEach(style => {
-            if (style.code === p.code || style.code === p.baseProduct) {
-              this.selectedStyle = style.variantOptionQualifiers[0].value;
-            }
-          });
+          this.styleVariants = product.baseOptions[1].options;
+          this.sizeVariants = product.baseOptions[0].options;
+          this.setSelectedApparelStyle(product.baseOptions[1]);
         }
       })
     );
   }
 
-  routeToVariant(code: string): void {
-    this.routingService.go({
-      cxRoute: 'product',
-      params: { code },
-    });
+  setSelectedApparelStyle(option: BaseOption) {
+    if (option && option.selected) {
+      this.selectedStyle = option.selected.code;
+    }
+  }
 
+  routeToVariant(code: string): void {
+    if (code) {
+      this.routingService.go({
+        cxRoute: 'product',
+        params: { code },
+      });
+    }
     return null;
   }
 }
