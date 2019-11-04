@@ -8,7 +8,7 @@ import { SiteConnector, SiteContextConfig } from '../../site-context';
 import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
 import { OccConfigLoaderService } from './occ-config-loader.service';
 import { OccLoadedConfig } from './occ-loaded-config';
-import { OccLoadedConfigConverter } from './occ-loaded-config.converter';
+import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
 describe(`OccConfigLoaderService`, () => {

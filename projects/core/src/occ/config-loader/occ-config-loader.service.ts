@@ -19,7 +19,7 @@ import { I18nConfig } from '../../i18n/config/i18n-config';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
 import { OccLoadedConfig } from './occ-loaded-config';
-import { OccLoadedConfigConverter } from './occ-loaded-config.converter';
+import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
 export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
