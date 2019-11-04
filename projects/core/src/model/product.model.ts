@@ -46,6 +46,11 @@ export interface VariantValueCategory {
   superCategories?: VariantCategory[];
 }
 
+export enum VariantType {
+  APPAREL_SIZE_VARIANT = 'ApparelSizeVariantProduct',
+  APPAREL_STYLE_VARIANT = 'ApparelStyleVariantProduct',
+}
+
 export enum PriceType {
   BUY = 'BUY',
   FROM = 'FROM',
@@ -146,7 +151,7 @@ export interface ProductReferences {
 export interface BaseOption {
   options?: VariantOption[];
   selected?: VariantOption;
-  variantType?: string;
+  variantType?: VariantType;
 }
 
 export interface Product {
@@ -176,7 +181,7 @@ export interface Product {
   url?: string;
   variantMatrix?: VariantMatrixElement[];
   variantOptions?: VariantOption[];
-  variantType?: string;
+  variantType?: VariantType;
   volumePrices?: Price[];
   volumePricesFlag?: boolean;
 }
