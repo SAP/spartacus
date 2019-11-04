@@ -42,6 +42,13 @@ export function reducerPendingChanges(
         ...content,
       };
     }
+    case ConfiguratorActions.UPDATE_CONFIGURATION_FAIL: {
+      const content = addToPendingChanges(-1, state);
+      return {
+        ...state,
+        ...content,
+      };
+    }
     case ConfiguratorActions.UPDATE_CONFIGURATION: {
       const content = addToPendingChanges(1, state);
       return {

@@ -42,7 +42,7 @@ function mergeChangesAndGetFirstGroup(
   serviceUnderTest: ConfiguratorCommonsService,
   changedAttribute: Configurator.Attribute
 ) {
-  const configurationForSendingChanges = serviceUnderTest.mergeChangesToNewObject(
+  const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
     GROUP_ID_1,
     changedAttribute,
     productConfiguration
@@ -71,7 +71,7 @@ describe('ConfiguratorCommonsService', () => {
     >);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
 
-    spyOn(serviceUnderTest, 'mergeChangesToNewObject').and.callThrough();
+    spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
   });
@@ -126,10 +126,10 @@ describe('ConfiguratorCommonsService', () => {
       GROUP_ID_1,
       changedAttribute
     );
-    expect(serviceUnderTest.mergeChangesToNewObject).toHaveBeenCalled();
+    expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.UpdateConfiguration(
-        serviceUnderTest.mergeChangesToNewObject(
+        serviceUnderTest.createConfigurationExtract(
           GROUP_ID_1,
           changedAttribute,
           productConfiguration
@@ -175,7 +175,7 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
     };
 
-    const configurationForSendingChanges = serviceUnderTest.mergeChangesToNewObject(
+    const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
       'unknown',
       changedAttribute,
       productConfiguration

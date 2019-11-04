@@ -79,7 +79,7 @@ export class ConfiguratorCommonsService {
       .subscribe(configuration => {
         this.store.dispatch(
           new ConfiguratorActions.UpdateConfiguration(
-            this.mergeChangesToNewObject(
+            this.createConfigurationExtract(
               groupId,
               changedAttribute,
               configuration
@@ -120,7 +120,7 @@ export class ConfiguratorCommonsService {
     return configuration !== undefined;
   }
 
-  mergeChangesToNewObject(
+  createConfigurationExtract(
     groupId: string,
     changedAttribute: Configurator.Attribute,
     configuration: Configurator.Configuration

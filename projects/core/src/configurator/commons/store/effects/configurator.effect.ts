@@ -88,19 +88,24 @@ export class ConfiguratorEffects {
       (action: { type: string; payload?: Configurator.Configuration }) =>
         action.payload
     ),
+    //mergeMap here as we need to process each update
+    //(which only sends one changed attribute at a time),
+    //so we must not cancel inner emissions
     mergeMap(payload => {
       return this.configuratorCommonsConnector
         .updateConfiguration(payload)
         .pipe(
-          switchMap((configuration: Configurator.Configuration) => {
-            return [new UpdateConfigurationSuccess(configuration)];
+          map((configuration: Configurator.Configuration) => {
+            return new UpdateConfigurationSuccess(configuration);
           }),
-          catchError(error => [
-            new UpdateConfigurationFail(
-              payload.productCode,
-              makeErrorSerializable(error)
-            ),
-          ])
+          catchError(error => {
+            return [
+              new UpdateConfigurationFail(
+                payload.productCode,
+                makeErrorSerializable(error)
+              ),
+            ];
+          })
         );
     })
   );
