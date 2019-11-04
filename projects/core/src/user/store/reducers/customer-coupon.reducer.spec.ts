@@ -45,7 +45,7 @@ const customerSearcherResult2: CustomerCouponSearchResult = {
 };
 
 const customerCouponNotification: CustomerCouponNotification = {
-  coupon: coupon1,
+  coupon: coupon2,
   customer: {},
   status: '',
 };
