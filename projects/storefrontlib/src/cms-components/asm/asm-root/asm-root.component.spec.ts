@@ -79,14 +79,14 @@ describe('AsmRootComponent', () => {
     expect(el.query(By.css('cx-asm-main-ui'))).toBeFalsy();
   });
 
-  describe('Minimize ASM UI', () => {
-    beforeEach(() => {
-      spyOn(asmService, 'updateAsmUiState').and.stub();
-      component.ngOnInit();
-    });
-
+  fdescribe('Minimize ASM UI', () => {
     it('should expand the ASM UI when the expand arrow button is clicked', () => {
-      component.asmUi$ = of({ visible: true, expanded: false });
+      spyOn(asmService, 'getAsmUiState').and.returnValue(
+        of({ visible: true, expanded: false })
+      );
+      spyOn(asmService, 'updateAsmUiState').and.stub();
+
+      component.ngOnInit();
       fixture.detectChanges();
 
       const expandBtn = fixture.debugElement.query(By.css('button'));
@@ -98,7 +98,12 @@ describe('AsmRootComponent', () => {
     });
 
     it('should collapse the ASM UI when the collapse button is clicked', () => {
-      component.asmUi$ = of({ visible: true, expanded: true });
+      spyOn(asmService, 'getAsmUiState').and.returnValue(
+        of({ visible: true, expanded: true })
+      );
+      spyOn(asmService, 'updateAsmUiState').and.stub();
+
+      component.ngOnInit();
       fixture.detectChanges();
 
       const collapseBtn = fixture.debugElement.query(By.css('button'));
