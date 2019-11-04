@@ -28,6 +28,7 @@
       *cxFeature="'cancellationAndReturn'"
     >
       <button
+        *ngIf="order.returnable"
         [routerLink]="
           {
             cxRoute: 'orderReturn',
