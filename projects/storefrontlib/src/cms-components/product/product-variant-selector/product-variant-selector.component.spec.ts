@@ -1,14 +1,15 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Type, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  I18nTestingModule,
   OccConfig,
   Product,
   RoutingService,
   UrlCommandRoute,
   UrlCommands,
   VariantType,
+  I18nTestingModule,
+  VariantOption,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -48,6 +49,7 @@ class MockRoutingService {
     _extras?: NavigationExtras
   ): void {}
 }
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -56,10 +58,30 @@ class MockUrlPipe implements PipeTransform {
     return options.cxRoute;
   }
 }
+
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
     return of();
   }
+}
+
+@Component({
+  selector: 'cx-style-selector',
+  template: '',
+})
+class MockCxStyleSelectorComponent {
+  @Input() product: Product;
+  @Input() styleVariants: VariantOption[];
+  @Input() selectedStyle: string;
+}
+
+@Component({
+  selector: 'cx-size-selector',
+  template: '',
+})
+class MockCxSizeSelectorComponent {
+  @Input() product: Product;
+  @Input() sizeVariants: VariantOption[];
 }
 
 describe('ProductVariantSelectorComponent', () => {
@@ -70,7 +92,12 @@ describe('ProductVariantSelectorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductVariantSelectorComponent, MockUrlPipe],
+      declarations: [
+        ProductVariantSelectorComponent,
+        MockUrlPipe,
+        MockCxStyleSelectorComponent,
+        MockCxSizeSelectorComponent,
+      ],
       imports: [RouterTestingModule, I18nTestingModule],
       providers: [
         {

@@ -9,6 +9,7 @@ import {
   I18nTestingModule,
   OrderEntry,
   Product,
+  VariantType,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/index';
@@ -21,18 +22,27 @@ const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'inStock' },
+  baseOptions: [
+    { variantType: VariantType.APPAREL_STYLE },
+    { variantType: VariantType.APPAREL_SIZE },
+  ],
 };
 
 const mockProduct2: Product = {
   name: 'mockProduct2',
   code: 'code2',
   stock: { stockLevelStatus: 'inStock' },
+  baseOptions: [{ variantType: VariantType.APPAREL_SIZE }],
 };
 
 const mockNoStockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'outOfStock' },
+  baseOptions: [
+    { variantType: VariantType.APPAREL_STYLE },
+    { variantType: VariantType.APPAREL_SIZE },
+  ],
 };
 
 class MockCartService {

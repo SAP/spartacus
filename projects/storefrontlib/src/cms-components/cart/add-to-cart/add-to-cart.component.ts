@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+import { VariantType } from '../../../../../core/src/model';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -149,10 +150,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   checkForVariantTypesSelection(product: Product) {
     this.resetVariantsSelections();
     product.baseOptions.forEach(baseOption => {
-      if (baseOption.variantType === 'ApparelStyleVariantProduct') {
+      if (baseOption.variantType === VariantType.APPAREL_STYLE) {
         this.isStyleVariantSelected = true;
       }
-      if (baseOption.variantType === 'ApparelSizeVariantProduct') {
+      if (baseOption.variantType === VariantType.APPAREL_SIZE) {
         this.isSizeVariantSelected = true;
       }
     });
