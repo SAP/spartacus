@@ -37,8 +37,8 @@ const sort = '';
 const coupon1: CustomerCoupon = {
   couponId: 'coupon1',
   name: 'coupon 1',
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: '',
+  endDate: '',
   status: 'Effective',
   description: '',
   notificationOn: true,
@@ -46,8 +46,8 @@ const coupon1: CustomerCoupon = {
 const coupon2: CustomerCoupon = {
   couponId: 'coupon2',
   name: 'coupon 2',
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: '',
+  endDate: '',
   status: 'Effective',
   description: '',
   notificationOn: true,

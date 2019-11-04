@@ -4,8 +4,8 @@ import { Pagination, Sort } from './unused.model';
 export interface CustomerCoupon {
   couponId?: string;
   name?: string;
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: string;
+  endDate?: string;
   status?: string;
   description?: string;
   notificationOn?: boolean;

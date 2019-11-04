@@ -58,8 +58,8 @@ describe('OccCustomerCouponAdapter', () => {
       const customerCoupon: CustomerCoupon = {
         couponId: 'coupon1',
         name: 'coupon 1',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: '',
+        endDate: '',
         status: 'Effective',
         description: '',
         notificationOn: true,
@@ -94,8 +94,8 @@ describe('OccCustomerCouponAdapter', () => {
       const customerCoupon: CustomerCoupon = {
         couponId: 'coupon1',
         name: 'coupon 1',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: '',
+        endDate: '',
         status: 'Effective',
         description: '',
         notificationOn: true,
@@ -156,8 +156,8 @@ describe('OccCustomerCouponAdapter', () => {
       const customerCoupon: CustomerCoupon = {
         couponId: 'coupon1',
         name: 'coupon 1',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: '',
+        endDate: '',
         status: 'Effective',
         description: '',
         notificationOn: true,
