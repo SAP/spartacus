@@ -4,16 +4,9 @@ import { CouponCardComponent } from './coupon-card.component';
 import { I18nTestingModule, CustomerCoupon } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { ModalService } from '../../../../shared/components/modal/index';
-import {
-  Pipe,
-  PipeTransform,
-  Component,
-  DebugElement,
-  Input,
-  HostListener,
-  Directive,
-} from '@angular/core';
+import { Pipe, PipeTransform, Component, DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MyCouponsComponentService } from '../my-coupons.component.service';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -37,8 +30,8 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-my-coupons',
   template: `
     <cx-coupon-card
-      [coupond]="mockCoupon"
-      [couponLoading]="true"
+      [coupon]="coupon"
+      [couponSubscriptionLoading$]="false"
       (notificationChanged)="notificationChange($event)"
     >
     </cx-coupon-card>
@@ -65,35 +58,26 @@ class MyCouponsComponent {
   }
 }
 
-@Directive({
-  // tslint:disable-next-line: directive-selector
-  selector: '[routerLink]',
-})
-export class RouterLinkDirective {
-  @Input('routerLink') linkParams: any;
-  navigatedTo: any = null;
-
-  @HostListener('click')
-  onClick() {
-    this.navigatedTo = this.linkParams;
-  }
-}
-
 describe('CouponCardComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
   const modalService = jasmine.createSpyObj('ModalService', ['open']);
+  const couponComponentService = jasmine.createSpyObj(
+    'MyCouponsComponentService',
+    ['launchSearchPage']
+  );
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CouponCardComponent,
-        MyCouponsComponent,
-        MockUrlPipe,
-        RouterLinkDirective,
-      ],
+      declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
       imports: [I18nTestingModule, RouterTestingModule],
-      providers: [{ provide: ModalService, useValue: modalService }],
+      providers: [
+        { provide: ModalService, useValue: modalService },
+        {
+          provide: MyCouponsComponentService,
+          useValue: couponComponentService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -111,23 +95,27 @@ describe('CouponCardComponent', () => {
 
   it('should display coupon information', () => {
     fixture.detectChanges();
-    const couponName = el.query(By.css('.cx-coupon-card-name')).nativeElement
+    const id = el.queryAll(By.css('.cx-coupon-card-head span'))[0].nativeElement
       .textContent;
-    expect(couponName).toContain('CustomerCoupon:name');
+    expect(id).toContain(mockCoupon.couponId);
+
+    const name = el.queryAll(By.css('.cx-coupon-card-head span'))[1]
+      .nativeElement.textContent;
+    expect(name).toContain(mockCoupon.name);
 
     const couponStatus = el.query(By.css('.cx-coupon-status')).nativeElement
       .textContent;
-    expect(couponStatus).toContain('myCoupons.Effective');
+    expect(couponStatus).toContain(mockCoupon.status);
 
     const couponEffectiveDateTitle = el.query(By.css('.cx-coupon-card-date p'))
       .nativeElement.textContent;
     expect(couponEffectiveDateTitle).toContain('myCoupons.effectiveTitle');
     const couponStartDate = el.query(By.css('.cx-coupon-date-start'))
       .nativeElement.textContent;
-    expect(couponStartDate).toContain('Jan 1, 1970, 8:00:00 AM');
+    expect(couponStartDate).toBeTruthy();
     const couponEndDate = el.query(By.css('.cx-coupon-date-end')).nativeElement
       .textContent;
-    expect(couponEndDate).toContain('Dec 31, 2019, 7:59:59 AM');
+    expect(couponEndDate).toBeTruthy();
 
     const readMoreLink = el.query(By.css('a')).nativeElement.textContent;
     expect(readMoreLink).toContain('myCoupons.readMore');
@@ -152,7 +140,7 @@ describe('CouponCardComponent', () => {
   it('should raise subscribe/unsubscribe event when clicked', () => {
     fixture.detectChanges();
     const couponNotificationCheckbox = el.query(By.css('.form-check-input'));
-    couponNotificationCheckbox.triggerEventHandler('click', null);
+    couponNotificationCheckbox.triggerEventHandler('change', null);
     expect(component.eventObj).toBeTruthy();
   });
 
@@ -167,10 +155,9 @@ describe('CouponCardComponent', () => {
 
   it('should be able to click `Find Product` button', () => {
     fixture.detectChanges();
-    const btn = el.query(By.directive(RouterLinkDirective));
-    const de = btn.injector.get(RouterLinkDirective);
-    expect(de.linkParams).toBe('/');
-    btn.triggerEventHandler('click', null);
-    expect(de.navigatedTo).toBe('/');
+    el.query(By.css('button')).triggerEventHandler('click', null);
+    expect(couponComponentService.launchSearchPage).toHaveBeenCalledWith(
+      component.coupon
+    );
   });
 });

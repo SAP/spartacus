@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CouponClaimComponent } from './coupon-claim.component';
 import {
-  UserService,
   RoutingService,
   GlobalMessageService,
   PageContext,
   PageType,
   GlobalMessageType,
+  CustomerCouponService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 
@@ -31,9 +31,9 @@ describe('CouponClaimComponent', () => {
   let component: CouponClaimComponent;
   let fixture: ComponentFixture<CouponClaimComponent>;
 
-  const userService = jasmine.createSpyObj('UserService', [
-    'getClaimCustomerCouponResultSuccess',
+  const couponService = jasmine.createSpyObj('CustomerCouponService', [
     'claimCustomerCoupon',
+    'getClaimCustomerCouponResultSuccess',
   ]);
   const routingService = jasmine.createSpyObj('RoutingService', [
     'getRouterState',
@@ -46,7 +46,7 @@ describe('CouponClaimComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CouponClaimComponent],
       providers: [
-        { provide: UserService, useValue: userService },
+        { provide: CustomerCouponService, useValue: couponService },
         { provide: RoutingService, useValue: routingService },
         { provide: GlobalMessageService, useValue: globalMessageService },
       ],
@@ -54,26 +54,45 @@ describe('CouponClaimComponent', () => {
   }));
 
   beforeEach(() => {
+    couponService.claimCustomerCoupon.and.stub();
+    couponService.getClaimCustomerCouponResultSuccess.and.returnValue(of(true));
+    routingService.getRouterState.and.returnValue(of(mockRouterState));
+    routingService.go.and.stub();
+    globalMessageService.add.and.stub();
+
     fixture = TestBed.createComponent(CouponClaimComponent);
     component = fixture.componentInstance;
   });
 
   it('components renders', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
     it('should add global message', () => {
-      userService.getClaimCustomerCouponResultSuccess.and.returnValue(of(true));
-      routingService.getRouterState.and.returnValue(of(mockRouterState));
-      routingService.go.and.stub();
       component.ngOnInit();
       fixture.detectChanges();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'myCoupons.claimCustomerCoupon' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      expect(routingService.go).toHaveBeenCalledWith('/my-account/coupons');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'coupons' });
+
+      routingService.getRouterState.and.returnValue(
+        of({
+          state: {
+            cmsRequired: true,
+            context,
+            params: {
+              couponCode: null,
+            },
+          },
+        })
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'notFound' });
     });
   });
 });

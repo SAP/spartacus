@@ -6,7 +6,7 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
 } from '@spartacus/core';
-import { of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject, Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -16,6 +16,8 @@ import {
   EventEmitter,
   DebugElement,
 } from '@angular/core';
+import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 
 @Component({
   selector: 'cx-coupon-card',
@@ -24,23 +26,27 @@ import {
       type="checkbox"
       class="form-check-input"
       [checked]="coupon?.notificationOn"
-      (change)="notificationChange()"
+      (click)="notificationChange()"
     />
   `,
 })
 class MockedCouponCardComponent {
   @Input()
   coupon: CustomerCoupon;
+  @Input()
+  couponSubscriptionLoading$: Observable<boolean>;
   @Output()
   notificationChanged = new EventEmitter<{
     couponId: string;
     notification: boolean;
   }>();
+  notificationOn = false;
 
   notificationChange(): void {
+    this.notificationOn = !this.notificationOn;
     this.notificationChanged.emit({
       couponId: this.coupon.couponId,
-      notification: !this.coupon.notificationOn,
+      notification: this.notificationOn,
     });
   }
 }
@@ -62,9 +68,9 @@ const emptyCouponResult: CustomerCouponSearchResult = {
 const couponsSearchResult: CustomerCouponSearchResult = {
   pagination: {
     page: 0,
-    count: 0,
-    totalPages: 0,
-    totalCount: 0,
+    count: 2,
+    totalPages: 1,
+    totalCount: 2,
   },
   sorts: [
     {
@@ -109,7 +115,7 @@ describe('MyCouponsComponent', () => {
 
   const customerCouponService = jasmine.createSpyObj('CustomerCouponService', [
     'getCustomerCoupons',
-    'getCustomerCouponsLoaded',
+    'getCustomerCouponsLoading',
     'loadCustomerCoupons',
     'subscribeCustomerCoupon',
     'unsubscribeCustomerCoupon',
@@ -122,7 +128,12 @@ describe('MyCouponsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        ListNavigationModule,
+        SpinnerModule,
+      ],
       declarations: [MyCouponsComponent, MockedCouponCardComponent],
       providers: [
         { provide: CustomerCouponService, useValue: customerCouponService },
@@ -138,7 +149,7 @@ describe('MyCouponsComponent', () => {
     customerCouponService.getCustomerCoupons.and.returnValue(
       of(emptyCouponResult)
     );
-    customerCouponService.getCustomerCouponsLoaded.and.returnValue(of(true));
+    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(false));
     customerCouponService.loadCustomerCoupons.and.stub();
     customerCouponService.subscribeCustomerCoupon.and.stub();
     customerCouponService.unsubscribeCustomerCoupon.and.stub();
@@ -183,7 +194,7 @@ describe('MyCouponsComponent', () => {
     const couponCardComponent = el.nativeElement.querySelectorAll(
       'cx-coupon-card'
     );
-    expect(couponCardComponent.length).toBe(2);
+    expect(couponCardComponent.length).toBe(couponsSearchResult.coupons.length);
   });
 
   it('should be able to change sort', () => {
@@ -211,13 +222,13 @@ describe('MyCouponsComponent', () => {
       of(couponsSearchResult)
     );
     fixture.detectChanges();
-    el.query(By.css('form-check-input')).triggerEventHandler('click', null);
+    const checkbox = el.queryAll(By.css('.form-check-input'))[0];
+    checkbox.triggerEventHandler('click', null);
     expect(customerCouponService.subscribeCustomerCoupon).toHaveBeenCalledWith(
       'CustomerCoupon1'
     );
-    fixture.debugElement
-      .query(By.css('form-check-input'))
-      .triggerEventHandler('click', null);
+
+    checkbox.triggerEventHandler('click', null);
     expect(
       customerCouponService.unsubscribeCustomerCoupon
     ).toHaveBeenCalledWith('CustomerCoupon1');
