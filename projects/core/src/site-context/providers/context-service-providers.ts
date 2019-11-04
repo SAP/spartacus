@@ -19,7 +19,6 @@ export function inititializeContext(
   };
 }
 
-/** @internal */
 export function initializeContext(
   baseSiteService: BaseSiteService,
   langService: LanguageService,
@@ -55,8 +54,6 @@ export const contextServiceProviders: Provider[] = [
 ];
 
 /**
- * @internal
- *
  * @deprecated since 1.3 - should be renamed to contextServiceProviders and keep being @internal
  */
 export const contextServiceProviders2: Provider[] = [
