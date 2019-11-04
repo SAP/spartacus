@@ -35,6 +35,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   submitEvent = new EventEmitter<{ customerId: string }>();
 
   @ViewChild('resultList', { static: false }) resultList: ElementRef;
+  @ViewChild('searchTerm', { static: false }) searchTerm: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -92,7 +93,12 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   onDocumentClick(event) {
     if (Boolean(this.resultList)) {
-      if (!this.resultList.nativeElement.contains(event.target)) {
+      if (
+        this.resultList.nativeElement.contains(event.target) ||
+        this.searchTerm.nativeElement.contains(event.target)
+      ) {
+        return;
+      } else {
         this.asmService.customerSearchReset();
       }
     }
