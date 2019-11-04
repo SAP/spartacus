@@ -14,6 +14,9 @@ import {
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Config } from '../../config/config.module';
+import { deepMerge } from '../../config/utils/deep-merge';
+import { I18nConfig } from '../../i18n/config/i18n-config';
+import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config.converter';
@@ -55,18 +58,20 @@ export class OccConfigLoaderService {
   /**
    * Initializes the Spartacus config asynchronously basing on the external config
    */
-  getConfigChunks(): Promise<object[]> {
+  loadConfig(): Promise<I18nConfig | SiteContextConfig> {
     return this.get()
       .toPromise()
       .then(externalConfig => {
         this.transfer(externalConfig);
 
-        return [
+        const chunks: any[] = [
           this.converter.toSiteContextConfig(externalConfig),
-          ...(this.shouldReturnI18nChunk()
-            ? [this.converter.toI18nConfig(externalConfig)]
-            : []),
         ];
+        if (this.shouldReturnI18nChunk()) {
+          chunks.push(this.converter.toI18nConfig(externalConfig));
+        }
+
+        return deepMerge({}, ...chunks);
       });
   }
 
@@ -79,7 +84,7 @@ export class OccConfigLoaderService {
       ) !== 'undefined';
     if (fallbackLangExists && isDevMode()) {
       console.warn(
-        `Loaded i18n fallback lang from OCC, but using the already provided static value of 'i18n.fallbackLang'`
+        `There is an already provided static config for 'i18n.fallbackLang', so the value from OCC loaded config is ignored.`
       );
     }
     return !fallbackLangExists;

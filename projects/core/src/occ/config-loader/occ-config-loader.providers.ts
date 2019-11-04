@@ -1,5 +1,8 @@
-import { APP_INITIALIZER, Provider } from '@angular/core';
-import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
+import { Provider } from '@angular/core';
+import {
+  ConfigInitializer,
+  CONFIG_INITIALIZER,
+} from '../../config/config-initializer/config-initializer';
 import { BASE_SITE_CONTEXT_ID, SiteContextConfig } from '../../site-context';
 import { OccConfigLoaderService } from './occ-config-loader.service';
 
@@ -9,30 +12,26 @@ import { OccConfigLoaderService } from './occ-config-loader.service';
  * @internal
  */
 export function initConfig(
-  externalConfigService: OccConfigLoaderService,
-  configInit: ConfigInitializerService,
+  configLoader: OccConfigLoaderService,
   config: SiteContextConfig
-) {
-  const result = () => {
-    // when there is no static config for 'context.baseSite', load it from backend
-    if (!config.context || !config.context[BASE_SITE_CONTEXT_ID]) {
-      return externalConfigService.getConfigChunks().then(chunks => {
-        // spike todo use CONFIG_INITIALIZER after #5181:
-        configInit.add(...chunks);
-      });
-    } else {
-      //spike todo remove after #5181 - it's just to resolve promise for now, when the base site is already provided
-      configInit.add();
-    }
-  };
-  return result;
+): ConfigInitializer {
+  /**
+   * Load config for `context` from backend only when there is no static config for `context.baseSite`
+   */
+  if (!config.context || !config.context[BASE_SITE_CONTEXT_ID]) {
+    return {
+      scopes: ['context', 'i18n.fallbackLang'],
+      configFactory: () => configLoader.loadConfig(),
+    };
+  }
+  return null;
 }
 
 export const providers: Provider[] = [
   {
-    provide: APP_INITIALIZER, // spike todo use CONFIG_INITIALIZER after #5181
+    provide: CONFIG_INITIALIZER,
     useFactory: initConfig,
-    deps: [OccConfigLoaderService, ConfigInitializerService, SiteContextConfig],
+    deps: [OccConfigLoaderService, SiteContextConfig],
     multi: true,
   },
 ];

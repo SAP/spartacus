@@ -85,7 +85,7 @@ describe(`OccConfigLoaderService`, () => {
         });
 
         it(`should return chunks based on the rehydrated config`, async () => {
-          const result = await service.getConfigChunks();
+          const result = await service.loadConfig();
 
           expect(sitesConfigLoader.load).not.toHaveBeenCalled();
           expect(
@@ -102,7 +102,7 @@ describe(`OccConfigLoaderService`, () => {
         });
 
         it(`should not transfer external config`, async () => {
-          await service.getConfigChunks();
+          await service.loadConfig();
 
           expect(transferState.set).not.toHaveBeenCalled();
         });
@@ -114,7 +114,7 @@ describe(`OccConfigLoaderService`, () => {
         });
 
         it(`should return chunks based on loaded sites data and current BROWSER url`, async () => {
-          const result = await service.getConfigChunks();
+          const result = await service.loadConfig();
 
           expect(sitesConfigLoader.load).toHaveBeenCalled();
           expect(
@@ -131,7 +131,7 @@ describe(`OccConfigLoaderService`, () => {
         });
 
         it(`should not transfer external config`, async () => {
-          await service.getConfigChunks();
+          await service.loadConfig();
 
           expect(transferState.set).not.toHaveBeenCalled();
         });
@@ -142,7 +142,7 @@ describe(`OccConfigLoaderService`, () => {
       beforeEach(() => beforeEachWithPlatform('server'));
 
       it(`should return chunks based on loaded sites data and current SERVER url`, async () => {
-        const result = await service.getConfigChunks();
+        const result = await service.loadConfig();
 
         expect(sitesConfigLoader.load).toHaveBeenCalled();
         expect(
@@ -159,7 +159,7 @@ describe(`OccConfigLoaderService`, () => {
       });
 
       it(`should transfer external config`, async () => {
-        await service.getConfigChunks();
+        await service.loadConfig();
 
         expect(transferState.set).toHaveBeenCalledWith(
           'cx-external-config',
