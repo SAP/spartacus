@@ -127,8 +127,8 @@ export function asmTests() {
         // N Z, <email address>
 
         // should end a user's session when clicking on the end session button
-        cy.get('div.cx-customer-emulation button').click();
-        cy.get('div.cx-customer-emulation').should('not.exist');
+        cy.get('cx-customer-emulation button').click();
+        cy.get('cx-customer-emulation').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
       });
 
@@ -250,7 +250,7 @@ function startCustomerEmulation(): void {
   cy.wait(userDetailsRequestAlias)
     .its('status')
     .should('eq', 200);
-  cy.get('div.cx-customer-emulation input')
+  cy.get('cx-customer-emulation input')
     .invoke('attr', 'placeholder')
     .should('contain', customer.fullName);
   cy.get('cx-csagent-login-form').should('not.exist');
