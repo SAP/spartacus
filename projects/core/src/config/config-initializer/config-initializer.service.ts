@@ -1,5 +1,8 @@
-import { Inject, Injectable, isDevMode } from '@angular/core';
-import { ConfigInitializer } from './config-initializer';
+import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
+import {
+  CONFIG_INITIALIZER_FORROOT_GUARD,
+  ConfigInitializer,
+} from './config-initializer';
 import { Config } from '../config.module';
 import { BehaviorSubject } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
@@ -12,7 +15,12 @@ import { deepMerge } from '../utils/deep-merge';
   providedIn: 'root',
 })
 export class ConfigInitializerService {
-  constructor(@Inject(Config) protected config: any) {}
+  constructor(
+    @Inject(Config) protected config: any,
+    @Optional()
+    @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
+    protected initializerGuard
+  ) {}
 
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
 
@@ -20,7 +28,10 @@ export class ConfigInitializerService {
    * Returns true if config is stable, i.e. all CONFIG_INITIALIZERS resolved correctly
    */
   get isStable(): boolean {
-    return this.ongoingScopes$.value && this.ongoingScopes$.value.length === 0;
+    return (
+      !this.initializerGuard ||
+      (this.ongoingScopes$.value && this.ongoingScopes$.value.length === 0)
+    );
   }
 
   /**
@@ -109,6 +120,11 @@ export class ConfigInitializerService {
    *
    */
   async initialize(initializers: ConfigInitializer[] = []) {
+    if (this.ongoingScopes$.value) {
+      // guard for double initialization
+      return;
+    }
+
     const ongoingScopes: string[] = [];
 
     const asyncConfigs: Promise<void>[] = [];

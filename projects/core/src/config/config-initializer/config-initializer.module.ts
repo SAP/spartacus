@@ -6,7 +6,11 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigInitializerService } from './config-initializer.service';
-import { CONFIG_INITIALIZER, ConfigInitializer } from './config-initializer';
+import {
+  CONFIG_INITIALIZER,
+  CONFIG_INITIALIZER_FORROOT_GUARD,
+  ConfigInitializer,
+} from './config-initializer';
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
@@ -25,6 +29,10 @@ export class ConfigInitializerModule {
     return {
       ngModule: ConfigInitializerModule,
       providers: [
+        {
+          provide: CONFIG_INITIALIZER_FORROOT_GUARD,
+          useValue: true,
+        },
         {
           provide: APP_INITIALIZER,
           multi: true,

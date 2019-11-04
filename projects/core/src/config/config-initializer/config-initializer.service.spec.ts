@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ConfigInitializerService } from './config-initializer.service';
 import { Config, ConfigInitializer } from '@spartacus/core';
+import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
 
 const MockConfig = {
   test: 'test',
@@ -24,7 +25,10 @@ describe('ConfigInitializerService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: Config, useValue: MockConfig }],
+      providers: [
+        { provide: Config, useValue: MockConfig },
+        { provide: CONFIG_INITIALIZER_FORROOT_GUARD, useValue: true },
+      ],
     });
     service = TestBed.get(ConfigInitializerService);
   });
