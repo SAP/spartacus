@@ -32,7 +32,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   prefsEnabled$: Observable<boolean>;
   outOfStock$: Observable<boolean>;
   subscribeSuccess$: Observable<boolean>;
-  subscribeFail$: Observable<boolean>;
   unsubscribeLoading$: Observable<boolean>;
 
   enabledPrefs: NotificationPreference[] = [];

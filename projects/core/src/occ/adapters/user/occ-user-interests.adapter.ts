@@ -30,9 +30,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     productCode?: string,
     notificationType?: NotificationType
   ): Observable<ProductInterestSearchResult> {
-    let params = new HttpParams()
-      .set('sort', sort ? sort : 'name:asc')
-      .set('fields', 'FULL');
+    let params = new HttpParams().set('sort', sort ? sort : 'name:asc');
     if (pageSize) {
       params = params.set('pageSize', pageSize.toString());
     }
@@ -49,7 +47,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     const headers = this.getHeaders();
 
     return this.http
-      .get(this.occEndpoints.getUrl('productInterests', { userId }), {
+      .get(this.occEndpoints.getUrl('getProductInterests', { userId }), {
         headers,
         params,
       })
