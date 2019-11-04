@@ -39,6 +39,7 @@
       <span class="result-id">{{ result.uid }}</span></a
     >
     <a
+      (click)="closeResults()"
       *ngIf="
         !(searchResultsLoading$ | async) &&
         searchTerm.value.length >= 3 &&

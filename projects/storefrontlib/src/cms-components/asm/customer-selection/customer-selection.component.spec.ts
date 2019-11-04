@@ -211,7 +211,7 @@ describe('CustomerSelectionComponent', () => {
     spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
       of(<CustomerSearchPage>{ entries: [] })
     );
-
+    spyOn(asmService, 'customerSearchReset').and.stub();
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
@@ -219,6 +219,10 @@ describe('CustomerSelectionComponent', () => {
     expect(
       el.query(By.css('div.results div a')).nativeElement.innerText
     ).toEqual('asm.customerSearch.noMatch');
+    el.query(By.css('div.results div a')).nativeElement.dispatchEvent(
+      new MouseEvent('click')
+    );
+    expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 
   it('should be able to select a customer from the result list.', () => {

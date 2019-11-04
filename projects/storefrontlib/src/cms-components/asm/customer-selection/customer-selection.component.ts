@@ -90,15 +90,19 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   onDocumentClick(event) {
     if (!!this.resultList) {
       if (!this.resultList.nativeElement.contains(event.target)) {
         this.asmService.customerSearchReset();
       }
     }
+  }
+
+  closeResults() {
+    this.asmService.customerSearchReset();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
