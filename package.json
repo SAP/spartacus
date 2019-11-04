@@ -57,7 +57,7 @@
     "release:core": "cd projects/core && release-it && cd ../..",
     "release:schematics": "cd projects/schematics && release-it && cd ../..",
     "release:assets:with-changelog": "cd projects/assets && release-it --config .release-it.changelog.json && cd ../..",
-    "release:styles:with-changelog": "cd projects/storefrontstyles && release-it --config .release-it.changelog.json && cd ../..",
+    "release:styles:with-changelog": "cd projects/storefrontstyles && release-it --config .release-it.changelog.json --no-git.requireCleanWorkingDir && cd ../..",
     "release:lib:with-changelog": "cd projects/storefrontlib && release-it --config .release-it.changelog.json && cd ../..",
     "release:core:with-changelog": "cd projects/core && release-it --config .release-it.changelog.json && cd ../..",
     "release:schematics:with-changelog": "cd projects/schematics && release-it --config .release-it.changelog.json && cd ../..",

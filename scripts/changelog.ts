@@ -27,17 +27,32 @@ export interface ChangelogOptions {
   stdout?: boolean;
 }
 
-export default async function run(args: ChangelogOptions, logger: logging.Logger) {
+export default async function run(
+  args: ChangelogOptions,
+  logger: logging.Logger
+) {
   const commits: JsonObject[] = [];
   let toSha: string | null = null;
   const breakingChanges: JsonObject[] = [];
-  const versionFromTag = args.to.split('-').filter((_,i) => i !== 0).join('-')
-  const newVersion = semver.parse(versionFromTag, { includePrerelease: true, loose: true });
+  const versionFromTag = args.to
+    .split('-')
+    .filter((_, i) => i !== 0)
+    .join('-');
+  const newVersion = semver.parse(versionFromTag, {
+    includePrerelease: true,
+    loose: true,
+  });
   let fromToken: string;
   try {
-    const packageVersions = await versionsHelper.fetchPackageVersions(args.library);
-    const previousVersion = versionsHelper.extractPreviousVersionForChangelog(packageVersions, newVersion.version)
-    fromToken = previousVersion && args.to.split(newVersion).join(previousVersion);
+    const packageVersions = await versionsHelper.fetchPackageVersions(
+      args.library
+    );
+    const previousVersion = versionsHelper.extractPreviousVersionForChangelog(
+      packageVersions,
+      newVersion.version
+    );
+    fromToken =
+      previousVersion && args.to.split(newVersion).join(previousVersion);
   } catch (err) {
     // package not found - assuming first release
     fromToken = '';
@@ -60,7 +75,7 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
   return new Promise(resolve => {
     (gitRawCommits({
       from: fromToken,
-      to: args.to || 'HEAD',
+      to: 'HEAD' || args.to || 'HEAD',
       path: args.library ? libraryPaths[args.library] : '.',
       format:
         '%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n',
@@ -152,7 +167,8 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
       const semversion = (args.to && semver.parse(args.to)) || {
         prerelease: '',
       };
-
+      console.log('blabla');
+      console.log('body', body);
       return ghGot(
         'repos/SAP/cloud-commerce-spartacus-storefront/releases' + id,
         {
