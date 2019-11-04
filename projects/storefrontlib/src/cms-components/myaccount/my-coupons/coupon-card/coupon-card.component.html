@@ -32,8 +32,8 @@
               type="checkbox"
               class="form-check-input"
               [checked]="coupon?.notificationOn"
-              [class.disabled]="couponLoading$ | async"
-              [disabled]="couponLoading$ | async"
+              [class.disabled]="couponSubscriptionLoading$ | async"
+              [disabled]="couponSubscriptionLoading$ | async"
               (change)="notificationChange()"
             />
             <span class="form-check-label">

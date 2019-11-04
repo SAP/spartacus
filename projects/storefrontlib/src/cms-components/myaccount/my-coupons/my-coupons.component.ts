@@ -14,8 +14,8 @@ import { tap, map } from 'rxjs/operators';
 })
 export class MyCouponsComponent implements OnInit {
   couponResult$: Observable<CustomerCouponSearchResult>;
-  couponsLoaded$: Observable<boolean>;
-  couponLoading$: Observable<boolean>;
+  couponsLoading$: Observable<boolean>;
+  couponSubscriptionLoading$: Observable<boolean>;
 
   private PAGE_SIZE = 10;
   private sortMapping = {
@@ -68,8 +68,8 @@ export class MyCouponsComponent implements OnInit {
             })
         )
       );
-    this.couponsLoaded$ = this.couponService.getCustomerCouponsLoaded();
-    this.couponLoading$ = combineLatest([
+    this.couponsLoading$ = this.couponService.getCustomerCouponsLoading();
+    this.couponSubscriptionLoading$ = combineLatest([
       this.couponService.getSubscribeCustomerCouponResultLoading(),
       this.couponService.getUnsubscribeCustomerCouponResultLoading(),
     ]).pipe(

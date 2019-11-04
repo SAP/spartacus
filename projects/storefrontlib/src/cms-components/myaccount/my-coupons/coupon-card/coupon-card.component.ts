@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class CouponCardComponent implements OnInit {
   @Input() coupon: CustomerCoupon;
-  @Input() couponLoading$: Observable<boolean>;
+  @Input() couponSubscriptionLoading$: Observable<boolean>;
   modalRef: ModalRef;
 
   @Output()
@@ -29,8 +29,7 @@ export class CouponCardComponent implements OnInit {
     protected myCouponsComponentService: MyCouponsComponentService
   ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   notificationChange(): void {
     this.notificationChanged.emit({
