@@ -80,6 +80,22 @@ export function commitChanges(
 }
 
 // TODO:#12 test
+export function defineProperty(
+  nodes: ts.Node[],
+  path: string,
+  toAdd: string
+): Change {
+  const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
+
+  // we could create a constructor here, but since angular CLI generates a component with the constructor, there's no need
+  if (!constructorNode) {
+    throw new SchematicsException(`No constructor found in ${path}.`);
+  }
+
+  return new InsertChange(path, constructorNode.pos + 1, toAdd);
+}
+
+// TODO:#12 test
 export function injectService(
   nodes: ts.Node[],
   path: string,
@@ -88,7 +104,7 @@ export function injectService(
 ): Change {
   const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
 
-  // we could add a constructor here, but since angular generates a component with the constructor, there's no need
+  // we could create a constructor here, but since angular CLI generates a component with the constructor, there's no need
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
@@ -103,7 +119,8 @@ export function injectService(
     );
   }
 
-  propertyName = propertyName || strings.camelize(serviceName);
+  propertyName =
+    strings.camelize(propertyName) || strings.camelize(serviceName);
   const toAdd = `private ${propertyName}: ${strings.classify(serviceName)}`;
   return new InsertChange(path, parameterListNode.pos, toAdd);
 }

@@ -17,16 +17,18 @@ import {
   getSourceNodes,
   insertImport,
 } from '@schematics/angular/utility/ast-utils';
-import { Change } from '@schematics/angular/utility/change';
+import { Change, InsertChange } from '@schematics/angular/utility/change';
 import {
   ANGULAR_CORE,
   ANGULAR_SCHEMATICS,
+  COMPONENT_DATA_CLASS,
   COMPONENT_DATA_PROPERTY_NAME,
   SPARTACUS_CORE,
   UTF_8,
 } from '../shared/constants';
 import {
   commitChanges,
+  defineProperty,
   getMetadataProperty,
   getPathResultsForFile,
   getTsSourceFile,
@@ -37,78 +39,82 @@ import { importModule } from '../shared/utils/module-file-utils';
 import { getWorkspace } from '../shared/utils/workspace-utils';
 import { CxCmsComponentSchema } from './schema';
 
-const DELETE_ME = true;
+export const DELETE_ME = true;
 
 function buildModuleName(options: CxCmsComponentSchema): string {
   const specifiedModule = options.module || '';
   return options.createModule ? options.name : specifiedModule;
 }
 
+function printModule(options: CxCmsComponentSchema, tree: Tree): void {
+  const moduleName = buildModuleName(options);
+  const modulePath = findModuleFromOptions(tree, { name: moduleName });
+  if (!modulePath) {
+    console.error(`Could not find the ${modulePath}`);
+    return;
+  }
+
+  const moduleBuffer = tree.read(modulePath);
+  if (moduleBuffer) {
+    const moduleContent = moduleBuffer.toString(UTF_8);
+    console.log('\n', moduleContent);
+  } else {
+    console.log('no buffer for the module');
+  }
+}
+
+function printComponent(options: CxCmsComponentSchema, tree: Tree): void {
+  const componentFileName = `${strings.camelize(
+    options.name
+  )}.${strings.camelize(options.type)}.ts`;
+  const possibleProjectFiles = ['/angular.json', '/.angular.json'];
+  const { workspace } = getWorkspace(tree, possibleProjectFiles);
+  const project = getProjectFromWorkspace(workspace, options.project);
+
+  const componentPath = getPathResultsForFile(
+    tree,
+    componentFileName,
+    project.sourceRoot
+  )[0];
+  console.log('component path', componentPath);
+
+  const componentBuffer = tree.read(componentPath);
+  if (componentBuffer) {
+    const componentContent = componentBuffer.toString(UTF_8);
+    console.log('\n', componentContent);
+  } else {
+    console.log('no buffer for the component');
+  }
+}
+
+function printComponentTemplate(options: CxCmsComponentSchema, tree: Tree) {
+  const possibleProjectFiles = ['/angular.json', '/.angular.json'];
+  const { workspace } = getWorkspace(tree, possibleProjectFiles);
+  const project = getProjectFromWorkspace(workspace, options.project);
+
+  const componentTemplateFileName = `${strings.camelize(
+    options.name
+  )}.${strings.camelize(options.type)}.html`;
+  const templatePath = getPathResultsForFile(
+    tree,
+    componentTemplateFileName,
+    project.sourceRoot
+  )[0];
+  const componentTemplateBuffer = tree.read(templatePath);
+  if (componentTemplateBuffer) {
+    const content = componentTemplateBuffer.toString(UTF_8);
+    console.log('\n', content);
+  } else {
+    console.log('no buffer for the template');
+  }
+}
+
 function print(options: CxCmsComponentSchema): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     if (DELETE_ME) {
-      {
-        const moduleName = buildModuleName(options);
-        const modulePath = findModuleFromOptions(tree, { name: moduleName });
-        if (!modulePath) {
-          context.logger.error(`Could not find the ${modulePath}`);
-          return;
-        }
-
-        const moduleBuffer = tree.read(modulePath);
-        if (moduleBuffer) {
-          const moduleContent = moduleBuffer.toString(UTF_8);
-          console.log('\n', moduleContent);
-        } else {
-          console.log('no buffer for the module');
-        }
-      }
-
-      {
-        const componentFileName = `${strings.camelize(
-          options.name
-        )}.${strings.camelize(options.type)}.ts`;
-        const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-        const { workspace } = getWorkspace(tree, possibleProjectFiles);
-        const project = getProjectFromWorkspace(workspace, options.project);
-
-        const componentPath = getPathResultsForFile(
-          tree,
-          componentFileName,
-          project.sourceRoot
-        )[0];
-        console.log('component path', componentPath);
-
-        const componentBuffer = tree.read(componentPath);
-        if (componentBuffer) {
-          const componentContent = componentBuffer.toString(UTF_8);
-          console.log('\n', componentContent);
-        } else {
-          console.log('no buffer for the component');
-        }
-      }
-
-      {
-        const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-        const { workspace } = getWorkspace(tree, possibleProjectFiles);
-        const project = getProjectFromWorkspace(workspace, options.project);
-
-        const componentTemplateFileName = `${strings.camelize(
-          options.name
-        )}.${strings.camelize(options.type)}.html`;
-        const templatePath = getPathResultsForFile(
-          tree,
-          componentTemplateFileName,
-          project.sourceRoot
-        )[0];
-        const componentTemplateBuffer = tree.read(templatePath);
-        if (componentTemplateBuffer) {
-          const content = componentTemplateBuffer.toString(UTF_8);
-          console.log('\n', content);
-        } else {
-          console.log('no buffer for the template');
-        }
-      }
+      printModule(options, tree);
+      printComponent(options, tree);
+      printComponentTemplate(options, tree);
     }
   };
 }
@@ -162,7 +168,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       throw new SchematicsException(`"cmsComponentDataModel" can't be falsy`);
     }
 
-    const cmsComponentData = `CmsComponentData<${strings.classify(
+    const cmsComponentData = `${COMPONENT_DATA_CLASS}<${strings.classify(
       options.cmsComponentDataModel
     )}>`;
 
@@ -183,6 +189,25 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     const changes: Change[] = [];
 
     const componentTs = getTsSourceFile(tree, componentPath);
+    const nodes = getSourceNodes(componentTs);
+    const injectionChange = injectService(
+      nodes,
+      componentPath,
+      cmsComponentData,
+      COMPONENT_DATA_PROPERTY_NAME
+    );
+    changes.push(injectionChange);
+
+    const componentDataProperty = `  ${COMPONENT_DATA_PROPERTY_NAME}$: Observable<${strings.classify(
+      options.cmsComponentDataModel
+    )}> = this.${COMPONENT_DATA_PROPERTY_NAME}.data$;`;
+    const componentDataPropertyChange = defineProperty(
+      nodes,
+      componentPath,
+      componentDataProperty
+    );
+    changes.push(componentDataPropertyChange);
+
     const cmsComponentImport = insertImport(
       componentTs,
       componentPath,
@@ -194,32 +219,39 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     const cmsComponentDataImport = insertImport(
       componentTs,
       componentPath,
-      'CmsComponentData',
+      COMPONENT_DATA_CLASS,
       SPARTACUS_CORE,
       false
     );
     changes.push(cmsComponentDataImport);
 
-    const nodes = getSourceNodes(componentTs);
-    const injectionChange = injectService(
-      nodes,
-      componentPath,
-      cmsComponentData,
-      COMPONENT_DATA_PROPERTY_NAME
-    );
-    // TODO: define `componentData$: Observable<Model> = this.componentData.data$`
-    changes.push(injectionChange);
+    commitChanges(tree, componentPath, changes, InsertDirection.LEFT);
+  };
+}
 
-    commitChanges(tree, componentPath, changes, InsertDirection.RIGHT);
+function updateTemplate(options: CxCmsComponentSchema): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const componentFileName = `${strings.camelize(
+      options.name
+    )}.${strings.camelize(options.type)}.ts`;
+    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
+    const { workspace } = getWorkspace(tree, possibleProjectFiles);
+    const project = getProjectFromWorkspace(workspace, options.project);
+
+    const componentPath = getPathResultsForFile(
+      tree,
+      componentFileName,
+      project.sourceRoot
+    )[0];
+    const componentTs = getTsSourceFile(tree, componentPath);
 
     let templatePath = '';
     let templateContent = '';
     let startIndex: number;
     if (options.inlineTemplate) {
       templatePath = componentPath;
-      const componentSourceTs = getTsSourceFile(tree, componentPath);
       const decorator = getDecoratorMetadata(
-        componentSourceTs,
+        componentTs,
         'Component',
         ANGULAR_CORE
       )[0];
@@ -246,10 +278,19 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
         `  <ng-container *ngIf="${COMPONENT_DATA_PROPERTY_NAME}$ | async as data">` +
         `\n      {{data | json}}` +
         `\n    </ng-container>`;
-      const recorder = tree.beginUpdate(templatePath);
 
-      recorder.insertLeft(startIndex, insertion);
-      tree.commitUpdate(recorder);
+      const templateChange = new InsertChange(
+        templatePath,
+        startIndex,
+        insertion
+      );
+
+      commitChanges(
+        tree,
+        templatePath,
+        [templateChange],
+        InsertDirection.RIGHT
+      );
     }
   };
 }
@@ -319,6 +360,7 @@ export function addComponent(options: CxCmsComponentSchema): Rule {
       }),
       updateModule(options),
       updateComponent(options),
+      updateTemplate(options),
       print(options),
     ])(tree, context);
   };
