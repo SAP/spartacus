@@ -9,8 +9,6 @@ import { OccConfigLoaderService } from './occ-config-loader.service';
 
 /**
  * Initializes the Spartacus config asynchronously basing on the external config
- *
- * @internal
  */
 export function initConfig(
   configLoader: OccConfigLoaderService,
