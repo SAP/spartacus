@@ -1,13 +1,15 @@
-<cx-asm-main-ui [class.collapse]="!expanded" *ngIf="(asmUi$ | async)?.visible">
+<cx-asm-main-ui
+  [class.collapse]="!(asmUi$ | async).expanded"
+  *ngIf="(asmUi$ | async)?.visible"
+>
 </cx-asm-main-ui>
 
-<div class="expand-ui" *ngIf="expanded; else collapse">
+<div class="expand-ui" *ngIf="(asmUi$ | async).expanded; else collapse">
   <button class="expand-ui-btn" (click)="collapseUi()">
     <svg
       height="14"
       width="14"
       aria-hidden="true"
-      data-icon="stop-circle"
       data-prefix="far"
       focusable="false"
       role="img"

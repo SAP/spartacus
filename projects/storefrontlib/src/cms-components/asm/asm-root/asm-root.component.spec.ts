@@ -69,7 +69,6 @@ describe('AsmRootComponent', () => {
     fixture.detectChanges();
     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
       visible: true,
-      expanded: true,
     });
   });
 
@@ -88,7 +87,6 @@ describe('AsmRootComponent', () => {
       const expandBtn = fixture.debugElement.query(By.css('button'));
       expandBtn.nativeElement.click();
       expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
-        visible: true,
         expanded: true,
       });
     });
@@ -101,7 +99,6 @@ describe('AsmRootComponent', () => {
       const collapseBtn = fixture.debugElement.query(By.css('button'));
       collapseBtn.nativeElement.click();
       expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
-        visible: true,
         expanded: false,
       });
     });

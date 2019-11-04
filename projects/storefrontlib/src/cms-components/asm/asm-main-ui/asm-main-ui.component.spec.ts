@@ -285,7 +285,6 @@ describe('AsmMainUiComponent', () => {
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
       visible: false,
-      expanded: false,
     });
   });
 
