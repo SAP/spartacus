@@ -1,14 +1,43 @@
 %cx-store-finder-list-item {
   display: block;
-  margin: 1.25rem 0;
+  text-align: left;
+  padding: 1rem 0.75rem;
+  text-decoration: none;
+  position: relative;
+
+  @include media-breakpoint-down(md) {
+    padding: 0.5rem;
+  }
+
+  &:hover {
+    background-color: var(--cx-color-background);
+    .cx-store-name {
+      text-decoration: underline;
+    }
+  }
+
+  .cx-store-list-order {
+    position: absolute;
+    left: -2rem;
+  }
 
   .cx-store-name {
     @include type('6');
-    text-decoration: underline;
     cursor: pointer;
+    min-height: 40px;
   }
   .cx-store-address {
+    cursor: pointer;
     @include type('7');
+  }
+  .cx-store-address-street {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include media-breakpoint-down(md) {
+      white-space: normal;
+    }
   }
   .cx-store-open {
     @include type('8');
@@ -17,6 +46,10 @@
   .cx-store-closed {
     @include type('8');
     color: var(--cx-color-danger);
+  }
+  .cx-store-distance {
+    @include type('8');
+    margin: 1rem 0;
   }
   .cx-button {
     line-height: 2;

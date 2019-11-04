@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
+  AnonymousConsentsModule,
+  AsmModule,
   AuthModule,
   CartModule,
   CheckoutModule,
@@ -16,11 +18,14 @@ import {
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
+import { ViewConfigModule } from '../shared/config/view-config.module';
 
 @NgModule({
   imports: [
+    AsmModule.forRoot(),
     StateModule.forRoot(),
     AuthModule.forRoot(),
+    AnonymousConsentsModule.forRoot(),
     ConfigModule.forRoot(),
     RoutingModule.forRoot(),
     I18nModule.forRoot(),
@@ -31,6 +36,7 @@ import { LayoutModule } from '../layout/layout.module';
     CheckoutModule.forRoot(),
     UserModule.forRoot(),
     ProductModule.forRoot(),
+    ViewConfigModule.forRoot(),
     FeaturesConfigModule.forRoot('1.0'),
     LayoutModule,
   ],

@@ -1,20 +1,30 @@
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { CustomFormValidators } from './custom-form-validators';
 
 describe('FormValidationService', () => {
   let email: FormControl;
   let emailError: ValidationErrors;
-  let password: FormControl;
   let passwordError: ValidationErrors;
+  let matchError: any;
+  let form: FormGroup;
 
   beforeEach(() => {
     email = new FormControl();
     emailError = {
       InvalidEmail: true,
     };
-    password = new FormControl();
+
+    form = new FormGroup({
+      password: new FormControl(),
+      passwordconf: new FormControl(),
+    });
+
     passwordError = {
       InvalidPassword: true,
+    };
+
+    matchError = {
+      NotEqual: true,
     };
   });
 
@@ -89,14 +99,36 @@ describe('FormValidationService', () => {
   });
 
   describe('Password validator', () => {
-    it('should apply specified rule', () => {
-      password.setValue('Test123!');
-      expect(CustomFormValidators.passwordValidator(password)).toBeNull();
+    const validPasswords = ['Test123!', 'TEST123!', 'TEST123test!@#'];
+    const invalidPasswords = ['test123!', 'Test1234', 'Test!@#%', 'Te1!'];
 
-      password.setValue('test123!');
-      expect(CustomFormValidators.passwordValidator(password)).toEqual(
-        passwordError
-      );
+    validPasswords.forEach((validPassword: string) => {
+      it(`should allow password ${validPassword}`, () => {
+        form.get('password').setValue(validPassword);
+        expect(
+          CustomFormValidators.passwordValidator(form.get('password'))
+        ).toBeNull();
+      });
+    });
+
+    invalidPasswords.forEach((invalidPassword: string) => {
+      it(`should reject password '${invalidPassword}'`, function() {
+        form.get('password').setValue(invalidPassword);
+        expect(
+          CustomFormValidators.passwordValidator(form.get('password'))
+        ).toEqual(passwordError);
+      });
+    });
+  });
+
+  describe('Match password validator', () => {
+    it('should match password and passwordconf', () => {
+      form.get('password').setValue('Test123!');
+      form.get('passwordconf').setValue('Test123!');
+      expect(CustomFormValidators.matchPassword(form)).toBeNull();
+
+      form.get('passwordconf').setValue('Test1234');
+      expect(CustomFormValidators.matchPassword(form)).toEqual(matchError);
     });
   });
 });

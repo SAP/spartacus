@@ -5,8 +5,8 @@
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
 - Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/).
-- Questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE).
-- For details on the 1.0 launch, see the [Release 1.0 Information page](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-1.0-information/) on our Spartacus documentation site.
+- Questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
+- For details on the 1.0 launch, see the [Release Information page](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-information/) on our Spartacus documentation site.
 
 Spartacus is...
 
@@ -18,7 +18,7 @@ Spartacus is...
 
 
 
-# Storefront features
+# Storefront Features
 
 Spartacus provides core storefront features such as:
 
@@ -31,7 +31,7 @@ Spartacus provides core storefront features such as:
 - Checkout
 - Order history
 
-See the [Release 1.0 documentation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-1.0-information/) for more information.
+See the [Release documentation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-information/) for more information.
 
 
 
@@ -80,14 +80,14 @@ Spartacus is provided "as-is" with no official lines of support.
 
 To get help from the Spartacus community:
 
-- For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE).
+- For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
 - For developer questions, post a question to [Stack Overflow with the 'spartacus' tag](https://stackoverflow.com/questions/tagged/spartacus).
 
 # Contributing
 
 Team Spartacus welcomes feedback, ideas, requests, and especially code contributions.
 
-- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE) channel.
+- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU) channel.
 - Read the [Contributing document](CONTRIBUTING.md) and learn how to:
   - Help others
   - Report an issue

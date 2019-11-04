@@ -7,15 +7,21 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ViewConfig } from '../../../shared/config/view-config';
+import { ViewConfigModule } from '../../../shared/config/view-config.module';
 import {
   ItemCounterModule,
   ListNavigationModule,
   MediaModule,
+  SpinnerModule,
   StarRatingModule,
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
+import { defaultScrollConfig } from '../config/default-scroll-config';
 import { ProductListComponent } from './container/product-list.component';
+import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
@@ -24,6 +30,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
 @NgModule({
   imports: [
     CommonModule,
+    ConfigModule.withConfig(<ViewConfig>defaultScrollConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductListComponent: {
@@ -46,6 +53,9 @@ import { ProductViewComponent } from './product-view/product-view.component';
     I18nModule,
     StarRatingModule,
     IconModule,
+    SpinnerModule,
+    InfiniteScrollModule,
+    ViewConfigModule,
   ],
   declarations: [
     ProductListComponent,
@@ -53,6 +63,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,
+    ProductScrollComponent,
   ],
   exports: [
     ProductListComponent,

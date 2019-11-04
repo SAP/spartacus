@@ -124,7 +124,7 @@ export function setSecondPaymentToDefault() {
 }
 
 export function deletePayment() {
-  cy.getByText('Delete')
+  cy.getAllByText('Delete')
     .first()
     .click({ force: true });
 
@@ -143,7 +143,7 @@ export function deletePayment() {
   );
 
   // delete the payment
-  cy.getByText('Delete')
+  cy.getAllByText('Delete')
     .first()
     .click({ force: true });
   cy.get('.btn-primary').should('contain', 'Delete');

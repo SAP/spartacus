@@ -1,7 +1,7 @@
 import {
-  UrlSegment,
-  UrlMatchResult,
   Route,
+  UrlMatchResult,
+  UrlSegment,
   UrlSegmentGroup,
 } from '@angular/router';
 
@@ -16,7 +16,7 @@ export interface SuffixRoute extends Route {
 }
 
 /**
- * Matches the pattern '[ ** / ] marker / :paramName [ / ** ]'
+ * Matches the pattern '[ ** / ] marker / :paramName'
  *
  * @param marker phrase that indicates the start of the match
  * @param paramName name of the parameter present after the marker

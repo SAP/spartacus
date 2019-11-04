@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -23,7 +23,21 @@ import {
 
 @Injectable()
 export class UserService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    // tslint:disable-next-line:unified-signatures
+    authService: AuthService
+  );
+  /**
+   * @deprecated since version 1.3
+   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
+   *  authService: AuthService) instead
+   */
+  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService?: AuthService
+  ) {}
 
   /**
    * Returns a user
@@ -43,7 +57,13 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.store.dispatch(new UserActions.LoadUserDetails(USERID_CURRENT));
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(new UserActions.LoadUserDetails(occUserId))
+      )
+      .unsubscribe();
   }
 
   /**
@@ -53,6 +73,16 @@ export class UserService {
    */
   register(userRegisterFormData: UserSignUp): void {
     this.store.dispatch(new UserActions.RegisterUser(userRegisterFormData));
+  }
+
+  /**
+   * Register a new user from guest
+   *
+   * @param guid
+   * @param password
+   */
+  registerGuest(guid: string, password: string): void {
+    this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
   }
 
   /**
@@ -93,7 +123,13 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.store.dispatch(new UserActions.RemoveUser(USERID_CURRENT));
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(new UserActions.RemoveUser(occUserId))
+      )
+      .unsubscribe();
   }
 
   /**
@@ -157,12 +193,18 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.store.dispatch(
-      new UserActions.UpdateUserDetails({
-        username: USERID_CURRENT,
-        userDetails,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.UpdateUserDetails({
+            username: occUserId,
+            userDetails,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
@@ -221,13 +263,19 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    this.store.dispatch(
-      new UserActions.UpdateEmailAction({
-        uid: USERID_CURRENT,
-        password,
-        newUid,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.UpdateEmailAction({
+            uid: occUserId,
+            password,
+            newUid,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**
@@ -270,13 +318,19 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.store.dispatch(
-      new UserActions.UpdatePassword({
-        userId: USERID_CURRENT,
-        oldPassword,
-        newPassword,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.UpdatePassword({
+            userId: occUserId,
+            oldPassword,
+            newPassword,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**

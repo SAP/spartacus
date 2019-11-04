@@ -73,6 +73,7 @@ describe('Cart reducer', () => {
           currencyIso: 'USD',
           value: 0,
         },
+        appliedVouchers: [{ code: 'testVoucherId' }],
       };
 
       const { initialState } = fromCart;
@@ -110,6 +111,19 @@ describe('Cart reducer', () => {
     });
   });
 
+  describe('REMOVE_VOUCHER_SUCCESS or ADD_VOUCHER_SUCCESS action', () => {
+    it('should set refresh to true', () => {
+      const { initialState } = fromCart;
+
+      const action = new CartActions.CartAddVoucherSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+      });
+      const state = fromCart.reducer(initialState, action);
+      expect(state.refresh).toEqual(true);
+    });
+  });
+
   describe('UPDATE_ENTRY_SUCCESS action', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
@@ -120,12 +134,23 @@ describe('Cart reducer', () => {
     });
   });
 
+  describe('ADD_EMAIL_TO_CART_SUCCESS action', () => {
+    it('should set refresh to true', () => {
+      const { initialState } = fromCart;
+
+      const action = new CartActions.AddEmailToCartSuccess({});
+      const state = fromCart.reducer(initialState, action);
+      expect(state.refresh).toEqual(true);
+    });
+  });
+
   describe('RESET_CART_DETAILS', () => {
     it('should reset state apart from code and guid', () => {
       const { initialState } = fromCart;
       const guid = 'guid';
       const code = 'code';
-      const modifiedState = { ...initialState, content: { code, guid } };
+      const user = { name: 'user' };
+      const modifiedState = { ...initialState, content: { code, guid, user } };
       const action = new CartActions.ResetCartDetails();
       const state = fromCart.reducer(modifiedState, action);
       expect(state.refresh).toEqual(false);
@@ -134,6 +159,7 @@ describe('Cart reducer', () => {
       expect(state.content).toEqual({
         guid,
         code,
+        user,
       });
     });
   });

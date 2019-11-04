@@ -7,6 +7,7 @@ import { packages } from './packages';
 import * as ejs from 'ejs';
 import * as program from 'commander';
 import chalk from 'chalk';
+import * as versionsHelper from './versions';
 
 const changelogTemplate = ejs.compile(
   fs.readFileSync('./scripts/templates/changelog.ejs', 'utf-8'),
@@ -19,18 +20,28 @@ const ghGot = require('gh-got');
 const through = require('through2');
 
 export interface ChangelogOptions {
-  from: string;
-  to?: string;
+  to: string;
   githubTokenFile?: string;
   githubToken?: string;
   library?: string;
   stdout?: boolean;
 }
 
-export default function run(args: ChangelogOptions, logger: logging.Logger) {
+export default async function run(args: ChangelogOptions, logger: logging.Logger) {
   const commits: JsonObject[] = [];
   let toSha: string | null = null;
   const breakingChanges: JsonObject[] = [];
+  const versionFromTag = args.to.split('-').filter((_,i) => i !== 0).join('-')
+  const newVersion = semver.parse(versionFromTag, { includePrerelease: true, loose: true });
+  let fromToken: string;
+  try {
+    const packageVersions = await versionsHelper.fetchPackageVersions(args.library);
+    const previousVersion = versionsHelper.extractPreviousVersionForChangelog(packageVersions, newVersion.version)
+    fromToken = previousVersion && args.to.split(newVersion).join(previousVersion);
+  } catch (err) {
+    // package not found - assuming first release
+    fromToken = '';
+  }
 
   const githubToken = (
     args.githubToken ||
@@ -48,7 +59,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
 
   return new Promise(resolve => {
     (gitRawCommits({
-      from: args.from,
+      from: fromToken,
       to: args.to || 'HEAD',
       path: args.library ? libraryPaths[args.library] : '.',
       format:
@@ -160,7 +171,6 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
 }
 
 program
-  .option('--from <commit>', 'From which commit/tag')
   .option('--to <commit>', 'To which commit/tag')
   .option('--verbose', 'Print output')
   .option('--githubToken <token>', 'Github token for release generation')
@@ -177,10 +187,7 @@ const config = {
   library: program.lib,
 };
 
-if (typeof config.from === 'undefined') {
-  console.error(chalk.red('Missing --from option with start commit/tag'));
-  process.exit(1);
-} else if (typeof config.to === 'undefined') {
+if (typeof config.to === 'undefined') {
   console.error(chalk.red('Missing --to option with end commit/tag'));
   process.exit(1);
 } else if (

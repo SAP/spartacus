@@ -4,9 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
-import { ListNavigationModule, MediaComponent } from '../../../../shared';
+import {
+  ListNavigationModule,
+  MediaComponent,
+  SpinnerModule,
+} from '../../../../shared';
+import { ViewConfig } from '../../../../shared/config/view-config';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -15,6 +21,7 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
+import { ProductScrollComponent } from './product-scroll/product-scroll.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -64,7 +71,7 @@ export class MockCxIconComponent {
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode;
+  @Input() product;
   @Input() showQuantity;
 }
 
@@ -74,6 +81,16 @@ export class MockProductListComponentService {
   sort = createSpy('sort');
   clearSearchResults = createSpy('clearSearchResults');
   model$ = of({});
+}
+
+export class MockViewConfig {
+  view = {
+    infiniteScroll: {
+      active: true,
+      productLimit: 0,
+      showMoreButton: false,
+    },
+  };
 }
 
 describe('ProductListComponent', () => {
@@ -89,6 +106,8 @@ describe('ProductListComponent', () => {
         FormsModule,
         RouterTestingModule,
         I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,
       ],
       providers: [
         {
@@ -98,6 +117,10 @@ describe('ProductListComponent', () => {
         {
           provide: ProductListComponentService,
           useClass: MockProductListComponentService,
+        },
+        {
+          provide: ViewConfig,
+          useClass: MockViewConfig,
         },
       ],
       declarations: [
@@ -111,6 +134,7 @@ describe('ProductListComponent', () => {
         MockProductListItemComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        ProductScrollComponent,
       ],
     }).compileComponents();
   }));
@@ -128,14 +152,20 @@ describe('ProductListComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should clear search results', () => {
+    beforeEach(() => {
       component.ngOnInit();
+    });
+
+    it('should clear search results', () => {
       expect(componentService.clearSearchResults).toHaveBeenCalled();
     });
 
     it('should get model from the service', () => {
-      component.ngOnInit();
       expect(component.model$).toBe(componentService.model$);
+    });
+
+    it('should use infinite scroll when config setting is active', () => {
+      expect(component.isInfiniteScroll).toEqual(true);
     });
   });
 

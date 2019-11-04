@@ -78,6 +78,12 @@ export interface OccEndpoints {
    */
   createCart?: string;
   /**
+   * Deletes a cart with a given cart id
+   *
+   * @member {string} [deleteCart]
+   */
+  deleteCart?: string;
+  /**
    * Adds a product to the cart
    *
    * @member {string} [addEntries]
@@ -95,6 +101,12 @@ export interface OccEndpoints {
    * @member {string} [removeEntries]
    */
   removeEntries?: string;
+  /**
+   * Assign email to cart
+   *
+   * @member {string} [addEmail]
+   */
+  addEmail?: string;
   /**
    * Get a store location
    *
@@ -204,6 +216,12 @@ export interface OccEndpoints {
    */
   orderDetail?: string;
   /**
+   * Endpoint for anonymous consent templates
+   *
+   * @member {string}
+   */
+  anonymousConsentTemplates?: string;
+  /**
    * Endpoint for consent templates
    *
    * @member {string}
@@ -239,4 +257,22 @@ export interface OccEndpoints {
    * @member {string}
    */
   addressVerification?: string;
+  /**
+   * Endpoint for consignment tracking
+   *
+   * @member {string}
+   */
+  consignmentTracking?: string;
+  /**
+   * Endpoint for asm customer search
+   *
+   * @member {string}
+   */
+  asmCustomerSearch?: string;
+  /**
+   * Endpoint for cart voucher
+   *
+   * @member {string}
+   */
+  cartVoucher?: string;
 }

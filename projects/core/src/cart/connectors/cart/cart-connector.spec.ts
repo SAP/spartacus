@@ -9,6 +9,12 @@ class MockCartAdapter implements CartAdapter {
   create = createSpy().and.callFake(id => of('create' + id));
   load = createSpy().and.callFake((user, cart) => of('load' + user + cart));
   loadAll = createSpy().and.callFake(user => of('loadAll' + user));
+  addEmail = createSpy().and.callFake((userId, cartId, email) =>
+    of('addEmail' + userId + cartId + email)
+  );
+  delete = createSpy().and.callFake((userId: string, cartId: string) =>
+    of('delete' + userId + cartId)
+  );
 }
 
 describe('CartConnector', () => {
@@ -51,5 +57,29 @@ describe('CartConnector', () => {
     service.loadAll('1').subscribe(res => (result = res));
     expect(result).toBe('loadAll1');
     expect(adapter.loadAll).toHaveBeenCalledWith('1');
+  });
+
+  it('create should call adapter', () => {
+    const adapter = TestBed.get(CartAdapter as Type<CartAdapter>);
+
+    let result;
+    service
+      .addEmail('userId', 'cartId', 'test@test.com')
+      .subscribe(res => (result = res));
+    expect(result).toBe('addEmail' + 'userId' + 'cartId' + 'test@test.com');
+    expect(adapter.addEmail).toHaveBeenCalledWith(
+      'userId',
+      'cartId',
+      'test@test.com'
+    );
+  });
+
+  it('delete should call adapter', () => {
+    const adapter = TestBed.get(CartAdapter as Type<CartAdapter>);
+
+    let result;
+    service.delete('userId', 'cartId').subscribe(res => (result = res));
+    expect(result).toBe('delete' + 'userId' + 'cartId');
+    expect(adapter.delete).toHaveBeenCalledWith('userId', 'cartId');
   });
 });

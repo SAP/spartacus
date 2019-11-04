@@ -1,4 +1,4 @@
-<ng-container *ngIf="(searchResult$ | async) as searchResult">
+<ng-container *ngIf="searchResult$ | async as searchResult">
   <div class="cx-search-facet">
     <ng-container *ngIf="searchResult.breadcrumbs?.length">
       <h4 class="cx-facet-filter-header">
@@ -28,7 +28,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="(visibleFacets$ | async) as visibleFacets">
+    <ng-container *ngIf="visibleFacets$ | async as visibleFacets">
       <ng-container *ngFor="let facet of visibleFacets; let facetId = index">
         <div class="cx-facet-group">
           <div class="cx-facet-header">

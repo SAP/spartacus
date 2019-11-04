@@ -52,7 +52,7 @@ Toolkit.run(
       );
       return {
         library,
-        diff: diff(sourceBranchSnippet, targetBranchSnippet, {
+        diff: diff(targetBranchSnippet, sourceBranchSnippet, {
           n_surrounding: 2,
         }),
       };
@@ -73,7 +73,15 @@ Toolkit.run(
                 ? 'nothing changed ;)'
                 : '``` diff\n' + libDiff.diff + '\n```')
           )
+<<<<<<< HEAD
           .join('\n')
+=======
+          .join('\n') +
+        '\n' +
+        '### @spartacus/core public API diff\n' +
+        'unable to analyze this library :(\n' +
+        'Please check changes in public API manually.'
+>>>>>>> 34e0f21787725dab079c16b53c2bd27f4e2fc578
       );
     }
 

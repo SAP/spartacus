@@ -18,6 +18,8 @@ export const product = {
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortByRelevance: 'Sort by Relevance',
+    backToTopBtn: 'BACK TO TOP',
+    showMoreBtn: 'SHOW MORE',
   },
   productFacetNavigation: {
     filterBy: {
@@ -43,6 +45,8 @@ export const product = {
     writeReview: 'Write a Review',
     more: 'More',
     less: 'Less',
+    thankYouForReview:
+      'Thank you for the review! Note that reviews may require review before appearing here.',
   },
   addToCart: {
     itemsAddedToYourCart: 'Item(s) added to your cart',
