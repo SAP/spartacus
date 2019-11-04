@@ -1,18 +1,18 @@
 <ng-container *ngIf="order$ | async as order">
   <div class="cx-header row">
-    <div class="cx-detail col-sm-12 col-md-4">
+    <div class="cx-detail col-sm-12 col-md-3">
       <div class="cx-detail-label">
         {{ 'orderDetails.orderId' | cxTranslate }}
       </div>
       <div class="cx-detail-value">{{ order?.code }}</div>
     </div>
-    <div class="cx-detail col-sm-12 col-md-4">
+    <div class="cx-detail col-sm-12 col-md-3">
       <div class="cx-detail-label">
         {{ 'orderDetails.placed' | cxTranslate }}
       </div>
       <div class="cx-detail-value">{{ order?.created | cxDate }}</div>
     </div>
-    <div class="cx-detail col-sm-12 col-md-4">
+    <div class="cx-detail col-sm-12 col-md-3">
       <div class="cx-detail-label">
         {{ 'orderDetails.status' | cxTranslate }}
       </div>
@@ -22,6 +22,23 @@
             | cxTranslate: { context: order?.statusDisplay }
         }}
       </div>
+    </div>
+    <div
+      class="cx-detail col-sm-12 col-md-3"
+      *cxFeature="'cancellationAndReturn'"
+    >
+      <button
+        [routerLink]="
+          {
+            cxRoute: 'orderReturn',
+            params: order
+          } | cxUrl
+        "
+        class="btn btn-action"
+        data-test="btn-events"
+      >
+        {{ 'orderDetails.orderReturn.action' | cxTranslate }}
+      </button>
     </div>
   </div>
 </ng-container>

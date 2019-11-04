@@ -32,6 +32,9 @@ export const myAccount = {
         loadingHeader: 'Consignment Tracking',
       },
     },
+    orderReturn: {
+      action: 'Request a Return',
+    },
   },
   orderHistory: {
     orderHistory: 'Order history',
