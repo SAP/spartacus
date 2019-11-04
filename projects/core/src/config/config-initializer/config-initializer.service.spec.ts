@@ -35,8 +35,7 @@ describe('ConfigInitializerService', () => {
 
   describe('when no config initializers are present', () => {
     beforeEach(() => {
-      service = TestBed.get(ConfigInitializerService);
-      service.initialize([]);
+      service.initialize(undefined);
     });
 
     it('should get final config', async () => {
@@ -52,7 +51,6 @@ describe('ConfigInitializerService', () => {
 
   describe('with config initializers', () => {
     beforeEach(() => {
-      service = TestBed.get(ConfigInitializerService);
       service.initialize(configInitializers);
     });
 
