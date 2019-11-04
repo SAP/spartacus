@@ -1,48 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ConfigInitializerService } from './config-initializer.service';
-import { Config, CONFIG_INITIALIZER, ConfigInitializer } from '@spartacus/core';
+import { Config, ConfigInitializer } from '@spartacus/core';
 
 const MockConfig = {
   test: 'test',
   scope1: 'notFinal',
 };
 
-function initScope1(): ConfigInitializer {
-  return {
-    scopes: ['scope1'],
-    configFactory: async () => ({ scope1: 'final' }),
-  };
-}
-
-function initScope2(): ConfigInitializer {
-  return {
-    scopes: ['scope2.nested'],
-    configFactory: async () => ({ scope2: { nested: true } }),
-  };
-}
-
-const configInitializers2 = [
-  {
-    scopes: ['scope1'],
-    configFactory: async () => ({ scope1: 'final' }),
-  },
-  {
-    scopes: ['scope2.nested'],
-    configFactory: async () => ({ scope2: { nested: true } }),
-  },
-];
-
 const configInitializers = [
   {
-    provide: CONFIG_INITIALIZER,
-    useFactory: initScope1,
-    multi: true,
+    scopes: ['scope1'],
+    configFactory: async () => ({ scope1: 'final' }),
   },
   {
-    provide: CONFIG_INITIALIZER,
-    useFactory: initScope2,
-    multi: true,
+    scopes: ['scope2.nested'],
+    configFactory: async () => ({ scope2: { nested: true } }),
   },
 ];
 
@@ -80,7 +53,7 @@ describe('ConfigInitializerService', () => {
   describe('with config initializers', () => {
     beforeEach(() => {
       service = TestBed.get(ConfigInitializerService);
-      service.initialize(configInitializers2);
+      service.initialize(configInitializers);
     });
 
     it('initializers should contribute to final config', async () => {
@@ -143,7 +116,7 @@ describe('ConfigInitializerService', () => {
     let failed;
     try {
       await service.initialize([
-        ...configInitializers2,
+        ...configInitializers,
         {
           scopes: ['test'],
           configFactory: () => Promise.reject('error'),
