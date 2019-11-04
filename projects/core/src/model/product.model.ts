@@ -47,8 +47,8 @@ export interface VariantValueCategory {
 }
 
 export enum VariantType {
-  APPAREL_SIZE_VARIANT = 'ApparelSizeVariantProduct',
-  APPAREL_STYLE_VARIANT = 'ApparelStyleVariantProduct',
+  APPAREL_SIZE = 'ApparelSizeVariantProduct',
+  APPAREL_STYLE = 'ApparelStyleVariantProduct',
 }
 
 export enum PriceType {

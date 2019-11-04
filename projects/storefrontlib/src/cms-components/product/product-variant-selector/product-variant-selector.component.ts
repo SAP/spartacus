@@ -31,7 +31,7 @@ export class ProductVariantSelectorComponent {
     tap(product => {
       if (
         product.variantType &&
-        product.variantType === VariantType.APPAREL_STYLE_VARIANT
+        product.variantType === VariantType.APPAREL_STYLE
       ) {
         this.styleVariants = product.variantOptions;
       }
@@ -39,7 +39,7 @@ export class ProductVariantSelectorComponent {
         product.baseOptions[0] &&
         product.baseOptions[0].options &&
         Object.keys(product.baseOptions[0].options).length > 0 &&
-        product.baseOptions[0].variantType === VariantType.APPAREL_STYLE_VARIANT
+        product.baseOptions[0].variantType === VariantType.APPAREL_STYLE
       ) {
         this.styleVariants = product.baseOptions[0].options;
         this.sizeVariants = product.variantOptions;
@@ -49,7 +49,7 @@ export class ProductVariantSelectorComponent {
         product.baseOptions[1] &&
         product.baseOptions[1].options &&
         Object.keys(product.baseOptions[1].options).length > 0 &&
-        product.baseOptions[0].variantType === VariantType.APPAREL_SIZE_VARIANT
+        product.baseOptions[0].variantType === VariantType.APPAREL_SIZE
       ) {
         this.styleVariants = product.baseOptions[1].options;
         this.sizeVariants = product.baseOptions[0].options;
