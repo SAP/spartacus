@@ -41,7 +41,7 @@ export function initializeContext(
 /**
  * @deprecated since 1.3 - should be removed
  */
-export const contextServiceProviders: Provider[] = [
+export const deprecatedContextServiceProviders: Provider[] = [
   BaseSiteService,
   LanguageService,
   CurrencyService,
@@ -53,10 +53,7 @@ export const contextServiceProviders: Provider[] = [
   },
 ];
 
-/**
- * @deprecated since 1.3 - should be renamed to contextServiceProviders and keep being @internal
- */
-export const contextServiceProviders2: Provider[] = [
+export const contextServiceProviders: Provider[] = [
   BaseSiteService,
   LanguageService,
   CurrencyService,

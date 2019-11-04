@@ -6,7 +6,7 @@ import { baseSiteConfigValidator } from './config/base-site-config-validator';
 import { defaultSiteContextConfigFactory } from './config/default-site-context-config';
 import { SiteContextConfig } from './config/site-context-config';
 import { contextServiceMapProvider } from './providers/context-service-map';
-import { contextServiceProviders2 } from './providers/context-service-providers';
+import { contextServiceProviders } from './providers/context-service-providers';
 import { siteContextParamsProviders } from './providers/site-context-params-providers';
 import { SiteContextStoreModule } from './store/site-context-store.module';
 
@@ -24,7 +24,7 @@ export class SiteContextModule {
       ngModule: SiteContextModule,
       providers: [
         contextServiceMapProvider,
-        ...contextServiceProviders2,
+        ...contextServiceProviders,
         ...siteContextParamsProviders,
         { provide: SiteContextConfig, useExisting: Config },
         provideConfigValidator(baseSiteConfigValidator),
