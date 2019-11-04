@@ -3,7 +3,6 @@
     display: flex;
     justify-content: space-between;
     &.top {
-      font-weight: var(--cx-font-weight-bold);
       height: 48px;
     }
 
@@ -17,14 +16,18 @@
       }
     }
 
-    .cx-coupon-card-name {
+    .cx-coupon-card-head {
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       /* autoprefixer: ignore next */
       -webkit-box-orient: vertical;
-      width: 70%;
+      width: 80%;
+    }
+
+    .cx-coupon-card-id {
+      text-transform: uppercase;
     }
 
     .cx-coupon-status {
@@ -49,9 +52,17 @@
     }
     .cx-coupon-date {
       display: flex;
+      width: 80%;
       @include media-breakpoint-down(md) {
         flex-direction: var(--cx-flex-direction, column);
       }
+    }
+
+    .cx-coupon-date-start {
+      white-space: nowrap;
+    }
+    .cx-coupon-date-end {
+      white-space: nowrap;
     }
   }
 

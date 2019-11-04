@@ -20,7 +20,10 @@
   <div class="cx-dialog-body modal-body">
     <div class="cx-dialog-row">
       <div class="cx-dialog-item col-sm-12 col-md-12">
-        <div class="cx-coupon-name">{{ coupon?.name }}</div>
+        <div class="cx-coupon-card-head">
+          <span class="card-label-bold cx-coupon-card-id">{{ coupon?.couponId }}</span>
+          <span>: {{ coupon?.name }}</span>
+        </div>
         <div class="cx-coupon-description">{{ coupon?.description }}</div>
 
         <div class="cx-coupon-dialog-date">

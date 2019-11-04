@@ -64,6 +64,11 @@
       flex-direction: column;
       padding: var(--cx-padding, 0);
     }
+
+    .cx-coupon-card-id {
+      text-transform: uppercase;
+    }
+
   }
 
   .cx-dialog-item {
