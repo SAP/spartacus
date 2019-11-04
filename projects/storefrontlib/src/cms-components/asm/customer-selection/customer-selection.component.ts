@@ -53,23 +53,23 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.form.controls.searchTerm.valueChanges
         .pipe(debounceTime(300))
-        .subscribe(value => {
-          this.handleSearchTerm(value);
+        .subscribe(searchTermValue => {
+          this.handleSearchTerm(searchTermValue);
         })
     );
   }
 
-  private handleSearchTerm(value: string) {
-    if (!!this.selectedCustomer && value !== this.selectedCustomer.name) {
+  private handleSearchTerm(searchTermValue: string) {
+    if (Boolean(this.selectedCustomer) && searchTermValue !== this.selectedCustomer.name) {
       this.selectedCustomer = undefined;
     }
-    if (!!this.selectedCustomer) {
+    if (Boolean(this.selectedCustomer)) {
       return;
     }
     this.asmService.customerSearchReset();
-    if (value.trim().length >= 3) {
+    if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
-        query: value,
+        query: searchTermValue,
         pageSize: this.config.asm.customeSearch.maxResults,
       });
     }
