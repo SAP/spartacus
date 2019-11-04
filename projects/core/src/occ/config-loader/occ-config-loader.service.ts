@@ -12,7 +12,7 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Config } from '../../config/config.module';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { I18nConfig } from '../../i18n/config/i18n-config';
@@ -60,34 +60,13 @@ export class OccConfigLoaderService {
    */
   loadConfig(): Promise<I18nConfig | SiteContextConfig> {
     return this.get()
-      .toPromise()
-      .then(externalConfig => {
-        this.transfer(externalConfig);
-
-        const chunks: any[] = [
-          this.converter.toSiteContextConfig(externalConfig),
-        ];
-        if (this.shouldReturnI18nChunk()) {
-          chunks.push(this.converter.toI18nConfig(externalConfig));
-        }
-
-        return deepMerge({}, ...chunks);
-      });
-  }
-
-  private shouldReturnI18nChunk(): boolean {
-    const fallbackLangExists =
-      typeof (
-        this.config &&
-        this.config.i18n &&
-        this.config.i18n.fallbackLang
-      ) !== 'undefined';
-    if (fallbackLangExists && isDevMode()) {
-      console.warn(
-        `There is an already provided static config for 'i18n.fallbackLang', so the value from OCC loaded config is ignored.`
-      );
-    }
-    return !fallbackLangExists;
+      .pipe(
+        tap(externalConfig => this.transfer(externalConfig)),
+        map(externalConfig =>
+          deepMerge({}, ...this.getConfigChunks(externalConfig))
+        )
+      )
+      .toPromise();
   }
 
   /**
@@ -132,5 +111,32 @@ export class OccConfigLoaderService {
     if (isPlatformServer(this.platform) && externalConfig) {
       this.transferState.set(EXTERNAL_CONFIG_TRANSFER_ID, externalConfig);
     }
+  }
+
+  protected getConfigChunks(
+    externalConfig: OccLoadedConfig
+  ): (I18nConfig | SiteContextConfig)[] {
+    const chunks: any[] = [this.converter.toSiteContextConfig(externalConfig)];
+
+    if (this.shouldReturnI18nChunk()) {
+      chunks.push(this.converter.toI18nConfig(externalConfig));
+    }
+
+    return chunks;
+  }
+
+  private shouldReturnI18nChunk(): boolean {
+    const fallbackLangExists =
+      typeof (
+        this.config &&
+        this.config.i18n &&
+        this.config.i18n.fallbackLang
+      ) !== 'undefined';
+    if (fallbackLangExists && isDevMode()) {
+      console.warn(
+        `There is an already provided static config for 'i18n.fallbackLang', so the value from OCC loaded config is ignored.`
+      );
+    }
+    return !fallbackLangExists;
   }
 }
