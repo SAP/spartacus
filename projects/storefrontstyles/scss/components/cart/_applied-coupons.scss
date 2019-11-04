@@ -47,14 +47,16 @@
 
   .cx-coupon-apply {
     display: inline-flex;
-    align-items: center;
     @include type('6');
     padding: 1rem 1rem;
-    align-items: flex-start;
     word-break: break-all;
 
     .cx-cart-coupon-code {
       flex: 1;
+    }
+
+    .close {
+      padding-left: 0.7rem;
     }
   }
 }
