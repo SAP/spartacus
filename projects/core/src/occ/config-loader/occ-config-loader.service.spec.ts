@@ -2,9 +2,10 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TransferState } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { Config } from '../../config/config.module';
 import { I18nConfig } from '../../i18n';
 import { BaseSite } from '../../model/misc.model';
-import { SiteConnector, SiteContextConfig } from '../../site-context';
+import { SiteContextConfig } from '../../site-context';
 import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
 import { OccConfigLoaderService } from './occ-config-loader.service';
 import { OccLoadedConfig } from './occ-loaded-config';
@@ -14,7 +15,7 @@ import { OccSitesConfigLoader } from './occ-sites-config-loader';
 describe(`OccConfigLoaderService`, () => {
   let service: OccConfigLoaderService;
   let transferState: TransferState;
-  let externalConfigConverter: OccLoadedConfigConverter;
+  let converter: OccLoadedConfigConverter;
   let sitesConfigLoader: OccSitesConfigLoader;
   let mockBaseSites: BaseSite[];
 
@@ -24,18 +25,24 @@ describe(`OccConfigLoaderService`, () => {
 
   const mockServerRequestUrl = 'test-server-request-url';
 
-  function beforeEachWithPlatform(testPlatform: string) {
+  function beforeEachWith({
+    platform,
+    config,
+  }: {
+    platform: string;
+    config: I18nConfig | SiteContextConfig;
+  }) {
     mockBaseSites = [];
     mockExternalConfig = { baseSite: 'test' };
-    mockSiteContextConfig = { context: {} };
-    mockI18nConfig = { i18n: {} };
+    mockSiteContextConfig = { context: { baseSite: ['testSite'] } };
+    mockI18nConfig = { i18n: { fallbackLang: 'testLang' } };
 
-    const mockSiteConnector = {
-      getBaseSites: jasmine
-        .createSpy('getBaseSites')
+    const mockOccSitesConfigLoader = {
+      load: jasmine
+        .createSpy('OccSitesConfigLoader.load')
         .and.returnValue(of(mockBaseSites)),
     };
-    const mockExternalConfigConverter = {
+    const mockOccLoadedConfigConverter = {
       fromOccBaseSites: jasmine
         .createSpy('fromOccBaseSites')
         .and.returnValue(mockExternalConfig),
@@ -53,28 +60,29 @@ describe(`OccConfigLoaderService`, () => {
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: SiteConnector, useValue: mockSiteConnector },
+        { provide: OccSitesConfigLoader, useValue: mockOccSitesConfigLoader },
         {
           provide: OccLoadedConfigConverter,
-          useValue: mockExternalConfigConverter,
+          useValue: mockOccLoadedConfigConverter,
         },
         { provide: TransferState, useValue: mockTransferState },
         { provide: SERVER_REQUEST_URL, useValue: mockServerRequestUrl },
-        { provide: PLATFORM_ID, useValue: testPlatform },
+        { provide: PLATFORM_ID, useValue: platform },
+        { provide: Config, useValue: config },
       ],
     });
 
     service = TestBed.get(OccConfigLoaderService);
     transferState = TestBed.get(TransferState);
-    externalConfigConverter = TestBed.get(OccLoadedConfigConverter);
+    converter = TestBed.get(OccLoadedConfigConverter);
     sitesConfigLoader = TestBed.get(OccSitesConfigLoader);
 
     spyOn(transferState, 'set');
   }
 
-  describe(`getConfigChunks`, () => {
+  describe(`loadConfig`, () => {
     describe(`on BROWSER platform`, () => {
-      beforeEach(() => beforeEachWithPlatform('browser'));
+      beforeEach(() => beforeEachWith({ platform: 'browser', config: {} }));
 
       describe(`when CAN rehydrate the external config`, () => {
         let rehydratedExternalConfig;
@@ -84,21 +92,24 @@ describe(`OccConfigLoaderService`, () => {
           spyOn(transferState, 'get').and.returnValue(rehydratedExternalConfig);
         });
 
-        it(`should return chunks based on the rehydrated config`, async () => {
+        it(`should return config based on the rehydrated config`, async () => {
           const result = await service.loadConfig();
 
           expect(sitesConfigLoader.load).not.toHaveBeenCalled();
-          expect(
-            externalConfigConverter.toSiteContextConfig
-          ).toHaveBeenCalledWith(rehydratedExternalConfig);
-          expect(externalConfigConverter.toI18nConfig).toHaveBeenCalledWith(
+          expect(converter.toSiteContextConfig).toHaveBeenCalledWith(
+            rehydratedExternalConfig
+          );
+          expect(converter.toI18nConfig).toHaveBeenCalledWith(
             rehydratedExternalConfig
           );
           expect(transferState.get).toHaveBeenCalledWith(
             'cx-external-config',
             undefined
           );
-          expect(result).toEqual([mockSiteContextConfig, mockI18nConfig]);
+          expect(result).toEqual({
+            context: { baseSite: ['testSite'] },
+            i18n: { fallbackLang: 'testLang' },
+          });
         });
 
         it(`should not transfer external config`, async () => {
@@ -113,21 +124,24 @@ describe(`OccConfigLoaderService`, () => {
           spyOn(transferState, 'get').and.returnValue(undefined);
         });
 
-        it(`should return chunks based on loaded sites data and current BROWSER url`, async () => {
+        it(`should return config based on loaded sites data and current BROWSER url`, async () => {
           const result = await service.loadConfig();
 
           expect(sitesConfigLoader.load).toHaveBeenCalled();
-          expect(
-            externalConfigConverter.toSiteContextConfig
-          ).toHaveBeenCalledWith(mockExternalConfig);
-          expect(externalConfigConverter.toI18nConfig).toHaveBeenCalledWith(
+          expect(converter.toSiteContextConfig).toHaveBeenCalledWith(
             mockExternalConfig
           );
-          expect(externalConfigConverter.fromOccBaseSites).toHaveBeenCalledWith(
+          expect(converter.toI18nConfig).toHaveBeenCalledWith(
+            mockExternalConfig
+          );
+          expect(converter.fromOccBaseSites).toHaveBeenCalledWith(
             mockBaseSites,
             document.location.href
           );
-          expect(result).toEqual([mockSiteContextConfig, mockI18nConfig]);
+          expect(result).toEqual({
+            context: { baseSite: ['testSite'] },
+            i18n: { fallbackLang: 'testLang' },
+          });
         });
 
         it(`should not transfer external config`, async () => {
@@ -139,23 +153,24 @@ describe(`OccConfigLoaderService`, () => {
     });
 
     describe(`on SERVER platform`, () => {
-      beforeEach(() => beforeEachWithPlatform('server'));
+      beforeEach(() => beforeEachWith({ platform: 'server', config: {} }));
 
-      it(`should return chunks based on loaded sites data and current SERVER url`, async () => {
+      it(`should return config based on loaded sites data and current SERVER url`, async () => {
         const result = await service.loadConfig();
 
         expect(sitesConfigLoader.load).toHaveBeenCalled();
-        expect(
-          externalConfigConverter.toSiteContextConfig
-        ).toHaveBeenCalledWith(mockExternalConfig);
-        expect(externalConfigConverter.toI18nConfig).toHaveBeenCalledWith(
+        expect(converter.toSiteContextConfig).toHaveBeenCalledWith(
           mockExternalConfig
         );
-        expect(externalConfigConverter.fromOccBaseSites).toHaveBeenCalledWith(
+        expect(converter.toI18nConfig).toHaveBeenCalledWith(mockExternalConfig);
+        expect(converter.fromOccBaseSites).toHaveBeenCalledWith(
           mockBaseSites,
           mockServerRequestUrl
         );
-        expect(result).toEqual([mockSiteContextConfig, mockI18nConfig]);
+        expect(result).toEqual({
+          context: { baseSite: ['testSite'] },
+          i18n: { fallbackLang: 'testLang' },
+        });
       });
 
       it(`should transfer external config`, async () => {
@@ -165,6 +180,23 @@ describe(`OccConfigLoaderService`, () => {
           'cx-external-config',
           mockExternalConfig
         );
+      });
+    });
+
+    describe(`when config for 'i18n.fallbackLang' is already statically provided`, () => {
+      beforeEach(() =>
+        beforeEachWith({
+          platform: 'server',
+          config: { i18n: { fallbackLang: 'testLang' } },
+        })
+      );
+
+      it(`should not return config with 'i18n.fallbackLang' value`, async () => {
+        const result = await service.loadConfig();
+
+        expect(result).toEqual({
+          context: { baseSite: ['testSite'] },
+        });
       });
     });
   });

@@ -32,7 +32,7 @@ export class OccConfigLoaderService {
     @Inject(PLATFORM_ID) protected platform: any,
     @Inject(DOCUMENT) protected document: any,
     @Inject(Config) protected config: any,
-    protected siteConfigLoader: OccSitesConfigLoader,
+    protected sitesConfigLoader: OccSitesConfigLoader,
     protected converter: OccLoadedConfigConverter,
     protected transferState: TransferState,
 
@@ -84,7 +84,7 @@ export class OccConfigLoaderService {
    * Loads the external config from backend
    */
   protected load(): Observable<OccLoadedConfig> {
-    return this.siteConfigLoader
+    return this.sitesConfigLoader
       .load()
       .pipe(
         map(baseSites =>
