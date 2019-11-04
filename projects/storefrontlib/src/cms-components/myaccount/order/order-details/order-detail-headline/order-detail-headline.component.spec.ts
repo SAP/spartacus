@@ -1,7 +1,13 @@
-import { DebugElement } from '@angular/core';
+import { Pipe, PipeTransform, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Order } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  Order,
+  FeaturesConfigModule,
+  FeaturesConfig,
+} from '@spartacus/core';
 
 import { of } from 'rxjs';
 
@@ -49,7 +55,15 @@ const mockOrder: Order = {
     },
   },
   created: new Date('2019-02-11T13:02:58+0000'),
+  returnable: true,
 };
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('OrderDetailHeadlineComponent', () => {
   let component: OrderDetailHeadlineComponent;
@@ -65,11 +79,17 @@ describe('OrderDetailHeadlineComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule, FeaturesConfigModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { cancellationAndReturn: true },
+          },
+        },
       ],
-      declarations: [OrderDetailHeadlineComponent],
+      declarations: [OrderDetailHeadlineComponent, MockUrlPipe],
     }).compileComponents();
   }));
 
@@ -120,10 +140,28 @@ describe('OrderDetailHeadlineComponent', () => {
   it('should order details display correct order status', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-detail:last-of-type .cx-detail-value')
+      By.css('.cx-header div:nth-child(3) > div.cx-detail-value')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.statusDisplay
     );
+  });
+
+  it('should display return request button when order is returnable', () => {
+    fixture.detectChanges();
+    const element: DebugElement = el.query(By.css('.cx-detail:last-of-type'));
+
+    expect(element.nativeElement.textContent).toContain(
+      'orderDetails.orderReturn.action'
+    );
+  });
+
+  it('should not display return request button when order is not returnable', () => {
+    mockOrder.returnable = false;
+
+    fixture.detectChanges();
+    const element: DebugElement = el.query(By.css('.cx-detail:last-of-type'));
+
+    expect(element.nativeElement.textContent).toBe('');
   });
 });
