@@ -43,7 +43,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/orders'],
   },
   orderReturn: {
-    paths: ['my-account/order/return/:orderCode'],
+    paths: ['my-account/order/:orderCode/return'],
     paramsMapping: { orderCode: 'code' },
   },
 };
