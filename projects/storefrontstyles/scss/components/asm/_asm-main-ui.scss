@@ -12,6 +12,50 @@
     display: flex;
   }
 
+  cx-csagent-login-form {
+    .sap-spinner {
+      margin-top: 50px;
+      background-color: #f1f4f5;
+      height: 100px;
+    }
+  }
+
+  cx-customer-selection {
+    .fd-popover__body {
+      border: solid 1px #89919a;
+      position: absolute;
+      white-space: nowrap;
+      z-index: 11;
+      -webkit-box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
+      box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
+      background-color: #fff;
+      border-radius: 4px;
+      -webkit-transition: all 125ms;
+      transition: all 125ms;
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      font-size: 14px;
+      padding: 4px 0;
+      min-height: 50px;
+
+      .sap-spinner {
+        margin-top: 0;
+        height: 50px;
+      }
+
+      a {
+        color: #51555a;
+        display: block;
+        cursor: pointer;
+        padding: 10px;
+        &:hover {
+          color: #32363a;
+          background-color: #fafafa;
+        }
+      }
+    }
+  }
+
   cx-customer-emulation {
     padding: 2rem;
   }
@@ -122,7 +166,6 @@
   }
 
   // Grid
-
   [class^='fd-col'] {
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -137,13 +180,11 @@
   .fd-col--3 {
     float: left;
     margin-right: 8px;
-    width: 20%;
   }
 
   .fd-col--6 {
     float: left;
     margin-right: 8px;
-    width: 40%;
   }
 
   // Button Common styles
@@ -268,7 +309,6 @@
   }
 
   // Input styles
-
   .fd-input,
   input[type='date'],
   input[type='email'],
@@ -433,11 +473,8 @@
 
   // Fiori Spinner
   .sap-spinner {
-    margin-top: 50px;
     display: flex;
     width: 100%;
-    background-color: #f1f4f5;
-    height: 100px;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -504,19 +541,95 @@
     }
   }
 
-  // Mobile Media Queries
-  @media (max-width: 576px) {
-    height: auto;
+  // Media Queries
+  // Extra small devices (portrait phones, less than 576px)
+  @media (max-width: 575px) {
+    height: 230px;
+
+    cx-customer-selection,
+    .cx-customer-emulation {
+      padding-left: 6%;
+      padding-top: 45px;
+    }
+
+    cx-csagent-login-form {
+      padding-left: 6%;
+      padding-top: 20px;
+      .sap-spinner {
+        height: 180px;
+      }
+    }
+
+    form {
+      width: 88%;
+      position: absolute;
+    }
+
     .fd-col--3,
     .fd-col--6 {
       width: 100%;
       clear: left;
     }
 
+    .fd-popover__body {
+      width: 88%;
+      overflow: hidden;
+      top: 130px;
+      a {
+        .result-name,
+        .result-id {
+          width: 100%;
+          display: block;
+          clear: both;
+        }
+      }
+    }
+
     .fd-button,
     [class*='fd-button--'],
     a[class*='fd-button--'] {
       width: 100%;
+    }
+  }
+
+  // Small devices (landscape phones, 576px and up)
+  @media (min-width: 576px) and (max-width: 767px) {
+    height: auto;
+    .fd-popover__body {
+      width: 360px;
+      top: 117px;
+      a {
+        .result-name,
+        .result-id {
+          width: 40%;
+          display: inline-block;
+        }
+      }
+    }
+    .fd-col--6 {
+      width: 360px;
+    }
+
+    .fd-col--3 {
+      width: 135px;
+    }
+  }
+
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 768px) {
+    .fd-popover__body {
+      width: 516px;
+      top: 117px;
+      a {
+        .result-name,
+        .result-id {
+          width: 40%;
+          display: inline-block;
+        }
+      }
+    }
+    .fd-col--6 {
+      width: 516px;
     }
   }
 }

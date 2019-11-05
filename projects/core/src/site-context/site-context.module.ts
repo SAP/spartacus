@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, ConfigModule } from '../config/config.module';
-import { provideConfigValidator } from '../config/utils/config-validator';
+import { provideConfigValidator } from '../config/config-validator/config-validator';
 import { StateModule } from '../state/index';
 import { baseSiteConfigValidator } from './config/base-site-config-validator';
 import { defaultSiteContextConfigFactory } from './config/default-site-context-config';

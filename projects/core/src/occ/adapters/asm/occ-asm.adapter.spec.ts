@@ -39,6 +39,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
 } as CustomerSearchPage;
 
 const baseSite = 'test-site';
+const pageSize = 10;
 class MockBaseSiteService {
   getActive(): Observable<string> {
     return of(baseSite);
@@ -92,6 +93,37 @@ describe('OccAsmAdapter', () => {
         req.method === 'GET' &&
         req.params.get('query') === searchQuery &&
         req.params.get('baseSite') === baseSite
+      );
+    });
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(mockCustomerSearchPage);
+    expect(result).toEqual(mockCustomerSearchPage);
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CUSTOMER_SEARCH_PAGE_NORMALIZER
+    );
+    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
+      'asmCustomerSearch'
+    );
+  });
+
+  it('should perform a customer search with pageSize', () => {
+    let result: CustomerSearchPage;
+    const searchQuery = 'user@test.com';
+    const searchOptions: CustomerSearchOptions = {
+      query: searchQuery,
+      pageSize,
+    };
+    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
+      result = data;
+    });
+    const mockReq: TestRequest = httpMock.expectOne(req => {
+      return (
+        req.method === 'GET' &&
+        req.params.get('query') === searchQuery &&
+        req.params.get('baseSite') === baseSite &&
+        req.params.get('pageSize') === '' + pageSize
       );
     });
 
