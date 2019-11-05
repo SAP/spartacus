@@ -76,13 +76,14 @@ export class GlobalMessageEffect {
           (count: number) =>
             config && config.timeout !== undefined && count && count > 0
         ),
+        delay(config.timeout),
         switchMap(() =>
           of(
             new GlobalMessageActions.RemoveMessage({
               type,
               index: 0,
             })
-          ).pipe(delay(config.timeout))
+          )
         )
       );
     })
