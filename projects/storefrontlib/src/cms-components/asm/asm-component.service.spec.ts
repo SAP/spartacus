@@ -62,12 +62,26 @@ describe('AsmComponentService', () => {
       spyOn(authService, 'logout').and.stub();
       spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+      spyOn(authService, 'isCustomerEmulationToken').and.returnValue(true);
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
       expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(asmComponentService.logoutCustomer).toHaveBeenCalled();
+    });
+
+    it('should logout asagent and not the customer when a regular customer session is in progress', () => {
+      spyOn(authService, 'logout').and.stub();
+      spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
+      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+      spyOn(authService, 'isCustomerEmulationToken').and.returnValue(false);
+      spyOn(asmComponentService, 'logoutCustomer').and.stub();
+
+      asmComponentService.logoutCustomerSupportAgentAndCustomer();
+
+      expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
+      expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
     });
   });
 

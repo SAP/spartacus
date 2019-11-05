@@ -17,7 +17,7 @@ export class AsmComponentService {
       .getUserToken()
       .pipe(take(1))
       .subscribe(token => {
-        if (!!token && token.access_token) {
+        if (this.authService.isCustomerEmulationToken(token)) {
           this.logoutCustomer();
         }
         this.authService.logoutCustomerSupportAgent();
