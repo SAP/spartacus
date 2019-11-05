@@ -34,7 +34,7 @@ export class ProductVariantSelectorComponent implements OnInit {
       filter(v => !!v),
       distinctUntilChanged(),
       tap(product => {
-        if (!product.availableForPickup) {
+        if (!product.purchasable) {
           const variant = this.findApparelVariantAvailableForPickup(
             product.variantOptions
           );
@@ -95,6 +95,9 @@ export class ProductVariantSelectorComponent implements OnInit {
   private findApparelVariantAvailableForPickup(
     variants: VariantOption[]
   ): VariantOption {
-    return variants.find(v => v.stock && v.stock.stockLevel);
+    const results: VariantOption[] = variants.filter(variant => {
+      return variant.stock && variant.stock.stockLevel ? variant : false;
+    });
+    return !results.length && variants.length ? variants[0] : results[0];
   }
 }
