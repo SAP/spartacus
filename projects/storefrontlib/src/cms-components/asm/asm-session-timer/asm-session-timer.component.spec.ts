@@ -114,4 +114,17 @@ describe('AsmSessionTimerComponent', () => {
     component.ngOnInit();
     expect(component.resetTimer).not.toHaveBeenCalled();
   });
+
+  it('should use start delay from the config', () => {
+    config.asm.agentSessionTimer.startingDelayInSeconds = 632;
+    component.ngOnInit();
+    const result = component['getTimerStartDelayInSeconds']();
+    expect(result).toBe(config.asm.agentSessionTimer.startingDelayInSeconds);
+  });
+  it('should use a maximum start delay', () => {
+    config.asm.agentSessionTimer.startingDelayInSeconds = 1000000;
+    component.ngOnInit();
+    const result = component['getTimerStartDelayInSeconds']();
+    expect(result).toBe(component['maxStartDelayInSeconds']);
+  });
 });

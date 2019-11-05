@@ -10,6 +10,7 @@ import { AsmComponentService } from '../asm-component.service';
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   private interval: any;
+  private maxStartDelayInSeconds = 60000;
   timeLeft: number;
 
   constructor(
@@ -20,7 +21,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.timeLeft = this.config.asm.agentSessionTimer.startingDelayInSeconds;
+    this.timeLeft = this.getTimerStartDelayInSeconds();
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
@@ -42,10 +43,20 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
   resetTimer() {
     if (this.timeLeft > 0) {
-      this.timeLeft = this.config.asm.agentSessionTimer.startingDelayInSeconds;
+      this.timeLeft = this.getTimerStartDelayInSeconds();
     }
   }
 
+  private getTimerStartDelayInSeconds(): number {
+    if (
+      this.config.asm.agentSessionTimer.startingDelayInSeconds >
+      this.maxStartDelayInSeconds
+    ) {
+      return this.maxStartDelayInSeconds;
+    } else {
+      return this.config.asm.agentSessionTimer.startingDelayInSeconds;
+    }
+  }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     if (this.interval) {
