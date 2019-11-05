@@ -13,6 +13,7 @@ import {
   validateConfig,
 } from './utils/config-validator';
 import { deepMerge } from './utils/deep-merge';
+import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer/config-initializer';
 
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app
@@ -58,10 +59,12 @@ export function provideConfigFactory(
  */
 export function configurationFactory(
   configChunks: any[],
-  configValidators: ConfigValidator[]
+  configValidators: ConfigValidator[], // TODO: deprecated since 1.3, remove
+  configInitializerGuard?: boolean // TODO: deprecated since 1.3, remove
 ) {
   const config = deepMerge({}, ...configChunks);
-  if (isDevMode()) {
+  // TODO: deprecated since 1.3, remove as validators sohuld run independently
+  if (isDevMode() && !configInitializerGuard) {
     validateConfig(config, configValidators || []);
   }
   return config;
@@ -113,7 +116,11 @@ export class ConfigModule {
         {
           provide: Config,
           useFactory: configurationFactory,
-          deps: [ConfigChunk, [new Optional(), ConfigValidatorToken]],
+          deps: [
+            ConfigChunk,
+            [new Optional(), ConfigValidatorToken], // TODO: deprecated since 1.3, remove
+            [new Optional(), CONFIG_INITIALIZER_FORROOT_GUARD], // TODO: deprecated since 1.3, remove
+          ],
         },
       ],
     };
