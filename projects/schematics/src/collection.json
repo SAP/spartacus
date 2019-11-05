@@ -24,8 +24,8 @@
     },
     "add-component": {
       "description": "Add a component.",
-      "factory": "./add-component/index#addCmsComponent",
-      "schema": "./add-component/schema.json"
+      "factory": "./add-cms-component/index#addCmsComponent",
+      "schema": "./add-cms-component/schema.json"
     }
   }
 }
