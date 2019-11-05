@@ -9,8 +9,8 @@ import {
   switchMap,
   map,
   withLatestFrom,
-  mergeMap,
   take,
+  concatMap,
 } from 'rxjs/operators';
 
 import { GlobalMessageConfig } from '../../config/global-message-config';
@@ -67,7 +67,7 @@ export class GlobalMessageEffect {
   > = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload', 'type'),
-    mergeMap((type: GlobalMessageType) => {
+    concatMap((type: GlobalMessageType) => {
       const config = this.config.globalMessages[type];
       return this.store.pipe(
         select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
