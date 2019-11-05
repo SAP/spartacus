@@ -29,6 +29,15 @@ export class ProductVariantSelectorComponent {
     filter(product => !!product),
     distinctUntilChanged(),
     tap(product => {
+      if (!product.availableForPickup) {
+        const variant = this.findApparelVariantAvailableForPickup(
+          product.variantOptions
+        );
+        if (variant) {
+          this.routeToVariant(variant.code, true);
+        }
+      }
+
       if (
         product.variantType &&
         product.variantType === VariantType.APPAREL_STYLE
@@ -64,13 +73,23 @@ export class ProductVariantSelectorComponent {
     }
   }
 
-  routeToVariant(code: string): void {
+  routeToVariant(code: string, replaceUrl?: boolean): void {
     if (code) {
-      this.routingService.go({
-        cxRoute: 'product',
-        params: { code },
-      });
+      this.routingService.go(
+        {
+          cxRoute: 'product',
+          params: { code },
+        },
+        null,
+        { replaceUrl: replaceUrl }
+      );
     }
     return null;
+  }
+
+  private findApparelVariantAvailableForPickup(
+    variants: VariantOption[]
+  ): VariantOption {
+    return variants.find(v => v.stock && v.stock.stockLevel);
   }
 }
