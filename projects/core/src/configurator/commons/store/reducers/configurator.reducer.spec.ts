@@ -2,6 +2,7 @@ import { Configurator } from '../../../../model/configurator.model';
 import {
   ConfiguratorAction,
   CreateConfigurationSuccess,
+  ReadConfigurationSuccess,
   UpdateConfiguration,
   UpdateConfigurationChangesPending,
   UpdateConfigurationFail,
@@ -28,6 +29,16 @@ describe('Configurator reducer', () => {
   describe('CreateConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action: ConfiguratorAction = new CreateConfigurationSuccess(
+        configuration
+      );
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state).toEqual(configuration);
+    });
+  });
+  describe('ReadConfigurationSuccess action', () => {
+    it('should put configuration into the state', () => {
+      const action: ConfiguratorAction = new ReadConfigurationSuccess(
         configuration
       );
       const state = StateReduce.reducer(undefined, action);
