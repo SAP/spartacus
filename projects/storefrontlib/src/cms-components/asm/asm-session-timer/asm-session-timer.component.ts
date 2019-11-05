@@ -49,7 +49,6 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     if (this.interval) {
-      console.log('interval cleared');
       clearInterval(this.interval);
     }
   }

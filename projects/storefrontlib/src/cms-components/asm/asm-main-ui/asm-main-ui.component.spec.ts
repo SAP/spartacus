@@ -92,9 +92,6 @@ class MockAsmService {
     return of({ visible: true } as AsmUi);
   }
   updateAsmUiState(): void {}
-  getCustomerSearchResultsLoading(): Observable<boolean> {
-    return of(false);
-  }
 }
 class MockRoutingService {
   go() {}

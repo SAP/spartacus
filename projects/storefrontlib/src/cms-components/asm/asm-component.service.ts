@@ -16,7 +16,7 @@ export class AsmComponentService {
       .getUserToken()
       .pipe(take(1))
       .subscribe(token => {
-        if (!!token && token.access_token) {
+        if (Boolean(token) && token.access_token) {
           this.logoutCustomer();
         }
         this.authService.logoutCustomerSupportAgent();

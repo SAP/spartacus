@@ -21,7 +21,6 @@ export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
-  searchResultsLoading$: Observable<boolean>;
 
   private startingCustomerSession = false;
 
@@ -37,7 +36,6 @@ export class AsmMainUiComponent implements OnInit {
   ngOnInit(): void {
     this.csAgentToken$ = this.authService.getCustomerSupportAgentToken();
     this.csAgentTokenLoading$ = this.authService.getCustomerSupportAgentTokenLoading();
-    this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
     this.customer$ = this.authService.getUserToken().pipe(
       switchMap(token => {
         if (token && !!token.access_token) {
