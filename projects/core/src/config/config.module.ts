@@ -11,7 +11,7 @@ import {
   ConfigValidator,
   ConfigValidatorToken,
   validateConfig,
-} from './utils/config-validator';
+} from './config-validator/config-validator';
 import { deepMerge } from './utils/deep-merge';
 import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer/config-initializer';
 

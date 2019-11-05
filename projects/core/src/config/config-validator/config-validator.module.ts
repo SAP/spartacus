@@ -10,7 +10,7 @@ import {
   ConfigValidator,
   ConfigValidatorToken,
   validateConfig,
-} from '../utils/config-validator';
+} from './config-validator';
 
 export function configValidatorFactory(
   configInitializer: ConfigInitializerService,
