@@ -6,7 +6,7 @@ export const defaultAsmConfig: AsmConfig = {
       startingDelayInSeconds: 600,
     },
     customeSearch: {
-      maxResults: 20
+      maxResults: 20,
     },
   },
 };
