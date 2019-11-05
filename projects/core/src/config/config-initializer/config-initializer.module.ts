@@ -4,13 +4,13 @@ import {
   NgModule,
   Optional,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ConfigInitializerService } from './config-initializer.service';
 import {
   CONFIG_INITIALIZER,
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from './config-initializer';
+import { ConfigValidatorModule } from '../config-validator/config-validator.module';
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
@@ -21,8 +21,9 @@ export function configInitializerFactory(
 }
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule],
+  imports: [
+    ConfigValidatorModule.forRoot(), // TODO: remove, deprecated since 1.3, issue #5279
+  ],
 })
 export class ConfigInitializerModule {
   static forRoot(): ModuleWithProviders<ConfigInitializerModule> {
