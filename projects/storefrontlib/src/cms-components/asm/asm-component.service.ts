@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService, RoutingService } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { mergeMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +27,15 @@ export class AsmComponentService {
   logoutCustomer(): void {
     this.authService.logout();
     this.routingService.go({ cxRoute: 'home' });
+  }
+
+  isCustomerEmulationSessionInProgress(): Observable<boolean> {
+    return this.authService
+      .getUserToken()
+      .pipe(
+        mergeMap(userToken =>
+          of(this.authService.isCustomerEmulationToken(userToken))
+        )
+      );
   }
 }

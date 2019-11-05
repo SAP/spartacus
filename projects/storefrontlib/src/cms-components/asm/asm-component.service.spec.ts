@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthService, RoutingService, UserToken } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AsmComponentService } from './asm-component.service';
 
 class MockAuthService {
@@ -8,6 +9,9 @@ class MockAuthService {
   logout(): void {}
   getUserToken(): Observable<UserToken> {
     return of({} as UserToken);
+  }
+  isCustomerEmulationToken(): boolean {
+    return undefined;
   }
 }
 
@@ -74,6 +78,30 @@ describe('AsmComponentService', () => {
       asmComponentService.logoutCustomer();
       expect(authService.logout).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+  });
+
+  describe('isCustomerEmulationSessionInProgress()', () => {
+    it('should return true when user token is from an emulation session', () => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+      spyOn(authService, 'isCustomerEmulationToken').and.returnValue(true);
+      let result = false;
+      asmComponentService
+        .isCustomerEmulationSessionInProgress()
+        .pipe(take(1))
+        .subscribe(value => (result = value));
+      expect(result).toBe(true);
+    });
+
+    it('should return false when user token is not from an emulation session', () => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+      spyOn(authService, 'isCustomerEmulationToken').and.returnValue(false);
+      let result = false;
+      asmComponentService
+        .isCustomerEmulationSessionInProgress()
+        .pipe(take(1))
+        .subscribe(value => (result = value));
+      expect(result).toBe(false);
     });
   });
 });
