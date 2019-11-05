@@ -26,6 +26,6 @@ export class VariantSizeSelectorComponent {
   baseUrl = this.config.backend.occ.baseUrl;
 
   changeSize(productCode: string) {
-    this.changeSizeEvent.next(productCode);
+    this.changeSizeEvent.emit(productCode);
   }
 }
