@@ -11,6 +11,7 @@ import { CmsService, Page } from '../../cms/index';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { TranslationService } from '../../i18n';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class GroupSkipperService implements OnInit, OnDestroy {
@@ -40,8 +41,10 @@ export class GroupSkipperService implements OnInit, OnDestroy {
   }
 
   onPageChange(page: Page): void {
-    this.clearSkippers(this.getGroupSkipperEl());
-    this.renderSkippersForTemplateAndSlots(this.config, page);
+    setTimeout(() => {
+      this.clearSkippers(this.getGroupSkipperEl());
+      this.renderSkippersForTemplateAndSlots(this.config, page);
+    });
   }
 
   renderSkippersForTemplateAndSlots(
@@ -61,16 +64,30 @@ export class GroupSkipperService implements OnInit, OnDestroy {
   renderGroupSkipperElement(element: HTMLElement, title: string): void {
     const anchor: Element = this.renderer.createElement(`a`);
     anchor.setAttribute('tabindex', '0');
+    anchor.textContent = this.getTitleTranslation(title);
+    this.enableFocusOnNonTabElement(element);
+    this.addSkipperListeners(anchor, element);
+    this.renderer.appendChild(this.getGroupSkipperEl(), anchor);
+  }
+
+  getTitleTranslation(title: string): string {
+    let translatedSkipTo: string;
+    let translatedTitle: string;
+
     this.translation
-      .translate('groupSkipper.skipTo', {
-        title: title,
-      })
+      .translate('groupSkipper.skipTo')
+      .pipe(take(1))
       .subscribe((text: string) => {
-        anchor.textContent = text;
-        this.enableFocusOnNonTabElement(element);
-        this.addSkipperListeners(anchor, element);
-        this.renderer.appendChild(this.getGroupSkipperEl(), anchor);
+        translatedSkipTo = text;
       });
+    this.translation
+      .translate(title)
+      .pipe(take(1))
+      .subscribe((text: string) => {
+        translatedTitle = text;
+      });
+
+    return `${translatedSkipTo} ${translatedTitle}`;
   }
 
   enableFocusOnNonTabElement(element: HTMLElement): void {

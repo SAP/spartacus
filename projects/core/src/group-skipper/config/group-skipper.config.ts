@@ -7,7 +7,6 @@ export abstract class GroupSkipperElement {
   type: GroupSkipperType;
   name: string;
   title: string;
-  enabled? = true;
 }
 
 export abstract class GroupSkipperConfig {

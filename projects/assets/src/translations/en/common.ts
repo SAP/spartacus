@@ -101,5 +101,12 @@ export const common = {
   },
   groupSkipper: {
     skipTo: 'Skip to {{title}}',
+    titles: {
+      header: 'Header',
+      main: 'Main Content',
+      footer: 'Footer',
+      productFacets: 'Product Facets',
+      productList: 'Product List',
+    },
   },
 };

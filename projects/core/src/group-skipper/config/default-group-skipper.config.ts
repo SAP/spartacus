@@ -5,27 +5,27 @@ export const defaultGroupSkipperConfig: GroupSkipperConfig = {
     {
       type: GroupSkipperType.SLOT,
       name: 'SiteContext',
-      title: 'Header',
+      title: 'groupSkipper.titles.header',
     },
     {
       type: GroupSkipperType.LAYOUT,
       name: 'LandingPage2Template',
-      title: 'Main Content',
+      title: 'groupSkipper.titles.main',
     },
     {
       type: GroupSkipperType.SLOT,
       name: 'ProductLeftRefinements',
-      title: 'Product Facets',
+      title: 'groupSkipper.titles.productFacets',
     },
     {
       type: GroupSkipperType.SLOT,
       name: 'ProductListSlot',
-      title: 'Product List',
+      title: 'groupSkipper.titles.productList',
     },
     {
       type: GroupSkipperType.SLOT,
       name: 'Footer',
-      title: 'Footer',
+      title: 'groupSkipper.titles.footer',
     },
   ],
 };
