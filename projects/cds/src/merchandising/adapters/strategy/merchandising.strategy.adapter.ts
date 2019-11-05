@@ -9,6 +9,26 @@ export class MerchandisingStrategyAdapter implements StrategyAdapter {
   constructor(protected http: HttpClient) {}
 
   load(strategyId: string): Observable<StrategyResult> {
+    console.log('*****DEBUG - about to get strategies');
+
+    console.log(`******DEBUG - http object - ${typeof this.http}`);
+    this.http
+      .get(
+        `https://api.stage.context.cloud.sap/strategy/cvappareluk/strategies/${strategyId}/products`,
+        { observe: 'response' }
+      )
+      .subscribe(
+        result => {
+          console.log(`****DEBUG - result - ${result}`);
+        },
+        error => {
+          console.log(`*****ERROR - ${error}`);
+        },
+        () => {
+          console.log('*****COMPLETED');
+        }
+      );
+
     return this.http.get<StrategyResult>(
       `https://api.stage.context.cloud.sap/strategy/cvappareluk/strategies/${strategyId}/products`
     );
