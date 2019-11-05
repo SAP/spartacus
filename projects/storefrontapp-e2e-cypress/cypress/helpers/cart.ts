@@ -264,7 +264,7 @@ export function manipulateCartQuantity() {
     `${apiUrl}/rest/v2/electronics-spa/users/current/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
   addToCart();
-  cy.wait('@refresh_cart');
+  // cy.wait('@refresh_cart');
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 
