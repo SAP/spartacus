@@ -1,11 +1,9 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { MerchandisingStrategyAdapter } from './merchandising.strategy.adapter';
 import { CdsConfig } from '../../../cds-config';
+import { MerchandisingStrategyAdapter } from './merchandising.strategy.adapter';
 import { StrategyResult } from '../../model/strategy.result';
-
-// import createSpy = jasmine.createSpy;
 
 const mockCdsConfig: CdsConfig = {
   cds: {
@@ -18,14 +16,27 @@ const mockCdsConfig: CdsConfig = {
   }
 }
 
-const strategyId = '4081413c-620c-40d4-bf43-bc8d05d203d3';
+const strategyId = 'test-strategy-id';
 
 const strategyResultMetadata: Map<string, string> = new Map<string, string>();
 strategyResultMetadata.set('test-metadata-field', 'test-metadata-value');
-
+const productMetadata: Map<string, string> = new Map<string, string>();
+productMetadata.set('test-product-metadata-field', 'test-product-metadata-field');
 const strategyResult: StrategyResult = {
   resultCount: 1,
-  products: [],
+  products: [
+    {
+      id: 'test-product-id',
+      name: 'test-product',
+      description: 'test-product',
+      brand: 'test-brand',
+      pageUrl: 'http://some-product-url',
+      thumbNailImage: 'http://some-thumbnail-imgae-url',
+      mainImage: 'http://some-main-imgae-url',
+      price: 20.99,
+      metadata: productMetadata
+    }
+  ],
   paged: {
     from: 1,
     size: 5
@@ -40,9 +51,16 @@ describe('MerchandisingStrategyAdapter', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [mockCdsConfig, MerchandisingStrategyAdapter],
+      providers: [
+        {
+          provide: CdsConfig,
+          useValue: mockCdsConfig
+        },
+        MerchandisingStrategyAdapter
+      ],
     });
 
+    httpMock = TestBed.get(HttpTestingController as Type<HttpTestingController>);
     strategyAdapter = TestBed.get(MerchandisingStrategyAdapter as Type<MerchandisingStrategyAdapter>);
   });
 
@@ -56,15 +74,18 @@ describe('MerchandisingStrategyAdapter', () => {
 
   describe('load products for strategy', () => {
     it('should load products for the given strategy id', () => {
-      strategyAdapter.load(strategyId).subscribe(result => {
+      strategyAdapter.loadProductsForStrategy(strategyId).subscribe(result => {
         expect(result).toEqual(strategyResult);
       });
 
-      const mockProductRequest = httpMock.expectOne(request => {
+      const mockStrategyProductsRequest = httpMock.expectOne(request => {
         return request.method === 'GET' &&
           request.url === `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/${strategyId}/products`;
       });
 
+      expect(mockStrategyProductsRequest.cancelled).toBeFalsy();
+      expect(mockStrategyProductsRequest.request.responseType).toEqual('json');
+      mockStrategyProductsRequest.flush(strategyResult);
     });
   });
 });

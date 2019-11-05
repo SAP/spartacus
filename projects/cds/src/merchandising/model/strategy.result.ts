@@ -7,7 +7,7 @@ export interface MerchandisingProduct {
   thumbNailImage?: string;
   mainImage?: string;
   price?: number;
-  metadata: Map<string, string>;
+  metadata?: Map<string, string>;
 }
 
 export interface Paged {
