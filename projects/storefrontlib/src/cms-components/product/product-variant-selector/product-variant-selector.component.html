@@ -1,14 +1,16 @@
 <ng-container *ngIf="product$ | async as product">
-  <div class="variant-section" *ngIf="variants">
-    <cx-style-selector
-      *ngIf="variants['ApparelStyleVariantProduct']"
-      [product]="product"
-      [variants]="variants['ApparelStyleVariantProduct']"
-    ></cx-style-selector>
-    <cx-size-selector
-      *ngIf="variants['ApparelSizeVariantProduct']"
-      [product]="product"
-      [variants]="variants['ApparelSizeVariantProduct']"
-    ></cx-size-selector>
+  <div class="variant-section">
+    <div *ngFor="let variant of variants">
+      <cx-style-selector
+        *ngIf="variant.variantType === variantType.APPAREL_STYLE"
+        [product]="product"
+        [variants]="variant"
+      ></cx-style-selector>
+      <cx-size-selector
+        *ngIf="variant.variantType === variantType.APPAREL_SIZE"
+        [product]="product"
+        [variants]="variant"
+      ></cx-size-selector>
+    </div>
   </div>
 </ng-container>
