@@ -1,45 +1,42 @@
-<cx-asm-main-ui
-  [class.collapse]="!(asmUi$ | async)?.expanded"
-  *ngIf="(asmUi$ | async)?.visible"
->
-</cx-asm-main-ui>
-
-<ng-container *ngIf="(asmUi$ | async)?.visible">
-  <div class="expand-ui" *ngIf="(asmUi$ | async)?.expanded; else collapse">
-    <button class="expand-ui-btn" (click)="collapseUi()">
-      <svg
-        height="14"
-        width="14"
-        viewBox="0 0 512 512"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M177 255.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 351.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 425.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1zm-34-192L7 199.7c-9.4 9.4-9.4 24.6 0 33.9l22.6 22.6c9.4 9.4 24.6 9.4 33.9 0l96.4-96.4 96.4 96.4c9.4 9.4 24.6 9.4 33.9 0l22.6-22.6c9.4-9.4 9.4-24.6 0-33.9l-136-136c-9.2-9.4-24.4-9.4-33.8 0z"
-        ></path>
-      </svg>
-    </button>
-  </div>
-
-  <ng-template #collapse>
-    <div class="expand-ui">
-      <button class="expand-ui-btn" (click)="expandUi()">
+<ng-container *ngIf="asmUi$ | async as asmUi">
+  <ng-container *ngIf="asmUi?.visible">
+    <cx-asm-main-ui [class.collapse]="!asmUi?.expanded"> </cx-asm-main-ui>
+    <div class="expand-ui" *ngIf="asmUi?.expanded; else collapse">
+      <button class="expand-ui-btn" (click)="collapseUi()">
         <svg
           height="14"
           width="14"
-          aria-hidden="true"
-          data-icon="stop-circle"
-          data-prefix="far"
-          focusable="false"
-          role="img"
           viewBox="0 0 512 512"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fill="currentColor"
-            d="M143 256.3L7 120.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0L313 86.3c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.4 9.5-24.6 9.5-34 .1zm34 192l136-136c9.4-9.4 9.4-24.6 0-33.9l-22.6-22.6c-9.4-9.4-24.6-9.4-33.9 0L160 352.1l-96.4-96.4c-9.4-9.4-24.6-9.4-33.9 0L7 278.3c-9.4 9.4-9.4 24.6 0 33.9l136 136c9.4 9.5 24.6 9.5 34 .1z"
+            d="M177 255.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 351.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 425.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1zm-34-192L7 199.7c-9.4 9.4-9.4 24.6 0 33.9l22.6 22.6c9.4 9.4 24.6 9.4 33.9 0l96.4-96.4 96.4 96.4c9.4 9.4 24.6 9.4 33.9 0l22.6-22.6c9.4-9.4 9.4-24.6 0-33.9l-136-136c-9.2-9.4-24.4-9.4-33.8 0z"
           ></path>
         </svg>
       </button>
     </div>
-  </ng-template>
+
+    <ng-template #collapse>
+      <div class="expand-ui">
+        <button class="expand-ui-btn" (click)="expandUi()">
+          <svg
+            height="14"
+            width="14"
+            aria-hidden="true"
+            data-icon="stop-circle"
+            data-prefix="far"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="currentColor"
+              d="M143 256.3L7 120.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0L313 86.3c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.4 9.5-24.6 9.5-34 .1zm34 192l136-136c9.4-9.4 9.4-24.6 0-33.9l-22.6-22.6c-9.4-9.4-24.6-9.4-33.9 0L160 352.1l-96.4-96.4c-9.4-9.4-24.6-9.4-33.9 0L7 278.3c-9.4 9.4-9.4 24.6 0 33.9l136 136c9.4 9.5 24.6 9.5 34 .1z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </ng-template>
+  </ng-container>
 </ng-container>
