@@ -11,10 +11,6 @@ export interface CxCmsComponentSchema
     AngularComponentSchema,
     AngularModuleSchema {
   /**
-   * Generate the module with the component.
-   */
-  createModule: boolean;
-  /**
    * Inject the CmsComponentData.
    */
   cmsComponentData?: boolean;

@@ -4,11 +4,6 @@
   "title": "Spartacus Schematics",
   "type": "object",
   "properties": {
-    "createModule": {
-      "type": "boolean",
-      "description": "Generate the module with the component.",
-      "default": true
-    },
     "cmsComponentData": {
       "type": "boolean",
       "description": "Inject the CmsComponentData.",
@@ -25,6 +20,28 @@
       "description": "Specify the import path for the CmsComponentData. Default is '@spartacus/core'",
       "alias": "cms-data-path",
       "default": "@spartacus/core"
+    },
+
+    "routing": {
+      "type": "boolean",
+      "description": "When true, creates a routing module.",
+      "default": false
+    },
+    "routingScope": {
+      "enum": ["Child", "Root"],
+      "type": "string",
+      "description": "The scope for the new routing module.",
+      "default": "Child"
+    },
+    "route": {
+      "type": "string",
+      "description": "The route path for a lazy-loaded module. When supplied, creates a component in the new module, and adds the route to that component in the `Routes` array declared in the module provided in the `--module` option."
+    },
+    "commonModule": {
+      "type": "boolean",
+      "description": "When true, the new NgModule imports \"CommonModule\". ",
+      "default": true,
+      "visible": false
     },
 
     "project": {
@@ -97,6 +114,11 @@
     "skipTests": {
       "type": "boolean",
       "description": "When true, does not create \"spec.ts\" test files for the new component.",
+      "default": false
+    },
+    "skipImport": {
+      "type": "boolean",
+      "description": "When true, does not import this component into the owning NgModule.",
       "default": false
     },
     "flat": {

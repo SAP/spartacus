@@ -43,7 +43,7 @@ export const DELETE_ME = true;
 
 function buildModuleName(options: CxCmsComponentSchema): string {
   const specifiedModule = options.module || '';
-  return options.createModule ? options.name : specifiedModule;
+  return Boolean(specifiedModule) ? specifiedModule : options.name;
 }
 
 function printModule(options: CxCmsComponentSchema, tree: Tree): void {
@@ -215,6 +215,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       options.cmsComponentDataModelPath,
       false
     );
+
     changes.push(cmsComponentImport);
     const cmsComponentDataImport = insertImport(
       componentTs,
@@ -296,12 +297,6 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
 }
 
 function validateArguments(options: CxCmsComponentSchema): void {
-  if (!options.createModule && !Boolean(options.module)) {
-    throw new SchematicsException(
-      'You have to either specify a path to an existing module or set "createModule" to true.'
-    );
-  }
-
   if (options.cmsComponentData && !Boolean(options.cmsComponentDataModel)) {
     throw new SchematicsException(
       'You have to specify "cmsComponentDataModel".'
@@ -313,30 +308,44 @@ export function addComponent(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     validateArguments(options);
 
-    const changeDetection = options.changeDetection;
-    const createModule = options.createModule;
-    const entryComponent = options.entryComponent;
-    const exportOption = options.export;
-    const flat = options.flat;
-    const inlineStyle = options.inlineStyle;
-    const inlineTemplate = options.inlineTemplate;
-    const lintFix = options.lintFix;
+    // component
     const moduleName = buildModuleName(options);
-    const componentName = options.name;
-    const prefix = options.prefix;
-    const project = options.project;
-    const selector = options.selector;
-    const skipSelector = options.skipSelector;
-    const type = options.type;
-    const skipTests = options.skipTests;
-    const style = options.style;
-    const viewEncapsulation = options.viewEncapsulation;
+    const {
+      module: specifiedModule,
+      export: exportOption,
+      name: componentName,
+      changeDetection,
+      entryComponent,
+      flat,
+      inlineStyle,
+      inlineTemplate,
+      lintFix,
+      prefix,
+      project,
+      selector,
+      skipSelector,
+      type,
+      skipTests,
+      style,
+      viewEncapsulation,
+      skipImport,
+    } = options;
+
+    // module
+    const { path, routing, routingScope, route, commonModule } = options;
 
     return chain([
-      createModule
+      // in case the existing module is not specified, we need to create it
+      !Boolean(specifiedModule)
         ? externalSchematic(ANGULAR_SCHEMATICS, 'module', {
             project,
             name: moduleName,
+            path,
+            routing,
+            routingScope,
+            route,
+            commonModule,
+            lintFix,
           })
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
@@ -357,6 +366,7 @@ export function addComponent(options: CxCmsComponentSchema): Rule {
         skipTests,
         style,
         viewEncapsulation,
+        skipImport,
       }),
       updateModule(options),
       updateComponent(options),
