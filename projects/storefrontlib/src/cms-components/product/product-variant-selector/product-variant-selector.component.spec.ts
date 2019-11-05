@@ -37,6 +37,7 @@ const mockProduct: Product = {
         },
         { code: 'code2', variantOptionQualifiers: [{ value: 'test222' }] },
       ],
+      selected: { code: 'test222' },
     },
   ],
   variantOptions: [{ code: 'mock_code_3' }, { code: 'mock_code_4' }],
