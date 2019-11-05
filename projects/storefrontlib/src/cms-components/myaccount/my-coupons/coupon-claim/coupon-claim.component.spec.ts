@@ -81,7 +81,9 @@ describe('CouponClaimComponent', () => {
     });
 
     it('should navigate to coupons page when claim fail', () => {
-      couponService.getClaimCustomerCouponResultSuccess.and.returnValue(of(false));
+      couponService.getClaimCustomerCouponResultSuccess.and.returnValue(
+        of(false)
+      );
       component.ngOnInit();
       fixture.detectChanges();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'coupons' });

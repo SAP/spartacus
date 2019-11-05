@@ -19,7 +19,7 @@ const coupon1: CustomerCoupon = {
 };
 
 const coupon2: CustomerCoupon = {
-  couponId: 'coupon1',
+  couponId: 'coupon2',
   name: 'coupon 2',
   startDate: '',
   endDate: '',
@@ -29,17 +29,32 @@ const coupon2: CustomerCoupon = {
   allProductsApplicable: false,
 };
 
+const stateCoupon1: CustomerCoupon = {
+  couponId: 'coupon1',
+  name: 'coupon 1',
+  startDate: '',
+  endDate: '',
+  status: 'Effective',
+  description: '',
+  notificationOn: true,
+  allProductsApplicable: false,
+};
+
+const stateCoupon2: CustomerCoupon = {
+  couponId: 'coupon2',
+  name: 'coupon 2',
+  startDate: '',
+  endDate: '',
+  status: 'Effective',
+  description: '',
+  notificationOn: false,
+  allProductsApplicable: false,
+};
+
 const mockCustomerCoupons1: CustomerCoupon[] = [coupon1];
-const mockCustomerCoupons2: CustomerCoupon[] = [coupon2];
 
 const customerSearcherResult1: CustomerCouponSearchResult = {
   coupons: mockCustomerCoupons1,
-  sorts: [],
-  pagination: {},
-};
-
-const customerSearcherResult2: CustomerCouponSearchResult = {
-  coupons: mockCustomerCoupons2,
   sorts: [],
   pagination: {},
 };
@@ -48,6 +63,12 @@ const customerCouponNotification: CustomerCouponNotification = {
   coupon: coupon2,
   customer: {},
   status: '',
+};
+
+const MockinitialState: CustomerCouponSearchResult = {
+  coupons: [stateCoupon1, stateCoupon2],
+  sorts: [],
+  pagination: {},
 };
 
 describe('CustomerCoupon Reducer', () => {
@@ -79,7 +100,7 @@ describe('CustomerCoupon Reducer', () => {
         customerCouponNotification
       );
       const state = fromCustomerCouponsReducer.reducer(
-        customerSearcherResult1,
+        MockinitialState,
         action
       );
 
@@ -93,7 +114,7 @@ describe('CustomerCoupon Reducer', () => {
         'coupon1'
       );
       const state = fromCustomerCouponsReducer.reducer(
-        customerSearcherResult2,
+        MockinitialState,
         action
       );
 

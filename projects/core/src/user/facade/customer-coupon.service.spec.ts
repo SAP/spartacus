@@ -104,6 +104,26 @@ describe('CustomerCouponService', () => {
     expect(customerCouponLoaded).toEqual(true);
   });
 
+  it('should be able to get customer coupon list loading flag', () => {
+    store.dispatch(
+      new UserActions.LoadCustomerCoupons({
+        userId: OCC_USER_ID_CURRENT,
+        pageSize: 10,
+        currentPage: 1,
+        sort: 'byDate',
+      })
+    );
+
+    let customerCouponLoaded: boolean;
+    service
+      .getCustomerCouponsLoading()
+      .subscribe(data => {
+        customerCouponLoaded = data;
+      })
+      .unsubscribe();
+    expect(customerCouponLoaded).toEqual(true);
+  });
+
   it('should be able to subscribe customer coupons', () => {
     service.subscribeCustomerCoupon('couponCode');
     expect(store.dispatch).toHaveBeenCalledWith(

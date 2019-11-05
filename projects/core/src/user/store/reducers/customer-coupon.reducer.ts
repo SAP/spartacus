@@ -15,7 +15,7 @@ export function reducer(
 ): CustomerCouponSearchResult {
   switch (action.type) {
     case fromActions.LOAD_CUSTOMER_COUPONS_SUCCESS: {
-      return action.payload ? action.payload : initialState;
+      return action.payload;
     }
 
     case fromActions.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {

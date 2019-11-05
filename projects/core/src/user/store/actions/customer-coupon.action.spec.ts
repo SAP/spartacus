@@ -8,6 +8,7 @@ import {
   loadMeta,
   failMeta,
   successMeta,
+  resetMeta,
 } from '../../../state/utils/loader/loader.action';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import {
@@ -108,6 +109,17 @@ describe('Customer Coupon Actions', () => {
         type: UserActions.LOAD_CUSTOMER_COUPONS_SUCCESS,
         payload: customerSearcherResult,
         meta: successMeta(CUSTOMER_COUPONS),
+      });
+    });
+  });
+
+  describe('ResetLoadCustomerCoupons', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ResetLoadCustomerCoupons();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.RESET_LOAD_CUSTOMER_COUPONS,
+        meta: resetMeta(CUSTOMER_COUPONS),
       });
     });
   });
