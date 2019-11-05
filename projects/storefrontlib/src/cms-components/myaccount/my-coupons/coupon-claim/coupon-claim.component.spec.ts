@@ -70,7 +70,7 @@ describe('CouponClaimComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should add global message', () => {
+    it('should add global message and navigate to coupons page when claim success', () => {
       component.ngOnInit();
       fixture.detectChanges();
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -78,6 +78,18 @@ describe('CouponClaimComponent', () => {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'coupons' });
+    });
+
+    it('should navigate to coupons page when claim fail', () => {
+      couponService.getClaimCustomerCouponResultSuccess.and.returnValue(of(false));
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'coupons' });
+    });
+
+    it('should navigate to not-found page when no coupon code claimed', () => {
+      component.ngOnInit();
+      fixture.detectChanges();
 
       routingService.getRouterState.and.returnValue(
         of({
