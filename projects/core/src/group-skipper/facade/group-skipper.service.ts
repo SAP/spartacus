@@ -6,8 +6,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { GroupSkipperConfig, GroupSkipperElement } from '../config';
-import { CmsService, Page } from '../../cms';
+import { GroupSkipperConfig, GroupSkipperElement } from '../config/index';
+import { CmsService, Page } from '../../cms/index';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -17,8 +17,8 @@ export class GroupSkipperService implements OnInit, OnDestroy {
   pageChangeSub: Subscription;
 
   constructor(
-    private config: GroupSkipperConfig,
-    private cmsService: CmsService,
+    protected config: GroupSkipperConfig,
+    protected cmsService: CmsService,
     rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) private document
   ) {
@@ -46,12 +46,12 @@ export class GroupSkipperService implements OnInit, OnDestroy {
     config: GroupSkipperConfig,
     page: Page
   ): void {
-    const skipperElements: GroupSkipperElement[] = config.groupSkipper;
+    const skipperElements: GroupSkipperElement[] = config.groupSkipperElements;
     const cmsTemplate: string = page.template;
     const cmsSlotKeys: string[] = Object.keys(page.slots);
     skipperElements.forEach((element: GroupSkipperElement) => {
-      if (cmsTemplate === element.id || cmsSlotKeys.includes(element.id)) {
-        this.renderSkipperForTemplateOrSlot(element.id, element.title);
+      if (cmsTemplate === element.name || cmsSlotKeys.includes(element.name)) {
+        this.renderSkipperForTemplateOrSlot(element.name, element.title);
       }
     });
   }
@@ -74,7 +74,7 @@ export class GroupSkipperService implements OnInit, OnDestroy {
       this.document.getElementsByClassName(name).item(0)
     );
     const isTemplateOrSlot =
-      el && (el.tagName === 'cx-page-template' || 'cx-page-slot');
+      el && (el.tagName === 'cx-page-layout' || 'cx-page-slot');
     if (isTemplateOrSlot) {
       this.renderGroupSkipperElement(el, title);
     }

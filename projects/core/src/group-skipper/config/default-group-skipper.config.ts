@@ -1,35 +1,30 @@
-import { GroupSkipperConfig } from './group-skipper.config';
+import { GroupSkipperConfig, GroupSkipperType } from './group-skipper.config';
 
 export const defaultGroupSkipperConfig: GroupSkipperConfig = {
-  groupSkipper: [
+  groupSkipperElements: [
     {
-      type: 'slot',
-      id: 'SiteContext',
-      enabled: true,
+      type: GroupSkipperType.SLOT,
+      name: 'SiteContext',
       title: 'Header',
     },
     {
-      type: 'layout',
-      id: 'LandingPage2Template',
-      enabled: true,
+      type: GroupSkipperType.LAYOUT,
+      name: 'LandingPage2Template',
       title: 'Main Content',
     },
     {
-      type: 'slot',
-      id: 'ProductLeftRefinements',
-      enabled: true,
+      type: GroupSkipperType.SLOT,
+      name: 'ProductLeftRefinements',
       title: 'Product Facets',
     },
     {
-      type: 'slot',
-      id: 'ProductListSlot',
-      enabled: true,
+      type: GroupSkipperType.SLOT,
+      name: 'ProductListSlot',
       title: 'Product List',
     },
     {
-      type: 'slot',
-      id: 'Footer',
-      enabled: true,
+      type: GroupSkipperType.SLOT,
+      name: 'Footer',
       title: 'Footer',
     },
   ],

@@ -1,11 +1,15 @@
+export enum GroupSkipperType {
+  LAYOUT = 'LAYOUT',
+  SLOT = 'SLOT',
+}
+
 export abstract class GroupSkipperElement {
-  type: string;
-  id: string;
+  type: GroupSkipperType;
+  name: string;
   title: string;
-  enabled: boolean;
-  nth?: number;
+  enabled? = true;
 }
 
 export abstract class GroupSkipperConfig {
-  groupSkipper?: GroupSkipperElement[];
+  groupSkipperElements?: GroupSkipperElement[];
 }
