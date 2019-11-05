@@ -1,4 +1,4 @@
-@import '../../../theme';
+@import '../../theme';
 
 %cx-cart-coupon {
   padding: 2rem 3rem;
@@ -14,7 +14,7 @@
 
   .form-group .col-md-4 {
     @include media-breakpoint-up(md) {
-      padding-left: 0;
+      padding: 0;
     }
   }
 }

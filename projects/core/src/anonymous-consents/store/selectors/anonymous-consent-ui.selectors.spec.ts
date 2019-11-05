@@ -47,26 +47,24 @@ describe('anonymous consent ui selectors', () => {
       expect(result).toEqual(updated);
     });
   });
-  describe('getAnonymousConsentsBannerVisibility', () => {
+  describe('getAnonymousConsentsBannerDismissed', () => {
     it('should return the banner slice of the state', () => {
-      const visible = false;
+      const dismissed = false;
       store.dispatch(
-        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-          visible
+        new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
+          dismissed
         )
       );
 
       let result = true;
       store
         .pipe(
-          select(
-            AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility
-          )
+          select(AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed)
         )
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual(visible);
+      expect(result).toEqual(dismissed);
     });
   });
 });

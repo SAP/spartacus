@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -172,35 +172,45 @@ export class AnonymousConsentsService {
   }
 
   /**
-   * Toggles the visibility of the anonymous consents banner.
-   * @param visible the banner is visible if `true`, otherwise it's hidden
+   * Toggles the dismissed state of the anonymous consents banner.
+   * @param dismissed the banner will be dismissed if `true` is passed, otherwise it will be visible.
    */
-  toggleBannerVisibility(visible: boolean): void {
+  toggleBannerDismissed(dismissed: boolean): void {
     this.store.dispatch(
-      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-        visible
+      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
+        dismissed
       )
     );
-    if (!visible) {
+    if (dismissed) {
       this.toggleTemplatesUpdated(false);
     }
   }
 
   /**
-   * Returns `true` if the banner is visible, `false` otherwise
+   * Returns `true` if the banner was dismissed, `false` otherwise.
    */
-  isBannerVisible(): Observable<boolean> {
+  isBannerDismissed(): Observable<boolean> {
     return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility)
+      select(AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed)
     );
   }
 
   /**
    * Returns `true` if the consent templates were updated on the back-end.
+   * If the templates are not present in the store, it triggers the load.
    */
   getTemplatesUpdated(): Observable<boolean> {
-    return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+    return this.getTemplates().pipe(
+      tap(templates => {
+        if (!Boolean(templates)) {
+          this.loadTemplates();
+        }
+      }),
+      switchMap(_ =>
+        this.store.pipe(
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+        )
+      )
     );
   }
 
@@ -214,6 +224,17 @@ export class AnonymousConsentsService {
         updated
       )
     );
+  }
+
+  /**
+   * Returns `true` if either the banner is not dismissed or if the templates were updated on the back-end.
+   * Otherwise, it returns `false`.
+   */
+  isBannerVisible(): Observable<boolean> {
+    return combineLatest([
+      this.isBannerDismissed(),
+      this.getTemplatesUpdated(),
+    ]).pipe(map(([dismissed, updated]) => !dismissed || updated));
   }
 
   /**
