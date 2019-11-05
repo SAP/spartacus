@@ -3,10 +3,9 @@ import {
   ServerModule,
   ServerTransferStateModule,
 } from '@angular/platform-server';
-// import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
-
-import { AppModule } from './app.module';
 import { StorefrontComponent } from '@spartacus/storefront';
+// import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
+import { AppModule } from './app.module';
 
 @NgModule({
   imports: [
