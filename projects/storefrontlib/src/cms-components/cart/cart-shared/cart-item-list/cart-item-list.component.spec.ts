@@ -81,7 +81,6 @@ describe('CartItemListComponent', () => {
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
 
-    component.ngOnInit();
     fixture.detectChanges();
   });
 
