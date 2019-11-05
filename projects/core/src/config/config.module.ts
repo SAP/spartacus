@@ -59,11 +59,11 @@ export function provideConfigFactory(
  */
 export function configurationFactory(
   configChunks: any[],
-  configValidators: ConfigValidator[], // TODO: deprecated since 1.3, remove
-  configInitializerGuard?: boolean // TODO: deprecated since 1.3, remove
+  configValidators: ConfigValidator[], // TODO: remove, deprecated since 1.3, issue #5279
+  configInitializerGuard?: boolean // TODO: remove, deprecated since 1.3, issue #5279
 ) {
   const config = deepMerge({}, ...configChunks);
-  // TODO: deprecated since 1.3, remove as validators sohuld run independently
+  // TODO: remove as validators should run independently, deprecated since 1.3, issue #5279
   if (isDevMode() && !configInitializerGuard) {
     validateConfig(config, configValidators || []);
   }
@@ -118,8 +118,8 @@ export class ConfigModule {
           useFactory: configurationFactory,
           deps: [
             ConfigChunk,
-            [new Optional(), ConfigValidatorToken], // TODO: deprecated since 1.3, remove
-            [new Optional(), CONFIG_INITIALIZER_FORROOT_GUARD], // TODO: deprecated since 1.3, remove
+            [new Optional(), ConfigValidatorToken], // TODO: remove, deprecated since 1.3, issue #5279
+            [new Optional(), CONFIG_INITIALIZER_FORROOT_GUARD], // TODO: remove, deprecated since 1.3, issue #5279
           ],
         },
       ],
