@@ -13,19 +13,19 @@
           <div
             class="cx-budget-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
-<!--            <cx-sorting-->
-<!--              [sortOptions]="budgets.sorts"-->
-<!--              [sortLabels]="getSortLabels() | async"-->
-<!--              (sortListEvent)="changeSortCode($event)"-->
-<!--              [selectedOption]="budgets.pagination.sort"-->
-<!--              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"-->
-<!--            ></cx-sorting>-->
+            <!--            <cx-sorting-->
+            <!--              [sortOptions]="budgets.sorts"-->
+            <!--              [sortLabels]="getSortLabels() | async"-->
+            <!--              (sortListEvent)="changeSortCode($event)"-->
+            <!--              [selectedOption]="budgets.pagination.sort"-->
+            <!--              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"-->
+            <!--            ></cx-sorting>-->
           </div>
           <div class="cx-budget-pagination">
-<!--            <cx-pagination-->
-<!--              [pagination]="budgets.pagination"-->
-<!--              (viewPageEvent)="pageChange($event)"-->
-<!--            ></cx-pagination>-->
+            <!--            <cx-pagination-->
+            <!--              [pagination]="budgets.pagination"-->
+            <!--              (viewPageEvent)="pageChange($event)"-->
+            <!--            ></cx-pagination>-->
           </div>
         </div>
         <!-- TABLE -->
@@ -34,20 +34,24 @@
             <th scope="col">
               {{ 'budgets.budgetId' | cxTranslate }}
             </th>
-            <th scope="col">{{ 'budgets.date' | cxTranslate }}</th>
+            <th scope="col">{{ 'budgets.name' | cxTranslate }}</th>
+            <th scope="col">{{ 'budgets.amount' | cxTranslate }}</th>
+            <th scope="col">{{ 'budgets.startEndDate' | cxTranslate }}</th>
             <th scope="col">
-              {{ 'budgets.status' | cxTranslate }}
+              {{ 'budgets.costCenter' | cxTranslate }}
             </th>
-            <th scope="col">{{ 'budgets.total' | cxTranslate }}</th>
+            <th scope="col">
+              {{ 'budgets.parentUnit' | cxTranslate }}
+            </th>
           </thead>
           <tbody>
             <tr
               *ngFor="let budget of budgets.budgets"
-              (click)="goToOrderDetail(budget)"
+              (click)="goToBudgeDetail(budget)"
             >
               <td class="cx-budget-code">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.budgetId' | cxTranslate }}
+                  {{ 'budgets.code' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -63,7 +67,7 @@
               </td>
               <td class="cx-budget-placed">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.date' | cxTranslate }}
+                  {{ 'budgets.name' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -73,31 +77,12 @@
                     } | cxUrl
                   "
                   class="cx-budget-value"
-                  >{{ budget?.placed | cxDate: 'longDate' }}</a
-                >
-              </td>
-              <td class="cx-budget-status">
-                <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.status' | cxTranslate }}
-                </div>
-                <a
-                  [routerLink]="
-                    {
-                      cxRoute: 'budgetDetails',
-                      params: budget
-                    } | cxUrl
-                  "
-                  class="cx-budget-value"
-                >
-                  {{
-                    'budgetDetails.statusDisplay'
-                      | cxTranslate: { context: budget?.statusDisplay }
-                  }}</a
+                  >{{ budget?.name }}</a
                 >
               </td>
               <td class="cx-budget-total">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.total' | cxTranslate }}
+                  {{ 'budgets.amount' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -108,7 +93,55 @@
                   "
                   class="cx-budget-value"
                 >
-                  {{ budget?.total.formattedValue }}</a
+                  {{ budget?.amount }} {{ budget?.currency }}</a
+                >
+              </td>
+              <td class="cx-budget-total">
+                <div class="d-md-none cx-budget-label">
+                  {{ 'budgets.startEndDate' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'budgetDetails',
+                      params: budget
+                    } | cxUrl
+                  "
+                  class="cx-budget-value"
+                >
+                  {{ budget?.startDate }} - {{ budget?.endDate }}</a
+                >
+              </td>
+              <td class="cx-budget-code">
+                <div class="d-md-none cx-budget-label">
+                  {{ 'budgets.costCenter' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'budgetDetails',
+                      params: budget
+                    } | cxUrl
+                  "
+                  class="cx-budget-value"
+                >
+                  {{ budget?.costCenter }}</a
+                >
+              </td>
+              <td class="cx-budget-status">
+                <div class="d-md-none cx-budget-label">
+                  {{ 'budgets.parentUnit' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'budgetDetails',
+                      params: budget
+                    } | cxUrl
+                  "
+                  class="cx-budget-value"
+                >
+                  {{ 'budgetDetails.parentUnit' }}</a
                 >
               </td>
             </tr>
@@ -119,19 +152,19 @@
           <div
             class="cx-budget-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
-<!--            <cx-sorting-->
-<!--              [sortOptions]="budgets.sorts"-->
-<!--              [sortLabels]="getSortLabels() | async"-->
-<!--              (sortListEvent)="changeSortCode($event)"-->
-<!--              [selectedOption]="budgets.pagination.sort"-->
-<!--              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"-->
-<!--            ></cx-sorting>-->
+            <!--            <cx-sorting-->
+            <!--              [sortOptions]="budgets.sorts"-->
+            <!--              [sortLabels]="getSortLabels() | async"-->
+            <!--              (sortListEvent)="changeSortCode($event)"-->
+            <!--              [selectedOption]="budgets.pagination.sort"-->
+            <!--              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"-->
+            <!--            ></cx-sorting>-->
           </div>
           <div class="cx-budget-pagination">
-<!--            <cx-pagination-->
-<!--              [pagination]="budgets.pagination"-->
-<!--              (viewPageEvent)="pageChange($event)"-->
-<!--            ></cx-pagination>-->
+            <!--            <cx-pagination-->
+            <!--              [pagination]="budgets.pagination"-->
+            <!--              (viewPageEvent)="pageChange($event)"-->
+            <!--            ></cx-pagination>-->
           </div>
         </div>
       </ng-container>
@@ -141,12 +174,12 @@
         <div class="cx-budget-no-budget row" *ngIf="isLoaded$ | async">
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>{{ 'budgets.noBudgets' | cxTranslate }}</div>
-<!--            <a-->
-<!--              [routerLink]="{ cxRoute: 'home' } | cxUrl"-->
-<!--              routerLinkActive="active"-->
-<!--              class="btn btn-primary btn-block"-->
-<!--              >{{ 'budgets.startShopping' | cxTranslate }}</a-->
-<!--            >-->
+            <!--            <a-->
+            <!--              [routerLink]="{ cxRoute: 'home' } | cxUrl"-->
+            <!--              routerLinkActive="active"-->
+            <!--              class="btn btn-primary btn-block"-->
+            <!--              >{{ 'budgets.startShopping' | cxTranslate }}</a-->
+            <!--            >-->
           </div>
         </div>
       </ng-template>
