@@ -23,7 +23,10 @@ import {
   ANGULAR_SCHEMATICS,
   COMPONENT_DATA_CLASS,
   COMPONENT_DATA_PROPERTY_NAME,
+  OBSERVABLE,
+  RXJS,
   SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
   UTF_8,
 } from '../shared/constants';
 import {
@@ -221,10 +224,19 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       componentTs,
       componentPath,
       COMPONENT_DATA_CLASS,
-      SPARTACUS_CORE,
+      SPARTACUS_STOREFRONTLIB,
       false
     );
     changes.push(cmsComponentDataImport);
+
+    const observableImport = insertImport(
+      componentTs,
+      componentPath,
+      OBSERVABLE,
+      RXJS,
+      false
+    );
+    changes.push(observableImport);
 
     commitChanges(tree, componentPath, changes, InsertDirection.LEFT);
   };
@@ -304,7 +316,7 @@ function validateArguments(options: CxCmsComponentSchema): void {
   }
 }
 
-export function addComponent(options: CxCmsComponentSchema): Rule {
+export function addCmsComponent(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     validateArguments(options);
 

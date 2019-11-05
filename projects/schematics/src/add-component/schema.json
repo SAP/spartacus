@@ -7,18 +7,18 @@
     "cmsComponentData": {
       "type": "boolean",
       "description": "Inject the CmsComponentData.",
-      "default": false,
+      "default": true,
       "alias": "cms"
     },
     "cmsComponentDataModel": {
       "type": "string",
       "description": "Specify the model for the CmsComponentData.",
-      "alias": "cms-data"
+      "alias": "cms-model"
     },
     "cmsComponentDataModelPath": {
       "type": "string",
       "description": "Specify the import path for the CmsComponentData. Default is '@spartacus/core'",
-      "alias": "cms-data-path",
+      "alias": "cms-model-path",
       "default": "@spartacus/core"
     },
 

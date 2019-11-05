@@ -11,16 +11,16 @@ export interface CxCmsComponentSchema
     AngularComponentSchema,
     AngularModuleSchema {
   /**
-   * Inject the CmsComponentData.
+   * Inject the CmsComponentData in the generated component. By default it's `true`.
    */
-  cmsComponentData?: boolean;
+  cmsComponentData: boolean;
   /**
-   * Specify the model for the CmsComponentData.
+   * Specify the model for the CmsComponentData, e.g. `MyModel`.
    */
   cmsComponentDataModel?: string;
   /**
-   * Specify the import path for the CmsComponentData.
-   * Default is '@spartacus/core'
+   * Specify the import path for the `CmsComponentData`.
+   * Default is `@spartacus/storefront`
    */
   cmsComponentDataModelPath: string;
 }
