@@ -42,6 +42,8 @@
   </div>
 </ng-container>
 
-<ng-template #realCustomerSession>{{
-  'asm.standardSessionInProgress' | cxTranslate
-}}</ng-template>
+<ng-template #realCustomerSession>
+  <div class="fd-alert" role="alert">
+    {{ 'asm.standardSessionInProgress' | cxTranslate }}
+  </div>
+</ng-template>

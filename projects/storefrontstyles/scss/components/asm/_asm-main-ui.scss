@@ -170,6 +170,22 @@
     display: inline;
   }
 
+  .fd-alert {
+    display: block;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #32363a;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    background-color: #f4f4f4;
+    border-color: #89919a;
+    padding: 9px 12px;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+  }
+
   .sap-icon--log a,
   .sap-icon--decline a {
     cursor: pointer;
@@ -568,7 +584,7 @@
     height: 230px;
 
     cx-customer-selection,
-    .cx-customer-emulation {
+    cx-customer-emulation {
       padding-left: 6%;
       padding-top: 45px;
     }
@@ -615,6 +631,11 @@
     .fd-shellbar__title {
       display: none;
     }
+
+    .fd-alert {
+      margin-top: 30px;
+    }
+
     cx-asm-session-timer {
       .session-label {
         display: none;
@@ -627,21 +648,12 @@
 
   // Small devices (landscape phones, 576px and up)
   @media (min-width: 576px) and (max-width: 767px) {
-    .fd-shellbar__title {
-      display: inline-block;
-    }
-  }
-
-  // Extra large devices (large desktops, 1200px and up)
-  @media (min-width: 768px) {
-    .fd-shellbar__title {
-      display: inline-block;
-    }
-  }
-
-  // Small devices (landscape phones, 576px and up)
-  @media (min-width: 576px) and (max-width: 767px) {
     height: auto;
+
+    .fd-shellbar__title {
+      display: inline-block;
+    }
+
     .fd-popover__body {
       width: 360px;
       top: 117px;
@@ -664,6 +676,10 @@
 
   // Extra large devices (large desktops, 1200px and up)
   @media (min-width: 768px) {
+    .fd-shellbar__title {
+      display: inline-block;
+    }
+
     .fd-popover__body {
       width: 516px;
       top: 117px;
