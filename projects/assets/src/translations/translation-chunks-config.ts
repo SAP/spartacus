@@ -13,6 +13,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'pageMetaResolver',
     'miniCart',
     'miniLogin',
+    'groupSkipper',
   ],
   cart: ['cartDetails', 'cartItems', 'orderCost'],
   address: ['addressForm', 'addressBook', 'addressCard'],

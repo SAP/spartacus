@@ -10,6 +10,7 @@ import { GroupSkipperConfig, GroupSkipperElement } from '../config/index';
 import { CmsService, Page } from '../../cms/index';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { TranslationService } from '../../i18n';
 
 @Injectable()
 export class GroupSkipperService implements OnInit, OnDestroy {
@@ -19,6 +20,7 @@ export class GroupSkipperService implements OnInit, OnDestroy {
   constructor(
     protected config: GroupSkipperConfig,
     protected cmsService: CmsService,
+    protected translation: TranslationService,
     rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) private document
   ) {
@@ -59,10 +61,16 @@ export class GroupSkipperService implements OnInit, OnDestroy {
   renderGroupSkipperElement(element: HTMLElement, title: string): void {
     const anchor: Element = this.renderer.createElement(`a`);
     anchor.setAttribute('tabindex', '0');
-    anchor.textContent = `Skip to ${title}`;
-    this.enableFocusOnNonTabElement(element);
-    this.addSkipperListeners(anchor, element);
-    this.renderer.appendChild(this.getGroupSkipperEl(), anchor);
+    this.translation
+      .translate('groupSkipper.skipTo', {
+        title: title,
+      })
+      .subscribe((text: string) => {
+        anchor.textContent = text;
+        this.enableFocusOnNonTabElement(element);
+        this.addSkipperListeners(anchor, element);
+        this.renderer.appendChild(this.getGroupSkipperEl(), anchor);
+      });
   }
 
   enableFocusOnNonTabElement(element: HTMLElement): void {

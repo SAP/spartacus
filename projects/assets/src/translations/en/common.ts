@@ -99,4 +99,7 @@ export const common = {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
   },
+  groupSkipper: {
+    skipTo: 'Skip to {{title}}',
+  },
 };
