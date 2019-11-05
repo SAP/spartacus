@@ -85,7 +85,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       this.getUserEndpoint(userId) +
       CUSTOMER_COUPON_ENDPOINT +
       '/' +
-      couponCode +
+      encodeURIComponent(couponCode) +
       '/notification'
     );
   }
