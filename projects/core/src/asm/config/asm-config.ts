@@ -4,6 +4,9 @@ export abstract class AsmConfig extends OccConfig {
   asm?: {
     sessionTimer?: {
       startingDelayInSeconds?: number;
+    }
+    customeSearch?: {
+      maxResults?: number;
     };
   };
 }

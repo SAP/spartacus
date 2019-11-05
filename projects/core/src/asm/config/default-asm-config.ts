@@ -5,5 +5,8 @@ export const defaultAsmConfig: AsmConfig = {
     sessionTimer: {
       startingDelayInSeconds: 600,
     },
+    customeSearch: {
+      maxResults: 20
+    },
   },
 };
