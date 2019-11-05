@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OccConfig, Product, VariantOption } from '@spartacus/core';
+import { OccConfig, Product, BaseOption } from '@spartacus/core';
 
 @Component({
   selector: 'cx-style-selector',
@@ -13,10 +13,7 @@ export class VariantStyleSelectorComponent {
   product: Product;
 
   @Input()
-  styleVariants: VariantOption[];
-
-  @Input()
-  selectedStyle: string;
+  variants: BaseOption;
 
   baseUrl = this.config.backend.occ.baseUrl;
 }

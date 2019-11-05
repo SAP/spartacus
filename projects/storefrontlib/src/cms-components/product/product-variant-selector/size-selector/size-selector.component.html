@@ -7,9 +7,9 @@
     >
       <option value="">{{ 'variant.selectSize' | cxTranslate }}</option>
       <option
-        *ngFor="let v of sizeVariants"
+        *ngFor="let v of variants?.options"
         value="{{ v.code }}"
-        [selected]="v.code === product.code"
+        [selected]="v.code === product?.code"
         >{{ v.variantOptionQualifiers[0].value }}</option
       >
     </select>
