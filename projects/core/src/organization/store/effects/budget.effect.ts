@@ -5,7 +5,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
-import { Budget } from '../../../model/budget.model';
+import { Budget, BudgetsList } from '../../../model/budget.model';
 
 @Injectable()
 export class BudgetEffects {
@@ -18,7 +18,7 @@ export class BudgetEffects {
     switchMap(({ userId, budgetCode }) => {
       return this.budgetConnector.get(userId, budgetCode).pipe(
         map((budget: Budget) => {
-          return new BudgetActions.LoadBudgetSuccess([budget]);
+          return new BudgetActions.LoadBudgetSuccess({budgets: [budget]});
         }),
         catchError(error =>
           of(
@@ -42,7 +42,7 @@ export class BudgetEffects {
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(payload =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
-        switchMap((budgets: Budget[]) => [
+        switchMap((budgets: BudgetsList) => [
           new BudgetActions.LoadBudgetSuccess(budgets),
           new BudgetActions.LoadBudgetsSuccess(),
         ]),

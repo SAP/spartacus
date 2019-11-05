@@ -3,11 +3,11 @@ import { ActionReducerMap } from '@ngrx/store';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
 import { BUDGET_FEATURE, OrganizationState } from '../organization-state';
-import { Budget } from '../../../model/budget.model';
+import { BudgetsList } from '../../../model/budget.model';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
-    budget: entityLoaderReducer<Budget>(BUDGET_FEATURE),
+    budget: entityLoaderReducer<BudgetsList>(BUDGET_FEATURE),
   };
 }
 

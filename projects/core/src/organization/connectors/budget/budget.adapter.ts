@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Budget } from '../../../model/budget.model';
+import { Budget, BudgetsList } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../model/search-config';
 
 export abstract class BudgetAdapter {
@@ -16,7 +16,7 @@ export abstract class BudgetAdapter {
   abstract loadList(
     userId: string,
     params?: BudgetSearchConfig
-  ): Observable<Budget[]>;
+  ): Observable<BudgetsList>;
 
   abstract create(userId: string, budget: Budget): Observable<Budget>;
 

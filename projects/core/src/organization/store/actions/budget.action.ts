@@ -1,6 +1,6 @@
 import { LOAD_BUDGETS_PROCESS_ID, BUDGET_FEATURE } from '../organization-state';
 
-import { Budget } from '../../../model/budget.model';
+import { Budget, BudgetsList } from '../../../model/budget.model';
 import {
   EntityLoadAction,
   EntityFailAction,
@@ -41,8 +41,8 @@ export class LoadBudgetFail extends EntityFailAction {
 
 export class LoadBudgetSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGET_SUCCESS;
-  constructor(public payload: Budget[]) {
-    super(BUDGET_FEATURE, payload.map(budget => budget.code), payload);
+  constructor(public payload: BudgetsList) {
+    super(BUDGET_FEATURE, payload.budgets.map(budget => budget.code), payload.budgets);
   }
 }
 

@@ -1,5 +1,5 @@
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
-import { Budget } from '../../model/budget.model';
+import { BudgetsList } from '../../model/budget.model';
 
 export const ORGANIZATION_FEATURE = 'organization';
 export const BUDGET_FEATURE = 'budget';
@@ -11,5 +11,5 @@ export interface StateWithOrganization {
 }
 
 export interface OrganizationState {
-  [BUDGET_FEATURE]: EntityLoaderState<Budget>;
+  [BUDGET_FEATURE]: EntityLoaderState<BudgetsList>;
 }

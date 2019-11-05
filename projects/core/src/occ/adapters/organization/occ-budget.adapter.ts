@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
 import { BUDGET_NORMALIZER } from '../../../organization/connectors/budget/converters';
-import { Budget } from '../../../model/budget.model';
-import { pluck } from 'rxjs/operators';
+import { Budget, BudgetsList } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../../organization/model/search-config';
 
 @Injectable()
@@ -23,11 +23,8 @@ export class OccBudgetAdapter implements BudgetAdapter {
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  loadList(userId: string, params?: BudgetSearchConfig): Observable<Budget[]> {
-    return this.http.get(this.getBudgetsEndpoint(userId, params)).pipe(
-      pluck('budgets'),
-      this.converter.pipeableMany(BUDGET_NORMALIZER)
-    );
+  loadList(userId: string, params?: BudgetSearchConfig): Observable<BudgetsList> {
+    return this.http.get(this.getBudgetsEndpoint(userId, params))
   }
 
   create(userId: string, budget: Budget): Observable<Budget> {

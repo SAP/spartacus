@@ -4,14 +4,14 @@ import {
   OrganizationState,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { Budget } from '../../../model/budget.model';
+import { BudgetsList } from '../../../model/budget.model';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 
 export const getBudgetManagementState: MemoizedSelector<
   StateWithOrganization,
-  EntityLoaderState<Budget>
+  EntityLoaderState<BudgetsList>
 > = createSelector(
   getOrganizationState,
   (state: OrganizationState) => state.budget
@@ -19,16 +19,16 @@ export const getBudgetManagementState: MemoizedSelector<
 
 export const getBudgetsState: MemoizedSelector<
   StateWithOrganization,
-  { [id: string]: LoaderState<Budget> }
+  { [id: string]: LoaderState<BudgetsList> }
 > = createSelector(
   getBudgetManagementState,
-  (state: EntityLoaderState<Budget>) => state.entities
+  (state: EntityLoaderState<BudgetsList>) => state.entities
 );
 
 export const getBudgetState = (
   budgetCode: string
-): MemoizedSelector<StateWithOrganization, LoaderState<Budget>> =>
+): MemoizedSelector<StateWithOrganization, LoaderState<BudgetsList>> =>
   createSelector(
     getBudgetManagementState,
-    (state: EntityLoaderState<Budget>) => entityStateSelector(state, budgetCode)
+    (state: EntityLoaderState<BudgetsList>) => entityStateSelector(state, budgetCode)
   );
