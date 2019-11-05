@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { GroupSkipperService } from '@spartacus/core';
 
 @Component({
@@ -6,6 +6,10 @@ import { GroupSkipperService } from '@spartacus/core';
   templateUrl: './group-skipper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupSkipperComponent {
+export class GroupSkipperComponent implements OnInit {
   constructor(public groupSkipperService: GroupSkipperService) {}
+
+  ngOnInit(): void {
+    this.groupSkipperService.ngOnInit();
+  }
 }

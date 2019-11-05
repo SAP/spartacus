@@ -4,6 +4,7 @@ import {
   RendererFactory2,
   Inject,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { GroupSkipperConfig, GroupSkipperElement } from '../config';
 import { CmsService, Page } from '../../cms';
@@ -11,13 +12,9 @@ import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 @Injectable()
-export class GroupSkipperService implements OnDestroy {
+export class GroupSkipperService implements OnInit, OnDestroy {
   private renderer: Renderer2;
-  private pageSub: Subscription = this.cmsService
-    .getCurrentPage()
-    .subscribe((page: Page) => {
-      this.pageSubscription(page);
-    });
+  pageChangeSub: Subscription;
 
   constructor(
     private config: GroupSkipperConfig,
@@ -28,23 +25,33 @@ export class GroupSkipperService implements OnDestroy {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
 
-  ngOnDestroy(): void {
-    this.pageSub.unsubscribe();
+  ngOnInit(): void {
+    this.pageChangeSub = this.cmsService
+      .getCurrentPage()
+      .subscribe((page: Page) => {
+        this.onPageChange(page);
+      });
   }
 
-  pageSubscription(page) {
+  ngOnDestroy(): void {
+    this.pageChangeSub.unsubscribe();
+  }
+
+  onPageChange(page: Page): void {
     this.clearSkippers(this.getGroupSkipperEl());
+    this.renderSkippersForTemplateAndSlots(this.config, page);
+  }
 
+  renderSkippersForTemplateAndSlots(
+    config: GroupSkipperConfig,
+    page: Page
+  ): void {
+    const skipperElements: GroupSkipperElement[] = config.groupSkipper;
     const cmsTemplate: string = page.template;
-    const cmsSlots: string[] = Object.keys(page.slots);
-
-    const skipperElements: GroupSkipperElement[] = this.config.groupSkipper;
-
+    const cmsSlotKeys: string[] = Object.keys(page.slots);
     skipperElements.forEach((element: GroupSkipperElement) => {
-      if (cmsSlots.includes(element.id) || element.id === cmsTemplate) {
-        setTimeout(() => {
-          this.renderSkipperForTemplate(element.id, element.title);
-        });
+      if (cmsTemplate === element.id || cmsSlotKeys.includes(element.id)) {
+        this.renderSkipperForTemplateOrSlot(element.id, element.title);
       }
     });
   }
@@ -58,22 +65,22 @@ export class GroupSkipperService implements OnDestroy {
     this.renderer.appendChild(this.getGroupSkipperEl(), anchor);
   }
 
-  private enableFocusOnNonTabElement(element: HTMLElement): void {
+  enableFocusOnNonTabElement(element: HTMLElement): void {
     this.renderer.setAttribute(element, 'tabindex', '-1');
   }
 
-  private renderSkipperForTemplate(name: string, title: string): void {
-    const slotEl: HTMLElement = <HTMLElement>(
+  renderSkipperForTemplateOrSlot(name: string, title: string): void {
+    const el: HTMLElement = <HTMLElement>(
       this.document.getElementsByClassName(name).item(0)
     );
     const isTemplateOrSlot =
-      slotEl.tagName === 'cx-page-template' || 'cx-page-slot';
+      el && (el.tagName === 'cx-page-template' || 'cx-page-slot');
     if (isTemplateOrSlot) {
-      this.renderGroupSkipperElement(slotEl, title);
+      this.renderGroupSkipperElement(el, title);
     }
   }
 
-  private addSkipperListeners(anchor: Element, skipToEl: HTMLElement): void {
+  addSkipperListeners(anchor: Element, skipToEl: HTMLElement): void {
     anchor.addEventListener('click', (event: MouseEvent) => {
       this.skipToElement(event, skipToEl);
     });
@@ -84,12 +91,12 @@ export class GroupSkipperService implements OnDestroy {
     });
   }
 
-  private skipToElement(event: Event, element: HTMLElement): void {
+  skipToElement(event: Event, element: HTMLElement): void {
     event.preventDefault();
     element.focus();
   }
 
-  private clearSkippers(groupSkipperEl: Element): void {
+  clearSkippers(groupSkipperEl: Element): void {
     if (groupSkipperEl) {
       while (groupSkipperEl.children && groupSkipperEl.children.item(0)) {
         groupSkipperEl.children.item(0).remove();
@@ -97,7 +104,7 @@ export class GroupSkipperService implements OnDestroy {
     }
   }
 
-  private getGroupSkipperEl(): Element {
+  getGroupSkipperEl(): Element {
     return this.document.getElementsByTagName('cx-group-skipper').item(0);
   }
 }
