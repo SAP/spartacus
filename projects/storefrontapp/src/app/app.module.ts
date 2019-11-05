@@ -76,7 +76,6 @@ if (!environment.production) {
     ...devImports,
     ConfigModule,
   ],
-
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}
