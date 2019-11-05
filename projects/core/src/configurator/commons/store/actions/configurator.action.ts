@@ -19,8 +19,10 @@ export const UPDATE_CONFIGURATION_SUCCESS =
   '[Configurator] Update Configuration Sucess';
 export const UPDATE_CONFIGURATION_CHANGES_PENDING =
   '[Configurator] Update Configuration changes pending';
-export const UPDATE_CONFIGURATION_FINALIZE =
-  '[Configurator] Update Configuration finalize';
+export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
+  '[Configurator] Update Configuration finalize success';
+export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
+  '[Configurator] Update Configuration finalize fail';
 
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -85,8 +87,15 @@ export class UpdateConfigurationSuccess extends StateEntityLoaderActions.EntityS
   }
 }
 
-export class UpdateConfigurationFinalize extends StateEntityLoaderActions.EntitySuccessAction {
-  readonly type = UPDATE_CONFIGURATION_FINALIZE;
+export class UpdateConfigurationFinalizeSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = UPDATE_CONFIGURATION_FINALIZE_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class UpdateConfigurationFinalizeFail extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATION_DATA, payload.productCode);
   }
@@ -107,4 +116,5 @@ export type ConfiguratorAction =
   | UpdateConfigurationFail
   | UpdateConfigurationSuccess
   | UpdateConfigurationChangesPending
-  | UpdateConfigurationFinalize;
+  | UpdateConfigurationFinalizeFail
+  | UpdateConfigurationFinalizeSuccess;

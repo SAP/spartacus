@@ -19,9 +19,12 @@ import {
   UpdateConfiguration,
   UpdateConfigurationChangesPending,
   UpdateConfigurationFail,
-  UpdateConfigurationFinalize,
+  UpdateConfigurationFinalizeFail,
+  UpdateConfigurationFinalizeSuccess,
   UpdateConfigurationSuccess,
   UPDATE_CONFIGURATION,
+  UPDATE_CONFIGURATION_FAIL,
+  UPDATE_CONFIGURATION_FINALIZE_FAIL,
   UPDATE_CONFIGURATION_SUCCESS,
 } from '../actions/configurator.action';
 import { StateWithConfiguration } from '../configuration-state';
@@ -99,11 +102,10 @@ export class ConfiguratorEffects {
             return new UpdateConfigurationSuccess(configuration);
           }),
           catchError(error => {
+            const errorPayload = makeErrorSerializable(error);
+            errorPayload.configId = payload.configId;
             return [
-              new UpdateConfigurationFail(
-                payload.productCode,
-                makeErrorSerializable(error)
-              ),
+              new UpdateConfigurationFail(payload.productCode, errorPayload),
             ];
           })
         );
@@ -111,8 +113,8 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
-  checkUpdateNeeded$: Observable<
-    UpdateConfigurationFinalize | UpdateConfigurationChangesPending
+  updateConfigurationSuccess$: Observable<
+    UpdateConfigurationFinalizeSuccess | UpdateConfigurationChangesPending
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_SUCCESS),
     map(
@@ -125,12 +127,64 @@ export class ConfiguratorEffects {
         take(1),
         map(pendingChanges => {
           if (pendingChanges === 0) {
-            return new UpdateConfigurationFinalize(payload);
+            return new UpdateConfigurationFinalizeSuccess(payload);
           } else {
             return new UpdateConfigurationChangesPending();
           }
         })
       );
+    })
+  );
+
+  @Effect()
+  updateConfigurationFail$: Observable<
+    UpdateConfigurationFinalizeFail | UpdateConfigurationChangesPending
+  > = this.actions$.pipe(
+    ofType(UPDATE_CONFIGURATION_FAIL),
+    map(
+      (action: { type: string; payload?: Configurator.Configuration }) =>
+        action.payload
+    ),
+    mergeMap(payload => {
+      return this.store.pipe(
+        select(ConfiguratorSelectors.getPendingChanges),
+        take(1),
+        map(pendingChanges => {
+          if (pendingChanges === 0) {
+            return new UpdateConfigurationFinalizeFail(payload);
+          } else {
+            return new UpdateConfigurationChangesPending();
+          }
+        })
+      );
+    })
+  );
+
+  @Effect()
+  handleErrorOnUpdate$: Observable<
+    ReadConfigurationSuccess | ReadConfigurationFail
+  > = this.actions$.pipe(
+    ofType(UPDATE_CONFIGURATION_FINALIZE_FAIL),
+    map(
+      (action: { type: string; payload?: Configurator.Configuration }) =>
+        action.payload
+    ),
+    mergeMap(payload => {
+      return this.configuratorCommonsConnector
+        .readConfiguration(payload.configId)
+        .pipe(
+          map((configuration: Configurator.Configuration) => {
+            return new ReadConfigurationSuccess(configuration);
+          }),
+          catchError(error => {
+            return [
+              new ReadConfigurationFail(
+                payload.productCode,
+                makeErrorSerializable(error)
+              ),
+            ];
+          })
+        );
     })
   );
 

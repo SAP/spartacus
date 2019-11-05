@@ -10,7 +10,7 @@ export function reducer(
   action: ConfiguratorActions.ConfiguratorAction
 ): Configurator.Configuration {
   switch (action.type) {
-    case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE: {
+    case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {
       const content = { ...action.payload };
 
       return {
@@ -19,6 +19,14 @@ export function reducer(
       };
     }
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS: {
+      const content = { ...action.payload };
+
+      return {
+        ...state,
+        ...content,
+      };
+    }
+    case ConfiguratorActions.READ_CONFIGURATION_SUCCESS: {
       const content = { ...action.payload };
 
       return {

@@ -5,7 +5,7 @@ import {
   UpdateConfiguration,
   UpdateConfigurationChangesPending,
   UpdateConfigurationFail,
-  UpdateConfigurationFinalize,
+  UpdateConfigurationFinalizeSuccess,
   UpdateConfigurationSuccess,
 } from './../actions/configurator.action';
 import * as StateReduce from './configurator.reducer';
@@ -108,7 +108,7 @@ describe('Configurator reducer', () => {
   });
   describe('UpdateConfigurationFinalize action', () => {
     it('should put configuration into the state', () => {
-      const action: ConfiguratorAction = new UpdateConfigurationFinalize(
+      const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(
         configuration
       );
       const state = StateReduce.reducer(undefined, action);
