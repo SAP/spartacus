@@ -14,7 +14,7 @@ import createSpy = jasmine.createSpy;
 
 const MockAsmConfig: AsmConfig = {
   asm: {
-    sessionTimer: {
+    agentSessionTimer: {
       startingDelayInSeconds: 1,
     },
   },
@@ -74,7 +74,7 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should logout when time left is zero.', fakeAsync(() => {
-    config.asm.sessionTimer.startingDelayInSeconds = 1;
+    config.asm.agentSessionTimer.startingDelayInSeconds = 1;
     spyOn(
       asmComponentService,
       'logoutCustomerSupportAgentAndCustomer'
@@ -88,7 +88,7 @@ describe('AsmSessionTimerComponent', () => {
   }));
 
   it('should not call logout when there is some time left.', fakeAsync(() => {
-    config.asm.sessionTimer.startingDelayInSeconds = 10;
+    config.asm.agentSessionTimer.startingDelayInSeconds = 10;
     spyOn(
       asmComponentService,
       'logoutCustomerSupportAgentAndCustomer'

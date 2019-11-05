@@ -20,7 +20,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.timeLeft = this.config.asm.sessionTimer.startingDelayInSeconds;
+    this.timeLeft = this.config.asm.agentSessionTimer.startingDelayInSeconds;
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
@@ -42,7 +42,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
   resetTimer() {
     if (this.timeLeft > 0) {
-      this.timeLeft = this.config.asm.sessionTimer.startingDelayInSeconds;
+      this.timeLeft = this.config.asm.agentSessionTimer.startingDelayInSeconds;
     }
   }
 
