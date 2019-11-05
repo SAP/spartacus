@@ -26,7 +26,7 @@ export class CartItemListComponent implements OnInit {
         entryForm.controls.quantity.setValue(item.quantity);
       }
     });
-  };
+  }
 
   @Input()
   potentialProductPromotions: PromotionResult[] = [];
