@@ -29,7 +29,7 @@ export const reducerProvider: Provider = {
   useFactory: getReducers,
 };
 
-export function clearCustomerSupportAgentAuthState(
+export function clearCustomerSupportAgentAsmState(
   reducer: ActionReducer<AsmState, Action>
 ): ActionReducer<AsmState, Action> {
   return function(state, action) {
@@ -44,5 +44,5 @@ export function clearCustomerSupportAgentAuthState(
 }
 
 export const metaReducers: MetaReducer<any>[] = [
-  clearCustomerSupportAgentAuthState,
+  clearCustomerSupportAgentAsmState,
 ];
