@@ -568,7 +568,7 @@
     height: 230px;
 
     cx-customer-selection,
-    .cx-customer-emulation {
+    cx-customer-emulation {
       padding-left: 6%;
       padding-top: 45px;
     }
@@ -625,23 +625,15 @@
     }
   }
 
-  // Small devices (landscape phones, 576px and up)
-  @media (min-width: 576px) and (max-width: 767px) {
-    .fd-shellbar__title {
-      display: inline-block;
-    }
-  }
-
-  // Extra large devices (large desktops, 1200px and up)
-  @media (min-width: 768px) {
-    .fd-shellbar__title {
-      display: inline-block;
-    }
-  }
 
   // Small devices (landscape phones, 576px and up)
   @media (min-width: 576px) and (max-width: 767px) {
     height: auto;
+
+    .fd-shellbar__title {
+      display: inline-block;
+    }
+
     .fd-popover__body {
       width: 360px;
       top: 117px;
@@ -664,6 +656,10 @@
 
   // Extra large devices (large desktops, 1200px and up)
   @media (min-width: 768px) {
+    .fd-shellbar__title {
+      display: inline-block;
+    }
+
     .fd-popover__body {
       width: 516px;
       top: 117px;
