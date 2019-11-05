@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CartService, PromotionResult } from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
@@ -7,7 +7,7 @@ import { Item } from '../cart-item/cart-item.component';
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
 })
-export class CartItemListComponent {
+export class CartItemListComponent implements OnInit {
   @Input()
   isReadOnly = false;
 
@@ -38,11 +38,14 @@ export class CartItemListComponent {
 
   private _items: Item[] = [];
 
-  get items() {
+  get items(): Item[] {
     return this._items;
   }
 
   constructor(protected cartService: CartService, protected fb: FormBuilder) {}
+
+  // TODO remove for 2.0 - left to keep backward compatibility
+  ngOnInit(): void {}
 
   removeEntry(item: Item): void {
     this.cartService.removeEntry(item);
