@@ -143,7 +143,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     );
     changes.push(insertImportChange);
 
-    // TODO:#12 - if createModule option is false, then try to add the component to the CMS config. This is under assumption that ConfigModule.withConfig already exists (if not, add it)
+    // TODO:#12 - if `module` option is false, then try to add the component to the CMS config. This is under assumption that ConfigModule.withConfig already exists (if not, add it)
     const componentName = `${strings.classify(options.name)}${options.type}`;
     const insertModuleChanges = importModule(
       tree,
