@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry, Product } from '@spartacus/core';
+import { CartService, OrderEntry, Product, VariantType } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -149,10 +149,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   checkForVariantTypesSelection(product: Product) {
     this.resetVariantsSelections();
     product.baseOptions.forEach(baseOption => {
-      if (baseOption.variantType === 'ApparelStyleVariantProduct') {
+      if (baseOption.variantType === VariantType.APPAREL_STYLE) {
         this.isStyleVariantSelected = true;
       }
-      if (baseOption.variantType === 'ApparelSizeVariantProduct') {
+      if (baseOption.variantType === VariantType.APPAREL_SIZE) {
         this.isSizeVariantSelected = true;
       }
     });
