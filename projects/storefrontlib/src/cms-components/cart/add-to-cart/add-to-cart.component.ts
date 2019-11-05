@@ -6,13 +6,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry, Product } from '@spartacus/core';
+import { CartService, OrderEntry, Product, VariantType } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
-import { VariantType } from '../../../../../core/src/model';
 
 @Component({
   selector: 'cx-add-to-cart',
