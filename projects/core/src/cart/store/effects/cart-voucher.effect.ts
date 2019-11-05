@@ -29,7 +29,8 @@ export class CartVoucherEffects {
           map(() => {
             this.showGlobalMessage(
               'voucher.applyVoucherSuccess',
-              payload.voucherId
+              payload.voucherId,
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
             return new CartActions.CartAddVoucherSuccess({
               userId: payload.userId,
@@ -56,7 +57,8 @@ export class CartVoucherEffects {
           map(() => {
             this.showGlobalMessage(
               'voucher.removeVoucherSuccess',
-              payload.voucherId
+              payload.voucherId,
+              GlobalMessageType.MSG_TYPE_INFO
             );
             return new CartActions.CartRemoveVoucherSuccess({
               userId: payload.userId,
@@ -74,10 +76,14 @@ export class CartVoucherEffects {
     })
   );
 
-  private showGlobalMessage(text: string, param: string) {
+  private showGlobalMessage(
+    text: string,
+    param: string,
+    messageType: GlobalMessageType
+  ) {
     this.messageService.add(
       { key: text, params: { voucherCode: param } },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      messageType
     );
   }
 }

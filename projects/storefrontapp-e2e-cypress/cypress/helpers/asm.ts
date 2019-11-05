@@ -37,7 +37,6 @@ export function asmTests() {
       it('agent should start customer emulation.', () => {
         startCustomerEmulation();
       });
-      // Winston Ruumford, <email address>
     });
 
     describe('Customer Emulation - Checkout', () => {
@@ -116,19 +115,16 @@ export function asmTests() {
     });
 
     describe('Customer Support Agent - End', () => {
-      it('agent should stop customer emulation.', () => {
+      it('agent should stop customer emulation using My Account -> Sign Out.', () => {
         checkout.signOutUser();
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
       });
 
-      it('end session using the end session button', () => {
+      it('agent should stop customer emulation using the end session button in the ASM UI', () => {
         startCustomerEmulation();
-        // N Z, <email address>
-
-        // should end a user's session when clicking on the end session button
-        cy.get('div.cx-customer-emulation button').click();
-        cy.get('div.cx-customer-emulation').should('not.exist');
+        cy.get('cx-customer-emulation button').click();
+        cy.get('cx-customer-emulation').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
       });
 
@@ -242,15 +238,18 @@ function startCustomerEmulation(): void {
   cy.get('cx-customer-selection').should('exist');
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type(customer.email);
-    cy.get('button[type="submit"]').click();
   });
   cy.wait(customerSearchRequestAlias)
     .its('status')
     .should('eq', 200);
+
+  cy.get('cx-customer-selection div.results div a').click();
+  cy.get('button[type="submit"]').click();
+
   cy.wait(userDetailsRequestAlias)
     .its('status')
     .should('eq', 200);
-  cy.get('div.cx-customer-emulation input')
+  cy.get('cx-customer-emulation input')
     .invoke('attr', 'placeholder')
     .should('contain', customer.fullName);
   cy.get('cx-csagent-login-form').should('not.exist');

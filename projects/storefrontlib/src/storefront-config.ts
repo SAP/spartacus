@@ -1,5 +1,6 @@
 import {
   AnonymousConsentsConfig,
+  AsmConfig,
   AuthConfig,
   CmsConfig,
   ExternalRoutesConfig,
@@ -39,4 +40,5 @@ export type StorefrontConfig =
   | GlobalMessageConfig
   | ExternalRoutesConfig
   | ViewConfig
-  | FeatureToggles;
+  | FeatureToggles
+  | AsmConfig;

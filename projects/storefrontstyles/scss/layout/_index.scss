@@ -12,71 +12,7 @@
 @import './page-templates/multistep-checkout-page';
 @import './page-templates/store-finder-page';
 
-cx-page-layout {
-  @extend %cx-page-layout !optional;
-}
-
-cx-page-slot {
-  @extend %cx-page-slot !optional;
-}
-
-cx-paragraph {
-  @extend %cx-paragraph !optional;
-}
-
-cx-category-navigation {
-  @extend %cx-category-navigation !optional;
-}
-
-.LandingPage2Template {
-  @extend %LandingPage2Template !optional;
-}
-
-.ContentPage1Template {
-  @extend %ContentPage1Template !optional;
-}
-
-.CategoryPageTemplate {
-  @extend %CategoryPageTemplate !optional;
-}
-
-.ProductListPageTemplate {
-  @extend %ProductListPageTemplate !optional;
-}
-
-.SearchResultsListPageTemplate {
-  @extend %SearchResultsListPageTemplate !optional;
-}
-
-.ProductDetailsPageTemplate {
-  @extend %ProductDetailsPageTemplate !optional;
-}
-
-.CartPageTemplate {
-  @extend %CartPageTemplate !optional;
-}
-
-.LoginPageTemplate {
+%CheckoutLoginPageTemplate {
   @extend %LoginPageTemplate !optional;
-}
-
-.CheckoutLoginPageTemplate {
-  @extend %LoginPageTemplate !optional;
-}
-
-.AccountPageTemplate {
-  --cx-max-width: 100%;
-  @extend %LoginPageTemplate !optional;
-}
-
-.MultiStepCheckoutSummaryPageTemplate {
-  @extend %MultiStepCheckoutSummaryPageTemplate !optional;
-}
-
-.ErrorPageTemplate {
-  @extend %ErrorPageTemplate !optional;
-}
-
-.StoreFinderPageTemplate {
-  @extend %StoreFinderPageTemplate !optional;
+  @extend %LoginPageTemplate-#{$theme} !optional;
 }
