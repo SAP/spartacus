@@ -308,7 +308,7 @@ export function addComponent(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     validateArguments(options);
 
-    // component
+    // angular's component CLI flags
     const moduleName = buildModuleName(options);
     const {
       module: specifiedModule,
@@ -331,11 +331,11 @@ export function addComponent(options: CxCmsComponentSchema): Rule {
       skipImport,
     } = options;
 
-    // module
+    // angular's module CLI flags
     const { path, routing, routingScope, route, commonModule } = options;
 
     return chain([
-      // in case the existing module is not specified, we need to create it
+      // in case the module flag is not specified, we need to generate a module
       !Boolean(specifiedModule)
         ? externalSchematic(ANGULAR_SCHEMATICS, 'module', {
             project,
@@ -371,7 +371,7 @@ export function addComponent(options: CxCmsComponentSchema): Rule {
       updateModule(options),
       updateComponent(options),
       updateTemplate(options),
-      print(options),
+      DELETE_ME ? print(options) : noop(),
     ])(tree, context);
   };
 }
