@@ -1,0 +1,155 @@
+<ng-container *ngIf="budgets$ | async as budgets">
+  <div class="container">
+    <!-- HEADER -->
+    <div class="cx-budget-header">
+      <h3>{{ 'budgets.budgetManagement' | cxTranslate }}</h3>
+    </div>
+
+    <!-- BODY -->
+    <div class="cx-budget-body">
+      <ng-container *ngIf="budgets.pagination.totalResults > 0; else noOrder">
+        <!-- Select Form and Pagination Top -->
+        <div class="cx-budget-sort top row">
+          <div
+            class="cx-budget-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+<!--            <cx-sorting-->
+<!--              [sortOptions]="budgets.sorts"-->
+<!--              [sortLabels]="getSortLabels() | async"-->
+<!--              (sortListEvent)="changeSortCode($event)"-->
+<!--              [selectedOption]="budgets.pagination.sort"-->
+<!--              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"-->
+<!--            ></cx-sorting>-->
+          </div>
+          <div class="cx-budget-pagination">
+<!--            <cx-pagination-->
+<!--              [pagination]="budgets.pagination"-->
+<!--              (viewPageEvent)="pageChange($event)"-->
+<!--            ></cx-pagination>-->
+          </div>
+        </div>
+        <!-- TABLE -->
+        <table class="table cx-budget-table">
+          <thead class="cx-budget-thead-mobile">
+            <th scope="col">
+              {{ 'budgets.budgetId' | cxTranslate }}
+            </th>
+            <th scope="col">{{ 'budgets.date' | cxTranslate }}</th>
+            <th scope="col">
+              {{ 'budgets.status' | cxTranslate }}
+            </th>
+            <th scope="col">{{ 'budgets.total' | cxTranslate }}</th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let budget of budgets.budgets"
+              (click)="goToOrderDetail(budget)"
+            >
+              <td class="cx-budget-code">
+                <div class="d-md-none cx-budget-label">
+                  {{ 'budgets.budgetId' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'budgetDetails',
+                      params: budget
+                    } | cxUrl
+                  "
+                  class="cx-budget-value"
+                >
+                  {{ budget?.code }}</a
+                >
+              </td>
+              <td class="cx-budget-placed">
+                <div class="d-md-none cx-budget-label">
+                  {{ 'budgets.date' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'budgetDetails',
+                      params: budget
+                    } | cxUrl
+                  "
+                  class="cx-budget-value"
+                  >{{ budget?.placed | cxDate: 'longDate' }}</a
+                >
+              </td>
+              <td class="cx-budget-status">
+                <div class="d-md-none cx-budget-label">
+                  {{ 'budgets.status' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'budgetDetails',
+                      params: budget
+                    } | cxUrl
+                  "
+                  class="cx-budget-value"
+                >
+                  {{
+                    'budgetDetails.statusDisplay'
+                      | cxTranslate: { context: budget?.statusDisplay }
+                  }}</a
+                >
+              </td>
+              <td class="cx-budget-total">
+                <div class="d-md-none cx-budget-label">
+                  {{ 'budgets.total' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'budgetDetails',
+                      params: budget
+                    } | cxUrl
+                  "
+                  class="cx-budget-value"
+                >
+                  {{ budget?.total.formattedValue }}</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Select Form and Pagination Bottom -->
+        <div class="cx-budget-sort bottom row">
+          <div
+            class="cx-budget-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+<!--            <cx-sorting-->
+<!--              [sortOptions]="budgets.sorts"-->
+<!--              [sortLabels]="getSortLabels() | async"-->
+<!--              (sortListEvent)="changeSortCode($event)"-->
+<!--              [selectedOption]="budgets.pagination.sort"-->
+<!--              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"-->
+<!--            ></cx-sorting>-->
+          </div>
+          <div class="cx-budget-pagination">
+<!--            <cx-pagination-->
+<!--              [pagination]="budgets.pagination"-->
+<!--              (viewPageEvent)="pageChange($event)"-->
+<!--            ></cx-pagination>-->
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- NO ORDER CONTAINER -->
+      <ng-template #noOrder>
+        <div class="cx-budget-no-budget row" *ngIf="isLoaded$ | async">
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>{{ 'budgets.noBudgets' | cxTranslate }}</div>
+<!--            <a-->
+<!--              [routerLink]="{ cxRoute: 'home' } | cxUrl"-->
+<!--              routerLinkActive="active"-->
+<!--              class="btn btn-primary btn-block"-->
+<!--              >{{ 'budgets.startShopping' | cxTranslate }}</a-->
+<!--            >-->
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>
