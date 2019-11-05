@@ -9,6 +9,7 @@ export interface MerchandisingProduct {
   price?: number;
   metadata: Map<string, string>;
 }
+
 export interface Paged {
   from?: number;
   size?: number;

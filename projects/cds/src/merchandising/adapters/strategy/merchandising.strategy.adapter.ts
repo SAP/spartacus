@@ -1,36 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StrategyResult } from './../../model/strategy.result';
+import { StrategyResult } from '../../model/strategy.result';
 import { StrategyAdapter } from './strategy.adapter';
+import { CdsConfig } from '../../../cds-config';
 
 @Injectable()
 export class MerchandisingStrategyAdapter implements StrategyAdapter {
-  constructor(protected http: HttpClient) {}
+
+  constructor(private config: CdsConfig, protected http: HttpClient) {}
 
   load(strategyId: string): Observable<StrategyResult> {
-    console.log('*****DEBUG - about to get strategies');
-
-    console.log(`******DEBUG - http object - ${typeof this.http}`);
-    this.http
-      .get(
-        `https://api.stage.context.cloud.sap/strategy/cvappareluk/strategies/${strategyId}/products`,
-        { observe: 'response' }
-      )
-      .subscribe(
-        result => {
-          console.log(`****DEBUG - result - ${result}`);
-        },
-        error => {
-          console.log(`*****ERROR - ${error}`);
-        },
-        () => {
-          console.log('*****COMPLETED');
-        }
-      );
-
-    return this.http.get<StrategyResult>(
-      `https://api.stage.context.cloud.sap/strategy/cvappareluk/strategies/${strategyId}/products`
-    );
+    return this.http.get<StrategyResult>(`${this.config.cds.baseUrl}/strategy/${this.config.cds.tenant}/strategies/${strategyId}/products`);
   }
 }
