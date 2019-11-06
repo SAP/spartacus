@@ -1,0 +1,6 @@
+@import './mixin-variables';
+
+@mixin focus-forms {
+  box-shadow: 0 0 0 $focus-button-width var(--cx-color-visual-focus-lighter);
+  border-color: var(--cx-color-visual-focus);
+}

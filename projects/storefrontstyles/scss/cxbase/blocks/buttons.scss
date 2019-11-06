@@ -1,5 +1,6 @@
 @import '../../theme';
 @import '~bootstrap/scss/buttons';
+@import '../../themes/calydon';
 
 button {
   &:focus {
@@ -176,12 +177,21 @@ button {
 $theme: '' !default;
 @if $theme == 'calydon' {
   button,
-  .btn,
-  .btn-primary,
+  .btn {
+    &:focus {
+      @include focus-button;
+    }
+  }
+
+  .btn-primary {
+    &:focus {
+      @include focus-button-primary;
+    }
+  }
+
   .btn-secondary {
     &:focus {
-      outline: var(--cx-color-visual-focus) auto 6px;
-      outline-offset: 2px;
+      @include focus-button-secondary;
     }
   }
 }

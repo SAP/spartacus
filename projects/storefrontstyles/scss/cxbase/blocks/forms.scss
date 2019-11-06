@@ -1,6 +1,7 @@
 @import '../../theme';
 @import '~bootstrap/scss/forms';
 @import '~bootstrap/scss/custom-forms';
+@import '../../themes/calydon';
 
 .form-control {
   margin-bottom: 0.25rem;
@@ -204,20 +205,25 @@ input[type='radio'] {
 //theme calydon cx-base adjustments
 $theme: '' !default;
 @if $theme == 'calydon' {
-  :focus {
-    outline-color: var(--cx-color-visual-focus);
-  }
   .form-control,
-  select,
-  input {
+  .form-control[type='text'],
+  input,
+  input[type='checkbox'] {
     &:focus {
-      outline: var(--cx-color-visual-focus) auto 4px;
-      outline-offset: 2px;
+      @include focus-forms;
+      border-width: 1px;
+    }
+
+    // Mozilla Firefox fix for dotted border: https://stackoverflow.com/a/3844452
+    &::-moz-focus-inner {
+      border: 0;
     }
   }
   .ng-select-focused {
-    outline: var(--cx-color-visual-focus) auto 4px;
-    outline-offset: 2px;
-    border-color: var(--cx-color-secondary);
+    border-color: var(--cx-color-visual-focus);
+  }
+
+  :focus {
+    @include focus-forms;
   }
 }

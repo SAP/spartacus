@@ -1,0 +1,17 @@
+$primary-lighter: lighten($primary, 20%) !default;
+$secondary-lighter: lighten($secondary, 20%) !default;
+$visual-focus-lighter: lighten($visual-focus, 20%) !default;
+
+$primary-darker: darken($primary, 20%) !default;
+$secondary-darker: darken($secondary, 20%) !default;
+
+$theme-colors: map-merge(
+  (
+    'primary-lighter': $primary-lighter,
+    'secondary-lighter': $secondary-lighter,
+    'visual-focus-lighter': $visual-focus-lighter,
+    'primary-darker': $primary-darker,
+    'secondary-darker': $secondary-darker,
+  ),
+  $theme-colors
+);
