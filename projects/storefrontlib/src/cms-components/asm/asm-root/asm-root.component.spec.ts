@@ -133,7 +133,9 @@ describe('AsmRootComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui.button'));
+      const asmUi = fixture.debugElement.query(
+        By.css('cx-asm-main-ui.collapse')
+      );
 
       expect(asmUi).toBeNull();
       expect(el.nativeElement.firstElementChild.className).toBe('');
