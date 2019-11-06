@@ -17,7 +17,7 @@ import {
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
-import { OCC_USER_ID_CURRENT } from '../../occ';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable({
   providedIn: 'root',

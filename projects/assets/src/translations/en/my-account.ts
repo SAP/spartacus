@@ -114,7 +114,6 @@ export const myAccount = {
     },
   },
   myCoupons: {
-    sortByMostRecent: 'Sort by Most recent',
     noCouponsMessage: 'You have no coupons available.',
     effectiveTitle: 'Effective:',
     Effective: 'EFFECTIVE',

@@ -4,6 +4,24 @@
   width: 100%;
   display: block;
 
+  cx-asm-session-timer {
+    font-size: 14px;
+    .session-timer {
+      margin-top: 10px;
+    }
+    .session-label {
+      margin-right: 6px;
+    }
+    .session-time {
+      font-weight: 600;
+    }
+    .session-btn {
+      margin-left: 15px;
+      margin-right: 30px;
+      cursor: pointer;
+    }
+  }
+
   cx-csagent-login-form,
   cx-customer-selection,
   cx-customer-emulation {
@@ -146,7 +164,10 @@
     overflow: hidden;
     max-width: 100%;
     text-overflow: ellipsis;
-    display: inline-block;
+  }
+
+  .fd-shellbar__action > div {
+    display: inline;
   }
 
   .sap-icon--log a,
@@ -547,7 +568,7 @@
     height: 230px;
 
     cx-customer-selection,
-    .cx-customer-emulation {
+    cx-customer-emulation {
       padding-left: 6%;
       padding-top: 45px;
     }
@@ -590,11 +611,28 @@
     a[class*='fd-button--'] {
       width: 100%;
     }
+
+    .fd-shellbar__title {
+      display: none;
+    }
+    cx-asm-session-timer {
+      .session-label {
+        display: none;
+      }
+      .session-btn {
+        margin-right: 10px;
+      }
+    }
   }
 
   // Small devices (landscape phones, 576px and up)
   @media (min-width: 576px) and (max-width: 767px) {
     height: auto;
+
+    .fd-shellbar__title {
+      display: inline-block;
+    }
+
     .fd-popover__body {
       width: 360px;
       top: 117px;
@@ -617,6 +655,10 @@
 
   // Extra large devices (large desktops, 1200px and up)
   @media (min-width: 768px) {
+    .fd-shellbar__title {
+      display: inline-block;
+    }
+
     .fd-popover__body {
       width: 516px;
       top: 117px;

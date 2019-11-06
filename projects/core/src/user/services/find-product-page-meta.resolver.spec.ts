@@ -10,7 +10,7 @@ import {
 } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
-import { RoutingService } from '../../routing';
+import { RoutingService } from '../../routing/index';
 
 import { FindProductPageMetaResolver } from './find-product-page-meta.resolver';
 import { ProductSearchService } from '../../product/facade/product-search.service';
