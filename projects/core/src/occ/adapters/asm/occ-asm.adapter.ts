@@ -44,7 +44,7 @@ export class OccAsmAdapter implements AsmAdapter {
       .set('baseSite', this.activeBaseSite)
       .set('query', options.query);
 
-    if (!!options.pageSize) {
+    if ('undefined' !== typeof options['pageSize']) {
       params = params.set('pageSize', '' + options.pageSize);
     }
 
