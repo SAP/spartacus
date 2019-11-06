@@ -24,7 +24,7 @@ export const asm = {
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
-    sessionTimer: {
+    agentSessionTimer: {
       label: 'Session Timeout',
       minutes: 'min',
       reset: 'Reset',

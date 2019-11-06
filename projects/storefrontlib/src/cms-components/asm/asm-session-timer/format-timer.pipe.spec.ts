@@ -31,4 +31,10 @@ describe('FormatTimerPipe', () => {
   it('handle negative number', () => {
     expect(pipe.transform(-7)).toBe('00:00');
   });
+  it('handle negative number', () => {
+    expect(pipe.transform(6663)).toBe('111:03');
+  });
+  it('handle negative number', () => {
+    expect(pipe.transform(66664)).toBe('1111:04');
+  });
 });
