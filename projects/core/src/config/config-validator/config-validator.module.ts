@@ -30,7 +30,7 @@ export function configValidatorFactory(
  * Should stay private in 1.x
  * as forRoot() is used internally by ConfigInitializerModule
  *
- * issue #5279
+ * issue: #5279
  */
 @NgModule()
 export class ConfigValidatorModule {
