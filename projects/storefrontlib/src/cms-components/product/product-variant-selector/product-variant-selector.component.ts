@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  Product,
   RoutingService,
+  Product,
   BaseOption,
-  VariantOption,
   VariantType,
-  OccConfig,
+  VariantOption,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
@@ -14,81 +13,47 @@ import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'cx-product-variant-selector',
   templateUrl: './product-variant-selector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ProductVariantSelectorComponent implements OnInit {
+export class ProductVariantSelectorComponent {
   constructor(
     private currentProductService: CurrentProductService,
-    private routingService: RoutingService,
-    private config: OccConfig
+    private routingService: RoutingService
   ) {}
 
-  styleVariants: VariantOption[];
-  sizeVariants: VariantOption[];
-  baseUrl = this.config.backend.occ.baseUrl;
-  selectedStyle: string;
-  product$: Observable<Product>;
+  variants: BaseOption[];
 
-  ngOnInit() {
-    this.product$ = this.currentProductService.getProduct().pipe(
-      filter(v => !!v),
-      distinctUntilChanged(),
-      tap(product => {
-        if (!product.purchasable) {
-          const variant = this.findPurchasableVariant(product.variantOptions);
-          if (variant) {
-            this.routeToVariant(variant.code, true);
-          }
-        }
-        if (
-          product.variantType &&
-          product.variantType === VariantType.APPAREL_STYLE
-        ) {
-          this.styleVariants = product.variantOptions;
-        }
-        if (
-          product.baseOptions[0] &&
-          product.baseOptions[0].options &&
-          Object.keys(product.baseOptions[0].options).length > 0 &&
-          product.baseOptions[0].variantType === VariantType.APPAREL_STYLE
-        ) {
-          this.styleVariants = product.baseOptions[0].options;
-          this.sizeVariants = product.variantOptions;
-          this.setSelectedApparelStyle(product.baseOptions[0]);
-        }
-        if (
-          product.baseOptions[1] &&
-          product.baseOptions[1].options &&
-          Object.keys(product.baseOptions[1].options).length > 0 &&
-          product.baseOptions[0].variantType === VariantType.APPAREL_SIZE
-        ) {
-          this.styleVariants = product.baseOptions[1].options;
-          this.sizeVariants = product.baseOptions[0].options;
-          this.setSelectedApparelStyle(product.baseOptions[1]);
-        }
-      })
-    );
-  }
+  variantType = VariantType;
 
-  setSelectedApparelStyle(option: BaseOption) {
-    if (option && option.selected) {
-      this.selectedStyle = option.selected.code;
-    }
-  }
+  product$: Observable<Product> = this.currentProductService.getProduct().pipe(
+    filter(product => !!product),
+    distinctUntilChanged(),
+    tap(product => {
+      this.variants = [];
+      product.baseOptions.forEach(option => {
+        if (option && option.variantType) {
+          this.variants.push(option);
+        }
+      });
 
-  routeToVariant(code: string, replaceUrl?: boolean): void {
-    if (code) {
-      this.routingService.go(
-        {
-          cxRoute: 'product',
-          params: { code },
-        },
-        null,
-        { replaceUrl: replaceUrl }
-      );
-    }
-    return null;
-  }
+      if (!product.purchasable) {
+        const purchasableVariant = this.findPurchasableVariant(
+          product.variantOptions
+        );
+
+        if (purchasableVariant) {
+          this.routingService.go(
+            {
+              cxRoute: 'product',
+              params: { code: purchasableVariant.code },
+            },
+            null,
+            { replaceUrl: true }
+          );
+        }
+      }
+    })
+  );
 
   private findPurchasableVariant(variants: VariantOption[]): VariantOption {
     const results: VariantOption[] = variants.filter(variant => {

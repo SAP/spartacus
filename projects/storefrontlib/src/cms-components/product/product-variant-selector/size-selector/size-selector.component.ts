@@ -1,11 +1,10 @@
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import { OccConfig, Product, VariantOption } from '@spartacus/core';
+  OccConfig,
+  Product,
+  RoutingService,
+  BaseOption,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-size-selector',
@@ -13,19 +12,26 @@ import { OccConfig, Product, VariantOption } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantSizeSelectorComponent {
-  constructor(private config: OccConfig) {}
+  constructor(
+    private config: OccConfig,
+    private routingService: RoutingService
+  ) {}
 
   @Input()
   product: Product;
 
   @Input()
-  sizeVariants: VariantOption[];
-
-  @Output() changeSizeEvent = new EventEmitter<string>();
+  variants: BaseOption;
 
   baseUrl = this.config.backend.occ.baseUrl;
 
-  changeSize(productCode: string) {
-    this.changeSizeEvent.emit(productCode);
+  changeSize(code: string): void {
+    if (code) {
+      this.routingService.go({
+        cxRoute: 'product',
+        params: { code },
+      });
+    }
+    return null;
   }
 }
