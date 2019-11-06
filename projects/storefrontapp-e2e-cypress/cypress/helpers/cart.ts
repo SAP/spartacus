@@ -259,7 +259,6 @@ export function manipulateCartQuantity() {
   const product = products[1];
 
   cy.visit(`/product/${product.code}`);
-
   addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
