@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+import { AsmComponentService } from '../asm-component.service';
 
 @Component({
   selector: 'cx-asm-main-ui',
@@ -20,7 +21,6 @@ export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
-  searchResultsLoading$: Observable<boolean>;
 
   private startingCustomerSession = false;
 
@@ -28,6 +28,7 @@ export class AsmMainUiComponent implements OnInit {
     protected authService: AuthService,
     protected userService: UserService,
     protected asmService: AsmService,
+    protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
   ) {}
@@ -35,7 +36,6 @@ export class AsmMainUiComponent implements OnInit {
   ngOnInit(): void {
     this.csAgentToken$ = this.authService.getCustomerSupportAgentToken();
     this.csAgentTokenLoading$ = this.authService.getCustomerSupportAgentTokenLoading();
-    this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
     this.customer$ = this.authService.getUserToken().pipe(
       switchMap(token => {
         if (token && !!token.access_token) {
@@ -69,8 +69,8 @@ export class AsmMainUiComponent implements OnInit {
     this.authService.authorizeCustomerSupporAgent(userId, password);
   }
 
-  logoutCustomerSupportAgent(): void {
-    this.authService.logoutCustomerSupportAgent();
+  logout(): void {
+    this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
 
   startCustomerEmulationSession({ customerId }: { customerId: string }): void {
