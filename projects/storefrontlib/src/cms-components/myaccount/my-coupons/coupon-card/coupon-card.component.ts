@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-coupon-card',
   templateUrl: './coupon-card.component.html',
 })
-export class CouponCardComponent implements OnInit {
+export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;
   @Input() couponSubscriptionLoading$: Observable<boolean>;
   modalRef: ModalRef;
@@ -28,8 +28,6 @@ export class CouponCardComponent implements OnInit {
     protected modalService: ModalService,
     protected myCouponsComponentService: MyCouponsComponentService
   ) {}
-
-  ngOnInit() {}
 
   notificationChange(): void {
     this.notificationChanged.emit({
