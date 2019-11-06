@@ -5,7 +5,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
-import { Budget, BudgetsList } from '../../../model/budget.model';
+import { Budget } from '../../../model/budget.model';
+import { BudgetsList } from '@spartacus/core';
 
 @Injectable()
 export class BudgetEffects {

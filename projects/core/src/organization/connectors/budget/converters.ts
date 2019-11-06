@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '../../../util/converter.service';
-import { Budget, BudgetsList } from '../../../model/budget.model';
+import { Budget } from '../../../model/budget.model';
+import { BudgetsList } from '../../store/organization-state';
 
 export const BUDGET_NORMALIZER = new InjectionToken<Converter<any, Budget>>(
   'BudgetNormalizer'

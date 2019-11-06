@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
-import { Budget, BudgetsList } from '../../../model/budget.model';
+import { Budget } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../model/search-config';
+import { BudgetsList } from '../../store/organization-state';
 
 export abstract class BudgetAdapter {
   /**

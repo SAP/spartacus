@@ -1,5 +1,12 @@
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
-import { BudgetsList } from '../../model/budget.model';
+import { PaginationModel, SortModel } from '../../model/misc.model';
+import { Budget } from '../../model/budget.model';
+
+export interface BudgetsList {
+  budgets?: EntityLoaderState<Budget>;
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
+}
 
 export const ORGANIZATION_FEATURE = 'organization';
 export const BUDGET_FEATURE = 'budget';
@@ -11,5 +18,5 @@ export interface StateWithOrganization {
 }
 
 export interface OrganizationState {
-  [BUDGET_FEATURE]: EntityLoaderState<BudgetsList>;
+  [BUDGET_FEATURE]: BudgetsList;
 }

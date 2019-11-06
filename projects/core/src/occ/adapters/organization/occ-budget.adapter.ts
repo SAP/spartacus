@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
 import { BUDGET_NORMALIZER } from '../../../organization/connectors/budget/converters';
-import { Budget, BudgetsList } from '../../../model/budget.model';
+import { Budget } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../../organization/model/search-config';
+import { BudgetsList } from '../../../organization/store/organization-state';
 
 @Injectable()
 export class OccBudgetAdapter implements BudgetAdapter {

@@ -2,16 +2,17 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   StateWithOrganization,
   OrganizationState,
+  BudgetsList,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { BudgetsList } from '../../../model/budget.model';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { Budget } from '../../../model/budget.model';
 
 export const getBudgetManagementState: MemoizedSelector<
   StateWithOrganization,
-  EntityLoaderState<BudgetsList>
+  BudgetsList
 > = createSelector(
   getOrganizationState,
   (state: OrganizationState) => state.budget
@@ -19,16 +20,24 @@ export const getBudgetManagementState: MemoizedSelector<
 
 export const getBudgetsState: MemoizedSelector<
   StateWithOrganization,
-  { [id: string]: LoaderState<BudgetsList> }
+  EntityLoaderState<Budget>
 > = createSelector(
   getBudgetManagementState,
-  (state: EntityLoaderState<BudgetsList>) => state.entities
+  (state: BudgetsList) => state.budgets
+);
+
+export const getBudgetsValuesState: MemoizedSelector<
+  StateWithOrganization,
+  { [id: string]: LoaderState<Budget> }
+> = createSelector(
+  getBudgetsState,
+  (state: EntityLoaderState<Budget>) => state.entities
 );
 
 export const getBudgetState = (
   budgetCode: string
-): MemoizedSelector<StateWithOrganization, LoaderState<BudgetsList>> =>
+): MemoizedSelector<StateWithOrganization, LoaderState<Budget>> =>
   createSelector(
-    getBudgetManagementState,
-    (state: EntityLoaderState<BudgetsList>) => entityStateSelector(state, budgetCode)
+    getBudgetsState,
+    (state: EntityLoaderState<Budget>) => entityStateSelector(state, budgetCode)
   );

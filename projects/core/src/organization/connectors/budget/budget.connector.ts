@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Budget, BudgetsList } from '../../../model/budget.model';
+import { Budget } from '../../../model/budget.model';
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetSearchConfig } from '../../model/search-config';
+import { BudgetsList } from '../../store/organization-state';
 
 @Injectable({
   providedIn: 'root',
