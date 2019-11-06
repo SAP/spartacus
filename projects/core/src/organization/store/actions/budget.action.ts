@@ -44,12 +44,14 @@ export class LoadBudgetFail extends EntityFailAction {
 
 export class LoadBudgetSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGET_SUCCESS;
+
   constructor(public payload: any) {
     super(
       BUDGET_FEATURE,
       payload.budgets.map(budget => budget.code),
       payload.budgets
     );
+    console.log('ac', payload.budgets);
   }
 }
 

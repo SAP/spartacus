@@ -19,7 +19,7 @@ export class BudgetEffects {
     switchMap(({ userId, budgetCode }) => {
       return this.budgetConnector.get(userId, budgetCode).pipe(
         map((budget: Budget) => {
-          return new BudgetActions.LoadBudgetSuccess({budgets: [budget]});
+          return new BudgetActions.LoadBudgetSuccess({ budgets: [budget] });
         }),
         catchError(error =>
           of(
