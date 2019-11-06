@@ -5,10 +5,9 @@ export abstract class SaveCartAdapter {
   /**
    * Abstract method used to save a cart
    *
-   * @param userId
-   * @param cartId
-   * @param saveCartName
-   * @param saveCartDescription
+   * @param userId: string
+   * @param cartId: string
+   * @param fields?: {saveCartName?: string; saveCartDescription?: string}
    */
   abstract saveCart(
     userId: string,
