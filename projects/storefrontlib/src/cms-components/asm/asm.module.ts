@@ -6,6 +6,9 @@ import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmRootComponent } from './asm-root/asm-root.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-form.component';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
+import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
+import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
+import { CustomerEmulationComponent } from './customer-emulation/customer-emulation.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,8 +27,11 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
     CSAgentLoginFormComponent,
     CustomerSelectionComponent,
     AsmRootComponent,
+    AsmSessionTimerComponent,
+    FormatTimerPipe,
+    CustomerEmulationComponent,
   ],
   exports: [AsmRootComponent],
   entryComponents: [AsmRootComponent],
 })
-export class AssistedServiceModule {}
+export class AsmModule {}

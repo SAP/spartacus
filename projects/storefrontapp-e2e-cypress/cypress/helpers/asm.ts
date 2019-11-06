@@ -1,5 +1,4 @@
 import * as addressBook from '../helpers/address-book';
-import * as asm from '../helpers/asm';
 import * as checkout from '../helpers/checkout-flow';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
@@ -24,50 +23,22 @@ export function asmTests() {
         cy.get('cx-asm-main-ui').should('not.exist');
       });
     });
+
     describe('Customer Support Agent - Start', () => {
       it('agent should see the asm UI when ?asm=true is passed to the url', () => {
         checkout.visitHomePage('asm=true');
         cy.get('cx-asm-main-ui').should('exist');
       });
+
       it('agent should authenticate.', () => {
-        const authenticationRequestAlias = asm.listenForAuthenticationRequest();
-        cy.get('cx-csagent-login-form').should('exist');
-        cy.get('cx-customer-selection').should('not.exist');
-        cy.get('cx-csagent-login-form form').within(() => {
-          cy.get('[formcontrolname="userId"]').type('asagent');
-          cy.get('[formcontrolname="password"]').type('123456');
-          cy.get('button[type="submit"]').click();
-        });
-
-        cy.wait(authenticationRequestAlias)
-          .its('status')
-          .should('eq', 200);
-        cy.get('cx-csagent-login-form').should('not.exist');
-        cy.get('cx-customer-selection').should('exist');
+        agentLogin();
       });
-      it('agent should start customer emulation.', () => {
-        const customerSearchRequestAlias = asm.listenForCusrtomerSearchRequest();
-        const userDetailsRequestAlias = asm.listenForUserDetailsRequest();
 
-        cy.get('cx-csagent-login-form').should('not.exist');
-        cy.get('cx-customer-selection').should('exist');
-        cy.get('cx-customer-selection form').within(() => {
-          cy.get('[formcontrolname="searchTerm"]').type(customer.email);
-          cy.get('button[type="submit"]').click();
-        });
-        cy.wait(customerSearchRequestAlias)
-          .its('status')
-          .should('eq', 200);
-        cy.wait(userDetailsRequestAlias)
-          .its('status')
-          .should('eq', 200);
-        cy.get('div.cx-customer-emulation input')
-          .invoke('attr', 'placeholder')
-          .should('contain', `${customer.fullName}, ${customer.email}`);
-        cy.get('cx-csagent-login-form').should('not.exist');
-        cy.get('cx-customer-selection').should('not.exist');
+      it('agent should start customer emulation.', () => {
+        startCustomerEmulation();
       });
     });
+
     describe('Customer Emulation - Checkout', () => {
       it('agent should add a product to cart and begin checkout.', () => {
         checkout.clickCheapProductDetailsFromHomePage();
@@ -94,6 +65,7 @@ export function asmTests() {
         checkout.verifyOrderConfirmationPageWithCheapProduct();
       });
     });
+
     describe('Customer Emulation - My Account', () => {
       it('agent should be able to check order in order history', () => {
         checkout.viewOrderHistoryWithCheapProduct();
@@ -104,6 +76,10 @@ export function asmTests() {
           option: 'Personal Details',
         });
         profile.updateProfile();
+        customer.firstName = profile.newFirstName;
+        customer.lastName = profile.newLastName;
+        customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
+        customer.titleCode = profile.newTitle;
       });
 
       it('agent should delete address', () => {
@@ -137,12 +113,21 @@ export function asmTests() {
         consent.giveConsent();
       });
     });
+
     describe('Customer Support Agent - End', () => {
-      it('agent should stop customer emulation.', () => {
+      it('agent should stop customer emulation using My Account -> Sign Out.', () => {
         checkout.signOutUser();
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
       });
+
+      it('agent should stop customer emulation using the end session button in the ASM UI', () => {
+        startCustomerEmulation();
+        cy.get('cx-customer-emulation button').click();
+        cy.get('cx-customer-emulation').should('not.exist');
+        cy.get('cx-customer-selection').should('exist');
+      });
+
       it('agent should sign out.', () => {
         cy.get('a[title="Sign Out"]').click();
         cy.get('cx-csagent-login-form').should('exist');
@@ -154,6 +139,7 @@ export function asmTests() {
         cy.get('cx-asm-main-ui').should('not.exist');
       });
     });
+
     describe('Customer Self Verification', () => {
       it('customer should sign in.', () => {
         cy.visit('/login');
@@ -203,13 +189,13 @@ export function asmTests() {
   });
 }
 
-export function listenForAuthenticationRequest(): string {
+function listenForAuthenticationRequest(): string {
   const aliasName = 'csAgentAuthentication';
   cy.server();
   cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
   return `@${aliasName}`;
 }
-export function listenForCusrtomerSearchRequest(): string {
+function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
   cy.server();
   cy.route(
@@ -218,9 +204,54 @@ export function listenForCusrtomerSearchRequest(): string {
   ).as(aliasName);
   return `@${aliasName}`;
 }
-export function listenForUserDetailsRequest(): string {
+
+function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
   cy.server();
   cy.route('GET', '/rest/v2/electronics-spa/users/*').as(aliasName);
   return `@${aliasName}`;
+}
+
+function agentLogin(): void {
+  const aliasRequest = listenForAuthenticationRequest();
+
+  cy.get('cx-csagent-login-form').should('exist');
+  cy.get('cx-customer-selection').should('not.exist');
+  cy.get('cx-csagent-login-form form').within(() => {
+    cy.get('[formcontrolname="userId"]').type('asagent');
+    cy.get('[formcontrolname="password"]').type('123456');
+    cy.get('button[type="submit"]').click();
+  });
+
+  cy.wait(aliasRequest)
+    .its('status')
+    .should('eq', 200);
+  cy.get('cx-csagent-login-form').should('not.exist');
+  cy.get('cx-customer-selection').should('exist');
+}
+
+function startCustomerEmulation(): void {
+  const customerSearchRequestAlias = listenForCustomerSearchRequest();
+  const userDetailsRequestAlias = listenForUserDetailsRequest();
+
+  cy.get('cx-csagent-login-form').should('not.exist');
+  cy.get('cx-customer-selection').should('exist');
+  cy.get('cx-customer-selection form').within(() => {
+    cy.get('[formcontrolname="searchTerm"]').type(customer.email);
+  });
+  cy.wait(customerSearchRequestAlias)
+    .its('status')
+    .should('eq', 200);
+
+  cy.get('cx-customer-selection div.results div a').click();
+  cy.get('button[type="submit"]').click();
+
+  cy.wait(userDetailsRequestAlias)
+    .its('status')
+    .should('eq', 200);
+  cy.get('cx-customer-emulation input')
+    .invoke('attr', 'placeholder')
+    .should('contain', customer.fullName);
+  cy.get('cx-csagent-login-form').should('not.exist');
+  cy.get('cx-customer-selection').should('not.exist');
 }

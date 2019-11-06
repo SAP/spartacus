@@ -257,9 +257,14 @@ export function logOutAndEmptyCart() {
 
 export function manipulateCartQuantity() {
   const product = products[1];
-
   cy.visit(`/product/${product.code}`);
+  cy.server();
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/users/current/carts/*?fields=*&lang=en&curr=USD`
+  ).as('refresh_cart');
   addToCart();
+  cy.wait('@refresh_cart');
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 
