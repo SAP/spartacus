@@ -88,13 +88,13 @@ fdescribe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne(req => {
-      return (
-        req.method === 'GET' &&
-        req.params.get('query') === searchQuery &&
-        req.params.get('baseSite') === baseSite
-      );
+      return req.method === 'GET';
     });
+
+    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('query')).toBe(searchQuery);
     expect(mockReq.request.params.get('pageSize')).toBeNull();
+
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockCustomerSearchPage);
@@ -119,13 +119,12 @@ fdescribe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne(req => {
-      return (
-        req.method === 'GET' &&
-        req.params.get('query') === searchQuery &&
-        req.params.get('baseSite') === baseSite &&
-        req.params.get('pageSize') === '' + pageSize
-      );
+      return req.method === 'GET';
     });
+
+    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('query')).toBe(searchQuery);
+    expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -151,13 +150,12 @@ fdescribe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne(req => {
-      return (
-        req.method === 'GET' &&
-        req.params.get('query') === searchQuery &&
-        req.params.get('baseSite') === baseSite &&
-        req.params.get('pageSize') === '' + pageSize
-      );
+      return req.method === 'GET';
     });
+
+    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('query')).toBe(searchQuery);
+    expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
