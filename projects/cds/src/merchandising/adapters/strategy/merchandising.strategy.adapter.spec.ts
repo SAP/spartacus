@@ -1,20 +1,10 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CdsConfig } from '../../../cds-config';
+import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { MerchandisingStrategyAdapter } from './merchandising.strategy.adapter';
 import { StrategyResult } from '../../model/strategy.result';
-
-const mockCdsConfig: CdsConfig = {
-  cds: {
-    tenant: 'merchandising-strategy-adapter-test-tenant',
-    baseUrl: 'http://some-cds-base-url',
-    profileTag: {
-      configUrl: 'http://some-profile-tag-config-url',
-      javascriptUrl: 'http://some-profile-tag-js-url'
-    }
-  }
-}
+import createSpy = jasmine.createSpy;
 
 const strategyId = 'test-strategy-id';
 
@@ -44,6 +34,10 @@ const strategyResult: StrategyResult = {
   metadata: strategyResultMetadata
 }
 
+class MockCdsEndpointsService {
+  getUrl = createSpy('StrategyAdapter.loadProductsForStrategy').and.callFake(endpoint => endpoint);
+}
+
 describe('MerchandisingStrategyAdapter', () => {
   let strategyAdapter: MerchandisingStrategyAdapter;
   let httpMock: HttpTestingController;
@@ -53,8 +47,8 @@ describe('MerchandisingStrategyAdapter', () => {
       imports: [HttpClientTestingModule],
       providers: [
         {
-          provide: CdsConfig,
-          useValue: mockCdsConfig
+          provide: CdsEndpointsService,
+          useClass: MockCdsEndpointsService
         },
         MerchandisingStrategyAdapter
       ],
@@ -79,8 +73,12 @@ describe('MerchandisingStrategyAdapter', () => {
       });
 
       const mockStrategyProductsRequest = httpMock.expectOne(request => {
+        /*
+         * Our mock CdsEndpointsService returns the given endpoint key as the url,
+         * so the adapter will make the http request with the endpoint key rather than a url
+         */
         return request.method === 'GET' &&
-          request.url === `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/${strategyId}/products`;
+          request.url === 'strategyProducts';
       });
 
       expect(mockStrategyProductsRequest.cancelled).toBeFalsy();

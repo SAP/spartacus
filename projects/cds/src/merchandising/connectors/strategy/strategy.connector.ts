@@ -3,7 +3,9 @@ import { Observable } from "rxjs";
 import { StrategyAdapter } from "./strategy.adapter";
 import { StrategyResult } from "../../model/strategy.result";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StrategyConnector {
   constructor(protected strategyAdapter: StrategyAdapter) {}
 
