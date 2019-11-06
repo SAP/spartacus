@@ -34,12 +34,6 @@ export const myAccount = {
     },
     orderReturn: {
       action: 'Request a Return',
-      returnableItem: {
-        item: 'Item',
-        itemPrice: 'Price',
-        quantity: 'Qty',
-        returnQty: 'Return Qty',
-      },
     },
   },
   orderHistory: {

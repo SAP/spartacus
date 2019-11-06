@@ -26,8 +26,6 @@ export interface OrderEntry {
   quantity?: number;
   totalPrice?: Price;
   updateable?: boolean;
-  returnedItemsPrice?: Price;
-  returnableQuantity?: number;
 }
 
 export interface PickupOrderEntryGroup {
