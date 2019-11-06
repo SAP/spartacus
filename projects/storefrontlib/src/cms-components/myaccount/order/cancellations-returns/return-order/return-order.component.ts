@@ -4,7 +4,7 @@ import { tap, filter } from 'rxjs/operators';
 
 import { Order, OrderEntry } from '@spartacus/core';
 
-import { OrderDetailsService } from '../order-details/order-details.service';
+import { OrderDetailsService } from '../../order-details/order-details.service';
 
 @Component({
   selector: 'cx-return-order',
