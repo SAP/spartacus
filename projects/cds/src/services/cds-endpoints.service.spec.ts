@@ -8,19 +8,15 @@ describe('CdsEndpointsService', () => {
   const strategyProductsEndpointKey = 'strategyProducts';
   const strategyId = 'test-strategy-id';
 
-  const mockCdsConfig: CdsConfig = {
+  const mockCdsConfig = {
     cds: {
       tenant: 'merchandising-strategy-adapter-test-tenant',
       baseUrl: 'http://some-cds-base-url',
       endpoints: {
         strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products'
-      },
-      profileTag: {
-        configUrl: 'http://some-profile-tag-config-url',
-        javascriptUrl: 'http://some-profile-tag-js-url'
       }
     }
-  };
+  } as CdsConfig;
 
   const fullyCalculatedUrl = `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/${strategyId}/products`;
 
