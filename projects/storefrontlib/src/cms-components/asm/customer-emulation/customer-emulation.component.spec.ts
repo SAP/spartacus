@@ -14,6 +14,9 @@ class MockUserService {
 
 class MockAsmComponentService {
   logoutCustomer(): void {}
+  isCustomerEmulationSessionInProgress(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 describe('CustomerEmulationComponent', () => {
@@ -57,6 +60,22 @@ describe('CustomerEmulationComponent', () => {
       el.query(By.css('input[formcontrolname="customer"]')).nativeElement
         .placeholder
     ).toEqual(`${testUser.name}, ${testUser.uid}`);
+    expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
+  });
+
+  it('should display alert message dusring regular customer session.', () => {
+    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
+    spyOn(userService, 'get').and.returnValue(of(testUser));
+    spyOn(
+      asmComponentService,
+      'isCustomerEmulationSessionInProgress'
+    ).and.returnValue(of(false));
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(el.query(By.css('input[formcontrolname="customer"]'))).toBeFalsy();
+    expect(el.query(By.css('div.fd-alert'))).toBeTruthy();
   });
 
   it("should call logoutCustomer() on 'End Session' button click", () => {
