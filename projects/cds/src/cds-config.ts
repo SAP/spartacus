@@ -6,6 +6,6 @@ export abstract class CdsConfig {
     tenant: string;
     baseUrl: string;
     endpoints: CdsEndpoints;
-    profileTag: ProfileTagConfig;
+    profileTag?: ProfileTagConfig;
   };
 }
