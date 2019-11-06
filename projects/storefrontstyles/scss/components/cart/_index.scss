@@ -8,3 +8,8 @@
 @import './add-to-cart';
 @import './cart-coupon';
 @import './applied-coupons';
+@import './item-counter';
+
+$cart-components-whitelist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
+  cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
+  cx-cart-totals, cx-cart-coupon, cx-applied-coupons !default;
