@@ -176,11 +176,17 @@ describe('ProductVariantSelectorComponent', () => {
 
   it('should go to specified variant when routing is called', () => {
     spyOn(routingService, 'go').and.stub();
-    component.routeToVariant('test123');
+    component.routeToVariant('test123', false);
 
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'product',
-      params: { code: 'test123' },
-    });
+    expect(routingService.go).toHaveBeenCalledWith(
+      ...[
+        {
+          cxRoute: 'product',
+          params: { code: 'test123' },
+        },
+        null,
+        { replaceUrl: false },
+      ]
+    );
   });
 });
