@@ -57,13 +57,10 @@ export class FindProductPageMetaResolver extends PageMetaResolver
   }
 
   resolveBreadcrumbs(): Observable<any[]> {
-    const breadcrumbs = [];
-    breadcrumbs.push({ label: 'Home', link: '/' });
-    this.authService.getUserToken().subscribe(token => {
-      if (token) {
-        breadcrumbs.push({ label: 'My Coupons', link: '/my-account/coupons' });
-      }
-    });
+    const breadcrumbs = [{ label: 'Home', link: '/' }];
+    if (this.authService.isUserLoggedIn()) {
+      breadcrumbs.push({ label: 'My Coupons', link: '/my-account/coupons' });
+    }
     return of(breadcrumbs);
   }
 

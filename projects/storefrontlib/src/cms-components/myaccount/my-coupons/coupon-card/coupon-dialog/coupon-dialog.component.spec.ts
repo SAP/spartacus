@@ -73,7 +73,7 @@ describe('CouponDialogComponent', () => {
       By.css('.cx-coupon-date')
     ).nativeElement.textContent;
     expect(couponEffectiveDate).toBeTruthy();
-    
+
     const couponStatusTitle = fixture.debugElement.query(
       By.css('.cx-coupon-dialog-status p')
     ).nativeElement.textContent;

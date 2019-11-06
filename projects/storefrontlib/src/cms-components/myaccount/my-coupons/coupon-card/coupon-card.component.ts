@@ -29,7 +29,7 @@ export class CouponCardComponent {
     protected myCouponsComponentService: MyCouponsComponentService
   ) {}
 
-  notificationChange(): void {
+  onSubscriptionChange(): void {
     this.notificationChanged.emit({
       couponId: this.coupon.couponId,
       notification: !this.coupon.notificationOn,
@@ -47,7 +47,7 @@ export class CouponCardComponent {
     modalInstance.coupon = this.coupon;
   }
 
-  findProduct(): void {
+  findProducts(): void {
     this.myCouponsComponentService.launchSearchPage(this.coupon);
   }
 }
