@@ -29,7 +29,6 @@ export const asm = {
       minutes: 'min',
       reset: 'Reset',
     },
-    standardSessionInProgress:
-      'Standard customer session in progress. Sign out as a customer to use ASM.',
+    standardSessionInProgress: 'Standard customer session in progress.',
   },
 };
