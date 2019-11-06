@@ -9,9 +9,7 @@ export function mergeFields(fields: (string | object)[]): string {
   const parsedFields = fields.map(f =>
     typeof f === 'string' ? parseFields(f) : f
   );
-
   const mergedFields = optimizeFields(deepMerge({}, ...parsedFields));
-
   return stringifyFields(mergedFields);
 }
 
@@ -28,7 +26,7 @@ export function optimizeFields(fields: object = {}): object {
   } else if (keys.includes('DEFAULT')) {
     delete fields['BASIC'];
   }
-  keys.forEach(key => {
+  Object.keys(fields).forEach(key => {
     fields[key] = optimizeFields(fields[key]);
   });
   return fields;
@@ -46,14 +44,16 @@ export function parseFields(fields, startIndex = 0): [object, number] | object {
   let i = startIndex;
   while (i < fields.length) {
     if (fields[i] === ',') {
-      parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+      if (i > startIndex) {
+        parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+      }
       startIndex = i + 1;
     } else if (fields[i] === '(') {
       const subFields = parseFields(fields, i + 1);
       if (Array.isArray(subFields)) {
         parsedFields[fields.substr(startIndex, i - startIndex)] = subFields[0];
-        startIndex = subFields[1] + 1;
-        i = startIndex + 1;
+        startIndex = subFields[1];
+        i = startIndex - 1;
       } else {
         return parsedFields;
       }
