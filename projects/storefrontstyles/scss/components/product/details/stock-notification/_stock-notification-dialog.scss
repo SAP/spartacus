@@ -1,0 +1,16 @@
+%cx-stock-notification-dialog {
+  .cx-dialog-title {
+    font-size: var(--cx-font-size, 1.375rem);
+    font-weight: var(--cx-font-weight-bold);
+  }
+
+  .channels {
+    span {
+      font-weight: var(--cx-font-weight-bold);
+    }
+  }
+  .container p a {
+    color: $dark;
+    font-weight: var(--cx-font-weight-bold);
+  }
+}
