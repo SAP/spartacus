@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CdsConfig } from '../cds-config';
 import { DynamicTemplate } from '../../../core/src/config/utils/dynamic-template';
+import { CdsConfig } from '../cds-config';
 
 @Injectable({
   providedIn: 'root',
@@ -34,8 +34,7 @@ export class CdsEndpointsService {
      * If the endpoint to get the url for already has the configured base url appended,
      * do not try and append it again
      */
-    if(endpoint.startsWith(this.getBaseEndpoint()))
-    {
+    if (endpoint.startsWith(this.getBaseEndpoint())) {
       return endpoint;
     }
 
@@ -47,9 +46,7 @@ export class CdsEndpointsService {
   }
 
   private getBaseEndpoint(): string {
-    if (!this.cdsConfig ||
-      !this.cdsConfig.cds ||
-      !this.cdsConfig.cds.baseUrl) {
+    if (!this.cdsConfig || !this.cdsConfig.cds || !this.cdsConfig.cds.baseUrl) {
       return '';
     }
 

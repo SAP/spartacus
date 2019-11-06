@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { StrategyAdapter } from "./strategy.adapter";
-import { StrategyResult } from "../../model/strategy.result";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { StrategyResult } from '../../model/strategy.result';
+import { StrategyAdapter } from './strategy.adapter';
 
 @Injectable({
   providedIn: 'root',

@@ -1,9 +1,12 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
-import { MerchandisingStrategyAdapter } from './merchandising.strategy.adapter';
 import { StrategyResult } from '../../model/strategy.result';
+import { MerchandisingStrategyAdapter } from './merchandising.strategy.adapter';
 import createSpy = jasmine.createSpy;
 
 const strategyId = 'test-strategy-id';
@@ -11,7 +14,10 @@ const strategyId = 'test-strategy-id';
 const strategyResultMetadata: Map<string, string> = new Map<string, string>();
 strategyResultMetadata.set('test-metadata-field', 'test-metadata-value');
 const productMetadata: Map<string, string> = new Map<string, string>();
-productMetadata.set('test-product-metadata-field', 'test-product-metadata-field');
+productMetadata.set(
+  'test-product-metadata-field',
+  'test-product-metadata-field'
+);
 const strategyResult: StrategyResult = {
   resultCount: 1,
   products: [
@@ -24,18 +30,20 @@ const strategyResult: StrategyResult = {
       thumbNailImage: 'http://some-thumbnail-imgae-url',
       mainImage: 'http://some-main-imgae-url',
       price: 20.99,
-      metadata: productMetadata
-    }
+      metadata: productMetadata,
+    },
   ],
   paged: {
     from: 1,
-    size: 5
+    size: 5,
   },
-  metadata: strategyResultMetadata
-}
+  metadata: strategyResultMetadata,
+};
 
 class MockCdsEndpointsService {
-  getUrl = createSpy('StrategyAdapter.loadProductsForStrategy').and.callFake(endpoint => endpoint);
+  getUrl = createSpy('StrategyAdapter.loadProductsForStrategy').and.callFake(
+    endpoint => endpoint
+  );
 }
 
 describe('MerchandisingStrategyAdapter', () => {
@@ -48,14 +56,18 @@ describe('MerchandisingStrategyAdapter', () => {
       providers: [
         {
           provide: CdsEndpointsService,
-          useClass: MockCdsEndpointsService
+          useClass: MockCdsEndpointsService,
         },
-        MerchandisingStrategyAdapter
+        MerchandisingStrategyAdapter,
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController as Type<HttpTestingController>);
-    strategyAdapter = TestBed.get(MerchandisingStrategyAdapter as Type<MerchandisingStrategyAdapter>);
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    strategyAdapter = TestBed.get(MerchandisingStrategyAdapter as Type<
+      MerchandisingStrategyAdapter
+    >);
   });
 
   afterEach(() => {
@@ -77,8 +89,7 @@ describe('MerchandisingStrategyAdapter', () => {
          * Our mock CdsEndpointsService returns the given endpoint key as the url,
          * so the adapter will make the http request with the endpoint key rather than a url
          */
-        return request.method === 'GET' &&
-          request.url === 'strategyProducts';
+        return request.method === 'GET' && request.url === 'strategyProducts';
       });
 
       expect(mockStrategyProductsRequest.cancelled).toBeFalsy();

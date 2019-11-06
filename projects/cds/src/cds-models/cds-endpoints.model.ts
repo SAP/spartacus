@@ -4,5 +4,5 @@ export interface CdsEndpoints {
    *
    * @member {string}
    */
-  strategyProducts: string
+  strategyProducts: string;
 }

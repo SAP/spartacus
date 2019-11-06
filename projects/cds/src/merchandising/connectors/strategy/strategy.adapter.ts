@@ -7,5 +7,7 @@ export abstract class StrategyAdapter {
    *
    * @param strategyId the id of the merchandising strategy to load products for
    */
-  abstract loadProductsForStrategy(strategyId: string): Observable<StrategyResult>;
+  abstract loadProductsForStrategy(
+    strategyId: string
+  ): Observable<StrategyResult>;
 }
