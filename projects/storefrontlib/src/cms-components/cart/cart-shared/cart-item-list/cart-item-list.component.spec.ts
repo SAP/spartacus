@@ -81,7 +81,7 @@ class MockCartItemComponent {
   @Input() cartIsLoading;
 }
 
-fdescribe('CartItemListComponent', () => {
+describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
   let cartService: CartService;
