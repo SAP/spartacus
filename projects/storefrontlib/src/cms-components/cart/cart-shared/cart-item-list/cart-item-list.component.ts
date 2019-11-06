@@ -57,12 +57,12 @@ export class CartItemListComponent implements OnInit {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  getProductPromotionForItem(item: Item, promotions: PromotionResult[]): PromotionResult[] {
+  getProductPromotionForItem(
+    item: Item,
+    promotions: PromotionResult[]
+  ): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
-    if (
-      promotions &&
-      promotions.length > 0
-    ) {
+    if (promotions && promotions.length > 0) {
       for (const promotion of promotions) {
         if (
           promotion.description &&

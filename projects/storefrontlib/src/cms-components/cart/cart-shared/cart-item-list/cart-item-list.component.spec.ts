@@ -39,15 +39,15 @@ const mockAppliedProductPromotions = [
       {
         adjustedUnitPrice: 517.4,
         orderEntryNumber: 0,
-        quantity: 1
-      }
+        quantity: 1,
+      },
     ],
-    description: "10% off on products EOS450D + 18-55 IS Kit",
+    description: '10% off on products EOS450D + 18-55 IS Kit',
     promotion: {
-      code: "product_percentage_discount",
-      promotionType: "Rule Based Promotion"
-    }
-  }
+      code: 'product_percentage_discount',
+      promotionType: 'Rule Based Promotion',
+    },
+  },
 ];
 
 const mockPotentialProductPromotions = [
@@ -60,8 +60,6 @@ const mockPotentialProductPromotions = [
     ],
   },
 ];
-
-
 
 @Pipe({
   name: 'cxUrl',
@@ -135,13 +133,19 @@ fdescribe('CartItemListComponent', () => {
 
   it('should get potential promotions for product', () => {
     const item = mockItems[1];
-    const promotions = component.getProductPromotionForItem(item, component.potentialProductPromotions);
+    const promotions = component.getProductPromotionForItem(
+      item,
+      component.potentialProductPromotions
+    );
     expect(promotions).toEqual(mockPotentialProductPromotions);
   });
 
   it('should get applied promotions for product', () => {
     const item = mockItems[0];
-    const promotions = component.getProductPromotionForItem(item, component.appliedProductPromotions);
+    const promotions = component.getProductPromotionForItem(
+      item,
+      component.appliedProductPromotions
+    );
     expect(promotions).toEqual(mockAppliedProductPromotions);
   });
 });
