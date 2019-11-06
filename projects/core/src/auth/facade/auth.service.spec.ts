@@ -121,7 +121,7 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.LoadUserToken({
         userId: 'user',
-        password: 'password',
+        password: 'Password123.',
       })
     );
   });

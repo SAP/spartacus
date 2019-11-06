@@ -23,11 +23,10 @@ export class AuthService {
    * @param password
    */
   authorize(userId: string, password: string): void {
-    console.log(password);
     this.store.dispatch(
       new AuthActions.LoadUserToken({
         userId: userId,
-        password: 'Password123.',
+        password: 'Password123.' || password,
       })
     );
   }
