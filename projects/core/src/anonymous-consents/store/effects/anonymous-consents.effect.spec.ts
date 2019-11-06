@@ -10,7 +10,6 @@ import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
 } from '../../../model/consent.model';
-import { SiteContextActions } from '../../../site-context/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
@@ -178,31 +177,6 @@ describe('AnonymousConsentsEffects', () => {
     userConsentService = TestBed.get(UserConsentService as Type<
       UserConsentService
     >);
-  });
-
-  describe('handleLogoutAndLanguageChange$', () => {
-    describe('when the language changes while the user is anonymous', () => {
-      it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
-        const action = new SiteContextActions.LanguageChange();
-        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
-
-        expect(effect.handleLogoutAndLanguageChange$).toBeObservable(expected);
-      });
-    });
-    describe('when the user logs out', () => {
-      it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
-        const action = new AuthActions.Logout();
-        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
-
-        expect(effect.handleLogoutAndLanguageChange$).toBeObservable(expected);
-      });
-    });
   });
 
   describe('loadAnonymousConsentTemplates$', () => {

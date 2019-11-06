@@ -110,5 +110,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.asmService.customerSearchReset();
   }
 }
