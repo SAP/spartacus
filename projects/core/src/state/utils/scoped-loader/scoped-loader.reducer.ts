@@ -3,6 +3,12 @@ import { EntityScopedLoaderAction } from '../../../product/store/actions/product
 import { LoaderState } from '../loader/loader-state';
 import { ScopedLoaderState } from './scoped-loader.state';
 
+/**
+ * Higher order reducer designed to add scope support for loader reducer
+ *
+ * @param entityType
+ * @param reducer
+ */
 export function scopedLoaderReducer<T>(entityType, reducer?) {
   const loader = loaderReducer<T>(entityType, reducer);
 
