@@ -31,17 +31,18 @@ export class OccProductAdapter implements ProductAdapter {
   loadMany(products: ScopedProductData[]): ScopedProductData[] {
     const oddFieldsModels: OccFieldsModels[] = products.map(model => ({
       model,
-      url: this.getEndpoint(model.id, model.scope),
+      url: this.getEndpoint(model.code, model.scope),
     }));
 
-    return this.occFields
-      .optimalLoad<Occ.Product>(oddFieldsModels)
-      .map(scopedProduct => ({
-        ...scopedProduct,
-        data$: scopedProduct.data$.pipe(
-          this.converter.pipeable(PRODUCT_NORMALIZER)
-        ),
-      }));
+    return this.occFields.optimalLoad<Occ.Product>(oddFieldsModels).map(
+      scopedProduct =>
+        ({
+          ...scopedProduct,
+          data$: scopedProduct.data$.pipe(
+            this.converter.pipeable(PRODUCT_NORMALIZER)
+          ),
+        } as ScopedProductData)
+    );
   }
 
   protected getEndpoint(code: string, scope: string): string {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { extractFields, mergeFields, parseFields } from '../utils/occ-fields';
-import { ScopedModelData } from '../../model/scoped-model-data';
+import { ScopedData } from '../../model/scoped-data';
 import { map, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export interface OccFieldsModels {
   url?: string;
   fields?: object;
-  model: ScopedModelData<any>;
+  model: ScopedData<any>;
 }
 
 export interface OccMergedUrls {
@@ -37,11 +37,11 @@ export class OccFieldsService {
   optimalLoad<T>(
     occFieldsModels: OccFieldsModels[],
     dataFactory?: (url: string) => Observable<T>
-  ): ScopedModelData<T>[] {
+  ): ScopedData<T>[] {
     const result = [];
 
     if (!dataFactory) {
-      dataFactory = url => this.http.get<T>(url);
+      dataFactory = url => this.http.get<any>(url);
     }
 
     const mergedUrls = this.getMergedUrls(occFieldsModels);
@@ -88,7 +88,7 @@ export class OccFieldsService {
    *
    * @param models
    */
-  getMergedUrls(models: OccFieldsModels[]): OccMergedUrls {
+  getMergedUrls<T>(models: OccFieldsModels[]): OccMergedUrls {
     const groupedByUrls: OccMergedUrls = {};
     for (const model of models) {
       const [urlPart, fields] = this.splitFields(model.url);

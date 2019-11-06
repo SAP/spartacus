@@ -8,11 +8,11 @@ describe('OccFieldsService', () => {
   const models: OccFieldsModels[] = [
     {
       url: 'https://test/url?fields=ala',
-      model: { scope: 'scope1', id: 'a' },
+      model: { scope: 'scope1' },
     },
     {
       url: 'https://test/url?fields=ma,kota',
-      model: { scope: 'scope2', id: 'b' },
+      model: { scope: 'scope2' },
     },
   ];
 
@@ -31,12 +31,10 @@ describe('OccFieldsService', () => {
     it('should return optimized scoped model data', async () => {
       const dataFactory = () => of({ ala: '1', ma: '2', kota: '3' }) as any;
       const result = service.optimalLoad(models, dataFactory);
-      expect(result[0].id).toEqual(models[0].model.id);
       expect(result[0].scope).toEqual(models[0].model.scope);
 
       expect(await result[0].data$.toPromise()).toEqual({ ala: '1' });
 
-      expect(result[1].id).toEqual(models[1].model.id);
       expect(result[1].scope).toEqual(models[1].model.scope);
       expect(await result[1].data$.toPromise()).toEqual({ ma: '2', kota: '3' });
     });
@@ -48,7 +46,7 @@ describe('OccFieldsService', () => {
         'https://test/url?fields=ala,ma,kota': {
           scope1: {
             fields: { ala: {} },
-            model: { scope: 'scope1', id: 'a' },
+            model: { scope: 'scope1' },
             url: 'https://test/url?fields=ala',
           },
           scope2: {
@@ -58,7 +56,6 @@ describe('OccFieldsService', () => {
             },
             model: {
               scope: 'scope2',
-              id: 'b',
             },
             url: 'https://test/url?fields=ma,kota',
           },
@@ -70,18 +67,18 @@ describe('OccFieldsService', () => {
       const distinctModels: OccFieldsModels[] = [
         {
           url: 'https://test/url?fields=ala&c=a',
-          model: { scope: 'scope1', id: 'a' },
+          model: { scope: 'scope1' },
         },
         {
           url: 'https://test/url?fields=ma,kota',
-          model: { scope: 'scope2', id: 'b' },
+          model: { scope: 'scope2' },
         },
       ];
       expect(service.getMergedUrls(distinctModels)).toEqual({
         'https://test/url?c=a&fields=ala': {
           scope1: {
             fields: { ala: {} },
-            model: { scope: 'scope1', id: 'a' },
+            model: { scope: 'scope1' },
             url: 'https://test/url?fields=ala&c=a',
           },
         },
@@ -93,7 +90,6 @@ describe('OccFieldsService', () => {
             },
             model: {
               scope: 'scope2',
-              id: 'b',
             },
             url: 'https://test/url?fields=ma,kota',
           },
