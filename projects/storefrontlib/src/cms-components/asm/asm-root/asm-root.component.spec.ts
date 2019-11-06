@@ -122,7 +122,9 @@ describe('AsmRootComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.nativeElement.firstElementChild.className).toBe('collapse');
+      const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui'));
+
+      expect(asmUi.nativeElement.classList).toContain('collapse');
     });
 
     it('should have no class name on expand', () => {
@@ -133,12 +135,9 @@ describe('AsmRootComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const asmUi = fixture.debugElement.query(
-        By.css('cx-asm-main-ui.collapse')
-      );
+      const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui'));
 
-      expect(asmUi).toBeNull();
-      expect(el.nativeElement.firstElementChild.className).toBe('');
+      expect(asmUi.nativeElement.classList).not.toContain('collapse');
     });
   });
 });
