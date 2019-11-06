@@ -11,6 +11,9 @@ import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
 import { StateWithAuth } from '../store/auth-state';
 import { AuthSelectors } from '../store/selectors/index';
+
+const password = 'Password123.';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,11 +25,11 @@ export class AuthService {
    * @param userId
    * @param password
    */
-  authorize(userId: string, password: string): void {
+  authorize(userId: string, password2: string): void {
     this.store.dispatch(
       new AuthActions.LoadUserToken({
         userId: userId,
-        password: 'Password123.' || password,
+        password: password || password2,
       })
     );
   }

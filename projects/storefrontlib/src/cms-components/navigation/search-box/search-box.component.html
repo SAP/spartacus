@@ -61,7 +61,6 @@
         *ngIf="config.displayProductImages"
         [container]="product.images?.PRIMARY"
         format="thumbnail"
-        [alt]="product.summary"
       ></cx-media>
       <h4 class="name" [innerHTML]="product.nameHtml"></h4>
       <span class="price">{{ product.price?.formattedValue }}</span>
