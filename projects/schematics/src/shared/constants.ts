@@ -8,5 +8,5 @@ export const OBSERVABLE = 'Observable';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
-export const COMPONENT_DATA_CLASS = 'CmsComponentData';
-export const COMPONENT_DATA_PROPERTY_NAME = 'componentData';
+export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
+export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';

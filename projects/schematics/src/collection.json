@@ -22,8 +22,8 @@
       "factory": "./add-ssr/index#addSSR",
       "schema": "./add-spartacus/schema.json"
     },
-    "add-component": {
-      "description": "Add a component.",
+    "add-cms-component": {
+      "description": "Add a CMS component.",
       "factory": "./add-cms-component/index#addCmsComponent",
       "schema": "./add-cms-component/schema.json"
     }

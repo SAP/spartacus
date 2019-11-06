@@ -12,7 +12,7 @@
     },
     "cmsComponentDataModel": {
       "type": "string",
-      "description": "Specify the model for the CmsComponentData.",
+      "description": "Specify the model class for the CmsComponentData.",
       "alias": "cms-model"
     },
     "cmsComponentDataModelPath": {

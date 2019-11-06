@@ -24,6 +24,7 @@ By defaut `ng add @spartacus/schematics` will add only basic spartacus configura
 
 - `ng g @spartacus/schematics:add-pwa` - adds Spartacus-specific PWA module
 - `ng g @spartacus/schematics:add-ssr` - adds server-side rendering configuration
+- `ng g @spartacus/schematics:add-cms-component` - generates a cms component, and adds the CMS component mapping to the specified module (or generates a new module). For more see [CMS component schematic](#CMS-component-schematic)
 
 ## Steps performed by Spartacus schematics
 
@@ -37,6 +38,23 @@ By defaut `ng add @spartacus/schematics` will add only basic spartacus configura
 7. If `--ssr` flag included:
     - Add ssr dependencies
     - Provide additional files required for SSR
+
+## CMS component schematic
+
+The following options are available:
+
+- `--cmsComponentData`, alias `--cms` - inject the _CmsComponentData_ in the new component. By default it is _true_
+- `--cmsComponentDataModel`, alias `--cms-model` - Specify the model class for the _CmsComponentData_, e.g. _MyModel_. This argument is required if _--cmsComponentData_ is _true_.
+- `--cmsComponentDataModelPath`, `--cms-model-path` - Specify the import path for the _CmsComponentData_. Default is _@spartacus/core_.
+
+Here are some examples how `add-cms-component` schematic can be used:
+
+- `ng g @spartacus/schematics:add-cms-component myComponent --cms-model=MyModel` - generates _myComponent_ CMS component and a module
+- `ng g @spartacus/schematics:add-cms-component myComponent --module=myModule --cms-model=MyModel` - generates _myComponent_ and adds it to the specified _myModule_ along with the CMS mapping.
+
+TODO:
+-mention that we support all angular flags for the component
+-mention which flags we support for the module
 
 ## Building and using Spartacus Schematics from source
 

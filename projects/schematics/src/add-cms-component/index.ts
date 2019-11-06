@@ -21,8 +21,8 @@ import { Change, InsertChange } from '@schematics/angular/utility/change';
 import {
   ANGULAR_CORE,
   ANGULAR_SCHEMATICS,
-  COMPONENT_DATA_CLASS,
-  COMPONENT_DATA_PROPERTY_NAME,
+  CMS_COMPONENT_DATA_CLASS,
+  CMS_COMPONENT_DATA_PROPERTY_NAME,
   OBSERVABLE,
   RXJS,
   SPARTACUS_CORE,
@@ -174,7 +174,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       throw new SchematicsException(`"cmsComponentDataModel" can't be falsy`);
     }
 
-    const cmsComponentData = `${COMPONENT_DATA_CLASS}<${strings.classify(
+    const cmsComponentData = `${CMS_COMPONENT_DATA_CLASS}<${strings.classify(
       options.cmsComponentDataModel
     )}>`;
 
@@ -200,13 +200,13 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       nodes,
       componentPath,
       cmsComponentData,
-      COMPONENT_DATA_PROPERTY_NAME
+      CMS_COMPONENT_DATA_PROPERTY_NAME
     );
     changes.push(injectionChange);
 
-    const componentDataProperty = `  ${COMPONENT_DATA_PROPERTY_NAME}$: Observable<${strings.classify(
+    const componentDataProperty = `  ${CMS_COMPONENT_DATA_PROPERTY_NAME}$: Observable<${strings.classify(
       options.cmsComponentDataModel
-    )}> = this.${COMPONENT_DATA_PROPERTY_NAME}.data$;`;
+    )}> = this.${CMS_COMPONENT_DATA_PROPERTY_NAME}.data$;`;
     const componentDataPropertyChange = defineProperty(
       nodes,
       componentPath,
@@ -221,12 +221,12 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       options.cmsComponentDataModelPath,
       false
     );
-
     changes.push(cmsComponentImport);
+
     const cmsComponentDataImport = insertImport(
       componentTs,
       componentPath,
-      COMPONENT_DATA_CLASS,
+      CMS_COMPONENT_DATA_CLASS,
       SPARTACUS_STOREFRONTLIB,
       false
     );
@@ -291,7 +291,7 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
 
     if (Boolean(templateContent)) {
       const insertion =
-        `  <ng-container *ngIf="${COMPONENT_DATA_PROPERTY_NAME}$ | async as data">` +
+        `  <ng-container *ngIf="${CMS_COMPONENT_DATA_PROPERTY_NAME}$ | async as data">` +
         `\n      {{data | json}}` +
         `\n    </ng-container>`;
 
