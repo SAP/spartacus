@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { extractFields, mergeFields, parseFields } from '../utils/occ-fields';
-import { ScopedModelData } from '@spartacus/core';
+import { ScopedModelData } from '../../model/scoped-model-data';
 import { map, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
