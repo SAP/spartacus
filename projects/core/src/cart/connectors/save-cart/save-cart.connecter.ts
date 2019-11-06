@@ -12,14 +12,8 @@ export class SaveCartConnector {
   public saveCart(
     userId: string,
     cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
+    fields?: { saveCartName?: string; saveCartDescription?: string }
   ): Observable<SaveCartResult> {
-    return this.adapter.saveCart(
-      userId,
-      cartId,
-      saveCartName,
-      saveCartDescription
-    );
+    return this.adapter.saveCart(userId, cartId, fields);
   }
 }

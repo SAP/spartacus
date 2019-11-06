@@ -13,7 +13,6 @@ export abstract class SaveCartAdapter {
   abstract saveCart(
     userId: string,
     cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
+    fields?: { saveCartName?: string; saveCartDescription?: string }
   ): Observable<SaveCartResult>;
 }

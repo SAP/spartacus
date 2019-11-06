@@ -34,14 +34,15 @@ describe('SaveCartConnector', () => {
 
     let result;
     service
-      .saveCart('uid', '1', 'name', 'description')
+      .saveCart('uid', '1', {
+        saveCartName: 'name',
+        saveCartDescription: 'description',
+      })
       .subscribe(res => (result = res));
     expect(result).toBe('saveuid1namedescription');
-    expect(adapter.saveCart).toHaveBeenCalledWith(
-      'uid',
-      '1',
-      'name',
-      'description'
-    );
+    expect(adapter.saveCart).toHaveBeenCalledWith('uid', '1', {
+      saveCartName: 'name',
+      saveCartDescription: 'description',
+    });
   });
 });

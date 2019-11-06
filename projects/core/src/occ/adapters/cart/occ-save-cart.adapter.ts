@@ -17,12 +17,16 @@ export class OccSaveCartAdapter implements SaveCartAdapter {
   public saveCart(
     userId: string,
     cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
+    fields?: { saveCartName?: string; saveCartDescription?: string }
   ) {
-    const httpParams = new HttpParams()
-      .set('saveCartName', saveCartName)
-      .set('saveCartDescription', saveCartDescription);
+    let httpParams = new HttpParams();
+
+    if (Boolean(fields)) {
+      for (const param of Object.keys(fields)) {
+        httpParams = httpParams.set(param, fields[param]);
+      }
+    }
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
