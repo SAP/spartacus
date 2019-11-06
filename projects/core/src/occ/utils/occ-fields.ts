@@ -112,7 +112,9 @@ function getObjectPart<T>(data: T, fields: object): T {
   const result = {} as T;
 
   keys.forEach(key => {
-    result[key] = getObjectPart(data[key], fields[key]);
+    if (data.hasOwnProperty(key)) {
+      result[key] = getObjectPart(data[key], fields[key]);
+    }
   });
 
   return result;

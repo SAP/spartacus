@@ -168,6 +168,11 @@ describe('extractFields for given fields definition', () => {
       ula: { franek: 'val2' },
     });
   });
+  it('should not create missing keys', () => {
+    expect(extractFields(data, 'ala,tola')).toEqual({
+      ala: 'val1',
+    });
+  });
   it('should not extract if BASIC, DEFAULT or FULL is used', () => {
     expect(extractFields(data, 'ala,ela,FULL')).toEqual(data);
     expect(extractFields(data, 'ala,ela,DEFAULT')).toEqual(data);

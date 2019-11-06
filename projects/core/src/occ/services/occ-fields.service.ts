@@ -95,7 +95,7 @@ export class OccFieldsService {
       if (!groupedByUrls[urlPart]) {
         groupedByUrls[urlPart] = {};
       }
-      model.fields = parseFields(fields);
+      model.fields = fields ? parseFields(fields) : {};
       groupedByUrls[urlPart][model.model.scope] = model;
     }
 
@@ -121,10 +121,12 @@ export class OccFieldsService {
 
     const paramsMap = {};
 
-    params.split('&').map(pram => {
-      const keyValue = pram.split('=');
-      paramsMap[keyValue[0]] = keyValue[1];
-    });
+    if (params) {
+      params.split('&').map(pram => {
+        const keyValue = pram.split('=');
+        paramsMap[keyValue[0]] = keyValue[1];
+      });
+    }
 
     const nonFieldsParams = Object.keys(paramsMap)
       .sort()
