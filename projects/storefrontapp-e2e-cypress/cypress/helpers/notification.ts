@@ -218,7 +218,7 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
 export function verifyPagingAndSorting() {
   navigateToMyInterestsPage();
   cy.get(firstProductCodeSelector).should('contain', firstProductAscending);
-  cy.get('.top cx-sorting .ng-select').ngSelect('Name (Descending)');
+  cy.get('.top cx-sorting .ng-select').ngSelect('Name (descending)');
   cy.get(firstProductCodeSelector).should('contain', firstProductDescending);
   cy.get('.cx-product-interests-product-item').should('have.length', 10);
   cy.get('cx-pagination:first .page-link').should('have.length', 4);
