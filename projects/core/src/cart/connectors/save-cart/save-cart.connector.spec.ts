@@ -7,7 +7,7 @@ import { SaveCartConnector } from './save-cart.connecter';
 
 class MockSaveCartAdapter implements SaveCartAdapter {
   saveCart = createSpy().and.callFake(
-    (userId, cartId, saveCartName, saveCartDescription) =>
+    (userId, cartId, { saveCartName, saveCartDescription }) =>
       of('save' + userId + cartId + saveCartName + saveCartDescription)
   );
 }

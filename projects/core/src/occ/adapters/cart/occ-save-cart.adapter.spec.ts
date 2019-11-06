@@ -26,7 +26,7 @@ class MockOccEndpointsService {
   }
 }
 
-fdescribe('OccSaveCartAdapter', () => {
+describe('OccSaveCartAdapter', () => {
   let occSaveCartAdapter: OccSaveCartAdapter;
   let httpMock: HttpTestingController;
   let occEndpointsService: OccEndpointsService;
