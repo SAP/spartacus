@@ -15,7 +15,7 @@ export interface CustomerCoupon {
 export interface CustomerCouponNotification {
   coupon?: CustomerCoupon;
   customer?: User;
-  status?: String;
+  status?: string;
 }
 
 export interface CustomerCouponSearchResult {

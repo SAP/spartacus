@@ -9,21 +9,17 @@ import {
   CustomerCouponNotification,
   CustomerCoupon2Customer,
 } from '../../../model/customer-coupon.model';
-
-const USER_ENDPOINT = 'users/';
-const CUSTOMER_COUPON_ENDPOINT = '/customercoupons';
+import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
 
 @Injectable()
 export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService
+    protected occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
-
-  private getUserEndpoint(userId: string): string {
-    const endpoint = `${USER_ENDPOINT}${userId}`;
-    return this.occEndpoints.getEndpoint(endpoint);
-  }
 
   getCustomerCoupons(
     userId: string,
@@ -31,7 +27,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     currentPage: number,
     sort: string
   ): Observable<CustomerCouponSearchResult> {
-    const url = this.getUserEndpoint(userId) + CUSTOMER_COUPON_ENDPOINT;
+    const url = this.occEndpoints.getUrl('customerCoupons', { userId });
 
     let params = new HttpParams().set('sort', sort ? sort : 'startDate:asc');
 
@@ -47,12 +43,18 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     });
 
     return this.http
-      .get(url, { headers, params })
-      .pipe(catchError((error: any) => throwError(error)));
+      .get<Occ.CustomerCouponSearchResult>(url, { headers, params })
+      .pipe(
+        catchError((error: any) => throwError(error)),
+        this.converter.pipeable(CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER)
+      );
   }
 
   turnOffNotification(userId: string, couponCode: string): Observable<{}> {
-    const url = this.getCustomerCouponNotificaitonEndpoint(userId, couponCode);
+    const url = this.occEndpoints.getUrl('couponNotification', {
+      userId,
+      couponCode,
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -66,7 +68,10 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     userId: string,
     couponCode: string
   ): Observable<CustomerCouponNotification> {
-    const url = this.getCustomerCouponNotificaitonEndpoint(userId, couponCode);
+    const url = this.occEndpoints.getUrl('couponNotification', {
+      userId,
+      couponCode,
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
@@ -77,29 +82,14 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  private getCustomerCouponNotificaitonEndpoint(
-    userId: string,
-    couponCode: string
-  ) {
-    return (
-      this.getUserEndpoint(userId) +
-      CUSTOMER_COUPON_ENDPOINT +
-      '/' +
-      encodeURIComponent(couponCode) +
-      '/notification'
-    );
-  }
-
   claimCustomerCoupon(
     userId: string,
     couponCode: string
   ): Observable<CustomerCoupon2Customer> {
-    const url =
-      this.getUserEndpoint(userId) +
-      CUSTOMER_COUPON_ENDPOINT +
-      '/' +
-      couponCode +
-      '/claim';
+    const url = this.occEndpoints.getUrl('claimCoupon', {
+      userId,
+      couponCode,
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',

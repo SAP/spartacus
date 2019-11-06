@@ -280,5 +280,17 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  myCoupons?: string;
+  customerCoupons?: string;
+  /**
+   * Endpoint for claiming coupon
+   *
+   * @member {string}
+   */
+  claimCoupon?: string;
+  /**
+   * Endpoint for coupons
+   *
+   * @member {string}
+   */
+  couponNotification?: string;
 }
