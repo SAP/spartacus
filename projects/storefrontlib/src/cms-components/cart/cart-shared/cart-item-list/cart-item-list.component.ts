@@ -21,6 +21,9 @@ export class CartItemListComponent implements OnInit {
   potentialProductPromotions: PromotionResult[] = [];
 
   @Input()
+  appliedProductPromotions: PromotionResult[] = [];
+
+  @Input()
   cartIsLoading = false;
 
   form: FormGroup = this.fb.group({});
@@ -28,6 +31,7 @@ export class CartItemListComponent implements OnInit {
   constructor(protected cartService: CartService, protected fb: FormBuilder) {}
 
   ngOnInit() {
+    console.log(this.appliedProductPromotions);
     this.items.forEach(item => {
       const { code } = item.product;
       if (!this.form.controls[code]) {
@@ -61,6 +65,52 @@ export class CartItemListComponent implements OnInit {
       this.potentialProductPromotions.length > 0
     ) {
       for (const promotion of this.potentialProductPromotions) {
+        if (
+          promotion.description &&
+          promotion.consumedEntries &&
+          promotion.consumedEntries.length > 0
+        ) {
+          for (const consumedEntry of promotion.consumedEntries) {
+            if (this.isConsumedByEntry(consumedEntry, item)) {
+              entryPromotions.push(promotion);
+            }
+          }
+        }
+      }
+    }
+    return entryPromotions;
+  }
+
+  getAppliedProductPromotionForItem(item: Item): PromotionResult[] {
+    const entryPromotions: PromotionResult[] = [];
+    if (
+      this.appliedProductPromotions &&
+      this.appliedProductPromotions.length > 0
+    ) {
+      for (const promotion of this.appliedProductPromotions) {
+        if (
+          promotion.description &&
+          promotion.consumedEntries &&
+          promotion.consumedEntries.length > 0
+        ) {
+          for (const consumedEntry of promotion.consumedEntries) {
+            if (this.isConsumedByEntry(consumedEntry, item)) {
+              entryPromotions.push(promotion);
+            }
+          }
+        }
+      }
+    }
+    return entryPromotions;
+  }
+
+  getProductPromotionForItem(item: Item, promotions: PromotionResult[]): PromotionResult[] {
+    const entryPromotions: PromotionResult[] = [];
+    if (
+      promotions &&
+      promotions.length > 0
+    ) {
+      for (const promotion of promotions) {
         if (
           promotion.description &&
           promotion.consumedEntries &&

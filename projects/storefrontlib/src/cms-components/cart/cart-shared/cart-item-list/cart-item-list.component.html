@@ -16,14 +16,17 @@
 </div>
 
 <div [formGroup]="form">
+  <pre>ITEMS: {{items | json}}</pre>
   <div class="cx-item-list-row" *ngFor="let item of items">
     <div class="cx-item-list-items">
       <cx-cart-item
         [parent]="form.controls[item.product.code]"
         [item]="item"
         [potentialProductPromotions]="
-          getPotentialProductPromotionsForItem(item)
+        getProductPromotionForItem(item, potentialProductPromotions)
         "
+        [appliedProductPromotions]="
+        getProductPromotionForItem(item, appliedProductPromotions)"
         [isReadOnly]="isReadOnly"
         (remove)="removeEntry($event)"
         [cartIsLoading]="cartIsLoading"

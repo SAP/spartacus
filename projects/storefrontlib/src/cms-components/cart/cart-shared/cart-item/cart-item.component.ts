@@ -21,6 +21,8 @@ export class CartItemComponent implements OnInit {
   @Input()
   potentialProductPromotions: any[];
   @Input()
+  appliedProductPromotions: any[];
+  @Input()
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
