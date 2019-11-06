@@ -7,7 +7,7 @@ export const budgetsInitialState = undefined;
 export function budgetsEntitiesReducer(
   state = budgetsInitialState,
   action: LoaderAction
-): Budget {
+): Budget[] {
   switch (action.type) {
     case BudgetActions.LOAD_BUDGET_SUCCESS:
       return action.payload.budgets;

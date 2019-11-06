@@ -51,7 +51,6 @@ export class LoadBudgetSuccess extends EntitySuccessAction {
       payload.budgets.map(budget => budget.code),
       payload.budgets
     );
-    console.log('ac', payload.budgets);
   }
 }
 

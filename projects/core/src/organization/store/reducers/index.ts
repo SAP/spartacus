@@ -1,16 +1,16 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { ActionReducerMap, combineReducers } from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
 import { BUDGET_FEATURE, OrganizationState } from '../organization-state';
 import { Budget } from '../../../model/budget.model';
 import { budgetsEntitiesReducer } from './budget.reducer';
 
-export function getReducers(): ActionReducerMap<OrganizationState> {
+export function getReducers(): any {
   return {
-    budget: combineReducers({
+    budget: {
       budgets: entityLoaderReducer<Budget>(BUDGET_FEATURE, budgetsEntitiesReducer),
-    }),
+    },
   };
 }
 

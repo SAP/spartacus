@@ -6,8 +6,12 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map,
+  take
+} from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { Budget } from '../../../../../core/src/model/budget.model';
+import { BudgetService } from '../../../../../core/src/organization/facade/budget.service';
 
 @Component({
   selector: 'cx-breadcrumb',
@@ -21,6 +25,7 @@ export class BreadcrumbComponent implements OnInit {
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
     protected pageMetaService: PageMetaService,
+    protected budgetService: BudgetService,
     private translation: TranslationService
   ) {}
 
@@ -47,5 +52,62 @@ export class BreadcrumbComponent implements OnInit {
           : [{ label: textHome, link: '/' }]
       )
     );
+  }
+  loadAndGetBudgets() {
+    this.budgetService
+      .getList()
+      .pipe(take(5))
+      .subscribe(console.log);
+  }
+
+  loadAndGetBudget(code) {
+    this.budgetService
+      .get(code)
+      .pipe(take(1))
+      .subscribe(console.log);
+  }
+  createBudget() {
+    const code = 'r' + Date.now() + Math.floor(Math.random() * 100);
+    const budget: Budget = {
+      active: false,
+      budget: 40000.55,
+      code: code,
+      currency: {
+        active: true,
+        isocode: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+      endDate: '2020-12-31T09:00:00+0000',
+      name: code,
+      orgUnit: {
+        name: 'Rustic',
+        uid: 'Rustic',
+      },
+      startDate: '2020-01-01T09:00:00+0000',
+    };
+    this.budgetService.create(budget);
+  }
+
+  updateBudget() {
+    const budget: Budget = {
+      active: false,
+      budget: 40033.55,
+      code: 'r157115880455542',
+      currency: {
+        active: true,
+        isocode: 'EUR',
+        name: 'Euro',
+        symbol: '€',
+      },
+      endDate: '2020-12-31T09:00:00+0000',
+      name: 'Money money money',
+      orgUnit: {
+        name: 'Rustic',
+        uid: 'Rustic',
+      },
+      startDate: '2020-01-01T09:00:00+0000',
+    };
+    this.budgetService.update(budget);
   }
 }
