@@ -125,6 +125,9 @@ function print(options: CxCmsComponentSchema): Rule {
 function updateModule(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const moduleName = buildModuleName(options);
+    if (DELETE_ME) {
+      console.log('Using the following name to update module: ', moduleName);
+    }
     const modulePath = findModuleFromOptions(tree, { name: moduleName });
     if (!modulePath) {
       context.logger.error(`Could not find the ${modulePath}`);
@@ -346,6 +349,27 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
     // angular's module CLI flags
     const { path, routing, routingScope, route, commonModule } = options;
 
+    if (DELETE_ME) {
+      console.log(`module name: ${moduleName}`);
+      console.log(
+        `generating specified module '${specifiedModule}': ${!Boolean(
+          specifiedModule
+        )}`
+      );
+
+      console.log(
+        'module options: ',
+        { project },
+        { moduleName },
+        { path },
+        { routing },
+        { routingScope },
+        { route },
+        { commonModule },
+        { lintFix }
+      );
+    }
+
     return chain([
       // in case the module flag is not specified, we need to generate a module
       !Boolean(specifiedModule)
@@ -368,7 +392,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         inlineStyle,
         inlineTemplate,
         lintFix,
-        module: moduleName,
+        module: strings.dasherize(moduleName),
         name: componentName,
         prefix,
         project,
@@ -384,6 +408,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       updateComponent(options),
       updateTemplate(options),
       DELETE_ME ? print(options) : noop(),
+      // DELETE_ME ? noop() : print(options),
     ])(tree, context);
   };
 }
