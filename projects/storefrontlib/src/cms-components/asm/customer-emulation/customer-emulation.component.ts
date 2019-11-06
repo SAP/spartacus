@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User, UserService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { AsmComponentService } from '../asm-component.service';
+import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-customer-emulation',
