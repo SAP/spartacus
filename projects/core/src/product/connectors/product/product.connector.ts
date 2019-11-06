@@ -18,7 +18,7 @@ export class ProductConnector {
     if (!this.adapter.loadMany) {
       return products.map(product => ({
         ...product,
-        data$: this.adapter.load(product.id, product.scope),
+        data$: this.adapter.load(product.code, product.scope),
       }));
     }
 

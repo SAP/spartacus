@@ -1,7 +1,9 @@
 import { Product } from '../../../model/product.model';
-import { ScopedModelData } from '../../../model/scoped-model-data';
+import { ScopedData } from '../../../model/scoped-data';
 
 /**
  * Used in product connectors and adapter to load multiple product codes and scopes
  */
-export type ScopedProductData = ScopedModelData<Product>;
+export interface ScopedProductData extends ScopedData<Product> {
+  code: string;
+}

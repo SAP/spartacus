@@ -30,7 +30,7 @@ export class ProductEffects {
         switchMapTo(this.actions$),
         ofType(ProductActions.LOAD_PRODUCT),
         map((action: ProductActions.LoadProduct) => ({
-          id: action.payload,
+          code: action.payload,
           scope: action.meta.scope,
         })),
         bufferDebounceTime(debounce, scheduler),
@@ -53,14 +53,14 @@ export class ProductEffects {
       map(
         data =>
           new ProductActions.LoadProductSuccess(
-            { code: productLoad.id, ...data },
+            { code: productLoad.code, ...data },
             productLoad.scope
           )
       ),
       catchError(error => {
         return of(
           new ProductActions.LoadProductFail(
-            productLoad.id,
+            productLoad.code,
             makeErrorSerializable(error),
             productLoad.scope
           )

@@ -41,12 +41,12 @@ describe('ProductConnector', () => {
   it('getMany should call adapter', () => {
     const adapter = TestBed.get(ProductAdapter as Type<ProductAdapter>);
 
-    const products = [{ id: '333', scope: 'test' }];
+    const products = [{ code: '333', scope: 'test' }];
 
     const result = service.getMany(products);
     expect(result).toBe(products);
     expect(adapter.loadMany).toHaveBeenCalledWith([
-      { id: '333', scope: 'test' },
+      { code: '333', scope: 'test' },
     ]);
   });
 
@@ -54,7 +54,7 @@ describe('ProductConnector', () => {
     const adapter = TestBed.get(ProductAdapter as Type<ProductAdapter>);
     delete adapter.loadMany;
 
-    const products = [{ id: '333', scope: 'test' }];
+    const products = [{ code: '333', scope: 'test' }];
 
     service.getMany(products);
     expect(adapter.load).toHaveBeenCalledWith('333', 'test');
