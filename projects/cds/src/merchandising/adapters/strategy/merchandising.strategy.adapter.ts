@@ -5,7 +5,7 @@ import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { StrategyResult } from '../../model/strategy.result';
 import { StrategyAdapter } from '../../connectors/strategy/strategy.adapter';
 
-const strategyProductsEndpointKey: string = 'strategyProducts';
+const strategyProductsEndpointKey = 'strategyProducts';
 
 @Injectable()
 export class MerchandisingStrategyAdapter implements StrategyAdapter {
