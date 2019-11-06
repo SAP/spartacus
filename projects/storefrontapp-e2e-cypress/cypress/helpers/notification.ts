@@ -176,6 +176,11 @@ export function verifyNavigateToMyInterestsInDialog() {
   verifyCustomerInterest(normalProductCode);
 }
 //Customer interest
+export function verifyMyInterestsAsAnonymous() {
+  cy.visit('/my-account/my-interests');
+  cy.location('pathname').should('contain', '/login');
+}
+
 export function verifySubscriptionAndCustomerInterest(productCode: string) {
   subscribeStockNotification(productCode);
   navigateToMyInterestsPage();

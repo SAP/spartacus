@@ -1,7 +1,17 @@
 import * as notification from '../../../helpers/notification';
 import * as orderDetail from '../../../helpers/consignment-tracking';
 
-describe('my interests', () => {
+describe('my interests - guest', () => {
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  it('should redirect to login page for anonymous user', () => {
+    notification.verifyMyInterestsAsAnonymous();
+  });
+});
+
+describe('my interests - customer', () => {
   beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
@@ -9,7 +19,7 @@ describe('my interests', () => {
     notification.enableNotificationChannel();
   });
 
-  it('should show/remove interest for all kinds product', () => {
+  it('should show/remove interest', () => {
     notification.verifyCustomerInterests();
   });
 
@@ -18,7 +28,7 @@ describe('my interests', () => {
   });
 });
 
-describe('my interests', () => {
+describe('my interests - customer with interests', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     orderDetail.loginUsingUserWithOrder();
