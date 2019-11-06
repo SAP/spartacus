@@ -5,20 +5,32 @@ import { map, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+/**
+ * Intermediate model to accommodate all data needed to perform occ fields optimizations
+ * wrapping ScopedData with url and fields
+ */
 export interface OccFieldsModels {
+  /** Url (with fields) to load scoped data */
   url?: string;
+  /** extracted fields object, used to extract data from broader model */
   fields?: object;
+  /** scoped data model */
   model: ScopedData<any>;
 }
 
+/**
+ * Grouped rest calls with optimal urls
+ *
+ * One url groups all scopes it covers with related occFieldsModels
+ */
 export interface OccMergedUrls {
-  [url: string]: {
+  [optimalUrl: string]: {
     [scope: string]: OccFieldsModels;
   };
 }
 
 /**
- * Helper service for optimizing endpoind calls to occ backend
+ * Helper service for optimizing endpoint calls to occ backend
  */
 @Injectable({
   providedIn: 'root',
@@ -29,7 +41,7 @@ export class OccFieldsService {
   protected FIELDS_PARAM = 'fields';
 
   /**
-   * Optimize occ endpoint calls merging request to the same url by merging field parameters
+   * Optimize occ endpoint calls merging requests to the same url by merging field parameters
    *
    * @param occFieldsModels
    * @param dataFactory
