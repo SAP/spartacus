@@ -34,6 +34,12 @@ export class ProductVariantSelectorComponent implements OnInit {
       filter(v => !!v),
       distinctUntilChanged(),
       tap(product => {
+        if (!product.purchasable) {
+          const variant = this.findPurchasableVariant(product.variantOptions);
+          if (variant) {
+            this.routeToVariant(variant.code, true);
+          }
+        }
         if (
           product.variantType &&
           product.variantType === VariantType.APPAREL_STYLE
@@ -70,13 +76,24 @@ export class ProductVariantSelectorComponent implements OnInit {
     }
   }
 
-  routeToVariant(code: string): void {
+  routeToVariant(code: string, replaceUrl?: boolean): void {
     if (code) {
-      this.routingService.go({
-        cxRoute: 'product',
-        params: { code },
-      });
+      this.routingService.go(
+        {
+          cxRoute: 'product',
+          params: { code },
+        },
+        null,
+        { replaceUrl: replaceUrl }
+      );
     }
     return null;
+  }
+
+  private findPurchasableVariant(variants: VariantOption[]): VariantOption {
+    const results: VariantOption[] = variants.filter(variant => {
+      return variant.stock && variant.stock.stockLevel ? variant : false;
+    });
+    return !results.length && variants.length ? variants[0] : results[0];
   }
 }
