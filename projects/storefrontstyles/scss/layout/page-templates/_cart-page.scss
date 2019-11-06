@@ -2,8 +2,26 @@
   .CenterRightContentSlot {
     flex-direction: column;
     justify-content: flex-start;
-    > * {
-      flex: none;
+    @include media-breakpoint-up(lg) {
+      > * {
+        flex: none;
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      flex-direction: row;
+
+      cx-cart-coupon {
+        max-width: 50%;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: unset;
+
+      cx-cart-coupon {
+        max-width: 100%;
+      }
     }
   }
 }

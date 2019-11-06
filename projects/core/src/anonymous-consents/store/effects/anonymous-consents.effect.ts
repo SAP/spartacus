@@ -16,7 +16,6 @@ import {
   ANONYMOUS_CONSENTS_FEATURE,
   isFeatureEnabled,
 } from '../../../features-config/index';
-import { SiteContextActions } from '../../../site-context/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -28,26 +27,10 @@ import { AnonymousConsentsActions } from '../actions/index';
 @Injectable()
 export class AnonymousConsentsEffects {
   @Effect()
-  handleLogoutAndLanguageChange$: Observable<
-    AnonymousConsentsActions.LoadAnonymousConsentTemplates
-  > = this.actions$.pipe(
-    ofType(SiteContextActions.LANGUAGE_CHANGE, AuthActions.LOGOUT),
-    filter(_ =>
-      isFeatureEnabled(this.anonymousConsentsConfig, ANONYMOUS_CONSENTS_FEATURE)
-    ),
-    withLatestFrom(this.authService.isUserLoggedIn()),
-    filter(([_, isUserLoggedIn]) => !isUserLoggedIn),
-    map(_ => new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
-  );
-
-  @Effect()
   loadAnonymousConsentTemplates$: Observable<
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    filter(_ =>
-      isFeatureEnabled(this.anonymousConsentsConfig, ANONYMOUS_CONSENTS_FEATURE)
-    ),
     concatMap(_ =>
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()

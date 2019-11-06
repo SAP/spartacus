@@ -14,7 +14,7 @@
 
   .form-group .col-md-4 {
     @include media-breakpoint-up(md) {
-      padding-left: 0;
+      padding: 0;
     }
   }
 }
