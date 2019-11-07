@@ -97,6 +97,7 @@ describe('OccAsmAdapter', () => {
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('sort')).toBe(defaultSort);
     expect(mockReq.request.params.get('query')).toBe(searchQuery);
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
@@ -124,7 +125,6 @@ describe('OccAsmAdapter', () => {
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(defaultSort);
-
     expect(mockReq.request.params.get('query')).toBeNull();
     expect(mockReq.request.params.get('pageSize')).toBeNull();
 
