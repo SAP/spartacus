@@ -152,7 +152,7 @@ describe('OrderDetailHeadlineComponent', () => {
     const element: DebugElement = el.query(By.css('.cx-detail:last-of-type'));
 
     expect(element.nativeElement.textContent).toContain(
-      'orderDetails.orderReturn.action'
+      'orderDetails.cancellationAndReturn.returnAction'
     );
   });
 
