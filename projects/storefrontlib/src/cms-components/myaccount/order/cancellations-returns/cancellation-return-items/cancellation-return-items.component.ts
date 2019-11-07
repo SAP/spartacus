@@ -15,6 +15,8 @@ export class CancellationReturnItemsComponent implements OnInit {
   form: FormGroup;
   inputsControl: FormArray;
 
+  disableConfirm = true;
+
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
@@ -31,24 +33,31 @@ export class CancellationReturnItemsComponent implements OnInit {
         })
       );
     });
-
-    console.log(this.form.value);
   }
 
   setComplete() {
-    console.log('here');
-
     for (let i = 0; i < this.entries.length; i++) {
       this.inputsControl.at(i).setValue({
         orderEntryNumber: this.entries[i].entryNumber,
         quantity: this.entries[i].quantity,
       });
     }
-
-    console.log(this.form.value);
+    this.disableEnableConfirm();
   }
 
   confirm() {
     console.log(this.form.value);
+  }
+
+  disableEnableConfirm() {
+    this.form.value.entryInput.forEach(input => {
+      if (input.quantity > 0) {
+        console.log('here');
+        this.disableConfirm = false;
+        return;
+      }
+    });
+
+    this.disableConfirm = true;
   }
 }
