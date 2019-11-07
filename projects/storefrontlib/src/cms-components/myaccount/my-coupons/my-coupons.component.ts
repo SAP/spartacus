@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, combineLatest, Subscription } from 'rxjs';
 import {
   CustomerCouponService,
   CustomerCouponSearchResult,
@@ -12,10 +12,12 @@ import { tap, map } from 'rxjs/operators';
   selector: 'cx-my-coupons',
   templateUrl: './my-coupons.component.html',
 })
-export class MyCouponsComponent implements OnInit {
+export class MyCouponsComponent implements OnInit, OnDestroy {
   couponResult$: Observable<CustomerCouponSearchResult>;
   couponsLoading$: Observable<boolean>;
   couponSubscriptionLoading$: Observable<boolean>;
+
+  private subscriptions = new Subscription();
 
   private PAGE_SIZE = 10;
   private sortMapping = {
@@ -82,6 +84,28 @@ export class MyCouponsComponent implements OnInit {
       map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
     );
     this.sortLabels = this.getSortLabels();
+
+    this.subscriptions
+      .add(
+        this.couponService
+          .getSubscribeCustomerCouponResultError()
+          .subscribe(error => {
+            this.subscriptionFail(error);
+          })
+      )
+      .add(
+        this.couponService
+          .getUnsubscribeCustomerCouponResultError()
+          .subscribe(error => {
+            this.subscriptionFail(error);
+          })
+      );
+  }
+
+  private subscriptionFail(error: boolean) {
+    if (error) {
+      this.couponService.loadCustomerCoupons(this.PAGE_SIZE);
+    }
   }
 
   getSortLabels(): Observable<{
@@ -144,5 +168,9 @@ export class MyCouponsComponent implements OnInit {
     } else {
       this.couponService.unsubscribeCustomerCoupon(couponId);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
