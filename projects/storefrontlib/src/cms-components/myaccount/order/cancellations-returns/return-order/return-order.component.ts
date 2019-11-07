@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
 
-import { Order, OrderEntry } from '@spartacus/core';
+import {
+  Order,
+  OrderEntry,
+  CancellationReturnRequestEntryInput,
+  RoutingService,
+} from '@spartacus/core';
 
 import { OrderDetailsService } from '../../order-details/order-details.service';
 
@@ -11,15 +16,20 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
   templateUrl: './return-order.component.html',
 })
 export class ReturnOrderComponent implements OnInit {
-  constructor(private orderDetailsService: OrderDetailsService) {}
+  constructor(
+    protected orderDetailsService: OrderDetailsService,
+    protected routing: RoutingService
+  ) {}
 
   order$: Observable<Order>;
   returnableEntries: OrderEntry[] = [];
+  orderCode: string;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails().pipe(
       filter(order => !!order.entries),
       tap(order => {
+        this.orderCode = order.code;
         this.returnableEntries = [];
         order.entries.forEach(entry => {
           if (entry.entryNumber !== -1 && entry.returnableQuantity > 0) {
@@ -28,5 +38,13 @@ export class ReturnOrderComponent implements OnInit {
         });
       })
     );
+  }
+
+  confirmReturn(entryInputs: CancellationReturnRequestEntryInput[]) {
+    this.orderDetailsService.CancellationReturnRequestEntryInputs = entryInputs;
+    this.routing.go({
+      cxRoute: 'orderReturnConfirmation',
+      params: { code: this.orderCode },
+    });
   }
 }

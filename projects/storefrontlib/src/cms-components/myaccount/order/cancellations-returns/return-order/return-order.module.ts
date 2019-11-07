@@ -17,6 +17,12 @@ import { ReturnOrderComponent } from './return-order.component';
         component: PageLayoutComponent,
         data: { pageLabel: '/my-account/order/return' },
       },
+      {
+        path: 'my-account/order/:orderCode/return/confirmation',
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: '/my-account/order/return/confirmation' },
+      },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {

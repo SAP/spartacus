@@ -30,6 +30,15 @@ export interface OrderEntry {
   returnableQuantity?: number;
 }
 
+export interface CancellationReturnRequestEntryInput {
+  orderEntryNumber?: number;
+  quantity?: number;
+}
+
+export interface ReturnRequestEntryInputList {
+  returnRequestEntryInputs?: CancellationReturnRequestEntryInput[];
+}
+
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
   distance?: number;

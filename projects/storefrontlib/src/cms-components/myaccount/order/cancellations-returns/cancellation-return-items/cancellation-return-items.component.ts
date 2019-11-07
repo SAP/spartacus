@@ -1,7 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 
-import { OrderEntry } from '@spartacus/core';
+import {
+  OrderEntry,
+  CancellationReturnRequestEntryInput,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-cancellation-return-items',
@@ -11,6 +14,8 @@ export class CancellationReturnItemsComponent implements OnInit {
   @Input() entries: OrderEntry[];
   @Input() confirmation = false;
   @Input() cancelOrder = true;
+
+  @Output() confirm = new EventEmitter<CancellationReturnRequestEntryInput[]>();
 
   form: FormGroup;
   inputsControl: FormArray;
@@ -45,8 +50,15 @@ export class CancellationReturnItemsComponent implements OnInit {
     this.disableEnableConfirm();
   }
 
-  confirm() {
-    console.log(this.form.value);
+  confirmEntryInputs() {
+    const inputs: CancellationReturnRequestEntryInput[] = [];
+    for (const input of this.form.value.entryInput) {
+      if (input.quantity > 0) {
+        inputs.push(input);
+      }
+    }
+
+    this.confirm.emit(inputs);
   }
 
   disableEnableConfirm() {
