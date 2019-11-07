@@ -61,7 +61,7 @@ describe('OccSaveCartAdapter', () => {
     it('should save cart with given data', () => {
       let result;
       occSaveCartAdapter
-        .saveCart(userId, cartId, { saveCartName, saveCartDescription })
+        .saveCart(userId, cartId, saveCartName, saveCartDescription)
         .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {

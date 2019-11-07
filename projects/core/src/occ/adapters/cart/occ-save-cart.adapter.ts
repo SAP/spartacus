@@ -4,7 +4,7 @@ import { SAVE_CART_NORMALIZER } from '../../../cart/connectors/save-cart/convert
 import { SaveCartAdapter } from '../../../cart/connectors/save-cart/save-cart.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models';
-import { OccEndpointsService } from '../../services';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccSaveCartAdapter implements SaveCartAdapter {
@@ -17,14 +17,17 @@ export class OccSaveCartAdapter implements SaveCartAdapter {
   public saveCart(
     userId: string,
     cartId: string,
-    fields?: { saveCartName?: string; saveCartDescription?: string }
+    saveCartName?: string,
+    saveCartDescription?: string
   ) {
     let httpParams = new HttpParams();
 
-    if (Boolean(fields)) {
-      for (const param of Object.keys(fields)) {
-        httpParams = httpParams.set(param, fields[param]);
-      }
+    if (Boolean(saveCartName)) {
+      httpParams = httpParams.set('saveCartName', saveCartName);
+    }
+
+    if (Boolean(saveCartDescription)) {
+      httpParams = httpParams.set('saveCartDescription', saveCartDescription);
     }
 
     const headers = new HttpHeaders({

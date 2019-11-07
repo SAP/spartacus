@@ -7,7 +7,7 @@ import { SaveCartConnector } from './save-cart.connecter';
 
 class MockSaveCartAdapter implements SaveCartAdapter {
   saveCart = createSpy().and.callFake(
-    (userId, cartId, { saveCartName, saveCartDescription }) =>
+    (userId, cartId, saveCartName, saveCartDescription) =>
       of('save' + userId + cartId + saveCartName + saveCartDescription)
   );
 }
@@ -34,15 +34,14 @@ describe('SaveCartConnector', () => {
 
     let result;
     service
-      .saveCart('uid', '1', {
-        saveCartName: 'name',
-        saveCartDescription: 'description',
-      })
+      .saveCart('uid', '1', 'name', 'description')
       .subscribe(res => (result = res));
     expect(result).toBe('saveuid1namedescription');
-    expect(adapter.saveCart).toHaveBeenCalledWith('uid', '1', {
-      saveCartName: 'name',
-      saveCartDescription: 'description',
-    });
+    expect(adapter.saveCart).toHaveBeenCalledWith(
+      'uid',
+      '1',
+      'name',
+      'description'
+    );
   });
 });
