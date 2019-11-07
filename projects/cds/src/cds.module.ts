@@ -4,9 +4,13 @@ import { CdsConfig } from './cds-config';
 import { cdsConfigValidator } from './cds-config-validator';
 import { defaultCdsConfig } from './default-cds-config';
 import { MerchandisingStrategyAdapter } from './merchandising/adapters/strategy/merchandising.strategy.adapter';
-import { MERCHANDISING_PRODUCT_CONVERTER } from './merchandising/connectors/strategy/converters';
+import {
+  MERCHANDISING_PRODUCTS_NORMALIZER,
+  MERCHANDISING_PRODUCT_NORMALIZER,
+} from './merchandising/connectors/strategy/converters';
 import { StrategyAdapter } from './merchandising/connectors/strategy/strategy.adapter';
-import { MerchandisingProductConverter } from './merchandising/converters/merchandising-product-converter';
+import { MerchandisingProductNormalizer } from './merchandising/converters/merchandising-product-normalizer';
+import { MerchandisingProductsNormalizer } from './merchandising/converters/merchandising-products-normalizer';
 
 @NgModule()
 export class CdsModule {
@@ -17,8 +21,13 @@ export class CdsModule {
         { provide: CdsConfig, useExisting: Config },
         { provide: StrategyAdapter, useClass: MerchandisingStrategyAdapter },
         {
-          provide: MERCHANDISING_PRODUCT_CONVERTER,
-          useClass: MerchandisingProductConverter,
+          provide: MERCHANDISING_PRODUCTS_NORMALIZER,
+          useClass: MerchandisingProductsNormalizer,
+          multi: true,
+        },
+        {
+          provide: MERCHANDISING_PRODUCT_NORMALIZER,
+          useClass: MerchandisingProductNormalizer,
           multi: true,
         },
         provideConfig(defaultCdsConfig),

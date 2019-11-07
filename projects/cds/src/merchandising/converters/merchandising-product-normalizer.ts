@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Converter, ImageType, Product } from '@spartacus/core';
-import { MerchandisingProduct } from './../model/strategy.result';
+import { MerchandisingProduct } from '../model/strategy.result';
 @Injectable()
-export class MerchandisingProductConverter
+export class MerchandisingProductNormalizer
   implements Converter<MerchandisingProduct, Product> {
   convert(source: MerchandisingProduct, target?: Product): Product {
     if (target === undefined) {
@@ -20,6 +20,13 @@ export class MerchandisingProductConverter
         },
       },
     };
+
+    if (source.price) {
+      target.price = {
+        formattedValue: source.price.toString(),
+        value: source.price,
+      };
+    }
 
     return target;
   }

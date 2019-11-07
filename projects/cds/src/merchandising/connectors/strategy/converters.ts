@@ -1,7 +1,15 @@
 import { InjectionToken } from '@angular/core';
 import { Converter, Product } from '@spartacus/core';
-import { MerchandisingProduct } from './../../model/strategy.result';
+import { MerchandisingProducts } from '../../model/merchandising.products';
+import {
+  MerchandisingProduct,
+  StrategyResult,
+} from './../../model/strategy.result';
 
-export const MERCHANDISING_PRODUCT_CONVERTER = new InjectionToken<
+export const MERCHANDISING_PRODUCTS_NORMALIZER = new InjectionToken<
+  Converter<StrategyResult, MerchandisingProducts>
+>('MerchandisingProductsNormalizer');
+
+export const MERCHANDISING_PRODUCT_NORMALIZER = new InjectionToken<
   Converter<MerchandisingProduct, Product>
->('MerchandisingProductConverter');
+>('MerchandisingProductNormalizer');

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StrategyResult } from '../../model/strategy.result';
+import { MerchandisingProducts } from '../../model/merchandising.products';
 import { StrategyAdapter } from './strategy.adapter';
 
 @Injectable({
@@ -9,7 +9,9 @@ import { StrategyAdapter } from './strategy.adapter';
 export class StrategyConnector {
   constructor(protected strategyAdapter: StrategyAdapter) {}
 
-  loadProductsForStrategy(strategyId: string): Observable<StrategyResult> {
+  loadProductsForStrategy(
+    strategyId: string
+  ): Observable<MerchandisingProducts> {
     return this.strategyAdapter.loadProductsForStrategy(strategyId);
   }
 }

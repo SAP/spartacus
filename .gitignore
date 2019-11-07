@@ -13,9 +13,6 @@ test-results.xml
 docs.tar.gz
 docs.zip
 
-# npmrc
-.npmrc
-
 # dependencies
 node_modules/
 package-lock.json

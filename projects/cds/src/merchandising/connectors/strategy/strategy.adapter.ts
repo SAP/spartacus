@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { StrategyResult } from '../../model/strategy.result';
+import { MerchandisingProducts } from '../../model/merchandising.products';
 
 export abstract class StrategyAdapter {
   /**
@@ -9,5 +9,5 @@ export abstract class StrategyAdapter {
    */
   abstract loadProductsForStrategy(
     strategyId: string
-  ): Observable<StrategyResult>;
+  ): Observable<MerchandisingProducts>;
 }

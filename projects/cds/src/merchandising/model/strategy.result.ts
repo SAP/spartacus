@@ -7,7 +7,7 @@ export interface MerchandisingProduct {
   thumbNailImage?: string;
   mainImage?: string;
   price?: number;
-  metadata?: Map<string, string>;
+  metadata?: any;
 }
 
 export interface Paged {
@@ -19,5 +19,5 @@ export interface StrategyResult {
   resultCount?: number;
   products?: MerchandisingProduct[];
   paged?: Paged;
-  metadata: Map<string, string>;
+  metadata: any;
 }
