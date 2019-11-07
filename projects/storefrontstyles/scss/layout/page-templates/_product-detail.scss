@@ -3,7 +3,7 @@
 
   cx-page-slot {
     &.Summary {
-      @extend .container;
+      @extend .container !optional;
       margin-bottom: 40px;
 
       @include media-breakpoint-up(lg) {
@@ -45,6 +45,6 @@
   }
 
   .tab-delivery {
-    @extend .container;
+    @extend .container !optional;
   }
 }

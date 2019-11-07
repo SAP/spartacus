@@ -10,7 +10,7 @@ import { ProfileTagInjector } from './profile-tag.injector';
   `,
 })
 export class ProfileTagComponent implements OnInit {
-    profileTagEnabled$: Observable<Boolean | NgRouterEvent>;
+    profileTagEnabled$: Observable<Boolean[] | NgRouterEvent>;
     constructor(private profileTagInjector: ProfileTagInjector) {
         this.profileTagEnabled$ = this.profileTagInjector.injectScript();
         console.log('starting');

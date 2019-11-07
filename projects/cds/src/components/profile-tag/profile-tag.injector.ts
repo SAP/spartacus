@@ -10,11 +10,11 @@ import { CdsConfig, ProfileTagConfig } from '../../config/config.model';
 })
 export class ProfileTagInjector {
   profiletagConfig: ProfileTagConfig;
-  consentChanged$: Observable<boolean>;
+  consentChanged$: Observable<Boolean[]>;
   pageLoaded$: Observable<NgRouterEvent>;
   w: any;
   isProfileTagLoaded = new BehaviorSubject<boolean>(false);
-  startTracking$: Observable<Boolean | NgRouterEvent>;
+  startTracking$: Observable<Boolean[] | NgRouterEvent>;
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -29,7 +29,7 @@ export class ProfileTagInjector {
     this.startTracking$ = merge(this.consentChanged$, this.pageLoaded$);
   }
 
-  injectScript(): Observable<Boolean | NgRouterEvent> {
+  injectScript(): Observable<Boolean[] | NgRouterEvent> {
     this.addScript();
     return this.addTracker().pipe(
       switchMap(() => {

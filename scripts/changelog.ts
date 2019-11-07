@@ -27,17 +27,32 @@ export interface ChangelogOptions {
   stdout?: boolean;
 }
 
-export default async function run(args: ChangelogOptions, logger: logging.Logger) {
+export default async function run(
+  args: ChangelogOptions,
+  logger: logging.Logger
+) {
   const commits: JsonObject[] = [];
   let toSha: string | null = null;
   const breakingChanges: JsonObject[] = [];
-  const versionFromTag = args.to.split('-').filter((_,i) => i !== 0).join('-')
-  const newVersion = semver.parse(versionFromTag, { includePrerelease: true, loose: true });
+  const versionFromTag = args.to
+    .split('-')
+    .filter((_, i) => i !== 0)
+    .join('-');
+  const newVersion = semver.parse(versionFromTag, {
+    includePrerelease: true,
+    loose: true,
+  });
   let fromToken: string;
   try {
-    const packageVersions = await versionsHelper.fetchPackageVersions(args.library);
-    const previousVersion = versionsHelper.extractPreviousVersionForChangelog(packageVersions, newVersion.version)
-    fromToken = previousVersion && args.to.split(newVersion).join(previousVersion);
+    const packageVersions = await versionsHelper.fetchPackageVersions(
+      args.library
+    );
+    const previousVersion = versionsHelper.extractPreviousVersionForChangelog(
+      packageVersions,
+      newVersion.version
+    );
+    fromToken =
+      previousVersion && args.to.split(newVersion).join(previousVersion);
   } catch (err) {
     // package not found - assuming first release
     fromToken = '';
@@ -57,18 +72,38 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
     '@spartacus/schematics': './projects/schematics',
   };
 
-  return new Promise(resolve => {
-    (gitRawCommits({
+  const duplexUtil = through(function(chunk, _, callback) {
+    this.push(chunk);
+    callback();
+  });
+
+  function getRawCommitsStream(to: string) {
+    return gitRawCommits({
       from: fromToken,
-      to: args.to || 'HEAD',
+      to,
       path: args.library ? libraryPaths[args.library] : '.',
       format:
         '%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n',
-    }) as NodeJS.ReadStream)
-      .on('error', err => {
-        logger.fatal('An error happened: ' + err.message);
-        return '';
+    }) as NodeJS.ReadStream;
+  }
+
+  function getCommitsStream(): NodeJS.ReadStream {
+    getRawCommitsStream(args.to)
+      .on('error', () => {
+        getRawCommitsStream('HEAD')
+          .on('error', err => {
+            logger.fatal('An error happened: ' + err.message);
+            return '';
+          })
+          .pipe(duplexUtil);
       })
+      .pipe(duplexUtil);
+
+    return duplexUtil;
+  }
+
+  return new Promise(resolve => {
+    getCommitsStream()
       .pipe(
         through((chunk: Buffer, _: string, callback: Function) => {
           // Replace github URLs with `@XYZ#123`

@@ -16,6 +16,12 @@
   <div class="fd-shellbar__group fd-shellbar__group--end">
     <div class="fd-shellbar__actions">
       <div class="fd-shellbar__action fd-shellbar__action--show-always">
+        <div class="session-timer">
+          <cx-asm-session-timer
+            *ngIf="(csAgentToken$ | async)?.access_token"
+          ></cx-asm-session-timer>
+        </div>
+
         <div class="sap-icon--decline">
           <a
             title="{{ 'asm.hideUi' | cxTranslate }}"
@@ -40,12 +46,8 @@
         <div class="sap-icon--log">
           <a
             title="{{ 'asm.logout' | cxTranslate }}"
-            *ngIf="
-              (csAgentToken$ | async)?.access_token &&
-              !(customer$ | async) &&
-              !(searchResultsLoading$ | async)
-            "
-            (click)="logoutCustomerSupportAgent()"
+            *ngIf="(csAgentToken$ | async)?.access_token"
+            (click)="logout()"
           >
             <img
               src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCIgdmlld0JveD0iMCAwIDI4IDI4Ij48cGF0aCBmaWxsPSIjZDFlM2ZmIiBkPSJNMTYuOTk5IDguNDRjMS4xODcuNTY1IDIuMTg3IDEuNDUzIDIuODkxIDIuNTYgMS4yNTMgMS45NDcgMS40NjQgNC4zODguNTYyIDYuNTItLjM0Mi44MTYtLjgzNSAxLjU1OS0xLjQ1MSAyLjE5LS42NDIuNjM3LTEuMzk3IDEuMTQ2LTIuMjI5IDEuNS0uODYyLjM1OS0xLjc4Ny41NDQtMi43Mi41NC0uOTM4LjAwOC0xLjg2Ny0uMTc1LTIuNzMtLjU0LS44MjgtLjM1NC0xLjU4MS0uODY1LTIuMjItMS41LS42MzgtLjYzOC0xLjE0Ny0xLjM5MS0xLjUtMi4yMi0uOTEtMi4xMTYtLjcxOS00LjU0Mi41MDgtNi40OS43MDQtMS4xMDcgMS43MDUtMS45OTUgMi44OS0yLjU2djEuMTNjLS44OTYuNTE1LTEuNjQzIDEuMjUyLTIuMTcgMi4xNC0uNTQ4LjkwNC0uODM1IDEuOTQzLS44MyAzLS4wMTQgMS42MDUuNjE2IDMuMTUxIDEuNzUgNC4yOS41NDUuNTUgMS4xOTUuOTg1IDEuOTEgMS4yOCAxLjQ5OC42MjUgMy4xODMuNjI1IDQuNjgxIDAgLjcxNS0uMjk1IDEuMzY0LS43MyAxLjkwOC0xLjI4IDEuMTI1LTEuMTI3IDEuNzU2LTIuNjU2IDEuNzUxLTQuMjQ5LjAwNS0xLjA1OS0uMjgxLTIuMDk3LS44My0zLjAwMS0uNTIxLS45MDItMS4yNy0xLjY1NC0yLjE3MS0yLjE4di0xLjEzem0tMi45OTkgNi4zMTFjLS4yNjguMDA1LS41MjctLjA5Ni0uNzItLjI4MS0uMTg3LS4xOTMtLjI4Ny0uNDUyLS4yODEtLjcydi03Yy0uMDAxLS4yNjEuMDk5LS41MTIuMjgxLS42OTkuMzgzLS4zOTggMS4wMTYtLjQxIDEuNDE0LS4wMjYuMTk2LjE4OS4zMDguNDUxLjMwNi43MjV2Ny4wMDFjLjAwOS4yNzItLjEwMS41MzQtLjMuNzItLjE4OC4xNzktLjQzOS4yOC0uNy4yOHoiLz48L3N2Zz4="
@@ -58,48 +60,9 @@
 </div>
 
 <ng-container *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm">
-  <ng-container
+  <cx-customer-emulation
     *ngIf="customer$ | async as customer; else showCustomerSelection"
-  >
-    <div class="cx-customer-emulation">
-      <div class="fd-container">
-        <div class="fd-col--6">
-          <label>
-            <input
-              class="form-control ng-untouched ng-pristine ng-invalid"
-              formcontrolname="customer"
-              type="text"
-              disabled="true"
-              placeholder="{{ customer?.name }}, {{ customer?.uid }}"
-            />
-          </label>
-        </div>
-
-        <div class="fd-col--3">
-          <button class="fd-button--negative" (click)="endSession()">
-            <svg
-              height="14"
-              width="14"
-              aria-hidden="true"
-              data-icon="stop-circle"
-              data-prefix="far"
-              focusable="false"
-              role="img"
-              viewBox="0 0 512 512"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M504 256C504 119 393 8 256 8S8 119 8 256s111 248 248 248 248-111 248-248zm-448 0c0-110.5 89.5-200 200-200s200 89.5 200 200-89.5 200-200 200S56 366.5 56 256zm296-80v160c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V176c0-8.8 7.2-16 16-16h160c8.8 0 16 7.2 16 16z"
-              />
-            </svg>
-            <span>
-              {{ 'asm.endSession' | cxTranslate }}
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </ng-container>
+  ></cx-customer-emulation>
   <ng-template #showCustomerSelection>
     <cx-customer-selection
       (submitEvent)="startCustomerEmulationSession($event)"

@@ -3,21 +3,14 @@ import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
 import { NgModule } from '@angular/core';
-import {
-  BrowserModule,
-  BrowserTransferStateModule,
-} from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
-import {
-  B2cStorefrontModule,
-  JsonLdBuilderModule,
-  StorefrontComponent,
-} from '@spartacus/storefront';
+import { B2cStorefrontModule, JsonLdBuilderModule, StorefrontComponent } from '@spartacus/storefront';
+import { CdsConfig, CdsModule } from 'projects/cds/public_api';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { CdsModule, CdsConfig } from 'projects/cds/public_api';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -98,6 +91,8 @@ if (!environment.production) {
         }
       }
     }),
+
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,

@@ -19,6 +19,7 @@
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "stripInternal": true,
     "paths": {
       "@spartacus/core": [
         "projects/core/public_api"
