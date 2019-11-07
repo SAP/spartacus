@@ -1,8 +1,12 @@
 <button [disabled]="disableConfirm" (click)="confirmEntryInputs()">
-  Confirm
+  {{ 'common.continue' | cxTranslate }}
 </button>
 <br />
-<a class="btn btn-primary" (click)="setComplete()">Return Complete Order</a>
+<a (click)="setComplete()">{{
+  (cancelOrder
+    ? 'orderDetails.cancellationAndReturn.cancelAll'
+    : 'orderDetails.cancellationAndReturn.returnAll') | cxTranslate
+}}</a>
 
 <div class="d-none d-md-block d-lg-block d-xl-block">
   <div class="cx-item-list-header row">
@@ -15,17 +19,12 @@
     <div class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2">
       {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
     </div>
-    <div
-      class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
-      *ngIf="!cancelOrder"
-    >
-      {{ 'orderDetails.cancellationAndReturn.returnQty' | cxTranslate }}
-    </div>
-    <div
-      class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
-      *ngIf="cancelOrder"
-    >
-      {{ 'orderDetails.cancellationAndReturn.cancelQty' | cxTranslate }}
+    <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
+      {{
+        (cancelOrder
+          ? 'orderDetails.cancellationAndReturn.cancelQty'
+          : 'orderDetails.cancellationAndReturn.returnQty') | cxTranslate
+      }}
     </div>
   </div>
 </div>
@@ -91,23 +90,14 @@
               </div>
               <!-- Cancel/Return Quantity -->
               <div class="cx-total col-md-3 col-lg-3 col-xl-2">
-                <div
-                  class="cx-label d-block d-md-none d-lg-none d-xl-none"
-                  *ngIf="!cancelOrder"
-                >
+                <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
                   {{
-                    'orderDetails.cancellationAndReturn.returnQty' | cxTranslate
+                    (cancelOrder
+                      ? 'orderDetails.cancellationAndReturn.cancelQty'
+                      : 'orderDetails.cancellationAndReturn.returnQty')
+                      | cxTranslate
                   }}
                 </div>
-                <div
-                  class="cx-label d-block d-md-none d-lg-none d-xl-none"
-                  *ngIf="cancelOrder"
-                >
-                  {{
-                    'orderDetails.cancellationAndReturn.cancelQty' | cxTranslate
-                  }}
-                </div>
-
                 <div [formGroupName]="i">
                   <input
                     type="text"

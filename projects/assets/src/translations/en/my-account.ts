@@ -40,6 +40,8 @@ export const myAccount = {
       quantity: 'Qty',
       returnQty: 'Return Qty',
       cancelQty: 'Cancel Qty',
+      returnAll: 'Return All',
+      cancelAll: 'Cancel All',
     },
   },
   orderHistory: {
