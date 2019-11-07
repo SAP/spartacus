@@ -51,7 +51,7 @@ export class MockOccEndpointsService {
   }
 }
 
-fdescribe('OccAsmAdapter', () => {
+describe('OccAsmAdapter', () => {
   let occAsmAdapter: OccAsmAdapter;
   let converterService: ConverterService;
   let httpMock: HttpTestingController;
