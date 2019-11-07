@@ -4,6 +4,7 @@ import { AnonymousConsent, AnonymousConsentsService, BaseSiteService, WindowRef 
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { CdsConfig, ProfileTagConfig } from '../../config/config.model';
+import { ProfileTagWindowObject } from './profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class ProfileTagInjector {
   profiletagConfig: ProfileTagConfig;
   consentChanged$: Observable<Boolean[]>;
   pageLoaded$: Observable<NgRouterEvent>;
-  w: any;
+  w: ProfileTagWindowObject;
   isProfileTagLoaded = new BehaviorSubject<boolean>(false);
   startTracking$: Observable<Boolean[] | NgRouterEvent>;
   constructor(
@@ -22,7 +23,7 @@ export class ProfileTagInjector {
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService
   ) {
-    this.w = this.winRef.nativeWindow;
+    this.w = <ProfileTagWindowObject><unknown>this.winRef.nativeWindow;
     this.profiletagConfig = this.config.cds.profileTag;
     this.consentChanged$ = this.consentChanged();
     this.pageLoaded$ = this.pageLoaded();
@@ -110,14 +111,14 @@ export class ProfileTagInjector {
   }
 
   private track(options: ProfileTagConfig) {
-    const w: any = this.winRef.nativeWindow;
-    w.Y_TRACKING = function () {
-      (w.Y_TRACKING.q = w.Y_TRACKING.q || []).push(arguments);
-    };
     const spaOptions = {
       ...options, spa: true, profileTagEventReciever: this.profileTagEventTriggered.bind(this)
     }
-    w.Y_TRACKING(spaOptions);
+    const q = this.w.Y_TRACKING.q || [];
+    q.push([spaOptions]);
+    this.w.Y_TRACKING = {
+      q: q
+    };
   }
 
   private profileTagEventTriggered(profileTagEvent) {

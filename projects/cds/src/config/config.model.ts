@@ -1,4 +1,4 @@
-export abstract class CdsConfig {
+export interface CdsConfig {
   cds: {
     profileTag: ProfileTagConfig;
   }
@@ -11,5 +11,5 @@ export interface ProfileTagConfig {
   javascriptUrl: string;
   configUrl: string;
   allowInsecureCookies?: boolean;
-  gtmId?: boolean;
+  gtmId?: string;
 }
