@@ -13,8 +13,9 @@ import {
 import { OccCustomerCouponAdapter } from './occ-customer-coupon.adapter';
 import { MockOccEndpointsService } from './unit-test.helper';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from 'projects/core/src/util/converter.service';
+import { ConverterService } from '../../../util/converter.service';
 import { Type } from '@angular/core';
+import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
 
 const userId = 'mockUseId';
 
@@ -64,24 +65,38 @@ describe('OccCustomerCouponAdapter', () => {
   });
 
   describe('get CustomerCoupons', () => {
+    const pageSize = 5;
+    const currentPage = 1;
+    const sort = 'byDate';
+    const customerCoupon: CustomerCoupon = {
+      couponId: couponCode,
+      name: 'coupon 1',
+      startDate: '',
+      endDate: '',
+      status: 'Effective',
+      description: '',
+      notificationOn: true,
+    };
+    const couponSearchResult: CustomerCouponSearchResult = {
+      coupons: [customerCoupon],
+      sorts: [],
+      pagination: {},
+    };
+
+    it('should use converter', () => {
+      occCustomerCouponAdapter
+        .getCustomerCoupons(userId, pageSize, currentPage, sort)
+        .subscribe();
+      httpMock
+        .expectOne(req => {
+          return req.method === 'GET';
+        })
+        .flush({});
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER
+      );
+      });
     it('should load customer search results for given user id', () => {
-      const pageSize = 5;
-      const currentPage = 1;
-      const sort = 'byDate';
-      const customerCoupon: CustomerCoupon = {
-        couponId: couponCode,
-        name: 'coupon 1',
-        startDate: '',
-        endDate: '',
-        status: 'Effective',
-        description: '',
-        notificationOn: true,
-      };
-      const couponSearchResult: CustomerCouponSearchResult = {
-        coupons: [customerCoupon],
-        sorts: [],
-        pagination: {},
-      };
 
       occCustomerCouponAdapter
         .getCustomerCoupons(userId, pageSize, currentPage, sort)

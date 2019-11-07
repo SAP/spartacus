@@ -13,8 +13,8 @@ import { User } from '../../../model/misc.model';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import { CustomerCouponAdapter } from '../../connectors/customer-coupon/customer-coupon.adapter';
 import { UserService } from '../../facade/user.service';
-import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
-import * as fromCustomerCouponsEffect from './customer-coupon.effect';
+import { UserActions } from '../actions/index';
+import { CustomerCouponEffects } from './customer-coupon.effect';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 
 class MockUserService {
@@ -73,14 +73,14 @@ const customerCoupon2Customer: CustomerCoupon2Customer = {
 };
 
 describe('Customer Coupon effect', () => {
-  let customerCouponsEffect: fromCustomerCouponsEffect.CustomerCouponEffects;
+  let customerCouponsEffect: CustomerCouponEffects;
   let customerCouponConnector: CustomerCouponConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        fromCustomerCouponsEffect.CustomerCouponEffects,
+        CustomerCouponEffects,
         { provide: CustomerCouponAdapter, useValue: {} },
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -89,7 +89,7 @@ describe('Customer Coupon effect', () => {
     });
 
     customerCouponsEffect = TestBed.get(
-      fromCustomerCouponsEffect.CustomerCouponEffects
+      CustomerCouponEffects
     );
     customerCouponConnector = TestBed.get(CustomerCouponConnector);
 
@@ -110,13 +110,13 @@ describe('Customer Coupon effect', () => {
 
   describe('loadCustomerCoupons$', () => {
     it('should load CustomerCoupons', () => {
-      const action = new fromCustomerCouponsAction.LoadCustomerCoupons({
+      const action = new UserActions.LoadCustomerCoupons({
         userId,
         pageSize,
         currentPage,
         sort,
       });
-      const completion = new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
+      const completion = new UserActions.LoadCustomerCouponsSuccess(
         customerSearcherResult
       );
 
@@ -131,11 +131,11 @@ describe('Customer Coupon effect', () => {
 
   describe('subscribeCustomerCoupon$', () => {
     it('should subscribe customer coupon', () => {
-      const action = new fromCustomerCouponsAction.SubscribeCustomerCoupon({
+      const action = new UserActions.SubscribeCustomerCoupon({
         userId: OCC_USER_ID_CURRENT,
         couponCode: 'testCoupon',
       });
-      const completion = new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
+      const completion = new UserActions.SubscribeCustomerCouponSuccess(
         customerCouponNotification
       );
 
@@ -149,11 +149,11 @@ describe('Customer Coupon effect', () => {
 
   describe('unsubscribeCustomerCoupon$', () => {
     it('should unsubscribe customer coupon', () => {
-      const action = new fromCustomerCouponsAction.UnsubscribeCustomerCoupon({
+      const action = new UserActions.UnsubscribeCustomerCoupon({
         userId: OCC_USER_ID_CURRENT,
         couponCode: 'testCoupon',
       });
-      const completion = new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
+      const completion = new UserActions.UnsubscribeCustomerCouponSuccess(
         'testCoupon'
       );
 
@@ -167,11 +167,11 @@ describe('Customer Coupon effect', () => {
 
   describe('claimCustomerCoupon$', () => {
     it('should load CustomerCoupons', () => {
-      const action = new fromCustomerCouponsAction.ClaimCustomerCoupon({
+      const action = new UserActions.ClaimCustomerCoupon({
         userId: OCC_USER_ID_CURRENT,
         couponCode: 'testCoupon',
       });
-      const completion = new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
+      const completion = new UserActions.ClaimCustomerCouponSuccess(
         customerCoupon2Customer
       );
 

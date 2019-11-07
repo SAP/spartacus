@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
 import {
@@ -38,14 +37,11 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       params = params.set('currentPage', currentPage.toString());
     }
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    const headers = this.newHttpHeader();
 
     return this.http
       .get<Occ.CustomerCouponSearchResult>(url, { headers, params })
       .pipe(
-        catchError((error: any) => throwError(error)),
         this.converter.pipeable(CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER)
       );
   }
@@ -55,13 +51,10 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       userId,
       couponCode,
     });
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    const headers = this.newHttpHeader();
 
     return this.http
       .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
   }
 
   turnOnNotification(
@@ -72,14 +65,10 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       userId,
       couponCode,
     });
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-    });
+    const headers = this.newHttpHeader();
 
     return this.http
       .post(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
   }
 
   claimCustomerCoupon(
@@ -90,13 +79,15 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       userId,
       couponCode,
     });
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-    });
+    const headers = this.newHttpHeader();
 
     return this.http
       .post(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  private newHttpHeader() {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
   }
 }
