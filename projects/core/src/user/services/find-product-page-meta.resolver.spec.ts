@@ -77,7 +77,7 @@ describe('FindProductSearchPageMetaResolver', () => {
   const routingService = jasmine.createSpyObj('RoutingService', [
     'getRouterState',
   ]);
-  const authService = jasmine.createSpyObj('AuthService', ['getUserToken']);
+  const authService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
   const router = jasmine.createSpyObj('Router', ['']);
 
   beforeEach(() => {
@@ -116,7 +116,7 @@ describe('FindProductSearchPageMetaResolver', () => {
     });
     cmsService.getCurrentPage.and.returnValue(of());
     featureConfigService.isLevel.and.returnValue(false);
-    authService.getUserToken.and.returnValue(of(false));
+    authService.isUserLoggedIn.and.returnValue(of(false));
     prductSearchService.getResults.and.returnValue(
       of({
         pagination: {
@@ -177,7 +177,7 @@ describe('FindProductSearchPageMetaResolver', () => {
     });
 
     it('should resolve 2 breadcrumbs when customer search', () => {
-      authService.getUserToken.and.returnValue(of(true));
+      authService.isUserLoggedIn.and.returnValue(of(true));
       let result: PageMeta;
       service
         .getMeta()
