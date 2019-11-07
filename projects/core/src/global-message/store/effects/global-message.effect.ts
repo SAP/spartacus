@@ -6,10 +6,11 @@ import {
   delay,
   filter,
   pluck,
-  concatMap,
   switchMap,
   map,
   withLatestFrom,
+  take,
+  concatMap,
 } from 'rxjs/operators';
 
 import { GlobalMessageConfig } from '../../config/global-message-config';
@@ -70,17 +71,19 @@ export class GlobalMessageEffect {
       const config = this.config.globalMessages[type];
       return this.store.pipe(
         select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+        take(1),
         filter(
           (count: number) =>
             config && config.timeout !== undefined && count && count > 0
         ),
+        delay(config.timeout),
         switchMap(() =>
           of(
             new GlobalMessageActions.RemoveMessage({
               type,
               index: 0,
             })
-          ).pipe(delay(config.timeout))
+          )
         )
       );
     })

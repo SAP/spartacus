@@ -23,7 +23,7 @@ import { MiniCartModule } from './mini-cart/mini-cart.module';
   providers: [
     {
       provide: PAGE_LAYOUT_HANDLER,
-      useClass: CartPageLayoutHandler,
+      useExisting: CartPageLayoutHandler,
       multi: true,
     },
   ],
