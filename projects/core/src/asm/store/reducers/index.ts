@@ -1,5 +1,11 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { ActionReducerMap } from '@ngrx/store';
+import {
+  Action,
+  ActionReducer,
+  ActionReducerMap,
+  MetaReducer,
+} from '@ngrx/store';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmState, CUSTOMER_SEARCH_DATA } from '../asm-state';
@@ -22,3 +28,21 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
+
+export function clearCustomerSupportAgentAsmState(
+  reducer: ActionReducer<AsmState, Action>
+): ActionReducer<AsmState, Action> {
+  return function(state, action) {
+    if (action.type === AuthActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
+      state = {
+        ...state,
+        customerSearchResult: undefined,
+      };
+    }
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<any>[] = [
+  clearCustomerSupportAgentAsmState,
+];

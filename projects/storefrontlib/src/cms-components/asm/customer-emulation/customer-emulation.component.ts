@@ -1,11 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AuthService,
-  RoutingService,
-  User,
-  UserService,
-} from '@spartacus/core';
+import { User, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { AsmComponentService } from '../asm-component.service';
 
 @Component({
   selector: 'cx-customer-emulation',
@@ -16,9 +12,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(
-    protected authService: AuthService,
-    protected userService: UserService,
-    protected routingService: RoutingService
+    protected asmComponentService: AsmComponentService,
+    protected userService: UserService
   ) {}
 
   ngOnInit() {
@@ -27,9 +22,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     );
   }
 
-  endSession() {
-    this.authService.logout();
-    this.routingService.go({ cxRoute: 'home' });
+  logoutCustomer() {
+    this.asmComponentService.logoutCustomer();
   }
 
   ngOnDestroy(): void {
