@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { filter, mergeMap, take, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
@@ -28,9 +28,7 @@ export class ConfiguratorCommonsService {
   hasConfiguration(productCode: string): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
-      mergeMap(configuration => {
-        return of(this.isConfigurationCreated(configuration));
-      })
+      map(configuration => this.isConfigurationCreated(configuration))
     );
   }
 
@@ -129,28 +127,22 @@ export class ConfiguratorCommonsService {
       JSON.stringify(configuration)
     );
 
-    newConfiguration.groups.forEach(group => {
-      if (group.id !== groupId) {
-        return;
-      }
+    const group = newConfiguration.groups.find(
+      currentGroup => currentGroup.id === groupId
+    );
+    const attribute = group.attributes.find(
+      currentAttribute => currentAttribute.name === changedAttribute.name
+    );
 
-      group.attributes.forEach(attribute => {
-        if (attribute.name !== changedAttribute.name) {
-          return;
-        }
-
-        switch (attribute.uiType) {
-          case Configurator.UiType.RADIOBUTTON:
-          case Configurator.UiType.DROPDOWN:
-            attribute.selectedSingleValue =
-              changedAttribute.selectedSingleValue;
-            break;
-          case Configurator.UiType.STRING:
-            attribute.userInput = changedAttribute.userInput;
-            break;
-        }
-      });
-    });
+    switch (attribute.uiType) {
+      case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.DROPDOWN:
+        attribute.selectedSingleValue = changedAttribute.selectedSingleValue;
+        break;
+      case Configurator.UiType.STRING:
+        attribute.userInput = changedAttribute.userInput;
+        break;
+    }
 
     return newConfiguration;
   }
