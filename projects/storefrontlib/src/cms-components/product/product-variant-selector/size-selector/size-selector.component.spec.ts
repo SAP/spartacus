@@ -35,10 +35,13 @@ describe('VariantSizeSelectorComponent', () => {
   });
 
   it('should send emit', () => {
-    spyOn(component.changeSizeEvent, 'emit').and.stub();
+    spyOn(component, 'changeSize').and.stub();
 
     component.changeSize('test');
 
-    expect(component.changeSizeEvent.emit).toHaveBeenCalledWith('test');
+    expect(component.changeSize).toHaveBeenCalledWith({
+      cxRoute: 'product',
+      params: { code: 'test' },
+    });
   });
 });

@@ -1,28 +1,19 @@
-import { Component, Input, Type, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  OccConfig,
   Product,
   RoutingService,
   UrlCommandRoute,
   UrlCommands,
   VariantType,
   I18nTestingModule,
-  VariantOption,
+  BaseOption,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ProductVariantSelectorComponent } from './product-variant-selector.component';
 import { NavigationExtras } from '@angular/router';
-
-const mockVariantProduct: Product = {
-  name: 'mockVariantProduct',
-  code: 'code1',
-  variantType: VariantType.APPAREL_STYLE,
-  baseOptions: [],
-  variantOptions: [{ code: 'mock_code_1' }, { code: 'mock_code_2' }],
-};
 
 const mockProduct: Product = {
   name: 'mockProduct',
@@ -62,7 +53,7 @@ class MockUrlPipe implements PipeTransform {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return of(mockProduct);
   }
 }
 
@@ -72,8 +63,7 @@ class MockCurrentProductService {
 })
 class MockCxStyleSelectorComponent {
   @Input() product: Product;
-  @Input() styleVariants: VariantOption[];
-  @Input() selectedStyle: string;
+  @Input() variants: BaseOption;
 }
 
 @Component({
@@ -82,13 +72,12 @@ class MockCxStyleSelectorComponent {
 })
 class MockCxSizeSelectorComponent {
   @Input() product: Product;
-  @Input() sizeVariants: VariantOption[];
+  @Input() variants: BaseOption;
 }
 
 describe('ProductVariantSelectorComponent', () => {
   let component: ProductVariantSelectorComponent;
   let fixture: ComponentFixture<ProductVariantSelectorComponent>;
-  let currentProductService: CurrentProductService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -109,19 +98,12 @@ describe('ProductVariantSelectorComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        {
-          provide: OccConfig,
-          useValue: { backend: { occ: { baseUrl: 'abc' } } },
-        },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantSelectorComponent);
-    currentProductService = TestBed.get(CurrentProductService as Type<
-      CurrentProductService
-    >);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -131,61 +113,31 @@ describe('ProductVariantSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get style variant list based on product variant type property', () => {
-    spyOn(currentProductService, 'getProduct').and.returnValue(
-      of(mockVariantProduct)
-    );
+  it('should get variant list', () => {
     component.ngOnInit();
     component.product$.subscribe();
 
-    expect(component.styleVariants.length).toEqual(
-      mockVariantProduct.variantOptions.length
-    );
-    expect(component.styleVariants[0].code).toEqual(
-      mockVariantProduct.variantOptions[0].code
+    expect(component.variants.length).toEqual(mockProduct.baseOptions.length);
+
+    expect(component.variants[0].variantType).toEqual(
+      VariantType.APPAREL_STYLE
     );
   });
 
-  it('should get size variant list based on base option variant type property', () => {
-    spyOn(currentProductService, 'getProduct').and.returnValue(of(mockProduct));
-    component.ngOnInit();
-    component.product$.subscribe();
-
-    expect(component.styleVariants.length).toEqual(
-      mockProduct.baseOptions[0].options.length
-    );
-    expect(component.sizeVariants.length).toEqual(
-      mockProduct.variantOptions.length
-    );
-    expect(component.styleVariants[0].code).toEqual(
-      mockProduct.baseOptions[0].options[0].code
-    );
-  });
-
-  it('should get selected style variant based on product code', () => {
-    spyOn(currentProductService, 'getProduct').and.returnValue(of(mockProduct));
-    component.ngOnInit();
-    component.product$.subscribe();
-
-    expect(component.styleVariants.length).toEqual(
-      mockProduct.baseOptions[0].options.length
-    );
-    expect(component.selectedStyle).toBeTruthy();
-    expect(component.selectedStyle).toEqual('test222');
-  });
-
-  it('should go to specified variant when routing is called', () => {
+  it('should go to variant if product is not purchasable', () => {
     spyOn(routingService, 'go').and.stub();
-    component.routeToVariant('test123', false);
+
+    component.ngOnInit();
+    component.product$.subscribe();
 
     expect(routingService.go).toHaveBeenCalledWith(
       ...[
         {
           cxRoute: 'product',
-          params: { code: 'test123' },
+          params: { code: 'mock_code_3' },
         },
         null,
-        { replaceUrl: false },
+        { replaceUrl: true },
       ]
     );
   });
