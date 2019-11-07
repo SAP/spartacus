@@ -28,7 +28,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     component = fixture.componentInstance;
     component.attribute = {
       name: 'valueName',
-      stdAttrCode: 444,
+      attrCode: 444,
       uiType: Configurator.UiType.RADIOBUTTON,
       selectedSingleValue: 'selectedValue',
       quantity: 1,
