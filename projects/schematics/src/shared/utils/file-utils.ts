@@ -54,7 +54,6 @@ export enum InsertDirection {
   RIGHT,
 }
 
-// TODO:#12 test
 export function commitChanges(
   host: Tree,
   path: string,
@@ -79,12 +78,11 @@ export function commitChanges(
   host.commitUpdate(recorder);
 }
 
-// TODO:#12 test
 export function defineProperty(
   nodes: ts.Node[],
   path: string,
   toAdd: string
-): Change {
+): InsertChange {
   const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
 
   // TODO:#12 create a constructor here
@@ -95,13 +93,12 @@ export function defineProperty(
   return new InsertChange(path, constructorNode.pos + 1, toAdd);
 }
 
-// TODO:#12 test
 export function injectService(
   nodes: ts.Node[],
   path: string,
   serviceName: string,
   propertyName?: string
-): Change {
+): InsertChange {
   const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
 
   // TODO:#12 create a constructor here
