@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MerchandisingCarouselModule } from '../../../cds/src/cms-components/merchandising/index';
 import { HamburgerMenuModule } from '../layout/index';
 import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
 import { AssistedServiceModule } from './asm/assisted-service.module';
@@ -11,7 +12,6 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
-import { MerchandisingCarouselModule } from './merchandising/index';
 import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,

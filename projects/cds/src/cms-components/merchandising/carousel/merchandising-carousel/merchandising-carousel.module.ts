@@ -5,7 +5,7 @@ import { CmsConfig, ConfigModule, UrlModule } from '@spartacus/core';
 import {
   CarouselModule,
   MediaModule,
-} from '../../../../shared/components/index';
+} from '../../../../../../storefrontlib/src/shared/components/index';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 
 @NgModule({

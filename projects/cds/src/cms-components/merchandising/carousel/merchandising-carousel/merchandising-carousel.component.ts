@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  CmsMerchandisingCarouselComponent as model,
-  Product,
-} from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, flatMap, map } from 'rxjs/operators';
-import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { CmsComponentData } from '../../../../../../storefrontlib/src/cms-structure/page/model/cms-component-data';
+import { CmsMerchandisingCarouselComponent as model } from '../../../../cds-models/cms.model';
 import { StrategyConnector } from './../../../../../../cds/src/merchandising/connectors/strategy/strategy.connector';
 
 @Component({
