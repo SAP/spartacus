@@ -80,34 +80,7 @@ fdescribe('OccAsmAdapter', () => {
     expect(occAsmAdapter).toBeTruthy();
   });
 
-  it('should perform a customer search', () => {
-    let result: CustomerSearchPage;
-    const searchQuery = 'user@test.com';
-    const searchOptions: CustomerSearchOptions = { query: searchQuery };
-    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
-      result = data;
-    });
-    const mockReq: TestRequest = httpMock.expectOne(req => {
-      return req.method === 'GET';
-    });
-
-    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
-    expect(mockReq.request.params.get('pageSize')).toBeNull();
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(mockCustomerSearchPage);
-    expect(result).toEqual(mockCustomerSearchPage);
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
-    );
-    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
-      'asmCustomerSearch'
-    );
-  });
-
-  it('should perform a customer search with positive pageSize', () => {
+  it('should perform a customer search with all params', () => {
     let result: CustomerSearchPage;
     const searchQuery = 'user@test.com';
     const pageSize = 10;
@@ -125,6 +98,32 @@ fdescribe('OccAsmAdapter', () => {
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('query')).toBe(searchQuery);
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(mockCustomerSearchPage);
+    expect(result).toEqual(mockCustomerSearchPage);
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CUSTOMER_SEARCH_PAGE_NORMALIZER
+    );
+    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
+      'asmCustomerSearch'
+    );
+  });
+
+  it('should not include optional params if they are not in the options', () => {
+    let result: CustomerSearchPage;
+    const searchOptions: CustomerSearchOptions = {};
+    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
+      result = data;
+    });
+    const mockReq: TestRequest = httpMock.expectOne(req => {
+      return req.method === 'GET';
+    });
+
+    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('query')).toBeNull();
+    expect(mockReq.request.params.get('pageSize')).toBeNull();
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');

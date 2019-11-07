@@ -40,9 +40,14 @@ export class OccAsmAdapter implements AsmAdapter {
       true,
       new HttpHeaders()
     );
-    let params: HttpParams = new HttpParams()
-      .set('baseSite', this.activeBaseSite)
-      .set('query', options.query);
+    let params: HttpParams = new HttpParams().set(
+      'baseSite',
+      this.activeBaseSite
+    );
+
+    if ('undefined' !== typeof options['query']) {
+      params = params.set('query', '' + options.query);
+    }
 
     if ('undefined' !== typeof options['pageSize']) {
       params = params.set('pageSize', '' + options.pageSize);
@@ -55,3 +60,5 @@ export class OccAsmAdapter implements AsmAdapter {
       .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
   }
 }
+
+
