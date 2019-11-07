@@ -74,7 +74,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
         query: searchTermValue,
-        pageSize: this.config.asm.customeSearch.maxResults,
+        pageSize: this.config.asm.customeRSearch.maxResults,
       });
     }
   }

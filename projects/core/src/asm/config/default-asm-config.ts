@@ -5,7 +5,7 @@ export const defaultAsmConfig: AsmConfig = {
     agentSessionTimer: {
       startingDelayInSeconds: 600,
     },
-    customeSearch: {
+    customeRSearch: {
       maxResults: 20,
     },
   },
