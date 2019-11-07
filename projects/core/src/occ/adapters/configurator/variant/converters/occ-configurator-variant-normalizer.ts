@@ -3,7 +3,7 @@ import { Configurator } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration> {

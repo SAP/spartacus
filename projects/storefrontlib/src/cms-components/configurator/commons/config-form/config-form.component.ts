@@ -1,27 +1,23 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({
   selector: 'cx-config-form',
   templateUrl: './config-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigFormComponent implements OnInit, OnDestroy {
+export class ConfigFormComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<string>;
-  productCode: string;
-  subscription = new Subscription();
+
   public UiType = Configurator.UiType;
 
   constructor(
@@ -31,35 +27,25 @@ export class ConfigFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.routingService
-        .getRouterState()
-        .subscribe(state => this.initConfigurationForm(state))
+    this.configuration$ = this.routingService.getRouterState().pipe(
+      map(routingData => routingData.state.params.rootProduct),
+      switchMap(product =>
+        this.configuratorCommonsService.getConfiguration(product)
+      ),
+      tap(
+        configuration =>
+          (this.currentGroup$ = this.configuratorGroupsService.getCurrentGroup(
+            configuration.productCode
+          ))
+      )
     );
   }
 
-  initConfigurationForm(routingData) {
-    this.productCode = routingData.state.params.rootProduct;
-
-    this.configuration$ = this.configuratorCommonsService.getConfiguration(
-      this.productCode
-    );
-    this.currentGroup$ = this.configuratorGroupsService.getCurrentGroup(
-      this.productCode
-    );
-  }
-
-  updateConfiguration(event) {
+  updateConfiguration(event: ConfigFormUpdateEvent) {
     this.configuratorCommonsService.updateConfiguration(
-      this.productCode,
-      event.group,
+      event.productCode,
+      event.groupId,
       event.changedAttribute
     );
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

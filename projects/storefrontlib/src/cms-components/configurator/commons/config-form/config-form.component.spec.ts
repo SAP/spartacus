@@ -185,11 +185,4 @@ describe('ConfigurationFormComponent', () => {
 
     expect(productCode).toEqual(PRODUCT_CODE);
   });
-
-  it('should release subscription on destroy ', () => {
-    component.ngOnInit();
-    expect(component.subscription.closed).toBe(false);
-    component.ngOnDestroy();
-    expect(component.subscription.closed).toBe(true);
-  });
 });

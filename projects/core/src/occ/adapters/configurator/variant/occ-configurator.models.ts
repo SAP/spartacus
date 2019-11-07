@@ -17,6 +17,9 @@ export namespace OccConfigurator {
     kbKey?: KbKey;
   }
 
+  /**
+   * Key that identifies a knowledge base ( container representing the configuration master data )
+   */
   export interface KbKey {
     productCode?: string;
   }
