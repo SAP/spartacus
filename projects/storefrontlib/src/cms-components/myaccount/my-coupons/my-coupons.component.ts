@@ -46,6 +46,11 @@ export class MyCouponsComponent implements OnInit {
   ];
 
   pagination: PaginationModel;
+  sortLabels: Observable<{     
+    byStartDateAsc: string;
+    byStartDateDesc: string;
+    byEndDateAsc: string;
+    byEndDateDesc: string; }>;
 
   constructor(
     private couponService: CustomerCouponService,
@@ -75,6 +80,7 @@ export class MyCouponsComponent implements OnInit {
     ]).pipe(
       map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
     );
+    this.sortLabels = this.getSortLabels();
   }
 
   getSortLabels(): Observable<{
