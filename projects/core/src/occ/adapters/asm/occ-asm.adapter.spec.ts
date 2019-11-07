@@ -39,6 +39,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
 } as CustomerSearchPage;
 
 const baseSite = 'test-site';
+const defaultSort = 'byNameAsc';
 class MockBaseSiteService {
   getActive(): Observable<string> {
     return of(baseSite);
@@ -122,6 +123,8 @@ describe('OccAsmAdapter', () => {
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('sort')).toBe(defaultSort);
+
     expect(mockReq.request.params.get('query')).toBeNull();
     expect(mockReq.request.params.get('pageSize')).toBeNull();
 
@@ -153,6 +156,7 @@ describe('OccAsmAdapter', () => {
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('sort')).toBe(defaultSort);
     expect(mockReq.request.params.get('query')).toBe(searchQuery);
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 

@@ -40,10 +40,9 @@ export class OccAsmAdapter implements AsmAdapter {
       true,
       new HttpHeaders()
     );
-    let params: HttpParams = new HttpParams().set(
-      'baseSite',
-      this.activeBaseSite
-    );
+    let params: HttpParams = new HttpParams()
+      .set('baseSite', this.activeBaseSite)
+      .set('sort', 'byNameAsc');
 
     if ('undefined' !== typeof options['query']) {
       params = params.set('query', '' + options.query);
@@ -60,5 +59,3 @@ export class OccAsmAdapter implements AsmAdapter {
       .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
   }
 }
-
-
