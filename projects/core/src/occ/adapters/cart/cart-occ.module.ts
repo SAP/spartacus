@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
-import { SaveCartAdapter } from '../../../cart/connectors/save-cart';
+import { SaveCartAdapter } from '../../../cart/connectors/save-cart/save-cart.adapter';
 import { CartVoucherAdapter } from '../../../cart/connectors/voucher/cart-voucher.adapter';
 import { ConfigModule } from '../../../config/config.module';
 import { OccCartNormalizer } from './converters/occ-cart-normalizer';

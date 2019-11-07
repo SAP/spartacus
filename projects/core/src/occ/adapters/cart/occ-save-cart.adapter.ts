@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SAVE_CART_NORMALIZER } from '../../../cart/connectors/save-cart/converters';
 import { SaveCartAdapter } from '../../../cart/connectors/save-cart/save-cart.adapter';
 import { ConverterService } from '../../../util/converter.service';
-import { Occ } from '../../occ-models';
+import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
