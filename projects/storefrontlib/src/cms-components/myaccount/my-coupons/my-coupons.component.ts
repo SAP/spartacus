@@ -46,11 +46,12 @@ export class MyCouponsComponent implements OnInit {
   ];
 
   pagination: PaginationModel;
-  sortLabels: Observable<{     
+  sortLabels: Observable<{
     byStartDateAsc: string;
     byStartDateDesc: string;
     byEndDateAsc: string;
-    byEndDateDesc: string; }>;
+    byEndDateDesc: string;
+  }>;
 
   constructor(
     private couponService: CustomerCouponService,
