@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  map,
-  mergeMap,
-  switchMap,
-} from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { CartConnector } from '../../connectors';
 import { SaveCartConnector } from '../../connectors/save-cart';
 import { CartActions } from '../actions';
@@ -20,9 +14,9 @@ export class WishListEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CREATE_WISH_LIST),
     map((action: CartActions.CreateWishList) => action.payload),
-    concatMap(payload => {
+    switchMap(payload => {
       return this.cartConnector.create(payload.userId).pipe(
-        mergeMap(cart => {
+        switchMap(cart => {
           return this.saveCartConnector
             .saveCart(
               payload.userId,
