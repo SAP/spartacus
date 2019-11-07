@@ -6,6 +6,7 @@
   }
 
   .cx-name {
+    display: inline;
     @include media-breakpoint-up(xl) {
       min-width: 15rem;
     }
@@ -39,5 +40,9 @@
     @include media-breakpoint-down(sm) {
       padding-bottom: 10px;
     }
+  }
+
+  .cx-total {
+    margin-bottom: 0;
   }
 }
