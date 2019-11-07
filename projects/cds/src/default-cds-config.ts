@@ -5,7 +5,7 @@ export const defaultCdsConfig: CdsConfig = {
     tenant: 'argotest',
     baseUrl: 'https://api.stage.context.cloud.sap',
     endpoints: {
-      strategyProducts: '/${tenant}/strategies/${strategyId}/products',
+      strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
     },
     profileTag: {
       javascriptUrl:

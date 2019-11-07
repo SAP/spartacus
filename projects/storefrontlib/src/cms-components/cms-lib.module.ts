@@ -11,6 +11,7 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
+import { MerchandisingCarouselModule } from './merchandising/index';
 import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
@@ -85,6 +86,7 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    MerchandisingCarouselModule,
   ],
 })
 export class CmsLibModule {}

@@ -14,6 +14,7 @@ import { ProductDetailsPageModule } from '../cms-pages/product-details-page/prod
 import { ProductListingPageModule } from '../cms-pages/product-listing-page/product-listing-page.module';
 import { MainModule } from '../layout/main/main.module';
 import { StorefrontConfig } from '../storefront-config';
+import { CdsModule } from './../../../cds/src/cds.module';
 import { StorefrontFoundationModule } from './storefront-foundation.module';
 
 @NgModule({
@@ -44,6 +45,7 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     PersonalizationModule.forRoot(), // should be custom
     // opt-in explicitly
     OccModule.forRoot(),
+    CdsModule.forRoot(),
     ProductDetailsPageModule,
     ProductListingPageModule,
     ExternalRoutesModule.forRoot(),
