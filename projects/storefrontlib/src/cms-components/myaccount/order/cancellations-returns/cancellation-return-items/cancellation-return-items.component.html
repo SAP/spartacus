@@ -105,8 +105,13 @@
                   }}
                 </div>
 
-                <div [formGroupName]="i" cxOnlyNumber>
-                  <input type="text" formControlName="quantity" />
+                <div [formGroupName]="i">
+                  <input
+                    type="text"
+                    formControlName="quantity"
+                    cxOnlyNumber
+                    (blur)="onBlur($event.target.value, i)"
+                  />
                 </div>
               </div>
             </div>

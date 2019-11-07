@@ -50,14 +50,22 @@ export class CancellationReturnItemsComponent implements OnInit {
   }
 
   disableEnableConfirm() {
-    this.form.value.entryInput.forEach(input => {
+    for (const input of this.form.value.entryInput) {
       if (input.quantity > 0) {
-        console.log('here');
         this.disableConfirm = false;
         return;
       }
-    });
-
+    }
     this.disableConfirm = true;
+  }
+
+  onBlur(value: string, index: number): void {
+    if (this.entries[index].quantity < +value) {
+      this.inputsControl.at(index).setValue({
+        orderEntryNumber: this.entries[index].entryNumber,
+        quantity: this.entries[index].quantity,
+      });
+    }
+    this.disableEnableConfirm();
   }
 }
