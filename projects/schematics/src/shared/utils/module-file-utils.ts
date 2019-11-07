@@ -4,7 +4,7 @@ import {
   insertImport,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
-import { Change } from '@schematics/angular/utility/change';
+import { InsertChange } from '@schematics/angular/utility/change';
 import { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
 
 export function addImport(
@@ -25,19 +25,18 @@ export function addImport(
   }
 }
 
-// TODO:#12 test
 export function importModule(
   host: Tree,
   modulePath: string,
   importText: string
-): Change[] {
+): InsertChange[] {
   const moduleSource = getTsSourceFile(host, modulePath);
   return addSymbolToNgModuleMetadata(
     moduleSource,
     modulePath,
     'imports',
     importText
-  );
+  ) as InsertChange[];
 }
 
 export function importModuleAndCommitChanges(
