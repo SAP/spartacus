@@ -1,236 +1,192 @@
-import { generateMail, randomString } from './user';
 import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
+import { generateMail, randomString } from './user';
+import * as alerts from './global-message';
+import { config, retrieveAuthToken } from '../support/utils/login';
 
-// export const configurableProductCode = '1934793';
-// export const variantProductCode = '1978440_red';
-export const normalProductCode = '358639';
-export const productCodeList = [
-  '553637',
-  '592506',
-  '932577',
-  '3357724',
-  '4205431',
-  '358639',
-  '2053266',
-  '898520',
-  '816379',
-  '1978440_red',
-  '1934793',
-];
-export const firstProductCodeSelector =
-  'cx-my-interests .cx-product-interests-product-item:first .cx-code';
-export const firstProductAscending = '4205431';
-export const firstProductDescending = '898520';
-// notification preference
-export function navigateToNotificationPreferencePage() {
-  cy.selectUserMenuOption({
-    option: 'Notification Preference',
-  });
-}
+export const testUser = 'test-user-with-coupons@ydev.hybris.com';
+export const testPassword = 'Password123.';
+export const claimCouponUrl = '/my-account/coupon/claim/';
+export const loginContainUrl = '/login';
+export const myCouponsContainUrl = '/coupons';
+export const validCouponCode = 'customerCoupon1';
+export const invalidCouponCode = 'invalidCoupon';
+export const findProductCoupon = 'qualifyProductCoupon';
 
 export function verifyMyCouponsAsAnonymous() {
-  cy.visit('/my-account/my-coupons');
-  cy.location('pathname').should('contain', '/login');
+  cy.visit('/my-account/coupons');
+  cy.location('pathname').should('contain', loginContainUrl);
 }
 
-export function verifyClaimCouponAsAnonymous() {
-  cy.visit('/my-account/my-coupon/claim/testCoupon');
-  cy.location('pathname').should('contain', '/login');
-}
-
-export function enableNotificationChannel() {
-  navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .check();
-}
-
-export function disableNotificationChannel() {
-  navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .uncheck();
-}
-
-export function verifyNotificationChannel() {
-  enableNotificationChannel();
-  verifyChannelEnabled();
-  disableNotificationChannel();
-  verifyChannelDisabled();
-}
-
-export function updateEmail(): String {
-  const password = 'Password123.';
-  const newUid = generateMail(randomString(), true);
-  cy.selectUserMenuOption({
-    option: 'Email Address',
+export function verifyClaimCouponSuccessAsAnonymous(couponCode: string) {
+  claimCoupon(couponCode);
+  cy.location('pathname').should('contain', loginContainUrl);
+  login(
+    standardUser.registrationData.email,
+    standardUser.registrationData.password
+  );
+  cy.location('pathname').should('contain', myCouponsContainUrl);
+  //alerts.getSuccessAlert().should('exist');
+  cy.get('.cx-coupon-card').within(() => {
+    cy.get('.cx-coupon-card-id').should('contain', couponCode);
   });
-  cy.get('cx-update-email-form [formcontrolname="email"]').type(newUid);
-  cy.get('cx-update-email-form [formcontrolname="confirmEmail"]').type(newUid);
-  cy.get('cx-update-email-form [formcontrolname="password"]').type(password);
-  cy.get('cx-update-email-form button[type="submit"]').click();
-  login(newUid, password);
-  return newUid;
 }
 
-export function verifyChannelValueUpdating() {
-  verifyEmailChannel(standardUser.registrationData.email);
-  const newEmail = updateEmail();
-  verifyEmailChannel(newEmail);
+export function verifyClaimCouponFailedAsAnonymous(couponCode: string) {
+  claimCoupon(couponCode);
+  cy.location('pathname').should('contain', loginContainUrl);
+  login(
+    standardUser.registrationData.email,
+    standardUser.registrationData.password
+  );
+  cy.location('pathname').should('contain', myCouponsContainUrl);
+  alerts.getErrorAlert().should('exist');
 }
 
-export function verifyChannelDisabled() {
+export function claimCoupon(couponCode: string) {
+  cy.visit(claimCouponUrl + couponCode);
+}
+
+export function createStandardUser() {
+  standardUser.registrationData.email = generateMail(randomString(), true);
+}
+
+export function registerUser() {
+  createStandardUser();
+  retrieveTokenAndRegister();
+}
+
+export function retrieveTokenAndRegister() {
+  // User needs to be registered
+  retrieveAuthToken().then(response =>
+    cy.request({
+      method: 'POST',
+      url: config.newUserUrl,
+      body: {
+        firstName: standardUser.registrationData.firstName,
+        lastName: standardUser.registrationData.lastName,
+        password: standardUser.registrationData.password,
+        titleCode: standardUser.registrationData.titleCode,
+        uid: standardUser.registrationData.email,
+      },
+      headers: {
+        Authorization: `bearer ` + response.body.access_token,
+      },
+    })
+  );
+}
+
+export function verifyCoupons() {
+  //cy.visit('/my-account/coupons');
+
+  cy.get('cx-breadcrumb h1').should('contain', 'My Coupons');
+  cy.get('.cx-my-coupons-header').should('contain', 'My coupons');
+  cy.get('cx-my-coupons .cx-section-msg').should(
+    'contain',
+    'You have no coupons available'
+  );
+
+  claimCoupon(findProductCoupon);
   cy.visit('/');
-  navigateToNotificationPreferencePage();
+  cy.visit('/my-account/coupons');
+  cy.get('.cx-coupon-card:first').within(() => {
+    cy.get('.cx-coupon-card-id').should('contain', findProductCoupon);
+  });
+}
+
+export function verifyEnableDisableNotification() {
   cy.get('[type="checkbox"]')
     .first()
     .should('not.be.checked');
+
+  cy.get('[type="checkbox"]')
+    .first()
+    .check();
+  verfifyNotificationEnable();
+
+  cy.get('[type="checkbox"]')
+    .first()
+    .uncheck();
+  verfifyNotificationDisable();
 }
 
-export function verifyChannelEnabled() {
+export function verfifyNotificationEnable() {
   cy.visit('/');
-  navigateToNotificationPreferencePage();
+  cy.visit('/my-account/coupons');
   cy.get('[type="checkbox"]')
     .first()
     .should('be.checked');
 }
 
-export function verifyEmailChannel(email: String) {
-  navigateToNotificationPreferencePage();
-  cy.get('cx-notification-preference').within(() => {
-    cy.get('.pref-channel .form-check-label').should(
+export function verfifyNotificationDisable() {
+  cy.visit('/');
+  cy.visit('/my-account/coupons');
+  cy.get('[type="checkbox"]')
+    .first()
+    .should('not.be.checked');
+}
+
+export function verifyReadMore() {
+  cy.get('.cx-card-read-more:first').click();
+  cy.get('cx-coupon-dialog').should('exist');
+  cy.get('.cx-dialog-header span').click();
+}
+
+export function verifyFindProduct() {
+  cy.get('.cx-coupon-find-product:first .btn')
+    .should('contain', ' Find Products')
+    .click();
+
+  cy.location('pathname').should('contain', 'search');
+  cy.get('cx-breadcrumb').within(() => {
+    cy.get('span:last a').should('contain', 'My Coupons');
+    cy.get('h1').should(
       'contain',
-      'Email: ' + email
+      '1 result for coupon "qualifyProductCoupon"'
     );
-    cy.get('[type="checkbox"]')
-      .first()
-      .should('not.be.checked');
-  });
-}
-//stock notification
-export function verifyStockNotificationAsGuest() {
-  navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > label > a').click();
-  cy.location('pathname').should('contain', '/login');
-}
-
-export function navigateToPDP(productCode: string) {
-  cy.visit(`/electronics-spa/en/USD/product/${productCode}`);
-}
-
-export function verifyStockNotificationWithoutChannel() {
-  navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > label > a').click();
-  cy.location('pathname').should('contain', '/notification-preference');
-}
-
-export function verifyCustomerInterest(productCode: string) {
-  cy.get('.cx-product-interests-product-item').within(() => {
-    cy.get('.cx-code').should('contain', productCode);
   });
 }
 
-export function subscribeStockNotification(productCode: string) {
-  clickNotifyMeBtn(productCode);
-  cy.get('.cx-dialog-actions > .btn').click();
-}
-
-export function unsubscribeStockNotification(productCode: string) {
-  navigateToPDP(productCode);
-  cy.get('cx-stock-notification > .btn')
-    .should('contain', 'STOP NOTIFICATION')
-    .click();
-}
-
-export function clickNotifyMeBtn(productCode: string) {
-  navigateToPDP(productCode);
-  cy.get('cx-stock-notification > .btn')
-    .should('contain', 'NOTIFY ME')
-    .should('not.be.disabled')
-    .then(el => {
-      cy.wrap(el).click();
-    });
-}
-
-export function verifyStockNotification() {
-  enableNotificationChannel();
-  clickNotifyMeBtn(normalProductCode);
-  verifyNavigateToNotificationPreferenceInDialog();
-  unsubscribeStockNotification(normalProductCode);
-  verifyUnsubscribe();
-  clickNotifyMeBtn(normalProductCode);
-  verifyNavigateToMyInterestsInDialog();
-}
-
-export function verifyUnsubscribe() {
-  cy.get('.alert');
-  cy.get('cx-stock-notification > .btn').should('contain', 'NOTIFY ME');
-}
-
-export function verifyNavigateToNotificationPreferenceInDialog() {
-  cy.get('.link-prefs').click();
-  cy.location('pathname').should(
-    'contain',
-    '/my-account/notification-preference'
-  );
-}
-
-export function verifyNavigateToMyInterestsInDialog() {
-  cy.get('.link-interests').click();
-  verifyCustomerInterest(normalProductCode);
-}
-//Customer interest
-export function verifySubscriptionAndCustomerInterest(productCode: string) {
-  subscribeStockNotification(productCode);
-  navigateToMyInterestsPage();
-  verifyCustomerInterest(productCode);
-}
-
-export function verifyCustomerInterests() {
-  verifySubscriptionAndCustomerInterest(normalProductCode);
-  removeCustomerInterest(normalProductCode);
-}
-
-export function removeCustomerInterest(productCode: string) {
-  cy.get('.cx-product-interests-product-item').within(() => {
-    cy.get('.cx-code').should('contain', productCode);
-    cy.get('.cx-product-interests-remove-button > button').click();
+export function testMyCoupons() {
+  it('should claim and display coupons', () => {
+    verifyCoupons();
   });
-  cy.get('.cx-product-interests-message').should('exist');
-}
 
-export function verifyRemovingCustomerInterestInPDP() {
-  subscribeStockNotification(normalProductCode);
-  navigateToMyInterestsPage();
-  navigateToPDPInCustomerInterest(normalProductCode);
-  cy.get('cx-stock-notification > .btn')
-    .should('contain', 'STOP NOTIFICATION')
-    .click();
-  navigateToMyInterestsPage();
-  cy.get('.cx-product-interests-message').should('exist');
-}
+  it('should enable/disable coupon notification', () => {
+    verifyEnableDisableNotification();
+  });
 
-export function navigateToPDPInCustomerInterest(productCode: string) {
-  cy.get('.cx-product-interests-product-item').within(() => {
-    cy.get('.cx-code').should('contain', productCode);
-    cy.get(
-      '.cx-product-interests-product-image-link > .is-initialized > img'
-    ).click();
+  it('should read more detail and find product', () => {
+    verifyReadMore();
+    verifyFindProduct();
   });
 }
-
+const firstCouponStartDateAscending = 'customerCoupon1';
+const firstCouponStartDateDescending = 'customerCoupon11';
+const firstCouponEndDateAscending = 'customerCoupon1';
+const firstCouponEndDateDescending = 'customerCoupon11';
+const firstCouponCodeSelector =
+  'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
 export function verifyPagingAndSorting() {
-  navigateToMyInterestsPage();
-  cy.get(firstProductCodeSelector).should('contain', firstProductAscending);
-  cy.get('.top cx-sorting .ng-select').ngSelect('Name (Descending)');
-  cy.get(firstProductCodeSelector).should('contain', firstProductDescending);
-  cy.get('.cx-product-interests-product-item').should('have.length', 10);
+  cy.get(firstCouponCodeSelector).should(
+    'contain',
+    firstCouponStartDateAscending
+  );
+  cy.get('.top cx-sorting .ng-select').ngSelect('Start Date (descending)');
+  cy.get(firstCouponCodeSelector).should(
+    'contain',
+    firstCouponStartDateDescending
+  );
+  cy.get('.top cx-sorting .ng-select').ngSelect('End Date (ascending)');
+  cy.get(firstCouponCodeSelector).should(
+    'contain',
+    firstCouponEndDateAscending
+  );
+  cy.get('.top cx-sorting .ng-select').ngSelect('End Date (descending)');
+  cy.get(firstCouponCodeSelector).should(
+    'contain',
+    firstCouponEndDateDescending
+  );
+  cy.get('.cx-coupon-card').should('have.length', 10);
   cy.get('cx-pagination:first .page-link').should('have.length', 4);
-}
-
-export function navigateToMyInterestsPage() {
-  cy.selectUserMenuOption({
-    option: 'My Interests',
-  });
 }
