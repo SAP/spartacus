@@ -110,4 +110,5 @@ export interface Order {
   totalTax?: Price;
   unconsignedEntries?: OrderEntry[];
   user?: Principal;
+  returnable?: boolean;
 }

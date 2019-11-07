@@ -23,5 +23,22 @@
         }}
       </div>
     </div>
+    <div
+      class="cx-detail col-sm-12 col-md-3"
+      *cxFeature="'cancellationAndReturn'"
+    >
+      <button
+        *ngIf="order.returnable"
+        [routerLink]="
+          {
+            cxRoute: 'orderReturn',
+            params: order
+          } | cxUrl
+        "
+        class="btn btn-action"
+      >
+        {{ 'orderDetails.orderReturn.action' | cxTranslate }}
+      </button>
+    </div>
   </div>
 </ng-container>

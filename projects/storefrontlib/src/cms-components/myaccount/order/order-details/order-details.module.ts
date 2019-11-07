@@ -8,6 +8,7 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
 import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
@@ -38,6 +39,7 @@ const moduleComponents = [
     CommonModule,
     I18nModule,
     FeaturesConfigModule,
+    UrlModule,
     RouterModule.forChild([
       {
         path: 'guest/order/:orderCode',
