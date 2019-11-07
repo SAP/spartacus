@@ -2,5 +2,4 @@
 @import './customer-selection';
 @import './asm-collapse';
 
-$asm-components-whitelist: cx-asm-main-ui, cx-customer-selection,
-  cx-asm-collapse !default;
+$asm-components-whitelist: cx-asm-main-ui, cx-customer-selection, cx-asm !default;
