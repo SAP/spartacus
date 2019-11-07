@@ -38,8 +38,8 @@ export const getPendingChanges: MemoizedSelector<
 > = createSelector(
   getConfigurationsState,
   state =>
-    state.changeCounter && state.changeCounter.pendingChanges
-      ? state.changeCounter.pendingChanges
+    state.pendingChangesCounter && state.pendingChangesCounter.pendingChanges
+      ? state.pendingChangesCounter.pendingChanges
       : 0
 );
 

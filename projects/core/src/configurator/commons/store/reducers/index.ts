@@ -26,7 +26,7 @@ export function getConfiguratorReducers(): ActionReducerMap<
       UiStateReduce.reducer
     ),
 
-    changeCounter: StateReduce.reducerPendingChanges,
+    pendingChangesCounter: StateReduce.reducerPendingChanges,
   };
 }
 

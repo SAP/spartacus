@@ -15,13 +15,13 @@ export interface StateWithConfiguration {
 export interface ConfigurationState {
   configurations?: EntityLoaderState<Configurator.Configuration>;
   uiState?: EntityState<UiState>;
-  changeCounter?: ChangeCounter;
+  pendingChangesCounter?: PendingChangesCounter;
 }
 
 export interface UiState {
   currentGroup: string;
 }
 
-export interface ChangeCounter {
+export interface PendingChangesCounter {
   pendingChanges?: number;
 }

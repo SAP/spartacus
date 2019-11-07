@@ -1,9 +1,9 @@
 import { Configurator } from '../../../../model/configurator.model';
 import * as ConfiguratorActions from '../actions/configurator.action';
-import { ChangeCounter } from '../configuration-state';
+import { PendingChangesCounter } from '../configuration-state';
 
 export const initialState: Configurator.Configuration = { configId: '' };
-export const initialStatePendingChanges: ChangeCounter = {};
+export const initialStatePendingChanges: PendingChangesCounter = {};
 
 export function reducer(
   state = initialState,
@@ -41,7 +41,7 @@ export function reducer(
 export function reducerPendingChanges(
   state = initialStatePendingChanges,
   action: ConfiguratorActions.ConfiguratorAction
-): ChangeCounter {
+): PendingChangesCounter {
   switch (action.type) {
     case ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS: {
       const content = addToPendingChanges(-1, state);
@@ -70,9 +70,9 @@ export function reducerPendingChanges(
 
 function addToPendingChanges(
   increment: number,
-  counter: ChangeCounter
-): ChangeCounter {
-  const content: ChangeCounter = {};
+  counter: PendingChangesCounter
+): PendingChangesCounter {
+  const content: PendingChangesCounter = {};
   let pendingChanges: number = counter.pendingChanges;
 
   if (!pendingChanges) {
