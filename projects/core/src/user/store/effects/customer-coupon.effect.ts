@@ -6,7 +6,7 @@ import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { OCC_USER_ID_CURRENT } from '../../../occ/index';
+
 @Injectable()
 export class CustomerCouponEffects {
   @Effect()
@@ -40,31 +40,6 @@ export class CustomerCouponEffects {
           )
         );
     })
-  );
-
-  @Effect()
-  reloadCustomerCoupons$: Observable<
-    fromCustomerCouponsAction.LoadCustomerCoupons
-  > = this.actions$.pipe(
-    ofType(
-      fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
-      fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL
-    ),
-    map(
-      (
-        action:
-          | fromCustomerCouponsAction.SubscribeCustomerCouponFail
-          | fromCustomerCouponsAction.UnsubscribeCustomerCouponFail
-      ) => action.payload
-    ),
-    map(
-      payload =>
-        payload &&
-        new fromCustomerCouponsAction.LoadCustomerCoupons({
-          userId: OCC_USER_ID_CURRENT,
-          pageSize: 10,
-        })
-    )
   );
 
   @Effect()

@@ -121,10 +121,13 @@ describe('MyCouponsComponent', () => {
     'unsubscribeCustomerCoupon',
     'getSubscribeCustomerCouponResultLoading',
     'getUnsubscribeCustomerCouponResultLoading',
+    'getSubscribeCustomerCouponResultError',
+    'getUnsubscribeCustomerCouponResultError',
   ]);
   const translationService = jasmine.createSpyObj('TranslationService', [
     'translate',
   ]);
+  const subscriptionFail = new BehaviorSubject<boolean>(false);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -158,6 +161,12 @@ describe('MyCouponsComponent', () => {
     );
     customerCouponService.getUnsubscribeCustomerCouponResultLoading.and.returnValue(
       unsubLoading$
+    );
+    customerCouponService.getSubscribeCustomerCouponResultError.and.returnValue(
+      subscriptionFail
+    );
+    customerCouponService.getUnsubscribeCustomerCouponResultError.and.returnValue(
+      subscriptionFail
     );
 
     translationService.translate.and.returnValue(of(sortLabels));

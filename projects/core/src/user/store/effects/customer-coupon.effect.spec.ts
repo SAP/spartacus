@@ -183,28 +183,4 @@ describe('Customer Coupon effect', () => {
       );
     });
   });
-
-  describe('reloadCustomerCoupons$', () => {
-    const customerCouponSubscriptionFailActions = [
-      'SubscribeCustomerCouponFail',
-      'UnsubscribeCustomerCouponFail',
-    ];
-
-    customerCouponSubscriptionFailActions.forEach(actionName => {
-      it(`should reload custioner coupon on ${actionName}`, () => {
-        const action = new fromCustomerCouponsAction[actionName]({});
-        const completion = new fromCustomerCouponsAction.LoadCustomerCoupons({
-          userId: OCC_USER_ID_CURRENT,
-          pageSize: 10,
-        });
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
-
-        expect(customerCouponsEffect.reloadCustomerCoupons$).toBeObservable(
-          expected
-        );
-      });
-    });
-  });
 });
