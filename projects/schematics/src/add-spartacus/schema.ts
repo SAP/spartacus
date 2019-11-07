@@ -43,10 +43,6 @@ export interface AngularComponentSchema {
    */
   lintFix: boolean;
   /**
-   * The declaring NgModule.
-   */
-  module?: string;
-  /**
    * The name of the component.
    */
   name: string;

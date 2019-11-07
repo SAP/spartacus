@@ -13,7 +13,7 @@ Run the following command from your project root:
 - `baseUrl`: Base url of your CX OCC backend
 - `baseSite`: Name of your base site
 - `useMetaTags`: Whether or not to configure baseUrl and mediaUrl in the meta tags from `index.html`
-- `featureLevel`: Application feature level. (default: '1.3')
+- `featureLevel`: Application feature level. (default: _1.3_)
 - `overwriteAppComponent`: Overwrite content of app.component.html file. (default: false)
 - `pwa`: Include PWA features while constructing application.
 - `ssr`: Include Server-side Rendering configuration.
@@ -41,20 +41,30 @@ By defaut `ng add @spartacus/schematics` will add only basic spartacus configura
 
 ## CMS component schematic
 
+### Available options for CMS component schematic
+
 The following options are available:
 
+- `--declaringCmsModule` - specifies to which module to add the newly generated CMS component. If omitted, a new module is generated.
 - `--cmsComponentData`, alias `--cms` - inject the _CmsComponentData_ in the new component. By default it is _true_
 - `--cmsComponentDataModel`, alias `--cms-model` - Specify the model class for the _CmsComponentData_, e.g. _MyModel_. This argument is required if _--cmsComponentData_ is _true_.
 - `--cmsComponentDataModelPath`, `--cms-model-path` - Specify the import path for the _CmsComponentData_. Default is _@spartacus/core_.
 
+Besides the custom options, the `add-cms-component` supports almost all options that are available for the Angular's component and module schematics. The full list can be seen [here](https://github.com/SAP/cloud-commerce-spartacus-storefront/blob/develop/projects/schematics/src/add-cms-component/schema.json).
+
+The following Angular's options are _not_ supported:
+
+- deprecated options
+- _--module_ option for component - if you want to specify an existing module for the component, use _--declaringCmsModule_. The _module_ option is only applie to the Angular's _module_ schematic.
+
+### Examples
+
 Here are some examples how `add-cms-component` schematic can be used:
 
-- `ng g @spartacus/schematics:add-cms-component myComponent --cms-model=MyModel` - generates _myComponent_ CMS component and a module
-- `ng g @spartacus/schematics:add-cms-component myComponent --module=myModule --cms-model=MyModel` - generates _myComponent_ and adds it to the specified _myModule_ along with the CMS mapping.
-
-TODO:
--mention that we support all angular flags for the component
--mention which flags we support for the module
+- `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel` - generates _my-awesome-cms.component.ts_ component and _my-awesome-cms.module.ts_ module
+- `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel --declaringCmsModule=my-cms-path/my-cms` - generates _my-awesome-cms.component.ts_ and adds it to the specified _my-cms-path/my-cms.module.ts._'s CMS mapping.
+- `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel --module=app` - generates _my-awesome-cms.component.ts_ component, _my-awesome-cms.module.ts_ module and imports it to the specified _app.module.ts_
+- `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel --module=app --declaringCmsModule=my-cms-path/my-cms` - generates _my-awesome-cms.component.ts_ component and adds it to the specified _my-cms-path/my-cms.module.ts_ module. It also imports _my-cms.module.ts_ to the specified _app.module.ts_
 
 ## Building and using Spartacus Schematics from source
 

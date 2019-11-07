@@ -4,6 +4,11 @@
   "title": "Spartacus Schematics",
   "type": "object",
   "properties": {
+    "declaringCmsModule": {
+      "type": "string",
+      "description": "Where to declare the generated CMS component. If omitted, a new module is generated.",
+      "default": ""
+    },
     "cmsComponentData": {
       "type": "boolean",
       "description": "Inject the CmsComponentData.",
@@ -42,6 +47,11 @@
       "description": "When true, the new NgModule imports \"CommonModule\". ",
       "default": true,
       "visible": false
+    },
+    "module": {
+      "type": "string",
+      "description": "The declaring NgModule.",
+      "alias": "m"
     },
 
     "project": {
@@ -135,11 +145,6 @@
       "type": "boolean",
       "default": false,
       "description": "Specifies if the component should have a selector or not."
-    },
-    "module": {
-      "type": "string",
-      "description": "The declaring NgModule.",
-      "alias": "m"
     },
     "export": {
       "type": "boolean",

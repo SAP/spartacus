@@ -1,4 +1,4 @@
-import { strings } from '@angular-devkit/core';
+import { basename, strings } from '@angular-devkit/core';
 import {
   chain,
   externalSchematic,
@@ -13,6 +13,7 @@ import {
   getProjectFromWorkspace,
 } from '@angular/cdk/schematics';
 import {
+  addImportToModule,
   getDecoratorMetadata,
   getSourceNodes,
   insertImport,
@@ -44,14 +45,22 @@ import { CxCmsComponentSchema } from './schema';
 
 export const DELETE_ME = true;
 
-function buildModuleName(options: CxCmsComponentSchema): string {
-  const specifiedModule = options.module || '';
-  return Boolean(specifiedModule) ? specifiedModule : options.name;
+function buildComponentModule(options: CxCmsComponentSchema): string {
+  const moduleName = options.module || '';
+  return Boolean(options.declaringCmsModule)
+    ? options.declaringCmsModule
+    : moduleName;
+}
+
+function builDeclaringCmsModule(options: CxCmsComponentSchema): string {
+  return Boolean(options.declaringCmsModule)
+    ? options.declaringCmsModule
+    : options.name;
 }
 
 function printModule(options: CxCmsComponentSchema, tree: Tree): void {
-  const moduleName = buildModuleName(options);
-  const modulePath = findModuleFromOptions(tree, { name: moduleName });
+  const componentModule = builDeclaringCmsModule(options);
+  const modulePath = findModuleFromOptions(tree, { name: componentModule });
   if (!modulePath) {
     console.error(`Could not find the ${modulePath}`);
     return;
@@ -67,9 +76,10 @@ function printModule(options: CxCmsComponentSchema, tree: Tree): void {
 }
 
 function printComponent(options: CxCmsComponentSchema, tree: Tree): void {
-  const componentFileName = `${strings.camelize(
+  const componentFileName = `${strings.dasherize(
     options.name
-  )}.${strings.camelize(options.type)}.ts`;
+  )}.${strings.dasherize(options.type)}.ts`;
+  console.log(`*** componentFileName: ${componentFileName} ***`);
   const possibleProjectFiles = ['/angular.json', '/.angular.json'];
   const { workspace } = getWorkspace(tree, possibleProjectFiles);
   const project = getProjectFromWorkspace(workspace, options.project);
@@ -95,9 +105,9 @@ function printComponentTemplate(options: CxCmsComponentSchema, tree: Tree) {
   const { workspace } = getWorkspace(tree, possibleProjectFiles);
   const project = getProjectFromWorkspace(workspace, options.project);
 
-  const componentTemplateFileName = `${strings.camelize(
+  const componentTemplateFileName = `${strings.dasherize(
     options.name
-  )}.${strings.camelize(options.type)}.html`;
+  )}.${strings.dasherize(options.type)}.html`;
   const templatePath = getPathResultsForFile(
     tree,
     componentTemplateFileName,
@@ -124,11 +134,8 @@ function print(options: CxCmsComponentSchema): Rule {
 
 function updateModule(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const moduleName = buildModuleName(options);
-    if (DELETE_ME) {
-      console.log('Using the following name to update module: ', moduleName);
-    }
-    const modulePath = findModuleFromOptions(tree, { name: moduleName });
+    const componentModule = builDeclaringCmsModule(options);
+    const modulePath = findModuleFromOptions(tree, { name: componentModule });
     if (!modulePath) {
       context.logger.error(`Could not find the ${modulePath}`);
       return;
@@ -162,6 +169,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     changes.push(...insertModuleChanges);
 
     commitChanges(tree, modulePath, changes, InsertDirection.RIGHT);
+    context.logger.info(`Updated ${modulePath}`);
   };
 }
 
@@ -178,9 +186,9 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       options.cmsComponentDataModel
     )}>`;
 
-    const componentFileName = `${strings.camelize(
+    const componentFileName = `${strings.dasherize(
       options.name
-    )}.${strings.camelize(options.type)}.ts`;
+    )}.${strings.dasherize(options.type)}.ts`;
 
     const possibleProjectFiles = ['/angular.json', '/.angular.json'];
     const { workspace } = getWorkspace(tree, possibleProjectFiles);
@@ -247,9 +255,9 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
 
 function updateTemplate(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    const componentFileName = `${strings.camelize(
+    const componentFileName = `${strings.dasherize(
       options.name
-    )}.${strings.camelize(options.type)}.ts`;
+    )}.${strings.dasherize(options.type)}.ts`;
     const possibleProjectFiles = ['/angular.json', '/.angular.json'];
     const { workspace } = getWorkspace(tree, possibleProjectFiles);
     const project = getProjectFromWorkspace(workspace, options.project);
@@ -276,9 +284,9 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
       templateContent = inlineTemplate.getText();
       startIndex = inlineTemplate.name.parent.end - 1;
     } else {
-      const componentTemplateFileName = `${strings.camelize(
+      const componentTemplateFileName = `${strings.dasherize(
         options.name
-      )}.${strings.camelize(options.type)}.html`;
+      )}.${strings.dasherize(options.type)}.html`;
       templatePath = getPathResultsForFile(
         tree,
         componentTemplateFileName,
@@ -311,10 +319,61 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
   };
 }
 
+function declareInModule(options: CxCmsComponentSchema): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (!(options.declaringCmsModule && options.module)) {
+      return;
+    }
+
+    const destinationModulePath = findModuleFromOptions(tree, {
+      name: options.module,
+    });
+    if (!destinationModulePath) {
+      context.logger.error(`Could not find the ${destinationModulePath}`);
+      return;
+    }
+
+    const moduleToImportPath = findModuleFromOptions(tree, {
+      name: options.declaringCmsModule,
+    });
+    if (!moduleToImportPath) {
+      context.logger.error(`Could not find the ${moduleToImportPath}`);
+      return;
+    }
+
+    const destinationModuleName = basename(options.declaringCmsModule as any);
+    const destinationModuleTs = getTsSourceFile(tree, destinationModulePath);
+
+    const changes = addImportToModule(
+      destinationModuleTs,
+      destinationModulePath,
+      strings.classify(destinationModuleName),
+      moduleToImportPath
+    );
+    commitChanges(tree, destinationModulePath, changes, InsertDirection.LEFT);
+
+    if (DELETE_ME) {
+      console.log(`*** Printing ${destinationModulePath} ***`);
+      if (!destinationModulePath) {
+        console.error(`Could not find the ${destinationModulePath}`);
+        return;
+      }
+
+      const moduleBuffer = tree.read(destinationModulePath);
+      if (moduleBuffer) {
+        const moduleContent = moduleBuffer.toString(UTF_8);
+        console.log('\n', moduleContent);
+      } else {
+        console.log('no buffer for the module');
+      }
+    }
+  };
+}
+
 function validateArguments(options: CxCmsComponentSchema): void {
   if (options.cmsComponentData && !Boolean(options.cmsComponentDataModel)) {
     throw new SchematicsException(
-      'You have to specify "cmsComponentDataModel".'
+      'You have to specify the "cmsComponentDataModel" option.'
     );
   }
 }
@@ -324,9 +383,8 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
     validateArguments(options);
 
     // angular's component CLI flags
-    const moduleName = buildModuleName(options);
     const {
-      module: specifiedModule,
+      declaringCmsModule,
       export: exportOption,
       name: componentName,
       changeDetection,
@@ -345,43 +403,32 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       viewEncapsulation,
       skipImport,
     } = options;
+    const componentModule = buildComponentModule(options);
 
     // angular's module CLI flags
-    const { path, routing, routingScope, route, commonModule } = options;
+    const {
+      path,
+      routing,
+      routingScope,
+      route,
+      commonModule,
+      module: declaringModule,
+    } = options;
 
-    if (DELETE_ME) {
-      console.log(`module name: ${moduleName}`);
-      console.log(
-        `generating specified module '${specifiedModule}': ${!Boolean(
-          specifiedModule
-        )}`
-      );
-
-      console.log(
-        'module options: ',
-        { project },
-        { moduleName },
-        { path },
-        { routing },
-        { routingScope },
-        { route },
-        { commonModule },
-        { lintFix }
-      );
-    }
-
+    // TODO: add `module` flag to the _module_ schematic?
     return chain([
-      // in case the module flag is not specified, we need to generate a module
-      !Boolean(specifiedModule)
+      // we are creating a new module if the declaring module is not provided
+      !Boolean(declaringCmsModule)
         ? externalSchematic(ANGULAR_SCHEMATICS, 'module', {
             project,
-            name: moduleName,
+            name: componentName,
             path,
             routing,
             routingScope,
             route,
             commonModule,
             lintFix,
+            module: declaringModule,
           })
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
@@ -392,7 +439,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         inlineStyle,
         inlineTemplate,
         lintFix,
-        module: strings.dasherize(moduleName),
+        module: componentModule,
         name: componentName,
         prefix,
         project,
@@ -407,8 +454,8 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       updateModule(options),
       updateComponent(options),
       updateTemplate(options),
+      declaringCmsModule && declaringModule ? declareInModule(options) : noop(),
       DELETE_ME ? print(options) : noop(),
-      // DELETE_ME ? noop() : print(options),
     ])(tree, context);
   };
 }
