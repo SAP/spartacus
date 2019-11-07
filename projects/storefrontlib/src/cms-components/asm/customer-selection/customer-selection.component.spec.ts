@@ -68,7 +68,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
 
 const MockAsmConfig: AsmConfig = {
   asm: {
-    customeRSearch: {
+    customerSearch: {
       maxResults: 20,
     },
   },

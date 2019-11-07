@@ -5,7 +5,7 @@ export abstract class AsmConfig extends OccConfig {
     agentSessionTimer?: {
       startingDelayInSeconds?: number;
     };
-    customeRSearch?: {
+    customerSearch?: {
       maxResults?: number;
     };
   };
