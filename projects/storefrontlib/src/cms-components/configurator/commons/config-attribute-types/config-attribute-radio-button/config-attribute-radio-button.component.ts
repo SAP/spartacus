@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
+import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-radio-button',
@@ -20,22 +21,24 @@ export class ConfigAttributeRadioButtonComponent implements OnInit {
   attributeRadioButtonForm = new FormControl('');
 
   @Input() attribute: Configurator.Attribute;
-  @Input() group: String;
+  @Input() group: string;
+  @Input() productCode: string;
 
-  @Output() selectionChange = new EventEmitter();
+  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
   onSelect() {
-    const event = {
+    const event: ConfigFormUpdateEvent = {
+      productCode: this.productCode,
       changedAttribute: {
         name: this.attribute.name,
         selectedSingleValue: this.attributeRadioButtonForm.value,
         uiType: this.attribute.uiType,
       },
-      group: this.group,
+      groupId: this.group,
     };
 
     this.selectionChange.emit(event);

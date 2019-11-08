@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { Configurator } from '@spartacus/core';
+import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-read-only',
@@ -19,7 +20,7 @@ export class ConfigAttributeReadOnlyComponent implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() group: String;
 
-  @Output() selectionChange = new EventEmitter();
+  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {}
 }

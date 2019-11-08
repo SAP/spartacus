@@ -19,7 +19,7 @@ import { CurrentProductService } from '../../../product/current-product.service'
 export class ConfigureProductComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
   @Input() configuratorType: string;
-  @Input() configurable: boolean;
+
   product$: Observable<Product> = this.currentProductService.getProduct();
   subscription: Subscription;
 
@@ -36,7 +36,6 @@ export class ConfigureProductComponent implements OnInit, OnDestroy {
         .subscribe((product: Product) => {
           this.productCode = product.code;
           this.configuratorType = product.configuratorType;
-          this.configurable = product.configurable;
           this.changeDetector.markForCheck();
         });
     }

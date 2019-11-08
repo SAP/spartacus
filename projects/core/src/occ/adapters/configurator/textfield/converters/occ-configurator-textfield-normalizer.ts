@@ -3,7 +3,7 @@ import { ConfiguratorTextfield } from '../../../../../model/configurator-textfie
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfiguratorTextfield } from '../occ-configurator-textfield.models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccConfiguratorTextfieldNormalizer
   implements
     Converter<

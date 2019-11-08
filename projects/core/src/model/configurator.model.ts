@@ -1,6 +1,6 @@
 export namespace Configurator {
   export interface Attribute {
-    stdAttrCode?: number;
+    attrCode?: number;
     name: string;
     label?: string;
     description?: string;

@@ -21,7 +21,7 @@ export function configuratorStoreConfigFactory(): StateConfig {
     state: {
       storageSync: {
         keys: {
-          [`${CONFIGURATION_FEATURE}.active.value.content.configId`]: StorageSyncType.LOCAL_STORAGE,
+          [`${CONFIGURATION_FEATURE}.value.content.configId`]: StorageSyncType.LOCAL_STORAGE,
         },
       },
     },

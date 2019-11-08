@@ -10,8 +10,8 @@ import {
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -77,26 +77,12 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   isFirstGroup(): Observable<Boolean> {
     return this.configuratorGroupsService
       .getPreviousGroup(this.productCode)
-      .pipe(
-        mergeMap(group => {
-          if (!group) {
-            return of(true);
-          } else {
-            return of(false);
-          }
-        })
-      );
+      .pipe(map(group => !group));
   }
 
   isLastGroup(): Observable<Boolean> {
-    return this.configuratorGroupsService.getNextGroup(this.productCode).pipe(
-      mergeMap(group => {
-        if (!group) {
-          return of(true);
-        } else {
-          return of(false);
-        }
-      })
-    );
+    return this.configuratorGroupsService
+      .getNextGroup(this.productCode)
+      .pipe(map(group => !group));
   }
 }

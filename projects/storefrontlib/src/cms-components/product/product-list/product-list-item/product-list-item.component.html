@@ -38,8 +38,8 @@
           [productCode]="product.code"
         ></cx-add-to-cart>
         <cx-configure-product
+          *ngIf="product.configurable"
           [productCode]="product.code"
-          [configurable]="product.configurable"
           [configuratorType]="product.configuratorType"
         ></cx-configure-product>
       </div>

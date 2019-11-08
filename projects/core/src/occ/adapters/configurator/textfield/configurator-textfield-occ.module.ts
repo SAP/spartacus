@@ -23,7 +23,7 @@ import { OccConfiguratorTextfieldAdapter } from './occ-configurator-textfield.ad
     },
     {
       provide: CONFIGURATION_TEXTFIELD_NORMALIZER,
-      useClass: OccConfiguratorTextfieldNormalizer,
+      useExisting: OccConfiguratorTextfieldNormalizer,
       multi: true,
     },
   ],

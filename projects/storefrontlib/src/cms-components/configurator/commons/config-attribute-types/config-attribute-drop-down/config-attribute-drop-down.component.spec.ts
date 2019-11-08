@@ -29,7 +29,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     component = fixture.componentInstance;
     component.attribute = {
       name: 'attributeName',
-      stdAttrCode: 444,
+      attrCode: 444,
       uiType: Configurator.UiType.DROPDOWN,
       selectedSingleValue: 'selectedValue',
       quantity: 1,

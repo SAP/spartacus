@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
+import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 @Component({
   selector: 'cx-config-attribute-input-field',
@@ -20,22 +21,24 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   @Input() attribute: Configurator.Attribute;
-  @Input() group: String;
+  @Input() group: string;
+  @Input() productCode: string;
 
-  @Output() inputChange = new EventEmitter();
+  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.userInput);
   }
 
   onChange() {
-    const event = {
+    const event: ConfigFormUpdateEvent = {
+      productCode: this.productCode,
       changedAttribute: {
         name: this.attribute.name,
         userInput: this.attributeInputForm.value,
         uiType: this.attribute.uiType,
       },
-      group: this.group,
+      groupId: this.group,
     };
 
     this.inputChange.emit(event);

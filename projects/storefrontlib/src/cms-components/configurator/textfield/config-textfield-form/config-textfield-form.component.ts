@@ -1,48 +1,31 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   ConfiguratorTextfield,
   ConfiguratorTextfieldService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-textfield-form',
   templateUrl: './config-textfield-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTextfieldFormComponent implements OnInit, OnDestroy {
-  productCode: string;
+export class ConfigTextfieldFormComponent implements OnInit {
   configuration$: Observable<ConfiguratorTextfield.Configuration>;
-  subscription = new Subscription();
+
   constructor(
     private routingService: RoutingService,
     private configuratorTextfieldService: ConfiguratorTextfieldService
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.routingService
-        .getRouterState()
-        .subscribe(state => this.createConfiguration(state))
-    );
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  createConfiguration(routingData) {
-    this.productCode = routingData.state.params.rootProduct;
-    this.configuration$ = this.configuratorTextfieldService.createConfiguration(
-      routingData.state.params.rootProduct
+    this.configuration$ = this.routingService.getRouterState().pipe(
+      map(routingData => routingData.state.params.rootProduct),
+      switchMap(product =>
+        this.configuratorTextfieldService.createConfiguration(product)
+      )
     );
   }
 }
