@@ -1,8 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AnonymousConsentsService,
-  ANONYMOUS_CONSENTS_FEATURE,
-} from '@spartacus/core';
+import { Component, OnDestroy } from '@angular/core';
+import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
@@ -12,31 +9,17 @@ import { ModalService } from '../../../shared/components/modal/index';
   selector: 'cx-anonymous-consent-management-banner',
   templateUrl: './anonymous-consent-management-banner.component.html',
 })
-export class AnonymousConsentManagementBannerComponent
-  implements OnInit, OnDestroy {
+export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   private subscriptions = new Subscription();
 
-  anonymousConsentsFeature = ANONYMOUS_CONSENTS_FEATURE;
-  bannerVisible$: Observable<boolean>;
-  templatesUpdated$: Observable<boolean>;
+  bannerVisible$: Observable<
+    boolean
+  > = this.anonymousConsentsService.isBannerVisible();
 
   constructor(
     private modalService: ModalService,
     private anonymousConsentsService: AnonymousConsentsService
   ) {}
-
-  ngOnInit(): void {
-    this.templatesUpdated$ = this.anonymousConsentsService
-      .getTemplatesUpdated()
-      .pipe(
-        tap(updated => {
-          if (updated) {
-            this.anonymousConsentsService.toggleBannerVisibility(true);
-          }
-        })
-      );
-    this.bannerVisible$ = this.anonymousConsentsService.isBannerVisible();
-  }
 
   viewDetails(): void {
     this.hideBanner();
@@ -56,7 +39,7 @@ export class AnonymousConsentManagementBannerComponent
   }
 
   hideBanner(): void {
-    this.anonymousConsentsService.toggleBannerVisibility(false);
+    this.anonymousConsentsService.toggleBannerDismissed(true);
   }
 
   ngOnDestroy(): void {
