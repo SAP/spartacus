@@ -44,7 +44,7 @@ export class CancellationReturnItemsComponent implements OnInit {
     for (let i = 0; i < this.entries.length; i++) {
       this.inputsControl.at(i).setValue({
         orderEntryNumber: this.entries[i].entryNumber,
-        quantity: this.entries[i].quantity,
+        quantity: this.entries[i].returnableQuantity,
       });
     }
     this.disableEnableConfirm();
@@ -72,10 +72,10 @@ export class CancellationReturnItemsComponent implements OnInit {
   }
 
   onBlur(value: string, index: number): void {
-    if (this.entries[index].quantity < +value) {
+    if (this.entries[index].returnableQuantity < +value) {
       this.inputsControl.at(index).setValue({
         orderEntryNumber: this.entries[index].entryNumber,
-        quantity: this.entries[index].quantity,
+        quantity: this.entries[index].returnableQuantity,
       });
     }
     this.disableEnableConfirm();
