@@ -8,14 +8,16 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { CdsConfig, ProfileTagConfig } from '../../config/config.model';
-import { ProfileTagWindowObject } from './profile-tag.model';
+import { CdsConfig } from '../../config/cds.config';
+import {
+  ProfileTagJsConfig,
+  ProfileTagWindowObject,
+} from './profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileTagInjector {
-  profiletagConfig: ProfileTagConfig;
   w: ProfileTagWindowObject;
   isProfileTagLoaded$ = new BehaviorSubject<boolean>(false);
   startTracking$: Observable<Boolean[] | NgRouterEvent>;
@@ -27,7 +29,6 @@ export class ProfileTagInjector {
     private anonymousConsentsService: AnonymousConsentsService
   ) {
     this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
-    this.profiletagConfig = this.config.cds.profileTag;
     const consentChanged$ = this.consentChanged();
     const pageLoaded$ = this.pageLoaded();
     this.startTracking$ = merge(pageLoaded$, consentChanged$);
@@ -84,9 +85,16 @@ export class ProfileTagInjector {
 
   private addTracker(): Observable<string> {
     return this.baseSiteService.getActive().pipe(
-      filter((site: string) => Boolean(site)),
-      tap(() => {
-        this.track(this.profiletagConfig);
+      filter(Boolean),
+      tap((site: string) => {
+        const newConfig: ProfileTagJsConfig = {
+          ...this.config.cds.profileTag,
+          tenant: this.config.cds.tenant,
+          siteId: site,
+          spa: true,
+          profileTagEventReciever: this.profileTagEventTriggered.bind(this),
+        };
+        this.track(newConfig);
       })
     );
   }
@@ -96,18 +104,13 @@ export class ProfileTagInjector {
     const profileTagScript: HTMLScriptElement = doc.createElement('script');
     profileTagScript.type = 'text/javascript';
     profileTagScript.async = true;
-    profileTagScript.src = this.profiletagConfig.javascriptUrl;
+    profileTagScript.src = this.config.cds.profileTag.javascriptUrl;
     doc.getElementsByTagName('head')[0].appendChild(profileTagScript);
   }
 
-  private track(options: ProfileTagConfig) {
-    const spaOptions = {
-      ...options,
-      spa: true,
-      profileTagEventReciever: this.profileTagEventTriggered.bind(this),
-    };
+  private track(options: ProfileTagJsConfig) {
     const q = this.w.Y_TRACKING.q || [];
-    q.push([spaOptions]);
+    q.push([options]);
     this.w.Y_TRACKING.q = q;
   }
 

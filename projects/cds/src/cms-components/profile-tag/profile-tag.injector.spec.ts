@@ -11,15 +11,14 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig } from '../../config/config.model';
+import { CdsConfig } from '../../config/cds.config';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagWindowObject } from './profile-tag.model';
 
 const mockCDSConfig: CdsConfig = {
   cds: {
+    tenant: 'ArgoTest',
     profileTag: {
-      tenant: 'ArgoTest',
-      siteId: 'electronics-test',
       javascriptUrl: 'https://tag.static.eu.context.cloud.sap',
       configUrl: 'https://tag.static.us.context.cloud.sap',
       allowInsecureCookies: false,
@@ -110,7 +109,7 @@ describe('ProfileTagInjector', () => {
     expect(profileTagInjector).toBeTruthy();
   });
 
-  it('Should first wait for the basesite to be active before doing anything', () => {
+  it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
     const profileTagLoaded$ = profileTagInjector.injectScript();
     profileTagLoaded$.subscribe().unsubscribe();
 
@@ -124,11 +123,14 @@ describe('ProfileTagInjector', () => {
   it(`Should add config parameters to the q array after the base site is active`, () => {
     const profileTagLoaded$ = profileTagInjector.injectScript();
     const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
+    const baseSite = 'electronics-test';
+    getActiveBehavior.next(baseSite);
     subscription.unsubscribe();
 
     expect(nativeWindow.Y_TRACKING.q[0][0]).toEqual({
       ...mockCDSConfig.cds.profileTag,
+      tenant: mockCDSConfig.cds.tenant,
+      siteId: baseSite,
       spa: true,
       profileTagEventReciever: jasmine.anything(),
     });
@@ -146,7 +148,7 @@ describe('ProfileTagInjector', () => {
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
   });
 
-  it(`Should call the push method it the site is active,
+  it(`Should call the push method if the site is active,
      and event receiver callback has been called with loaded`, () => {
     const profileTagLoaded$ = profileTagInjector.injectScript();
     const subscription = profileTagLoaded$.subscribe();
@@ -192,7 +194,7 @@ describe('ProfileTagInjector', () => {
   });
 
   it(`Should call the push method for every NavigationEnd event, 
-    regardless of consent status, and even if the consent pipe ends`, () => {
+    regardless of consent status, and even if the consent pipe ends due to take(1)`, () => {
     const profileTagLoaded$ = profileTagInjector.injectScript();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
