@@ -184,6 +184,12 @@ describe('MyCouponsComponent', () => {
     expect(!message).toBeFalsy();
   });
 
+  it('should show spinner when loading', () => {
+    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(true));
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+  });
+
   it('should be able to show coupons', () => {
     customerCouponService.getCustomerCoupons.and.returnValue(
       of(couponsSearchResult)
