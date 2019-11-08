@@ -46,6 +46,90 @@ export class AuthService {
       localStorage.setItem('test', `${a}`);
     }
 
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
     switch (a) {
       case 1:
         localStorage.setItem('test', `${a}`);
