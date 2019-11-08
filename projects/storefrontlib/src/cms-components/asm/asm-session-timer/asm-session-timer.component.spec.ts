@@ -14,7 +14,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { AsmComponentService } from '../asm-component.service';
+import { AsmComponentService } from '../services/asm-component.service';
 import { AsmSessionTimerComponent } from './asm-session-timer.component';
 import createSpy = jasmine.createSpy;
 
