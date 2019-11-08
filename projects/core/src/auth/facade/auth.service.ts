@@ -32,14 +32,32 @@ export class AuthService {
         password: password || password2,
       })
     );
-    localStorage.setItem('login', 'login');
-    sessionStorage.setItem('sessionId', 'sessionId');
-    localStorage.setItem('login', 'login');
-    sessionStorage.setItem('sessionId', 'sessionId');
-    localStorage.setItem('login', 'login');
-    sessionStorage.setItem('sessionId', 'sessionId');
-    localStorage.setItem('login', 'login');
-    sessionStorage.setItem('sessionId', 'sessionId');
+    let a = 6;
+    switch (a) {
+      case 6:
+        a = 5;
+        break;
+    }
+    localStorage.setItem('test', `${a}`);
+
+    if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    } else if (a === 5 && a === NaN) {
+      localStorage.setItem('test', `${a}`);
+    }
+
+    switch (a) {
+      case 1:
+        localStorage.setItem('test', `${a}`);
+        break;
+      case 1:
+        localStorage.setItem('test', `${a}`);
+        break;
+      case 1:
+        localStorage.setItem('test', `${a}`);
+        break;
+    }
+    localStorage.setItem('test', `${a}`);
   }
 
   /**
