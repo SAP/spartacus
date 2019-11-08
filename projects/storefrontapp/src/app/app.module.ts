@@ -8,7 +8,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import { B2cStorefrontModule, JsonLdBuilderModule, StorefrontComponent } from '@spartacus/storefront';
-import { CdsConfig, CdsModule } from 'projects/cds/public_api';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 registerLocaleData(localeDe);
@@ -25,28 +24,13 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-    CdsModule,
-    ConfigModule.withConfig(<CdsConfig>{
-      cds: {
-        profileTag: {
-          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
-          configUrl: 'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
-          siteId: 'electronics',
-          tenant: 'argotest',
-          allowInsecureCookies: true
-        }
-      }
-    }),
+
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
           legacy: false,
         },
-      },
-      authentication: {
-        client_id: 'mobile_android',
-        client_secret: 'edit me'
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
@@ -78,19 +62,6 @@ if (!environment.production) {
       },
     }),
     JsonLdBuilderModule,
-    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-    CdsModule,
-    ConfigModule.withConfig(<CdsConfig>{
-      cds: {
-        profileTag: {
-          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
-          configUrl: 'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
-          siteId: 'electronics',
-          tenant: 'argotest',
-          allowInsecureCookies: true
-        }
-      }
-    }),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
