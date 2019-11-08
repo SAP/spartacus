@@ -3,40 +3,40 @@ import { cdsConfigValidator } from './cds-config-validator';
 
 describe('cdsConfigValidator', () => {
   it('should warn about undefined tenant', () => {
-    const config: CdsConfig = {
+    const CONFIG: CdsConfig = {
       cds: {
         tenant: undefined,
         baseUrl: undefined,
         endpoints: undefined,
       },
     };
-    expect(cdsConfigValidator(config)).toBeTruthy();
+    expect(cdsConfigValidator(CONFIG)).toBeTruthy();
   });
 
   it('should warn about undefined baseUrl', () => {
-    const config: CdsConfig = {
+    const CONFIG: CdsConfig = {
       cds: {
         tenant: 'argotest',
         baseUrl: undefined,
         endpoints: undefined,
       },
     };
-    expect(cdsConfigValidator(config)).toBeTruthy();
+    expect(cdsConfigValidator(CONFIG)).toBeTruthy();
   });
 
   it('should warn about undefined endpoints', () => {
-    const config: CdsConfig = {
+    const CONFIG: CdsConfig = {
       cds: {
         tenant: 'argotest',
         baseUrl: 'https://localhost:4200',
         endpoints: undefined,
       },
     };
-    expect(cdsConfigValidator(config)).toBeTruthy();
+    expect(cdsConfigValidator(CONFIG)).toBeTruthy();
   });
 
   it('should warn about undefined strategyProducts endpoint', () => {
-    const config: CdsConfig = {
+    const CONFIG: CdsConfig = {
       cds: {
         tenant: '',
         baseUrl: '',
@@ -45,10 +45,11 @@ describe('cdsConfigValidator', () => {
         },
       },
     };
-    expect(cdsConfigValidator(config)).toBeTruthy();
+    expect(cdsConfigValidator(CONFIG)).toBeTruthy();
   });
+
   it('should not warn about undefined configuration', () => {
-    const config: CdsConfig = {
+    const CONFIG: CdsConfig = {
       cds: {
         tenant: '',
         baseUrl: '',
@@ -57,6 +58,6 @@ describe('cdsConfigValidator', () => {
         },
       },
     };
-    expect(cdsConfigValidator(config)).toBeFalsy();
+    expect(cdsConfigValidator(CONFIG)).toBeFalsy();
   });
 });

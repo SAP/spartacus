@@ -1,50 +1,55 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ImageType } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import { StrategyResult } from '../../model/strategy.result';
+import { MerchandisingProducts } from '../../model/merchandising.products';
 import { StrategyAdapter } from './strategy.adapter';
 import { StrategyConnector } from './strategy.connector';
 import createSpy = jasmine.createSpy;
 
-const strategyId = 'test-strategy-id';
+const STRATEGY_ID = 'test-strategy-id';
 
-const strategyResultMetadata: Map<string, string> = new Map<string, string>();
-strategyResultMetadata.set('test-metadata-field', 'test-metadata-value');
-const productMetadata: Map<string, string> = new Map<string, string>();
-productMetadata.set(
-  'test-product-metadata-field',
-  'test-product-metadata-field'
+const MERCHANDISING_PRODUCTS_METADATA: Map<string, string> = new Map<
+  string,
+  string
+>();
+MERCHANDISING_PRODUCTS_METADATA.set(
+  'test-metadata-field',
+  'test-metadata-value'
 );
-const strategyResult: StrategyResult = {
-  resultCount: 1,
+
+const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
   products: [
     {
-      id: 'test-product-id',
+      code: 'test-product-id',
       name: 'test-product',
-      description: 'test-product',
-      brand: 'test-brand',
-      pageUrl: 'http://some-product-url',
-      thumbNailImage: 'http://some-thumbnail-imgae-url',
-      mainImage: 'http://some-main-imgae-url',
-      price: 20.99,
-      metadata: productMetadata,
+      price: {
+        formattedValue: '20.99',
+        value: 20.99,
+      },
+      images: {
+        PRIMARY: {
+          product: {
+            url: 'http://some-main-imgae-url',
+            format: 'product',
+            imageType: ImageType.PRIMARY,
+          },
+        },
+      },
     },
   ],
-  paged: {
-    from: 1,
-    size: 5,
-  },
-  metadata: strategyResultMetadata,
+  metadata: MERCHANDISING_PRODUCTS_METADATA,
 };
 
 class MockStrategyAdapter implements StrategyAdapter {
   loadProductsForStrategy = createSpy(
     'StrategyAdapter.loadProductsForStrategy'
-  ).and.callFake(() => of(strategyResult));
+  ).and.callFake(() => of(MERCHANDISING_PRODUCTS));
 }
 
 describe('Strategy Connector', () => {
   let strategyConnector: StrategyConnector;
+  let strategyAdapter: StrategyAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,6 +58,7 @@ describe('Strategy Connector', () => {
     strategyConnector = TestBed.get(StrategyConnector as Type<
       StrategyConnector
     >);
+    strategyAdapter = TestBed.get(StrategyAdapter as Type<StrategyAdapter>);
   });
 
   it('should be created', () => {
@@ -60,17 +66,18 @@ describe('Strategy Connector', () => {
   });
 
   it('getProductsForStrategy should call adapter', () => {
-    const strategyAdapter = TestBed.get(StrategyAdapter as Type<
-      StrategyAdapter
-    >);
+    let actualMerchandisingProducts: MerchandisingProducts;
 
     strategyConnector
-      .loadProductsForStrategy(strategyId)
-      .subscribe(actualStrategyResult => {
-        expect(actualStrategyResult).toEqual(strategyResult);
-        expect(strategyAdapter.loadProductsForStrategy).toHaveBeenCalledWith(
-          strategyId
-        );
-      });
+      .loadProductsForStrategy(STRATEGY_ID)
+      .subscribe(strategyResult => {
+        actualMerchandisingProducts = strategyResult;
+      })
+      .unsubscribe();
+
+    expect(actualMerchandisingProducts).toEqual(MERCHANDISING_PRODUCTS);
+    expect(strategyAdapter.loadProductsForStrategy).toHaveBeenCalledWith(
+      STRATEGY_ID
+    );
   });
 });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DynamicTemplate } from '../../../core/src/config/utils/dynamic-template';
-import { CdsConfig } from '../cds-config';
+import { CdsConfig } from '../config/cds-config';
 
 @Injectable({
   providedIn: 'root',

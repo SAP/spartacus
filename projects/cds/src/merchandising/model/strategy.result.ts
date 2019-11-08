@@ -3,11 +3,11 @@ export interface MerchandisingProduct {
   name?: string;
   description?: string;
   brand?: string;
-  pageUrl: string;
+  pageUrl?: string;
   thumbNailImage?: string;
   mainImage?: string;
   price?: number;
-  metadata?: any;
+  metadata?: Map<string, string>;
 }
 
 export interface Paged {
@@ -19,5 +19,5 @@ export interface StrategyResult {
   resultCount?: number;
   products?: MerchandisingProduct[];
   paged?: Paged;
-  metadata: any;
+  metadata?: Map<string, string>;
 }

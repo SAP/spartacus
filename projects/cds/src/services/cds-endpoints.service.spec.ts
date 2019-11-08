@@ -1,13 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CdsConfig } from '../cds-config';
+import { CdsConfig } from '../config/cds-config';
 import { CdsEndpointsService } from './cds-endpoints.service';
 
 describe('CdsEndpointsService', () => {
-  const strategyProductsEndpointKey = 'strategyProducts';
-  const strategyId = 'test-strategy-id';
+  const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
+  const STRATEGY_ID = 'test-strategy-id';
 
-  const mockCdsConfig = {
+  const MOCK_CDS_CONFIG = {
     cds: {
       tenant: 'merchandising-strategy-adapter-test-tenant',
       baseUrl: 'http://some-cds-base-url',
@@ -18,13 +18,13 @@ describe('CdsEndpointsService', () => {
     },
   } as CdsConfig;
 
-  const fullyCalculatedUrl = `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/${strategyId}/products`;
+  const FULLY_CALCULATED_URL = `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${MOCK_CDS_CONFIG.cds.tenant}/strategies/${STRATEGY_ID}/products`;
 
   let cdsEndpointsService: CdsEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: CdsConfig, useValue: mockCdsConfig }],
+      providers: [{ provide: CdsConfig, useValue: MOCK_CDS_CONFIG }],
     });
 
     cdsEndpointsService = TestBed.get(CdsEndpointsService as Type<
@@ -38,73 +38,75 @@ describe('CdsEndpointsService', () => {
 
   describe('getUrl', () => {
     it('should prepend a known endpoint with the base url, but not replace palceholders when none are provided', () => {
-      expect(cdsEndpointsService.getUrl(strategyProductsEndpointKey)).toBe(
-        `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/\${strategyId}/products`
+      expect(cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY)).toBe(
+        `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${MOCK_CDS_CONFIG.cds.tenant}/strategies/\${strategyId}/products`
       );
     });
 
     it('should prepend a known endpoint with the base url and replace provided placeholders', () => {
       expect(
-        cdsEndpointsService.getUrl(strategyProductsEndpointKey, { strategyId })
-      ).toBe(fullyCalculatedUrl);
+        cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY, {
+          strategyId: STRATEGY_ID,
+        })
+      ).toBe(FULLY_CALCULATED_URL);
     });
 
     it('should allow the tenant path parameter to be overridden', () => {
-      const alternativeTenant = 'some-other-tenant';
+      const ALTERNATIVE_TENANT = 'some-other-tenant';
       expect(
-        cdsEndpointsService.getUrl(strategyProductsEndpointKey, {
-          strategyId,
-          tenant: alternativeTenant,
+        cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY, {
+          strategyId: STRATEGY_ID,
+          tenant: ALTERNATIVE_TENANT,
         })
       ).toBe(
-        `${mockCdsConfig.cds.baseUrl}/strategy/${alternativeTenant}/strategies/${strategyId}/products`
+        `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${ALTERNATIVE_TENANT}/strategies/${STRATEGY_ID}/products`
       );
     });
 
     it('should not replace provided placeholders that are not in the endpoint pattern', () => {
       expect(
-        cdsEndpointsService.getUrl(strategyProductsEndpointKey, {
-          strategyId,
+        cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY, {
+          strategyId: STRATEGY_ID,
           someOtherField: 'someOtherField',
         })
-      ).toBe(fullyCalculatedUrl);
+      ).toBe(FULLY_CALCULATED_URL);
     });
 
-    it('should not prepend an unkonwn endpoint with the base url', () => {
-      const unknownEndpointKey =
+    it('should prepend an unknown endpoint with the base url', () => {
+      const UNKNOWN_ENDPOINT_KEY =
         '/some-other-url-with-placeholders/${placeHolder1}/${placeHolder2}';
       expect(
-        cdsEndpointsService.getUrl(unknownEndpointKey, {
+        cdsEndpointsService.getUrl(UNKNOWN_ENDPOINT_KEY, {
           placeHolder1: 'value1',
           placeHolder2: 'value2',
         })
       ).toBe(
-        `${mockCdsConfig.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
+        `${MOCK_CDS_CONFIG.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
       );
     });
 
     it('should not prepend an endpoint that already has the configured base url with the configured base url', () => {
-      expect(cdsEndpointsService.getUrl(fullyCalculatedUrl)).toBe(
-        fullyCalculatedUrl
+      expect(cdsEndpointsService.getUrl(FULLY_CALCULATED_URL)).toBe(
+        FULLY_CALCULATED_URL
       );
     });
 
     it('should not prepend an endpoint that already has the configured base url with the configured base url, but should replace placeholders', () => {
       expect(
         cdsEndpointsService.getUrl(
-          `${mockCdsConfig.cds.baseUrl}${mockCdsConfig.cds.endpoints.strategyProducts}`,
-          { strategyId }
+          `${MOCK_CDS_CONFIG.cds.baseUrl}${MOCK_CDS_CONFIG.cds.endpoints.strategyProducts}`,
+          { strategyId: STRATEGY_ID }
         )
-      ).toBe(fullyCalculatedUrl);
+      ).toBe(FULLY_CALCULATED_URL);
     });
 
     it('should escape special characters passed in url params', () => {
       expect(
-        cdsEndpointsService.getUrl(strategyProductsEndpointKey, {
+        cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY, {
           strategyId: 'ąćę$%',
         })
       ).toBe(
-        `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/%C4%85%C4%87%C4%99%24%25/products`
+        `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${MOCK_CDS_CONFIG.cds.tenant}/strategies/%C4%85%C4%87%C4%99%24%25/products`
       );
     });
   });

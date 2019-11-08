@@ -1,8 +1,8 @@
 import { CdsConfig } from './cds-config';
 
-export const defaultCdsConfig: CdsConfig = {
+export const DEFAULT_CDS_CONFIG: CdsConfig = {
   cds: {
-    tenant: 'argotest',
+    tenant: '',
     baseUrl: 'https://api.stage.context.cloud.sap',
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
