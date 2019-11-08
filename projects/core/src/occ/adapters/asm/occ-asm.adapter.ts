@@ -44,11 +44,11 @@ export class OccAsmAdapter implements AsmAdapter {
       .set('baseSite', this.activeBaseSite)
       .set('sort', 'byNameAsc');
 
-    if ('undefined' !== typeof options['query']) {
+    if (typeof options['query'] !== 'undefined') {
       params = params.set('query', '' + options.query);
     }
 
-    if ('undefined' !== typeof options['pageSize']) {
+    if (typeof options['pageSize'] !== 'undefined') {
       params = params.set('pageSize', '' + options.pageSize);
     }
 
