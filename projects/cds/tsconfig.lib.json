@@ -6,11 +6,16 @@
     "declaration": true,
     "inlineSources": true,
     "types": [],
-    "lib": ["dom", "es2018"],
+    "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
-    }
+      "@spartacus/core": ["dist/core"]
+    },
+    "sourceMap": true,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "importHelpers": true
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,

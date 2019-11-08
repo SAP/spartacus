@@ -299,7 +299,7 @@
       "projectType": "library",
       "root": "projects/cds",
       "sourceRoot": "projects/cds/src",
-      "prefix": "lib",
+      "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
