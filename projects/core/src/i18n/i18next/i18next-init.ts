@@ -9,7 +9,7 @@ export function i18nextInit(
   languageService: LanguageService
 ): () => Promise<any> {
   return () =>
-    configInit.getStableConfig('i18n.fallbackLang').then(config => {
+    configInit.getStableConfig('i18n').then(config => {
       let i18nextConfig: i18next.InitOptions = {
         ns: [], // don't preload any namespaces
         fallbackLng: config.i18n.fallbackLang,

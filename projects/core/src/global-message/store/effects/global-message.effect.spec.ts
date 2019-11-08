@@ -40,6 +40,11 @@ const message2: GlobalMessage = {
   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
 };
 
+const errorMessage: GlobalMessage = {
+  text: { key: 'error' },
+  type: GlobalMessageType.MSG_TYPE_ERROR,
+};
+
 describe('GlobalMessage Effects', () => {
   let actions$: Observable<GlobalMessageActions.GlobalMessageAction>;
   let effects: fromEffects.GlobalMessageEffect;
@@ -52,11 +57,8 @@ describe('GlobalMessage Effects', () => {
           initialState: <StateWithGlobalMessage>{
             [GLOBAL_MESSAGE_FEATURE]: {
               entities: {
-                [message.type]: [
-                  {
-                    key: 'test',
-                  },
-                ],
+                [message.type]: [message2.text],
+                [errorMessage.type]: [errorMessage.text],
               },
             },
           },
@@ -92,8 +94,49 @@ describe('GlobalMessage Effects', () => {
         config.globalMessages[message.type].timeout
       );
     });
+
+    it('should hide messages after delay', () => {
+      const spyDelay = spyOnOperator(operators, 'delay').and.returnValue(
+        data => data
+      );
+      const action = new GlobalMessageActions.AddMessage(message);
+      const action2 = new GlobalMessageActions.AddMessage(errorMessage);
+      const completion = new GlobalMessageActions.RemoveMessage({
+        type: message.type,
+        index: 0,
+      });
+      const completion2 = new GlobalMessageActions.RemoveMessage({
+        type: errorMessage.type,
+        index: 0,
+      });
+
+      actions$ = hot('-a-b', { a: action, b: action2 });
+      const expected = cold('-c-d', { c: completion, d: completion2 });
+      expect(effects.hideAfterDelay$).toBeObservable(expected);
+      expect(spyDelay.calls.allArgs()).toEqual([
+        [config.globalMessages[message.type].timeout],
+        [config.globalMessages[errorMessage.type].timeout],
+      ]);
+    });
   });
   describe('removeDuplicated$', () => {
+    it('should not remove message if there is only one', () => {
+      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(1);
+      spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
+
+      const action = new GlobalMessageActions.AddMessage(message2);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('--');
+
+      expect(effects.removeDuplicated$).toBeObservable(expected);
+      expect(utils.countOfDeepEqualObjects).toHaveBeenCalledWith(
+        message2.text,
+        [message2.text]
+      );
+      expect(utils.indexOfFirstOccurrence).not.toHaveBeenCalled();
+    });
+
     it('should remove message if already exist', () => {
       spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(2);
       spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
@@ -108,10 +151,12 @@ describe('GlobalMessage Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.removeDuplicated$).toBeObservable(expected);
+      expect(utils.countOfDeepEqualObjects).toHaveBeenCalledWith(
+        message2.text,
+        [message2.text]
+      );
       expect(utils.indexOfFirstOccurrence).toHaveBeenCalledWith(message2.text, [
-        {
-          key: 'test',
-        },
+        message2.text,
       ]);
     });
   });
