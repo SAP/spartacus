@@ -19,10 +19,11 @@ import { MiniCartModule } from './mini-cart/mini-cart.module';
     MiniCartModule,
     CartModule,
   ],
+  declarations: [],
   providers: [
     {
       provide: PAGE_LAYOUT_HANDLER,
-      useClass: CartPageLayoutHandler,
+      useExisting: CartPageLayoutHandler,
       multi: true,
     },
   ],

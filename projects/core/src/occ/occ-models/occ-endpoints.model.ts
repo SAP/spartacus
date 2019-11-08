@@ -216,6 +216,12 @@ export interface OccEndpoints {
    */
   orderDetail?: string;
   /**
+   * Endpoint for anonymous consent templates
+   *
+   * @member {string}
+   */
+  anonymousConsentTemplates?: string;
+  /**
    * Endpoint for consent templates
    *
    * @member {string}
@@ -257,4 +263,16 @@ export interface OccEndpoints {
    * @member {string}
    */
   consignmentTracking?: string;
+  /**
+   * Endpoint for asm customer search
+   *
+   * @member {string}
+   */
+  asmCustomerSearch?: string;
+  /**
+   * Endpoint for cart voucher
+   *
+   * @member {string}
+   */
+  cartVoucher?: string;
 }

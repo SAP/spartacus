@@ -5,7 +5,6 @@ import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -98,14 +97,20 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.store.dispatch(
-      new UserActions.LoadUserOrders({
-        userId: OCC_USER_ID_CURRENT,
-        pageSize: pageSize,
-        currentPage: currentPage,
-        sort: sort,
-      })
-    );
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.LoadUserOrders({
+            userId: occUserId,
+            pageSize: pageSize,
+            currentPage: currentPage,
+            sort: sort,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**

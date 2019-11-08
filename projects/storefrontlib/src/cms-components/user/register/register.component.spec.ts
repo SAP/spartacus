@@ -1,24 +1,29 @@
 import { Component, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AnonymousConsent,
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+  ANONYMOUS_CONSENT_STATUS,
   AuthRedirectService,
+  AuthService,
+  ConsentTemplate,
+  FeatureConfigService,
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   RoutingService,
   Title,
   UserService,
   UserToken,
-  AuthService,
-  FeatureConfigService,
-  GlobalMessageType,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -71,6 +76,9 @@ class MockFeatureConfigService {
   isLevel(_level: string): boolean {
     return isLevelBool.value;
   }
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
 }
 
 const registerUserIsLoading: BehaviorSubject<boolean> = new BehaviorSubject(
@@ -116,6 +124,27 @@ class MockRoutingService {
   go = createSpy();
 }
 
+class MockAnonymousConsentsService {
+  getConsent(_templateCode: string): Observable<AnonymousConsent> {
+    return of();
+  }
+  getTemplate(_templateCode: string): Observable<ConsentTemplate> {
+    return of();
+  }
+  withdrawConsent(_templateCode: string): void {}
+  giveConsent(_templateCode: string): void {}
+  isConsentGiven(_consent: AnonymousConsent): boolean {
+    return true;
+  }
+}
+
+const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+  anonymousConsents: {
+    registerConsent: 'MARKETING',
+    requiredConsents: ['MARKETING'],
+  },
+};
+
 describe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
@@ -126,6 +155,7 @@ describe('RegisterComponent', () => {
   let mockRoutingService: MockRoutingService;
   let mockAuthService: MockAuthService;
   let mockAuthRedirectService: MockAuthRedirectService;
+  let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -151,6 +181,14 @@ describe('RegisterComponent', () => {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
         },
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
       ],
     }).compileComponents();
   }));
@@ -165,6 +203,9 @@ describe('RegisterComponent', () => {
     mockAuthService = TestBed.get(AuthService as Type<AuthService>);
     mockAuthRedirectService = TestBed.get(AuthRedirectService as Type<
       AuthRedirectService
+    >);
+    anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
+      AnonymousConsentsService
     >);
 
     component = fixture.componentInstance;
@@ -394,6 +435,54 @@ describe('RegisterComponent', () => {
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
+  });
+
+  const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
+  describe(`${toggleAnonymousConsentMethod}`, () => {
+    it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
+      spyOn(anonymousConsentService, 'giveConsent').and.stub();
+      component.ngOnInit();
+
+      controls['newsletter'].setValue(true);
+      component.toggleAnonymousConsent();
+      expect(anonymousConsentService.giveConsent).toHaveBeenCalled();
+    });
+    it('should call anonymousConsentsService.withdrawConsent when the consent is NOT given', () => {
+      spyOn(anonymousConsentService, 'withdrawConsent').and.stub();
+      component.ngOnInit();
+
+      controls['newsletter'].setValue(false);
+      component.toggleAnonymousConsent();
+      expect(anonymousConsentService.withdrawConsent).toHaveBeenCalled();
+    });
+  });
+
+  describe('isConsentGiven', () => {
+    it('should call anonymousConsentsService.isConsentGiven', () => {
+      spyOn(anonymousConsentService, 'isConsentGiven').and.stub();
+      const mockConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+      };
+      component.isConsentGiven(mockConsent);
+      expect(anonymousConsentService.isConsentGiven).toHaveBeenCalledWith(
+        mockConsent
+      );
+    });
+  });
+
+  const isConsentRequiredMethod = 'isConsentRequired';
+  describe('isConsentRequired', () => {
+    it('should disable form when register consent is required', () => {
+      expect(component[isConsentRequiredMethod]()).toEqual(true);
+    });
+
+    it('should disable input when register consent is required', () => {
+      spyOn<any>(component, isConsentRequiredMethod).and.returnValue(true);
+
+      fixture.detectChanges();
+
+      expect(controls['newsletter'].status).toEqual('DISABLED');
     });
   });
 });
