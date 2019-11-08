@@ -8,10 +8,7 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  findModuleFromOptions,
-  getProjectFromWorkspace,
-} from '@angular/cdk/schematics';
+import { getProjectFromWorkspace } from '@angular/cdk/schematics';
 import {
   addImportToModule,
   getDecoratorMetadata,
@@ -39,7 +36,10 @@ import {
   injectService,
   InsertDirection,
 } from '../shared/utils/file-utils';
-import { importModule } from '../shared/utils/module-file-utils';
+import {
+  buildRelativePath,
+  importModule,
+} from '../shared/utils/module-file-utils';
 import { getWorkspace } from '../shared/utils/workspace-utils';
 import { CxCmsComponentSchema } from './schema';
 
@@ -254,51 +254,45 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
     if (!(options.declaringCmsModule && options.module)) {
       return;
     }
-    if (DELETE_ME) {
-      console.log('*** DECLARING IN MODULE ***');
-    }
 
-    // TODO: check findModuleFromOptions
-    const fileName = `${strings.dasherize(options.module)}.module.ts`;
-    const destinationModulePath = getPathResultsForFile(
+    const sourceCmsModule = basename(options.declaringCmsModule as any);
+    const sourceCmsModuleFileName = `${strings.dasherize(
+      sourceCmsModule
+    )}.module.ts`;
+    const sourceCmsModulePath = getPathResultsForFile(
       tree,
-      fileName,
+      sourceCmsModuleFileName,
       '/src'
     )[0];
-    if (DELETE_ME) {
-      console.log('*** options.module ***', { x: options.module });
-      console.log('*** fileName ***', { fileName });
-      console.log('*** destinationModulePath ***', { destinationModulePath });
+    if (!sourceCmsModulePath) {
+      context.logger.error(`Could not find the ${sourceCmsModulePath}`);
+      return;
     }
+
+    const destinationModuleName = basename(options.module as any);
+    const destinationFileName = `${strings.dasherize(
+      destinationModuleName
+    )}.module.ts`;
+    const destinationModulePath = getPathResultsForFile(
+      tree,
+      destinationFileName,
+      '/src'
+    )[0];
     if (!destinationModulePath) {
       context.logger.error(`Could not find the ${destinationModulePath}`);
       return;
     }
 
-    // TODO: check findModuleFromOptions
-    const moduleToImportPath = findModuleFromOptions(tree, {
-      name: options.declaringCmsModule,
-    });
-    if (DELETE_ME) {
-      console.log('*** options.declaringCmsModule ***', {
-        x: options.declaringCmsModule,
-      });
-      console.log('*** moduleToImportPath ***', { moduleToImportPath });
-      // console.log('*** destinationModulePath ***', { destinationModulePath });
-    }
-    if (!moduleToImportPath) {
-      context.logger.error(`Could not find the ${moduleToImportPath}`);
-      return;
-    }
-
-    const destinationModuleName = basename(options.declaringCmsModule as any);
+    const sourceCmsModuleRelativeImportPath = buildRelativePath(
+      destinationModulePath,
+      sourceCmsModulePath
+    );
     const destinationModuleTs = getTsSourceFile(tree, destinationModulePath);
-
     const changes = addImportToModule(
       destinationModuleTs,
       destinationModulePath,
-      strings.classify(destinationModuleName),
-      moduleToImportPath
+      strings.classify(sourceCmsModule),
+      sourceCmsModuleRelativeImportPath
     );
     commitChanges(tree, destinationModulePath, changes, InsertDirection.LEFT);
   };
