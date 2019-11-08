@@ -41,11 +41,11 @@ export class OrderDetailsService {
     );
   }
 
-  get CancellationReturnRequestEntryInputs(): CancellationReturnRequestEntryInput[] {
+  get CancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
     return this._cancellationReturnRequestInputs;
   }
 
-  set CancellationReturnRequestEntryInputs(
+  set CancellationReturnRequestInputs(
     values: CancellationReturnRequestEntryInput[]
   ) {
     this._cancellationReturnRequestInputs = values;

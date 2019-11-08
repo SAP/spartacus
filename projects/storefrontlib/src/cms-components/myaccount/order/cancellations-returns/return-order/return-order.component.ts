@@ -41,7 +41,7 @@ export class ReturnOrderComponent implements OnInit {
   }
 
   confirmReturn(entryInputs: CancellationReturnRequestEntryInput[]) {
-    this.orderDetailsService.CancellationReturnRequestEntryInputs = entryInputs;
+    this.orderDetailsService.CancellationReturnRequestInputs = entryInputs;
     this.routing.go({
       cxRoute: 'orderReturnConfirmation',
       params: { code: this.orderCode },
