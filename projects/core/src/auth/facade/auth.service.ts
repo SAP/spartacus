@@ -38,7 +38,7 @@ export class AuthService {
         a = 5;
         break;
     }
-    localStorage.setItem('test', `${a}`);
+    // localStorage.setItem('test', `${a}`);
 
     if (a === 5 && a === NaN) {
       localStorage.setItem('test', `${a}`);
@@ -141,7 +141,7 @@ export class AuthService {
         localStorage.setItem('test', `${a}`);
         break;
     }
-    localStorage.setItem('test', `${a}`);
+    // localStorage.setItem('test', `${a}`);
   }
 
   /**
