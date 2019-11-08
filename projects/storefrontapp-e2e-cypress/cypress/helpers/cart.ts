@@ -263,7 +263,7 @@ export function manipulateCartQuantity() {
   cy.server();
   cy.route(
     'GET',
-    `/rest/v2/electronics-spa/users/current/carts/*?fields=*&lang=en&curr=USD`
+    `/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 
   addToCart();
