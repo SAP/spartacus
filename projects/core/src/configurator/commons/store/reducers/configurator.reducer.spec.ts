@@ -2,9 +2,9 @@ import { Configurator } from '../../../../model/configurator.model';
 import {
   ConfiguratorAction,
   CreateConfigurationSuccess,
+  NoopAction,
   ReadConfigurationSuccess,
   UpdateConfiguration,
-  UpdateConfigurationChangesPending,
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeSuccess,
   UpdateConfigurationSuccess,
@@ -104,14 +104,14 @@ describe('Configurator reducer', () => {
   describe('UpdateConfigurationChangesPending action', () => {
     it('should not put configuration into the state', () => {
       const { initialState } = StateReduce;
-      const action: ConfiguratorAction = new UpdateConfigurationChangesPending();
+      const action: ConfiguratorAction = new NoopAction();
       const state = StateReduce.reducer(undefined, action);
 
       expect(state).toEqual(initialState);
     });
     it('should not change pending change counter', () => {
       const { initialStatePendingChanges } = StateReduce;
-      const action: ConfiguratorAction = new UpdateConfigurationChangesPending();
+      const action: ConfiguratorAction = new NoopAction();
       const state = StateReduce.reducerPendingChanges(undefined, action);
 
       expect(state).toBe(initialStatePendingChanges);

@@ -17,8 +17,7 @@ export const UPDATE_CONFIGURATION_FAIL =
   '[Configurator] Update Configuration Fail';
 export const UPDATE_CONFIGURATION_SUCCESS =
   '[Configurator] Update Configuration Sucess';
-export const UPDATE_CONFIGURATION_CHANGES_PENDING =
-  '[Configurator] Update Configuration changes pending';
+export const NOOP_ACTION = '[Configurator] Noop';
 export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
   '[Configurator] Update Configuration finalize success';
 export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
@@ -101,8 +100,8 @@ export class UpdateConfigurationFinalizeFail extends StateEntityLoaderActions.En
   }
 }
 
-export class UpdateConfigurationChangesPending implements Action {
-  readonly type = UPDATE_CONFIGURATION_CHANGES_PENDING;
+export class NoopAction implements Action {
+  readonly type = NOOP_ACTION;
 }
 
 export type ConfiguratorAction =
@@ -115,6 +114,6 @@ export type ConfiguratorAction =
   | UpdateConfiguration
   | UpdateConfigurationFail
   | UpdateConfigurationSuccess
-  | UpdateConfigurationChangesPending
   | UpdateConfigurationFinalizeFail
-  | UpdateConfigurationFinalizeSuccess;
+  | UpdateConfigurationFinalizeSuccess
+  | NoopAction;

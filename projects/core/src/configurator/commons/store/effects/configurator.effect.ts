@@ -8,16 +8,14 @@ import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import {
-  CreateConfiguration,
   CreateConfigurationFail,
   CreateConfigurationSuccess,
   CREATE_CONFIGURATION,
+  NoopAction,
   ReadConfiguration,
   ReadConfigurationFail,
   ReadConfigurationSuccess,
   READ_CONFIGURATION,
-  UpdateConfiguration,
-  UpdateConfigurationChangesPending,
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeFail,
   UpdateConfigurationFinalizeSuccess,
@@ -33,7 +31,7 @@ import { StateWithConfiguration } from '../configuration-state';
 export class ConfiguratorEffects {
   @Effect()
   createConfiguration$: Observable<
-    CreateConfiguration | CreateConfigurationSuccess | CreateConfigurationFail
+    CreateConfigurationSuccess | CreateConfigurationFail
   > = this.actions$.pipe(
     ofType(CREATE_CONFIGURATION),
     map((action: { type: string; productCode?: string }) => action.productCode),
@@ -56,7 +54,7 @@ export class ConfiguratorEffects {
 
   @Effect()
   readConfiguration$: Observable<
-    ReadConfiguration | ReadConfigurationSuccess | ReadConfigurationFail
+    ReadConfigurationSuccess | ReadConfigurationFail
   > = this.actions$.pipe(
     ofType(READ_CONFIGURATION),
     map(
@@ -84,7 +82,7 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfiguration$: Observable<
-    UpdateConfiguration | UpdateConfigurationSuccess | UpdateConfigurationFail
+    UpdateConfigurationSuccess | UpdateConfigurationFail
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION),
     map(
@@ -114,7 +112,7 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfigurationSuccess$: Observable<
-    UpdateConfigurationFinalizeSuccess | UpdateConfigurationChangesPending
+    UpdateConfigurationFinalizeSuccess | NoopAction
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_SUCCESS),
     map(
@@ -129,7 +127,7 @@ export class ConfiguratorEffects {
           if (pendingChanges === 0) {
             return new UpdateConfigurationFinalizeSuccess(payload);
           } else {
-            return new UpdateConfigurationChangesPending();
+            return new NoopAction();
           }
         })
       );
@@ -138,7 +136,7 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfigurationFail$: Observable<
-    UpdateConfigurationFinalizeFail | UpdateConfigurationChangesPending
+    UpdateConfigurationFinalizeFail | NoopAction
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_FAIL),
     map(
@@ -153,7 +151,7 @@ export class ConfiguratorEffects {
           if (pendingChanges === 0) {
             return new UpdateConfigurationFinalizeFail(payload);
           } else {
-            return new UpdateConfigurationChangesPending();
+            return new NoopAction();
           }
         })
       );
@@ -161,31 +159,13 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
-  handleErrorOnUpdate$: Observable<
-    ReadConfigurationSuccess | ReadConfigurationFail
-  > = this.actions$.pipe(
+  handleErrorOnUpdate$: Observable<ReadConfiguration> = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_FINALIZE_FAIL),
     map(
       (action: { type: string; payload?: Configurator.Configuration }) =>
         action.payload
     ),
-    mergeMap(payload => {
-      return this.configuratorCommonsConnector
-        .readConfiguration(payload.configId)
-        .pipe(
-          map((configuration: Configurator.Configuration) => {
-            return new ReadConfigurationSuccess(configuration);
-          }),
-          catchError(error => {
-            return [
-              new ReadConfigurationFail(
-                payload.productCode,
-                makeErrorSerializable(error)
-              ),
-            ];
-          })
-        );
-    })
+    map(payload => new ReadConfiguration({ configId: payload.configId }))
   );
 
   constructor(
