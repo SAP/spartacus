@@ -13,6 +13,38 @@ export const validCouponCode = 'customerCoupon1';
 export const invalidCouponCode = 'invalidCoupon';
 export const findProductCoupon = 'qualifyProductCoupon';
 
+export function verifyPagingAndSorting() {
+  const firstCouponStartDateAscending = 'customerCoupon1';
+  const firstCouponStartDateDescending = 'customerCoupon11';
+  const firstCouponEndDateAscending = 'customerCoupon1';
+  const firstCouponEndDateDescending = 'customerCoupon11';
+  const firstCouponCodeSelector =
+    'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
+  it('should page and sort', () => {
+    cy.get(firstCouponCodeSelector).should(
+      'contain',
+      firstCouponStartDateAscending
+    );
+    cy.get('.top cx-sorting .ng-select').ngSelect('Start Date (descending)');
+    cy.get(firstCouponCodeSelector).should(
+      'contain',
+      firstCouponStartDateDescending
+    );
+    cy.get('.top cx-sorting .ng-select').ngSelect('End Date (ascending)');
+    cy.get(firstCouponCodeSelector).should(
+      'contain',
+      firstCouponEndDateAscending
+    );
+    cy.get('.top cx-sorting .ng-select').ngSelect('End Date (descending)');
+    cy.get(firstCouponCodeSelector).should(
+      'contain',
+      firstCouponEndDateDescending
+    );
+    cy.get('.cx-coupon-card').should('have.length', 10);
+    cy.get('cx-pagination:first .page-link').should('have.length', 4);
+  });
+}
+
 export function verifyMyCouponsAsAnonymous() {
   it('should redirect from my coupons page to login page', () => {
     cy.visit('/my-account/coupons');
@@ -45,6 +77,21 @@ export function verifyClaimCouponFailedAsAnonymous(couponCode: string) {
     );
     cy.location('pathname').should('contain', myCouponsContainUrl);
     alerts.getErrorAlert().should('exist');
+  });
+}
+
+export function verifyMyCoupons() {
+  it('should claim and display coupons', () => {
+    verifyCoupons();
+  });
+
+  it('should enable/disable coupon notification', () => {
+    verifyEnableDisableNotification();
+  });
+
+  it('should read more detail and find product', () => {
+    verifyReadMore();
+    verifyFindProduct();
   });
 }
 
@@ -145,53 +192,5 @@ export function verifyFindProduct() {
       'contain',
       '1 result for coupon "qualifyProductCoupon"'
     );
-  });
-}
-
-export function verifyMyCoupons() {
-  it('should claim and display coupons', () => {
-    verifyCoupons();
-  });
-
-  it('should enable/disable coupon notification', () => {
-    verifyEnableDisableNotification();
-  });
-
-  it('should read more detail and find product', () => {
-    verifyReadMore();
-    verifyFindProduct();
-  });
-}
-
-const firstCouponStartDateAscending = 'customerCoupon1';
-const firstCouponStartDateDescending = 'customerCoupon11';
-const firstCouponEndDateAscending = 'customerCoupon1';
-const firstCouponEndDateDescending = 'customerCoupon11';
-const firstCouponCodeSelector =
-  'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
-
-export function verifyPagingAndSorting() {
-  it('should page and sort', () => {
-    cy.get(firstCouponCodeSelector).should(
-      'contain',
-      firstCouponStartDateAscending
-    );
-    cy.get('.top cx-sorting .ng-select').ngSelect('Start Date (descending)');
-    cy.get(firstCouponCodeSelector).should(
-      'contain',
-      firstCouponStartDateDescending
-    );
-    cy.get('.top cx-sorting .ng-select').ngSelect('End Date (ascending)');
-    cy.get(firstCouponCodeSelector).should(
-      'contain',
-      firstCouponEndDateAscending
-    );
-    cy.get('.top cx-sorting .ng-select').ngSelect('End Date (descending)');
-    cy.get(firstCouponCodeSelector).should(
-      'contain',
-      firstCouponEndDateDescending
-    );
-    cy.get('.cx-coupon-card').should('have.length', 10);
-    cy.get('cx-pagination:first .page-link').should('have.length', 4);
   });
 }
