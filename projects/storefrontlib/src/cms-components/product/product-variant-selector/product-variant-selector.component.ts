@@ -21,7 +21,7 @@ export class ProductVariantSelectorComponent implements OnInit {
     private routingService: RoutingService
   ) {}
 
-  variants: BaseOption[];
+  variants: BaseOption[] = [];
   variantType = VariantType;
   product$: Observable<Product>;
 
@@ -30,10 +30,9 @@ export class ProductVariantSelectorComponent implements OnInit {
       filter(product => !!product),
       distinctUntilChanged(),
       tap(product => {
-        this.variants = [];
         product.baseOptions.forEach(option => {
           if (option && option.variantType) {
-            this.variants.push(option);
+            this.variants[option.variantType] = option;
           }
         });
 
