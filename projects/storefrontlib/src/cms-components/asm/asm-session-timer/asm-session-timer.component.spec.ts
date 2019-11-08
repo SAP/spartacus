@@ -11,6 +11,7 @@ import {
   AuthService,
   I18nTestingModule,
   OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
   RoutingService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -117,7 +118,7 @@ describe('AsmSessionTimerComponent', () => {
   }));
 
   it('should reset the time left when user navigates on a new page.', () => {
-    spyOn<any>(component, 'resetOnCustomerSessionChange').and.stub();
+    spyOn<any>(component, 'resetOnCustomerEmulationStart').and.stub();
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(routingService, 'isNavigating').and.returnValue(of(true));
     component.ngOnInit();
@@ -125,7 +126,7 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should not reset the time left when user is not navigating to a new page', () => {
-    spyOn<any>(component, 'resetOnCustomerSessionChange').and.stub();
+    spyOn<any>(component, 'resetOnCustomerEmulationStart').and.stub();
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
     component.ngOnInit();
@@ -153,9 +154,12 @@ describe('AsmSessionTimerComponent', () => {
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(authService, 'getOccUserId').and.returnValue(occUserId$);
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
-    component.ngOnInit(); // call 1
-    occUserId$.next('customer01'); // call 2
-    occUserId$.next('customer01'); // no call, not distinct
-    expect(component.resetTimer).toHaveBeenCalledTimes(2);
+    component.ngOnInit(); // no call, initial value anonymous.
+    occUserId$.next('customer01'); // CALL 1, staring an emulation session.
+    occUserId$.next('customer01'); // no call, simulates token resfresh
+    occUserId$.next(OCC_USER_ID_ANONYMOUS); // no call, end customer emulation session
+    occUserId$.next(OCC_USER_ID_CURRENT); // no call, start standard customer emulation session
+    occUserId$.next(OCC_USER_ID_ANONYMOUS); // no call, end standard customer emulation session
+    expect(component.resetTimer).toHaveBeenCalledTimes(1);
   });
 });
