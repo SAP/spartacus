@@ -6,7 +6,7 @@ export class MerchandisingProductNormalizer
   implements Converter<MerchandisingProduct, Product> {
   convert(source: MerchandisingProduct, target?: Product): Product {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = {};
     }
 
     target.code = source.id;

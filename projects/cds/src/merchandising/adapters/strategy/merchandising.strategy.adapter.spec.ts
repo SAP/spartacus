@@ -76,7 +76,7 @@ const STRATEGY_RESULT: StrategyResult = {
   metadata: STRATEGY_RESULT_METADATA,
 };
 
-class MockConvertService {
+class MockConverterService {
   pipeable = createSpy().and.returnValue(map(() => MERCHANDISING_PRODUCTS));
 }
 
@@ -101,7 +101,7 @@ describe('MerchandisingStrategyAdapter', () => {
         },
         {
           provide: ConverterService,
-          useClass: MockConvertService,
+          useClass: MockConverterService,
         },
         MerchandisingStrategyAdapter,
       ],

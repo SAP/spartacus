@@ -14,7 +14,7 @@ export class MerchandisingProductsNormalizer
     target?: MerchandisingProducts
   ): MerchandisingProducts {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = {};
     }
 
     if (source.metadata) {
