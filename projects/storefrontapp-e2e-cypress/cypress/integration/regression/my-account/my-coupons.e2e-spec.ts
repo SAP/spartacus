@@ -37,7 +37,7 @@ describe('My coupons test for logged in user', () => {
   myCoupons.testMyCoupons();
 });
 
-describe.skip('My coupons test for pagination and sort', () => {
+describe('My coupons test for pagination and sort', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.login(myCoupons.testUser, myCoupons.testPassword);

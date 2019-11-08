@@ -26,7 +26,7 @@ export function verifyClaimCouponSuccessAsAnonymous(couponCode: string) {
     standardUser.registrationData.password
   );
   cy.location('pathname').should('contain', myCouponsContainUrl);
-  //alerts.getSuccessAlert().should('exist');
+  alerts.getSuccessAlert().should('exist');
   cy.get('.cx-coupon-card').within(() => {
     cy.get('.cx-coupon-card-id').should('contain', couponCode);
   });
@@ -77,8 +77,6 @@ export function retrieveTokenAndRegister() {
 }
 
 export function verifyCoupons() {
-  //cy.visit('/my-account/coupons');
-
   cy.get('cx-breadcrumb h1').should('contain', 'My Coupons');
   cy.get('.cx-my-coupons-header').should('contain', 'My coupons');
   cy.get('cx-my-coupons .cx-section-msg').should(
@@ -87,8 +85,8 @@ export function verifyCoupons() {
   );
 
   claimCoupon(findProductCoupon);
-  cy.visit('/');
-  cy.visit('/my-account/coupons');
+  cy.location('pathname').should('contain', myCouponsContainUrl);
+  //alerts.getSuccessAlert().should('exist');
   cy.get('.cx-coupon-card:first').within(() => {
     cy.get('.cx-coupon-card-id').should('contain', findProductCoupon);
   });
