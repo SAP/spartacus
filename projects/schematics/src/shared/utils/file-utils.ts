@@ -85,7 +85,6 @@ export function defineProperty(
 ): InsertChange {
   const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
 
-  // TODO:#12 create a constructor here
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
@@ -101,7 +100,6 @@ export function injectService(
 ): InsertChange {
   const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
 
-  // TODO:#12 create a constructor here
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${path}.`);
   }

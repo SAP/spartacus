@@ -46,8 +46,6 @@ import {
 import { getWorkspace } from '../shared/utils/workspace-utils';
 import { CxCmsComponentSchema } from './schema';
 
-export const DELETE_ME = true;
-
 function buildComponentModule(options: CxCmsComponentSchema): string {
   const moduleName = options.module || '';
   return Boolean(options.declaringCmsModule)
@@ -272,7 +270,6 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
       return;
     }
 
-    // TODO: this logic is repeated, it can be extracted to a utility method
     const destinationModuleName = basename(options.module as any);
     const destinationFileName = `${strings.dasherize(
       destinationModuleName
@@ -382,8 +379,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         skipTests,
         style,
         viewEncapsulation,
-        // TODO: remove skipImport from the schema.json and TS interface
-        // TODO: add skipImport to README and mention that it's not supported
         skipImport,
       }),
       updateModule(options),

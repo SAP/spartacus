@@ -78,10 +78,6 @@ export interface AngularComponentSchema {
    * The view encapsulation strategy to use in the new component.
    */
   viewEncapsulation?: ViewEncapsulation;
-  /**
-   * When true, does not import this component into the owning NgModule.
-   */
-  skipImport: boolean;
 }
 /**
  * The change detection strategy to use in the new component.

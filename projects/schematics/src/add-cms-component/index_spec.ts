@@ -6,7 +6,6 @@ import { Style } from '@angular/cli/lib/config/schema';
 import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
 import { addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
 import * as path from 'path';
-import { DELETE_ME } from '.';
 import {
   ANGULAR_SCHEMATICS,
   CMS_CONFIG,
@@ -37,23 +36,11 @@ function assertPathDoesNotExists(
 ): void {
   const buffer = appTree.read(filePath);
   expect(buffer).toBeFalsy();
-  if (buffer) {
-    if (DELETE_ME) {
-      console.log('path: ', filePath);
-      console.log('content: ', buffer.toString(UTF_8));
-    }
-  }
 }
 
 function assertPathExists(appTree: UnitTestTree, filePath: string): void {
   const buffer = appTree.read(filePath);
   expect(buffer).toBeTruthy();
-  if (buffer) {
-    if (DELETE_ME) {
-      console.log('path: ', filePath);
-      console.log('content: ', buffer.toString(UTF_8));
-    }
-  }
 }
 
 function assertContentExists(

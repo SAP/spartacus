@@ -56,6 +56,7 @@ The following Angular's options are _not_ supported:
 
 - deprecated options
 - _--module_ option for component - if you want to specify an existing module for the component, use _--declaringCmsModule_. The _module_ option is only applie to the Angular's _module_ schematic.
+- _--skipImport_ option
 
 ### Examples
 
