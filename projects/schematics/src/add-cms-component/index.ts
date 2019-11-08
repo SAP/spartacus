@@ -14,6 +14,7 @@ import {
   getDecoratorMetadata,
   getSourceNodes,
   insertImport,
+  isImported,
 } from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
 import {
@@ -21,7 +22,9 @@ import {
   ANGULAR_SCHEMATICS,
   CMS_COMPONENT_DATA_CLASS,
   CMS_COMPONENT_DATA_PROPERTY_NAME,
-  OBSERVABLE,
+  CMS_CONFIG,
+  CONFIG_MODULE_CLASS,
+  OBSERVABLE_CLASS,
   RXJS,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
@@ -65,30 +68,30 @@ function updateModule(options: CxCmsComponentSchema): Rule {
       rawComponentModule
     )}.module.ts`;
     const modulePath = getPathResultsForFile(tree, componentModule, '/src')[0];
-
     if (!modulePath) {
       context.logger.error(`Could not find the ${modulePath}`);
       return;
     }
 
     const changes: Change[] = [];
-
     const moduleTs = getTsSourceFile(tree, modulePath);
-    const insertImportChange = insertImport(
-      moduleTs,
-      modulePath,
-      `ConfigModule, CmsConfig`,
-      SPARTACUS_CORE,
-      false
-    );
-    changes.push(insertImportChange);
 
-    // TODO:#12 - if `module` option is false, then try to add the component to the CMS config. This is under assumption that ConfigModule.withConfig already exists (if not, add it)
+    if (!isImported(moduleTs, CONFIG_MODULE_CLASS, SPARTACUS_CORE)) {
+      const insertImportChange = insertImport(
+        moduleTs,
+        modulePath,
+        `${CONFIG_MODULE_CLASS}, ${CMS_CONFIG}`,
+        SPARTACUS_CORE,
+        false
+      );
+      changes.push(insertImportChange);
+    }
+
     const componentName = `${strings.classify(options.name)}${options.type}`;
     const insertModuleChanges = importModule(
       tree,
       modulePath,
-      `ConfigModule.withConfig(<CmsConfig>{
+      `${CONFIG_MODULE_CLASS}.withConfig(<${CMS_CONFIG}>{
       cmsComponents: {
         ${componentName}: {
           component: ${componentName},
@@ -173,7 +176,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     const observableImport = insertImport(
       componentTs,
       componentPath,
-      OBSERVABLE,
+      OBSERVABLE_CLASS,
       RXJS,
       false
     );
@@ -269,6 +272,7 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
       return;
     }
 
+    // TODO: this logic is repeated, it can be extracted to a utility method
     const destinationModuleName = basename(options.module as any);
     const destinationFileName = `${strings.dasherize(
       destinationModuleName

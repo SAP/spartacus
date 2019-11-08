@@ -4,9 +4,20 @@ import {
 } from '@angular-devkit/schematics/testing';
 import { Style } from '@angular/cli/lib/config/schema';
 import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
+import { addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
 import * as path from 'path';
 import { DELETE_ME } from '.';
-import { ANGULAR_SCHEMATICS, UTF_8 } from '../shared/constants';
+import {
+  ANGULAR_SCHEMATICS,
+  CMS_CONFIG,
+  CONFIG_MODULE_CLASS,
+  UTF_8,
+} from '../shared/constants';
+import {
+  commitChanges,
+  getTsSourceFile,
+  InsertDirection,
+} from '../shared/utils/file-utils';
 import { CxCmsComponentSchema } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -193,6 +204,8 @@ describe('add-cms-component', () => {
   });
 
   describe('when a cms module already exists', () => {
+    const existingModulePath = '/src/app/existing-cms/existing-cms.module.ts';
+
     beforeEach(async () => {
       const moduleName = 'existing-cms';
       const moduleOptions = {
@@ -219,7 +232,6 @@ describe('add-cms-component', () => {
     });
 
     it('should generate a component and add it to the specified module', async () => {
-      const existingModulePath = '/src/app/existing-cms/existing-cms.module.ts';
       assertPathExists(appTree, existingModulePath);
       assertPathDoesNotExists(appTree, GENERATED_MODULE_PATH);
       assertPathExists(appTree, GENERATED_SCSS_PATH);
@@ -272,6 +284,87 @@ describe('add-cms-component', () => {
         ],
         APP_MODULE_PATH
       );
+    });
+
+    describe('when the ConfigModule.withConfig() already contains some CMS mappings', () => {
+      beforeEach(async () => {
+        const moduleSource = getTsSourceFile(appTree, existingModulePath);
+        const changes = addSymbolToNgModuleMetadata(
+          moduleSource,
+          existingModulePath,
+          'imports',
+          `${CONFIG_MODULE_CLASS}.withConfig(<${CMS_CONFIG}>{
+            cmsComponents: {
+              TestComponent: {
+                component: TestComponent,
+              },
+            },
+          }),`
+        );
+        commitChanges(
+          appTree,
+          existingModulePath,
+          changes,
+          InsertDirection.RIGHT
+        );
+      });
+
+      it('should append the import', async () => {
+        assertPathExists(appTree, existingModulePath);
+        assertPathDoesNotExists(appTree, GENERATED_MODULE_PATH);
+        assertPathExists(appTree, GENERATED_SCSS_PATH);
+        assertPathExists(appTree, GENERATED_HTML_PATH);
+        assertPathExists(appTree, GENERATED_SPEC_PATH);
+        assertPathExists(appTree, GENERATED_TS_PATH);
+        assertPathExists(appTree, APP_MODULE_PATH);
+
+        // generated cms module assertions
+        assertContentExists(
+          appTree,
+          [
+            `ConfigModule.withConfig(<CmsConfig>{`,
+            `cmsComponents: {`,
+            `MyAwesomeCmsComponent: {`,
+            `component: MyAwesomeCmsComponent,`,
+            `TestComponent: {`,
+            `component: TestComponent,`,
+          ],
+          existingModulePath
+        );
+
+        // generated html assertions
+        assertContentExists(
+          appTree,
+          [
+            `<ng-container *ngIf="componentData$ | async as data">`,
+            `{{data | json}}`,
+            `</ng-container>`,
+          ],
+          GENERATED_HTML_PATH
+        );
+
+        // generated component assertions
+        assertContentExists(
+          appTree,
+          [
+            `componentData$: Observable<MyModel> = this.componentData.data$;`,
+            `constructor(private componentData: CmsComponentData<MyModel>) { }`,
+          ],
+          GENERATED_TS_PATH
+        );
+
+        // app.module.ts assertions
+        assertContentDoesNotExist(
+          appTree,
+          [
+            `import { MyAwesomeCmsComponent } from './my-awesome-cms/my-awesome-cms.component';`,
+            `MyAwesomeCmsComponent`,
+            `exports: [MyAwesomeCmsComponent],`,
+            `entryComponents: [MyAwesomeCmsComponent]`,
+          ],
+          APP_MODULE_PATH
+        );
+      });
     });
   });
 
