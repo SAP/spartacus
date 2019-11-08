@@ -1,0 +1,96 @@
+@import '../../theme';
+
+%cx-added-to-cart-dialog {
+  .cx-dialog-header {
+    padding: 2rem 1.75rem 0.85rem;
+    border-width: 0;
+  }
+
+  .cx-dialog-title {
+    @include type('3');
+  }
+
+  .cx-dialog-body {
+    padding: 1rem 1rem 0 1rem;
+    @include media-breakpoint-down(sm) {
+      padding: 0;
+      background-color: var(--cx-color-inverse);
+    }
+    cx-media.is-missing {
+      min-width: 100%;
+      background-size: 85px;
+    }
+  }
+
+  .cx-dialog-row {
+    margin: 0;
+    display: flex;
+    padding: 0 0.875rem 2.875rem;
+    max-width: 100%;
+    flex-wrap: wrap;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      padding: 0;
+    }
+  }
+
+  .cx-dialog-item {
+    @include media-breakpoint-down(sm) {
+      padding: 2rem;
+    }
+
+    .cx-compact {
+      .cx-price,
+      .cx-quantity,
+      .cx-total {
+        .cx-label {
+          font-weight: var(--cx-font-weight-normal);
+        }
+      }
+
+      .cx-actions {
+        button.link {
+          font-weight: var(--cx-font-weight-normal);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .cx-dialog-separator {
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+  }
+
+  .cx-dialog-actions {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem 0 2.5rem;
+    border-width: 0 0 0 1px;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+
+    @include media-breakpoint-down(sm) {
+      border-width: 0;
+      padding: 1.875rem;
+    }
+  }
+
+  .cx-dialog-total {
+    @include type('4');
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 1.25rem 0;
+  }
+
+  .cx-dialog-buttons {
+    display: flex;
+    flex-direction: column;
+
+    .btn-primary {
+      margin: 0 0 0.625rem 0;
+    }
+  }
+}

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { EMPTY, fromEvent, iif, Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
   catchError,
   concatMap,
-  debounceTime,
-  distinctUntilChanged,
   filter,
   map,
   mergeMap,
@@ -18,45 +16,21 @@ import {
   ANONYMOUS_CONSENTS_FEATURE,
   isFeatureEnabled,
 } from '../../../features-config/index';
-import { AnonymousConsent } from '../../../model/index';
-import { SiteContextActions } from '../../../site-context/index';
-import { DEFAULT_LOCAL_STORAGE_KEY } from '../../../state/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { WindowRef } from '../../../window/index';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
-import {
-  AnonymousConsentsState,
-  ANONYMOUS_CONSENTS_STORE_FEATURE,
-} from '../anonymous-consents-state';
 
 @Injectable()
 export class AnonymousConsentsEffects {
-  @Effect()
-  handleLogoutAndLanguageChange$: Observable<
-    AnonymousConsentsActions.LoadAnonymousConsentTemplates
-  > = this.actions$.pipe(
-    ofType(SiteContextActions.LANGUAGE_CHANGE, AuthActions.LOGOUT),
-    filter(_ =>
-      isFeatureEnabled(this.anonymousConsentsConfig, ANONYMOUS_CONSENTS_FEATURE)
-    ),
-    withLatestFrom(this.authService.isUserLoggedIn()),
-    filter(([_, isUserLoggedIn]) => !isUserLoggedIn),
-    map(_ => new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
-  );
-
   @Effect()
   loadAnonymousConsentTemplates$: Observable<
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    filter(_ =>
-      isFeatureEnabled(this.anonymousConsentsConfig, ANONYMOUS_CONSENTS_FEATURE)
-    ),
     concatMap(_ =>
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
@@ -222,123 +196,12 @@ export class AnonymousConsentsEffects {
     )
   );
 
-  @Effect()
-  synchronizeBannerAcrossTabs$: Observable<
-    AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility
-  > = iif(
-    () => this.checkFeatureAndSsrEnabled(),
-    fromEvent<StorageEvent>(this.winRef.nativeWindow, 'storage').pipe(
-      filter(storageEvent => this.checkStorageEvent(storageEvent)),
-      distinctUntilChanged(),
-      // Clicking on "Allow All" on the banner hides the banner, causing an infinite loop of firing events.
-      debounceTime(100),
-      map(storageEvent => {
-        const newState = JSON.parse(storageEvent.newValue);
-        const newUiFlag = (newState[
-          ANONYMOUS_CONSENTS_STORE_FEATURE
-        ] as AnonymousConsentsState).ui.bannerVisible;
-
-        return newUiFlag;
-      }),
-      distinctUntilChanged(),
-      map(
-        newUiFlag =>
-          new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-            newUiFlag
-          )
-      )
-    ),
-    EMPTY
-  );
-
-  @Effect()
-  synchronizeConsentStateAcrossTabs$: Observable<
-    | (
-        | AnonymousConsentsActions.GiveAnonymousConsent
-        | AnonymousConsentsActions.WithdrawAnonymousConsent)
-    | Observable<never>
-  > = iif(
-    () => this.checkFeatureAndSsrEnabled(),
-    fromEvent<StorageEvent>(this.winRef.nativeWindow, 'storage').pipe(
-      filter(storageEvent => this.checkStorageEvent(storageEvent)),
-      distinctUntilChanged(),
-      // Clicking on "Allow All" on the banner hides the banner, causing an infinite loop of firing events.
-      debounceTime(100),
-      mergeMap(storageEvent => {
-        const newState = JSON.parse(storageEvent.newValue);
-        const newConsets = (newState[
-          ANONYMOUS_CONSENTS_STORE_FEATURE
-        ] as AnonymousConsentsState).consents;
-
-        const oldState = JSON.parse(storageEvent.oldValue);
-        const oldConsents = (oldState[
-          ANONYMOUS_CONSENTS_STORE_FEATURE
-        ] as AnonymousConsentsState).consents;
-
-        if (
-          this.anonymousConsentService.consentsUpdated(newConsets, oldConsents)
-        ) {
-          return this.createStateUpdateActions(newConsets);
-        }
-
-        return EMPTY;
-      })
-    ),
-    EMPTY
-  );
-
-  private checkFeatureAndSsrEnabled(): boolean {
-    return (
-      isFeatureEnabled(
-        this.anonymousConsentsConfig,
-        ANONYMOUS_CONSENTS_FEATURE
-      ) && Boolean(this.winRef.nativeWindow)
-    );
-  }
-
-  private checkStorageEvent(storageEvent: StorageEvent): boolean {
-    return (
-      Boolean(storageEvent) &&
-      storageEvent.key === DEFAULT_LOCAL_STORAGE_KEY &&
-      storageEvent.newValue !== null &&
-      storageEvent.oldValue !== null
-    );
-  }
-
-  private createStateUpdateActions(
-    newConsets: AnonymousConsent[]
-  ): (
-    | AnonymousConsentsActions.GiveAnonymousConsent
-    | AnonymousConsentsActions.WithdrawAnonymousConsent)[] {
-    const consentStateActions: (
-      | AnonymousConsentsActions.GiveAnonymousConsent
-      | AnonymousConsentsActions.WithdrawAnonymousConsent)[] = [];
-    for (const consent of newConsets) {
-      if (this.anonymousConsentService.isConsentGiven(consent)) {
-        consentStateActions.push(
-          new AnonymousConsentsActions.GiveAnonymousConsent(
-            consent.templateCode
-          )
-        );
-      } else if (this.anonymousConsentService.isConsentWithdrawn(consent)) {
-        consentStateActions.push(
-          new AnonymousConsentsActions.WithdrawAnonymousConsent(
-            consent.templateCode
-          )
-        );
-      }
-    }
-
-    return consentStateActions;
-  }
-
   constructor(
     private actions$: Actions,
     private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService,
-    private userConsentService: UserConsentService,
-    private winRef: WindowRef
+    private userConsentService: UserConsentService
   ) {}
 }
