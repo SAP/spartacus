@@ -9,7 +9,7 @@ import { CartActions } from '../actions';
 @Injectable()
 export class WishListEffects {
   @Effect()
-  createWishList: Observable<
+  createWishList$: Observable<
     CartActions.CreateWishListSuccess | CartActions.CreateWishListFail
   > = this.actions$.pipe(
     ofType(CartActions.CREATE_WISH_LIST),

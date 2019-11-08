@@ -1,11 +1,11 @@
-import { StateWithMultiCart } from '../multi-cart-state';
-import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-import * as fromReducers from './../reducers/index';
 import { Type } from '@angular/core';
-import { Cart } from '../../../model/cart.model';
+import { TestBed } from '@angular/core/testing';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { MultiCartSelectors } from '.';
+import { Cart } from '../../../model/cart.model';
 import { CartActions } from '../actions';
+import { StateWithMultiCart } from '../multi-cart-state';
+import * as fromReducers from './../reducers/index';
 
 describe('Multi Cart selectors', () => {
   let store: Store<StateWithMultiCart>;
@@ -66,6 +66,7 @@ describe('Multi Cart selectors', () => {
 
       expect(result).toEqual({
         active: '',
+        wishList: '',
         carts: {
           entities: {},
         },
@@ -75,6 +76,7 @@ describe('Multi Cart selectors', () => {
 
       expect(result).toEqual({
         active: testCart.code,
+        wishList: '',
         carts: {
           entities: {
             [testCart.code]: {
