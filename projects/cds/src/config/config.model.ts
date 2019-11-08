@@ -1,4 +1,4 @@
-export interface CdsConfig {
+export abstract class CdsConfig {
   cds: {
     profileTag: ProfileTagConfig;
   }

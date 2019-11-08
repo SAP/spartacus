@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
 import { AnonymousConsent, AnonymousConsentsService, BaseSiteService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CdsConfig, ProfileTagConfig } from '../../config/config.model';
 import { ProfileTagWindowObject } from './profile-tag.model';
 
@@ -11,10 +11,8 @@ import { ProfileTagWindowObject } from './profile-tag.model';
 })
 export class ProfileTagInjector {
   profiletagConfig: ProfileTagConfig;
-  consentChanged$: Observable<Boolean[]>;
-  pageLoaded$: Observable<NgRouterEvent>;
   w: ProfileTagWindowObject;
-  isProfileTagLoaded = new BehaviorSubject<boolean>(false);
+  isProfileTagLoaded$ = new BehaviorSubject<boolean>(false);
   startTracking$: Observable<Boolean[] | NgRouterEvent>;
   constructor(
     private winRef: WindowRef,
@@ -25,16 +23,16 @@ export class ProfileTagInjector {
   ) {
     this.w = <ProfileTagWindowObject><unknown>this.winRef.nativeWindow;
     this.profiletagConfig = this.config.cds.profileTag;
-    this.consentChanged$ = this.consentChanged();
-    this.pageLoaded$ = this.pageLoaded();
-    this.startTracking$ = merge(this.consentChanged$, this.pageLoaded$);
+    const consentChanged$ = this.consentChanged();
+    const pageLoaded$ = this.pageLoaded();
+    this.startTracking$ = merge(pageLoaded$, consentChanged$);
   }
 
   injectScript(): Observable<Boolean[] | NgRouterEvent> {
     this.addScript();
     return this.addTracker().pipe(
       switchMap(() => {
-        return this.isProfileTagLoaded.pipe(
+        return this.isProfileTagLoaded$.pipe(
           filter(Boolean),
           switchMap(() => {
             return this.startTracking$
@@ -48,13 +46,13 @@ export class ProfileTagInjector {
     return this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
-        shareReplay(1),
         tap(() => {
           this.w.Y_TRACKING.push({ event: 'Navigated' })
         }),
         tap(() => 'called ytracking Navigated'),
       )
   }
+
   private consentChanged(): Observable<Boolean[]> {
     return this.anonymousConsentsService.getConsents()
       .pipe(
@@ -63,8 +61,10 @@ export class ProfileTagInjector {
             return this.anonymousConsentsService.isConsentGiven(anonymousConsent);
           })
         }),
-        distinctUntilChanged((prev, curr) => this.areArraysEqual(prev, curr)),
         filter((consentsGranted: Boolean[]) => {
+          // TODO: For now we dont trigger a consent withdrawn as we do not do
+          // granular consents, and one consent withdrawn would lead all tracking to stop
+          // our system will anyway deny a request if an individual consent has been withdrawn
           for (const consentGranted of consentsGranted) {
             if (!consentGranted) {
               return false;
@@ -72,32 +72,20 @@ export class ProfileTagInjector {
           }
           return true;
         }),
+        take(1),
         tap(() => {
           this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted: true })
         }),
-        tap(() => { console.log('called ytracking ConsentChanged') }));
-  }
-
-  private areArraysEqual(a, b) {
-    if (a === b) return true;
-    if (a == null || b == null) return false;
-    if (a.length !== b.length) return false;
-
-    for (let i = 0; i < a.length; ++i) {
-      if (a[i] !== b[i]) return false;
-    }
-    return true;
+      );
   }
 
   private addTracker(): Observable<string> {
     return this.baseSiteService
       .getActive()
       .pipe(
-        filter(Boolean),
-        tap((site: string) => {
-          const newConfig: ProfileTagConfig = { ...this.profiletagConfig };
-          newConfig.siteId = site;
-          this.track(newConfig);
+        filter((site: string) => Boolean(site)),
+        tap(() => {
+          this.track(this.profiletagConfig);
         }))
   }
 
@@ -116,15 +104,13 @@ export class ProfileTagInjector {
     }
     const q = this.w.Y_TRACKING.q || [];
     q.push([spaOptions]);
-    this.w.Y_TRACKING = {
-      q: q
-    };
+    this.w.Y_TRACKING.q = q;
   }
 
   private profileTagEventTriggered(profileTagEvent) {
     switch (profileTagEvent.eventName) {
       case 'Loaded':
-        this.isProfileTagLoaded.next(true);
+        this.isProfileTagLoaded$.next(true);
         break;
       default:
         //add logger from spartacus. this.logger.info(`Unsupported Event ${profileTagEvent.eventName}`)
