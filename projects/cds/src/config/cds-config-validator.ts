@@ -1,8 +1,10 @@
 import { CdsConfig } from './config.model';
 
 export function cdsConfigValidator(config: CdsConfig) {
-
-  if (config.cds.profileTag === undefined || config.cds.profileTag.tenant === undefined) {
+  if (
+    config.cds.profileTag === undefined ||
+    config.cds.profileTag.tenant === undefined
+  ) {
     return 'Please configure profileTag.tenantId before using CDS library!';
   }
 

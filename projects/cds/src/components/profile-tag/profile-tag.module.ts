@@ -14,10 +14,8 @@ import { ProfileTagComponent } from './profile-tag.component';
     }),
     CommonModule,
   ],
-  exports: [
-    ProfileTagComponent,
-  ],
+  exports: [ProfileTagComponent],
   declarations: [ProfileTagComponent],
   entryComponents: [ProfileTagComponent],
 })
-export class ProfileTagModule { }
+export class ProfileTagModule {}

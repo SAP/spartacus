@@ -1,9 +1,8 @@
 export abstract class CdsConfig {
   cds: {
     profileTag: ProfileTagConfig;
-  }
+  };
 }
-
 
 export interface ProfileTagConfig {
   tenant: string;

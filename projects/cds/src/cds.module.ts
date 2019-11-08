@@ -5,12 +5,10 @@ import { cdsConfigValidator } from './config/cds-config-validator';
 import { CdsConfig } from './config/config.model';
 
 @NgModule({
-  imports: [
-    ProfileTagModule,
-  ],
+  imports: [ProfileTagModule],
   providers: [
     { provide: CdsConfig, useExisting: Config },
     provideConfigValidator(cdsConfigValidator),
   ],
 })
-export class CdsModule { }
+export class CdsModule {}

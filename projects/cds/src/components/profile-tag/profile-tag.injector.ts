@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
-import { AnonymousConsent, AnonymousConsentsService, BaseSiteService, WindowRef } from '@spartacus/core';
+import {
+  AnonymousConsent,
+  AnonymousConsentsService,
+  BaseSiteService,
+  WindowRef,
+} from '@spartacus/core';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CdsConfig, ProfileTagConfig } from '../../config/config.model';
@@ -21,7 +26,7 @@ export class ProfileTagInjector {
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService
   ) {
-    this.w = <ProfileTagWindowObject><unknown>this.winRef.nativeWindow;
+    this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
     this.profiletagConfig = this.config.cds.profileTag;
     const consentChanged$ = this.consentChanged();
     const pageLoaded$ = this.pageLoaded();
@@ -35,58 +40,55 @@ export class ProfileTagInjector {
         return this.isProfileTagLoaded$.pipe(
           filter(Boolean),
           switchMap(() => {
-            return this.startTracking$
+            return this.startTracking$;
           })
-        )
+        );
       })
     );
   }
 
   private pageLoaded(): Observable<NgRouterEvent> {
-    return this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        tap(() => {
-          this.w.Y_TRACKING.push({ event: 'Navigated' })
-        }),
-        tap(() => 'called ytracking Navigated'),
-      )
+    return this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      tap(() => {
+        this.w.Y_TRACKING.push({ event: 'Navigated' });
+      }),
+      tap(() => 'called ytracking Navigated')
+    );
   }
 
   private consentChanged(): Observable<Boolean[]> {
-    return this.anonymousConsentsService.getConsents()
-      .pipe(
-        map((anonymousConsents: AnonymousConsent[]) => {
-          return anonymousConsents.map((anonymousConsent) => {
-            return this.anonymousConsentsService.isConsentGiven(anonymousConsent);
-          })
-        }),
-        filter((consentsGranted: Boolean[]) => {
-          // TODO: For now we dont trigger a consent withdrawn as we do not do
-          // granular consents, and one consent withdrawn would lead all tracking to stop
-          // our system will anyway deny a request if an individual consent has been withdrawn
-          for (const consentGranted of consentsGranted) {
-            if (!consentGranted) {
-              return false;
-            }
+    return this.anonymousConsentsService.getConsents().pipe(
+      map((anonymousConsents: AnonymousConsent[]) => {
+        return anonymousConsents.map(anonymousConsent => {
+          return this.anonymousConsentsService.isConsentGiven(anonymousConsent);
+        });
+      }),
+      filter((consentsGranted: Boolean[]) => {
+        // TODO: For now we dont trigger a consent withdrawn as we do not do
+        // granular consents, and one consent withdrawn would lead all tracking to stop
+        // our system will anyway deny a request if an individual consent has been withdrawn
+        for (const consentGranted of consentsGranted) {
+          if (!consentGranted) {
+            return false;
           }
-          return true;
-        }),
-        take(1),
-        tap(() => {
-          this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted: true })
-        }),
-      );
+        }
+        return true;
+      }),
+      take(1),
+      tap(() => {
+        this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted: true });
+      })
+    );
   }
 
   private addTracker(): Observable<string> {
-    return this.baseSiteService
-      .getActive()
-      .pipe(
-        filter((site: string) => Boolean(site)),
-        tap(() => {
-          this.track(this.profiletagConfig);
-        }))
+    return this.baseSiteService.getActive().pipe(
+      filter((site: string) => Boolean(site)),
+      tap(() => {
+        this.track(this.profiletagConfig);
+      })
+    );
   }
 
   private addScript(): void {
@@ -100,8 +102,10 @@ export class ProfileTagInjector {
 
   private track(options: ProfileTagConfig) {
     const spaOptions = {
-      ...options, spa: true, profileTagEventReciever: this.profileTagEventTriggered.bind(this)
-    }
+      ...options,
+      spa: true,
+      profileTagEventReciever: this.profileTagEventTriggered.bind(this),
+    };
     const q = this.w.Y_TRACKING.q || [];
     q.push([spaOptions]);
     this.w.Y_TRACKING.q = q;
