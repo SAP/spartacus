@@ -134,8 +134,16 @@ function print(options: CxCmsComponentSchema): Rule {
 
 function updateModule(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const componentModule = builDeclaringCmsModule(options);
-    const modulePath = findModuleFromOptions(tree, { name: componentModule });
+    const rawComponentModule = builDeclaringCmsModule(options);
+    const componentModule = `${strings.dasherize(
+      rawComponentModule
+    )}.module.ts`;
+    const modulePath = getPathResultsForFile(
+      tree,
+      strings.dasherize(componentModule),
+      '/src'
+    )[0];
+
     if (!modulePath) {
       context.logger.error(`Could not find the ${modulePath}`);
       return;
@@ -325,6 +333,7 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
       return;
     }
 
+    // TODO: check findModuleFromOptions
     const destinationModulePath = findModuleFromOptions(tree, {
       name: options.module,
     });
@@ -333,6 +342,7 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
       return;
     }
 
+    // TODO: check findModuleFromOptions
     const moduleToImportPath = findModuleFromOptions(tree, {
       name: options.declaringCmsModule,
     });
@@ -455,7 +465,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       updateComponent(options),
       updateTemplate(options),
       declaringCmsModule && declaringModule ? declareInModule(options) : noop(),
-      DELETE_ME ? print(options) : noop(),
+      DELETE_ME ? noop() : print(options),
     ])(tree, context);
   };
 }

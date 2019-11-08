@@ -74,8 +74,7 @@
       "description": "When true, includes styles inline in the component.ts file. Only CSS styles can be included inline. By default, an external styles file is created and referenced in the component.ts file.",
       "type": "boolean",
       "default": false,
-      "alias": "s",
-      "x-user-analytics": 9
+      "alias": "s"
     },
     "inlineTemplate": {
       "description": "When true, includes template inline in the component.ts file. By default, an external template file is created and referenced in the component.ts file.",
@@ -113,7 +112,7 @@
     "style": {
       "description": "The file extension or preprocessor to use for style files.",
       "type": "string",
-      "default": "css",
+      "default": "scss",
       "enum": ["css", "scss", "sass", "less", "styl"]
     },
     "type": {
