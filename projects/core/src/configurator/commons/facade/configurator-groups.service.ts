@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { mergeMap, shareReplay } from 'rxjs/operators';
+import { map, mergeMap, shareReplay, switchMap } from 'rxjs/operators';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import { StateWithConfiguration } from '../store/configuration-state';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
@@ -18,25 +18,20 @@ export class ConfiguratorGroupsService {
 
   getCurrentGroup(productCode: string): Observable<string> {
     return this.configuratorCommonsService.getUiState(productCode).pipe(
-      mergeMap(uiState => {
+      switchMap(uiState => {
         if (uiState && uiState.currentGroup) {
           return of(uiState.currentGroup);
         } else {
           return this.configuratorCommonsService
             .getConfiguration(productCode)
             .pipe(
-              mergeMap(configuration => {
-                if (
-                  configuration &&
-                  configuration.groups &&
-                  configuration.groups.length > 0
-                ) {
-                  this.setCurrentGroup(productCode, configuration.groups[0].id);
-                  return of(configuration.groups[0].id);
-                } else {
-                  return of(null); //no configuration with a group found
-                }
-              })
+              map(configuration =>
+                configuration &&
+                configuration.groups &&
+                configuration.groups.length > 0
+                  ? configuration.groups[0].id
+                  : null
+              )
             );
         }
       })
@@ -49,7 +44,7 @@ export class ConfiguratorGroupsService {
 
   getNextGroup(productCode: string): Observable<string> {
     return this.getCurrentGroup(productCode).pipe(
-      mergeMap(currentGroupId => {
+      switchMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
         }
@@ -77,7 +72,7 @@ export class ConfiguratorGroupsService {
 
   getPreviousGroup(productCode: string): Observable<string> {
     return this.getCurrentGroup(productCode).pipe(
-      mergeMap(currentGroupId => {
+      switchMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
         }

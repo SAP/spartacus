@@ -76,11 +76,6 @@ describe('ConfigTextfieldFormComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get product code from router state', () => {
-    component.ngOnInit();
-    expect(component.productCode).toBe(PRODUCT_CODE);
-  });
-
   it('should know product configuration after init has been done', () => {
     component.ngOnInit();
     component.configuration$.subscribe(configuration => {
@@ -89,12 +84,5 @@ describe('ConfigTextfieldFormComponent', () => {
       expect(attributes.length).toBe(1);
       expect(attributes[0].configurationLabel).toBe(ATTRIBUTE_NAME);
     });
-  });
-
-  it('should release subscription on destroy ', () => {
-    component.ngOnInit();
-    expect(component.subscription.closed).toBe(false);
-    component.ngOnDestroy();
-    expect(component.subscription.closed).toBe(true);
   });
 });

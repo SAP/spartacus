@@ -21,7 +21,7 @@ export function configuratorTextfieldStoreConfigFactory(): StateConfig {
     state: {
       storageSync: {
         keys: {
-          [`${CONFIGURATION_TEXTFIELD_FEATURE}.active.value.content.configId`]: StorageSyncType.LOCAL_STORAGE,
+          [`${CONFIGURATION_TEXTFIELD_FEATURE}.value.content.configId`]: StorageSyncType.LOCAL_STORAGE,
         },
       },
     },

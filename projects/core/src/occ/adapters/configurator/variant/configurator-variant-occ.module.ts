@@ -25,12 +25,12 @@ import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapte
     },
     {
       provide: CONFIGURATION_NORMALIZER,
-      useClass: OccConfiguratorVariantNormalizer,
+      useExisting: OccConfiguratorVariantNormalizer,
       multi: true,
     },
     {
       provide: CONFIGURATION_SERIALIZER,
-      useClass: OccConfiguratorVariantSerializer,
+      useExisting: OccConfiguratorVariantSerializer,
       multi: true,
     },
   ],

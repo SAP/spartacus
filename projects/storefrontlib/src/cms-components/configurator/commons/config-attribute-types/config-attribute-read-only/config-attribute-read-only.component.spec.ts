@@ -42,7 +42,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     htmlElem = fixture.nativeElement;
     component.attribute = {
       name: 'valueName',
-      stdAttrCode: 444,
+      attrCode: 444,
       uiType: Configurator.UiType.READ_ONLY,
       selectedSingleValue: 'selectedValue',
       quantity: 1,

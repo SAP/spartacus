@@ -118,7 +118,7 @@ describe('ConfiguratorCommonsService', () => {
 
   it('should update a configuration, accessing the store', () => {
     const changedAttribute: Configurator.Attribute = {
-      name: 'changedAttribute',
+      name: ATTRIBUTE_NAME_1,
     };
 
     serviceUnderTest.updateConfiguration(

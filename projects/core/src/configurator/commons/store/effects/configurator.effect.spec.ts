@@ -210,36 +210,16 @@ describe('ConfiguratorEffect', () => {
     });
   });
   describe('Effect handleErrorOnUpdate', () => {
-    it('should emit ReadConfigurationSuccess on UpdateConfigurationFinalizeFail in case read call goes fine', () => {
+    it('should emit ReadConfiguration on UpdateConfigurationFinalizeFail', () => {
       const payloadInput = productConfiguration;
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
         payloadInput
       );
-      const completion = new ConfiguratorActions.ReadConfigurationSuccess(
-        productConfiguration
-      );
+      const completion = new ConfiguratorActions.ReadConfiguration({
+        configId: productConfiguration.configId,
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
-      expect(configEffects.handleErrorOnUpdate$).toBeObservable(expected);
-    });
-    it('should emit ReadConfigurationFail in case read call goes wrong', () => {
-      const errorResponse: HttpErrorResponse = new HttpErrorResponse({
-        error: 'notFound',
-        status: 404,
-      });
-      readMock.and.returnValue(throwError(errorResponse));
-      const payloadInput = productConfiguration;
-      const action = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-        payloadInput
-      );
-
-      const completionFailure = new ConfiguratorActions.ReadConfigurationFail(
-        productCode,
-        makeErrorSerializable(errorResponse)
-      );
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completionFailure });
-
       expect(configEffects.handleErrorOnUpdate$).toBeObservable(expected);
     });
   });

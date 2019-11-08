@@ -32,7 +32,6 @@ function checkAttributesFromCurrentProductService(
 ) {
   expect(component.productCode).toBe(productCode);
   expect(component.configuratorType).toBe(configuratorType);
-  expect(component.configurable).toBe(true);
 }
 
 describe('ConfigureProductComponent', () => {
@@ -75,13 +74,6 @@ describe('ConfigureProductComponent', () => {
     component.ngOnInit();
     expect(component.productCode).toBe(otherProductCode);
     expect(component.configuratorType).toBeFalsy();
-    expect(component.configurable).toBeFalsy();
-  });
-
-  it('should not take configurable attribute into consideration for taking over attributes', () => {
-    component.configurable = true;
-    component.ngOnInit();
-    checkAttributesFromCurrentProductService(component);
   });
 
   it('should not take configurator type into consideration for taking over attributes from product service', () => {
