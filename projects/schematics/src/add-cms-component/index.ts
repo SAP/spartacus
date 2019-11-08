@@ -388,7 +388,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         // TODO: add skipImport to README and mention that it's not supported
         skipImport,
       }),
-      createCmsModule ? updateModule(options) : noop(),
+      updateModule(options),
       updateComponent(options),
       updateTemplate(options),
       !createCmsModule && declaringModule ? declareInModule(options) : noop(),
