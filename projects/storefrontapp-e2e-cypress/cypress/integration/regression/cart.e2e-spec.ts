@@ -20,7 +20,7 @@ describe('Cart', () => {
     cart.removeAllItemsFromCart();
   });
 
-  it('should add product to cart as anonymous and merge when logged in', () => {
+  it('should add product to cart as anonymous, merge when logged in and then log out with empty cart', () => {
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     cart.logOutAndNavigateToEmptyCart();
@@ -29,7 +29,7 @@ describe('Cart', () => {
     cart.logOutAndEmptyCart();
   });
 
-  it('should add product to cart and manipulate quantity', () => {
+  it('should add product to cart as anonymous and manipulate quantity', () => {
     cart.manipulateCartQuantity();
   });
 
