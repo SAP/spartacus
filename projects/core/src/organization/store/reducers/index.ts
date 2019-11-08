@@ -10,6 +10,8 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
     budget: combineReducers({
       budgets: entityLoaderReducer<Budget>(BUDGET_FEATURE, budgetsEntitiesReducer),
+      // pages: pagesReducer,
+      // sorts: sortsReducer,
     }),
   };
 }
