@@ -117,7 +117,7 @@ describe('AsmSessionTimerComponent', () => {
   }));
 
   it('should reset the time left when user navigates on a new page.', () => {
-    spyOn<any>(component, 'listenForCustomerSession').and.stub();
+    spyOn<any>(component, 'resetOnCustomerSessionChange').and.stub();
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(routingService, 'isNavigating').and.returnValue(of(true));
     component.ngOnInit();
@@ -125,7 +125,7 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should not reset the time left when user is not navigating to a new page', () => {
-    spyOn<any>(component, 'listenForCustomerSession').and.stub();
+    spyOn<any>(component, 'resetOnCustomerSessionChange').and.stub();
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
     component.ngOnInit();
@@ -146,7 +146,7 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should reset the time left when agent starts a new customer session', () => {
-    spyOn<any>(component, 'listenForNavigation').and.stub();
+    spyOn<any>(component, 'resetOnNavigate').and.stub();
     const occUserId$: BehaviorSubject<string> = new BehaviorSubject(
       OCC_USER_ID_ANONYMOUS
     );

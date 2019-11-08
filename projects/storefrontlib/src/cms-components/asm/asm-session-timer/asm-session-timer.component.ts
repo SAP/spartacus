@@ -34,11 +34,11 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.markForCheck();
     }, 1000);
 
-    this.listenForNavigation();
-    this.listenForCustomerSession();
+    this.resetOnNavigate();
+    this.resetOnCustomerSessionChange();
   }
 
-  private listenForNavigation() {
+  private resetOnNavigate() {
     this.subscriptions.add(
       this.routingService.isNavigating().subscribe(isNavigating => {
         if (isNavigating) {
@@ -48,7 +48,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     );
   }
 
-  private listenForCustomerSession() {
+  private resetOnCustomerSessionChange() {
     this.subscriptions.add(
       this.authService
         .getOccUserId()
