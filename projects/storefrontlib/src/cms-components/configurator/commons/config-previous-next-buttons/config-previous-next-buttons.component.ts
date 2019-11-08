@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {
   Configurator,
+  ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
@@ -25,7 +26,8 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   constructor(
     private routingService: RoutingService,
-    private configuratorGroupsService: ConfiguratorGroupsService
+    private configuratorGroupsService: ConfiguratorGroupsService,
+    private configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
   @Output() nextGroup = new EventEmitter();
@@ -41,6 +43,9 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   initConfigurationGroups(routingData) {
     this.productCode = routingData.state.params.rootProduct;
+    this.configuration$ = this.configuratorCommonsService.getConfiguration(
+      this.productCode
+    );
   }
 
   onPrevious() {
@@ -59,7 +64,18 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
           this.productCode,
           groupId
         );
+        this.readConfigurationForGroup(groupId);
       });
+  }
+
+  readConfigurationForGroup(groupId: string) {
+    this.configuration$.pipe(take(1)).subscribe(config => {
+      this.configuratorCommonsService.readConfiguration(
+        config.configId,
+        this.productCode,
+        groupId
+      );
+    });
   }
 
   navigateToPreviousGroup() {
@@ -71,6 +87,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
           this.productCode,
           groupId
         );
+        this.readConfigurationForGroup(groupId);
       });
   }
 

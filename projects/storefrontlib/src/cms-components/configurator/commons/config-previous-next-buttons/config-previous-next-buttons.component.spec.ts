@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  Configurator,
+  ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   I18nTestingModule,
   RouterState,
@@ -38,6 +40,60 @@ class MockConfiguratorGroupsService {
   }
 }
 
+class MockConfiguratorCommonsService {
+  public config: Configurator.Configuration = {
+    configId: '1234-56-7890',
+    consistent: true,
+    complete: true,
+    productCode: PRODUCT_CODE,
+    groups: [
+      {
+        configurable: true,
+        description: 'Core components',
+        groupType: Configurator.GroupType.CSTIC_GROUP,
+        id: '1-CPQ_LAPTOP.1',
+        name: '1',
+        attributes: [
+          {
+            label: 'Expected Number',
+            name: 'EXP_NUMBER',
+            required: true,
+            uiType: Configurator.UiType.NOT_IMPLEMENTED,
+            values: [],
+          },
+          {
+            label: 'Processor',
+            name: 'CPQ_CPU',
+            required: true,
+            selectedSingleValue: 'INTELI5_35',
+            uiType: Configurator.UiType.RADIOBUTTON,
+            values: [],
+          },
+        ],
+      },
+      {
+        configurable: true,
+        description: 'Peripherals & Accessories',
+        groupType: Configurator.GroupType.CSTIC_GROUP,
+        id: '1-CPQ_LAPTOP.2',
+        name: '2',
+        attributes: [],
+      },
+      {
+        configurable: true,
+        description: 'Software',
+        groupType: Configurator.GroupType.CSTIC_GROUP,
+        id: '1-CPQ_LAPTOP.3',
+        name: '3',
+        attributes: [],
+      },
+    ],
+  };
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return of(this.config);
+  }
+}
+
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfigPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfigPreviousNextButtonsComponent>;
@@ -55,6 +111,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
       ],
     })

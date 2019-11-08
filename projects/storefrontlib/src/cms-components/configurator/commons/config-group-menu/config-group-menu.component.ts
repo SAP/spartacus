@@ -11,6 +11,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 
 @Component({
@@ -48,8 +49,14 @@ export class ConfigGroupMenuComponent implements OnInit, OnDestroy {
 
   click(group: Configurator.Group) {
     this.configuratorGroupsService.setCurrentGroup(this.productCode, group.id);
-
     this.hamburgerMenuService.toggle(true);
+    this.configuration$.pipe(take(1)).subscribe(config => {
+      this.configuratorCommonsService.readConfiguration(
+        config.configId,
+        this.productCode,
+        group.id
+      );
+    });
   }
 
   ngOnDestroy(): void {

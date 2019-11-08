@@ -66,19 +66,19 @@ export class ConfiguratorEffects {
     map(
       (action: {
         type: string;
-        payload?: { configId: string; productCode: string };
+        payload?: { configId: string; productCode: string; groupId: string };
       }) => action.payload
     ),
     mergeMap(payload => {
       return this.configuratorCommonsConnector
-        .readConfiguration(payload.configId)
+        .readConfiguration(payload.configId, payload.groupId)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             return [new ReadConfigurationSuccess(configuration)];
           }),
           catchError(error => [
             new ReadConfigurationFail(
-              payload.productCode,
+              [payload.productCode, payload.groupId],
               makeErrorSerializable(error)
             ),
           ])

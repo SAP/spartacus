@@ -93,6 +93,9 @@ class MockConfiguratorCommonsService {
   hasConfiguration(): Observable<boolean> {
     return of(false);
   }
+  readConfiguration(): Observable<Configurator.Configuration> {
+    return of(this.config);
+  }
 }
 
 describe('ConfigurationGroupMenuComponent', () => {
