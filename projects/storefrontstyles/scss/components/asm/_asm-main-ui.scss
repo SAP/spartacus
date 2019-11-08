@@ -86,6 +86,10 @@
     margin-bottom: 0;
   }
 
+  .collapsed {
+    display: none;
+  }
+
   // Shell Bar
   .fd-shellbar {
     font-size: 14px;
@@ -168,6 +172,22 @@
 
   .fd-shellbar__action > div {
     display: inline;
+  }
+
+  .fd-alert {
+    display: block;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #32363a;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    background-color: #f4f4f4;
+    border-color: #89919a;
+    padding: 9px 12px;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
   }
 
   .sap-icon--log a,
@@ -615,6 +635,11 @@
     .fd-shellbar__title {
       display: none;
     }
+
+    .fd-alert {
+      margin-top: 30px;
+    }
+
     cx-asm-session-timer {
       .session-label {
         display: none;

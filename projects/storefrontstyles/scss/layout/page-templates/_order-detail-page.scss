@@ -1,3 +1,94 @@
+%AccountPageTemplate-calydon {
+  cx-order-details-headline {
+    @include media-breakpoint-down(sm) {
+      border: none;
+    }
+
+    .cx-header {
+      border: 1px solid;
+      border-color: var(--cx-color-light);
+      padding: 30px 30px 20px 30px;
+      margin-bottom: 30px;
+      margin-left: 0;
+      margin-right: 0;
+
+      @include media-breakpoint-down(sm) {
+        border: none;
+        padding: 0;
+      }
+
+      .cx-detail {
+        border-right: 1px solid var(--cx-color-light);
+
+        &:last-child {
+          border: none;
+        }
+
+        @include media-breakpoint-up(md) {
+          padding-left: 47px;
+
+          &:first-child {
+            padding-left: 0;
+          }
+        }
+
+        @include media-breakpoint-down(sm) {
+          border: none;
+          margin-bottom: 10px;
+        }
+      }
+
+      .cx-detail-label {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  cx-order-details-items {
+    margin-bottom: 15px;
+    .cx-list-header {
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
+    }
+
+    .cx-list-status {
+      padding: 15px 30px;
+      background-color: var(--cx-color-background);
+      @include type('4');
+      font-weight: bold;
+    }
+  }
+
+  cx-order-details-shipping {
+    .cx-summary {
+      margin-bottom: 48px;
+    }
+
+    .cx-account-summary {
+      background-color: var(--cx-color-background);
+
+      @include media-breakpoint-up(md) {
+        padding: 5px 18px 12px;
+      }
+
+      .cx-card-title {
+        @include type('4');
+        font-weight: bold;
+      }
+
+      .cx-card-label-bold {
+        font-weight: bold;
+      }
+    }
+  }
+
+  cx-order-details-totals {
+    margin-bottom: 32px;
+  }
+}
+
 %AccountPageTemplate {
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
