@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { filter, flatMap, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, flatMap, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../../../storefrontlib/src/cms-structure/page/model/cms-component-data';
 import { CmsMerchandisingCarouselComponent as model } from '../../../../cds-models/cms.model';
 import { StrategyConnector } from './../../../../../../cds/src/merchandising/connectors/strategy/strategy.connector';
@@ -34,6 +34,7 @@ export class MerchandisingCarouselComponent {
 
   items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
     map(data => data.strategy),
+    distinctUntilChanged(),
     flatMap(strategyId =>
       this.strategyConnector.loadProductsForStrategy(strategyId)
     ),
