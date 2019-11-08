@@ -5,22 +5,14 @@ describe('My coupons test for anonymous user', () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  it('should redirect from my coupons page to login page', () => {
-    myCoupons.verifyMyCouponsAsAnonymous();
-  });
+  myCoupons.verifyMyCouponsAsAnonymous();
 
   describe('claim coupon test for anonymous user', () => {
     beforeEach(() => {
       myCoupons.registerUser();
     });
-
-    it('should redirect to login page and claim coupon success', () => {
-      myCoupons.verifyClaimCouponSuccessAsAnonymous(myCoupons.validCouponCode);
-    });
-
-    it('should redirect to login page and claim coupon fail', () => {
-      myCoupons.verifyClaimCouponFailedAsAnonymous(myCoupons.invalidCouponCode);
-    });
+    myCoupons.verifyClaimCouponSuccessAsAnonymous(myCoupons.validCouponCode);
+    myCoupons.verifyClaimCouponFailedAsAnonymous(myCoupons.invalidCouponCode);
   });
 });
 
@@ -34,7 +26,7 @@ describe('My coupons test for logged in user', () => {
       option: 'My Coupons',
     });
   });
-  myCoupons.testMyCoupons();
+  myCoupons.verifyMyCoupons();
 });
 
 describe('My coupons test for pagination and sort', () => {
@@ -48,7 +40,5 @@ describe('My coupons test for pagination and sort', () => {
     });
   });
 
-  it('should page and sort', () => {
-    myCoupons.verifyPagingAndSorting();
-  });
+  myCoupons.verifyPagingAndSorting();
 });

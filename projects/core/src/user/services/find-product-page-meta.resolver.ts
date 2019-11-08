@@ -89,7 +89,6 @@ export class FindProductPageMetaResolver extends PageMetaResolver
       .getRouterState()
       .pipe(
         map(state => {
-          console.log(JSON.stringify(state));
           return state.state.queryParams;
         }),
         filter(Boolean)
