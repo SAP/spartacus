@@ -41,9 +41,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
 
     return this.http
       .get<Occ.CustomerCouponSearchResult>(url, { headers, params })
-      .pipe(
-        this.converter.pipeable(CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER)
-      );
+      .pipe(this.converter.pipeable(CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER));
   }
 
   turnOffNotification(userId: string, couponCode: string): Observable<{}> {
@@ -53,8 +51,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     });
     const headers = this.newHttpHeader();
 
-    return this.http
-      .delete(url, { headers })
+    return this.http.delete(url, { headers });
   }
 
   turnOnNotification(
@@ -67,8 +64,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     });
     const headers = this.newHttpHeader();
 
-    return this.http
-      .post(url, { headers })
+    return this.http.post(url, { headers });
   }
 
   claimCustomerCoupon(
@@ -81,8 +77,7 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     });
     const headers = this.newHttpHeader();
 
-    return this.http
-      .post(url, { headers })
+    return this.http.post(url, { headers });
   }
 
   private newHttpHeader() {

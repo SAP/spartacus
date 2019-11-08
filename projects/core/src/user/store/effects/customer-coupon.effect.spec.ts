@@ -88,9 +88,7 @@ describe('Customer Coupon effect', () => {
       ],
     });
 
-    customerCouponsEffect = TestBed.get(
-      CustomerCouponEffects
-    );
+    customerCouponsEffect = TestBed.get(CustomerCouponEffects);
     customerCouponConnector = TestBed.get(CustomerCouponConnector);
 
     spyOn(customerCouponConnector, 'getCustomerCoupons').and.returnValue(

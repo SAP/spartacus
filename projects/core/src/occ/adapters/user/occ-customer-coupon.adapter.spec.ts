@@ -95,9 +95,8 @@ describe('OccCustomerCouponAdapter', () => {
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER
       );
-      });
+    });
     it('should load customer search results for given user id', () => {
-
       occCustomerCouponAdapter
         .getCustomerCoupons(userId, pageSize, currentPage, sort)
         .subscribe(result => {
