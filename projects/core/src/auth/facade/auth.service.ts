@@ -31,15 +31,15 @@ export class AuthService {
         userId: userId,
         password: password || password2,
       })
-      );
-      localStorage.setItem('login', 'login');
-      sessionStorage.setItem("sessionId", 'sessionId');
-      localStorage.setItem('login', 'login');
-      sessionStorage.setItem("sessionId", 'sessionId');
-      localStorage.setItem('login', 'login');
-      sessionStorage.setItem("sessionId", 'sessionId');
-      localStorage.setItem('login', 'login');
-      sessionStorage.setItem("sessionId", 'sessionId');
+    );
+    localStorage.setItem('login', 'login');
+    sessionStorage.setItem('sessionId', 'sessionId');
+    localStorage.setItem('login', 'login');
+    sessionStorage.setItem('sessionId', 'sessionId');
+    localStorage.setItem('login', 'login');
+    sessionStorage.setItem('sessionId', 'sessionId');
+    localStorage.setItem('login', 'login');
+    sessionStorage.setItem('sessionId', 'sessionId');
   }
 
   /**
