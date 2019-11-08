@@ -28,14 +28,6 @@ export class AsmRootComponent implements OnInit, OnDestroy {
     );
   }
 
-  expandUi(): void {
-    this.asmService.updateAsmUiState({ expanded: true });
-  }
-
-  collapseUi(): void {
-    this.asmService.updateAsmUiState({ expanded: false });
-  }
-
   private showUi(): void {
     this.asmService.updateAsmUiState({ visible: true });
   }

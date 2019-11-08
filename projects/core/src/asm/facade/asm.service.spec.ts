@@ -95,7 +95,7 @@ describe('AsmService', () => {
   });
 
   it('should get the AsmUi state', () => {
-    const asmUi: AsmUi = { visible: true, expanded: true };
+    const asmUi: AsmUi = { visible: true };
     store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
 
     let result: AsmUi;
