@@ -39,11 +39,11 @@ export class AuthService {
    * @param userId
    * @param password
    */
-  authorizeCustomerSupporAgent(userId: string, password: string): void {
+  authorizeCustomerSupporAgent(userId: string, password2: string): void {
     this.store.dispatch(
       new AuthActions.LoadCustomerSupportAgentToken({
         userId: userId,
-        password: password,
+        password: password2,
       })
     );
   }
