@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { CartConnector } from '../../connectors';
-import { SaveCartConnector } from '../../connectors/save-cart';
+import { CartConnector } from '../../connectors/cart/cart.connector';
+import { SaveCartConnector } from '../../connectors/save-cart/save-cart.connecter';
 import { CartActions } from '../actions';
 
 @Injectable()

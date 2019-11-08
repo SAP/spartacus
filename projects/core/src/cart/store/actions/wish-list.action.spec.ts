@@ -1,5 +1,5 @@
-import { StateEntityLoaderActions } from 'projects/core/src/state';
 import { Cart } from '../../../model/cart.model';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import { CartActions } from './index';
 
