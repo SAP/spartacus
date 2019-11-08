@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AsmConfig, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { AsmComponentService } from '../asm-component.service';
+import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-asm-session-timer',
