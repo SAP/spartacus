@@ -11,3 +11,4 @@ export * from './product-outlets.model';
 export * from './product-summary/product-summary.component';
 export * from './product-summary/product-summary.module';
 export * from './product-tabs/index';
+export * from './product-variant-selector/guards/index';
