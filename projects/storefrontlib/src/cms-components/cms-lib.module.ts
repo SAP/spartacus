@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MerchandisingCarouselModule } from '../../../cds/src/cms-components/merchandising/index';
 import { HamburgerMenuModule } from '../layout/index';
 import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
 import { AsmModule } from './asm/asm.module';
@@ -85,6 +86,7 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    MerchandisingCarouselModule,
   ],
 })
 export class CmsLibModule {}
