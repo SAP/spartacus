@@ -20,7 +20,10 @@ const GENERATED_SPEC_PATH = `${DEFAULT_PATH}/${DEFAULT_BASE_NAME}.component.spec
 const GENERATED_TS_PATH = `${DEFAULT_PATH}/${DEFAULT_BASE_NAME}.component.ts`;
 const APP_MODULE_PATH = '/src/app/app.module.ts';
 
-function checkPathDoesNotExists(appTree: UnitTestTree, filePath: string): void {
+function assertPathDoesNotExists(
+  appTree: UnitTestTree,
+  filePath: string
+): void {
   const buffer = appTree.read(filePath);
   expect(buffer).toBeFalsy();
   if (buffer) {
@@ -31,7 +34,7 @@ function checkPathDoesNotExists(appTree: UnitTestTree, filePath: string): void {
   }
 }
 
-function checkPathExists(appTree: UnitTestTree, filePath: string): void {
+function assertPathExists(appTree: UnitTestTree, filePath: string): void {
   const buffer = appTree.read(filePath);
   expect(buffer).toBeTruthy();
   if (buffer) {
@@ -57,7 +60,7 @@ function assertContentExists(
   }
 }
 
-function asserContentDoesntExist(
+function assertContentDoesNotExist(
   appTree: UnitTestTree,
   textToContain: string[],
   filePath: string
@@ -127,21 +130,22 @@ describe('add-cms-component', () => {
       .toPromise();
   });
 
-  describe('simple use case', () => {
+  xdescribe('simple use case', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync('add-cms-component', commonCmsOptions, appTree)
         .toPromise();
     });
 
-    it('should just generate the specified component and its module', () => {
-      checkPathExists(appTree, GENERATED_MODULE_PATH);
-      checkPathExists(appTree, GENERATED_SCSS_PATH);
-      checkPathExists(appTree, GENERATED_HTML_PATH);
-      checkPathExists(appTree, GENERATED_SPEC_PATH);
-      checkPathExists(appTree, GENERATED_TS_PATH);
-      checkPathExists(appTree, APP_MODULE_PATH);
+    it('should just generate the specified component and its module', async () => {
+      assertPathExists(appTree, GENERATED_MODULE_PATH);
+      assertPathExists(appTree, GENERATED_SCSS_PATH);
+      assertPathExists(appTree, GENERATED_HTML_PATH);
+      assertPathExists(appTree, GENERATED_SPEC_PATH);
+      assertPathExists(appTree, GENERATED_TS_PATH);
+      assertPathExists(appTree, APP_MODULE_PATH);
 
+      // generated cms module assertions
       assertContentExists(
         appTree,
         [
@@ -152,6 +156,8 @@ describe('add-cms-component', () => {
         ],
         GENERATED_MODULE_PATH
       );
+
+      // generated html assertions
       assertContentExists(
         appTree,
         [
@@ -161,6 +167,8 @@ describe('add-cms-component', () => {
         ],
         GENERATED_HTML_PATH
       );
+
+      // generated component assertions
       assertContentExists(
         appTree,
         [
@@ -169,7 +177,9 @@ describe('add-cms-component', () => {
         ],
         GENERATED_TS_PATH
       );
-      asserContentDoesntExist(
+
+      // app.module.ts assertions
+      assertContentDoesNotExist(
         appTree,
         [
           `import { MyAwesomeCmsComponent } from './my-awesome-cms/my-awesome-cms.component';`,
@@ -182,7 +192,7 @@ describe('add-cms-component', () => {
     });
   });
 
-  describe('when a cms module already exists', () => {
+  xdescribe('when a cms module already exists', () => {
     beforeEach(async () => {
       const moduleName = 'existing-cms';
       const moduleOptions = {
@@ -208,18 +218,17 @@ describe('add-cms-component', () => {
         .toPromise();
     });
 
-    it('should generate a component and add it to the specified module', () => {
-      console.log('\n***', appTree.files);
-
+    it('should generate a component and add it to the specified module', async () => {
       const existingModulePath = '/src/app/existing-cms/existing-cms.module.ts';
-      checkPathExists(appTree, existingModulePath);
-      checkPathDoesNotExists(appTree, GENERATED_MODULE_PATH);
-      checkPathExists(appTree, GENERATED_SCSS_PATH);
-      checkPathExists(appTree, GENERATED_HTML_PATH);
-      checkPathExists(appTree, GENERATED_SPEC_PATH);
-      checkPathExists(appTree, GENERATED_TS_PATH);
-      checkPathExists(appTree, APP_MODULE_PATH);
+      assertPathExists(appTree, existingModulePath);
+      assertPathDoesNotExists(appTree, GENERATED_MODULE_PATH);
+      assertPathExists(appTree, GENERATED_SCSS_PATH);
+      assertPathExists(appTree, GENERATED_HTML_PATH);
+      assertPathExists(appTree, GENERATED_SPEC_PATH);
+      assertPathExists(appTree, GENERATED_TS_PATH);
+      assertPathExists(appTree, APP_MODULE_PATH);
 
+      // generated cms module assertions
       assertContentExists(
         appTree,
         [
@@ -230,6 +239,8 @@ describe('add-cms-component', () => {
         ],
         existingModulePath
       );
+
+      // generated html assertions
       assertContentExists(
         appTree,
         [
@@ -239,6 +250,8 @@ describe('add-cms-component', () => {
         ],
         GENERATED_HTML_PATH
       );
+
+      // generated component assertions
       assertContentExists(
         appTree,
         [
@@ -247,13 +260,89 @@ describe('add-cms-component', () => {
         ],
         GENERATED_TS_PATH
       );
-      asserContentDoesntExist(
+
+      // app.module.ts assertions
+      assertContentDoesNotExist(
         appTree,
         [
           `import { MyAwesomeCmsComponent } from './my-awesome-cms/my-awesome-cms.component';`,
           `MyAwesomeCmsComponent`,
           `exports: [MyAwesomeCmsComponent],`,
           `entryComponents: [MyAwesomeCmsComponent]`,
+        ],
+        APP_MODULE_PATH
+      );
+    });
+  });
+
+  describe('when a cms module already exists', () => {
+    beforeEach(async () => {
+      const modifiedOptions: CxCmsComponentSchema = {
+        ...commonCmsOptions,
+        module: 'app',
+      };
+
+      appTree = await schematicRunner
+        .runSchematicAsync('add-cms-component', modifiedOptions, appTree)
+        .toPromise();
+    });
+
+    it('should create a cms module, component and declare the cms module to app module', async () => {
+      console.log('\n***', appTree.files);
+
+      assertPathExists(appTree, GENERATED_MODULE_PATH);
+      assertPathExists(appTree, GENERATED_SCSS_PATH);
+      assertPathExists(appTree, GENERATED_HTML_PATH);
+      assertPathExists(appTree, GENERATED_SPEC_PATH);
+      assertPathExists(appTree, GENERATED_TS_PATH);
+      assertPathExists(appTree, APP_MODULE_PATH);
+
+      // generated cms module assertions
+      assertContentExists(
+        appTree,
+        [
+          `ConfigModule.withConfig(<CmsConfig>{`,
+          `cmsComponents: {`,
+          `MyAwesomeCmsComponent: {`,
+          `component: MyAwesomeCmsComponent,`,
+        ],
+        GENERATED_MODULE_PATH
+      );
+
+      // generated html template assertions
+      assertContentExists(
+        appTree,
+        [
+          `<ng-container *ngIf="componentData$ | async as data">`,
+          `{{data | json}}`,
+          `</ng-container>`,
+        ],
+        GENERATED_HTML_PATH
+      );
+
+      // generated component assertions
+      assertContentExists(
+        appTree,
+        [
+          `componentData$: Observable<MyModel> = this.componentData.data$;`,
+          `constructor(private componentData: CmsComponentData<MyModel>) { }`,
+        ],
+        GENERATED_TS_PATH
+      );
+
+      // app.module.ts assertions
+      assertContentDoesNotExist(
+        appTree,
+        [
+          `exports: [MyAwesomeCmsComponent],`,
+          `entryComponents: [MyAwesomeCmsComponent]`,
+        ],
+        APP_MODULE_PATH
+      );
+      assertContentExists(
+        appTree,
+        [
+          `import { MyAwesomeCmsModule } from './my-awesome-cms/my-awesome-cms.module';`,
         ],
         APP_MODULE_PATH
       );
