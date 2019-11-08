@@ -6,7 +6,7 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import { Budget } from '../../../model/budget.model';
-import { BudgetsList } from '@spartacus/core';
+import { BudgetsList } from '../organization-state';
 
 @Injectable()
 export class BudgetEffects {

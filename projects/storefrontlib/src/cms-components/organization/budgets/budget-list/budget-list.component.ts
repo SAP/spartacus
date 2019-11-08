@@ -1,26 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  Order,
-  OrderHistoryList,
-  RoutingService,
-  TranslationService,
-  UserOrderService,
-} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+import {
+  BudgetService,
+  Budget,
+  BudgetsList,
+  RoutingService,
+  TranslationService,
+} from '@spartacus/core';
+
 @Component({
-  selector: 'cx-order-history',
-  templateUrl: './order-history.component.html',
+  selector: 'cx-budget-list',
+  templateUrl: './budget-list.component.html',
 })
 export class BudgetListComponent implements OnInit, OnDestroy {
   constructor(
     private routing: RoutingService,
-    private userOrderService: UserOrderService,
+    private budgetsService: BudgetService,
     private translation: TranslationService
   ) {}
 
-  orders$: Observable<OrderHistoryList>;
+  budgets$: Observable<BudgetsList>;
   isLoaded$: Observable<boolean>;
 
   private PAGE_SIZE = 5;
@@ -28,21 +29,21 @@ export class BudgetListComponent implements OnInit, OnDestroy {
   sortType: string;
 
   ngOnInit(): void {
-    this.orders$ = this.userOrderService
-      .getOrderHistoryList(this.PAGE_SIZE)
+    this.budgets$ = this.budgetsService
+      .getList({pageSize: this.PAGE_SIZE})
       .pipe(
-        tap((orders: OrderHistoryList) => {
-          if (orders.pagination) {
-            this.sortType = orders.pagination.sort;
+        tap((budgets: BudgetsList) => {
+          if (budgets.pagination) {
+            this.sortType = budgets.pagination.sort;
           }
         })
       );
 
-    this.isLoaded$ = this.userOrderService.getOrderHistoryListLoaded();
+    this.isLoaded$ = this.budgetsService.getBudgetsProcess().pipe(map(process => process.success));
   }
 
   ngOnDestroy(): void {
-    this.userOrderService.clearOrderList();
+    // this.budgetsService.clearBudgetList();
   }
 
   changeSortCode(sortCode: string): void {
@@ -51,7 +52,7 @@ export class BudgetListComponent implements OnInit, OnDestroy {
       currentPage: 0,
     };
     this.sortType = sortCode;
-    this.fetchOrders(event);
+    this.fetchBudgets(event);
   }
 
   pageChange(page: number): void {
@@ -59,35 +60,35 @@ export class BudgetListComponent implements OnInit, OnDestroy {
       sortCode: this.sortType,
       currentPage: page,
     };
-    this.fetchOrders(event);
+    this.fetchBudgets(event);
   }
 
-  goToOrderDetail(order: Order): void {
+  goToBudgetDetail(budget: Budget): void {
     this.routing.go({
-      cxRoute: 'orderDetails',
-      params: order,
+      cxRoute: 'budgetDetails',
+      params: budget,
     });
   }
 
-  getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
+  getSortLabels(): Observable<{ byDate: string; byBudgetNumber: string }> {
     return combineLatest([
       this.translation.translate('sorting.date'),
-      this.translation.translate('sorting.orderNumber'),
+      this.translation.translate('sorting.budgetNumber'),
     ]).pipe(
-      map(([textByDate, textByOrderNumber]) => {
+      map(([textByDate, textByBudgetNumber]) => {
         return {
           byDate: textByDate,
-          byOrderNumber: textByOrderNumber,
+          byBudgetNumber: textByBudgetNumber,
         };
       })
     );
   }
 
-  private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.userOrderService.loadOrderList(
-      this.PAGE_SIZE,
-      event.currentPage,
-      event.sortCode
-    );
+  private fetchBudgets(event: { sortCode: string; currentPage: number }): void {
+    this.budgetsService.loadBudgets({
+     pageSize: this.PAGE_SIZE,
+     currentPage: event.currentPage,
+     sort: event.sortCode
+  });
   }
 }

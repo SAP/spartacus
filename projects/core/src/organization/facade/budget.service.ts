@@ -38,7 +38,7 @@ export class BudgetService {
       );
   }
 
-  private loadBudgets(params?: BudgetSearchConfig) {
+  loadBudgets(params?: BudgetSearchConfig) {
     this.user$
       .pipe(take(1))
       .subscribe(userId =>
@@ -46,7 +46,7 @@ export class BudgetService {
       );
   }
 
-  private getBudgetsProcess() {
+ getBudgetsProcess() {
     return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
   }
 
