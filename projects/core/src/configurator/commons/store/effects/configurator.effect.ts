@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { Configurator } from '../../../../model/configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
@@ -11,7 +18,6 @@ import {
   CreateConfigurationFail,
   CreateConfigurationSuccess,
   CREATE_CONFIGURATION,
-  NoopAction,
   ReadConfiguration,
   ReadConfigurationFail,
   ReadConfigurationSuccess,
@@ -112,7 +118,7 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfigurationSuccess$: Observable<
-    UpdateConfigurationFinalizeSuccess | NoopAction
+    UpdateConfigurationFinalizeSuccess
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_SUCCESS),
     map(
@@ -123,20 +129,15 @@ export class ConfiguratorEffects {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
-        map(pendingChanges => {
-          if (pendingChanges === 0) {
-            return new UpdateConfigurationFinalizeSuccess(payload);
-          } else {
-            return new NoopAction();
-          }
-        })
+        filter(pendingChanges => pendingChanges === 0),
+        map(_pendingChanges => new UpdateConfigurationFinalizeSuccess(payload))
       );
     })
   );
 
   @Effect()
   updateConfigurationFail$: Observable<
-    UpdateConfigurationFinalizeFail | NoopAction
+    UpdateConfigurationFinalizeFail
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_FAIL),
     map(
@@ -147,13 +148,8 @@ export class ConfiguratorEffects {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
-        map(pendingChanges => {
-          if (pendingChanges === 0) {
-            return new UpdateConfigurationFinalizeFail(payload);
-          } else {
-            return new NoopAction();
-          }
-        })
+        filter(pendingChanges => pendingChanges === 0),
+        map(_pendingChanges => new UpdateConfigurationFinalizeFail(payload))
       );
     })
   );

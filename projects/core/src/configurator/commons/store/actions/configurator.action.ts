@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
 import { StateEntityLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_DATA } from '../configuration-state';
@@ -17,7 +16,7 @@ export const UPDATE_CONFIGURATION_FAIL =
   '[Configurator] Update Configuration Fail';
 export const UPDATE_CONFIGURATION_SUCCESS =
   '[Configurator] Update Configuration Sucess';
-export const NOOP_ACTION = '[Configurator] Noop';
+
 export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
   '[Configurator] Update Configuration finalize success';
 export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
@@ -100,10 +99,6 @@ export class UpdateConfigurationFinalizeFail extends StateEntityLoaderActions.En
   }
 }
 
-export class NoopAction implements Action {
-  readonly type = NOOP_ACTION;
-}
-
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -115,5 +110,4 @@ export type ConfiguratorAction =
   | UpdateConfigurationFail
   | UpdateConfigurationSuccess
   | UpdateConfigurationFinalizeFail
-  | UpdateConfigurationFinalizeSuccess
-  | NoopAction;
+  | UpdateConfigurationFinalizeSuccess;
