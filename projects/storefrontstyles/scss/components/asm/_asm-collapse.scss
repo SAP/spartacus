@@ -1,0 +1,17 @@
+%cx-asm-collapse {
+  .expand-ui {
+    height: 0;
+    position: static;
+  }
+
+  .expand-ui-btn {
+    position: absolute;
+    left: 50%;
+    z-index: 15;
+    width: 25px;
+    text-align: center;
+    margin-left: -14px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+}
