@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmConfig, RoutingService } from '@spartacus/core';
+import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../asm-component.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   constructor(
     private config: AsmConfig,
     private asmComponentService: AsmComponentService,
+    private authService: AuthService,
     private routingService: RoutingService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -32,12 +34,26 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.markForCheck();
     }, 1000);
 
+    this.listenForNavigation();
+    this.listenForCustomerSession();
+  }
+
+  private listenForNavigation() {
     this.subscriptions.add(
       this.routingService.isNavigating().subscribe(isNavigating => {
         if (isNavigating) {
           this.resetTimer();
         }
       })
+    );
+  }
+
+  private listenForCustomerSession() {
+    this.subscriptions.add(
+      this.authService
+        .getOccUserId()
+        .pipe(distinctUntilChanged())
+        .subscribe(_ => this.resetTimer())
     );
   }
 
