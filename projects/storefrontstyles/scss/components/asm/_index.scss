@@ -1,6 +1,5 @@
 @import './asm-main-ui';
 @import './customer-selection';
-@import './asm-collapse';
+@import './asm';
 
-$asm-components-whitelist: cx-asm-main-ui, cx-customer-selection,
-  cx-asm-collapse !default;
+$asm-components-whitelist: cx-asm-main-ui, cx-customer-selection, cx-asm !default;
