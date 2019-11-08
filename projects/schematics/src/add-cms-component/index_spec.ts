@@ -6,7 +6,7 @@ import { Style } from '@angular/cli/lib/config/schema';
 import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
 import * as path from 'path';
 import { DELETE_ME } from '.';
-import { UTF_8 } from '../shared/constants';
+import { ANGULAR_SCHEMATICS, UTF_8 } from '../shared/constants';
 import { CxCmsComponentSchema } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -31,7 +31,7 @@ function checkPath(appTree: UnitTestTree, filePath: string): void {
   }
 }
 
-function assertContent(
+function assertContentExists(
   appTree: UnitTestTree,
   textToContain: string[],
   filePath: string
@@ -42,6 +42,21 @@ function assertContent(
     const content = buffer.toString(UTF_8);
     for (const expected of textToContain) {
       expect(content).toContain(expected);
+    }
+  }
+}
+
+function asserContentDoesntExist(
+  appTree: UnitTestTree,
+  textToContain: string[],
+  filePath: string
+): void {
+  const buffer = appTree.read(filePath);
+  expect(buffer).toBeTruthy();
+  if (buffer) {
+    const content = buffer.toString(UTF_8);
+    for (const expected of textToContain) {
+      expect(content).not.toContain(expected);
     }
   }
 }
@@ -83,14 +98,14 @@ describe('add-cms-component', () => {
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@schematics/angular',
+        ANGULAR_SCHEMATICS,
         'workspace',
         workspaceOptions
       )
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@schematics/angular',
+        ANGULAR_SCHEMATICS,
         'application',
         appOptions,
         appTree
@@ -118,7 +133,7 @@ describe('add-cms-component', () => {
       checkPath(appTree, TS_PATH);
       checkPath(appTree, APP_MODULE_PATH);
 
-      assertContent(
+      assertContentExists(
         appTree,
         [
           `ConfigModule.withConfig(<CmsConfig>{`,
@@ -128,7 +143,7 @@ describe('add-cms-component', () => {
         ],
         MODULE_PATH
       );
-      assertContent(
+      assertContentExists(
         appTree,
         [
           `<ng-container *ngIf="componentData$ | async as data">`,
@@ -137,13 +152,23 @@ describe('add-cms-component', () => {
         ],
         HTML_PATH
       );
-      assertContent(
+      assertContentExists(
         appTree,
         [
           `componentData$: Observable<MyModel> = this.componentData.data$;`,
           `constructor(private componentData: CmsComponentData<MyModel>) { }`,
         ],
         TS_PATH
+      );
+      asserContentDoesntExist(
+        appTree,
+        [
+          `import { MyAwesomeCmsComponent } from './my-awesome-cms/my-awesome-cms.component';`,
+          `MyAwesomeCmsComponent`,
+          `exports: [MyAwesomeCmsComponent],`,
+          `entryComponents: [MyAwesomeCmsComponent]`,
+        ],
+        APP_MODULE_PATH
       );
     });
   });

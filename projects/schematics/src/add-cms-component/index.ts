@@ -58,91 +58,13 @@ function builDeclaringCmsModule(options: CxCmsComponentSchema): string {
     : options.name;
 }
 
-function printModule(options: CxCmsComponentSchema, tree: Tree): void {
-  const componentModule = builDeclaringCmsModule(options);
-  const modulePath = findModuleFromOptions(tree, { name: componentModule });
-  if (!modulePath) {
-    console.error(`Could not find the ${modulePath}`);
-    return;
-  }
-
-  const moduleBuffer = tree.read(modulePath);
-  if (moduleBuffer) {
-    const moduleContent = moduleBuffer.toString(UTF_8);
-    console.log('\n', moduleContent);
-  } else {
-    console.log('no buffer for the module');
-  }
-}
-
-function printComponent(options: CxCmsComponentSchema, tree: Tree): void {
-  const componentFileName = `${strings.dasherize(
-    options.name
-  )}.${strings.dasherize(options.type)}.ts`;
-  console.log(`*** componentFileName: ${componentFileName} ***`);
-  const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-  const { workspace } = getWorkspace(tree, possibleProjectFiles);
-  const project = getProjectFromWorkspace(workspace, options.project);
-
-  const componentPath = getPathResultsForFile(
-    tree,
-    componentFileName,
-    project.sourceRoot
-  )[0];
-  console.log('component path', componentPath);
-
-  const componentBuffer = tree.read(componentPath);
-  if (componentBuffer) {
-    const componentContent = componentBuffer.toString(UTF_8);
-    console.log('\n', componentContent);
-  } else {
-    console.log('no buffer for the component');
-  }
-}
-
-function printComponentTemplate(options: CxCmsComponentSchema, tree: Tree) {
-  const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-  const { workspace } = getWorkspace(tree, possibleProjectFiles);
-  const project = getProjectFromWorkspace(workspace, options.project);
-
-  const componentTemplateFileName = `${strings.dasherize(
-    options.name
-  )}.${strings.dasherize(options.type)}.html`;
-  const templatePath = getPathResultsForFile(
-    tree,
-    componentTemplateFileName,
-    project.sourceRoot
-  )[0];
-  const componentTemplateBuffer = tree.read(templatePath);
-  if (componentTemplateBuffer) {
-    const content = componentTemplateBuffer.toString(UTF_8);
-    console.log('\n', content);
-  } else {
-    console.log('no buffer for the template');
-  }
-}
-
-function print(options: CxCmsComponentSchema): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    if (DELETE_ME) {
-      printModule(options, tree);
-      printComponent(options, tree);
-      printComponentTemplate(options, tree);
-    }
-  };
-}
-
 function updateModule(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const rawComponentModule = builDeclaringCmsModule(options);
     const componentModule = `${strings.dasherize(
       rawComponentModule
     )}.module.ts`;
-    const modulePath = getPathResultsForFile(
-      tree,
-      strings.dasherize(componentModule),
-      '/src'
-    )[0];
+    const modulePath = getPathResultsForFile(tree, componentModule, '/src')[0];
 
     if (!modulePath) {
       context.logger.error(`Could not find the ${modulePath}`);
@@ -332,11 +254,22 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
     if (!(options.declaringCmsModule && options.module)) {
       return;
     }
+    if (DELETE_ME) {
+      console.log('*** DECLARING IN MODULE ***');
+    }
 
     // TODO: check findModuleFromOptions
-    const destinationModulePath = findModuleFromOptions(tree, {
-      name: options.module,
-    });
+    const fileName = `${strings.dasherize(options.module)}.module.ts`;
+    const destinationModulePath = getPathResultsForFile(
+      tree,
+      fileName,
+      '/src'
+    )[0];
+    if (DELETE_ME) {
+      console.log('*** options.module ***', { x: options.module });
+      console.log('*** fileName ***', { fileName });
+      console.log('*** destinationModulePath ***', { destinationModulePath });
+    }
     if (!destinationModulePath) {
       context.logger.error(`Could not find the ${destinationModulePath}`);
       return;
@@ -346,6 +279,13 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
     const moduleToImportPath = findModuleFromOptions(tree, {
       name: options.declaringCmsModule,
     });
+    if (DELETE_ME) {
+      console.log('*** options.declaringCmsModule ***', {
+        x: options.declaringCmsModule,
+      });
+      console.log('*** moduleToImportPath ***', { moduleToImportPath });
+      // console.log('*** destinationModulePath ***', { destinationModulePath });
+    }
     if (!moduleToImportPath) {
       context.logger.error(`Could not find the ${moduleToImportPath}`);
       return;
@@ -411,7 +351,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       skipTests,
       style,
       viewEncapsulation,
-      skipImport,
     } = options;
     const componentModule = buildComponentModule(options);
 
@@ -425,10 +364,11 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       module: declaringModule,
     } = options;
 
-    // TODO: add `module` flag to the _module_ schematic?
+    const createCmsModule = !Boolean(declaringCmsModule);
+
     return chain([
       // we are creating a new module if the declaring module is not provided
-      !Boolean(declaringCmsModule)
+      createCmsModule
         ? externalSchematic(ANGULAR_SCHEMATICS, 'module', {
             project,
             name: componentName,
@@ -459,13 +399,14 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         skipTests,
         style,
         viewEncapsulation,
-        skipImport,
+        // TODO: remove skipImport from the schema.json and TS interface
+        // TODO: add skipImport to README and mention that it's not supported
+        skipImport: true,
       }),
-      updateModule(options),
+      createCmsModule ? updateModule(options) : noop(),
       updateComponent(options),
       updateTemplate(options),
       declaringCmsModule && declaringModule ? declareInModule(options) : noop(),
-      DELETE_ME ? noop() : print(options),
     ])(tree, context);
   };
 }
