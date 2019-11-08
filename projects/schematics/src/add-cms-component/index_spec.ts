@@ -1,3 +1,4 @@
+import { strings } from '@angular-devkit/core';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -124,8 +125,6 @@ describe('add-cms-component', () => {
     });
 
     it('should just generate the specified component and its module', () => {
-      console.log('\n***', appTree.files);
-
       checkPath(appTree, MODULE_PATH);
       checkPath(appTree, SCSS_PATH);
       checkPath(appTree, HTML_PATH);
@@ -170,6 +169,37 @@ describe('add-cms-component', () => {
         ],
         APP_MODULE_PATH
       );
+    });
+  });
+
+  describe('when a cms module already exists', () => {
+    beforeEach(async () => {
+      const moduleName = strings.dasherize(commonCmsOptions.name);
+      const moduleOptions = {
+        name: moduleName,
+        project: defaultOptions.project,
+      };
+      const modifiedOptions = {
+        ...commonCmsOptions,
+        cmsModel: moduleName,
+      };
+
+      appTree = await schematicRunner
+        .runExternalSchematicAsync(
+          ANGULAR_SCHEMATICS,
+          'module',
+          moduleOptions,
+          appTree
+        )
+        .toPromise();
+
+      appTree = await schematicRunner
+        .runSchematicAsync('add-cms-component', modifiedOptions, appTree)
+        .toPromise();
+    });
+
+    it('should generate a component and add it to the specified module', () => {
+      console.log('\n***', appTree.files);
     });
   });
 });

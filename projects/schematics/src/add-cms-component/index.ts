@@ -301,22 +301,6 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
       moduleToImportPath
     );
     commitChanges(tree, destinationModulePath, changes, InsertDirection.LEFT);
-
-    if (DELETE_ME) {
-      console.log(`*** Printing ${destinationModulePath} ***`);
-      if (!destinationModulePath) {
-        console.error(`Could not find the ${destinationModulePath}`);
-        return;
-      }
-
-      const moduleBuffer = tree.read(destinationModulePath);
-      if (moduleBuffer) {
-        const moduleContent = moduleBuffer.toString(UTF_8);
-        console.log('\n', moduleContent);
-      } else {
-        console.log('no buffer for the module');
-      }
-    }
   };
 }
 
@@ -365,6 +349,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
     } = options;
 
     const createCmsModule = !Boolean(declaringCmsModule);
+    const skipImport = createCmsModule;
 
     return chain([
       // we are creating a new module if the declaring module is not provided
@@ -401,12 +386,12 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         viewEncapsulation,
         // TODO: remove skipImport from the schema.json and TS interface
         // TODO: add skipImport to README and mention that it's not supported
-        skipImport: true,
+        skipImport,
       }),
       createCmsModule ? updateModule(options) : noop(),
       updateComponent(options),
       updateTemplate(options),
-      declaringCmsModule && declaringModule ? declareInModule(options) : noop(),
+      !createCmsModule && declaringModule ? declareInModule(options) : noop(),
     ])(tree, context);
   };
 }
