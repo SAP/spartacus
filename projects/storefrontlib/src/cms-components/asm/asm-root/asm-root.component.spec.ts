@@ -79,65 +79,65 @@ describe('AsmRootComponent', () => {
     expect(el.query(By.css('cx-asm-main-ui'))).toBeFalsy();
   });
 
-  // describe('Minimize ASM UI', () => {
-  //   it('should expand the ASM UI when the expand arrow button is clicked', () => {
-  //     spyOn(asmService, 'getAsmUiState').and.returnValue(
-  //       of({ visible: true, expanded: false })
-  //     );
-  //     spyOn(asmService, 'updateAsmUiState').and.stub();
+  describe('Minimize ASM UI', () => {
+    it('should expand the ASM UI when the expand arrow button is clicked', () => {
+      spyOn(asmService, 'getAsmUiState').and.returnValue(
+        of({ visible: true, expanded: false })
+      );
+      spyOn(asmService, 'updateAsmUiState').and.stub();
 
-  //     component.ngOnInit();
-  //     fixture.detectChanges();
+      component.ngOnInit();
+      fixture.detectChanges();
 
-  //     const expandBtn = fixture.debugElement.query(By.css('button'));
+      const expandBtn = fixture.debugElement.query(By.css('button'));
 
-  //     expandBtn.nativeElement.click();
-  //     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
-  //       expanded: true,
-  //     });
-  //   });
+      expandBtn.nativeElement.click();
+      expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
+        expanded: true,
+      });
+    });
 
-  //   it('should collapse the ASM UI when the collapse button is clicked', () => {
-  //     spyOn(asmService, 'getAsmUiState').and.returnValue(
-  //       of({ visible: true, expanded: true })
-  //     );
-  //     spyOn(asmService, 'updateAsmUiState').and.stub();
+    it('should collapse the ASM UI when the collapse button is clicked', () => {
+      spyOn(asmService, 'getAsmUiState').and.returnValue(
+        of({ visible: true, expanded: true })
+      );
+      spyOn(asmService, 'updateAsmUiState').and.stub();
 
-  //     component.ngOnInit();
-  //     fixture.detectChanges();
+      component.ngOnInit();
+      fixture.detectChanges();
 
-  //     const collapseBtn = fixture.debugElement.query(By.css('button'));
+      const collapseBtn = fixture.debugElement.query(By.css('button'));
 
-  //     collapseBtn.nativeElement.click();
-  //     expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
-  //       expanded: false,
-  //     });
-  //   });
+      collapseBtn.nativeElement.click();
+      expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
+        expanded: false,
+      });
+    });
 
-  //   it('should have collapsed class on collapse', () => {
-  //     spyOn(asmService, 'getAsmUiState').and.returnValue(
-  //       of({ visible: true, expanded: false })
-  //     );
+    it('should have collapsed class on collapse', () => {
+      spyOn(asmService, 'getAsmUiState').and.returnValue(
+        of({ visible: true, expanded: false })
+      );
 
-  //     component.ngOnInit();
-  //     fixture.detectChanges();
+      component.ngOnInit();
+      fixture.detectChanges();
 
-  //     const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui'));
+      const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui'));
 
-  //     expect(asmUi.nativeElement.classList).toContain('collapse');
-  //   });
+      expect(asmUi.nativeElement.classList).toContain('collapse');
+    });
 
-  //   it('should have no class name on expand', () => {
-  //     spyOn(asmService, 'getAsmUiState').and.returnValue(
-  //       of({ visible: true, expanded: true })
-  //     );
+    it('should have no class name on expand', () => {
+      spyOn(asmService, 'getAsmUiState').and.returnValue(
+        of({ visible: true, expanded: true })
+      );
 
-  //     component.ngOnInit();
-  //     fixture.detectChanges();
+      component.ngOnInit();
+      fixture.detectChanges();
 
-  //     const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui'));
+      const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui'));
 
-  //     expect(asmUi.nativeElement.classList).not.toContain('collapse');
-  //   });
-  // });
+      expect(asmUi.nativeElement.classList).not.toContain('collapse');
+    });
+  });
 });
