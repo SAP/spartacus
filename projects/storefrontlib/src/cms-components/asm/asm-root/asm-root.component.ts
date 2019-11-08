@@ -4,7 +4,7 @@ import { AsmService, AsmUi } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cx-asm-collapse',
+  selector: 'cx-asm',
   templateUrl: './asm-root.component.html',
 })
 export class AsmRootComponent implements OnInit, OnDestroy {
