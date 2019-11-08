@@ -27,6 +27,9 @@ export interface ChangelogOptions {
   stdout?: boolean;
 }
 
+const breakingChangesKeywords = ['BREAKING CHANGE', 'BREAKING CHANGES'];
+const deprecationsKeywords = ['DEPRECATION', 'DEPRECATED', 'DEPRECATIONS'];
+
 export default async function run(
   args: ChangelogOptions,
   logger: logging.Logger
@@ -34,6 +37,7 @@ export default async function run(
   const commits: JsonObject[] = [];
   let toSha: string | null = null;
   const breakingChanges: JsonObject[] = [];
+  const deprecations: JsonObject[] = [];
   const versionFromTag = args.to
     .split('-')
     .filter((_, i) => i !== 0)
@@ -118,7 +122,7 @@ export default async function run(
         conventionalCommitsParser({
           headerPattern: /^(\w*)(?:\(([^)]*)\))?: (.*)$/,
           headerCorrespondence: ['type', 'scope', 'subject'],
-          noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES'],
+          noteKeywords: [...breakingChangesKeywords, ...deprecationsKeywords],
           revertPattern: /^revert:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
           revertCorrespondence: [`header`, `hash`],
         })
@@ -135,12 +139,20 @@ export default async function run(
               toSha = chunk.hash as string;
             }
             const notes: any = chunk.notes;
+            console.log(notes);
             if (Array.isArray(notes)) {
               notes.forEach(note => {
-                breakingChanges.push({
-                  content: note.text,
-                  commit: chunk,
-                });
+                if (breakingChangesKeywords.includes(note.title)) {
+                  breakingChanges.push({
+                    content: note.text,
+                    commit: chunk,
+                  });
+                } else if (deprecationsKeywords.includes(note.title)) {
+                  deprecations.push({
+                    content: note.text,
+                    commit: chunk,
+                  });
+                }
               });
             }
             commits.push(chunk);
@@ -166,6 +178,7 @@ export default async function run(
         commits,
         packages,
         breakingChanges,
+        deprecations,
       });
 
       if (args.stdout || !githubToken) {
