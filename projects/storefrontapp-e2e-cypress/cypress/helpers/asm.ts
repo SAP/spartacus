@@ -5,7 +5,7 @@ import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
 let customer: any;
 
-export function asmTests() {
+export function asmTests(isMobile: boolean) {
   describe('ASM Test Suite', () => {
     before(() => {
       checkout.visitHomePage();
@@ -129,9 +129,7 @@ export function asmTests() {
       });
 
       it('agent should sign out.', () => {
-        cy.get('a[title="Sign Out"]').click();
-        cy.get('cx-csagent-login-form').should('exist');
-        cy.get('cx-customer-selection').should('not.exist');
+        agentSignOut();
       });
 
       it('agent should close the ASM UI.', () => {
@@ -143,7 +141,8 @@ export function asmTests() {
     describe('Customer Self Verification', () => {
       it('customer should sign in.', () => {
         cy.visit('/login');
-        login(customer.email, customer.password);
+        loginCustomerInStorefront();
+        assertCustomerIsSignedIn(isMobile);
       });
       it('customer should see the order placed by the agent.', () => {
         checkout.viewOrderHistoryWithCheapProduct();
@@ -186,6 +185,29 @@ export function asmTests() {
         checkout.signOutUser();
       });
     });
+
+    describe('When a regular customer session and an asm agent session are both active', () => {
+      it('asm ui should only display a message that the session in progress is a regular session.', () => {
+        const loginPage = checkout.waitForPage('/login', 'getLoginPage');
+        cy.visit('/login?asm=true');
+        cy.wait(`@${loginPage}`);
+
+        agentLogin();
+        loginCustomerInStorefront();
+        assertCustomerIsSignedIn(isMobile);
+
+        cy.get('cx-csagent-login-form').should('not.exist');
+        cy.get('cx-customer-selection').should('not.exist');
+        cy.get('cx-customer-emulation').should('exist');
+        cy.get('cx-customer-emulation div.fd-alert').should('exist');
+        cy.get('cx-customer-emulation button').should('not.exist');
+      });
+
+      it('agent logout should not terminate the regular customer session', () => {
+        agentSignOut();
+        assertCustomerIsSignedIn(isMobile);
+      });
+    });
   });
 }
 
@@ -213,7 +235,7 @@ function listenForUserDetailsRequest(): string {
 }
 
 function agentLogin(): void {
-  const aliasRequest = listenForAuthenticationRequest();
+  const authRequest = listenForAuthenticationRequest();
 
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
@@ -223,7 +245,7 @@ function agentLogin(): void {
     cy.get('button[type="submit"]').click();
   });
 
-  cy.wait(aliasRequest)
+  cy.wait(authRequest)
     .its('status')
     .should('eq', 200);
   cy.get('cx-csagent-login-form').should('not.exist');
@@ -254,4 +276,34 @@ function startCustomerEmulation(): void {
     .should('contain', customer.fullName);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('not.exist');
+  cy.get('cx-customer-emulation').should('exist');
+}
+
+function loginCustomerInStorefront() {
+  const authRequest = listenForAuthenticationRequest();
+
+  login(customer.email, customer.password);
+  cy.wait(authRequest)
+    .its('status')
+    .should('eq', 200);
+}
+
+function agentSignOut() {
+  cy.get('a[title="Sign Out"]').click();
+  cy.get('cx-csagent-login-form').should('exist');
+  cy.get('cx-customer-selection').should('not.exist');
+}
+
+function assertCustomerIsSignedIn(isMobile: boolean) {
+  if (isMobile) {
+    clickHambergerMenu();
+  }
+  cy.get('cx-login div.cx-login-greet').should('exist');
+  if (isMobile) {
+    clickHambergerMenu();
+  }
+}
+
+function clickHambergerMenu() {
+  cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
 }
