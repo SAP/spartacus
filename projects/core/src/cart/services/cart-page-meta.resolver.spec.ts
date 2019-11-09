@@ -63,32 +63,64 @@ describe('CartPageMetaResolver', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should resolve content page title', () => {
-    let result: PageMeta;
+  describe('deprecated resolve()', () => {
+    it('should resolve content page title', () => {
+      let result: PageMeta;
 
-    service
-      .resolve()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
+      service
+        .resolve()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
 
-    expect(result.title).toEqual('Shopping Cart');
+      expect(result.title).toEqual('Shopping Cart');
+    });
+
+    it('should resolve robots with nofollow,noindex', () => {
+      let result: PageMeta;
+
+      service
+        .resolve()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
+
+      expect(result.robots).toContain(PageRobotsMeta.NOFOLLOW);
+      expect(result.robots).toContain(PageRobotsMeta.NOINDEX);
+      expect(result.robots).not.toContain(PageRobotsMeta.FOLLOW);
+      expect(result.robots).not.toContain(PageRobotsMeta.INDEX);
+    });
   });
 
-  it('should resolve robots with nofollow,noindex', () => {
-    let result: PageMeta;
+  describe('resolvers', () => {
+    it(`should resolve {title: 'Shopping Cart'} for resolveTitle`, () => {
+      let result: string;
 
-    service
-      .resolve()
-      .subscribe(meta => {
-        result = meta;
-      })
-      .unsubscribe();
+      service
+        .resolveTitle()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
 
-    expect(result.robots).toContain(PageRobotsMeta.NOFOLLOW);
-    expect(result.robots).toContain(PageRobotsMeta.NOINDEX);
-    expect(result.robots).not.toContain(PageRobotsMeta.FOLLOW);
-    expect(result.robots).not.toContain(PageRobotsMeta.INDEX);
+      expect(result).toEqual('Shopping Cart');
+    });
+
+    it(`should resolve {robots: ['NOFOLLOW', 'NOINDEX']} with nofollow,noindex`, () => {
+      let result: string[];
+
+      service
+        .resolveRobots()
+        .subscribe(meta => {
+          result = meta;
+        })
+        .unsubscribe();
+
+      expect(result.length).toEqual(2);
+      expect(result).toContain('NOFOLLOW');
+      expect(result).toContain('NOINDEX');
+    });
   });
 });

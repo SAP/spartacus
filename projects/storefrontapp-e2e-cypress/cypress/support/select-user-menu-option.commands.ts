@@ -30,8 +30,9 @@ Cypress.Commands.add(
       cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
     }
 
-    cy.get('a')
-      .getByText(new RegExp(option, 'i'))
+    cy.get('nav a')
+      .getAllByText(new RegExp(option, 'i'))
+      .first()
       .click({ force: true });
   }
 );

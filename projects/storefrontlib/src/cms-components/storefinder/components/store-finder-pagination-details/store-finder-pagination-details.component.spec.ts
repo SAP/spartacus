@@ -3,15 +3,15 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, PaginationModel } from '@spartacus/core';
 import { StoreFinderPaginationDetailsComponent } from './store-finder-pagination-details.component';
 
+const mockPagination: PaginationModel = {
+  pageSize: 20,
+  totalResults: 49,
+  currentPage: 0,
+};
+
 describe('StoreFinderPaginationDetailsComponent', () => {
   let component: StoreFinderPaginationDetailsComponent;
   let fixture: ComponentFixture<StoreFinderPaginationDetailsComponent>;
-
-  const mockPagination: PaginationModel = {
-    pageSize: 20,
-    totalResults: 49,
-    currentPage: 0,
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,9 +37,34 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.innerText).toContain(
-      `1 - ${component.pagination.pageSize} storeFinder.fromStoresFound count:${
-        component.pagination.totalResults
-      }`
+      `1 - ${component.pagination.pageSize} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+    );
+  });
+
+  it('should display last page', () => {
+    component.pagination.currentPage = 2;
+    fixture.detectChanges();
+
+    const detailsElement = fixture.debugElement.query(
+      By.css('.cx-pagination-details')
+    ).nativeElement;
+
+    expect(detailsElement.innerText).toContain(
+      `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
+    );
+  });
+
+  it('should display proper pagination results info when there is only one page', () => {
+    component.pagination.totalResults = 15;
+
+    fixture.detectChanges();
+
+    const detailsElement = fixture.debugElement.query(
+      By.css('.cx-pagination-details')
+    ).nativeElement;
+
+    expect(detailsElement.innerText).toContain(
+      `1 - ${component.pagination.totalResults} storeFinder.fromStoresFound count:${component.pagination.totalResults}`
     );
   });
 });

@@ -125,7 +125,7 @@ describe('CmsGuardsService', () => {
           mockRouterStateSnapshot
         )
         .subscribe(res => (result = res));
-      expect(result).toBe(mockUrlTree);
+      expect(result).toEqual(mockUrlTree);
     });
   });
 });

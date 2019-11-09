@@ -66,6 +66,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     if (longitudeLatitude) {
       params['longitude'] = String(longitudeLatitude.longitude);
       params['latitude'] = String(longitudeLatitude.latitude);
+      params['radius'] = String('10000000');
     } else {
       params['query'] = query;
     }

@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  ANONYMOUS_USERID,
-  CartDataService,
-} from '../../cart/facade/cart-data.service';
+import { CartDataService } from '../../cart/facade/cart-data.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { StateWithProcess } from '../../process/store/process-state';
+import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 import { CheckoutActions } from '../store/actions/index';
-import { StateWithCheckout } from '../store/checkout-state';
+import {
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+  StateWithCheckout,
+} from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable({
@@ -15,7 +19,7 @@ import { CheckoutSelectors } from '../store/selectors/index';
 })
 export class CheckoutPaymentService {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout>,
+    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected cartData: CartDataService
   ) {}
 
@@ -31,6 +35,24 @@ export class CheckoutPaymentService {
    */
   getPaymentDetails(): Observable<PaymentDetails> {
     return this.checkoutStore.pipe(select(CheckoutSelectors.getPaymentDetails));
+  }
+
+  /**
+   * Get status about set Payment Details process
+   */
+  getSetPaymentDetailsResultProcess(): Observable<LoaderState<void>> {
+    return this.checkoutStore.pipe(
+      select(getProcessStateFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Clear info about process of setting Payment Details
+   */
+  resetSetPaymentDetailsProcess(): void {
+    this.checkoutStore.dispatch(
+      new CheckoutActions.ResetSetPaymentDetailsProcess()
+    );
   }
 
   /**
@@ -73,6 +95,9 @@ export class CheckoutPaymentService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    return (
+      this.cartData.userId !== OCC_USER_ID_ANONYMOUS ||
+      this.cartData.isGuestCart
+    );
   }
 }

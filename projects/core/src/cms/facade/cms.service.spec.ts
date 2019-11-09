@@ -393,7 +393,7 @@ describe('CmsService', () => {
       (service: CmsService) => {
         spyOn(service, 'hasPage').and.returnValue(of(true));
         spyOn(service, 'getPageState').and.returnValue(
-          of({ pageId: 'testId' })
+          of({ pageId: 'testId' } as any)
         );
 
         let result;

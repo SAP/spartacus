@@ -1,4 +1,4 @@
-<div class="container" *ngIf="(product$ | async) as product">
+<div class="container" *ngIf="product$ | async as product">
   <h2>
     {{ 'productDetails.reviews' | cxTranslate }} ({{ product.numberOfReviews }})
   </h2>
@@ -16,11 +16,11 @@
     </div>
 
     <ng-container *ngIf="!isWritingReview; else writeReview">
-      <ng-container *ngIf="(reviews$ | async) as reviews">
+      <ng-container *ngIf="reviews$ | async as reviews">
         <div
           class="review"
           tabindex="0"
-          *ngFor="let review of (reviews | slice: 0:maxListItems)"
+          *ngFor="let review of reviews | slice: 0:maxListItems"
         >
           <div class="title">{{ review.headline }}</div>
           <cx-star-rating

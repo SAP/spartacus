@@ -71,8 +71,8 @@ export class SiteContextComponentService {
     context?: SiteContextType
   ): Observable<SiteContext<any>> {
     return this.getContext(context).pipe(
-      map(ctx => this.getInjectedService(ctx)),
-      filter(Boolean)
+      map((ctx: string) => this.getInjectedService(ctx)),
+      filter(s => !!s)
     );
   }
 

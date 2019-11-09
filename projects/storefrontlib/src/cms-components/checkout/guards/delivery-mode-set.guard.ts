@@ -25,9 +25,7 @@ export class DeliveryModeSetGuard implements CanActivate {
 
     if (!checkoutStep && isDevMode()) {
       console.warn(
-        `Missing step with type ${
-          CheckoutStepType.DELIVERY_MODE
-        } in checkout configuration.`
+        `Missing step with type ${CheckoutStepType.DELIVERY_MODE} in checkout configuration.`
       );
     }
 

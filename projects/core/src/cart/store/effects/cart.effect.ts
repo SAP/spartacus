@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { Cart } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartActions } from '../actions/index';
+import { CheckoutActions } from '../../../checkout/store/actions/index';
 
 @Injectable()
 export class CartEffects {
@@ -15,6 +22,7 @@ export class CartEffects {
   loadCart$: Observable<
     | CartActions.LoadCartFail
     | CartActions.LoadCartSuccess
+    | CartActions.ClearExpiredCoupons
     | CartActions.ClearCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
@@ -40,6 +48,13 @@ export class CartEffects {
             return new CartActions.LoadCartSuccess(cart);
           }),
           catchError(error => {
+            const couponExpiredErrors = error.error.errors.filter(
+              err => err.reason === 'invalid'
+            );
+            if (couponExpiredErrors.length > 0) {
+              return of(new CartActions.ClearExpiredCoupons({}));
+            }
+
             if (error && error.error && error.error.errors) {
               const cartNotFoundErrors = error.error.errors.filter(
                 err => err.reason === 'notFound' || 'UnknownResourceError'
@@ -110,7 +125,14 @@ export class CartEffects {
       CartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_ENTRY_SUCCESS
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.ADD_EMAIL_TO_CART_SUCCESS,
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.CART_ADD_VOUCHER_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_FAIL,
+      CartActions.CLEAR_EXPIRED_COUPONS
     ),
     map(
       (
@@ -119,10 +141,17 @@ export class CartEffects {
           | CartActions.CartAddEntrySuccess
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
+          | CartActions.AddEmailToCartSuccess
+          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
+          | CartActions.CartAddVoucherSuccess
+          | CartActions.CartRemoveVoucherSuccess
+          | CartActions.CartRemoveVoucherFail
+          | CartActions.ClearExpiredCoupons
       ) => action.payload
     ),
     map(
       payload =>
+        payload &&
         new CartActions.LoadCart({
           userId: payload.userId,
           cartId: payload.cartId,
@@ -139,6 +168,45 @@ export class CartEffects {
       SiteContextActions.CURRENCY_CHANGE
     ),
     map(() => new CartActions.ResetCartDetails())
+  );
+
+  @Effect()
+  addEmail$: Observable<
+    CartActions.AddEmailToCartSuccess | CartActions.AddEmailToCartFail
+  > = this.actions$.pipe(
+    ofType(CartActions.ADD_EMAIL_TO_CART),
+    map((action: CartActions.AddEmailToCart) => action.payload),
+    mergeMap(payload =>
+      this.cartConnector
+        .addEmail(payload.userId, payload.cartId, payload.email)
+        .pipe(
+          map(() => {
+            return new CartActions.AddEmailToCartSuccess({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            });
+          }),
+          catchError(error =>
+            of(new CartActions.AddEmailToCartFail(makeErrorSerializable(error)))
+          )
+        )
+    )
+  );
+
+  @Effect()
+  deleteCart$: Observable<any> = this.actions$.pipe(
+    ofType(CartActions.DELETE_CART),
+    map((action: CartActions.DeleteCart) => action.payload),
+    exhaustMap(payload =>
+      this.cartConnector.delete(payload.userId, payload.cartId).pipe(
+        map(() => {
+          return new CartActions.ClearCart();
+        }),
+        catchError(error =>
+          of(new CartActions.DeleteCartFail(makeErrorSerializable(error)))
+        )
+      )
+    )
   );
 
   constructor(

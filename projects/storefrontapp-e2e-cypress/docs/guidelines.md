@@ -79,3 +79,16 @@ context('Context', () => {
   })
 })
 ```
+
+## Providing custom Spartacus configuration
+
+For backward compatibility new features are disabled by default, but can be enabled by changing the global Spartacus Config, which normally is provided in the build time in `app.module`. However, in e2e tests we can inject dynamically a config chunk that will extend the original one (from app.module) by using the helper `cy.cxConfig(config: StorefrontConfig)`. For example:
+
+```typescript
+context('Express checkout', () => {
+  beforeEach(() => {
+    cy.cxConfig({ checkout: { express: true }});
+  });
+  /* ... */
+});
+```

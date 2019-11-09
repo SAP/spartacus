@@ -78,7 +78,7 @@ describe('UserErrorHandlingService', () => {
 
   describe('handleExpiredUserToken', () => {
     it('should redirect to login if no token', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of({}));
+      spyOn(authService, 'getUserToken').and.returnValue(of({} as any));
       service
         .handleExpiredUserToken(httpRequest, httpHandler)
         .subscribe()
@@ -92,7 +92,7 @@ describe('UserErrorHandlingService', () => {
     it('should logout and redirect to login if no refresh_token', () => {
       spyOn(authService, 'logout').and.stub();
       spyOn(authService, 'getUserToken').and.returnValue(
-        of({ access_token: 'xxx' })
+        of({ access_token: 'xxx' } as any)
       );
       service
         .handleExpiredUserToken(httpRequest, httpHandler)
@@ -118,7 +118,7 @@ describe('UserErrorHandlingService', () => {
 
     it('should only dispatch refresh token event once', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
-      spyOn(authService, 'refreshUserToken').and.returnValue(of(newToken));
+      spyOn(authService, 'refreshUserToken');
 
       service
         .handleExpiredUserToken(httpRequest, httpHandler)

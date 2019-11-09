@@ -1,14 +1,23 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
+
+class MockAuthService {
+  getOccUserId(): Observable<string> {
+    return of(OCC_USER_ID_CURRENT);
+  }
+}
 
 describe('UserAddressService', () => {
   let service: UserAddressService;
@@ -24,7 +33,10 @@ describe('UserAddressService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserAddressService],
+      providers: [
+        UserAddressService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
     store = TestBed.get(Store as Type<Store<StateWithUser>>);
@@ -42,7 +54,7 @@ describe('UserAddressService', () => {
   it('should be able to load user addresses', () => {
     service.loadAddresses();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserAddresses(USERID_CURRENT)
+      new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT)
     );
   });
 
@@ -131,7 +143,7 @@ describe('UserAddressService', () => {
     service.addUserAddress(mockAddress);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.AddUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         address: mockAddress,
       })
     );
@@ -145,7 +157,7 @@ describe('UserAddressService', () => {
     service.updateUserAddress('123', mockAddressUpdate);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: mockAddressUpdate,
       })
@@ -156,7 +168,7 @@ describe('UserAddressService', () => {
     service.deleteUserAddress('123');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.DeleteUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
       })
     );
@@ -166,13 +178,37 @@ describe('UserAddressService', () => {
     service.setAddressAsDefault('123');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: {
           defaultAddress: true,
         },
       })
     );
+  });
+
+  it('should get address loading status', () => {
+    const results: boolean[] = [];
+    service
+      .getAddressesLoading()
+      .pipe(take(2))
+      .subscribe(loadingStatus => {
+        results.push(loadingStatus);
+      });
+    store.dispatch(new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT));
+    expect(results).toEqual([false, true]);
+  });
+
+  it('should indicate successful loading', () => {
+    const results: boolean[] = [];
+    service
+      .getAddressesLoadedSuccess()
+      .pipe(take(2))
+      .subscribe(loadedStatus => {
+        results.push(loadedStatus);
+      });
+    store.dispatch(new UserActions.LoadUserAddressesSuccess([]));
+    expect(results).toEqual([false, true]);
   });
 
   describe('getRegions', () => {
@@ -260,6 +296,13 @@ describe('UserAddressService', () => {
         expect(service.loadRegions).not.toHaveBeenCalled();
         done();
       });
+    });
+
+    it('should call clear regions', () => {
+      service.clearRegions();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.ClearRegions()
+      );
     });
   });
 });
