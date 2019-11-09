@@ -1,13 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AsmConfig,
-  AuthService,
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-  RoutingService,
-} from '@spartacus/core';
+import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { pairwise } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -58,22 +52,8 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.authService
         .getOccUserId()
-        .pipe(pairwise())
-        .subscribe(userIds => {
-          if (this.isCustomerEmulationStart(userIds[0], userIds[1])) {
-            this.resetTimer();
-          }
-        })
-    );
-  }
-
-  private isCustomerEmulationStart(
-    previousUserId: string,
-    newUserId: string
-  ): boolean {
-    return (
-      previousUserId === OCC_USER_ID_ANONYMOUS &&
-      (newUserId !== OCC_USER_ID_ANONYMOUS && newUserId !== OCC_USER_ID_CURRENT)
+        .pipe(distinctUntilChanged())
+        .subscribe(_ => this.resetTimer())
     );
   }
 

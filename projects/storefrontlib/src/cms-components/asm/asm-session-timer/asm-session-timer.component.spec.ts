@@ -11,7 +11,6 @@ import {
   AuthService,
   I18nTestingModule,
   OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
   RoutingService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -154,12 +153,10 @@ describe('AsmSessionTimerComponent', () => {
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(authService, 'getOccUserId').and.returnValue(occUserId$);
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
-    component.ngOnInit(); // no call, initial value anonymous.
-    occUserId$.next('customer01'); // CALL 1, staring an emulation session.
-    occUserId$.next('customer01'); // no call, simulates token resfresh
-    occUserId$.next(OCC_USER_ID_ANONYMOUS); // no call, end customer emulation session
-    occUserId$.next(OCC_USER_ID_CURRENT); // no call, start standard customer emulation session
-    occUserId$.next(OCC_USER_ID_ANONYMOUS); // no call, end standard customer emulation session
-    expect(component.resetTimer).toHaveBeenCalledTimes(1);
+    component.ngOnInit(); // reset 1, initial value anonymous.
+    occUserId$.next('customer01'); // reset 2, staring an emulation session.
+    occUserId$.next('customer01'); // no reset, simulates token resfresh
+    occUserId$.next(OCC_USER_ID_ANONYMOUS); // reset 3, end customer emulation session
+    expect(component.resetTimer).toHaveBeenCalledTimes(3);
   });
 });
