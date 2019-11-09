@@ -74,6 +74,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should update personal details.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
+          isMobile,
         });
         profile.updateProfile();
         customer.firstName = profile.newFirstName;
@@ -85,6 +86,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should delete address', () => {
         cy.selectUserMenuOption({
           option: 'Address Book',
+          isMobile,
         });
         cy.get('cx-address-card').should('have.length', 1);
         addressBook.deleteFirstAddress();
@@ -100,6 +102,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should see the payment details created during checkout', () => {
         cy.selectUserMenuOption({
           option: 'Payment Details',
+          isMobile,
         });
         cy.get('.cx-payment .cx-body').then(() => {
           cy.get('cx-card').should('have.length', 1);
@@ -109,6 +112,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should add a consent', () => {
         cy.selectUserMenuOption({
           option: 'Consent Management',
+          isMobile,
         });
         consent.giveConsent();
       });
@@ -151,6 +155,7 @@ export function asmTests(isMobile: boolean) {
       it('customer should see personal details updated by the agent.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
+          isMobile,
         });
         profile.verifyUpdatedProfile();
       });
@@ -158,6 +163,7 @@ export function asmTests(isMobile: boolean) {
       it('customer should see the address created by the agent.', () => {
         cy.selectUserMenuOption({
           option: 'Address Book',
+          isMobile,
         });
         cy.get('cx-address-card').should('have.length', 1);
         addressBook.verifyNewAddress();
@@ -166,6 +172,7 @@ export function asmTests(isMobile: boolean) {
       it('customer should see the payment details created by the agent', () => {
         cy.selectUserMenuOption({
           option: 'Payment Details',
+          isMobile,
         });
         cy.get('.cx-payment .cx-body').then(() => {
           cy.get('cx-card').should('have.length', 1);
@@ -175,6 +182,7 @@ export function asmTests(isMobile: boolean) {
       it('customer should see the consent given by agent', () => {
         cy.selectUserMenuOption({
           option: 'Consent Management',
+          isMobile,
         });
         cy.get('input[type="checkbox"]')
           .first()
@@ -220,10 +228,9 @@ function listenForAuthenticationRequest(): string {
 function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
   cy.server();
-  cy.route(
-    'GET',
-    `/assistedservicewebservices/customers/search?baseSite=electronics-spa&query=*`
-  ).as(aliasName);
+  cy.route('GET', `/assistedservicewebservices/customers/search?*`).as(
+    aliasName
+  );
   return `@${aliasName}`;
 }
 
