@@ -14,7 +14,7 @@
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefront"]
+      "@spartacus/storefront": ["dist/storefrontlib"]
     }
   },
   "angularCompilerOptions": {
