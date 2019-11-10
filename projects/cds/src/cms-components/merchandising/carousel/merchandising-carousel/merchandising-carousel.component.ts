@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../../cds-models/cms.model';
-import { StrategyConnector } from '../../../../merchandising/connectors/strategy/strategy.connector';
+import { StrategyConnector } from './../../../../merchandising/connectors/strategy/strategy.connector';
 
 @Component({
   selector: 'cx-merchandising-carousel',
@@ -14,10 +14,7 @@ import { StrategyConnector } from '../../../../merchandising/connectors/strategy
 export class MerchandisingCarouselComponent {
   private componentData$: Observable<
     CmsMerchandisingCarouselComponent
-  > = this.componentData.data$.pipe(
-    filter(Boolean),
-    distinctUntilChanged((previous, current) => previous.uid === current.uid)
-  );
+  > = this.componentData.data$.pipe(filter(Boolean));
 
   title$: Observable<string> = this.componentData$.pipe(
     map(data => data.title)
@@ -35,13 +32,14 @@ export class MerchandisingCarouselComponent {
     map(data => data.textColour)
   );
 
-  items$: Observable<Product[]> = this.componentData$.pipe(
+  items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
     map(data => data.strategy),
+    distinctUntilChanged(),
     switchMap(strategyId =>
       this.strategyConnector.loadProductsForStrategy(strategyId)
     ),
     map(merchandisingProducts => merchandisingProducts.products),
-    map(products => products.map(product => product))
+    map(products => products.map(product => of(product)))
   );
 
   constructor(
