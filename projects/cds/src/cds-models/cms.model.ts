@@ -1,4 +1,4 @@
-import { CmsComponent } from './../../../core/src/model/cms.model';
+import { CmsComponent } from '@spartacus/core';
 
 export interface CmsMerchandisingCarouselComponent extends CmsComponent {
   title?: string;

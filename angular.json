@@ -295,9 +295,9 @@
       }
     },
     "cds": {
-      "projectType": "library",
       "root": "projects/cds",
       "sourceRoot": "projects/cds/src",
+      "projectType": "library",
       "prefix": "cx",
       "architect": {
         "build": {

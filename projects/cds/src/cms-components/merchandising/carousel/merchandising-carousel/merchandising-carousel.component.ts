@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, flatMap, map } from 'rxjs/operators';
-import { CmsComponentData } from '../../../../../../storefrontlib/src/cms-structure/page/model/cms-component-data';
-import { CmsMerchandisingCarouselComponent as model } from '../../../../cds-models/cms.model';
-import { StrategyConnector } from './../../../../../../cds/src/merchandising/connectors/strategy/strategy.connector';
+import { CmsComponentData } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { CmsMerchandisingCarouselComponent } from '../../../../cds-models/cms.model';
+import { StrategyConnector } from '../../../../merchandising/connectors/strategy/strategy.connector';
 
 @Component({
   selector: 'cx-merchandising-carousel',
@@ -12,8 +12,11 @@ import { StrategyConnector } from './../../../../../../cds/src/merchandising/con
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchandisingCarouselComponent {
-  private componentData$: Observable<model> = this.componentData.data$.pipe(
-    filter(Boolean)
+  private componentData$: Observable<
+    CmsMerchandisingCarouselComponent
+  > = this.componentData.data$.pipe(
+    filter(Boolean),
+    distinctUntilChanged((previous, current) => previous.uid === current.uid)
   );
 
   title$: Observable<string> = this.componentData$.pipe(
@@ -32,18 +35,19 @@ export class MerchandisingCarouselComponent {
     map(data => data.textColour)
   );
 
-  items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
+  items$: Observable<Product[]> = this.componentData$.pipe(
     map(data => data.strategy),
-    distinctUntilChanged(),
-    flatMap(strategyId =>
+    switchMap(strategyId =>
       this.strategyConnector.loadProductsForStrategy(strategyId)
     ),
     map(merchandisingProducts => merchandisingProducts.products),
-    map(products => products.map(product => of(product)))
+    map(products => products.map(product => product))
   );
 
   constructor(
-    protected componentData: CmsComponentData<model>,
+    protected componentData: CmsComponentData<
+      CmsMerchandisingCarouselComponent
+    >,
     protected strategyConnector: StrategyConnector
   ) {}
 }
