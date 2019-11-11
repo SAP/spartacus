@@ -8,7 +8,7 @@ import { ConverterService, ImageType } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { MERCHANDISING_PRODUCTS_NORMALIZER } from '../../connectors/strategy/converters';
-import { MerchandisingProducts } from '../../model/merchandising.products';
+import { MerchandisingProducts } from '../../model/merchandising.products.model';
 import { StrategyResult } from '../../model/strategy.result';
 import { MerchandisingStrategyAdapter } from './merchandising.strategy.adapter';
 import createSpy = jasmine.createSpy;

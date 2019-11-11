@@ -24,13 +24,9 @@ const MERCHANDISING_PRODUCT: MerchandisingProduct = {
   metadata: MERCHANDISING_PRODUCT_METADATA,
 };
 
-const PRODUCT: Product = {
+const NO_PRICE_PRODUCT: Product = {
   code: 'test-product-id',
   name: 'test-product',
-  price: {
-    formattedValue: '20.99',
-    value: 20.99,
-  },
   images: {
     PRIMARY: {
       product: {
@@ -40,6 +36,14 @@ const PRODUCT: Product = {
       },
     },
   },
+};
+
+const PRODUCT: Product = {
+  price: {
+    formattedValue: '20.99',
+    value: 20.99,
+  },
+  ...NO_PRICE_PRODUCT,
 };
 
 describe('MerchandisingProductNormalizer', () => {
@@ -68,12 +72,6 @@ describe('MerchandisingProductNormalizer', () => {
       ...MERCHANDISING_PRODUCT,
       price: null,
     };
-
-    const NO_PRICE_PRODUCT: Product = {
-      ...PRODUCT,
-    };
-    // Price should not just be null/undefined on the converted Product, it should not exist at all
-    delete NO_PRICE_PRODUCT.price;
 
     expect(productNormalizer.convert(NO_PRICE_MERCHANDISING_PRODUCT)).toEqual(
       NO_PRICE_PRODUCT

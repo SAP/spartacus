@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, ImageType } from '@spartacus/core';
-import { MerchandisingProducts } from '../model/merchandising.products';
+import { MerchandisingProducts } from '../model/merchandising.products.model';
 import { StrategyResult } from '../model/strategy.result';
 import { MerchandisingProductsNormalizer } from './merchandising-products-normalizer';
 import createSpy = jasmine.createSpy;
@@ -35,8 +35,7 @@ const STRATEGY_RESULT: StrategyResult = {
   metadata: STRATEGY_RESULT_METADATA,
 };
 
-const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
-  metadata: STRATEGY_RESULT_METADATA,
+const MERCHANDISING_PRODUCTS_WITHOUT_METADATA: MerchandisingProducts = {
   products: [
     {
       code: 'test-product-id',
@@ -58,8 +57,15 @@ const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
   ],
 };
 
+const MERCHANDISING_PRODUCTS_WITH_METADATA = {
+  metadata: STRATEGY_RESULT_METADATA,
+  ...MERCHANDISING_PRODUCTS_WITHOUT_METADATA,
+};
+
 class MockConverterService {
-  convert = createSpy().and.returnValue(MERCHANDISING_PRODUCTS.products[0]);
+  convert = createSpy().and.returnValue(
+    MERCHANDISING_PRODUCTS_WITHOUT_METADATA.products[0]
+  );
 }
 
 describe('MerchandisingProductsNormalizer', () => {
@@ -93,28 +99,20 @@ describe('MerchandisingProductsNormalizer', () => {
       metadata: null,
     };
 
-    const NO_METADATA_MERCHANDISING_PRODUCTS = {
-      ...MERCHANDISING_PRODUCTS,
-    };
-    // metadata should not just be null/undefined on the converted MerchandisingProducts, it should not exist at all
-    delete NO_METADATA_MERCHANDISING_PRODUCTS.metadata;
-
     expect(productsNormalizer.convert(NO_METADATA_STRATEGY_RESULT)).toEqual(
-      NO_METADATA_MERCHANDISING_PRODUCTS
+      MERCHANDISING_PRODUCTS_WITHOUT_METADATA
     );
   });
 
-  it('should convert a StrategyResult with no porducts to a MerchandisingProducts with no products', () => {
+  it('should convert a StrategyResult with no products to a MerchandisingProducts with no products', () => {
     const NO_PRODUCTS_STRATEGY_RESULT = {
       ...STRATEGY_RESULT,
       products: null,
     };
 
     const NO_PRODUCTS_MERCHANDISING_PRODUCTS = {
-      ...MERCHANDISING_PRODUCTS,
+      metadata: STRATEGY_RESULT_METADATA,
     };
-    // products should not just be null/undefined on the converted MerchandisingProducts, it should not exist at all
-    delete NO_PRODUCTS_MERCHANDISING_PRODUCTS.products;
 
     expect(productsNormalizer.convert(NO_PRODUCTS_STRATEGY_RESULT)).toEqual(
       NO_PRODUCTS_MERCHANDISING_PRODUCTS
@@ -129,7 +127,7 @@ describe('MerchandisingProductsNormalizer', () => {
     };
 
     const EMPTY_PRODUCTS_MERCHANDISING_PRODUCTS = {
-      ...MERCHANDISING_PRODUCTS,
+      metadata: STRATEGY_RESULT_METADATA,
       products: [],
     };
 
@@ -141,7 +139,7 @@ describe('MerchandisingProductsNormalizer', () => {
 
   it('should convert a StrategyResult to a MerchandisingProducts', () => {
     expect(productsNormalizer.convert(STRATEGY_RESULT)).toEqual(
-      MERCHANDISING_PRODUCTS
+      MERCHANDISING_PRODUCTS_WITH_METADATA
     );
     expect(converterService.convert).toHaveBeenCalledTimes(1);
   });

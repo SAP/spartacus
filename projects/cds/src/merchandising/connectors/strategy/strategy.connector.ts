@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MerchandisingProducts } from '../../model/merchandising.products';
+import { MerchandisingProducts } from '../../model/merchandising.products.model';
 import { StrategyAdapter } from './strategy.adapter';
 
 @Injectable({

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Converter, ConverterService } from '@spartacus/core';
 import { MERCHANDISING_PRODUCT_NORMALIZER } from '../connectors/strategy/converters';
-import { MerchandisingProducts } from '../model/merchandising.products';
+import { MerchandisingProducts } from '../model/merchandising.products.model';
 import { StrategyResult } from '../model/strategy.result';
 
 @Injectable()
