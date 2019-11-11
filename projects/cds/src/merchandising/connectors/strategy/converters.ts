@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Converter, Product } from '@spartacus/core';
-import { MerchandisingProducts } from '../../model/merchandising.products';
+import { MerchandisingProducts } from '../../model/merchandising.products.model';
 import {
   MerchandisingProduct,
   StrategyResult,
