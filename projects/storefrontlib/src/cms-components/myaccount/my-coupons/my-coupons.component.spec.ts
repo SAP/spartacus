@@ -26,6 +26,8 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
       type="checkbox"
       class="form-check-input"
       [checked]="coupon?.notificationOn"
+      [class.disabled]="couponSubscriptionLoading$ | async"
+      [disabled]="couponSubscriptionLoading$ | async"
       (click)="notificationChange()"
     />
   `,
@@ -53,6 +55,7 @@ class MockedCouponCardComponent {
 
 const subLoading$ = new BehaviorSubject<boolean>(false);
 const unsubLoading$ = new BehaviorSubject<boolean>(false);
+const PAGE_SIZE = 10;
 
 const emptyCouponResult: CustomerCouponSearchResult = {
   pagination: {
@@ -247,5 +250,13 @@ describe('MyCouponsComponent', () => {
     expect(
       customerCouponService.unsubscribeCustomerCoupon
     ).toHaveBeenCalledWith('CustomerCoupon1');
+  });
+
+  it('should load customer coupon when subscrib/unsubscribe notification error', () => {
+    subscriptionFail.next(true);
+    fixture.detectChanges();
+    expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
+      PAGE_SIZE
+    );
   });
 });
