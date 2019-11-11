@@ -2,6 +2,20 @@ import { Injectable } from '@angular/core';
 import { CdsConfig } from '../config/cds-config';
 import { DynamicTemplate } from '../utils/dynamic-template';
 
+// temporarly copied from `@spartacus/core`, no need to test it. will be removed.
+class DynamicTemplate {
+  static resolve(templateString: string, templateVariables: Object) {
+    for (const variableLabel of Object.keys(templateVariables)) {
+      const placeholder = new RegExp('\\${' + variableLabel + '}', 'g');
+      templateString = templateString.replace(
+        placeholder,
+        templateVariables[variableLabel]
+      );
+    }
+    return templateString;
+  }
+}
+
 @Injectable({
   providedIn: 'root',
 })
