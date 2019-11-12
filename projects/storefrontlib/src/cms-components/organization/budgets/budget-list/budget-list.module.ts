@@ -12,7 +12,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { BudgetListComponent } from './order-history.component';
+import { BudgetListComponent } from './budget-list.component';
 
 @NgModule({
   imports: [

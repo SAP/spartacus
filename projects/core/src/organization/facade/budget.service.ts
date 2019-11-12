@@ -35,12 +35,16 @@ export class BudgetService {
       );
   }
 
-  private loadBudgets(params?: BudgetSearchConfig) {
+  loadBudgets(params?: BudgetSearchConfig) {
     this.user$
       .pipe(take(1))
       .subscribe(userId =>
         this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
       );
+  }
+
+ getBudgetsProcess() {
+    return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
   }
 
   private getBudgetState(budgetCode: string) {
