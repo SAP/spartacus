@@ -182,9 +182,12 @@ describe('MyCouponsComponent', () => {
 
   it('should be able to show message when there is no coupon', () => {
     fixture.detectChanges();
+    const header = el.query(By.css('.cx-my-coupons-header')).nativeElement
+      .textContent;
+    expect(header).toBeTruthy();
     const message = el.query(By.css('.cx-section-msg')).nativeElement
       .textContent;
-    expect(!message).toBeFalsy();
+    expect(message).toBeTruthy();
   });
 
   it('should show spinner when loading', () => {

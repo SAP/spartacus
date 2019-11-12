@@ -7,6 +7,8 @@ import { ModalService } from '../../../../shared/components/modal/index';
 import { Pipe, PipeTransform, Component, DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -18,6 +20,9 @@ const mockCoupon: CustomerCoupon = {
   startDate: '1970-01-01T00:00:00+0000',
   status: 'Effective',
 };
+
+const subLoading$ = new BehaviorSubject<boolean>(false);
+const unsubLoading$ = new BehaviorSubject<boolean>(false);
 
 @Pipe({
   name: 'cxUrl',
@@ -31,7 +36,7 @@ class MockUrlPipe implements PipeTransform {
   template: `
     <cx-coupon-card
       [coupon]="coupon"
-      [couponSubscriptionLoading$]="false"
+      [couponSubscriptionLoading$]="couponSubscriptionLoading$"
       (notificationChanged)="notificationChange($event)"
     >
     </cx-coupon-card>
@@ -43,19 +48,15 @@ class MyCouponsComponent {
     notification: boolean;
   };
   coupon = mockCoupon;
+  couponSubscriptionLoading$ = combineLatest([subLoading$, unsubLoading$]).pipe(
+    map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
+  );
 
-  notificationChange({
-    couponId,
-    notification,
-  }: {
-    couponId: string;
-    notification: boolean;
-  }): void {
-    this.eventObj = {
-      couponId,
-      notification,
-    };
-  }
+  notificationChange = jasmine
+    .createSpy()
+    .and.callFake(({ couponId, notification }) => {
+      this.eventObj = { couponId, notification };
+    });
 }
 
 describe('CouponCardComponent', () => {
@@ -86,6 +87,9 @@ describe('CouponCardComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     modalService.open.and.stub();
+    component.coupon.notificationOn = false;
+    unsubLoading$.next(false);
+    subLoading$.next(false);
   });
 
   it('should create', () => {
@@ -137,20 +141,39 @@ describe('CouponCardComponent', () => {
     expect(modalService.open).toHaveBeenCalled();
   });
 
-  it('should raise subscribe/unsubscribe event when clicked', () => {
+  it('should be able to show correct status when subscribe notification', () => {
     fixture.detectChanges();
     const couponNotificationCheckbox = el.query(By.css('.form-check-input'));
+    const checkbox = couponNotificationCheckbox.nativeElement;
+    expect(checkbox.checked).toBeFalsy();
+
+    subLoading$.next(true);
     couponNotificationCheckbox.triggerEventHandler('change', null);
-    expect(component.eventObj).toBeTruthy();
+
+    fixture.detectChanges();
+    expect(component.notificationChange).toHaveBeenCalledWith({
+      couponId: component.coupon.couponId,
+      notification: true,
+    });
+    expect(checkbox.disabled).toEqual(true);
   });
 
-  it('should be able to show correct notification status', () => {
-    fixture.detectChanges();
-    const checkbox = el.query(By.css('.form-check-input')).nativeElement;
-    expect(checkbox.checked).toBeFalsy();
+  it('should be able to show correct status when unsubscribe notification', () => {
     component.coupon.notificationOn = true;
     fixture.detectChanges();
+    const couponNotificationCheckbox = el.query(By.css('.form-check-input'));
+    const checkbox = couponNotificationCheckbox.nativeElement;
     expect(checkbox.checked).toBeTruthy();
+
+    unsubLoading$.next(true);
+    couponNotificationCheckbox.triggerEventHandler('change', null);
+
+    fixture.detectChanges();
+    expect(component.notificationChange).toHaveBeenCalledWith({
+      couponId: component.coupon.couponId,
+      notification: false,
+    });
+    expect(checkbox.disabled).toEqual(true);
   });
 
   it('should be able to click `Find Product` button', () => {
