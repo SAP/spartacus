@@ -32,9 +32,9 @@ export class BudgetListComponent implements OnInit, OnDestroy {
     this.budgets$ = this.budgetsService
       .getList({pageSize: this.PAGE_SIZE})
       .pipe(
-        tap((budgets: BudgetsList) => {
-          if (budgets.pagination) {
-            this.sortType = budgets.pagination.sort;
+        tap((budgetsList: BudgetsList) => {
+          if (budgetsList.pagination) {
+            this.sortType = budgetsList.pagination.sort;
           }
         })
       );

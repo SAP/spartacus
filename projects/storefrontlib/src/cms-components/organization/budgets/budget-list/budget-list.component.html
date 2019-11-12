@@ -13,19 +13,19 @@
           <div
             class="cx-budget-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
-            <!--            <cx-sorting-->
-            <!--              [sortOptions]="budgets.sorts"-->
-            <!--              [sortLabels]="getSortLabels() | async"-->
-            <!--              (sortListEvent)="changeSortCode($event)"-->
-            <!--              [selectedOption]="budgets.pagination.sort"-->
-            <!--              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"-->
-            <!--            ></cx-sorting>-->
+            <cx-sorting
+              [sortOptions]="budgets.sorts"
+              [sortLabels]="getSortLabels() | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="budgets.pagination.sort"
+              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"
+            ></cx-sorting>
           </div>
           <div class="cx-budget-pagination">
-                        <cx-pagination
-                          [pagination]="budgets.pagination"
-                          (viewPageEvent)="pageChange($event)"
-                        ></cx-pagination>
+            <cx-pagination
+              [pagination]="budgets.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
           </div>
         </div>
         <!-- TABLE -->

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { queueScheduler } from 'rxjs';
+import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, switchMap, take, tap } from 'rxjs/operators';
 
 import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
@@ -9,12 +9,14 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Budget } from '../../model/budget.model';
 import {
+  BudgetsList,
   LOAD_BUDGETS_PROCESS_ID,
   StateWithOrganization,
 } from '../store/organization-state';
 import { BudgetActions } from '../store/actions/index';
 import {
-  getBudgetsState,
+  getBudgetManagementState,
+  // getBudgetsState,
   getBudgetState,
 } from '../store/selectors/budget.selector';
 import { BudgetSearchConfig } from '../model/search-config';
@@ -46,7 +48,7 @@ export class BudgetService {
       );
   }
 
- getBudgetsProcess() {
+  getBudgetsProcess(): Observable<LoaderState<void>> {
     return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
   }
 
@@ -54,8 +56,8 @@ export class BudgetService {
     return this.store.select(getBudgetState(budgetCode));
   }
 
-  private getBudgets() {
-    return this.store.select(getBudgetsState);
+  private getBudgets(): Observable<BudgetsList> {
+    return this.store.select(getBudgetManagementState);
   }
 
   get(budgetCode: string) {
@@ -71,7 +73,7 @@ export class BudgetService {
     );
   }
 
-  getList(params?: BudgetSearchConfig) {
+  getList(params?: BudgetSearchConfig): Observable<BudgetsList> {
     return this.getBudgetsProcess().pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<void>) => {

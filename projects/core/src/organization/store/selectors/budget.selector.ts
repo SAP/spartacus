@@ -26,13 +26,13 @@ export const getBudgetsState: MemoizedSelector<
   (state: BudgetsList) => state && state.budgets
 );
 
-export const getBudgetsValuesState: MemoizedSelector<
-  StateWithOrganization,
-  { [id: string]: LoaderState<Budget> }
-> = createSelector(
-  getBudgetsState,
-  (state: EntityLoaderState<Budget>) => state && state.entities
-);
+// export const getBudgetsValuesState: MemoizedSelector<
+//   StateWithOrganization,
+//   { [id: string]: LoaderState<Budget> }
+// > = createSelector(
+//   getBudgetsState,
+//   (state: EntityLoaderState<Budget>) => state && state.entities
+// );
 
 export const getBudgetState = (
   budgetCode: string
