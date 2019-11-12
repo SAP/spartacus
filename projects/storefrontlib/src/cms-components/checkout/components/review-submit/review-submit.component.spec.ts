@@ -82,7 +82,9 @@ class MockCartItemListComponent {
   @Input()
   isReadOnly: boolean;
   @Input()
-  potentialProductPromotions: PromotionResult[];
+  potentialProductPromotions: PromotionResult[] = [];
+  @Input()
+  appliedProductPromotions: PromotionResult[] = [];
 }
 
 @Component({
@@ -374,4 +376,6 @@ describe('ReviewSubmitComponent', () => {
       ]);
     });
   });
+
+
 });
