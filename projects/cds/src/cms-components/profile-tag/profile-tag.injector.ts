@@ -10,6 +10,7 @@ import { fromEventPattern, merge, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds.config';
 import {
+  ProfileTagEvent,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
 } from './profile-tag.model';
@@ -40,10 +41,7 @@ export class ProfileTagInjector {
 
   injectScript(): Observable<AnonymousConsent | NgRouterEvent> {
     return this.addTracker().pipe(
-      filter(
-        profileTagEvent =>
-          (<any>(<unknown>profileTagEvent)).eventName === 'Loaded'
-      ),
+      filter(profileTagEvent => profileTagEvent.eventName === 'Loaded'),
       switchMap(() => {
         return this.tracking$;
       })
@@ -59,23 +57,29 @@ export class ProfileTagInjector {
     );
   }
 
+  /**
+   * We are only interested in the first time the ProfileConsent is granted
+   */
   private consentChanged(): Observable<AnonymousConsent> {
     return this.anonymousConsentsService
       .getConsent(ProfileTagInjector.ProfileConsentTemplateId)
       .pipe(
         filter(Boolean),
         filter(profileConsent => {
-          console.log(`doing stuff`);
           return this.anonymousConsentsService.isConsentGiven(profileConsent);
         }),
         take(1),
         tap(() => {
-          this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted: true });
+          this.notifyProfileTagOfConsentChange({ granted: true });
         })
       );
   }
 
-  private addTracker(): Observable<Object> {
+  private notifyProfileTagOfConsentChange({ granted }): void {
+    this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted });
+  }
+
+  private addTracker(): Observable<ProfileTagEvent> {
     return this.baseSiteService.getActive().pipe(
       filter((siteId: string) => Boolean(siteId)),
       switchMap((siteId: string) => {
@@ -84,7 +88,7 @@ export class ProfileTagInjector {
     );
   }
 
-  profileTagEventReciever(siteId: string): Observable<Object> {
+  profileTagEventReciever(siteId: string): Observable<ProfileTagEvent> {
     return fromEventPattern(
       handler => {
         this.addProfileTagEventReciever(siteId, handler);
@@ -93,7 +97,7 @@ export class ProfileTagInjector {
     );
   }
 
-  addProfileTagEventReciever(siteId: string, handler: Function) {
+  addProfileTagEventReciever(siteId: string, handler: Function): void {
     const newConfig: ProfileTagJsConfig = {
       ...this.config.cds.profileTag,
       tenant: this.config.cds.tenant,
@@ -121,14 +125,4 @@ export class ProfileTagInjector {
     q.push([options]);
     this.w.Y_TRACKING.q = q;
   }
-
-  // private profileTagEventTriggered(profileTagEvent): void {
-  //   switch (profileTagEvent.eventName) {
-  //     case 'Loaded':
-  //       this.isProfileTagLoaded$.next(true);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
 }

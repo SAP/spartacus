@@ -34,7 +34,6 @@ describe('ProfileTagInjector', () => {
   let baseSiteService;
   let appendChildSpy;
   let createElementSpy;
-  let getConsentsBehavior;
   let getConsentBehavior;
   let isConsentGivenValue;
   let routerEventsBehavior;
@@ -44,7 +43,6 @@ describe('ProfileTagInjector', () => {
   let mockedWindowRef;
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
-    getConsentsBehavior = new BehaviorSubject<Object>([1]);
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
     isConsentGivenValue = false;
     appendChildSpy = jasmine.createSpy('appendChildSpy');
@@ -56,7 +54,6 @@ describe('ProfileTagInjector', () => {
       createElement: () => ({}),
     };
     anonymousConsentsService = {
-      getConsents: () => getConsentsBehavior,
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
     };

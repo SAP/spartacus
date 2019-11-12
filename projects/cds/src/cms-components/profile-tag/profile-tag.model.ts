@@ -15,3 +15,7 @@ export interface ProfileTagJsConfig {
   gtmId?: string;
   profileTagEventReciever: Function;
 }
+
+export interface ProfileTagEvent {
+  eventName;
+}
