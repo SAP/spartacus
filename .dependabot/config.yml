@@ -1,0 +1,35 @@
+version: 1
+update_configs:
+  - package_manager: "javascript"
+    directory: "/"
+    update_schedule: "live"
+    allowed_updates:
+      - match:
+          dependency_type: "direct"
+  - package_manager: "javascript"
+    directory: "/projects/storefrontapp-e2e-cypress/"
+    update_schedule: "live"
+    allowed_updates:
+      - match:
+          dependency_type: "direct"
+  - package_manager: "javascript"
+    directory: "/.github/api-extractor-action/"
+    update_schedule: "live"
+    allowed_updates:
+      - match:
+          dependency_type: "direct"
+  - package_manager: "javascript"
+    directory: "/scripts/"
+    update_schedule: "live"
+  - package_manager: "javascript"
+    allowed_updates:
+      - match:
+          dependency_type: "direct"
+    directory: "/projects/schematics/"
+    update_schedule: "live"
+  - package_manager: "javascript"
+    directory: "/projects/storefrontstyles/"
+    update_schedule: "live"
+    allowed_updates:
+      - match:
+          dependency_type: "direct"
