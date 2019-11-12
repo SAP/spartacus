@@ -4,7 +4,7 @@ import * as uiReducer from './configurator-ui.reducer';
 const CURRENT_GROUP = 'currentGroupId';
 const PRODUCT_CODE = 'CONF_PRODUCT';
 
-describe('Cart reducer', () => {
+describe('Configurator UI reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = uiReducer;

@@ -65,4 +65,17 @@ describe('Configurator selectors', () => {
 
     expect(result).toEqual(configuration);
   });
+
+  it('should return pending changes as zero for an initial call', () => {
+    store
+      .pipe(select(ConfiguratorSelectors.getPendingChanges))
+      .subscribe(pendingChanges => expect(pendingChanges).toBe(0));
+  });
+
+  it('should return pending changes as 1 if an update has happenend', () => {
+    store.dispatch(new ConfiguratorActions.UpdateConfiguration(configuration));
+    store
+      .pipe(select(ConfiguratorSelectors.getPendingChanges))
+      .subscribe(pendingChanges => expect(pendingChanges).toBe(1));
+  });
 });

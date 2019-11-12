@@ -25,18 +25,18 @@ const productConfiguration: Configurator.Configuration = {
 
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
+  let readMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
 
   let actions$: Observable<any>;
 
   beforeEach(() => {
     createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
+    readMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
     class MockConnector {
       createConfiguration = createMock;
 
-      readConfiguration(): Observable<Configurator.Configuration> {
-        return of(productConfiguration);
-      }
+      readConfiguration = readMock;
 
       updateConfiguration(): Observable<Configurator.Configuration> {
         return of(productConfiguration);
@@ -132,28 +132,95 @@ describe('ConfiguratorEffect', () => {
     actions$ = hot('-a', { a: action });
 
     configEffects.readConfiguration$.subscribe(emitted => fail(emitted));
+    // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
+    // The actual test is done in the subscribe part
+    expect(true).toBeTruthy();
+  });
+  describe('Effect updateConfiguration', () => {
+    it('should emit a success action with content for an action of type updateConfiguration', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
+
+      const completion = new ConfiguratorActions.UpdateConfigurationSuccess(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.updateConfiguration$).toBeObservable(expected);
+    });
+
+    it('must not emit anything in case source action is not covered, updateConfiguration', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      actions$ = hot('-a', { a: action });
+
+      configEffects.updateConfiguration$.subscribe(emitted => fail(emitted));
+      // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
+      // The actual test is done in the subscribe part
+      expect(true).toBeTruthy();
+    });
   });
 
-  it('should emit a success action with content for an action of type updateConfiguration', () => {
-    const payloadInput = productConfiguration;
-    const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
-
-    const completion = new ConfiguratorActions.UpdateConfigurationSuccess(
-      productConfiguration
-    );
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
-
-    expect(configEffects.updateConfiguration$).toBeObservable(expected);
+  describe('Effect updateConfigurationSuccess', () => {
+    it('should raise UpdateConfigurationFinalize on UpdateConfigurationSuccess in case no changes are pending', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      const completion = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
   });
+  describe('Effect updateConfigurationFail', () => {
+    it('should raise UpdateConfigurationFinalizeFail on UpdateConfigurationFail in case no changes are pending', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfigurationFail(
+        productConfiguration.productCode,
+        payloadInput
+      );
+      const completion = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(configEffects.updateConfigurationFail$).toBeObservable(expected);
+    });
+    it('must not emit anything in case of UpdateConfigurationSuccess', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      actions$ = hot('-a', { a: action });
 
-  it('must not emit anything in case source action is not covered, updateConfiguration', () => {
-    const payloadInput = productConfiguration;
-    const action = new ConfiguratorActions.UpdateConfigurationSuccess(
-      payloadInput
-    );
-    actions$ = hot('-a', { a: action });
-
-    configEffects.updateConfiguration$.subscribe(emitted => fail(emitted));
+      configEffects.updateConfigurationFail$.subscribe(emitted =>
+        fail(emitted)
+      );
+      // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
+      // The actual test is done in the subscribe part
+      expect(true).toBeTruthy();
+    });
+  });
+  describe('Effect handleErrorOnUpdate', () => {
+    it('should emit ReadConfiguration on UpdateConfigurationFinalizeFail', () => {
+      const payloadInput = productConfiguration;
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+        payloadInput
+      );
+      const completion = new ConfiguratorActions.ReadConfiguration({
+        configId: productConfiguration.configId,
+      });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(configEffects.handleErrorOnUpdate$).toBeObservable(expected);
+    });
   });
 });

@@ -77,7 +77,7 @@ export class ConfiguratorCommonsService {
       .subscribe(configuration => {
         this.store.dispatch(
           new ConfiguratorActions.UpdateConfiguration(
-            this.mergeChangesToNewObject(
+            this.createConfigurationExtract(
               groupId,
               changedAttribute,
               configuration
@@ -118,30 +118,26 @@ export class ConfiguratorCommonsService {
     return configuration !== undefined;
   }
 
-  mergeChangesToNewObject(
+  createConfigurationExtract(
     groupId: string,
     changedAttribute: Configurator.Attribute,
     configuration: Configurator.Configuration
   ): Configurator.Configuration {
-    const newConfiguration: Configurator.Configuration = JSON.parse(
-      JSON.stringify(configuration)
-    );
+    const newConfiguration: Configurator.Configuration = {
+      configId: configuration.configId,
+      groups: [],
+    };
 
-    const group = newConfiguration.groups.find(
+    const group = configuration.groups.find(
       currentGroup => currentGroup.id === groupId
     );
-    const attribute = group.attributes.find(
-      currentAttribute => currentAttribute.name === changedAttribute.name
-    );
-
-    switch (attribute.uiType) {
-      case Configurator.UiType.RADIOBUTTON:
-      case Configurator.UiType.DROPDOWN:
-        attribute.selectedSingleValue = changedAttribute.selectedSingleValue;
-        break;
-      case Configurator.UiType.STRING:
-        attribute.userInput = changedAttribute.userInput;
-        break;
+    if (group) {
+      const changedGroup: Configurator.Group = {
+        groupType: group.groupType,
+        id: group.id,
+        attributes: [changedAttribute],
+      };
+      newConfiguration.groups.push(changedGroup);
     }
 
     return newConfiguration;
