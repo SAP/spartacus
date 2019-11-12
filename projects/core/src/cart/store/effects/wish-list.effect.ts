@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { SaveCartConnector } from '../../connectors/save-cart/save-cart.connecter';
 import { CartActions } from '../actions';
@@ -41,6 +41,34 @@ export class WishListEffects {
               )
             );
         })
+      );
+    })
+  );
+
+  @Effect()
+  LoadWishList$ = this.actions$.pipe(
+    ofType(CartActions.LOAD_WISH_LIST),
+    map((action: CartActions.LoadWisthList) => action.payload),
+    concatMap(userId => {
+      return this.cartConnector.loadAll(userId).pipe(
+        switchMap(carts => {
+          if (carts) {
+            const wishList = carts.find(cart => cart.name === 'wishlist');
+            if (Boolean(wishList)) {
+              return [
+                new CartActions.LoadWisthListSuccess({
+                  cart: wishList,
+                  userId,
+                }),
+              ];
+            } else {
+              return [
+                new CartActions.CreateWishList({ userId, name: 'wishlist' }),
+              ];
+            }
+          }
+        }),
+        catchError(error => from([new CartActions.LoadCartFail(error)]))
       );
     })
   );
