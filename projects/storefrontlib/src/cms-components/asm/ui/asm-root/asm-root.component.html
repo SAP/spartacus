@@ -1,3 +1,3 @@
-<ng-container *ngIf="state$ | async as state">
+<ng-container *ngIf="asmService.getAsmUiState() | async as state">
   <cx-asm-main-ui [class.collapse]="!state.expanded"></cx-asm-main-ui>
 </ng-container>

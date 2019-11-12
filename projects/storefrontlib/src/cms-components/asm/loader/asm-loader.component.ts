@@ -21,6 +21,7 @@ export class AsmLoaderComponent {
     protected activatedRoute: ActivatedRoute,
     protected asmService: AsmService
   ) {}
+
   private set showAsmUi(visible: boolean) {
     if (visible) {
       this.asmService.updateAsmUiState({ visible });

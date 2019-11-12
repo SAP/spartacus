@@ -1,9 +1,8 @@
 import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { AsmService, AsmUi } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { AsmService } from '@spartacus/core';
+import { of } from 'rxjs';
 import { AsmRootComponent } from './asm-root.component';
 @Component({
   selector: 'cx-asm-main-ui',
@@ -12,20 +11,11 @@ import { AsmRootComponent } from './asm-root.component';
 class MockAsmMainUiComponent {}
 
 class MockAsmService {
-  getAsmUiState(): Observable<AsmUi> {
-    return of({} as AsmUi);
+  getAsmUiState() {
+    return of({});
   }
   updateAsmUiState(): void {}
 }
-
-const mockQueryParamMap = {
-  get(): string {
-    return '';
-  },
-};
-const activatedRouteMock = {
-  queryParamMap: of(mockQueryParamMap),
-};
 
 describe('AsmRootComponent', () => {
   let component: AsmRootComponent;
@@ -36,17 +26,13 @@ describe('AsmRootComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AsmRootComponent, MockAsmMainUiComponent],
-      providers: [
-        { provide: AsmService, useClass: MockAsmService },
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
-      ],
+      providers: [{ provide: AsmService, useClass: MockAsmService }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmRootComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     el = fixture.debugElement;
     asmService = TestBed.get(AsmService);
   });
@@ -57,26 +43,26 @@ describe('AsmRootComponent', () => {
 
   it('should show the main asm UI if UI state is visisble', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ visible: true }));
-    component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-asm-main-ui'))).toBeTruthy();
   });
 
-  it('should update UI visible state if the activated route has query param ?asm=true', () => {
-    spyOn(asmService, 'updateAsmUiState').and.stub();
-    spyOn(mockQueryParamMap, 'get').and.returnValue('true');
-    component.ngOnInit();
+  it('should have collapsed class on collapse', () => {
+    spyOn(asmService, 'getAsmUiState').and.returnValue(
+      of({ visible: true, expanded: false })
+    );
     fixture.detectChanges();
-    expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
-      visible: true,
-    });
+    const element = fixture.debugElement.query(By.css('cx-asm-main-ui'));
+    expect(element.nativeElement.classList).toContain('collapse');
   });
 
-  it('should not show the main asm UI if UI state is not visisble', () => {
-    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ visible: false }));
-    component.ngOnInit();
+  it('should have no class name on expand', () => {
+    spyOn(asmService, 'getAsmUiState').and.returnValue(
+      of({ visible: true, expanded: true })
+    );
     fixture.detectChanges();
-    expect(el.query(By.css('cx-asm-main-ui'))).toBeFalsy();
+    const element = fixture.debugElement.query(By.css('cx-asm-main-ui'));
+    expect(element.nativeElement.classList).not.toContain('collapse');
   });
 
   xdescribe('Minimize ASM UI', () => {
@@ -86,7 +72,6 @@ describe('AsmRootComponent', () => {
       );
       spyOn(asmService, 'updateAsmUiState').and.stub();
 
-      component.ngOnInit();
       fixture.detectChanges();
 
       const expandBtn = fixture.debugElement.query(By.css('button'));
@@ -103,7 +88,6 @@ describe('AsmRootComponent', () => {
       );
       spyOn(asmService, 'updateAsmUiState').and.stub();
 
-      component.ngOnInit();
       fixture.detectChanges();
 
       const collapseBtn = fixture.debugElement.query(By.css('button'));
@@ -112,32 +96,6 @@ describe('AsmRootComponent', () => {
       expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
         expanded: false,
       });
-    });
-
-    it('should have collapsed class on collapse', () => {
-      spyOn(asmService, 'getAsmUiState').and.returnValue(
-        of({ visible: true, expanded: false })
-      );
-
-      component.ngOnInit();
-      fixture.detectChanges();
-
-      const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui'));
-
-      expect(asmUi.nativeElement.classList).toContain('collapse');
-    });
-
-    it('should have no class name on expand', () => {
-      spyOn(asmService, 'getAsmUiState').and.returnValue(
-        of({ visible: true, expanded: true })
-      );
-
-      component.ngOnInit();
-      fixture.detectChanges();
-
-      const asmUi = fixture.debugElement.query(By.css('cx-asm-main-ui'));
-
-      expect(asmUi.nativeElement.classList).not.toContain('collapse');
     });
   });
 });

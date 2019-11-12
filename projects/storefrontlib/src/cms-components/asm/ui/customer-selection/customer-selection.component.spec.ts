@@ -17,7 +17,7 @@ import {
   User,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import * as testUtils from '../../../shared/utils/forms/form-test-utils';
+import * as testUtils from '../../../../shared/utils/forms/form-test-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
 class MockGlobalMessageService {

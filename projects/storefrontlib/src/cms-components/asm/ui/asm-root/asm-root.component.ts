@@ -7,9 +7,11 @@ import { Observable } from 'rxjs';
   templateUrl: './asm-root.component.html',
 })
 export class AsmRootComponent {
-  state$: Observable<AsmUi> = this.asmService.getAsmUiState();
+  constructor(public asmService: AsmService) {}
 
-  constructor(protected asmService: AsmService) {}
+  get state$(): Observable<AsmUi> {
+    return this.asmService.getAsmUiState();
+  }
 
   set collapse(expanded: boolean) {
     this.asmService.updateAsmUiState({ expanded });
