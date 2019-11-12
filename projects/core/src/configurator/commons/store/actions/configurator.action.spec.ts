@@ -4,6 +4,7 @@ import * as ConfiguratorActions from './configurator.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '15468-5464-9852-54682';
+const GROUP_ID = 'GROUP1';
 const PAYLOAD = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
@@ -41,7 +42,7 @@ describe('ConfiguratorActions', () => {
       it('Should create the action', () => {
         const error = 'anError';
         const action = new ConfiguratorActions.ReadConfigurationFail(
-          PRODUCT_CODE,
+          [PRODUCT_CODE, GROUP_ID],
           error
         );
         expect({ ...action }).toEqual({
