@@ -64,7 +64,7 @@ export class BudgetService {
     );
   }
 
-  getList(params?: BudgetSearchConfig) {
+  getList(params: BudgetSearchConfig) {
     return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<any>) => {
