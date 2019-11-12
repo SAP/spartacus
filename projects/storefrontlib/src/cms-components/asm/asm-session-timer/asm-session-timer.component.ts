@@ -22,7 +22,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.timeLeft = this.getTimerStartDelayInSeconds();
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
@@ -35,10 +35,10 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     }, 1000);
 
     this.resetOnNavigate();
-    this.resetOnCustomerEmulationStart();
+    this.resetOnCustomerSessionChange();
   }
 
-  private resetOnNavigate() {
+  private resetOnNavigate(): void {
     this.subscriptions.add(
       this.routingService.isNavigating().subscribe(isNavigating => {
         if (isNavigating) {
@@ -48,7 +48,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     );
   }
 
-  private resetOnCustomerEmulationStart() {
+  private resetOnCustomerSessionChange(): void {
     this.subscriptions.add(
       this.authService
         .getOccUserId()
@@ -57,7 +57,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     );
   }
 
-  resetTimer() {
+  resetTimer(): void {
     if (this.timeLeft > 0) {
       this.timeLeft = this.getTimerStartDelayInSeconds();
     }
