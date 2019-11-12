@@ -46,6 +46,8 @@ import {
 import { getWorkspace } from '../shared/utils/workspace-utils';
 import { CxCmsComponentSchema } from './schema';
 
+export const DELETE_ME = true;
+
 function buildComponentModule(options: CxCmsComponentSchema): string {
   const moduleName = options.module || '';
   return Boolean(options.declareCmsModule)
@@ -85,7 +87,9 @@ function updateModule(options: CxCmsComponentSchema): Rule {
       changes.push(insertImportChange);
     }
 
-    const componentName = `${strings.classify(options.name)}${options.type}`;
+    const componentName = `${strings.classify(options.name)}${strings.classify(
+      options.type
+    )}`;
     const insertModuleChanges = importModule(
       tree,
       modulePath,
@@ -98,6 +102,30 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     }),`
     );
     changes.push(...insertModuleChanges);
+
+    const componentImportSkipped = !Boolean(options.declareCmsModule);
+    if (componentImportSkipped) {
+      const componentFileName = `${strings.dasherize(
+        options.name
+      )}.${strings.dasherize(options.type)}.ts`;
+      const componentPath = getPathResultsForFile(
+        tree,
+        componentFileName,
+        '/src'
+      )[0];
+
+      const componentRelativeImportPath = buildRelativePath(
+        modulePath,
+        componentPath
+      );
+      const componentImport = addImportToModule(
+        moduleTs,
+        modulePath,
+        componentName,
+        componentRelativeImportPath
+      );
+      changes.push(...componentImport);
+    }
 
     commitChanges(tree, modulePath, changes, InsertDirection.RIGHT);
     context.logger.info(`Updated ${modulePath}`);
