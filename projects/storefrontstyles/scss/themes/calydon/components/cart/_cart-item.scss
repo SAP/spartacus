@@ -29,9 +29,10 @@
   }
 
   cx-media.is-missing {
-    @include media-breakpoint-down(sm) {
-      min-width: 100%;
-      background-size: 85px;
+    min-width: 100%;
+
+    &[format='thumbnail'] {
+      background-size: 100%;
     }
   }
 
