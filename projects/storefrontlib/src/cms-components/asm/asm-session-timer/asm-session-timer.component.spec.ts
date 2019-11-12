@@ -117,7 +117,7 @@ describe('AsmSessionTimerComponent', () => {
   }));
 
   it('should reset the time left when user navigates on a new page.', () => {
-    spyOn<any>(component, 'resetOnCustomerEmulationStart').and.stub();
+    spyOn<any>(component, 'resetOnCustomerSessionChange').and.stub();
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(routingService, 'isNavigating').and.returnValue(of(true));
     component.ngOnInit();
@@ -125,7 +125,7 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should not reset the time left when user is not navigating to a new page', () => {
-    spyOn<any>(component, 'resetOnCustomerEmulationStart').and.stub();
+    spyOn<any>(component, 'resetOnCustomerSessionChange').and.stub();
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
     component.ngOnInit();
