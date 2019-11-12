@@ -155,7 +155,7 @@ export function removeAllItemsFromCart() {
   cy.server();
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
+    `${apiUrl}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 
   getCartItem(product0.name).within(() => {
@@ -263,7 +263,7 @@ export function manipulateCartQuantity() {
   cy.server();
   cy.route(
     'GET',
-    `/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
+    `/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 
   addToCart();
