@@ -5,11 +5,45 @@
     }
   }
 
+  .cx-name {
+    display: inline;
+    @include media-breakpoint-up(xl) {
+      min-width: 15rem;
+    }
+  }
+
+  .cx-value {
+    @include media-breakpoint-only(lg) {
+      padding-left: 1em;
+    }
+  }
+
+  .cx-price {
+    @include media-breakpoint-only(xl) {
+      padding-left: 0px;
+    }
+  }
+
+  .cx-image-container {
+    padding: 0;
+  }
+
   cx-media.is-missing {
     min-width: 100%;
 
     &[format='thumbnail'] {
       background-size: 100%;
     }
+  }
+
+  .cx-price,
+  .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 10px;
+    }
+  }
+
+  .cx-total {
+    margin-bottom: 0;
   }
 }
