@@ -31,10 +31,10 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION,
           payload: PAYLOAD,
-          meta: StateEntityLoaderActions.entityLoadMeta(CONFIGURATION_DATA, [
-            PAYLOAD.productCode,
-            PAYLOAD.groupId,
-          ]),
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            CONFIGURATION_DATA,
+            PAYLOAD.productCode
+          ),
         });
       });
     });
@@ -43,7 +43,7 @@ describe('ConfiguratorActions', () => {
       it('Should create the action', () => {
         const error = 'anError';
         const action = new ConfiguratorActions.ReadConfigurationFail(
-          [PRODUCT_CODE, GROUP_ID],
+          PRODUCT_CODE,
           error
         );
         expect({ ...action }).toEqual({
@@ -51,7 +51,7 @@ describe('ConfiguratorActions', () => {
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
             CONFIGURATION_DATA,
-            [PRODUCT_CODE, GROUP_ID],
+            PRODUCT_CODE,
             error
           ),
         });

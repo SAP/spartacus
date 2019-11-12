@@ -46,14 +46,14 @@ export class CreateConfigurationSuccess extends StateEntityLoaderActions.EntityS
 export class ReadConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = READ_CONFIGURATION;
   constructor(public payload: any) {
-    super(CONFIGURATION_DATA, [payload.productCode, payload.groupId]);
+    super(CONFIGURATION_DATA, payload.productCode);
   }
 }
 
 export class ReadConfigurationFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = READ_CONFIGURATION_FAIL;
-  constructor(key: string[], public payload: any) {
-    super(CONFIGURATION_DATA, key, payload);
+  constructor(productCode: string, public payload: any) {
+    super(CONFIGURATION_DATA, productCode, payload);
   }
 }
 

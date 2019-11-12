@@ -78,7 +78,7 @@ export class ConfiguratorEffects {
           }),
           catchError(error => [
             new ReadConfigurationFail(
-              [payload.productCode, payload.groupId],
+              payload.productCode,
               makeErrorSerializable(error)
             ),
           ])
