@@ -13,6 +13,7 @@ import { OutletService } from './outlet.service';
 const OUTLET_NAME_1 = 'OUTLET.1';
 const OUTLET_NAME_2 = 'OUTLET.2';
 const OUTLET_NAME_3 = 'OUTLET.3';
+const OUTLET_NAME_4 = 'OUTLET.4';
 
 @Component({
   template: `
@@ -20,6 +21,10 @@ const OUTLET_NAME_3 = 'OUTLET.3';
     <ng-template cxOutletRef="${OUTLET_NAME_2}" cxOutletPos="before">
     </ng-template>
     <ng-template cxOutletRef="${OUTLET_NAME_3}" cxOutletPos="after">
+    </ng-template>
+    <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
+    </ng-template>
+    <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
     </ng-template>
   `,
 })
@@ -194,6 +199,31 @@ describe('OutletService', () => {
           outletService.get(OUTLET_NAME_2, OutletPosition.AFTER)
         ).toBeFalsy();
       });
+    });
+  });
+
+  describe('singular vs plural', () => {
+    let fixture: ComponentFixture<TestContainerComponent>;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(TestContainerComponent);
+      fixture.detectChanges();
+    });
+
+    it('should return a singular object for existing API usage', () => {
+      expect(
+        outletService.get(OUTLET_NAME_4, OutletPosition.BEFORE) instanceof Array
+      ).toBeFalsy();
+    });
+
+    it('should return an array', () => {
+      expect(
+        outletService.get(
+          OUTLET_NAME_4,
+          OutletPosition.BEFORE,
+          false
+        ) instanceof Array
+      ).toBeTruthy();
     });
   });
 });

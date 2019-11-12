@@ -4,19 +4,10 @@ import { OutletPosition } from './outlet.model';
 @Injectable({
   providedIn: 'root',
 })
-export class OutletService {
-  private templatesRefs = new Map<
-    string,
-    TemplateRef<any> | ComponentFactory<any>
-  >();
-  private templatesRefsBefore = new Map<
-    string,
-    TemplateRef<any> | ComponentFactory<any>
-  >();
-  private templatesRefsAfter = new Map<
-    string,
-    TemplateRef<any> | ComponentFactory<any>
-  >();
+export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
+  private templatesRefs = new Map<string, (T)[]>();
+  private templatesRefsBefore = new Map<string, (T)[]>();
+  private templatesRefsAfter = new Map<string, (T)[]>();
 
   /**
    * Adds a template or ComponentFactory, so that UI outlets can be replaced dynamically.
@@ -28,18 +19,14 @@ export class OutletService {
    * @param template the `TemplateRef` that will be used to insert UI
    * @param position the `OutletPosition` in the UI
    */
-  add(
-    outlet: string,
-    template: TemplateRef<any>,
-    position?: OutletPosition
-  ): void;
+  add(outlet: string, template: T, position?: OutletPosition): void;
   /**
    * @param factory The `ComponentFactory` that will be dynamically added to the outlet UI
    */
   add(
     outlet: string,
     // tslint:disable-next-line: unified-signatures
-    factory: ComponentFactory<any>,
+    factory: T,
     position?: OutletPosition
   ): void;
   /**
@@ -47,24 +34,25 @@ export class OutletService {
    */
   add(
     outlet: string,
-    templateOrFactory: TemplateRef<any> | ComponentFactory<any>,
+    templateOrFactory: T,
     position: OutletPosition = OutletPosition.REPLACE
   ): void {
     if (position === OutletPosition.BEFORE) {
-      this.templatesRefsBefore.set(outlet, templateOrFactory);
+      this.store(this.templatesRefsBefore, outlet, templateOrFactory);
     }
     if (position === OutletPosition.REPLACE) {
-      this.templatesRefs.set(outlet, templateOrFactory);
+      this.store(this.templatesRefs, outlet, templateOrFactory);
     }
     if (position === OutletPosition.AFTER) {
-      this.templatesRefsAfter.set(outlet, templateOrFactory);
+      this.store(this.templatesRefsAfter, outlet, templateOrFactory);
     }
   }
 
   get(
     outlet: string,
-    position: OutletPosition = OutletPosition.REPLACE
-  ): TemplateRef<any> | ComponentFactory<any> {
+    position: OutletPosition = OutletPosition.REPLACE,
+    singular = true
+  ): T[] | T {
     let templateRef;
     switch (position) {
       case OutletPosition.BEFORE:
@@ -76,6 +64,15 @@ export class OutletService {
       default:
         templateRef = this.templatesRefs.get(outlet);
     }
+    if (templateRef && singular) {
+      return templateRef[0];
+    }
     return templateRef;
+  }
+
+  private store(store: Map<string, (T)[]>, outlet, value: T) {
+    const existing = store.get(outlet) || [];
+    const newValue: T[] = existing.concat([value]);
+    store.set(outlet, newValue);
   }
 }
