@@ -267,23 +267,13 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
     }
 
     if (Boolean(templateContent)) {
-      const insertion =
-        `  <ng-container *ngIf="${CMS_COMPONENT_DATA_PROPERTY_NAME}$ | async as data">` +
-        `\n      {{data | json}}` +
-        `\n    </ng-container>`;
-
-      const templateChange = new InsertChange(
+      const insertion = new InsertChange(
         templatePath,
         startIndex,
-        insertion
+        `<ng-container *ngIf="componentData$ | async as data">{{data | json}}</ng-container>`
       );
 
-      commitChanges(
-        tree,
-        templatePath,
-        [templateChange],
-        InsertDirection.RIGHT
-      );
+      commitChanges(tree, templatePath, [insertion], InsertDirection.RIGHT);
     }
   };
 }
