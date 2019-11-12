@@ -13,7 +13,7 @@ export class OrderDetailsService {
   orderCode$: Observable<string>;
   orderLoad$: Observable<{}>;
 
-  _cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[];
+  private _cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[];
 
   constructor(
     private userOrderService: UserOrderService,
@@ -41,11 +41,11 @@ export class OrderDetailsService {
     );
   }
 
-  get CancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
+  get cancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
     return this._cancellationReturnRequestInputs;
   }
 
-  set CancellationReturnRequestInputs(
+  set cancellationReturnRequestInputs(
     values: CancellationReturnRequestEntryInput[]
   ) {
     this._cancellationReturnRequestInputs = values;

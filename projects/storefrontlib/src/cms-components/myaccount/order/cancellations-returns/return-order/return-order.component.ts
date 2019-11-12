@@ -27,7 +27,7 @@ export class ReturnOrderComponent implements OnInit {
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails().pipe(
-      filter(order => !!order.entries),
+      filter(order => Boolean(order.entries)),
       tap(order => {
         this.orderCode = order.code;
         this.returnableEntries = [];
@@ -41,7 +41,7 @@ export class ReturnOrderComponent implements OnInit {
   }
 
   confirmReturn(entryInputs: CancellationReturnRequestEntryInput[]) {
-    this.orderDetailsService.CancellationReturnRequestInputs = entryInputs;
+    this.orderDetailsService.cancellationReturnRequestInputs = entryInputs;
     this.routing.go({
       cxRoute: 'orderReturnConfirmation',
       params: { code: this.orderCode },

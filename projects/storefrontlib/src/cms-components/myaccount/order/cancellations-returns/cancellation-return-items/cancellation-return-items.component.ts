@@ -72,7 +72,7 @@ export class CancellationReturnItemsComponent implements OnInit {
   }
 
   onBlur(value: string, index: number): void {
-    if (this.entries[index].returnableQuantity < +value) {
+    if (this.entries[index].returnableQuantity < Number(value)) {
       this.inputsControl.at(index).setValue({
         orderEntryNumber: this.entries[index].entryNumber,
         quantity: this.entries[index].returnableQuantity,

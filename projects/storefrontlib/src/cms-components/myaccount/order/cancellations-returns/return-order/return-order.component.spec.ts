@@ -44,18 +44,18 @@ class MockOrderDetailsService {
     return of(mockOrder);
   }
 
-  get CancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
+  get cancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
     return this._cancellationReturnRequestInputs;
   }
 
-  set CancellationReturnRequestInputs(
+  set cancellationReturnRequestInputs(
     values: CancellationReturnRequestEntryInput[]
   ) {
     this._cancellationReturnRequestInputs = values;
   }
 }
 
-describe('OrderDetailItemsComponent', () => {
+describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
   let orderService: MockOrderDetailsService;
@@ -114,7 +114,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     component.confirmReturn(entryInputs);
 
-    expect(orderService.CancellationReturnRequestInputs).toEqual(entryInputs);
+    expect(orderService.cancellationReturnRequestInputs).toEqual(entryInputs);
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderReturnConfirmation',
       params: { code: '1' },

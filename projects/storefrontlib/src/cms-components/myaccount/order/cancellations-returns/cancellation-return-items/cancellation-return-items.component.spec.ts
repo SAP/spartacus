@@ -24,7 +24,7 @@ class MockMediaComponent {
   @Input() format;
 }
 
-describe('OrderDetailItemsComponent', () => {
+describe('CancellationReturnItemsComponent', () => {
   let component: CancellationReturnItemsComponent;
   let fixture: ComponentFixture<CancellationReturnItemsComponent>;
   let el: DebugElement;
