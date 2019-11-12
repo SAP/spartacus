@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, shareReplay, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import { StateWithConfiguration } from '../store/configuration-state';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
@@ -52,21 +52,21 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService
           .getConfiguration(productCode)
           .pipe(
-            mergeMap(configuration => {
-              let nextGroup = of(null);
+            map(configuration => {
+              let nextGroup = null;
               configuration.groups.forEach((group, index) => {
                 if (
                   group.id === currentGroupId &&
                   configuration.groups[index + 1] //Check if next group exists
                 ) {
-                  nextGroup = of(configuration.groups[index + 1].id);
+                  nextGroup = configuration.groups[index + 1].id;
                 }
               });
               return nextGroup;
-            })
+            }),
+            take(1)
           );
-      }),
-      shareReplay({ bufferSize: 1, refCount: true })
+      })
     );
   }
 
@@ -80,21 +80,21 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService
           .getConfiguration(productCode)
           .pipe(
-            mergeMap(configuration => {
-              let nextGroup = of(null);
+            map(configuration => {
+              let nextGroup = null;
               configuration.groups.forEach((group, index) => {
                 if (
                   group.id === currentGroupId &&
                   configuration.groups[index - 1] //Check if previous group exists
                 ) {
-                  nextGroup = of(configuration.groups[index - 1].id);
+                  nextGroup = configuration.groups[index - 1].id;
                 }
               });
               return nextGroup;
-            })
+            }),
+            take(1)
           );
-      }),
-      shareReplay({ bufferSize: 1, refCount: true })
+      })
     );
   }
 }
