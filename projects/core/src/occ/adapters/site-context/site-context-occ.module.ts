@@ -16,11 +16,11 @@ import { SiteContextInterceptor } from './site-context.interceptor';
   providers: [
     {
       provide: SiteAdapter,
-      useClass: OccSiteAdapter,
+      useExisting: OccSiteAdapter,
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: SiteContextInterceptor,
+      useExisting: SiteContextInterceptor,
       multi: true,
     },
   ],

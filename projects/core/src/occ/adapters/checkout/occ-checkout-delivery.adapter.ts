@@ -14,7 +14,7 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
   constructor(
     protected http: HttpClient,

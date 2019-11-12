@@ -20,7 +20,7 @@ export class I18nModule {
       providers: [
         provideConfig(defaultI18nConfig),
         { provide: I18nConfig, useExisting: Config },
-        { provide: TranslationService, useClass: I18nextTranslationService },
+        { provide: TranslationService, useExisting: I18nextTranslationService },
         TranslationChunkService,
         ...i18nextProviders,
       ],

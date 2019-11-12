@@ -12,7 +12,7 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
   constructor(
     protected http: HttpClient,

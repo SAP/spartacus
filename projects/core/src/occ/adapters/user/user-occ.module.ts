@@ -23,18 +23,30 @@ import { OccUserAdapter } from './occ-user.adapter';
     ConfigModule.withConfig(defaultOccUserConfig),
   ],
   providers: [
-    { provide: UserAdapter, useClass: OccUserAdapter },
-    { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },
-    { provide: UserConsentAdapter, useClass: OccUserConsentAdapter },
+    {
+      provide: UserAdapter,
+      useExisting: OccUserAdapter,
+    },
+    {
+      provide: UserAddressAdapter,
+      useExisting: OccUserAddressAdapter,
+    },
+    {
+      provide: UserConsentAdapter,
+      useExisting: OccUserConsentAdapter,
+    },
     {
       provide: AnonymousConsentTemplatesAdapter,
-      useClass: OccAnonymousConsentTemplatesAdapter,
+      useExisting: OccAnonymousConsentTemplatesAdapter,
     },
     {
       provide: UserPaymentAdapter,
-      useClass: OccUserPaymentAdapter,
+      useExisting: OccUserPaymentAdapter,
     },
-    { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
+    {
+      provide: UserOrderAdapter,
+      useExisting: OccUserOrderAdapter,
+    },
   ],
 })
 export class UserOccModule {}

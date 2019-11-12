@@ -14,7 +14,7 @@ import { OccAsmAdapter } from './occ-asm.adapter';
   providers: [
     {
       provide: AsmAdapter,
-      useClass: OccAsmAdapter,
+      useExisting: OccAsmAdapter,
     },
   ],
 })

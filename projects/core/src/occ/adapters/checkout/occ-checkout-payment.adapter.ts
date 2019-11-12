@@ -16,7 +16,7 @@ import { CustomEncoder } from '../cart/custom.encoder';
 
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   constructor(
     protected http: HttpClient,

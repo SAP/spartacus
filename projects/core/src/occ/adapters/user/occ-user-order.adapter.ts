@@ -19,7 +19,7 @@ import {
 } from '../../utils/interceptor-util';
 import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccUserOrderAdapter implements UserOrderAdapter {
   constructor(
     protected http: HttpClient,

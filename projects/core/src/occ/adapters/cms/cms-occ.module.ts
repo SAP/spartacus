@@ -13,16 +13,16 @@ import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-compo
   providers: [
     {
       provide: CmsPageAdapter,
-      useClass: OccCmsPageAdapter,
+      useExisting: OccCmsPageAdapter,
     },
     {
       provide: CMS_PAGE_NORMALIZER,
-      useClass: OccCmsPageNormalizer,
+      useExisting: OccCmsPageNormalizer,
       multi: true,
     },
     {
       provide: CmsComponentAdapter,
-      useClass: OccCmsComponentAdapter,
+      useExisting: OccCmsComponentAdapter,
     },
   ],
 })

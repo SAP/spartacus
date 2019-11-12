@@ -9,7 +9,7 @@ import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccCmsPageAdapter implements CmsPageAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 

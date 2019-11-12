@@ -18,7 +18,7 @@ import {
 } from '../../utils/interceptor-util';
 import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccUserAddressAdapter implements UserAddressAdapter {
   constructor(
     protected http: HttpClient,

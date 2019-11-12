@@ -28,39 +28,39 @@ import { defaultOccProductConfig } from './default-occ-product-config';
   providers: [
     {
       provide: ProductAdapter,
-      useClass: OccProductAdapter,
+      useExisting: OccProductAdapter,
     },
     {
       provide: PRODUCT_NORMALIZER,
-      useClass: ProductImageNormalizer,
+      useExisting: ProductImageNormalizer,
       multi: true,
     },
     {
       provide: PRODUCT_NORMALIZER,
-      useClass: ProductNameNormalizer,
+      useExisting: ProductNameNormalizer,
       multi: true,
     },
     {
       provide: ProductReferencesAdapter,
-      useClass: OccProductReferencesAdapter,
+      useExisting: OccProductReferencesAdapter,
     },
     {
       provide: PRODUCT_REFERENCES_NORMALIZER,
-      useClass: OccProductReferencesListNormalizer,
+      useExisting: OccProductReferencesListNormalizer,
       multi: true,
     },
     {
       provide: ProductSearchAdapter,
-      useClass: OccProductSearchAdapter,
+      useExisting: OccProductSearchAdapter,
     },
     {
       provide: PRODUCT_SEARCH_PAGE_NORMALIZER,
-      useClass: OccProductSearchPageNormalizer,
+      useExisting: OccProductSearchPageNormalizer,
       multi: true,
     },
     {
       provide: ProductReviewsAdapter,
-      useClass: OccProductReviewsAdapter,
+      useExisting: OccProductReviewsAdapter,
     },
   ],
 })

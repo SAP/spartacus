@@ -23,7 +23,7 @@ const DETAILS_PARAMS =
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
   'appliedVouchers,productDiscounts(formattedValue),user';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccCartAdapter implements CartAdapter {
   constructor(
     protected http: HttpClient,

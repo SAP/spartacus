@@ -17,7 +17,7 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccUserAdapter implements UserAdapter {
   constructor(
     protected http: HttpClient,

@@ -7,7 +7,7 @@ import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { Product } from '../../../model/product.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccProductAdapter implements ProductAdapter {
   constructor(
     protected http: HttpClient,

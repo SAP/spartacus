@@ -7,7 +7,7 @@ import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
 import { ProductReferencesAdapter } from '../../../product/connectors/references/product-references.adapter';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccProductReferencesAdapter implements ProductReferencesAdapter {
   constructor(
     protected http: HttpClient,

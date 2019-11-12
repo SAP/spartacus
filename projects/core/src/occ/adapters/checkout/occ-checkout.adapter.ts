@@ -20,7 +20,7 @@ const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 const ORDERS_ENDPOINT = '/orders';
 const CARTS_ENDPOINT = '/carts/';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccCheckoutAdapter implements CheckoutAdapter {
   constructor(
     protected http: HttpClient,

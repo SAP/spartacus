@@ -11,7 +11,7 @@ import {
 } from '../../../product/connectors/reviews/converters';
 import { ProductReviewsAdapter } from '../../../product/connectors/reviews/product-reviews.adapter';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   constructor(
     protected http: HttpClient,

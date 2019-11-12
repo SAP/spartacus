@@ -19,7 +19,7 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,
 };
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
     protected http: HttpClient,

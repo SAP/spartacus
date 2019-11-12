@@ -6,6 +6,11 @@ import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 
 @NgModule({
   imports: [ConfigModule.withConfig(defaultOccStoreFinderConfig)],
-  providers: [{ provide: StoreFinderAdapter, useClass: OccStoreFinderAdapter }],
+  providers: [
+    {
+      provide: StoreFinderAdapter,
+      useExisting: OccStoreFinderAdapter,
+    },
+  ],
 })
 export class StoreFinderOccModule {}

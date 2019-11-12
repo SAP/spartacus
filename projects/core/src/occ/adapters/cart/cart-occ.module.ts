@@ -21,20 +21,20 @@ import { OccCartAdapter } from './occ-cart.adapter';
   providers: [
     {
       provide: CartAdapter,
-      useClass: OccCartAdapter,
+      useExisting: OccCartAdapter,
     },
     {
       provide: CART_NORMALIZER,
-      useClass: OccCartNormalizer,
+      useExisting: OccCartNormalizer,
       multi: true,
     },
     {
       provide: CartEntryAdapter,
-      useClass: OccCartEntryAdapter,
+      useExisting: OccCartEntryAdapter,
     },
     {
       provide: CartVoucherAdapter,
-      useClass: OccCartVoucherAdapter,
+      useExisting: OccCartVoucherAdapter,
     },
   ],
 })
