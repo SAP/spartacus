@@ -6,7 +6,6 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import { Budget } from '../../../model/budget.model';
-import { BudgetsList } from '../organization-state';
 
 @Injectable()
 export class BudgetEffects {
@@ -19,7 +18,7 @@ export class BudgetEffects {
     switchMap(({ userId, budgetCode }) => {
       return this.budgetConnector.get(userId, budgetCode).pipe(
         map((budget: Budget) => {
-          return new BudgetActions.LoadBudgetSuccess({ budgets: [budget] });
+          return new BudgetActions.LoadBudgetSuccess([budget]);
         }),
         catchError(error =>
           of(
@@ -43,12 +42,20 @@ export class BudgetEffects {
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(payload =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
-        switchMap((budgets: BudgetsList) => [
-          new BudgetActions.LoadBudgetSuccess(budgets),
-          new BudgetActions.LoadBudgetsSuccess(),
+        switchMap((budgets: any) => [
+          new BudgetActions.LoadBudgetSuccess(budgets.budgets),
+          new BudgetActions.LoadBudgetsSuccess({
+            budgets,
+            params: payload.params,
+          }),
         ]),
         catchError(error =>
-          of(new BudgetActions.LoadBudgetsFail(makeErrorSerializable(error)))
+          of(
+            new BudgetActions.LoadBudgetsFail({
+              params: payload.params,
+              error: makeErrorSerializable(error),
+            })
+          )
         )
       )
     )

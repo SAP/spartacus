@@ -9,8 +9,21 @@ export function budgetsEntitiesReducer(
   action: LoaderAction
 ): Budget {
   switch (action.type) {
-    case BudgetActions.LOAD_BUDGET_SUCCESS:
-      return action.payload.budgets;
+  }
+  return state;
+}
+
+export function budgetsListReducer(
+  state = budgetsInitialState,
+  action: LoaderAction
+): any {
+  switch (action.type) {
+    case BudgetActions.LOAD_BUDGETS_SUCCESS:
+      return {
+        budgets: action.payload.budgets.budgets.map(budget => budget.code),
+        pagination: action.payload.budgets.pagination,
+        sorts: action.payload.budgets.sorts,
+      };
   }
   return state;
 }
