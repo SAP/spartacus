@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
-} from 'projects/core/src/global-message/index';
+} from '../../../global-message/index';
 import { AuthService } from '../../facade/auth.service';
 import { CustomerSupportAgentErrorHandlingService } from './csagent-error-handling.service';
 
