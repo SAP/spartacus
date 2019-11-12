@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { queueScheduler } from 'rxjs';
-import { filter, map, observeOn, switchMap, take, tap } from 'rxjs/operators';
-
-import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
+import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Budget } from '../../model/budget.model';
 import {
-  LOAD_BUDGETS_PROCESS_ID,
   StateWithOrganization,
 } from '../store/organization-state';
 import { BudgetActions } from '../store/actions/index';
 import {
-  getBudgetsState,
   getBudgetState,
+  getBudgetList,
 } from '../store/selectors/budget.selector';
 import { BudgetSearchConfig } from '../model/search-config';
 
@@ -46,16 +43,12 @@ export class BudgetService {
       );
   }
 
-  private getBudgetsProcess() {
-    return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
-  }
-
   private getBudgetState(budgetCode: string) {
     return this.store.select(getBudgetState(budgetCode));
   }
 
-  private getBudgets() {
-    return this.store.select(getBudgetsState);
+  private getBudgetList(params) {
+    return this.store.select(getBudgetList(params));
   }
 
   get(budgetCode: string) {
@@ -72,15 +65,15 @@ export class BudgetService {
   }
 
   getList(params?: BudgetSearchConfig) {
-    return this.getBudgetsProcess().pipe(
+    return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<void>) => {
+      tap((process: LoaderState<any>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadBudgets(params);
         }
       }),
       filter((process: LoaderState<void>) => process.success || process.error),
-      switchMap(() => this.getBudgets())
+      map(result => result.value)
     );
   }
 
