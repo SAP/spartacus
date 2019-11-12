@@ -34,23 +34,30 @@ describe('ProfileTagInjector', () => {
   let baseSiteService;
   let appendChildSpy;
   let createElementSpy;
-  let getElementsByTagNameSpy;
   let getConsentsBehavior;
+  let getConsentBehavior;
   let isConsentGivenValue;
   let routerEventsBehavior;
   let router;
+  let renderer2Mock;
   let anonymousConsentsService;
   let mockedWindowRef;
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
     getConsentsBehavior = new BehaviorSubject<Object>([1]);
+    getConsentBehavior = new BehaviorSubject<Object>([{}]);
     isConsentGivenValue = false;
     appendChildSpy = jasmine.createSpy('appendChildSpy');
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
+    renderer2Mock = {
+      appendChild: () => ({}),
+      createElement: () => ({}),
+    };
     anonymousConsentsService = {
       getConsents: () => getConsentsBehavior,
+      getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
     };
     router = {
@@ -62,28 +69,13 @@ describe('ProfileTagInjector', () => {
           push: jasmine.createSpy('push'),
         },
       },
-      document: {
-        createElement: () => ({}),
-        getElementsByTagName: () => {
-          return [
-            {
-              appendChild: appendChildSpy,
-            },
-          ];
-        },
-      },
+      document: {},
     };
     baseSiteService = {
       getActive: () => getActiveBehavior,
     };
-    createElementSpy = spyOn(
-      mockedWindowRef.document,
-      'createElement'
-    ).and.callThrough();
-    getElementsByTagNameSpy = spyOn(
-      mockedWindowRef.document,
-      'getElementsByTagName'
-    ).and.callThrough();
+    createElementSpy = spyOn(renderer2Mock, 'createElement').and.callThrough();
+    appendChildSpy = spyOn(renderer2Mock, 'appendChild');
   }
   beforeEach(() => {
     setVariables();
@@ -110,10 +102,10 @@ describe('ProfileTagInjector', () => {
   });
 
   it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
+    profileTagInjector.addScript(renderer2Mock);
     const profileTagLoaded$ = profileTagInjector.injectScript();
     profileTagLoaded$.subscribe().unsubscribe();
 
-    expect(getElementsByTagNameSpy).toHaveBeenCalled();
     expect(createElementSpy).toHaveBeenCalled();
     expect(appendChildSpy).toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
@@ -142,7 +134,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
-    getConsentsBehavior.next([1, 2, 3]);
+    getConsentBehavior.next({ consent: 'test' });
     subscription.unsubscribe();
 
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
@@ -174,15 +166,15 @@ describe('ProfileTagInjector', () => {
       eventName: 'Loaded',
     });
     isConsentGivenValue = true;
-    getConsentsBehavior.next([1, 2, 3]);
-    getConsentsBehavior.next([1, 2, 3]);
-    getConsentsBehavior.next([1, 2, 3]);
+    getConsentBehavior.next({ consent: 'test' });
+    getConsentBehavior.next({ consent: 'test' });
+    getConsentBehavior.next({ consent: 'test' });
     isConsentGivenValue = false;
-    getConsentsBehavior.next([1, 2, 3]);
-    getConsentsBehavior.next([3, 2, 3]);
-    getConsentsBehavior.next([3, 2, 3]);
+    getConsentBehavior.next({ consent: 'test' });
+    getConsentBehavior.next({ consent: 'test' });
+    getConsentBehavior.next({ consent: 'test' });
     isConsentGivenValue = true;
-    getConsentsBehavior.next([1, 2, 3]);
+    getConsentBehavior.next({ consent: 'test' });
     subscription.unsubscribe();
 
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(1);
@@ -201,11 +193,11 @@ describe('ProfileTagInjector', () => {
       eventName: 'Loaded',
     });
     isConsentGivenValue = true;
-    getConsentsBehavior.next([1, 2, 3]);
+    getConsentBehavior.next({ consent: 'test' });
     isConsentGivenValue = false;
-    getConsentsBehavior.next([1, 2, 3]);
+    getConsentBehavior.next({ consent: 'test' });
     isConsentGivenValue = true;
-    getConsentsBehavior.next([1, 2, 3]);
+    getConsentBehavior.next({ consent: 'test' });
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test2'));

@@ -8,6 +8,9 @@ class MockProfileTagInjector {
     const consentsGranted = [true, true];
     return of(consentsGranted);
   }
+  addScript(): void {
+    return undefined;
+  }
 }
 
 describe('ProfileTagComponent', () => {
