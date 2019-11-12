@@ -1,4 +1,5 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, Renderer2 } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
 import {
   AnonymousConsent,
@@ -28,7 +29,8 @@ export class ProfileTagInjector {
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
-    private anonymousConsentsService: AnonymousConsentsService
+    private anonymousConsentsService: AnonymousConsentsService,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.w = <ProfileTagWindowObject>(
       (<unknown>(this.winRef ? this.winRef.nativeWindow : undefined))
@@ -40,12 +42,19 @@ export class ProfileTagInjector {
   }
 
   injectScript(): Observable<AnonymousConsent | NgRouterEvent> {
+    if (!this.windowAvailable()) {
+      return;
+    }
     return this.addTracker().pipe(
       filter(profileTagEvent => profileTagEvent.eventName === 'Loaded'),
       switchMap(() => {
         return this.tracking$;
       })
     );
+  }
+
+  private windowAvailable() {
+    return this.w;
   }
 
   private pageLoaded(): Observable<NgRouterEvent> {
@@ -112,12 +121,11 @@ export class ProfileTagInjector {
     if (this.profileTagScript) {
       return;
     }
-    const doc: Document = this.winRef.document;
     this.profileTagScript = renderer2.createElement('script');
     this.profileTagScript.type = 'text/javascript';
     this.profileTagScript.async = true;
     this.profileTagScript.src = this.config.cds.profileTag.javascriptUrl;
-    renderer2.appendChild(doc.head, this.profileTagScript);
+    renderer2.appendChild(this.document.head, this.profileTagScript);
   }
 
   private track(options: ProfileTagJsConfig): void {
