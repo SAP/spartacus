@@ -4,7 +4,8 @@
   </span>
 </nav>
 <h1>{{ title$ | async }}</h1>
-<button (click)="loadAndGetBudgets()">loadAndGetBudgets</button>
-<button (click)="loadAndGetBudget('Monthly 50K USD')">loadAndGetBudget</button>
+<!--<button (click)="loadAndGetBudgets()">loadAndGetBudgets</button>-->
+<!--<button (click)="loadAndGetBudget('Monthly 50K USD')">loadAndGetBudget</button>-->
 <button (click)="createBudget()">createBudget</button>
 <button (click)="updateBudget()">updateBudget</button>
+<cx-budgets-list></cx-budgets-list>

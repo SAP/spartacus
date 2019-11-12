@@ -1,29 +1,31 @@
-<ng-container *ngIf="budgets$ | async as budgets">
+<ng-container *ngIf="budgetsList$ | async as budgetsList">
   <div class="container">
     <!-- HEADER -->
     <div class="cx-budget-header">
-      <h3>{{ 'budgets.budgetManagement' | cxTranslate }}</h3>
+      <h3>{{ 'budgetsList.budgetManagement' | cxTranslate }}</h3>
     </div>
 
-    <!-- BODY -->
+    BODY
     <div class="cx-budget-body">
-      <ng-container *ngIf="budgets.pagination.totalResults > 0; else noOrder">
+      <ng-container
+        *ngIf="budgetsList.pagination.totalResults > 0; else noOrder"
+      >
         <!-- Select Form and Pagination Top -->
         <div class="cx-budget-sort top row">
           <div
             class="cx-budget-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
             <cx-sorting
-              [sortOptions]="budgets.sorts"
+              [sortOptions]="budgetsList.sorts"
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
-              [selectedOption]="budgets.pagination.sort"
-              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"
+              [selectedOption]="budgetsList.pagination.sort"
+              placeholder="{{ 'budgetsList.sortByMostRecent' | cxTranslate }}"
             ></cx-sorting>
           </div>
           <div class="cx-budget-pagination">
             <cx-pagination
-              [pagination]="budgets.pagination"
+              [pagination]="budgetsList.pagination"
               (viewPageEvent)="pageChange($event)"
             ></cx-pagination>
           </div>
@@ -32,26 +34,26 @@
         <table class="table cx-budget-table">
           <thead class="cx-budget-thead-mobile">
             <th scope="col">
-              {{ 'budgets.budgetId' | cxTranslate }}
+              {{ 'budgetsList.budgetId' | cxTranslate }}
             </th>
-            <th scope="col">{{ 'budgets.name' | cxTranslate }}</th>
-            <th scope="col">{{ 'budgets.amount' | cxTranslate }}</th>
-            <th scope="col">{{ 'budgets.startEndDate' | cxTranslate }}</th>
+            <th scope="col">{{ 'budgetsList.name' | cxTranslate }}</th>
+            <th scope="col">{{ 'budgetsList.amount' | cxTranslate }}</th>
+            <th scope="col">{{ 'budgetsList.startEndDate' | cxTranslate }}</th>
             <th scope="col">
-              {{ 'budgets.costCenter' | cxTranslate }}
+              {{ 'budgetsList.costCenter' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'budgets.parentUnit' | cxTranslate }}
+              {{ 'budgetsList.parentUnit' | cxTranslate }}
             </th>
           </thead>
           <tbody>
             <tr
-              *ngFor="let budget of budgets.budgets"
+              *ngFor="let budget of budgetsList.budgets"
               (click)="goToBudgetDetail(budget)"
             >
               <td class="cx-budget-code">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.code' | cxTranslate }}
+                  {{ 'budgetsList.code' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -67,7 +69,7 @@
               </td>
               <td class="cx-budget-placed">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.name' | cxTranslate }}
+                  {{ 'budgetsList.name' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -82,7 +84,7 @@
               </td>
               <td class="cx-budget-total">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.amount' | cxTranslate }}
+                  {{ 'budgetsList.amount' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -98,7 +100,7 @@
               </td>
               <td class="cx-budget-total">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.startEndDate' | cxTranslate }}
+                  {{ 'budgetsList.startEndDate' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -114,7 +116,7 @@
               </td>
               <td class="cx-budget-code">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.costCenter' | cxTranslate }}
+                  {{ 'budgetsList.costCenter' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -130,7 +132,7 @@
               </td>
               <td class="cx-budget-status">
                 <div class="d-md-none cx-budget-label">
-                  {{ 'budgets.parentUnit' | cxTranslate }}
+                  {{ 'budgetsList.parentUnit' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -152,19 +154,19 @@
           <div
             class="cx-budget-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
-            <!--            <cx-sorting-->
-            <!--              [sortOptions]="budgets.sorts"-->
-            <!--              [sortLabels]="getSortLabels() | async"-->
-            <!--              (sortListEvent)="changeSortCode($event)"-->
-            <!--              [selectedOption]="budgets.pagination.sort"-->
-            <!--              placeholder="{{ 'budgets.sortByMostRecent' | cxTranslate }}"-->
-            <!--            ></cx-sorting>-->
+            <cx-sorting
+              [sortOptions]="budgetsList.sorts"
+              [sortLabels]="getSortLabels() | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="budgetsList.pagination.sort"
+              placeholder="{{ 'budgetsList.sortByMostRecent' | cxTranslate }}"
+            ></cx-sorting>
           </div>
           <div class="cx-budget-pagination">
-            <!--            <cx-pagination-->
-            <!--              [pagination]="budgets.pagination"-->
-            <!--              (viewPageEvent)="pageChange($event)"-->
-            <!--            ></cx-pagination>-->
+            <cx-pagination
+              [pagination]="budgetsList.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
           </div>
         </div>
       </ng-container>
@@ -173,12 +175,12 @@
       <ng-template #noOrder>
         <div class="cx-budget-no-budget row" *ngIf="isLoaded$ | async">
           <div class="col-sm-12 col-md-6 col-lg-4">
-            <div>{{ 'budgets.noBudgets' | cxTranslate }}</div>
+            <div>{{ 'budgetsList.noBudgets' | cxTranslate }}</div>
             <!--            <a-->
             <!--              [routerLink]="{ cxRoute: 'home' } | cxUrl"-->
             <!--              routerLinkActive="active"-->
             <!--              class="btn btn-primary btn-block"-->
-            <!--              >{{ 'budgets.startShopping' | cxTranslate }}</a-->
+            <!--              >{{ 'budgetsList.startShopping' | cxTranslate }}</a-->
             <!--            >-->
           </div>
         </div>

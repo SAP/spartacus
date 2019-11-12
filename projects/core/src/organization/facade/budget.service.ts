@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { queueScheduler } from 'rxjs';
+import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { Budget } from '../../model/budget.model';
+import { Budget, BudgetListModel } from '../../model/budget.model';
 import {
   StateWithOrganization,
 } from '../store/organization-state';
@@ -53,7 +53,7 @@ export class BudgetService {
     return this.store.select(getBudgetState(budgetCode));
   }
 
-  private getBudgetList(params) {
+  private getBudgetList(params): Observable<LoaderState<BudgetListModel>> {
     return this.store.select(getBudgetList(params));
   }
 
@@ -70,15 +70,15 @@ export class BudgetService {
     );
   }
 
-  getList(params: BudgetSearchConfig) {
+  getList(params: BudgetSearchConfig): Observable<BudgetListModel> {
     return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<any>) => {
+      tap((process: LoaderState<BudgetListModel>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadBudgets(params);
         }
       }),
-      filter((process: LoaderState<void>) => process.success || process.error),
+      filter((process: LoaderState<BudgetListModel>) => process.success || process.error),
       map(result => result.value)
     );
   }

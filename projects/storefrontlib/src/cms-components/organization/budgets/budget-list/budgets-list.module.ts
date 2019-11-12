@@ -12,7 +12,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { BudgetListComponent } from './budget-list.component';
+import { BudgetsListComponent } from './budgets-list.component';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { BudgetListComponent } from './budget-list.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         BudgetManagementComponent: {
-          component: BudgetListComponent,
+          component: BudgetsListComponent,
           guards: [AuthGuard],
         },
       },
@@ -32,9 +32,9 @@ import { BudgetListComponent } from './budget-list.component';
     UrlModule,
     I18nModule,
   ],
-  declarations: [BudgetListComponent],
-  exports: [BudgetListComponent],
+  declarations: [BudgetsListComponent],
+  exports: [BudgetsListComponent],
   providers: [UserService],
-  entryComponents: [BudgetListComponent],
+  entryComponents: [BudgetsListComponent],
 })
-export class BudgetListModule {}
+export class BudgetsListModule {}

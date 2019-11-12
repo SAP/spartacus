@@ -8,9 +8,8 @@ import { getOrganizationState } from './feature.selector';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
-import { Budget } from '../../../model/budget.model';
+import { Budget, BudgetListModel } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../model/search-config';
-import { ListModel } from '../../../model/misc.model';
 import { serializeBudgetSearchConfig } from '../../utils/budgets';
 
 export const getBudgetManagementState: MemoizedSelector<
@@ -47,10 +46,7 @@ export const getBudgetState = (
 
 export const getBudgetList = (
   params: BudgetSearchConfig
-): MemoizedSelector<
-  StateWithOrganization,
-  LoaderState<ListModel>
-> =>
+): MemoizedSelector<StateWithOrganization, LoaderState<BudgetListModel>> =>
   createSelector(
     getBudgetManagementState,
     (state: BudgetManagement) => {
@@ -58,14 +54,16 @@ export const getBudgetList = (
         state['budget-lists'],
         serializeBudgetSearchConfig(params)
       );
-      if (!list.value || !list.value.budgets) {
+      if (!list.value || !list.value.ids) {
         return list;
       }
-      const res: LoaderState<ListModel> = Object.assign({}, list, {
+      const res: LoaderState<BudgetListModel> = Object.assign({}, list, {
         value: {
-          budgets: list.value.budgets.map(
+          budgets: list.value.ids.map(
             code => entityStateSelector(state['budget-entities'], code).value
           ),
+          pagination: list.value.pagination,
+          sorts: list.value.sorts,
         },
       });
       return res;

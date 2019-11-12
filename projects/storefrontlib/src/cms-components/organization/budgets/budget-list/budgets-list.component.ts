@@ -1,27 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import {
   BudgetService,
   Budget,
-  BudgetsList,
+  BudgetListModel,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-budget-list',
-  templateUrl: './budget-list.component.html',
+  selector: 'cx-budgets-list',
+  templateUrl: './budgets-list.component.html',
 })
-export class BudgetListComponent implements OnInit, OnDestroy {
+export class BudgetsListComponent implements OnInit, OnDestroy {
   constructor(
     private routing: RoutingService,
     private budgetsService: BudgetService,
     private translation: TranslationService
   ) {}
 
-  budgets$: Observable<BudgetsList>;
+  budgetsList$: Observable<BudgetListModel>;
   isLoaded$: Observable<boolean>;
 
   private PAGE_SIZE = 5;
@@ -29,17 +29,19 @@ export class BudgetListComponent implements OnInit, OnDestroy {
   sortType: string;
 
   ngOnInit(): void {
-    this.budgets$ = this.budgetsService
+    this.budgetsList$ = this.budgetsService
       .getList({pageSize: this.PAGE_SIZE})
       .pipe(
-        tap((budgetsList: BudgetsList) => {
-          if (budgetsList.pagination) {
+        tap((budgetsList: BudgetListModel) => {
+          console.log(budgetsList)
+          if (budgetsList && budgetsList.pagination) {
             this.sortType = budgetsList.pagination.sort;
           }
         })
       );
 
-    this.isLoaded$ = this.budgetsService.getBudgetsProcess().pipe(map(process => process.success));
+    // this.isLoaded$ = this.budgetsService.getBudgetsProcess().pipe(map(process => process.success));
+    this.isLoaded$ = of(false)
   }
 
   ngOnDestroy(): void {
