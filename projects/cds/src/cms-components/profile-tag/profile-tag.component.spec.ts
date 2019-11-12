@@ -5,7 +5,8 @@ import { ProfileTagInjector } from './profile-tag.injector';
 
 class MockProfileTagInjector {
   injectScript(): Observable<boolean[]> {
-    return of([true, true]);
+    const consentsGranted = [true, true];
+    return of(consentsGranted);
   }
 }
 
@@ -37,7 +38,10 @@ describe('ProfileTagComponent', () => {
 
   it('should be loaded', () => {
     let result: boolean;
-    component.profileTagEnabled$.subscribe(data => (result = Boolean(data)));
+    const subscription = component.profileTagEnabled$.subscribe(
+      data => (result = Boolean(data))
+    );
     expect(result).toBe(true);
+    subscription.unsubscribe();
   });
 });

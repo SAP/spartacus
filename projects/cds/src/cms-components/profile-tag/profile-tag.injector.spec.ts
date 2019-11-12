@@ -165,9 +165,8 @@ describe('ProfileTagInjector', () => {
     });
   });
   it(`Should call the push method if all consents change to true,
-    and ignore all further changes, only sending one consent changed event`, () => {
-    // TODO: For now we dont trigger a consent withdrawn as we do not do
-    // granular consents, and one consent withdrawn would lead all tracking to stop
+    and ignore all further changes, only sending one consent changed event
+    as we do not do granular consents, and one consent withdrawn would lead all tracking to stop`, () => {
     const profileTagLoaded$ = profileTagInjector.injectScript();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');

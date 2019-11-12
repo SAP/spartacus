@@ -1,2 +1,2 @@
-export * from './src/cds.module';
-export * from './src/config/cds.config';
+export * from './src/config/index';
+export * from './src/index';
