@@ -11,8 +11,8 @@ import {
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -21,8 +21,6 @@ import { map, take } from 'rxjs/operators';
 })
 export class ConfigPreviousNextButtonsComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  productCode: string;
-  subscription = new Subscription();
 
   constructor(
     private routingService: RoutingService,
@@ -34,72 +32,60 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   @Output() previousGroup = new EventEmitter();
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.routingService
-        .getRouterState()
-        .subscribe(state => this.initConfigurationGroups(state))
+    this.configuration$ = this.routingService.getRouterState().pipe(
+      map(routingData => routingData.state.params.rootProduct),
+      switchMap(product =>
+        this.configuratorCommonsService.getConfiguration(product)
+      )
     );
   }
 
-  initConfigurationGroups(routingData) {
-    this.productCode = routingData.state.params.rootProduct;
-    this.configuration$ = this.configuratorCommonsService.getConfiguration(
-      this.productCode
-    );
+  onPrevious(productCode: string) {
+    this.navigateToPreviousGroup(productCode);
+  }
+  onNext(productCode: string) {
+    this.navigateToNextGroup(productCode);
   }
 
-  onPrevious() {
-    this.navigateToPreviousGroup();
-  }
-  onNext() {
-    this.navigateToNextGroup();
-  }
-
-  navigateToNextGroup() {
+  navigateToNextGroup(productCode: string) {
     this.configuratorGroupsService
-      .getNextGroup(this.productCode)
+      .getNextGroup(productCode)
       .pipe(take(1))
       .subscribe(groupId => {
-        this.configuratorGroupsService.setCurrentGroup(
-          this.productCode,
-          groupId
-        );
-        this.readConfigurationForGroup(groupId);
+        this.configuratorGroupsService.setCurrentGroup(productCode, groupId);
+        this.readConfigurationForGroup(groupId, productCode);
       });
   }
 
-  readConfigurationForGroup(groupId: string) {
+  readConfigurationForGroup(groupId: string, productCode: string) {
     this.configuration$.pipe(take(1)).subscribe(config => {
       this.configuratorCommonsService.readConfiguration(
         config.configId,
-        this.productCode,
+        productCode,
         groupId
       );
     });
   }
 
-  navigateToPreviousGroup() {
+  navigateToPreviousGroup(productCode: string) {
     this.configuratorGroupsService
-      .getPreviousGroup(this.productCode)
+      .getPreviousGroup(productCode)
       .pipe(take(1))
       .subscribe(groupId => {
-        this.configuratorGroupsService.setCurrentGroup(
-          this.productCode,
-          groupId
-        );
-        this.readConfigurationForGroup(groupId);
+        this.configuratorGroupsService.setCurrentGroup(productCode, groupId);
+        this.readConfigurationForGroup(groupId, productCode);
       });
   }
 
-  isFirstGroup(): Observable<Boolean> {
+  isFirstGroup(productCode: string): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getPreviousGroup(this.productCode)
+      .getPreviousGroup(productCode)
       .pipe(map(group => !group));
   }
 
-  isLastGroup(): Observable<Boolean> {
+  isLastGroup(productCode: string): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getNextGroup(this.productCode)
+      .getNextGroup(productCode)
       .pipe(map(group => !group));
   }
 }

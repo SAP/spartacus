@@ -145,7 +145,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
       of(null)
     );
-    const isFirstGroup = classUnderTest.isFirstGroup();
+    const isFirstGroup = classUnderTest.isFirstGroup(PRODUCT_CODE);
     expect(isFirstGroup).toBeDefined();
     isFirstGroup.subscribe(group => {
       expect(group).toEqual(true);
@@ -158,7 +158,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
       of('anyGroupId')
     );
-    const isFirstGroup = classUnderTest.isFirstGroup();
+    const isFirstGroup = classUnderTest.isFirstGroup(PRODUCT_CODE);
     expect(isFirstGroup).toBeDefined();
     isFirstGroup.subscribe(group => {
       expect(group).toEqual(false);
@@ -169,7 +169,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     classUnderTest.ngOnInit();
     fixture.detectChanges();
     spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(of(null));
-    const isLastGroup = classUnderTest.isLastGroup();
+    const isLastGroup = classUnderTest.isLastGroup(PRODUCT_CODE);
     expect(isLastGroup).toBeDefined();
     isLastGroup.subscribe(group => {
       expect(group).toEqual(true);
@@ -182,7 +182,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
       of('anyGroupId')
     );
-    const isLastGroup = classUnderTest.isLastGroup();
+    const isLastGroup = classUnderTest.isLastGroup(PRODUCT_CODE);
     expect(isLastGroup).toBeDefined();
     isLastGroup.subscribe(group => {
       expect(group).toEqual(false);
