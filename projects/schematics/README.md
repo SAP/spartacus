@@ -45,7 +45,7 @@ By defaut `ng add @spartacus/schematics` will add only basic spartacus configura
 
 The following options are available:
 
-- `--declaringCmsModule` - specifies to which module to add the newly generated CMS component. If omitted, a new module is generated.
+- `--declareCmsModule` - specifies to which module to add the newly generated CMS component. If omitted, a new module is generated.
 - `--cmsComponentData`, alias `--cms` - inject the _CmsComponentData_ in the new component. By default it is _true_
 - `--cmsComponentDataModel`, alias `--cms-model` - Specify the model class for the _CmsComponentData_, e.g. _MyModel_. This argument is required if _--cmsComponentData_ is _true_.
 - `--cmsComponentDataModelPath`, `--cms-model-path` - Specify the import path for the _CmsComponentData_. Default is _@spartacus/core_.
@@ -54,18 +54,18 @@ Besides the custom options, the `add-cms-component` supports almost all options 
 
 The following Angular's options are _not_ supported:
 
-- deprecated options
-- _--module_ option for component - if you want to specify an existing module for the component, use _--declaringCmsModule_. The _module_ option is only applie to the Angular's _module_ schematic.
-- _--skipImport_ option
+- deprecated options.
+- _--module_ option for component - if you want to specify an existing module for the component, use _--declareCmsModule_. The _module_ option is only applied to the Angular's _module_ schematic.
+- _--skipImport_ option.
 
 ### Examples
 
 Here are some examples how `add-cms-component` schematic can be used:
 
 - `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel` - generates _my-awesome-cms.component.ts_ component and _my-awesome-cms.module.ts_ module
-- `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel --declaringCmsModule=my-cms-path/my-cms` - generates _my-awesome-cms.component.ts_ and adds it to the specified _my-cms-path/my-cms.module.ts._'s CMS mapping.
+- `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel --declareCmsModule=my-cms-path/my-cms` - generates _my-awesome-cms.component.ts_ and adds it to the specified _my-cms-path/my-cms.module.ts._'s CMS mapping.
 - `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel --module=app` - generates _my-awesome-cms.component.ts_ component, _my-awesome-cms.module.ts_ module and imports it to the specified _app.module.ts_
-- `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel --module=app --declaringCmsModule=my-cms-path/my-cms` - generates _my-awesome-cms.component.ts_ component and adds it to the specified _my-cms-path/my-cms.module.ts_ module. It also imports _my-cms.module.ts_ to the specified _app.module.ts_
+- `ng g @spartacus/schematics:add-cms-component myAwesomeCms --cms-model=MyModel --module=app --declareCmsModule=my-cms-path/my-cms` - generates _my-awesome-cms.component.ts_ component and adds it to the specified _my-cms-path/my-cms.module.ts_ module. It also imports _my-cms.module.ts_ to the specified _app.module.ts_
 
 ## Building and using Spartacus Schematics from source
 
