@@ -4,14 +4,14 @@ import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-l
 
 import { BUDGET_FEATURE, OrganizationState, BUDGET_ENTITIES, BUDGET_LISTS } from '../organization-state';
 import { Budget } from '../../../model/budget.model';
-import { PaginationModel, SortModel } from '../../../model/misc.model';
+import { ListModel } from '../../../model/misc.model';
 import { budgetsListReducer } from './budget.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
     [BUDGET_FEATURE]: combineReducers({
       [BUDGET_ENTITIES]: entityLoaderReducer<Budget>(BUDGET_ENTITIES),
-      [BUDGET_LISTS]: entityLoaderReducer<{ codes: string[], pagination: PaginationModel, sorts: SortModel[]}>(BUDGET_LISTS, budgetsListReducer),
+      [BUDGET_LISTS]: entityLoaderReducer<ListModel>(BUDGET_LISTS, budgetsListReducer),
     }),
   };
 }

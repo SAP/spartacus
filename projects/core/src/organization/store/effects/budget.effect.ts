@@ -6,6 +6,8 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import { Budget } from '../../../model/budget.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import BudgetsList = Occ.BudgetsList;
 
 @Injectable()
 export class BudgetEffects {
@@ -42,7 +44,7 @@ export class BudgetEffects {
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(payload =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
-        switchMap((budgets: any) => [
+        switchMap((budgets: BudgetsList) => [
           new BudgetActions.LoadBudgetSuccess(budgets.budgets),
           new BudgetActions.LoadBudgetsSuccess({
             budgets,

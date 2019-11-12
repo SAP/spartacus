@@ -8,7 +8,8 @@ import { ConverterService } from '../../../util/converter.service';
 import { BUDGET_NORMALIZER } from '../../../organization/connectors/budget/converters';
 import { Budget } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../../organization/model/search-config';
-import { BudgetsList } from '../../../organization/store/organization-state';
+import { Occ } from '../../occ-models/occ.models';
+import BudgetsList = Occ.BudgetsList;
 
 @Injectable()
 export class OccBudgetAdapter implements BudgetAdapter {
@@ -24,8 +25,11 @@ export class OccBudgetAdapter implements BudgetAdapter {
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  loadList(userId: string, params?: BudgetSearchConfig): Observable<BudgetsList> {
-    return this.http.get(this.getBudgetsEndpoint(userId, params))
+  loadList(
+    userId: string,
+    params?: BudgetSearchConfig
+  ): Observable<BudgetsList> {
+    return this.http.get<BudgetsList>(this.getBudgetsEndpoint(userId, params));
   }
 
   create(userId: string, budget: Budget): Observable<Budget> {

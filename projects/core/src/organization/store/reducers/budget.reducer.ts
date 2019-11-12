@@ -20,7 +20,7 @@ export function budgetsListReducer(
   switch (action.type) {
     case BudgetActions.LOAD_BUDGETS_SUCCESS:
       return {
-        budgets: action.payload.budgets.budgets.map(budget => budget.code),
+        ids: action.payload.budgets.budgets.map(budget => budget.code),
         pagination: action.payload.budgets.pagination,
         sorts: action.payload.budgets.sorts,
       };

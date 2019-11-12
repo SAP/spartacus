@@ -3993,6 +3993,12 @@ export namespace Occ {
     defaultLanguage?: Language;
   }
 
+  export interface BudgetsList {
+    budgets: Budget[];
+    pagination: PaginationModel;
+    sorts: SortModel[];
+  }
+
   export interface Budget {
     active?: boolean;
     budget?: number;

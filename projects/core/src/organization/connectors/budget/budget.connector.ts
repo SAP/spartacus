@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { Budget } from '../../../model/budget.model';
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetSearchConfig } from '../../model/search-config';
-import { BudgetsList } from '../../store/organization-state';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import BudgetsList = Occ.BudgetsList;
 
 @Injectable({
   providedIn: 'root',

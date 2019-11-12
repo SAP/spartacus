@@ -2,7 +2,7 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   StateWithOrganization,
   OrganizationState,
-  BudgetsList,
+  BudgetManagement,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
@@ -10,12 +10,12 @@ import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { Budget } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../model/search-config';
-import { PaginationModel, SortModel } from '../../../model/misc.model';
+import { ListModel } from '../../../model/misc.model';
 import { serializeBudgetSearchConfig } from '../../utils/budgets';
 
 export const getBudgetManagementState: MemoizedSelector<
   StateWithOrganization,
-  BudgetsList
+  BudgetManagement
 > = createSelector(
   getOrganizationState,
   (state: OrganizationState) => state.budget
@@ -26,7 +26,7 @@ export const getBudgetsState: MemoizedSelector<
   EntityLoaderState<Budget>
 > = createSelector(
   getBudgetManagementState,
-  (state: BudgetsList) => state && state['budget-entities']
+  (state: BudgetManagement) => state && state['budget-entities']
 );
 
 // export const getBudgetsValuesState: MemoizedSelector<
@@ -49,15 +49,11 @@ export const getBudgetList = (
   params: BudgetSearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
-  LoaderState<{
-    budgets: Budget[];
-    pagination: PaginationModel;
-    sorts: SortModel[];
-  }>
+  LoaderState<ListModel>
 > =>
   createSelector(
     getBudgetManagementState,
-    (state: BudgetsList) => {
+    (state: BudgetManagement) => {
       const list: any = entityStateSelector(
         state['budget-lists'],
         serializeBudgetSearchConfig(params)
@@ -65,11 +61,7 @@ export const getBudgetList = (
       if (!list.value || !list.value.budgets) {
         return list;
       }
-      const res: LoaderState<{
-        budgets: Budget[];
-        pagination: PaginationModel;
-        sorts: SortModel[];
-      }> = Object.assign({}, list, {
+      const res: LoaderState<ListModel> = Object.assign({}, list, {
         value: {
           budgets: list.value.budgets.map(
             code => entityStateSelector(state['budget-entities'], code).value
