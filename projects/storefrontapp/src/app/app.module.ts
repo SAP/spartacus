@@ -69,8 +69,8 @@ if (!environment.production) {
       },
     }),
     JsonLdBuilderModule,
-    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
