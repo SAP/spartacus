@@ -22,10 +22,10 @@
             <!--            ></cx-sorting>-->
           </div>
           <div class="cx-budget-pagination">
-            <!--            <cx-pagination-->
-            <!--              [pagination]="budgets.pagination"-->
-            <!--              (viewPageEvent)="pageChange($event)"-->
-            <!--            ></cx-pagination>-->
+                        <cx-pagination
+                          [pagination]="budgets.pagination"
+                          (viewPageEvent)="pageChange($event)"
+                        ></cx-pagination>
           </div>
         </div>
         <!-- TABLE -->
@@ -47,7 +47,7 @@
           <tbody>
             <tr
               *ngFor="let budget of budgets.budgets"
-              (click)="goToBudgeDetail(budget)"
+              (click)="goToBudgetDetail(budget)"
             >
               <td class="cx-budget-code">
                 <div class="d-md-none cx-budget-label">
