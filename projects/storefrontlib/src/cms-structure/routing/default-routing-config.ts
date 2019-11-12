@@ -42,6 +42,16 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orders: {
     paths: ['my-account/orders'],
   },
+  organization: {
+    paths: ['my-company/organization-management']
+  },
+  budgets: {
+    paths: ['my-company/organization-management/manage-budgets']
+  },
+  budgetDetails: {
+    paths: ['my-company/organization-management/manage-budget/:budgetCode'],
+    paramsMapping: { budgetCode: 'code' },
+  }
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

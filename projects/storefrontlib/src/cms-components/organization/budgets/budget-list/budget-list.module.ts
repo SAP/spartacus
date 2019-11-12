@@ -19,7 +19,7 @@ import { BudgetListComponent } from './budget-list.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AccountOrderHistoryComponent: {
+        BudgetManagementComponent: {
           component: BudgetListComponent,
           guards: [AuthGuard],
         },
