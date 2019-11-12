@@ -4,7 +4,7 @@
   "title": "Spartacus Schematics",
   "type": "object",
   "properties": {
-    "declaringCmsModule": {
+    "declareCmsModule": {
       "type": "string",
       "description": "Where to declare the generated CMS component. If omitted, a new module is generated.",
       "default": ""

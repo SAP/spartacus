@@ -201,7 +201,7 @@ describe('add-cms-component', () => {
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
-        declaringCmsModule: moduleName,
+        declareCmsModule: moduleName,
       };
 
       appTree = await schematicRunner
@@ -437,7 +437,7 @@ describe('add-cms-component', () => {
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
         module: 'app',
-        declaringCmsModule: moduleName,
+        declareCmsModule: moduleName,
       };
 
       appTree = await schematicRunner
@@ -455,8 +455,6 @@ describe('add-cms-component', () => {
     });
 
     it('should generate the component and declare to the cms module, and declare the cms module to the app.module.ts', async () => {
-      console.log('\n***', appTree.files);
-
       const existingModulePath = '/src/app/existing-cms/existing-cms.module.ts';
       assertPathDoesNotExists(appTree, GENERATED_MODULE_PATH);
       assertPathExists(appTree, existingModulePath);

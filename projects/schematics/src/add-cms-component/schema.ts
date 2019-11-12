@@ -11,7 +11,7 @@ export interface CxCmsComponentSchema
   /**
    * Where to declare the generated CMS component. If omitted, a new module is generated.
    */
-  declaringCmsModule: string;
+  declareCmsModule: string;
   /**
    * Inject the `CmsComponentData` in the generated component. By default it's `true`.
    */

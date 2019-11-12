@@ -48,14 +48,14 @@ import { CxCmsComponentSchema } from './schema';
 
 function buildComponentModule(options: CxCmsComponentSchema): string {
   const moduleName = options.module || '';
-  return Boolean(options.declaringCmsModule)
-    ? options.declaringCmsModule
+  return Boolean(options.declareCmsModule)
+    ? options.declareCmsModule
     : moduleName;
 }
 
 function builDeclaringCmsModule(options: CxCmsComponentSchema): string {
-  return Boolean(options.declaringCmsModule)
-    ? options.declaringCmsModule
+  return Boolean(options.declareCmsModule)
+    ? options.declareCmsModule
     : options.name;
 }
 
@@ -252,11 +252,11 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
 
 function declareInModule(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    if (!(options.declaringCmsModule && options.module)) {
+    if (!(options.declareCmsModule && options.module)) {
       return;
     }
 
-    const sourceCmsModule = basename(options.declaringCmsModule as any);
+    const sourceCmsModule = basename(options.declareCmsModule as any);
     const sourceCmsModuleFileName = `${strings.dasherize(
       sourceCmsModule
     )}.module.ts`;
@@ -313,7 +313,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
 
     // angular's component CLI flags
     const {
-      declaringCmsModule,
+      declareCmsModule,
       export: exportOption,
       name: componentName,
       changeDetection,
@@ -343,7 +343,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       module: declaringModule,
     } = options;
 
-    const createCmsModule = !Boolean(declaringCmsModule);
+    const createCmsModule = !Boolean(declareCmsModule);
     const skipImport = createCmsModule;
 
     return chain([
