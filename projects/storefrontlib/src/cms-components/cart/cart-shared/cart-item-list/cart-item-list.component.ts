@@ -21,6 +21,9 @@ export class CartItemListComponent implements OnInit {
   potentialProductPromotions: PromotionResult[] = [];
 
   @Input()
+  appliedProductPromotions: PromotionResult[] = [];
+
+  @Input()
   cartIsLoading = false;
 
   form: FormGroup = this.fb.group({});
@@ -54,13 +57,13 @@ export class CartItemListComponent implements OnInit {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
+  getProductPromotionForItem(
+    item: Item,
+    promotions: PromotionResult[]
+  ): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
-    if (
-      this.potentialProductPromotions &&
-      this.potentialProductPromotions.length > 0
-    ) {
-      for (const promotion of this.potentialProductPromotions) {
+    if (promotions && promotions.length > 0) {
+      for (const promotion of promotions) {
         if (
           promotion.description &&
           promotion.consumedEntries &&

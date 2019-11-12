@@ -39,6 +39,8 @@ class MockCartItemListComponent {
   @Input()
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
+  appliedProductPromotions: PromotionResult[] = [];
+  @Input()
   cartIsLoading: Observable<boolean>;
 }
 
@@ -75,7 +77,7 @@ describe('CartDetailsComponent', () => {
                 orderEntryNumber: 1,
               },
             ],
-            description: 'test applied order promotion',
+            description: 'test potential order promotion',
           },
         ],
         appliedOrderPromotions: [
@@ -85,7 +87,7 @@ describe('CartDetailsComponent', () => {
                 orderEntryNumber: 2,
               },
             ],
-            description: 'test potential order promotion',
+            description: 'test applied order promotion',
           },
         ],
       };
@@ -97,7 +99,7 @@ describe('CartDetailsComponent', () => {
               orderEntryNumber: 1,
             },
           ],
-          description: 'test applied order promotion',
+          description: 'test potential order promotion',
         },
         {
           consumedEntries: [
@@ -105,7 +107,7 @@ describe('CartDetailsComponent', () => {
               orderEntryNumber: 2,
             },
           ],
-          description: 'test potential order promotion',
+          description: 'test applied order promotion',
         },
       ];
 

@@ -14,12 +14,38 @@ class MockCartService {
 
 const mockItems = [
   {
+    id: 0,
+    quantity: 1,
+    entryNumber: 0,
+    product: {
+      id: 0,
+      code: 'PR0000',
+    },
+  },
+  {
     id: 1,
     quantity: 5,
     entryNumber: 1,
     product: {
       id: 1,
-      code: 'PR0000',
+      code: 'PR0001',
+    },
+  },
+];
+
+const mockAppliedProductPromotions = [
+  {
+    consumedEntries: [
+      {
+        adjustedUnitPrice: 517.4,
+        orderEntryNumber: 0,
+        quantity: 1,
+      },
+    ],
+    description: '10% off on products EOS450D + 18-55 IS Kit',
+    promotion: {
+      code: 'product_percentage_discount',
+      promotionType: 'Rule Based Promotion',
     },
   },
 ];
@@ -50,6 +76,7 @@ class MockCartItemComponent {
   @Input() parent;
   @Input() item;
   @Input() potentialProductPromotions;
+  @Input() appliedProductPromotions;
   @Input() isReadOnly;
   @Input() cartIsLoading;
 }
@@ -78,6 +105,7 @@ describe('CartItemListComponent', () => {
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;
+    component.appliedProductPromotions = mockAppliedProductPromotions;
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
 
@@ -104,8 +132,20 @@ describe('CartItemListComponent', () => {
   });
 
   it('should get potential promotions for product', () => {
-    const item = mockItems[0];
-    const promotions = component.getPotentialProductPromotionsForItem(item);
+    const item = mockItems[1];
+    const promotions = component.getProductPromotionForItem(
+      item,
+      component.potentialProductPromotions
+    );
     expect(promotions).toEqual(mockPotentialProductPromotions);
+  });
+
+  it('should get applied promotions for product', () => {
+    const item = mockItems[0];
+    const promotions = component.getProductPromotionForItem(
+      item,
+      component.appliedProductPromotions
+    );
+    expect(promotions).toEqual(mockAppliedProductPromotions);
   });
 });
