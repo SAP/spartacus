@@ -98,9 +98,8 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
       'readConfiguration',
-      {
-        configId,
-      }
+      { configId },
+      { groupId }
     );
 
     expect(mockReq.cancelled).toBeFalsy();

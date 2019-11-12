@@ -113,6 +113,7 @@ describe('ConfiguratorCommonsService', () => {
       new ConfiguratorActions.ReadConfiguration({
         configId: CONFIG_ID,
         productCode: PRODUCT_CODE,
+        groupId: GROUP_ID_1,
       })
     );
   });

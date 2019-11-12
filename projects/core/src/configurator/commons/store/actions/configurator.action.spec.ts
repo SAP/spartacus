@@ -8,6 +8,7 @@ const GROUP_ID = 'GROUP1';
 const PAYLOAD = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
+  groupId: GROUP_ID,
 };
 
 describe('ConfiguratorActions', () => {
@@ -30,10 +31,10 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION,
           payload: PAYLOAD,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            CONFIGURATION_DATA,
-            PAYLOAD.productCode
-          ),
+          meta: StateEntityLoaderActions.entityLoadMeta(CONFIGURATION_DATA, [
+            PAYLOAD.productCode,
+            PAYLOAD.groupId,
+          ]),
         });
       });
     });
@@ -50,7 +51,7 @@ describe('ConfiguratorActions', () => {
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
             CONFIGURATION_DATA,
-            PRODUCT_CODE,
+            [PRODUCT_CODE, GROUP_ID],
             error
           ),
         });
