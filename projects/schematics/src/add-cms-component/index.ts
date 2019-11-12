@@ -46,8 +46,6 @@ import {
 import { getWorkspace } from '../shared/utils/workspace-utils';
 import { CxCmsComponentSchema } from './schema';
 
-export const DELETE_ME = true;
-
 function buildComponentModule(options: CxCmsComponentSchema): string {
   const moduleName = options.module || '';
   return Boolean(options.declareCmsModule)
@@ -80,7 +78,18 @@ function updateModule(options: CxCmsComponentSchema): Rule {
       const insertImportChange = insertImport(
         moduleTs,
         modulePath,
-        `${CONFIG_MODULE_CLASS}, ${CMS_CONFIG}`,
+        `${CONFIG_MODULE_CLASS}`,
+        SPARTACUS_CORE,
+        false
+      );
+      changes.push(insertImportChange);
+    }
+
+    if (!isImported(moduleTs, CMS_CONFIG, SPARTACUS_CORE)) {
+      const insertImportChange = insertImport(
+        moduleTs,
+        modulePath,
+        `${CMS_CONFIG}`,
         SPARTACUS_CORE,
         false
       );
@@ -101,6 +110,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
       },
     }),`
     );
+
     changes.push(...insertModuleChanges);
 
     const componentImportSkipped = !Boolean(options.declareCmsModule);

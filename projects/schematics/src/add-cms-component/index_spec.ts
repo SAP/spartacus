@@ -17,7 +17,6 @@ import {
   getTsSourceFile,
   InsertDirection,
 } from '../shared/utils/file-utils';
-import { DELETE_ME } from './index';
 import { CxCmsComponentSchema } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -42,9 +41,6 @@ function assertPathDoesNotExists(
 function assertPathExists(appTree: UnitTestTree, filePath: string): void {
   const buffer = appTree.read(filePath);
   expect(buffer).toBeTruthy();
-  if (buffer && DELETE_ME) {
-    console.log(`*** ${filePath} ***`, buffer.toString(UTF_8));
-  }
 }
 
 function assertContentExists(
