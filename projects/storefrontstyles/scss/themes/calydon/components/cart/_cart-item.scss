@@ -4,4 +4,12 @@
       background-color: transparent;
     }
   }
+
+  cx-media.is-missing {
+    min-width: 100%;
+
+    &[format='thumbnail'] {
+      background-size: 100%;
+    }
+  }
 }
