@@ -1,0 +1,8 @@
+<!-- 
+    We defer loading of the real AMS UI, so that once we have lazy loading in place,
+    the UI will only be loaded for ASM users.
+-->
+<ng-container
+  *ngIf="isVisible$ | async"
+  [cxComponentWrapper]="{ flexType: 'asm' }"
+></ng-container>
