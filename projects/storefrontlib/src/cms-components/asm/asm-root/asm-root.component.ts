@@ -1,32 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AsmService, AsmUi } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component } from '@angular/core';
+import { AsmService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm',
   templateUrl: './asm-root.component.html',
 })
-export class AsmRootComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
-  asmUi$: Observable<AsmUi>;
-
-  constructor(
-    protected asmService: AsmService,
-    protected activatedRoute: ActivatedRoute
-  ) {}
-
-  ngOnInit() {
-    this.asmUi$ = this.asmService.getAsmUiState();
-
-    this.subscription.add(
-      this.activatedRoute.queryParamMap.subscribe(queryParams => {
-        if (queryParams.get('asm') === 'true') {
-          this.showUi();
-        }
-      })
-    );
-  }
+export class AsmRootComponent {
+  constructor(protected asmService: AsmService) {}
 
   expandUi(): void {
     this.asmService.updateAsmUiState({ expanded: true });
@@ -34,13 +14,5 @@ export class AsmRootComponent implements OnInit, OnDestroy {
 
   collapseUi(): void {
     this.asmService.updateAsmUiState({ expanded: false });
-  }
-
-  private showUi(): void {
-    this.asmService.updateAsmUiState({ visible: true });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
