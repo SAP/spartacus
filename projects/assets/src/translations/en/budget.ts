@@ -6,7 +6,6 @@ export const budget = {
     startEndDate: 'Start - End',
     costCenter: 'Cost center',
     parentUnit: 'Parent Unit',
-    code: 'Code',
     sortByMostRecent: 'sortByMostRecent',
     noBudgets: 'No budgets',
     budgetManagement: 'Budget Management',
