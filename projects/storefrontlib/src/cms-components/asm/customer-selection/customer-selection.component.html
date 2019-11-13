@@ -1,42 +1,64 @@
-<ng-container *ngIf="!(searchResultsLoading$ | async); else spinner">
-  <form (submit)="onSubmit()" [formGroup]="form">
-    <div class="fd-container">
-      <div class="fd-col--6">
-        <label>
-          <input
-            type="text"
-            class="form-control"
-            [class.is-invalid]="isNotValid('searchTerm')"
-            formControlName="searchTerm"
-            placeholder="{{
-              'asm.customerSearch.searchTerm.label' | cxTranslate
-            }}"
-          />
-          <div class="invalid-feedback" *ngIf="isNotValid('searchTerm')">
-            <span>{{
-              'asm.customerSearch.searchTerm.required' | cxTranslate
-            }}</span>
-          </div>
-        </label>
-      </div>
-
-      <div class="fd-col--3">
-        <button
-          type="submit"
-          class="fd-button--emphasized fd-button--positive sap-icon--media-play"
-        >
-          {{ 'asm.customerSearch.submit' | cxTranslate }}
-        </button>
-      </div>
+<form (submit)="onSubmit()" [formGroup]="form">
+  <div class="fd-container">
+    <div class="fd-col--6">
+      <label>
+        <input
+          #searchTerm
+          type="text"
+          class="form-control"
+          formControlName="searchTerm"
+          placeholder="{{
+            'asm.customerSearch.searchTerm.label' | cxTranslate
+          }}"
+        />
+      </label>
     </div>
-  </form>
-</ng-container>
-<ng-template #spinner>
-  <div class="sap-spinner">
-    <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
-      <div></div>
-      <div></div>
-      <div></div>
+
+    <div class="fd-col--3">
+      <button
+        type="submit"
+        [disabled]="!selectedCustomer"
+        class="fd-button--emphasized fd-button--positive sap-icon--media-play"
+      >
+        {{ 'asm.customerSearch.submit' | cxTranslate }}
+      </button>
     </div>
   </div>
-</ng-template>
+</form>
+
+<div
+  *ngIf="searchResults | async as results"
+  class="results fd-popover__body"
+  #resultList
+>
+  <div>
+    <a
+      *ngFor="let result of results.entries"
+      (click)="selectCustomerFromList(result)"
+      ><span class="result-name">{{ result.name }}</span>
+      <span class="result-id">{{ result.uid }}</span></a
+    >
+    <a
+      (click)="closeResults()"
+      *ngIf="
+        !(searchResultsLoading$ | async) &&
+        searchTerm.value.length >= 3 &&
+        (!!results.entries && results.entries.length <= 0)
+      "
+      >{{ 'asm.customerSearch.noMatch' | cxTranslate }}</a
+    >
+  </div>
+</div>
+<div *ngIf="searchResultsLoading$ | async" class="results fd-popover__body">
+  <div>
+    <a>
+      <div class="sap-spinner">
+        <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
