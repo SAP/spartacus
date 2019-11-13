@@ -1,6 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import {
-  AsmService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -30,7 +29,6 @@ export class AsmMainUiComponent implements OnInit {
   constructor(
     protected authService: AuthService,
     protected userService: UserService,
-    protected asmService: AsmService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService

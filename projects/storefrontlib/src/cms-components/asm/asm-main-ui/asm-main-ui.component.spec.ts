@@ -8,7 +8,6 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  AsmService,
   AuthService,
   GlobalMessageService,
   I18nTestingModule,
@@ -86,7 +85,7 @@ class MockCustomerEmulationComponent {}
 class MockGlobalMessageService {
   remove() {}
 }
-class MockAsmService {}
+
 class MockRoutingService {
   go() {}
 }
@@ -121,7 +120,6 @@ describe('AsmMainUiComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: AsmService, useClass: MockAsmService },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
       ],
     }).compileComponents();
