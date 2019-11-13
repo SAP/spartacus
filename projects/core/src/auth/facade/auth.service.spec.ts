@@ -219,6 +219,14 @@ describe('AuthService', () => {
       );
     });
 
+    it('should return false if there is no token', () => {
+      expect(service.isCustomerEmulationToken(undefined)).toBe(false);
+    });
+
+    it('should return false if the token is an empty object', () => {
+      expect(service.isCustomerEmulationToken({} as UserToken)).toBe(false);
+    });
+
     it('should return false if the userid "current"', () => {
       expect(
         service.isCustomerEmulationToken({
