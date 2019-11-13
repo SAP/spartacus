@@ -1,0 +1,119 @@
+import { Location } from '@angular/common';
+import { ComponentFactoryResolver } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { WindowRef } from '@spartacus/core';
+import { OutletService } from '../../cms-structure/outlet/index';
+import { AsmEnablerService } from './asm-enabler.service';
+
+const BROWSER_STORAGE_KEY = 'asm_enabled';
+
+const store = {};
+const MockWindowRef = {
+  localStorage: {
+    getItem: (key: string): string => {
+      return key in store ? store[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      store[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        delete store[key];
+      }
+    },
+  },
+};
+
+class MockComponentFactoryResolver {
+  resolveComponentFactory() {}
+}
+
+class MockOutletService {
+  add() {}
+}
+
+class MockLocation {
+  path() {
+    return '';
+  }
+}
+
+describe('AsmEnablerService', () => {
+  let asmEnablerService: AsmEnablerService;
+  let windowRef: WindowRef;
+  let location: Location;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: WindowRef, useValue: MockWindowRef },
+        {
+          provide: ComponentFactoryResolver,
+          useClass: MockComponentFactoryResolver,
+        },
+        { provide: OutletService, useClass: MockOutletService },
+        { provide: Location, useClass: MockLocation },
+      ],
+    });
+
+    asmEnablerService = TestBed.get(AsmEnablerService);
+    windowRef = TestBed.get(WindowRef);
+    location = TestBed.get(Location);
+
+    windowRef.localStorage.removeItem(BROWSER_STORAGE_KEY);
+  });
+
+  it('should be created', () => {
+    expect(asmEnablerService).toBeTruthy();
+  });
+
+  describe('Open ASM based on URL parameter', () => {
+    it('should add UI when ?asm=true', () => {
+      spyOn(location, 'path').and.returnValue('/any/url?asm=true');
+      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      asmEnablerService.load();
+      expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
+    });
+
+    it('should not add UI when asm param is not used', () => {
+      spyOn(location, 'path').and.returnValue('/any/url');
+      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      asmEnablerService.load();
+      expect((<any>asmEnablerService).addUi).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Open ASM based on previous usage', () => {
+    it('should add UI when localStorage key asm_enabled is true', () => {
+      windowRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'true');
+      spyOn(location, 'path').and.returnValue('/any/url');
+      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      asmEnablerService.load();
+      expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
+    });
+
+    it('should not add UI when localStorage asm_enabled is false ', () => {
+      windowRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'false');
+      spyOn(location, 'path').and.returnValue('/any/url');
+      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      asmEnablerService.load();
+      expect((<any>asmEnablerService).addUi).not.toHaveBeenCalled();
+    });
+
+    it('should not add UI when localStorage asm_enabled is not available ', () => {
+      windowRef.localStorage.removeItem(BROWSER_STORAGE_KEY);
+      spyOn(location, 'path').and.returnValue('/any/url');
+      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      asmEnablerService.load();
+      expect((<any>asmEnablerService).addUi).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Unload', () => {
+    it('should remove local storage key to false on unload', () => {
+      windowRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'true');
+      asmEnablerService.unload();
+      expect(windowRef.localStorage.getItem(BROWSER_STORAGE_KEY)).toBeNull();
+    });
+  });
+});
