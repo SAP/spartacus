@@ -42,7 +42,9 @@ export class AsmEnablerService {
    * - remove the generated UI from the DOM (outlets currently do not support this)
    */
   unload() {
-    this.store(false);
+    if (this.winRef.localStorage) {
+      this.winRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'false');
+    }
   }
 
   /**
@@ -50,18 +52,11 @@ export class AsmEnablerService {
    */
   private isEnabled(): boolean {
     if (this.isLaunched() && !this.isUsedBefore()) {
-      this.store(true);
+      if (this.winRef.localStorage) {
+        this.winRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'true');
+      }
     }
     return this.isLaunched() || this.isUsedBefore();
-  }
-
-  /**
-   * Helper method to store the enabled state of ASM in the local storage.
-   */
-  private store(enabled: boolean = true) {
-    if (this.winRef.localStorage) {
-      this.winRef.localStorage.setItem(BROWSER_STORAGE_KEY, String(enabled));
-    }
   }
 
   /**
