@@ -39,14 +39,13 @@ cx-asm-main-ui {
   }
 
   cx-customer-selection {
-    .fd-button--emphasized.fd-button--positive.fd-button--emphasized.fd-button--positive,
-    a.fd-button--emphasized.fd-button--positive {
+    .fd-button--positive.fd-button--emphasized.fd-button--positive {
       border-color: #0a7e3e;
       background-color: #0a7e3e;
       padding-left: 35px;
     }
 
-    .fd-button--emphasized.fd-button--positive:disabled {
+    .fd-button--emphasized:disabled {
       opacity: 0.4;
       cursor: not-allowed;
     }
@@ -308,59 +307,33 @@ cx-asm-main-ui {
   }
 
   // Blue Button
-  .fd-button--emphasized,
-  a.fd-button--emphasized {
+  .fd-button--emphasized {
     font-size: 14px;
     font-weight: 700;
     color: #fff;
     border-color: #0a6ed1;
     background-color: #0a6ed1;
   }
-  .fd-button--emphasized .is-hover,
-  .fd-button--emphasized:hover,
-  a.fd-button--emphasized .is-hover,
-  a.fd-button--emphasized:hover {
+
+  .fd-button--emphasized:hover {
     color: #fff;
     background-color: #085caf;
   }
-  .fd-button--emphasized .is-hover.is-disabled,
-  .fd-button--emphasized .is-hover:disabled,
-  .fd-button--emphasized .is-hover[aria-disabled='true'],
-  .fd-button--emphasized:hover.is-disabled,
+
   .fd-button--emphasized:hover:disabled,
-  .fd-button--emphasized:hover[aria-disabled='true'],
-  a.fd-button--emphasized .is-hover.is-disabled,
-  a.fd-button--emphasized .is-hover:disabled,
-  a.fd-button--emphasized .is-hover[aria-disabled='true'],
-  a.fd-button--emphasized:hover.is-disabled,
-  a.fd-button--emphasized:hover:disabled,
-  a.fd-button--emphasized:hover[aria-disabled='true'] {
+  .fd-button--emphasized:hover[aria-disabled='true'] {
     color: #fff;
     background-color: #0a6ed1;
   }
-  .fd-button--emphasized.fd-button--medium,
-  .fd-button--emphasized.fd-button--negative,
-  .fd-button--emphasized.fd-button--positive,
-  .fd-button--emphasized.fd-button--standard,
-  a.fd-button--emphasized.fd-button--medium,
-  a.fd-button--emphasized.fd-button--negative,
-  a.fd-button--emphasized.fd-button--positive,
-  a.fd-button--emphasized.fd-button--standard {
-    color: #fff;
-  }
 
   // Red button
-  .fd-button--negative,
-  a.fd-button--negative {
+  .fd-button--negative {
     color: #bb0000;
     border-color: #bb0000;
     fill: #bb0000;
     font-size: 14px;
   }
-  .fd-button--negative .is-hover,
-  .fd-button--negative:hover,
-  a.fd-button--negative .is-hover,
-  a.fd-button--negative:hover {
+  .fd-button--negative:hover {
     background-color: #b00;
     color: #fff;
     fill: #fff;
@@ -368,15 +341,8 @@ cx-asm-main-ui {
 
   // Input styles
   .fd-input,
-  input[type='date'],
-  input[type='email'],
-  input[type='number'],
-  input[type='password'],
-  input[type='search'],
-  input[type='tel'],
   input[type='text'],
-  input[type='time'],
-  input[type='url'] {
+  input[type='password'] {
     font-size: 14px;
     line-height: 1.42857;
     color: #32363a;
@@ -406,119 +372,16 @@ cx-asm-main-ui {
     width: 100%;
   }
 
-  .fd-input.is-focus,
-  .fd-input:focus,
-  input[type='date'].is-focus,
-  input[type='date']:focus,
-  input[type='email'].is-focus,
-  input[type='email']:focus,
-  input[type='number'].is-focus,
-  input[type='number']:focus,
-  input[type='password'].is-focus,
-  input[type='password']:focus,
-  input[type='search'].is-focus,
-  input[type='search']:focus,
-  input[type='tel'].is-focus,
-  input[type='tel']:focus,
-  input[type='text'].is-focus,
-  input[type='text']:focus,
-  input[type='time'].is-focus,
-  input[type='time']:focus,
-  input[type='url'].is-focus,
-  input[type='url']:focus {
+  .fd-input:focus {
     -webkit-box-shadow: 0 0 0 1px #fafafa;
     box-shadow: 0 0 0 1px #fafafa;
   }
 
-  .fd-input .is-hover,
-  .fd-input:hover,
-  input[type='date'] .is-hover,
-  input[type='date']:hover,
-  input[type='email'] .is-hover,
-  input[type='email']:hover,
-  input[type='number'] .is-hover,
-  input[type='number']:hover,
-  input[type='password'] .is-hover,
-  input[type='password']:hover,
-  input[type='search'] .is-hover,
-  input[type='search']:hover,
-  input[type='tel'] .is-hover,
-  input[type='tel']:hover,
-  input[type='text'] .is-hover,
-  input[type='text']:hover,
-  input[type='time'] .is-hover,
-  input[type='time']:hover,
-  input[type='url'] .is-hover,
-  input[type='url']:hover {
+  .fd-input:hover {
     border-color: #085caf;
   }
 
-  .fd-input::-webkit-input-placeholder,
-  input[type='date']::-webkit-input-placeholder,
-  input[type='email']::-webkit-input-placeholder,
-  input[type='number']::-webkit-input-placeholder,
-  input[type='password']::-webkit-input-placeholder,
-  input[type='search']::-webkit-input-placeholder,
-  input[type='tel']::-webkit-input-placeholder,
-  input[type='text']::-webkit-input-placeholder,
-  input[type='time']::-webkit-input-placeholder,
-  input[type='url']::-webkit-input-placeholder {
-    color: #74777a;
-    font-style: italic;
-    font-size: 14px;
-  }
-  .fd-input::-moz-placeholder,
-  input[type='date']::-moz-placeholder,
-  input[type='email']::-moz-placeholder,
-  input[type='number']::-moz-placeholder,
-  input[type='password']::-moz-placeholder,
-  input[type='search']::-moz-placeholder,
-  input[type='tel']::-moz-placeholder,
-  input[type='text']::-moz-placeholder,
-  input[type='time']::-moz-placeholder,
-  input[type='url']::-moz-placeholder {
-    color: #74777a;
-    font-style: italic;
-    font-size: 14px;
-  }
-  .fd-input:-ms-input-placeholder,
-  input[type='date']:-ms-input-placeholder,
-  input[type='email']:-ms-input-placeholder,
-  input[type='number']:-ms-input-placeholder,
-  input[type='password']:-ms-input-placeholder,
-  input[type='search']:-ms-input-placeholder,
-  input[type='tel']:-ms-input-placeholder,
-  input[type='text']:-ms-input-placeholder,
-  input[type='time']:-ms-input-placeholder,
-  input[type='url']:-ms-input-placeholder {
-    color: #74777a;
-    font-style: italic;
-    font-size: 14px;
-  }
-  .fd-input::-ms-input-placeholder,
-  input[type='date']::-ms-input-placeholder,
-  input[type='email']::-ms-input-placeholder,
-  input[type='number']::-ms-input-placeholder,
-  input[type='password']::-ms-input-placeholder,
-  input[type='search']::-ms-input-placeholder,
-  input[type='tel']::-ms-input-placeholder,
-  input[type='text']::-ms-input-placeholder,
-  input[type='time']::-ms-input-placeholder,
-  input[type='url']::-ms-input-placeholder {
-    color: #74777a;
-    font-style: italic;
-    font-size: 14px;
-  }
-  .fd-input::placeholder,
-  input[type='date']::placeholder,
-  input[type='email']::placeholder,
-  input[type='number']::placeholder,
-  input[type='password']::placeholder,
-  input[type='search']::placeholder,
-  input[type='tel']::placeholder,
-  input[type='text']::placeholder,
-  input[type='time']::placeholder,
-  input[type='url']::placeholder {
+  .fd-input::placeholder {
     color: #74777a;
     font-style: italic;
     font-size: 14px;
@@ -643,9 +506,7 @@ cx-asm-main-ui {
       }
     }
 
-    .fd-button,
-    [class*='fd-button--'],
-    a[class*='fd-button--'] {
+    .fd-button {
       width: 100%;
     }
 
