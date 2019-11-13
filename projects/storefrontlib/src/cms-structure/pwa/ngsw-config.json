@@ -11,8 +11,10 @@
   ],
   "dataGroups": [
     {
-      "name": "baseSites",
-      "urls": ["*/rest/v2/basesites*"],
+      "name": "baseites",
+      "urls": [
+        "*/rest/v2/basesites?fields=baseSites\\(uid,defaultLanguage\\(isocode\\),urlEncodingAttributes,urlPatterns,stores\\(currencies\\(isocode\\),defaultCurrency\\(isocode\\),languages\\(isocode\\),defaultLanguage\\(isocode\\)\\)\\)*"
+      ],
       "cacheConfig": {
         "maxSize": 1,
         "maxAge": "1d",
