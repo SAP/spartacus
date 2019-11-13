@@ -169,7 +169,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'newsletter', type: TabbingOrderTypes.FORM_FIELD },
     {
       value: 'termsandconditions',
       type: TabbingOrderTypes.FORM_FIELD,
