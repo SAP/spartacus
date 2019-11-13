@@ -4,9 +4,11 @@
       <div class="cx-total">
         {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
       </div>
+
       <cx-promotions
-        [promotions]="getAllPromotionsForCart(cart)"
+        [promotions]="getAllOrderPromotionsForCart(cart)"
       ></cx-promotions>
+
       <cx-cart-item-list
         [items]="entries"
         [potentialProductPromotions]="cart.potentialProductPromotions"
