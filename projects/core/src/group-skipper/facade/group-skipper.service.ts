@@ -87,7 +87,7 @@ export class GroupSkipperService implements OnInit, OnDestroy {
         translatedTitle = text;
       });
 
-    return `${translatedSkipTo} ${translatedTitle}`;
+    return `${translatedSkipTo}${translatedTitle}`;
   }
 
   enableFocusOnNonTabElement(element: HTMLElement): void {
