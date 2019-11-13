@@ -25,7 +25,7 @@ export const stateMetaReducers: Provider[] = [
       PLATFORM_ID,
       [new Optional(), TransferState],
       [new Optional(), Config],
-    ]
+    ],
   },
   {
     provide: STORAGE_SYNC_META_REDUCER,
@@ -41,5 +41,5 @@ export const stateMetaReducers: Provider[] = [
     provide: META_REDUCERS,
     useExisting: STORAGE_SYNC_META_REDUCER,
     multi: true,
-  }
+  },
 ];
