@@ -20,7 +20,7 @@ import { UserErrorHandlingService } from '../services/user-error/user-error-hand
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(
     userErrorHandlingService: UserErrorHandlingService,
