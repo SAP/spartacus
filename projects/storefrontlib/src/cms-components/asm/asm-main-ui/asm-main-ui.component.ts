@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import {
   AsmService,
   AuthService,
@@ -11,16 +11,20 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+import { AsmEnablerService } from '../asm-enabler.service';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
+  styleUrls: ['./asm-main-ui.component.scss'],
 })
 export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
+
+  @HostBinding('class.hidden') disabled = false;
 
   private startingCustomerSession = false;
 
@@ -30,7 +34,8 @@ export class AsmMainUiComponent implements OnInit {
     protected asmService: AsmService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected asmEnablerService: AsmEnablerService
   ) {}
 
   ngOnInit(): void {
@@ -88,6 +93,7 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   hideUi(): void {
-    this.asmService.updateAsmUiState({ visible: false });
+    this.disabled = true;
+    this.asmEnablerService.unload();
   }
 }
