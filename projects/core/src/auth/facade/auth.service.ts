@@ -88,7 +88,11 @@ export class AuthService {
    * @param userToken
    */
   isCustomerEmulationToken(userToken: UserToken): boolean {
-    return !!userToken.userId && userToken.userId !== OCC_USER_ID_CURRENT;
+    return (
+      Boolean(userToken) &&
+      Boolean(userToken.userId) &&
+      userToken.userId !== OCC_USER_ID_CURRENT
+    );
   }
 
   /**

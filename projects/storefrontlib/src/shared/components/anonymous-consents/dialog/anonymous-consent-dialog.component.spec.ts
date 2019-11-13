@@ -13,6 +13,14 @@ import { ModalService } from '../../modal/index';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
+  selector: 'cx-spinner',
+  template: `
+    <div>spinner</div>
+  `,
+})
+class MockCxSpinnerComponent {}
+
+@Component({
   selector: 'cx-icon',
   template: ``,
 })
@@ -53,6 +61,9 @@ class MockAnonymousConsentsService {
   isConsentWithdrawn(_consent: AnonymousConsent): boolean {
     return true;
   }
+  getLoadTemplatesLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 const mockConfig: AnonymousConsentsConfig = {
@@ -82,6 +93,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         AnonymousConsentDialogComponent,
         MockCxIconComponent,
         MockConsentManagementFormComponent,
+        MockCxSpinnerComponent,
       ],
       providers: [
         {

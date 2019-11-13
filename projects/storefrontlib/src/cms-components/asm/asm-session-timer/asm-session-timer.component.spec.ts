@@ -6,9 +6,15 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { AsmConfig, I18nTestingModule, RoutingService } from '@spartacus/core';
-import { of } from 'rxjs';
-import { AsmComponentService } from '../asm-component.service';
+import {
+  AsmConfig,
+  AuthService,
+  I18nTestingModule,
+  OCC_USER_ID_ANONYMOUS,
+  RoutingService,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AsmComponentService } from '../services/asm-component.service';
 import { AsmSessionTimerComponent } from './asm-session-timer.component';
 import createSpy = jasmine.createSpy;
 
@@ -19,6 +25,12 @@ const MockAsmConfig: AsmConfig = {
     },
   },
 };
+
+class MockAuthService {
+  getOccUserId(): Observable<string> {
+    return of('');
+  }
+}
 
 class MockAsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
@@ -43,6 +55,7 @@ describe('AsmSessionTimerComponent', () => {
   let config: AsmConfig;
   let asmComponentService: AsmComponentService;
   let routingService: RoutingService;
+  let authService: AuthService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -56,6 +69,7 @@ describe('AsmSessionTimerComponent', () => {
         { provide: AsmConfig, useValue: MockAsmConfig },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
   }));
@@ -65,6 +79,7 @@ describe('AsmSessionTimerComponent', () => {
     config = TestBed.get(AsmConfig);
     asmComponentService = TestBed.get(AsmComponentService);
     routingService = TestBed.get(RoutingService);
+    authService = TestBed.get(AuthService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -102,6 +117,7 @@ describe('AsmSessionTimerComponent', () => {
   }));
 
   it('should reset the time left when user navigates on a new page.', () => {
+    spyOn<any>(component, 'resetOnCustomerSessionChange').and.stub();
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(routingService, 'isNavigating').and.returnValue(of(true));
     component.ngOnInit();
@@ -109,6 +125,7 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should not reset the time left when user is not navigating to a new page', () => {
+    spyOn<any>(component, 'resetOnCustomerSessionChange').and.stub();
     spyOn(component, 'resetTimer').and.callThrough();
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
     component.ngOnInit();
@@ -126,5 +143,20 @@ describe('AsmSessionTimerComponent', () => {
     component.ngOnInit();
     const result = component['getTimerStartDelayInSeconds']();
     expect(result).toBe(component['maxStartDelayInSeconds']);
+  });
+
+  it('should reset the time left when agent starts a new customer session', () => {
+    spyOn<any>(component, 'resetOnNavigate').and.stub();
+    const occUserId$: BehaviorSubject<string> = new BehaviorSubject(
+      OCC_USER_ID_ANONYMOUS
+    );
+    spyOn(component, 'resetTimer').and.callThrough();
+    spyOn(authService, 'getOccUserId').and.returnValue(occUserId$);
+    spyOn(routingService, 'isNavigating').and.returnValue(of(false));
+    component.ngOnInit(); // reset 1, initial value anonymous.
+    occUserId$.next('customer01'); // reset 2, staring an emulation session.
+    occUserId$.next('customer01'); // no reset, simulates token resfresh
+    occUserId$.next(OCC_USER_ID_ANONYMOUS); // reset 3, end customer emulation session
+    expect(component.resetTimer).toHaveBeenCalledTimes(3);
   });
 });
