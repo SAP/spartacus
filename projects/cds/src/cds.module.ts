@@ -4,12 +4,12 @@ import { MerchandisingCarouselModule } from './cms-components';
 import { CdsConfig } from './config/cds-config';
 import { cdsConfigValidator } from './config/cds-config-validator';
 import { DEFAULT_CDS_CONFIG } from './config/default-cds-config';
-import { MerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
-import { StrategyAdapter } from './merchandising/connectors/strategy/cds-strategy.adapter';
+import { CdsMerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,
   MERCHANDISING_PRODUCT_NORMALIZER,
 } from './merchandising/connectors/strategy/converters';
+import { MerchandisingStrategyAdapter } from './merchandising/connectors/strategy/merchandising-strategy.adapter';
 import { MerchandisingProductNormalizer } from './merchandising/converters/merchandising-product-normalizer';
 import { MerchandisingProductsNormalizer } from './merchandising/converters/merchandising-products-normalizer';
 
@@ -22,7 +22,10 @@ export class CdsModule {
       ngModule: CdsModule,
       providers: [
         { provide: CdsConfig, useExisting: Config },
-        { provide: StrategyAdapter, useClass: MerchandisingStrategyAdapter },
+        {
+          provide: MerchandisingStrategyAdapter,
+          useClass: CdsMerchandisingStrategyAdapter,
+        },
         {
           provide: MERCHANDISING_PRODUCTS_NORMALIZER,
           useClass: MerchandisingProductsNormalizer,

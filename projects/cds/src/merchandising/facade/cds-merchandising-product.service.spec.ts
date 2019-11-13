@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ImageType } from '@spartacus/core';
 import { of } from 'rxjs';
-import { StrategyConnector } from './../connectors/strategy/cds-strategy.connector';
+import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
 import { MerchandisingProducts } from './../model/merchandising.products.model';
 import { CdsMerchandisingProductService } from './cds-merchandising-product.service';
 import createSpy = jasmine.createSpy;
@@ -48,19 +48,22 @@ class MockStrategyConnector {
 
 describe('CdsMerchandisingProductService', () => {
   let cdsMerchandisingPrductService: CdsMerchandisingProductService;
-  let strategyConnector: StrategyConnector;
+  let strategyConnector: MerchandisingStrategyConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: StrategyConnector, useClass: MockStrategyConnector },
+        {
+          provide: MerchandisingStrategyConnector,
+          useClass: MockStrategyConnector,
+        },
       ],
     });
     cdsMerchandisingPrductService = TestBed.get(
       CdsMerchandisingProductService as Type<CdsMerchandisingProductService>
     );
-    strategyConnector = TestBed.get(StrategyConnector as Type<
-      StrategyConnector
+    strategyConnector = TestBed.get(MerchandisingStrategyConnector as Type<
+      MerchandisingStrategyConnector
     >);
   });
 

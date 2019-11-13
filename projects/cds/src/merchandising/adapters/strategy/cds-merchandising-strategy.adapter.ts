@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { ConverterService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
-import { StrategyAdapter } from '../../connectors/strategy/cds-strategy.adapter';
 import { MERCHANDISING_PRODUCTS_NORMALIZER } from '../../connectors/strategy/converters';
+import { MerchandisingStrategyAdapter } from '../../connectors/strategy/merchandising-strategy.adapter';
 import { MerchandisingProducts } from '../../model/merchandising.products.model';
 
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 
 @Injectable()
-export class MerchandisingStrategyAdapter implements StrategyAdapter {
+export class CdsMerchandisingStrategyAdapter
+  implements MerchandisingStrategyAdapter {
   constructor(
     private converterService: ConverterService,
     private cdsEndpointsService: CdsEndpointsService,

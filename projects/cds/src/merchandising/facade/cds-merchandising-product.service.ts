@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StrategyConnector } from './../connectors/strategy/cds-strategy.connector';
+import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
 import { MerchandisingProducts } from './../model/merchandising.products.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CdsMerchandisingProductService {
-  constructor(protected strategyConnector: StrategyConnector) {}
+  constructor(protected strategyConnector: MerchandisingStrategyConnector) {}
 
   loadProductsForStrategy(
     strategyId: string
