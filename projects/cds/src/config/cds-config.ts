@@ -1,8 +1,8 @@
 import { CdsEndpoints } from '../cds-models/cds-endpoints.model';
-import { ProfileTagConfig } from '../profiletag/config/profiletag-config';
+import { ProfileTagConfig } from './profile-tag.config';
 
 export abstract class CdsConfig {
-  cds?: {
+  cds: {
     tenant: string;
     baseUrl: string;
     endpoints: CdsEndpoints;

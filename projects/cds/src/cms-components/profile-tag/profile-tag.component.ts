@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Renderer2 } from '@angular/core';
 import { Event as NgRouterEvent } from '@angular/router';
 import { AnonymousConsent } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ProfileTagInjector } from './profile-tag.injector';
+import { ProfileTagInjector } from '../../profiletag/profile-tag.injector';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-profiletag',

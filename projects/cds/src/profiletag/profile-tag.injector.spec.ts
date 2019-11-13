@@ -11,13 +11,17 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig } from '../../config/cds.config';
+import { CdsConfig } from '../config/cds.config';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagWindowObject } from './profile-tag.model';
 
 const mockCDSConfig: CdsConfig = {
   cds: {
     tenant: 'ArgoTest',
+    baseUrl: 'example.com',
+    endpoints: {
+      strategyProducts: 'example',
+    },
     profileTag: {
       javascriptUrl: 'https://tag.static.eu.context.cloud.sap',
       configUrl: 'https://tag.static.us.context.cloud.sap',

@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { fromEventPattern, merge, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { CdsConfig } from '../../config/cds.config';
+import { CdsConfig } from '../config/cds.config';
 import {
   ProfileTagEvent,
   ProfileTagJsConfig,
@@ -24,14 +24,16 @@ export class ProfileTagInjector {
   private w: ProfileTagWindowObject;
   private tracking$: Observable<AnonymousConsent | NgRouterEvent>;
   private profileTagScript: HTMLScriptElement;
+  private document?: Document;
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) doc: any
   ) {
+    this.document = doc as Document; // See https://github.com/angular/angular/issues/20351
     this.w = <ProfileTagWindowObject>(
       (<unknown>(this.winRef ? this.winRef.nativeWindow : undefined))
     );

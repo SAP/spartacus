@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Event as NgRouterEvent, NavigationEnd } from '@angular/router';
 import { AnonymousConsent } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ProfileTagInjector } from '../../profiletag/profile-tag.injector';
 import { ProfileTagComponent } from './profile-tag.component';
-import { ProfileTagInjector } from './profile-tag.injector';
 
 class MockProfileTagInjector {
   injectScript(): Observable<AnonymousConsent | NgRouterEvent> {
