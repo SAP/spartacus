@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
+import { CartVoucherAdapter } from '../../../cart/connectors/voucher/cart-voucher.adapter';
 import { ConfigModule } from '../../../config/config.module';
 import { OccCartNormalizer } from './converters/occ-cart-normalizer';
 import { defaultOccCartConfig } from './default-occ-cart-config';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
+import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 import { OccCartAdapter } from './occ-cart.adapter';
 
 @NgModule({
@@ -29,6 +31,10 @@ import { OccCartAdapter } from './occ-cart.adapter';
     {
       provide: CartEntryAdapter,
       useClass: OccCartEntryAdapter,
+    },
+    {
+      provide: CartVoucherAdapter,
+      useClass: OccCartVoucherAdapter,
     },
   ],
 })

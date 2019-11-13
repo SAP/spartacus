@@ -8,12 +8,18 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { IconModule } from '../../misc/index';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nModule,
+    IconModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ConsentManagementComponent: {
@@ -22,10 +28,6 @@ import { ConsentManagementComponent } from './components/consent-management.comp
         },
       },
     }),
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    I18nModule,
   ],
   declarations: [ConsentManagementComponent, ConsentManagementFormComponent],
   exports: [ConsentManagementComponent, ConsentManagementFormComponent],

@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -218,6 +219,14 @@ describe('AuthService', () => {
       );
     });
 
+    it('should return false if there is no token', () => {
+      expect(service.isCustomerEmulationToken(undefined)).toBe(false);
+    });
+
+    it('should return false if the token is an empty object', () => {
+      expect(service.isCustomerEmulationToken({} as UserToken)).toBe(false);
+    });
+
     it('should return false if the userid "current"', () => {
       expect(
         service.isCustomerEmulationToken({
@@ -246,5 +255,37 @@ describe('AuthService', () => {
       .subscribe(token => (result = token))
       .unsubscribe();
     expect(result).toEqual(mockToken.userId);
+  });
+
+  describe('isUserLoggedIn', () => {
+    it('should return false if the userToken is not present', () => {
+      spyOn(service, 'getUserToken').and.returnValue(of(null));
+      let result = true;
+      service
+        .isUserLoggedIn()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(false);
+    });
+    it('should return false if the userToken is present but userToken.access_token is not', () => {
+      spyOn(service, 'getUserToken').and.returnValue(of({} as UserToken));
+      let result = true;
+      service
+        .isUserLoggedIn()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(false);
+    });
+    it('should return true if the userToken and userToken.access_token are present', () => {
+      spyOn(service, 'getUserToken').and.returnValue(
+        of({ access_token: 'xxx' } as UserToken)
+      );
+      let result = false;
+      service
+        .isUserLoggedIn()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(true);
+    });
   });
 });
