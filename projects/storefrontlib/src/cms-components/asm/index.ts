@@ -1,4 +1,3 @@
-export * from './asm-enabler.service';
 export * from './asm-loader.module';
 export * from './asm-main-ui/asm-main-ui.component';
 export * from './asm-root/asm-root.component';

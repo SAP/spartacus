@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { ComponentFactoryResolver, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { OutletPosition, OutletService } from '../../cms-structure';
-import { AsmRootComponent } from './asm-root/asm-root.component';
+import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 
 const BROWSER_STORAGE_KEY = 'asm_enabled';
 
@@ -87,7 +87,7 @@ export class AsmEnablerService {
       return;
     }
     const factory = this.componentFactoryResolver.resolveComponentFactory(
-      AsmRootComponent
+      AsmMainUiComponent
     );
     this.outletService.add('cx-storefront', factory, OutletPosition.BEFORE);
     this.isUiAdded = true;
