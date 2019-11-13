@@ -13,7 +13,7 @@ import {
   stub,
 } from '../../../helpers/site-context-selector';
 
-context('Anonymous consents - normal flow', () => {
+context('Anonymous consents flow', () => {
   describe('when anonymous user', () => {
     before(() => {
       cy.window().then(win => {

@@ -1,7 +1,9 @@
 import {
   anonoymousConsentConfig,
   anonymousConfigTestFlow,
+  displayLegalDescriptionInDialog,
   MARKETING_NEWSLETTER,
+  noLegalDescriptionInDialog,
   PERSONALIZATION,
   sessionLogin,
   showAnonymousConfigTest,
@@ -9,17 +11,22 @@ import {
 } from '../../../helpers/anonymous-consents';
 
 context('Anonymous consents - config flow', () => {
-  describe('when config hides legalDescription is false and showAnonymousConsents is false', () => {
+  describe('when config legalDescription is false and showAnonymousConsents is false', () => {
     before(() => {
       cy.window().then(win => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
 
-      anonoymousConsentConfig(MARKETING_NEWSLETTER, false, [], {
-        showAnonymousConsents: false,
-        hideConsents: [],
-      });
+      anonoymousConsentConfig(
+        MARKETING_NEWSLETTER,
+        noLegalDescriptionInDialog,
+        [],
+        {
+          showAnonymousConsents: false,
+          hideConsents: [],
+        }
+      );
 
       sessionLogin();
       cy.reload();
@@ -29,17 +36,22 @@ context('Anonymous consents - config flow', () => {
     showAnonymousConfigTest();
   });
 
-  describe.only('when config registerConsig is changed, requiredConsents and hideConsents exist, ', () => {
+  describe('when config registerConsig is changed, requiredConsents and hideConsents exist, ', () => {
     before(() => {
       cy.window().then(win => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
 
-      anonoymousConsentConfig(PERSONALIZATION, true, [MARKETING_NEWSLETTER], {
-        showAnonymousConsents: true,
-        hideConsents: [STORE_USER_INFORMATION],
-      });
+      anonoymousConsentConfig(
+        PERSONALIZATION,
+        displayLegalDescriptionInDialog,
+        [MARKETING_NEWSLETTER],
+        {
+          showAnonymousConsents: true,
+          hideConsents: [STORE_USER_INFORMATION],
+        }
+      );
 
       cy.reload();
       cy.visit('/');

@@ -14,14 +14,21 @@ const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
 const BE_DISABLED = 'be.disabled';
 const NOT_EXIST = 'not.exist';
+const noRegistrationConsent = false;
+const clickRegistrationConsent = true;
+const firstCheckBoxPosition = 0;
+const secondCheckBoxPosition = 1;
+
 export const MARKETING_NEWSLETTER = 'MARKETING_NEWSLETTER';
 export const PERSONALIZATION = 'PERSONALIZATION';
 export const STORE_USER_INFORMATION = 'STORE_USER_INFORMATION';
+export const noLegalDescriptionInDialog = false;
+export const displayLegalDescriptionInDialog = true;
 
 const personalizationConsentLabel = 'personalization';
 const userGiveConsentRegistrationTest: RegisterUser = {
-  firstName: '1',
-  lastName: '2',
+  firstName: 'John',
+  lastName: 'Doe',
   email: generateMail(randomString(), true),
   password: 'Password123!',
 };
@@ -94,7 +101,7 @@ export function checkBannerHidden() {
   cy.get(ANONYMOUS_BANNER).should('not.be.visible');
 }
 
-export function checkDialogDescroption() {
+export function checkDialogDescription() {
   cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-description`).should(NOT_EXIST);
 }
 
@@ -226,8 +233,8 @@ export function giveRegistrationConsentTest() {
   it('should give the registration consent', () => {
     registerUserAndCheckMyAccountConsent(
       userGiveConsentRegistrationTest,
-      true,
-      0
+      clickRegistrationConsent,
+      firstCheckBoxPosition
     );
   });
 }
@@ -238,7 +245,11 @@ export function movingFromAnonymousToRegisteredUser() {
     toggleAnonymousConsent(2);
     closeDialog();
 
-    registerUserAndCheckMyAccountConsent(userTransferConsentTest, false, 1);
+    registerUserAndCheckMyAccountConsent(
+      userTransferConsentTest,
+      noRegistrationConsent,
+      secondCheckBoxPosition
+    );
   });
 }
 
@@ -334,7 +345,7 @@ export function showAnonymousConfigTest() {
 
   it('should not display the legal in the dialog', () => {
     clickViewDetailsFromBanner();
-    checkDialogDescroption();
+    checkDialogDescription();
     closeDialog();
   });
 }
@@ -349,8 +360,8 @@ export function anonymousConfigTestFlow() {
   it('should check new register consent and personalizing not visible in consent management page', () => {
     registerUserAndCheckMyAccountConsent(
       userFromConfigTest,
-      true,
-      1,
+      giveRegistrationConsentTest,
+      secondCheckBoxPosition,
       personalizationConsentLabel
     );
 
