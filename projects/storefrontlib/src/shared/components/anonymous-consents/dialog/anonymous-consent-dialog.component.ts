@@ -22,6 +22,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   requiredConsents: string[] = [];
 
+  loading$: Observable<boolean>;
   templates$: Observable<ConsentTemplate[]>;
   consents$: Observable<AnonymousConsent[]>;
 
@@ -44,6 +45,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.templates$ = this.anonymousConsentsService.getTemplates();
     this.consents$ = this.anonymousConsentsService.getConsents();
+    this.loading$ = this.anonymousConsentsService.getLoadTemplatesLoading();
   }
 
   closeModal(reason?: any): void {
