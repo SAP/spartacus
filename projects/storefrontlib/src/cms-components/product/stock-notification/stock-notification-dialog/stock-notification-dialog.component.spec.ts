@@ -90,7 +90,7 @@ describe('StockNotificationDialogComponent', () => {
     expect(modalService.dismissActiveModal).toHaveBeenCalled();
   });
 
-  it('should able to reset the state in destory', () => {
+  it('should be able to reset the adding state in destory()', () => {
     fixture.detectChanges();
     component.ngOnDestroy();
     expect(interestsService.resetAddInterestState).toHaveBeenCalled();

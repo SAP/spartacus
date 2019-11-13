@@ -2,8 +2,6 @@ import { generateMail, randomString } from './user';
 import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
 
-// export const configurableProductCode = '1934793';
-// export const variantProductCode = '1978440_red';
 export const normalProductCode = '358639';
 export const productCodeList = [
   '553637',

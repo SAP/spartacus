@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   NotificationPreference,
   UserNotificationPreferenceService,
@@ -9,11 +9,13 @@ import { map, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-notification-preference',
   templateUrl: './notification-preference.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationPreferenceComponent implements OnInit {
   preferences$: Observable<NotificationPreference[]>;
   isLoading$: Observable<boolean>;
-  preferences: NotificationPreference[] = [];
+
+  protected preferences: NotificationPreference[] = [];
 
   constructor(
     private notificationPreferenceService: UserNotificationPreferenceService

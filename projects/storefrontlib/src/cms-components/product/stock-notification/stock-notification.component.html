@@ -1,5 +1,5 @@
 <ng-container *ngIf="outOfStock$ | async">
-  <ng-container *ngIf="!(subscribed$ | async); else stopNotify">
+  <ng-container *ngIf="!(hasProductInterests$ | async); else stopNotify">
     <ng-container *ngIf="prefsEnabled$ | async; else disableNotify">
       <div class="stock-notification-notes">
         <label>{{ 'stockNotification.getNotified' | cxTranslate }}</label>
@@ -44,7 +44,7 @@
 </ng-template>
 
 <ng-template #stopNotify>
-  <ng-container *ngIf="!(unsubscribeLoading$ | async); else loading">
+  <ng-container *ngIf="!(isRemoveInterestLoading$ | async); else loading">
     <div class="stock-notification-notes">
       <label>{{ 'stockNotification.notified' | cxTranslate }}</label>
     </div>

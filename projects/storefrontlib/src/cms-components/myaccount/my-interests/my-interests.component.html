@@ -170,14 +170,7 @@
                     <button
                       type="button"
                       class="link cx-product-interests-remove-btn"
-                      [class.disabled]="
-                        (getInterestsloading$ | async) ||
-                        (getRemoveInterestsloading$ | async)
-                      "
-                      [disabled]="
-                        (getInterestsloading$ | async) ||
-                        (getRemoveInterestsloading$ | async)
-                      "
+                      [disabled]="isRemoveDisabled$ | async"
                       (click)="removeInterest(interest)"
                     >
                       {{ 'myInterests.remove' | cxTranslate }}

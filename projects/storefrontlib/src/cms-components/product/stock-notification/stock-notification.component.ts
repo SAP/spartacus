@@ -28,16 +28,15 @@ import { StockNotificationDialogComponent } from './stock-notification-dialog/st
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
-  subscribed$: Observable<boolean>;
+  hasProductInterests$: Observable<boolean>;
   prefsEnabled$: Observable<boolean>;
   outOfStock$: Observable<boolean>;
-  subscribeSuccess$: Observable<boolean>;
-  unsubscribeLoading$: Observable<boolean>;
-
-  enabledPrefs: NotificationPreference[] = [];
+  isRemoveInterestLoading$: Observable<boolean>;
   anonymous = true;
-  productCode: string;
 
+  private enabledPrefs: NotificationPreference[] = [];
+  private productCode: string;
+  private subscribeSuccess$: Observable<boolean>;
   private subscriptions = new Subscription();
 
   constructor(
@@ -75,13 +74,13 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.subscribed$ = this.interestsService
+    this.hasProductInterests$ = this.interestsService
       .getProductInterests()
       .pipe(
         map(interests => !!interests.results && interests.results.length === 1)
       );
     this.subscribeSuccess$ = this.interestsService.getAddProductInterestSuccess();
-    this.unsubscribeLoading$ = this.interestsService.getRemoveProdutInterestLoading();
+    this.isRemoveInterestLoading$ = this.interestsService.getRemoveProdutInterestLoading();
     this.prefsEnabled$ = this.notificationPrefService
       .getEnabledPreferences()
       .pipe(

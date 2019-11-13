@@ -48,7 +48,7 @@ import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests
     { provide: UserInterestsAdapter, useClass: OccUserInterestsAdapter },
     {
       provide: PRODUCT_INTERESTS_NORMALIZER,
-      useClass: OccUserInterestsNormalizer,
+      useExisting: OccUserInterestsNormalizer,
       multi: true,
     },
   ],

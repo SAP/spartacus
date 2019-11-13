@@ -7,7 +7,7 @@ import {
 } from '../../../../util/converter.service';
 import { ProductInterestSearchResult } from '../../../../model/product-interest.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccUserInterestsNormalizer
   implements
     Converter<Occ.ProductInterestSearchResult, ProductInterestSearchResult> {

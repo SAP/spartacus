@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
 import {
   UserInterestsService,
@@ -12,6 +17,7 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
 @Component({
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
@@ -35,8 +41,8 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   pagination: PaginationModel;
 
   interests$: Observable<ProductInterestSearchResult>;
+  isRemoveDisabled$: Observable<boolean>;
   getInterestsloading$: Observable<boolean>;
-  getRemoveInterestsloading$: Observable<boolean>;
   sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
 
   constructor(
@@ -45,7 +51,6 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.productInterestService.clearProductInterests();
     this.interests$ = this.productInterestService
       .getAndLoadProductInterests(this.DEFAULT_PAGE_SIZE)
       .pipe(
@@ -60,13 +65,14 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
             })
         )
       );
-    this.getInterestsloading$ = this.productInterestService.getProdutInterestsLoading();
-    this.getRemoveInterestsloading$ = this.productInterestService.getRemoveProdutInterestLoading();
-    this.sortLabels = this.getSortLabels();
-  }
 
-  removeInterest(result: ProductInterestEntryRelation): void {
-    this.productInterestService.removeProdutInterest(result);
+    this.getInterestsloading$ = this.productInterestService.getProdutInterestsLoading();
+    this.isRemoveDisabled$ = combineLatest([
+      this.getInterestsloading$,
+      this.productInterestService.getRemoveProdutInterestLoading(),
+    ]).pipe(map(([getLoading, removeLoading]) => getLoading || removeLoading));
+
+    this.sortLabels = this.getSortLabels();
   }
 
   private getSortLabels(): Observable<{
@@ -84,6 +90,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         };
       })
     );
+  }
+
+  removeInterest(result: ProductInterestEntryRelation): void {
+    this.productInterestService.removeProdutInterest(result);
   }
 
   sortChange(sort: string): void {

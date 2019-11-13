@@ -74,7 +74,7 @@ describe('OccUserInterestsAdapter', () => {
     const page = 1;
     const sort = 'name:asc';
 
-    it('should be able to fetch interests with parameters', async(() => {
+    it('should be able to fetch interests with parameters', () => {
       occUserInterestsAdapter
         .getInterests(userId, pageSize, page, sort)
         .subscribe();
@@ -96,7 +96,7 @@ describe('OccUserInterestsAdapter', () => {
         page.toString()
       );
       expect(mockReq.request.params.get('sort')).toEqual(sort);
-    }));
+    });
 
     it('should use converter', () => {
       occUserInterestsAdapter
