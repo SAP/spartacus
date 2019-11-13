@@ -57,7 +57,7 @@ export const errorHandlers: Provider[] = [
 export const httpErrorInterceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: HttpErrorInterceptor,
+    useExisting: HttpErrorInterceptor,
     multi: true,
   },
 ];
