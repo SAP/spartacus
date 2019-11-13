@@ -323,9 +323,13 @@
               "projects/cds/tsconfig.lib.json",
               "projects/cds/tsconfig.spec.json"
             ],
+<<<<<<< HEAD
             "exclude": [
               "**/node_modules/**"
             ]
+=======
+            "exclude": ["**/node_modules/**"]
+>>>>>>> 0fe6239ca0dba0daa1c20a718faeefc1e287e6d9
           }
         }
       }

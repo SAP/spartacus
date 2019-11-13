@@ -9,6 +9,7 @@
     "build": "ng build storefrontapp --prod",
     "build:assets": "ng build assets && yarn generate:translations:ts-2-json",
     "build:core:lib": "ng build core && ng build storefrontlib && yarn build:assets",
+    "build:core:lib:cds": "ng build core && ng build storefrontlib && ng build cds && yarn build:assets",
     "build:qa": "ng build -c=qa",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:cy:cli": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:cli",
