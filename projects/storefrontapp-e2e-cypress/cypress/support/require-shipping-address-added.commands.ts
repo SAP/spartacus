@@ -22,7 +22,7 @@ declare global {
 }
 
 Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
-  const apiUrl = Cypress.env('API_URL');
+  const apiUrl = Cypress.env('BACKEND_URL');
 
   // format the request body
   address.firstName = user.firstName;

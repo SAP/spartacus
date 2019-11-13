@@ -1,4 +1,4 @@
-export const apiUrl = Cypress.env('API_URL');
+export const apiUrl = Cypress.env('BACKEND_URL');
 export const USERID_CURRENT = 'current';
 export const config = {
   tokenUrl: `${apiUrl}/authorizationserver/oauth/token`,

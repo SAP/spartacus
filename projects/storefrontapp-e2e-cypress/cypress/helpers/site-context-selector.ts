@@ -19,22 +19,22 @@ export const LANGUAGE_DE = 'de';
 export const CART_REQUEST_ALIAS = 'cart_request_alias';
 
 export const LANGUAGE_REQUEST = `${Cypress.env(
-  'API_URL'
+  'BACKEND_URL'
 )}/rest/v2/${CONTENT_CATALOG}/languages?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 export const CURRENCY_REQUEST = `${Cypress.env(
-  'API_URL'
+  'BACKEND_URL'
 )}/rest/v2/${CONTENT_CATALOG}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const CART_REQUEST = `${Cypress.env(
-  'API_URL'
+  'BACKEND_URL'
 )}/rest/v2/${CONTENT_CATALOG}/users/current/carts/*`;
 
 export const PAGE_REQUEST = `${Cypress.env(
-  'API_URL'
+  'BACKEND_URL'
 )}/rest/v2/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
 
 export const TITLE_REQUEST = `${Cypress.env(
-  'API_URL'
+  'BACKEND_URL'
 )}/rest/v2/${CONTENT_CATALOG}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;

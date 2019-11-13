@@ -18,7 +18,7 @@ declare global {
   }
 }
 Cypress.Commands.add('requireShippingMethodSelected', auth => {
-  const apiUrl = Cypress.env('API_URL');
+  const apiUrl = Cypress.env('BACKEND_URL');
   function setShippingMethod() {
     return cy.request({
       method: 'PUT',

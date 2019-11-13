@@ -15,7 +15,7 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
-  const apiUrl = Cypress.env('API_URL');
+  const apiUrl = Cypress.env('BACKEND_URL');
 
   function placeOrder() {
     return cy.request({

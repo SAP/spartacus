@@ -56,7 +56,7 @@ export function addShippingAddress() {
   cy.request({
     method: 'POST',
     url: `${Cypress.env(
-      'API_URL'
+      'BACKEND_URL'
     )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
@@ -120,7 +120,7 @@ export function addPaymentMethod() {
       cy.request({
         method: 'POST',
         url: `${Cypress.env(
-          'API_URL'
+          'BACKEND_URL'
         )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
@@ -230,7 +230,7 @@ export function deleteShippingAddress() {
   cy.request({
     method: 'GET',
     url: `${Cypress.env(
-      'API_URL'
+      'BACKEND_URL'
     )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
@@ -249,7 +249,7 @@ export function deleteShippingAddress() {
       cy.request({
         method: 'DELETE',
         url: `${Cypress.env(
-          'API_URL'
+          'BACKEND_URL'
         )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${
@@ -267,7 +267,7 @@ export function deletePaymentCard() {
   cy.request({
     method: 'GET',
     url: `${Cypress.env(
-      'API_URL'
+      'BACKEND_URL'
     )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
@@ -286,7 +286,7 @@ export function deletePaymentCard() {
       cy.request({
         method: 'DELETE',
         url: `${Cypress.env(
-          'API_URL'
+          'BACKEND_URL'
         )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${

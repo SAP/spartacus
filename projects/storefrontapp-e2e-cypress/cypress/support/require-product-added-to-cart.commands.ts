@@ -19,7 +19,7 @@ declare global {
 }
 
 Cypress.Commands.add('requireProductAddedToCart', auth => {
-  const apiUrl = Cypress.env('API_URL');
+  const apiUrl = Cypress.env('BACKEND_URL');
   function createCart() {
     return cy.request({
       method: 'POST',

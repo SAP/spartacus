@@ -18,7 +18,7 @@ declare global {
   }
 }
 Cypress.Commands.add('requirePaymentDone', auth => {
-  const apiUrl = Cypress.env('API_URL');
+  const apiUrl = Cypress.env('BACKEND_URL');
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
