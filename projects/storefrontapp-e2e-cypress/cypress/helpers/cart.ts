@@ -103,6 +103,17 @@ export function addToCart() {
     .click({ force: true });
 }
 
+export function waitForAddToCart() {
+  cy.route(
+    'GET',
+    `/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+  ).as('refresh_cart');
+
+  addToCart();
+
+  cy.wait('@refresh_cart');
+}
+
 export function closeAddedToCartDialog() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
@@ -261,14 +272,9 @@ export function manipulateCartQuantity() {
   cy.visit(`/product/${product.code}`);
 
   cy.server();
-  cy.route(
-    'GET',
-    `/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
-  ).as('refresh_cart');
 
-  addToCart();
+  waitForAddToCart();
 
-  cy.wait('@refresh_cart');
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 
