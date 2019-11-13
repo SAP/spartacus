@@ -9,7 +9,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AsmService,
-  AsmUi,
   AuthService,
   GlobalMessageService,
   I18nTestingModule,
@@ -87,18 +86,14 @@ class MockCustomerEmulationComponent {}
 class MockGlobalMessageService {
   remove() {}
 }
-class MockAsmService {
-  getAsmUiState(): Observable<AsmUi> {
-    return of({ visible: true } as AsmUi);
-  }
-  updateAsmUiState(): void {}
-}
+class MockAsmService {}
 class MockRoutingService {
   go() {}
 }
 
 class MockAsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
+  unload() {}
 }
 
 describe('AsmMainUiComponent', () => {
@@ -109,7 +104,6 @@ describe('AsmMainUiComponent', () => {
   let el: DebugElement;
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
-  let asmService: AsmService;
   let asmComponentService: AsmComponentService;
 
   beforeEach(async(() => {
@@ -138,7 +132,6 @@ describe('AsmMainUiComponent', () => {
     authService = TestBed.get(AuthService);
     userService = TestBed.get(UserService);
     globalMessageService = TestBed.get(GlobalMessageService);
-    asmService = TestBed.get(AsmService);
     routingService = TestBed.get(RoutingService);
     asmComponentService = TestBed.get(AsmComponentService);
     component = fixture.componentInstance;
@@ -282,19 +275,23 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should hide the UI when the Close Asm button is clicked', () => {
-    spyOn(asmService, 'updateAsmUiState').and.stub();
-    spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
-      of({} as UserToken)
-    );
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
     component.ngOnInit();
     fixture.detectChanges();
     const submitBtn = fixture.debugElement.query(
       By.css('a[title="asm.hideUi"]')
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-    expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
-      visible: false,
-    });
+    expect(component.disabled).toEqual(true);
+  });
+
+  it('should unload ASM when the close button is clicked', () => {
+    spyOn(asmComponentService, 'unload').and.stub();
+    component.ngOnInit();
+    fixture.detectChanges();
+    const submitBtn = fixture.debugElement.query(
+      By.css('a[title="asm.hideUi"]')
+    );
+    submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+    expect(asmComponentService.unload).toHaveBeenCalled();
   });
 });

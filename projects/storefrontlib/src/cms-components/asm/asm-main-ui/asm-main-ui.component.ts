@@ -11,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { AsmEnablerService } from '../asm-enabler.service';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -34,8 +33,7 @@ export class AsmMainUiComponent implements OnInit {
     protected asmService: AsmService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    protected asmEnablerService: AsmEnablerService
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit(): void {
@@ -94,6 +92,6 @@ export class AsmMainUiComponent implements OnInit {
 
   hideUi(): void {
     this.disabled = true;
-    this.asmEnablerService.unload();
+    this.asmComponentService.unload();
   }
 }

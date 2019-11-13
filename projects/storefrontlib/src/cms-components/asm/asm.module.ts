@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { AsmLoaderModule } from './asm-loader.module';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
-import { AsmRootComponent } from './asm-root/asm-root.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
 import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-form.component';
@@ -16,11 +15,10 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerSelectionComponent,
-    AsmRootComponent,
     AsmSessionTimerComponent,
     FormatTimerPipe,
     CustomerEmulationComponent,
   ],
-  entryComponents: [AsmRootComponent],
+  entryComponents: [AsmMainUiComponent],
 })
 export class AsmModule {}

@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { PageComponentModule } from '../../cms-structure/index';
-import { AsmEnablerService } from './asm-enabler.service';
+import { AsmEnablerService } from './services/asm-enabler.service';
 
 /**
- * The ASM loader module takes care of loading of the ASM UI
+ * The ASM loader module takes care of loading the ASM UI
  * only in case there's a reason to do so.
  */
 @NgModule({
@@ -12,7 +12,7 @@ import { AsmEnablerService } from './asm-enabler.service';
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: asmEnablerFactory,
+      useFactory: asmFactory,
       deps: [AsmEnablerService],
       multi: true,
     },
@@ -26,7 +26,7 @@ export class AsmLoaderModule {}
  * to a real component; the router and state aren't available in an optimized
  * way during the APP_INITIALIZER.
  */
-export function asmEnablerFactory(asmEnablerService: AsmEnablerService) {
+export function asmFactory(asmEnablerService: AsmEnablerService) {
   const isReady = () => {
     asmEnablerService.load();
   };

@@ -1,8 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from './asm-component.service';
+
+const BROWSER_STORAGE_KEY = 'asm_enabled';
 
 class MockAuthService {
   logoutCustomerSupportAgent(): void {}
@@ -23,9 +30,27 @@ class MockRoutingService {
   go() {}
 }
 
+const store = {};
+const MockWindowRef = {
+  localStorage: {
+    getItem: (key: string): string => {
+      return key in store ? store[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      store[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        delete store[key];
+      }
+    },
+  },
+};
+
 describe('AsmComponentService', () => {
   let authService: AuthService;
   let routingService: RoutingService;
+  let windowRef: WindowRef;
   let asmComponentService: AsmComponentService;
 
   beforeEach(() => {
@@ -33,12 +58,14 @@ describe('AsmComponentService', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: WindowRef, useValue: MockWindowRef },
       ],
     });
 
     asmComponentService = TestBed.get(AsmComponentService);
     authService = TestBed.get(AuthService);
     routingService = TestBed.get(RoutingService);
+    windowRef = TestBed.get(WindowRef);
   });
 
   it('should be created', () => {
@@ -116,6 +143,14 @@ describe('AsmComponentService', () => {
         .pipe(take(1))
         .subscribe(value => (result = value));
       expect(result).toBe(false);
+    });
+  });
+
+  describe('Unload', () => {
+    it('should remove local storage key to false on unload', () => {
+      windowRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'true');
+      asmComponentService.unload();
+      expect(windowRef.localStorage.getItem(BROWSER_STORAGE_KEY)).toBeNull();
     });
   });
 });

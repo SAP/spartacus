@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { OutletService } from '../../cms-structure/outlet/index';
+import { OutletService } from '../../../cms-structure/outlet/index';
 import { AsmEnablerService } from './asm-enabler.service';
 
 const BROWSER_STORAGE_KEY = 'asm_enabled';
@@ -106,14 +106,6 @@ describe('AsmEnablerService', () => {
       spyOn(<any>asmEnablerService, 'addUi').and.stub();
       asmEnablerService.load();
       expect((<any>asmEnablerService).addUi).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Unload', () => {
-    it('should remove local storage key to false on unload', () => {
-      windowRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'true');
-      asmEnablerService.unload();
-      expect(windowRef.localStorage.getItem(BROWSER_STORAGE_KEY)).toBeNull();
     });
   });
 });

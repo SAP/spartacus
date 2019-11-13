@@ -1,6 +1,5 @@
 export * from './asm-loader.module';
 export * from './asm-main-ui/asm-main-ui.component';
-export * from './asm-root/asm-root.component';
 export * from './asm-session-timer/asm-session-timer.component';
 export * from './asm-session-timer/format-timer.pipe';
 export * from './asm.module';

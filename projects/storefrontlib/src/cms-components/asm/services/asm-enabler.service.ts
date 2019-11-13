@@ -1,11 +1,10 @@
 import { Location } from '@angular/common';
 import { ComponentFactoryResolver, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { OutletPosition, OutletService } from '../../cms-structure';
-import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
+import { OutletPosition, OutletService } from '../../../cms-structure';
+import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
 
-const BROWSER_STORAGE_KEY = 'asm_enabled';
-
+const ASM_LOCAL_STORAGE_KEY = 'asm_enabled';
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
  * where it's actually used. This service is added to avoid any polution
@@ -36,25 +35,12 @@ export class AsmEnablerService {
   }
 
   /**
-   * We're currently only removing the persisted storage in the browser
-   * to ensure the ASM experience isn't loaded on the next visit. There are a few
-   * optimsiations we could think of:
-   * - drop the `asm` parameter from the URL, in case it's still there
-   * - remove the generated UI from the DOM (outlets currently do not support this)
-   */
-  unload() {
-    if (this.winRef.localStorage) {
-      this.winRef.localStorage.removeItem(BROWSER_STORAGE_KEY);
-    }
-  }
-
-  /**
    * Indicates whether the ASM module is enabled.
    */
   private isEnabled(): boolean {
     if (this.isLaunched() && !this.isUsedBefore()) {
       if (this.winRef.localStorage) {
-        this.winRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'true');
+        this.winRef.localStorage.setItem(ASM_LOCAL_STORAGE_KEY, 'true');
       }
     }
     return this.isLaunched() || this.isUsedBefore();
@@ -75,7 +61,7 @@ export class AsmEnablerService {
   private isUsedBefore(): boolean {
     return (
       this.winRef.localStorage &&
-      this.winRef.localStorage.getItem(BROWSER_STORAGE_KEY) === 'true'
+      this.winRef.localStorage.getItem(ASM_LOCAL_STORAGE_KEY) === 'true'
     );
   }
 
