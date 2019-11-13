@@ -121,7 +121,7 @@ describe('ProfileTagInjector', () => {
       tenant: mockCDSConfig.cds.tenant,
       siteId: baseSite,
       spa: true,
-      profileTagEventReciever: jasmine.anything(),
+      profileTagEventReceiver: jasmine.anything(),
     });
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
   });
@@ -142,7 +142,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.injectScript();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReciever({
+    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
       eventName: 'Loaded',
     });
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
@@ -153,13 +153,12 @@ describe('ProfileTagInjector', () => {
       event: 'Navigated',
     });
   });
-  it(`Should call the push method if all consents change to true,
-    and ignore all further changes, only sending one consent changed event
-    as we do not do granular consents, and one consent withdrawn would lead all tracking to stop`, () => {
+  it(`Should call the push method if the profile consent changes to true,
+    and ignore all further changes, only sending one consent changed event,`, () => {
     const profileTagLoaded$ = profileTagInjector.injectScript();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReciever({
+    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
       eventName: 'Loaded',
     });
     isConsentGivenValue = true;
@@ -186,7 +185,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.injectScript();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReciever({
+    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
       eventName: 'Loaded',
     });
     isConsentGivenValue = true;

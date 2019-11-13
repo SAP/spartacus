@@ -21,9 +21,9 @@ import {
 })
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
-  w: ProfileTagWindowObject;
-  tracking$: Observable<AnonymousConsent | NgRouterEvent>;
-  profileTagScript: HTMLScriptElement;
+  private w: ProfileTagWindowObject;
+  private tracking$: Observable<AnonymousConsent | NgRouterEvent>;
+  private profileTagScript: HTMLScriptElement;
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -92,27 +92,27 @@ export class ProfileTagInjector {
     return this.baseSiteService.getActive().pipe(
       filter((siteId: string) => Boolean(siteId)),
       switchMap((siteId: string) => {
-        return this.profileTagEventReciever(siteId);
+        return this.profileTagEventReceiver(siteId);
       })
     );
   }
 
-  profileTagEventReciever(siteId: string): Observable<ProfileTagEvent> {
+  profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
     return fromEventPattern(
       handler => {
-        this.addProfileTagEventReciever(siteId, handler);
+        this.addProfileTagEventReceiver(siteId, handler);
       },
       () => {}
     );
   }
 
-  addProfileTagEventReciever(siteId: string, handler: Function): void {
+  addProfileTagEventReceiver(siteId: string, handler: Function): void {
     const newConfig: ProfileTagJsConfig = {
       ...this.config.cds.profileTag,
       tenant: this.config.cds.tenant,
       siteId,
       spa: true,
-      profileTagEventReciever: handler,
+      profileTagEventReceiver: handler,
     };
     this.track(newConfig);
   }
