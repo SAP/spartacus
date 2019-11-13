@@ -1,0 +1,99 @@
+import { Location } from '@angular/common';
+import { ComponentFactoryResolver, Injectable } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
+import { OutletPosition, OutletService } from '../../cms-structure';
+import { AsmRootComponent } from './asm-root/asm-root.component';
+
+const BROWSER_STORAGE_KEY = 'asm_enabled';
+
+/**
+ * The AsmEnablerService is used to enable ASM for those scenario's
+ * where it's actually used. This service is added to avoid any polution
+ * of the UI and runtime performance for the ordinary production user.
+ */
+@Injectable({
+  providedIn: 'root',
+})
+export class AsmEnablerService {
+  /** indicates whether the ASM UI has been added already */
+  private isUiAdded = false;
+
+  constructor(
+    protected location: Location,
+    protected winRef: WindowRef,
+    protected componentFactoryResolver: ComponentFactoryResolver,
+    protected outletService: OutletService
+  ) {}
+
+  /**
+   * Loads the ASM UI if needed. The ASM UI will be added by using
+   */
+  load(): void {
+    if (this.isEnabled()) {
+      this.addUi();
+    }
+  }
+
+  /**
+   * We're currently only removing the persisted storage in the browser
+   * to ensure the ASM experience isn't loaded on the next visit. There are a few
+   * optimsiations we could think of:
+   * - drop the `asm` parameter from the URL, in case it's still there
+   * - remove the generated UI from the DOM (outlets currently do not support this)
+   */
+  unload() {
+    this.store(false);
+  }
+
+  /**
+   * Indicates whether the ASM module is enabled.
+   */
+  private isEnabled(): boolean {
+    if (this.isLaunched() && !this.isUsedBefore()) {
+      this.store(true);
+    }
+    return this.isLaunched() || this.isUsedBefore();
+  }
+
+  /**
+   * Helper method to store the enabled state of ASM in the local storage.
+   */
+  private store(enabled: boolean = true) {
+    if (this.winRef.localStorage) {
+      this.winRef.localStorage.setItem(BROWSER_STORAGE_KEY, String(enabled));
+    }
+  }
+
+  /**
+   * Indicates whether ASM is launched through the URL,
+   * using the asm flag in the URL.
+   */
+  private isLaunched(): boolean {
+    const params = this.location.path().split('?')[1];
+    return params && params.split('&').includes('asm=true');
+  }
+
+  /**
+   * Evaluates local storage where we persist the usage of ASM.
+   */
+  private isUsedBefore(): boolean {
+    return (
+      this.winRef.localStorage &&
+      this.winRef.localStorage.getItem(BROWSER_STORAGE_KEY) === 'true'
+    );
+  }
+
+  /**
+   * Adds the ASM UI by using the `cx-storefront` outlet.
+   */
+  private addUi(): void {
+    if (this.isUiAdded) {
+      return;
+    }
+    const factory = this.componentFactoryResolver.resolveComponentFactory(
+      AsmRootComponent
+    );
+    this.outletService.add('cx-storefront', factory, OutletPosition.BEFORE);
+    this.isUiAdded = true;
+  }
+}
