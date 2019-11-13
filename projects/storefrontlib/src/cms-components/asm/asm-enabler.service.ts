@@ -26,7 +26,8 @@ export class AsmEnablerService {
   ) {}
 
   /**
-   * Loads the ASM UI if needed. The ASM UI will be added by using
+   * Loads the ASM UI if needed. The ASM UI will be added based on the
+   * existence of a URL parameter or previous usage given by local storage.
    */
   load(): void {
     if (this.isEnabled()) {
@@ -43,7 +44,7 @@ export class AsmEnablerService {
    */
   unload() {
     if (this.winRef.localStorage) {
-      this.winRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'false');
+      this.winRef.localStorage.removeItem(BROWSER_STORAGE_KEY);
     }
   }
 
