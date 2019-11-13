@@ -32,8 +32,16 @@ export const myAccount = {
         loadingHeader: 'Consignment Tracking',
       },
     },
-    orderReturn: {
-      action: 'Request a Return',
+    cancellationAndReturn: {
+      returnAction: 'Request a Return',
+      cancelAction: 'Cancel Order Items',
+      item: 'Item',
+      itemPrice: 'Price',
+      quantity: 'Qty',
+      returnQty: 'Return Qty',
+      cancelQty: 'Cancel Qty',
+      returnAll: 'Return All',
+      cancelAll: 'Cancel All',
     },
   },
   orderHistory: {

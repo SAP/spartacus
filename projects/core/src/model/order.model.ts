@@ -26,6 +26,17 @@ export interface OrderEntry {
   quantity?: number;
   totalPrice?: Price;
   updateable?: boolean;
+  returnedItemsPrice?: Price;
+  returnableQuantity?: number;
+}
+
+export interface CancellationReturnRequestEntryInput {
+  orderEntryNumber?: number;
+  quantity?: number;
+}
+
+export interface ReturnRequestEntryInputList {
+  returnRequestEntryInputs?: CancellationReturnRequestEntryInput[];
 }
 
 export interface PickupOrderEntryGroup {
