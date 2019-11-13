@@ -12,7 +12,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -21,7 +21,6 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 })
 export class ConfigPreviousNextButtonsComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  ready$: Observable<boolean>;
 
   constructor(
     private routingService: RoutingService,
@@ -37,65 +36,41 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
       map(routingData => routingData.state.params.rootProduct),
       switchMap(product =>
         this.configuratorCommonsService.getConfiguration(product)
-      ),
-      tap(configuration => {
-        this.ready$ = this.configuratorCommonsService.isConfigurationReady(
-          configuration.productCode
-        );
-      })
+      )
     );
   }
 
-  onPrevious(productCode: string) {
-    this.navigateToPreviousGroup(productCode);
+  onPrevious(configId: string, productCode: string) {
+    this.navigateToPreviousGroup(configId, productCode);
   }
-  onNext(productCode: string) {
-    this.navigateToNextGroup(productCode);
+  onNext(configId: string, productCode: string) {
+    this.navigateToNextGroup(configId, productCode);
   }
 
-  navigateToNextGroup(productCode: string) {
+  navigateToNextGroup(configId: string, productCode: string) {
     this.configuratorGroupsService
       .getNextGroup(productCode)
       .pipe(take(1))
-      .subscribe(groupId => this.readWhenReady(groupId, productCode));
-  }
-
-  navigateToPreviousGroup(productCode: string) {
-    this.configuratorGroupsService
-      .getPreviousGroup(productCode)
-      .pipe(take(1))
-      .subscribe(groupId => this.readWhenReady(groupId, productCode));
-  }
-
-  readWhenReady(groupId: string, productCode: string) {
-    this.readConfigurationForGroup(groupId, productCode)
-      .pipe(
-        switchMap(_configuration =>
-          this.configuratorCommonsService.isConfigurationReady(productCode)
-        ),
-        filter(ready => ready),
-        tap(_ready =>
-          this.configuratorGroupsService.setCurrentGroup(productCode, groupId)
-        ),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  readConfigurationForGroup(
-    groupId: string,
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    return this.configuration$.pipe(
-      take(1),
-      switchMap(config =>
-        this.configuratorCommonsService.readConfiguration(
-          config.configId,
+      .subscribe(groupId =>
+        this.configuratorGroupsService.navigateToGroup(
+          configId,
           productCode,
           groupId
         )
-      )
-    );
+      );
+  }
+
+  navigateToPreviousGroup(configId: string, productCode: string) {
+    this.configuratorGroupsService
+      .getPreviousGroup(productCode)
+      .pipe(take(1))
+      .subscribe(groupId =>
+        this.configuratorGroupsService.navigateToGroup(
+          configId,
+          productCode,
+          groupId
+        )
+      );
   }
 
   isFirstGroup(productCode: string): Observable<Boolean> {

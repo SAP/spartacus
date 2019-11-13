@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import * as UiActions from '../store/actions/configurator-ui.action';
+import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
@@ -34,6 +35,16 @@ export class ConfiguratorGroupsService {
               )
             );
         }
+      })
+    );
+  }
+
+  navigateToGroup(configId: string, productCode: string, groupId: string) {
+    this.store.dispatch(
+      new ConfiguratorActions.ChangeGroup({
+        configId: configId,
+        productCode: productCode,
+        groupId: groupId,
       })
     );
   }
