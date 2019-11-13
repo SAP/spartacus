@@ -14,7 +14,7 @@ import {
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CustomerSupportAgentTokenInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
