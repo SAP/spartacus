@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   AsmService,
   AuthService,
@@ -16,6 +16,8 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
+  styleUrls: ['./asm-main-ui.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;
