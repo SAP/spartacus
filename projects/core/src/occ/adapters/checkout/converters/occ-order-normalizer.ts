@@ -7,7 +7,7 @@ import {
 import { Order, OrderEntry } from '../../../../model/order.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
   constructor(private converter: ConverterService) {}
 
