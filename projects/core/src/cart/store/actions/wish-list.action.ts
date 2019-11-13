@@ -2,6 +2,7 @@ import { Cart } from '../../../model/cart.model';
 import {
   EntityFailAction,
   EntityLoadAction,
+  EntityResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { getCartIdByUserId } from '../../utils/utils';
@@ -13,6 +14,8 @@ export const CREATE_WISH_LIST_SUCCESS = '[Wish List] Create Wish List Success';
 
 export const LOAD_WISH_LIST = '[Wish List] Load Wish List';
 export const LOAD_WISH_LIST_SUCCESS = '[Wish List] Load Wish List Success';
+
+export const RESET_WISH_LIST_DETAILS = '[Wish List] Reset Wish List';
 
 export class CreateWishList extends EntityLoadAction {
   readonly type = CREATE_WISH_LIST;
@@ -55,9 +58,17 @@ export class LoadWisthListSuccess extends EntitySuccessAction {
   }
 }
 
+export class ResetWishListDetails extends EntityResetAction {
+  readonly type = RESET_WISH_LIST_DETAILS;
+  constructor() {
+    super(MULTI_CART_FEATURE, undefined);
+  }
+}
+
 export type WishListActions =
   | CreateWishList
   | CreateWishListSuccess
   | CreateWishListFail
   | LoadWisthList
-  | LoadWisthListSuccess;
+  | LoadWisthListSuccess
+  | ResetWishListDetails;

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
-import { Cart } from '../../model';
-import { CartActions } from '../store';
+import { Cart } from '../../model/index';
+import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 
