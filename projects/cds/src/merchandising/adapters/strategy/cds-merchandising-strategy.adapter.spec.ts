@@ -10,7 +10,7 @@ import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { MERCHANDISING_PRODUCTS_NORMALIZER } from '../../connectors/strategy/converters';
 import { MerchandisingProducts } from '../../model/merchandising.products.model';
 import { StrategyResult } from '../../model/strategy.result';
-import { MerchandisingStrategyAdapter } from './merchandising.strategy.adapter';
+import { MerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
 import createSpy = jasmine.createSpy;
 
 const STRATEGY_ID = 'test-strategy-id';

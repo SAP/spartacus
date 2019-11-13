@@ -4,12 +4,12 @@ import { MerchandisingCarouselModule } from './cms-components';
 import { CdsConfig } from './config/cds-config';
 import { cdsConfigValidator } from './config/cds-config-validator';
 import { DEFAULT_CDS_CONFIG } from './config/default-cds-config';
-import { MerchandisingStrategyAdapter } from './merchandising/adapters/strategy/merchandising.strategy.adapter';
+import { MerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
+import { StrategyAdapter } from './merchandising/connectors/strategy/cds-strategy.adapter';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,
   MERCHANDISING_PRODUCT_NORMALIZER,
 } from './merchandising/connectors/strategy/converters';
-import { StrategyAdapter } from './merchandising/connectors/strategy/strategy.adapter';
 import { MerchandisingProductNormalizer } from './merchandising/converters/merchandising-product-normalizer';
 import { MerchandisingProductsNormalizer } from './merchandising/converters/merchandising-products-normalizer';
 

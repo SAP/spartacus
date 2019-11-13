@@ -12,7 +12,7 @@ import { Product } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { CmsMerchandisingCarouselComponent } from 'projects/cds/src/cds-models/cms.model';
 import { Observable, of } from 'rxjs';
-import { StrategyConnector } from './../../../../merchandising/connectors/strategy/strategy.connector';
+import { CdsMerchandisingProductService } from './../../../../merchandising/facade/cds-merchandising-product.service';
 import { MerchandisingProducts } from './../../../../merchandising/model/merchandising.products.model';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 
@@ -89,13 +89,7 @@ const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
-// class MockProductService {
-//   get(code): Observable<Product> {
-//     return of(mockProducts[code]);
-//   }
-// }
-
-class MockStrategyConnector {
+class MockCdsMerchandisingProductService {
   loadProductsForStrategy(): Observable<MerchandisingProducts> {
     return of(mockMerchandisingProducts);
   }
@@ -120,8 +114,8 @@ describe('MerchandisingCarouselComponent', () => {
           useValue: MockCmsMerchandisingCarouselComponent,
         },
         {
-          provide: StrategyConnector,
-          useClass: MockStrategyConnector,
+          provide: CdsMerchandisingProductService,
+          useClass: MockCdsMerchandisingProductService,
         },
       ],
     }).compileComponents();

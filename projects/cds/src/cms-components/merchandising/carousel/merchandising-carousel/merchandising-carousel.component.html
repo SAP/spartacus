@@ -1,12 +1,12 @@
 <cx-carousel
   [items]="items$ | async"
   [title]="title$ | async"
-  [template]="merchandisingCarouselItem"
+  [template]="carouselItem"
   itemWidth="285px"
 >
 </cx-carousel>
 
-<ng-template #merchandisingCarouselItem let-item="item">
+<ng-template #carouselItem let-item="item">
   <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
     <cx-media
       *ngIf="item.images?.PRIMARY"

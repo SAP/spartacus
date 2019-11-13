@@ -1,3 +1,3 @@
+export * from './cds-strategy.adapter';
+export * from './cds-strategy.connector';
 export * from './converters';
-export * from './strategy.adapter';
-export * from './strategy.connector';
