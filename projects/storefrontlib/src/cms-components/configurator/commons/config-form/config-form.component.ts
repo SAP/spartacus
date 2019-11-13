@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({
@@ -31,12 +31,13 @@ export class ConfigFormComponent implements OnInit {
       map(routingData => routingData.state.params.rootProduct),
       switchMap(product =>
         this.configuratorCommonsService.getConfiguration(product)
-      ),
-      tap(
-        configuration =>
-          (this.currentGroup$ = this.configuratorGroupsService.getCurrentGroup(
-            configuration.productCode
-          ))
+      )
+    );
+    this.currentGroup$ = this.configuration$.pipe(
+      switchMap(configuration =>
+        this.configuratorGroupsService.getCurrentGroup(
+          configuration.productCode
+        )
       )
     );
   }
