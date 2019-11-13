@@ -17,6 +17,7 @@ export const configurator = {
     button: {
       previous: 'Previous',
       next: 'Next',
+      addToCart: 'Add To Cart',
     },
   },
 };
