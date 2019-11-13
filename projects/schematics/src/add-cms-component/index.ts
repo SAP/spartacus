@@ -108,7 +108,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
           component: ${componentName},
         },
       },
-    }),`
+    })`
     );
 
     changes.push(...insertModuleChanges);
