@@ -5,7 +5,6 @@
       <h3>{{ 'budgetsList.budgetManagement' | cxTranslate }}</h3>
     </div>
 
-    BODY
     <div class="cx-budget-body">
       <ng-container
         *ngIf="budgetsList.pagination.totalResults > 0; else noOrder"
@@ -20,7 +19,6 @@
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="budgetsList.pagination.sort"
-              placeholder="{{ 'budgetsList.sortByMostRecent' | cxTranslate }}"
             ></cx-sorting>
           </div>
           <div class="cx-budget-pagination">
@@ -34,7 +32,7 @@
         <table class="table cx-budget-table">
           <thead class="cx-budget-thead-mobile">
             <th scope="col">
-              {{ 'budgetsList.budgetId' | cxTranslate }}
+              {{ 'budgetsList.code' | cxTranslate }}
             </th>
             <th scope="col">{{ 'budgetsList.name' | cxTranslate }}</th>
             <th scope="col">{{ 'budgetsList.amount' | cxTranslate }}</th>
@@ -95,7 +93,7 @@
                   "
                   class="cx-budget-value"
                 >
-                  {{ budget?.amount }} {{ budget?.currency }}</a
+                  {{ budget?.budget }} {{ budget?.currency?.symbol }}</a
                 >
               </td>
               <td class="cx-budget-total">
@@ -111,7 +109,7 @@
                   "
                   class="cx-budget-value"
                 >
-                  {{ budget?.startDate }} - {{ budget?.endDate }}</a
+                  {{ budget?.startDate | date}} - {{ budget?.endDate | date }}</a
                 >
               </td>
               <td class="cx-budget-code">
@@ -127,7 +125,7 @@
                   "
                   class="cx-budget-value"
                 >
-                  {{ budget?.costCenter }}</a
+                  {{ budget?.costCenters }}</a
                 >
               </td>
               <td class="cx-budget-status">
@@ -143,7 +141,7 @@
                   "
                   class="cx-budget-value"
                 >
-                  {{ 'budgetDetails.parentUnit' }}</a
+                  {{ budget?.orgUnit?.name }}</a
                 >
               </td>
             </tr>
@@ -159,7 +157,6 @@
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="budgetsList.pagination.sort"
-              placeholder="{{ 'budgetsList.sortByMostRecent' | cxTranslate }}"
             ></cx-sorting>
           </div>
           <div class="cx-budget-pagination">

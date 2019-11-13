@@ -52,4 +52,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'register',
     'checkoutLogin',
   ],
+  budget: [
+    'budgetsList',
+  ]
 };

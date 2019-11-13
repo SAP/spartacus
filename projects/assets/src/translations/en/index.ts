@@ -9,6 +9,7 @@ import { product } from './product';
 import { pwa } from './pwa';
 import { storeFinder } from './store-finder';
 import { user } from './user';
+import { budget } from './budget';
 
 export const en = {
   address,
@@ -22,4 +23,5 @@ export const en = {
   pwa,
   storeFinder,
   user,
+  budget,
 };

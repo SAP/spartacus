@@ -1,5 +1,13 @@
-import { BudgetSearchConfig } from "../model/search-config";
+import { BudgetSearchConfig } from '../model/search-config';
+
+// TODO after update typescript to 3.7 it can be replaced by Nullish Coalescing (??)
+function nullish(param, defaultValue) {
+  return param !== null && param !== undefined ? param : defaultValue;
+}
 
 export function serializeBudgetSearchConfig(config: BudgetSearchConfig) {
-  return `pageSize=${config.pageSize || ''}&currentPage=${config.currentPage || ''}&sort=${config.sort || ''}`;
+  return `pageSize=${nullish(config.pageSize, '')}&currentPage=${nullish(
+    config.currentPage,
+    ''
+  )}&sort=${nullish(config.sort, '')}`;
 }

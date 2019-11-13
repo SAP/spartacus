@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import {
   BudgetService,
@@ -20,28 +20,45 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     private budgetsService: BudgetService,
     private translation: TranslationService
   ) {}
-
+  private PAGE_SIZE = 5;
   budgetsList$: Observable<BudgetListModel>;
+  sortType$: BehaviorSubject<string> = new BehaviorSubject('byName');
+  currentPage$: BehaviorSubject<number> = new BehaviorSubject(0);
   isLoaded$: Observable<boolean>;
 
-  private PAGE_SIZE = 5;
-
-  sortType: string;
-
   ngOnInit(): void {
-    this.budgetsList$ = this.budgetsService
-      .getList({pageSize: this.PAGE_SIZE})
-      .pipe(
-        tap((budgetsList: BudgetListModel) => {
-          console.log(budgetsList)
-          if (budgetsList && budgetsList.pagination) {
-            this.sortType = budgetsList.pagination.sort;
-          }
-        })
-      );
+    this.budgetsList$ = combineLatest([this.sortType$, this.currentPage$]).pipe(
+      switchMap(([sort, currentPage]) =>
+        this.budgetsService
+          .getList({
+            pageSize: this.PAGE_SIZE,
+            sort,
+            currentPage,
+          })
+          .pipe(
+            tap((budgetsList: BudgetListModel) => {
+              // will be shorter after use chain operator
+              if (
+                budgetsList &&
+                budgetsList.pagination &&
+                budgetsList.pagination.sort !== sort
+              ) {
+                this.sortType$.next(budgetsList.pagination.sort);
+              }
+              if (
+                budgetsList &&
+                budgetsList.pagination &&
+                budgetsList.pagination.currentPage !== currentPage
+              ) {
+                this.currentPage$.next(budgetsList.pagination.currentPage);
+              }
+            })
+          )
+      )
+    );
 
     // this.isLoaded$ = this.budgetsService.getBudgetsProcess().pipe(map(process => process.success));
-    this.isLoaded$ = of(false)
+    this.isLoaded$ = of(false);
   }
 
   ngOnDestroy(): void {
@@ -49,20 +66,11 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   }
 
   changeSortCode(sortCode: string): void {
-    const event: { sortCode: string; currentPage: number } = {
-      sortCode,
-      currentPage: 0,
-    };
-    this.sortType = sortCode;
-    this.fetchBudgets(event);
+    this.sortType$.next(sortCode);
   }
 
   pageChange(page: number): void {
-    const event: { sortCode: string; currentPage: number } = {
-      sortCode: this.sortType,
-      currentPage: page,
-    };
-    this.fetchBudgets(event);
+    this.currentPage$.next(page);
   }
 
   goToBudgetDetail(budget: Budget): void {
@@ -72,25 +80,29 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  getSortLabels(): Observable<{ byDate: string; byBudgetNumber: string }> {
+  getSortLabels(): Observable<{ byUnitName: string; byName: string; byCode: string; byValue: string }> {
     return combineLatest([
-      this.translation.translate('sorting.date'),
-      this.translation.translate('sorting.budgetNumber'),
+      this.translation.translate('budgetsList.sorting.byUnitName'),
+      this.translation.translate('budgetsList.sorting.byName'),
+      this.translation.translate('budgetsList.sorting.byCode'),
+      this.translation.translate('budgetsList.sorting.byValue'),
     ]).pipe(
-      map(([textByDate, textByBudgetNumber]) => {
+      map(([textByUnitName, textByName, textByCode, textByValue]) => {
         return {
-          byDate: textByDate,
-          byBudgetNumber: textByBudgetNumber,
+          byUnitName: textByUnitName,
+          byName: textByName,
+          byCode: textByCode,
+          byValue: textByValue,
         };
       })
     );
   }
 
-  private fetchBudgets(event: { sortCode: string; currentPage: number }): void {
-    this.budgetsService.loadBudgets({
-     pageSize: this.PAGE_SIZE,
-     currentPage: event.currentPage,
-     sort: event.sortCode
-  });
-  }
+  // private fetchBudgets(): void {
+  //   this.budgetsService.loadBudgets({
+  //     pageSize: this.PAGE_SIZE,
+  //     currentPage: this.currentPage,
+  //     sort: this.sortType,
+  //   });
+  // }
 }
