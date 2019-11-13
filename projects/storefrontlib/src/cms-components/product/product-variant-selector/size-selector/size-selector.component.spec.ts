@@ -1,7 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, OccConfig } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  OccConfig,
+  RoutingService,
+  UrlCommands,
+} from '@spartacus/core';
 import { VariantSizeSelectorComponent } from './size-selector.component';
+import { NavigationExtras } from '@angular/router';
+
+class MockRoutingService {
+  go(
+    _commands: any[] | UrlCommands,
+    _query?: object,
+    _extras?: NavigationExtras
+  ): void {}
+}
 
 describe('VariantSizeSelectorComponent', () => {
   let component: VariantSizeSelectorComponent;
@@ -16,6 +30,7 @@ describe('VariantSizeSelectorComponent', () => {
           provide: OccConfig,
           useValue: { backend: { occ: { baseUrl: 'abc' } } },
         },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   }));
@@ -35,10 +50,10 @@ describe('VariantSizeSelectorComponent', () => {
   });
 
   it('should send emit', () => {
-    spyOn(component.changeSizeEvent, 'emit').and.stub();
+    spyOn(component, 'changeSize').and.stub();
 
     component.changeSize('test');
 
-    expect(component.changeSizeEvent.emit).toHaveBeenCalledWith('test');
+    expect(component.changeSize).toHaveBeenCalledWith('test');
   });
 });

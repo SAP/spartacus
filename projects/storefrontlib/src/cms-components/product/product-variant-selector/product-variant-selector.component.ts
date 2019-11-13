@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   RoutingService,
   Product,
@@ -15,45 +15,46 @@ import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './product-variant-selector.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ProductVariantSelectorComponent {
+export class ProductVariantSelectorComponent implements OnInit {
   constructor(
     private currentProductService: CurrentProductService,
     private routingService: RoutingService
   ) {}
 
-  variants: BaseOption[];
-
+  variants: BaseOption[] = [];
   variantType = VariantType;
+  product$: Observable<Product>;
 
-  product$: Observable<Product> = this.currentProductService.getProduct().pipe(
-    filter(product => !!product),
-    distinctUntilChanged(),
-    tap(product => {
-      this.variants = [];
-      product.baseOptions.forEach(option => {
-        if (option && option.variantType) {
-          this.variants.push(option);
-        }
-      });
+  ngOnInit(): void {
+    this.product$ = this.currentProductService.getProduct().pipe(
+      filter(product => !!product),
+      distinctUntilChanged(),
+      tap(product => {
+        product.baseOptions.forEach(option => {
+          if (option && option.variantType) {
+            this.variants[option.variantType] = option;
+          }
+        });
 
-      if (!product.purchasable) {
-        const purchasableVariant = this.findPurchasableVariant(
-          product.variantOptions
-        );
-
-        if (purchasableVariant) {
-          this.routingService.go(
-            {
-              cxRoute: 'product',
-              params: { code: purchasableVariant.code },
-            },
-            null,
-            { replaceUrl: true }
+        if (!product.purchasable) {
+          const purchasableVariant = this.findPurchasableVariant(
+            product.variantOptions
           );
+
+          if (purchasableVariant) {
+            this.routingService.go(
+              {
+                cxRoute: 'product',
+                params: { code: purchasableVariant.code },
+              },
+              null,
+              { replaceUrl: true }
+            );
+          }
         }
-      }
-    })
-  );
+      })
+    );
+  }
 
   private findPurchasableVariant(variants: VariantOption[]): VariantOption {
     const results: VariantOption[] = variants.filter(variant => {
