@@ -75,7 +75,7 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
-  fdescribe('getTemplates', () => {
+  describe('getTemplates', () => {
     describe('when load parameter is false', () => {
       it('should just call getAnonymousConsentTemplatesValue selector', () => {
         spyOn(service, 'loadTemplates').and.stub();
