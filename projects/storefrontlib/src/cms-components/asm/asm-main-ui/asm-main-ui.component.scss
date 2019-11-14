@@ -15,24 +15,6 @@ cx-asm-main-ui {
     display: none;
   }
 
-  cx-asm-session-timer {
-    font-size: 14px;
-    .session-timer {
-      margin-top: 10px;
-    }
-    .session-label {
-      margin-right: 6px;
-    }
-    .session-time {
-      font-weight: 600;
-    }
-    .session-btn {
-      margin-left: 15px;
-      margin-right: 30px;
-      cursor: pointer;
-    }
-  }
-
   cx-csagent-login-form,
   cx-customer-selection,
   cx-customer-emulation {
@@ -85,6 +67,38 @@ cx-asm-main-ui {
     }
   }
 
+  // Container Login
+  .fd-container {
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 1290px;
+  }
+
+  .fd-container:last-child {
+    margin-bottom: 0;
+  }
+
+  // Grid
+  [class^='fd-col'] {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin-bottom: 12px;
+  }
+  [class^='fd-col']:last-child {
+    margin-bottom: 0;
+  }
+  .fd-col--3 {
+    float: left;
+    margin-right: 8px;
+  }
+  .fd-col--6 {
+    float: left;
+    margin-right: 8px;
+  }
+
+  // ----- REFACTORED ----
+  // Top Bar
   .asm-bar {
     line-height: 1.42857;
     color: #fff;
@@ -127,9 +141,17 @@ cx-asm-main-ui {
 
       .asm-timer {
         font-size: 14px;
-      }
-      .asm-reset {
-        cursor: pointer;
+        .session-label {
+          margin-right: 6px;
+        }
+        .session-time {
+          font-weight: 600;
+        }
+        .session-reset {
+          margin-left: 15px;
+          margin-right: 30px;
+          cursor: pointer;
+        }
       }
       .asm-logout {
         cursor: pointer;
@@ -140,128 +162,6 @@ cx-asm-main-ui {
       }
     }
   }
-
-  // Shell Bar
-  // .fd-shellbar {
-  //   font-size: 14px;
-  //   line-height: 1.42857;
-  //   color: #fff;
-  //   font-family: Arial, sans-serif;
-  //   background-color: #354a5f;
-  //   height: 48px;
-  //   display: -webkit-box;
-  //   display: -ms-flexbox;
-  //   display: flex;
-  //   -webkit-box-align: center;
-  //   -ms-flex-align: center;
-  //   align-items: center;
-  //   position: relative;
-  //   padding: 4px 15px 4px 32px;
-  //   -webkit-box-pack: justify;
-  //   -ms-flex-pack: justify;
-  //   justify-content: space-between;
-  //   -webkit-box-sizing: border-box;
-  //   box-sizing: border-box;
-  //   z-index: 1;
-  // }
-
-  // .fd-shellbar__group--start {
-  //   display: -webkit-box;
-  //   display: -ms-flexbox;
-  //   display: flex;
-  //   -webkit-box-align: center;
-  //   -ms-flex-align: center;
-  //   align-items: center;
-  // }
-
-  // .fd-shellbar__group--end,
-  // .fd-shellbar__group--start {
-  //   -webkit-box-flex: 1;
-  //   -ms-flex: 1;
-  //   flex: 1;
-  // }
-
-  // .fd-shellbar__group--end {
-  //   text-align: right;
-  // }
-
-  // .fd-shellbar__logo {
-  //   display: -webkit-box;
-  //   display: -ms-flexbox;
-  //   display: flex;
-  //   -webkit-box-align: center;
-  //   -ms-flex-align: center;
-  //   align-items: center;
-  //   vertical-align: middle;
-  //   max-height: 40px;
-  //   background-repeat: no-repeat;
-  //   background-size: contain;
-  //   margin-right: 8px;
-  // }
-
-  // .fd-shellbar__logo,
-  // .fd-shellbar__product,
-  // .fd-shellbar__subtitle {
-  //   display: inline-block;
-  //   vertical-align: middle;
-  // }
-
-  // .fd-shellbar__title {
-  //   font-size: 16px;
-  //   font-weight: 700;
-  //   line-height: 1;
-  //   color: #fff;
-  //   white-space: nowrap;
-  //   overflow: hidden;
-  //   max-width: 100%;
-  //   text-overflow: ellipsis;
-  // }
-
-  // .fd-shellbar__action > div {
-  //   display: inline;
-  // }
-
-  // .sap-icon--log a,
-  // .sap-icon--decline a {
-  //   cursor: pointer;
-  // }
-
-  // .sap-icon--decline {
-  //   fill: #fff;
-  //   cursor: pointer;
-  // }
-
-  // Container Login
-  .fd-container {
-    margin-bottom: 12px;
-    width: 100%;
-    max-width: 1290px;
-  }
-
-  .fd-container:last-child {
-    margin-bottom: 0;
-  }
-
-  // Grid
-  [class^='fd-col'] {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    margin-bottom: 12px;
-  }
-  [class^='fd-col']:last-child {
-    margin-bottom: 0;
-  }
-  .fd-col--3 {
-    float: left;
-    margin-right: 8px;
-  }
-  .fd-col--6 {
-    float: left;
-    margin-right: 8px;
-  }
-
-  // ----- REFACTORED ----
 
   // Button Common styles
   .asm-button {
@@ -494,21 +394,26 @@ cx-asm-main-ui {
       width: 100%;
     }
 
-    .fd-shellbar__title {
-      display: none;
+    .asm-bar {
+      &-branding {
+        .asm-title {
+          display: none;
+        }
+      }
+      &-actions {
+        .asm-timer {
+          .session-label {
+            display: none;
+          }
+          .session-reset {
+            margin-right: 10px;
+          }
+        }
+      }
     }
 
     .asm-alert {
       margin-top: 30px;
-    }
-
-    cx-asm-session-timer {
-      .session-label {
-        display: none;
-      }
-      .session-btn {
-        margin-right: 10px;
-      }
     }
   }
 
@@ -516,9 +421,9 @@ cx-asm-main-ui {
   @media (min-width: 576px) and (max-width: 767px) {
     height: auto;
 
-    .fd-shellbar__title {
-      display: inline-block;
-    }
+    // .fd-shellbar__title {
+    //   display: inline-block;
+    // }
 
     .asm-results {
       width: 360px;
@@ -542,9 +447,9 @@ cx-asm-main-ui {
 
   // Extra large devices (large desktops, 1200px and up)
   @media (min-width: 768px) {
-    .fd-shellbar__title {
-      display: inline-block;
-    }
+    // .fd-shellbar__title {
+    //   display: inline-block;
+    // }
 
     .asm-results {
       width: 516px;
