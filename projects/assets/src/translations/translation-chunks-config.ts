@@ -43,6 +43,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productSummary',
     'productReview',
     'addToCart',
+    'addToWishList',
     'CMSTabParagraphContainer',
   ],
   user: [
