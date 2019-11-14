@@ -1,17 +1,17 @@
-import { testGroupSkipperConfig } from '../../helpers/accessibility/group-skipper/group-skipper';
 import {
   groupSkipperConfigNotLoggedIn,
   groupSkipperConfigMyAccount,
   groupSkipperConfigCheckout,
 } from '../../helpers/accessibility/group-skipper/group-skipper.config';
 import * as checkout from '../../helpers/checkout-flow';
+import { testGroupSkipperFromConfig } from '../../helpers/accessibility/group-skipper/group-skipper';
 
 context('Group Skipper - Not Logged In', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  testGroupSkipperConfig(groupSkipperConfigNotLoggedIn);
+  testGroupSkipperFromConfig(groupSkipperConfigNotLoggedIn);
 });
 
 context('Group Skipper - My Account', () => {
@@ -27,7 +27,7 @@ context('Group Skipper - My Account', () => {
     cy.saveLocalStorage();
   });
 
-  testGroupSkipperConfig(groupSkipperConfigMyAccount);
+  testGroupSkipperFromConfig(groupSkipperConfigMyAccount);
 });
 
 context('Group Skipper - Checkout', () => {
@@ -51,5 +51,5 @@ context('Group Skipper - Checkout', () => {
     cy.saveLocalStorage();
   });
 
-  testGroupSkipperConfig(groupSkipperConfigCheckout);
+  testGroupSkipperFromConfig(groupSkipperConfigCheckout);
 });

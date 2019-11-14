@@ -3,26 +3,28 @@ import {
   GroupSkipperConfig,
 } from './group-skipper.config';
 
-export function testGroupSkipperConfig(config: GroupSkipperConfig) {
+export function testGroupSkipperFromConfig(config: GroupSkipperConfig) {
   Object.keys(config).forEach(page => {
     describe(page, () => {
       it('should tab through group skippers', () => {
-        testGroupSkipperPageConfig(config[page]);
+        testGroupSkipperPagesFromConfig(config[page]);
       });
     });
   });
 }
 
-export function testGroupSkipperPageConfig(config: GroupSkipperPageConfig) {
-  cy.visit(config.url);
+export function testGroupSkipperPagesFromConfig(
+  config: GroupSkipperPageConfig
+) {
+  cy.visit(config.pageUrl);
 
   // Wait for group skippers to load
-  checkGroupSkipperAnchorsHaveLoaded(config.length);
+  checkGroupSkipperAnchorsHaveLoaded(config.expectedSkipperCount);
 
   cy.get('body').focus();
 
   // Should tab through anchor tags
-  for (let i = 0; i < config.length; i++) {
+  for (let i = 0; i < config.expectedSkipperCount; i++) {
     cy.tab();
     checkFocusIsWithinGroupSkipper();
   }

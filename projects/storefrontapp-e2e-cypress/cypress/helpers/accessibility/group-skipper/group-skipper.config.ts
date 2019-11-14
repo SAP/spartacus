@@ -1,8 +1,8 @@
 import { testProductUrl } from '../tabbing-order';
 
 export interface GroupSkipperPageConfig {
-  url: string;
-  length: number;
+  pageUrl: string;
+  expectedSkipperCount: number;
 }
 
 export interface GroupSkipperConfig {
@@ -10,34 +10,61 @@ export interface GroupSkipperConfig {
 }
 
 export const groupSkipperConfigNotLoggedIn: GroupSkipperConfig = {
-  home: { url: '/', length: 3 },
-  login: { url: '/login', length: 3 },
-  register: { url: '/login/register', length: 3 },
-  termsAndConditiong: { url: '/terms-and-conditions', length: 3 },
-  forgotPassword: { url: '/login/forgot-password', length: 3 },
-  productList: { url: '/Brands/all/c/brands', length: 4 },
-  product: { url: testProductUrl, length: 3 },
-  cart: { url: '/cart', length: 3 },
-  sale: { url: '/sale', length: 3 },
-  contact: { url: '/contact', length: 3 },
-  help: { url: '/help', length: 3 },
-  storeFinder: { url: '/store-finder', length: 3 },
+  home: { pageUrl: '/', expectedSkipperCount: 3 },
+  login: { pageUrl: '/login', expectedSkipperCount: 3 },
+  register: { pageUrl: '/login/register', expectedSkipperCount: 3 },
+  termsAndConditiong: {
+    pageUrl: '/terms-and-conditions',
+    expectedSkipperCount: 3,
+  },
+  forgotPassword: {
+    pageUrl: '/login/forgot-password',
+    expectedSkipperCount: 3,
+  },
+  productList: { pageUrl: '/Brands/all/c/brands', expectedSkipperCount: 4 },
+  product: { pageUrl: testProductUrl, expectedSkipperCount: 3 },
+  cart: { pageUrl: '/cart', expectedSkipperCount: 3 },
+  sale: { pageUrl: '/sale', expectedSkipperCount: 3 },
+  contact: { pageUrl: '/contact', expectedSkipperCount: 3 },
+  help: { pageUrl: '/help', expectedSkipperCount: 3 },
+  storeFinder: { pageUrl: '/store-finder', expectedSkipperCount: 3 },
 };
 
 export const groupSkipperConfigMyAccount: GroupSkipperConfig = {
-  orderHistory: { url: '/my-account/orders', length: 3 },
-  changePassword: { url: '/my-account/update-password', length: 3 },
-  personalDetails: { url: '/my-account/update-profile', length: 3 },
-  updateEmail: { url: '/my-account/update-email', length: 3 },
-  closeAccount: { url: '/my-account/close-account', length: 3 },
-  consentManagement: { url: '/my-account/consents', length: 3 },
-  addressBook: { url: '/my-account/address-book', length: 3 },
-  paymentDetails: { url: '/my-account/payment-details', length: 3 },
+  orderHistory: { pageUrl: '/my-account/orders', expectedSkipperCount: 3 },
+  changePassword: {
+    pageUrl: '/my-account/update-password',
+    expectedSkipperCount: 3,
+  },
+  personalDetails: {
+    pageUrl: '/my-account/update-profile',
+    expectedSkipperCount: 3,
+  },
+  updateEmail: { pageUrl: '/my-account/update-email', expectedSkipperCount: 3 },
+  closeAccount: {
+    pageUrl: '/my-account/close-account',
+    expectedSkipperCount: 3,
+  },
+  consentManagement: {
+    pageUrl: '/my-account/consents',
+    expectedSkipperCount: 3,
+  },
+  addressBook: { pageUrl: '/my-account/address-book', expectedSkipperCount: 3 },
+  paymentDetails: {
+    pageUrl: '/my-account/payment-details',
+    expectedSkipperCount: 3,
+  },
 };
 
 export const groupSkipperConfigCheckout: GroupSkipperConfig = {
-  shippingAddress: { url: '/checkout/shipping-address', length: 3 },
-  deliveryMode: { url: '/checkout/delivery-mode', length: 3 },
-  paymentDetails: { url: '/checkout/payment-details', length: 3 },
-  reviewOrder: { url: '/checkout/review-order', length: 3 },
+  shippingAddress: {
+    pageUrl: '/checkout/shipping-address',
+    expectedSkipperCount: 3,
+  },
+  deliveryMode: { pageUrl: '/checkout/delivery-mode', expectedSkipperCount: 3 },
+  paymentDetails: {
+    pageUrl: '/checkout/payment-details',
+    expectedSkipperCount: 3,
+  },
+  reviewOrder: { pageUrl: '/checkout/review-order', expectedSkipperCount: 3 },
 };
