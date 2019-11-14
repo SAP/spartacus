@@ -100,7 +100,7 @@ export class OccFieldsService {
    *
    * @param models
    */
-  getMergedUrls<T>(models: OccFieldsModels[]): OccMergedUrls {
+  getMergedUrls(models: OccFieldsModels[]): OccMergedUrls {
     const groupedByUrls: OccMergedUrls = {};
     for (const model of models) {
       const [urlPart, fields] = this.splitFields(model.url);
