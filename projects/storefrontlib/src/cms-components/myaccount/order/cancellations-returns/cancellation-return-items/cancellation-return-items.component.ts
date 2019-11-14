@@ -1,6 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-
 import {
   OrderEntry,
   CancellationReturnRequestEntryInput,
@@ -19,8 +18,7 @@ export class CancellationReturnItemsComponent implements OnInit {
 
   form: FormGroup;
   inputsControl: FormArray;
-
-  disableConfirm = true;
+  disableConfirmBtn = true;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -30,14 +28,26 @@ export class CancellationReturnItemsComponent implements OnInit {
     });
 
     this.inputsControl = this.form.get('entryInput') as FormArray;
-    this.entries.forEach(entry => {
-      this.inputsControl.push(
-        this.formBuilder.group({
-          orderEntryNumber: entry.entryNumber,
-          quantity: '',
-        })
-      );
-    });
+
+    if (this.confirmation) {
+      this.entries.forEach(entry => {
+        this.inputsControl.push(
+          this.formBuilder.group({
+            orderEntryNumber: entry.entryNumber,
+            quantity: [{ value: entry.returnedQuantity, disabled: true }],
+          })
+        );
+      });
+    } else {
+      this.entries.forEach(entry => {
+        this.inputsControl.push(
+          this.formBuilder.group({
+            orderEntryNumber: entry.entryNumber,
+            quantity: '',
+          })
+        );
+      });
+    }
   }
 
   setComplete() {
@@ -64,11 +74,11 @@ export class CancellationReturnItemsComponent implements OnInit {
   disableEnableConfirm() {
     for (const input of this.form.value.entryInput) {
       if (input.quantity > 0) {
-        this.disableConfirm = false;
+        this.disableConfirmBtn = false;
         return;
       }
     }
-    this.disableConfirm = true;
+    this.disableConfirmBtn = true;
   }
 
   onBlur(value: string, index: number): void {

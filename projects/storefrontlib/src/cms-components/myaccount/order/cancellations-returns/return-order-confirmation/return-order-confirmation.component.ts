@@ -29,10 +29,10 @@ export class ReturnOrderConfirmationComponent implements OnInit {
   orderCode: string;
 
   lang = 'en';
-  entryInputs: CancellationReturnRequestEntryInput[];
+  returnRequestEntryInput: CancellationReturnRequestEntryInput[];
 
   ngOnInit() {
-    this.entryInputs = this.orderDetailsService.cancellationReturnRequestInputs;
+    this.returnRequestEntryInput = this.orderDetailsService.cancellationReturnRequestInputs;
 
     this.order$ = combineLatest([
       this.orderDetailsService.getOrderDetails(),
@@ -45,8 +45,14 @@ export class ReturnOrderConfirmationComponent implements OnInit {
 
         this.returnedEntries = [];
         order.entries.forEach(entry => {
-          if (this.isEntryReturned(entry)) {
-            this.returnedEntries.push(entry);
+          const returnedQty = this.getEntryReturnedQty(entry);
+          if (returnedQty > 0) {
+            const copiedEntry = Object.assign({}, entry, {
+              returnedItemsPrice: null,
+              returnedQuantity: 0,
+            });
+            this.setReturnedEntryPrice(returnedQty, copiedEntry);
+            this.returnedEntries.push(copiedEntry);
           }
         });
       }),
@@ -54,16 +60,19 @@ export class ReturnOrderConfirmationComponent implements OnInit {
     );
   }
 
-  protected isEntryReturned(entry: OrderEntry): boolean {
-    for (const input of this.entryInputs) {
+  protected getEntryReturnedQty(entry: OrderEntry): number {
+    for (const input of this.returnRequestEntryInput) {
       if (input.orderEntryNumber === entry.entryNumber) {
-        this.setReturnedEntryPrice(input.quantity, entry);
-        return true;
+        return input.quantity;
       }
     }
-    return false;
+    return 0;
   }
 
+  /**
+   * As discussed, this calculation is moved to SPA side.
+   * The calculation and validation should be in backend facade layer.
+   */
   protected setReturnedEntryPrice(qty: number, entry: OrderEntry) {
     const returnedItemsPriceData = Object.assign({}, entry.basePrice);
 
@@ -78,6 +87,7 @@ export class ReturnOrderConfirmationComponent implements OnInit {
     );
 
     entry.returnedItemsPrice = returnedItemsPriceData;
+    entry.returnedQuantity = qty;
   }
 
   submit() {}
