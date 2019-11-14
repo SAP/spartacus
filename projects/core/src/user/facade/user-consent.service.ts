@@ -228,6 +228,7 @@ export class UserConsentService {
     return this.getConsents().pipe(
       filter(templates => Boolean(templates)),
       map(templates => templates.find(template => template.id === templateId)),
+      filter(template => Boolean(template)),
       map(template => template.currentConsent)
     );
   }
