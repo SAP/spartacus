@@ -157,4 +157,28 @@ describe('add-ssr', () => {
       }
     });
   });
+
+  describe('main.server.ts', () => {
+    it('should be modified with custom ngExpressImport and export', async () => {
+      const buffer = appTree.read('./src/main.server.ts');
+      expect(buffer).toBeTruthy();
+      if (buffer) {
+        const mainServerFileString = buffer.toString('utf-8');
+        expect(mainServerFileString.length).toBeGreaterThan(0);
+        expect(
+          mainServerFileString.includes(
+            'export { ngExpressEngine as engine } from "@nguniversal/express-engine";'
+          )
+        ).toBeTruthy();
+        expect(
+          mainServerFileString.includes(
+            "import { NgExpressEngineDecorator } from '@spartacus/core';"
+          )
+        ).toBeTruthy();
+        expect(
+          mainServerFileString.includes('NgExpressEngineDecorator.get(engine);')
+        ).toBeTruthy();
+      }
+    });
+  });
 });

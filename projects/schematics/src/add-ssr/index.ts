@@ -237,6 +237,30 @@ function provideServerAndWebpackServerConfigs(
   ]);
 }
 
+function modifyMainServerTSFile() {
+  return (tree: Tree) => {
+    const mainServerPath = 'src/main.server.ts';
+    const buffer = tree.read(mainServerPath);
+    if (buffer) {
+      let mainServerFile = buffer.toString();
+      const engineExpressToModified = 'export { ngExpressEngine }';
+      if (mainServerFile.includes(engineExpressToModified)) {
+        const exportIndex = mainServerFile.indexOf(engineExpressToModified);
+        // -1 sets index before closing bracket
+        const modifyIndex = exportIndex + engineExpressToModified.length - 1;
+        mainServerFile =
+          mainServerFile.slice(0, modifyIndex) +
+          `as engine ` +
+          mainServerFile.slice(modifyIndex, mainServerFile.length);
+        mainServerFile += `
+          import { NgExpressEngineDecorator } from '@spartacus/core';
+          export const ngExpressEngine = NgExpressEngineDecorator.get(engine);`;
+        tree.overwrite(mainServerPath, mainServerFile);
+      }
+    }
+  };
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const possibleProjectFiles = ['/angular.json', '/.angular.json'];
@@ -261,6 +285,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(templates, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
+      modifyMainServerTSFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
