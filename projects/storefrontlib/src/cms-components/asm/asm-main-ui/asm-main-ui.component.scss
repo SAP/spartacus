@@ -80,8 +80,6 @@ cx-asm-main-ui {
 
   // Grid
   [class^='fd-col'] {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
     flex: 1;
     margin-bottom: 12px;
   }
@@ -330,7 +328,7 @@ cx-asm-main-ui {
     }
   }
 
-  //Session in progress alert
+  //Session-in-progress alert
   .asm-alert {
     display: block;
     font-size: 14px;
@@ -421,10 +419,6 @@ cx-asm-main-ui {
   @media (min-width: 576px) and (max-width: 767px) {
     height: auto;
 
-    // .fd-shellbar__title {
-    //   display: inline-block;
-    // }
-
     .asm-results {
       width: 360px;
       top: 117px;
@@ -447,9 +441,6 @@ cx-asm-main-ui {
 
   // Extra large devices (large desktops, 1200px and up)
   @media (min-width: 768px) {
-    // .fd-shellbar__title {
-    //   display: inline-block;
-    // }
 
     .asm-results {
       width: 516px;
