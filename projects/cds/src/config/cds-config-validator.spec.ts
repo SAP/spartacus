@@ -1,5 +1,5 @@
-import { CdsConfig } from './cds-config';
 import { cdsConfigValidator } from './cds-config-validator';
+import { CdsConfig } from './cds.config';
 
 describe('cdsConfigValidator', () => {
   it('should warn about undefined tenant', () => {

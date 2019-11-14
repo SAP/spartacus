@@ -11,18 +11,21 @@ Spartacus Storefront is a package that you can include in your application, whic
 
 ## CDS Module
 
-To enable the cds module in spartacus, add it to the list of imports in your root module, and create a CDSConfig using the Spartacus ConfigModule. The following is an example: 
+To enable the cds module in spartacus, add it to the list of imports in your root module, and create a CDSConfig by calling the 'withConfig' method. The following is an example: 
 ```
 @NgModule({
   imports: [
-    CdsModule,
-    ConfigModule.withConfig(<CdsConfig>{
+    CdsModule.withConfig(<CdsConfig>{
       cds: {
-        tenant: 'example',
+        tenant: 'my-tenant',
+        baseUrl: 'https://api.us.context.cloud.sap)',
+        endpoints: {
+          strategyProducts: 'example',
+        },
         profileTag: {
-          javascriptUrl: 'http://tag.static.us.context.cloud.sap/js/profile-tag.js',
+          javascriptUrl: 'https://tag.static.us.context.cloud.sap/js/profile-tag.js/profile-tag.js',
           configUrl:
-            'https://tag.static.us.context.cloud.sap/config/example-123',
+            'https://tag.static.stage.context.cloud.sap/config/my-config123',
         },
       },
     }),

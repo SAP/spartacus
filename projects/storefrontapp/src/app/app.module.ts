@@ -9,13 +9,13 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
+import { CdsConfig, CdsModule } from '@spartacus/cds';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
-import { CdsConfig, CdsModule } from 'projects/cds/public_api';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 registerLocaleData(localeDe);
@@ -32,10 +32,13 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-    CdsModule,
-    ConfigModule.withConfig(<CdsConfig>{
+    CdsModule.withConfig(<CdsConfig>{
       cds: {
         tenant: 'argotest',
+        baseUrl: 'test',
+        endpoints: {
+          strategyProducts: 'example',
+        },
         profileTag: {
           javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
           configUrl:
@@ -50,46 +53,12 @@ if (!environment.production) {
           legacy: false,
         },
       },
+      pwa: {
+        enabled: false,
+      },
       authentication: {
         client_id: 'mobile_android',
         client_secret: 'edit me',
-      },
-      context: {
-        urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: [
-          'electronics-spa',
-          'electronics',
-          'apparel-de',
-          'apparel-uk',
-        ],
-      },
-
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-          },
-        },
-      },
-      // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en',
-      },
-      features: {
-        level: '1.3',
-        anonymousConsents: true,
-      },
-    }),
-    JsonLdBuilderModule,
-    B2cStorefrontModule.withConfig({
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          legacy: false,
-        },
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],

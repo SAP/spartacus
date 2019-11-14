@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CdsConfig } from '../config/cds-config';
+import { CdsConfig } from '../config/cds.config';
 
 // temporarly copied from `@spartacus/core`, no need to test it. will be removed.
 class DynamicTemplate {

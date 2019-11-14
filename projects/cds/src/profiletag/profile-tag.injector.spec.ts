@@ -11,7 +11,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig } from '../config/cds.config';
+import { CdsConfig, cdsConfigToken } from '../config/cds.config';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagWindowObject } from './profile-tag.model';
 
@@ -83,7 +83,7 @@ describe('ProfileTagInjector', () => {
     TestBed.configureTestingModule({
       providers: [
         ProfileTagInjector,
-        { provide: CdsConfig, useValue: mockCDSConfig },
+        { provide: cdsConfigToken, useValue: mockCDSConfig },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: BaseSiteService, useValue: baseSiteService },
         { provide: Router, useValue: router },
