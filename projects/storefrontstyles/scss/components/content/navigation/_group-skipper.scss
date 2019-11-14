@@ -5,12 +5,12 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    background-color: $background;
-    color: $text;
+    background-color: var(--cx-color-light);
+    color: var(--cx-color-dark);
     font-weight: bold;
     padding: 16px 32px 16px 32px;
     border-radius: 0 0 5px 5px;
-    border: 2px solid black;
+    border: 2px solid var(--cx-color-dark);
     z-index: 11;
 
     &:focus {
