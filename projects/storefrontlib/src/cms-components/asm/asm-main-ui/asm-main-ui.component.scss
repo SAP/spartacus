@@ -174,28 +174,12 @@ cx-asm-main-ui {
     display: inline;
   }
 
-  .fd-alert {
-    display: block;
-    font-size: 14px;
-    line-height: 1.42857;
-    color: #32363a;
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
-    background-color: #f4f4f4;
-    border-color: #89919a;
-    padding: 9px 12px;
-    border-radius: 4px;
-    width: 100%;
-    text-align: center;
-  }
-
   .sap-icon--log a,
   .sap-icon--decline a {
     cursor: pointer;
   }
 
-  // Container
+  // Container Login
   .fd-container {
     margin-bottom: 12px;
     width: 100%;
@@ -213,16 +197,13 @@ cx-asm-main-ui {
     flex: 1;
     margin-bottom: 12px;
   }
-
   [class^='fd-col']:last-child {
     margin-bottom: 0;
   }
-
   .fd-col--3 {
     float: left;
     margin-right: 8px;
   }
-
   .fd-col--6 {
     float: left;
     margin-right: 8px;
@@ -408,6 +389,22 @@ cx-asm-main-ui {
       -webkit-transform: scale(2);
       transform: scale(2);
     }
+  }
+  //Session in progress alert
+  .asm-alert {
+    display: block;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #32363a;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    background-color: #f4f4f4;
+    border-color: #89919a;
+    padding: 9px 12px;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
   }
 
   // Media Queries
