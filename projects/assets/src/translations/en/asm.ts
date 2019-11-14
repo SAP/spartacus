@@ -17,12 +17,18 @@ export const asm = {
     },
     customerSearch: {
       searchTerm: {
-        label: 'Customer Email Address',
-        required: 'Customer Email Address is required',
+        label: 'Customer Name/Email Address',
       },
       submit: 'Start Session',
-      noMatch: 'No customer found for "{{uid}}"',
+      noMatch: 'No customer found.',
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
+    endSession: 'End Session',
+    agentSessionTimer: {
+      label: 'Session Timeout',
+      minutes: 'min',
+      reset: 'Reset',
+    },
+    standardSessionInProgress: 'Standard customer session in progress.',
   },
 };

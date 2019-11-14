@@ -8,22 +8,22 @@ import { UserTokenInterceptor } from './user-token.interceptor';
 export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: CustomerSupportAgentTokenInterceptor,
+    useExisting: CustomerSupportAgentTokenInterceptor,
     multi: true,
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: ClientTokenInterceptor,
+    useExisting: ClientTokenInterceptor,
     multi: true,
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: UserTokenInterceptor,
+    useExisting: UserTokenInterceptor,
     multi: true,
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: AuthErrorInterceptor,
+    useExisting: AuthErrorInterceptor,
     multi: true,
   },
 ];

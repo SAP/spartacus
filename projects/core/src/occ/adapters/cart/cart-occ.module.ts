@@ -25,7 +25,7 @@ import { OccCartAdapter } from './occ-cart.adapter';
     },
     {
       provide: CART_NORMALIZER,
-      useClass: OccCartNormalizer,
+      useExisting: OccCartNormalizer,
       multi: true,
     },
     {
