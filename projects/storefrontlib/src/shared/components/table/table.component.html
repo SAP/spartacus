@@ -25,13 +25,13 @@
         <!-- TABLE -->
         <table class="table cx-table">
           <thead class="cx-thead-mobile">
-            <th scope="col" *ngFor="let column of columns | keyvalue">
+            <th scope="col" *ngFor="let column of columns">
               {{ column.value }}
             </th>
           </thead>
           <tbody>
             <tr *ngFor="let row of data.list" (click)="goToDetail(row)">
-              <td class="cx-code" *ngFor="let column of columns | keyvalue">
+              <td class="cx-code" *ngFor="let column of columns">
                 <div class="d-md-none cx-label">
                   {{ column.value }}
                 </div>

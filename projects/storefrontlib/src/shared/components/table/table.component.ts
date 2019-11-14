@@ -16,7 +16,7 @@ export class TableComponent {
   pageSize = 5;
 
   @Input()
-  columns: [];
+  columns: Array<{key: string, value: string}>;
 
   @Input()
   sortLabels: [];

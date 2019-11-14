@@ -24,6 +24,8 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   ) {}
   private PAGE_SIZE = 5;
   cxRoute = 'budgetDetails';
+  header = 'budgetsList.budgetManagement';
+
   budgetsList$: Observable<any>;
   sortType$: BehaviorSubject<string> = new BehaviorSubject('byName');
   currentPage$: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -97,14 +99,7 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  getColumns(): Observable<{
-    code: string;
-    name: string;
-    amount: string;
-    startEndDate: string;
-    costCenter: string;
-    parentUnit: string;
-  }> {
+  getColumns(): Observable<Array<{ key: string; value: string }>> {
     return combineLatest([
       this.translation.translate('budgetsList.code'),
       this.translation.translate('budgetsList.name'),
@@ -113,14 +108,14 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
       this.translation.translate('budgetsList.costCenter'),
       this.translation.translate('budgetsList.parentUnit'),
     ]).pipe(
-      map(([code, name, amount, startEndDate, costCenter, parentUnit]) => ({
-        code,
-        name,
-        amount,
-        startEndDate,
-        costCenter,
-        parentUnit,
-      }))
+      map(([code, name, amount, startEndDate, costCenter, parentUnit]) => [
+        { key: 'code', value: code },
+        { key: 'name', value: name },
+        { key: 'amount', value: amount },
+        { key: 'startEndDate', value: startEndDate },
+        { key: 'costCenter', value: costCenter },
+        { key: 'parentUnit', value: parentUnit },
+      ])
     );
   }
 

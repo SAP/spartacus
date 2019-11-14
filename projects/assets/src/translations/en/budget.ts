@@ -10,10 +10,10 @@ export const budget = {
     noBudgets: 'No budgets',
     budgetManagement: 'Budget Management',
     sorting: {
-      byUnitName: 'By Unit Name',
-      byName: 'By Name',
-      byCode: 'By Code',
-      byValue: 'By Value',
+      byUnitName: 'Unit Name',
+      byName: 'Name',
+      byCode: 'Code',
+      byValue: 'Value',
     },
   },
 
