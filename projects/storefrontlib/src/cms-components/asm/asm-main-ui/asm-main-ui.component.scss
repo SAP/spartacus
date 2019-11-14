@@ -31,7 +31,7 @@ cx-asm-main-ui {
   }
 
   cx-csagent-login-form {
-    .sap-spinner {
+    .asm-spinner {
       margin-top: 50px;
       background-color: #f1f4f5;
       height: 100px;
@@ -56,7 +56,7 @@ cx-asm-main-ui {
       padding: 4px 0;
       min-height: 50px;
 
-      .sap-spinner {
+      .asm-spinner {
         margin-top: 0;
         height: 50px;
       }
@@ -345,7 +345,7 @@ cx-asm-main-ui {
   }
 
   // Fiori Spinner
-  .sap-spinner {
+  .asm-spinner {
     display: flex;
     width: 100%;
     justify-content: center;
@@ -357,12 +357,8 @@ cx-asm-main-ui {
   }
 
   .fd-loading-dots {
-    font-size: 14px;
     line-height: 1.42857;
     color: #32363a;
-    font-family: '72', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-      Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-      Segoe UI Symbol;
     position: relative;
     width: 60px;
     height: 18px;
@@ -428,7 +424,7 @@ cx-asm-main-ui {
     cx-csagent-login-form {
       padding-left: 6%;
       padding-top: 20px;
-      .sap-spinner {
+      .asm-spinner {
         height: 180px;
       }
     }
