@@ -7,6 +7,8 @@ import {
   OrderEntry,
   CancellationReturnRequestEntryInput,
   RoutingService,
+  I18nTestingModule,
+  LanguageService,
 } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
@@ -17,7 +19,7 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
 })
 class MockCancellationReturnItemsComponent {
   @Input() entries: OrderEntry[];
-  @Input() confirmation = false;
+  @Input() confirmRequest = false;
   @Input() cancelOrder = true;
   @Output() confirm = new EventEmitter<CancellationReturnRequestEntryInput[]>();
 }
@@ -26,46 +28,57 @@ class MockRoutingService {
   go = jasmine.createSpy('go');
 }
 
+class MockLanguageService {
+  getActive() {
+    return of('en');
+  }
+}
+
 const mockOrder: Order = {
   code: '1',
   entries: [
-    { entryNumber: 0, returnableQuantity: 1 },
-    { entryNumber: 1, returnableQuantity: 0 },
-    { entryNumber: 3, returnableQuantity: 5 },
+    {
+      entryNumber: 0,
+      returnableQuantity: 1,
+      basePrice: { value: 10.0, currencyIso: 'USD' },
+    },
+    {
+      entryNumber: 1,
+      returnableQuantity: 0,
+      basePrice: { value: 20.0, currencyIso: 'USD' },
+    },
+    {
+      entryNumber: 3,
+      returnableQuantity: 5,
+      basePrice: { value: 30.0, currencyIso: 'USD' },
+    },
   ],
   created: new Date('2019-02-11T13:02:58+0000'),
   returnable: true,
 };
 
 class MockOrderDetailsService {
-  _cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[];
+  cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[] = [
+    { orderEntryNumber: 0, quantity: 1 },
+    { orderEntryNumber: 3, quantity: 2 },
+  ];
 
   getOrderDetails() {
     return of(mockOrder);
-  }
-
-  get cancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
-    return this._cancellationReturnRequestInputs;
-  }
-
-  set cancellationReturnRequestInputs(
-    values: CancellationReturnRequestEntryInput[]
-  ) {
-    this._cancellationReturnRequestInputs = values;
   }
 }
 
 describe('ReturnOrderConfirmationComponent', () => {
   let component: ReturnOrderConfirmationComponent;
   let fixture: ComponentFixture<ReturnOrderConfirmationComponent>;
-  let orderService: MockOrderDetailsService;
   let routingService: MockRoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
       declarations: [
@@ -80,28 +93,38 @@ describe('ReturnOrderConfirmationComponent', () => {
     component = fixture.componentInstance;
 
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    orderService = TestBed.get(OrderDetailsService as Type<
-      OrderDetailsService
-    >);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  /*it('should initialize', () => {
+  it('should initialize', () => {
+    component.ngOnInit();
     fixture.detectChanges();
+
     let order: Order;
-    component.order$
-      .subscribe(value => {
-        order = value;
-      })
-      .unsubscribe();
+    component.order$.subscribe(value => (order = value)).unsubscribe();
     expect(order).toEqual(mockOrder);
     expect(component.orderCode).toEqual('1');
-    expect(component.returnableEntries).toEqual([
-      { entryNumber: 0, returnableQuantity: 1 },
-      { entryNumber: 3, returnableQuantity: 5 },
-    ]);
-  });*/
+
+    expect(component.returnedEntries[0].entryNumber).toEqual(0);
+    expect(component.returnedEntries[0].returnedQuantity).toEqual(1);
+    expect(component.returnedEntries[0].returnedItemsPrice.value).toEqual(10.0);
+    expect(
+      component.returnedEntries[0].returnedItemsPrice.formattedValue
+    ).toEqual('$10.00');
+
+    expect(component.returnedEntries[1].entryNumber).toEqual(3);
+    expect(component.returnedEntries[1].returnedQuantity).toEqual(2);
+    expect(component.returnedEntries[1].returnedItemsPrice.value).toEqual(60.0);
+    expect(
+      component.returnedEntries[1].returnedItemsPrice.formattedValue
+    ).toEqual('$60.00');
+  });
+
+  it('should be able to submit', () => {
+    component.submit();
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
+  });
 });

@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthGuard, CmsConfig, ConfigModule } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+} from '@spartacus/core';
 import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../../cms-structure/guards/cms-page.guard';
 import { CancellationReturnItemsModule } from '../cancellation-return-items/cancellation-return-items.module';
@@ -28,6 +33,7 @@ import { CancellationReturnRequestInputGuard } from '../guards/cancellation-retu
       },
     }),
     CancellationReturnItemsModule,
+    I18nModule,
   ],
   declarations: [ReturnOrderConfirmationComponent],
   exports: [ReturnOrderConfirmationComponent],

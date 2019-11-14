@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-
 import {
   Order,
   OrderEntry,
@@ -90,5 +89,8 @@ export class ReturnOrderConfirmationComponent implements OnInit {
     entry.returnedQuantity = qty;
   }
 
-  submit() {}
+  submit() {
+    // submit nothing now, will be handled by ticket #5121
+    this.routing.go({ cxRoute: 'orders' });
+  }
 }
