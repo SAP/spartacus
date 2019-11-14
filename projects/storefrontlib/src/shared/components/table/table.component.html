@@ -1,0 +1,91 @@
+<ng-container *ngIf="list$ | async as list">
+  <div class="container">
+
+    <div class="cx-table-header" *ngIf="header">
+      <h3>{{ header | cxTranslate }}</h3>
+    </div>
+
+    <div class="cx-table-body">
+      <ng-container
+        *ngIf="list.pagination.totalResults > 0; else noData"
+      >
+        <!-- Select Form and Pagination Top -->
+<!--        <div class="cx-sort top row">-->
+<!--          <div-->
+<!--            class="cx-form-group form-group col-sm-12 col-md-4 col-lg-4"-->
+<!--          >-->
+<!--            <cx-sorting-->
+<!--              [sortOptions]="list.sorts"-->
+<!--              [sortLabels]="getSortLabels() | async"-->
+<!--              (sortListEvent)="changeSortCode($event)"-->
+<!--              [selectedOption]="list.pagination.sort"-->
+<!--            ></cx-sorting>-->
+<!--          </div>-->
+<!--          <div class="cx-pagination">-->
+<!--            <cx-pagination-->
+<!--              [pagination]="list.pagination"-->
+<!--              (viewPageEvent)="pageChange($event)"-->
+<!--            ></cx-pagination>-->
+<!--          </div>-->
+<!--        </div>-->
+        <!-- TABLE -->
+        <table class="table cx-table">
+          <thead class="cx-thead-mobile">
+            <th scope="col" *ngFor="let column of columns">
+              {{ column.translation | cxTranslate }}
+            </th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let row of data"
+              (click)="goToDetail(row)"
+            >
+              <td class="cx-code" *ngFor="let column of columns">
+                <div class="d-md-none cx-label">
+                  {{ column.translation | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: cxRoute,
+                      params: row
+                    } | cxUrl
+                  "
+                  class="cx-value"
+                >
+                  {{ row[column] }}</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Select Form and Pagination Bottom -->
+<!--        <div class="cx-sort bottom row">-->
+<!--          <div class="cx-form-group form-group col-sm-12 col-md-4 col-lg-4">-->
+<!--            <cx-sorting-->
+<!--              [sortOptions]="list.sorts"-->
+<!--              [sortLabels]="getSortLabels() | async"-->
+<!--              (sortListEvent)="changeSortCode($event)"-->
+<!--              [selectedOption]="list.pagination.sort"-->
+<!--            ></cx-sorting>-->
+<!--          </div>-->
+<!--          <div class="cx-pagination">-->
+<!--            <cx-pagination-->
+<!--              [pagination]="list.pagination"-->
+<!--              (viewPageEvent)="pageChange($event)"-->
+<!--            ></cx-pagination>-->
+<!--          </div>-->
+<!--        </div>-->
+      </ng-container>
+
+      <!-- NO ORDER CONTAINER -->
+      <ng-template #noData>
+        <div class="cx-no-data row" *ngIf="isLoaded$ | async">
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>{{ 'common.noData' | cxTranslate }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>
