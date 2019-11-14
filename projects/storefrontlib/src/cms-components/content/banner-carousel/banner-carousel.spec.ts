@@ -44,19 +44,22 @@ fdescribe('CreateComponent', () => {
         IconComponent,
       ],
       providers: [
-        { provide: CmsComponentData, use: MockCmsComponentData },
-        { provide: CmsService, use: MockCmsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: CmsService, useClass: MockCmsService },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerCarouselComponent);
-    console.log('test');
     bannerCarouselComponent = fixture.componentInstance;
   });
 
   it('should create', () => {
     expect(bannerCarouselComponent).toBeTruthy();
+  });
+
+  it('should get items', () => {
+    expect(bannerCarouselComponent.getItems()).toBeTruthy();
   });
 });
