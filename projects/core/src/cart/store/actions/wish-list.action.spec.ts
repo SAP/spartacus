@@ -98,5 +98,18 @@ describe('WishList Actions', () => {
         });
       });
     });
+
+    describe('ResetWishListDetails', () => {
+      it('should create the action', () => {
+        const action = new CartActions.ResetWishListDetails();
+        expect({ ...action }).toEqual({
+          type: CartActions.RESET_WISH_LIST_DETAILS,
+          meta: StateEntityLoaderActions.entityResetMeta(
+            MULTI_CART_FEATURE,
+            undefined
+          ),
+        });
+      });
+    });
   });
 });

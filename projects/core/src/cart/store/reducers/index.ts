@@ -8,8 +8,11 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { CartsState, CartState, CART_DATA } from '../cart-state';
 import { MultiCartState, MULTI_CART_FEATURE } from '../multi-cart-state';
 import { reducer as cartReducer } from './cart.reducer';
-import { activeCartReducer, cartEntitiesReducer } from './multi-cart.reducer';
-import { wishListReducer } from './wish-list.reducer';
+import {
+  activeCartReducer,
+  cartEntitiesReducer,
+  wishListReducer,
+} from './multi-cart.reducer';
 
 export function getReducers(): ActionReducerMap<CartsState> {
   return {
