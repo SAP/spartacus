@@ -13,12 +13,7 @@ export function asmTests(isMobile: boolean) {
     });
 
     describe('UI display.', () => {
-      it('storefront should have ASM feature enabled', () => {
-        checkout.visitHomePage();
-        cy.get('cx-asm').should('exist');
-      });
-
-      it('storefront should have ASM UI hidden by default', () => {
+      it('storefront should have ASM UI disabled by default', () => {
         checkout.visitHomePage();
         cy.get('cx-asm-main-ui').should('not.exist');
       });
@@ -28,6 +23,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should see the asm UI when ?asm=true is passed to the url', () => {
         checkout.visitHomePage('asm=true');
         cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-asm-main-ui').should('be.visible');
       });
 
       it('agent should authenticate.', () => {
@@ -138,7 +134,8 @@ export function asmTests(isMobile: boolean) {
 
       it('agent should close the ASM UI.', () => {
         cy.get('a[title="Close ASM"]').click();
-        cy.get('cx-asm-main-ui').should('not.exist');
+        cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-asm-main-ui').should('not.be.visible');
       });
     });
 
