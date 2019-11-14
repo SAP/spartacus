@@ -252,9 +252,7 @@ function modifyMainServerTSFile() {
           mainServerFile.slice(0, modifyIndex) +
           `as engine ` +
           mainServerFile.slice(modifyIndex, mainServerFile.length);
-        mainServerFile += `
-          import { NgExpressEngineDecorator } from '@spartacus/core';
-          export const ngExpressEngine = NgExpressEngineDecorator.get(engine);`;
+        mainServerFile += `import { NgExpressEngineDecorator } from '@spartacus/core';\nexport const ngExpressEngine = NgExpressEngineDecorator.get(engine);\n`;
         tree.overwrite(mainServerPath, mainServerFile);
       }
     }
