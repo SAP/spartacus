@@ -1,4 +1,4 @@
-/*import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -9,7 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
-import { ReturnOrderComponent } from './return-order.component';
+import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
 
 @Component({
   template: '',
@@ -55,9 +55,9 @@ class MockOrderDetailsService {
   }
 }
 
-describe('ReturnOrderComponent', () => {
-  let component: ReturnOrderComponent;
-  let fixture: ComponentFixture<ReturnOrderComponent>;
+describe('ReturnOrderConfirmationComponent', () => {
+  let component: ReturnOrderConfirmationComponent;
+  let fixture: ComponentFixture<ReturnOrderConfirmationComponent>;
   let orderService: MockOrderDetailsService;
   let routingService: MockRoutingService;
 
@@ -69,14 +69,14 @@ describe('ReturnOrderComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
       ],
       declarations: [
-        ReturnOrderComponent,
+        ReturnOrderConfirmationComponent,
         MockCancellationReturnItemsComponent,
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReturnOrderComponent);
+    fixture = TestBed.createComponent(ReturnOrderConfirmationComponent);
     component = fixture.componentInstance;
 
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
@@ -89,7 +89,7 @@ describe('ReturnOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize', () => {
+  /*it('should initialize', () => {
     fixture.detectChanges();
     let order: Order;
     component.order$
@@ -103,21 +103,5 @@ describe('ReturnOrderComponent', () => {
       { entryNumber: 0, returnableQuantity: 1 },
       { entryNumber: 3, returnableQuantity: 5 },
     ]);
-  });
-
-  it('should go to order confirmation page', () => {
-    const entryInputs = [
-      { orderEntryNumber: 0, quantity: 1 },
-      { orderEntryNumber: 3, quantity: 5 },
-    ];
-    component.ngOnInit();
-    fixture.detectChanges();
-    component.confirmReturn(entryInputs);
-
-    expect(orderService.cancellationReturnRequestInputs).toEqual(entryInputs);
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'orderReturnConfirmation',
-      params: { code: '1' },
-    });
-  });
-});*/
+  });*/
+});

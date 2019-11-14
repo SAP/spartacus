@@ -6,6 +6,7 @@ import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layo
 import { CmsPageGuard } from '../../../../../cms-structure/guards/cms-page.guard';
 import { CancellationReturnItemsModule } from '../cancellation-return-items/cancellation-return-items.module';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
+import { CancellationReturnRequestInputGuard } from '../guards/cancellation-return-request-input.guard';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
       cmsComponents: {
         ReturnOrderConfirmationComponent: {
           component: ReturnOrderConfirmationComponent,
-          guards: [AuthGuard],
+          guards: [AuthGuard, CancellationReturnRequestInputGuard],
         },
       },
     }),
