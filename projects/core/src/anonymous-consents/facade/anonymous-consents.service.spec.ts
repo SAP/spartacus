@@ -75,19 +75,62 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
-  it('getTemplates should call getAnonymousConsentTemplatesValue selector', () => {
-    store.dispatch(
-      new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-        mockConsentTemplates
-      )
-    );
+  fdescribe('getTemplates', () => {
+    describe('when load parameter is false', () => {
+      it('should just call getAnonymousConsentTemplatesValue selector', () => {
+        spyOn(service, 'loadTemplates').and.stub();
+        store.dispatch(
+          new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
+            mockConsentTemplates
+          )
+        );
 
-    let result: ConsentTemplate[];
-    service
-      .getTemplates()
-      .subscribe(value => (result = value))
-      .unsubscribe();
-    expect(result).toEqual(mockConsentTemplates);
+        let result: ConsentTemplate[];
+        service
+          .getTemplates()
+          .subscribe(value => (result = value))
+          .unsubscribe();
+        expect(result).toEqual(mockConsentTemplates);
+        expect(service.loadTemplates).not.toHaveBeenCalled();
+      });
+    });
+    describe('when load parameter is true', () => {
+      it('should not attempt the load if already loading', () => {
+        spyOn(service, 'loadTemplates').and.stub();
+        spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(true));
+
+        service
+          .getTemplates(true)
+          .subscribe()
+          .unsubscribe();
+        expect(service.loadTemplates).not.toHaveBeenCalled();
+      });
+      it('should attempt the load if NOT already loading and templates are undefined', () => {
+        spyOn(service, 'loadTemplates').and.stub();
+        spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(false));
+
+        service
+          .getTemplates(true)
+          .subscribe()
+          .unsubscribe();
+        expect(service.loadTemplates).toHaveBeenCalled();
+      });
+      it('should NOT attempt the load if templates already exist', () => {
+        spyOn(service, 'loadTemplates').and.stub();
+        spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(false));
+        store.dispatch(
+          new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
+            mockConsentTemplates
+          )
+        );
+
+        service
+          .getTemplates(true)
+          .subscribe()
+          .unsubscribe();
+        expect(service.loadTemplates).not.toHaveBeenCalled();
+      });
+    });
   });
 
   it('getTemplate should call getAnonymousConsentTemplate selector', () => {
