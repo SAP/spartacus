@@ -1,5 +1,5 @@
 export function isObject(item: any): boolean {
-  return item && typeof item === 'object' && !Array.isArray(item) && !!item;
+  return item && typeof item === 'object' && !Array.isArray(item);
 }
 
 export function deepMerge(target = {}, ...sources: any[]): any {
