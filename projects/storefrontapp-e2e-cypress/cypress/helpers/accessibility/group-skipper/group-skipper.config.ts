@@ -40,5 +40,4 @@ export const groupSkipperConfigCheckout: GroupSkipperConfig = {
   deliveryMode: { url: '/checkout/delivery-mode', length: 3 },
   paymentDetails: { url: '/checkout/payment-details', length: 3 },
   reviewOrder: { url: '/checkout/review-order', length: 3 },
-  orderConfirmation: { url: '/order-confirmation', length: 3 },
 };

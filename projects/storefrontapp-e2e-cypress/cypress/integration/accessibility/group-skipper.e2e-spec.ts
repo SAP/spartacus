@@ -5,26 +5,6 @@ import {
   groupSkipperConfigCheckout,
 } from '../../helpers/accessibility/group-skipper/group-skipper.config';
 import * as checkout from '../../helpers/checkout-flow';
-import { user } from '../../sample-data/checkout-flow';
-
-// context('Group Skipper - Checkout', () => {
-//   before(() => {
-//     cy.requireLoggedIn();
-//     checkout.fillAddressFormWithCheapProduct();
-//     checkout.chooseDeliveryMethod();
-//     checkout.fillPaymentFormWithCheapProduct();
-//   });
-
-//   beforeEach(() => {
-//     cy.restoreLocalStorage();
-//   });
-
-//   afterEach(() => {
-//     cy.saveLocalStorage();
-//   });
-
-//   testGroupSkipperConfig(groupSkipperConfigCheckout);
-// });
 
 context('Group Skipper - Not Logged In', () => {
   before(() => {
@@ -41,15 +21,6 @@ context('Group Skipper - My Account', () => {
 
   beforeEach(() => {
     cy.restoreLocalStorage();
-
-    cy.window().then(win => {
-      const { auth } = JSON.parse(
-        win.localStorage.getItem('spartacus-local-data')
-      );
-      cy.requireProductAddedToCart(auth).then(() => {
-        cy.requireShippingAddressAdded(user.address, auth);
-      });
-    });
   });
 
   afterEach(() => {
@@ -57,4 +28,28 @@ context('Group Skipper - My Account', () => {
   });
 
   testGroupSkipperConfig(groupSkipperConfigMyAccount);
+});
+
+context('Group Skipper - Checkout', () => {
+  before(() => {
+    cy.requireLoggedIn().then(() => {
+      checkout.goToProductDetailsPage();
+      checkout.addProductToCart();
+      checkout.fillAddressForm();
+      checkout.chooseDeliveryMethod();
+      checkout.fillPaymentForm();
+      cy.get('.cx-review-summary-card');
+      cy.saveLocalStorage();
+    });
+  });
+
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
+  testGroupSkipperConfig(groupSkipperConfigCheckout);
 });
