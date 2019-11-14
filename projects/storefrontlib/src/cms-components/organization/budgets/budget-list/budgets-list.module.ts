@@ -6,13 +6,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
+  ConfigModule, CxDatePipe,
   I18nModule,
   UrlModule,
   UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { BudgetsListComponent } from './budgets-list.component';
+import { TableModule } from '../../../../shared/components/table/table.module';
 
 @NgModule({
   imports: [
@@ -31,10 +32,11 @@ import { BudgetsListComponent } from './budgets-list.component';
     ListNavigationModule,
     UrlModule,
     I18nModule,
+    TableModule,
   ],
   declarations: [BudgetsListComponent],
   exports: [BudgetsListComponent],
-  providers: [UserService],
+  providers: [UserService, CxDatePipe],
   entryComponents: [BudgetsListComponent],
 })
 export class BudgetsListModule {}

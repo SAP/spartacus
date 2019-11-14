@@ -8,6 +8,7 @@ import {
   BudgetListModel,
   RoutingService,
   TranslationService,
+  CxDatePipe,
 } from '@spartacus/core';
 
 @Component({
@@ -18,10 +19,12 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   constructor(
     private routing: RoutingService,
     private budgetsService: BudgetService,
-    private translation: TranslationService
+    private translation: TranslationService,
+    private cxDate: CxDatePipe
   ) {}
   private PAGE_SIZE = 5;
-  budgetsList$: Observable<BudgetListModel>;
+  cxRoute = 'budgetDetails';
+  budgetsList$: Observable<any>;
   sortType$: BehaviorSubject<string> = new BehaviorSubject('byName');
   currentPage$: BehaviorSubject<number> = new BehaviorSubject(0);
   isLoaded$: Observable<boolean>;
@@ -52,7 +55,21 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
               ) {
                 this.currentPage$.next(budgetsList.pagination.currentPage);
               }
-            })
+            }),
+            map((budgetsList: BudgetListModel) => ({
+              sorts: budgetsList.sorts,
+              pagination: budgetsList.pagination,
+              list: budgetsList.budgets.map(budget => ({
+                code: budget.code,
+                name: budget.name,
+                amount: `${budget.budget} ${budget.currency.symbol}`,
+                startEndDate: `${this.cxDate.transform(
+                  budget.startDate
+                )} - ${this.cxDate.transform(budget.endDate)}`,
+                costCenter: budget.costCenters && budget.costCenters[0],
+                parentUnit: budget.orgUnit.name,
+              })),
+            }))
           )
       )
     );
@@ -80,21 +97,51 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  getSortLabels(): Observable<{ byUnitName: string; byName: string; byCode: string; byValue: string }> {
+  getColumns(): Observable<{
+    code: string;
+    name: string;
+    amount: string;
+    startEndDate: string;
+    costCenter: string;
+    parentUnit: string;
+  }> {
+    return combineLatest([
+      this.translation.translate('budgetsList.code'),
+      this.translation.translate('budgetsList.name'),
+      this.translation.translate('budgetsList.amount'),
+      this.translation.translate('budgetsList.startEndDate'),
+      this.translation.translate('budgetsList.costCenter'),
+      this.translation.translate('budgetsList.parentUnit'),
+    ]).pipe(
+      map(([code, name, amount, startEndDate, costCenter, parentUnit]) => ({
+        code,
+        name,
+        amount,
+        startEndDate,
+        costCenter,
+        parentUnit,
+      }))
+    );
+  }
+
+  getSortLabels(): Observable<{
+    byUnitName: string;
+    byName: string;
+    byCode: string;
+    byValue: string;
+  }> {
     return combineLatest([
       this.translation.translate('budgetsList.sorting.byUnitName'),
       this.translation.translate('budgetsList.sorting.byName'),
       this.translation.translate('budgetsList.sorting.byCode'),
       this.translation.translate('budgetsList.sorting.byValue'),
     ]).pipe(
-      map(([textByUnitName, textByName, textByCode, textByValue]) => {
-        return {
-          byUnitName: textByUnitName,
-          byName: textByName,
-          byCode: textByCode,
-          byValue: textByValue,
-        };
-      })
+      map(([byUnitName, byName, byCode, byValue]) => ({
+        byUnitName,
+        byName,
+        byCode,
+        byValue,
+      }))
     );
   }
 

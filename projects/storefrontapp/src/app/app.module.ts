@@ -95,7 +95,7 @@ if (!environment.production) {
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
-        fallbackLang: 'en',
+        // fallbackLang: 'en',
       },
     }),
     JsonLdBuilderModule,

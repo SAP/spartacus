@@ -1,33 +1,34 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import {
-  BudgetListModel,
-  RoutingService,
-  // TranslationService,
-} from '@spartacus/core';
 
 @Component({
   selector: 'cx-table',
   templateUrl: './table.component.html',
 })
-export class TableComponent implements OnInit, OnDestroy {
-  constructor(
-    private routing: RoutingService,
-    // private translation: TranslationService
-  ) {}
+export class TableComponent {
+  constructor() {
+    this.sortListEvent = new EventEmitter<string>();
+    this.pageChangeEvent = new EventEmitter<number>();
+    this.clickDetailsEvent = new EventEmitter<any>();
+  }
 
   @Input()
   pageSize = 5;
 
   @Input()
-  budgetsList$: Observable<BudgetListModel>;
+  columns: [];
+
+  @Input()
+  sortLabels: [];
+
+  @Input()
+  tableData$: Observable<any>;
 
   @Input()
   sortType$: BehaviorSubject<string>;
 
   @Input()
-  currentPage$: BehaviorSubject<number> ;
+  currentPage$: BehaviorSubject<number>;
 
   @Input()
   isLoaded$: Observable<boolean>;
@@ -38,52 +39,24 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input()
   header: string;
 
-  ngOnInit(): void {
+  @Output()
+  sortListEvent: EventEmitter<string>;
 
-  }
+  @Output()
+  pageChangeEvent: EventEmitter<number>;
 
-  ngOnDestroy(): void {
-    // this.budgetsService.clearBudgetList();
-  }
+  @Output()
+  clickDetailsEvent: EventEmitter<any>;
 
   changeSortCode(sortCode: string): void {
-    this.sortType$.next(sortCode);
+    this.sortListEvent.emit(sortCode);
   }
 
   pageChange(page: number): void {
-    this.currentPage$.next(page);
+    this.pageChangeEvent.emit(page);
   }
 
-  goToDetail(params): void {
-    this.routing.go({
-      cxRoute: this.cxRoute,
-      params,
-    });
+  goToDetail(params: any): void {
+    this.clickDetailsEvent.emit(params);
   }
-
-  // getSortLabels(): Observable<{ byUnitName: string; byName: string; byCode: string; byValue: string }> {
-  //   return combineLatest([
-  //     this.translation.translate('budgetsList.sorting.byUnitName'),
-  //     this.translation.translate('budgetsList.sorting.byName'),
-  //     this.translation.translate('budgetsList.sorting.byCode'),
-  //     this.translation.translate('budgetsList.sorting.byValue'),
-  //   ]).pipe(
-  //     map(([textByUnitName, textByName, textByCode, textByValue]) => {
-  //       return {
-  //         byUnitName: textByUnitName,
-  //         byName: textByName,
-  //         byCode: textByCode,
-  //         byValue: textByValue,
-  //       };
-  //     })
-  //   );
-  // }
-
-  // private fetchBudgets(): void {
-  //   this.budgetsService.loadBudgets({
-  //     pageSize: this.PAGE_SIZE,
-  //     currentPage: this.currentPage,
-  //     sort: this.sortType,
-  //   });
-  // }
 }
