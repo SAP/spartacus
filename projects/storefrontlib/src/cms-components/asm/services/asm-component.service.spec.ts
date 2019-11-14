@@ -7,9 +7,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
-
-const BROWSER_STORAGE_KEY = 'asm_enabled';
 
 class MockAuthService {
   logoutCustomerSupportAgent(): void {}
@@ -148,9 +147,11 @@ describe('AsmComponentService', () => {
 
   describe('Unload', () => {
     it('should remove local storage key to false on unload', () => {
-      windowRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'true');
+      windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       asmComponentService.unload();
-      expect(windowRef.localStorage.getItem(BROWSER_STORAGE_KEY)).toBeNull();
+      expect(
+        windowRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)
+      ).toBeNull();
     });
   });
 });

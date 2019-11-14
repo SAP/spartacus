@@ -3,9 +3,8 @@ import { ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { OutletService } from '../../../cms-structure/outlet/index';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
-
-const BROWSER_STORAGE_KEY = 'asm_enabled';
 
 const store = {};
 const MockWindowRef = {
@@ -60,7 +59,7 @@ describe('AsmEnablerService', () => {
     windowRef = TestBed.get(WindowRef);
     location = TestBed.get(Location);
 
-    windowRef.localStorage.removeItem(BROWSER_STORAGE_KEY);
+    windowRef.localStorage.removeItem(ASM_ENABLED_LOCAL_STORAGE_KEY);
   });
 
   it('should be created', () => {
@@ -85,7 +84,7 @@ describe('AsmEnablerService', () => {
 
   describe('Open ASM based on previous usage', () => {
     it('should add UI when localStorage key asm_enabled is true', () => {
-      windowRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'true');
+      windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       spyOn(location, 'path').and.returnValue('/any/url');
       spyOn(<any>asmEnablerService, 'addUi').and.stub();
       asmEnablerService.load();
@@ -93,7 +92,7 @@ describe('AsmEnablerService', () => {
     });
 
     it('should not add UI when localStorage asm_enabled is false ', () => {
-      windowRef.localStorage.setItem(BROWSER_STORAGE_KEY, 'false');
+      windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'false');
       spyOn(location, 'path').and.returnValue('/any/url');
       spyOn(<any>asmEnablerService, 'addUi').and.stub();
       asmEnablerService.load();
@@ -101,7 +100,7 @@ describe('AsmEnablerService', () => {
     });
 
     it('should not add UI when localStorage asm_enabled is not available ', () => {
-      windowRef.localStorage.removeItem(BROWSER_STORAGE_KEY);
+      windowRef.localStorage.removeItem(ASM_ENABLED_LOCAL_STORAGE_KEY);
       spyOn(location, 'path').and.returnValue('/any/url');
       spyOn(<any>asmEnablerService, 'addUi').and.stub();
       asmEnablerService.load();

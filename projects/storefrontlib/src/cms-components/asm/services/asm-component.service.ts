@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
-
-const ASM_LOCAL_STORAGE_KEY = 'asm_enabled';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +50,7 @@ export class AsmComponentService {
    */
   unload() {
     if (this.winRef.localStorage) {
-      this.winRef.localStorage.removeItem(ASM_LOCAL_STORAGE_KEY);
+      this.winRef.localStorage.removeItem(ASM_ENABLED_LOCAL_STORAGE_KEY);
     }
   }
 }

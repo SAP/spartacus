@@ -2,9 +2,9 @@ import { Location } from '@angular/common';
 import { ComponentFactoryResolver, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { OutletPosition, OutletService } from '../../../cms-structure';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
 
-const ASM_LOCAL_STORAGE_KEY = 'asm_enabled';
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
  * where it's actually used. This service is added to avoid any polution
@@ -40,7 +40,7 @@ export class AsmEnablerService {
   private isEnabled(): boolean {
     if (this.isLaunched() && !this.isUsedBefore()) {
       if (this.winRef.localStorage) {
-        this.winRef.localStorage.setItem(ASM_LOCAL_STORAGE_KEY, 'true');
+        this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       }
     }
     return this.isLaunched() || this.isUsedBefore();
@@ -61,7 +61,7 @@ export class AsmEnablerService {
   private isUsedBefore(): boolean {
     return (
       this.winRef.localStorage &&
-      this.winRef.localStorage.getItem(ASM_LOCAL_STORAGE_KEY) === 'true'
+      this.winRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY) === 'true'
     );
   }
 
