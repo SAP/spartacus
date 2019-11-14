@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CdsConfig, cdsConfigToken } from './config/cds.config';
+import { CdsConfig, cdsConfigToken } from './config/cds-config';
 import { MerchandisingStrategyAdapter } from './merchandising/adapters/strategy/merchandising.strategy.adapter';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,

@@ -11,7 +11,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig, cdsConfigToken } from '../config/cds.config';
+import { CdsConfig, cdsConfigToken } from '../config/cds-config';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagWindowObject } from './profile-tag.model';
 

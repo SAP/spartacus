@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { fromEventPattern, merge, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { CdsConfig, cdsConfigToken } from '../config/cds.config';
+import { CdsConfig, cdsConfigToken } from '../config/cds-config';
 import {
   ProfileTagEvent,
   ProfileTagJsConfig,

@@ -1,4 +1,4 @@
-import { CdsConfig } from './cds.config';
+import { CdsConfig } from './cds-config';
 
 export function cdsConfigValidator(config: CdsConfig) {
   if (!config.cds) {
