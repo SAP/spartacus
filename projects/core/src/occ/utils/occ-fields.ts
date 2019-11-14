@@ -1,4 +1,4 @@
-import { deepMerge } from '../../config/utils/deep-merge';
+import { deepMerge, isObject } from '../../config/utils/deep-merge';
 
 /**
  * Merge occ fields parameters
@@ -100,6 +100,10 @@ export function extractFields<T>(data: T, fields: string | object): T {
 }
 
 function getObjectPart<T>(data: T, fields: object): T {
+  if (!isObject(data)) {
+    return data;
+  }
+
   const keys = Object.keys(fields);
 
   if (
