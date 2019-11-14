@@ -30,14 +30,14 @@ export function signOut() {
   });
 }
 
-export function registerUser() {
+export function registerUser(giveRegistrationConsent = false) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
-  register(user);
+  register(user, giveRegistrationConsent);
   cy.get('cx-breadcrumb').contains('Login');
   return user;
 }
@@ -107,7 +107,7 @@ export function verifyDeliveryMethod() {
     '/checkout/payment-details',
     'getPaymentPage'
   );
-  cy.get('button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary').click();
   cy.wait(`@${paymentPage}`);
 }
 

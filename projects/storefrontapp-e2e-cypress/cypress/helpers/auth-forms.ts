@@ -8,12 +8,11 @@ export interface RegisterUser {
   password: string;
 }
 
-export function register({
-  firstName,
-  lastName,
-  email,
-  password,
-}: RegisterUser) {
+export function register(
+  { firstName, lastName, email, password }: RegisterUser,
+  giveRegistrationConsent = false,
+  hiddenConsent?
+) {
   cy.get('cx-register form').within(() => {
     cy.get('[formcontrolname="titleCode"]').select('mr');
     cy.get('[formcontrolname="firstName"]').type(firstName);
@@ -21,6 +20,14 @@ export function register({
     cy.get('[formcontrolname="email"]').type(email);
     cy.get('[formcontrolname="password"]').type(password);
     cy.get('[formcontrolname="passwordconf"]').type(password);
+    if (giveRegistrationConsent) {
+      cy.get('[formcontrolname="newsletter"]').check();
+      if (hiddenConsent) {
+        cy.get('[formcontrolname="newsletter"]')
+          .siblings('.form-check-label')
+          .should('contain', hiddenConsent);
+      }
+    }
     cy.get('[formcontrolname="termsandconditions"]').check();
     cy.get('button[type="submit"]').click();
   });

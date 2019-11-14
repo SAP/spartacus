@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10 <12"
+    "node": ">=10 <14"
   },
   "scripts": {
     "build": "ng build storefrontapp --prod",
@@ -29,6 +29,7 @@
     "e2e:cy:start-run-all-ci": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:run:all:ci",
     "generate:changelog": "ts-node ./scripts/changelog.ts",
     "generate:docs": "npx compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
+    "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
     "generate:translations:ts-2-json": "ts-node ./scripts/generate-translations-ts-2-json",
     "generate:translations:ts-2-properties": "ts-node ./scripts/generate-translations-ts-2-properties",
     "generate:translations:properties-2-ts": "ts-node ./scripts/generate-translations-properties-2-ts && prettier './projects/assets/src/translations/**/*.ts' --write",
@@ -64,7 +65,8 @@
     "release-notes:lib": "ts-node ./scripts/changelog.ts --verbose --lib storefront",
     "release-notes:core": "ts-node ./scripts/changelog.ts --verbose --lib core",
     "release-notes:styles": "ts-node ./scripts/changelog.ts --verbose --lib styles",
-    "release-notes:schematics": "ts-node ./scripts/changelog.ts --verbose --lib schematics"
+    "release-notes:schematics": "ts-node ./scripts/changelog.ts --verbose --lib schematics",
+    "publish:docs": "gh-pages -d documentation -m \"Compodocs updates\""
   },
   "private": false,
   "dependencies": {
@@ -117,6 +119,7 @@
     "ejs": "^2.6.2",
     "faker": "^4.1.0",
     "gh-got": "^8.0.1",
+    "gh-pages": "^2.1.1",
     "git-raw-commits": "^2.0.0",
     "http-server": "^0.11.1",
     "i18n-lint": "^1.0.0",

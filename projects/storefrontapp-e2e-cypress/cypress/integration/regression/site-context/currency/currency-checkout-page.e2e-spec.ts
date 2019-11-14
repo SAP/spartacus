@@ -9,9 +9,11 @@ describe('Currency switch - checkout page', () => {
   const checkoutReviewPath = siteContextSelector.CHECKOUT_REVIEW_ORDER_PATH;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then(win => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    });
     cy.requireLoggedIn();
-    cy.visit('/');
     siteContextSelector.doPlaceOrder();
     manipulateCartQuantity();
   });

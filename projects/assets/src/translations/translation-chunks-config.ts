@@ -14,7 +14,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'miniCart',
     'miniLogin',
   ],
-  cart: ['cartDetails', 'cartItems', 'orderCost'],
+  cart: ['cartDetails', 'cartItems', 'orderCost', 'voucher'],
   address: ['addressForm', 'addressBook', 'addressCard'],
   payment: ['paymentForm', 'paymentMethods', 'paymentCard'],
   myAccount: [
@@ -45,5 +45,11 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'addToCart',
     'CMSTabParagraphContainer',
   ],
-  user: ['forgottenPassword', 'loginForm', 'register', 'checkoutLogin'],
+  user: [
+    'anonymousConsents',
+    'forgottenPassword',
+    'loginForm',
+    'register',
+    'checkoutLogin',
+  ],
 };

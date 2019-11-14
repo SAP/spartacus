@@ -43,9 +43,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   newAddressFormManuallyOpened = false;
   isLoading$: Observable<boolean>;
   cards$: Observable<CardWithAddress[]>;
-  selectedAddress$: Observable<
-    Address
-  > = this.checkoutDeliveryService.getDeliveryAddress();
+  selectedAddress$: Observable<Address>;
   forceLoader = false; // this helps with smoother steps transition
 
   /**
@@ -110,6 +108,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutStepUrlPrevious = 'cart';
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
+    this.selectedAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
 
     this.cards$ = combineLatest([
       this.existingAddresses$,

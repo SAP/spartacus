@@ -1,7 +1,11 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ConsentTemplate } from '@spartacus/core';
+import {
+  ANONYMOUS_CONSENT_STATUS,
+  ConsentTemplate,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
 
 describe('ConsentManagementFormComponent', () => {
@@ -11,6 +15,7 @@ describe('ConsentManagementFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [ConsentManagementFormComponent],
     }).compileComponents();
   }));
@@ -29,8 +34,17 @@ describe('ConsentManagementFormComponent', () => {
 
   describe('component method tests', () => {
     describe('ngOnInit', () => {
+      describe('when anonymous consents feature is enabled and consent is provided', () => {
+        it('should set consentGiven according to the state of the provided consent', () => {
+          component.consent = { consentState: ANONYMOUS_CONSENT_STATUS.GIVEN };
+          component.isAnonymousConsentsEnabled = true;
+          component.ngOnInit();
+          expect(component.consentGiven).toEqual(true);
+        });
+      });
       describe('when a consent is given', () => {
         const mockConsentTemplate: ConsentTemplate = {
+          id: 'TEMPLATE_ID',
           currentConsent: {
             consentGivenDate: new Date(),
           },
@@ -60,16 +74,36 @@ describe('ConsentManagementFormComponent', () => {
         id: 'mock ID',
       };
       it('should emit an event', () => {
-        component.consentGiven = true;
+        const consentGiven = true;
+        component.consentGiven = consentGiven;
         component.consentTemplate = mockConsentTemplate;
         spyOn(component.consentChanged, 'emit').and.stub();
 
         component.onConsentChange();
 
         expect(component.consentChanged.emit).toHaveBeenCalledWith({
-          given: !component.consentGiven,
+          given: !consentGiven,
           template: mockConsentTemplate,
         });
+      });
+    });
+
+    describe('isRequired', () => {
+      it('should return TRUE if the id is included in the required array', () => {
+        const templateId = 'TEMPLATE_ID';
+        component.isAnonymousConsentsEnabled = true;
+        component.requiredConsents = [templateId, 'OTHER1', 'OTHER2'];
+
+        expect(component.isRequired(templateId)).toBeTruthy();
+      });
+      it('should return FALSE if the id is NOT included in the required array', () => {
+        const templateId = 'TEMPLATE_ID';
+        component.requiredConsents = ['OTHER1', 'OTHER2'];
+
+        expect(component.isRequired(templateId)).toBeFalsy();
+
+        component.requiredConsents = [];
+        expect(component.isRequired(templateId)).toBeFalsy();
       });
     });
   });
@@ -91,6 +125,17 @@ describe('ConsentManagementFormComponent', () => {
         checkbox.dispatchEvent(new MouseEvent('click'));
 
         expect(component.onConsentChange).toHaveBeenCalled();
+      });
+      it('should disable required consents', () => {
+        component.isAnonymousConsentsEnabled = true;
+        component.consentTemplate = mockConsentTemplate;
+        component.requiredConsents = [mockConsentTemplate.id];
+
+        fixture.detectChanges();
+
+        const checkbox = el.query(By.css('input')).nativeElement as HTMLElement;
+
+        expect(checkbox.hasAttribute('disabled')).toBeTruthy();
       });
     });
   });

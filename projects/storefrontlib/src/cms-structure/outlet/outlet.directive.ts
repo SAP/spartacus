@@ -1,4 +1,5 @@
 import {
+  ComponentFactory,
   Directive,
   Input,
   OnInit,
@@ -27,21 +28,22 @@ export class OutletDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const nodes = [];
-    nodes.push(...this.renderTemplate(OutletPosition.BEFORE));
-    nodes.push(...this.renderTemplate(OutletPosition.REPLACE, true));
-    nodes.push(...this.renderTemplate(OutletPosition.AFTER));
+    this.renderTemplate(OutletPosition.BEFORE);
+    this.renderTemplate(OutletPosition.REPLACE, true);
+    this.renderTemplate(OutletPosition.AFTER);
   }
 
-  private renderTemplate(position: OutletPosition, replace = false): any[] {
-    const nodes = [];
+  private renderTemplate(position: OutletPosition, replace = false): void {
     const template = this.outletService.get(this.cxOutlet, position);
-    if (template || replace) {
-      const ref = this.vcr.createEmbeddedView(template || this.templateRef, {
-        $implicit: this._context,
-      });
-      nodes.push(...ref.rootNodes);
+    if (template && template instanceof ComponentFactory) {
+      this.vcr.createComponent(template);
+    } else if ((template && template instanceof TemplateRef) || replace) {
+      this.vcr.createEmbeddedView(
+        <TemplateRef<any>>template || this.templateRef,
+        {
+          $implicit: this._context,
+        }
+      );
     }
-    return nodes;
   }
 }

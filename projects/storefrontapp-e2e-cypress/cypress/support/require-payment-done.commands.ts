@@ -22,7 +22,7 @@ Cypress.Commands.add('requirePaymentDone', auth => {
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
-      url: `${apiUrl}/rest/v2/electronics/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
+      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,
@@ -55,7 +55,7 @@ Cypress.Commands.add('requirePaymentDone', auth => {
 
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics/users/current/carts/current/payment/sop/response`,
+      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/payment/sop/response`,
       body: data,
       form: true,
       headers: {
