@@ -1,5 +1,5 @@
 <ng-container *ngIf="!confirmRequest">
-  <button [disabled]="disableConfirm" (click)="confirmEntryInputs()">
+  <button [disabled]="disableConfirmBtn" (click)="confirmEntryInputs()">
     {{ 'common.continue' | cxTranslate }}
   </button>
   <br />
@@ -131,7 +131,7 @@
                   }}
                 </div>
                 <div class="cx-value">
-                  {{ item.returnedItemsPrice.formattedValue }}
+                  {{ item.returnedItemsPrice?.formattedValue }}
                 </div>
               </div>
             </div>
