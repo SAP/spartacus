@@ -243,16 +243,14 @@ function modifyMainServerTSFile() {
     const buffer = tree.read(mainServerPath);
     if (buffer) {
       let mainServerFile = buffer.toString();
-      const engineExpressToModified = 'export { ngExpressEngine }';
-      if (mainServerFile.includes(engineExpressToModified)) {
-        const exportIndex = mainServerFile.indexOf(engineExpressToModified);
-        // -1 sets index before closing bracket
-        const modifyIndex = exportIndex + engineExpressToModified.length - 1;
+      const engineExpressToRemove = `export { ngExpressEngine } from "@nguniversal/express-engine";`;
+      if (mainServerFile.includes(engineExpressToRemove)) {
+        const startPos = mainServerFile.indexOf(engineExpressToRemove);
+        const endPos = startPos + engineExpressToRemove.length + 1;
         mainServerFile =
-          mainServerFile.slice(0, modifyIndex) +
-          `as engine ` +
-          mainServerFile.slice(modifyIndex, mainServerFile.length);
-        mainServerFile += `import { NgExpressEngineDecorator } from '@spartacus/core';\nexport const ngExpressEngine = NgExpressEngineDecorator.get(engine);\n`;
+          mainServerFile.substr(0, startPos) +
+          mainServerFile.substr(endPos, mainServerFile.length);
+        mainServerFile += `import { ngExpressEngine as engine } from '@nguniversal/express-engine';\nimport { NgExpressEngineDecorator } from '@spartacus/core';\nexport const ngExpressEngine = NgExpressEngineDecorator.get(engine);`;
         tree.overwrite(mainServerPath, mainServerFile);
       }
     }

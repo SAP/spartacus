@@ -165,18 +165,29 @@ describe('add-ssr', () => {
       if (buffer) {
         const mainServerFileString = buffer.toString('utf-8');
         expect(mainServerFileString.length).toBeGreaterThan(0);
+
         expect(
           mainServerFileString.includes(
-            'export { ngExpressEngine as engine } from "@nguniversal/express-engine";'
+            'export { ngExpressEngine } from "@nguniversal/express-engine";'
+          )
+        ).toBeFalsy();
+
+        expect(
+          mainServerFileString.includes(
+            "import { ngExpressEngine as engine } from '@nguniversal/express-engine';"
           )
         ).toBeTruthy();
+
         expect(
           mainServerFileString.includes(
             "import { NgExpressEngineDecorator } from '@spartacus/core';"
           )
         ).toBeTruthy();
+
         expect(
-          mainServerFileString.includes('NgExpressEngineDecorator.get(engine);')
+          mainServerFileString.includes(
+            'export const ngExpressEngine = NgExpressEngineDecorator.get(engine);'
+          )
         ).toBeTruthy();
       }
     });
