@@ -14,7 +14,11 @@ import { Configurator } from '../../../../model/configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
+import { ConfiguratorUiActions } from '../actions';
 import {
+  ChangeGroupFinalize,
+  CHANGE_GROUP,
+  CHANGE_GROUP_FINALIZE,
   CreateConfigurationFail,
   CreateConfigurationSuccess,
   CREATE_CONFIGURATION,
@@ -118,7 +122,7 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfigurationSuccess$: Observable<
-    UpdateConfigurationFinalizeSuccess
+    UpdateConfigurationFinalizeSuccess | ConfiguratorUiActions.SetCurrentGroup
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_SUCCESS),
     map(
@@ -130,7 +134,15 @@ export class ConfiguratorEffects {
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
         filter(pendingChanges => pendingChanges === 0),
-        map(_pendingChanges => new UpdateConfigurationFinalizeSuccess(payload))
+        switchMap(_pendingChanges => [
+          new UpdateConfigurationFinalizeSuccess(payload),
+          //setCurrentGroup because in cases where a queue of updates exists with a group navigation in between,
+          //we need to ensure that the last update determines the current group.
+          new ConfiguratorUiActions.SetCurrentGroup(
+            payload.productCode,
+            payload.groups.filter(group => group.attributes.length > 0)[0].id
+          ),
+        ])
       );
     })
   );
@@ -162,6 +174,56 @@ export class ConfiguratorEffects {
         action.payload
     ),
     map(payload => new ReadConfiguration({ configId: payload.configId }))
+  );
+
+  @Effect()
+  groupChange$: Observable<ChangeGroupFinalize> = this.actions$.pipe(
+    ofType(CHANGE_GROUP),
+    map((action: { type: string; payload?: any }) => action.payload),
+    switchMap(payload => {
+      return this.store.pipe(
+        select(ConfiguratorSelectors.getPendingChanges),
+        take(1),
+        filter(pendingChanges => pendingChanges === 0),
+        map(_pendingChanges => new ChangeGroupFinalize(payload))
+      );
+    })
+  );
+
+  @Effect()
+  groupChangeFinalize$: Observable<
+    | ConfiguratorUiActions.SetCurrentGroup
+    | ReadConfigurationFail
+    | ReadConfigurationSuccess
+  > = this.actions$.pipe(
+    ofType(CHANGE_GROUP_FINALIZE),
+    map(
+      (action: {
+        type: string;
+        payload?: { configId: string; productCode: string; groupId: string };
+      }) => action.payload
+    ),
+    switchMap(payload => {
+      return this.configuratorCommonsConnector
+        .readConfiguration(payload.configId, payload.groupId)
+        .pipe(
+          switchMap((configuration: Configurator.Configuration) => {
+            return [
+              new ConfiguratorUiActions.SetCurrentGroup(
+                payload.productCode,
+                payload.groupId
+              ),
+              new ReadConfigurationSuccess(configuration),
+            ];
+          }),
+          catchError(error => [
+            new ReadConfigurationFail(
+              payload.productCode,
+              makeErrorSerializable(error)
+            ),
+          ])
+        );
+    })
   );
 
   constructor(

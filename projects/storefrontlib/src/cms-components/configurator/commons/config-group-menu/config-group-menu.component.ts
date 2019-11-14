@@ -1,17 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 
 @Component({
@@ -19,10 +14,8 @@ import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/h
   templateUrl: './config-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigGroupMenuComponent implements OnInit, OnDestroy {
+export class ConfigGroupMenuComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  productCode: string;
-  subscription = new Subscription();
 
   constructor(
     private routingService: RoutingService,
@@ -32,36 +25,20 @@ export class ConfigGroupMenuComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.routingService
-        .getRouterState()
-        .subscribe(state => this.initConfigurationGroups(state))
+    this.configuration$ = this.routingService.getRouterState().pipe(
+      map(routingData => routingData.state.params.rootProduct),
+      switchMap(product =>
+        this.configuratorCommonsService.getConfiguration(product)
+      )
     );
   }
 
-  initConfigurationGroups(routingData) {
-    this.productCode = routingData.state.params.rootProduct;
-
-    this.configuration$ = this.configuratorCommonsService.getConfiguration(
-      this.productCode
+  click(configId: string, productCode: string, group: Configurator.Group) {
+    this.configuratorGroupsService.navigateToGroup(
+      configId,
+      productCode,
+      group.id
     );
-  }
-
-  click(group: Configurator.Group) {
-    this.configuratorGroupsService.setCurrentGroup(this.productCode, group.id);
     this.hamburgerMenuService.toggle(true);
-    this.configuration$.pipe(take(1)).subscribe(config => {
-      this.configuratorCommonsService.readConfiguration(
-        config.configId,
-        this.productCode,
-        group.id
-      );
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }
