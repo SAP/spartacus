@@ -9,6 +9,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
@@ -187,67 +188,52 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should derive that current group is last group depending on group service nextGroup function', () => {
-    const testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
-    });
-    testScheduler.run(helpers => {
-      const { cold, expectObservable } = helpers;
+    const nextGroup = cold('-a-b-c', { a: GROUP_ID, b: GROUP_2_ID, c: null });
 
-      const nextGroup = cold('-a-b-c', { a: GROUP_ID, b: GROUP_2_ID, c: null });
+    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
+      nextGroup
+    );
 
-      spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
-        nextGroup
-      );
-
-      expectObservable(classUnderTest.isLastGroup(PRODUCT_CODE)).toBe(
-        '-a-b-c',
-        {
-          a: false,
-          b: false,
-          c: true,
-        }
-      );
-    });
+    expect(classUnderTest.isLastGroup(PRODUCT_CODE)).toBeObservable(
+      cold('-a-b-c', {
+        a: false,
+        b: false,
+        c: true,
+      })
+    );
   });
+
   it('should derive that current group is first group depending on group service getPreviousGroup function', () => {
-    const testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
+    const previousGroup = cold('-a-b-c-d-e', {
+      a: null,
+      b: GROUP_2_ID,
+      c: null,
+      d: '',
+      e: ' ',
     });
-    testScheduler.run(helpers => {
-      const { cold, expectObservable } = helpers;
 
-      const previousGroup = cold('-a-b-c-d-e', {
-        a: null,
-        b: GROUP_2_ID,
-        c: null,
-        d: '',
-        e: ' ',
-      });
+    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
+      previousGroup
+    );
 
-      spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
-        previousGroup
-      );
-
-      expectObservable(classUnderTest.isFirstGroup(PRODUCT_CODE)).toBe(
-        '-a-b-c-d-e',
-        {
-          a: true,
-          b: false,
-          c: true,
-          d: true,
-          e: false,
-        }
-      );
-    });
+    expect(classUnderTest.isFirstGroup(PRODUCT_CODE)).toBeObservable(
+      cold('-a-b-c-d-e', {
+        a: true,
+        b: false,
+        c: true,
+        d: true,
+        e: false,
+      })
+    );
   });
+
   it('should navigate to group exactly one time on navigateToPreviousGroup', () => {
+    //usage of TestScheduler because of the async check in last line
     const testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
-
     testScheduler.run(helpers => {
-      const { cold, expectObservable } = helpers;
-
+      const { expectObservable } = helpers;
       const previousGroup = cold('-a-b', {
         a: GROUP_ID,
         b: GROUP_2_ID,
@@ -269,13 +255,11 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should navigate to group exactly one time on navigateToNextGroup', () => {
+    //usage of TestScheduler because of the async check in last line
     const testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
-
-    testScheduler.run(helpers => {
-      const { cold } = helpers;
-
+    testScheduler.run(() => {
       const nextGroup = cold('-a-b', {
         a: GROUP_ID,
         b: GROUP_2_ID,
