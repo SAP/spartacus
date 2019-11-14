@@ -4,6 +4,17 @@ cx-asm-main-ui {
   width: 100%;
   display: block;
 
+  form {
+    width: 100%;
+  }
+  label,
+  input {
+    margin-bottom: 0;
+  }
+  .collapsed {
+    display: none;
+  }
+
   cx-asm-session-timer {
     font-size: 14px;
     .session-timer {
@@ -39,7 +50,7 @@ cx-asm-main-ui {
   }
 
   cx-customer-selection {
-    .fd-popover__body {
+    .asm-results {
       border: solid 1px #89919a;
       position: absolute;
       white-space: nowrap;
@@ -74,21 +85,9 @@ cx-asm-main-ui {
     }
   }
 
-  cx-customer-emulation {
-    padding: 2rem;
-  }
-
-  form {
-    width: 100%;
-  }
-  label,
-  input {
-    margin-bottom: 0;
-  }
-
-  .collapsed {
-    display: none;
-  }
+  // cx-customer-emulation {
+  //   padding: 2rem;
+  // }
 
   // Shell Bar
   .fd-shellbar {
@@ -214,8 +213,9 @@ cx-asm-main-ui {
     margin-right: 8px;
   }
 
-  // Button Common styles
+  // ----- REFACTORED ----
 
+  // Button Common styles
   .asm-button {
     display: inline-block;
     margin: 0;
@@ -316,7 +316,7 @@ cx-asm-main-ui {
     }
   }
 
-  // Fiori Spinner
+  // Spinner
   .asm-spinner {
     display: flex;
     width: 100%;
@@ -326,61 +326,62 @@ cx-asm-main-ui {
     top: 0;
     left: 0;
     z-index: 1;
+
+    .fd-loading-dots {
+      line-height: 1.42857;
+      color: #32363a;
+      position: relative;
+      width: 60px;
+      height: 18px;
+      display: block;
+      font-size: 0;
+      color: #0a6ed1;
+      margin: 10px auto;
+
+      > div {
+        position: relative;
+        width: 8px;
+        height: 8px;
+        margin: 6px;
+        display: inline-block;
+        border-radius: 100%;
+        background-color: currentColor;
+        border: 0 solid currentColor;
+        -webkit-animation: fd-loading-dots-pulse 1s ease infinite;
+        animation: fd-loading-dots-pulse 1s ease infinite;
+
+        &:nth-child(1) {
+          animation-delay: -0.2s;
+        }
+
+        @-webkit-keyframes fd-loading-dots-pulse {
+          0%,
+          100%,
+          60% {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+          }
+          30% {
+            -webkit-transform: scale(2);
+            transform: scale(2);
+          }
+        }
+        @keyframes fd-loading-dots-pulse {
+          0%,
+          100%,
+          60% {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+          }
+          30% {
+            -webkit-transform: scale(2);
+            transform: scale(2);
+          }
+        }
+      }
+    }
   }
 
-  .fd-loading-dots {
-    line-height: 1.42857;
-    color: #32363a;
-    position: relative;
-    width: 60px;
-    height: 18px;
-    display: block;
-    font-size: 0;
-    color: #0a6ed1;
-    margin: 10px auto;
-  }
-
-  .fd-loading-dots > div {
-    position: relative;
-    width: 8px;
-    height: 8px;
-    margin: 6px;
-    display: inline-block;
-    border-radius: 100%;
-    background-color: currentColor;
-    border: 0 solid currentColor;
-    -webkit-animation: fd-loading-dots-pulse 1s ease infinite;
-    animation: fd-loading-dots-pulse 1s ease infinite;
-  }
-
-  .fd-loading-dots > div:nth-child(1) {
-    animation-delay: -0.2s;
-  }
-
-  @-webkit-keyframes fd-loading-dots-pulse {
-    0%,
-    100%,
-    60% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-    }
-    30% {
-      -webkit-transform: scale(2);
-      transform: scale(2);
-    }
-  }
-  @keyframes fd-loading-dots-pulse {
-    0%,
-    100%,
-    60% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-    }
-    30% {
-      -webkit-transform: scale(2);
-      transform: scale(2);
-    }
-  }
   //Session in progress alert
   .asm-alert {
     display: block;
@@ -402,6 +403,10 @@ cx-asm-main-ui {
   // Extra small devices (portrait phones, less than 576px)
   @media (max-width: 575px) {
     height: 230px;
+    form {
+      width: 88%;
+      position: absolute;
+    }
 
     cx-customer-selection,
     cx-customer-emulation {
@@ -417,18 +422,13 @@ cx-asm-main-ui {
       }
     }
 
-    form {
-      width: 88%;
-      position: absolute;
-    }
-
     .fd-col--3,
     .fd-col--6 {
       width: 100%;
       clear: left;
     }
 
-    .fd-popover__body {
+    .asm-results {
       width: 88%;
       overflow: hidden;
       top: 130px;
@@ -450,7 +450,7 @@ cx-asm-main-ui {
       display: none;
     }
 
-    .fd-alert {
+    .asm-alert {
       margin-top: 30px;
     }
 
@@ -472,7 +472,7 @@ cx-asm-main-ui {
       display: inline-block;
     }
 
-    .fd-popover__body {
+    .asm-results {
       width: 360px;
       top: 117px;
       a {
@@ -498,7 +498,7 @@ cx-asm-main-ui {
       display: inline-block;
     }
 
-    .fd-popover__body {
+    .asm-results {
       width: 516px;
       top: 117px;
       a {

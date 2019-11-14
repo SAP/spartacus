@@ -26,11 +26,7 @@
   </div>
 </form>
 
-<div
-  *ngIf="searchResults | async as results"
-  class="results fd-popover__body"
-  #resultList
->
+<div *ngIf="searchResults | async as results" class="asm-results" #resultList>
   <div>
     <a
       *ngFor="let result of results.entries"
@@ -49,7 +45,7 @@
     >
   </div>
 </div>
-<div *ngIf="searchResultsLoading$ | async" class="results fd-popover__body">
+<div *ngIf="searchResultsLoading$ | async" class="asm-results">
   <div>
     <a>
       <div class="asm-spinner">
