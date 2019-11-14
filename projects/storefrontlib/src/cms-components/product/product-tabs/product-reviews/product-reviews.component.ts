@@ -24,13 +24,12 @@ export class ProductReviewsComponent {
   maxListItems: number;
   reviewForm: FormGroup;
 
-  product$: Observable<Product> = this.currentProductService.getProduct().pipe(
-    filter(product => !!product),
-    distinctUntilChanged()
-  );
+  product$: Observable<Product> = this.currentProductService
+    .getProduct()
+    .pipe(filter(p => !!p));
 
   reviews$: Observable<Review[]> = this.product$.pipe(
-    map(product => product.code),
+    map(p => p.code),
     distinctUntilChanged(),
     switchMap(productCode => this.reviewService.getByProductCode(productCode)),
     tap(() => {
