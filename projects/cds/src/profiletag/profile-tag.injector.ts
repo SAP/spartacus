@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, Renderer2 } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
 import {
   AnonymousConsent,
@@ -31,11 +31,12 @@ export class ProfileTagInjector {
     private baseSiteService: BaseSiteService,
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService,
-    @Inject(DOCUMENT) doc: any
+    @Inject(DOCUMENT) doc: any,
+    @Inject(PLATFORM_ID) private platform: any
   ) {
     this.document = doc as Document; // See https://github.com/angular/angular/issues/20351
     this.w = <ProfileTagWindowObject>(
-      (<unknown>(this.winRef ? this.winRef.nativeWindow : undefined))
+      (<unknown>(this.winRef ? this.winRef.nativeWindow : {}))
     );
     this.w.Y_TRACKING = this.w.Y_TRACKING || {};
     const consentChanged$ = this.consentChanged();
@@ -44,6 +45,9 @@ export class ProfileTagInjector {
   }
 
   injectScript(): Observable<AnonymousConsent | NgRouterEvent> {
+    if (!isPlatformBrowser(this.platform)) {
+      return;
+    }
     return this.addTracker().pipe(
       filter(profileTagEvent => profileTagEvent.eventName === 'Loaded'),
       switchMap(() => {
