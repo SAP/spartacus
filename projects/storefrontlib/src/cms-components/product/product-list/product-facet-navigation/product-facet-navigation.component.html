@@ -37,6 +37,7 @@
               (click)="toggleFacet(facet.name)"
               [attr.aria-expanded]="!isFacetCollapsed(facet.name)"
               aria-controls=""
+              tabindex="0"
             >
               {{ facet.name }}
               <cx-icon
@@ -86,6 +87,7 @@
                   !showAllPerFacetMap.get(facet.name) &&
                   facet.values.length > minPerFacet
                 "
+                tabindex="0"
               >
                 {{ 'productList.showMore' | cxTranslate }}
               </li>

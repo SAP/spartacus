@@ -13,12 +13,10 @@ export interface LoginUser {
   password: string;
 }
 
-export function fillRegistrationForm({
-  firstName,
-  lastName,
-  email,
-  password,
-}: RegisterUser) {
+export function fillRegistrationForm(
+  { firstName, lastName, email, password }: RegisterUser,
+  giveRegistrationConsent = false
+) {
   cy.get('cx-register form').within(() => {
     cy.get('[formcontrolname="titleCode"]').select('mr');
     cy.get('[formcontrolname="firstName"]').type(firstName);
@@ -26,6 +24,9 @@ export function fillRegistrationForm({
     cy.get('[formcontrolname="email"]').type(email);
     cy.get('[formcontrolname="password"]').type(password);
     cy.get('[formcontrolname="passwordconf"]').type(password);
+    if (giveRegistrationConsent) {
+      cy.get('[formcontrolname="newsletter"]').check();
+    }
     cy.get('[formcontrolname="termsandconditions"]').check();
   });
 }

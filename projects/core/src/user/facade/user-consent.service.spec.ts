@@ -1,6 +1,8 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { AuthService } from '../../auth/facade/auth.service';
 import { ConsentTemplate } from '../../model/consent.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
@@ -9,6 +11,15 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserConsentService } from './user-consent.service';
+
+class MockAuthService {
+  getOccUserId(): Observable<string> {
+    return of(OCC_USER_ID_CURRENT);
+  }
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
+  }
+}
 
 describe('UserConsentService', () => {
   let service: UserConsentService;
@@ -24,7 +35,10 @@ describe('UserConsentService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserConsentService],
+      providers: [
+        UserConsentService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
     store = TestBed.get(Store as Type<Store<StateWithUser>>);
@@ -247,6 +261,28 @@ describe('UserConsentService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new UserActions.ResetWithdrawUserConsentProcess()
         );
+      });
+    });
+  });
+
+  describe('filterConsentTemplates', () => {
+    const mockTemplateList: ConsentTemplate[] = [
+      { id: 'MARKETING' },
+      { id: 'PERSONALIZATION' },
+    ];
+
+    describe('when the empty hideTemplateIds is provided', () => {
+      it('should return the provided templateList', () => {
+        expect(service.filterConsentTemplates(mockTemplateList)).toEqual(
+          mockTemplateList
+        );
+      });
+    });
+    describe('when a list of IDs to hide is provided', () => {
+      it('should remove them from the provided templateList', () => {
+        expect(
+          service.filterConsentTemplates(mockTemplateList, ['MARKETING'])
+        ).toEqual([mockTemplateList[1]]);
       });
     });
   });

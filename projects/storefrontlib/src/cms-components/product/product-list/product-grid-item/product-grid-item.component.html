@@ -24,12 +24,12 @@
 </div>
 <div class="cx-product-price-container">
   <div class="cx-product-price" aria-label="Product price">
-    {{ product.price.formattedValue }}
+    {{ product.price?.formattedValue }}
   </div>
 </div>
 
 <cx-add-to-cart
   *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
   [showQuantity]="false"
-  [productCode]="product.code"
+  [product]="product"
 ></cx-add-to-cart>

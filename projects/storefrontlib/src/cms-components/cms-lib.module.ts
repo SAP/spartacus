@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule } from '../layout/index';
+import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
+import { AsmModule } from './asm/asm.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
 import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
@@ -9,7 +11,7 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
-import { SiteContextSelectorModule } from './misc/index';
+import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
@@ -41,11 +43,13 @@ import {
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
-import { UserComponentModule } from './user/user.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
+import { UserComponentModule } from './user/user.module';
 
 @NgModule({
   imports: [
+    AnonymousConsentManagementBannerModule,
+    AsmModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
@@ -56,6 +60,7 @@ import { StoreFinderModule } from './storefinder/store-finder.module';
     BreadcrumbModule,
     SearchBoxModule,
     SiteContextSelectorModule,
+    QualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
     ProductListModule,

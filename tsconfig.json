@@ -14,6 +14,7 @@
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "stripInternal": true,
     "paths": {
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
@@ -21,5 +22,5 @@
       "@spartacus/assets": ["projects/assets/src/public_api"]
     }
   },
-  "exclude": ["./dist"]
+  "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
 }

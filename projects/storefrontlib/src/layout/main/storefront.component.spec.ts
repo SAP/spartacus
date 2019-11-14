@@ -3,8 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
 import { StorefrontComponent } from './storefront.component';
 
+@Component({
+  selector: 'cx-asm',
+  template: '',
+})
+class MockAsmRootComponent {}
 @Component({
   selector: 'cx-header',
   template: '',
@@ -36,6 +42,12 @@ class MockRoutingService {
 }
 
 @Component({
+  selector: 'cx-schema',
+  template: '',
+})
+class MockSchemaComponent {}
+
+@Component({
   selector: 'cx-page-layout',
   template: '',
 })
@@ -57,6 +69,9 @@ describe('StorefrontComponent', () => {
         MockFooterComponent,
         DynamicSlotComponent,
         MockPageLayoutComponent,
+        MockAsmRootComponent,
+        MockFeatureDirective,
+        MockSchemaComponent,
       ],
       providers: [
         {

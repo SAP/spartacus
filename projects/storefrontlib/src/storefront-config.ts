@@ -1,4 +1,6 @@
 import {
+  AnonymousConsentsConfig,
+  AsmConfig,
   AuthConfig,
   CmsConfig,
   ExternalRoutesConfig,
@@ -14,15 +16,18 @@ import {
 } from '@spartacus/core';
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/index';
+import { QualtricsConfig } from './cms-components/misc/qualtrics/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { FeatureToggles } from './feature-toggles';
 import { LayoutConfig } from './layout/config/layout-config';
 import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =
+  | AnonymousConsentsConfig
   | AuthConfig
   | CmsConfig
   | OccConfig
+  | QualtricsConfig
   | StateConfig
   | PWAModuleConfig
   | SiteContextConfig
@@ -37,4 +42,5 @@ export type StorefrontConfig =
   | ExternalRoutesConfig
   | ViewConfig
   | FeatureToggles
-  | GroupSkipperConfig;
+  | GroupSkipperConfig
+  | AsmConfig;
