@@ -1,83 +1,61 @@
-import { Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CmsService } from '@spartacus/core';
 import {
-  CmsBannerCarouselComponent as model,
-  CmsService,
-  ContentSlotComponentData,
-  RoutingConfig,
-} from '@spartacus/core';
-import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
+  CmsBannerCarouselComponent,
+  CmsBannerCarouselEffect,
+  CmsComponent,
+} from 'projects/core/src/model/cms.model';
+import {
+  CmsComponentData,
+  ComponentWrapperDirective,
+} from 'projects/storefrontlib/src/cms-structure';
 import { CarouselComponent } from 'projects/storefrontlib/src/shared';
-import { Observable, of } from 'rxjs';
-import { IconComponent, IconLoaderService } from '../../misc';
+import { of } from 'rxjs';
+import { IconComponent } from '../../misc';
 import { BannerCarouselComponent } from './banner-carousel.component';
 
-const mockCmsComponentData = {
-  uid: 'test',
-  data$: of(),
+const componentData: CmsBannerCarouselComponent = {
+  uid: 'SiteLogoComponent',
+  typeCode: 'SimpleBannerComponent',
+  name: 'Site Logo Component',
+  banners: 'Test Banner',
+  effect: CmsBannerCarouselEffect.CURTAIN,
 };
 
-@Directive({
-  selector: '[cxComponentWrapper]',
-})
-export class MockComponentWrapperDirective {
-  @Input() cxComponentWrapper: ContentSlotComponentData;
-}
+const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
+  data$: of(componentData),
+  uid: 'test',
+};
 
-class MockIconLoaderService {}
-
-class MockCmsComponentData {
-  data$: Observable<model> = of(mockCmsComponentData);
-}
-
-class MockStore {}
-
-class MockRoutingConfig {}
-
-class MockRouter {}
-
-class MockCmsService {
-  getComponentData() {
-    return of();
-  }
-}
+class MockCmsService {}
 
 fdescribe('CreateComponent', () => {
-  let component: BannerCarouselComponent;
+  let bannerCarouselComponent: BannerCarouselComponent;
   let fixture: ComponentFixture<BannerCarouselComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
         BannerCarouselComponent,
         CarouselComponent,
+        ComponentWrapperDirective,
         IconComponent,
-        MockComponentWrapperDirective,
       ],
       providers: [
-        { provide: IconLoaderService, useClass: MockIconLoaderService },
-        { provide: CmsService, useClass: MockCmsService },
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: Store, useClass: MockStore },
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: Router, useClass: MockRouter },
+        { provide: CmsComponentData, use: MockCmsComponentData },
+        { provide: CmsService, use: MockCmsService },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerCarouselComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    bannerCarouselComponent = fixture.componentInstance;
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should get items', () => {
-    expect(component.getItems()).toBeTruthy();
+    expect(bannerCarouselComponent).toBeTruthy();
   });
 });

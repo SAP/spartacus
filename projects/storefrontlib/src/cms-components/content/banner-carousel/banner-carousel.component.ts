@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
-  CmsBannerCarouselComponent as model,
+  CmsBannerCarouselComponent,
   CmsService,
   ContentSlotComponentData,
 } from '@spartacus/core';
@@ -17,9 +17,11 @@ import { CmsComponentData } from '../../../cms-structure/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerCarouselComponent {
-  private componentData$: Observable<model> = this.componentData.data$.pipe(
+  private componentData$: Observable<
+    CmsBannerCarouselComponent
+  > = this.componentData.data$.pipe(
     filter(Boolean),
-    tap((d: model) => (this.theme = `${d.effect}-theme`))
+    tap((d: CmsBannerCarouselComponent) => (this.theme = `${d.effect}-theme`))
   );
 
   private items$: Observable<
@@ -36,7 +38,7 @@ export class BannerCarouselComponent {
   @HostBinding('class') theme = '';
 
   constructor(
-    private componentData: CmsComponentData<model>,
+    private componentData: CmsComponentData<CmsBannerCarouselComponent>,
     private cmsService: CmsService
   ) {}
 
