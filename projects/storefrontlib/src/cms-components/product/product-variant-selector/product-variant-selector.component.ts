@@ -18,7 +18,6 @@ import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
 export class ProductVariantSelectorComponent implements OnInit {
   constructor(
     private currentProductService: CurrentProductService,
-    private routingService: RoutingService
   ) {}
 
   variants: BaseOption[] = [];
@@ -35,31 +34,7 @@ export class ProductVariantSelectorComponent implements OnInit {
             this.variants[option.variantType] = option;
           }
         });
-
-        if (!product.purchasable) {
-          const purchasableVariant = this.findPurchasableVariant(
-            product.variantOptions
-          );
-
-          if (purchasableVariant) {
-            this.routingService.go(
-              {
-                cxRoute: 'product',
-                params: { code: purchasableVariant.code },
-              },
-              null,
-              { replaceUrl: true }
-            );
-          }
-        }
       })
     );
-  }
-
-  private findPurchasableVariant(variants: VariantOption[]): VariantOption {
-    const results: VariantOption[] = variants.filter(variant => {
-      return variant.stock && variant.stock.stockLevel ? variant : false;
-    });
-    return !results.length && variants.length ? variants[0] : results[0];
   }
 }

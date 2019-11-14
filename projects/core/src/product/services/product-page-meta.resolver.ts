@@ -68,7 +68,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
             switchMap(label => this.resolveBreadcrumbs(p, label))
           ),
           this.resolveImage(p),
-          this.resolveRobots(p.purchasable),
+          this.resolveRobots(p),
         ])
       ),
       map(
@@ -228,7 +228,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
   resolveRobots(): Observable<PageRobotsMeta[]>;
   /**
    * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveImage()` instead
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveRobots()` instead
    */
   // tslint:disable-next-line: unified-signatures
   resolveRobots(product: Product): Observable<PageRobotsMeta[]>;
@@ -243,6 +243,5 @@ export class ProductPageMetaResolver extends PageMetaResolver
         }
       })
     );
-    
   }
 }
