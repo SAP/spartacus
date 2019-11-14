@@ -85,103 +85,151 @@ cx-asm-main-ui {
     }
   }
 
-  // cx-customer-emulation {
-  //   padding: 2rem;
-  // }
-
-  // Shell Bar
-  .fd-shellbar {
-    font-size: 14px;
+  .asm-bar {
     line-height: 1.42857;
     color: #fff;
-    font-family: '72', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-      Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-      Segoe UI Symbol;
+    font-family: Arial, sans-serif;
     background-color: #354a5f;
     height: 48px;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    position: relative;
-    padding: 4px 15px 4px 32px;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
+    padding: 0 32px;
     justify-content: space-between;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    position: relative; //makes z-index kick-in
     z-index: 1;
+
+    &-branding {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      .asm-logo {
+        margin-right: 8px;
+      }
+
+      .asm-title {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 100%;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .asm-timer {
+        font-size: 14px;
+      }
+      .asm-reset {
+        cursor: pointer;
+      }
+      .asm-logout {
+        cursor: pointer;
+      }
+      .asm-close {
+        cursor: pointer;
+        fill: #fff;
+      }
+    }
   }
 
-  .fd-shellbar__group--start {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-  }
+  // Shell Bar
+  // .fd-shellbar {
+  //   font-size: 14px;
+  //   line-height: 1.42857;
+  //   color: #fff;
+  //   font-family: Arial, sans-serif;
+  //   background-color: #354a5f;
+  //   height: 48px;
+  //   display: -webkit-box;
+  //   display: -ms-flexbox;
+  //   display: flex;
+  //   -webkit-box-align: center;
+  //   -ms-flex-align: center;
+  //   align-items: center;
+  //   position: relative;
+  //   padding: 4px 15px 4px 32px;
+  //   -webkit-box-pack: justify;
+  //   -ms-flex-pack: justify;
+  //   justify-content: space-between;
+  //   -webkit-box-sizing: border-box;
+  //   box-sizing: border-box;
+  //   z-index: 1;
+  // }
 
-  .fd-shellbar__group--end,
-  .fd-shellbar__group--start {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-  }
+  // .fd-shellbar__group--start {
+  //   display: -webkit-box;
+  //   display: -ms-flexbox;
+  //   display: flex;
+  //   -webkit-box-align: center;
+  //   -ms-flex-align: center;
+  //   align-items: center;
+  // }
 
-  .fd-shellbar__group--end {
-    text-align: right;
-  }
+  // .fd-shellbar__group--end,
+  // .fd-shellbar__group--start {
+  //   -webkit-box-flex: 1;
+  //   -ms-flex: 1;
+  //   flex: 1;
+  // }
 
-  .fd-shellbar__logo {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    vertical-align: middle;
-    max-height: 40px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    margin-right: 8px;
-  }
+  // .fd-shellbar__group--end {
+  //   text-align: right;
+  // }
 
-  .fd-shellbar__logo,
-  .fd-shellbar__product,
-  .fd-shellbar__subtitle {
-    display: inline-block;
-    vertical-align: middle;
-  }
+  // .fd-shellbar__logo {
+  //   display: -webkit-box;
+  //   display: -ms-flexbox;
+  //   display: flex;
+  //   -webkit-box-align: center;
+  //   -ms-flex-align: center;
+  //   align-items: center;
+  //   vertical-align: middle;
+  //   max-height: 40px;
+  //   background-repeat: no-repeat;
+  //   background-size: contain;
+  //   margin-right: 8px;
+  // }
 
-  .fd-shellbar__title {
-    font-size: 16px;
-    line-height: 1.25;
-    font-weight: 400;
-    font-weight: 700;
-    line-height: 1;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 100%;
-    text-overflow: ellipsis;
-  }
+  // .fd-shellbar__logo,
+  // .fd-shellbar__product,
+  // .fd-shellbar__subtitle {
+  //   display: inline-block;
+  //   vertical-align: middle;
+  // }
 
-  .fd-shellbar__action > div {
-    display: inline;
-  }
+  // .fd-shellbar__title {
+  //   font-size: 16px;
+  //   font-weight: 700;
+  //   line-height: 1;
+  //   color: #fff;
+  //   white-space: nowrap;
+  //   overflow: hidden;
+  //   max-width: 100%;
+  //   text-overflow: ellipsis;
+  // }
 
-  .sap-icon--log a,
-  .sap-icon--decline a {
-    cursor: pointer;
-  }
+  // .fd-shellbar__action > div {
+  //   display: inline;
+  // }
 
-  .sap-icon--decline {
-    fill: #fff;
-    cursor: pointer;
-  }
+  // .sap-icon--log a,
+  // .sap-icon--decline a {
+  //   cursor: pointer;
+  // }
+
+  // .sap-icon--decline {
+  //   fill: #fff;
+  //   cursor: pointer;
+  // }
 
   // Container Login
   .fd-container {
