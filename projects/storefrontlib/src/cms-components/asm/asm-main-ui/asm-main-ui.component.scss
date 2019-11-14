@@ -179,6 +179,11 @@ cx-asm-main-ui {
     cursor: pointer;
   }
 
+  .sap-icon--decline {
+    fill: #fff;
+    cursor: pointer;
+  }
+
   // Container Login
   .fd-container {
     margin-bottom: 12px;
@@ -273,28 +278,20 @@ cx-asm-main-ui {
   }
 
   // Input styles
-  .fd-input,
   input[type='text'],
   input[type='password'] {
+    font-family: Arial, sans-serif;
     font-size: 14px;
-    line-height: 1.42857;
-    color: #32363a;
-    font-family: '72', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-      Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-      Segoe UI Symbol;
-    font-size: 14px;
-    line-height: 1.42857;
     font-weight: 400;
+    line-height: 1.42857;
     appearance: none;
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     outline: 0;
-    border-style: solid;
-    border-width: 1px;
+    border: 1px solid #89919a;
     color: #32363a;
-    border-color: #89919a;
     background-color: #fff;
     border-radius: 4px;
     -webkit-transition: border-color 125ms;
@@ -303,26 +300,20 @@ cx-asm-main-ui {
     padding-right: 12px;
     height: 36px;
     width: 100%;
-  }
 
-  .fd-input:focus {
-    -webkit-box-shadow: 0 0 0 1px #fafafa;
-    box-shadow: 0 0 0 1px #fafafa;
-  }
+    &:focus {
+      -webkit-box-shadow: 0 0 0 1px #fafafa;
+      box-shadow: 0 0 0 1px #fafafa;
+    }
 
-  .fd-input:hover {
-    border-color: #085caf;
-  }
-
-  .fd-input::placeholder {
-    color: #74777a;
-    font-style: italic;
-    font-size: 14px;
-  }
-
-  .sap-icon--decline {
-    fill: #fff;
-    cursor: pointer;
+    &:hover {
+      border-color: #085caf;
+    }
+    &::placeholder {
+      color: #74777a;
+      font-style: italic;
+      font-size: 14px;
+    }
   }
 
   // Fiori Spinner
