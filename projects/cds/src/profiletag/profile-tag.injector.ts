@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { fromEventPattern, merge, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { CdsConfig } from '../config/cds.config';
+import { CdsConfig, cdsConfigToken } from '../config/cds.config';
 import {
   ProfileTagEvent,
   ProfileTagJsConfig,
@@ -27,7 +27,7 @@ export class ProfileTagInjector {
   private document?: Document;
   constructor(
     private winRef: WindowRef,
-    private config: CdsConfig,
+    @Inject(cdsConfigToken) private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService,
@@ -44,19 +44,12 @@ export class ProfileTagInjector {
   }
 
   injectScript(): Observable<AnonymousConsent | NgRouterEvent> {
-    if (!this.windowAvailable()) {
-      return;
-    }
     return this.addTracker().pipe(
       filter(profileTagEvent => profileTagEvent.eventName === 'Loaded'),
       switchMap(() => {
         return this.tracking$;
       })
     );
-  }
-
-  private windowAvailable() {
-    return this.w;
   }
 
   private pageLoaded(): Observable<NgRouterEvent> {

@@ -1,5 +1,6 @@
-import { CdsEndpoints } from "../cds-models/cds-endpoints.model";
-import { ProfileTagConfig } from "./profile-tag.config";
+import { InjectionToken } from '@angular/core';
+import { CdsEndpoints } from '../cds-models/cds-endpoints.model';
+import { ProfileTagConfig } from './profile-tag.config';
 
 export abstract class CdsConfig {
   cds: {
@@ -9,3 +10,5 @@ export abstract class CdsConfig {
     profileTag?: ProfileTagConfig;
   };
 }
+
+export const cdsConfigToken = new InjectionToken<CdsConfig>('cds-config');

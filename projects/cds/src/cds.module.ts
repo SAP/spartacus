@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config } from '@spartacus/core';
 import { CdsConfig } from './config/cds-config';
+import { cdsConfigToken } from './config/cds.config';
 import { MerchandisingStrategyAdapter } from './merchandising/adapters/strategy/merchandising.strategy.adapter';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,
@@ -13,13 +13,14 @@ import { ProfileTagModule } from './profiletag/profile-tag.module';
 
 @NgModule({
   imports: [ProfileTagModule],
+  exports: [ProfileTagModule],
 })
 export class CdsModule {
-  static forRoot(): ModuleWithProviders<CdsModule> {
+  static withConfig(config: CdsConfig): ModuleWithProviders<CdsModule> {
     return {
       ngModule: CdsModule,
       providers: [
-        { provide: CdsConfig, useExisting: Config },
+        { provide: cdsConfigToken, useValue: config },
         { provide: StrategyAdapter, useClass: MerchandisingStrategyAdapter },
         {
           provide: MERCHANDISING_PRODUCTS_NORMALIZER,
