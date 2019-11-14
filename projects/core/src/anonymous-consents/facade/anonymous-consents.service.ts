@@ -128,9 +128,11 @@ export class AnonymousConsentsService {
    */
   giveAllConsents(): Observable<ConsentTemplate[]> {
     return this.getTemplates().pipe(
-      tap(templates =>
-        templates.forEach(template => this.giveConsent(template.id))
-      )
+      tap(templates => {
+        if (templates) {
+          templates.forEach(template => this.giveConsent(template.id));
+        }
+      })
     );
   }
 
@@ -157,9 +159,11 @@ export class AnonymousConsentsService {
    */
   withdrawAllConsents(): Observable<ConsentTemplate[]> {
     return this.getTemplates().pipe(
-      tap(templates =>
-        templates.forEach(template => this.withdrawConsent(template.id))
-      )
+      tap(templates => {
+        if (templates) {
+          templates.forEach(template => this.withdrawConsent(template.id));
+        }
+      })
     );
   }
 
