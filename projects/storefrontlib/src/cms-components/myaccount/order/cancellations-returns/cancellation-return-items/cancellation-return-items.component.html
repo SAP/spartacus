@@ -1,4 +1,4 @@
-<ng-container *ngIf="!confirmation">
+<ng-container *ngIf="!confirmRequest">
   <button [disabled]="disableConfirm" (click)="confirmEntryInputs()">
     {{ 'common.continue' | cxTranslate }}
   </button>
@@ -19,7 +19,7 @@
       {{ 'orderDetails.cancellationAndReturn.itemPrice' | cxTranslate }}
     </div>
     <div
-      *ngIf="!confirmation"
+      *ngIf="!confirmRequest"
       class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2"
     >
       {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
@@ -32,7 +32,7 @@
       }}
     </div>
     <div
-      *ngIf="confirmation"
+      *ngIf="confirmRequest"
       class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
     >
       {{ 'orderDetails.cancellationAndReturn.totalPrice' | cxTranslate }}
@@ -87,7 +87,7 @@
                 </div>
               </div>
               <!-- item returnable/cancelable Quantity -->
-              <div *ngIf="!confirmation" class="cx-quantity col-3">
+              <div *ngIf="!confirmRequest" class="cx-quantity col-3">
                 <div
                   class="cx-label d-block d-md-none d-lg-none d-xl-none"
                   placement="left"
@@ -121,7 +121,7 @@
               </div>
               <!-- Cancel/Return Total Price -->
               <div
-                *ngIf="confirmation"
+                *ngIf="confirmRequest"
                 class="cx-total col-md-3 col-lg-3 col-xl-2"
               >
                 <div class="cx-label d-block d-md-none d-lg-none d-xl-none">

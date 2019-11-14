@@ -11,7 +11,7 @@ import {
 })
 export class CancellationReturnItemsComponent implements OnInit {
   @Input() entries: OrderEntry[];
-  @Input() confirmation = false;
+  @Input() confirmRequest = false;
   @Input() cancelOrder = true;
 
   @Output() confirm = new EventEmitter<CancellationReturnRequestEntryInput[]>();
@@ -29,7 +29,7 @@ export class CancellationReturnItemsComponent implements OnInit {
 
     this.inputsControl = this.form.get('entryInput') as FormArray;
 
-    if (this.confirmation) {
+    if (this.confirmRequest) {
       this.entries.forEach(entry => {
         this.inputsControl.push(
           this.formBuilder.group({

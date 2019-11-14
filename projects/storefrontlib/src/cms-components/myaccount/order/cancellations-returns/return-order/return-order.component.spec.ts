@@ -17,7 +17,7 @@ import { ReturnOrderComponent } from './return-order.component';
 })
 class MockCancellationReturnItemsComponent {
   @Input() entries: OrderEntry[];
-  @Input() confirmation = false;
+  @Input() confirmRequest = false;
   @Input() cancelOrder = true;
   @Output() confirm = new EventEmitter<CancellationReturnRequestEntryInput[]>();
 }

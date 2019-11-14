@@ -63,11 +63,11 @@ describe('CancellationReturnItemsComponent', () => {
   it('should disable the continue button when return quantities are not set', () => {
     component.form.value.entryInput[0].quantity = 0;
     component.disableEnableConfirm();
-    expect(component.disableConfirm).toEqual(true);
+    expect(component.disableConfirmBtn).toEqual(true);
 
     component.form.value.entryInput[0].quantity = 1;
     component.disableEnableConfirm();
-    expect(component.disableConfirm).toEqual(false);
+    expect(component.disableConfirmBtn).toEqual(false);
   });
 
   it('should make the return quantities not greater than returnableQuantity', () => {
