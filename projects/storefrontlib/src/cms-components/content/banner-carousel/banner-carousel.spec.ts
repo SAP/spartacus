@@ -17,7 +17,7 @@ import { BannerCarouselComponent } from './banner-carousel.component';
 
 const componentData: CmsBannerCarouselComponent = {
   uid: 'SiteLogoComponent',
-  typeCode: 'SimpleBannerComponent',
+  typeCode: 'SimpleBannerCarouselComponent',
   name: 'Site Logo Component',
   banners: 'Test Banner',
   effect: CmsBannerCarouselEffect.CURTAIN,
@@ -52,6 +52,7 @@ fdescribe('CreateComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerCarouselComponent);
+    console.log('test');
     bannerCarouselComponent = fixture.componentInstance;
   });
 
