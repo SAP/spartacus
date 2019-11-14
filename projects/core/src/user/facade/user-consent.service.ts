@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { iif, Observable } from 'rxjs';
+import {
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
@@ -55,8 +62,29 @@ export class UserConsentService {
   /**
    * Returns all consents
    */
-  getConsents(): Observable<ConsentTemplate[]> {
-    return this.store.pipe(select(UsersSelectors.getConsentsValue));
+  getConsents(loadIfMissing = false): Observable<ConsentTemplate[]> {
+    return iif(
+      () => loadIfMissing,
+      this.store.pipe(
+        select(UsersSelectors.getConsentsValue),
+        withLatestFrom(
+          this.getConsentsResultLoading(),
+          this.getConsentsResultSuccess()
+        ),
+        filter(([_templates, loading, _success]) => !loading),
+        tap(([templates, _loading, success]) => {
+          if (!templates || templates.length === 0) {
+            // avoid infite loop - if we've already attempted to load templates and we got an empty array as the response
+            if (!success) {
+              this.loadConsents();
+            }
+          }
+        }),
+        filter(([templates, _loading]) => Boolean(templates)),
+        map(([templates, _loading]) => templates)
+      ),
+      this.store.pipe(select(UsersSelectors.getConsentsValue))
+    );
   }
 
   /**
@@ -225,10 +253,15 @@ export class UserConsentService {
 
   // TODO:#5361 comment and test
   getConsent(templateId: string): Observable<Consent> {
-    return this.getConsents().pipe(
-      filter(templates => Boolean(templates)),
-      map(templates => templates.find(template => template.id === templateId)),
-      filter(template => Boolean(template)),
+    return this.authService.isUserLoggedIn().pipe(
+      filter(authenticated => authenticated),
+      switchMap(_ => this.getConsents(true)),
+      switchMap(_ =>
+        this.store.pipe(
+          select(UsersSelectors.getConsentByTemplateId(templateId))
+        )
+      ),
+      filter((template: ConsentTemplate) => Boolean(template)),
       map(template => template.currentConsent)
     );
   }

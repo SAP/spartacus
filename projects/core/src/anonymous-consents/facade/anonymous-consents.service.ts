@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -13,7 +14,10 @@ import { AnonymousConsentsSelectors } from '../store/selectors/index';
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
-  constructor(protected store: Store<StateWithAnonymousConsents>) {}
+  constructor(
+    protected store: Store<StateWithAnonymousConsents>,
+    protected authService: AuthService
+  ) {}
 
   /**
    * Retrieves the anonymous consent templates.
@@ -41,7 +45,7 @@ export class AnonymousConsentsService {
         withLatestFrom(this.getLoadTemplatesLoading()),
         filter(([_templates, loading]) => !loading),
         tap(([templates, _loading]) => {
-          if (!Boolean(templates)) {
+          if (!templates) {
             this.loadTemplates();
           }
         }),
@@ -122,13 +126,20 @@ export class AnonymousConsentsService {
 
   /**
    * Returns the anonymous consent with the given template code.
-   * @param templateCode a template code by which to filter anonymous consent templates.
+   * @param templateId a template code by which to filter anonymous consent templates.
    */
-  getConsent(templateCode: string): Observable<AnonymousConsent> {
-    return this.store.pipe(
-      select(
-        AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
-          templateCode
+  // TODO:#5361 test more and update the API comment
+  getConsent(templateId: string): Observable<AnonymousConsent> {
+    return this.authService.isUserLoggedIn().pipe(
+      filter(authenticated => !authenticated),
+      switchMap(_ => this.getTemplates(true)),
+      switchMap(_ =>
+        this.store.pipe(
+          select(
+            AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
+              templateId
+            )
+          )
         )
       )
     );
