@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { ConsentTemplate } from '../../model/consent.model';
+import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -221,5 +221,31 @@ export class UserConsentService {
     }
 
     return updatedTemplateList;
+  }
+
+  // TODO:#5361 comment and test
+  getConsent(templateId: string): Observable<Consent> {
+    return this.getConsents().pipe(
+      filter(templates => Boolean(templates)),
+      map(templates => templates.find(template => template.id === templateId)),
+      map(template => template.currentConsent)
+    );
+  }
+
+  // TODO:#5361 comment and test
+  isConsentGiven(consent: Consent): boolean {
+    return (
+      Boolean(consent) &&
+      Boolean(consent.consentGivenDate) &&
+      !Boolean(consent.consentWithdrawnDate)
+    );
+  }
+
+  // TODO:#5361 comment and test
+  isConsentWithdrawn(consent: Consent): boolean {
+    if (Boolean(consent)) {
+      return Boolean(consent.consentWithdrawnDate);
+    }
+    return true;
   }
 }
