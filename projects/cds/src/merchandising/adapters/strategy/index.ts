@@ -1,1 +1,1 @@
-export * from './merchandising.strategy.adapter';
+export * from './cds-merchandising-strategy.adapter';

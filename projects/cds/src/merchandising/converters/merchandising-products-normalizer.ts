@@ -4,7 +4,7 @@ import { MERCHANDISING_PRODUCT_NORMALIZER } from '../connectors/strategy/convert
 import { MerchandisingProducts } from '../model/merchandising.products.model';
 import { StrategyResult } from '../model/strategy.result';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class MerchandisingProductsNormalizer
   implements Converter<StrategyResult, MerchandisingProducts> {
   constructor(private convertorService: ConverterService) {}

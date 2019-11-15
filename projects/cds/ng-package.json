@@ -5,8 +5,8 @@
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
-      "rxjs": "rxjs",
-      "rxjs/operators": "operators"
+      "@spartacus/storefront": "storefront",
+      "rxjs": "rxjs"
     }
   }
 }

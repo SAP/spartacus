@@ -20,6 +20,7 @@
   "peerDependencies": {
     "@angular/common": "~8.2.5",
     "@angular/core": "~8.2.5",
-    "@spartacus/core": "^1.0.0"
+    "@spartacus/core": "^1.0.0",
+    "@spartacus/storefront": "^1.0.0"
   }
 }

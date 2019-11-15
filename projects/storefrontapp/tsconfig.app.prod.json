@@ -8,6 +8,7 @@
     "paths": {
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/cds": ["dist/cds"],
       "@spartacus/vendor": ["dist/vendor"],
       "@spartacus/assets": ["dist/assets"]
     }
