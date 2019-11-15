@@ -264,8 +264,6 @@ export function manipulateCartQuantity() {
 
   cy.visit(`/product/${product.code}`);
 
-  cy.server();
-
   waitForCartRefresh();
 
   addToCart();
