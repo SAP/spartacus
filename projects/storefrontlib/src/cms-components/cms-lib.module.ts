@@ -44,6 +44,7 @@ import { ProductImagesModule } from './product/product-images/product-images.mod
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
+import { WishListModule } from './wishlist/wishlist.module';
 
 @NgModule({
   imports: [
@@ -85,6 +86,7 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    WishListModule,
   ],
 })
 export class CmsLibModule {}
