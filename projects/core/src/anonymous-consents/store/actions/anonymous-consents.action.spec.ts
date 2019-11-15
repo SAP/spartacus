@@ -65,14 +65,14 @@ describe('anonymous consent actions', () => {
     });
     describe('ToggleAnonymousConsentsBannerDissmissed', () => {
       it('should create the action', () => {
-        const visible = true;
+        const dismissed = true;
         const action = new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
-          visible
+          dismissed
         );
         expect({ ...action }).toEqual({
           type:
             AnonymousConsentsActions.TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED,
-          visible,
+          dismissed,
         });
       });
     });
