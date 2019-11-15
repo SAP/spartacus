@@ -67,32 +67,27 @@ cx-asm-main-ui {
     }
   }
 
-  // Container Login
-  .fd-container {
+  // Container and columns
+  .asm-container {
+    display: flex;
     margin-bottom: 12px;
     width: 100%;
-    max-width: 1290px;
-  }
-
-  .fd-container:last-child {
-    margin-bottom: 0;
-  }
-
-  // Grid
-  [class^='fd-col'] {
-    flex: 1;
-    margin-bottom: 12px;
-  }
-  [class^='fd-col']:last-child {
-    margin-bottom: 0;
-  }
-  .fd-col--3 {
-    float: left;
-    margin-right: 8px;
-  }
-  .fd-col--6 {
-    float: left;
-    margin-right: 8px;
+    flex-direction: row;
+    // Grid
+    // [class^='fd-col'] {
+    //   margin-bottom: 12px;
+    // }
+    // [class^='fd-col']:last-child {
+    //   margin-bottom: 0;
+    // }
+    .fd-col--3 {
+      margin-right: 8px;
+      margin-bottom: 12px;
+    }
+    .fd-col--6 {
+      margin-right: 8px;
+      margin-bottom: 12px;
+    }
   }
 
   // ----- REFACTORED ----
@@ -368,6 +363,10 @@ cx-asm-main-ui {
       }
     }
 
+    .asm-container {
+      flex-direction: column;
+    }
+
     .fd-col--3,
     .fd-col--6 {
       width: 100%;
@@ -430,6 +429,7 @@ cx-asm-main-ui {
         }
       }
     }
+
     .fd-col--6 {
       width: 360px;
     }
@@ -441,7 +441,6 @@ cx-asm-main-ui {
 
   // Extra large devices (large desktops, 1200px and up)
   @media (min-width: 768px) {
-
     .asm-results {
       width: 516px;
       top: 117px;
@@ -453,6 +452,7 @@ cx-asm-main-ui {
         }
       }
     }
+
     .fd-col--6 {
       width: 516px;
     }
