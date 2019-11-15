@@ -60,9 +60,9 @@ export class UserConsentService {
   }
 
   /**
-   * Returns all consents
+   * Returns all consent templates. If `loadIfMissing` parameter is set to `true`, the method triggers the load if consent templates.
+   * @param loadIfMissing is set to `true`, the method will load templates if those are not already present. The default value is `false`.
    */
-  // TODO:#5361 - test
   getConsents(loadIfMissing = false): Observable<ConsentTemplate[]> {
     return iif(
       () => loadIfMissing,
@@ -114,6 +114,54 @@ export class UserConsentService {
    */
   resetConsentsProcessState(): void {
     this.store.dispatch(new UserActions.ResetLoadUserConsents());
+  }
+
+  /**
+   * Returns the registered consent for the given template ID.
+   *
+   * As a side-effect, the method will call `getConsents(true)` to load the templates if those are not present.
+   *
+   * @param templateId a template ID by which to filter the registered templates.
+   */
+  getConsent(templateId: string): Observable<Consent> {
+    return this.authService.isUserLoggedIn().pipe(
+      filter(Boolean),
+      switchMap(_ => this.getConsents(true)),
+      switchMap(_ =>
+        this.store.pipe(
+          select(UsersSelectors.getConsentByTemplateId(templateId))
+        )
+      ),
+      filter((template: ConsentTemplate) => Boolean(template)),
+      map(template => template.currentConsent)
+    );
+  }
+
+  /**
+   * Returns `true` if the consent is truthy and if `consentWithdrawnDate` doesn't exist.
+   * Otherwise, `false` is returned.
+   *
+   * @param consent to check
+   */
+  isConsentGiven(consent: Consent): boolean {
+    return (
+      Boolean(consent) &&
+      Boolean(consent.consentGivenDate) &&
+      !Boolean(consent.consentWithdrawnDate)
+    );
+  }
+
+  /**
+   * Returns `true` if the consent is either falsy or if `consentWithdrawnDate` is present.
+   * Otherwise, `false` is returned.
+   *
+   * @param consent to check
+   */
+  isConsentWithdrawn(consent: Consent): boolean {
+    if (Boolean(consent)) {
+      return Boolean(consent.consentWithdrawnDate);
+    }
+    return true;
   }
 
   /**
@@ -250,37 +298,5 @@ export class UserConsentService {
     }
 
     return updatedTemplateList;
-  }
-
-  // TODO:#5361 comment and test
-  getConsent(templateId: string): Observable<Consent> {
-    return this.authService.isUserLoggedIn().pipe(
-      filter(authenticated => authenticated),
-      switchMap(_ => this.getConsents(true)),
-      switchMap(_ =>
-        this.store.pipe(
-          select(UsersSelectors.getConsentByTemplateId(templateId))
-        )
-      ),
-      filter((template: ConsentTemplate) => Boolean(template)),
-      map(template => template.currentConsent)
-    );
-  }
-
-  // TODO:#5361 comment and test
-  isConsentGiven(consent: Consent): boolean {
-    return (
-      Boolean(consent) &&
-      Boolean(consent.consentGivenDate) &&
-      !Boolean(consent.consentWithdrawnDate)
-    );
-  }
-
-  // TODO:#5361 comment and test
-  isConsentWithdrawn(consent: Consent): boolean {
-    if (Boolean(consent)) {
-      return Boolean(consent.consentWithdrawnDate);
-    }
-    return true;
   }
 }

@@ -22,10 +22,10 @@ class MockAuthService {
   }
 }
 
-const mockTemplateCode = 'MARKETING';
+const mockTemplateId = 'MARKETING';
 const mockConsentTemplates: ConsentTemplate[] = [
   {
-    id: mockTemplateCode,
+    id: mockTemplateId,
     description: 'marketing consent template',
     version: 0,
   },
@@ -38,7 +38,7 @@ const mockConsentTemplates: ConsentTemplate[] = [
 
 const mockAnonymousConsents: AnonymousConsent[] = [
   {
-    templateCode: mockTemplateCode,
+    templateCode: mockTemplateId,
     consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
     version: 0,
   },
@@ -152,7 +152,7 @@ describe('AnonymousConsentsService', () => {
 
     let result: ConsentTemplate;
     service
-      .getTemplate(mockTemplateCode)
+      .getTemplate(mockTemplateId)
       .subscribe(value => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockConsentTemplates[0]);
@@ -241,7 +241,7 @@ describe('AnonymousConsentsService', () => {
 
         let result: AnonymousConsent;
         service
-          .getConsent(mockTemplateCode)
+          .getConsent(mockTemplateId)
           .subscribe(value => (result = value))
           .unsubscribe();
         expect(result).toEqual(mockAnonymousConsents[0]);
@@ -253,7 +253,7 @@ describe('AnonymousConsentsService', () => {
         spyOn(service, 'getTemplates').and.stub();
 
         service
-          .getConsent(mockTemplateCode)
+          .getConsent(mockTemplateId)
           .subscribe()
           .unsubscribe();
 
@@ -263,9 +263,9 @@ describe('AnonymousConsentsService', () => {
   });
 
   it('giveConsent should dispatch GiveAnonymousConsent action', () => {
-    service.giveConsent(mockTemplateCode);
+    service.giveConsent(mockTemplateId);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.GiveAnonymousConsent(mockTemplateCode)
+      new AnonymousConsentsActions.GiveAnonymousConsent(mockTemplateId)
     );
   });
 
@@ -300,9 +300,9 @@ describe('AnonymousConsentsService', () => {
   });
 
   it('withdrawAnonymousConsent should dispatch WithdrawAnonymousConsent action', () => {
-    service.withdrawConsent(mockTemplateCode);
+    service.withdrawConsent(mockTemplateId);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AnonymousConsentsActions.WithdrawAnonymousConsent(mockTemplateCode)
+      new AnonymousConsentsActions.WithdrawAnonymousConsent(mockTemplateId)
     );
   });
 
