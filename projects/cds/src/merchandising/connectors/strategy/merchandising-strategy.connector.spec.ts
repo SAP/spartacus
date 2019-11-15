@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { ImageType } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { MerchandisingProducts } from '../../model/merchandising.products.model';
-import { StrategyAdapter } from './strategy.adapter';
-import { StrategyConnector } from './strategy.connector';
+import { MerchandisingStrategyAdapter } from './merchandising-strategy.adapter';
+import { MerchandisingStrategyConnector } from './merchandising-strategy.connector';
 import createSpy = jasmine.createSpy;
 
 const STRATEGY_ID = 'test-strategy-id';
@@ -41,31 +41,38 @@ const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
   metadata: MERCHANDISING_PRODUCTS_METADATA,
 };
 
-class MockStrategyAdapter implements StrategyAdapter {
+class MockStrategyAdapter implements MerchandisingStrategyAdapter {
   loadProductsForStrategy = createSpy(
     'StrategyAdapter.loadProductsForStrategy'
   ).and.callFake(() => of(MERCHANDISING_PRODUCTS));
 }
 
 describe('Strategy Connector', () => {
-  let strategyConnector: StrategyConnector;
-  let strategyAdapter: StrategyAdapter;
+  let strategyConnector: MerchandisingStrategyConnector;
+  let strategyAdapter: MerchandisingStrategyAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: StrategyAdapter, useClass: MockStrategyAdapter }],
+      providers: [
+        {
+          provide: MerchandisingStrategyAdapter,
+          useClass: MockStrategyAdapter,
+        },
+      ],
     });
-    strategyConnector = TestBed.get(StrategyConnector as Type<
-      StrategyConnector
+    strategyConnector = TestBed.get(MerchandisingStrategyConnector as Type<
+      MerchandisingStrategyConnector
     >);
-    strategyAdapter = TestBed.get(StrategyAdapter as Type<StrategyAdapter>);
+    strategyAdapter = TestBed.get(MerchandisingStrategyAdapter as Type<
+      MerchandisingStrategyAdapter
+    >);
   });
 
   it('should be created', () => {
     expect(strategyConnector).toBeTruthy();
   });
 
-  it('getProductsForStrategy should call adapter', () => {
+  it('loadProductsForStrategy should call adapter', () => {
     let actualMerchandisingProducts: MerchandisingProducts;
 
     strategyConnector

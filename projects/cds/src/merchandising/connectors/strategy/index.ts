@@ -1,3 +1,3 @@
 export * from './converters';
-export * from './strategy.adapter';
-export * from './strategy.connector';
+export * from './merchandising-strategy.adapter';
+export * from './merchandising-strategy.connector';
