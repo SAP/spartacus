@@ -1,46 +1,46 @@
-import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
-import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { addProduct } from '../../helpers/accessibility/tabbing-order';
-import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
-import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
-import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
-import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
-import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
-import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/personal-details';
-import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/payment-details';
-import {
-  addressBookFormTabbingOrder,
-  addressBookDirectoryTabbingOrder,
-  setupForAddressBookTests,
-} from '../../helpers/accessibility/tabbing-order/address-book';
-import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
-import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
+import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
 import {
-  checkoutShippingAddressNewTabbingOrder,
-  checkoutShippingAddressExistingTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
+  addressBookDirectoryTabbingOrder,
+  addressBookFormTabbingOrder,
+  setupForAddressBookTests,
+} from '../../helpers/accessibility/tabbing-order/address-book';
+import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
+import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
 import { checkoutDeliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
+import {
+  checkoutBillingAddressTabbingOrder,
+  checkoutPaymentDetailsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
+import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
+import {
+  checkoutShippingAddressExistingTabbingOrder,
+  checkoutShippingAddressNewTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
+import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
+import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
+import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
+import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
+import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
+import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
+import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/order-details';
 import {
   orderHistoryNoOrdersTabbingOrder,
   orderHistoryWithOrdersTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/order-history';
-import {
-  checkoutPaymentDetailsTabbingOrder,
-  checkoutBillingAddressTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
-import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
-import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/order-details';
-import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
-import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
+import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/payment-details';
+import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/personal-details';
 import {
   productListTabbingOrderDesktop,
   productListTabbingOrderMobile,
   productListTabbingOrderMobileFilters,
 } from '../../helpers/accessibility/tabbing-order/product-list';
+import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
+import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
+import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
+import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {

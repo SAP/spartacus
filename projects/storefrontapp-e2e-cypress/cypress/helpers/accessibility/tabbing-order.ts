@@ -1,8 +1,8 @@
-import { TabbingOrderTypes } from './tabbing-order.config';
+import { user } from '../../sample-data/checkout-flow';
+import { register as authRegister } from '../auth-forms';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
-import { register as authRegister } from '../auth-forms';
-import { user } from '../../sample-data/checkout-flow';
+import { TabbingOrderTypes } from './tabbing-order.config';
 
 export interface TabElement {
   value?: string | any[];
@@ -131,11 +131,25 @@ export function checkElement(tabElement: TabElement) {
 export function checkAllElements(tabElements: TabElement[]) {
   tabElements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element
-    if (index !== 0) {
-      cy.tab();
-    }
-
-    checkElement(element);
+    cy.document().then(document => {
+      if (index !== 0) {
+        const focussableElements = `a[href]:not([tabindex='-1']),area[href]:not([tabindex='-1']),
+          input:not([disabled]):not([tabindex='-1']),
+          select:not([disabled]):not([tabindex='-1']),
+          textarea:not([disabled]):not([tabindex='-1']),
+          button:not([disabled]):not([tabindex='-1']),
+          iframe:not([tabindex='-1']),
+          [tabindex]:not([tabindex='-1']),
+          [contentEditable=true]:not([tabindex='-1'])`;
+        const elems = document.querySelectorAll(focussableElements);
+        console.log(elems);
+        console.warn(element);
+        console.log(document.activeElement);
+        const index2 = Array.from(elems).indexOf(document.activeElement);
+        elems[index2 + 1].focus();
+      }
+      checkElement(element);
+    });
   });
 }
 
