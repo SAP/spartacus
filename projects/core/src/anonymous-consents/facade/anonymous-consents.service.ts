@@ -37,7 +37,6 @@ export class AnonymousConsentsService {
    *
    * @param loadIfMissing setting to `true` will trigger the load of the templates if the currently stored templates are `undefined`
    */
-
   getTemplates(loadIfMissing = false): Observable<ConsentTemplate[]> {
     return iif(
       () => loadIfMissing,
