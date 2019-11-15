@@ -386,7 +386,7 @@ describe('AnonymousConsentsService', () => {
   });
 
   describe('getTemplatesUpdated', () => {
-    it('should call getAnonymousConsentTemplatesUpdate selector', () => {
+    it('should call getAnonymousConsentTemplatesUpdate selector and getTemplates(true)', () => {
       spyOn(service, 'getTemplates').and.returnValue(of([]));
       store.dispatch(
         new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
@@ -400,16 +400,7 @@ describe('AnonymousConsentsService', () => {
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
-    });
-    it('should call loadTemplates() if there are no templates', () => {
-      spyOn(service, 'getTemplates').and.returnValue(of(null));
-      spyOn(service, 'loadTemplates').and.stub();
-
-      service
-        .getTemplatesUpdated()
-        .subscribe()
-        .unsubscribe();
-      expect(service.loadTemplates).toHaveBeenCalled();
+      expect(service.getTemplates).toHaveBeenCalledWith(true);
     });
   });
 
