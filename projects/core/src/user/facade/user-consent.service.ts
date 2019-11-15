@@ -62,6 +62,7 @@ export class UserConsentService {
   /**
    * Returns all consents
    */
+  // TODO:#5361 - test
   getConsents(loadIfMissing = false): Observable<ConsentTemplate[]> {
     return iif(
       () => loadIfMissing,
