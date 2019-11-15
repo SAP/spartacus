@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  RoutingService,
   Product,
   BaseOption,
   VariantType,
-  VariantOption,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
