@@ -9,10 +9,15 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { TestScheduler } from 'rxjs/testing';
 import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const GROUP_ID = 'group1';
+const GROUP_2_ID = 'group2';
 
 const mockRouterState: any = {
   state: {
@@ -38,59 +43,61 @@ class MockConfiguratorGroupsService {
   getPreviousGroup() {
     return of('');
   }
+  navigateToGroup() {}
 }
 
+const config: Configurator.Configuration = {
+  configId: '1234-56-7890',
+  consistent: true,
+  complete: true,
+  productCode: PRODUCT_CODE,
+  groups: [
+    {
+      configurable: true,
+      description: 'Core components',
+      groupType: Configurator.GroupType.CSTIC_GROUP,
+      id: '1-CPQ_LAPTOP.1',
+      name: '1',
+      attributes: [
+        {
+          label: 'Expected Number',
+          name: 'EXP_NUMBER',
+          required: true,
+          uiType: Configurator.UiType.NOT_IMPLEMENTED,
+          values: [],
+        },
+        {
+          label: 'Processor',
+          name: 'CPQ_CPU',
+          required: true,
+          selectedSingleValue: 'INTELI5_35',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          values: [],
+        },
+      ],
+    },
+    {
+      configurable: true,
+      description: 'Peripherals & Accessories',
+      groupType: Configurator.GroupType.CSTIC_GROUP,
+      id: '1-CPQ_LAPTOP.2',
+      name: '2',
+      attributes: [],
+    },
+    {
+      configurable: true,
+      description: 'Software',
+      groupType: Configurator.GroupType.CSTIC_GROUP,
+      id: '1-CPQ_LAPTOP.3',
+      name: '3',
+      attributes: [],
+    },
+  ],
+};
+
 class MockConfiguratorCommonsService {
-  public config: Configurator.Configuration = {
-    configId: '1234-56-7890',
-    consistent: true,
-    complete: true,
-    productCode: PRODUCT_CODE,
-    groups: [
-      {
-        configurable: true,
-        description: 'Core components',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.1',
-        name: '1',
-        attributes: [
-          {
-            label: 'Expected Number',
-            name: 'EXP_NUMBER',
-            required: true,
-            uiType: Configurator.UiType.NOT_IMPLEMENTED,
-            values: [],
-          },
-          {
-            label: 'Processor',
-            name: 'CPQ_CPU',
-            required: true,
-            selectedSingleValue: 'INTELI5_35',
-            uiType: Configurator.UiType.RADIOBUTTON,
-            values: [],
-          },
-        ],
-      },
-      {
-        configurable: true,
-        description: 'Peripherals & Accessories',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.2',
-        name: '2',
-        attributes: [],
-      },
-      {
-        configurable: true,
-        description: 'Software',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.3',
-        name: '3',
-        attributes: [],
-      },
-    ],
-  };
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(this.config);
+    return of(config);
   }
   isConfigurationReady(): Observable<boolean> {
     return of(true);
@@ -142,56 +149,6 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it('isFirstGroup should return true if the previous group of current group is null', () => {
-    classUnderTest.ngOnInit();
-    fixture.detectChanges();
-    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
-      of(null)
-    );
-    const isFirstGroup = classUnderTest.isFirstGroup(PRODUCT_CODE);
-    expect(isFirstGroup).toBeDefined();
-    isFirstGroup.subscribe(group => {
-      expect(group).toEqual(true);
-    });
-  });
-
-  it('isFirstGroup should return false if the previous group of current group is not null', () => {
-    classUnderTest.ngOnInit();
-    fixture.detectChanges();
-    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
-      of('anyGroupId')
-    );
-    const isFirstGroup = classUnderTest.isFirstGroup(PRODUCT_CODE);
-    expect(isFirstGroup).toBeDefined();
-    isFirstGroup.subscribe(group => {
-      expect(group).toEqual(false);
-    });
-  });
-
-  it('isLastGroup should return true if the next group of current group is null', () => {
-    classUnderTest.ngOnInit();
-    fixture.detectChanges();
-    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(of(null));
-    const isLastGroup = classUnderTest.isLastGroup(PRODUCT_CODE);
-    expect(isLastGroup).toBeDefined();
-    isLastGroup.subscribe(group => {
-      expect(group).toEqual(true);
-    });
-  });
-
-  it('isLastGroup should return false if the next group of current group is not null', () => {
-    classUnderTest.ngOnInit();
-    fixture.detectChanges();
-    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
-      of('anyGroupId')
-    );
-    const isLastGroup = classUnderTest.isLastGroup(PRODUCT_CODE);
-    expect(isLastGroup).toBeDefined();
-    isLastGroup.subscribe(group => {
-      expect(group).toEqual(false);
-    });
-  });
-
   it('should display previous button as disabled if it is the first group', () => {
     spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
       of(null)
@@ -228,5 +185,94 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     const prevBtn = fixture.debugElement.query(By.css('.btn-secondary'))
       .nativeElement;
     expect(prevBtn.disabled).toBe(false);
+  });
+
+  it('should derive that current group is last group depending on group service nextGroup function', () => {
+    const nextGroup = cold('-a-b-c', { a: GROUP_ID, b: GROUP_2_ID, c: null });
+
+    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
+      nextGroup
+    );
+
+    expect(classUnderTest.isLastGroup(PRODUCT_CODE)).toBeObservable(
+      cold('-a-b-c', {
+        a: false,
+        b: false,
+        c: true,
+      })
+    );
+  });
+
+  it('should derive that current group is first group depending on group service getPreviousGroup function', () => {
+    const previousGroup = cold('-a-b-c-d-e', {
+      a: null,
+      b: GROUP_2_ID,
+      c: null,
+      d: '',
+      e: ' ',
+    });
+
+    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
+      previousGroup
+    );
+
+    expect(classUnderTest.isFirstGroup(PRODUCT_CODE)).toBeObservable(
+      cold('-a-b-c-d-e', {
+        a: true,
+        b: false,
+        c: true,
+        d: true,
+        e: false,
+      })
+    );
+  });
+
+  it('should navigate to group exactly one time on navigateToPreviousGroup', () => {
+    //usage of TestScheduler because of the async check in last line
+    const testScheduler = new TestScheduler((actual, expected) => {
+      expect(actual).toEqual(expected);
+    });
+    testScheduler.run(helpers => {
+      const { expectObservable } = helpers;
+      const previousGroup = cold('-a-b', {
+        a: GROUP_ID,
+        b: GROUP_2_ID,
+      });
+      //this just validates the testScheduler
+      expectObservable(previousGroup.pipe(take(1))).toBe('-(a|)', {
+        a: GROUP_ID,
+      });
+
+      spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
+        previousGroup
+      );
+      spyOn(configurationGroupsService, 'navigateToGroup');
+
+      classUnderTest.navigateToPreviousGroup(config.configId, PRODUCT_CODE);
+    });
+    //this is the actual test
+    expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to group exactly one time on navigateToNextGroup', () => {
+    //usage of TestScheduler because of the async check in last line
+    const testScheduler = new TestScheduler((actual, expected) => {
+      expect(actual).toEqual(expected);
+    });
+    testScheduler.run(() => {
+      const nextGroup = cold('-a-b', {
+        a: GROUP_ID,
+        b: GROUP_2_ID,
+      });
+
+      spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
+        nextGroup
+      );
+      spyOn(configurationGroupsService, 'navigateToGroup');
+
+      classUnderTest.navigateToNextGroup(config.configId, PRODUCT_CODE);
+    });
+
+    expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
   });
 });

@@ -12,7 +12,6 @@ import {
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import { PAGE_LAYOUT_HANDLER } from '../../../cms-structure/page/page-layout/page-layout-handler';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
@@ -27,7 +26,6 @@ import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-gr
 import { ConfigImageComponent } from '../commons/config-image/config-image.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
-import { ConfiguratorPageLayoutHandler } from '../commons/configurator-page-layout-handler';
 import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
 
 @NgModule({
@@ -71,6 +69,34 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
       },
       layoutSlots: {
         VariantConfigurationTemplate: {
+          header: {
+            md: {
+              slots: [
+                'PreHeader',
+                'SiteContext',
+                'SiteLinks',
+                'SiteLogo',
+                'SearchBox',
+                'SiteLogin',
+                'MiniCart',
+              ],
+            },
+            xs: {
+              slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
+            },
+          },
+
+          navigation: {
+            xs: {
+              slots: [
+                'SiteLogin',
+                'VariantConfigMenu',
+                'SiteContext',
+                'SiteLinks',
+              ],
+            },
+          },
+
           md: {
             slots: [
               'VariantConfigHeader',
@@ -129,14 +155,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
   ],
-  providers: [
-    UserService,
-    {
-      provide: PAGE_LAYOUT_HANDLER,
-      useClass: ConfiguratorPageLayoutHandler,
-      multi: true,
-    },
-  ],
+  providers: [UserService],
   entryComponents: [
     ConfigFormComponent,
     ConfigTitleComponent,

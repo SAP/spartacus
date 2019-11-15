@@ -185,7 +185,7 @@ export class ConfiguratorEffects {
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
         filter(pendingChanges => pendingChanges === 0),
-        map(_pendingChanges => new ChangeGroupFinalize(payload))
+        map(() => new ChangeGroupFinalize(payload))
       );
     })
   );
