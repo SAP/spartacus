@@ -1,6 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
-  AsmService,
+  Component,
+  HostBinding,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -24,12 +28,13 @@ export class AsmMainUiComponent implements OnInit {
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
 
+  @HostBinding('class.hidden') disabled = false;
+
   private startingCustomerSession = false;
 
   constructor(
     protected authService: AuthService,
     protected userService: UserService,
-    protected asmService: AsmService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
@@ -90,6 +95,7 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   hideUi(): void {
-    this.asmService.updateAsmUiState({ visible: false });
+    this.disabled = true;
+    this.asmComponentService.unload();
   }
 }

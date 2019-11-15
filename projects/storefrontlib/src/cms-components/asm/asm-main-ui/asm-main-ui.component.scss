@@ -1,3 +1,8 @@
+:host {
+  &.hidden {
+    display: none;
+  }
+}
 cx-asm-main-ui {
   height: 150px;
   overflow: hidden;
