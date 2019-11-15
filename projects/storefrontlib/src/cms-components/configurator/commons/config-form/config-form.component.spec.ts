@@ -248,7 +248,7 @@ describe('ConfigurationFormComponent', () => {
     checkCurrentGroupObs(component, 'a---a', 'xy', '--uv', '---uv--uv');
   });
 
-  it('should get 8 emissions of current groups if router and group service emit slowly', () => {
+  it('should get 8 emissions of current groups if router and config service emit slowly', () => {
     checkCurrentGroupObs(component, 'a-----a', '--x--y', 'uv', '--uv-uv-uv-uv');
   });
 });
