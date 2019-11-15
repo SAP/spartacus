@@ -143,6 +143,9 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     );
   }
 
+  getSearchPlaceholder() {
+    return this.translation.translate('budgetsList.searchBox');
+  }
   // private fetchBudgets(): void {
   //   this.budgetsService.loadBudgets({
   //     pageSize: this.PAGE_SIZE,

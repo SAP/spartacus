@@ -4,12 +4,14 @@
       <h3>{{ 'budgetsList.budgetManagement' | cxTranslate }}</h3>
     </div>
     <div class="row">
-      <cx-search
-        (searchEvent)="search($event)"
-        [placeholder]="'budgetsList.searchBox'"
-      >
-        <!--        [placeholder]="{{ 'budgetsList.searchBox' | cxTranslate }}"-->
-      </cx-search>
+      <div class="col-md-12 col-lg-7">
+        <cx-search
+          (searchEvent)="search($event)"
+          [placeholder]="getSearchPlaceholder() | async"
+        >
+          <!--        [placeholder]="{{ 'budgetsList.searchBox' | cxTranslate }}"-->
+        </cx-search>
+      </div>
       <div class="col-md-12 col-lg-5">
         <div class="row cx-search-links mb-3">
           <div class="col-6">

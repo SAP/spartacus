@@ -15,7 +15,7 @@ import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 })
 export class SearchComponent {
   @Input()
-  placeholder: any;
+  placeholder: string;
 
   @Output()
   searchEvent: EventEmitter<string>;
