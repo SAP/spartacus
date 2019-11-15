@@ -68,7 +68,7 @@ describe('UserConsentService', () => {
       });
     });
     describe('getConsents', () => {
-      describe('when the loadIfMissing parametere is false', () => {
+      describe('when the loadIfMissing parameter is false', () => {
         it('should just return the consent template list', () => {
           store.dispatch(
             new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)

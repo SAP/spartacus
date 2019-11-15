@@ -45,7 +45,7 @@ export class AnonymousConsentsService {
         withLatestFrom(this.getLoadTemplatesLoading()),
         filter(([_templates, loading]) => !loading),
         tap(([templates, _loading]) => {
-          if (!templates) {
+          if (!Boolean(templates)) {
             this.loadTemplates();
           }
         }),
