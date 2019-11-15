@@ -1,0 +1,7 @@
+<button
+  *ngFor="let link of links$ | async"
+  (click)="go(link.target, link.position, $event)"
+  tabindex="1"
+>
+  {{ link.title | cxTranslate }}
+</button>
