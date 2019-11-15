@@ -6,11 +6,9 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
+import { USE_STACKED_OUTLETS } from './outlet-constants';
 import { OutletPosition } from './outlet.model';
 import { OutletService } from './outlet.service';
-
-/** We start supporting multiple outlets per position */
-const USE_SINGULAR_OUTLETS = false;
 
 @Directive({
   selector: '[cxOutlet]',
@@ -27,7 +25,9 @@ export class OutletDirective implements OnInit {
   constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private outletService: OutletService
+    private outletService: OutletService<
+      TemplateRef<any> | ComponentFactory<any>
+    >
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class OutletDirective implements OnInit {
 
   private renderOutlet(position: OutletPosition): void {
     let templates: any[] = <any[]>(
-      this.outletService.get(this.cxOutlet, position, USE_SINGULAR_OUTLETS)
+      this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );
 
     if (!templates && position === OutletPosition.REPLACE) {

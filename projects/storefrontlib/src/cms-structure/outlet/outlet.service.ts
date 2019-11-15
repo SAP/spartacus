@@ -1,10 +1,11 @@
-import { ComponentFactory, Injectable, TemplateRef } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
+import { AVOID_STACKED_OUTLETS } from './outlet-constants';
 import { OutletPosition } from './outlet.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
+export class OutletService<T = TemplateRef<any>> {
   private templatesRefs = new Map<string, (T)[]>();
   private templatesRefsBefore = new Map<string, (T)[]>();
   private templatesRefsAfter = new Map<string, (T)[]>();
@@ -48,10 +49,19 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
     }
   }
 
+  /**
+   *
+   * Returns a single object or multiple objects for the given outlet reference,
+   * depending on the `stacked` argument.
+   *
+   * @param outlet The outlet reference
+   * @param position the outlet position, `OutletPosition.before`, `OutletPosition.AFTER` or `OutletPosition.REPLACE`
+   * @param stacked Indicates whether an array of outlet components is returned
+   */
   get(
     outlet: string,
     position: OutletPosition = OutletPosition.REPLACE,
-    singular = true
+    stacked = AVOID_STACKED_OUTLETS
   ): T[] | T {
     let templateRef;
     switch (position) {
@@ -64,7 +74,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
       default:
         templateRef = this.templatesRefs.get(outlet);
     }
-    if (templateRef && singular) {
+    if (templateRef && !stacked) {
       return templateRef[0];
     }
     return templateRef;

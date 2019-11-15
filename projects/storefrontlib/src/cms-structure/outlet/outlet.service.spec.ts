@@ -6,6 +6,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { USE_STACKED_OUTLETS } from './outlet-constants';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletPosition } from './outlet.model';
 import { OutletService } from './outlet.service';
@@ -210,18 +211,18 @@ describe('OutletService', () => {
       fixture.detectChanges();
     });
 
-    it('should return a singular object for existing API usage', () => {
+    it('should return a single outlet for existing API usage', () => {
       expect(
         outletService.get(OUTLET_NAME_4, OutletPosition.BEFORE) instanceof Array
       ).toBeFalsy();
     });
 
-    it('should return an array', () => {
+    it('should return an array of outlet templates/components', () => {
       expect(
         outletService.get(
           OUTLET_NAME_4,
           OutletPosition.BEFORE,
-          false
+          USE_STACKED_OUTLETS
         ) instanceof Array
       ).toBeTruthy();
     });
