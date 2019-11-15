@@ -376,6 +376,4 @@ describe('ReviewSubmitComponent', () => {
       ]);
     });
   });
-
-
 });
