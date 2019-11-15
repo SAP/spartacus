@@ -44,7 +44,7 @@ class AnyComponent {}
 class AnyModule {}
 
 describe('OutletService', () => {
-  let outletService: OutletService;
+  let outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
