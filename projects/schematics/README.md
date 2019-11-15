@@ -17,6 +17,7 @@ Run the following command from your project root:
 - `overwriteAppComponent`: Overwrite content of app.component.html file. (default: false)
 - `pwa`: Include PWA features while constructing application.
 - `ssr`: Include Server-side Rendering configuration.
+- `autoBaseSite`: Omit setting *context* property for multi-site support.
 
 ### Other commands:
 By defaut `ng add @spartacus/schematics` will add only basic spartacus configuration. You are able extend application with features like *PWA* or *SSR* with commands listed below:
