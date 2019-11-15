@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmConfig, RoutingService } from '@spartacus/core';
+import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -16,11 +17,12 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   constructor(
     private config: AsmConfig,
     private asmComponentService: AsmComponentService,
+    private authService: AuthService,
     private routingService: RoutingService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.timeLeft = this.getTimerStartDelayInSeconds();
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
@@ -32,6 +34,11 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.markForCheck();
     }, 1000);
 
+    this.resetOnNavigate();
+    this.resetOnCustomerSessionChange();
+  }
+
+  private resetOnNavigate(): void {
     this.subscriptions.add(
       this.routingService.isNavigating().subscribe(isNavigating => {
         if (isNavigating) {
@@ -41,7 +48,16 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     );
   }
 
-  resetTimer() {
+  private resetOnCustomerSessionChange(): void {
+    this.subscriptions.add(
+      this.authService
+        .getOccUserId()
+        .pipe(distinctUntilChanged())
+        .subscribe(_ => this.resetTimer())
+    );
+  }
+
+  resetTimer(): void {
     if (this.timeLeft > 0) {
       this.timeLeft = this.getTimerStartDelayInSeconds();
     }
