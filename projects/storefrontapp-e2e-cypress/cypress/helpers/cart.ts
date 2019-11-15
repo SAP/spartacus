@@ -1,5 +1,4 @@
 import { standardUser } from '../sample-data/shared-users';
-import { apiUrl } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import { generateMail, randomString } from './user';
 
@@ -78,7 +77,7 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
     cy.get('cx-searchbox')
       .get('.results .products .name')
       .first()
-      .click();
+      .click({ force: true });
   }
 }
 
@@ -103,15 +102,13 @@ export function addToCart() {
     .click({ force: true });
 }
 
-export function waitForAddToCart() {
+export function waitForCartRefresh() {
+  cy.server();
+
   cy.route(
     'GET',
     `/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
-
-  addToCart();
-
-  cy.wait('@refresh_cart');
 }
 
 export function closeAddedToCartDialog() {
@@ -151,7 +148,7 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
   goToFirstProductFromSearch(product.type, mobile);
 
-  addToCart();
+  addToCart(); //
 
   closeAddedToCartDialog();
 
@@ -163,11 +160,7 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 export function removeAllItemsFromCart() {
   const product0 = products[0];
   const product1 = products[1];
-  cy.server();
-  cy.route(
-    'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
-  ).as('refresh_cart');
+  waitForCartRefresh();
 
   getCartItem(product0.name).within(() => {
     cy.getByText('Remove').click();
@@ -273,7 +266,11 @@ export function manipulateCartQuantity() {
 
   cy.server();
 
-  waitForAddToCart();
+  waitForCartRefresh();
+
+  addToCart();
+
+  cy.wait('@refresh_cart');
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
