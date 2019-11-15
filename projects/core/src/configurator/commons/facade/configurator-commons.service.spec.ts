@@ -21,7 +21,7 @@ const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_1,
       name: GROUP_NAME,
-      groupType: Configurator.GroupType.CSTIC_GROUP,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [
         {
           name: ATTRIBUTE_NAME_1,
@@ -153,7 +153,7 @@ describe('ConfiguratorCommonsService', () => {
     //group name not needed for update
     expect(groupForUpdateRequest.name).toBeUndefined();
     expect(groupForUpdateRequest.groupType).toBe(
-      Configurator.GroupType.CSTIC_GROUP
+      Configurator.GroupType.ATTRIBUTE_GROUP
     );
   });
 

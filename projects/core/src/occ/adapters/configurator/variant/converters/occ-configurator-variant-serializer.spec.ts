@@ -16,7 +16,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       {
         configurable: true,
         description: 'Core components',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         id: '1-CPQ_LAPTOP.1',
         name: '1',
         attributes: [
@@ -40,7 +40,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       {
         configurable: true,
         description: 'Peripherals & Accessories',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         id: '1-CPQ_LAPTOP.2',
         name: '2',
         attributes: [],
@@ -48,7 +48,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       {
         configurable: true,
         description: 'Software',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         id: '1-CPQ_LAPTOP.3',
         name: '3',
         attributes: [],

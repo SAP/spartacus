@@ -1,9 +1,8 @@
 import { Configurator } from '../../../../model/configurator.model';
 import * as ConfiguratorActions from '../actions/configurator.action';
-import { PendingChangesCounter } from '../configuration-state';
 
 export const initialState: Configurator.Configuration = { configId: '' };
-export const initialStatePendingChanges: PendingChangesCounter = {};
+export const initialStatePendingChanges = 0;
 
 export function reducer(
   state = initialState,
@@ -41,44 +40,29 @@ export function reducer(
 export function reducerPendingChanges(
   state = initialStatePendingChanges,
   action: ConfiguratorActions.ConfiguratorAction
-): PendingChangesCounter {
+): number {
   switch (action.type) {
     case ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS: {
-      const content = addToPendingChanges(-1, state);
-      return {
-        ...state,
-        ...content,
-      };
+      return addToPendingChanges(-1, state);
     }
     case ConfiguratorActions.UPDATE_CONFIGURATION_FAIL: {
-      const content = addToPendingChanges(-1, state);
-      return {
-        ...state,
-        ...content,
-      };
+      return addToPendingChanges(-1, state);
     }
     case ConfiguratorActions.UPDATE_CONFIGURATION: {
-      const content = addToPendingChanges(1, state);
-      return {
-        ...state,
-        ...content,
-      };
+      return addToPendingChanges(1, state);
     }
   }
   return state;
 }
 
-function addToPendingChanges(
-  increment: number,
-  counter: PendingChangesCounter
-): PendingChangesCounter {
-  const content: PendingChangesCounter = {};
-  let pendingChanges: number = counter.pendingChanges;
+function addToPendingChanges(increment: number, counter: number): number {
+  let content = 0;
+  let pendingChanges: number = counter;
 
   if (!pendingChanges) {
     pendingChanges = 0;
   }
-  content.pendingChanges = increment + pendingChanges;
+  content = increment + pendingChanges;
 
   return content;
 }
