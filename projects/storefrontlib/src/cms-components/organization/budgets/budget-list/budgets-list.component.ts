@@ -24,8 +24,6 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   ) {}
   private PAGE_SIZE = 5;
   cxRoute = 'budgetDetails';
-  header = 'budgetsList.budgetManagement';
-
   budgetsList$: Observable<any>;
   sortType$: BehaviorSubject<string> = new BehaviorSubject('byName');
   currentPage$: BehaviorSubject<number> = new BehaviorSubject(0);
