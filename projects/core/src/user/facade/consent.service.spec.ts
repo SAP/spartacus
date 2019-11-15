@@ -46,7 +46,6 @@ describe('ConsentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ConsentService,
         { provide: UserConsentService, useClass: MockUserConsentService },
         {
           provide: AnonymousConsentsService,

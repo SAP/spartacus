@@ -125,10 +125,12 @@ export class AnonymousConsentsService {
   }
 
   /**
-   * Returns the anonymous consent with the given template code.
+   * Returns the anonymous consent for the given template code.
+   *
+   * As a side-effect, the method will call `getTemplates(true)` to load the templates if those are not present.
+   *
    * @param templateId a template code by which to filter anonymous consent templates.
    */
-  // TODO:#5361 test more and update the API comment
   getConsent(templateId: string): Observable<AnonymousConsent> {
     return this.authService.isUserLoggedIn().pipe(
       filter(authenticated => !authenticated),

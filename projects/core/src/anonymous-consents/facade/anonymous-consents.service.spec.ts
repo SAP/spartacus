@@ -1,7 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -14,6 +15,12 @@ import {
 } from '../store/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { AnonymousConsentsService } from './anonymous-consents.service';
+
+class MockAuthService {
+  isUserLoggedIn(): Observable<boolean> {
+    return of(false);
+  }
+}
 
 const mockTemplateCode = 'MARKETING';
 const mockConsentTemplates: ConsentTemplate[] = [
@@ -45,6 +52,7 @@ const mockAnonymousConsents: AnonymousConsent[] = [
 describe('AnonymousConsentsService', () => {
   let service: AnonymousConsentsService;
   let store: Store<StateWithAnonymousConsents>;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,12 +63,14 @@ describe('AnonymousConsentsService', () => {
           fromStoreReducers.getReducers()
         ),
       ],
+      providers: [{ provide: AuthService, useClass: MockAuthService }],
     });
 
     service = TestBed.get(AnonymousConsentsService as Type<
       AnonymousConsentsService
     >);
     store = TestBed.get(Store as Type<Store<StateWithAnonymousConsents>>);
+    authService = TestBed.get(AuthService as Type<AuthService>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -216,17 +226,40 @@ describe('AnonymousConsentsService', () => {
     );
   });
 
-  it('getConsent should call getAnonymousConsentByTemplateCode selector', () => {
-    store.dispatch(
-      new AnonymousConsentsActions.SetAnonymousConsents(mockAnonymousConsents)
-    );
+  describe('getConsent', () => {
+    describe('when the user is anonymous', () => {
+      it('should call getAnonymousConsentByTemplateCode selector', () => {
+        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+        spyOn(service, 'getTemplates').and.returnValue(
+          of(mockAnonymousConsents)
+        );
+        store.dispatch(
+          new AnonymousConsentsActions.SetAnonymousConsents(
+            mockAnonymousConsents
+          )
+        );
 
-    let result: AnonymousConsent;
-    service
-      .getConsent(mockTemplateCode)
-      .subscribe(value => (result = value))
-      .unsubscribe();
-    expect(result).toEqual(mockAnonymousConsents[0]);
+        let result: AnonymousConsent;
+        service
+          .getConsent(mockTemplateCode)
+          .subscribe(value => (result = value))
+          .unsubscribe();
+        expect(result).toEqual(mockAnonymousConsents[0]);
+      });
+    });
+    describe('when the user is NOT anonymous', () => {
+      it('should not call getTemplates()', () => {
+        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+        spyOn(service, 'getTemplates').and.stub();
+
+        service
+          .getConsent(mockTemplateCode)
+          .subscribe()
+          .unsubscribe();
+
+        expect(service.getTemplates).not.toHaveBeenCalled();
+      });
+    });
   });
 
   it('giveConsent should dispatch GiveAnonymousConsent action', () => {
@@ -386,7 +419,7 @@ describe('AnonymousConsentsService', () => {
   });
 
   describe('getTemplatesUpdated', () => {
-    it('should call getAnonymousConsentTemplatesUpdate selector', () => {
+    it('should call getAnonymousConsentTemplatesUpdate selector and getTemplates(true)', () => {
       spyOn(service, 'getTemplates').and.returnValue(of([]));
       store.dispatch(
         new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
@@ -400,16 +433,7 @@ describe('AnonymousConsentsService', () => {
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
-    });
-    it('should call loadTemplates() if there are no templates', () => {
-      spyOn(service, 'getTemplates').and.returnValue(of(null));
-      spyOn(service, 'loadTemplates').and.stub();
-
-      service
-        .getTemplatesUpdated()
-        .subscribe()
-        .unsubscribe();
-      expect(service.loadTemplates).toHaveBeenCalled();
+      expect(service.getTemplates).toHaveBeenCalledWith(true);
     });
   });
 
