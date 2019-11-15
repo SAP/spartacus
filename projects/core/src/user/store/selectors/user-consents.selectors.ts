@@ -21,7 +21,6 @@ export const getConsentsValue: MemoizedSelector<
   StateLoaderSelectors.loaderValueSelector
 );
 
-// TODO:#5361 test
 export const getConsentByTemplateId = (
   templateId: string
 ): MemoizedSelector<StateWithUser, ConsentTemplate> =>
