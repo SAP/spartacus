@@ -1,6 +1,6 @@
-import * as BudgetActions from '../actions/budget.action';
 import { Budget } from '../../../model/budget.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
+import * as BudgetActions from '../actions/budget.action';
 
 export const budgetsInitialState = undefined;
 
@@ -19,11 +19,7 @@ export function budgetsListReducer(
 ): any {
   switch (action.type) {
     case BudgetActions.LOAD_BUDGETS_SUCCESS:
-      return {
-        ids: action.payload.budgets.budgets.map(budget => budget.code),
-        pagination: action.payload.budgets.pagination,
-        sorts: action.payload.budgets.sorts,
-      };
+      return action.payload.budgetPage;
   }
   return state;
 }

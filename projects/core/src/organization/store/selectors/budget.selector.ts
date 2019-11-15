@@ -1,16 +1,16 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import {
-  StateWithOrganization,
-  OrganizationState,
-  BudgetManagement,
-} from '../organization-state';
-import { getOrganizationState } from './feature.selector';
+import { Budget, BudgetListModel } from '../../../model/budget.model';
+import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
-import { Budget, BudgetListModel } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../model/search-config';
 import { serializeBudgetSearchConfig } from '../../utils/budgets';
+import {
+  BudgetManagement,
+  OrganizationState,
+  StateWithOrganization,
+} from '../organization-state';
+import { getOrganizationState } from './feature.selector';
 
 export const getBudgetManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -28,14 +28,6 @@ export const getBudgetsState: MemoizedSelector<
   (state: BudgetManagement) => state && state['budget-entities']
 );
 
-// export const getBudgetsValuesState: MemoizedSelector<
-//   StateWithOrganization,
-//   { [id: string]: LoaderState<Budget> }
-// > = createSelector(
-//   getBudgetsState,
-//   (state: EntityLoaderState<Budget>) => state && state.entities
-// );
-
 export const getBudgetState = (
   budgetCode: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<Budget>> =>
@@ -43,6 +35,9 @@ export const getBudgetState = (
     getBudgetsState,
     (state: EntityLoaderState<Budget>) => entityStateSelector(state, budgetCode)
   );
+
+// TODO: better mechanism for denormalization
+// create service encapsulating denormalization
 
 export const getBudgetList = (
   params: BudgetSearchConfig

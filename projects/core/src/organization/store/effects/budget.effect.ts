@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { Budget } from '../../../model/budget.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
-import { Budget } from '../../../model/budget.model';
-import { Occ } from '../../../occ/occ-models/occ.models';
 import BudgetsList = Occ.BudgetsList;
 
 @Injectable()
@@ -44,13 +44,23 @@ export class BudgetEffects {
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(payload =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
-        switchMap((budgets: BudgetsList) => [
-          new BudgetActions.LoadBudgetSuccess(budgets.budgets),
-          new BudgetActions.LoadBudgetsSuccess({
-            budgets,
-            params: payload.params,
-          }),
-        ]),
+        switchMap((budgets: BudgetsList) => {
+          // normalization
+          // TODO: extract into the same service with denormalization
+          const budgetsEntities = budgets.budgets;
+          const budgetPage = {
+            ids: budgets.budgets.map(budget => budget.code),
+            pagination: budgets.pagination,
+            sorts: budgets.sorts,
+          };
+          return [
+            new BudgetActions.LoadBudgetSuccess(budgetsEntities),
+            new BudgetActions.LoadBudgetsSuccess({
+              budgetPage,
+              params: payload.params,
+            }),
+          ];
+        }),
         catchError(error =>
           of(
             new BudgetActions.LoadBudgetsFail({
