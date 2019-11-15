@@ -21,7 +21,7 @@ import { IconModule } from '../../../misc/icon/icon.module';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        BudgetManagementComponent: {
+        ManageBudgetsListComponent: {
           component: BudgetsListComponent,
           guards: [AuthGuard],
         },

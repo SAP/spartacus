@@ -9,6 +9,8 @@ export const budget = {
     sortByMostRecent: 'sortByMostRecent',
     noBudgets: 'No budgets',
     budgetManagement: 'Budget Management',
+    searchBox: 'Find budget',
+    create: 'Create',
     sorting: {
       byUnitName: 'Unit Name',
       byName: 'Name',
