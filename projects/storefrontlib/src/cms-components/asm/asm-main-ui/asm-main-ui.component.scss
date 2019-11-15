@@ -1,13 +1,12 @@
-:host {
-  &.hidden {
-    display: none;
-  }
-}
 cx-asm-main-ui {
   height: 150px;
   overflow: hidden;
   width: 100%;
   display: block;
+
+  &.hidden {
+    display: none;
+  }
 
   form {
     width: 100%;
@@ -15,9 +14,6 @@ cx-asm-main-ui {
   label,
   input {
     margin-bottom: 0;
-  }
-  .collapsed {
-    display: none;
   }
 
   cx-csagent-login-form,
