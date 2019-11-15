@@ -1,11 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
   CONFIGURATION_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
+import { CartModification } from '../../../../model/cart.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
 import { Configurator } from './../../../../model/configurator.model';
@@ -63,14 +65,47 @@ export class OccConfiguratorVariantAdapter
   }
 
   addToCart(
-    configId: string,
-    cartId: string
+    userId: string,
+    cartId: string,
+    productCode: string,
+    quantity: number = 1,
+    configId: string
   ): Observable<Configurator.Configuration> {
-    console.log(cartId);
+    console.log('Adapter-Level: ' + cartId);
+    console.log('Adapter-Level: ' + userId);
+    console.log('Adapter-Level: ' + quantity);
+    console.log('Adapter-Level: ' + productCode);
+
+    const url = this.occEndpointsService.getUrl(
+      'addConfigurationToCart',
+      {
+        userId,
+        cartId,
+      }
+      //{ code: productCode, qty: quantity }
+    );
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const occConfigOrderEntry = JSON.stringify({
+      configId: configId,
+      quantity: quantity,
+      product: { code: productCode },
+    });
+
     return this.http
-      .get<OccConfigurator.Configuration>(
-        this.occEndpointsService.getUrl('readConfiguration', { configId })
-      )
-      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+      .post<CartModification>(url, occConfigOrderEntry, { headers })
+      .pipe(
+        map(() =>
+          of({
+            configId: 'aasdf',
+            complete: true,
+            groups: [],
+          })
+        ),
+        this.converterService.pipeable(CONFIGURATION_NORMALIZER)
+      );
   }
 }

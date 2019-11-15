@@ -151,6 +151,22 @@ export class CartService {
       });
   }
 
+  getOrCreateCart(): Observable<Cart> {
+    return this.store.pipe(
+      select(CartSelectors.getActiveCartState),
+      tap(cartState => {
+        if (!this.isCreated(cartState.value.content) && !cartState.loading) {
+          this.store.dispatch(
+            new CartActions.CreateCart({ userId: this.cartData.userId })
+          );
+        }
+      }),
+      filter(cartState => this.isCreated(cartState.value.content)),
+      map(cartState => cartState.value.content),
+      take(1)
+    );
+  }
+
   removeEntry(entry: OrderEntry): void {
     this.store.dispatch(
       new CartActions.CartRemoveEntry({

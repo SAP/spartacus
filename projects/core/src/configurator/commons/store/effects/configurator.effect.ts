@@ -253,12 +253,24 @@ export class ConfiguratorEffects {
     map(
       (action: {
         type: string;
-        payload?: { configId: string; productCode: string; cartId: string };
+        payload?: {
+          userId: string;
+          cartId: string;
+          productCode: string;
+          quantity: number;
+          configId: string;
+        };
       }) => action.payload
     ),
     switchMap(payload => {
       return this.configuratorCommonsConnector
-        .addToCart(payload.configId, payload.cartId)
+        .addToCart(
+          payload.userId,
+          payload.cartId,
+          payload.productCode,
+          payload.quantity,
+          payload.configId
+        )
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             return [

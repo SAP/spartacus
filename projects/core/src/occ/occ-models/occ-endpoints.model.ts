@@ -283,6 +283,12 @@ export interface OccEndpoints {
    */
   updateConfiguration?: string;
   /**
+   * Endpoint to add configuration to cart
+   *
+   * @member {string}
+   */
+  addConfigurationToCart?: string;
+  /**
    * Endpoint for consignment tracking
    *
    * @member {string}

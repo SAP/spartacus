@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { CartService } from '../../../cart/facade/cart.service';
 import { Configurator } from '../../../model/configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
@@ -11,7 +12,10 @@ import * as ConfiguratorSelectors from '../store/selectors/configurator.selector
 
 @Injectable()
 export class ConfiguratorCommonsService {
-  constructor(protected store: Store<StateWithConfiguration>) {}
+  constructor(
+    protected store: Store<StateWithConfiguration>,
+    protected cartService: CartService
+  ) {}
 
   createConfiguration(
     productCode: string
@@ -117,15 +121,20 @@ export class ConfiguratorCommonsService {
   }
 
   addToCart(productCode: string, configId: string) {
-    // TODO: get somehow the cart-id/guid from cart service
-    const cartId = '12314';
-    this.store.dispatch(
-      new ConfiguratorActions.AddToCart({
-        configId: configId,
-        productCode: productCode,
-        cartId: cartId,
-      })
-    );
+    const cart$ = this.cartService.getOrCreateCart();
+    cart$.pipe(take(1)).subscribe(cart => {
+      console.log('Cart id ' + cart.guid);
+      console.log('User uid: ' + cart.user.uid);
+      this.store.dispatch(
+        new ConfiguratorActions.AddToCart({
+          userId: cart.user.uid,
+          cartId: cart.guid,
+          productCode: productCode,
+          quantity: 1,
+          configId: configId,
+        })
+      );
+    });
   }
 
   ////
