@@ -1,6 +1,6 @@
 <form (submit)="onSubmit()" [formGroup]="form" *ngIf="!csAgentTokenLoading">
   <div class="asm-container">
-    <div class="fd-col--3">
+    <div class="col-short">
       <label>
         <input
           type="text"
@@ -14,7 +14,7 @@
         </div>
       </label>
     </div>
-    <div class="fd-col--3">
+    <div class="col-short">
       <label>
         <input
           type="password"
@@ -28,7 +28,7 @@
         </div>
       </label>
     </div>
-    <div class="fd-col--3">
+    <div class="col-short">
       <button type="submit" class="asm-button asm-button-login">
         {{ 'asm.loginForm.submit' | cxTranslate }}
       </button>
@@ -37,7 +37,7 @@
 </form>
 
 <div class="asm-spinner" *ngIf="csAgentTokenLoading">
-  <div class="fd-loading-dots" aria-hidden="false" aria-label="Loading">
+  <div class="spinner-dots" aria-hidden="false" aria-label="Loading">
     <div></div>
     <div></div>
     <div></div>

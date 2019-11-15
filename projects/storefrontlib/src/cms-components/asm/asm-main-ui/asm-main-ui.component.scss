@@ -73,24 +73,14 @@ cx-asm-main-ui {
     margin-bottom: 12px;
     width: 100%;
     flex-direction: row;
-    // Grid
-    // [class^='fd-col'] {
-    //   margin-bottom: 12px;
-    // }
-    // [class^='fd-col']:last-child {
-    //   margin-bottom: 0;
-    // }
-    .fd-col--3 {
-      margin-right: 8px;
-      margin-bottom: 12px;
-    }
-    .fd-col--6 {
+
+    .col-short,
+    .col-long {
       margin-right: 8px;
       margin-bottom: 12px;
     }
   }
 
-  // ----- REFACTORED ----
   // Top Bar
   .asm-bar {
     line-height: 1.42857;
@@ -253,7 +243,6 @@ cx-asm-main-ui {
     &::placeholder {
       color: #74777a;
       font-style: italic;
-      font-size: 14px;
     }
   }
 
@@ -268,7 +257,7 @@ cx-asm-main-ui {
     left: 0;
     z-index: 1;
 
-    .fd-loading-dots {
+    .spinner-dots {
       line-height: 1.42857;
       color: #32363a;
       position: relative;
@@ -288,14 +277,14 @@ cx-asm-main-ui {
         border-radius: 100%;
         background-color: currentColor;
         border: 0 solid currentColor;
-        -webkit-animation: fd-loading-dots-pulse 1s ease infinite;
-        animation: fd-loading-dots-pulse 1s ease infinite;
+        -webkit-animation: spinner-dots-pulse 1s ease infinite;
+        animation: spinner-dots-pulse 1s ease infinite;
 
         &:nth-child(1) {
           animation-delay: -0.2s;
         }
 
-        @-webkit-keyframes fd-loading-dots-pulse {
+        @-webkit-keyframes spinner-dots-pulse {
           0%,
           100%,
           60% {
@@ -307,7 +296,7 @@ cx-asm-main-ui {
             transform: scale(2);
           }
         }
-        @keyframes fd-loading-dots-pulse {
+        @keyframes spinner-dots-pulse {
           0%,
           100%,
           60% {
@@ -344,10 +333,6 @@ cx-asm-main-ui {
   // Extra small devices (portrait phones, less than 576px)
   @media (max-width: 575px) {
     height: 230px;
-    form {
-      width: 88%;
-      position: absolute;
-    }
 
     cx-customer-selection,
     cx-customer-emulation {
@@ -365,12 +350,11 @@ cx-asm-main-ui {
 
     .asm-container {
       flex-direction: column;
-    }
 
-    .fd-col--3,
-    .fd-col--6 {
-      width: 100%;
-      clear: left;
+      .col-short,
+      .col-long {
+        width: 100%;
+      }
     }
 
     .asm-results {
@@ -430,12 +414,13 @@ cx-asm-main-ui {
       }
     }
 
-    .fd-col--6 {
-      width: 360px;
-    }
-
-    .fd-col--3 {
-      width: 135px;
+    .asm-container {
+      .col-long {
+        width: 360px;
+      }
+      .col-short {
+        width: 135px;
+      }
     }
   }
 
@@ -453,8 +438,10 @@ cx-asm-main-ui {
       }
     }
 
-    .fd-col--6 {
-      width: 516px;
+    .asm-container {
+      .col-long {
+        width: 516px;
+      }
     }
   }
 }
