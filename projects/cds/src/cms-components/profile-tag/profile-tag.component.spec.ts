@@ -6,7 +6,7 @@ import { ProfileTagInjector } from '../../profiletag/profile-tag.injector';
 import { ProfileTagComponent } from './profile-tag.component';
 
 class MockProfileTagInjector {
-  injectScript(): Observable<AnonymousConsent | NgRouterEvent> {
+  track(): Observable<AnonymousConsent | NgRouterEvent> {
     return of(
       { templateCode: 'PROFILE', version: 2, consentState: null },
       new NavigationEnd(1, 'test', 'test.com')

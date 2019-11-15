@@ -17,6 +17,6 @@ export class ProfileTagComponent {
     private renderer2: Renderer2
   ) {
     this.profileTagInjector.addScript(this.renderer2);
-    this.profileTagEnabled$ = this.profileTagInjector.injectScript();
+    this.profileTagEnabled$ = this.profileTagInjector.track();
   }
 }

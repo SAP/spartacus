@@ -44,7 +44,7 @@ export class ProfileTagInjector {
     this.tracking$ = merge(pageLoaded$, consentChanged$);
   }
 
-  injectScript(): Observable<AnonymousConsent | NgRouterEvent> {
+  track(): Observable<AnonymousConsent | NgRouterEvent> {
     if (!isPlatformBrowser(this.platform)) {
       return;
     }
@@ -96,7 +96,7 @@ export class ProfileTagInjector {
     );
   }
 
-  profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
+  private profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
     return fromEventPattern(
       handler => {
         this.addProfileTagEventReceiver(siteId, handler);
@@ -105,7 +105,7 @@ export class ProfileTagInjector {
     );
   }
 
-  addProfileTagEventReceiver(siteId: string, handler: Function): void {
+  private addProfileTagEventReceiver(siteId: string, handler: Function): void {
     const newConfig: ProfileTagJsConfig = {
       ...this.config.cds.profileTag,
       tenant: this.config.cds.tenant,
@@ -113,7 +113,7 @@ export class ProfileTagInjector {
       spa: true,
       profileTagEventReceiver: handler,
     };
-    this.track(newConfig);
+    this.exposeConfig(newConfig);
   }
 
   addScript(renderer2: Renderer2): void {
@@ -127,7 +127,7 @@ export class ProfileTagInjector {
     renderer2.appendChild(this.document.head, this.profileTagScript);
   }
 
-  private track(options: ProfileTagJsConfig): void {
+  private exposeConfig(options: ProfileTagJsConfig): void {
     const q = this.w.Y_TRACKING.q || [];
     q.push([options]);
     this.w.Y_TRACKING.q = q;

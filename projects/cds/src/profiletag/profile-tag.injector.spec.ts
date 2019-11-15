@@ -104,7 +104,7 @@ describe('ProfileTagInjector', () => {
 
   it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
     profileTagInjector.addScript(renderer2Mock);
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     profileTagLoaded$.subscribe().unsubscribe();
 
     expect(createElementSpy).toHaveBeenCalled();
@@ -114,7 +114,7 @@ describe('ProfileTagInjector', () => {
   });
 
   it(`Should add config parameters to the q array after the base site is active`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     const baseSite = 'electronics-test';
     getActiveBehavior.next(baseSite);
@@ -131,7 +131,7 @@ describe('ProfileTagInjector', () => {
   });
 
   it(`Should not call the push method if the event receiver callback hasn't been called`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
@@ -143,7 +143,7 @@ describe('ProfileTagInjector', () => {
 
   it(`Should call the push method if the site is active,
      and event receiver callback has been called with loaded`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
@@ -159,7 +159,7 @@ describe('ProfileTagInjector', () => {
   });
   it(`Should call the push method if the profile consent changes to true,
     and ignore all further changes, only sending one consent changed event,`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
@@ -186,7 +186,7 @@ describe('ProfileTagInjector', () => {
 
   it(`Should call the push method for every NavigationEnd event, 
     regardless of consent status, and even if the consent pipe ends due to take(1)`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
