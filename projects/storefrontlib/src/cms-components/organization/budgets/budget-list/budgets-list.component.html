@@ -7,9 +7,8 @@
       <div class="col-md-12 col-lg-7">
         <cx-search
           (searchEvent)="search($event)"
-          [placeholder]="getSearchPlaceholder() | async"
+          [placeholder]="'budgetsList.searchBox' | cxTranslate"
         >
-          <!--        [placeholder]="{{ 'budgetsList.searchBox' | cxTranslate }}"-->
         </cx-search>
       </div>
       <div class="col-md-12 col-lg-5">

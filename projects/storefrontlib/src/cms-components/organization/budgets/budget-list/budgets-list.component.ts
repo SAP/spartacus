@@ -122,6 +122,13 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     );
   }
 
+  // sortLabels = {
+  //   byUnitName: 'budgetsList.sorting.byUnitName',
+  //   byName: 'budgetsList.sorting.byName',
+  //   byCode: 'budgetsList.sorting.byCode',
+  //   byValue: 'budgetsList.sorting.byValue',
+  // };
+
   getSortLabels(): Observable<{
     byUnitName: string;
     byName: string;
@@ -141,10 +148,13 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
         byValue,
       }))
     );
-  }
-
-  getSearchPlaceholder() {
-    return this.translation.translate('budgetsList.searchBox');
+    // return combineLatest(
+    //   ...Object.entries(this.sortLabels).map(([key, value]) =>
+    //     of({
+    //       [key]: this.translation.translate(value),
+    //     })
+    //   )
+    // );
   }
   // private fetchBudgets(): void {
   //   this.budgetsService.loadBudgets({
