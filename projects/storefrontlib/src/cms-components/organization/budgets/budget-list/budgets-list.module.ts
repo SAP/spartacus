@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -14,6 +14,7 @@ import {
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { BudgetsListComponent } from './budgets-list.component';
 import { TableModule } from '../../../../shared/components/table/table.module';
+import { IconModule } from '../../../misc/icon/icon.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,8 @@ import { TableModule } from '../../../../shared/components/table/table.module';
     UrlModule,
     I18nModule,
     TableModule,
+    IconModule,
+    ReactiveFormsModule,
   ],
   declarations: [BudgetsListComponent],
   exports: [BudgetsListComponent],
