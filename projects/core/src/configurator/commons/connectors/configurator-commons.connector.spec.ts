@@ -18,6 +18,8 @@ class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
   createConfiguration = createSpy().and.callFake(productCode =>
     of('createConfiguration' + productCode)
   );
+
+  addToCart = createSpy().and.callFake(configId => of('addToCart' + configId));
 }
 
 describe('ConfiguratorCommonsConnector', () => {

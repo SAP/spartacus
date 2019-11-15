@@ -23,6 +23,8 @@ export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
   '[Configurator] Update Configuration finalize fail';
 export const CHANGE_GROUP = '[Configurator] Change group';
 export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
+export const ADD_TO_CART = '[Configurator] Add to cart';
+export const ADD_TO_CART_FINALIZE = '[Configurator] Add to cart finalize';
 
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -110,6 +112,20 @@ export class ChangeGroup extends StateEntityLoaderActions.EntityLoadAction {
 
 export class ChangeGroupFinalize extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CHANGE_GROUP_FINALIZE;
+  constructor(public payload: any) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class AddToCart extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = ADD_TO_CART;
+  constructor(public payload: any) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class AddToCartFinalize extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = ADD_TO_CART_FINALIZE;
   constructor(public payload: any) {
     super(CONFIGURATION_DATA, payload.productCode);
   }

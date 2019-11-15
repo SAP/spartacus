@@ -61,4 +61,16 @@ export class OccConfiguratorVariantAdapter
       .put(url, occConfiguration)
       .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
   }
+
+  addToCart(
+    configId: string,
+    cartId: string
+  ): Observable<Configurator.Configuration> {
+    console.log(cartId);
+    return this.http
+      .get<OccConfigurator.Configuration>(
+        this.occEndpointsService.getUrl('readConfiguration', { configId })
+      )
+      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+  }
 }

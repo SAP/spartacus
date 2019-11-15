@@ -18,6 +18,7 @@ import * as fromEffects from './configurator.effect';
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP-1';
+const cartId = 'CART-1234';
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
@@ -33,6 +34,7 @@ const productConfiguration: Configurator.Configuration = {
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
   let readMock: jasmine.Spy;
+  let addToCartMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
 
   let actions$: Observable<any>;
@@ -40,10 +42,15 @@ describe('ConfiguratorEffect', () => {
   beforeEach(() => {
     createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
     readMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
+    addToCartMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration));
     class MockConnector {
       createConfiguration = createMock;
 
       readConfiguration = readMock;
+
+      addToCart = addToCartMock;
 
       updateConfiguration(): Observable<Configurator.Configuration> {
         return of(productConfiguration);
@@ -291,6 +298,65 @@ describe('ConfiguratorEffect', () => {
         b: readConfigurationFail,
       });
       expect(configEffects.groupChangeFinalize$).toBeObservable(expected);
+    });
+  });
+  describe('Effect addToCart', () => {
+    it('should emit AddToCartFinalize on addToCart in case no changes are pending', () => {
+      const payloadInput = {
+        configId: configId,
+        productCode: productCode,
+        cartId: cartId,
+      };
+      const action = new ConfiguratorActions.AddToCart(payloadInput);
+      const completion = new ConfiguratorActions.AddToCartFinalize(
+        payloadInput
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(configEffects.addToCart$).toBeObservable(expected);
+    });
+  });
+  describe('Effect addToCartFinalize', () => {
+    it('should emit AddToCartSuccess and RemoveUiState on AddToCartFinalize in case no changes are pending', () => {
+      const payloadInput = {
+        configId: configId,
+        productCode: productCode,
+        cartId: cartId,
+      };
+      const action = new ConfiguratorActions.AddToCartFinalize(payloadInput);
+      const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
+        productConfiguration
+      );
+      const removeUiState = new ConfiguratorUiActions.RemoveUiState(
+        productConfiguration.productCode
+      );
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-(bc)', {
+        b: removeUiState,
+        c: readConfigurationSuccess,
+      });
+      expect(configEffects.addToCartFinalize$).toBeObservable(expected);
+    });
+    it('should emit AddToCartFail in case add to cart call is not successful', () => {
+      addToCartMock.and.returnValue(throwError(errorResponse));
+      const payloadInput = {
+        configId: configId,
+        productCode: productCode,
+        cartId: cartId,
+      };
+      const action = new ConfiguratorActions.AddToCartFinalize(payloadInput);
+      const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
+        productConfiguration.productCode,
+        makeErrorSerializable(errorResponse)
+      );
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-b', {
+        b: readConfigurationFail,
+      });
+      expect(configEffects.addToCartFinalize$).toBeObservable(expected);
     });
   });
 });

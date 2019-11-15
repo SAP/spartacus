@@ -27,4 +27,11 @@ export class ConfiguratorCommonsConnector {
   ): Observable<Configurator.Configuration> {
     return this.adapter.updateConfiguration(Configuration);
   }
+
+  addToCart(
+    configId: string,
+    cartId: string
+  ): Observable<Configurator.Configuration> {
+    return this.adapter.addToCart(configId, cartId);
+  }
 }

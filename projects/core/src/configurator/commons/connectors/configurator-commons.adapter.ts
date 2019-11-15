@@ -32,4 +32,15 @@ export abstract class ConfiguratorCommonsAdapter {
   abstract updateConfiguration(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration>;
+
+  /**
+   * Abstract method to add a configuration to cart.
+   *
+   * @param configId configuration id
+   * @param cartId cart id
+   */
+  abstract addToCart(
+    configId: string,
+    cartId: string
+  ): Observable<Configurator.Configuration>;
 }

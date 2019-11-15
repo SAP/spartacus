@@ -116,6 +116,18 @@ export class ConfiguratorCommonsService {
     this.store.dispatch(new UiActions.RemoveUiState(productCode));
   }
 
+  addToCart(productCode: string, configId: string) {
+    // TODO: get somehow the cart-id/guid from cart service
+    const cartId = '12314';
+    this.store.dispatch(
+      new ConfiguratorActions.AddToCart({
+        configId: configId,
+        productCode: productCode,
+        cartId: cartId,
+      })
+    );
+  }
+
   ////
   // Helper methods
   ////

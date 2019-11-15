@@ -16,6 +16,9 @@ import { ConfiguratorCommonsConnector } from '../../connectors/configurator-comm
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorUiActions } from '../actions';
 import {
+  AddToCartFinalize,
+  ADD_TO_CART,
+  ADD_TO_CART_FINALIZE,
   ChangeGroupFinalize,
   CHANGE_GROUP,
   CHANGE_GROUP_FINALIZE,
@@ -213,6 +216,53 @@ export class ConfiguratorEffects {
                 payload.productCode,
                 payload.groupId
               ),
+              new ReadConfigurationSuccess(configuration),
+            ];
+          }),
+          catchError(error => [
+            new ReadConfigurationFail(
+              payload.productCode,
+              makeErrorSerializable(error)
+            ),
+          ])
+        );
+    })
+  );
+
+  @Effect()
+  addToCart$: Observable<AddToCartFinalize> = this.actions$.pipe(
+    ofType(ADD_TO_CART),
+    map((action: { type: string; payload?: any }) => action.payload),
+    switchMap(payload => {
+      return this.store.pipe(
+        select(ConfiguratorSelectors.getPendingChanges),
+        take(1),
+        filter(pendingChanges => pendingChanges === 0),
+        map(() => new AddToCartFinalize(payload))
+      );
+    })
+  );
+
+  @Effect()
+  addToCartFinalize$: Observable<
+    | ConfiguratorUiActions.RemoveUiState
+    | ReadConfigurationFail
+    | ReadConfigurationSuccess
+  > = this.actions$.pipe(
+    ofType(ADD_TO_CART_FINALIZE),
+    map(
+      (action: {
+        type: string;
+        payload?: { configId: string; productCode: string; cartId: string };
+      }) => action.payload
+    ),
+    switchMap(payload => {
+      return this.configuratorCommonsConnector
+        .addToCart(payload.configId, payload.cartId)
+        .pipe(
+          switchMap((configuration: Configurator.Configuration) => {
+            return [
+              new ConfiguratorUiActions.RemoveUiState(payload.productCode),
               new ReadConfigurationSuccess(configuration),
             ];
           }),
