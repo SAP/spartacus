@@ -43,6 +43,7 @@ export const myAccount = {
       returnAll: 'Return All',
       cancelAll: 'Cancel All',
       totalPrice: 'Total',
+      submit: 'Submit Request',
     },
   },
   orderHistory: {
