@@ -1,5 +1,5 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
 import {
   AnonymousConsent,
@@ -23,32 +23,30 @@ export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
   private tracking$: Observable<AnonymousConsent | NgRouterEvent>;
-  private profileTagScript: HTMLScriptElement;
-  private document?: Document;
+
   constructor(
     private winRef: WindowRef,
     @Inject(cdsConfigToken) private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService,
-    @Inject(DOCUMENT) doc: any,
     @Inject(PLATFORM_ID) private platform: any
   ) {
-    this.document = doc as Document; // See https://github.com/angular/angular/issues/20351
     this.w = <ProfileTagWindowObject>(
-      (<unknown>(this.winRef ? this.winRef.nativeWindow : {}))
+      (<unknown>(this.winRef.nativeWindow ? this.winRef.nativeWindow : {}))
     );
     this.w.Y_TRACKING = this.w.Y_TRACKING || {};
+
     const consentChanged$ = this.consentChanged();
     const pageLoaded$ = this.pageLoaded();
     this.tracking$ = merge(pageLoaded$, consentChanged$);
   }
 
+  // TODO:#5649 - check the behavior when the transition from SSR to "live" version kicks in
   injectScript(): Observable<AnonymousConsent | NgRouterEvent> {
-    if (!isPlatformBrowser(this.platform)) {
-      return;
-    }
     return this.addTracker().pipe(
+      filter(_ => !isPlatformBrowser(this.platform)),
+      tap(_ => this.addScript()),
       filter(profileTagEvent => profileTagEvent.eventName === 'Loaded'),
       switchMap(() => {
         return this.tracking$;
@@ -96,7 +94,7 @@ export class ProfileTagInjector {
     );
   }
 
-  profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
+  private profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
     return fromEventPattern(
       handler => {
         this.addProfileTagEventReceiver(siteId, handler);
@@ -105,7 +103,7 @@ export class ProfileTagInjector {
     );
   }
 
-  addProfileTagEventReceiver(siteId: string, handler: Function): void {
+  private addProfileTagEventReceiver(siteId: string, handler: Function): void {
     const newConfig: ProfileTagJsConfig = {
       ...this.config.cds.profileTag,
       tenant: this.config.cds.tenant,
@@ -116,15 +114,20 @@ export class ProfileTagInjector {
     this.track(newConfig);
   }
 
-  addScript(renderer2: Renderer2): void {
-    if (this.profileTagScript) {
+  private addScript(): void {
+    if (!isPlatformBrowser(this.platform)) {
       return;
     }
-    this.profileTagScript = renderer2.createElement('script');
-    this.profileTagScript.type = 'text/javascript';
-    this.profileTagScript.async = true;
-    this.profileTagScript.src = this.config.cds.profileTag.javascriptUrl;
-    renderer2.appendChild(this.document.head, this.profileTagScript);
+    const profileTagScript = this.winRef.document.createElement('script');
+    profileTagScript.type = 'text/javascript';
+    profileTagScript.async = true;
+    profileTagScript.src = this.config.cds.profileTag.javascriptUrl;
+
+    // TODO:#5649 check this, not sure if it's good code
+
+    this.winRef.document
+      .getElementsByTagName('head')[0]
+      .appendChild(profileTagScript);
   }
 
   private track(options: ProfileTagJsConfig): void {
