@@ -24,16 +24,16 @@ export class CdsModule {
         { provide: CdsConfig, useExisting: Config },
         {
           provide: MerchandisingStrategyAdapter,
-          useClass: CdsMerchandisingStrategyAdapter,
+          useExisting: CdsMerchandisingStrategyAdapter,
         },
         {
           provide: MERCHANDISING_PRODUCTS_NORMALIZER,
-          useClass: MerchandisingProductsNormalizer,
+          useExisting: MerchandisingProductsNormalizer,
           multi: true,
         },
         {
           provide: MERCHANDISING_PRODUCT_NORMALIZER,
-          useClass: MerchandisingProductNormalizer,
+          useExisting: MerchandisingProductNormalizer,
           multi: true,
         },
         provideConfig(DEFAULT_CDS_CONFIG),

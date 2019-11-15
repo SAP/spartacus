@@ -9,7 +9,7 @@ import { MerchandisingProducts } from '../../model/merchandising.products.model'
 
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CdsMerchandisingStrategyAdapter
   implements MerchandisingStrategyAdapter {
   constructor(
