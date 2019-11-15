@@ -148,7 +148,7 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
   goToFirstProductFromSearch(product.type, mobile);
 
-  addToCart(); //
+  addToCart();
 
   closeAddedToCartDialog();
 
