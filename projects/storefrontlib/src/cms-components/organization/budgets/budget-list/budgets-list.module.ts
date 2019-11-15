@@ -14,7 +14,6 @@ import {
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { BudgetsListComponent } from './budgets-list.component';
 import { TableModule } from '../../../../shared/components/table/table.module';
-import { IconModule } from '../../../misc/icon/icon.module';
 
 @NgModule({
   imports: [
@@ -34,7 +33,6 @@ import { IconModule } from '../../../misc/icon/icon.module';
     UrlModule,
     I18nModule,
     TableModule,
-    IconModule,
     ReactiveFormsModule,
   ],
   declarations: [BudgetsListComponent],

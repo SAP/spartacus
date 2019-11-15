@@ -3,35 +3,20 @@
     <div class="cx-table-header">
       <h3>{{ 'budgetsList.budgetManagement' | cxTranslate }}</h3>
     </div>
-
     <div class="row">
-      <div class="col-md-12 col-lg-7">
-        <div class="form-group search-wrapper">
-          <input
-            #queryInput
-            [formControl]="searchBox"
-            (keyup)="onKey($event)"
-            type="text"
-            class="form-control"
-            placeholder="{{ 'budgetsList.searchBox' | cxTranslate }}"
-            required
-          />
-          <cx-icon
-            [type]="iconTypes.SEARCH"
-            aria-label="search"
-            class="search"
-            (click)="search()"
-            [ngClass]="{
-            'disabled-action': !(searchBox.value && searchBox.value.length)
-          }"
-          ></cx-icon>
-        </div>
-      </div>
+      <cx-search
+        (searchEvent)="search($event)"
+        [placeholder]="'budgetsList.searchBox'"
+      >
+        <!--        [placeholder]="{{ 'budgetsList.searchBox' | cxTranslate }}"-->
+      </cx-search>
       <div class="col-md-12 col-lg-5">
         <div class="row cx-search-links mb-3">
           <div class="col-6">
             <button
-              [routerLink]="['/my-company/organization-management/manage-budgets/create']"
+              [routerLink]="[
+                '/my-company/organization-management/manage-budgets/create'
+              ]"
               class="btn btn-primary btn-block"
             >
               {{ 'budgetsList.create' | cxTranslate }}
@@ -42,7 +27,9 @@
     </div>
 
     <div class="cx-table-body">
-      <ng-container *ngIf="budgetsList.pagination.totalResults > 0; else noData">
+      <ng-container
+        *ngIf="budgetsList.pagination.totalResults > 0; else noData"
+      >
         <div class="cx-sort top row">
           <div class="cx-form-group form-group col-sm-12 col-md-4 col-lg-4">
             <cx-sorting

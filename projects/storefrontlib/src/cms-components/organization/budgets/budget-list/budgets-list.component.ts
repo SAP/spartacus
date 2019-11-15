@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../misc/icon';
 
 import {
   BudgetService,
@@ -11,7 +10,6 @@ import {
   TranslationService,
   CxDatePipe,
 } from '@spartacus/core';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'cx-budgets-list',
@@ -31,8 +29,6 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   currentPage$: BehaviorSubject<number> = new BehaviorSubject(0);
   filter$: BehaviorSubject<string> = new BehaviorSubject('');
   isLoaded$: Observable<boolean>;
-  searchBox: FormControl = new FormControl();
-  iconTypes = ICON_TYPE;
 
   ngOnInit(): void {
     this.budgetsList$ = combineLatest([
@@ -154,15 +150,8 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   //     sort: this.sortType,
   //   });
   // }
-  onKey(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.search();
-    }
-  }
 
-  search() {
-    if (this.searchBox.value && this.searchBox.value.length) {
-      this.filter$.next(this.searchBox.value);
-    }
+  search(value) {
+    this.filter$.next(value);
   }
 }
