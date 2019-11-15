@@ -1,6 +1,6 @@
 import { CdsConfig } from './cds-config';
 
-export function cdsConfigValidator(config: CdsConfig) {
+export function cdsConfigValidator(config: CdsConfig): string | void {
   if (!config.cds) {
     return 'Please configure the config.cds object before using the CDS library';
   }
