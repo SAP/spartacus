@@ -5,6 +5,9 @@ import { AnonymousConsentsService } from '../../anonymous-consents/index';
 import { AnonymousConsent, Consent } from '../../model/index';
 import { UserConsentService } from './user-consent.service';
 
+/**
+ * Unified facade for both anonymous and registered user consents.
+ */
 @Injectable({ providedIn: 'root' })
 export class ConsentService {
   constructor(
