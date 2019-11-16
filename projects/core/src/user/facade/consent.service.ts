@@ -81,11 +81,27 @@ export class ConsentService {
   }
 
   /**
+   *
+   * Checks the provided `consent`'s type and delegates to an appropriate method - `anonymousConsentsService.isConsentWithdrawn(consent)` or `this.userConsentService.isConsentWithdrawn`
+   *
+   * @param consent a consent to check
+   */
+  isConsentWithdrawn(consent: AnonymousConsent | Consent): boolean {
+    return this.isAnonymousConsentType(consent)
+      ? this.anonymousConsentsService.isConsentWithdrawn(consent)
+      : this.userConsentService.isConsentWithdrawn(consent);
+  }
+
+  /**
    * Returns `true` if the provided consent is of type `AnonymousConsent`. Otherwise, `false` is returned.
    */
   isAnonymousConsentType(
     consent: AnonymousConsent | Consent
   ): consent is AnonymousConsent {
+    if (!consent) {
+      return false;
+    }
+
     return (consent as AnonymousConsent).templateCode !== undefined;
   }
 
@@ -93,6 +109,10 @@ export class ConsentService {
    * Returns `true` if the provided consent is of type `Consent`. Otherwise, `false` is returned.
    */
   isConsentType(consent: AnonymousConsent | Consent): consent is Consent {
+    if (!consent) {
+      return false;
+    }
+
     return (consent as Consent).code !== undefined;
   }
 }

@@ -216,6 +216,41 @@ describe('ConsentService', () => {
     });
   });
 
+  describe('isConsentWithdrawn', () => {
+    describe('when anonymous consent is provided', () => {
+      it('should delegate to anonymousConsentsService.isConsentWithdrawn()', () => {
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValue(
+          true
+        );
+        spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
+
+        const result = service.isConsentWithdrawn(mockAnonymousConsent);
+
+        expect(result).toEqual(true);
+        expect(
+          anonymousConsentsService.isConsentWithdrawn
+        ).toHaveBeenCalledWith(mockAnonymousConsent);
+        expect(userConsentService.isConsentWithdrawn).not.toHaveBeenCalled();
+      });
+    });
+    describe('when registered consent is provided', () => {
+      it('should delegate to userConsentService.isConsentWithdrawn()', () => {
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.stub();
+        spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
+
+        const result = service.isConsentWithdrawn(mockConsent);
+
+        expect(result).toEqual(true);
+        expect(userConsentService.isConsentWithdrawn).toHaveBeenCalledWith(
+          mockConsent
+        );
+        expect(
+          anonymousConsentsService.isConsentWithdrawn
+        ).not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('isAnonymousConsentType', () => {
     it('should return true if anonymous consent type is provided', () => {
       const result = service.isAnonymousConsentType(mockAnonymousConsent);
