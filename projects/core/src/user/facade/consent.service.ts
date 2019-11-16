@@ -24,13 +24,13 @@ export class ConsentService {
   }
 
   /**
-   * Checks if the `templateCode`'s template has a given consent.
+   * Checks if the `templateId`'s template has a given consent.
    * The method returns `false` if the consent doesn't exist or if it's withdrawn. Otherwise, `true` is returned.
    *
-   * @param templateCode of a template which's consent should be checked
+   * @param templateId of a template which's consent should be checked
    */
-  isConsentGiven(templateCode: string): Observable<boolean> {
-    return this.getConsent(templateCode).pipe(
+  checkConsentGivenByTemplateId(templateId: string): Observable<boolean> {
+    return this.getConsent(templateId).pipe(
       map(consent => {
         if (!consent) {
           return false;
@@ -45,13 +45,13 @@ export class ConsentService {
   }
 
   /**
-   * Checks if the `templateCode`'s template has a withdrawn consent.
+   * Checks if the `templateId`'s template has a withdrawn consent.
    * The method returns `true` if the consent doesn't exist or if it's withdrawn. Otherwise, `false` is returned.
    *
-   * @param templateCode of a template which's consent should be checked
+   * @param templateId of a template which's consent should be checked
    */
-  isConsentWithdrawn(templateCode: string): Observable<boolean> {
-    return this.getConsent(templateCode).pipe(
+  checkConsentWithdrawnByTemplateId(templateId: string): Observable<boolean> {
+    return this.getConsent(templateId).pipe(
       map(consent => {
         if (!consent) {
           return true;
@@ -63,6 +63,18 @@ export class ConsentService {
       }),
       distinctUntilChanged()
     );
+  }
+
+  /**
+   *
+   * Checks the provided `consent`'s type and delegates to an appropriate method - `anonymousConsentsService.isConsentGiven(consent)` or `this.userConsentService.isConsentGiven`
+   *
+   * @param consent a consent to check
+   */
+  isConsentGiven(consent: AnonymousConsent | Consent): boolean {
+    return this.isAnonymousConsentType(consent)
+      ? this.anonymousConsentsService.isConsentGiven(consent)
+      : this.userConsentService.isConsentGiven(consent);
   }
 
   /**
