@@ -1,0 +1,10 @@
+cx-csagent-login-form {
+  button[type='submit'] {
+    color: #fff;
+    border-color: #0a6ed1;
+    background-color: #0a6ed1;
+    &:hover {
+      background-color: #085caf;
+    }
+  }
+}
