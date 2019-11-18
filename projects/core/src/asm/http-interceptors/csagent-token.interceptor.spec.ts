@@ -1,4 +1,4 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -6,11 +6,10 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig } from '@spartacus/core';
+import { AsmAuthService, OccConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { InterceptorUtil } from '../../occ/utils/interceptor-util';
-import { AuthService } from '../facade/auth.service';
-import { UserToken } from '../models/token-types.model';
+import { UserToken } from '../../auth/models/token-types.model';
 import { CustomerSupportAgentTokenInterceptor } from './csagent-token.interceptor';
 
 const testToken = {
@@ -22,7 +21,7 @@ const testToken = {
   userId: 'xxx',
 } as UserToken;
 
-class MockAuthService {
+class MockAsmAuthService {
   getCustomerSupportAgentToken(): Observable<UserToken> {
     return of();
   }
@@ -42,14 +41,14 @@ const MockAuthModuleConfig: OccConfig = {
 
 describe('CustomerSupportAgentTokenInterceptor', () => {
   let httpMock: HttpTestingController;
-  let authService: AuthService;
+  let asmAuthService: AsmAuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         { provide: OccConfig, useValue: MockAuthModuleConfig },
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: AsmAuthService, useClass: MockAsmAuthService },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: CustomerSupportAgentTokenInterceptor,
@@ -60,14 +59,14 @@ describe('CustomerSupportAgentTokenInterceptor', () => {
     httpMock = TestBed.get(HttpTestingController as Type<
       HttpTestingController
     >);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    asmAuthService = TestBed.get(AsmAuthService as Type<AsmAuthService>);
   });
 
   describe('Customer Support Agent Token Http Interceptor', () => {
     it('should not add the CSAgent token to the request by default', inject(
       [HttpClient],
       (http: HttpClient) => {
-        spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+        spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
           of(testToken)
         );
 
@@ -91,7 +90,7 @@ describe('CustomerSupportAgentTokenInterceptor', () => {
     it('should add the CSAgent token to the request when the appropriate header flag is present', inject(
       [HttpClient],
       (http: HttpClient) => {
-        spyOn(authService, 'getCustomerSupportAgentToken').and.returnValue(
+        spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
           of(testToken)
         );
         spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
