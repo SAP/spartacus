@@ -102,9 +102,10 @@ describe('ProfileTagInjector', () => {
   it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
     profileTagInjector.track();
     const profileTagLoaded$ = profileTagInjector.track();
-    profileTagLoaded$.subscribe().unsubscribe();
+    const profileTagLoadedSubcriber = profileTagLoaded$.subscribe();
+    profileTagLoadedSubcriber.unsubscribe();
 
-    expect(appendChildSpy).toHaveBeenCalled();
+    expect(appendChildSpy).not.toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.q).not.toBeDefined();
   });
@@ -123,6 +124,7 @@ describe('ProfileTagInjector', () => {
       spa: true,
       profileTagEventReceiver: jasmine.anything(),
     });
+    expect(appendChildSpy).toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
   });
 

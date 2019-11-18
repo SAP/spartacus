@@ -8,7 +8,14 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { fromEventPattern, merge, Observable } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CdsConfig } from '../config/cds-config';
 import {
   ProfileTagEvent,
@@ -22,7 +29,10 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
-  private tracking$: Observable<AnonymousConsent | NgRouterEvent>;
+  private tracking$: Observable<AnonymousConsent | NgRouterEvent> = merge(
+    this.pageLoaded(),
+    this.consentChanged()
+  );
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -30,22 +40,13 @@ export class ProfileTagInjector {
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService,
     @Inject(PLATFORM_ID) private platform: any
-  ) {
-    this.w = <ProfileTagWindowObject>(
-      (<unknown>(this.winRef ? this.winRef.nativeWindow : {}))
-    );
-    this.w.Y_TRACKING = this.w.Y_TRACKING || {};
-    const consentChanged$ = this.consentChanged();
-    const pageLoaded$ = this.pageLoaded();
-    this.tracking$ = merge(pageLoaded$, consentChanged$);
-  }
+  ) {}
 
-  track(): Observable<AnonymousConsent | NgRouterEvent> {
+  track(): Observable<Boolean> {
     return this.addTracker().pipe(
       filter(profileTagEvent => profileTagEvent.eventName === 'Loaded'),
-      switchMap(() => {
-        return this.tracking$;
-      })
+      switchMap(_ => this.tracking$),
+      map(data => Boolean(data))
     );
   }
 
@@ -83,8 +84,10 @@ export class ProfileTagInjector {
   private addTracker(): Observable<ProfileTagEvent> {
     return this.baseSiteService.getActive().pipe(
       filter(_ => isPlatformBrowser(this.platform)),
-      tap(_ => this.addScript()),
       filter((siteId: string) => Boolean(siteId)),
+      distinctUntilChanged(),
+      tap(_ => this.addScript()),
+      tap(_ => this.initWindow()),
       switchMap((siteId: string) => {
         return this.profileTagEventReceiver(siteId);
       })
@@ -120,6 +123,11 @@ export class ProfileTagInjector {
     this.winRef.document
       .getElementsByTagName('head')[0]
       .appendChild(profileTagScript);
+  }
+
+  private initWindow() {
+    this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
+    this.w.Y_TRACKING = this.w.Y_TRACKING || {};
   }
 
   private exposeConfig(options: ProfileTagJsConfig): void {
