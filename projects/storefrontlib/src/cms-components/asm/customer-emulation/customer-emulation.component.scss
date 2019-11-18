@@ -22,3 +22,14 @@ cx-customer-emulation {
     }
   }
 }
+
+//Session-in-progress alert
+.asm-alert {
+  padding: 9px 12px;
+  border-radius: 4px;
+  border: 1px solid #89919a;
+  background-color: #f4f4f4;
+  color: #32363a;
+  text-align: center;
+  flex: 1;
+}

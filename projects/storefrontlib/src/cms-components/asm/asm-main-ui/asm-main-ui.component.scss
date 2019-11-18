@@ -116,21 +116,15 @@ cx-asm-main-ui {
 
   // Input styles
   input {
-    font-weight: 400;
-    line-height: 1.42857;
-    appearance: none;
-    box-sizing: border-box;
     outline: 0;
     border: 1px solid #89919a;
     color: #32363a;
     background-color: #fff;
     border-radius: 4px;
-    transition: border-color 125ms;
     padding: 0 12px;
     height: 36px;
 
     &:focus {
-      -webkit-box-shadow: 0 0 0 1px #fafafa;
       box-shadow: 0 0 0 1px #fafafa;
     }
 
@@ -141,22 +135,6 @@ cx-asm-main-ui {
       color: #74777a;
       font-style: italic;
     }
-  }
-
-  //Session-in-progress alert
-  .asm-alert {
-    display: block;
-    line-height: 1.42857;
-    color: #32363a;
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
-    background-color: #f4f4f4;
-    border-color: #89919a;
-    padding: 9px 12px;
-    border-radius: 4px;
-    width: 100%;
-    text-align: center;
   }
 
   // Extra small devices (portrait phones, less than 576px)
