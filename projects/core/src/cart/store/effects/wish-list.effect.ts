@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import { EMPTY, from, Observable } from 'rxjs';
 import {
   catchError,
@@ -12,8 +13,9 @@ import { AuthService } from '../../../auth/facade/auth.service';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { SaveCartConnector } from '../../connectors/save-cart/save-cart.connecter';
-import { WishListService } from '../../facade/wish-list.service';
 import { CartActions } from '../actions';
+import { StateWithMultiCart } from '../multi-cart-state';
+import { MultiCartSelectors } from '../selectors';
 
 @Injectable()
 export class WishListEffects {
@@ -88,23 +90,15 @@ export class WishListEffects {
 
   @Effect()
   resetWishList$: Observable<
-    CartActions.ResetWishListDetails
+    CartActions.LoadWisthListSuccess | CartActions.LoadCartFail
   > = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE
     ),
-    switchMap(() => [new CartActions.ResetWishListDetails()])
-  );
-
-  @Effect()
-  getWishList$: Observable<
-    CartActions.LoadWisthListSuccess | CartActions.LoadCartFail
-  > = this.actions$.pipe(
-    ofType(CartActions.RESET_WISH_LIST_DETAILS),
     withLatestFrom(
       this.authService.getOccUserId(),
-      this.wishListService.getWishListId()
+      this.store.pipe(select(MultiCartSelectors.getWishListId))
     ),
     switchMap(([, userId, wishListId]) => {
       if (Boolean(wishListId)) {
@@ -123,7 +117,7 @@ export class WishListEffects {
     private actions$: Actions,
     private cartConnector: CartConnector,
     private saveCartConnector: SaveCartConnector,
-    private wishListService: WishListService,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<StateWithMultiCart>
   ) {}
 }

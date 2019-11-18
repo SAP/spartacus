@@ -1,16 +1,17 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../../auth/facade/auth.service';
+import * as fromReducers from '../../../cart/store/reducers/index';
 import { Cart, SaveCartResult } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CartConnector } from '../../connectors';
 import { SaveCartConnector } from '../../connectors/save-cart';
-import { WishListService } from '../../facade';
 import { CartActions } from '../actions';
+import { StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
 import createSpy = jasmine.createSpy;
@@ -64,23 +65,25 @@ class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
 }
 
-class MockWishListService {
-  getWishListId = createSpy().and.returnValue(of(wishListId));
-}
-
 describe('Wish List Effect', () => {
   let actions$: Observable<any>;
   let wishListEffect: WishListEffects;
   let cartConnector: CartConnector;
+  let store: Store<StateWithMultiCart>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(
+          'multi-cart',
+          fromReducers.getMultiCartReducers()
+        ),
+      ],
       providers: [
         { provide: CartConnector, useClass: MockCartConnector },
         { provide: SaveCartConnector, useClass: MockSaveCartConnector },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: WishListService, useClass: MockWishListService },
         fromEffects.WishListEffects,
         provideMockActions(() => actions$),
       ],
@@ -88,6 +91,9 @@ describe('Wish List Effect', () => {
 
     wishListEffect = TestBed.get(fromEffects.WishListEffects);
     cartConnector = TestBed.get(CartConnector as Type<CartConnector>);
+    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
+
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('createWishList$', () => {
@@ -144,21 +150,12 @@ describe('Wish List Effect', () => {
   });
 
   describe('resetWishList$', () => {
-    it('should dispatch ResetWishListDetails action', () => {
-      const action = new SiteContextActions.CurrencyChange();
-
-      const resetWishListAction = new CartActions.ResetWishListDetails();
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: resetWishListAction });
-
-      expect(wishListEffect.resetWishList$).toBeObservable(expected);
-    });
-  });
-
-  describe('getWishList$', () => {
     it('should load wish list from id', () => {
-      const action = new CartActions.ResetWishListDetails();
+      store.dispatch(
+        new CartActions.LoadWisthListSuccess({ cart: testCart, userId })
+      );
+
+      const action = new SiteContextActions.CurrencyChange();
 
       const resetWishListAction = new CartActions.LoadWisthListSuccess({
         cart: wishList,
@@ -168,7 +165,7 @@ describe('Wish List Effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: resetWishListAction });
 
-      expect(wishListEffect.getWishList$).toBeObservable(expected);
+      expect(wishListEffect.resetWishList$).toBeObservable(expected);
     });
   });
 });

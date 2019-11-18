@@ -86,7 +86,7 @@ describe('WishListService', () => {
         new CartActions.LoadWisthList(userId)
       );
     });
-    it('should return wish list is loaded', done => {
+    it('should return wish list if loaded', done => {
       spyOn(service, 'loadWishList');
       let result;
 
