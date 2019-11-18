@@ -7,9 +7,9 @@ import { CartActions } from '../../cart/store/actions/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithCart } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
@@ -234,6 +234,42 @@ describe('CartService', () => {
           quantity: 2,
         }),
       ]);
+    });
+  });
+
+  describe('getOrCreateCart', () => {
+    it('should create cart if cart does not exist', done => {
+      const spy = spyOn(store, 'dispatch').and.callThrough();
+
+      cartData.userId = userId;
+      cartData.cart = {};
+      service.getOrCreateCart().subscribe(() => {});
+
+      setTimeout(() => {
+        expect(spy.calls.first().args).toEqual([
+          new CartActions.CreateCart({
+            userId: userId,
+          }),
+        ]);
+        done();
+      });
+    });
+
+    it('should not create cart if cart exists', done => {
+      store.dispatch(new CartActions.CreateCartSuccess(cart));
+      spyOn(store, 'dispatch').and.callThrough();
+
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+      service.getOrCreateCart().subscribe(() => {});
+
+      setTimeout(() => {
+        expect(store.dispatch).not.toHaveBeenCalledWith(
+          new CartActions.CreateCart({ userId: userId })
+        );
+        done();
+      });
     });
   });
 
