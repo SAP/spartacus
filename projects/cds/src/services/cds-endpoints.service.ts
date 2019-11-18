@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CdsConfig } from '../config/cds-config';
 import { DynamicTemplate } from '../utils/dynamic-template';
@@ -8,7 +9,11 @@ import { DynamicTemplate } from '../utils/dynamic-template';
 export class CdsEndpointsService {
   constructor(private cdsConfig: CdsConfig) {}
 
-  getUrl(endpoint: string, urlParams: object = {}): string {
+  getUrl(
+    endpoint: string,
+    urlParams: object = {},
+    queryParams?: object
+  ): string {
     if (
       this.cdsConfig &&
       this.cdsConfig.cds &&
@@ -25,6 +30,39 @@ export class CdsEndpointsService {
       urlParams[key] = encodeURIComponent(urlParams[key]);
     });
     endpoint = DynamicTemplate.resolve(endpoint, urlParams);
+
+    console.log(
+      `******DEBUG - CdsEndpointsService - queryParams - ${JSON.stringify(
+        queryParams
+      )}`
+    );
+    if (queryParams) {
+      let httpParamsOptions;
+
+      if (endpoint.includes('?')) {
+        let queryParamsFromEndpoint;
+        [endpoint, queryParamsFromEndpoint] = endpoint.split('?');
+
+        httpParamsOptions = { fromString: queryParamsFromEndpoint };
+      }
+
+      let httpParams = new HttpParams(httpParamsOptions);
+      Object.keys(queryParams).forEach(key => {
+        const value = queryParams[key];
+        if (value !== undefined) {
+          if (value === null) {
+            httpParams = httpParams.delete(key);
+          } else {
+            httpParams = httpParams.set(key, value);
+          }
+        }
+      });
+
+      const params = httpParams.toString();
+      if (params.length) {
+        endpoint += '?' + params;
+      }
+    }
 
     return this.getEndpoint(endpoint);
   }

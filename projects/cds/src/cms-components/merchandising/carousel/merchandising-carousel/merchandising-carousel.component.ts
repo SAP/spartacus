@@ -7,7 +7,7 @@ import { CmsMerchandisingCarouselComponent } from '../../../../cds-models/cms.mo
 import { CdsMerchandisingProductService } from './../../../../merchandising/facade/cds-merchandising-product.service';
 
 @Component({
-  selector: 'cx-merchandising-carousel',
+  selector: ': cx-merchandising-carousel',
   templateUrl: './merchandising-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,13 +26,20 @@ export class MerchandisingCarouselComponent {
   title$: Observable<string> = this.componentData$.pipe(
     map(data => data.title)
   );
+  numberToDisplay$: Observable<string> = this.componentData$.pipe(
+    map(data => data.numberToDisplay)
+  );
 
   items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
-    map(data => data.strategy),
-    distinctUntilChanged(),
-    switchMap(strategyId =>
-      this.cdsMerchandisingProductService.loadProductsForStrategy(strategyId)
+    distinctUntilChanged(
+      (previous, current) => previous.strategy === current.strategy
     ),
+    switchMap(data => {
+      return this.cdsMerchandisingProductService.loadProductsForStrategy(
+        data.strategy,
+        Number(data.numberToDisplay)
+      );
+    }),
     map(merchandisingProducts => merchandisingProducts.products),
     map(products => products.map(product => of(product)))
   );
