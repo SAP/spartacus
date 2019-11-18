@@ -10,6 +10,10 @@ import {
   TranslationService,
   CxDatePipe,
 } from '@spartacus/core';
+import {
+  resolveKeyAndValueBy,
+  resolveObjectBy,
+} from '../../../../../../core/src/util/resolveValuesBy';
 
 @Component({
   selector: 'cx-budgets-list',
@@ -29,6 +33,22 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   currentPage$: BehaviorSubject<number> = new BehaviorSubject(0);
   filter$: BehaviorSubject<string> = new BehaviorSubject('');
   isLoaded$: Observable<boolean>;
+
+  private columns = {
+    code: 'budgetsList.code',
+    name: 'budgetsList.name',
+    amount: 'budgetsList.amount',
+    startEndDate: 'budgetsList.startEndDate',
+    costCenter: 'budgetsList.costCenter',
+    parentUnit: 'budgetsList.parentUnit',
+  };
+
+  private sortLabels = {
+    byUnitName: 'budgetsList.sorting.byUnitName',
+    byName: 'budgetsList.sorting.byName',
+    byCode: 'budgetsList.sorting.byCode',
+    byValue: 'budgetsList.sorting.byValue',
+  };
 
   ngOnInit(): void {
     this.budgetsList$ = combineLatest([
@@ -71,7 +91,6 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
                 startEndDate: `${this.cxDate.transform(
                   budget.startDate
                 )} - ${this.cxDate.transform(budget.endDate)}`,
-                costCenter: budget.costCenters && budget.costCenters[0],
                 parentUnit: budget.orgUnit.name,
               })),
             }))
@@ -81,6 +100,12 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
 
     // this.isLoaded$ = this.budgetsService.getBudgetsProcess().pipe(map(process => process.success));
     this.isLoaded$ = of(false);
+    // this.getSortLabels2()
+    //   .subscribe(console.log)
+    //   .unsubscribe();
+    // this.getColumns2()
+    //   .subscribe(console.log)
+    //   .unsubscribe();
   }
 
   ngOnDestroy(): void {
@@ -122,12 +147,11 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     );
   }
 
-  // sortLabels = {
-  //   byUnitName: 'budgetsList.sorting.byUnitName',
-  //   byName: 'budgetsList.sorting.byName',
-  //   byCode: 'budgetsList.sorting.byCode',
-  //   byValue: 'budgetsList.sorting.byValue',
-  // };
+  getColumns2(): Observable<Array<{ key: string; value: string }>> {
+    return resolveKeyAndValueBy(this.columns, this.translation.translate);
+    // return resolveKeyAndValueBy(this.columns, text => of(text.toUpperCase());
+    // return resolveKeyAndValueBy(this.columns, text => this.translation.translate(text));
+  }
 
   getSortLabels(): Observable<{
     byUnitName: string;
@@ -148,14 +172,19 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
         byValue,
       }))
     );
-    // return combineLatest(
-    //   ...Object.entries(this.sortLabels).map(([key, value]) =>
-    //     of({
-    //       [key]: this.translation.translate(value),
-    //     })
-    //   )
-    // );
   }
+
+  getSortLabels2(): Observable<{
+    byUnitName: string;
+    byName: string;
+    byCode: string;
+    byValue: string;
+  }> {
+    return resolveObjectBy(this.sortLabels, this.translation.translate);
+    // return resolveObjectBy(this.sortLabels, text => of(text.toUpperCase());
+    // return resolveObjectBy(this.sortLabels, text => this.translation.translate(text));
+  }
+
   // private fetchBudgets(): void {
   //   this.budgetsService.loadBudgets({
   //     pageSize: this.PAGE_SIZE,
