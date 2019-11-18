@@ -85,12 +85,12 @@ describe('ConsentService', () => {
     });
   });
 
-  describe('isConsentGiven', () => {
+  describe('checkConsentGivenByTemplateId', () => {
     it('should return false if the consent is falsy', () => {
       spyOn(service, 'getConsent').and.returnValue(of(undefined));
       let result = true;
       service
-        .isConsentGiven(mockTemplateId)
+        .checkConsentGivenByTemplateId(mockTemplateId)
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
@@ -103,7 +103,7 @@ describe('ConsentService', () => {
         spyOn(userConsentService, 'isConsentGiven').and.stub();
         let result = false;
         service
-          .isConsentGiven(mockTemplateId)
+          .checkConsentGivenByTemplateId(mockTemplateId)
           .subscribe(value => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
@@ -121,7 +121,7 @@ describe('ConsentService', () => {
         spyOn(userConsentService, 'isConsentGiven').and.returnValue(true);
         let result = false;
         service
-          .isConsentGiven(mockTemplateId)
+          .checkConsentGivenByTemplateId(mockTemplateId)
           .subscribe(value => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
@@ -133,12 +133,12 @@ describe('ConsentService', () => {
     });
   });
 
-  describe('isConsentWithdrawn', () => {
+  describe('checkConsentWithdrawnByTemplateId', () => {
     it('should return true if the consent is falsy', () => {
       spyOn(service, 'getConsent').and.returnValue(of(undefined));
       let result = false;
       service
-        .isConsentWithdrawn(mockTemplateId)
+        .checkConsentWithdrawnByTemplateId(mockTemplateId)
         .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toEqual(true);
@@ -153,7 +153,7 @@ describe('ConsentService', () => {
         spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
         let result = false;
         service
-          .isConsentWithdrawn(mockTemplateId)
+          .checkConsentWithdrawnByTemplateId(mockTemplateId)
           .subscribe(value => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
@@ -171,7 +171,7 @@ describe('ConsentService', () => {
         spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
         let result = false;
         service
-          .isConsentWithdrawn(mockTemplateId)
+          .checkConsentWithdrawnByTemplateId(mockTemplateId)
           .subscribe(value => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
@@ -181,6 +181,72 @@ describe('ConsentService', () => {
         expect(userConsentService.isConsentWithdrawn).toHaveBeenCalledWith(
           mockConsent
         );
+      });
+    });
+  });
+
+  describe('isConsentGiven', () => {
+    describe('when anonymous consent is provided', () => {
+      it('should delegate to anonymousConsentsService.isConsentGiven()', () => {
+        spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValue(true);
+        spyOn(userConsentService, 'isConsentGiven').and.stub();
+
+        const result = service.isConsentGiven(mockAnonymousConsent);
+
+        expect(result).toEqual(true);
+        expect(anonymousConsentsService.isConsentGiven).toHaveBeenCalledWith(
+          mockAnonymousConsent
+        );
+        expect(userConsentService.isConsentGiven).not.toHaveBeenCalled();
+      });
+    });
+    describe('when registered consent is provided', () => {
+      it('should delegate to userConsentService.isConsentGiven()', () => {
+        spyOn(anonymousConsentsService, 'isConsentGiven').and.stub();
+        spyOn(userConsentService, 'isConsentGiven').and.returnValue(true);
+
+        const result = service.isConsentGiven(mockConsent);
+
+        expect(result).toEqual(true);
+        expect(userConsentService.isConsentGiven).toHaveBeenCalledWith(
+          mockConsent
+        );
+        expect(anonymousConsentsService.isConsentGiven).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('isConsentWithdrawn', () => {
+    describe('when anonymous consent is provided', () => {
+      it('should delegate to anonymousConsentsService.isConsentWithdrawn()', () => {
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValue(
+          true
+        );
+        spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
+
+        const result = service.isConsentWithdrawn(mockAnonymousConsent);
+
+        expect(result).toEqual(true);
+        expect(
+          anonymousConsentsService.isConsentWithdrawn
+        ).toHaveBeenCalledWith(mockAnonymousConsent);
+        expect(userConsentService.isConsentWithdrawn).not.toHaveBeenCalled();
+      });
+    });
+    describe('when registered consent is provided', () => {
+      it('should delegate to userConsentService.isConsentWithdrawn()', () => {
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.stub();
+        spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
+
+        const result = service.isConsentWithdrawn(mockConsent);
+
+        expect(result).toEqual(true);
+        expect(userConsentService.isConsentWithdrawn).toHaveBeenCalledWith(
+          mockConsent
+        );
+        expect(
+          anonymousConsentsService.isConsentWithdrawn
+        ).not.toHaveBeenCalled();
       });
     });
   });
