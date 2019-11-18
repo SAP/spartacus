@@ -3,6 +3,7 @@ import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
 import { MerchandisingCarouselModule } from './cms-components/merchandising/carousel/merchandising-carousel/merchandising-carousel.module';
 import { cdsConfigValidator } from './config';
 import { CdsConfig } from './config/cds-config';
+import { DEFAULT_CDS_CONFIG } from './config/default-cds-config';
 import { CdsMerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,
@@ -21,6 +22,7 @@ export class CdsModule {
     return {
       ngModule: CdsModule,
       providers: [
+        provideConfig(DEFAULT_CDS_CONFIG),
         provideConfig(config),
         provideConfigValidator(cdsConfigValidator),
         { provide: CdsConfig, useExisting: Config },
