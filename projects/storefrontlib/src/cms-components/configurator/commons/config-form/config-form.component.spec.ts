@@ -228,7 +228,7 @@ describe('ConfigurationFormComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get 2 emissions of product configurations if router emits faster than commons service', () => {
+  it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {
     checkConfigurationObs(component, 'aa', '---xy', '----xy');
   });
 
@@ -236,11 +236,11 @@ describe('ConfigurationFormComponent', () => {
     checkConfigurationObs(component, 'aa', 'xy', 'xxy');
   });
 
-  it('should get 4 emissions of product configurations if router pauses between emissions', () => {
+  it('should get the maximum 4 emissions of product configurations if router pauses between emissions', () => {
     checkConfigurationObs(component, 'a---a', 'xy', 'xy--xy');
   });
 
-  it('should get 2 emissions of current groups if group service emits slowly', () => {
+  it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
     checkCurrentGroupObs(component, 'aa', '---xy', '---uv', '--------uv');
   });
 
@@ -248,7 +248,7 @@ describe('ConfigurationFormComponent', () => {
     checkCurrentGroupObs(component, 'a---a', 'xy', '--uv', '---uv--uv');
   });
 
-  it('should get 8 emissions of current groups if router and config service emit slowly', () => {
+  it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
     checkCurrentGroupObs(component, 'a-----a', '--x--y', 'uv', '--uv-uv-uv-uv');
   });
 });
