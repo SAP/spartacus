@@ -88,9 +88,7 @@ export class ProfileTagInjector {
       distinctUntilChanged(),
       tap(_ => this.addScript()),
       tap(_ => this.initWindow()),
-      switchMap((siteId: string) => {
-        return this.profileTagEventReceiver(siteId);
-      })
+      switchMap((siteId: string) => this.profileTagEventReceiver(siteId))
     );
   }
 
