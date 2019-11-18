@@ -43,19 +43,6 @@ export function clearCustomerSupportAgentAsmState(
       state = {
         ...state,
         customerSearchResult: undefined,
-      };
-    }
-    return reducer(state, action);
-  };
-}
-
-export function clearCustomerSupportAgentAuthState(
-  reducer: ActionReducer<AsmState, Action>
-): ActionReducer<AsmState, Action> {
-  return function(state, action) {
-    if (action.type === AuthActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
-      state = {
-        ...state,
         csagentToken: undefined,
       };
     }
@@ -65,5 +52,4 @@ export function clearCustomerSupportAgentAuthState(
 
 export const metaReducers: MetaReducer<any>[] = [
   clearCustomerSupportAgentAsmState,
-  clearCustomerSupportAgentAuthState,
 ];
