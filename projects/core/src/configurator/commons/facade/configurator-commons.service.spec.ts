@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { CartService } from '../../../cart/facade/cart.service';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
 import { Configurator } from './../../../model/configurator.model';
@@ -38,6 +39,8 @@ const productConfiguration: Configurator.Configuration = {
   ],
 };
 
+class MockCartService {}
+
 function mergeChangesAndGetFirstGroup(
   serviceUnderTest: ConfiguratorCommonsService,
   changedAttribute: Configurator.Attribute
@@ -62,7 +65,13 @@ describe('ConfiguratorCommonsService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
-      providers: [ConfiguratorCommonsService],
+      providers: [
+        ConfiguratorCommonsService,
+        {
+          provide: CartService,
+          useClass: MockCartService,
+        },
+      ],
     }).compileComponents();
   }));
   beforeEach(() => {
