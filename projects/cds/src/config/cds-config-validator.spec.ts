@@ -51,7 +51,7 @@ describe('cdsConfigValidator', () => {
   it('should not warn about undefined configuration', () => {
     const CONFIG: CdsConfig = {
       cds: {
-        tenant: '',
+        tenant: 'argotest',
         baseUrl: '',
         endpoints: {
           strategyProducts: '',
