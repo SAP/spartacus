@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { WishlistComponent } from './components/wishlist.component';
 import { CommonModule } from '@angular/common';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { ProductListModule } from '../product/product-list';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { CmsConfig, ConfigModule } from '@spartacus/core';
         },
       },
     }),
+    ProductListModule,
   ],
   declarations: [WishlistComponent],
   entryComponents: [WishlistComponent],
