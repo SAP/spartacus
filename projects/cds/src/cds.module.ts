@@ -1,5 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
+import { MerchandisingCarouselModule } from './cms-components/merchandising/carousel/merchandising-carousel/merchandising-carousel.module';
 import { cdsConfigValidator } from './config';
 import { CdsConfig } from './config/cds-config';
 import { CdsMerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
@@ -13,7 +14,7 @@ import { MerchandisingProductsNormalizer } from './merchandising/converters/merc
 import { ProfileTagModule } from './profiletag/profile-tag.module';
 
 @NgModule({
-  imports: [ProfileTagModule],
+  imports: [ProfileTagModule, MerchandisingCarouselModule],
 })
 export class CdsModule {
   static forRoot(config: CdsConfig): ModuleWithProviders<CdsModule> {
