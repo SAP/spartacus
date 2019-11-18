@@ -13,11 +13,9 @@
     </div>
   </div>
   <div class="asm-bar-actions">
-    <div class="asm-timer">
-      <cx-asm-session-timer
-        *ngIf="(csAgentToken$ | async)?.access_token"
-      ></cx-asm-session-timer>
-    </div>
+    <cx-asm-session-timer
+      *ngIf="(csAgentToken$ | async)?.access_token"
+    ></cx-asm-session-timer>
 
     <a
       class="close"
@@ -28,6 +26,7 @@
       "
       (click)="hideUi()"
     ></a>
+
     <div class="asm-logout">
       <a
         title="{{ 'asm.logout' | cxTranslate }}"

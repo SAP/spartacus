@@ -130,20 +130,6 @@ cx-asm-main-ui {
       justify-content: flex-end;
       align-items: center;
 
-      .asm-timer {
-        font-size: 14px;
-        .session-label {
-          margin-right: 6px;
-        }
-        .session-time {
-          font-weight: 600;
-        }
-        .session-reset {
-          margin-left: 15px;
-          margin-right: 30px;
-          cursor: pointer;
-        }
-      }
       .asm-logout {
         cursor: pointer;
       }
@@ -383,16 +369,6 @@ cx-asm-main-ui {
       &-branding {
         .asm-title {
           display: none;
-        }
-      }
-      &-actions {
-        .asm-timer {
-          .session-label {
-            display: none;
-          }
-          .session-reset {
-            margin-right: 10px;
-          }
         }
       }
     }
