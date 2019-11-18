@@ -169,7 +169,6 @@ describe('OrderDetailItemsComponent', () => {
 
   describe('when order has applied promotions and applied promotions are defined', () => {
     it('should contain applied promotion', () => {
-
       const expectedResult: PromotionResult[] = [
         {
           consumedEntries: [
