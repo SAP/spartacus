@@ -28,10 +28,6 @@ export class WishListService {
     );
   }
 
-  getWishListId(): Observable<string> {
-    return this.store.pipe(select(MultiCartSelectors.getWishListId));
-  }
-
   getWishList(): Observable<Cart> {
     return this.getWishListId().pipe(
       distinctUntilChanged(),
@@ -101,5 +97,9 @@ export class WishListService {
           })
         )
       );
+  }
+
+  protected getWishListId(): Observable<string> {
+    return this.store.pipe(select(MultiCartSelectors.getWishListId));
   }
 }

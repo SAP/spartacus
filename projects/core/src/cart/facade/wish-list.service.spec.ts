@@ -81,7 +81,7 @@ describe('WishListService', () => {
   describe('getWishListId', () => {
     it('should return wish list id', done => {
       let result;
-      service.getWishListId().subscribe(id => {
+      service['getWishListId']().subscribe(id => {
         result = id;
       });
 
