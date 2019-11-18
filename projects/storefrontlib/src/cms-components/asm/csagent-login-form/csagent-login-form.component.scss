@@ -1,4 +1,7 @@
 cx-csagent-login-form {
+  form {
+    display: flex;
+  }
   button[type='submit'] {
     color: #fff;
     border-color: #0a6ed1;
@@ -6,5 +9,9 @@ cx-csagent-login-form {
     &:hover {
       background-color: #085caf;
     }
+  }
+
+  label:nth-child(2) {
+    margin: 0 8px;
   }
 }

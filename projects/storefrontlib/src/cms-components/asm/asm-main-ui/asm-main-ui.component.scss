@@ -1,4 +1,6 @@
 cx-asm-main-ui {
+  font-family: Arial, sans-serif;
+
   height: 150px;
   overflow: hidden;
   width: 100%;
@@ -39,14 +41,14 @@ cx-asm-main-ui {
     display: none;
   }
 
-  form {
-    width: 100%;
-  }
+  // form {
+  //   width: 100%;
+  // }
 
-  label,
-  input {
-    margin-bottom: 0;
-  }
+  // label,
+  // input {
+  //   margin-bottom: 0;
+  // }
 
   cx-csagent-login-form,
   cx-customer-selection,
@@ -100,20 +102,6 @@ cx-asm-main-ui {
     }
   }
 
-  // Container and columns
-  .asm-container {
-    display: flex;
-    margin-bottom: 12px;
-    width: 100%;
-    flex-direction: row;
-
-    .col-short,
-    .col-long {
-      margin-right: 8px;
-      margin-bottom: 12px;
-    }
-  }
-
   // Top Bar
   .asm-bar {
     line-height: 1.42857;
@@ -158,28 +146,20 @@ cx-asm-main-ui {
   }
 
   // Input styles
-  input[type='text'],
-  input[type='password'] {
-    font-family: Arial, sans-serif;
+  input {
     font-size: 14px;
     font-weight: 400;
     line-height: 1.42857;
     appearance: none;
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     outline: 0;
     border: 1px solid #89919a;
     color: #32363a;
     background-color: #fff;
     border-radius: 4px;
-    -webkit-transition: border-color 125ms;
     transition: border-color 125ms;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 0 12px;
     height: 36px;
-    width: 100%;
 
     &:focus {
       -webkit-box-shadow: 0 0 0 1px #fafafa;
@@ -297,15 +277,6 @@ cx-asm-main-ui {
       }
     }
 
-    .asm-container {
-      flex-direction: column;
-
-      .col-short,
-      .col-long {
-        width: 100%;
-      }
-    }
-
     .asm-results {
       width: 88%;
       overflow: hidden;
@@ -352,15 +323,6 @@ cx-asm-main-ui {
         }
       }
     }
-
-    .asm-container {
-      .col-long {
-        width: 360px;
-      }
-      .col-short {
-        width: 135px;
-      }
-    }
   }
 
   // Extra large devices (large desktops, 1200px and up)
@@ -374,12 +336,6 @@ cx-asm-main-ui {
           width: 40%;
           display: inline-block;
         }
-      }
-    }
-
-    .asm-container {
-      .col-long {
-        width: 516px;
       }
     }
   }

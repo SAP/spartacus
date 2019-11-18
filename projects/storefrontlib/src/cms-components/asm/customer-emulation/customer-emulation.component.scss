@@ -1,5 +1,10 @@
 cx-customer-emulation {
+  input {
+    width: 375px;
+  }
   button {
+    margin: 0 8px;
+
     padding-left: 35px;
     color: #bb0000;
     border-color: #bb0000;
