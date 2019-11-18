@@ -39,9 +39,6 @@ if (!environment.production) {
           legacy: false,
         },
       },
-      pwa: {
-        enabled: false,
-      },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: [
