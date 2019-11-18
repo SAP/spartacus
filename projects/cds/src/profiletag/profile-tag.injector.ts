@@ -42,7 +42,7 @@ export class ProfileTagInjector {
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
-  track(): Observable<Boolean> {
+  track(): Observable<boolean> {
     return this.addTracker().pipe(
       filter(profileTagEvent => profileTagEvent.eventName === 'Loaded'),
       switchMap(_ => this.tracking$),

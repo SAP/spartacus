@@ -9,6 +9,6 @@ import { ProfileTagInjector } from '../../profiletag/profile-tag.injector';
   `,
 })
 export class ProfileTagComponent {
-  profileTagEnabled$: Observable<Boolean> = this.profileTagInjector.track();
+  profileTagEnabled$: Observable<boolean> = this.profileTagInjector.track();
   constructor(private profileTagInjector: ProfileTagInjector) {}
 }
