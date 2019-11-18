@@ -167,7 +167,9 @@ export function selectShippingAddress() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
-  cy.get('button.btn-primary').click();
+  cy.get('button.cx-btn')
+    .contains('Continue')
+    .click({ force: true });
   cy.wait('@getdeliveryPage');
 }
 
@@ -177,7 +179,7 @@ export function selectDeliveryMethod() {
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('h3.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage');
