@@ -99,9 +99,6 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
-  isConfigurationReady(): Observable<boolean> {
-    return of(true);
-  }
 }
 
 describe('ConfigPreviousNextButtonsComponent', () => {

@@ -25,13 +25,6 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  isConfigurationReady(productCode: string): Observable<boolean> {
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationStateFactory(productCode)),
-      map(state => !state.loading)
-    );
-  }
-
   hasConfiguration(productCode: string): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
