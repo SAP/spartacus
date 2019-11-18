@@ -103,24 +103,26 @@ describe('ReturnOrderConfirmationComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let order: Order;
-    component.order$.subscribe(value => (order = value)).unsubscribe();
-    expect(order).toEqual(mockOrder);
+    let returnedEntries: OrderEntry[];
+    component.returnedEntries$
+      .subscribe(value => (returnedEntries = value))
+      .unsubscribe();
+
     expect(component.orderCode).toEqual('1');
 
-    expect(component.returnedEntries[0].entryNumber).toEqual(0);
-    expect(component.returnedEntries[0].returnedQuantity).toEqual(1);
-    expect(component.returnedEntries[0].returnedItemsPrice.value).toEqual(10.0);
-    expect(
-      component.returnedEntries[0].returnedItemsPrice.formattedValue
-    ).toEqual('$10.00');
+    expect(returnedEntries[0].entryNumber).toEqual(0);
+    expect(returnedEntries[0].returnedQuantity).toEqual(1);
+    expect(returnedEntries[0].returnedItemsPrice.value).toEqual(10.0);
+    expect(returnedEntries[0].returnedItemsPrice.formattedValue).toEqual(
+      '$10.00'
+    );
 
-    expect(component.returnedEntries[1].entryNumber).toEqual(3);
-    expect(component.returnedEntries[1].returnedQuantity).toEqual(2);
-    expect(component.returnedEntries[1].returnedItemsPrice.value).toEqual(60.0);
-    expect(
-      component.returnedEntries[1].returnedItemsPrice.formattedValue
-    ).toEqual('$60.00');
+    expect(returnedEntries[1].entryNumber).toEqual(3);
+    expect(returnedEntries[1].returnedQuantity).toEqual(2);
+    expect(returnedEntries[1].returnedItemsPrice.value).toEqual(60.0);
+    expect(returnedEntries[1].returnedItemsPrice.formattedValue).toEqual(
+      '$60.00'
+    );
   });
 
   it('should be able to submit', () => {

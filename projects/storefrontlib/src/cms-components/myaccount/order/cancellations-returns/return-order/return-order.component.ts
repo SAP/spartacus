@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
+import { tap, filter, map } from 'rxjs/operators';
 
 import {
-  Order,
   OrderEntry,
   CancellationReturnRequestEntryInput,
   RoutingService,
@@ -21,21 +20,21 @@ export class ReturnOrderComponent implements OnInit {
     protected routing: RoutingService
   ) {}
 
-  order$: Observable<Order>;
-  returnableEntries: OrderEntry[] = [];
+  returnableEntries$: Observable<OrderEntry[]>;
   orderCode: string;
 
   ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails().pipe(
+    this.returnableEntries$ = this.orderDetailsService.getOrderDetails().pipe(
       filter(order => Boolean(order.entries)),
-      tap(order => {
-        this.orderCode = order.code;
-        this.returnableEntries = [];
+      tap(order => (this.orderCode = order.code)),
+      map(order => {
+        const returnableEntries = [];
         order.entries.forEach(entry => {
           if (entry.entryNumber !== -1 && entry.returnableQuantity > 0) {
-            this.returnableEntries.push(entry);
+            returnableEntries.push(entry);
           }
         });
+        return returnableEntries;
       })
     );
   }

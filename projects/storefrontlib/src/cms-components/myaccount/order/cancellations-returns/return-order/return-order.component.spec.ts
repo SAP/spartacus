@@ -90,15 +90,14 @@ describe('ReturnOrderComponent', () => {
 
   it('should initialize', () => {
     fixture.detectChanges();
-    let order: Order;
-    component.order$
+    let returnableEntries: OrderEntry[];
+    component.returnableEntries$
       .subscribe(value => {
-        order = value;
+        returnableEntries = value;
       })
       .unsubscribe();
-    expect(order).toEqual(mockOrder);
     expect(component.orderCode).toEqual('1');
-    expect(component.returnableEntries).toEqual([
+    expect(returnableEntries).toEqual([
       { entryNumber: 0, returnableQuantity: 1 },
       { entryNumber: 3, returnableQuantity: 5 },
     ]);

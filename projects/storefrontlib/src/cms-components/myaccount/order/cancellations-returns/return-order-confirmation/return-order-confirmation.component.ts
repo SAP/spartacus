@@ -3,7 +3,6 @@ import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { Observable, combineLatest } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import {
-  Order,
   OrderEntry,
   CancellationReturnRequestEntryInput,
   RoutingService,
@@ -23,8 +22,7 @@ export class ReturnOrderConfirmationComponent implements OnInit {
     protected languageService: LanguageService
   ) {}
 
-  order$: Observable<Order>;
-  returnedEntries: OrderEntry[] = [];
+  returnedEntries$: Observable<OrderEntry[]>;
   orderCode: string;
 
   lang = 'en';
@@ -33,7 +31,7 @@ export class ReturnOrderConfirmationComponent implements OnInit {
   ngOnInit() {
     this.returnRequestEntryInput = this.orderDetailsService.cancellationReturnRequestInputs;
 
-    this.order$ = combineLatest([
+    this.returnedEntries$ = combineLatest([
       this.orderDetailsService.getOrderDetails(),
       this.languageService.getActive(),
     ]).pipe(
@@ -41,21 +39,22 @@ export class ReturnOrderConfirmationComponent implements OnInit {
       tap(([order, lang]) => {
         this.lang = lang;
         this.orderCode = order.code;
-
-        this.returnedEntries = [];
+      }),
+      map(([order]) => {
+        const returnedEntries = [];
         order.entries.forEach(entry => {
           const returnedQty = this.getEntryReturnedQty(entry);
           if (returnedQty > 0) {
             const copiedEntry = Object.assign({}, entry, {
               returnedItemsPrice: null,
-              returnedQuantity: 0,
+              returnedQuantity: returnedQty,
             });
             this.setReturnedEntryPrice(returnedQty, copiedEntry);
-            this.returnedEntries.push(copiedEntry);
+            returnedEntries.push(copiedEntry);
           }
         });
-      }),
-      map(([order]) => order)
+        return returnedEntries;
+      })
     );
   }
 
@@ -86,7 +85,6 @@ export class ReturnOrderConfirmationComponent implements OnInit {
     );
 
     entry.returnedItemsPrice = returnedItemsPriceData;
-    entry.returnedQuantity = qty;
   }
 
   submit() {
