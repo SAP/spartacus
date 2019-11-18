@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CmsService } from '@spartacus/core';
+import { CmsService, Page } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { SkipLink, SkipLinkConfig } from './config/index';
@@ -8,13 +8,11 @@ import { SkipLink, SkipLinkConfig } from './config/index';
   providedIn: 'root',
 })
 export class SkipLinkService {
-  // TODO: not the best structure yet
-  // we need to add/remove skippers based on the page or the existence of the elements on the page
   skippers = new BehaviorSubject([]);
 
   private lastPageTemplate$ = this.cms.getCurrentPage().pipe(
     filter(p => !!p),
-    map(p => p.template),
+    map(p => p),
     distinctUntilChanged()
   );
 
@@ -22,7 +20,8 @@ export class SkipLinkService {
     this.lastPageTemplate$
       .pipe(
         tap(_template => {
-          // TODO: cleanup skipppers that do not belong to current template
+          this.removeInvalidSkippers(_template);
+          this.hideExcludedSkippers(_template);
         })
       )
       .subscribe();
@@ -44,5 +43,35 @@ export class SkipLinkService {
       });
       this.skippers.next(existing);
     }
+  }
+
+  removeInvalidSkippers(page: Page) {
+    let existing = this.skippers.value;
+    const pageSlotKeys = Object.keys(page.slots);
+
+    existing.forEach(skipLink => {
+      const targetSlotClass = skipLink.target.classList[0];
+
+      if (!pageSlotKeys.includes(targetSlotClass)) {
+        existing = existing.filter(link => link !== skipLink);
+      }
+    });
+
+    this.skippers.next(existing);
+  }
+
+  hideExcludedSkippers(page: Page) {
+    const existing = this.skippers.value;
+    const template = page.name;
+
+    existing.forEach(skipLink => {
+      const targetSlotClass = skipLink.target.classList[0];
+      const targetSlotConfig = this.config.skipLinks.find(
+        linkConfig => linkConfig.slot === targetSlotClass
+      );
+      skipLink.hidden =
+        targetSlotConfig.excludeOnTemplate &&
+        targetSlotConfig.excludeOnTemplate.includes(template);
+    });
   }
 }

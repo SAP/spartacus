@@ -10,10 +10,7 @@ export const defaultSkipLinkConfig: SkipLinkConfig = {
       slot: 'BottomHeaderSlot',
       position: SkipLinkScrollPosition.AFTER,
       i18nKey: 'groupSkipper.titles.main',
-    },
-    {
-      slot: 'Footer',
-      i18nKey: 'groupSkipper.titles.footer',
+      excludeOnTemplate: ['Product List'],
     },
     {
       slot: 'ProductLeftRefinements',
@@ -22,6 +19,10 @@ export const defaultSkipLinkConfig: SkipLinkConfig = {
     {
       slot: 'ProductListSlot',
       i18nKey: 'groupSkipper.titles.productList',
+    },
+    {
+      slot: 'Footer',
+      i18nKey: 'groupSkipper.titles.footer',
     },
   ],
 };

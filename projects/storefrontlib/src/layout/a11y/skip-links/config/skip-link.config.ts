@@ -7,6 +7,7 @@ export abstract class SkipLink {
   i18nKey: string;
   slot?: string;
   position?: SkipLinkScrollPosition;
+  excludeOnTemplate?: string[];
 }
 
 export enum SkipLinkScrollPosition {

@@ -4,5 +4,3 @@ export * from './header/index';
 export * from './layout.module';
 export * from './main/main.module';
 export * from './main/storefront.component';
-export * from './visibility/visibility.service';
-
