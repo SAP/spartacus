@@ -9,7 +9,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../auth';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Cart, OrderEntry } from '../../model/index';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
