@@ -89,7 +89,8 @@ export class WishListService {
             this.loadWishList(userId);
           }
         }),
-        filter(([wishListId]) => Boolean(wishListId))
+        filter(([wishListId]) => Boolean(wishListId)),
+        take(1)
       )
       .subscribe(([wishListId, userId]) =>
         this.store.dispatch(
