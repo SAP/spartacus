@@ -1,6 +1,7 @@
 cx-customer-emulation {
+  display: flex;
   input {
-    width: 375px;
+    flex: 1;
   }
   button {
     margin: 0 8px;

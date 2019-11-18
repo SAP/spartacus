@@ -74,62 +74,6 @@ cx-asm-main-ui {
     display: none;
   }
 
-  // form {
-  //   width: 100%;
-  // }
-
-  // label,
-  // input {
-  //   margin-bottom: 0;
-  // }
-
-  cx-csagent-login-form,
-  cx-customer-selection,
-  cx-customer-emulation {
-    padding: 2rem 2rem 1rem;
-    width: 100%;
-    display: flex;
-  }
-
-  // cx-csagent-login-form {
-  //   .spinner {
-  //     margin-top: 50px;
-  //     background-color: #f1f4f5;
-  //     height: 100px;
-  //   }
-  // }
-
-  cx-customer-selection {
-    .asm-results {
-      border: solid 1px #89919a;
-      position: absolute;
-      white-space: nowrap;
-      z-index: 11;
-      -webkit-box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
-      box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
-      background-color: #fff;
-      border-radius: 4px;
-      -webkit-transition: all 125ms;
-      transition: all 125ms;
-      -webkit-transform: translateY(0);
-      transform: translateY(0);
-      font-size: 14px;
-      padding: 4px 0;
-      min-height: 50px;
-
-      a {
-        color: #51555a;
-        display: block;
-        cursor: pointer;
-        padding: 10px;
-        &:hover {
-          color: #32363a;
-          background-color: #fafafa;
-        }
-      }
-    }
-  }
-
   // Top Bar
   .asm-bar {
     line-height: 1.42857;
@@ -170,6 +114,16 @@ cx-asm-main-ui {
       display: flex;
       justify-content: flex-end;
       align-items: center;
+    }
+  }
+
+  > *:nth-child(2) {
+    margin: 2rem;
+    display: flex;
+
+    width: calc(100vw - 4rem);
+    @media (min-width: 767px) {
+      width: 50vw;
     }
   }
 
@@ -225,38 +179,6 @@ cx-asm-main-ui {
   @media (max-width: 575px) {
     height: 230px;
 
-    cx-customer-selection,
-    cx-customer-emulation {
-      padding-left: 6%;
-      padding-top: 45px;
-    }
-
-    cx-csagent-login-form {
-      padding-left: 6%;
-      padding-top: 20px;
-      .asm-spinner {
-        height: 180px;
-      }
-    }
-
-    .asm-results {
-      width: 88%;
-      overflow: hidden;
-      top: 130px;
-      a {
-        .result-name,
-        .result-id {
-          width: 100%;
-          display: block;
-          clear: both;
-        }
-      }
-    }
-
-    .asm-button {
-      width: 100%;
-    }
-
     .asm-bar {
       &-branding {
         .asm-title {
@@ -267,38 +189,6 @@ cx-asm-main-ui {
 
     .asm-alert {
       margin-top: 30px;
-    }
-  }
-
-  // Small devices (landscape phones, 576px and up)
-  @media (min-width: 576px) and (max-width: 767px) {
-    height: auto;
-
-    .asm-results {
-      width: 360px;
-      top: 117px;
-      a {
-        .result-name,
-        .result-id {
-          width: 40%;
-          display: inline-block;
-        }
-      }
-    }
-  }
-
-  // Extra large devices (large desktops, 1200px and up)
-  @media (min-width: 768px) {
-    .asm-results {
-      width: 516px;
-      top: 117px;
-      a {
-        .result-name,
-        .result-id {
-          width: 40%;
-          display: inline-block;
-        }
-      }
     }
   }
 }

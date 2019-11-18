@@ -2,7 +2,7 @@ cx-customer-selection {
   button[type='submit'] {
     border-color: #0a7e3e;
 
-    margin: 0 8px;
+    margin-inline-start: 8px;
 
     color: #fff;
     padding-left: 35px;
@@ -10,12 +10,56 @@ cx-customer-selection {
       no-repeat 10px center #0a7e3e;
   }
 
-  input {
-    width: 375px;
+  form {
+    width: calc(100vw - 4rem);
+    @media (min-width: 767px) {
+      width: 50vw;
+    }
+    display: flex;
+    input {
+      flex: 1;
+    }
   }
 
   .spinner {
     height: 42px;
     align-items: center;
+  }
+
+  .asm-results {
+    width: calc(100vw - 4rem);
+    @media (min-width: 767px) {
+      width: 50vw;
+    }
+
+    border: solid 1px #89919a;
+    position: absolute;
+    z-index: 11;
+
+    margin-top: 40px;
+
+    box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
+    background-color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    min-height: 50px;
+
+    a {
+      color: #51555a;
+      display: flex;
+      flex-direction: column;
+      @media (min-width: 767px) {
+        flex-direction: row;
+      }
+      cursor: pointer;
+      padding: 10px;
+      * {
+        flex: 1;
+      }
+      &:hover {
+        color: #32363a;
+        background-color: #fafafa;
+      }
+    }
   }
 }
