@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Order, Consignment, OrderEntry } from '@spartacus/core';
+import { Order, Consignment, OrderEntry, PromotionResult } from '@spartacus/core';
 
 import { OrderDetailsService } from '../order-details.service';
 
@@ -25,5 +25,13 @@ export class OrderDetailItemsComponent implements OnInit {
     });
 
     return products;
+  }
+
+  getAppliedPromotionsForOrder(order: Order): PromotionResult[] {
+    const appliedPromotions = [];
+    appliedPromotions.push(...(order.appliedOrderPromotions || []));
+    appliedPromotions.push(...(order.appliedProductPromotions || []));
+
+    return [...appliedPromotions];
   }
 }

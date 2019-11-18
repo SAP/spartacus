@@ -5,7 +5,7 @@ import {
   Consignment,
   FeaturesConfig,
   FeaturesConfigModule,
-  I18nTestingModule,
+  I18nTestingModule ,
   Order,
   PromotionResult,
 } from '@spartacus/core';
@@ -77,7 +77,7 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  potentialProductPromotions: PromotionResult[] = [];
+  appliedProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
 }
@@ -151,5 +151,37 @@ describe('OrderDetailItemsComponent', () => {
   it('should order details item be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
+  });
+
+  describe('when order has applied promotions and applied promotions are defined', () => {
+    it('should have two consumedEntries', () => {
+      const mockedOrder: Order = {
+        guid: '1',
+        appliedOrderPromotions: [
+          {
+            consumedEntries: [
+              {
+                orderEntryNumber: 2,
+              },
+            ],
+            description: 'test applied order promotion',
+          },
+        ],
+      };
+
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test applied order promotion',
+        },
+      ];
+
+      const promotions = component.getAppliedPromotionsForOrder(mockedOrder);
+      expect(promotions).toEqual(expectedResult);
+    });
   });
 });
