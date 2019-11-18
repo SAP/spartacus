@@ -10,9 +10,7 @@ export const DEFAULT_CDS_CONFIG: CdsConfig = {
     profileTag: {
       javascriptUrl:
         'https://tag.static.us.context.cloud.sap/js/profile-tag.js',
-      configUrl: undefined,
       allowInsecureCookies: false,
-      gtmId: undefined,
     },
   },
 };
