@@ -40,6 +40,20 @@ class MockCheckoutService {
   }
 }
 
+const mockedOrder: Order = {
+  guid: '1',
+  appliedOrderPromotions: [
+    {
+      consumedEntries: [
+        {
+          orderEntryNumber: 2,
+        },
+      ],
+      description: 'test applied order promotion',
+    },
+  ],
+};
+
 describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
   let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
@@ -73,21 +87,7 @@ describe('OrderConfirmationItemsComponent', () => {
   });
 
   describe('when order has applied promotions and applied promotions are defined', () => {
-    it('should have two consumedEntries', () => {
-      const mockedOrder: Order = {
-        guid: '1',
-        appliedOrderPromotions: [
-          {
-            consumedEntries: [
-              {
-                orderEntryNumber: 2,
-              },
-            ],
-            description: 'test applied order promotion',
-          },
-        ],
-      };
-
+    it('should contain applied promotion', () => {
       const expectedResult: PromotionResult[] = [
         {
           consumedEntries: [

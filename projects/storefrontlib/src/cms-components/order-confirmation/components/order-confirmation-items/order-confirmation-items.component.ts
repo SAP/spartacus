@@ -30,6 +30,6 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
     appliedPromotions.push(...(order.appliedOrderPromotions || []));
     appliedPromotions.push(...(order.appliedProductPromotions || []));
 
-    return [...appliedPromotions];
+    return appliedPromotions;
   }
 }

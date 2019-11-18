@@ -37,6 +37,6 @@ export class OrderDetailItemsComponent implements OnInit {
     appliedPromotions.push(...(order.appliedOrderPromotions || []));
     appliedPromotions.push(...(order.appliedProductPromotions || []));
 
-    return [...appliedPromotions];
+    return appliedPromotions;
   }
 }

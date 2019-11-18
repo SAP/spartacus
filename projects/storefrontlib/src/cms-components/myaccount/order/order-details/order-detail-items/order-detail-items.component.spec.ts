@@ -93,6 +93,20 @@ class MockConsignmentTrackingComponent {
   orderCode: string;
 }
 
+const mockedOrder: Order = {
+  guid: '1',
+  appliedOrderPromotions: [
+    {
+      consumedEntries: [
+        {
+          orderEntryNumber: 2,
+        },
+      ],
+      description: 'test applied order promotion',
+    },
+  ],
+};
+
 describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
@@ -154,20 +168,7 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   describe('when order has applied promotions and applied promotions are defined', () => {
-    it('should have two consumedEntries', () => {
-      const mockedOrder: Order = {
-        guid: '1',
-        appliedOrderPromotions: [
-          {
-            consumedEntries: [
-              {
-                orderEntryNumber: 2,
-              },
-            ],
-            description: 'test applied order promotion',
-          },
-        ],
-      };
+    it('should contain applied promotion', () => {
 
       const expectedResult: PromotionResult[] = [
         {
