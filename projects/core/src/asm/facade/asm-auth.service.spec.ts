@@ -63,7 +63,7 @@ describe('AsmAuthService', () => {
   it('should dispatch proper action for authorizeCustomerSupporAgent', () => {
     spyOn(store, 'dispatch').and.stub();
 
-    service.authorizeCustomerSupporAgent('user', 'password');
+    service.authorizeCustomerSupportAgent('user', 'password');
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.LoadCustomerSupportAgentToken({
         userId: 'user',

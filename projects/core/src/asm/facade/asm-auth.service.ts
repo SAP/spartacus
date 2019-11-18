@@ -22,7 +22,7 @@ export class AsmAuthService {
    * @param userId
    * @param password
    */
-  authorizeCustomerSupporAgent(userId: string, password: string): void {
+  authorizeCustomerSupportAgent(userId: string, password: string): void {
     this.store.dispatch(
       new AsmActions.LoadCustomerSupportAgentToken({
         userId: userId,

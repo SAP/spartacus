@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Provider } from '@angular/core';
 import { CustomerSupportAgentTokenInterceptor } from './csagent-token.interceptor';
-import { CsagentAuthErrorInterceptor } from './csagent-auth-error.interceptor';
+import { CustomerSupportAgentAuthErrorInterceptor } from './csagent-auth-error.interceptor';
 
 export const interceptors: Provider[] = [
   {
@@ -11,7 +11,7 @@ export const interceptors: Provider[] = [
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useExisting: CsagentAuthErrorInterceptor,
+    useExisting: CustomerSupportAgentAuthErrorInterceptor,
     multi: true,
   },
 ];

@@ -69,7 +69,7 @@ export class AsmMainUiComponent implements OnInit {
     userId: string;
     password: string;
   }): void {
-    this.asmAuthService.authorizeCustomerSupporAgent(userId, password);
+    this.asmAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
   logout(): void {

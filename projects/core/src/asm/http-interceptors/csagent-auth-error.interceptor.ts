@@ -15,7 +15,8 @@ import {
 import { CustomerSupportAgentErrorHandlingService } from '../../asm/services/csagent-error-handling.service';
 
 @Injectable({ providedIn: 'root' })
-export class CsagentAuthErrorInterceptor implements HttpInterceptor {
+export class CustomerSupportAgentAuthErrorInterceptor
+  implements HttpInterceptor {
   constructor(
     private csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService
   ) {}

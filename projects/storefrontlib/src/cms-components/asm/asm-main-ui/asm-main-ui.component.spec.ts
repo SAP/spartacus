@@ -35,7 +35,7 @@ class MockAuthService {
 }
 
 class MockAsmAuthService {
-  authorizeCustomerSupporAgent(): void {}
+  authorizeCustomerSupportAgent(): void {}
   logoutCustomerSupportAgent(): void {}
   getCustomerSupportAgentToken(): Observable<UserToken> {
     return of({} as UserToken);
@@ -149,12 +149,12 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should call authorizeCustomerSupporAgent() on agent login form submit', () => {
-    spyOn(asmAuthService, 'authorizeCustomerSupporAgent').and.stub();
+    spyOn(asmAuthService, 'authorizeCustomerSupportAgent').and.stub();
 
     const userId = 'asagent';
     const password = 'password';
     component.loginCustomerSupportAgent({ userId, password });
-    expect(asmAuthService.authorizeCustomerSupporAgent).toHaveBeenCalledWith(
+    expect(asmAuthService.authorizeCustomerSupportAgent).toHaveBeenCalledWith(
       userId,
       password
     );

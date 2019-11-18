@@ -10,7 +10,7 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { USE_CUSTOMER_SUPPORT_AGENT_TOKEN } from '../../occ/utils/interceptor-util';
-import { CsagentAuthErrorInterceptor } from './csagent-auth-error.interceptor';
+import { CustomerSupportAgentAuthErrorInterceptor } from './csagent-auth-error.interceptor';
 import { Type } from '@angular/core';
 import { CustomerSupportAgentErrorHandlingService } from '../services/index';
 
@@ -32,7 +32,7 @@ describe('AuthErrorInterceptor', () => {
         },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: CsagentAuthErrorInterceptor,
+          useClass: CustomerSupportAgentAuthErrorInterceptor,
           multi: true,
         },
       ],
