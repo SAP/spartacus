@@ -1,8 +1,10 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
 import { MerchandisingCarouselModule } from './cms-components/merchandising/carousel/merchandising-carousel/merchandising-carousel.module';
 import { cdsConfigValidator } from './config';
 import { CdsConfig } from './config/cds-config';
+import { CDSInterceptor } from './http-interceptors/cds-interceptor';
 import { CdsMerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,
@@ -36,6 +38,11 @@ export class CdsModule {
         {
           provide: MERCHANDISING_PRODUCT_NORMALIZER,
           useExisting: MerchandisingProductNormalizer,
+          multi: true,
+        },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: CDSInterceptor,
           multi: true,
         },
       ],

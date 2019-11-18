@@ -7,11 +7,18 @@ import {
   BaseSiteService,
   WindowRef,
 } from '@spartacus/core';
-import { fromEventPattern, merge, Observable } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, fromEventPattern, merge, Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CdsConfig } from '../config/cds-config';
 import {
   ProfileTagEvent,
+  ProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
 } from './profile-tag.model';
@@ -23,6 +30,7 @@ export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
   private tracking$: Observable<AnonymousConsent | NgRouterEvent>;
+  public consentReference$ = new BehaviorSubject<string>(null);
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -42,7 +50,16 @@ export class ProfileTagInjector {
 
   track(): Observable<AnonymousConsent | NgRouterEvent> {
     return this.addTracker().pipe(
-      filter(profileTagEvent => profileTagEvent.eventName === 'Loaded'),
+      tap(event => {
+        console.log(`catching event ${JSON.stringify(event)}`);
+        if (event.eventName === ProfileTagEventNames.ConsentReferenceChanged) {
+          this.consentReference$.next(event.data.consentReference);
+        }
+      }),
+      filter(
+        profileTagEvent =>
+          profileTagEvent.eventName === ProfileTagEventNames.Loaded
+      ), //TO DO: what happens if 'Loaded' is triggered twice?
       switchMap(() => {
         return this.tracking$;
       })
@@ -83,8 +100,9 @@ export class ProfileTagInjector {
   private addTracker(): Observable<ProfileTagEvent> {
     return this.baseSiteService.getActive().pipe(
       filter(_ => isPlatformBrowser(this.platform)),
-      tap(_ => this.addScript()),
       filter((siteId: string) => Boolean(siteId)),
+      distinctUntilChanged(),
+      tap(_ => this.addScript()),
       switchMap((siteId: string) => {
         return this.profileTagEventReceiver(siteId);
       })
@@ -112,6 +130,7 @@ export class ProfileTagInjector {
   }
 
   private addScript(): void {
+    console.log(`adding script`);
     const profileTagScript = this.winRef.document.createElement('script');
     profileTagScript.type = 'text/javascript';
     profileTagScript.async = true;
