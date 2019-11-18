@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
   InterceptorUtil,
@@ -40,6 +40,7 @@ export class CsagentAuthErrorInterceptor implements HttpInterceptor {
           // Unauthorized
           if (isCustomerSupportAgentRequest && errResponse.status === 401) {
             this.csagentErrorHandlingService.terminateCustomerSupportAgentExpiredSession();
+            return of(undefined as any);
           }
         }
         return throwError(errResponse);
