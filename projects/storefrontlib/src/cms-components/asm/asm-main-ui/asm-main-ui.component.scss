@@ -1,10 +1,9 @@
 cx-asm-main-ui {
   font-family: Arial, sans-serif;
 
-  height: 150px;
-  overflow: hidden;
   width: 100%;
-  display: block;
+  display: flex;
+  flex-direction: column;
 
   .close,
   .logout {
@@ -76,37 +75,25 @@ cx-asm-main-ui {
 
   // Top Bar
   .asm-bar {
-    line-height: 1.42857;
     color: #fff;
-    font-family: Arial, sans-serif;
     background-color: #354a5f;
     height: 48px;
     display: flex;
     padding: 0 32px;
     justify-content: space-between;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    position: relative; //makes z-index kick-in
     z-index: 1;
 
     &-branding {
       display: flex;
-      justify-content: flex-start;
       align-items: center;
 
-      .asm-logo {
-        margin-right: 8px;
+      .logo {
+        margin-inline-end: 8px;
       }
 
       .asm-title {
         font-size: 16px;
         font-weight: 700;
-        line-height: 1;
-        color: #fff;
-        white-space: nowrap;
-        overflow: hidden;
-        max-width: 100%;
-        text-overflow: ellipsis;
       }
     }
 
@@ -118,7 +105,7 @@ cx-asm-main-ui {
   }
 
   > *:nth-child(2) {
-    margin: 2rem;
+    margin: 32px;
     display: flex;
 
     width: calc(100vw - 4rem);
@@ -174,17 +161,10 @@ cx-asm-main-ui {
     text-align: center;
   }
 
-  // Media Queries
   // Extra small devices (portrait phones, less than 576px)
   @media (max-width: 575px) {
-    height: 230px;
-
-    .asm-bar {
-      &-branding {
-        .asm-title {
-          display: none;
-        }
-      }
+    .asm-bar-branding .asm-title {
+      display: none;
     }
 
     .asm-alert {
