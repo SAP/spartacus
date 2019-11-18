@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
-import { MerchandisingCarouselModule } from './cms-components';
+import { MerchandisingCarouselModule } from './cms-components/merchandising/carousel/merchandising-carousel/merchandising-carousel.module';
 import { cdsConfigValidator } from './config';
 import { CdsConfig } from './config/cds-config';
 import { DEFAULT_CDS_CONFIG } from './config/default-cds-config';
