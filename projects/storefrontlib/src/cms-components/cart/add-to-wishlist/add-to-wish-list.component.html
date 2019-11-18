@@ -1,1 +1,13 @@
-<a href="#">{{ 'addToWishList.add' | cxTranslate }}</a>
+<ng-container *ngIf="product$ | async as product">
+  <div *ngIf="wishListEntries$ | async as entries">
+    <div
+    *ngIf="getProductInWishList(product, entries) as entry; else addItem"
+  >
+    <button class="btn btn-link" (click)="remove(entry)">{{ 'addToWishList.remove' | cxTranslate }}</button>
+  </div>
+  <ng-template #addItem>
+    <button class="btn btn-link" (click)="add(product)">{{ 'addToWishList.add' | cxTranslate }}</button>
+  </ng-template>
+</div>
+  </div>
+</ng-container>
