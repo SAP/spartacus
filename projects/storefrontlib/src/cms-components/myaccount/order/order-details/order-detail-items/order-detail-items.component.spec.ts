@@ -5,7 +5,7 @@ import {
   Consignment,
   FeaturesConfig,
   FeaturesConfigModule,
-  I18nTestingModule ,
+  I18nTestingModule,
   Order,
   PromotionResult,
 } from '@spartacus/core';
