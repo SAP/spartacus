@@ -27,10 +27,13 @@
   </button>
 </form>
 
-<div class="asm-spinner" *ngIf="csAgentTokenLoading">
-  <div class="spinner-dots" aria-hidden="false" aria-label="Loading">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+<div
+  *ngIf="csAgentTokenLoading"
+  class="spinner"
+  aria-hidden="false"
+  aria-label="Loading"
+>
+  <div></div>
+  <div></div>
+  <div></div>
 </div>

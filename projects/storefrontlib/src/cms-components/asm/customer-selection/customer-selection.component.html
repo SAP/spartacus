@@ -29,16 +29,11 @@
     >
   </div>
 </div>
-<div *ngIf="searchResultsLoading$ | async" class="asm-results">
-  <div>
-    <a>
-      <div class="asm-spinner">
-        <div class="spinner-dots" aria-hidden="false" aria-label="Loading">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-    </a>
+
+<div class="asm-results" *ngIf="searchResultsLoading$ | async">
+  <div class="spinner" aria-hidden="false" aria-label="Loading">
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 </div>
