@@ -54,7 +54,7 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     this.budgetsList$ = combineLatest([
       this.sortType$,
       this.currentPage$,
-      this.filter$,
+      // this.filter$,
     ]).pipe(
       switchMap(([sort, currentPage]) =>
         this.budgetsService
@@ -185,6 +185,10 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     // return resolveObjectBy(this.sortLabels, text => this.translation.translate(text));
   }
 
+  search(value) {
+    this.filter$.next(value);
+  }
+
   // private fetchBudgets(): void {
   //   this.budgetsService.loadBudgets({
   //     pageSize: this.PAGE_SIZE,
@@ -192,8 +196,4 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   //     sort: this.sortType,
   //   });
   // }
-
-  search(value) {
-    this.filter$.next(value);
-  }
 }
