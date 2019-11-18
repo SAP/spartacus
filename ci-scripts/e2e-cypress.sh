@@ -9,7 +9,7 @@ yarn
 
 echo '-----'
 echo 'Building Spartacus libraries'
-yarn build:core:lib
+yarn build:core:lib:cds
 
 echo '-----'
 echo "Running Cypress end to end tests $SUITE"
