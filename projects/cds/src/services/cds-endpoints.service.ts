@@ -31,11 +31,6 @@ export class CdsEndpointsService {
     });
     endpoint = DynamicTemplate.resolve(endpoint, urlParams);
 
-    console.log(
-      `******DEBUG - CdsEndpointsService - queryParams - ${JSON.stringify(
-        queryParams
-      )}`
-    );
     if (queryParams) {
       let httpParamsOptions;
 

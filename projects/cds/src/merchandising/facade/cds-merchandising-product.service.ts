@@ -20,16 +20,14 @@ export class CdsMerchandisingProductService {
     strategyId: string,
     numberToDisplay?: number
   ): Observable<MerchandisingProducts> {
-    // Logic here to get additional context, i.e. base site, language, etc
-
     return combineLatest([
       this.baseSiteService.getActive(),
       this.languageService.getActive(),
     ]).pipe(
-      map(([baseSite, language]: [string, string]) => {
+      map(([site, language]: [string, string]) => {
         const strategyRequest: StrategyRequest = {
-          site: baseSite,
-          language: language,
+          site,
+          language,
           pageSize: numberToDisplay,
         };
         return strategyRequest;
