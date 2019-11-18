@@ -1,3 +1,4 @@
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Event as NgRouterEvent,
@@ -11,7 +12,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig, cdsConfigToken } from '../config/cds-config';
+import { CdsConfig } from '../config/cds-config';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagWindowObject } from './profile-tag.model';
 
@@ -37,12 +38,10 @@ describe('ProfileTagInjector', () => {
   let getActiveBehavior;
   let baseSiteService;
   let appendChildSpy;
-  let createElementSpy;
   let getConsentBehavior;
   let isConsentGivenValue;
   let routerEventsBehavior;
   let router;
-  let renderer2Mock;
   let anonymousConsentsService;
   let mockedWindowRef;
   function setVariables() {
@@ -53,10 +52,6 @@ describe('ProfileTagInjector', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
-    renderer2Mock = {
-      appendChild: () => ({}),
-      createElement: () => ({}),
-    };
     anonymousConsentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
@@ -70,23 +65,25 @@ describe('ProfileTagInjector', () => {
           push: jasmine.createSpy('push'),
         },
       },
-      document: {},
+      document: {
+        createElement: () => ({}),
+        getElementsByTagName: () => [{ appendChild: appendChildSpy }],
+      },
     };
     baseSiteService = {
       getActive: () => getActiveBehavior,
     };
-    createElementSpy = spyOn(renderer2Mock, 'createElement').and.callThrough();
-    appendChildSpy = spyOn(renderer2Mock, 'appendChild');
   }
   beforeEach(() => {
     setVariables();
     TestBed.configureTestingModule({
       providers: [
         ProfileTagInjector,
-        { provide: cdsConfigToken, useValue: mockCDSConfig },
+        { provide: CdsConfig, useValue: mockCDSConfig },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: BaseSiteService, useValue: baseSiteService },
         { provide: Router, useValue: router },
+        { provide: PLATFORM_ID, useValue: 'browser' },
         {
           provide: AnonymousConsentsService,
           useValue: anonymousConsentsService,
@@ -103,11 +100,10 @@ describe('ProfileTagInjector', () => {
   });
 
   it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
-    profileTagInjector.addScript(renderer2Mock);
+    profileTagInjector.track();
     const profileTagLoaded$ = profileTagInjector.track();
     profileTagLoaded$.subscribe().unsubscribe();
 
-    expect(createElementSpy).toHaveBeenCalled();
     expect(appendChildSpy).toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.q).not.toBeDefined();

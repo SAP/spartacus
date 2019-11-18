@@ -15,7 +15,7 @@ To enable the cds module in spartacus, add it to the list of imports in your roo
 ```
 @NgModule({
   imports: [
-    CdsModule.withConfig(<CdsConfig>{
+    CdsModule.forRoot(<CdsConfig>{
       cds: {
         tenant: 'my-tenant',
         baseUrl: 'https://api.us.context.cloud.sap)',
