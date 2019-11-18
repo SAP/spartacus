@@ -148,9 +148,9 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   }
 
   getColumns2(): Observable<Array<{ key: string; value: string }>> {
-    return resolveKeyAndValueBy(this.columns, this.translation.translate);
-    // return resolveKeyAndValueBy(this.columns, text => of(text.toUpperCase());
-    // return resolveKeyAndValueBy(this.columns, text => this.translation.translate(text));
+    return resolveKeyAndValueBy(this.columns, this.translation.translate); // errors
+    // return resolveKeyAndValueBy(this.columns, text => of(text.toUpperCase()); // ok
+    // return resolveKeyAndValueBy(this.columns, text => this.translation.translate(text)); // nothing happens
   }
 
   getSortLabels(): Observable<{
@@ -180,9 +180,9 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     byCode: string;
     byValue: string;
   }> {
-    return resolveObjectBy(this.sortLabels, this.translation.translate);
-    // return resolveObjectBy(this.sortLabels, text => of(text.toUpperCase());
-    // return resolveObjectBy(this.sortLabels, text => this.translation.translate(text));
+    return resolveObjectBy(this.sortLabels, this.translation.translate); // errors
+    // return resolveObjectBy(this.sortLabels, text => of(text.toUpperCase()); // ok
+    // return resolveObjectBy(this.sortLabels, text => this.translation.translate(text)); // nothing happens
   }
 
   search(value) {
