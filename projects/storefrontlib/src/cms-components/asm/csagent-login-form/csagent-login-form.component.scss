@@ -1,6 +1,20 @@
 cx-csagent-login-form {
   form {
     display: flex;
+    width: 100%;
+
+    @media (max-width: 575px) {
+      flex-direction: column;
+      > * {
+        margin-bottom: 12px;
+      }
+    }
+
+    label {
+      input {
+        width: 100%;
+      }
+    }
   }
   button[type='submit'] {
     color: #fff;
@@ -10,8 +24,9 @@ cx-csagent-login-form {
       background-color: #085caf;
     }
   }
-
-  label:nth-child(2) {
-    margin: 0 8px;
+  @media (min-width: 575px) {
+    label:nth-child(2) {
+      margin: 0 8px;
+    }
   }
 }
