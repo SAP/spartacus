@@ -1,5 +1,6 @@
 cx-asm-main-ui {
   font-family: Arial, sans-serif;
+  font-size: 14px;
 
   width: 100%;
   display: flex;
@@ -24,7 +25,6 @@ cx-asm-main-ui {
     white-space: nowrap;
     border-radius: 4px;
     height: 36px;
-    font-size: 14px;
     font-weight: 400;
 
     border-style: solid;
@@ -116,7 +116,6 @@ cx-asm-main-ui {
 
   // Input styles
   input {
-    font-size: 14px;
     font-weight: 400;
     line-height: 1.42857;
     appearance: none;
@@ -147,7 +146,6 @@ cx-asm-main-ui {
   //Session-in-progress alert
   .asm-alert {
     display: block;
-    font-size: 14px;
     line-height: 1.42857;
     color: #32363a;
     position: relative;
