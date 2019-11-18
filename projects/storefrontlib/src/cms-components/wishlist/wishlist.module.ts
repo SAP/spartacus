@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { WishlistComponent } from './components/wishlist.component';
+import { WishlistComponent } from './components/wish-list/wishlist.component';
 import { CommonModule } from '@angular/common';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { ProductListModule } from '../product/product-list';

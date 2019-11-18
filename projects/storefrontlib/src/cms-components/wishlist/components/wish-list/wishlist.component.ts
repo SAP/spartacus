@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Cart } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { WishListService } from '../../../../../core/src/cart/facade';
+import { WishListService } from '../../../../../../core/src/cart/facade';
 
 @Component({
   selector: 'cx-wishlist',
