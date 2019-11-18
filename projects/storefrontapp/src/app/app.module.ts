@@ -9,6 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
+import { CdsModule } from '@spartacus/cds';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
@@ -31,7 +32,6 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
@@ -68,9 +68,24 @@ if (!environment.production) {
         anonymousConsents: true,
       },
     }),
+    CdsModule.forRoot({
+      cds: {
+        tenant: 'argotest',
+        baseUrl: 'test',
+        endpoints: {
+          strategyProducts: 'example',
+        },
+        profileTag: {
+          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
+          configUrl:
+            'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
+        },
+      },
+    }),
     JsonLdBuilderModule,
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
+
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
