@@ -1,3 +1,4 @@
+/** we currently do not export all those components and services in the public API */
 export * from './asm-constants';
 export * from './asm-loader.module';
 export * from './asm-main-ui/asm-main-ui.component';
