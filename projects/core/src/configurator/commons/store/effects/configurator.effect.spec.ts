@@ -180,7 +180,7 @@ describe('ConfiguratorEffect', () => {
       const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
-      const updatePrices = new ConfiguratorActions.UpdateConfigurationPrice(
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
         productConfiguration
       );
       const setCurrentGroup = new ConfiguratorUiActions.SetCurrentGroup(

@@ -32,15 +32,15 @@ import {
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeFail,
   UpdateConfigurationFinalizeSuccess,
-  UpdateConfigurationPrice,
-  UpdateConfigurationPriceFail,
-  UpdateConfigurationPriceSuccess,
   UpdateConfigurationSuccess,
+  UpdatePriceSummary,
+  UpdatePriceSummaryFail,
+  UpdatePriceSummarySuccess,
   UPDATE_CONFIGURATION,
   UPDATE_CONFIGURATION_FAIL,
   UPDATE_CONFIGURATION_FINALIZE_FAIL,
-  UPDATE_CONFIGURATION_PRICE,
   UPDATE_CONFIGURATION_SUCCESS,
+  UPDATE_PRICE_SUMMARY,
 } from '../actions/configurator.action';
 import { StateWithConfiguration } from '../configuration-state';
 
@@ -57,7 +57,7 @@ export class ConfiguratorEffects {
         .createConfiguration(productCode)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
-            this.store.dispatch(new UpdateConfigurationPrice(configuration));
+            this.store.dispatch(new UpdatePriceSummary(configuration));
 
             return [new CreateConfigurationSuccess(configuration)];
           }),
@@ -123,28 +123,25 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfigurationPrice$: Observable<
-    UpdateConfigurationPriceSuccess | UpdateConfigurationPriceFail
+    UpdatePriceSummarySuccess | UpdatePriceSummaryFail
   > = this.actions$.pipe(
-    ofType(UPDATE_CONFIGURATION_PRICE),
+    ofType(UPDATE_PRICE_SUMMARY),
     map(
       (action: { type: string; payload?: Configurator.Configuration }) =>
         action.payload
     ),
     mergeMap(payload => {
       return this.configuratorCommonsConnector
-        .readConfigurationPrice(payload.configId)
+        .readPriceSummary(payload.configId)
         .pipe(
           map((configuration: Configurator.Configuration) => {
-            return new UpdateConfigurationPriceSuccess(configuration);
+            return new UpdatePriceSummarySuccess(configuration);
           }),
           catchError(error => {
             const errorPayload = makeErrorSerializable(error);
             errorPayload.configId = payload.configId;
             return [
-              new UpdateConfigurationPriceFail(
-                payload.productCode,
-                errorPayload
-              ),
+              new UpdatePriceSummaryFail(payload.productCode, errorPayload),
             ];
           })
         );
@@ -154,7 +151,7 @@ export class ConfiguratorEffects {
   @Effect()
   updateConfigurationSuccess$: Observable<
     | UpdateConfigurationFinalizeSuccess
-    | UpdateConfigurationPrice
+    | UpdatePriceSummary
     | ConfiguratorUiActions.SetCurrentGroup
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_SUCCESS),
@@ -168,7 +165,7 @@ export class ConfiguratorEffects {
           new UpdateConfigurationFinalizeSuccess(payload),
 
           //When no changes are pending update prices
-          new UpdateConfigurationPrice(payload),
+          new UpdatePriceSummary(payload),
 
           //setCurrentGroup because in cases where a queue of updates exists with a group navigation in between,
           //we need to ensure that the last update determines the current group.

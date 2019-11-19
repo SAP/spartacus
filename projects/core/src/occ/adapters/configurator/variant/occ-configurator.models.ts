@@ -34,7 +34,6 @@ export namespace OccConfigurator {
   export interface PriceDetails {
     currencyIso?: string;
     formattedValue?: string;
-    priceType?: PriceType;
     value?: number;
   }
 
@@ -97,9 +96,5 @@ export namespace OccConfigurator {
     MULTI_SELECTION_IMAGE = 'MULTI_SELECTION_IMAGE',
     READ_ONLY_SINGLE_SELECTION_IMAGE = 'READ_ONLY_SINGLE_SELECTION_IMAGE',
     READ_ONLY_MULTI_SELECTION_IMAGE = 'READ_ONLY_MULTI_SELECTION_IMAGE',
-  }
-
-  export enum PriceType {
-    BUY = 'BUY',
   }
 }

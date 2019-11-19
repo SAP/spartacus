@@ -4,7 +4,7 @@ import { Converter } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable({ providedIn: 'root' })
-export class OccConfiguratorVariantPriceNormalizer
+export class OccConfiguratorVariantPriceSummaryNormalizer
   implements Converter<OccConfigurator.Prices, Configurator.Configuration> {
   constructor() {}
 

@@ -55,7 +55,6 @@ export namespace Configurator {
   export interface PriceDetails {
     currencyIso?: string;
     formattedValue?: string;
-    priceType?: PriceType;
     value?: number;
   }
 
@@ -78,9 +77,5 @@ export namespace Configurator {
     READ_ONLY = 'readonly',
     STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
-  }
-
-  export enum PriceType {
-    BUY = 'BUY',
   }
 }

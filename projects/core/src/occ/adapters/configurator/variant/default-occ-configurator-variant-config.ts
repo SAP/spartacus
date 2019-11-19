@@ -14,7 +14,7 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
           updateConfiguration:
             'products/${productCode}/configurator/cpqconfigurator',
 
-          readConfigurationPrice: '/pricing/${configId}/cpqconfigurator',
+          readPriceSummary: '/pricing/${configId}/cpqconfigurator',
         },
       },
     },

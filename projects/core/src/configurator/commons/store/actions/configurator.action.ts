@@ -24,12 +24,12 @@ export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
 export const CHANGE_GROUP = '[Configurator] Change group';
 export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 
-export const UPDATE_CONFIGURATION_PRICE =
-  '[Configurator] Update Configuration Price';
-export const UPDATE_CONFIGURATION_PRICE_FAIL =
-  '[Configurator] Update Configuration Price fail';
-export const UPDATE_CONFIGURATION_PRICE_SUCCESS =
-  '[Configurator] Update Configuration Price success';
+export const UPDATE_PRICE_SUMMARY =
+  '[Configurator] Update Configuration Summary Price';
+export const UPDATE_PRICE_SUMMARY_FAIL =
+  '[Configurator] Update Configuration Price Summary fail';
+export const UPDATE_PRICE_SUMMARY_SUCCESS =
+  '[Configurator] Update Configuration Price Summary success';
 
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -108,21 +108,21 @@ export class UpdateConfigurationFinalizeFail extends StateEntityLoaderActions.En
   }
 }
 
-export class UpdateConfigurationPrice extends StateEntityLoaderActions.EntityLoadAction {
-  readonly type = UPDATE_CONFIGURATION_PRICE;
+export class UpdatePriceSummary extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = UPDATE_PRICE_SUMMARY;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATION_DATA, payload.productCode);
   }
 }
-export class UpdateConfigurationPriceFail extends StateEntityLoaderActions.EntityFailAction {
-  readonly type = UPDATE_CONFIGURATION_PRICE_FAIL;
+export class UpdatePriceSummaryFail extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = UPDATE_PRICE_SUMMARY_FAIL;
   constructor(productCode: string, public payload: any) {
     super(CONFIGURATION_DATA, productCode, payload);
   }
 }
 
-export class UpdateConfigurationPriceSuccess extends StateEntityLoaderActions.EntitySuccessAction {
-  readonly type = UPDATE_CONFIGURATION_PRICE_SUCCESS;
+export class UpdatePriceSummarySuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = UPDATE_PRICE_SUMMARY_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATION_DATA, payload.productCode);
   }
@@ -154,8 +154,8 @@ export type ConfiguratorAction =
   | UpdateConfigurationSuccess
   | UpdateConfigurationFinalizeFail
   | UpdateConfigurationFinalizeSuccess
-  | UpdateConfigurationPrice
-  | UpdateConfigurationPriceFail
-  | UpdateConfigurationPriceSuccess
+  | UpdatePriceSummary
+  | UpdatePriceSummaryFail
+  | UpdatePriceSummarySuccess
   | ChangeGroup
   | ChangeGroupFinalize;

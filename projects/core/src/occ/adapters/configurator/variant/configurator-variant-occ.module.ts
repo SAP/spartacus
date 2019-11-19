@@ -5,11 +5,11 @@ import { ConfigModule } from '../../../../config/config.module';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
   CONFIGURATION_NORMALIZER,
-  CONFIGURATION_PRICE_NORMALIZER,
+  CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
-import { OccConfiguratorVariantPriceNormalizer } from './converters/occ-configurator-variant-price-normalizer';
+import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
 import { OccConfiguratorVariantSerializer } from './converters/occ-configurator-variant-serializer';
 import { defaultOccVariantConfiguratorConfigFactory } from './default-occ-configurator-variant-config';
 import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapter';
@@ -36,8 +36,8 @@ import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapte
       multi: true,
     },
     {
-      provide: CONFIGURATION_PRICE_NORMALIZER,
-      useExisting: OccConfiguratorVariantPriceNormalizer,
+      provide: CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
+      useExisting: OccConfiguratorVariantPriceSummaryNormalizer,
       multi: true,
     },
   ],

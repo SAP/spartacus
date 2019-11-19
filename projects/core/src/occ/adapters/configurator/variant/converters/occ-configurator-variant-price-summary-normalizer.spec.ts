@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
-import { OccConfiguratorVariantPriceNormalizer } from './occ-configurator-variant-price-normalizer';
+import { OccConfiguratorVariantPriceSummaryNormalizer } from './occ-configurator-variant-price-summary-normalizer';
 
 class MockConverterService {
   convert() {}
@@ -28,29 +28,29 @@ const prices: OccConfigurator.Prices = {
 };
 
 describe('OccConfiguratorVariantNormalizer', () => {
-  let occConfiguratorVariantPriceNormalizer: OccConfiguratorVariantPriceNormalizer;
+  let occConfiguratorVariantPriceSummaryNormalizer: OccConfiguratorVariantPriceSummaryNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OccConfiguratorVariantPriceNormalizer,
+        OccConfiguratorVariantPriceSummaryNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
       ],
     });
 
-    occConfiguratorVariantPriceNormalizer = TestBed.get(
-      OccConfiguratorVariantPriceNormalizer as Type<
-        OccConfiguratorVariantPriceNormalizer
+    occConfiguratorVariantPriceSummaryNormalizer = TestBed.get(
+      OccConfiguratorVariantPriceSummaryNormalizer as Type<
+        OccConfiguratorVariantPriceSummaryNormalizer
       >
     );
   });
 
   it('should be created', () => {
-    expect(occConfiguratorVariantPriceNormalizer).toBeTruthy();
+    expect(occConfiguratorVariantPriceSummaryNormalizer).toBeTruthy();
   });
 
   it('should convert a price to a configuration', () => {
-    const result = occConfiguratorVariantPriceNormalizer.convert(prices);
+    const result = occConfiguratorVariantPriceSummaryNormalizer.convert(prices);
     expect(result.configId).toBe(CONFIG_ID);
     expect(result.priceSummary).toBe(prices.priceSummary);
   });

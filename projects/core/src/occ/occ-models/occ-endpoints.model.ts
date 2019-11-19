@@ -287,7 +287,7 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  readConfigurationPrice?: string;
+  readPriceSummary?: string;
   /**
    * Endpoint for consignment tracking
    *
