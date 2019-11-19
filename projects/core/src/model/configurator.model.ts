@@ -45,7 +45,7 @@ export namespace Configurator {
   }
 
   export enum GroupType {
-    CSTIC_GROUP = 'CSTIC_GROUP',
+    ATTRIBUTE_GROUP = 'AttributeGroup',
   }
 
   export enum UiType {
