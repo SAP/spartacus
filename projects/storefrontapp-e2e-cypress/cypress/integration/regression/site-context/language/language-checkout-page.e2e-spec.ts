@@ -10,9 +10,11 @@ describe('Language switch - checkout page', () => {
   const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then(win => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    });
     cy.requireLoggedIn();
-    cy.visit('/');
     siteContextSelector.doPlaceOrder();
     manipulateCartQuantity();
   });

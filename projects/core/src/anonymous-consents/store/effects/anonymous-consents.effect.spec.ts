@@ -8,33 +8,28 @@ import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  Consent,
   ConsentTemplate,
 } from '../../../model/consent.model';
-import { SiteContextActions } from '../../../site-context/index';
-import { DEFAULT_LOCAL_STORAGE_KEY } from '../../../state/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions';
-import { WindowRef } from '../../../window/index';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
 import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
-import {
-  AnonymousConsentsState,
-  ANONYMOUS_CONSENTS_STORE_FEATURE,
-} from '../anonymous-consents-state';
 import * as fromEffect from './anonymous-consents.effect';
 
-class MockUserContentService {
+class MockUserConsentService {
   getConsentsResultSuccess(): Observable<boolean> {
     return of(true);
   }
-
   getConsents(): Observable<ConsentTemplate[]> {
     return of();
   }
-
   loadConsents(): void {}
+  isConsentWithdrawn(_consent: Consent): boolean {
+    return false;
+  }
 }
 
 class MockAnonymousConsentTemplatesConnector {
@@ -135,12 +130,6 @@ const consentTemplateListMock: ConsentTemplate[] = [
   { id: 'yyy', version: 0 },
 ];
 
-const mockWinRef = {
-  get nativeWindow(): Window {
-    return window;
-  },
-};
-
 describe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
   let connector: MockAnonymousConsentTemplatesConnector;
@@ -148,7 +137,6 @@ describe('AnonymousConsentsEffects', () => {
   let authService: AuthService;
   let anonymousConsentService: AnonymousConsentsService;
   let userConsentService: UserConsentService;
-  let winRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -167,16 +155,12 @@ describe('AnonymousConsentsEffects', () => {
           useClass: MockAnonymousConsentsService,
         },
         {
+          provide: UserConsentService,
+          useClass: MockUserConsentService,
+        },
+        {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
-        },
-        {
-          provide: UserConsentService,
-          useClass: MockUserContentService,
-        },
-        {
-          provide: WindowRef,
-          useValue: mockWinRef,
         },
         provideMockActions(() => actions$),
       ],
@@ -195,32 +179,6 @@ describe('AnonymousConsentsEffects', () => {
     userConsentService = TestBed.get(UserConsentService as Type<
       UserConsentService
     >);
-    winRef = TestBed.get(WindowRef as Type<WindowRef>);
-  });
-
-  describe('handleLogoutAndLanguageChange$', () => {
-    describe('when the language changes while the user is anonymous', () => {
-      it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
-        const action = new SiteContextActions.LanguageChange();
-        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
-
-        expect(effect.handleLogoutAndLanguageChange$).toBeObservable(expected);
-      });
-    });
-    describe('when the user logs out', () => {
-      it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
-        const action = new AuthActions.Logout();
-        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
-
-        expect(effect.handleLogoutAndLanguageChange$).toBeObservable(expected);
-      });
-    });
   });
 
   describe('loadAnonymousConsentTemplates$', () => {
@@ -306,6 +264,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(userConsentService, 'getConsents').and.returnValue(
         of(consentTemplateListMock)
       );
+      spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
@@ -341,6 +300,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(userConsentService, 'getConsents').and.returnValue(
         of(consentTemplateListMock)
       );
+      spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
       spyOn(userConsentService, 'loadConsents').and.stub();
 
@@ -402,177 +362,6 @@ describe('AnonymousConsentsEffects', () => {
       const expected = cold('');
 
       expect(effect.giveRequiredConsentsToUser$).toBeObservable(expected);
-    });
-  });
-
-  const createStateUpdateActionsMethod = 'createStateUpdateActions';
-  describe(`${createStateUpdateActionsMethod}`, () => {
-    describe('when some consents are given and withdrawn', () => {
-      it('should return the corresponding actions', () => {
-        spyOn(anonymousConsentService, 'isConsentGiven').and.returnValues(
-          false,
-          true,
-          false
-        );
-        spyOn(anonymousConsentService, 'isConsentWithdrawn').and.returnValues(
-          false,
-          true
-        );
-        const newConsents: AnonymousConsent[] = [
-          {
-            templateCode: '1',
-            consentState: null,
-          },
-          {
-            templateCode: '2',
-            consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
-          },
-          {
-            templateCode: '3',
-            consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN,
-          },
-        ];
-        const result = effect[createStateUpdateActionsMethod](newConsents);
-        console.log('result', result);
-        expect(result).toEqual([
-          new AnonymousConsentsActions.GiveAnonymousConsent('2'),
-          new AnonymousConsentsActions.WithdrawAnonymousConsent('3'),
-        ]);
-      });
-    });
-  });
-
-  describe('synchronizeBannerAcrossTabs$', () => {
-    it('should return AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility when StorageEvent is fired', done => {
-      effect.synchronizeBannerAcrossTabs$.subscribe(result => {
-        expect(result).toEqual(
-          new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-            true
-          )
-        );
-        done();
-      });
-
-      const newValueObject = {
-        [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-          ui: {
-            bannerVisible: true,
-          },
-        } as AnonymousConsentsState,
-      };
-      const newValue = JSON.stringify(newValueObject);
-
-      const storageEventOld = new StorageEvent('storage', {
-        key: DEFAULT_LOCAL_STORAGE_KEY,
-        oldValue: newValue,
-      });
-      const storageEventNew = new StorageEvent('storage', {
-        key: DEFAULT_LOCAL_STORAGE_KEY,
-        oldValue: newValue,
-        newValue,
-      });
-
-      winRef.nativeWindow.dispatchEvent(storageEventOld);
-      winRef.nativeWindow.dispatchEvent(storageEventNew);
-    });
-  });
-
-  describe('synchronizeConsentStateAcrossTabs$', () => {
-    describe('when the consent state change is detected', () => {
-      describe('because a consent was given', () => {
-        it('should return GiveAnonymousConsent action', done => {
-          const mockAction = new AnonymousConsentsActions.GiveAnonymousConsent(
-            'xxx'
-          );
-          spyOn(anonymousConsentService, 'consentsUpdated').and.returnValue(
-            true
-          );
-          spyOn<any>(effect, createStateUpdateActionsMethod).and.returnValue([
-            mockAction,
-          ]);
-
-          effect.synchronizeConsentStateAcrossTabs$.subscribe(result => {
-            expect(result).toEqual(mockAction);
-            done();
-          });
-
-          const oldValueObject = {
-            [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-              ui: { bannerVisible: false },
-              consents: [{ consentState: null }],
-            } as AnonymousConsentsState,
-          };
-          const oldValue = JSON.stringify(oldValueObject);
-
-          const newValueObject = {
-            [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-              ui: { bannerVisible: true },
-              consents: [{ consentState: ANONYMOUS_CONSENT_STATUS.GIVEN }],
-            } as AnonymousConsentsState,
-          };
-          const newValue = JSON.stringify(newValueObject);
-
-          const storageEventOld = new StorageEvent('storage', {
-            key: DEFAULT_LOCAL_STORAGE_KEY,
-            oldValue,
-          });
-          const storageEventNew = new StorageEvent('storage', {
-            key: DEFAULT_LOCAL_STORAGE_KEY,
-            oldValue,
-            newValue,
-          });
-
-          winRef.nativeWindow.dispatchEvent(storageEventOld);
-          winRef.nativeWindow.dispatchEvent(storageEventNew);
-        });
-      });
-      describe('because a consent was withdrawn', () => {
-        it('should return WithdrawAnonymousConsent action', done => {
-          const mockAction = new AnonymousConsentsActions.WithdrawAnonymousConsent(
-            'xxx'
-          );
-          spyOn(anonymousConsentService, 'consentsUpdated').and.returnValue(
-            true
-          );
-          spyOn<any>(effect, createStateUpdateActionsMethod).and.returnValue([
-            mockAction,
-          ]);
-
-          effect.synchronizeConsentStateAcrossTabs$.subscribe(result => {
-            expect(result).toEqual(mockAction);
-            done();
-          });
-
-          const oldValueObject = {
-            [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-              ui: { bannerVisible: false },
-              consents: [{ consentState: null }],
-            } as AnonymousConsentsState,
-          };
-          const oldValue = JSON.stringify(oldValueObject);
-
-          const newValueObject = {
-            [ANONYMOUS_CONSENTS_STORE_FEATURE]: {
-              ui: { bannerVisible: true },
-              consents: [{ consentState: ANONYMOUS_CONSENT_STATUS.WITHDRAWN }],
-            } as AnonymousConsentsState,
-          };
-          const newValue = JSON.stringify(newValueObject);
-
-          const storageEventOld = new StorageEvent('storage', {
-            key: DEFAULT_LOCAL_STORAGE_KEY,
-            oldValue,
-          });
-          const storageEventNew = new StorageEvent('storage', {
-            key: DEFAULT_LOCAL_STORAGE_KEY,
-            oldValue,
-            newValue,
-          });
-
-          winRef.nativeWindow.dispatchEvent(storageEventOld);
-          winRef.nativeWindow.dispatchEvent(storageEventNew);
-        });
-      });
     });
   });
 });

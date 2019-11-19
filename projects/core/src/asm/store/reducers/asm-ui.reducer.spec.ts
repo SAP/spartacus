@@ -3,7 +3,7 @@ import { AsmActions } from '../actions';
 import * as fromReducer from './asm-ui.reducer';
 
 const mockAsmUiUpdated: AsmUi = {
-  visible: true,
+  expanded: true,
 };
 
 describe('AsmUi reducer', () => {
