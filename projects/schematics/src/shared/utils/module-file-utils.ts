@@ -7,6 +7,15 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
+import ts = require('typescript');
+
+export function stripTsFromImport(importPath: string): string {
+  if (!importPath.endsWith('.ts')) {
+    return importPath;
+  }
+
+  return importPath.slice(0, importPath.length - 3);
+}
 
 export function addImport(
   host: Tree,
@@ -29,9 +38,10 @@ export function addImport(
 export function importModule(
   host: Tree,
   modulePath: string,
-  importText: string
+  importText: string,
+  moduleSource?: ts.SourceFile
 ): InsertChange[] {
-  const moduleSource = getTsSourceFile(host, modulePath);
+  moduleSource = moduleSource || getTsSourceFile(host, modulePath);
   return addSymbolToNgModuleMetadata(
     moduleSource,
     modulePath,

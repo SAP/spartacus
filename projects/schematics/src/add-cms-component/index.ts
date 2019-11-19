@@ -10,7 +10,6 @@ import {
 } from '@angular-devkit/schematics';
 import { getProjectFromWorkspace } from '@angular/cdk/schematics';
 import {
-  addImportToModule,
   getDecoratorMetadata,
   getSourceNodes,
   insertImport,
@@ -42,6 +41,7 @@ import {
 import {
   buildRelativePath,
   importModule,
+  stripTsFromImport,
 } from '../shared/utils/module-file-utils';
 import { getWorkspace } from '../shared/utils/workspace-utils';
 import { CxCmsComponentSchema } from './schema';
@@ -53,7 +53,7 @@ function buildComponentModule(options: CxCmsComponentSchema): string {
     : moduleName;
 }
 
-function builDeclaringCmsModule(options: CxCmsComponentSchema): string {
+function buildDeclaringCmsModule(options: CxCmsComponentSchema): string {
   return Boolean(options.declareCmsModule)
     ? options.declareCmsModule
     : options.name;
@@ -61,7 +61,7 @@ function builDeclaringCmsModule(options: CxCmsComponentSchema): string {
 
 function updateModule(options: CxCmsComponentSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const rawComponentModule = builDeclaringCmsModule(options);
+    const rawComponentModule = buildDeclaringCmsModule(options);
     const componentModule = `${strings.dasherize(
       rawComponentModule
     )}.module.ts`;
@@ -108,9 +108,9 @@ function updateModule(options: CxCmsComponentSchema): Rule {
           component: ${componentName},
         },
       },
-    })`
+    })`,
+      moduleTs
     );
-
     changes.push(...insertModuleChanges);
 
     const componentImportSkipped = !Boolean(options.declareCmsModule);
@@ -128,13 +128,20 @@ function updateModule(options: CxCmsComponentSchema): Rule {
         modulePath,
         componentPath
       );
-      const componentImport = addImportToModule(
+      const componentImport = insertImport(
         moduleTs,
         modulePath,
         componentName,
-        componentRelativeImportPath
+        stripTsFromImport(componentRelativeImportPath),
+        false
       );
-      changes.push(...componentImport);
+      const moduleImport = importModule(
+        tree,
+        modulePath,
+        componentName,
+        moduleTs
+      );
+      changes.push(componentImport, ...moduleImport);
     }
 
     commitChanges(tree, modulePath, changes, InsertDirection.RIGHT);
@@ -195,7 +202,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       componentTs,
       componentPath,
       strings.classify(options.cmsComponentDataModel),
-      options.cmsComponentDataModelPath,
+      stripTsFromImport(options.cmsComponentDataModelPath),
       false
     );
     changes.push(cmsComponentImport);
@@ -317,12 +324,21 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
       sourceCmsModulePath
     );
     const destinationModuleTs = getTsSourceFile(tree, destinationModulePath);
-    const changes = addImportToModule(
+    const sourceCmsModuleClassified = strings.classify(sourceCmsModule);
+    const moduleFileImport = insertImport(
       destinationModuleTs,
       destinationModulePath,
-      strings.classify(sourceCmsModule),
-      sourceCmsModuleRelativeImportPath
+      sourceCmsModuleClassified,
+      stripTsFromImport(sourceCmsModuleRelativeImportPath),
+      false
     );
+    const moduleImport = importModule(
+      tree,
+      destinationModulePath,
+      sourceCmsModuleClassified,
+      destinationModuleTs
+    );
+    const changes: Change[] = [moduleFileImport, ...moduleImport];
     commitChanges(tree, destinationModulePath, changes, InsertDirection.LEFT);
   };
 }
@@ -375,7 +391,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
     const skipImport = createCmsModule;
 
     return chain([
-      // we are creating a new module if the declaring module is not provided
+      // we are creating a new module if the declared module is not provided
       createCmsModule
         ? externalSchematic(ANGULAR_SCHEMATICS, 'module', {
             project,

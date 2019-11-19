@@ -146,9 +146,7 @@ describe('add-cms-component', () => {
       // generated cms module assertions
       assertContentExists(
         appTree,
-        [
-          `import { MyAwesomeCmsComponent } from './my-awesome-cms.component.ts';`,
-        ],
+        [`import { MyAwesomeCmsComponent } from './my-awesome-cms.component';`],
         GENERATED_MODULE_PATH
       );
       assertContentExists(
@@ -399,9 +397,7 @@ describe('add-cms-component', () => {
       // generated cms module assertions
       assertContentExists(
         appTree,
-        [
-          `import { MyAwesomeCmsComponent } from './my-awesome-cms.component.ts';`,
-        ],
+        [`import { MyAwesomeCmsComponent } from './my-awesome-cms.component';`],
         GENERATED_MODULE_PATH
       );
       assertContentExists(

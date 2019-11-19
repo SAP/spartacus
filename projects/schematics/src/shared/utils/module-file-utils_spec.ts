@@ -4,7 +4,11 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 import { getPathResultsForFile } from './file-utils';
-import { addImport, importModule } from './module-file-utils';
+import {
+  addImport,
+  importModule,
+  stripTsFromImport,
+} from './module-file-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -47,6 +51,20 @@ describe('Module file utils', () => {
     appTree = await schematicRunner
       .runSchematicAsync('add-spartacus', defaultOptions, appTree)
       .toPromise();
+  });
+
+  describe('stripTsFromImport', () => {
+    it('should strip the .ts when present', () => {
+      const test1 = '../../components.ts';
+      expect(stripTsFromImport(test1)).toEqual('../../components');
+
+      const test2 = '../../ts.ts.ts';
+      expect(stripTsFromImport(test2)).toEqual('../../ts.ts');
+    });
+    it('should NOT strip the .ts when the import path does not end with it', () => {
+      const test = '../ts.tsts';
+      expect(stripTsFromImport(test)).toEqual(test);
+    });
   });
 
   describe('addImport', () => {
