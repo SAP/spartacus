@@ -31,6 +31,7 @@ export class ProfileTagInjector {
   private w: ProfileTagWindowObject;
   private tracking$: Observable<AnonymousConsent | NgRouterEvent>;
   public consentReference$ = new BehaviorSubject<string>(null);
+  public profileTagDebug$ = new BehaviorSubject<boolean>(false);
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -54,6 +55,8 @@ export class ProfileTagInjector {
         console.log(`catching event ${JSON.stringify(event)}`);
         if (event.eventName === ProfileTagEventNames.ConsentReferenceChanged) {
           this.consentReference$.next(event.data.consentReference);
+        } else if (event.eventName === ProfileTagEventNames.ProfileTagDebug) {
+          this.profileTagDebug$.next(event.data.debug);
         }
       }),
       filter(
@@ -102,6 +105,7 @@ export class ProfileTagInjector {
       filter(_ => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
+      tap(siteId => console.log(siteId)),
       tap(_ => this.addScript()),
       switchMap((siteId: string) => {
         return this.profileTagEventReceiver(siteId);

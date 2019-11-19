@@ -24,4 +24,5 @@ export interface ProfileTagEvent {
 export enum ProfileTagEventNames {
   Loaded = 'Loaded',
   ConsentReferenceChanged = 'ConsentReferenceChanged',
+  ProfileTagDebug = 'ProfileTagDebug',
 }

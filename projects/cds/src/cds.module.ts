@@ -4,8 +4,7 @@ import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
 import { MerchandisingCarouselModule } from './cms-components/merchandising/carousel/merchandising-carousel/merchandising-carousel.module';
 import { cdsConfigValidator } from './config';
 import { CdsConfig } from './config/cds-config';
-import { CDSInterceptor } from './http-interceptors/cds-interceptor';
-import { CdsMerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
+import { CdsMerchandisingStrategyAdapter } from './merchandising';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,
   MERCHANDISING_PRODUCT_NORMALIZER,
@@ -13,6 +12,8 @@ import {
 import { MerchandisingStrategyAdapter } from './merchandising/connectors/strategy/merchandising-strategy.adapter';
 import { MerchandisingProductNormalizer } from './merchandising/converters/merchandising-product-normalizer';
 import { MerchandisingProductsNormalizer } from './merchandising/converters/merchandising-products-normalizer';
+import { ConsentReferenceInterceptor } from './profiletag/http-interceptors/consent-reference-interceptor';
+import { DebugInterceptor } from './profiletag/http-interceptors/debug-interceptor';
 import { ProfileTagModule } from './profiletag/profile-tag.module';
 
 @NgModule({
@@ -42,7 +43,12 @@ export class CdsModule {
         },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: CDSInterceptor,
+          useClass: ConsentReferenceInterceptor,
+          multi: true,
+        },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: DebugInterceptor,
           multi: true,
         },
       ],
