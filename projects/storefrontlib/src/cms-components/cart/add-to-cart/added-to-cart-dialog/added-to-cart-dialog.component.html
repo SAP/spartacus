@@ -48,8 +48,17 @@
                   | cxTranslate: { count: cart.deliveryItemsQuantity }
               }}
             </div>
+
             <div>{{ cart.totalPrice?.formattedValue }}</div>
           </div>
+
+          <!-- Promotions -->
+          <div class="cx-dialog-promotions" *ngIf="cart$ | async as cart">
+            <cx-promotions
+              [promotions]="getAppliedPromotions(cart)"
+            ></cx-promotions>
+          </div>
+
           <!-- Actions -->
           <div class="cx-dialog-buttons">
             <a

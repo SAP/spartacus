@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { PromotionResult } from '@spartacus/core';
 
 export interface Item {
   product?: any;
@@ -19,7 +20,9 @@ export class CartItemComponent implements OnInit {
   @Input()
   item: Item;
   @Input()
-  potentialProductPromotions: any[];
+  potentialProductPromotions: PromotionResult[];
+  @Input()
+  appliedProductPromotions: PromotionResult[];
   @Input()
   isReadOnly = false;
   @Input()

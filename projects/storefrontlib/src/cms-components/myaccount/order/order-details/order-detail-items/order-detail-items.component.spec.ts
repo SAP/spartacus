@@ -77,7 +77,7 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  potentialProductPromotions: PromotionResult[] = [];
+  appliedProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
 }
@@ -92,6 +92,20 @@ class MockConsignmentTrackingComponent {
   @Input()
   orderCode: string;
 }
+
+const mockedOrder: Order = {
+  guid: '1',
+  appliedOrderPromotions: [
+    {
+      consumedEntries: [
+        {
+          orderEntryNumber: 2,
+        },
+      ],
+      description: 'test applied order promotion',
+    },
+  ],
+};
 
 describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
@@ -151,5 +165,23 @@ describe('OrderDetailItemsComponent', () => {
   it('should order details item be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
+  });
+
+  describe('when order has applied promotions and applied promotions are defined', () => {
+    it('should contain applied promotion', () => {
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test applied order promotion',
+        },
+      ];
+
+      const promotions = component.getAppliedPromotionsForOrder(mockedOrder);
+      expect(promotions).toEqual(expectedResult);
+    });
   });
 });

@@ -5,5 +5,6 @@
   <cx-cart-item-list
     [items]="order.entries"
     [isReadOnly]="true"
+    [appliedProductPromotions]="getAppliedPromotionsForOrder(order)"
   ></cx-cart-item-list>
 </div>
