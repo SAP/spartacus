@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService, OrderEntry, Product } from '@spartacus/core';
 import { WishListService } from 'projects/core/src/cart/facade/wish-list.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { CurrentProductService } from '../../product/current-product.service';
 
@@ -19,6 +19,9 @@ export class AddToWishListComponent {
     .getWishList()
     .pipe(map(wishList => wishList.entries));
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
+  loading$: Observable<
+    boolean
+  > = this.wishListService.getWishListLoading().pipe(tap(i => console.log(i)));
 
   iconTypes = ICON_TYPE;
 

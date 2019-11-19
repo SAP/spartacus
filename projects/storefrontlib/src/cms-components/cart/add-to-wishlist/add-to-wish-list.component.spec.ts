@@ -56,6 +56,7 @@ class MockWishListService {
   addEntry = createSpy();
   removeEntry = createSpy();
   getWishList = createSpy().and.returnValue(wishListSubject);
+  getWishListLoading = createSpy().and.returnValue(of(false));
 }
 
 class MockCurrentProductService {

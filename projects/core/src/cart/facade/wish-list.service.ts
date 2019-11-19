@@ -99,6 +99,10 @@ export class WishListService {
       );
   }
 
+  getWishListLoading(): Observable<boolean> {
+    return this.store.pipe(select(MultiCartSelectors.getWishListLoading));
+  }
+
   protected getWishListId(): Observable<string> {
     return this.store.pipe(select(MultiCartSelectors.getWishListId));
   }
