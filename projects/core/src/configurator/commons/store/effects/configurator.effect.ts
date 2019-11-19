@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -10,6 +10,8 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+import { CartActions } from '../../../../cart/store/actions/';
+import { CartModification } from '../../../../model/cart.model';
 import { Configurator } from '../../../../model/configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
@@ -246,8 +248,8 @@ export class ConfiguratorEffects {
   @Effect()
   addToCartFinalize$: Observable<
     | ConfiguratorUiActions.RemoveUiState
-    | ReadConfigurationFail
-    | ReadConfigurationSuccess
+    | CartActions.CartAddEntrySuccess
+    | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
     ofType(ADD_TO_CART_FINALIZE),
     map(
@@ -272,18 +274,19 @@ export class ConfiguratorEffects {
           payload.configId
         )
         .pipe(
-          switchMap((configuration: Configurator.Configuration) => {
+          switchMap((entry: CartModification) => {
             return [
               new ConfiguratorUiActions.RemoveUiState(payload.productCode),
-              new ReadConfigurationSuccess(configuration),
+              new CartActions.CartAddEntrySuccess({
+                ...entry,
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
             ];
           }),
-          catchError(error => [
-            new ReadConfigurationFail(
-              payload.productCode,
-              makeErrorSerializable(error)
-            ),
-          ])
+          catchError(error =>
+            of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
+          )
         );
     })
   );

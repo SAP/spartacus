@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
   CONFIGURATION_NORMALIZER,
@@ -70,23 +70,15 @@ export class OccConfiguratorVariantAdapter
     productCode: string,
     quantity: number = 1,
     configId: string
-  ): Observable<Configurator.Configuration> {
+  ): Observable<CartModification> {
     console.log('Adapter-Level: ' + cartId);
     console.log('Adapter-Level: ' + userId);
     console.log('Adapter-Level: ' + quantity);
     console.log('Adapter-Level: ' + productCode);
 
-    const url = this.occEndpointsService.getUrl(
-      'addConfigurationToCart',
-      {
-        userId,
-        cartId,
-      }
-      //{ code: productCode, qty: quantity }
-    );
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+    const url = this.occEndpointsService.getUrl('addConfigurationToCart', {
+      userId,
+      cartId,
     });
 
     const occConfigOrderEntry = JSON.stringify({
@@ -95,17 +87,11 @@ export class OccConfiguratorVariantAdapter
       product: { code: productCode },
     });
 
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
     return this.http
       .post<CartModification>(url, occConfigOrderEntry, { headers })
-      .pipe(
-        map(() =>
-          of({
-            configId: 'aasdf',
-            complete: true,
-            groups: [],
-          })
-        ),
-        this.converterService.pipeable(CONFIGURATION_NORMALIZER)
-      );
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 }

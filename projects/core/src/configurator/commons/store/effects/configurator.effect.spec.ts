@@ -6,6 +6,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import { CartActions } from '../../../../cart/store/actions/';
+import { CartModification } from '../../../../model/cart.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import * as fromConfigurationReducers from '../../store/reducers/index';
 import { ConfiguratorUiActions } from '../actions';
@@ -19,6 +21,8 @@ const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP-1';
 const cartId = 'CART-1234';
+const userId = 'theUser';
+const quantity = 1;
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
@@ -29,6 +33,11 @@ const productConfiguration: Configurator.Configuration = {
   complete: true,
   consistent: true,
   groups: [{ id: groupId, attributes: [{ name: 'attrName' }] }],
+};
+const cartModification: CartModification = {
+  quantity: 1,
+  quantityAdded: 1,
+  entry: { product: { code: productCode }, quantity: 1 },
 };
 
 describe('ConfiguratorEffect', () => {
@@ -42,9 +51,7 @@ describe('ConfiguratorEffect', () => {
   beforeEach(() => {
     createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
     readMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
-    addToCartMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
+    addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
     class MockConnector {
       createConfiguration = createMock;
 
@@ -319,14 +326,18 @@ describe('ConfiguratorEffect', () => {
   describe('Effect addToCartFinalize', () => {
     it('should emit AddToCartSuccess and RemoveUiState on AddToCartFinalize in case no changes are pending', () => {
       const payloadInput = {
-        configId: configId,
-        productCode: productCode,
+        userId: userId,
         cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configId: configId,
       };
       const action = new ConfiguratorActions.AddToCartFinalize(payloadInput);
-      const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
-        productConfiguration
-      );
+      const cartAddEntrySuccess = new CartActions.CartAddEntrySuccess({
+        ...cartModification,
+        userId: userId,
+        cartId: cartId,
+      });
       const removeUiState = new ConfiguratorUiActions.RemoveUiState(
         productConfiguration.productCode
       );
@@ -334,7 +345,7 @@ describe('ConfiguratorEffect', () => {
 
       const expected = cold('-(bc)', {
         b: removeUiState,
-        c: readConfigurationSuccess,
+        c: cartAddEntrySuccess,
       });
       expect(configEffects.addToCartFinalize$).toBeObservable(expected);
     });
@@ -346,15 +357,14 @@ describe('ConfiguratorEffect', () => {
         cartId: cartId,
       };
       const action = new ConfiguratorActions.AddToCartFinalize(payloadInput);
-      const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
-        productConfiguration.productCode,
+      const cartAddEntryFail = new CartActions.CartAddEntryFail(
         makeErrorSerializable(errorResponse)
       );
 
       actions$ = hot('-a', { a: action });
 
       const expected = cold('-b', {
-        b: readConfigurationFail,
+        b: cartAddEntryFail,
       });
       expect(configEffects.addToCartFinalize$).toBeObservable(expected);
     });

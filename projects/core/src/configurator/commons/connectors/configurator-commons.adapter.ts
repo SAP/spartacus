@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 
 export abstract class ConfiguratorCommonsAdapter {
@@ -48,5 +49,5 @@ export abstract class ConfiguratorCommonsAdapter {
     productCode: string,
     quantity: number,
     configId: string
-  ): Observable<Configurator.Configuration>;
+  ): Observable<CartModification>;
 }
