@@ -275,4 +275,9 @@ export interface OccEndpoints {
    * @member {string}
    */
   cartVoucher?: string;
+
+  /**
+   * Endpoint for creating order return request
+   */
+  returnOrder?: string;
 }

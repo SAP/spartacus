@@ -1,6 +1,11 @@
 import { Observable } from 'rxjs';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
-import { Order, OrderHistoryList } from '../../../model/order.model';
+import {
+  Order,
+  OrderHistoryList,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
+} from '../../../model/order.model';
 
 export abstract class UserOrderAdapter {
   /**
@@ -35,4 +40,16 @@ export abstract class UserOrderAdapter {
     orderCode: string,
     consignmentCode: string
   ): Observable<ConsignmentTracking>;
+
+  /**
+   * Abstract method used to create return request
+   * @param userId The `userId` for given user
+   * @param orderCode The `orderCode` for given order
+   * @param returnRequestInput Return request entry input list
+   */
+  abstract createReturnRequest(
+    userId: string,
+    orderCode: string,
+    returnRequestInput: ReturnRequestEntryInputList
+  ): Observable<ReturnRequest>;
 }
