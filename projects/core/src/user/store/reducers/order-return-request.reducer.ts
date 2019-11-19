@@ -2,9 +2,7 @@ import { ReturnRequest } from '../../../model/order.model';
 import { UserActions } from '../actions/index';
 import { OrderReturnRequestState } from '../user-state';
 
-export const initialState: OrderReturnRequestState = {
-  returnRequest: {},
-};
+export const initialState: OrderReturnRequestState = {};
 
 export function reducer(
   state = initialState,
@@ -15,7 +13,6 @@ export function reducer(
       const returnRequest: ReturnRequest = action.payload;
 
       return {
-        ...state,
         returnRequest,
       };
     }

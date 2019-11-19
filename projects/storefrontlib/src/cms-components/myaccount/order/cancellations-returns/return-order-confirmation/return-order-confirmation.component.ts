@@ -7,6 +7,7 @@ import {
   CancellationReturnRequestEntryInput,
   RoutingService,
   LanguageService,
+  UserOrderService,
 } from '@spartacus/core';
 
 import { OrderDetailsService } from '../../order-details/order-details.service';
@@ -19,7 +20,8 @@ export class ReturnOrderConfirmationComponent implements OnInit {
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected routing: RoutingService,
-    protected languageService: LanguageService
+    protected languageService: LanguageService,
+    protected userOrderService: UserOrderService
   ) {}
 
   returnedEntries$: Observable<OrderEntry[]>;
@@ -88,7 +90,9 @@ export class ReturnOrderConfirmationComponent implements OnInit {
   }
 
   submit() {
-    // submit nothing now, will be handled by ticket #5121
+    this.userOrderService.createOrderReturnRequest(this.orderCode, {
+      returnRequestEntryInputs: this.returnRequestEntryInput,
+    });
     this.routing.go({ cxRoute: 'orders' });
   }
 }
