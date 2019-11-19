@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { OutletPosition, OutletService } from '../../../cms-structure';
+import { OutletPosition, OutletService } from '../../../cms-structure/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
 
