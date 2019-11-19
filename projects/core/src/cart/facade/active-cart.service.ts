@@ -1,12 +1,25 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, shareReplay, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
-import { OCC_CART_ID_CURRENT, OCC_USER_ID_ANONYMOUS, OCC_USER_ID_GUEST } from '../../occ/utils/occ-constants';
+import {
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_GUEST,
+} from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process';
 import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
@@ -189,51 +202,26 @@ export class ActiveCartService {
     );
   }
 
-  private cartForGuestMerge() {
-    let createInitialized = false;
-    let attemptedLoad = false;
-
-    return this.cartSelector$.pipe(
-      filter(() => !createInitialized),
-      switchMap(cartState => {
-        if (!cartState.loading && this.isEmpty(cartState.value)) {
-          if (!attemptedLoad && this.userId !== OCC_USER_ID_ANONYMOUS) {
-            this.load(undefined);
-            attemptedLoad = true;
-            return of(cartState);
-          }
-          if (cartState.success || cartState.error) {
-            createInitialized = true;
-            return this.multiCartService.createCart({
-              userId: this.userId,
-              extraData: {
-                active: true,
-              },
-            });
-          }
-        }
-        return of(cartState);
-      }),
-      filter(
-        cartState => !this.isGuestCart() && !this.isEmpty(cartState.value)
-      ),
-      take(1)
-    );
-  }
-
   private addEntriesGuestMerge(cartEntries: OrderEntry[]) {
     const entriesToAdd = cartEntries.map(entry => ({
       productCode: entry.product.code,
       quantity: entry.quantity,
     }));
     this.multiCartService.initAddEntryProcess();
-    this.cartForGuestMerge().subscribe(cartState => {
-      this.multiCartService.addEntries(
-        this.userId,
-        getCartIdByUserId(cartState.value, this.userId),
-        entriesToAdd
-      );
-    });
+    this.cartForAddEntry()
+      .pipe(
+        filter(
+          cartState => !this.isGuestCart() && !this.isEmpty(cartState.value)
+        ),
+        take(1)
+      )
+      .subscribe(cartState => {
+        this.multiCartService.addEntries(
+          this.userId,
+          getCartIdByUserId(cartState.value, this.userId),
+          entriesToAdd
+        );
+      });
   }
 
   private cartForAddEntry() {
@@ -264,9 +252,7 @@ export class ActiveCartService {
           }
         }
         return of(cartState);
-      }),
-      filter(cartState => !this.isEmpty(cartState.value)),
-      take(1)
+      })
     );
   }
 
@@ -282,17 +268,22 @@ export class ActiveCartService {
     this.entriesToAdd.push({ productCode, quantity });
     if (!this.addEntrySub) {
       this.multiCartService.initAddEntryProcess();
-      this.addEntrySub = this.cartForAddEntry().subscribe(cartState => {
-        this.multiCartService.addEntries(
-          this.userId,
-          getCartIdByUserId(cartState.value, this.userId),
-          this.entriesToAdd
-        );
-        this.entriesToAdd = [];
-        setTimeout(() => {
-          this.addEntrySub = undefined;
+      this.addEntrySub = this.cartForAddEntry()
+        .pipe(
+          filter(cartState => !this.isEmpty(cartState.value)),
+          take(1)
+        )
+        .subscribe(cartState => {
+          this.multiCartService.addEntries(
+            this.userId,
+            getCartIdByUserId(cartState.value, this.userId),
+            this.entriesToAdd
+          );
+          this.entriesToAdd = [];
+          setTimeout(() => {
+            this.addEntrySub = undefined;
+          });
         });
-      });
     }
   }
 
