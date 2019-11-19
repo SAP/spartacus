@@ -135,13 +135,7 @@ function updateModule(options: CxCmsComponentSchema): Rule {
         stripTsFromImport(componentRelativeImportPath),
         false
       );
-      const moduleImport = importModule(
-        tree,
-        modulePath,
-        componentName,
-        moduleTs
-      );
-      changes.push(componentImport, ...moduleImport);
+      changes.push(componentImport);
     }
 
     commitChanges(tree, modulePath, changes, InsertDirection.RIGHT);
