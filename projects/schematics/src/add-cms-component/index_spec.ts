@@ -219,6 +219,13 @@ describe('add-cms-component', () => {
         name: moduleName,
         project: defaultOptions.project,
       };
+      const dummyComponentOptions = {
+        project: defaultOptions.project,
+        name: 'dummy',
+        module: moduleName,
+        entryComponent: true,
+        export: true,
+      };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
         declareCmsModule: moduleName,
@@ -229,6 +236,15 @@ describe('add-cms-component', () => {
           ANGULAR_SCHEMATICS,
           'module',
           moduleOptions,
+          appTree
+        )
+        .toPromise();
+
+      appTree = await schematicRunner
+        .runExternalSchematicAsync(
+          ANGULAR_SCHEMATICS,
+          'component',
+          dummyComponentOptions,
           appTree
         )
         .toPromise();
@@ -257,17 +273,17 @@ describe('add-cms-component', () => {
       );
       assertContentExists(
         appTree,
-        [`declarations: [MyAwesomeCmsComponent],`],
+        [`declarations: [DummyComponent, MyAwesomeCmsComponent],`],
         existingModulePath
       );
       assertContentExists(
         appTree,
-        [`entryComponents: [MyAwesomeCmsComponent]`],
+        [`entryComponents: [DummyComponent, MyAwesomeCmsComponent]`],
         existingModulePath
       );
       assertContentExists(
         appTree,
-        [`exports: [MyAwesomeCmsComponent]`],
+        [`exports: [DummyComponent, MyAwesomeCmsComponent]`],
         existingModulePath
       );
       assertContentExists(
@@ -357,17 +373,17 @@ describe('add-cms-component', () => {
         );
         assertContentExists(
           appTree,
-          [`declarations: [MyAwesomeCmsComponent],`],
+          [`declarations: [DummyComponent, MyAwesomeCmsComponent],`],
           existingModulePath
         );
         assertContentExists(
           appTree,
-          [`entryComponents: [MyAwesomeCmsComponent]`],
+          [`entryComponents: [DummyComponent, MyAwesomeCmsComponent]`],
           existingModulePath
         );
         assertContentExists(
           appTree,
-          [`exports: [MyAwesomeCmsComponent]`],
+          [`exports: [DummyComponent, MyAwesomeCmsComponent]`],
           existingModulePath
         );
         assertContentExists(
