@@ -1,45 +1,97 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WishlistComponent } from './wishlist.component';
-import { Cart, CartModule, WishListService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { Type } from '@angular/core';
+import { I18nTestingModule, WishListService } from '@spartacus/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MediaComponent } from '@spartacus/storefront';
 
-class MockWishListService {
-  getActive(): Observable<Cart> {
-    return of({});
-  }
+@Component({
+  selector: 'cx-star-rating',
+  template: '',
+})
+class MockStarRatingComponent {
+  @Input() rating;
+  @Input() disabled;
 }
-describe('WishlistComponent', () => {
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
+
+@Component({
+  selector: 'cx-add-to-cart',
+  template: '<button>add to cart</button>',
+})
+export class MockAddToCartComponent {
+  @Input() product;
+  @Input() showQuantity;
+}
+
+const MockWishListService = jasmine.createSpyObj('WishListService', [
+  'getWishList',
+]);
+
+@Component({
+  selector: 'cx-wish-list-item',
+  template: '',
+})
+class MockWishListItemComponent {
+  @Input()
+  product;
+}
+
+describe('WishListComponent', () => {
   let component: WishlistComponent;
   let fixture: ComponentFixture<WishlistComponent>;
   let wishListService: WishListService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CartModule],
+      declarations: [
+        WishlistComponent,
+        MockWishListItemComponent,
+        MockStarRatingComponent,
+        MockAddToCartComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+        MediaComponent,
+      ],
+      imports: [I18nTestingModule, RouterTestingModule],
       providers: [
         {
           provide: WishListService,
-          useClass: MockWishListService,
+          useValue: MockWishListService,
         },
       ],
-      declarations: [WishlistComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishlistComponent);
     component = fixture.componentInstance;
-    wishListService = TestBed.get(WishListService as Type<WishListService>);
+    wishListService = fixture.debugElement.injector.get(WishListService as Type<
+      WishListService
+    >);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create instance', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get wishlist', () => {
+  it('should get wish list', () => {
     expect(wishListService.getWishList).toHaveBeenCalled();
   });
 });

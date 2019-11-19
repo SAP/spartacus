@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Cart } from '@spartacus/core';
+import { Component } from '@angular/core';
+import { Cart, WishListService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { WishListService } from '../../../../../../core/src/cart/facade';
 
 @Component({
   selector: 'cx-wishlist',
   templateUrl: './wishlist.component.html',
 })
-export class WishlistComponent implements OnInit {
-  wishList$: Observable<Cart>;
-  constructor(protected wishListService: WishListService) {}
+export class WishlistComponent {
+  wishList$: Observable<Cart> = this.wishListService.getWishList();
 
-  ngOnInit() {
-    this.wishList$ = this.wishListService.getWishList();
-  }
+  constructor(protected wishListService: WishListService) {}
 }
