@@ -54,14 +54,11 @@ export function paymentDetailCard() {
   // go to shipping address
   fillShippingAddress(user);
 
-  cy.wait(`@${request.deliveryPage}`);
-
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
   cy.wait(`@${request.paymentPage}`);
-
   // fill in payment method
   fillPaymentDetails(user);
 
@@ -75,12 +72,12 @@ export function paymentDetailCard() {
 }
 
 export function addSecondaryPaymentCard() {
+  cy.server();
   const request = requestPages();
 
   // go to product page
   const productId = '3595723';
   cy.visit(`/product/${productId}`);
-
   // add product to cart and go to checkout
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
@@ -105,6 +102,7 @@ export function addSecondaryPaymentCard() {
 
   // fill in payment method
   cy.getByText('Add New Payment').click({ force: true });
+
   fillPaymentDetails(secondPayment);
 
   // go to payment details page

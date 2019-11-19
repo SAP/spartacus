@@ -16,9 +16,18 @@ describe('Payment Methods', () => {
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
+
+      cy.server();
+      cy.route(
+        'GET',
+        '/rest/v2/electronics-spa/cms/pages*/my-account/payment-details*'
+      ).as('payment_details');
+
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });
+
+      cy.wait('@payment_details');
     });
 
     beforeEach(() => {
