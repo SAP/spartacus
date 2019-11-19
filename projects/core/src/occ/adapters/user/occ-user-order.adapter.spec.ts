@@ -8,10 +8,15 @@ import { async, TestBed } from '@angular/core/testing';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { FeatureConfigService } from '../../../features-config/index';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
-import { Order } from '../../../model/order.model';
+import {
+  Order,
+  ReturnRequestEntryInputList,
+  ReturnRequest,
+} from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
+  ORDER_RETURN_REQUEST_NORMALIZER,
 } from '../../../user/connectors/order/converters';
 import { ConverterService } from '../../../util/index';
 import { OccConfig } from '../../config/occ-config';
@@ -30,6 +35,8 @@ const orderData: Order = {
   code: '00001004',
 };
 const consignmentCode = 'a00001004';
+
+const returnRequest: ReturnRequest = { rma: 'test return request' };
 
 class MockFeatureConfigService {
   isLevel(_featureLevel: string): boolean {
@@ -76,6 +83,7 @@ describe('OccUserOrderAdapter', () => {
       FeatureConfigService
     >);
     spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
@@ -227,6 +235,7 @@ describe('OccUserOrderAdapter', () => {
         expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
       });
     });
+
     describe('getConsignmentTracking', () => {
       it('should fetch a consignment tracking', async(() => {
         const tracking: ConsignmentTracking = {
@@ -264,6 +273,35 @@ describe('OccUserOrderAdapter', () => {
           CONSIGNMENT_TRACKING_NORMALIZER
         );
       });
+    });
+
+    describe('createReturnRequest', () => {
+      it('should be able to create an order return request', async(() => {
+        const returnRequestInput: ReturnRequestEntryInputList = {
+          returnRequestEntryInputs: [{ orderEntryNumber: 0, quantity: 1 }],
+        };
+
+        let result;
+        occUserOrderAdapter
+          .createReturnRequest(userId, orderData.code, returnRequestInput)
+          .subscribe(res => (result = res));
+
+        const mockReq = httpMock.expectOne(req => {
+          return req.method === 'POST';
+        });
+        expect(occEnpointsService.getUrl).toHaveBeenCalledWith('returnOrder', {
+          userId,
+          orderId: orderData.code,
+        });
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush(returnRequest);
+        expect(result).toEqual(returnRequest);
+        expect(converter.convert).toHaveBeenCalledWith(
+          returnRequestInput,
+          ORDER_RETURN_REQUEST_NORMALIZER
+        );
+      }));
     });
   });
 });
