@@ -131,25 +131,11 @@ export function checkElement(tabElement: TabElement) {
 export function checkAllElements(tabElements: TabElement[]) {
   tabElements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element
-    cy.document().then(document => {
-      if (index !== 0) {
-        const focussableElements = `a[href]:not([tabindex='-1']),area[href]:not([tabindex='-1']),
-          input:not([disabled]):not([tabindex='-1']),
-          select:not([disabled]):not([tabindex='-1']),
-          textarea:not([disabled]):not([tabindex='-1']),
-          button:not([disabled]):not([tabindex='-1']),
-          iframe:not([tabindex='-1']),
-          [tabindex]:not([tabindex='-1']),
-          [contentEditable=true]:not([tabindex='-1'])`;
-        const elems = document.querySelectorAll(focussableElements);
-        console.log(elems);
-        console.warn(element);
-        console.log(document.activeElement);
-        const index2 = Array.from(elems).indexOf(document.activeElement);
-        elems[index2 + 1].focus();
-      }
-      checkElement(element);
-    });
+    if (index !== 0) {
+      cy.clickTab();
+    }
+
+    checkElement(element);
   });
 }
 

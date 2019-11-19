@@ -13,3 +13,4 @@ import './require-shipping-address-added.commands';
 import './require-shipping-method-selected.commands';
 import './select-user-menu-option.commands';
 import './storage.commands';
+import './a11y-tab.commands';
