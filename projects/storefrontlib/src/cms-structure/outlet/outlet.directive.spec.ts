@@ -30,7 +30,7 @@ class MockTemplateComponent {}
 
 @Component({
   template: `
-    <ng-template cxOutletRef="before" cxOutletPos="${OutletPosition.AFTER}">
+    <ng-template cxOutletRef="before" cxOutletPos="${OutletPosition.BEFORE}">
       <div id="new">after</div>
     </ng-template>
 
