@@ -27,6 +27,7 @@ export interface OrderEntry {
   totalPrice?: Price;
   updateable?: boolean;
   returnedItemsPrice?: Price;
+  returnedQuantity?: number;
   returnableQuantity?: number;
 }
 

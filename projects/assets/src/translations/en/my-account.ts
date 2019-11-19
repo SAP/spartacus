@@ -42,6 +42,8 @@ export const myAccount = {
       cancelQty: 'Cancel Qty',
       returnAll: 'Return All',
       cancelAll: 'Cancel All',
+      totalPrice: 'Total',
+      submit: 'Submit Request',
     },
   },
   orderHistory: {

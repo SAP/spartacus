@@ -1,0 +1,14 @@
+<ng-container *ngIf="returnedEntries$ | async as returnedEntries">
+  <cx-cancellation-return-items
+    [entries]="returnedEntries"
+    [cancelOrder]="false"
+    [confirmRequest]="true"
+  >
+  </cx-cancellation-return-items>
+
+  <div class="col-md-6">
+    <button class="btn btn-block btn-primary" (click)="submit()">
+      {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
+    </button>
+  </div>
+</ng-container>

@@ -1,4 +1,4 @@
-<ng-container *ngIf="order$ | async as order">
+<ng-container *ngIf="returnableEntries$ | async as returnableEntries">
   <cx-cancellation-return-items
     [entries]="returnableEntries"
     [cancelOrder]="false"

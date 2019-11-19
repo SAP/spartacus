@@ -1,12 +1,14 @@
-<button [disabled]="disableConfirm" (click)="confirmEntryInputs()">
-  {{ 'common.continue' | cxTranslate }}
-</button>
-<br />
-<a (click)="setComplete()">{{
-  (cancelOrder
-    ? 'orderDetails.cancellationAndReturn.cancelAll'
-    : 'orderDetails.cancellationAndReturn.returnAll') | cxTranslate
-}}</a>
+<ng-container *ngIf="!confirmRequest">
+  <button [disabled]="disableConfirmBtn" (click)="confirmEntryInputs()">
+    {{ 'common.continue' | cxTranslate }}
+  </button>
+  <br />
+  <a (click)="setComplete()">{{
+    (cancelOrder
+      ? 'orderDetails.cancellationAndReturn.cancelAll'
+      : 'orderDetails.cancellationAndReturn.returnAll') | cxTranslate
+  }}</a>
+</ng-container>
 
 <div class="d-none d-md-block d-lg-block d-xl-block">
   <div class="cx-item-list-header row">
@@ -16,7 +18,10 @@
     <div class="cx-item-list-price col-md-3 col-lg-2 col-xl-2">
       {{ 'orderDetails.cancellationAndReturn.itemPrice' | cxTranslate }}
     </div>
-    <div class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2">
+    <div
+      *ngIf="!confirmRequest"
+      class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2"
+    >
       {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
     </div>
     <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
@@ -25,6 +30,12 @@
           ? 'orderDetails.cancellationAndReturn.cancelQty'
           : 'orderDetails.cancellationAndReturn.returnQty') | cxTranslate
       }}
+    </div>
+    <div
+      *ngIf="confirmRequest"
+      class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
+    >
+      {{ 'orderDetails.cancellationAndReturn.totalPrice' | cxTranslate }}
     </div>
   </div>
 </div>
@@ -75,8 +86,8 @@
                   {{ item.basePrice?.formattedValue }}
                 </div>
               </div>
-              <!-- Item Quantity -->
-              <div *ngIf="item.quantity" class="cx-quantity col-3">
+              <!-- item returnable/cancelable Quantity -->
+              <div *ngIf="!confirmRequest" class="cx-quantity col-3">
                 <div
                   class="cx-label d-block d-md-none d-lg-none d-xl-none"
                   placement="left"
@@ -104,7 +115,23 @@
                     formControlName="quantity"
                     cxOnlyNumber
                     (blur)="onBlur($event.target.value, i)"
+                    size="6"
                   />
+                </div>
+              </div>
+              <!-- Cancel/Return Total Price -->
+              <div
+                *ngIf="confirmRequest"
+                class="cx-total col-md-3 col-lg-3 col-xl-2"
+              >
+                <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
+                  {{
+                    'orderDetails.cancellationAndReturn.totalPrice'
+                      | cxTranslate
+                  }}
+                </div>
+                <div class="cx-value">
+                  {{ item.returnedItemsPrice?.formattedValue }}
                 </div>
               </div>
             </div>
