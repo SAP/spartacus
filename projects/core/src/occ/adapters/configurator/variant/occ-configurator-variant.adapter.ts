@@ -65,7 +65,6 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
   }
 
-
   addToCart(
     userId: string,
     cartId: string,
@@ -73,11 +72,6 @@ export class OccConfiguratorVariantAdapter
     quantity: number = 1,
     configId: string
   ): Observable<CartModification> {
-    console.log('Adapter-Level: ' + cartId);
-    console.log('Adapter-Level: ' + userId);
-    console.log('Adapter-Level: ' + quantity);
-    console.log('Adapter-Level: ' + productCode);
-
     const url = this.occEndpointsService.getUrl('addConfigurationToCart', {
       userId,
       cartId,

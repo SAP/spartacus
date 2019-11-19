@@ -30,7 +30,6 @@ export class ConfigAddToCartButtonComponent implements OnInit {
   }
 
   onAddToCart(productCode: string, configId: string) {
-    console.log('Dummy Add To Cart: ' + productCode + '-' + configId);
     this.configuratorCommonsService.addToCart(productCode, configId);
   }
 }
