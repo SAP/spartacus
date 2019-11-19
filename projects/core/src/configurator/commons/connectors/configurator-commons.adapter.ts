@@ -52,6 +52,7 @@ export abstract class ConfiguratorCommonsAdapter {
     configId: string
   ): Observable<CartModification>;
 
+  /**
    * Abstract method to read a configuration price
    *
    * @param configId configuration id
@@ -59,5 +60,4 @@ export abstract class ConfiguratorCommonsAdapter {
   abstract readConfigurationPrice(
     configId: string
   ): Observable<Configurator.Configuration>;
-
 }

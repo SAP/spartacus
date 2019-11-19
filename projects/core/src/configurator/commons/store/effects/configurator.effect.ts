@@ -20,6 +20,7 @@ import { ConfiguratorUiActions } from '../actions';
 import {
   AddToCartFinalize,
   ADD_TO_CART,
+  ADD_TO_CART_FINALIZE,
   ChangeGroup,
   ChangeGroupFinalize,
   CHANGE_GROUP,

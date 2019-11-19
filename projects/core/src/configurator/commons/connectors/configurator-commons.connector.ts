@@ -43,11 +43,11 @@ export class ConfiguratorCommonsConnector {
       quantity,
       configId
     );
+  }
 
   readConfigurationPrice(
     configId: string
   ): Observable<Configurator.Configuration> {
     return this.adapter.readConfigurationPrice(configId);
-
   }
 }

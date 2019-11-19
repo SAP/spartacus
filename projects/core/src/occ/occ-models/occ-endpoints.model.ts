@@ -289,6 +289,7 @@ export interface OccEndpoints {
    */
   addConfigurationToCart?: string;
 
+  /**
    * Endpoint to read configuration price
    *
    * @member {string}
