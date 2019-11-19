@@ -119,6 +119,12 @@ export function verifyCategoryNavigationIsNotDisplayed() {
   cy.get('cx-category-navigation').should('not.be.visible');
 }
 
+export function verifyTotalPrice(formattedPrice) {
+  cy.get('.cx-price-summary-total-price .cx-summary-amount').should($div => {
+    expect($div).to.contain(formattedPrice);
+  });
+}
+
 export function clickOnGroup(groupIndex: number) {
   cy.get('.cx-config-menu-item')
     .eq(groupIndex)
