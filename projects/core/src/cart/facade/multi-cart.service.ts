@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { LoaderState } from '../../state/utils/loader/loader-state';
-import { Cart } from '../../model/cart.model';
 
 @Injectable()
 export class MultiCartService {
@@ -133,13 +133,16 @@ export class MultiCartService {
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
   ): void {
-    this.store.dispatch(
-      new CartActions.CartAddEntries({
-        userId,
-        cartId,
-        products,
-      })
-    );
+    products.forEach(product => {
+      this.store.dispatch(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: product.productCode,
+          quantity: product.quantity,
+        })
+      );
+    });
   }
 
   /**

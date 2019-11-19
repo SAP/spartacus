@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, from, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import {
   catchError,
+  exhaustMap,
   map,
   mergeMap,
   switchMap,
-  exhaustMap,
 } from 'rxjs/operators';
+import { CheckoutActions } from '../../../checkout/store/actions/index';
 import { Cart } from '../../../model/cart.model';
+import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartActions } from '../actions/index';
-import { CheckoutActions } from '../../../checkout/store/actions/index';
-import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartEffects {
@@ -190,7 +190,6 @@ export class CartEffects {
   refresh$: Observable<CartActions.LoadCart> = this.actions$.pipe(
     ofType(
       CartActions.MERGE_CART_SUCCESS,
-      CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.ADD_EMAIL_TO_CART_SUCCESS,
@@ -205,7 +204,6 @@ export class CartEffects {
       (
         action:
           | CartActions.MergeCartSuccess
-          | CartActions.CartAddEntrySuccess
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.AddEmailToCartSuccess

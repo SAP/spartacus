@@ -1,19 +1,13 @@
-import {
-  StateLoaderActions,
-  StateEntityLoaderActions,
-} from '../../../state/utils/index';
-import { CART_DATA, ADD_ENTRY_PROCESS_ID } from '../cart-state';
-import { Action } from '@ngrx/store';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import {
+  StateEntityLoaderActions,
+  StateLoaderActions,
+} from '../../../state/utils/index';
+import { ADD_ENTRY_PROCESS_ID, CART_DATA } from '../cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
 export const CART_ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
 export const CART_ADD_ENTRY_FAIL = '[Cart-entry] Add Entry Fail';
-
-export const CART_ADD_ENTRIES = '[Cart-entry] Add Entries';
-export const CART_ADD_ENTRIES_SUCCESS = '[Cart-entry] Add Entries Success';
-export const CART_ADD_ENTRIES_FAIL = '[Cart-entry] Add Entries Fail';
-
 export const CART_REMOVE_ENTRY = '[Cart-entry] Remove Entry';
 export const CART_REMOVE_ENTRY_SUCCESS = '[Cart-entry] Remove Entry Success';
 export const CART_REMOVE_ENTRY_FAIL = '[Cart-entry] Remove Entry Fail';
@@ -48,27 +42,6 @@ export class CartAddEntryFail extends StateLoaderActions.LoaderFailAction {
   constructor(public payload: any) {
     super(CART_DATA, payload);
   }
-}
-
-export class CartAddEntries implements Action {
-  readonly type = CART_ADD_ENTRIES;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      products: Array<{ productCode: string; quantity: number }>;
-    }
-  ) {}
-}
-
-export class CartAddEntriesSuccess implements Action {
-  readonly type = CART_ADD_ENTRIES_SUCCESS;
-  constructor(public payload: any) {}
-}
-
-export class CartAddEntriesFail implements Action {
-  readonly type = CART_ADD_ENTRIES_FAIL;
-  constructor(public payload: any) {}
 }
 
 export class CartStartAddEntryProcess extends StateEntityLoaderActions.EntityLoadAction {
@@ -144,9 +117,6 @@ export type CartEntryAction =
   | CartUpdateEntry
   | CartUpdateEntrySuccess
   | CartUpdateEntryFail
-  | CartAddEntries
-  | CartAddEntriesFail
-  | CartAddEntriesSuccess
   | CartStartAddEntryProcess
   | CartSuccessAddEntryProcess
   | CartFailAddEntryProcess;
