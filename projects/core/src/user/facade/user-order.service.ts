@@ -4,7 +4,11 @@ import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
-import { Order, OrderHistoryList } from '../../model/order.model';
+import {
+  Order,
+  OrderHistoryList,
+  ReturnRequestEntryInputList,
+} from '../../model/order.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -146,5 +150,29 @@ export class UserOrderService {
    */
   clearConsignmentTracking(): void {
     this.store.dispatch(new UserActions.ClearConsignmentTracking());
+  }
+
+  /**
+   * Create order return request
+   * @param orderCode an order code
+   * @param returnRequestInput order return request entry input
+   */
+  createOrderReturnRequest(
+    orderCode: string,
+    returnRequestInput: ReturnRequestEntryInputList
+  ): void {
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(userId =>
+        this.store.dispatch(
+          new UserActions.CreateOrderReturnRequest({
+            userId,
+            orderCode,
+            returnRequestInput,
+          })
+        )
+      )
+      .unsubscribe();
   }
 }
