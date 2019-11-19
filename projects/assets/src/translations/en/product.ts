@@ -63,7 +63,8 @@ export const product = {
   },
   addToWishList: {
     add: 'Add to Wish List',
-    remove: 'Remove from Wish List',
+    inWishList: 'In Wish List',
+    remove: 'Remove',
   },
   CMSTabParagraphContainer: {
     tabs: {

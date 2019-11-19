@@ -1,13 +1,24 @@
-<ng-container *ngIf="product$ | async as product">
-  <div *ngIf="wishListEntries$ | async as entries">
-    <div
-    *ngIf="getProductInWishList(product, entries) as entry; else addItem"
-  >
-    <button class="btn btn-link" (click)="remove(entry)">{{ 'addToWishList.remove' | cxTranslate }}</button>
-  </div>
-  <ng-template #addItem>
-    <button class="btn btn-link" (click)="add(product)">{{ 'addToWishList.add' | cxTranslate }}</button>
-  </ng-template>
-</div>
-  </div>
+<ng-container *ngIf="userLoggedIn$ | async">
+  <ng-container *ngIf="product$ | async as product">
+    <div *ngIf="wishListEntries$ | async as entries">
+      <div
+        *ngIf="getProductInWishList(product, entries) as entry; else addItem"
+      >
+        <span
+          >{{ 'addToWishList.inWishList' | cxTranslate }} (<button
+            class="btn btn-link button-remove"
+            (click)="remove(entry)"
+          >
+            {{ 'addToWishList.remove' | cxTranslate }}</button
+          >)</span
+        >
+      </div>
+      <ng-template #addItem>
+        <button class="btn btn-link button-add" (click)="add(product)">
+          <cx-icon [type]="iconTypes.HEART"></cx-icon>
+          {{ 'addToWishList.add' | cxTranslate }}
+        </button>
+      </ng-template>
+    </div>
+  </ng-container>
 </ng-container>

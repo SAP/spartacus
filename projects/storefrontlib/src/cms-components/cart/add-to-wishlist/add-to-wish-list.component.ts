@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry, Product } from '@spartacus/core';
+import { AuthService, OrderEntry, Product } from '@spartacus/core';
 import { WishListService } from 'projects/core/src/cart/facade/wish-list.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CurrentProductService } from '../../product';
+import { ICON_TYPE } from '../../../cms-components/misc/index';
+import { CurrentProductService } from '../../product/current-product.service';
 
 @Component({
   selector: 'cx-add-to-wishlist',
@@ -17,10 +18,14 @@ export class AddToWishListComponent {
   > = this.wishListService
     .getWishList()
     .pipe(map(wishList => wishList.entries));
+  userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
+
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected wishListService: WishListService,
-    protected currentProductService: CurrentProductService
+    protected currentProductService: CurrentProductService,
+    protected authService: AuthService
   ) {}
 
   add(product: Product): void {

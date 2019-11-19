@@ -48,3 +48,22 @@
     @extend .container !optional;
   }
 }
+
+%ProductDetailsPageTemplate-calydon {
+  cx-page-slot {
+    &.Summary {
+      @include media-breakpoint-up(lg) {
+        grid-template-rows: repeat(3, auto) 1fr;
+        cx-product-images {
+          grid-column: 1;
+          grid-row: 1 / span 4;
+        }
+
+        cx-add-to-wish-list {
+          grid-column: 2;
+          grid-row: 4 / 5;
+        }
+      }
+    }
+  }
+}

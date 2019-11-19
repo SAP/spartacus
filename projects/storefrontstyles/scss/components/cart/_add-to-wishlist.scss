@@ -1,0 +1,17 @@
+%cx-add-to-wishlist {
+  @include media-breakpoint-up(lg) {
+    padding: 0 20px;
+  }
+
+  .button {
+    &-add {
+      padding: 0;
+      text-decoration: none;
+    }
+
+    &-remove {
+      padding: 0;
+      vertical-align: inherit;
+    }
+  }
+}
