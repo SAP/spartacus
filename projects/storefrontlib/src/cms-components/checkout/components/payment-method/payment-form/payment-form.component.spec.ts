@@ -115,7 +115,7 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
-// TODO(issue:#xxxx) Deprecated since 1.5.0
+// TODO(issue:#5468) Deprecated since 1.5.0
 const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
 class MockFeatureConfigService {
   isLevel(_level: string): boolean {
@@ -163,7 +163,7 @@ describe('PaymentFormComponent', () => {
         },
         { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        // TODO(issue:#xxxx) Deprecated since 1.5.0
+        // TODO(issue:#5468) Deprecated since 1.5.0
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
@@ -387,7 +387,7 @@ describe('PaymentFormComponent', () => {
       expect(component.next).toHaveBeenCalled();
     });
 
-    // TODO(issue:#xxxx) Deprecated since 1.5.0
+    // TODO(issue:#5468) Deprecated since 1.5.0
     it('should be enabled only when form has all mandatory fields filled - with billing address', () => {
       const isContinueBtnDisabled = () => {
         fixture.detectChanges();
@@ -445,7 +445,7 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeFalsy();
     });
 
-    // TODO(issue:#xxxx) Deprecated since 1.5.0
+    // TODO(issue:#5468) Deprecated since 1.5.0
     it('should be enabled only when form has all mandatory fields filled - without billing address', () => {
       const isContinueBtnDisabled = () => {
         fixture.detectChanges();
@@ -478,7 +478,7 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeFalsy();
     });
 
-    // TODO(issue:#xxxx) Deprecated since 1.5.0
+    // TODO(issue:#5468) Deprecated since 1.5.0
     it('should not be disabled', () => {
       isLevelBool.next(true);
 
