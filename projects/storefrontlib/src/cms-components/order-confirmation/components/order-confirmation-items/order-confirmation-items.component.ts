@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutService, Order } from '@spartacus/core';
+import { CheckoutService, Order, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -23,5 +23,13 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.checkoutService.clearCheckoutData();
+  }
+
+  getAppliedPromotionsForOrder(order: Order): PromotionResult[] {
+    const appliedPromotions = [];
+    appliedPromotions.push(...(order.appliedOrderPromotions || []));
+    appliedPromotions.push(...(order.appliedProductPromotions || []));
+
+    return appliedPromotions;
   }
 }

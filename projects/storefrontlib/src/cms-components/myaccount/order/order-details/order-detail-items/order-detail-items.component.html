@@ -24,6 +24,7 @@
     <div class="cx-list-item col-12">
       <cx-cart-item-list
         [items]="getConsignmentProducts(consignment)"
+        [appliedProductPromotions]="getAppliedPromotionsForOrder(order)"
         [isReadOnly]="true"
       ></cx-cart-item-list>
     </div>

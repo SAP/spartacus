@@ -1,7 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
+import {
+  CheckoutService,
+  I18nTestingModule,
+  Order,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
@@ -14,6 +19,10 @@ class MockReviewSubmitComponent {
   items: Item[];
   @Input()
   isReadOnly: boolean;
+  @Input()
+  potentialProductPromotions: PromotionResult[] = [];
+  @Input()
+  appliedProductPromotions: PromotionResult[] = [];
 }
 
 class MockCheckoutService {
@@ -30,6 +39,20 @@ class MockCheckoutService {
     });
   }
 }
+
+const mockedOrder: Order = {
+  guid: '1',
+  appliedOrderPromotions: [
+    {
+      consumedEntries: [
+        {
+          orderEntryNumber: 2,
+        },
+      ],
+      description: 'test applied order promotion',
+    },
+  ],
+};
 
 describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
@@ -61,5 +84,23 @@ describe('OrderConfirmationItemsComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     expect(items()).toBeTruthy();
+  });
+
+  describe('when order has applied promotions and applied promotions are defined', () => {
+    it('should contain applied promotion', () => {
+      const expectedResult: PromotionResult[] = [
+        {
+          consumedEntries: [
+            {
+              orderEntryNumber: 2,
+            },
+          ],
+          description: 'test applied order promotion',
+        },
+      ];
+
+      const promotions = component.getAppliedPromotionsForOrder(mockedOrder);
+      expect(promotions).toEqual(expectedResult);
+    });
   });
 });
