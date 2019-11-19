@@ -63,7 +63,7 @@ export class OutletService<T = TemplateRef<any>> {
     position: OutletPosition = OutletPosition.REPLACE,
     stacked = AVOID_STACKED_OUTLETS
   ): T[] | T {
-    let templateRef;
+    let templateRef: T[];
     switch (position) {
       case OutletPosition.BEFORE:
         templateRef = this.templatesRefsBefore.get(outlet);
