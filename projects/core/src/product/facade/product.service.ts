@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { asyncScheduler, combineLatest, Observable } from 'rxjs';
-import { map, observeOn, shareReplay, tap } from 'rxjs/operators';
+import { auditTime, map, observeOn, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -53,6 +53,7 @@ export class ProductService {
       return combineLatest(
         scopes.map(scope => this.products[productCode][scope])
       ).pipe(
+        auditTime(0),
         map(
           productParts =>
             productParts.find(Boolean) && deepMerge({}, ...productParts)

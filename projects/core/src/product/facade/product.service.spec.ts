@@ -65,13 +65,13 @@ describe('ProductService', () => {
       let callNo = 0;
       const productScopes = [{ code: '333' }, { name: 'test' }];
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
+        new BehaviorSubject({
           value: productScopes[callNo++], // serve different scope per call
         })
       );
-
       const result: Product = await service
         .get('testId', ['scope1', 'scope2'])
+        .pipe(take(1))
         .toPromise();
       expect(result).toEqual({ code: '333', name: 'test' });
     });
@@ -80,13 +80,14 @@ describe('ProductService', () => {
       let callNo = 0;
       const productScopes = [undefined, { name: 'test' }];
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
+        new BehaviorSubject({
           value: productScopes[callNo++], // serve different scope per call
         })
       );
 
       const result: Product = await service
         .get('testId', ['scope1', 'scope2'])
+        .pipe(take(1))
         .toPromise();
       expect(result).toEqual({ name: 'test' });
     });
@@ -164,7 +165,7 @@ describe('ProductService', () => {
     });
   });
 
-  describe('loadProduct(productCode)', () => {
+  describe('get(productCode)', () => {
     it('should be able to trigger the product load action for a product.', async () => {
       await service
         .get('productCode')
@@ -179,6 +180,9 @@ describe('ProductService', () => {
       const productMock = new BehaviorSubject({});
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         productMock
+      );
+      (store.dispatch as any).and.callFake(() =>
+        productMock.next({ success: true })
       );
 
       service
