@@ -33,6 +33,8 @@ export const UPDATE_CONFIGURATION_PRICE_FAIL =
 export const UPDATE_CONFIGURATION_PRICE_SUCCESS =
   '[Configurator] Update Configuration Price success';
 
+export const REMOVE_CONFIGURATION = '[Configurator] Remove configuration';
+
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public productCode: string) {
@@ -158,6 +160,12 @@ export class AddToCartFinalize extends StateEntityLoaderActions.EntityLoadAction
   }
 }
 
+export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAction {
+  readonly type = REMOVE_CONFIGURATION;
+  constructor(productCode: string | string[]) {
+    super(CONFIGURATION_DATA, productCode);
+  }
+}
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -174,4 +182,5 @@ export type ConfiguratorAction =
   | UpdateConfigurationPriceFail
   | UpdateConfigurationPriceSuccess
   | ChangeGroup
-  | ChangeGroupFinalize;
+  | ChangeGroupFinalize
+  | RemoveConfiguration;

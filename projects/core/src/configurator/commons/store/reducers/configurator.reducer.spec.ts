@@ -3,6 +3,7 @@ import {
   ConfiguratorAction,
   CreateConfigurationSuccess,
   ReadConfigurationSuccess,
+  RemoveConfiguration,
   UpdateConfiguration,
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeSuccess,
@@ -108,6 +109,23 @@ describe('Configurator reducer', () => {
       const state = StateReduce.reducer(undefined, action);
 
       expect(state).toEqual(configuration);
+    });
+  });
+  describe('RemoveConfiguration action', () => {
+    it('should set the initial state', () => {
+      const action1: ConfiguratorAction = new ReadConfigurationSuccess(
+        configuration
+      );
+      let state = StateReduce.reducer(undefined, action1);
+
+      expect(state.configId).toEqual('ds');
+
+      const action2: ConfiguratorAction = new RemoveConfiguration(
+        configuration.productCode
+      );
+      state = StateReduce.reducer(undefined, action2);
+
+      expect(state.configId).toEqual('');
     });
   });
 });

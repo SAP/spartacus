@@ -333,7 +333,7 @@ describe('ConfiguratorEffect', () => {
     });
   });
   describe('Effect addToCartFinalize', () => {
-    it('should emit AddToCartSuccess and RemoveUiState on AddToCartFinalize in case no changes are pending', () => {
+    it('should emit AddToCartSuccess, RemoveUiState and RemoveConfiguration on AddToCartFinalize in case no changes are pending', () => {
       const payloadInput = {
         userId: userId,
         cartId: cartId,
@@ -350,11 +350,15 @@ describe('ConfiguratorEffect', () => {
       const removeUiState = new ConfiguratorUiActions.RemoveUiState(
         productConfiguration.productCode
       );
+      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
+        productConfiguration.productCode
+      );
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: removeUiState,
-        c: cartAddEntrySuccess,
+        c: removeConfiguration,
+        d: cartAddEntrySuccess,
       });
       expect(configEffects.addToCartFinalize$).toBeObservable(expected);
     });

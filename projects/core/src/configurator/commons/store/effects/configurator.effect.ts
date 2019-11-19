@@ -16,7 +16,7 @@ import { Configurator } from '../../../../model/configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
-import { ConfiguratorUiActions } from '../actions';
+import { ConfiguratorActions, ConfiguratorUiActions } from '../actions';
 import {
   AddToCartFinalize,
   ADD_TO_CART,
@@ -271,6 +271,7 @@ export class ConfiguratorEffects {
   @Effect()
   addToCartFinalize$: Observable<
     | ConfiguratorUiActions.RemoveUiState
+    | ConfiguratorActions.RemoveConfiguration
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
@@ -300,6 +301,7 @@ export class ConfiguratorEffects {
           switchMap((entry: CartModification) => {
             return [
               new ConfiguratorUiActions.RemoveUiState(payload.productCode),
+              new ConfiguratorActions.RemoveConfiguration(payload.productCode),
               new CartActions.CartAddEntrySuccess({
                 ...entry,
                 userId: payload.userId,

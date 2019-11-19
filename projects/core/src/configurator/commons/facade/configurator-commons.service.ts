@@ -145,7 +145,11 @@ export class ConfiguratorCommonsService {
   }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    return configuration !== undefined;
+    return (
+      configuration !== undefined &&
+      configuration.configId !== undefined &&
+      configuration.configId.length !== 0
+    );
   }
 
   createConfigurationExtract(
