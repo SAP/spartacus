@@ -22,6 +22,13 @@ export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
 export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
   '[Configurator] Update Configuration finalize fail';
 
+export const UPDATE_CONFIGURATION_PRICE =
+  '[Configurator] Update Configuration Price';
+export const UPDATE_CONFIGURATION_PRICE_FAIL =
+  '[Configurator] Update Configuration Price fail';
+export const UPDATE_CONFIGURATION_PRICE_SUCCESS =
+  '[Configurator] Update Configuration Price success';
+
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public productCode: string) {
@@ -99,6 +106,27 @@ export class UpdateConfigurationFinalizeFail extends StateEntityLoaderActions.En
   }
 }
 
+export class UpdateConfigurationPrice extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = UPDATE_CONFIGURATION_PRICE;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class UpdateConfigurationPriceFail extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = UPDATE_CONFIGURATION_PRICE_FAIL;
+  constructor(productCode: string, public payload: any) {
+    super(CONFIGURATION_DATA, productCode, payload);
+  }
+}
+
+export class UpdateConfigurationPriceSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = UPDATE_CONFIGURATION_PRICE_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -110,4 +138,7 @@ export type ConfiguratorAction =
   | UpdateConfigurationFail
   | UpdateConfigurationSuccess
   | UpdateConfigurationFinalizeFail
-  | UpdateConfigurationFinalizeSuccess;
+  | UpdateConfigurationFinalizeSuccess
+  | UpdateConfigurationPrice
+  | UpdateConfigurationPriceFail
+  | UpdateConfigurationPriceSuccess;

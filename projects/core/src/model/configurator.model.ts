@@ -42,6 +42,26 @@ export namespace Configurator {
     complete?: boolean;
     productCode?: string;
     groups?: Group[];
+    priceSummary?: PriceSummary;
+  }
+
+  export interface PriceSummary {
+    basePrice?: PriceDetails;
+    currentTotal?: PriceDetails;
+    currentTotalSavings?: PriceSavingDetails;
+    selectedOptions?: PriceDetails;
+  }
+
+  export interface PriceDetails {
+    currencyIso?: string;
+    formattedValue?: string;
+    priceType?: PriceType;
+    value?: number;
+  }
+
+  export interface PriceSavingDetails extends PriceDetails {
+    maxQuantity?: number;
+    minQuantity?: number;
   }
 
   export enum GroupType {
@@ -58,5 +78,9 @@ export namespace Configurator {
     READ_ONLY = 'readonly',
     STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
+  }
+
+  export enum PriceType {
+    BUY = 'BUY',
   }
 }

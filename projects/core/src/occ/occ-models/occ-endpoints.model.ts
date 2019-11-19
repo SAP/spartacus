@@ -283,6 +283,12 @@ export interface OccEndpoints {
    */
   updateConfiguration?: string;
   /**
+   * Endpoint to read configuration price
+   *
+   * @member {string}
+   */
+  readConfigurationPrice?: string;
+  /**
    * Endpoint for consignment tracking
    *
    * @member {string}

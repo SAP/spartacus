@@ -24,6 +24,7 @@ import { ConfigFormComponent } from '../commons/config-form/config-form.componen
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { ConfigImageComponent } from '../commons/config-image/config-image.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
+import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
 import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
 
@@ -55,6 +56,10 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
         },
         VariantConfigurationMenu: {
           component: ConfigGroupMenuComponent,
+          guards: [],
+        },
+        VariantConfigurationPriceSummary: {
+          component: ConfigPriceSummaryComponent,
           guards: [],
         },
         VariantConfigurationPrevNext: {
@@ -98,6 +103,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
               'VariantConfigTitle',
               'VariantConfigMenu',
               'VariantConfigContent',
+              'VariantConfigBottombar',
             ],
           },
           xs: {
@@ -105,6 +111,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
               'VariantConfigHeader',
               'VariantConfigTitle',
               'VariantConfigContent',
+              'VariantConfigBottombar',
             ],
           },
         },
@@ -132,6 +139,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigPriceSummaryComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -145,6 +153,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigPriceSummaryComponent,
   ],
   providers: [UserService],
   entryComponents: [
@@ -159,6 +168,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigPriceSummaryComponent,
   ],
 })
 export class VariantConfiguratorModule {}

@@ -41,6 +41,10 @@ describe('ConfiguratorEffect', () => {
       updateConfiguration(): Observable<Configurator.Configuration> {
         return of(productConfiguration);
       }
+
+      readConfigurationPrice(): Observable<Configurator.Configuration> {
+        return of(productConfiguration);
+      }
     }
     TestBed.configureTestingModule({
       imports: [

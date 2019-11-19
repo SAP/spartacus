@@ -25,10 +25,14 @@ import {
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeFail,
   UpdateConfigurationFinalizeSuccess,
+  UpdateConfigurationPrice,
+  UpdateConfigurationPriceFail,
+  UpdateConfigurationPriceSuccess,
   UpdateConfigurationSuccess,
   UPDATE_CONFIGURATION,
   UPDATE_CONFIGURATION_FAIL,
   UPDATE_CONFIGURATION_FINALIZE_FAIL,
+  UPDATE_CONFIGURATION_PRICE,
   UPDATE_CONFIGURATION_SUCCESS,
 } from '../actions/configurator.action';
 import { StateWithConfiguration } from '../configuration-state';
@@ -46,6 +50,8 @@ export class ConfiguratorEffects {
         .createConfiguration(productCode)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
+            this.store.dispatch(new UpdateConfigurationPrice(configuration));
+
             return [new CreateConfigurationSuccess(configuration)];
           }),
           catchError(error => [
@@ -117,6 +123,36 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
+  updateConfigurationPrice$: Observable<
+    UpdateConfigurationPriceSuccess | UpdateConfigurationPriceFail
+  > = this.actions$.pipe(
+    ofType(UPDATE_CONFIGURATION_PRICE),
+    map(
+      (action: { type: string; payload?: Configurator.Configuration }) =>
+        action.payload
+    ),
+    mergeMap(payload => {
+      return this.configuratorCommonsConnector
+        .readConfigurationPrice(payload.configId)
+        .pipe(
+          map((configuration: Configurator.Configuration) => {
+            return new UpdateConfigurationPriceSuccess(configuration);
+          }),
+          catchError(error => {
+            const errorPayload = makeErrorSerializable(error);
+            errorPayload.configId = payload.configId;
+            return [
+              new UpdateConfigurationPriceFail(
+                payload.productCode,
+                errorPayload
+              ),
+            ];
+          })
+        );
+    })
+  );
+
+  @Effect()
   updateConfigurationSuccess$: Observable<
     UpdateConfigurationFinalizeSuccess
   > = this.actions$.pipe(
@@ -130,7 +166,12 @@ export class ConfiguratorEffects {
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
         filter(pendingChanges => pendingChanges === 0),
-        map(_pendingChanges => new UpdateConfigurationFinalizeSuccess(payload))
+        map(_pendingChanges => {
+          //When no changes are pending update prices
+          this.store.dispatch(new UpdateConfigurationPrice(payload));
+
+          return new UpdateConfigurationFinalizeSuccess(payload);
+        })
       );
     })
   );
