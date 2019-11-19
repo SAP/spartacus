@@ -90,7 +90,7 @@ export class OccConfiguratorVariantSerializer
     groupType: Configurator.GroupType
   ): OccConfigurator.GroupType {
     switch (groupType) {
-      case Configurator.GroupType.CSTIC_GROUP:
+      case Configurator.GroupType.ATTRIBUTE_GROUP:
         return OccConfigurator.GroupType.CSTIC_GROUP;
     }
   }

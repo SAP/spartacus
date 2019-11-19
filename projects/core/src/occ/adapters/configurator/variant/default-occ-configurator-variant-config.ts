@@ -16,6 +16,8 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
 
           addConfigurationToCart:
             'users/${userId}/carts/${cartId}/entries/configurator/cpqconfigurator',
+
+          readConfigurationPrice: '/pricing/${configId}/cpqconfigurator',
         },
       },
     },

@@ -5,6 +5,7 @@ import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
   CONFIGURATION_NORMALIZER,
+  CONFIGURATION_PRICE_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
 import { CartModification } from '../../../../model/cart.model';
@@ -64,6 +65,7 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
   }
 
+
   addToCart(
     userId: string,
     cartId: string,
@@ -93,5 +95,18 @@ export class OccConfiguratorVariantAdapter
     return this.http
       .post<CartModification>(url, occConfigOrderEntry, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
+
+  readConfigurationPrice(
+    configId: string
+  ): Observable<Configurator.Configuration> {
+    const url = this.occEndpointsService.getUrl('readConfigurationPrice', {
+      configId,
+    });
+
+    //Send empty object as delta prices are not supported yet
+    return this.http
+      .patch(url, {})
+      .pipe(this.converterService.pipeable(CONFIGURATION_PRICE_NORMALIZER));
   }
 }

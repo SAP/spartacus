@@ -35,6 +35,7 @@ export abstract class ConfiguratorCommonsAdapter {
   ): Observable<Configurator.Configuration>;
 
   /**
+
    * Abstract method to add a configuration to cart.
    *
    * @param userId user id
@@ -50,4 +51,13 @@ export abstract class ConfiguratorCommonsAdapter {
     quantity: number,
     configId: string
   ): Observable<CartModification>;
+
+   * Abstract method to read a configuration price
+   *
+   * @param configId configuration id
+   */
+  abstract readConfigurationPrice(
+    configId: string
+  ): Observable<Configurator.Configuration>;
+
 }

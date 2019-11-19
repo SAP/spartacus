@@ -20,10 +20,11 @@ import { ConfiguratorUiActions } from '../actions';
 import {
   AddToCartFinalize,
   ADD_TO_CART,
-  ADD_TO_CART_FINALIZE,
+  ChangeGroup,
   ChangeGroupFinalize,
   CHANGE_GROUP,
   CHANGE_GROUP_FINALIZE,
+  CreateConfiguration,
   CreateConfigurationFail,
   CreateConfigurationSuccess,
   CREATE_CONFIGURATION,
@@ -31,13 +32,18 @@ import {
   ReadConfigurationFail,
   ReadConfigurationSuccess,
   READ_CONFIGURATION,
+  UpdateConfiguration,
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeFail,
   UpdateConfigurationFinalizeSuccess,
+  UpdateConfigurationPrice,
+  UpdateConfigurationPriceFail,
+  UpdateConfigurationPriceSuccess,
   UpdateConfigurationSuccess,
   UPDATE_CONFIGURATION,
   UPDATE_CONFIGURATION_FAIL,
   UPDATE_CONFIGURATION_FINALIZE_FAIL,
+  UPDATE_CONFIGURATION_PRICE,
   UPDATE_CONFIGURATION_SUCCESS,
 } from '../actions/configurator.action';
 import { StateWithConfiguration } from '../configuration-state';
@@ -49,12 +55,14 @@ export class ConfiguratorEffects {
     CreateConfigurationSuccess | CreateConfigurationFail
   > = this.actions$.pipe(
     ofType(CREATE_CONFIGURATION),
-    map((action: { type: string; productCode?: string }) => action.productCode),
+    map((action: CreateConfiguration) => action.productCode),
     mergeMap(productCode => {
       return this.configuratorCommonsConnector
         .createConfiguration(productCode)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
+            this.store.dispatch(new UpdateConfigurationPrice(configuration));
+
             return [new CreateConfigurationSuccess(configuration)];
           }),
           catchError(error => [
@@ -72,12 +80,7 @@ export class ConfiguratorEffects {
     ReadConfigurationSuccess | ReadConfigurationFail
   > = this.actions$.pipe(
     ofType(READ_CONFIGURATION),
-    map(
-      (action: {
-        type: string;
-        payload?: { configId: string; productCode: string; groupId: string };
-      }) => action.payload
-    ),
+    map((action: ReadConfiguration) => action.payload),
     mergeMap(payload => {
       return this.configuratorCommonsConnector
         .readConfiguration(payload.configId, payload.groupId)
@@ -100,10 +103,7 @@ export class ConfiguratorEffects {
     UpdateConfigurationSuccess | UpdateConfigurationFail
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION),
-    map(
-      (action: { type: string; payload?: Configurator.Configuration }) =>
-        action.payload
-    ),
+    map((action: UpdateConfiguration) => action.payload),
     //mergeMap here as we need to process each update
     //(which only sends one changed attribute at a time),
     //so we must not cancel inner emissions
@@ -126,21 +126,54 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
-  updateConfigurationSuccess$: Observable<
-    UpdateConfigurationFinalizeSuccess | ConfiguratorUiActions.SetCurrentGroup
+  updateConfigurationPrice$: Observable<
+    UpdateConfigurationPriceSuccess | UpdateConfigurationPriceFail
   > = this.actions$.pipe(
-    ofType(UPDATE_CONFIGURATION_SUCCESS),
+    ofType(UPDATE_CONFIGURATION_PRICE),
     map(
       (action: { type: string; payload?: Configurator.Configuration }) =>
         action.payload
     ),
     mergeMap(payload => {
+      return this.configuratorCommonsConnector
+        .readConfigurationPrice(payload.configId)
+        .pipe(
+          map((configuration: Configurator.Configuration) => {
+            return new UpdateConfigurationPriceSuccess(configuration);
+          }),
+          catchError(error => {
+            const errorPayload = makeErrorSerializable(error);
+            errorPayload.configId = payload.configId;
+            return [
+              new UpdateConfigurationPriceFail(
+                payload.productCode,
+                errorPayload
+              ),
+            ];
+          })
+        );
+    })
+  );
+
+  @Effect()
+  updateConfigurationSuccess$: Observable<
+    | UpdateConfigurationFinalizeSuccess
+    | UpdateConfigurationPrice
+    | ConfiguratorUiActions.SetCurrentGroup
+  > = this.actions$.pipe(
+    ofType(UPDATE_CONFIGURATION_SUCCESS),
+    map((action: UpdateConfigurationSuccess) => action.payload),
+    mergeMap(payload => {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
         filter(pendingChanges => pendingChanges === 0),
-        switchMap(_pendingChanges => [
+        switchMap(() => [
           new UpdateConfigurationFinalizeSuccess(payload),
+
+          //When no changes are pending update prices
+          new UpdateConfigurationPrice(payload),
+
           //setCurrentGroup because in cases where a queue of updates exists with a group navigation in between,
           //we need to ensure that the last update determines the current group.
           new ConfiguratorUiActions.SetCurrentGroup(
@@ -157,16 +190,13 @@ export class ConfiguratorEffects {
     UpdateConfigurationFinalizeFail
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_FAIL),
-    map(
-      (action: { type: string; payload?: Configurator.Configuration }) =>
-        action.payload
-    ),
+    map((action: UpdateConfigurationFail) => action.payload),
     mergeMap(payload => {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
         filter(pendingChanges => pendingChanges === 0),
-        map(_pendingChanges => new UpdateConfigurationFinalizeFail(payload))
+        map(() => new UpdateConfigurationFinalizeFail(payload))
       );
     })
   );
@@ -174,17 +204,14 @@ export class ConfiguratorEffects {
   @Effect()
   handleErrorOnUpdate$: Observable<ReadConfiguration> = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_FINALIZE_FAIL),
-    map(
-      (action: { type: string; payload?: Configurator.Configuration }) =>
-        action.payload
-    ),
+    map((action: UpdateConfigurationFinalizeFail) => action.payload),
     map(payload => new ReadConfiguration({ configId: payload.configId }))
   );
 
   @Effect()
   groupChange$: Observable<ChangeGroupFinalize> = this.actions$.pipe(
     ofType(CHANGE_GROUP),
-    map((action: { type: string; payload?: any }) => action.payload),
+    map((action: ChangeGroup) => action.payload),
     switchMap(payload => {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
@@ -202,12 +229,7 @@ export class ConfiguratorEffects {
     | ReadConfigurationSuccess
   > = this.actions$.pipe(
     ofType(CHANGE_GROUP_FINALIZE),
-    map(
-      (action: {
-        type: string;
-        payload?: { configId: string; productCode: string; groupId: string };
-      }) => action.payload
-    ),
+    map((action: ChangeGroupFinalize) => action.payload),
     switchMap(payload => {
       return this.configuratorCommonsConnector
         .readConfiguration(payload.configId, payload.groupId)
