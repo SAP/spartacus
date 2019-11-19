@@ -122,7 +122,7 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
-  updateConfigurationPrice$: Observable<
+  updatePriceSummary$: Observable<
     UpdatePriceSummarySuccess | UpdatePriceSummaryFail
   > = this.actions$.pipe(
     ofType(UPDATE_PRICE_SUMMARY),
