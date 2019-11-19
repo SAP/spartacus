@@ -1,20 +1,20 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { StateLoaderSelectors } from '../../../state/utils/loader/loader-group.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { UserToken } from '../../models/token-types.model';
-import { AuthState, StateWithAuth } from '../auth-state';
-import { getAuthState } from './feature.selector';
+import { UserToken } from '../../../auth/models/token-types.model';
+import { getAsmState } from './feature.selector';
+import { AsmState, StateWithAsm } from '../asm-state';
 
 export const getCustomerSupportAgentTokenState: MemoizedSelector<
-  StateWithAuth,
+  StateWithAsm,
   LoaderState<UserToken>
 > = createSelector(
-  getAuthState,
-  (state: AuthState) => state.csagentToken
+  getAsmState,
+  (state: AsmState) => state.csagentToken
 );
 
 export const getCustomerSupportAgentToken: MemoizedSelector<
-  StateWithAuth,
+  StateWithAsm,
   UserToken
 > = createSelector(
   getCustomerSupportAgentTokenState,
@@ -22,7 +22,7 @@ export const getCustomerSupportAgentToken: MemoizedSelector<
 );
 
 export const getCustomerSupportAgentTokenLoading: MemoizedSelector<
-  StateWithAuth,
+  StateWithAsm,
   boolean
 > = createSelector(
   getCustomerSupportAgentTokenState,

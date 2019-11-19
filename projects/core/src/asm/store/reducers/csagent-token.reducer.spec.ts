@@ -1,5 +1,5 @@
-import { UserToken } from '../../models/token-types.model';
-import { AuthActions } from '../actions/index';
+import { UserToken } from '../../../auth/models/token-types.model';
+import { AsmActions } from '../actions/index';
 import * as fromCustomerSupportAgentTokenReducer from './csagent-token.reducer';
 
 const testToken: UserToken = {
@@ -15,7 +15,7 @@ describe('Customer Support Agent Token reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromCustomerSupportAgentTokenReducer;
-      const action = {} as AuthActions.CustomerSupportAgentTokenAction;
+      const action = {} as AsmActions.CustomerSupportAgentTokenAction;
       const state = fromCustomerSupportAgentTokenReducer.reducer(
         undefined,
         action
@@ -29,7 +29,7 @@ describe('Customer Support Agent Token reducer', () => {
     it('should store token', () => {
       const { initialState } = fromCustomerSupportAgentTokenReducer;
 
-      const action = new AuthActions.LoadCustomerSupportAgentTokenSuccess(
+      const action = new AsmActions.LoadCustomerSupportAgentTokenSuccess(
         testToken
       );
       const state = fromCustomerSupportAgentTokenReducer.reducer(
@@ -45,7 +45,7 @@ describe('Customer Support Agent Token reducer', () => {
     it('should load token', () => {
       const { initialState } = fromCustomerSupportAgentTokenReducer;
 
-      const action = new AuthActions.LoadCustomerSupportAgentToken({
+      const action = new AsmActions.LoadCustomerSupportAgentToken({
         userId: 'user',
         password: 'pass',
       });
@@ -62,7 +62,7 @@ describe('Customer Support Agent Token reducer', () => {
     it('should fail load token', () => {
       const { initialState } = fromCustomerSupportAgentTokenReducer;
 
-      const action = new AuthActions.LoadCustomerSupportAgentTokenFail({});
+      const action = new AsmActions.LoadCustomerSupportAgentTokenFail({});
       const state = fromCustomerSupportAgentTokenReducer.reducer(
         initialState,
         action
