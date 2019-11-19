@@ -6,9 +6,8 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { USE_STACKED_OUTLETS } from './outlet-constants';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
-import { OutletPosition } from './outlet.model';
+import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
 const OUTLET_NAME_1 = 'OUTLET.1';

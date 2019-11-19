@@ -6,8 +6,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { USE_STACKED_OUTLETS } from './outlet-constants';
-import { OutletPosition } from './outlet.model';
+import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
 @Directive({
