@@ -5,6 +5,7 @@ import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { CartActions } from '../store/actions/index';
+import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 
@@ -58,10 +59,7 @@ export class MultiCartService {
         toMergeCartGuid,
       })
     );
-    // to keep track of cart creation process we use cart with `fresh` id
-    // after creating cart we switch to entity with `code` or `guid`
-    // for loading/error state we need `fresh` cart entity
-    return this.getCartEntity('fresh');
+    return this.getCartEntity(FRESH_CART_ID);
   }
 
   /**
