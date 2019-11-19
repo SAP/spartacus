@@ -12,6 +12,7 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   UserPaymentService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
@@ -114,6 +115,14 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
+// TODO(issue:#5468) Deprecated since 1.5.0
+const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
+class MockFeatureConfigService {
+  isLevel(_level: string): boolean {
+    return isLevelBool.value;
+  }
+}
+
 describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
@@ -154,6 +163,8 @@ describe('PaymentFormComponent', () => {
         },
         { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        // TODO(issue:#5468) Deprecated since 1.5.0
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(PaymentFormComponent, {
@@ -376,6 +387,7 @@ describe('PaymentFormComponent', () => {
       expect(component.next).toHaveBeenCalled();
     });
 
+    // TODO(issue:#5468) Deprecated since 1.5.0
     it('should be enabled only when form has all mandatory fields filled - with billing address', () => {
       const isContinueBtnDisabled = () => {
         fixture.detectChanges();
@@ -433,6 +445,7 @@ describe('PaymentFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeFalsy();
     });
 
+    // TODO(issue:#5468) Deprecated since 1.5.0
     it('should be enabled only when form has all mandatory fields filled - without billing address', () => {
       const isContinueBtnDisabled = () => {
         fixture.detectChanges();
@@ -462,6 +475,19 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
 
+      expect(isContinueBtnDisabled()).toBeFalsy();
+    });
+
+    // TODO(issue:#5468) Deprecated since 1.5.0
+    it('should not be disabled', () => {
+      isLevelBool.next(true);
+
+      const isContinueBtnDisabled = () => {
+        fixture.detectChanges();
+        return getContinueBtn().nativeElement.disabled;
+      };
+
+      fixture.detectChanges();
       expect(isContinueBtnDisabled()).toBeFalsy();
     });
 
