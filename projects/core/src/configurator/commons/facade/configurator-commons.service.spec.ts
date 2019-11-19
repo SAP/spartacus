@@ -99,7 +99,8 @@ describe('ConfiguratorCommonsService', () => {
   it('should read a configuration, accessing the store', () => {
     const configurationFromStore = serviceUnderTest.readConfiguration(
       CONFIG_ID,
-      PRODUCT_CODE
+      PRODUCT_CODE,
+      GROUP_ID_1
     );
 
     expect(configurationFromStore).toBeDefined();
@@ -112,6 +113,7 @@ describe('ConfiguratorCommonsService', () => {
       new ConfiguratorActions.ReadConfiguration({
         configId: CONFIG_ID,
         productCode: PRODUCT_CODE,
+        groupId: GROUP_ID_1,
       })
     );
   });

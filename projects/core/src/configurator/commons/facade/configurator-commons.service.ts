@@ -50,12 +50,14 @@ export class ConfiguratorCommonsService {
 
   readConfiguration(
     configId: string,
-    productCode: string
+    productCode: string,
+    groupId: string
   ): Observable<Configurator.Configuration> {
     this.store.dispatch(
       new ConfiguratorActions.ReadConfiguration({
         configId: configId,
         productCode: productCode,
+        groupId: groupId,
       })
     );
 

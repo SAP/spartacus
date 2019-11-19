@@ -7,11 +7,12 @@ import {
 } from '@angular/core';
 import {
   Configurator,
+  ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -20,69 +21,67 @@ import { map, take } from 'rxjs/operators';
 })
 export class ConfigPreviousNextButtonsComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  productCode: string;
-  subscription = new Subscription();
 
   constructor(
     private routingService: RoutingService,
-    private configuratorGroupsService: ConfiguratorGroupsService
+    private configuratorGroupsService: ConfiguratorGroupsService,
+    private configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
   @Output() nextGroup = new EventEmitter();
   @Output() previousGroup = new EventEmitter();
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.routingService
-        .getRouterState()
-        .subscribe(state => this.initConfigurationGroups(state))
+    this.configuration$ = this.routingService.getRouterState().pipe(
+      map(routingData => routingData.state.params.rootProduct),
+      switchMap(product =>
+        this.configuratorCommonsService.getConfiguration(product)
+      )
     );
   }
 
-  initConfigurationGroups(routingData) {
-    this.productCode = routingData.state.params.rootProduct;
+  onPrevious(configId: string, productCode: string) {
+    this.navigateToPreviousGroup(configId, productCode);
+  }
+  onNext(configId: string, productCode: string) {
+    this.navigateToNextGroup(configId, productCode);
   }
 
-  onPrevious() {
-    this.navigateToPreviousGroup();
-  }
-  onNext() {
-    this.navigateToNextGroup();
-  }
-
-  navigateToNextGroup() {
+  navigateToNextGroup(configId: string, productCode: string) {
     this.configuratorGroupsService
-      .getNextGroup(this.productCode)
+      .getNextGroup(productCode)
       .pipe(take(1))
-      .subscribe(groupId => {
-        this.configuratorGroupsService.setCurrentGroup(
-          this.productCode,
+      .subscribe(groupId =>
+        this.configuratorGroupsService.navigateToGroup(
+          configId,
+          productCode,
           groupId
-        );
-      });
+        )
+      );
   }
 
-  navigateToPreviousGroup() {
+  navigateToPreviousGroup(configId: string, productCode: string) {
     this.configuratorGroupsService
-      .getPreviousGroup(this.productCode)
+      .getPreviousGroup(productCode)
       .pipe(take(1))
-      .subscribe(groupId => {
-        this.configuratorGroupsService.setCurrentGroup(
-          this.productCode,
+      .subscribe(groupId =>
+        this.configuratorGroupsService.navigateToGroup(
+          configId,
+          productCode,
           groupId
-        );
-      });
+        )
+      );
   }
 
-  isFirstGroup(): Observable<Boolean> {
+  isFirstGroup(productCode: string): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getPreviousGroup(this.productCode)
+      .getPreviousGroup(productCode)
       .pipe(map(group => !group));
   }
 
-  isLastGroup(): Observable<Boolean> {
+  isLastGroup(productCode: string): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getNextGroup(this.productCode)
+      .getNextGroup(productCode)
       .pipe(map(group => !group));
   }
 }

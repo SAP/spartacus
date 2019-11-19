@@ -15,12 +15,14 @@ export const UPDATE_CONFIGURATION = '[Configurator] Update Configuration';
 export const UPDATE_CONFIGURATION_FAIL =
   '[Configurator] Update Configuration Fail';
 export const UPDATE_CONFIGURATION_SUCCESS =
-  '[Configurator] Update Configuration Sucess';
+  '[Configurator] Update Configuration Success';
 
 export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
   '[Configurator] Update Configuration finalize success';
 export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
   '[Configurator] Update Configuration finalize fail';
+export const CHANGE_GROUP = '[Configurator] Change group';
+export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -99,6 +101,20 @@ export class UpdateConfigurationFinalizeFail extends StateEntityLoaderActions.En
   }
 }
 
+export class ChangeGroup extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = CHANGE_GROUP;
+  constructor(public payload: any) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class ChangeGroupFinalize extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = CHANGE_GROUP_FINALIZE;
+  constructor(public payload: any) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -110,4 +126,6 @@ export type ConfiguratorAction =
   | UpdateConfigurationFail
   | UpdateConfigurationSuccess
   | UpdateConfigurationFinalizeFail
-  | UpdateConfigurationFinalizeSuccess;
+  | UpdateConfigurationFinalizeSuccess
+  | ChangeGroup
+  | ChangeGroupFinalize;

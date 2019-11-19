@@ -30,10 +30,17 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
   }
 
-  readConfiguration(configId: string): Observable<Configurator.Configuration> {
+  readConfiguration(
+    configId: string,
+    groupId: string
+  ): Observable<Configurator.Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(
-        this.occEndpointsService.getUrl('readConfiguration', { configId })
+        this.occEndpointsService.getUrl(
+          'readConfiguration',
+          { configId },
+          { groupId: groupId }
+        )
       )
       .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
   }

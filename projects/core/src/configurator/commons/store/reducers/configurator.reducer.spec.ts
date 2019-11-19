@@ -100,7 +100,6 @@ describe('Configurator reducer', () => {
       expect(state.pendingChanges).toEqual(1);
     });
   });
-
   describe('UpdateConfigurationFinalize action', () => {
     it('should put configuration into the state', () => {
       const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(

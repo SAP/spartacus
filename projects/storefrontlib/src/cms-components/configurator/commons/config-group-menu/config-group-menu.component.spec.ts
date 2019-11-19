@@ -15,6 +15,7 @@ import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/h
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const CONFIG_ID = '12342';
 
 const mockRouterState: any = {
   state: {
@@ -35,12 +36,12 @@ class MockRouter {
 }
 
 class MockConfiguratorGroupService {
-  public setCurrentGroup() {}
+  public navigateToGroup() {}
 }
 
 class MockConfiguratorCommonsService {
   public config: Configurator.Configuration = {
-    configId: '1234-56-7890',
+    configId: CONFIG_ID,
     consistent: true,
     complete: true,
     productCode: PRODUCT_CODE,
@@ -93,6 +94,9 @@ class MockConfiguratorCommonsService {
   hasConfiguration(): Observable<boolean> {
     return of(false);
   }
+  readConfiguration(): Observable<Configurator.Configuration> {
+    return of(this.config);
+  }
 }
 
 describe('ConfigurationGroupMenuComponent', () => {
@@ -139,7 +143,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       HamburgerMenuService
     >);
 
-    spyOn(configuratorGroupsService, 'setCurrentGroup').and.stub();
+    spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
 
@@ -165,8 +169,8 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.click({ id: 'groupdId' });
-    expect(configuratorGroupsService.setCurrentGroup).toHaveBeenCalled();
+    component.click(CONFIG_ID, PRODUCT_CODE, { id: 'groupdId' });
+    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });
 });
