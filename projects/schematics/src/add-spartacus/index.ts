@@ -23,7 +23,7 @@ import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import {
   addImport,
-  importModuleAndCommitChanges,
+  addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
 import { getAngularVersion } from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
@@ -170,7 +170,7 @@ function updateAppModule(options: SpartacusOptions): Rule {
     addImport(host, modulePath, 'translationChunksConfig', '@spartacus/assets');
     addImport(host, modulePath, 'B2cStorefrontModule', '@spartacus/storefront');
 
-    importModuleAndCommitChanges(
+    addToModuleImportsAndCommitChanges(
       host,
       modulePath,
       `B2cStorefrontModule.withConfig(${getStorefrontConfig(options)})`

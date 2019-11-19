@@ -6,7 +6,10 @@ import * as path from 'path';
 import { getPathResultsForFile } from './file-utils';
 import {
   addImport,
-  importModule,
+  addToModuleDeclarations,
+  addToModuleEntryComponents,
+  addToModuleExports,
+  addToModuleImports,
   stripTsFromImport,
 } from './module-file-utils';
 
@@ -88,23 +91,82 @@ describe('Module file utils', () => {
     });
   });
 
-  describe('importModule', () => {
-    it('should add passed position to import array', async () => {
-      const appModulePath = getPathResultsForFile(
-        appTree,
-        'app.module.ts',
-        'src'
-      )[0];
-      expect(appModulePath).toBeTruthy();
-      const resultChange = importModule(
-        appTree,
-        appModulePath,
-        'MockUnitTestModule'
-      );
+  describe('add metadata to ng module', () => {
+    describe('addToModuleImports', () => {
+      it('should add passed position to imports array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleImports(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
 
-      expect(resultChange).toBeTruthy();
-      expect(resultChange.length).toEqual(1);
-      expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleDeclarations', () => {
+      it('should add passed position to declarations array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleDeclarations(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleEntryComponents', () => {
+      it('should add passed position to entryComponents array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleEntryComponents(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleExports', () => {
+      it('should add passed position to exports array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleExports(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
     });
   });
 });

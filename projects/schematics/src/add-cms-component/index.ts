@@ -39,8 +39,11 @@ import {
   InsertDirection,
 } from '../shared/utils/file-utils';
 import {
+  addToModuleDeclarations,
+  addToModuleEntryComponents,
+  addToModuleExports,
+  addToModuleImports,
   buildRelativePath,
-  importModule,
   stripTsFromImport,
 } from '../shared/utils/module-file-utils';
 import { getWorkspace } from '../shared/utils/workspace-utils';
@@ -99,7 +102,9 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     const componentName = `${strings.classify(options.name)}${strings.classify(
       options.type
     )}`;
-    const insertModuleChanges = importModule(
+
+    /*** updating the module's metadata start ***/
+    const addToModuleImportsChanges = addToModuleImports(
       tree,
       modulePath,
       `${CONFIG_MODULE_CLASS}.withConfig(<${CMS_CONFIG}>{
@@ -111,7 +116,32 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     })`,
       moduleTs
     );
-    changes.push(...insertModuleChanges);
+    changes.push(...addToModuleImportsChanges);
+
+    const addToModuleDeclarationsChanges = addToModuleDeclarations(
+      tree,
+      modulePath,
+      componentName,
+      moduleTs
+    );
+    changes.push(...addToModuleDeclarationsChanges);
+
+    const addToModuleEntryComponentsChanges = addToModuleEntryComponents(
+      tree,
+      modulePath,
+      componentName,
+      moduleTs
+    );
+    changes.push(...addToModuleEntryComponentsChanges);
+
+    const addToModuleExportsChanges = addToModuleExports(
+      tree,
+      modulePath,
+      componentName,
+      moduleTs
+    );
+    changes.push(...addToModuleExportsChanges);
+    /*** updating the module's metadata end ***/
 
     const componentImportSkipped = !Boolean(options.declareCmsModule);
     if (componentImportSkipped) {
@@ -326,7 +356,7 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
       stripTsFromImport(sourceCmsModuleRelativeImportPath),
       false
     );
-    const moduleImport = importModule(
+    const moduleImport = addToModuleImports(
       tree,
       destinationModulePath,
       sourceCmsModuleClassified,

@@ -35,27 +35,76 @@ export function addImport(
   }
 }
 
-export function importModule(
+export function addToModuleImports(
   host: Tree,
   modulePath: string,
   importText: string,
+  moduleSource?: ts.SourceFile
+): InsertChange[] {
+  return addToMetadata(host, modulePath, importText, 'imports', moduleSource);
+}
+
+export function addToModuleDeclarations(
+  host: Tree,
+  modulePath: string,
+  importText: string,
+  moduleSource?: ts.SourceFile
+): InsertChange[] {
+  return addToMetadata(
+    host,
+    modulePath,
+    importText,
+    'declarations',
+    moduleSource
+  );
+}
+
+export function addToModuleEntryComponents(
+  host: Tree,
+  modulePath: string,
+  importText: string,
+  moduleSource?: ts.SourceFile
+): InsertChange[] {
+  return addToMetadata(
+    host,
+    modulePath,
+    importText,
+    'entryComponents',
+    moduleSource
+  );
+}
+
+export function addToModuleExports(
+  host: Tree,
+  modulePath: string,
+  importText: string,
+  moduleSource?: ts.SourceFile
+): InsertChange[] {
+  return addToMetadata(host, modulePath, importText, 'exports', moduleSource);
+}
+
+function addToMetadata(
+  host: Tree,
+  modulePath: string,
+  importText: string,
+  metadataType: 'imports' | 'declarations' | 'entryComponents' | 'exports',
   moduleSource?: ts.SourceFile
 ): InsertChange[] {
   moduleSource = moduleSource || getTsSourceFile(host, modulePath);
   return addSymbolToNgModuleMetadata(
     moduleSource,
     modulePath,
-    'imports',
+    metadataType,
     importText
   ) as InsertChange[];
 }
 
-export function importModuleAndCommitChanges(
+export function addToModuleImportsAndCommitChanges(
   host: Tree,
   modulePath: string,
   importText: string
 ): void {
-  const metadataChanges = importModule(host, modulePath, importText);
+  const metadataChanges = addToModuleImports(host, modulePath, importText);
   commitChanges(host, modulePath, metadataChanges, InsertDirection.RIGHT);
 }
 

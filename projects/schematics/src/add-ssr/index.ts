@@ -29,7 +29,7 @@ import {
 } from '../shared/utils/file-utils';
 import {
   addImport,
-  importModuleAndCommitChanges,
+  addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
 import { getAngularVersion } from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
@@ -195,7 +195,7 @@ function modifyAppServerModuleFile(): Rule {
       'ServerTransferStateModule',
       '@angular/platform-server'
     );
-    importModuleAndCommitChanges(
+    addToModuleImportsAndCommitChanges(
       tree,
       appServerModulePath,
       `ServerTransferStateModule`
