@@ -9,23 +9,10 @@ export function reducer(
   action: ConfiguratorActions.ConfiguratorAction
 ): Configurator.Configuration {
   switch (action.type) {
-    case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {
-      const content = { ...action.payload };
-
-      return {
-        ...state,
-        ...content,
-      };
-    }
-    case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS: {
-      const content = { ...action.payload };
-
-      return {
-        ...state,
-        ...content,
-      };
-    }
-    case ConfiguratorActions.READ_CONFIGURATION_SUCCESS: {
+    case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS:
+    case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
+    case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
+    case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
       const content = { ...action.payload };
 
       return {
@@ -42,9 +29,7 @@ export function reducerPendingChanges(
   action: ConfiguratorActions.ConfiguratorAction
 ): number {
   switch (action.type) {
-    case ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS: {
-      return addToPendingChanges(-1, state);
-    }
+    case ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.UPDATE_CONFIGURATION_FAIL: {
       return addToPendingChanges(-1, state);
     }

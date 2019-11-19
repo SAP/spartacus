@@ -27,4 +27,8 @@ export class ConfiguratorCommonsConnector {
   ): Observable<Configurator.Configuration> {
     return this.adapter.updateConfiguration(Configuration);
   }
+
+  readPriceSummary(configId: string): Observable<Configurator.Configuration> {
+    return this.adapter.readPriceSummary(configId);
+  }
 }

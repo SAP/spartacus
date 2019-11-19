@@ -50,6 +50,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'configurator.header',
     'configurator.attribute',
     'configurator.button',
+    'configurator.priceSummary',
   ],
 
   user: [

@@ -48,6 +48,10 @@ describe('ConfiguratorEffect', () => {
       updateConfiguration(): Observable<Configurator.Configuration> {
         return of(productConfiguration);
       }
+
+      readPriceSummary(): Observable<Configurator.Configuration> {
+        return of(productConfiguration);
+      }
     }
     TestBed.configureTestingModule({
       imports: [
@@ -176,14 +180,19 @@ describe('ConfiguratorEffect', () => {
       const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
+        productConfiguration
+      );
       const setCurrentGroup = new ConfiguratorUiActions.SetCurrentGroup(
         productConfiguration.productCode,
         groupId
       );
+
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: finalizeSuccess,
-        c: setCurrentGroup,
+        c: updatePrices,
+        d: setCurrentGroup,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected

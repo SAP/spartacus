@@ -17,6 +17,31 @@ export namespace OccConfigurator {
     kbKey?: KbKey;
   }
 
+  export interface Prices {
+    configId?: string;
+    pricingError?: boolean;
+    showDeltaPrices?: boolean;
+    priceSummary?: PriceSummary;
+  }
+
+  export interface PriceSummary {
+    basePrice?: PriceDetails;
+    currentTotal?: PriceDetails;
+    currentTotalSavings?: PriceSavingDetails;
+    selectedOptions?: PriceDetails;
+  }
+
+  export interface PriceDetails {
+    currencyIso?: string;
+    formattedValue?: string;
+    value?: number;
+  }
+
+  export interface PriceSavingDetails extends PriceDetails {
+    maxQuantity?: number;
+    minQuantity?: number;
+  }
+
   /**
    * Key that identifies a knowledge base ( container representing the configuration master data )
    */

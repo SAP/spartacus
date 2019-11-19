@@ -24,6 +24,13 @@ export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
 export const CHANGE_GROUP = '[Configurator] Change group';
 export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 
+export const UPDATE_PRICE_SUMMARY =
+  '[Configurator] Update Configuration Summary Price';
+export const UPDATE_PRICE_SUMMARY_FAIL =
+  '[Configurator] Update Configuration Price Summary fail';
+export const UPDATE_PRICE_SUMMARY_SUCCESS =
+  '[Configurator] Update Configuration Price Summary success';
+
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public productCode: string) {
@@ -101,6 +108,26 @@ export class UpdateConfigurationFinalizeFail extends StateEntityLoaderActions.En
   }
 }
 
+export class UpdatePriceSummary extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = UPDATE_PRICE_SUMMARY;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+export class UpdatePriceSummaryFail extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = UPDATE_PRICE_SUMMARY_FAIL;
+  constructor(productCode: string, public payload: any) {
+    super(CONFIGURATION_DATA, productCode, payload);
+  }
+}
+
+export class UpdatePriceSummarySuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = UPDATE_PRICE_SUMMARY_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
 export class ChangeGroup extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CHANGE_GROUP;
   constructor(public payload: any) {
@@ -127,5 +154,8 @@ export type ConfiguratorAction =
   | UpdateConfigurationSuccess
   | UpdateConfigurationFinalizeFail
   | UpdateConfigurationFinalizeSuccess
+  | UpdatePriceSummary
+  | UpdatePriceSummaryFail
+  | UpdatePriceSummarySuccess
   | ChangeGroup
   | ChangeGroupFinalize;
