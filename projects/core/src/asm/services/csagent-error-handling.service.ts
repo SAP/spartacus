@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
-} from '../../../global-message/index';
-import { AuthService } from '../../facade/auth.service';
+} from '../../global-message/index';
+import { AsmAuthService } from '../facade/asm-auth.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CustomerSupportAgentErrorHandlingService {
   constructor(
-    protected authService: AuthService,
+    protected asmAuthService: AsmAuthService,
     protected globalMessageService: GlobalMessageService
   ) {}
 
   terminateCustomerSupportAgentExpiredSession(): void {
-    this.authService.logoutCustomerSupportAgent();
+    this.asmAuthService.logoutCustomerSupportAgent();
     this.globalMessageService.add(
       {
         key: 'asm.csagentTokenExpired',
