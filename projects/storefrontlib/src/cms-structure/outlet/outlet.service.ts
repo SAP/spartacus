@@ -79,7 +79,7 @@ export class OutletService<T = TemplateRef<any>> {
     return templateRef;
   }
 
-  private store(store: Map<string, (T)[]>, outlet, value: T) {
+  private store(store: Map<string, (T)[]>, outlet: string, value: T) {
     const existing = store.get(outlet) || [];
     const newValue: T[] = existing.concat([value]);
     store.set(outlet, newValue);
