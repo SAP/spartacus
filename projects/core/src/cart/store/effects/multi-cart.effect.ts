@@ -74,5 +74,12 @@ export class MultiCartEffects {
     ])
   );
 
+  @Effect()
+  removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
+    ofType(CartActions.DELETE_CART),
+    map((action: CartActions.DeleteCart) => action.payload),
+    mergeMap(payload => [new CartActions.RemoveCart(payload.cartId)])
+  );
+
   constructor(private actions$: Actions) {}
 }
