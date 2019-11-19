@@ -1,31 +1,18 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  shareReplay,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, shareReplay, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
-import {
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_GUEST,
-} from '../../occ/utils/occ-constants';
+import { OCC_CART_ID_CURRENT, OCC_USER_ID_ANONYMOUS, OCC_USER_ID_GUEST } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process';
 import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import { ADD_ENTRY_PROCESS_ID } from '../store';
-import { CartActions } from '../store/actions/index';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId } from '../utils/utils';
@@ -161,7 +148,7 @@ export class ActiveCartService {
       this.guestCartMerge(cartId);
     } else {
       this.store.dispatch(
-        new CartActions.MergeCart({
+        new DeprecatedCartActions.MergeCart({
           userId: this.userId,
           cartId: cartId,
           extraData: {

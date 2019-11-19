@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class CartEntryEffects {
   addEntry$: Observable<
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
-    | CartActions.LoadCart
+    | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
@@ -45,7 +46,7 @@ export class CartEntryEffects {
         const payload = result.payload;
         return [
           result,
-          new CartActions.LoadCart({
+          new DeprecatedCartActions.LoadCart({
             userId: payload.userId,
             cartId: payload.cartId,
             extraData: {

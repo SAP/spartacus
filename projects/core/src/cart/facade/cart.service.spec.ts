@@ -8,13 +8,14 @@ import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import {
-  OCC_USER_ID_ANONYMOUS,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
 } from '../../occ/utils/occ-constants';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { StateWithCart } from '../store/cart-state';
+import { ActiveCartService } from './active-cart.service';
 import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
-import { ActiveCartService } from './active-cart.service';
 
 class CartDataServiceStub {
   userId;
@@ -95,7 +96,7 @@ describe('CartService', () => {
 
           service[loadOrMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
-            new CartActions.LoadCart({
+            new DeprecatedCartActions.LoadCart({
               userId: cartData.userId,
               cartId: OCC_CART_ID_CURRENT,
             })
@@ -109,7 +110,7 @@ describe('CartService', () => {
 
           service[loadOrMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
-            new CartActions.MergeCart({
+            new DeprecatedCartActions.MergeCart({
               userId: cartData.userId,
               cartId: cartData.cart.guid,
             })
@@ -127,7 +128,7 @@ describe('CartService', () => {
         it('should delete guest cart', () => {
           service[loadOrMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
-            new CartActions.DeleteCart({
+            new DeprecatedCartActions.DeleteCart({
               userId: OCC_USER_ID_ANONYMOUS,
               cartId: cartData.cart.guid,
             })
@@ -139,7 +140,7 @@ describe('CartService', () => {
 
           service[guestCartMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
-            new CartActions.CreateCart({ userId: cartData.userId })
+            new DeprecatedCartActions.CreateCart({ userId: cartData.userId })
           );
         });
 
@@ -164,7 +165,7 @@ describe('CartService', () => {
 
         service['load']();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.LoadCart({
+          new DeprecatedCartActions.LoadCart({
             userId: cartData.userId,
             cartId: cartData.cartId,
           })
@@ -176,7 +177,7 @@ describe('CartService', () => {
 
         service['load']();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.LoadCart({
+          new DeprecatedCartActions.LoadCart({
             userId: cartData.userId,
             cartId: OCC_CART_ID_CURRENT,
           })
@@ -189,7 +190,7 @@ describe('CartService', () => {
 
         service['load']();
         expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.LoadCart({
+          new DeprecatedCartActions.LoadCart({
             userId: cartData.userId,
             cartId: cartData.cartId,
           })
@@ -199,7 +200,7 @@ describe('CartService', () => {
 
     describe('addEntry', () => {
       it('should be able to add entry if cart exists', () => {
-        store.dispatch(new CartActions.CreateCartSuccess(cart));
+        store.dispatch(new DeprecatedCartActions.CreateCartSuccess(cart));
         spyOn(store, 'dispatch').and.callThrough();
 
         cartData.userId = userId;
@@ -219,7 +220,7 @@ describe('CartService', () => {
       });
 
       it('should be able to add entry if cart does not exist', () => {
-        store.dispatch(new CartActions.LoadCartSuccess({}));
+        store.dispatch(new DeprecatedCartActions.LoadCartSuccess({}));
         const spy = spyOn(store, 'dispatch').and.callThrough();
 
         cartData.userId = userId;
@@ -227,10 +228,10 @@ describe('CartService', () => {
         service.addEntry(productCode, 2);
 
         cartData.cartId = cart.code;
-        store.dispatch(new CartActions.LoadCartSuccess(cart));
+        store.dispatch(new DeprecatedCartActions.LoadCartSuccess(cart));
 
         expect(spy.calls.first().args).toEqual([
-          new CartActions.CreateCart({
+          new DeprecatedCartActions.CreateCart({
             userId: userId,
           }),
         ]);
@@ -303,7 +304,7 @@ describe('CartService', () => {
 
     describe('getLoaded', () => {
       it('should return a loaded state', () => {
-        store.dispatch(new CartActions.CreateCartSuccess(cart));
+        store.dispatch(new DeprecatedCartActions.CreateCartSuccess(cart));
         let result: boolean;
         service
           .getLoaded()
@@ -321,7 +322,7 @@ describe('CartService', () => {
             { product: { code: 'code2' } },
           ],
         };
-        store.dispatch(new CartActions.LoadCartSuccess(testCart));
+        store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));
 
         let result: OrderEntry;
         service
@@ -340,7 +341,7 @@ describe('CartService', () => {
             { product: { code: 'code2' } },
           ],
         };
-        store.dispatch(new CartActions.LoadCartSuccess(testCart));
+        store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));
 
         let result: OrderEntry[];
         service
@@ -354,7 +355,7 @@ describe('CartService', () => {
     describe('getCartMergeComplete', () => {
       it('should return true when the merge is complete', () => {
         store.dispatch(
-          new CartActions.MergeCartSuccess({
+          new DeprecatedCartActions.MergeCartSuccess({
             cartId: 'cartId',
             userId: 'userId',
           })
@@ -378,7 +379,7 @@ describe('CartService', () => {
         service.addEmail('test@test.com');
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new CartActions.AddEmailToCart({
+          new DeprecatedCartActions.AddEmailToCart({
             userId: userId,
             cartId: cart.code,
             email: 'test@test.com',
@@ -389,7 +390,7 @@ describe('CartService', () => {
 
     describe('getAssignedUser', () => {
       it('should be able to return cart assigned user', () => {
-        store.dispatch(new CartActions.CreateCartSuccess(cart));
+        store.dispatch(new DeprecatedCartActions.CreateCartSuccess(cart));
         let result: any;
         service
           .getAssignedUser()
@@ -507,7 +508,9 @@ describe('CartService', () => {
 
         service.getActive().subscribe(val => (result = val));
 
-        store.dispatch(new CartActions.LoadCart({ userId, cartId: cart.guid }));
+        store.dispatch(
+          new DeprecatedCartActions.LoadCart({ userId, cartId: cart.guid })
+        );
 
         setTimeout(() => {
           expect(result).toBeUndefined();
@@ -540,7 +543,7 @@ describe('CartService', () => {
 
         let result: Cart;
         service.getActive().subscribe(val => (result = val));
-        store.dispatch(new CartActions.LoadCartSuccess(cart));
+        store.dispatch(new DeprecatedCartActions.LoadCartSuccess(cart));
 
         setTimeout(() => {
           expect(service['load']).toHaveBeenCalled();
@@ -553,7 +556,7 @@ describe('CartService', () => {
         service['load'] = jasmine.createSpy().and.callFake(() => {});
 
         service.getActive().subscribe();
-        store.dispatch(new CartActions.ClearCart());
+        store.dispatch(new DeprecatedCartActions.ClearCart());
         userToken$.next(mockUserToken);
         setTimeout(() => {
           expect(service['load']).toHaveBeenCalled();
@@ -572,7 +575,7 @@ describe('CartService', () => {
           totalItems: 2,
           user: { name: 'name', user: 'userId' },
         };
-        store.dispatch(new CartActions.LoadCartSuccess(fullCart));
+        store.dispatch(new DeprecatedCartActions.LoadCartSuccess(fullCart));
 
         setTimeout(() => {
           expect(service['load']).not.toHaveBeenCalled();

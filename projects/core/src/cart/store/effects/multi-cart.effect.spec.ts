@@ -6,6 +6,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import { Cart } from '../../../model/cart.model';
 import * as fromCartReducers from '../../store/reducers/index';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { CART_FEATURE } from '../cart-state';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
@@ -56,7 +57,7 @@ describe('Cart effect', () => {
 
   describe('loadCart2$', () => {
     it('should dispatch load multi cart action', () => {
-      const action = new CartActions.LoadCart({
+      const action = new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
       });
@@ -74,7 +75,7 @@ describe('Cart effect', () => {
 
   describe('createCart2$', () => {
     it('should dispatch create multi cart action', () => {
-      const action = new CartActions.CreateCart({
+      const action = new DeprecatedCartActions.CreateCart({
         userId,
         cartId,
       });
@@ -104,7 +105,7 @@ describe('Cart effect', () => {
 
   describe('mergeCart2$', () => {
     it('should dispatch MergeMultiCart action', () => {
-      const action = new CartActions.MergeCart({});
+      const action = new DeprecatedCartActions.MergeCart({});
       const mergeMultiCartCompletion = new CartActions.MergeMultiCart({});
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
@@ -121,7 +122,7 @@ describe('Cart effect', () => {
         userId: 'userId',
         cartId: 'cartId',
       };
-      const action = new CartActions.AddEmailToCart(payload);
+      const action = new DeprecatedCartActions.AddEmailToCart(payload);
       const addEmailToMultiCartCompletion = new CartActions.AddEmailToMultiCart(
         payload
       );
@@ -138,7 +139,7 @@ describe('Cart effect', () => {
       const payload = {
         cartId: 'cartId',
       };
-      const action = new CartActions.MergeCart(payload);
+      const action = new DeprecatedCartActions.MergeCart(payload);
       const setCartLoadingCompletion = new CartActions.SetCartLoading({
         cartId: 'cartId',
       });

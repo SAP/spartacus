@@ -3,12 +3,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
+import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
 import {
-  OCC_USER_ID_ANONYMOUS,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
 } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
@@ -169,7 +170,7 @@ export class CheckoutEffects {
   setDeliveryMode$: Observable<
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
-    | CartActions.LoadCart
+    | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
@@ -182,7 +183,7 @@ export class CheckoutEffects {
               new CheckoutActions.SetDeliveryModeSuccess(
                 payload.selectedModeId
               ),
-              new CartActions.LoadCart({
+              new DeprecatedCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
@@ -315,8 +316,8 @@ export class CheckoutEffects {
   reloadDetailsOnMergeCart$: Observable<
     CheckoutActions.LoadCheckoutDetails
   > = this.actions$.pipe(
-    ofType(CartActions.MERGE_CART_SUCCESS),
-    map((action: CartActions.MergeCartSuccess) => action.payload),
+    ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
+    map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
     map(payload => {
       return new CheckoutActions.LoadCheckoutDetails({
         userId: payload.userId,

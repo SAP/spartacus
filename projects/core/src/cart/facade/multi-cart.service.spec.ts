@@ -1,11 +1,12 @@
-import { StoreModule, Store } from '@ngrx/store';
-import * as fromReducers from '../../cart/store/reducers/index';
-import { TestBed } from '@angular/core/testing';
-import { MultiCartService } from './multi-cart.service';
 import { Type } from '@angular/core';
-import { StateWithMultiCart } from '../store/multi-cart-state';
-import { CartActions } from '../store/actions';
+import { TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
+import { CartActions } from '../store/actions';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
+import { StateWithMultiCart } from '../store/multi-cart-state';
+import { MultiCartService } from './multi-cart.service';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -113,7 +114,7 @@ describe('MultiCartService', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.CreateCart({
+        new DeprecatedCartActions.CreateCart({
           userId: 'userId',
           extraData: undefined,
           oldCartId: undefined,
@@ -152,7 +153,7 @@ describe('MultiCartService', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           cartId: 'cartId',
           userId: 'userId',
           extraData: {
@@ -293,7 +294,7 @@ describe('MultiCartService', () => {
       service.assignEmail('cartId', 'userId', 'test@email.com');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.AddEmailToCart({
+        new DeprecatedCartActions.AddEmailToCart({
           userId: 'userId',
           cartId: 'cartId',
           email: 'test@email.com',
@@ -307,7 +308,7 @@ describe('MultiCartService', () => {
       service.deleteCart('cartId', 'userId');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.DeleteCart({
+        new DeprecatedCartActions.DeleteCart({
           userId: 'userId',
           cartId: 'cartId',
         })

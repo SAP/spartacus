@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
 import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
@@ -52,7 +53,7 @@ export class MultiCartService {
     extraData?: any;
   }): Observable<LoaderState<Cart>> {
     this.store.dispatch(
-      new CartActions.CreateCart({
+      new DeprecatedCartActions.CreateCart({
         extraData,
         userId,
         oldCartId,
@@ -77,7 +78,7 @@ export class MultiCartService {
     extraData?: any;
   }): void {
     this.store.dispatch(
-      new CartActions.LoadCart({
+      new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
         extraData,
@@ -218,7 +219,7 @@ export class MultiCartService {
    */
   assignEmail(cartId: string, userId: string, email: string): void {
     this.store.dispatch(
-      new CartActions.AddEmailToCart({
+      new DeprecatedCartActions.AddEmailToCart({
         userId,
         cartId,
         email,
@@ -234,7 +235,7 @@ export class MultiCartService {
    */
   deleteCart(cartId: string, userId: string) {
     this.store.dispatch(
-      new CartActions.DeleteCart({
+      new DeprecatedCartActions.DeleteCart({
         userId,
         cartId,
       })

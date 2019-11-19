@@ -2,22 +2,23 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
 @Injectable()
 export class MultiCartEffects {
   @Effect()
   loadCart2$: Observable<CartActions.LoadMultiCart> = this.actions$.pipe(
-    ofType(CartActions.LOAD_CART),
+    ofType(DeprecatedCartActions.LOAD_CART),
     map(
-      (action: CartActions.LoadCart) =>
+      (action: DeprecatedCartActions.LoadCart) =>
         new CartActions.LoadMultiCart(action.payload)
     )
   );
 
   @Effect()
   createCart2$: Observable<CartActions.CreateMultiCart> = this.actions$.pipe(
-    ofType(CartActions.CREATE_CART),
+    ofType(DeprecatedCartActions.CREATE_CART),
     map(
       (action: CartActions.CreateCart) =>
         new CartActions.CreateMultiCart(action.payload)
@@ -34,16 +35,16 @@ export class MultiCartEffects {
 
   @Effect()
   mergeCart2$: Observable<CartActions.MergeMultiCart> = this.actions$.pipe(
-    ofType(CartActions.MERGE_CART),
+    ofType(DeprecatedCartActions.MERGE_CART),
     map(
-      (action: CartActions.MergeCart) =>
+      (action: DeprecatedCartActions.MergeCart) =>
         new CartActions.MergeMultiCart(action.payload)
     )
   );
 
   @Effect()
   addEmail2$: Observable<CartActions.AddEmailToMultiCart> = this.actions$.pipe(
-    ofType(CartActions.ADD_EMAIL_TO_CART),
+    ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
     map(
       (action: CartActions.AddEmailToCart) =>
         new CartActions.AddEmailToMultiCart(action.payload)
@@ -53,7 +54,7 @@ export class MultiCartEffects {
   @Effect()
   setLoading$: Observable<CartActions.SetCartLoading> = this.actions$.pipe(
     ofType(
-      CartActions.MERGE_CART,
+      DeprecatedCartActions.MERGE_CART,
       CartActions.CART_ADD_ENTRY,
       CartActions.CART_UPDATE_ENTRY,
       CartActions.CART_REMOVE_ENTRY
@@ -76,8 +77,8 @@ export class MultiCartEffects {
 
   @Effect()
   removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
-    ofType(CartActions.DELETE_CART),
-    map((action: CartActions.DeleteCart) => action.payload),
+    ofType(DeprecatedCartActions.DELETE_CART),
+    map((action: DeprecatedCartActions.DeleteCart) => action.payload),
     mergeMap(payload => [new CartActions.RemoveCart(payload.cartId)])
   );
 
