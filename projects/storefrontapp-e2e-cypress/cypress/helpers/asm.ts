@@ -269,7 +269,7 @@ function startCustomerEmulation(): void {
     .its('status')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.asm-results div a').click();
+  cy.get('cx-customer-selection div.asm-results a').click();
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias)
