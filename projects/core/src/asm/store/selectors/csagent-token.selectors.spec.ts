@@ -2,11 +2,11 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { UserToken } from '../../models/token-types.model';
-import { AuthActions } from '../actions/index';
-import { StateWithAuth } from '../auth-state';
+import { UserToken } from '../../../auth/models/token-types.model';
+import { AsmActions } from '../actions/index';
+import { StateWithAsm } from '../asm-state';
 import * as fromReducers from '../reducers/index';
-import { AuthSelectors } from './index';
+import { AsmSelectors } from './index';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -18,28 +18,28 @@ const testToken: UserToken = {
 };
 
 describe('Customer Support Agent Token Selectors', () => {
-  let store: Store<StateWithAuth>;
+  let store: Store<StateWithAsm>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromReducers.getReducers()),
+        StoreModule.forFeature('asm', fromReducers.getReducers()),
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithAuth>>);
+    store = TestBed.get(Store as Type<Store<StateWithAsm>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should return csagent token loader state', () => {
     store.dispatch(
-      new AuthActions.LoadCustomerSupportAgentTokenSuccess(testToken)
+      new AsmActions.LoadCustomerSupportAgentTokenSuccess(testToken)
     );
 
     let result: LoaderState<UserToken>;
     store
-      .pipe(select(AuthSelectors.getCustomerSupportAgentTokenState))
+      .pipe(select(AsmSelectors.getCustomerSupportAgentTokenState))
       .subscribe(value => (result = value))
       .unsubscribe();
 
@@ -55,12 +55,12 @@ describe('Customer Support Agent Token Selectors', () => {
     let result: UserToken;
 
     store
-      .pipe(select(AuthSelectors.getCustomerSupportAgentToken))
+      .pipe(select(AsmSelectors.getCustomerSupportAgentToken))
       .subscribe(value => (result = value));
     expect(result).toEqual(undefined);
 
     store.dispatch(
-      new AuthActions.LoadCustomerSupportAgentTokenSuccess(testToken)
+      new AsmActions.LoadCustomerSupportAgentTokenSuccess(testToken)
     );
 
     expect(result).toEqual(testToken);
@@ -70,12 +70,12 @@ describe('Customer Support Agent Token Selectors', () => {
     let result: boolean;
 
     store
-      .pipe(select(AuthSelectors.getCustomerSupportAgentTokenLoading))
+      .pipe(select(AsmSelectors.getCustomerSupportAgentTokenLoading))
       .subscribe(value => (result = value));
     expect(result).toEqual(false);
 
     store.dispatch(
-      new AuthActions.LoadCustomerSupportAgentToken({
+      new AsmActions.LoadCustomerSupportAgentToken({
         userId: 'user',
         password: '1234',
       })
