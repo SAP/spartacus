@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, Subscription } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import {
   OrderEntry,
@@ -16,7 +16,7 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
   selector: 'cx-return-order-confirmation',
   templateUrl: './return-order-confirmation.component.html',
 })
-export class ReturnOrderConfirmationComponent implements OnInit {
+export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected routing: RoutingService,
@@ -29,6 +29,8 @@ export class ReturnOrderConfirmationComponent implements OnInit {
 
   lang = 'en';
   returnRequestEntryInput: CancellationReturnRequestEntryInput[];
+
+  subscription: Subscription;
 
   ngOnInit() {
     this.returnRequestEntryInput = this.orderDetailsService.cancellationReturnRequestInputs;
@@ -94,6 +96,21 @@ export class ReturnOrderConfirmationComponent implements OnInit {
       returnRequestEntryInputs: this.returnRequestEntryInput,
     });
 
-    this.routing.go({ cxRoute: 'orders' });
+    if (!this.subscription) {
+      this.subscription = this.userOrderService
+        .getOrderReturnRequest()
+        .pipe(filter(returnRequest => Boolean(returnRequest)))
+        .subscribe(returnRequest => {
+          console.log(returnRequest);
+          // should go to "return request details" page, will be handled by #5477
+          this.routing.go({ cxRoute: 'orders' });
+        });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

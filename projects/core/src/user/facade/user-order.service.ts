@@ -8,6 +8,7 @@ import {
   Order,
   OrderHistoryList,
   ReturnRequestEntryInputList,
+  ReturnRequest,
 } from '../../model/order.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
@@ -174,5 +175,12 @@ export class UserOrderService {
         )
       )
       .unsubscribe();
+  }
+
+  /**
+   * Return an order return request
+   */
+  getOrderReturnRequest(): Observable<ReturnRequest> {
+    return this.store.pipe(select(UsersSelectors.getOrderReturnRequest));
   }
 }
