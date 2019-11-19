@@ -11,8 +11,9 @@ import {
   ConfigValidator,
   ConfigValidatorToken,
   validateConfig,
-} from './utils/config-validator';
+} from './config-validator/config-validator';
 import { deepMerge } from './utils/deep-merge';
+import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer/config-initializer';
 
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app
@@ -58,10 +59,12 @@ export function provideConfigFactory(
  */
 export function configurationFactory(
   configChunks: any[],
-  configValidators: ConfigValidator[]
+  configValidators: ConfigValidator[], // TODO: remove, deprecated since 1.3, issue #5279
+  configInitializerGuard?: boolean // TODO: remove, deprecated since 1.3, issue #5279
 ) {
   const config = deepMerge({}, ...configChunks);
-  if (isDevMode()) {
+  // TODO: remove as validators should run independently, deprecated since 1.3, issue #5279
+  if (isDevMode() && !configInitializerGuard) {
     validateConfig(config, configValidators || []);
   }
   return config;
@@ -113,7 +116,11 @@ export class ConfigModule {
         {
           provide: Config,
           useFactory: configurationFactory,
-          deps: [ConfigChunk, [new Optional(), ConfigValidatorToken]],
+          deps: [
+            ConfigChunk,
+            [new Optional(), ConfigValidatorToken], // TODO: remove, deprecated since 1.3, issue #5279
+            [new Optional(), CONFIG_INITIALIZER_FORROOT_GUARD], // TODO: remove, deprecated since 1.3, issue #5279
+          ],
         },
       ],
     };

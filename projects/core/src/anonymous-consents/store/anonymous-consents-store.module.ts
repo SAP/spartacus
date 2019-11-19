@@ -8,14 +8,14 @@ import { StateConfig, StorageSyncType } from '../../state/index';
 import { StateModule } from '../../state/state.module';
 import { ANONYMOUS_CONSENTS_STORE_FEATURE } from './anonymous-consents-state';
 import { effects } from './effects/index';
-import { reducerProvider, reducerToken } from './reducers/index';
+import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 
 export function anonymousConsentsStoreConfigFactory(): StateConfig {
   const config: StateConfig = {
     state: {
       storageSync: {
         keys: {
-          'anonymous-consents': StorageSyncType.LOCAL_STORAGE,
+          [ANONYMOUS_CONSENTS_STORE_FEATURE]: StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
@@ -28,7 +28,9 @@ export function anonymousConsentsStoreConfigFactory(): StateConfig {
     CommonModule,
     ReactiveFormsModule,
     StateModule,
-    StoreModule.forFeature(ANONYMOUS_CONSENTS_STORE_FEATURE, reducerToken),
+    StoreModule.forFeature(ANONYMOUS_CONSENTS_STORE_FEATURE, reducerToken, {
+      metaReducers,
+    }),
     EffectsModule.forFeature(effects),
     ConfigModule.withConfigFactory(anonymousConsentsStoreConfigFactory),
   ],
