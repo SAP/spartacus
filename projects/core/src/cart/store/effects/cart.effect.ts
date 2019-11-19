@@ -88,6 +88,8 @@ export class CartEffects {
                 err => err.reason === 'notFound' || 'UnknownResourceError'
               );
               if (cartNotFoundErrors.length > 0) {
+                // Clear cart is responsible for removing cart in `cart` store feature.
+                // Remove cart does the same thing, but in `multi-cart` store feature.
                 return from([
                   new CartActions.ClearCart(),
                   new CartActions.RemoveCart(loadCartParams.cartId),
