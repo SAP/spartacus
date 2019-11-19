@@ -49,7 +49,7 @@ describe('ConfiguratorEffect', () => {
         return of(productConfiguration);
       }
 
-      readConfigurationPrice(): Observable<Configurator.Configuration> {
+      readPriceSummary(): Observable<Configurator.Configuration> {
         return of(productConfiguration);
       }
     }
