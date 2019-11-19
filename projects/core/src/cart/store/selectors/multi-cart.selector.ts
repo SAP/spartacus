@@ -3,19 +3,19 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import {
-  StateWithMultiCart,
-  MultiCartState,
-  MULTI_CART_FEATURE,
-} from '../multi-cart-state';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { Cart } from '../../../model/cart.model';
+import { OrderEntry } from '../../../model/order.model';
+import { EntityLoaderState } from '../../../state';
 import {
   entityStateSelector,
   entityValueSelector,
 } from '../../../state/utils/entity-loader/entity-loader.selectors';
-import { EntityLoaderState } from '../../../state';
-import { OrderEntry } from '../../../model/order.model';
-import { Cart } from '../../../model/cart.model';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import {
+  MultiCartState,
+  MULTI_CART_FEATURE,
+  StateWithMultiCart,
+} from '../multi-cart-state';
 
 export const getMultiCartState: MemoizedSelector<
   StateWithMultiCart,
@@ -65,12 +65,9 @@ export const getCartEntrySelectorFactory = (
   productCode: string
 ): MemoizedSelector<StateWithMultiCart, OrderEntry> => {
   return createSelector(
-    getMultiCartEntities,
-    (state: EntityLoaderState<Cart>) => {
-      const entityValue = entityValueSelector(state, cartId);
-      return entityValue && entityValue.entries
-        ? entityValue.entries.find(entry => entry.product.code === productCode)
-        : null;
+    getCartEntriesSelectorFactory(cartId),
+    (state: OrderEntry[]) => {
+      return state.find(entry => entry.product.code === productCode);
     }
   );
 };
