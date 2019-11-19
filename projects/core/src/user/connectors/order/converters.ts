@@ -14,6 +14,6 @@ export const CONSIGNMENT_TRACKING_NORMALIZER = new InjectionToken<
   Converter<any, ConsignmentTracking>
 >('ConsignmentTrackingNormalizer');
 
-export const ORDER_RETURN_REQUEST = new InjectionToken<
+export const ORDER_RETURN_REQUEST_NORMALIZER = new InjectionToken<
   Converter<any, ReturnRequestEntryInputList>
->('OrderReturnRequest');
+>('OrderReturnRequestNormalizer');
