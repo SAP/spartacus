@@ -18,6 +18,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   UserPaymentService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -99,7 +100,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    // TODO(issue:#xxxx) Deprecated since 1.5.0
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit() {
@@ -184,7 +187,16 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
   }
 
+  /**
+   * @deprecated since 1.5.0
+   * This function will be removed as continue button should not be disabled
+   *
+   * TODO(issue:#XXXX) Deprecated since 1.5.0
+   */
   isContinueButtonDisabled(): boolean {
+    if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
+      return false;
+    }
     return (
       this.payment.invalid ||
       (!this.sameAsShippingAddress && this.billingAddress.invalid)
