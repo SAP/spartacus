@@ -7,7 +7,7 @@ import {
 } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
   constructor(private converter: ConverterService) {}
 
