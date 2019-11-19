@@ -93,6 +93,7 @@ export class ReturnOrderConfirmationComponent implements OnInit {
     this.userOrderService.createOrderReturnRequest(this.orderCode, {
       returnRequestEntryInputs: this.returnRequestEntryInput,
     });
+
     this.routing.go({ cxRoute: 'orders' });
   }
 }
