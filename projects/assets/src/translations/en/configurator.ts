@@ -18,5 +18,10 @@ export const configurator = {
       previous: 'Previous',
       next: 'Next',
     },
+    priceSummary: {
+      basePrice: 'Base Price',
+      selectedOptions: 'Selected Options',
+      totalPrice: 'Total',
+    },
   },
 };
