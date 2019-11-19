@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 
 @Component({
@@ -27,6 +27,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   ngOnInit(): void {
     this.configuration$ = this.routingService.getRouterState().pipe(
       map(routingData => routingData.state.params.rootProduct),
+      filter(product => product !== undefined),
       switchMap(product =>
         this.configuratorCommonsService.getConfiguration(product)
       )
