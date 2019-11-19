@@ -1,0 +1,11 @@
+<span class="label">{{ 'asm.agentSessionTimer.label' | cxTranslate }}:</span>
+<span class="time"
+  >{{ timeLeft | formatTimer }}
+  {{ 'asm.agentSessionTimer.minutes' | cxTranslate }}</span
+>
+<a
+  class="reset"
+  title="{{ 'asm.agentSessionTimer.reset' | cxTranslate }}"
+  (click)="resetTimer()"
+>
+</a>

@@ -8,7 +8,7 @@ import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
 import { ASM_FEATURE } from './asm-state';
 import { effects } from './effects/index';
-import { reducerProvider, reducerToken } from './reducers/index';
+import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 
 export function asmStoreConfigFactory(): StateConfig {
   const config: StateConfig = {
@@ -16,6 +16,13 @@ export function asmStoreConfigFactory(): StateConfig {
       storageSync: {
         keys: {
           'asm.asmUi': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.access_token': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.token_type': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.expires_in': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.expiration_time':
+            StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.scope': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.userId': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
@@ -27,7 +34,7 @@ export function asmStoreConfigFactory(): StateConfig {
     CommonModule,
     HttpClientModule,
     StateModule,
-    StoreModule.forFeature(ASM_FEATURE, reducerToken),
+    StoreModule.forFeature(ASM_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
     ConfigModule.withConfigFactory(asmStoreConfigFactory),
   ],
