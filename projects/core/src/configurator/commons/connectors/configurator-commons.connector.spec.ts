@@ -28,6 +28,7 @@ describe('ConfiguratorCommonsConnector', () => {
   let service: ConfiguratorCommonsConnector;
   const PRODUCT_CODE = 'CONF_LAPTOP';
   const CONFIG_ID = '1234-56-7890';
+  const GROUP_ID = 'GROUP1';
   const productConfiguration: Configurator.Configuration = {
     configId: CONFIG_ID,
     productCode: PRODUCT_CODE,
@@ -69,9 +70,11 @@ describe('ConfiguratorCommonsConnector', () => {
     >);
 
     let result;
-    service.readConfiguration(CONFIG_ID).subscribe(res => (result = res));
+    service
+      .readConfiguration(CONFIG_ID, GROUP_ID)
+      .subscribe(res => (result = res));
     expect(result).toBe('readConfiguration' + CONFIG_ID);
-    expect(adapter.readConfiguration).toHaveBeenCalledWith(CONFIG_ID);
+    expect(adapter.readConfiguration).toHaveBeenCalledWith(CONFIG_ID, GROUP_ID);
   });
 
   it('should call adapter on updateConfiguration', () => {

@@ -11,6 +11,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfigAttributeFooterComponent } from '../config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
@@ -30,6 +31,65 @@ const mockRouterState: any = {
     },
   },
 };
+const configRead: Configurator.Configuration = {
+  configId: 'a',
+  consistent: true,
+  complete: true,
+  productCode: PRODUCT_CODE,
+};
+
+const configRead2: Configurator.Configuration = {
+  configId: 'b',
+  consistent: true,
+  complete: true,
+  productCode: PRODUCT_CODE,
+};
+
+const configCreate: Configurator.Configuration = {
+  configId: '1234-56-7890',
+  groups: [
+    {
+      configurable: true,
+      description: 'Core components',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.1',
+      name: '1',
+      attributes: [
+        {
+          label: 'Expected Number',
+          name: 'EXP_NUMBER',
+          required: true,
+          uiType: Configurator.UiType.NOT_IMPLEMENTED,
+          values: [],
+        },
+        {
+          label: 'Processor',
+          name: 'CPQ_CPU',
+          required: true,
+          selectedSingleValue: 'INTELI5_35',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          values: [],
+        },
+      ],
+    },
+    {
+      configurable: true,
+      description: 'Peripherals & Accessories',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.2',
+      name: '2',
+      attributes: [],
+    },
+    {
+      configurable: true,
+      description: 'Software',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.3',
+      name: '3',
+      attributes: [],
+    },
+  ],
+};
 
 @Component({
   selector: 'cx-icon',
@@ -39,74 +99,25 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+let routerStateObservable = null;
+let configurationObservable = null;
+let currentGroupObservable = null;
+
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return routerStateObservable;
   }
 }
 
 class MockConfiguratorCommonsService {
-  public config: Configurator.Configuration = {
-    configId: '1234-56-7890',
-    groups: [
-      {
-        configurable: true,
-        description: 'Core components',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.1',
-        name: '1',
-        attributes: [
-          {
-            label: 'Expected Number',
-            name: 'EXP_NUMBER',
-            required: true,
-            uiType: Configurator.UiType.NOT_IMPLEMENTED,
-            values: [],
-          },
-          {
-            label: 'Processor',
-            name: 'CPQ_CPU',
-            required: true,
-            selectedSingleValue: 'INTELI5_35',
-            uiType: Configurator.UiType.RADIOBUTTON,
-            values: [],
-          },
-        ],
-      },
-      {
-        configurable: true,
-        description: 'Peripherals & Accessories',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.2',
-        name: '2',
-        attributes: [],
-      },
-      {
-        configurable: true,
-        description: 'Software',
-        groupType: Configurator.GroupType.CSTIC_GROUP,
-        id: '1-CPQ_LAPTOP.3',
-        name: '3',
-        attributes: [],
-      },
-    ],
-  };
   createConfiguration(
     productCode: string
   ): Observable<Configurator.Configuration> {
-    this.config.productCode = productCode;
-    return of(this.config);
+    configCreate.productCode = productCode;
+    return of(configCreate);
   }
-  getConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    const productConfig: Configurator.Configuration = {
-      configId: 'a',
-      consistent: true,
-      complete: true,
-      productCode: productCode,
-    };
-    return of(productConfig);
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configurationObservable;
   }
   hasConfiguration(): Observable<boolean> {
     return of(false);
@@ -114,7 +125,7 @@ class MockConfiguratorCommonsService {
 }
 class MockConfiguratorGroupsService {
   getCurrentGroup() {
-    return of('');
+    return currentGroupObservable;
   }
   getNextGroup() {
     return of('');
@@ -123,7 +134,49 @@ class MockConfiguratorGroupsService {
     return of('');
   }
 }
+function checkConfigurationObs(
+  component: ConfigFormComponent,
+  routerMarbels: string,
+  configurationServiceMarbels: string,
+  expectedMarbels: string
+) {
+  routerStateObservable = cold(routerMarbels, {
+    a: mockRouterState,
+  });
+  configurationObservable = cold(configurationServiceMarbels, {
+    x: configRead,
+    y: configRead2,
+  });
+  component.ngOnInit();
 
+  expect(component.configuration$).toBeObservable(
+    cold(expectedMarbels, { x: configRead, y: configRead2 })
+  );
+}
+function checkCurrentGroupObs(
+  component: ConfigFormComponent,
+  routerMarbels: string,
+  configurationServiceMarbels: string,
+  groupMarbels: string,
+  expectedMarbels: string
+) {
+  routerStateObservable = cold(routerMarbels, {
+    a: mockRouterState,
+  });
+  configurationObservable = cold(configurationServiceMarbels, {
+    x: configRead,
+    y: configRead2,
+  });
+  currentGroupObservable = cold(groupMarbels, {
+    u: 'group1',
+    v: 'group2',
+  });
+  component.ngOnInit();
+
+  expect(component.currentGroup$).toBeObservable(
+    cold(expectedMarbels, { u: 'group1', v: 'group2' })
+  );
+}
 describe('ConfigurationFormComponent', () => {
   let component: ConfigFormComponent;
   let fixture: ComponentFixture<ConfigFormComponent>;
@@ -175,14 +228,27 @@ describe('ConfigurationFormComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get product code as part of product configuration', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    let productCode: string;
-    component.configuration$.subscribe(
-      (data: Configurator.Configuration) => (productCode = data.productCode)
-    );
+  it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {
+    checkConfigurationObs(component, 'aa', '---xy', '----xy');
+  });
 
-    expect(productCode).toEqual(PRODUCT_CODE);
+  it('should get 3 emissions of product configurations if both services emit fast', () => {
+    checkConfigurationObs(component, 'aa', 'xy', 'xxy');
+  });
+
+  it('should get the maximum 4 emissions of product configurations if router pauses between emissions', () => {
+    checkConfigurationObs(component, 'a---a', 'xy', 'xy--xy');
+  });
+
+  it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
+    checkCurrentGroupObs(component, 'aa', '---xy', '---uv', '--------uv');
+  });
+
+  it('should get 4 emissions of current groups if configurations service emits fast', () => {
+    checkCurrentGroupObs(component, 'a---a', 'xy', '--uv', '---uv--uv');
+  });
+
+  it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
+    checkCurrentGroupObs(component, 'a-----a', '--x--y', 'uv', '--uv-uv-uv-uv');
   });
 });

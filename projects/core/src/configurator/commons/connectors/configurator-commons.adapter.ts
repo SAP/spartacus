@@ -12,12 +12,16 @@ export abstract class ConfiguratorCommonsAdapter {
   ): Observable<Configurator.Configuration>;
 
   /**
-   * Abstract method to read a configuration
+   * Abstract method to read a configuration.
+   * If groupId is filled only the attributes of the requested group are returned.
+   * For other groups the attributes list will be empty.
    *
    * @param configId configuration id
+   * @param groupId group id
    */
   abstract readConfiguration(
-    configId: string
+    configId: string,
+    groupId: string
   ): Observable<Configurator.Configuration>;
 
   /**

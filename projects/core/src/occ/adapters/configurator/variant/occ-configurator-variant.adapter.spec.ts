@@ -24,6 +24,7 @@ class MockOccEndpointsService {
 }
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
+const groupId = 'GROUP1';
 
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
@@ -88,7 +89,9 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call readConfiguration endpoint', () => {
-    occConfiguratorVariantAdapter.readConfiguration(configId).subscribe();
+    occConfiguratorVariantAdapter
+      .readConfiguration(configId, groupId)
+      .subscribe();
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'GET' && req.url === 'readConfiguration';
@@ -96,9 +99,8 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
       'readConfiguration',
-      {
-        configId,
-      }
+      { configId },
+      { groupId }
     );
 
     expect(mockReq.cancelled).toBeFalsy();

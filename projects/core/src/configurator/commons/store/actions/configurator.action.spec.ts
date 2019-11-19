@@ -4,9 +4,11 @@ import * as ConfiguratorActions from './configurator.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '15468-5464-9852-54682';
+const GROUP_ID = 'GROUP1';
 const PAYLOAD = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
+  groupId: GROUP_ID,
 };
 
 describe('ConfiguratorActions', () => {

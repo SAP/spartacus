@@ -21,7 +21,7 @@ const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_1,
       name: GROUP_NAME,
-      groupType: Configurator.GroupType.CSTIC_GROUP,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [
         {
           name: ATTRIBUTE_NAME_1,
@@ -99,7 +99,8 @@ describe('ConfiguratorCommonsService', () => {
   it('should read a configuration, accessing the store', () => {
     const configurationFromStore = serviceUnderTest.readConfiguration(
       CONFIG_ID,
-      PRODUCT_CODE
+      PRODUCT_CODE,
+      GROUP_ID_1
     );
 
     expect(configurationFromStore).toBeDefined();
@@ -112,6 +113,7 @@ describe('ConfiguratorCommonsService', () => {
       new ConfiguratorActions.ReadConfiguration({
         configId: CONFIG_ID,
         productCode: PRODUCT_CODE,
+        groupId: GROUP_ID_1,
       })
     );
   });
@@ -151,7 +153,7 @@ describe('ConfiguratorCommonsService', () => {
     //group name not needed for update
     expect(groupForUpdateRequest.name).toBeUndefined();
     expect(groupForUpdateRequest.groupType).toBe(
-      Configurator.GroupType.CSTIC_GROUP
+      Configurator.GroupType.ATTRIBUTE_GROUP
     );
   });
 

@@ -8,6 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import * as fromConfigurationReducers from '../../store/reducers/index';
+import { ConfiguratorUiActions } from '../actions';
 import * as ConfiguratorActions from '../actions/configurator.action';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
 import { Configurator } from './../../../../model/configurator.model';
@@ -16,11 +17,17 @@ import * as fromEffects from './configurator.effect';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
+const groupId = 'GROUP-1';
+const errorResponse: HttpErrorResponse = new HttpErrorResponse({
+  error: 'notFound',
+  status: 404,
+});
 const productConfiguration: Configurator.Configuration = {
   configId: 'a',
   productCode: productCode,
   complete: true,
   consistent: true,
+  groups: [{ id: groupId, attributes: [{ name: 'attrName' }] }],
 };
 
 describe('ConfiguratorEffect', () => {
@@ -97,10 +104,6 @@ describe('ConfiguratorEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    const errorResponse: HttpErrorResponse = new HttpErrorResponse({
-      error: 'notFound',
-      status: 404,
-    });
     createMock.and.returnValue(throwError(errorResponse));
 
     const action = new ConfiguratorActions.CreateConfiguration(productCode);
@@ -174,11 +177,23 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
         payloadInput
       );
-      const completion = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+      const finalizeSuccess = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         productConfiguration
       );
+      const updatePrices = new ConfiguratorActions.UpdateConfigurationPrice(
+        productConfiguration
+      );
+      const setCurrentGroup = new ConfiguratorUiActions.SetCurrentGroup(
+        productConfiguration.productCode,
+        groupId
+      );
+
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bcd)', {
+        b: finalizeSuccess,
+        c: updatePrices,
+        d: setCurrentGroup,
+      });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
       );
@@ -225,6 +240,66 @@ describe('ConfiguratorEffect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(configEffects.handleErrorOnUpdate$).toBeObservable(expected);
+    });
+  });
+  describe('Effect groupChange', () => {
+    it('should emit ChangeGroupFinalize on ChangeGroup in case no changes are pending', () => {
+      const payloadInput = {
+        configId: configId,
+        productCode: productCode,
+        groupId: groupId,
+      };
+      const action = new ConfiguratorActions.ChangeGroup(payloadInput);
+      const completion = new ConfiguratorActions.ChangeGroupFinalize(
+        payloadInput
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(configEffects.groupChange$).toBeObservable(expected);
+    });
+  });
+  describe('Effect groupChangeFinalize', () => {
+    it('should emit ReadConfigurationSuccess and SetCurrentGroup on ChangeGroupFinalize in case no changes are pending', () => {
+      const payloadInput = {
+        configId: configId,
+        productCode: productCode,
+        groupId: groupId,
+      };
+      const action = new ConfiguratorActions.ChangeGroupFinalize(payloadInput);
+      const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
+        productConfiguration
+      );
+      const setCurrentGroup = new ConfiguratorUiActions.SetCurrentGroup(
+        productConfiguration.productCode,
+        groupId
+      );
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-(bc)', {
+        b: setCurrentGroup,
+        c: readConfigurationSuccess,
+      });
+      expect(configEffects.groupChangeFinalize$).toBeObservable(expected);
+    });
+    it('should emit ReadConfigurationFail in case read call is not successful', () => {
+      readMock.and.returnValue(throwError(errorResponse));
+      const payloadInput = {
+        configId: configId,
+        productCode: productCode,
+        groupId: groupId,
+      };
+      const action = new ConfiguratorActions.ChangeGroupFinalize(payloadInput);
+      const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
+        productConfiguration.productCode,
+        makeErrorSerializable(errorResponse)
+      );
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-b', {
+        b: readConfigurationFail,
+      });
+      expect(configEffects.groupChangeFinalize$).toBeObservable(expected);
     });
   });
 });

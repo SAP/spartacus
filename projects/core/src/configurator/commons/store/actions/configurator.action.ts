@@ -15,12 +15,14 @@ export const UPDATE_CONFIGURATION = '[Configurator] Update Configuration';
 export const UPDATE_CONFIGURATION_FAIL =
   '[Configurator] Update Configuration Fail';
 export const UPDATE_CONFIGURATION_SUCCESS =
-  '[Configurator] Update Configuration Sucess';
+  '[Configurator] Update Configuration Success';
 
 export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS =
   '[Configurator] Update Configuration finalize success';
 export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
   '[Configurator] Update Configuration finalize fail';
+export const CHANGE_GROUP = '[Configurator] Change group';
+export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 
 export const UPDATE_CONFIGURATION_PRICE =
   '[Configurator] Update Configuration Price';
@@ -112,7 +114,6 @@ export class UpdateConfigurationPrice extends StateEntityLoaderActions.EntityLoa
     super(CONFIGURATION_DATA, payload.productCode);
   }
 }
-
 export class UpdateConfigurationPriceFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = UPDATE_CONFIGURATION_PRICE_FAIL;
   constructor(productCode: string, public payload: any) {
@@ -123,6 +124,20 @@ export class UpdateConfigurationPriceFail extends StateEntityLoaderActions.Entit
 export class UpdateConfigurationPriceSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_PRICE_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class ChangeGroup extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = CHANGE_GROUP;
+  constructor(public payload: any) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class ChangeGroupFinalize extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = CHANGE_GROUP_FINALIZE;
+  constructor(public payload: any) {
     super(CONFIGURATION_DATA, payload.productCode);
   }
 }
@@ -141,4 +156,6 @@ export type ConfiguratorAction =
   | UpdateConfigurationFinalizeSuccess
   | UpdateConfigurationPrice
   | UpdateConfigurationPriceFail
-  | UpdateConfigurationPriceSuccess;
+  | UpdateConfigurationPriceSuccess
+  | ChangeGroup
+  | ChangeGroupFinalize;

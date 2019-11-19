@@ -61,7 +61,7 @@ describe('Configurator reducer', () => {
       );
       const state = StateReduce.reducerPendingChanges(undefined, action);
 
-      expect(state.pendingChanges).toEqual(-1);
+      expect(state).toEqual(-1);
     });
   });
   describe('UpdateConfigurationFail action', () => {
@@ -82,7 +82,7 @@ describe('Configurator reducer', () => {
       );
       const state = StateReduce.reducerPendingChanges(undefined, action);
 
-      expect(state.pendingChanges).toEqual(-1);
+      expect(state).toEqual(-1);
     });
   });
   describe('UpdateConfiguration action', () => {
@@ -97,10 +97,9 @@ describe('Configurator reducer', () => {
       const action: ConfiguratorAction = new UpdateConfiguration(configuration);
       const state = StateReduce.reducerPendingChanges(undefined, action);
 
-      expect(state.pendingChanges).toEqual(1);
+      expect(state).toEqual(1);
     });
   });
-
   describe('UpdateConfigurationFinalize action', () => {
     it('should put configuration into the state', () => {
       const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(
