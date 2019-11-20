@@ -5,7 +5,6 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { of } from 'rxjs/internal/observable/of';
 import { map, switchMap } from 'rxjs/operators';
 import { StrategyRequest } from './../../cds-models/cds-strategy-request.model';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
@@ -31,7 +30,7 @@ export class CdsMerchandisingProductService {
       this.languageService.getActive(),
       this.routingService
         .getRouterState()
-        .pipe(switchMap(state => of(state.state.params['productCode']))),
+        .pipe(map(state => state.state.params['productCode'])),
     ]).pipe(
       map(([site, language, productId]: [string, string, string]) => {
         const strategyRequest: StrategyRequest = {
