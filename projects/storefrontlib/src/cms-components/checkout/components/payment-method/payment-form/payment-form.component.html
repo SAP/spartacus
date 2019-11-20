@@ -193,7 +193,7 @@
     <div class="col-md-12 col-lg-6">
       <button
         class="btn btn-block btn-primary"
-        [disabled]="isContinueButtonDisabled()"
+        [disabled]="isContinueButtonDisabled() || isSubmitted"
         (click)="next()"
       >
         {{ 'common.continue' | cxTranslate }}

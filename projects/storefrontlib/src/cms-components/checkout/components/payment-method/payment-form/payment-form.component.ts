@@ -191,6 +191,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  isSubmitted: boolean = false;
+
   /**
    * Check if the shipping address can also be a billing address
    *
@@ -268,6 +270,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    this.isSubmitted = true;
     this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
