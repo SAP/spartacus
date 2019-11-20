@@ -124,11 +124,11 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`level: '1.5'`)).toBe(true);
     });
 
-    it('should set autoBaseSite to true and omit context property in config', async () => {
+    it('should enable auto-base site by omitting context property in config', async () => {
       const tree = await schematicRunner
         .runSchematicAsync(
           'add-spartacus',
-          { ...defaultOptions, autoBaseSite: true },
+          { ...defaultOptions, baseSite: '' },
           appTree
         )
         .toPromise();

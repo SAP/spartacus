@@ -18,8 +18,7 @@
     },
     "baseSite": {
       "type": "string",
-      "description": "The base site to use with spartacus",
-      "default": "electronics"
+      "description": "The base site to use with spartacus"
     },
     "useMetaTags": {
       "type": "boolean",
@@ -43,11 +42,6 @@
     "ssr": {
       "type": "boolean",
       "description": "Add Server-side rendering support to the project.",
-      "default": false
-    },
-    "autoBaseSite": {
-      "type": "boolean",
-      "description": "Omit setting context.baseSite for multi-site support.",
       "default": false
     }
   },

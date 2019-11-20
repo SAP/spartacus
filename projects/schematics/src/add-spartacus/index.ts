@@ -126,7 +126,7 @@ function installPackageJsonDependencies(): Rule {
 
 function getStorefrontConfig(options: SpartacusOptions): string {
   const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
-  const contextContent = options.autoBaseSite
+  const contextContent = !options.baseSite
     ? ''
     : `
       context: {

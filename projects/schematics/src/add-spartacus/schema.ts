@@ -5,5 +5,4 @@ export interface Schema {
   useMetaTags?: boolean;
   featureLevel?: string;
   overwriteAppComponent?: boolean;
-  autoBaseSite?: boolean;
 }
