@@ -9,7 +9,8 @@ import {
 } from '@spartacus/core';
 import { MediaModule, StarRatingModule } from '../../shared/index';
 import { AddToCartModule } from '../cart/index';
-import { WishlistComponent, WishListItemComponent } from './index';
+import { WishlistComponent } from './components/wish-list/wishlist.component';
+import { WishListItemComponent } from './components/wish-list-item/wish-list-item.component';
 
 @NgModule({
   imports: [
