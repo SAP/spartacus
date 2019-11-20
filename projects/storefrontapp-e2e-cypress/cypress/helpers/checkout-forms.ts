@@ -28,11 +28,6 @@ export interface PaymentDetails {
 }
 
 export function fillShippingAddress(shippingAddress: AddressData) {
-  cy.server();
-  cy.route(
-    'POST',
-    '/rest/v2/electronics-spa/users/current/addresses/verification?*'
-  ).as('getDeliveryPage');
   cy.get('cx-address-form').within(() => {
     cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
       shippingAddress.address.country
@@ -67,8 +62,6 @@ export function fillShippingAddress(shippingAddress: AddressData) {
       .clear()
       .type(shippingAddress.phone);
     cy.get('button.btn-primary').click({ force: true });
-
-    cy.wait('@getDeliveryPage');
   });
 }
 
@@ -108,12 +101,6 @@ export function fillPaymentDetails(
   paymentDetails: PaymentDetails,
   billingAddress?: AddressData
 ) {
-  cy.route(
-    'GET',
-    // '/rest/v2/electronics-spa/cms/pages*/checkout/review-order*'
-    '/rest/v2/electronics-spa/users/current/paymentdetails*'
-  ).as('getReviewPage');
-
   cy.get('cx-payment-form').within(() => {
     cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
     cy.get('[formcontrolname="accountHolderName"]')
@@ -140,7 +127,5 @@ export function fillPaymentDetails(
     cy.get('button.btn.btn-block.btn-primary')
       .contains('Continue')
       .click({ force: true });
-
-    cy.wait('@getReviewPage');
   });
 }

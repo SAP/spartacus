@@ -72,7 +72,6 @@ export function paymentDetailCard() {
 }
 
 export function addSecondaryPaymentCard() {
-  cy.server();
   const request = requestPages();
 
   // go to product page
