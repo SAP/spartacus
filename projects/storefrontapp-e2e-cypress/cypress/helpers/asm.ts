@@ -204,7 +204,7 @@ export function asmTests(isMobile: boolean) {
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('not.exist');
         cy.get('cx-customer-emulation').should('exist');
-        cy.get('cx-customer-emulation div.fd-alert').should('exist');
+        cy.get('cx-customer-emulation div.asm-alert').should('exist');
         cy.get('cx-customer-emulation button').should('not.exist');
       });
 
@@ -269,7 +269,7 @@ function startCustomerEmulation(): void {
     .its('status')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.results div a').click();
+  cy.get('cx-customer-selection div.asm-results a').click();
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias)

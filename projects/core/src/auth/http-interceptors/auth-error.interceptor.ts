@@ -11,11 +11,9 @@ import { catchError } from 'rxjs/operators';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
-  USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 import { AuthService } from '../facade/auth.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
-import { CustomerSupportAgentErrorHandlingService } from '../services/csagent-error/csagent-error-handling.service';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
@@ -23,30 +21,9 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 @Injectable({ providedIn: 'root' })
 export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(
-    userErrorHandlingService: UserErrorHandlingService,
-    clientErrorHandlingService: ClientErrorHandlingService,
-    authService: AuthService,
-    // tslint:disable-next-line: unified-signatures
-    csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService
-  );
-  /**
-   * @deprecated since version 1.3
-   * Instead, use constructor(
-   * userErrorHandlingService: UserErrorHandlingService,
-   * clientErrorHandlingService: ClientErrorHandlingService,
-   * authService: AuthService,
-   * csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService
-   */
-  constructor(
-    userErrorHandlingService: UserErrorHandlingService,
-    clientErrorHandlingService: ClientErrorHandlingService,
-    authService: AuthService
-  );
-  constructor(
     private userErrorHandlingService: UserErrorHandlingService,
     private clientErrorHandlingService: ClientErrorHandlingService,
-    private authService: AuthService,
-    private csagentErrorHandlingService?: CustomerSupportAgentErrorHandlingService
+    private authService: AuthService
   ) {}
 
   intercept(
@@ -56,15 +33,6 @@ export class AuthErrorInterceptor implements HttpInterceptor {
     const isClientTokenRequest = this.isClientTokenRequest(request);
     if (isClientTokenRequest) {
       request = InterceptorUtil.removeHeader(USE_CLIENT_TOKEN, request);
-    }
-    const isCustomerSupportAgentRequest = this.isCustomerSupportAgentRequest(
-      request
-    );
-    if (isCustomerSupportAgentRequest) {
-      request = InterceptorUtil.removeHeader(
-        USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-        request
-      );
     }
 
     return next.handle(request).pipe(
@@ -80,9 +48,6 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                   );
                 }
                 // user token request
-              } else if (isCustomerSupportAgentRequest) {
-                this.csagentErrorHandlingService.terminateCustomerSupportAgentExpiredSession();
-                return of();
               } else {
                 if (this.isExpiredToken(errResponse)) {
                   return this.userErrorHandlingService.handleExpiredUserToken(
@@ -121,14 +86,6 @@ export class AuthErrorInterceptor implements HttpInterceptor {
   private isClientTokenRequest(request: HttpRequest<any>): boolean {
     const isRequestMapping = InterceptorUtil.getInterceptorParam(
       USE_CLIENT_TOKEN,
-      request.headers
-    );
-    return Boolean(isRequestMapping);
-  }
-
-  private isCustomerSupportAgentRequest(request: HttpRequest<any>): boolean {
-    const isRequestMapping = InterceptorUtil.getInterceptorParam(
-      USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       request.headers
     );
     return Boolean(isRequestMapping);
