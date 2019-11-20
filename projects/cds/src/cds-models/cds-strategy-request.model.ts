@@ -7,8 +7,7 @@ export interface StrategyRequest {
   productId?: string;
   category?: string;
   facets?: string;
-  date?: string;
-  userId?: string;
+  date?: Date;
   site?: string;
   language?: string;
   pageNumber?: number;
