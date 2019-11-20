@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ImageType } from '@spartacus/core';
+import { BaseSiteService, ImageType, LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
 import { MerchandisingProducts } from './../model/merchandising.products.model';
@@ -8,6 +8,12 @@ import { CdsMerchandisingProductService } from './cds-merchandising-product.serv
 import createSpy = jasmine.createSpy;
 
 const STRATEGY_ID = 'test-strategy-id';
+
+const STRATEGY_REQUEST = {
+  site: 'electronics-spa',
+  language: 'en',
+  pageSize: 10,
+};
 
 const MERCHANDISING_PRODUCTS_METADATA: Map<string, string> = new Map<
   string,
@@ -45,6 +51,16 @@ class MockStrategyConnector {
     'StrategyAdapter.loadProductsForStrategy'
   ).and.callFake(() => of(MERCHANDISING_PRODUCTS));
 }
+class MockBaseSiteService {
+  getActive = createSpy('baseSiteService.getActive').and.callFake(() =>
+    of('electronics-spa')
+  );
+}
+class MockLanguageService {
+  getActive = createSpy('languageService.getActive').and.callFake(() =>
+    of('en')
+  );
+}
 
 describe('CdsMerchandisingProductService', () => {
   let cdsMerchandisingPrductService: CdsMerchandisingProductService;
@@ -56,6 +72,14 @@ describe('CdsMerchandisingProductService', () => {
         {
           provide: MerchandisingStrategyConnector,
           useClass: MockStrategyConnector,
+        },
+        {
+          provide: BaseSiteService,
+          useClass: MockBaseSiteService,
+        },
+        {
+          provide: LanguageService,
+          useClass: MockLanguageService,
         },
       ],
     });
@@ -74,14 +98,15 @@ describe('CdsMerchandisingProductService', () => {
   it('loadProductsForStrategy should call connector', () => {
     let actualMerchandisingProducts: MerchandisingProducts;
     cdsMerchandisingPrductService
-      .loadProductsForStrategy(STRATEGY_ID)
+      .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe(strategyResult => {
         actualMerchandisingProducts = strategyResult;
       })
       .unsubscribe();
     expect(actualMerchandisingProducts).toEqual(MERCHANDISING_PRODUCTS);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
-      STRATEGY_ID
+      STRATEGY_ID,
+      STRATEGY_REQUEST
     );
   });
 });
