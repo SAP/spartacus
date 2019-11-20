@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
-import { ProfileTagComponent } from '../cms-components/profile-tag/profile-tag.component';
+import { ProfileTagComponent } from './cms-components/profile-tag.component';
 
 @NgModule({
   imports: [
