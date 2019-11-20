@@ -61,6 +61,12 @@ export interface ReturnRequest {
   totalPrice?: Price;
 }
 
+export interface ReturnRequestList {
+  returnRequests?: ReturnRequest[];
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
+}
+
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
   distance?: number;

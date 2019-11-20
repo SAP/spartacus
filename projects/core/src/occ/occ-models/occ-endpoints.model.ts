@@ -280,4 +280,9 @@ export interface OccEndpoints {
    * Endpoint for creating order return request
    */
   returnOrder?: string;
+
+  /**
+   * Endpoint for user's order return requests
+   */
+  orderReturns?: string;
 }

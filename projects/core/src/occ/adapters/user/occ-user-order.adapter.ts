@@ -10,11 +10,13 @@ import {
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
+  ReturnRequestList,
 } from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
+  ORDER_RETURNS_NORMALIZER,
 } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
@@ -176,5 +178,29 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     return this.http
       .post(url, returnRequestInput, { headers })
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  public loadReturnRequests(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<ReturnRequestList> {
+    const params = {};
+    if (pageSize) {
+      params['pageSize'] = pageSize.toString();
+    }
+    if (currentPage) {
+      params['currentPage'] = currentPage.toString();
+    }
+    if (sort) {
+      params['sort'] = sort.toString();
+    }
+
+    const url = this.occEndpoints.getUrl('orderReturns', { userId }, params);
+
+    return this.http
+      .get<ReturnRequestList>(url)
+      .pipe(this.converter.pipeable(ORDER_RETURNS_NORMALIZER));
   }
 }
