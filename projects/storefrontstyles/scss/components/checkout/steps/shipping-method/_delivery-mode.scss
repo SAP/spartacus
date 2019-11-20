@@ -16,6 +16,41 @@
       justify-content: space-between;
       flex-wrap: wrap;
 
+      //fix start here, tranfer to calydon
+      margin-bottom: 0.5em;
+      display: block;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1em;
+
+      input[type='radio'] {
+        visibility: hidden;
+      }
+
+      .overlay {
+        width: 1.5em;
+        height: 1.5em;
+        margin-right: 0.25em;
+        padding: 0.125em;
+        display: inline-block;
+        position: relative;
+        top: -2px;
+        border: 2px solid var(--cx-color-primary);
+        border-radius: 100%;
+        vertical-align: middle;
+      }
+
+      input:checked + span::before {
+        width: 0.75em;
+        height: 0.75em;
+        margin: 0.125em;
+        display: block;
+        content: ' ';
+        background-color: var(--cx-color-primary);
+        border-radius: 100%;
+      }
+      //fix ends
+
       .cx-delivery-shipping {
         flex: 50%;
       }
