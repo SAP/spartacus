@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+import { makeErrorSerializable } from 'projects/core/src/util/serialization-utils';
 import { EMPTY, from, Observable } from 'rxjs';
 import {
   catchError,
@@ -46,7 +47,7 @@ export class WishListEffects {
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
-                    error,
+                    error: makeErrorSerializable(error),
                   }),
                 ])
               )
@@ -83,7 +84,9 @@ export class WishListEffects {
             }
           }
         }),
-        catchError(error => from([new CartActions.LoadCartFail(error)]))
+        catchError(error =>
+          from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
+        )
       );
     })
   );
@@ -106,7 +109,9 @@ export class WishListEffects {
           switchMap(wishList => [
             new CartActions.LoadWisthListSuccess({ cart: wishList, userId }),
           ]),
-          catchError(error => from([new CartActions.LoadCartFail(error)]))
+          catchError(error =>
+            from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
+          )
         );
       }
       return EMPTY;

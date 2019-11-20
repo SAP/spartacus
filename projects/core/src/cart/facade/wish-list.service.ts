@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Cart, OrderEntry } from '../../model/index';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
@@ -33,7 +34,7 @@ export class WishListService {
       distinctUntilChanged(),
       withLatestFrom(this.authService.getOccUserId()),
       tap(([wishListId, userId]) => {
-        if (!Boolean(wishListId)) {
+        if (!Boolean(wishListId) && userId !== OCC_USER_ID_ANONYMOUS) {
           this.loadWishList(userId);
         }
       }),
