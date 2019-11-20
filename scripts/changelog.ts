@@ -1,12 +1,12 @@
 // tslint:disable:no-implicit-dependencies
 import { JsonObject, logging } from '@angular-devkit/core';
+import chalk from 'chalk';
+import * as program from 'commander';
+import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as semver from 'semver';
 import { packages } from './packages';
-import * as ejs from 'ejs';
-import * as program from 'commander';
-import chalk from 'chalk';
 import * as versionsHelper from './versions';
 
 const changelogTemplate = ejs.compile(
@@ -139,7 +139,6 @@ export default async function run(
               toSha = chunk.hash as string;
             }
             const notes: any = chunk.notes;
-            console.log(notes);
             if (Array.isArray(notes)) {
               notes.forEach(note => {
                 if (breakingChangesKeywords.includes(note.title)) {
