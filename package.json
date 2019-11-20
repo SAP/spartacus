@@ -61,11 +61,13 @@
     "release:lib:with-changelog": "cd projects/storefrontlib && release-it --config .release-it.changelog.json && cd ../..",
     "release:core:with-changelog": "cd projects/core && release-it --config .release-it.changelog.json && cd ../..",
     "release:schematics:with-changelog": "cd projects/schematics && release-it --config .release-it.changelog.json && cd ../..",
+    "release:incubator:with-changelog": "cd projects/incubator && release-it --config .release-it.changelog.json && cd ../..",
     "release-notes:assets": "ts-node ./scripts/changelog.ts --verbose --lib assets",
     "release-notes:lib": "ts-node ./scripts/changelog.ts --verbose --lib storefront",
     "release-notes:core": "ts-node ./scripts/changelog.ts --verbose --lib core",
     "release-notes:styles": "ts-node ./scripts/changelog.ts --verbose --lib styles",
     "release-notes:schematics": "ts-node ./scripts/changelog.ts --verbose --lib schematics",
+    "release-notes:incubator": "ts-node ./scripts/changelog.ts --verbose --lib incubator",
     "publish:docs": "gh-pages -d documentation -m \"Compodocs updates\""
   },
   "private": false,
