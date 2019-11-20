@@ -9,7 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { CdsConfig, CdsModule } from '@spartacus/cds';
+import { CdsConfig, CdsModule } from 'projects/cds/public_api';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
@@ -40,9 +40,8 @@ if (!environment.production) {
           strategyProducts: 'example',
         },
         profileTag: {
-          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
-          configUrl:
-            'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
+          javascriptUrl: environment.profileTagUrl,
+          configUrl: environment.configUrl,
         },
       },
     }),
@@ -57,8 +56,8 @@ if (!environment.production) {
         enabled: false,
       },
       authentication: {
-        client_id: 'mobile_android',
-        client_secret: 'edit me',
+        client_id: environment.authClientId,
+        client_secret: environment.authClientSecret,
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
