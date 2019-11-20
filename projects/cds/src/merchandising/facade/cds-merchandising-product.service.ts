@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BaseSiteService, LanguageService } from '@spartacus/core';
+import {
+  BaseSiteService,
+  LanguageService,
+  RoutingService,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { StrategyRequest } from './../../cds-models/cds-strategy-request.model';
@@ -13,7 +17,8 @@ export class CdsMerchandisingProductService {
   constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
     protected baseSiteService: BaseSiteService,
-    protected languageService: LanguageService
+    protected languageService: LanguageService,
+    private routingService: RoutingService
   ) {}
 
   loadProductsForStrategy(
@@ -23,12 +28,16 @@ export class CdsMerchandisingProductService {
     return combineLatest([
       this.baseSiteService.getActive(),
       this.languageService.getActive(),
+      this.routingService
+        .getRouterState()
+        .pipe(map(state => state.state.params['productCode'])),
     ]).pipe(
-      map(([site, language]: [string, string]) => {
+      map(([site, language, productId]: [string, string, string]) => {
         const strategyRequest: StrategyRequest = {
           site,
           language,
           pageSize: numberToDisplay,
+          productId,
         };
         return strategyRequest;
       }),
