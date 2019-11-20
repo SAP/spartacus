@@ -140,7 +140,6 @@ export default async function run(
               toSha = chunk.hash as string;
             }
             const notes: any = chunk.notes;
-            console.log(notes);
             if (Array.isArray(notes)) {
               notes.forEach(note => {
                 if (breakingChangesKeywords.includes(note.title)) {
