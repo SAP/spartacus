@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -13,7 +14,10 @@ import { AnonymousConsentsSelectors } from '../store/selectors/index';
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
-  constructor(protected store: Store<StateWithAnonymousConsents>) {}
+  constructor(
+    protected store: Store<StateWithAnonymousConsents>,
+    protected authService: AuthService
+  ) {}
 
   /**
    * Retrieves the anonymous consent templates.
@@ -121,14 +125,23 @@ export class AnonymousConsentsService {
   }
 
   /**
-   * Returns the anonymous consent with the given template code.
-   * @param templateCode a template code by which to filter anonymous consent templates.
+   * Returns the anonymous consent for the given template ID.
+   *
+   * As a side-effect, the method will call `getTemplates(true)` to load the templates if those are not present.
+   *
+   * @param templateId a template ID by which to filter anonymous consent templates.
    */
-  getConsent(templateCode: string): Observable<AnonymousConsent> {
-    return this.store.pipe(
-      select(
-        AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
-          templateCode
+  getConsent(templateId: string): Observable<AnonymousConsent> {
+    return this.authService.isUserLoggedIn().pipe(
+      filter(authenticated => !authenticated),
+      tap(_ => this.getTemplates(true)),
+      switchMap(_ =>
+        this.store.pipe(
+          select(
+            AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
+              templateId
+            )
+          )
         )
       )
     );

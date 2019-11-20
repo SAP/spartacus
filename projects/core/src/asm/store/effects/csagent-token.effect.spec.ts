@@ -3,10 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { UserToken } from '../../models/token-types.model';
-import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
-import { AuthActions } from '../actions/index';
+import { UserToken } from '../../../auth/models/token-types.model';
+import { AsmActions } from '../actions/index';
+import { AuthActions } from '../../../auth/store/actions/index';
 import { CustomerSupportAgentTokenEffects } from './csagent-token.effect';
+import { UserAuthenticationTokenService } from '../../../auth/services/user-authentication/user-authentication-token.service';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -52,11 +53,11 @@ describe('CustomerSupportAgentTokenEffects', () => {
 
   describe('loadCustomerSupportAgentToken$', () => {
     it('should load a user token for the customer support agent', () => {
-      const action = new AuthActions.LoadCustomerSupportAgentToken({
+      const action = new AsmActions.LoadCustomerSupportAgentToken({
         userId: 'xxx',
         password: 'xxx',
       });
-      const completion = new AuthActions.LoadCustomerSupportAgentTokenSuccess(
+      const completion = new AsmActions.LoadCustomerSupportAgentTokenSuccess(
         testToken
       );
 

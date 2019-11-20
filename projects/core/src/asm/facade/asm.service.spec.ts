@@ -95,7 +95,7 @@ describe('AsmService', () => {
   });
 
   it('should get the AsmUi state', () => {
-    const asmUi: AsmUi = { expanded: true };
+    const asmUi: AsmUi = { collapsed: false };
     store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
 
     let result: AsmUi;
