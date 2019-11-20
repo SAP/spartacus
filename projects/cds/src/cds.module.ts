@@ -1,10 +1,10 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
-import { MerchandisingCarouselModule } from './cms-components/merchandising/carousel/merchandising-carousel/merchandising-carousel.module';
 import { cdsConfigValidator } from './config';
 import { CdsConfig } from './config/cds-config';
 import { DEFAULT_CDS_CONFIG } from './config/default-cds-config';
 import { CdsMerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
+import { MerchandisingCarouselModule } from './merchandising/cms-components/merchandising-carousel.module';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,
   MERCHANDISING_PRODUCT_NORMALIZER,
@@ -12,7 +12,7 @@ import {
 import { MerchandisingStrategyAdapter } from './merchandising/connectors/strategy/merchandising-strategy.adapter';
 import { MerchandisingProductNormalizer } from './merchandising/converters/merchandising-product-normalizer';
 import { MerchandisingProductsNormalizer } from './merchandising/converters/merchandising-products-normalizer';
-import { ProfileTagModule } from './profiletag/profile-tag.module';
+import { ProfileTagModule } from './profiletag/cms-components/profile-tag.module';
 
 @NgModule({
   imports: [ProfileTagModule, MerchandisingCarouselModule],

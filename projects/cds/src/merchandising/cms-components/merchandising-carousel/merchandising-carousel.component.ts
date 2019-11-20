@@ -8,8 +8,8 @@ import {
   map,
   switchMap,
 } from 'rxjs/operators';
-import { CmsMerchandisingCarouselComponent } from '../../../../cds-models/cms.model';
-import { CdsMerchandisingProductService } from './../../../../merchandising/facade/cds-merchandising-product.service';
+import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
+import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
 
 @Component({
   selector: 'cx-merchandising-carousel',

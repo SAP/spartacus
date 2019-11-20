@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule, UrlModule } from '@spartacus/core';
 import { CarouselModule, MediaModule } from '@spartacus/storefront';
-import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
+import { MerchandisingCarouselComponent } from './merchandising-carousel/merchandising-carousel.component';
 
 @NgModule({
   imports: [

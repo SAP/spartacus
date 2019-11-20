@@ -16,12 +16,12 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CdsConfig } from '../config/cds-config';
+import { CdsConfig } from '../../config/cds-config';
 import {
   ProfileTagEvent,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
-} from './model/profile-tag.model';
+} from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
