@@ -10,37 +10,37 @@ describe('cdsConfigValidator', () => {
   it('should warn about undefined profile tag configuration url', () => {
     const CONFIG: CdsConfig = {
       cds: {
-          profileTag: {
-              configUrl: undefined
-          },
-      }
+        profileTag: {
+          configUrl: undefined,
+        },
+      },
     };
     expect(cdsConfigValidator(CONFIG)).toBeTruthy();
-  })
+  });
 
   it('should warn about undefined profile tag javascript url', () => {
     const CONFIG: CdsConfig = {
-        cds: {
-            profileTag: {
-                configUrl: 'some config url',
-                javascriptUrl: undefined,
-            },
-        }
+      cds: {
+        profileTag: {
+          configUrl: 'some config url',
+          javascriptUrl: undefined,
+        },
+      },
     };
     expect(cdsConfigValidator(CONFIG)).toBeTruthy();
-  })
+  });
 
   it('should warn about a blank profile tag javascript url', () => {
     const CONFIG: CdsConfig = {
-        cds: {
-            profileTag: {
-                configUrl: 'some config url',
-                javascriptUrl: '',
-            },
-        }
+      cds: {
+        profileTag: {
+          configUrl: 'some config url',
+          javascriptUrl: '',
+        },
+      },
     };
     expect(cdsConfigValidator(CONFIG)).toBeTruthy();
-  })
+  });
 
   it('should warn about undefined tenant', () => {
     const CONFIG: CdsConfig = {
