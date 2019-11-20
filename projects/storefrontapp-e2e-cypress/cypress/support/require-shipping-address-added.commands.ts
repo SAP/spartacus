@@ -43,7 +43,7 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
     return cy.request({
       method: 'POST',
       url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/addresses/delivery`,
-      body: address,
+      body: _address,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,
