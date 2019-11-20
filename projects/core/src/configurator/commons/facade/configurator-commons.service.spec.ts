@@ -3,6 +3,8 @@ import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { CartService } from '../../../cart/facade/cart.service';
+import { Cart } from '../../../model/cart.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
 import { Configurator } from './../../../model/configurator.model';
@@ -14,6 +16,8 @@ const GROUP_ID_1 = '1234-56-7891';
 const GROUP_NAME = 'Software';
 const ATTRIBUTE_NAME_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
+const CART_CODE = '0000009336';
+const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
@@ -195,5 +199,23 @@ describe('ConfiguratorCommonsService', () => {
     const groups = configurationForSendingChanges.groups;
     expect(groups).toBeDefined();
     expect(groups.length).toBe(0);
+  });
+
+  it('should return cart guid if user is anonymous', () => {
+    const cart: Cart = {
+      code: CART_CODE,
+      guid: CART_GUID,
+      user: { uid: OCC_USER_ID_ANONYMOUS },
+    };
+    expect(serviceUnderTest.getCartId(cart)).toBe(CART_GUID);
+  });
+
+  it('should return cart code if user is not anonymous', () => {
+    const cart: Cart = {
+      code: CART_CODE,
+      guid: CART_GUID,
+      user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
+    };
+    expect(serviceUnderTest.getCartId(cart)).toBe(CART_CODE);
   });
 });

@@ -3,7 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { CartService } from '../../../cart/facade/cart.service';
+import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration, UiState } from '../store/configuration-state';
@@ -123,12 +125,13 @@ export class ConfiguratorCommonsService {
   addToCart(productCode: string, configId: string) {
     const cart$ = this.cartService.getOrCreateCart();
     cart$.pipe(take(1)).subscribe(cart => {
-      console.log('Cart id ' + cart.guid);
+      const cartId = this.getCartId(cart);
+      console.log('Cart id ' + cartId);
       console.log('User uid: ' + cart.user.uid);
       this.store.dispatch(
         new ConfiguratorActions.AddToCart({
           userId: cart.user.uid,
-          cartId: cart.guid,
+          cartId: cartId,
           productCode: productCode,
           quantity: 1,
           configId: configId,
@@ -140,6 +143,10 @@ export class ConfiguratorCommonsService {
   ////
   // Helper methods
   ////
+  getCartId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+  }
+
   isUiStateCreated(uiState: UiState): boolean {
     return uiState !== undefined;
   }
