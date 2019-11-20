@@ -2,6 +2,8 @@ const nextGroupButtonSelector =
   'cx-config-previous-next-buttons div div:last button';
 const previousGroupButtonSelector =
   'cx-config-previous-next-buttons div div:first button';
+const addToCartButtonSelector = 'cx-config-add-to-cart-button div div button';
+const miniCartSelector = 'cx-mini-cart a .count';
 
 export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
@@ -132,4 +134,14 @@ export function clickHamburger() {
 
 export function verifyHamburgerIsDisplayed() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
+}
+
+export function clickAddToCartButton() {
+  cy.get(addToCartButtonSelector).click({
+    force: true,
+  });
+}
+
+export function verifyNumberOfProductsInCart(numberAsString: string) {
+  cy.get(miniCartSelector).contains(numberAsString);
 }

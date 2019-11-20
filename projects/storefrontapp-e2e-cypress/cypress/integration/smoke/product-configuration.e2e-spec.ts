@@ -144,4 +144,18 @@ context('Product Configuration', () => {
       );
     });
   });
+
+  describe('Cart handling', () => {
+    it('should add configurable product to cart', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.selectAttribute(
+        'WCEM_DP_MONITOR_MNF',
+        'radioGroup',
+        'SAMSUNG'
+      );
+      configuration.clickAddToCartButton();
+      configuration.verifyNumberOfProductsInCart('1');
+    });
+  });
 });
