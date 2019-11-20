@@ -24,5 +24,4 @@ import { MerchandisingCarouselComponent } from './merchandising-carousel/merchan
   entryComponents: [MerchandisingCarouselComponent],
   exports: [MerchandisingCarouselComponent],
 })
-// TODO:cds rename this file and class to `merchandising-carousel-cms.module.ts` and `MerchandisingCarouselCmsModule`
-export class MerchandisingCarouselModule {}
+export class MerchandisingCarouselCmsModule {}

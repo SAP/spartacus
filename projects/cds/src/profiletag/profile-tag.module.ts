@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ProfileTagModule as ProfileTagCmsModule } from './cms-components/index';
+import { ProfileTagCmsModule } from './cms-components/index';
 
 @NgModule({
   imports: [ProfileTagCmsModule],
