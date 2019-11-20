@@ -8,7 +8,7 @@
     margin-bottom: 0;
 
     .cx-delivery-label {
-      padding: 0;
+      // padding: 0;
       // margin: 0 auto 1.5rem 0.75rem;
       width: 100%;
       display: flex;
@@ -25,19 +25,24 @@
 
       input[type='radio'] {
         visibility: hidden;
+        height: 0;
+        width: 0;
+        margin: 0;
+        padding: 0;
       }
 
       .overlay {
         width: 1.5em;
         height: 1.5em;
-        margin-right: 0.25em;
+        // margin-right: 0.25em;
         padding: 0.125em;
-        display: inline-block;
-        position: relative;
-        top: -2px;
+        // display: inline-block;
+        position: absolute;
+        top: -3px;
         border: 2px solid var(--cx-color-primary);
         border-radius: 100%;
         vertical-align: middle;
+        left: -1.25rem;
       }
 
       input:checked + span::before {
