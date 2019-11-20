@@ -48,12 +48,17 @@ export class UserOrderConnector {
     );
   }
 
-  public getReturnRequests(
+  public getReturnRequestList(
     userId: string,
     pageSize?: number,
     currentPage?: number,
     sort?: string
   ): Observable<ReturnRequestList> {
-    return this.adapter.loadReturnRequests(userId, pageSize, currentPage, sort);
+    return this.adapter.loadReturnRequestList(
+      userId,
+      pageSize,
+      currentPage,
+      sort
+    );
   }
 }

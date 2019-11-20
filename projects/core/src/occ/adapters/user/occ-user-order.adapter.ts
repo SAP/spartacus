@@ -180,7 +180,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  public loadReturnRequests(
+  public loadReturnRequestList(
     userId: string,
     pageSize?: number,
     currentPage?: number,

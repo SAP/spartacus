@@ -9,7 +9,10 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
-import { OrderHistoryList } from '../../../model/order.model';
+import {
+  OrderHistoryList,
+  ReturnRequestList,
+} from '../../../model/order.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   REGIONS,
@@ -19,6 +22,7 @@ import {
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  USER_RETURN_REQUESTS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
@@ -57,7 +61,11 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromUserOrdersReducer.reducer
     ),
     order: fromOrderDetailsReducer.reducer,
-    orderReturnRequest: fromOrderReturnRequestReducer.reducer,
+    orderReturn: fromOrderReturnRequestReducer.returnRequestReducer,
+    orderReturnList: loaderReducer<ReturnRequestList>(
+      USER_RETURN_REQUESTS,
+      fromOrderReturnRequestReducer.returnRequestListReducer
+    ),
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),

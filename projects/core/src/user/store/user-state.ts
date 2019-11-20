@@ -7,6 +7,7 @@ import {
   Order,
   OrderHistoryList,
   ReturnRequest,
+  ReturnRequestList,
 } from '../../model/order.model';
 import { LoaderState } from '../../state';
 
@@ -23,6 +24,7 @@ export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
+export const USER_RETURN_REQUESTS = '[User] Order Return Requests';
 export const REGIONS = '[User] Regions';
 
 export interface StateWithUser {
@@ -38,7 +40,8 @@ export interface UserState {
   payments: LoaderState<PaymentDetails[]>;
   orders: LoaderState<OrderHistoryList>;
   order: OrderDetailsState;
-  orderReturnRequest: OrderReturnRequestState;
+  orderReturn: OrderReturnRequestState;
+  orderReturnList: LoaderState<ReturnRequestList>;
   titles: TitlesState;
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
