@@ -21,6 +21,7 @@ import {
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentMapperService } from './component-mapper.service';
 import { CxApiService } from './cx-api.service';
+import { SkipLinkService } from 'projects/storefrontlib/src/layout/a11y/skip-links/skip-link.service';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -39,6 +40,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private dynamicAttributeService: DynamicAttributeService,
     private renderer: Renderer2,
     private config: CmsConfig,
+    private skipLinkService: SkipLinkService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -72,6 +74,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         factory,
         undefined,
         this.getInjectorForComponent()
+      );
+      this.skipLinkService.add(
+        this.cxComponentWrapper.flexType,
+        this.cmpRef.location.nativeElement
       );
 
       if (this.cmsService.isLaunchInSmartEdit()) {
