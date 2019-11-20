@@ -12,7 +12,7 @@ import {
 import { MerchandisingStrategyAdapter } from './merchandising/connectors/strategy/merchandising-strategy.adapter';
 import { MerchandisingProductNormalizer } from './merchandising/converters/merchandising-product-normalizer';
 import { MerchandisingProductsNormalizer } from './merchandising/converters/merchandising-products-normalizer';
-import { ProfileTagModule } from './profiletag/cms-components/profile-tag.module';
+import { ProfileTagModule } from './profiletag/profile-tag.module';
 
 @NgModule({
   imports: [ProfileTagModule, MerchandisingCarouselModule],

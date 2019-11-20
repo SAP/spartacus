@@ -18,4 +18,5 @@ import { ProfileTagComponent } from './profile-tag.component';
   declarations: [ProfileTagComponent],
   entryComponents: [ProfileTagComponent],
 })
+// TODO:cds rename this file and class to `profile-tag-cms.module.ts` and `ProfileTagCmsModule`
 export class ProfileTagModule {}
