@@ -31,16 +31,12 @@ export class MerchandisingCarouselComponent {
   title$: Observable<string> = this.componentData$.pipe(
     map(data => data.title)
   );
-  numberToDisplay$: Observable<string> = this.componentData$.pipe(
-    map(data => data.numberToDisplay)
-  );
-
   items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
     distinctUntilKeyChanged('strategy'),
     switchMap(data => {
       return this.cdsMerchandisingProductService.loadProductsForStrategy(
         data.strategy,
-        Number(data.numberToDisplay)
+        data.numberToDisplay
       );
     }),
     map(merchandisingProducts => merchandisingProducts.products),
