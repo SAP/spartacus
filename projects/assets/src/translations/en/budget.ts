@@ -10,7 +10,7 @@ export const budget = {
     noBudgets: 'No budgets',
     budgetManagement: 'Budget Management',
     searchBox: 'Find budget',
-    create: 'Create',
+    create: 'Create new budget',
     sorting: {
       byUnitName: 'Unit Name',
       byName: 'Name',

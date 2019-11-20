@@ -13,7 +13,7 @@ import {
 import {
   resolveKeyAndValueBy,
   resolveObjectBy,
-} from '../../../../../../core/src/util/resolveValuesBy';
+} from '../../../../../../core/src/util/resolveObject';
 
 @Component({
   selector: 'cx-budgets-list',
