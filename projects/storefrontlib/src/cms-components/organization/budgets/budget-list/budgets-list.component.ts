@@ -9,7 +9,7 @@ import {
   RoutingService,
   TranslationService,
   CxDatePipe,
-  BudgetSearchConfig
+  BudgetSearchConfig,
 } from '@spartacus/core';
 import {
   resolveKeyAndValueBy,
@@ -27,7 +27,7 @@ export class BudgetsListComponent implements OnInit {
     protected budgetsService: BudgetService,
     protected translation: TranslationService,
     protected cxDate: CxDatePipe,
-    protected routingService: RoutingService,
+    protected routingService: RoutingService
   ) {}
 
   cxRoute = 'budgetDetails';
@@ -56,22 +56,21 @@ export class BudgetsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.budgetsList$ = this.routingService.getRouterState().pipe(
-      map(routingData => {
-        const { sort, currentPage, pageSize } = routingData.state.queryParams;
-        return {
-          sort,
-          currentPage: parseInt(currentPage, 10),
-          pageSize: parseInt(pageSize, 10),
-        };
-      }),
+      map(routingData => routingData.state.queryParams),
       tap(params => {
         if (!Object.keys(params).length) {
           this.updateQueryParams();
-        } else {
-          this.updateParamsIfChanged(params);
         }
       }),
       filter(params => Object.keys(params).length > 0),
+      map(({ sort, currentPage, pageSize }) => ({
+        sort,
+        currentPage: parseInt(currentPage, 10),
+        pageSize: parseInt(pageSize, 10),
+      })),
+      tap(params => {
+        this.updateParamsIfChanged(params);
+      }),
       switchMap(params =>
         this.budgetsService.getList(params).pipe(
           tap((budgetsList: BudgetListModel) => {
