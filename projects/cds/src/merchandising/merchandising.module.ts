@@ -1,15 +1,13 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CdsMerchandisingStrategyAdapter } from './adapters/index';
-import { MerchandisingCarouselCmsModule } from './cms-components/index';
+import { CdsMerchandisingStrategyAdapter } from './adapters/strategy/cds-merchandising-strategy.adapter';
+import { MerchandisingCarouselCmsModule } from './cms-components/merchandising-carousel-cms.module';
 import {
-  MerchandisingStrategyAdapter,
   MERCHANDISING_PRODUCTS_NORMALIZER,
   MERCHANDISING_PRODUCT_NORMALIZER,
-} from './connectors/index';
-import {
-  MerchandisingProductNormalizer,
-  MerchandisingProductsNormalizer,
-} from './converters/index';
+} from './connectors/strategy/converters';
+import { MerchandisingStrategyAdapter } from './connectors/strategy/merchandising-strategy.adapter';
+import { MerchandisingProductNormalizer } from './converters/merchandising-product-normalizer';
+import { MerchandisingProductsNormalizer } from './converters/merchandising-products-normalizer';
 
 @NgModule({
   imports: [MerchandisingCarouselCmsModule],
