@@ -7,8 +7,8 @@ import {
   I18nTestingModule,
   OrderEntry,
   Product,
+  WishListService,
 } from '@spartacus/core';
-import { WishListService } from 'projects/core/src/cart/facade/wish-list.service';
 import { BehaviorSubject, of } from 'rxjs';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddToWishListComponent } from './add-to-wish-list.component';
@@ -18,6 +18,10 @@ const mockProduct: Product = {
   code: 'xxx',
   name: 'product',
   summary: 'summary',
+  stock: {
+    stockLevel: 420,
+    stockLevelStatus: 'Available',
+  },
 };
 
 const mockCartEntry: OrderEntry = {
@@ -132,6 +136,19 @@ describe('AddToWishListComponent', () => {
       );
 
       expect(result).toBe(undefined);
+    });
+  });
+
+  describe('setStockInfo', () => {
+    it('should set "hasStock" to true', () => {
+      component['setStockInfo'](mockProduct);
+
+      expect(component.hasStock).toBeTruthy();
+    });
+    it('should set "hasStock" to false', () => {
+      component['setStockInfo']({ code: '123' });
+
+      expect(component.hasStock).toBeFalsy();
     });
   });
 

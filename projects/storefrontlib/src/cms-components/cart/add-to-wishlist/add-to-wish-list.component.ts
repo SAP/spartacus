@@ -1,8 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AuthService, OrderEntry, Product } from '@spartacus/core';
-import { WishListService } from 'projects/core/src/cart/facade/wish-list.service';
+import {
+  AuthService,
+  OrderEntry,
+  Product,
+  WishListService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { CurrentProductService } from '../../product/current-product.service';
 
@@ -12,17 +16,21 @@ import { CurrentProductService } from '../../product/current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddToWishListComponent {
-  product$: Observable<Product> = this.currentProductService.getProduct();
+  product$: Observable<Product> = this.currentProductService.getProduct().pipe(
+    filter(product => Boolean(product)),
+    tap(product => this.setStockInfo(product))
+  );
+
   wishListEntries$: Observable<
     OrderEntry[]
   > = this.wishListService
     .getWishList()
     .pipe(map(wishList => wishList.entries));
-  userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
-  loading$: Observable<
-    boolean
-  > = this.wishListService.getWishListLoading().pipe(tap(i => console.log(i)));
 
+  userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
+  loading$: Observable<boolean> = this.wishListService.getWishListLoading();
+
+  hasStock = false;
   iconTypes = ICON_TYPE;
 
   constructor(
@@ -42,5 +50,10 @@ export class AddToWishListComponent {
   getProductInWishList(product: Product, entries: OrderEntry[]): OrderEntry {
     const item = entries.find(entry => entry.product.code === product.code);
     return item;
+  }
+
+  private setStockInfo(product: Product): void {
+    this.hasStock =
+      product.stock && product.stock.stockLevelStatus !== 'outOfStock';
   }
 }
