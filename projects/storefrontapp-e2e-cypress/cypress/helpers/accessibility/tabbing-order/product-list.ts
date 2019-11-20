@@ -5,17 +5,8 @@ import {
 } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
 
-export function productListTabbingOrderDesktop(
-  config: TabElement[],
-  grid: boolean = false
-) {
+export function productListTabbingOrderDesktop(config: TabElement[]) {
   cy.visit(testProductListUrl);
-
-  if (grid) {
-    cy.get('cx-product-list cx-product-view')
-      .first()
-      .click();
-  }
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
   cy.get('cx-breadcrumb').should('contain', 'Brands');
@@ -26,6 +17,12 @@ export function productListTabbingOrderDesktop(
     .focus();
 
   checkAllElements(config);
+}
+
+export function toggleProductView() {
+  cy.get('cx-product-list cx-product-view')
+    .first()
+    .click();
 }
 
 export function productListTabbingOrderMobile(config: TabElement[]) {

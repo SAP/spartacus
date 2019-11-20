@@ -363,6 +363,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   addToCart: [
     {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
