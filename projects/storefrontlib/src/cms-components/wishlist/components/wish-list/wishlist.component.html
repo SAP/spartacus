@@ -1,7 +1,7 @@
 <div class="cx-page" *ngIf="wishList$ | async as model">
   <ng-container *ngFor="let entry of model?.entries">
     <cx-wish-list-item
-      [product]="entry.product"
+      [cartEntry]="entry"
       class="cx-product-search-list"
     ></cx-wish-list-item>
   </ng-container>

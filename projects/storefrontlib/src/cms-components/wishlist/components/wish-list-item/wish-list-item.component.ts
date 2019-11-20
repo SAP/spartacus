@@ -6,5 +6,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WishListItemComponent {
-  @Input() product: any;
+  @Input() cartEntry: any;
 }

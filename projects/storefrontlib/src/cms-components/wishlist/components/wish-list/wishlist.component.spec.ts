@@ -49,7 +49,7 @@ const MockWishListService = jasmine.createSpyObj('WishListService', [
 })
 class MockWishListItemComponent {
   @Input()
-  product;
+  cartEntry;
 }
 
 describe('WishListComponent', () => {

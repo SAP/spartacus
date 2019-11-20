@@ -51,24 +51,29 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-describe('ProductListItemComponent in product-list', () => {
+describe('WishListItemItemComponent in wish-list', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
 
-  const mockProduct = {
-    name: 'Test product',
-    nameHtml: 'Test product',
-    summary: 'Test summary',
-    code: '1',
-    averageRating: 4.5,
-    stock: {
-      stockLevelStatus: 'inStock',
+  const mockCartEntry = {
+    basePrice: {
+      formattedValue: '$546.20',
     },
-    price: {
-      formattedValue: '$100,00',
-    },
-    images: {
-      PRIMARY: {},
+    product: {
+      name: 'Test product',
+      nameHtml: 'Test product',
+      summary: 'Test summary',
+      code: '1',
+      averageRating: 4.5,
+      stock: {
+        stockLevelStatus: 'inStock',
+      },
+      price: {
+        formattedValue: '$100,00',
+      },
+      images: {
+        PRIMARY: {},
+      },
     },
   };
 
@@ -94,7 +99,7 @@ describe('ProductListItemComponent in product-list', () => {
     fixture = TestBed.createComponent(WishListItemComponent);
     component = fixture.componentInstance;
 
-    component.product = mockProduct;
+    component.cartEntry = mockCartEntry;
 
     fixture.detectChanges();
   });
@@ -107,21 +112,21 @@ describe('ProductListItemComponent in product-list', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
         .textContent
-    ).toContain(component.product.name);
+    ).toContain(component.cartEntry.product.name);
   });
 
   it('should display product summary', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-summary')
         .textContent
-    ).toContain(component.product.summary);
+    ).toContain(component.cartEntry.product.summary);
   });
 
   it('should display product formatted price', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-price')
         .textContent
-    ).toContain(component.product.price.formattedValue);
+    ).toContain(component.cartEntry.basePrice.formattedValue);
   });
 
   it('should display product image', () => {
@@ -130,7 +135,7 @@ describe('ProductListItemComponent in product-list', () => {
     ).not.toBeNull();
   });
 
-  it('should display raiting component', () => {
+  it('should display rating component', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
@@ -143,7 +148,7 @@ describe('ProductListItemComponent in product-list', () => {
   });
 
   it('should not display add to cart component when product is out of stock', () => {
-    component.product.stock.stockLevelStatus = 'outOfStock';
+    component.cartEntry.product.stock.stockLevelStatus = 'outOfStock';
     fixture.detectChanges();
 
     expect(

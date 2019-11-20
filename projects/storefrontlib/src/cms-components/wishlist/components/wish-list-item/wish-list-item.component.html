@@ -1,41 +1,41 @@
 <div class="row">
   <div class="col-12 col-md-4">
     <a
-      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+      [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl"
       class="cx-product-image-container"
     >
       <cx-media
         class="cx-product-image"
-        [container]="product.images?.PRIMARY"
+        [container]="cartEntry.product.images?.PRIMARY"
         format="product"
-        [alt]="product.summary"
+        [alt]="cartEntry.product.summary"
       ></cx-media>
     </a>
   </div>
   <div class="col-12 col-md-8">
     <a
-      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+      [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl"
       class="cx-product-name"
-      [innerHtml]="product.nameHtml"
+      [innerHtml]="cartEntry.product.name"
     ></a>
     <cx-star-rating
-      [rating]="product?.averageRating"
+      [rating]="cartEntry.product?.averageRating"
       [disabled]="true"
     ></cx-star-rating>
     <div class="cx-product-price" aria-label="Product price">
-      {{ product.price?.formattedValue }}
+      {{ cartEntry.basePrice?.formattedValue }}
     </div>
     <div class="row">
       <div class="col-12 col-md-8">
-        <p class="cx-product-summary" [innerHtml]="product.summary">
-          {{ product.summary }}
+        <p class="cx-product-summary" [innerHtml]="cartEntry.product.summary">
+          {{ cartEntry.product.summary }}
         </p>
       </div>
       <div class="col-12 col-md-4">
         <cx-add-to-cart
-          *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
+          *ngIf="cartEntry.product.stock.stockLevelStatus !== 'outOfStock'"
           [showQuantity]="false"
-          [product]="product"
+          [product]="cartEntry.product"
         ></cx-add-to-cart>
       </div>
     </div>
