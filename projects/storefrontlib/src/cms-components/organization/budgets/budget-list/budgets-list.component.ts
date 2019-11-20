@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   BudgetService,
@@ -9,37 +9,41 @@ import {
   RoutingService,
   TranslationService,
   CxDatePipe,
+  BudgetSearchConfig
 } from '@spartacus/core';
 import {
   resolveKeyAndValueBy,
   resolveObjectBy,
 } from '../../../../../../core/src/util/resolveObject';
+import { shallowEqualObjects } from '../../../../../../core/src/util/compare-equal-objects';
 
 @Component({
   selector: 'cx-budgets-list',
   templateUrl: './budgets-list.component.html',
 })
-export class BudgetsListComponent implements OnInit, OnDestroy {
+export class BudgetsListComponent implements OnInit {
   constructor(
-    private routing: RoutingService,
-    private budgetsService: BudgetService,
-    private translation: TranslationService,
-    private cxDate: CxDatePipe
+    protected routing: RoutingService,
+    protected budgetsService: BudgetService,
+    protected translation: TranslationService,
+    protected cxDate: CxDatePipe,
+    protected routingService: RoutingService,
   ) {}
-  private PAGE_SIZE = 5;
+
   cxRoute = 'budgetDetails';
   budgetsList$: Observable<any>;
-  sortType$: BehaviorSubject<string> = new BehaviorSubject('byName');
-  currentPage$: BehaviorSubject<number> = new BehaviorSubject(0);
-  filter$: BehaviorSubject<string> = new BehaviorSubject('');
   isLoaded$: Observable<boolean>;
+  params: BudgetSearchConfig = {
+    sort: 'byName',
+    currentPage: 0,
+    pageSize: 5,
+  };
 
   private columns = {
     code: 'budgetsList.code',
     name: 'budgetsList.name',
     amount: 'budgetsList.amount',
     startEndDate: 'budgetsList.startEndDate',
-    costCenter: 'budgetsList.costCenter',
     parentUnit: 'budgetsList.parentUnit',
   };
 
@@ -51,50 +55,45 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
-    this.budgetsList$ = combineLatest([
-      this.sortType$,
-      this.currentPage$,
-      // this.filter$,
-    ]).pipe(
-      switchMap(([sort, currentPage]) =>
-        this.budgetsService
-          .getList({
-            pageSize: this.PAGE_SIZE,
-            sort,
-            currentPage,
-          })
-          .pipe(
-            tap((budgetsList: BudgetListModel) => {
-              // will be shorter after use chain operator
-              if (
-                budgetsList &&
-                budgetsList.pagination &&
-                budgetsList.pagination.sort !== sort
-              ) {
-                this.sortType$.next(budgetsList.pagination.sort);
-              }
-              if (
-                budgetsList &&
-                budgetsList.pagination &&
-                budgetsList.pagination.currentPage !== currentPage
-              ) {
-                this.currentPage$.next(budgetsList.pagination.currentPage);
-              }
-            }),
-            map((budgetsList: BudgetListModel) => ({
-              sorts: budgetsList.sorts,
-              pagination: budgetsList.pagination,
-              list: budgetsList.budgets.map(budget => ({
-                code: budget.code,
-                name: budget.name,
-                amount: `${budget.budget} ${budget.currency.symbol}`,
-                startEndDate: `${this.cxDate.transform(
-                  budget.startDate
-                )} - ${this.cxDate.transform(budget.endDate)}`,
-                parentUnit: budget.orgUnit.name,
-              })),
-            }))
-          )
+    this.budgetsList$ = this.routingService.getRouterState().pipe(
+      map(routingData => {
+        const { sort, currentPage, pageSize } = routingData.state.queryParams;
+        return {
+          sort,
+          currentPage: parseInt(currentPage, 10),
+          pageSize: parseInt(pageSize, 10),
+        };
+      }),
+      tap(params => {
+        if (!Object.keys(params).length) {
+          this.updateQueryParams();
+        } else {
+          this.updateParamsIfChanged(params);
+        }
+      }),
+      filter(params => Object.keys(params).length > 0),
+      switchMap(params =>
+        this.budgetsService.getList(params).pipe(
+          tap((budgetsList: BudgetListModel) => {
+            const { sort, currentPage, pageSize } = budgetsList.pagination;
+            if (this.updateParamsIfChanged({ sort, currentPage, pageSize })) {
+              this.updateQueryParams();
+            }
+          }),
+          map((budgetsList: BudgetListModel) => ({
+            sorts: budgetsList.sorts,
+            pagination: budgetsList.pagination,
+            list: budgetsList.budgets.map(budget => ({
+              code: budget.code,
+              name: budget.name,
+              amount: `${budget.budget} ${budget.currency.symbol}`,
+              startEndDate: `${this.cxDate.transform(
+                budget.startDate
+              )} - ${this.cxDate.transform(budget.endDate)}`,
+              parentUnit: budget.orgUnit.name,
+            })),
+          }))
+        )
       )
     );
 
@@ -108,16 +107,23 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     //   .unsubscribe();
   }
 
-  ngOnDestroy(): void {
-    // this.budgetsService.clearBudgetList();
-  }
-
   changeSortCode(sortCode: string): void {
-    this.sortType$.next(sortCode);
+    this.params.sort = sortCode;
+    this.updateQueryParams();
   }
 
   pageChange(page: number): void {
-    this.currentPage$.next(page);
+    this.params.currentPage = page;
+    this.updateQueryParams();
+  }
+
+  updateQueryParams(): void {
+    this.routing.go(
+      {
+        cxRoute: 'budgets',
+      },
+      { ...this.params }
+    );
   }
 
   goToBudgetDetail(budget: Budget): void {
@@ -133,15 +139,13 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
       this.translation.translate('budgetsList.name'),
       this.translation.translate('budgetsList.amount'),
       this.translation.translate('budgetsList.startEndDate'),
-      this.translation.translate('budgetsList.costCenter'),
       this.translation.translate('budgetsList.parentUnit'),
     ]).pipe(
-      map(([code, name, amount, startEndDate, costCenter, parentUnit]) => [
+      map(([code, name, amount, startEndDate, parentUnit]) => [
         { key: 'code', value: code },
         { key: 'name', value: name },
         { key: 'amount', value: amount },
         { key: 'startEndDate', value: startEndDate },
-        { key: 'costCenter', value: costCenter },
         { key: 'parentUnit', value: parentUnit },
       ])
     );
@@ -185,9 +189,9 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
     // return resolveObjectBy(this.sortLabels, text => this.translation.translate(text)); // nothing happens
   }
 
-  search(value) {
-    this.filter$.next(value);
-  }
+  // search(value) {
+  //   this.filter$.next(value);
+  // }
 
   // private fetchBudgets(): void {
   //   this.budgetsService.loadBudgets({
@@ -196,4 +200,12 @@ export class BudgetsListComponent implements OnInit, OnDestroy {
   //     sort: this.sortType,
   //   });
   // }
+
+  private updateParamsIfChanged(params) {
+    if (!shallowEqualObjects(params, this.params)) {
+      this.params = { ...params };
+      return true;
+    }
+    return false;
+  }
 }
