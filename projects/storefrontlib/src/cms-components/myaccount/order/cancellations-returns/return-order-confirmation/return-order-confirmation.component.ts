@@ -7,7 +7,7 @@ import {
   CancellationReturnRequestEntryInput,
   RoutingService,
   LanguageService,
-  UserOrderService,
+  OrderReturnRequestService,
 } from '@spartacus/core';
 
 import { OrderDetailsService } from '../../order-details/order-details.service';
@@ -21,7 +21,7 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
     protected orderDetailsService: OrderDetailsService,
     protected routing: RoutingService,
     protected languageService: LanguageService,
-    protected userOrderService: UserOrderService
+    protected returnRequestService: OrderReturnRequestService
   ) {}
 
   returnedEntries$: Observable<OrderEntry[]>;
@@ -92,12 +92,12 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.userOrderService.createOrderReturnRequest(this.orderCode, {
+    this.returnRequestService.createOrderReturnRequest(this.orderCode, {
       returnRequestEntryInputs: this.returnRequestEntryInput,
     });
 
     if (!this.subscription) {
-      this.subscription = this.userOrderService
+      this.subscription = this.returnRequestService
         .getOrderReturnRequest()
         .pipe(filter(returnRequest => Boolean(returnRequest)))
         .subscribe(returnRequest => {

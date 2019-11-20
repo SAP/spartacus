@@ -14,7 +14,7 @@ export const getOrderReturnRequestState: MemoizedSelector<
   OrderReturnRequestState
 > = createSelector(
   getUserState,
-  (state: UserState) => state.orderReturnRequest
+  (state: UserState) => state.orderReturn
 );
 
 export const getOrderReturnRequest: MemoizedSelector<
@@ -30,7 +30,7 @@ export const getOrderReturnRequestListState: MemoizedSelector<
   LoaderState<ReturnRequestList>
 > = createSelector(
   getUserState,
-  (state: UserState) => state.orders
+  (state: UserState) => state.orderReturnList
 );
 
 export const getOrderReturnRequestListLoaded: MemoizedSelector<
