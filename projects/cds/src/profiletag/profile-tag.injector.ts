@@ -6,6 +6,8 @@ import {
   AnonymousConsentsService,
   BaseSiteService,
   WindowRef,
+  CartService,
+  OrderEntry,
 } from '@spartacus/core';
 import { fromEventPattern, merge, Observable } from 'rxjs';
 import {
@@ -29,16 +31,16 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
-  private tracking$: Observable<AnonymousConsent | NgRouterEvent> = merge(
-    this.pageLoaded(),
-    this.consentChanged()
-  );
+  private tracking$: Observable<
+    AnonymousConsent | NgRouterEvent | OrderEntry[]
+  > = merge(this.pageLoaded(), this.consentChanged(), this.cartChanged());
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService,
+    private cartService: CartService,
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
@@ -75,6 +77,18 @@ export class ProfileTagInjector {
           this.notifyProfileTagOfConsentChange({ granted: true });
         })
       );
+  }
+
+  private cartChanged(): Observable<OrderEntry[]> {
+    return this.cartService.getEntries().pipe(
+      tap(cart => {
+        this.notifyProfileTagOfCartChange({ entries: cart });
+      })
+    );
+  }
+
+  private notifyProfileTagOfCartChange({ entries }): void {
+    this.w.Y_TRACKING.push({ event: 'CartChanged', entries });
   }
 
   private notifyProfileTagOfConsentChange({ granted }): void {
