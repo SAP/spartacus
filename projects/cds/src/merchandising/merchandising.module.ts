@@ -14,7 +14,7 @@ import { MerchandisingProductsNormalizer } from './converters/merchandising-prod
   providers: [
     {
       provide: MerchandisingStrategyAdapter,
-      useExisting: CdsMerchandisingStrategyAdapter,
+      useClass: CdsMerchandisingStrategyAdapter,
     },
   ],
 })
