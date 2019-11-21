@@ -13,6 +13,7 @@ import {
   PaymentDetails,
   TranslationService,
   UserAddressService,
+  PromotionResult,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/index';
@@ -165,5 +166,15 @@ export class ReviewSubmitComponent implements OnInit {
 
       return step && step.routeName;
     }
+  }
+
+  getAllOrderPromotionsForCart(cart: Cart): PromotionResult[] {
+    const potentialPromotions = [];
+    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
+
+    const appliedPromotions = [];
+    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
+
+    return [...potentialPromotions, ...appliedPromotions];
   }
 }
