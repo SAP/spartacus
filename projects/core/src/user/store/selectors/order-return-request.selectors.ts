@@ -33,15 +33,6 @@ export const getOrderReturnRequestListState: MemoizedSelector<
   (state: UserState) => state.orderReturnList
 );
 
-export const getOrderReturnRequestListLoaded: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(
-  getOrderReturnRequestListState,
-  (state: LoaderState<ReturnRequestList>) =>
-    StateLoaderSelectors.loaderSuccessSelector(state)
-);
-
 export const getOrderReturnRequestList: MemoizedSelector<
   StateWithUser,
   ReturnRequestList

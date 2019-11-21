@@ -17,6 +17,7 @@ import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
+  ORDER_RETURNS_NORMALIZER,
 } from '../../../user/connectors/order/converters';
 import { ConverterService } from '../../../util/index';
 import { OccConfig } from '../../config/occ-config';
@@ -302,6 +303,54 @@ describe('OccUserOrderAdapter', () => {
           ORDER_RETURN_REQUEST_NORMALIZER
         );
       }));
+    });
+
+    describe('loadReturnRequestList', () => {
+      it('should fetch order return request list with default options', async(() => {
+        occUserOrderAdapter.loadReturnRequestList(userId).subscribe();
+        httpMock.expectOne((req: HttpRequest<any>) => {
+          return req.method === 'GET';
+        });
+        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+          'orderReturns',
+          { userId },
+          {}
+        );
+      }));
+
+      it('should fetch user Orders with defined options', async(() => {
+        const PAGE_SIZE = 5;
+        const currentPage = 1;
+        const sort = 'byDate';
+
+        occUserOrderAdapter
+          .loadReturnRequestList(userId, PAGE_SIZE, currentPage, sort)
+          .subscribe();
+        httpMock.expectOne((req: HttpRequest<any>) => {
+          return req.method === 'GET';
+        });
+        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+          'orderReturns',
+          { userId },
+          {
+            pageSize: PAGE_SIZE.toString(),
+            currentPage: currentPage.toString(),
+            sort,
+          }
+        );
+      }));
+
+      it('should use converter', () => {
+        occUserOrderAdapter.loadReturnRequestList(userId).subscribe();
+        httpMock
+          .expectOne((req: HttpRequest<any>) => {
+            return req.method === 'GET';
+          })
+          .flush({});
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          ORDER_RETURNS_NORMALIZER
+        );
+      });
     });
   });
 });
