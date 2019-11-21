@@ -1,4 +1,14 @@
+<<<<<<< HEAD
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+=======
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+>>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -7,6 +17,8 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
+  styleUrls: ['./asm-session-timer.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();

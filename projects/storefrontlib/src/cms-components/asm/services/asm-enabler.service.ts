@@ -1,5 +1,13 @@
 import { Location } from '@angular/common';
+<<<<<<< HEAD
 import { ComponentFactoryResolver, Injectable } from '@angular/core';
+=======
+import {
+  ComponentFactory,
+  ComponentFactoryResolver,
+  Injectable,
+} from '@angular/core';
+>>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 import { WindowRef } from '@spartacus/core';
 import { OutletPosition, OutletService } from '../../../cms-structure/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
@@ -21,7 +29,11 @@ export class AsmEnablerService {
     protected location: Location,
     protected winRef: WindowRef,
     protected componentFactoryResolver: ComponentFactoryResolver,
+<<<<<<< HEAD
     protected outletService: OutletService
+=======
+    protected outletService: OutletService<ComponentFactory<any>>
+>>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
   ) {}
 
   /**

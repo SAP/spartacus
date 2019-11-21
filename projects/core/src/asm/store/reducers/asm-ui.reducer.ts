@@ -1,7 +1,7 @@
-import { AsmUi } from '../../models/asm.models';
-import { AsmActions } from '../actions/index';
+import { AsmUi } from "../../models/asm.models";
+import { AsmActions } from "../actions/index";
 
-export const initialState: AsmUi = <AsmUi>{ expanded: true };
+export const initialState: AsmUi = <AsmUi>{ collapsed: false };
 
 export function reducer(
   state = initialState,
@@ -11,7 +11,7 @@ export function reducer(
     case AsmActions.ASM_UI_UPDATE: {
       return {
         ...state,
-        ...action.payload,
+        ...action.payload
       };
     }
     default: {

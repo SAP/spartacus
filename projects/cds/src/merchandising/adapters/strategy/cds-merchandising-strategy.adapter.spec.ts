@@ -14,6 +14,8 @@ import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.ad
 import createSpy = jasmine.createSpy;
 
 const STRATEGY_ID = 'test-strategy-id';
+const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
+const STRATEGY_ID_OBJECT = { strategyId: STRATEGY_ID };
 
 const MERCHANDISING_PRODUCTS_METADATA: Map<string, string> = new Map<
   string,
@@ -75,6 +77,11 @@ const STRATEGY_RESULT: StrategyResult = {
   },
   metadata: STRATEGY_RESULT_METADATA,
 };
+const STRATEGY_REQUEST = {
+  site: 'electronics-spa',
+  language: 'en',
+  pageSize: 10,
+};
 
 class MockConverterService {
   pipeable = createSpy().and.returnValue(map(() => MERCHANDISING_PRODUCTS));
@@ -90,6 +97,7 @@ describe('MerchandisingStrategyAdapter', () => {
   let strategyAdapter: CdsMerchandisingStrategyAdapter;
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
+  let cdsEndpointsService: CdsEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -114,6 +122,9 @@ describe('MerchandisingStrategyAdapter', () => {
     strategyAdapter = TestBed.get(CdsMerchandisingStrategyAdapter as Type<
       CdsMerchandisingStrategyAdapter
     >);
+    cdsEndpointsService = TestBed.get(CdsEndpointsService as Type<
+      CdsEndpointsService
+    >);
   });
 
   afterEach(() => {
@@ -137,7 +148,10 @@ describe('MerchandisingStrategyAdapter', () => {
          * Our mock CdsEndpointsService returns the given endpoint key as the url,
          * so the adapter will make the http request with the endpoint key rather than a url
          */
-        return request.method === 'GET' && request.url === 'strategyProducts';
+        return (
+          request.method === 'GET' &&
+          request.url === STRATEGY_PRODUCTS_ENDPOINT_KEY
+        );
       });
       expect(MOCK_STRATEGY_PRODUCTS_REQUEST.cancelled).toBeFalsy();
       expect(MOCK_STRATEGY_PRODUCTS_REQUEST.request.responseType).toEqual(
@@ -146,6 +160,32 @@ describe('MerchandisingStrategyAdapter', () => {
       expect(converterService.pipeable).toHaveBeenCalledWith(
         MERCHANDISING_PRODUCTS_NORMALIZER
       );
+      MOCK_STRATEGY_PRODUCTS_REQUEST.flush(STRATEGY_RESULT);
+    });
+
+    it('should load the products for a given strategy id, and the request URL should include the parameters in the StrategyRequedst', () => {
+      strategyAdapter
+        .loadProductsForStrategy(STRATEGY_ID, STRATEGY_REQUEST)
+        .subscribe(merchandisingProducts => {
+          expect(merchandisingProducts).toEqual(MERCHANDISING_PRODUCTS);
+        });
+      const MOCK_STRATEGY_PRODUCTS_REQUEST = httpMock.expectOne(request => {
+        /*
+         * Our mock CdsEndpointsService returns the given endpoint key as the url,
+         * so the adapter will make the http request with the endpoint key rather than a url
+         */
+        return (
+          request.method === 'GET' &&
+          request.url === STRATEGY_PRODUCTS_ENDPOINT_KEY
+        );
+      });
+
+      expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
+        STRATEGY_PRODUCTS_ENDPOINT_KEY,
+        STRATEGY_ID_OBJECT,
+        STRATEGY_REQUEST
+      );
+
       MOCK_STRATEGY_PRODUCTS_REQUEST.flush(STRATEGY_RESULT);
     });
   });

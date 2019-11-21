@@ -1,4 +1,4 @@
-import { PaginationModel, SortModel, User } from '../../model/misc.model';
+import { PaginationModel, SortModel, User } from "../../model/misc.model";
 
 export interface CustomerSearchPage {
   entries: User[];
@@ -12,5 +12,5 @@ export interface CustomerSearchOptions {
 }
 
 export interface AsmUi {
-  expanded?: boolean;
+  collapsed?: boolean;
 }

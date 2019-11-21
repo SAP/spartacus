@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
+=======
+import {
+  AsmAuthService,
+  AuthService,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
+>>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 import { Observable, of } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
@@ -10,6 +19,10 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 export class AsmComponentService {
   constructor(
     protected authService: AuthService,
+<<<<<<< HEAD
+=======
+    protected asmAuthService: AsmAuthService,
+>>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
     protected routingService: RoutingService,
     protected winRef: WindowRef
   ) {}
@@ -19,10 +32,10 @@ export class AsmComponentService {
       .getUserToken()
       .pipe(take(1))
       .subscribe(token => {
-        if (this.authService.isCustomerEmulationToken(token)) {
+        if (this.asmAuthService.isCustomerEmulationToken(token)) {
           this.logoutCustomer();
         }
-        this.authService.logoutCustomerSupportAgent();
+        this.asmAuthService.logoutCustomerSupportAgent();
       });
   }
 
@@ -36,7 +49,7 @@ export class AsmComponentService {
       .getUserToken()
       .pipe(
         mergeMap(userToken =>
-          of(this.authService.isCustomerEmulationToken(userToken))
+          of(this.asmAuthService.isCustomerEmulationToken(userToken))
         )
       );
   }

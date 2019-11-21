@@ -1,6 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
+<<<<<<< HEAD
 import { MerchandisingCarouselModule } from './cms-components/merchandising/carousel/merchandising-carousel/merchandising-carousel.module';
 import { cdsConfigValidator } from './config';
 import { CdsConfig } from './config/cds-config';
@@ -19,6 +20,18 @@ import { ProfileTagModule } from './profiletag/profile-tag.module';
 
 @NgModule({
   imports: [ProfileTagModule, MerchandisingCarouselModule],
+=======
+import {
+  CdsConfig,
+  cdsConfigValidator,
+  DEFAULT_CDS_CONFIG,
+} from './config/index';
+import { MerchandisingModule } from './merchandising/merchandising.module';
+import { ProfileTagModule } from './profiletag/profile-tag.module';
+
+@NgModule({
+  imports: [ProfileTagModule, MerchandisingModule.forRoot()],
+>>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 })
 export class CdsModule {
   static forRoot(config: CdsConfig): ModuleWithProviders<CdsModule> {
@@ -29,6 +42,7 @@ export class CdsModule {
         provideConfig(config),
         provideConfigValidator(cdsConfigValidator),
         { provide: CdsConfig, useExisting: Config },
+<<<<<<< HEAD
         {
           provide: MerchandisingStrategyAdapter,
           useExisting: CdsMerchandisingStrategyAdapter,
@@ -53,6 +67,8 @@ export class CdsModule {
           useClass: ConsentReferenceInterceptor,
           multi: true,
         },
+=======
+>>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
       ],
     };
   }
