@@ -8,53 +8,13 @@
     margin-bottom: 0;
 
     .cx-delivery-label {
-      // padding: 0;
-      // margin: 0 auto 1.5rem 0.75rem;
+      padding: 0;
+      margin: 0 auto 1.5rem 0.75rem;
       width: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       flex-wrap: wrap;
-
-      //fix start here, tranfer to calydon
-      margin-bottom: 0.5em;
-      display: block;
-      cursor: pointer;
-      // font-size: 16px;
-      line-height: 1em;
-
-      input[type='radio'] {
-        visibility: hidden;
-        height: 0;
-        width: 0;
-        margin: 0;
-        padding: 0;
-      }
-
-      .overlay {
-        width: 1.5em;
-        height: 1.5em;
-        // margin-right: 0.25em;
-        padding: 0.125em;
-        // display: inline-block;
-        position: absolute;
-        top: -3px;
-        border: 2px solid var(--cx-color-primary);
-        border-radius: 100%;
-        vertical-align: middle;
-        left: -1.25rem;
-      }
-
-      input:checked + span::before {
-        width: 0.75em;
-        height: 0.75em;
-        margin: 0.125em;
-        display: block;
-        content: ' ';
-        background-color: var(--cx-color-primary);
-        border-radius: 100%;
-      }
-      //fix ends
 
       .cx-delivery-shipping {
         flex: 50%;
