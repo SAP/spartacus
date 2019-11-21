@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 import {
   BudgetService,
@@ -23,16 +29,16 @@ import { shallowEqualObjects } from '../../../../../../core/src/util/compare-equ
 })
 export class BudgetsListComponent implements OnInit {
   constructor(
-    protected routing: RoutingService,
+    protected routingService: RoutingService,
     protected budgetsService: BudgetService,
     protected translation: TranslationService,
-    protected cxDate: CxDatePipe,
-    protected routingService: RoutingService
+    protected cxDate: CxDatePipe
   ) {}
 
   cxRoute = 'budgetDetails';
   budgetsList$: Observable<any>;
   isLoaded$: Observable<boolean>;
+  params$: Observable<BudgetSearchConfig>;
   params: BudgetSearchConfig = {
     sort: 'byName',
     currentPage: 0,
@@ -57,6 +63,7 @@ export class BudgetsListComponent implements OnInit {
   ngOnInit(): void {
     this.budgetsList$ = this.routingService.getRouterState().pipe(
       map(routingData => routingData.state.queryParams),
+      distinctUntilChanged((a, b) => shallowEqualObjects(a, b)),
       tap(params => {
         if (!Object.keys(params).length) {
           this.updateQueryParams();
@@ -69,20 +76,21 @@ export class BudgetsListComponent implements OnInit {
         pageSize: parseInt(pageSize, 10),
       })),
       tap(params => {
+        console.log(params, this.params)
         this.updateParamsIfChanged(params);
       }),
       switchMap(params =>
         this.budgetsService.getList(params).pipe(
-          tap((budgetsList: BudgetListModel) => {
-            const { sort, currentPage, pageSize } = budgetsList.pagination;
-            if (this.updateParamsIfChanged({ sort, currentPage, pageSize })) {
-              this.updateQueryParams();
-            }
-          }),
+          // tap((budgetsList: BudgetListModel) => {
+          //   const { sort, currentPage, pageSize } = budgetsList.pagination;
+          //   if (this.updateParamsIfChanged({ sort, currentPage, pageSize })) {
+          //     this.updateQueryParams();
+          //   }
+          // }),
           map((budgetsList: BudgetListModel) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
-            list: budgetsList.budgets.map(budget => ({
+            budgetsList: budgetsList.budgets.map(budget => ({
               code: budget.code,
               name: budget.name,
               amount: `${budget.budget} ${budget.currency.symbol}`,
@@ -117,7 +125,7 @@ export class BudgetsListComponent implements OnInit {
   }
 
   updateQueryParams(): void {
-    this.routing.go(
+    this.routingService.go(
       {
         cxRoute: 'budgets',
       },
@@ -126,7 +134,7 @@ export class BudgetsListComponent implements OnInit {
   }
 
   goToBudgetDetail(budget: Budget): void {
-    this.routing.go({
+    this.routingService.go({
       cxRoute: 'budgetDetails',
       params: budget,
     });

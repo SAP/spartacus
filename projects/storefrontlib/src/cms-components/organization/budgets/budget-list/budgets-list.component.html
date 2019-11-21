@@ -1,19 +1,20 @@
 <ng-container *ngIf="budgetsList$ | async as budgetsList">
   <div class="container">
-    <div class="cx-table-header">
-      <h3>{{ 'budgetsList.budgetManagement' | cxTranslate }}</h3>
-    </div>
     <div class="row">
-      <div class="col-md-12 col-lg-7">
-        <cx-search
-          (searchEvent)="search($event)"
-          [placeholder]="'budgetsList.searchBox' | cxTranslate"
-        >
-        </cx-search>
+      <div class="col-md-12 col-lg-9">
+        <div class="cx-table-header">
+          <h3>{{ 'budgetsList.budgetManagement' | cxTranslate }}</h3>
+        </div>
+
+        <!--        <cx-search-->
+        <!--          (searchEvent)="search($event)"-->
+        <!--          [placeholder]="'budgetsList.searchBox' | cxTranslate"-->
+        <!--        >-->
+        <!--        </cx-search>-->
       </div>
-      <div class="col-md-12 col-lg-5">
+      <div class="col-md-12 col-lg-3">
         <div class="row cx-search-links mb-3">
-          <div class="col-6">
+          <div class="col-12">
             <button
               [routerLink]="[
                 '/my-company/organization-management/manage-budgets/create'
@@ -50,7 +51,7 @@
         <!-- TABLE -->
 
         <cx-table
-          [tableData$]="budgetsList$"
+          [tableData]="budgetsList.budgetsList"
           [cxRoute]="cxRoute"
           [columns]="getColumns() | async"
           (clickDetailsEvent)="goToBudgetDetail($event)"

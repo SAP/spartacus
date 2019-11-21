@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-table',
   templateUrl: './table.component.html',
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent {
   constructor() {
@@ -14,10 +14,10 @@ export class TableComponent {
   pageSize = 5;
 
   @Input()
-  columns: Array<{key: string, value: string}>;
+  columns: Array<{ key: string; value: string }>;
 
   @Input()
-  tableData$: Observable<any>;
+  tableData: Array<any>;
 
   @Input()
   cxRoute: string;
