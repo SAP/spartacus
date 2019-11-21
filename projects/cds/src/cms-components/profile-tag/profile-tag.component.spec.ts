@@ -1,16 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+<<<<<<< HEAD
 import { Event as NgRouterEvent, NavigationEnd } from '@angular/router';
 import { AnonymousConsent } from '@spartacus/core';
+=======
+>>>>>>> 49df49ec168f3d3eefa5fe06328c867480731517
 import { Observable, of } from 'rxjs';
 import { ProfileTagInjector } from '../../profiletag/profile-tag.injector';
 import { ProfileTagComponent } from './profile-tag.component';
 
 class MockProfileTagInjector {
+<<<<<<< HEAD
   track(): Observable<AnonymousConsent | NgRouterEvent> {
     return of(
       { templateCode: 'PROFILE', version: 2, consentState: null },
       new NavigationEnd(1, 'test', 'test.com')
     );
+=======
+  track(): Observable<boolean> {
+    return of(true, true);
+>>>>>>> 49df49ec168f3d3eefa5fe06328c867480731517
   }
   addScript(): void {
     return undefined;

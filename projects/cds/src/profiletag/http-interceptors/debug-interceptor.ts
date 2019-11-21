@@ -6,7 +6,6 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { ProfileTagInjector } from '../profile-tag.injector';
 
 @Injectable({ providedIn: 'root' })
@@ -16,16 +15,23 @@ export class DebugInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.profileTagTracker.profileTagDebug$.pipe(
-      switchMap(profileTagDebug => {
-        const cdsHeaders = request.headers.set(
-          'X-Profile-Tag-Debug',
-          profileTagDebug.toString()
-        );
-        const cdsRequest = request.clone({ headers: cdsHeaders });
-        console.log(`debug is ${profileTagDebug}`);
-        return next.handle(cdsRequest);
-      })
+    console.log(`debug: ${this.profileTagTracker.profileTagDebug}`);
+    const cdsHeaders = request.headers.set(
+      'X-Profile-Tag-Debug',
+      this.profileTagTracker.profileTagDebug.toString()
     );
+    const cdsRequest = request.clone({ headers: cdsHeaders });
+    return next.handle(cdsRequest);
+    // return this.profileTagTracker.profileTagDebug$.pipe(
+    //   switchMap(profileTagDebug => {
+    //     console.log(`debug: ${profileTagDebug}`);
+    //     const cdsHeaders = request.headers.set(
+    //       'X-Profile-Tag-Debug',
+    //       profileTagDebug.toString()
+    //     );
+    //     const cdsRequest = request.clone({ headers: cdsHeaders });
+    //     return next.handle(cdsRequest);
+    //   })
+    // );
   }
 }

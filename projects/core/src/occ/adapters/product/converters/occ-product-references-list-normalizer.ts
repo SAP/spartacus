@@ -7,7 +7,7 @@ import {
   ConverterService,
 } from '../../../../util/converter.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccProductReferencesListNormalizer
   implements Converter<Occ.ProductReferenceList, ProductReference[]> {
   constructor(private converter: ConverterService) {}

@@ -1,16 +1,7 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  Event as NgRouterEvent,
-  NavigationEnd,
-  NavigationStart,
-  Router,
-} from '@angular/router';
-import {
-  AnonymousConsentsService,
-  BaseSiteService,
-  WindowRef,
-} from '@spartacus/core';
+import { Event as NgRouterEvent, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { AnonymousConsentsService, BaseSiteService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { CdsConfig } from '../config/cds-config';
 import { ProfileTagInjector } from './profile-tag.injector';
@@ -102,9 +93,10 @@ describe('ProfileTagInjector', () => {
   it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
     profileTagInjector.track();
     const profileTagLoaded$ = profileTagInjector.track();
-    profileTagLoaded$.subscribe().unsubscribe();
+    const profileTagLoadedSubcriber = profileTagLoaded$.subscribe();
+    profileTagLoadedSubcriber.unsubscribe();
 
-    expect(appendChildSpy).toHaveBeenCalled();
+    expect(appendChildSpy).not.toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.q).not.toBeDefined();
   });
@@ -123,6 +115,7 @@ describe('ProfileTagInjector', () => {
       spa: true,
       profileTagEventReceiver: jasmine.anything(),
     });
+    expect(appendChildSpy).toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
   });
 

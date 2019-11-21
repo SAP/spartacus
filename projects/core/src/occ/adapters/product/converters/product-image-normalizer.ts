@@ -5,7 +5,7 @@ import { Converter } from '../../../../util/converter.service';
 import { Product } from '../../../../model/product.model';
 import { Images } from '../../../../model/image.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
   constructor(protected config: OccConfig) {}
 

@@ -7,10 +7,11 @@ import {
   BaseSiteService,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, fromEventPattern, merge, Observable } from 'rxjs';
+import { fromEventPattern, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
+  map,
   switchMap,
   take,
   tap,
@@ -29,9 +30,14 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
-  private tracking$: Observable<AnonymousConsent | NgRouterEvent>;
-  public consentReference$ = new BehaviorSubject<string>(null);
-  public profileTagDebug$ = new BehaviorSubject<boolean>(false);
+  public consentReference = null;
+  public profileTagDebug = false;
+  private profileTagEventReceiver$ = this.profileTagEventReceiver();
+  private siteId: string;
+  private tracking$: Observable<AnonymousConsent | NgRouterEvent | any> = merge(
+    this.pageLoaded(),
+    this.consentChanged()
+  );
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -39,34 +45,33 @@ export class ProfileTagInjector {
     private router: Router,
     private anonymousConsentsService: AnonymousConsentsService,
     @Inject(PLATFORM_ID) private platform: any
-  ) {
-    this.w = <ProfileTagWindowObject>(
-      (<unknown>(this.winRef ? this.winRef.nativeWindow : {}))
-    );
-    this.w.Y_TRACKING = this.w.Y_TRACKING || {};
-    const consentChanged$ = this.consentChanged();
-    const pageLoaded$ = this.pageLoaded();
-    this.tracking$ = merge(pageLoaded$, consentChanged$);
-  }
+  ) {}
 
-  track(): Observable<AnonymousConsent | NgRouterEvent> {
+  track(): Observable<boolean> {
     return this.addTracker().pipe(
-      tap(event => {
-        console.log(`catching event ${JSON.stringify(event)}`);
-        if (event.eventName === ProfileTagEventNames.ConsentReferenceChanged) {
-          this.consentReference$.next(event.data.consentReference);
-        } else if (event.eventName === ProfileTagEventNames.ProfileTagDebug) {
-          this.profileTagDebug$.next(event.data.debug);
-        }
-      }),
+      tap(event => this.setEventVariables(event)),
       filter(
         profileTagEvent =>
           profileTagEvent.eventName === ProfileTagEventNames.Loaded
-      ), //TO DO: what happens if 'Loaded' is triggered twice?
-      switchMap(() => {
-        return this.tracking$;
-      })
+      ),
+      tap(_ => console.log(`tracking!`)),
+      switchMap(_ => this.tracking$),
+      map(data => Boolean(data))
     );
+  }
+
+  private setEventVariables(event: ProfileTagEvent) {
+    console.log(`catching event ${JSON.stringify(event)}`);
+    switch (event.eventName) {
+      case ProfileTagEventNames.ConsentReferenceChanged:
+        this.consentReference = event.data.consentReference;
+        break;
+      case ProfileTagEventNames.ProfileTagDebug:
+        this.profileTagDebug = event.data.debug;
+        break;
+      default:
+        break;
+    }
   }
 
   private pageLoaded(): Observable<NgRouterEvent> {
@@ -105,18 +110,17 @@ export class ProfileTagInjector {
       filter(_ => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
-      tap(siteId => console.log(siteId)),
       tap(_ => this.addScript()),
-      switchMap((siteId: string) => {
-        return this.profileTagEventReceiver(siteId);
-      })
+      tap(_ => this.initWindow()),
+      tap(siteId => (this.siteId = siteId)),
+      switchMap(_ => this.profileTagEventReceiver$)
     );
   }
 
-  private profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
+  private profileTagEventReceiver(): Observable<ProfileTagEvent> {
     return fromEventPattern(
       handler => {
-        this.addProfileTagEventReceiver(siteId, handler);
+        this.addProfileTagEventReceiver(this.siteId, handler);
       },
       () => {}
     );
@@ -134,15 +138,18 @@ export class ProfileTagInjector {
   }
 
   private addScript(): void {
-    console.log(`adding script`);
     const profileTagScript = this.winRef.document.createElement('script');
     profileTagScript.type = 'text/javascript';
     profileTagScript.async = true;
     profileTagScript.src = this.config.cds.profileTag.javascriptUrl;
-
     this.winRef.document
       .getElementsByTagName('head')[0]
       .appendChild(profileTagScript);
+  }
+
+  private initWindow() {
+    this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
+    this.w.Y_TRACKING = this.w.Y_TRACKING || {};
   }
 
   private exposeConfig(options: ProfileTagJsConfig): void {
