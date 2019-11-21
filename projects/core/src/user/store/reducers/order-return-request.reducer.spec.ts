@@ -5,11 +5,14 @@ import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 describe('Order Return Request Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
-      const { initialState } = fromOrderReturnRequestReducer;
+      const { returnRequestInitialState } = fromOrderReturnRequestReducer;
       const action = {} as UserActions.OrderReturnRequestAction;
-      const state = fromOrderReturnRequestReducer.reducer(undefined, action);
+      const state = fromOrderReturnRequestReducer.returnRequestReducer(
+        undefined,
+        action
+      );
 
-      expect(state).toBe(initialState);
+      expect(state).toBe(returnRequestInitialState);
     });
   });
 
@@ -17,11 +20,14 @@ describe('Order Return Request Reducer', () => {
     it('should populate the order return request state', () => {
       const mockReturnRequest: ReturnRequest = { rma: '123' };
 
-      const { initialState } = fromOrderReturnRequestReducer;
+      const { returnRequestInitialState } = fromOrderReturnRequestReducer;
       const action = new UserActions.CreateOrderReturnRequestSuccess(
         mockReturnRequest
       );
-      const state = fromOrderReturnRequestReducer.reducer(initialState, action);
+      const state = fromOrderReturnRequestReducer.returnRequestReducer(
+        returnRequestInitialState,
+        action
+      );
 
       expect(state.returnRequest).toEqual(mockReturnRequest);
     });

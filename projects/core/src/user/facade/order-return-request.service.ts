@@ -3,10 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import {
-  Order,
-  OrderHistoryList,
+  ReturnRequestList,
   ReturnRequestEntryInputList,
   ReturnRequest,
 } from '../../model/order.model';
@@ -58,7 +56,7 @@ export class OrderReturnRequestService {
   /**
    * Gets order return request list
    */
-  getOrderReturnRequestList(pageSize: number): Observable<OrderHistoryList> {
+  getOrderReturnRequestList(pageSize: number): Observable<ReturnRequestList> {
     return this.store.pipe(
       select(UsersSelectors.getOrderReturnRequestListState),
       tap(returnListState => {
