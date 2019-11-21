@@ -30,7 +30,7 @@ const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
 
 class MockCmsService {}
 
-fdescribe('CreateComponent', () => {
+describe('CreateComponent', () => {
   let bannerCarouselComponent: BannerCarouselComponent;
   let fixture: ComponentFixture<BannerCarouselComponent>;
 
