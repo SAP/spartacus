@@ -9,5 +9,5 @@ node {
 	buildParameters.generateParameters()
 	print('Parameters generated........')
 	
-	pipeline.execute(branchName, "spartacus", true)
+	pipeline.execute(branchName, true)
 }
