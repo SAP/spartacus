@@ -35,5 +35,13 @@
         ></cx-add-to-cart>
       </div>
     </div>
+    <div class="row">
+      <div class="col-12 col-md-8"></div>
+      <div class="col-12 col-md-4">
+        <button class="btn btn-link" (click)="remove(cartEntry)">
+          {{ 'wishList.remove' | cxTranslate }}
+        </button>
+      </div>
+    </div>
   </div>
 </div>

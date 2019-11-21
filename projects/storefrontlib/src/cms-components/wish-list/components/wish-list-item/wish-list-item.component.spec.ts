@@ -4,10 +4,16 @@ import {
   Input,
   Pipe,
   PipeTransform,
+  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { WishListItemComponent } from './wish-list-item.component';
+import { I18nTestingModule, WishListService } from '@spartacus/core';
+
+const MockWishListService = jasmine.createSpyObj('WishListService', [
+  'removeEntry',
+]);
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -54,6 +60,7 @@ class MockUrlPipe implements PipeTransform {
 describe('WishListItemComponent in WishList', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
+  let wishListService: WishListService;
 
   const mockCartEntry = {
     basePrice: {
@@ -74,7 +81,7 @@ describe('WishListItemComponent in WishList', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [
         WishListItemComponent,
         MockPictureComponent,
@@ -82,6 +89,12 @@ describe('WishListItemComponent in WishList', () => {
         MockStarRatingComponent,
         MockUrlPipe,
         MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: WishListService,
+          useValue: MockWishListService,
+        },
       ],
     })
       .overrideComponent(WishListItemComponent, {
@@ -93,7 +106,9 @@ describe('WishListItemComponent in WishList', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListItemComponent);
     component = fixture.componentInstance;
-
+    wishListService = fixture.debugElement.injector.get(WishListService as Type<
+      WishListService
+    >);
     component.cartEntry = mockCartEntry;
 
     fixture.detectChanges();
@@ -133,6 +148,11 @@ describe('WishListItemComponent in WishList', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).not.toBeNull();
+  });
+
+  it('should call remove', () => {
+    component.remove(mockCartEntry);
+    expect(wishListService.removeEntry).toHaveBeenCalledWith(mockCartEntry);
   });
 
   it('should not display add to cart component when product is out of stock', () => {
