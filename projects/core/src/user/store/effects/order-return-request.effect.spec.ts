@@ -76,7 +76,7 @@ describe('Order Return Request effect', () => {
       );
     });
 
-    it('should handle failures for load order details', () => {
+    it('should handle failures for create order return request', () => {
       spyOn(orderConnector, 'return').and.returnValue(throwError('Error'));
       const action = new UserActions.CreateOrderReturnRequest({
         userId: 'userId',
