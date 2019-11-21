@@ -117,7 +117,7 @@ describe('Order Return Request effect', () => {
       );
     });
 
-    it('should handle failures for load user Orders', () => {
+    it('should handle failures for load return request list', () => {
       spyOn(orderConnector, 'getReturnRequestList').and.returnValue(
         throwError('Error')
       );
