@@ -25,6 +25,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updatePasswordForm',
     'updateProfileForm',
     'consentManagementForm',
+    'CMSTabParagraphContainer',
   ],
   storeFinder: ['storeFinder'],
   pwa: ['pwa'],
