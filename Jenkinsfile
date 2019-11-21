@@ -8,5 +8,5 @@ node {
 	buildParameters.generateParameters()
 	print('Parameters generated........')
 	
-	pipeline.execute(branchName, true)
+	pipeline.execute(branchName, SSR_ENABLED)
 }
