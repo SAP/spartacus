@@ -112,7 +112,8 @@ describe('ProductReviewsComponent in product', () => {
 
   describe('Overall rating display', () => {
     it('should display rating component when rating is available', () => {
-      mockProduct.averageRating = 4.5;      
+      mockProduct.averageRating = 4.5;  
+      fixture = TestBed.createComponent(ProductReviewsComponent);    
       fixture.detectChanges();
       expect(
         fixture.debugElement.nativeElement.querySelector('.header>cx-star-rating')
@@ -121,6 +122,7 @@ describe('ProductReviewsComponent in product', () => {
 
     it('should not display rating component when rating is unavailable', () => {
       mockProduct.averageRating = undefined;
+      fixture = TestBed.createComponent(ProductReviewsComponent);
       fixture.detectChanges();
       expect(
         fixture.debugElement.nativeElement.querySelector('.header>cx-star-rating')
@@ -129,6 +131,7 @@ describe('ProductReviewsComponent in product', () => {
 
     it('should display noReviews when rating is unavailable', () => {
       mockProduct.averageRating = undefined;
+      fixture = TestBed.createComponent(ProductReviewsComponent);
       fixture.detectChanges();
       expect(
         fixture.debugElement.nativeElement.innerText
