@@ -9,7 +9,6 @@ import {
   I18nTestingModule,
   OrderEntry,
   Product,
-  VariantType,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/index';
@@ -22,27 +21,18 @@ const mockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'inStock' },
-  baseOptions: [
-    { variantType: VariantType.APPAREL_STYLE },
-    { variantType: VariantType.APPAREL_SIZE },
-  ],
 };
 
 const mockProduct2: Product = {
   name: 'mockProduct2',
   code: 'code2',
   stock: { stockLevelStatus: 'inStock' },
-  baseOptions: [{ variantType: VariantType.APPAREL_SIZE }],
 };
 
 const mockNoStockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevelStatus: 'outOfStock' },
-  baseOptions: [
-    { variantType: VariantType.APPAREL_STYLE },
-    { variantType: VariantType.APPAREL_SIZE },
-  ],
 };
 
 class MockCartService {
@@ -271,24 +261,5 @@ describe('AddToCartComponent', () => {
       fixture.detectChanges();
       expect(el.query(By.css('button'))).toBeNull();
     });
-  });
-
-  it('should reset variants selection flags', () => {
-    spyOn(currentProductService, 'getProduct').and.returnValue(of(mockProduct));
-    addToCartComponent.ngOnInit();
-
-    expect(addToCartComponent.isStyleVariantSelected).toBeTruthy();
-    expect(addToCartComponent.isSizeVariantSelected).toBeTruthy();
-
-    addToCartComponent.resetVariantsSelections();
-
-    expect(addToCartComponent.isStyleVariantSelected).toBeFalsy();
-    expect(addToCartComponent.isSizeVariantSelected).toBeFalsy();
-  });
-
-  it('should set variants selection flags', () => {
-    addToCartComponent.checkForVariantTypesSelection(mockProduct2);
-    expect(addToCartComponent.isStyleVariantSelected).toBeFalsy();
-    expect(addToCartComponent.isSizeVariantSelected).toBeTruthy();
   });
 });
