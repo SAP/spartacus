@@ -32,7 +32,6 @@ export class ProfileTagInjector {
   private w: ProfileTagWindowObject;
   public consentReference = null;
   public profileTagDebug = false;
-  private profileTagEventReceiver$ = this.profileTagEventReceiver();
   private siteId: string;
   private tracking$: Observable<AnonymousConsent | NgRouterEvent | any> = merge(
     this.pageLoaded(),
@@ -54,14 +53,12 @@ export class ProfileTagInjector {
         profileTagEvent =>
           profileTagEvent.eventName === ProfileTagEventNames.Loaded
       ),
-      tap(_ => console.log(`tracking!`)),
       switchMap(_ => this.tracking$),
       map(data => Boolean(data))
     );
   }
 
   private setEventVariables(event: ProfileTagEvent) {
-    console.log(`catching event ${JSON.stringify(event)}`);
     switch (event.eventName) {
       case ProfileTagEventNames.ConsentReferenceChanged:
         this.consentReference = event.data.consentReference;
@@ -113,7 +110,7 @@ export class ProfileTagInjector {
       tap(_ => this.addScript()),
       tap(_ => this.initWindow()),
       tap(siteId => (this.siteId = siteId)),
-      switchMap(_ => this.profileTagEventReceiver$)
+      switchMap(_ => this.profileTagEventReceiver())
     );
   }
 
