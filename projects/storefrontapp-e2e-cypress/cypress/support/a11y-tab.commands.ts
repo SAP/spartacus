@@ -10,15 +10,15 @@ declare global {
        *
        * @example
         ```
-        cy.clickTab()
+        cy.pressTab()
         ```
        */
-      clickTab: () => void;
+      pressTab: () => void;
     }
   }
 }
 
-Cypress.Commands.add('clickTab', () => {
+Cypress.Commands.add('pressTab', () => {
   cy.document().then(document => {
     const elements = Array.from(<NodeListOf<HTMLElement>>(
       document.querySelectorAll(focusableSelectors.join(','))

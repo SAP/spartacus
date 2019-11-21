@@ -132,7 +132,7 @@ export function checkAllElements(tabElements: TabElement[]) {
   tabElements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element
     if (index !== 0) {
-      cy.clickTab();
+      cy.pressTab();
     }
 
     checkElement(element);
