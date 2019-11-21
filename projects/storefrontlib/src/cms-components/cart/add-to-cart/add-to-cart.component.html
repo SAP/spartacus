@@ -8,17 +8,11 @@
     *ngIf="hasStock"
     (update)="updateCount($event)"
   ></cx-item-counter>
-  <span class="info" *ngIf="!hasVariants">{{
+  <span class="info">{{
     hasStock
       ? ('addToCart.inStock' | cxTranslate)
       : ('addToCart.outOfStock' | cxTranslate)
   }}</span>
-  <span
-    class="info"
-    *ngIf="(!isStyleVariantSelected || !isSizeVariantSelected) && hasVariants"
-  >
-    {{ 'addToCart.selectStyleAndSize' | cxTranslate }}
-  </span>
 </div>
 <button
   *ngIf="hasStock"

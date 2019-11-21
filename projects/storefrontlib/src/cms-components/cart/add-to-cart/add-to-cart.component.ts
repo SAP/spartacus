@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartService, OrderEntry, Product, VariantType } from '@spartacus/core';
+import { CartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
@@ -34,10 +34,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock = false;
   quantity = 1;
   increment = false;
-  isStyleVariantSelected = false;
-  isSizeVariantSelected = false;
-  hasVariants = false;
-
   cartEntry$: Observable<OrderEntry>;
 
   subscription: Subscription;
@@ -73,14 +69,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .getProduct()
         .pipe(filter(Boolean))
         .subscribe((product: Product) => {
-          if (product.baseOptions && product.baseOptions.length) {
-            this.checkForVariantTypesSelection(product);
-          }
-
           this.productCode = product.code;
-          this.hasVariants = !!(
-            product.variantOptions && product.variantOptions.length
-          );
           this.setStockInfo(product);
           this.cartEntry$ = this.cartService.getEntry(this.productCode);
           this.cd.markForCheck();
@@ -139,22 +128,5 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  resetVariantsSelections() {
-    this.isStyleVariantSelected = false;
-    this.isSizeVariantSelected = false;
-  }
-
-  checkForVariantTypesSelection(product: Product) {
-    this.resetVariantsSelections();
-    product.baseOptions.forEach(baseOption => {
-      if (baseOption.variantType === VariantType.APPAREL_STYLE) {
-        this.isStyleVariantSelected = true;
-      }
-      if (baseOption.variantType === VariantType.APPAREL_SIZE) {
-        this.isSizeVariantSelected = true;
-      }
-    });
   }
 }
