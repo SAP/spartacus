@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { ProfileTagInjector } from '../../profiletag/profile-tag.injector';
+import { ProfileTagInjector } from '../services/profile-tag.injector';
 import { ProfileTagComponent } from './profile-tag.component';
 
 class MockProfileTagInjector {
