@@ -1,12 +1,27 @@
 import { Injectable } from '@angular/core';
 import {
   BaseSiteService,
+  ConverterService,
+  CurrencyService,
   LanguageService,
+  ProductSearchService,
+  RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, pipe } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+import { shallowEqualObjects } from '../../utils/compare-equals-objects';
 import { StrategyRequest } from './../../cds-models/cds-strategy-request.model';
+import {
+  MERCHANDISING_FACET_NORMALIZER,
+  MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
+} from './../connectors/strategy/converters';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
 import { MerchandisingProducts } from './../model/merchandising.products.model';
 
@@ -18,8 +33,15 @@ export class CdsMerchandisingProductService {
     protected strategyConnector: MerchandisingStrategyConnector,
     protected baseSiteService: BaseSiteService,
     protected languageService: LanguageService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    protected currencyService: CurrencyService,
+    private productSearchService: ProductSearchService,
+    private converterService: ConverterService
   ) {}
+
+  protected readonly RELEVANCE_CATEGORY = ':relevance:category:';
+  protected readonly RELEVANCE_BRAND = ':relevance:brand:';
+  protected defaultPageSize = 10;
 
   loadProductsForStrategy(
     strategyId: string,
@@ -28,21 +50,57 @@ export class CdsMerchandisingProductService {
     return combineLatest([
       this.baseSiteService.getActive(),
       this.languageService.getActive(),
-      this.routingService
-        .getRouterState()
-        .pipe(map(state => state.state.params['productCode'])),
+      this.routingService.getRouterState(),
+      this.getFacets(),
     ]).pipe(
-      map(([site, language, productId]: [string, string, string]) => {
-        const strategyRequest: StrategyRequest = {
-          site,
-          language,
-          pageSize: numberToDisplay,
-          productId,
-        };
-        return strategyRequest;
-      }),
-      switchMap(context =>
-        this.strategyConnector.loadProductsForStrategy(strategyId, context)
+      map(
+        ([site, language, routerState, facets]: [
+          string,
+          string,
+          RouterState,
+          string
+        ]) => {
+          const productId = routerState.state.params['productCode'];
+          const category = routerState.state.params['categoryCode'];
+          const strategyRequest: StrategyRequest = {
+            site,
+            language,
+            pageSize: numberToDisplay,
+            productId,
+            category,
+            facets,
+          };
+          return strategyRequest;
+        }
+      ),
+      tap(request => console.log('the request we are using - ', request)),
+      distinctUntilChanged(
+        (current: StrategyRequest, previous: StrategyRequest) =>
+          shallowEqualObjects(current, previous)
+      ),
+      switchMap(context => {
+        console.log('attempting to load the products');
+        return this.strategyConnector.loadProductsForStrategy(
+          strategyId,
+          context
+        );
+      })
+    );
+  }
+
+  private getFacets(): Observable<string> {
+    return this.productSearchService.getResults().pipe(
+      tap(results => console.log('product search results - ', results)),
+      map(searchPageResults => searchPageResults.breadcrumbs),
+      filter(Boolean),
+      pipe(this.converterService.pipeable(MERCHANDISING_FACET_NORMALIZER)),
+      pipe(
+        this.converterService.pipeable(
+          MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER
+        )
+      ),
+      tap(calculatedFacets =>
+        console.log('Calculated facets - ', calculatedFacets)
       )
     );
   }
