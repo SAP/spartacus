@@ -4,7 +4,10 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../../occ/utils/occ-constants';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
 import { Configurator } from './../../../model/configurator.model';
@@ -217,5 +220,23 @@ describe('ConfiguratorCommonsService', () => {
       user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
     };
     expect(serviceUnderTest.getCartId(cart)).toBe(CART_CODE);
+  });
+
+  it('should return anonymous user id if user is anonymous', () => {
+    const cart: Cart = {
+      code: CART_CODE,
+      guid: CART_GUID,
+      user: { uid: OCC_USER_ID_ANONYMOUS },
+    };
+    expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
+  });
+
+  it('should return "current" user id if user is not anonymous', () => {
+    const cart: Cart = {
+      code: CART_CODE,
+      guid: CART_GUID,
+      user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
+    };
+    expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_CURRENT);
   });
 });

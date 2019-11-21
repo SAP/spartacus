@@ -5,7 +5,10 @@ import { filter, map, take, tap } from 'rxjs/operators';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../../occ/utils/occ-constants';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration, UiState } from '../store/configuration-state';
@@ -126,11 +129,10 @@ export class ConfiguratorCommonsService {
     const cart$ = this.cartService.getOrCreateCart();
     cart$.pipe(take(1)).subscribe(cart => {
       const cartId = this.getCartId(cart);
-      console.log('Cart id ' + cartId);
-      console.log('User uid: ' + cart.user.uid);
+      const userId = this.getUserId(cart);
       this.store.dispatch(
         new ConfiguratorActions.AddToCart({
-          userId: cart.user.uid,
+          userId: userId,
           cartId: cartId,
           productCode: productCode,
           quantity: 1,
@@ -145,6 +147,12 @@ export class ConfiguratorCommonsService {
   ////
   getCartId(cart: Cart): string {
     return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+  }
+
+  getUserId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS
+      ? cart.user.uid
+      : OCC_USER_ID_CURRENT;
   }
 
   isUiStateCreated(uiState: UiState): boolean {
