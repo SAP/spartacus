@@ -90,3 +90,9 @@ export const getWishListId: MemoizedSelector<
   getMultiCartState,
   (state: MultiCartState) => state.wishList
 );
+
+export const getWishListLoading = createSelector(
+  getMultiCartState,
+  (state: MultiCartState) =>
+    entityStateSelector(state.carts, state.wishList).loading
+);

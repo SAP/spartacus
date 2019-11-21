@@ -182,4 +182,20 @@ describe('WishListService', () => {
       );
     });
   });
+
+  describe('getWishListLoading', () => {
+    it('should return if the wish list loading', done => {
+      store.dispatch(
+        new CartActions.LoadWisthListSuccess({ cart: testCart, userId })
+      );
+
+      let result;
+      service.getWishListLoading().subscribe(loading => {
+        result = loading;
+      });
+
+      expect(result).toEqual(false);
+      done();
+    });
+  });
 });
