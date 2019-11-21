@@ -21,6 +21,7 @@
       >
       </cx-consignment-tracking>
     </div>
+
     <div class="cx-list-item col-12">
       <cx-cart-item-list
         [items]="getConsignmentProducts(consignment)"
@@ -39,6 +40,7 @@
     <div class="cx-list-item col-12">
       <cx-cart-item-list
         [items]="order?.unconsignedEntries"
+        [appliedProductPromotions]="getAppliedPromotionsForOrder(order)"
         [isReadOnly]="true"
       ></cx-cart-item-list>
     </div>
