@@ -51,7 +51,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-describe('WishListItemItemComponent in wish-list', () => {
+describe('WishListItemComponent in WishList', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
 
@@ -61,15 +61,10 @@ describe('WishListItemItemComponent in wish-list', () => {
     },
     product: {
       name: 'Test product',
-      nameHtml: 'Test product',
-      summary: 'Test summary',
       code: '1',
       averageRating: 4.5,
       stock: {
         stockLevelStatus: 'inStock',
-      },
-      price: {
-        formattedValue: '$100,00',
       },
       images: {
         PRIMARY: {},
@@ -113,13 +108,6 @@ describe('WishListItemItemComponent in wish-list', () => {
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
         .textContent
     ).toContain(component.cartEntry.product.name);
-  });
-
-  it('should display product summary', () => {
-    expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-product-summary')
-        .textContent
-    ).toContain(component.cartEntry.product.summary);
   });
 
   it('should display product formatted price', () => {

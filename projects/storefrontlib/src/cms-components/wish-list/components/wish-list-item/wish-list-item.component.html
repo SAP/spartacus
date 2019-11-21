@@ -26,11 +26,7 @@
       {{ cartEntry.basePrice?.formattedValue }}
     </div>
     <div class="row">
-      <div class="col-12 col-md-8">
-        <p class="cx-product-summary" [innerHtml]="cartEntry.product.summary">
-          {{ cartEntry.product.summary }}
-        </p>
-      </div>
+      <div class="col-12 col-md-8"></div>
       <div class="col-12 col-md-4">
         <cx-add-to-cart
           *ngIf="cartEntry.product.stock.stockLevelStatus !== 'outOfStock'"
