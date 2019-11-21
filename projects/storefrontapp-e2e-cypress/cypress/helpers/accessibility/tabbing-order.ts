@@ -1,8 +1,8 @@
-import { TabbingOrderTypes } from './tabbing-order.config';
+import { user } from '../../sample-data/checkout-flow';
+import { register as authRegister } from '../auth-forms';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
-import { register as authRegister } from '../auth-forms';
-import { user } from '../../sample-data/checkout-flow';
+import { TabbingOrderTypes } from './tabbing-order.config';
 
 export interface TabElement {
   value?: string | any[];
@@ -132,7 +132,7 @@ export function checkAllElements(tabElements: TabElement[]) {
   tabElements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element
     if (index !== 0) {
-      cy.tab();
+      cy.pressTab();
     }
 
     checkElement(element);

@@ -153,7 +153,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
         '/electronics-spa/en/USD/Open-Catalogue/Cameras/CameraAccessories-%2526-Supplies/CameraFlashes/Light-HVL-20DW2/p/289540',
       type: TabbingOrderTypes.IMG_LINK,
     },
-    { value: '/electronics-spa/en/USD/faq', type: TabbingOrderTypes.IMG_LINK },
+    {
+      value: '/electronics-spa/en/USD/faq',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
   ],
   login: [
     { value: 'userId', type: TabbingOrderTypes.FORM_FIELD },
@@ -338,28 +341,30 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   consentManagement: [
     {
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-      value:
-        'This is a sample marketing consent description that will need to be updated or replaced, based on the valid registration consent required.',
+      type: TabbingOrderTypes.LINK,
+      value: 'Clear all',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Select all',
     },
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-      value:
-        'This is a sample persionalization consent description that will need to be updated or replaced.',
+      value: 'I approve to this sample MARKETING consent',
     },
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-      value:
-        'This is a sample store user information consent description that will need to be updated or replaced.',
+      value: 'I approve to this sample PERSONALIZATION consent',
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      value: 'I approve to this sample STORE USER INFORMATION consent',
     },
   ],
   addToCart: [
-    { value: 'view cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'proceed to checkout',
-      type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
-    { type: TabbingOrderTypes.GENERIC_BUTTON },
     {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
@@ -370,6 +375,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'view cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'proceed to checkout', type: TabbingOrderTypes.BUTTON },
   ],
   shippingAddressNew: [
     { value: 'isocode', type: TabbingOrderTypes.GENERIC_INPUT },
