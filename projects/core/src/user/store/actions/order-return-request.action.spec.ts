@@ -37,7 +37,7 @@ describe('Order Return RequestActions', () => {
     });
   });
 
-  describe('LoadOrderDetailsSuccess Action', () => {
+  describe('CreateOrderReturnRequestSuccess Action', () => {
     it('should create the action', () => {
       const action = new UserActions.CreateOrderReturnRequestSuccess({
         rma: '0000',
@@ -46,16 +46,6 @@ describe('Order Return RequestActions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS,
         payload: { rma: '0000' },
-      });
-    });
-  });
-
-  describe('ClearOrderDetails Action', () => {
-    it('should create the action', () => {
-      const action = new UserActions.ClearOrderDetails();
-
-      expect({ ...action }).toEqual({
-        type: UserActions.CLEAR_ORDER_DETAILS,
       });
     });
   });
