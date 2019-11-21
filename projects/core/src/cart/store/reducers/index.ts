@@ -2,13 +2,17 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CheckoutActions } from '../../../checkout/store/actions/index';
+import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-import { CartsState, CartState, CART_DATA } from '../cart-state';
+import {
+  CartsState,
+  CartState,
+  CartWithCounter,
+  CART_DATA,
+} from '../cart-state';
 import { MultiCartState, MULTI_CART_FEATURE } from '../multi-cart-state';
 import { reducer as cartReducer } from './cart.reducer';
-import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import { activeCartReducer, cartEntitiesReducer } from './multi-cart.reducer';
-import { Cart } from '../../../model/cart.model';
 
 export function getReducers(): ActionReducerMap<CartsState> {
   return {
@@ -60,7 +64,10 @@ export const multiCartReducerToken: InjectionToken<
 
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   return {
-    carts: entityLoaderReducer<Cart>(MULTI_CART_FEATURE, cartEntitiesReducer),
+    carts: entityLoaderReducer<CartWithCounter>(
+      MULTI_CART_FEATURE,
+      cartEntitiesReducer
+    ),
     active: activeCartReducer,
   };
 }

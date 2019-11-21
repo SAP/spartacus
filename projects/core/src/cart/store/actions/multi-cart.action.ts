@@ -27,13 +27,13 @@ export const RESET_MULTI_CART_DETAILS = '[Multi Cart] Reset Cart Details';
 
 export const SET_FRESH_CART = '[Multi Cart] Set Fresh Cart';
 
-export const SET_CART_LOADING = '[Multi Cart] Set Cart Loading';
-
 export const REMOVE_CART = '[Multi Cart] Remove Cart';
 
 export const ADD_EMAIL_TO_MULTI_CART = '[Multi Cart] Add Email';
 export const ADD_EMAIL_TO_MULTI_CART_FAIL = '[Multi Cart] Add Email Fail';
 export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
+
+export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
 
 /**
  * To keep track of cart creation process we use cart with `fresh` id.
@@ -68,6 +68,11 @@ export class CreateMultiCartFail extends EntityFailAction {
   constructor(public payload: any) {
     super(MULTI_CART_FEATURE, FRESH_CART_ID);
   }
+}
+
+export class SetActiveCartId implements Action {
+  readonly type = SET_ACTIVE_CART_ID;
+  constructor(public payload: string) {}
 }
 
 export class CreateMultiCartSuccess extends EntitySuccessAction {
@@ -120,13 +125,6 @@ export class ResetMultiCartDetails extends EntityResetAction {
   }
 }
 
-export class SetCartLoading extends EntityLoadAction {
-  readonly type = SET_CART_LOADING;
-  constructor(public payload: { cartId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
-  }
-}
-
 export class RemoveCart extends EntityRemoveAction {
   readonly type = REMOVE_CART;
   constructor(public payload: string) {
@@ -160,6 +158,7 @@ export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
 export type MultiCartActions =
   | ResetFreshCart
   | SetFreshCart
+  | SetActiveCartId
   | CreateMultiCart
   | CreateMultiCartFail
   | CreateMultiCartSuccess
@@ -169,7 +168,6 @@ export type MultiCartActions =
   | MergeMultiCart
   | MergeMultiCartSuccess
   | ResetMultiCartDetails
-  | SetCartLoading
   | RemoveCart
   | AddEmailToMultiCart
   | AddEmailToMultiCartFail

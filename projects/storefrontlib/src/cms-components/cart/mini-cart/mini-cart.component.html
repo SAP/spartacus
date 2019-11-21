@@ -6,6 +6,7 @@
 >
   <cx-icon [type]="iconTypes.CART"></cx-icon>
 
+  <span>Loaded: {{ loaded$ | async }}</span>
   <span class="total">{{ total$ | async }}</span>
   <span class="count">{{ quantity$ | async }}</span>
 </a>

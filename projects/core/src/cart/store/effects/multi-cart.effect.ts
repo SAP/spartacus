@@ -52,30 +52,6 @@ export class MultiCartEffects {
   );
 
   @Effect()
-  setLoading$: Observable<CartActions.SetCartLoading> = this.actions$.pipe(
-    ofType(
-      DeprecatedCartActions.MERGE_CART,
-      CartActions.CART_ADD_ENTRY,
-      CartActions.CART_UPDATE_ENTRY,
-      CartActions.CART_REMOVE_ENTRY
-    ),
-    map(
-      (
-        action:
-          | CartActions.MergeCart
-          | CartActions.CartAddEntry
-          | CartActions.CartUpdateEntry
-          | CartActions.CartRemoveEntry
-      ) => action.payload
-    ),
-    mergeMap(payload => [
-      new CartActions.SetCartLoading({
-        cartId: payload.cartId,
-      }),
-    ])
-  );
-
-  @Effect()
   removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
     ofType(DeprecatedCartActions.DELETE_CART),
     map((action: DeprecatedCartActions.DeleteCart) => action.payload),

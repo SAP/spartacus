@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, timer } from 'rxjs';
+import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { CartWithCounter } from '../store';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
 import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
@@ -30,9 +32,18 @@ export class MultiCartService {
    *
    * @param cartId
    */
-  getCartEntity(cartId: string): Observable<LoaderState<Cart>> {
+  getCartEntity(cartId: string): Observable<LoaderState<CartWithCounter>> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntitySelectorFactory(cartId))
+    );
+  }
+
+  isStable(cartId: string): Observable<boolean> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartLoadingSelectorFactory(cartId)),
+      map(loading => !loading),
+      debounce(state => (state ? timer(0) : EMPTY)),
+      distinctUntilChanged()
     );
   }
 
@@ -51,7 +62,7 @@ export class MultiCartService {
     oldCartId?: string;
     toMergeCartGuid?: string;
     extraData?: any;
-  }): Observable<LoaderState<Cart>> {
+  }): Observable<LoaderState<CartWithCounter>> {
     this.store.dispatch(
       new DeprecatedCartActions.CreateCart({
         extraData,

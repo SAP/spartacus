@@ -40,23 +40,23 @@ export class CartEntryEffects {
             of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
           )
         );
-    }),
-    mergeMap(result => {
-      if (this.cartEntriesToAddCounter === 0) {
-        const payload = result.payload;
-        return [
-          result,
-          new DeprecatedCartActions.LoadCart({
-            userId: payload.userId,
-            cartId: payload.cartId,
-            extraData: {
-              addEntries: true,
-            },
-          }),
-        ];
-      }
-      return [result];
     })
+    // mergeMap(result => {
+    //   if (this.cartEntriesToAddCounter === 0) {
+    //     const payload = result.payload;
+    //     return [
+    //       result,
+    //       new DeprecatedCartActions.LoadCart({
+    //         userId: payload.userId,
+    //         cartId: payload.cartId,
+    //         extraData: {
+    //           addEntries: true,
+    //         },
+    //       }),
+    //     ];
+    //   }
+    //   return [result];
+    // })
   );
 
   @Effect()
@@ -90,7 +90,7 @@ export class CartEntryEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
-    mergeMap(payload =>
+    concatMap(payload =>
       this.cartEntryConnector
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
