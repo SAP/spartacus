@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import { AuthService } from '../../../auth/facade/auth.service';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { SaveCartConnector } from '../../connectors/save-cart/save-cart.connecter';
 import { CartActions } from '../actions';
@@ -46,7 +47,7 @@ export class WishListEffects {
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
-                    error,
+                    error: makeErrorSerializable(error),
                   }),
                 ])
               )
@@ -83,7 +84,9 @@ export class WishListEffects {
             }
           }
         }),
-        catchError(error => from([new CartActions.LoadCartFail(error)]))
+        catchError(error =>
+          from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
+        )
       );
     })
   );
@@ -106,7 +109,9 @@ export class WishListEffects {
           switchMap(wishList => [
             new CartActions.LoadWisthListSuccess({ cart: wishList, userId }),
           ]),
-          catchError(error => from([new CartActions.LoadCartFail(error)]))
+          catchError(error =>
+            from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
+          )
         );
       }
       return EMPTY;

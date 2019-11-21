@@ -1,19 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  AuthService,
+  OrderEntry,
+  Product,
+  WishListService,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../cms-components/misc/index';
+import { CurrentProductService } from '../../product/current-product.service';
 
 @Component({
   selector: 'cx-add-to-wishlist',
   templateUrl: './add-to-wish-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddToWishListComponent implements OnInit {
-  constructor() {}
+export class AddToWishListComponent {
+  product$: Observable<Product> = this.currentProductService.getProduct().pipe(
+    filter(product => Boolean(product)),
+    tap(product => this.setStockInfo(product))
+  );
 
-  ngOnInit() {}
+  wishListEntries$: Observable<
+    OrderEntry[]
+  > = this.wishListService.getWishList().pipe(
+    filter(wishlist => Boolean(wishlist)),
+    map(wishList => wishList.entries)
+  );
 
-  add() {
-    return true;
+  userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
+  loading$: Observable<boolean> = this.wishListService.getWishListLoading();
+
+  hasStock = false;
+  iconTypes = ICON_TYPE;
+
+  constructor(
+    protected wishListService: WishListService,
+    protected currentProductService: CurrentProductService,
+    protected authService: AuthService
+  ) {}
+
+  add(product: Product): void {
+    this.wishListService.addEntry(product.code);
   }
 
-  remove() {
-    return false;
+  remove(entry: OrderEntry): void {
+    this.wishListService.removeEntry(entry);
+  }
+
+  getProductInWishList(product: Product, entries: OrderEntry[]): OrderEntry {
+    const item = entries.find(entry => entry.product.code === product.code);
+    return item;
+  }
+
+  private setStockInfo(product: Product): void {
+    this.hasStock =
+      product.stock && product.stock.stockLevelStatus !== 'outOfStock';
   }
 }
