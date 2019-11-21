@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -78,7 +78,6 @@ class MockCxSizeSelectorComponent {
 describe('ProductVariantSelectorComponent', () => {
   let component: ProductVariantSelectorComponent;
   let fixture: ComponentFixture<ProductVariantSelectorComponent>;
-  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -104,7 +103,6 @@ describe('ProductVariantSelectorComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantSelectorComponent);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -117,28 +115,10 @@ describe('ProductVariantSelectorComponent', () => {
     component.ngOnInit();
     component.product$.subscribe();
 
-    expect(component.variants.length).toEqual(mockProduct.baseOptions.length);
+    expect(Object.keys(component.variants).length).toEqual(mockProduct.baseOptions.length);
 
-    expect(component.variants[0].variantType).toEqual(
+    expect(Object.keys(component.variants)[0]).toEqual(
       VariantType.APPAREL_STYLE
-    );
-  });
-
-  it('should go to variant if product is not purchasable', () => {
-    spyOn(routingService, 'go').and.stub();
-
-    component.ngOnInit();
-    component.product$.subscribe();
-
-    expect(routingService.go).toHaveBeenCalledWith(
-      ...[
-        {
-          cxRoute: 'product',
-          params: { code: 'mock_code_3' },
-        },
-        null,
-        { replaceUrl: true },
-      ]
     );
   });
 });
