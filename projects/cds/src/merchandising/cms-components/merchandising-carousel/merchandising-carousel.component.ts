@@ -31,7 +31,6 @@ export class MerchandisingCarouselComponent {
   title$: Observable<string> = this.componentData$.pipe(
     map(data => data.title)
   );
-
   items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
     distinctUntilKeyChanged('strategy'),
     switchMap(data => {
