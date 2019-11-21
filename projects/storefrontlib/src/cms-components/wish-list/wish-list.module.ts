@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { MediaModule, StarRatingModule } from '../../shared/index';
 import { AddToCartModule } from '../cart/index';
-import { WishlistComponent } from './components/wish-list/wishlist.component';
+import { WishListComponent } from './components/wish-list/wish-list.component';
 import { WishListItemComponent } from './components/wish-list-item/wish-list-item.component';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { WishListItemComponent } from './components/wish-list-item/wish-list-ite
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         WishListComponent: {
-          component: WishlistComponent,
+          component: WishListComponent,
         },
       },
     }),
@@ -29,8 +29,8 @@ import { WishListItemComponent } from './components/wish-list-item/wish-list-ite
     StarRatingModule,
     UrlModule,
   ],
-  declarations: [WishlistComponent, WishListItemComponent],
-  entryComponents: [WishlistComponent],
-  exports: [WishlistComponent, WishListItemComponent],
+  declarations: [WishListComponent, WishListItemComponent],
+  entryComponents: [WishListComponent],
+  exports: [WishListComponent, WishListItemComponent],
 })
 export class WishListModule {}

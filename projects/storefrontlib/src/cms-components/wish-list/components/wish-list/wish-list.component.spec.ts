@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WishlistComponent } from './wishlist.component';
+import { WishListComponent } from './wish-list.component';
 import { I18nTestingModule, WishListService } from '@spartacus/core';
 import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -53,14 +53,14 @@ class MockWishListItemComponent {
 }
 
 describe('WishListComponent', () => {
-  let component: WishlistComponent;
-  let fixture: ComponentFixture<WishlistComponent>;
+  let component: WishListComponent;
+  let fixture: ComponentFixture<WishListComponent>;
   let wishListService: WishListService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        WishlistComponent,
+        WishListComponent,
         MockWishListItemComponent,
         MockStarRatingComponent,
         MockAddToCartComponent,
@@ -79,7 +79,7 @@ describe('WishListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WishlistComponent);
+    fixture = TestBed.createComponent(WishListComponent);
     component = fixture.componentInstance;
     wishListService = fixture.debugElement.injector.get(WishListService as Type<
       WishListService

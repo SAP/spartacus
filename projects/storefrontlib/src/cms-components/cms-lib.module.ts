@@ -44,7 +44,7 @@ import { ProductImagesModule } from './product/product-images/product-images.mod
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
-import { WishListModule } from './wishlist/wishlist.module';
+import { WishListModule } from './wish-list/wish-list.module';
 
 @NgModule({
   imports: [
