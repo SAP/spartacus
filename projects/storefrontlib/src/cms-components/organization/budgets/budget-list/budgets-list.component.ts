@@ -75,18 +75,9 @@ export class BudgetsListComponent implements OnInit {
         currentPage: parseInt(currentPage, 10),
         pageSize: parseInt(pageSize, 10),
       })),
-      tap(params => {
-        console.log(params, this.params)
-        this.updateParamsIfChanged(params);
-      }),
       switchMap(params =>
         this.budgetsService.getList(params).pipe(
-          // tap((budgetsList: BudgetListModel) => {
-          //   const { sort, currentPage, pageSize } = budgetsList.pagination;
-          //   if (this.updateParamsIfChanged({ sort, currentPage, pageSize })) {
-          //     this.updateQueryParams();
-          //   }
-          // }),
+          filter(budgetsList => Boolean(budgetsList)),
           map((budgetsList: BudgetListModel) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
@@ -207,12 +198,4 @@ export class BudgetsListComponent implements OnInit {
   //     sort: this.sortType,
   //   });
   // }
-
-  private updateParamsIfChanged(params) {
-    if (!shallowEqualObjects(params, this.params)) {
-      this.params = { ...params };
-      return true;
-    }
-    return false;
-  }
 }
