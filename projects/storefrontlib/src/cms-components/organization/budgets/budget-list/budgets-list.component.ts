@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -97,12 +97,6 @@ export class BudgetsListComponent implements OnInit {
 
     // this.isLoaded$ = this.budgetsService.getBudgetsProcess().pipe(map(process => process.success));
     this.isLoaded$ = of(false);
-    // this.getSortLabels2()
-    //   .subscribe(console.log)
-    //   .unsubscribe();
-    // this.getColumns2()
-    //   .subscribe(console.log)
-    //   .unsubscribe();
   }
 
   changeSortCode(sort: string): void {
@@ -145,27 +139,9 @@ export class BudgetsListComponent implements OnInit {
   }
 
   getColumns(): Observable<Array<{ key: string; value: string }>> {
-    return combineLatest([
-      this.translation.translate('budgetsList.code'),
-      this.translation.translate('budgetsList.name'),
-      this.translation.translate('budgetsList.amount'),
-      this.translation.translate('budgetsList.startEndDate'),
-      this.translation.translate('budgetsList.parentUnit'),
-    ]).pipe(
-      map(([code, name, amount, startEndDate, parentUnit]) => [
-        { key: 'code', value: code },
-        { key: 'name', value: name },
-        { key: 'amount', value: amount },
-        { key: 'startEndDate', value: startEndDate },
-        { key: 'parentUnit', value: parentUnit },
-      ])
+    return resolveKeyAndValueBy(this.columns, text =>
+      this.translation.translate(text).pipe(take(1))
     );
-  }
-
-  getColumns2(): Observable<Array<{ key: string; value: string }>> {
-    return resolveKeyAndValueBy(this.columns, this.translation.translate); // errors
-    // return resolveKeyAndValueBy(this.columns, text => of(text.toUpperCase()); // ok
-    // return resolveKeyAndValueBy(this.columns, text => this.translation.translate(text)); // nothing happens
   }
 
   getSortLabels(): Observable<{
@@ -174,30 +150,8 @@ export class BudgetsListComponent implements OnInit {
     byCode: string;
     byValue: string;
   }> {
-    return combineLatest([
-      this.translation.translate('budgetsList.sorting.byUnitName'),
-      this.translation.translate('budgetsList.sorting.byName'),
-      this.translation.translate('budgetsList.sorting.byCode'),
-      this.translation.translate('budgetsList.sorting.byValue'),
-    ]).pipe(
-      map(([byUnitName, byName, byCode, byValue]) => ({
-        byUnitName,
-        byName,
-        byCode,
-        byValue,
-      }))
+    return resolveObjectBy(this.sortLabels, text =>
+      this.translation.translate(text).pipe(take(1))
     );
   }
-
-  getSortLabels2(): Observable<{
-    byUnitName: string;
-    byName: string;
-    byCode: string;
-    byValue: string;
-  }> {
-    return resolveObjectBy(this.sortLabels, this.translation.translate); // errors
-    // return resolveObjectBy(this.sortLabels, text => of(text.toUpperCase()); // ok
-    // return resolveObjectBy(this.sortLabels, text => this.translation.translate(text)); // nothing happens
-  }
-
 }
