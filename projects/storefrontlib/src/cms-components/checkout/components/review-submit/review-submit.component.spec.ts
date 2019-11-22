@@ -24,6 +24,7 @@ import { CheckoutStepType, CheckoutStep } from '../../model/index';
 import { CheckoutConfigService } from '../../services/index';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { PromotionsModule } from '../../..';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -149,7 +150,7 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule, PromotionsModule, RouterTestingModule],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,

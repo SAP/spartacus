@@ -12,6 +12,7 @@ import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
 import createSpy = jasmine.createSpy;
+import { PromotionsModule } from '../../../checkout';
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
@@ -60,7 +61,7 @@ describe('OrderConfirmationItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, PromotionsModule],
       declarations: [
         OrderConfirmationItemsComponent,
         MockReviewSubmitComponent,

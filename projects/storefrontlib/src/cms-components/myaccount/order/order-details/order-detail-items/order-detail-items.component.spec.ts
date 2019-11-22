@@ -13,6 +13,7 @@ import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
+import { PromotionsModule } from '../../../../checkout';
 
 const mockOrder: Order = {
   code: '1',
@@ -121,7 +122,12 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule, FeaturesConfigModule],
+      imports: [
+        CardModule,
+        I18nTestingModule,
+        PromotionsModule,
+        FeaturesConfigModule,
+      ],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         {
