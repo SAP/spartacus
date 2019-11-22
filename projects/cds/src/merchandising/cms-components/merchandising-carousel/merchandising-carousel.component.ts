@@ -33,7 +33,8 @@ export class MerchandisingCarouselComponent {
       );
     }),
     map(merchandisingProducts => merchandisingProducts.products),
-    map(products => products.map(product => of(product)))
+    filter(Boolean),
+    map((products: Product[]) => products.map(product => of(product)))
   );
 
   constructor(
