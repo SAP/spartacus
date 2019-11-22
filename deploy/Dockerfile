@@ -9,7 +9,7 @@ RUN npm install -g @angular/cli
 
 COPY . /app
 
-RUN yarn build:core:lib
+RUN yarn build:core:lib:cds
 RUN yarn build
 
 EXPOSE 4200
