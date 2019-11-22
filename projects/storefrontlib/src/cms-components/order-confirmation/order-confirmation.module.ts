@@ -12,7 +12,7 @@ import { OrderConfirmationThankYouMessageComponent } from './components/order-co
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { GuestRegisterFormComponent } from './components/guest-register-form/guest-register-form.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
-import { PromotionsModule } from '../checkout';
+import { PromotionsModule } from '../checkout/components/promotions/promotions.module';
 
 const orderConfirmationComponents = [
   OrderConfirmationItemsComponent,
