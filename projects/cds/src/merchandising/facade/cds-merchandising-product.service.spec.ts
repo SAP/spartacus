@@ -108,12 +108,10 @@ describe('CdsMerchandisingProductService', () => {
       site: 'electronics-spa',
       language: 'en',
       pageSize: 10,
-      productId: undefined,
       category: '574',
-      facets: undefined,
     };
     const userContext: MerchandisingUserContext = {
-      categoryCode: '574',
+      category: '574',
     };
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
       of(siteContext)
@@ -142,15 +140,13 @@ describe('CdsMerchandisingProductService', () => {
       language: 'en',
       pageSize: 10,
       productId: '123456',
-      category: undefined,
-      facets: undefined,
     };
 
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
       of(siteContext)
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
-      of({ productCode: '123456' })
+      of({ productId: '123456' })
     );
 
     let actualMerchandisingProducts: MerchandisingProducts;
