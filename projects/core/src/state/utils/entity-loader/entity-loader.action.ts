@@ -1,10 +1,11 @@
 import { Action } from '@ngrx/store';
-
 import { entityMeta, EntityMeta } from '../entity/entity.action';
 import {
+  dequeueMeta,
   failMeta,
   LoaderMeta,
   loadMeta,
+  queueMeta,
   resetMeta,
   successMeta,
 } from '../loader/loader.action';
@@ -13,6 +14,8 @@ export const ENTITY_LOAD_ACTION = '[ENTITY] LOAD';
 export const ENTITY_FAIL_ACTION = '[ENTITY] LOAD FAIL';
 export const ENTITY_SUCCESS_ACTION = '[ENTITY] LOAD SUCCESS';
 export const ENTITY_RESET_ACTION = '[ENTITY] RESET';
+export const ENTITY_QUEUE_ACTION = '[ENTITY] QUEUE';
+export const ENTITY_DEQUEUE_ACTION = '[ENTITY] DEQUEUE';
 
 export interface EntityLoaderMeta extends EntityMeta, LoaderMeta {}
 
@@ -62,6 +65,26 @@ export function entityResetMeta(
   };
 }
 
+export function entityQueueMeta(
+  entityType: string,
+  id: string | string[]
+): EntityLoaderMeta {
+  return {
+    ...queueMeta(entityType),
+    ...entityMeta(entityType, id),
+  };
+}
+
+export function entityDequeueMeta(
+  entityType: string,
+  id: string | string[]
+): EntityLoaderMeta {
+  return {
+    ...dequeueMeta(entityType),
+    ...entityMeta(entityType, id),
+  };
+}
+
 export class EntityLoadAction implements EntityLoaderAction {
   type = ENTITY_LOAD_ACTION;
   readonly meta: EntityLoaderMeta;
@@ -91,5 +114,21 @@ export class EntityResetAction implements EntityLoaderAction {
   readonly meta: EntityLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
     this.meta = entityResetMeta(entityType, id);
+  }
+}
+
+export class EntityQueueAction implements EntityQueueAction {
+  type = ENTITY_QUEUE_ACTION;
+  readonly meta: EntityLoaderMeta;
+  constructor(entityType: string, id: string | string[]) {
+    this.meta = entityQueueMeta(entityType, id);
+  }
+}
+
+export class EntityDequeueAction implements EntityDequeueAction {
+  type = ENTITY_DEQUEUE_ACTION;
+  readonly meta: EntityLoaderMeta;
+  constructor(entityType: string, id: string | string[]) {
+    this.meta = entityDequeueMeta(entityType, id);
   }
 }

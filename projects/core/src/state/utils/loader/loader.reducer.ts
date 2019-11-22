@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-
 import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
 
@@ -52,6 +51,14 @@ export function loaderReducer<T>(
           loading: false,
           error: false,
           success: true,
+        };
+      } else if (entity.counter) {
+        return {
+          ...state,
+          counter: state.counter
+            ? state.counter + entity.counter
+            : entity.counter,
+          value: reducer ? reducer(state.value, action) : state.value,
         };
       } else {
         // reset state action

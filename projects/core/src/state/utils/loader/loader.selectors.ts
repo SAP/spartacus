@@ -15,3 +15,7 @@ export function loaderErrorSelector<T>(state: LoaderState<T>): boolean {
 export function loaderSuccessSelector<T>(state: LoaderState<T>): boolean {
   return state.success;
 }
+
+export function loaderCounterSelector<T>(state: LoaderState<T>): number {
+  return state.counter;
+}
