@@ -14,12 +14,12 @@ import {
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 
 function isSameUserContext(
-  previousUserContext: MerchandisingUserContext,
-  currentUserContext: MerchandisingUserContext
+  previous: MerchandisingUserContext,
+  current: MerchandisingUserContext
 ): boolean {
   return (
-    previousUserContext.categoryCode === currentUserContext.categoryCode &&
-    previousUserContext.productCode === currentUserContext.productCode
+    previous.category === current.category &&
+    previous.productId === current.productId
   );
 }
 
@@ -36,11 +36,11 @@ export class CdsMerchandisingUserContextService {
   getUserContext(): Observable<MerchandisingUserContext> {
     return combineLatest([this.getNavigationContext(), this.getFacets()]).pipe(
       map(([userContext, facets]: [MerchandisingUserContext, string]) => {
-        const routerData: MerchandisingUserContext = {
+        const userContextData: MerchandisingUserContext = {
           ...userContext,
           facets,
         };
-        return routerData;
+        return userContextData;
       })
     );
   }
@@ -52,8 +52,8 @@ export class CdsMerchandisingUserContextService {
         const categoryCode = routerState.state.params['categoryCode'];
 
         const routerData: MerchandisingUserContext = {
-          productCode,
-          categoryCode,
+          productId: productCode,
+          category: categoryCode,
         };
         return routerData;
       }),

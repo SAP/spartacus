@@ -1,5 +1,5 @@
 export interface MerchandisingUserContext {
-  categoryCode?: string;
-  productCode?: string;
+  category?: string;
+  productId?: string;
   facets?: string;
 }

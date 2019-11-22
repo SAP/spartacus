@@ -33,12 +33,9 @@ export class CdsMerchandisingProductService {
           MerchandisingUserContext
         ]) => {
           const strategyRequest: StrategyRequest = {
-            site: siteContext.site,
-            language: siteContext.language,
+            ...siteContext,
+            ...userContext,
             pageSize: numberToDisplay,
-            productId: userContext.productCode,
-            category: userContext.categoryCode,
-            facets: userContext.facets,
           };
           return strategyRequest;
         }
