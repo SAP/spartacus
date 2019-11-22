@@ -1,6 +1,6 @@
-import { EntityLoaderState } from './entity-loader-state';
 import { LoaderState } from '../loader/loader-state';
 import { initialLoaderState } from '../loader/loader.reducer';
+import { EntityLoaderState } from './entity-loader-state';
 
 export function entityStateSelector<T>(
   state: EntityLoaderState<T>,
@@ -39,4 +39,12 @@ export function entitySuccessSelector<T>(
 ): boolean {
   const entityState = entityStateSelector(state, id);
   return entityState.success;
+}
+
+export function entityCounterSelector<T>(
+  state: EntityLoaderState<T>,
+  id: string
+): number {
+  const entityState = entityStateSelector(state, id);
+  return entityState.counter;
 }

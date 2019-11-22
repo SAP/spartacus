@@ -4,6 +4,8 @@ export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
 export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
 export const LOADER_SUCCESS_ACTION = '[LOADER] SUCCESS';
 export const LOADER_RESET_ACTION = '[LOADER] RESET';
+export const LOADER_QUEUE_ACTION = '[LOADER] QUEUE';
+export const LOADER_DEQUEUE_ACTION = '[LOADER] DEQUEUE';
 
 export interface LoaderMeta {
   entityType: string;
@@ -11,6 +13,7 @@ export interface LoaderMeta {
     load?: boolean;
     error?: any;
     success?: boolean;
+    counter?: number;
   };
 }
 
@@ -53,6 +56,24 @@ export function resetMeta(entityType: string): LoaderMeta {
   };
 }
 
+export function queueMeta(entityType: string): LoaderMeta {
+  return {
+    entityType: entityType,
+    loader: {
+      counter: 1,
+    },
+  };
+}
+
+export function dequeueMeta(entityType: string): LoaderMeta {
+  return {
+    entityType: entityType,
+    loader: {
+      counter: -1,
+    },
+  };
+}
+
 export class LoaderLoadAction implements LoaderAction {
   type = LOADER_LOAD_ACTION;
   readonly meta: LoaderMeta;
@@ -82,5 +103,21 @@ export class LoaderResetAction implements LoaderAction {
   readonly meta: LoaderMeta;
   constructor(entityType: string) {
     this.meta = resetMeta(entityType);
+  }
+}
+
+export class LoaderQueueAction implements LoaderAction {
+  type = LOADER_QUEUE_ACTION;
+  readonly meta: LoaderMeta;
+  constructor(entityType: string) {
+    this.meta = queueMeta(entityType);
+  }
+}
+
+export class LoaderDequeueAction implements LoaderAction {
+  type = LOADER_DEQUEUE_ACTION;
+  readonly meta: LoaderMeta;
+  constructor(entityType: string) {
+    this.meta = dequeueMeta(entityType);
   }
 }
