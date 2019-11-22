@@ -22,7 +22,7 @@ import {
   ProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
-} from '../model/index';
+} from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +32,7 @@ export class ProfileTagInjector {
   private w: ProfileTagWindowObject;
   public consentReference = null;
   public profileTagDebug = false;
-  private siteId: string;
-  private tracking$: Observable<AnonymousConsent | NgRouterEvent | any> = merge(
+  private tracking$: Observable<AnonymousConsent | NgRouterEvent> = merge(
     this.pageLoaded(),
     this.consentChanged()
   );
@@ -108,15 +107,14 @@ export class ProfileTagInjector {
       distinctUntilChanged(),
       tap(_ => this.addScript()),
       tap(_ => this.initWindow()),
-      tap(siteId => (this.siteId = siteId)),
-      switchMap(_ => this.profileTagEventReceiver())
+      switchMap((siteId: string) => this.profileTagEventReceiver(siteId))
     );
   }
 
-  private profileTagEventReceiver(): Observable<ProfileTagEvent> {
+  private profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
     return fromEventPattern(
       handler => {
-        this.addProfileTagEventReceiver(this.siteId, handler);
+        this.addProfileTagEventReceiver(siteId, handler);
       },
       () => {}
     );
