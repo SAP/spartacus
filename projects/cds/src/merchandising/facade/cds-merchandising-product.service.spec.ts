@@ -8,8 +8,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { MerchandisingProducts } from '../model/merchandising-products.model';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
-import { MerchandisingProducts } from './../model/merchandising.products.model';
 import { CdsMerchandisingProductService } from './cds-merchandising-product.service';
 import createSpy = jasmine.createSpy;
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Breadcrumb, Converter } from '@spartacus/core';
-import { MerchandisingFacet } from './../model/merchandising-facet';
+import { MerchandisingFacet } from '../model/merchandising-facet.model';
 
 @Injectable({ providedIn: 'root' })
 export class MerchandisingFacetNormalizer

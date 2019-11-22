@@ -1,11 +1,11 @@
 import { InjectionToken } from '@angular/core';
 import { Breadcrumb, Converter, Product } from '@spartacus/core';
-import { MerchandisingProducts } from '../../model/merchandising.products.model';
-import { MerchandisingFacet } from './../../model/merchandising-facet';
+import { MerchandisingFacet } from '../../model/merchandising-facet.model';
+import { MerchandisingProducts } from '../../model/merchandising-products.model';
 import {
   MerchandisingProduct,
   StrategyResult,
-} from './../../model/strategy.result';
+} from '../../model/strategy-result.model';
 
 export const MERCHANDISING_PRODUCTS_NORMALIZER = new InjectionToken<
   Converter<StrategyResult, MerchandisingProducts>
