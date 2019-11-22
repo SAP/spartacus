@@ -132,4 +132,11 @@ export const myAccount = {
       OrderReturnRequestListComponent: 'RETURNS ({{param}})',
     },
   },
+  returnRequestList: {
+    returnRequestId: 'Return #',
+    orderId: 'Order #',
+    date: 'Date Created',
+    status: 'Status',
+    sortByMostRecent: 'Sort by Most recent',
+  },
 };

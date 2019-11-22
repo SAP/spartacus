@@ -48,6 +48,7 @@ export const common = {
   sorting: {
     date: 'Date',
     orderNumber: 'Order Number',
+    rma: 'RMA',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
