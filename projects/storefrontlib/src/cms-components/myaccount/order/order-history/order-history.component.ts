@@ -22,6 +22,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   orders$: Observable<OrderHistoryList>;
   isLoaded$: Observable<boolean>;
+  tabTitleParam$: Observable<number>;
 
   private PAGE_SIZE = 5;
 
@@ -39,6 +40,9 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       );
 
     this.isLoaded$ = this.userOrderService.getOrderHistoryListLoaded();
+    this.tabTitleParam$ = this.orders$.pipe(
+      map(order => order.pagination.totalResults)
+    );
   }
 
   ngOnDestroy(): void {

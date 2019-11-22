@@ -25,7 +25,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updatePasswordForm',
     'updateProfileForm',
     'consentManagementForm',
-    'CMSTabParagraphContainer',
+    'AccountOrderHistoryTabContainer',
   ],
   storeFinder: ['storeFinder'],
   pwa: ['pwa'],
@@ -44,7 +44,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productSummary',
     'productReview',
     'addToCart',
-    'CMSTabParagraphContainer',
+    'TabPanelContainer',
   ],
   user: [
     'anonymousConsents',

@@ -126,10 +126,10 @@ export const myAccount = {
       },
     },
   },
-  CMSTabParagraphContainer: {
+  AccountOrderHistoryTabContainer: {
     tabs: {
-      AccountOrderHistoryComponent: 'ALL ORDERS ({{orderNum}})',
-      OrderReturnRequestListComponent: 'RETURNS',
+      AccountOrderHistoryComponent: 'ALL ORDERS ({{param}})',
+      OrderReturnRequestListComponent: 'RETURNS ({{param}})',
     },
   },
 };
