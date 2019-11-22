@@ -1,7 +1,8 @@
 import { StateLoaderActions } from '../../../state/utils/index';
-import { UserToken } from '../../models/token-types.model';
-import { CSAGENT_TOKEN_DATA } from '../auth-state';
-import { AuthActions } from './index';
+import { UserToken } from '../../../auth/models/token-types.model';
+import { CSAGENT_TOKEN_DATA } from '../asm-state';
+import { AsmActions } from './index';
+import { AuthActions } from '@spartacus/core';
 
 const token: UserToken = {
   access_token: 'xxx',
@@ -20,11 +21,9 @@ describe('Customer Support Agent Token Actions', () => {
         password: '1234',
       };
 
-      const action = new AuthActions.LoadCustomerSupportAgentToken(
-        tokenRequest
-      );
+      const action = new AsmActions.LoadCustomerSupportAgentToken(tokenRequest);
       expect({ ...action }).toEqual({
-        type: AuthActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN,
+        type: AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN,
         meta: StateLoaderActions.loadMeta(CSAGENT_TOKEN_DATA),
         payload: tokenRequest,
       });
@@ -34,10 +33,10 @@ describe('Customer Support Agent Token Actions', () => {
   describe('LoadCustomerSupportAgentTokenFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new AuthActions.LoadCustomerSupportAgentTokenFail(error);
+      const action = new AsmActions.LoadCustomerSupportAgentTokenFail(error);
 
       expect({ ...action }).toEqual({
-        type: AuthActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL,
+        type: AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL,
         meta: StateLoaderActions.failMeta(CSAGENT_TOKEN_DATA),
         payload: error,
       });
@@ -46,15 +45,23 @@ describe('Customer Support Agent Token Actions', () => {
 
   describe('LoadCustomerSupportAgentTokenSuccess Action', () => {
     it('should create the action', () => {
-      const action = new AuthActions.LoadCustomerSupportAgentTokenSuccess(
-        token
-      );
+      const action = new AsmActions.LoadCustomerSupportAgentTokenSuccess(token);
 
       expect({ ...action }).toEqual({
-        type: AuthActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS,
+        type: AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS,
         meta: StateLoaderActions.successMeta(CSAGENT_TOKEN_DATA),
         payload: token,
       });
+    });
+  });
+});
+
+describe('Logout Customer Support Agent Action', () => {
+  it('should create the action', () => {
+    const action = new AsmActions.LogoutCustomerSupportAgent();
+
+    expect({ ...action }).toEqual({
+      type: AuthActions.LOGOUT_CUSTOMER_SUPPORT_AGENT,
     });
   });
 });

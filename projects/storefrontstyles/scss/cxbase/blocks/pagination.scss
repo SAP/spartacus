@@ -35,3 +35,17 @@
     }
   }
 }
+
+//theme calydon cx-base adjustments
+$theme: '' !default;
+@if $theme == 'calydon' {
+  .page-item {
+    &.active {
+      .page-link {
+        border-color: var(--cx-color-primary);
+        background-color: var(--cx-color-primary);
+        color: var(--cx-color-inverse);
+      }
+    }
+  }
+}

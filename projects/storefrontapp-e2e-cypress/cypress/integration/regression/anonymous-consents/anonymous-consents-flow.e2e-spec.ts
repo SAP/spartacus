@@ -6,14 +6,14 @@ import {
   sessionLogin,
   testAsAnonymousUser,
   testAsLoggedInUser,
-} from '../../helpers/anonymous-consents';
+} from '../../../helpers/anonymous-consents';
 import {
   LANGUAGES,
   LANGUAGE_REQUEST,
   stub,
-} from '../../helpers/site-context-selector';
+} from '../../../helpers/site-context-selector';
 
-context('Anonymous consents', () => {
+context('Anonymous consents flow', () => {
   describe('when anonymous user', () => {
     before(() => {
       cy.window().then(win => {
