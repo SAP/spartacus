@@ -76,7 +76,7 @@ export class AddedToCartDialogComponent implements OnInit {
 
   getAppliedProductPromotions(cart: Cart): PromotionResult[] {
     const appliedProductPromotions = [];
-    appliedProductPromotions.push(...(cart.appliedProductPromotions|| []));
+    appliedProductPromotions.push(...(cart.appliedProductPromotions || []));
 
     return appliedProductPromotions;
   }
