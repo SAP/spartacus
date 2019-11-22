@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
@@ -54,7 +55,7 @@ describe('ConfigPriceSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       declarations: [ConfigPriceSummaryComponent],
       providers: [
         {

@@ -34,7 +34,6 @@ export namespace OccConfigurator {
   export interface PriceDetails {
     currencyIso?: string;
     formattedValue?: string;
-    priceType?: PriceType;
     value?: number;
   }
 

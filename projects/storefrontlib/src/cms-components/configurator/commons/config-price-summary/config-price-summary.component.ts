@@ -5,6 +5,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-price-summary',
@@ -20,14 +21,11 @@ export class ConfigPriceSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.routingService
-      .getRouterState()
-      .subscribe(state => this.initConfigurationPrice(state));
-  }
-
-  initConfigurationPrice(routingData) {
-    this.configuration$ = this.configuratorCommonsService.getConfiguration(
-      routingData.state.params.rootProduct
+    this.configuration$ = this.routingService.getRouterState().pipe(
+      map(routingData => routingData.state.params.rootProduct),
+      switchMap(product =>
+        this.configuratorCommonsService.getConfiguration(product)
+      )
     );
   }
 }

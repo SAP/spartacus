@@ -57,7 +57,7 @@ export abstract class ConfiguratorCommonsAdapter {
    *
    * @param configId configuration id
    */
-  abstract readConfigurationPrice(
+  abstract readPriceSummary(
     configId: string
   ): Observable<Configurator.Configuration>;
 }

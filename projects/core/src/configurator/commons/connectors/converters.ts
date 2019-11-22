@@ -10,6 +10,6 @@ export const CONFIGURATION_SERIALIZER = new InjectionToken<
   Converter<Configurator.Configuration, any>
 >('ConfigurationSerializer');
 
-export const CONFIGURATION_PRICE_NORMALIZER = new InjectionToken<
+export const CONFIGURATION_PRICE_SUMMARY_NORMALIZER = new InjectionToken<
   Converter<any, Configurator.Configuration>
->('ConfigurationPriceNormalizer');
+>('ConfigurationPriceSummaryNormalizer');

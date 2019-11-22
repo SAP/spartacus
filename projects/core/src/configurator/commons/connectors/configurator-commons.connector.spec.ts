@@ -7,8 +7,8 @@ import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
 import createSpy = jasmine.createSpy;
 
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
-  readConfigurationPrice = createSpy().and.callFake(configId =>
-    of('readConfigurationPrice' + configId)
+  readPriceSummary = createSpy().and.callFake(configId =>
+    of('readPriceSummary' + configId)
   );
 
   readConfiguration = createSpy().and.callFake(configId =>
@@ -100,8 +100,8 @@ describe('ConfiguratorCommonsConnector', () => {
     >);
 
     let result;
-    service.readConfigurationPrice(CONFIG_ID).subscribe(res => (result = res));
-    expect(result).toBe('readConfigurationPrice' + CONFIG_ID);
-    expect(adapter.readConfigurationPrice).toHaveBeenCalledWith(CONFIG_ID);
+    service.readPriceSummary(CONFIG_ID).subscribe(res => (result = res));
+    expect(result).toBe('readPriceSummary' + CONFIG_ID);
+    expect(adapter.readPriceSummary).toHaveBeenCalledWith(CONFIG_ID);
   });
 });

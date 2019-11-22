@@ -55,7 +55,6 @@ export namespace Configurator {
   export interface PriceDetails {
     currencyIso?: string;
     formattedValue?: string;
-    priceType?: PriceType;
     value?: number;
   }
 

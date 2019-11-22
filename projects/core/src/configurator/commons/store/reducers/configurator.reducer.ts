@@ -12,7 +12,7 @@ export function reducer(
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS:
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
-    case ConfiguratorActions.UPDATE_CONFIGURATION_PRICE_SUCCESS: {
+    case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
       const content = { ...action.payload };
 
       return {

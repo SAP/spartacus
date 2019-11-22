@@ -19,5 +19,10 @@ export const configurator = {
       next: 'Next',
       addToCart: 'Add To Cart',
     },
+    priceSummary: {
+      basePrice: 'Base Price',
+      selectedOptions: 'Selected Options',
+      totalPrice: 'Total',
+    },
   },
 };

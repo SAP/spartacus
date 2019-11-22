@@ -2,8 +2,9 @@ import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
 
-const testProduct: string = 'WCEM_DEPENDENCY_PC';
-const configurator: string = 'CPQCONFIGURATOR';
+const testProduct = 'WCEM_DEPENDENCY_PC';
+const testProductPricing = 'WEC_DRAGON_CAR';
+const configurator = 'CPQCONFIGURATOR';
 
 function goToConfigurationPage(configurator, testProduct) {
   cy.visit(`/electronics-spa/en/USD/configure${configurator}/${testProduct}`);
@@ -61,6 +62,24 @@ context('Product Configuration', () => {
 
     it('Value should change on configuration change', () => {
       //TODO:
+    });
+  });
+
+  describe('Pricing Summary', () => {
+    it('Price should be displayed', () => {
+      goToConfigurationPage(configurator, testProductPricing);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyTotalPrice('€22,000.00');
+    });
+
+    it('Price should change on configuration change', () => {
+      goToConfigurationPage(configurator, testProductPricing);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyTotalPrice('€22,000.00');
+
+      configuration.selectAttribute('WEC_DC_ENGINE', 'radioGroup', 'D');
+
+      configuration.verifyTotalPrice('€22,900.00');
     });
   });
 
