@@ -188,8 +188,8 @@ describe('ProductReferencesComponent', () => {
 
   it('should not render product primary image for the 2nd item', async(() => {
     const el = fixture.debugElement.query(
-      By.css('a:first-child > cx-media.is-missing')
+      By.css('a:first-child > cx-media > img')
     );
-    expect(el).toBeTruthy();
+    expect(el).toBeNull();
   }));
 });
