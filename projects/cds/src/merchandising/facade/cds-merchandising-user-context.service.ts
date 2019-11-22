@@ -5,8 +5,8 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, zip } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import {
   MERCHANDISING_FACET_NORMALIZER,
   MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
@@ -24,7 +24,15 @@ export class CdsMerchandisingUserContextService {
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
-    return zip(this.routingService.getRouterState(), this.getFacets()).pipe(
+    // return zip(this.routingService.getRouterState(), this.getFacets())
+    return combineLatest([
+      this.routingService
+        .getRouterState()
+        .pipe(
+          tap(result => console.log('routingService.getRouterState()', result))
+        ),
+      this.getFacets().pipe(tap(result => console.log('getFacets()', result))),
+    ]).pipe(
       map(([routerState, facets]: [RouterState, string]) => {
         const productCode = routerState.state.params['productCode'];
         const categoryCode = routerState.state.params['categoryCode'];
@@ -41,8 +49,11 @@ export class CdsMerchandisingUserContextService {
 
   private getFacets(): Observable<string> {
     return this.productSearchService.getResults().pipe(
+      tap(searchPageResults =>
+        console.log('search page results - ', searchPageResults)
+      ),
       map(searchPageResults => searchPageResults.breadcrumbs),
-      filter(Boolean),
+      //filter(Boolean),
       this.converterService.pipeable(MERCHANDISING_FACET_NORMALIZER),
       this.converterService.pipeable(
         MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER

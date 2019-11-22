@@ -9,16 +9,17 @@ export class MerchandisingFacetNormalizer
     source: Breadcrumb[],
     target?: MerchandisingFacet[]
   ): MerchandisingFacet[] {
-    if (target === undefined) {
-      target = [];
+    if (target === undefined) target = [];
+
+    if (source !== undefined) {
+      target = source.map(breadcrumb => {
+        return {
+          code: breadcrumb.facetCode,
+          value: breadcrumb.facetValueCode,
+        };
+      });
     }
 
-    target = source.map(breadcrumb => {
-      return {
-        code: breadcrumb.facetCode,
-        value: breadcrumb.facetValueCode,
-      };
-    });
     return target;
   }
 }
