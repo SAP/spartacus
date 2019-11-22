@@ -2,6 +2,11 @@
   <h4 class="cx-order-items-header">
     {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
   </h4>
+
+  <cx-promotions
+    [promotions]="getAppliedOrderPromotionsForOrder(order)"
+  ></cx-promotions>
+
   <cx-cart-item-list
     [items]="order.entries"
     [isReadOnly]="true"

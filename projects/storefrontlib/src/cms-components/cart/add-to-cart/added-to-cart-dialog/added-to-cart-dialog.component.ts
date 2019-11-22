@@ -67,11 +67,18 @@ export class AddedToCartDialogComponent implements OnInit {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  getAppliedPromotions(cart: Cart): PromotionResult[] {
-    const appliedPromotions = [];
-    appliedPromotions.push(...(cart.appliedProductPromotions || []));
+  getAppliedOrderPromotions(cart: Cart): PromotionResult[] {
+    const appliedOrderPromotions = [];
+    appliedOrderPromotions.push(...(cart.appliedOrderPromotions || []));
 
-    return [...appliedPromotions];
+    return appliedOrderPromotions;
+  }
+
+  getAppliedProductPromotions(cart: Cart): PromotionResult[] {
+    const appliedProductPromotions = [];
+    appliedProductPromotions.push(...(cart.appliedProductPromotions|| []));
+
+    return appliedProductPromotions;
   }
 
   private createEntryFormGroup(entry: OrderEntry): FormGroup {

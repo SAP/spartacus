@@ -23,6 +23,10 @@
     </div>
 
     <div class="cx-list-item col-12">
+      <cx-promotions
+        [promotions]="getAppliedOrderPromotionsForOrder(order)"
+      ></cx-promotions>
+
       <cx-cart-item-list
         [items]="getConsignmentProducts(consignment)"
         [appliedProductPromotions]="getAppliedPromotionsForOrder(order)"
@@ -38,6 +42,9 @@
       </div>
     </div>
     <div class="cx-list-item col-12">
+      <cx-promotions
+        [promotions]="getAppliedOrderPromotionsForOrder(order)"
+      ></cx-promotions>
       <cx-cart-item-list
         [items]="order?.unconsignedEntries"
         [appliedProductPromotions]="getAppliedPromotionsForOrder(order)"

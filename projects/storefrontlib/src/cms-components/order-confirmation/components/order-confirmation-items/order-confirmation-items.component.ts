@@ -32,4 +32,11 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
 
     return appliedPromotions;
   }
+
+  getAppliedOrderPromotionsForOrder(order: Order): PromotionResult[] {
+    const appliedOrderPromotions = [];
+    appliedOrderPromotions.push(...(order.appliedOrderPromotions || []));
+
+    return appliedOrderPromotions;
+  }
 }

@@ -38,4 +38,11 @@ export class OrderDetailItemsComponent implements OnInit {
     appliedPromotions.push(...(order.appliedProductPromotions || []));
     return appliedPromotions;
   }
+
+  getAppliedOrderPromotionsForOrder(order: Order): PromotionResult[] {
+    const appliedOrderPromotions = [];
+    appliedOrderPromotions.push(...(order.appliedOrderPromotions || []));
+
+    return appliedOrderPromotions;
+  }
 }

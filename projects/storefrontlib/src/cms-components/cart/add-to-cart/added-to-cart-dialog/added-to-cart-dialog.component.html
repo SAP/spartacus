@@ -34,6 +34,12 @@
             (update)="updateEntry($event)"
             (view)="dismissModal('Product selected')"
           ></cx-cart-item>
+
+          <div class="cx-dialog-promotions" *ngIf="cart$ | async as cart">
+            <cx-promotions
+              [promotions]="getAppliedProductPromotions(cart)"
+            ></cx-promotions>
+          </div>
         </div>
         <!-- Separator -->
         <div
@@ -55,7 +61,7 @@
           <!-- Promotions -->
           <div class="cx-dialog-promotions" *ngIf="cart$ | async as cart">
             <cx-promotions
-              [promotions]="getAppliedPromotions(cart)"
+              [promotions]="getAppliedOrderPromotions(cart)"
             ></cx-promotions>
           </div>
 
