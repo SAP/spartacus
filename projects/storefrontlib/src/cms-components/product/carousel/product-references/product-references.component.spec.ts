@@ -107,7 +107,7 @@ class MockProductReferenceService {
   cleanReferences(): void {}
 }
 
-fdescribe('ProductReferencesComponent', () => {
+describe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
   let fixture: ComponentFixture<ProductReferencesComponent>;
 
