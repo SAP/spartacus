@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -9,12 +10,13 @@ import {
 import {
   CartAddEvent,
   CartService,
-  EventRegister,
+  EventEmitter,
   OrderEntry,
   Product,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { throttle } from 'helpful-decorators';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
@@ -45,12 +47,28 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
+  hoverDetails: BehaviorSubject<{}[]> = new BehaviorSubject([]);
+
+  @HostListener('mouseenter') onEnter() {
+    this.hoverDetails.next([]);
+  }
+
+  @HostListener('mousemove', ['$event'])
+  @throttle(300)
+  onHover(event: MouseEvent) {
+    if (event.target instanceof HTMLButtonElement) {
+      const mousePositions = this.hoverDetails.value;
+      mousePositions.push({ offsetX: event.offsetX, offsetY: event.offsetY });
+      this.hoverDetails.next(mousePositions);
+    }
+  }
+
   constructor(
     cartService: CartService,
     modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
-    eventRegister?: EventRegister
+    eventRegister?: EventEmitter
   );
 
   constructor(
@@ -58,7 +76,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     private cd: ChangeDetectorRef,
-    private eventRegister?: EventRegister
+    private eventEmitter?: EventEmitter
   ) {}
 
   ngOnInit() {
@@ -100,13 +118,28 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   addToCart(event: MouseEvent) {
-    if (this.eventRegister) {
-      this.eventRegister.emit(CartAddEvent, { mouseEvent: event });
-    }
-
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
+
+    if (this.eventEmitter) {
+      this.eventEmitter.merge(
+        CartAddEvent,
+        this.hoverDetails.pipe(map(hover => ({ hover: hover }))),
+        (eventData: CartAddEvent) => {
+          return eventData.state.productCode === this.productCode;
+        }
+      );
+      // // emit mouse event
+      this.eventEmitter.merge(
+        CartAddEvent,
+        of({ mouseEvent: event }),
+        (eventData: CartAddEvent) => {
+          return eventData.state.productCode === this.productCode;
+        }
+      );
+    }
+
     // check item is already present in the cart
     // so modal will have proper header text displayed
     this.cartService

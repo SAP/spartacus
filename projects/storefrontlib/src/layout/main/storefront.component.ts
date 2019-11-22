@@ -17,7 +17,15 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService
-  ) {}
+  ) {
+    // const source = of({ a: 1 });
+    // const merged = merge(source, of({ b: 'merged' }));
+    // const combined = combineLatest([source, of({ b: 'combined' })]);
+    // const zipped = zip(source, of({ b: 'zipped' }));
+    // merged.pipe(map(v => Object.assign({}, v))).subscribe(console.log);
+    // combined.pipe(map(v => Object.assign({}, ...v))).subscribe(console.log);
+    // zipped.pipe(map(v => Object.assign({}, ...v))).subscribe(console.log);
+  }
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService

@@ -1,15 +1,15 @@
 import { Injectable, Type } from '@angular/core';
 import { Observable } from 'rxjs';
+import { EventEmitter } from './event.emitter';
 import { CxEvent } from './event.model';
-import { EventRegister } from './event.register';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  constructor(protected eventRegiser: EventRegister) {}
+  constructor(protected eventEmitter: EventEmitter) {}
 
   on<T>(eventType: Type<T>): Observable<CxEvent<T>> {
-    return this.eventRegiser.getValue(eventType);
+    return this.eventEmitter.dispatch(eventType);
   }
 }

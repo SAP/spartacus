@@ -1,3 +1,5 @@
+import { BehaviorSubject, Observable } from 'rxjs';
+
 /**
  * CxEvent model holds the value of the event source
  * and can potential be extended with meta info to the
@@ -13,16 +15,27 @@ export class CxEvent<T> {
    * In case of a cart related event, the value will represent the
    * cart data for the cart of relevant cart line.
    */
-  value?: T;
+  state?: T;
 
   /**
    * The mouse interaction which contribute to the event, if any.
    */
-  mouseEvent?: MouseEvent;
+  // mouseEvent?: MouseEvent;
 
   /**
    * The number of listeners to the event.
    */
 
-  listeners?: number;
+  // listeners?: number;
+}
+
+export interface CxEventSource<T> {
+  sources: BehaviorSubject<Observable<T>[]>;
+
+  merged: EventSource<T>[];
+}
+
+export interface EventSource<T> {
+  source: Observable<T>;
+  compareFn?: (eventData: CxEvent<T>) => boolean;
 }

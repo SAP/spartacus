@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { EventRegister } from './event.register';
+import { EventEmitter } from './event.emitter';
 import { EventService } from './event.service';
 
 class MockEventRegister {
@@ -13,21 +13,21 @@ class MockEvent {}
 
 describe('EventService', () => {
   let service: EventService;
-  let eventRegister: EventRegister;
+  let eventRegister: EventEmitter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         EventService,
         {
-          provide: EventRegister,
+          provide: EventEmitter,
           useClass: MockEventRegister,
         },
       ],
     });
 
     service = TestBed.get(EventService);
-    eventRegister = TestBed.get(EventRegister);
+    eventRegister = TestBed.get(EventEmitter);
     spyOn(eventRegister, 'getValue').and.callThrough();
   });
 
@@ -37,7 +37,7 @@ describe('EventService', () => {
 
   it('should return event subscription', () => {
     service.on(MockEvent);
-    expect(eventRegister.getValue).toHaveBeenCalledWith(MockEvent);
+    expect(eventRegister.dispatch).toHaveBeenCalledWith(MockEvent);
   });
 
   it('should map to CxEvent', () => {

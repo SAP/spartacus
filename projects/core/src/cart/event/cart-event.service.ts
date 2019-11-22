@@ -1,43 +1,33 @@
 import { Injectable, Type } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EventRegister } from '../../events';
+import { EventEmitter } from '../../events';
 import { CartEventBuilder } from './cart-event.builder';
-import {
-  CartAddEntryEvent,
-  CartAddEvent,
-  CartBusyEvent,
-  CartChangeEvent,
-  CartErrorEvent,
-  CartLoadEvent,
-  CartMergeEvent,
-  CartRemoveEntryEvent,
-  CartUpdateEntryEvent,
-} from './cart-event.model';
+import { CartAddEvent } from './cart-event.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartEventService {
   constructor(
-    protected eventRegister: EventRegister,
+    protected eventRegister: EventEmitter,
     protected builder: CartEventBuilder
   ) {
-    this.registerEvent(CartBusyEvent, builder.buildBusyEvent());
-    this.registerEvent(CartErrorEvent, builder.buildErrorEvent());
-    this.registerEvent(CartLoadEvent, builder.buildLoadEvent());
-    this.registerEvent(CartChangeEvent, builder.buildChangeEvent());
-    this.registerEvent(CartMergeEvent, builder.buildMergeEvent());
-    this.registerEvent(CartAddEvent, builder.buildAddEvent());
-    this.registerEvent(CartAddEntryEvent, builder.buildEntryCreateEvent());
-    this.registerEvent(CartUpdateEntryEvent, builder.buildEntryUpdateEvent());
-    this.registerEvent(CartRemoveEntryEvent, builder.buildEntryRemoveEvent());
+    // this.attach(CartBusyEvent, builder.buildBusyEvent());
+    // this.attach(CartErrorEvent, builder.buildErrorEvent());
+    // this.attach(CartLoadEvent, builder.buildLoadEvent());
+    // this.attach(CartChangeEvent, builder.buildChangeEvent());
+    // this.attach(CartMergeEvent, builder.buildMergeEvent());
+    this.attach(CartAddEvent, builder.buildAddEvent());
+    // this.attach(CartAddEntryEvent, builder.buildEntryCreateEvent());
+    // this.attach(CartUpdateEntryEvent, builder.buildEntryUpdateEvent());
+    // this.attach(CartRemoveEntryEvent, builder.buildEntryRemoveEvent());
   }
 
-  private registerEvent<T>(eventType: Type<T>, value$: Observable<any>) {
-    this.eventRegister.registerEmitter(
+  private attach<T>(eventType: Type<T>, value$: Observable<any>) {
+    this.eventRegister.attach(
       eventType,
-      value$.pipe(map(value => ({ value })))
+      value$.pipe(map(state => <any>{ state }))
     );
   }
 }
