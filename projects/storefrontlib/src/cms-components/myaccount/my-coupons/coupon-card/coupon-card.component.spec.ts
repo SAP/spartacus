@@ -9,6 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -63,7 +64,7 @@ describe('CouponCardComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
-  const modalService = jasmine.createSpyObj('ModalService', ['open']);
+  let modalInstance: any;
   const couponComponentService = jasmine.createSpyObj(
     'MyCouponsComponentService',
     ['launchSearchPage']
@@ -73,7 +74,7 @@ describe('CouponCardComponent', () => {
       declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
       imports: [I18nTestingModule, RouterTestingModule],
       providers: [
-        { provide: ModalService, useValue: modalService },
+        { provide: NgbActiveModal, useValue: { open: () => {} } },
         {
           provide: MyCouponsComponentService,
           useValue: couponComponentService,
@@ -86,7 +87,8 @@ describe('CouponCardComponent', () => {
     fixture = TestBed.createComponent(MyCouponsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    modalService.open.and.stub();
+    modalInstance = TestBed.get(ModalService);
+    spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     component.coupon.notificationOn = false;
     unsubLoading$.next(false);
     subLoading$.next(false);
@@ -138,7 +140,7 @@ describe('CouponCardComponent', () => {
     fixture.detectChanges();
     const readMoreLink = el.query(By.css('a'));
     readMoreLink.nativeElement.click();
-    expect(modalService.open).toHaveBeenCalled();
+    expect(modalInstance.open).toHaveBeenCalled();
   });
 
   it('should be able to show correct status when subscribe notification', () => {
