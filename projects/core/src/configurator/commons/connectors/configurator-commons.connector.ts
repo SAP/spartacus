@@ -29,7 +29,6 @@ export class ConfiguratorCommonsConnector {
     return this.adapter.updateConfiguration(Configuration);
   }
 
-
   addToCart(
     userId: string,
     cartId: string,

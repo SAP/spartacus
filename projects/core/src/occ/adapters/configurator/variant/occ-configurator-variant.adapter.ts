@@ -65,7 +65,6 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
   }
 
-
   addToCart(
     userId: string,
     cartId: string,
