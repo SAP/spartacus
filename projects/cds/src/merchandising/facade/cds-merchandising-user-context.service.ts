@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   ConverterService,
+  ProductSearchPage,
   ProductSearchService,
   RouterState,
   RoutingService,
@@ -62,7 +63,9 @@ export class CdsMerchandisingUserContextService {
   }
   private getFacets(): Observable<string> {
     return this.productSearchService.getResults().pipe(
-      map(searchPageResults => searchPageResults.breadcrumbs),
+      map(
+        (searchPageResults: ProductSearchPage) => searchPageResults.breadcrumbs
+      ),
       this.converterService.pipeable(MERCHANDISING_FACET_NORMALIZER),
       this.converterService.pipeable(
         MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER
