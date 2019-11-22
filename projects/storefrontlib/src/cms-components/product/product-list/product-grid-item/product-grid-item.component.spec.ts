@@ -141,7 +141,8 @@ describe('ProductGridItemComponent in product-list', () => {
     component.product.averageRating = undefined;
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-product-rating').textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-product-rating')
+        .textContent
     ).toContain('productDetails.noReviews');
   });
 

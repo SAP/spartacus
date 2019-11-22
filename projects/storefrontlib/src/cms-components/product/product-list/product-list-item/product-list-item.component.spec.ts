@@ -148,9 +148,9 @@ describe('ProductListItemComponent in product-list', () => {
   it('should display noReviews when rating is unavailable', () => {
     component.product.averageRating = undefined;
     fixture.detectChanges();
-    expect(
-      fixture.debugElement.nativeElement.innerText
-    ).toContain('productDetails.noReviews');
+    expect(fixture.debugElement.nativeElement.innerText).toContain(
+      'productDetails.noReviews'
+    );
   });
 
   it('should display add to cart component', () => {

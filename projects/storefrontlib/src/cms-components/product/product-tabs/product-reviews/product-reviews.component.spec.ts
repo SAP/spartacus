@@ -112,11 +112,13 @@ describe('ProductReviewsComponent in product', () => {
 
   describe('Overall rating display', () => {
     it('should display rating component when rating is available', () => {
-      mockProduct.averageRating = 4.5;  
-      fixture = TestBed.createComponent(ProductReviewsComponent);    
+      mockProduct.averageRating = 4.5;
+      fixture = TestBed.createComponent(ProductReviewsComponent);
       fixture.detectChanges();
       expect(
-        fixture.debugElement.nativeElement.querySelector('.header>cx-star-rating')
+        fixture.debugElement.nativeElement.querySelector(
+          '.header>cx-star-rating'
+        )
       ).not.toBeNull();
     });
 
@@ -125,7 +127,9 @@ describe('ProductReviewsComponent in product', () => {
       fixture = TestBed.createComponent(ProductReviewsComponent);
       fixture.detectChanges();
       expect(
-        fixture.debugElement.nativeElement.querySelector('.header>cx-star-rating')
+        fixture.debugElement.nativeElement.querySelector(
+          '.header>cx-star-rating'
+        )
       ).toBeNull();
     });
 
@@ -133,9 +137,9 @@ describe('ProductReviewsComponent in product', () => {
       mockProduct.averageRating = undefined;
       fixture = TestBed.createComponent(ProductReviewsComponent);
       fixture.detectChanges();
-      expect(
-        fixture.debugElement.nativeElement.innerText
-      ).toContain('productDetails.noReviews');
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'productDetails.noReviews'
+      );
     });
-  })
+  });
 });
