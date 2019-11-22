@@ -26,7 +26,6 @@ export class CdsMerchandisingUserContextService {
   getUserContext(): Observable<MerchandisingUserContext> {
     return zip(this.routingService.getRouterState(), this.getFacets()).pipe(
       map(([routerState, facets]: [RouterState, string]) => {
-        console.log('In the map method - ', routerState, facets);
         const productCode = routerState.state.params['productCode'];
         const categoryCode = routerState.state.params['categoryCode'];
 

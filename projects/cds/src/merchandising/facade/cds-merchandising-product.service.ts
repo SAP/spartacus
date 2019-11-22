@@ -44,7 +44,6 @@ export class CdsMerchandisingProductService {
         }
       ),
       switchMap(context => {
-        console.log('about to make another request for products');
         return this.strategyConnector.loadProductsForStrategy(
           strategyId,
           context
