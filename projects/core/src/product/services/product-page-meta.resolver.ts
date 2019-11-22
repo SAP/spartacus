@@ -85,7 +85,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
           description,
           breadcrumbs,
           image,
-          robots
+          robots,
         })
       )
     );

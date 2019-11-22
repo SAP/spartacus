@@ -115,7 +115,9 @@ describe('ProductVariantSelectorComponent', () => {
     component.ngOnInit();
     component.product$.subscribe();
 
-    expect(Object.keys(component.variants).length).toEqual(mockProduct.baseOptions.length);
+    expect(Object.keys(component.variants).length).toEqual(
+      mockProduct.baseOptions.length
+    );
 
     expect(Object.keys(component.variants)[0]).toEqual(
       VariantType.APPAREL_STYLE
