@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { Component, HostBinding, OnInit } from '@angular/core';
-import {
-=======
 import {
   Component,
   HostBinding,
@@ -10,7 +6,6 @@ import {
 } from '@angular/core';
 import {
   AsmAuthService,
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -27,10 +22,7 @@ import { AsmComponentService } from '../services/asm-component.service';
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
   styleUrls: ['./asm-main-ui.component.scss'],
-<<<<<<< HEAD
-=======
   encapsulation: ViewEncapsulation.None,
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 })
 export class AsmMainUiComponent implements OnInit {
   csAgentToken$: Observable<UserToken>;

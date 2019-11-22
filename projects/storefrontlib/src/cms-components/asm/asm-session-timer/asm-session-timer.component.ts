@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-=======
 import {
   ChangeDetectorRef,
   Component,
@@ -8,7 +5,6 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';

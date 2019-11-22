@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-<<<<<<< HEAD
-import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
-=======
 import {
   AsmAuthService,
   AuthService,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 import { Observable, of } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
@@ -19,10 +15,7 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 export class AsmComponentService {
   constructor(
     protected authService: AuthService,
-<<<<<<< HEAD
-=======
     protected asmAuthService: AsmAuthService,
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
     protected routingService: RoutingService,
     protected winRef: WindowRef
   ) {}

@@ -7,20 +7,13 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
-<<<<<<< HEAD
-import { OutletPosition } from './outlet.model';
-=======
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 import { OutletService } from './outlet.service';
 
 const OUTLET_NAME_1 = 'OUTLET.1';
 const OUTLET_NAME_2 = 'OUTLET.2';
 const OUTLET_NAME_3 = 'OUTLET.3';
-<<<<<<< HEAD
-=======
 const OUTLET_NAME_4 = 'OUTLET.4';
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 
 @Component({
   template: `
@@ -29,13 +22,10 @@ const OUTLET_NAME_4 = 'OUTLET.4';
     </ng-template>
     <ng-template cxOutletRef="${OUTLET_NAME_3}" cxOutletPos="after">
     </ng-template>
-<<<<<<< HEAD
-=======
     <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
     </ng-template>
     <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
     </ng-template>
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
   `,
 })
 class TestContainerComponent {}
@@ -53,11 +43,7 @@ class AnyComponent {}
 class AnyModule {}
 
 describe('OutletService', () => {
-<<<<<<< HEAD
-  let outletService: OutletService;
-=======
   let outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>;
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -215,8 +201,6 @@ describe('OutletService', () => {
       });
     });
   });
-<<<<<<< HEAD
-=======
 
   describe('singular vs plural', () => {
     let fixture: ComponentFixture<TestContainerComponent>;
@@ -242,5 +226,4 @@ describe('OutletService', () => {
       ).toBeTruthy();
     });
   });
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
 });

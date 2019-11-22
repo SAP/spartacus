@@ -30,24 +30,6 @@ export class OutletDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
-<<<<<<< HEAD
-    this.renderTemplate(OutletPosition.BEFORE);
-    this.renderTemplate(OutletPosition.REPLACE, true);
-    this.renderTemplate(OutletPosition.AFTER);
-  }
-
-  private renderTemplate(position: OutletPosition, replace = false): void {
-    const template = this.outletService.get(this.cxOutlet, position);
-    if (template && template instanceof ComponentFactory) {
-      this.vcr.createComponent(template);
-    } else if ((template && template instanceof TemplateRef) || replace) {
-      this.vcr.createEmbeddedView(
-        <TemplateRef<any>>template || this.templateRef,
-        {
-          $implicit: this._context,
-        }
-      );
-=======
     this.renderOutlet(OutletPosition.BEFORE);
     this.renderOutlet(OutletPosition.REPLACE);
     this.renderOutlet(OutletPosition.AFTER);
@@ -80,7 +62,6 @@ export class OutletDirective implements OnInit {
       this.vcr.createEmbeddedView(<TemplateRef<any>>tmplOrFactory, {
         $implicit: this._context,
       });
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
     }
   }
 }

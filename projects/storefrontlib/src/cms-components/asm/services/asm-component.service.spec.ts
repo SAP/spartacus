@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-<<<<<<< HEAD
-=======
   AsmAuthService,
->>>>>>> b2e807aa4f4e18d7b83dc1883bee1d7745616fb2
   AuthService,
   RoutingService,
   UserToken,
