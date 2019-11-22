@@ -15,4 +15,6 @@ RUN yarn build:ssr
 
 EXPOSE 4200
 
+USER node
+
 CMD yarn start:ssr

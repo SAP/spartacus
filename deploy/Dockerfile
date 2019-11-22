@@ -14,4 +14,6 @@ RUN yarn build
 
 EXPOSE 4200
 
+USER node
+
 CMD ng serve --host 0.0.0.0 --proxy-config mock-server/proxy.backend.js --disable-host-check
