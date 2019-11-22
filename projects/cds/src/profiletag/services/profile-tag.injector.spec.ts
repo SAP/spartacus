@@ -177,7 +177,7 @@ describe('ProfileTagInjector', () => {
 
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(1);
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      name: 'ConsentChanged',
+      event: 'ConsentChanged',
       granted: true,
     });
   });
