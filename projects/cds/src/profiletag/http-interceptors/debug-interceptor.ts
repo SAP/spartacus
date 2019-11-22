@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProfileTagInjector } from '../profile-tag.injector';
+import { ProfileTagInjector } from '../services';
 
 @Injectable({ providedIn: 'root' })
 export class DebugInterceptor implements HttpInterceptor {
