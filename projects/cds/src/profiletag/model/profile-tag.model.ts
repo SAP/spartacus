@@ -17,7 +17,7 @@ export interface ProfileTagJsConfig {
 }
 
 export interface ProfileTagEvent {
-  eventName: ProfileTagEventNames;
+  name: ProfileTagEventNames;
   data: any;
 }
 

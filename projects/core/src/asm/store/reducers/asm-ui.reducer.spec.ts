@@ -1,13 +1,13 @@
-import { AsmUi } from "../../models/asm.models";
-import { AsmActions } from "../actions";
-import * as fromReducer from "./asm-ui.reducer";
+import { AsmUi } from '../../models/asm.models';
+import { AsmActions } from '../actions';
+import * as fromReducer from './asm-ui.reducer';
 
 const mockAsmUiUpdated: AsmUi = {
-  collapsed: false
+  collapsed: false,
 };
 
-describe("AsmUi reducer", () => {
-  it("should return the same state for undefined action", () => {
+describe('AsmUi reducer', () => {
+  it('should return the same state for undefined action', () => {
     const { initialState } = fromReducer;
     const action = {} as AsmActions.AsmUiAction;
     const state = fromReducer.reducer(initialState, action);
@@ -15,7 +15,7 @@ describe("AsmUi reducer", () => {
     expect(state).toBe(initialState);
   });
 
-  it("should return the initial state for undefined state", () => {
+  it('should return the initial state for undefined state', () => {
     const { initialState } = fromReducer;
     const action = {} as AsmActions.AsmUiAction;
     const state = fromReducer.reducer(undefined, action);
@@ -23,7 +23,7 @@ describe("AsmUi reducer", () => {
     expect(state).toBe(initialState);
   });
 
-  it("should update AsmUi", () => {
+  it('should update AsmUi', () => {
     const { initialState } = fromReducer;
 
     expect(initialState).not.toBe(mockAsmUiUpdated);

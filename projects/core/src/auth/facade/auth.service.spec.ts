@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
-import { AuthState, AUTH_FEATURE } from '../store/auth-state';
+import { AUTH_FEATURE, AuthState } from '../store/auth-state';
 import * as fromReducers from '../store/reducers/index';
 import { AuthService } from './auth.service';
 

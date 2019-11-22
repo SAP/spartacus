@@ -145,7 +145,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      eventName: 'Loaded',
+      name: 'Loaded',
     });
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     subscription.unsubscribe();
@@ -161,7 +161,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      eventName: 'Loaded',
+      name: 'Loaded',
     });
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
@@ -177,7 +177,7 @@ describe('ProfileTagInjector', () => {
 
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(1);
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'ConsentChanged',
+      name: 'ConsentChanged',
       granted: true,
     });
   });
@@ -188,7 +188,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      eventName: 'Loaded',
+      name: 'Loaded',
     });
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });

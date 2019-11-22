@@ -1,16 +1,16 @@
-import { Injectable } from "@angular/core";
-import { select, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { filter, map } from "rxjs/operators";
-import { OCC_USER_ID_ANONYMOUS } from "../../occ/utils/occ-constants";
-import { LoaderState } from "../../state/utils/loader/loader-state";
-import { ClientToken, UserToken } from "../models/token-types.model";
-import { AuthActions } from "../store/actions/index";
-import { StateWithAuth } from "../store/auth-state";
-import { AuthSelectors } from "../store/selectors/index";
+import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { LoaderState } from '../../state/utils/loader/loader-state';
+import { ClientToken, UserToken } from '../models/token-types.model';
+import { AuthActions } from '../store/actions/index';
+import { StateWithAuth } from '../store/auth-state';
+import { AuthSelectors } from '../store/selectors/index';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(protected store: Store<StateWithAuth>) {}
@@ -24,7 +24,7 @@ export class AuthService {
     this.store.dispatch(
       new AuthActions.LoadUserToken({
         userId: userId,
-        password: password
+        password: password,
       })
     );
   }
@@ -65,7 +65,7 @@ export class AuthService {
   refreshUserToken(token: UserToken): void {
     this.store.dispatch(
       new AuthActions.RefreshUserToken({
-        refreshToken: token.refresh_token
+        refreshToken: token.refresh_token,
       })
     );
   }

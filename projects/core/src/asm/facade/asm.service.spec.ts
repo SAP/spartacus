@@ -1,31 +1,31 @@
-import { Type } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { Store, StoreModule } from "@ngrx/store";
-import { User } from "../../model/misc.model";
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { User } from '../../model/misc.model';
 import {
   AsmUi,
   CustomerSearchOptions,
-  CustomerSearchPage
-} from "../models/asm.models";
-import { AsmActions } from "../store/actions/index";
-import { AsmState, ASM_FEATURE } from "../store/asm-state";
-import * as fromReducers from "../store/reducers/index";
-import { AsmService } from "./asm.service";
+  CustomerSearchPage,
+} from '../models/asm.models';
+import { AsmActions } from '../store/actions/index';
+import { AsmState, ASM_FEATURE } from '../store/asm-state';
+import * as fromReducers from '../store/reducers/index';
+import { AsmService } from './asm.service';
 
 const mockUser: User = {
-  displayUid: "Display Uid",
-  firstName: "First",
-  lastName: "Last",
-  name: "First Last",
-  uid: "user@test.com",
-  customerId: "123456"
+  displayUid: 'Display Uid',
+  firstName: 'First',
+  lastName: 'Last',
+  name: 'First Last',
+  uid: 'user@test.com',
+  customerId: '123456',
 };
 
 const mockCustomerSearchPage: CustomerSearchPage = {
-  entries: [mockUser]
+  entries: [mockUser],
 };
 
-describe("AsmService", () => {
+describe('AsmService', () => {
   let service: AsmService;
   let store: Store<AsmState>;
 
@@ -33,29 +33,29 @@ describe("AsmService", () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers())
+        StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [AsmService]
+      providers: [AsmService],
     });
 
     service = TestBed.get(AsmService);
     store = TestBed.get(Store as Type<Store<AsmState>>);
   });
 
-  it("should be created", () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it("should dispatch proper action for customer search", () => {
-    spyOn(store, "dispatch").and.stub();
-    const searchOptions: CustomerSearchOptions = { query: "search term" };
+  it('should dispatch proper action for customer search', () => {
+    spyOn(store, 'dispatch').and.stub();
+    const searchOptions: CustomerSearchOptions = { query: 'search term' };
     service.customerSearch(searchOptions);
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.CustomerSearch(searchOptions)
     );
   });
 
-  it("should return search result", () => {
+  it('should return search result', () => {
     store.dispatch(
       new AsmActions.CustomerSearchSuccess(mockCustomerSearchPage)
     );
@@ -68,7 +68,7 @@ describe("AsmService", () => {
     expect(result).toEqual(mockCustomerSearchPage);
   });
 
-  it("should return search result loading status", () => {
+  it('should return search result loading status', () => {
     let result: boolean;
     service
       .getCustomerSearchResultsLoading()
@@ -77,16 +77,16 @@ describe("AsmService", () => {
     expect(result).toEqual(false);
   });
 
-  it("should dispatch proper action for customer search reset", () => {
-    spyOn(store, "dispatch").and.stub();
+  it('should dispatch proper action for customer search reset', () => {
+    spyOn(store, 'dispatch').and.stub();
     service.customerSearchReset();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.CustomerSearchReset()
     );
   });
 
-  it("should dispatch proper action for update asm UI", () => {
-    spyOn(store, "dispatch").and.stub();
+  it('should dispatch proper action for update asm UI', () => {
+    spyOn(store, 'dispatch').and.stub();
     const asmUi: AsmUi = {};
     service.updateAsmUiState(asmUi);
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -94,7 +94,7 @@ describe("AsmService", () => {
     );
   });
 
-  it("should get the AsmUi state", () => {
+  it('should get the AsmUi state', () => {
     const asmUi: AsmUi = { collapsed: false };
     store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
 

@@ -1,11 +1,28 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
-import { AnonymousConsent, AnonymousConsentsService, BaseSiteService, WindowRef } from '@spartacus/core';
+import {
+  AnonymousConsent,
+  AnonymousConsentsService,
+  BaseSiteService,
+  WindowRef,
+} from '@spartacus/core';
 import { fromEventPattern, merge, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CdsConfig } from '../../config';
-import { ProfileTagEvent, ProfileTagEventNames, ProfileTagJsConfig, ProfileTagWindowObject } from '../model/index';
+import {
+  ProfileTagEvent,
+  ProfileTagEventNames,
+  ProfileTagJsConfig,
+  ProfileTagWindowObject,
+} from '../model/index';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +50,7 @@ export class ProfileTagInjector {
     return this.addTracker().pipe(
       tap(event => this.setEventVariables(event)),
       filter(
-        profileTagEvent =>
-          profileTagEvent.eventName === ProfileTagEventNames.Loaded
+        profileTagEvent => profileTagEvent.name === ProfileTagEventNames.Loaded
       ),
       switchMap(_ => this.tracking$),
       map(data => Boolean(data))
@@ -42,7 +58,7 @@ export class ProfileTagInjector {
   }
 
   private setEventVariables(event: ProfileTagEvent) {
-    switch (event.eventName) {
+    switch (event.name) {
       case ProfileTagEventNames.ConsentReferenceChanged:
         this.consentReference = event.data.consentReference;
         break;
