@@ -2,8 +2,8 @@ node {
 	def branchName="${BRANCH_NAME}"
 	String jobName = "${JOB_NAME}"
     
-	def buildParameters = loadPlugin url:"https://github.tools.sap/cx-commerce/cds-argonauts-pipeline-configuration.git", filename: "configuration/jenkinsfile-spartacus.groovy", credentialsId: 'github-tools-sap-rw', branch: 'feature/ARGO-5676'
-	def pipeline = loadPlugin url:"https://github.tools.sap/cx-commerce/cds-argonauts-pipeline-configuration.git", filename: "pipelines/spartacus.groovy", credentialsId: 'github-tools-sap-rw', branch: 'feature/ARGO-5676'
+	def buildParameters = loadPlugin url:"https://github.tools.sap/cx-commerce/cds-argonauts-pipeline-configuration.git", filename: "configuration/jenkinsfile-spartacus.groovy", credentialsId: 'github-tools-sap-rw', branch: 'master'
+	def pipeline = loadPlugin url:"https://github.tools.sap/cx-commerce/cds-argonauts-pipeline-configuration.git", filename: "pipelines/spartacus.groovy", credentialsId: 'github-tools-sap-rw', branch: 'master'
 	print('Generating Parameters.......')
 	buildParameters.generateParameters()
 	print('Parameters generated........')
