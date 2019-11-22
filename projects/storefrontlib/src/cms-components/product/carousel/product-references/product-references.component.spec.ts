@@ -107,7 +107,7 @@ class MockProductReferenceService {
   cleanReferences(): void {}
 }
 
-describe('ProductReferencesComponent', () => {
+fdescribe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
   let fixture: ComponentFixture<ProductReferencesComponent>;
 
@@ -187,7 +187,9 @@ describe('ProductReferencesComponent', () => {
   }));
 
   it('should not render product primary image for the 2nd item', async(() => {
-    const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-    expect(el).toBeNull();
+    const el = fixture.debugElement.query(
+      By.css('a:first-child > cx-media.is-missing')
+    );
+    expect(el).toBeTruthy();
   }));
 });
