@@ -1,15 +1,16 @@
 import { of } from 'rxjs';
-import {
-  resolveValuesBy,
-  resolveObjectBy,
-  resolveKeyAndValueBy,
-} from './resolveObject';
+import { take } from 'rxjs/operators';
+
 import {
   I18nextTranslationService,
   TranslationChunkService,
 } from '@spartacus/core';
 import { defaultI18nConfig } from '../i18n/config/default-i18n-config';
-import { take } from 'rxjs/operators';
+import {
+  resolveValuesBy,
+  resolveObjectBy,
+  resolveKeyAndValueBy,
+} from './resolveObject';
 
 const object1 = {
   a: 'value1',
