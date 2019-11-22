@@ -5,7 +5,7 @@ import {
   filter,
   map,
   switchMap,
-  tap,
+  take,
 } from 'rxjs/operators';
 
 import {
@@ -21,7 +21,10 @@ import {
   resolveKeyAndValueBy,
   resolveObjectBy,
 } from '../../../../../../core/src/util/resolveObject';
-import { shallowEqualObjects } from '../../../../../../core/src/util/compare-equal-objects';
+import {
+  diff,
+  shallowEqualObjects,
+} from '../../../../../../core/src/util/compare-equal-objects';
 
 @Component({
   selector: 'cx-budgets-list',
@@ -39,7 +42,7 @@ export class BudgetsListComponent implements OnInit {
   budgetsList$: Observable<any>;
   isLoaded$: Observable<boolean>;
   params$: Observable<BudgetSearchConfig>;
-  params: BudgetSearchConfig = {
+  defaultParams: BudgetSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
@@ -61,20 +64,17 @@ export class BudgetsListComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.budgetsList$ = this.routingService.getRouterState().pipe(
-      map(routingData => routingData.state.queryParams),
-      distinctUntilChanged((a, b) => shallowEqualObjects(a, b)),
-      tap(params => {
-        if (!Object.keys(params).length) {
-          this.updateQueryParams();
-        }
-      }),
-      filter(params => Object.keys(params).length > 0),
-      map(({ sort, currentPage, pageSize }) => ({
-        sort,
-        currentPage: parseInt(currentPage, 10),
-        pageSize: parseInt(pageSize, 10),
+    this.params$ = this.routingService
+      .getRouterState()
+      .pipe(map(routingData => routingData.state.queryParams));
+
+    this.budgetsList$ = this.params$.pipe(
+      map(params => ({
+        ...this.defaultParams,
+        ...params,
       })),
+      distinctUntilChanged((a, b) => shallowEqualObjects(a, b)),
+      map(this.normalizeParams),
       switchMap(params =>
         this.budgetsService.getList(params).pipe(
           filter(budgetsList => Boolean(budgetsList)),
@@ -105,23 +105,36 @@ export class BudgetsListComponent implements OnInit {
     //   .unsubscribe();
   }
 
-  changeSortCode(sortCode: string): void {
-    this.params.sort = sortCode;
-    this.updateQueryParams();
+  changeSortCode(sort: string): void {
+    this.updateQueryParams({ sort });
   }
 
-  pageChange(page: number): void {
-    this.params.currentPage = page;
-    this.updateQueryParams();
+  pageChange(currentPage: number): void {
+    this.updateQueryParams({ currentPage });
   }
 
-  updateQueryParams(): void {
-    this.routingService.go(
-      {
-        cxRoute: 'budgets',
-      },
-      { ...this.params }
-    );
+  updateQueryParams(newParams: Partial<BudgetSearchConfig>): void {
+    this.params$
+      .pipe(
+        map(params => diff(this.defaultParams, { ...params, ...newParams })),
+        take(1)
+      )
+      .subscribe((params: Partial<BudgetSearchConfig>) => {
+        this.routingService.go(
+          {
+            cxRoute: 'budgets',
+          },
+          { ...params }
+        );
+      });
+  }
+
+  private normalizeParams({ sort, currentPage, pageSize }): BudgetSearchConfig {
+    return {
+      sort,
+      currentPage: parseInt(currentPage, 10),
+      pageSize: parseInt(pageSize, 10),
+    };
   }
 
   goToBudgetDetail(budget: Budget): void {
@@ -187,15 +200,4 @@ export class BudgetsListComponent implements OnInit {
     // return resolveObjectBy(this.sortLabels, text => this.translation.translate(text)); // nothing happens
   }
 
-  // search(value) {
-  //   this.filter$.next(value);
-  // }
-
-  // private fetchBudgets(): void {
-  //   this.budgetsService.loadBudgets({
-  //     pageSize: this.PAGE_SIZE,
-  //     currentPage: this.currentPage,
-  //     sort: this.sortType,
-  //   });
-  // }
 }
