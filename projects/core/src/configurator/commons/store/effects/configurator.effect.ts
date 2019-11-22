@@ -37,9 +37,6 @@ import {
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeFail,
   UpdateConfigurationFinalizeSuccess,
-  UpdateConfigurationPrice,
-  UpdateConfigurationPriceFail,
-  UpdateConfigurationPriceSuccess,
   UpdateConfigurationSuccess,
   UpdatePriceSummary,
   UpdatePriceSummaryFail,
@@ -47,7 +44,6 @@ import {
   UPDATE_CONFIGURATION,
   UPDATE_CONFIGURATION_FAIL,
   UPDATE_CONFIGURATION_FINALIZE_FAIL,
-  UPDATE_CONFIGURATION_PRICE,
   UPDATE_CONFIGURATION_SUCCESS,
   UPDATE_PRICE_SUMMARY,
 } from '../actions/configurator.action';

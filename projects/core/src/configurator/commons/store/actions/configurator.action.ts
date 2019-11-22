@@ -26,13 +26,6 @@ export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 export const ADD_TO_CART = '[Configurator] Add to cart';
 export const ADD_TO_CART_FINALIZE = '[Configurator] Add to cart finalize';
 
-export const UPDATE_CONFIGURATION_PRICE =
-  '[Configurator] Update Configuration Price';
-export const UPDATE_CONFIGURATION_PRICE_FAIL =
-  '[Configurator] Update Configuration Price fail';
-export const UPDATE_CONFIGURATION_PRICE_SUCCESS =
-  '[Configurator] Update Configuration Price success';
-
 export const REMOVE_CONFIGURATION = '[Configurator] Remove configuration';
 
 export const UPDATE_PRICE_SUMMARY =
