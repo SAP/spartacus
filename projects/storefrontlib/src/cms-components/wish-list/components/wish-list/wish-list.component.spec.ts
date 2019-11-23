@@ -1,7 +1,14 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, DebugElement, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { WishListService } from '@spartacus/core';
+import { AuthService, WishListService } from '@spartacus/core';
 import { WishListComponent } from './wish-list.component';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
+import { By } from '@angular/platform-browser';
+
+class MockAuthService {
+  isUserLoggedIn = createSpy().and.returnValue(of(true));
+}
 
 const MockWishListService = jasmine.createSpyObj('WishListService', [
   'getWishList',
@@ -19,7 +26,10 @@ class MockWishListItemComponent {
 describe('WishListComponent', () => {
   let component: WishListComponent;
   let fixture: ComponentFixture<WishListComponent>;
+  let el: DebugElement;
+
   let wishListService: WishListService;
+  let authService: AuthService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,6 +39,7 @@ describe('WishListComponent', () => {
           provide: WishListService,
           useValue: MockWishListService,
         },
+        { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
   }));
@@ -36,8 +47,11 @@ describe('WishListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListComponent);
     component = fixture.componentInstance;
-    wishListService = fixture.debugElement.injector.get(WishListService as Type<
-      WishListService
+    el = fixture.debugElement;
+
+    wishListService = el.injector.get(WishListService as Type<WishListService>);
+    authService = fixture.debugElement.injector.get(AuthService as Type<
+      AuthService
     >);
     fixture.detectChanges();
   });
@@ -48,5 +62,11 @@ describe('WishListComponent', () => {
 
   it('should get wish list', () => {
     expect(wishListService.getWishList).toHaveBeenCalled();
+  });
+
+  it('should not display component when user is not logged in', () => {
+    authService.isUserLoggedIn = jasmine.createSpy().and.returnValue(of(false));
+
+    expect(el.query(By.css('cx-page'))).toBeNull();
   });
 });

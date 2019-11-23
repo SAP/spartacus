@@ -1,8 +1,10 @@
-<div class="cx-page" *ngIf="wishList$ | async as model">
-  <ng-container *ngFor="let entry of model?.entries">
-    <cx-wish-list-item
-      [cartEntry]="entry"
-      class="cx-wish-list-item"
-    ></cx-wish-list-item>
-  </ng-container>
-</div>
+<ng-container *ngIf="userLoggedIn$ | async">
+  <div class="cx-page" *ngIf="wishList$ | async as model">
+    <ng-container *ngFor="let entry of model?.entries">
+      <cx-wish-list-item
+        [cartEntry]="entry"
+        class="cx-wish-list-item"
+      ></cx-wish-list-item>
+    </ng-container>
+  </div>
+</ng-container>

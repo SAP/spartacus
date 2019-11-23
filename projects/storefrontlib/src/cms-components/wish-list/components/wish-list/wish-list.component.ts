@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Cart, WishListService } from '@spartacus/core';
+import { AuthService, Cart, WishListService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,5 +9,10 @@ import { Observable } from 'rxjs';
 export class WishListComponent {
   wishList$: Observable<Cart> = this.wishListService.getWishList();
 
-  constructor(protected wishListService: WishListService) {}
+  userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
+
+  constructor(
+    protected wishListService: WishListService,
+    protected authService: AuthService
+  ) {}
 }
