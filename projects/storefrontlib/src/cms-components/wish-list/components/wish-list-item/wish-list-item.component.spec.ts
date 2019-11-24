@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DebugElement,
   Input,
   Pipe,
   PipeTransform,
@@ -10,9 +11,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { WishListItemComponent } from './wish-list-item.component';
 import { I18nTestingModule, WishListService } from '@spartacus/core';
+import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 const MockWishListService = jasmine.createSpyObj('WishListService', [
   'removeEntry',
+  'getWishListLoading',
 ]);
 
 @Component({
@@ -61,6 +65,7 @@ describe('WishListItemComponent in WishList', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
   let wishListService: WishListService;
+  let el: DebugElement;
 
   const mockCartEntry = {
     basePrice: {
@@ -106,10 +111,12 @@ describe('WishListItemComponent in WishList', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListItemComponent);
     component = fixture.componentInstance;
+    component.cartEntry = mockCartEntry;
+    el = fixture.debugElement;
+
     wishListService = fixture.debugElement.injector.get(WishListService as Type<
       WishListService
     >);
-    component.cartEntry = mockCartEntry;
 
     fixture.detectChanges();
   });
@@ -153,6 +160,13 @@ describe('WishListItemComponent in WishList', () => {
   it('should call remove', () => {
     component.remove(mockCartEntry);
     expect(wishListService.removeEntry).toHaveBeenCalledWith(mockCartEntry);
+  });
+
+  it('should disable remove link when loading', () => {
+    component.loading$ = of(false);
+    fixture.detectChanges();
+
+    expect(el.query(By.css('.btn-link')).nativeElement.disabled).toBeFalsy();
   });
 
   it('should not display add to cart component when product is out of stock', () => {

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { WishListService } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-wish-list-item',
@@ -8,6 +9,8 @@ import { WishListService } from '@spartacus/core';
 })
 export class WishListItemComponent {
   @Input() cartEntry: any;
+
+  loading$: Observable<boolean> = this.wishListService.getWishListLoading();
 
   constructor(protected wishListService: WishListService) {}
 
