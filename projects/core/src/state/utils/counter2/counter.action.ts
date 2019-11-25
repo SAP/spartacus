@@ -1,16 +1,11 @@
 import { Action } from '@ngrx/store';
-import {
-  LoaderMeta,
-  resetMeta as loaderResetMeta,
-} from '../loader/loader.action';
+import { LoaderAction } from '../loader/loader.action';
 
 export const COUNTER_QUEUE_ACTION = '[COUNTER] QUEUE';
 export const COUNTER_DEQUEUE_ACTION = '[COUNTER] DEQUEUE';
 export const COUNTER_RESET_ACTION = '[COUNTER] RESET';
 
-export { failMeta, loadMeta, successMeta } from '../loader/loader.action';
-
-export interface CounterMeta extends LoaderMeta {
+export interface CounterMeta {
   entityType: string;
   counter?: number;
 }
@@ -23,7 +18,6 @@ export interface CounterAction extends Action {
 export function queueMeta(entityType: string): CounterMeta {
   return {
     entityType: entityType,
-    loader: undefined,
     counter: 1,
   };
 }
@@ -31,15 +25,13 @@ export function queueMeta(entityType: string): CounterMeta {
 export function dequeueMeta(entityType: string): CounterMeta {
   return {
     entityType: entityType,
-    loader: undefined,
     counter: -1,
   };
 }
 
 export function resetMeta(entityType: string): CounterMeta {
   return {
-    ...loaderResetMeta(entityType),
-    loader: {},
+    entityType: entityType,
   };
 }
 
@@ -66,3 +58,5 @@ export class CounterDequeueAction implements CounterAction {
     this.meta = dequeueMeta(entityType);
   }
 }
+
+export type CounterLoaderAction = LoaderAction & CounterAction;

@@ -7,7 +7,7 @@ import {
   EntityQueueAction,
   EntityResetAction,
   EntitySuccessAction,
-} from '../../../state/utils/entity-loader/entity-loader.action';
+} from '../../../state/utils/entity-counter/entity-counter.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';

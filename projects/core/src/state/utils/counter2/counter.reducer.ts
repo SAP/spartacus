@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
 import { CounterState } from './counter-state';
 import { CounterAction } from './counter.action';
 
@@ -15,30 +14,27 @@ export function counterReducer<T>(
   reducer?: (state: T, action: Action) => T
 ): (state: CounterState<T>, action: CounterAction) => CounterState<T> {
   return (
-    state: CounterState<T> = {
-      ...initialCounterState,
-      ...initialLoaderState,
-    },
+    state: CounterState<T> = initialCounterState,
     action: CounterAction
   ): CounterState<T> => {
     if (action.meta && action.meta.entityType === loadActionType) {
-      const counter = action.meta.counter;
-      if (counter) {
+      const entity = action.meta.counter;
+      // const result = {
+      //   ...loaderReducer(loadActionType)(state, action),
+      // };
+      // console.log(loaderReducer(loadActionType)(state, action));
+      // return result as CounterState<T>;
+      // console.log(action);
+      // console.log(state);
+      if (entity) {
         return {
           ...state,
-          ...loaderReducer(loadActionType, reducer)(state, action),
-          counter: state.counter ? state.counter + counter : counter,
+          counter: state.counter ? state.counter + entity : entity,
         };
-      } else if (!action.meta.loader) {
+      } else {
         // reset state action
         return {
           ...initialCounterState,
-          ...loaderReducer(loadActionType, reducer)(state, action),
-        };
-      } else {
-        return {
-          ...state,
-          ...loaderReducer(loadActionType, reducer)(state, action),
         };
       }
     }
