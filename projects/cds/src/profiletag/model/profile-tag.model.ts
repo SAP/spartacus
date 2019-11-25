@@ -25,6 +25,11 @@ export interface ConsentReferenceEvent extends CustomEvent {
     consentReference: string;
   };
 }
+export interface DebugEvent extends CustomEvent {
+  detail: {
+    debug: boolean;
+  };
+}
 
 export enum ProfileTagEventNames {
   Loaded = 'profiletag_loaded',

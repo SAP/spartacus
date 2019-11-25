@@ -15,6 +15,7 @@ import {
 import { CdsConfig } from '../../config';
 import {
   ConsentReferenceEvent,
+  DebugEvent,
   ProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
@@ -100,16 +101,16 @@ export class ProfileTagInjector {
     return fromEvent(window, ProfileTagEventNames.Loaded).pipe(take(1));
   }
 
-  private consentReferenceChanged(): Observable<CustomEvent> {
+  private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
     return fromEvent(window, ProfileTagEventNames.ConsentReferenceChanged).pipe(
-      map(event => <CustomEvent>event),
+      map(event => <ConsentReferenceEvent>event),
       tap(event => (this.consentReference = event.detail.consentReference))
     );
   }
 
-  private debugModeChanged(): Observable<CustomEvent> {
+  private debugModeChanged(): Observable<DebugEvent> {
     return fromEvent(window, ProfileTagEventNames.DebugFlagChanged).pipe(
-      map(event => <ConsentReferenceEvent>event),
+      map(event => <DebugEvent>event),
       tap(event => (this.profileTagDebug = event.detail.debug))
     );
   }
