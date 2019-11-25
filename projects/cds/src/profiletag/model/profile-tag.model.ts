@@ -20,8 +20,14 @@ export interface ProfileTagEvent {
   data: any;
 }
 
+export interface ConsentReferenceEvent extends CustomEvent {
+  detail: {
+    consentReference: string;
+  };
+}
+
 export enum ProfileTagEventNames {
-  Loaded = 'Loaded',
-  ConsentReferenceChanged = 'ConsentReferenceChanged',
-  ProfileTagDebug = 'DebugFlagChanged',
+  Loaded = 'profiletag_loaded',
+  ConsentReferenceChanged = 'profiletag_consentReferenceChanged',
+  DebugFlagChanged = 'profiletag_debugFlagChanged',
 }

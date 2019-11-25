@@ -9,8 +9,8 @@ import {
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { ConsentService } from 'projects/core/src/user/facade/consent.service';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig } from '../../config';
-import { ProfileTagWindowObject } from '../model';
+import { CdsConfig } from '../../config/index';
+import { ProfileTagEventNames, ProfileTagWindowObject } from '../model/index';
 import { ProfileTagInjector } from './profile-tag.injector';
 
 const mockCDSConfig: CdsConfig = {
@@ -119,7 +119,6 @@ describe('ProfileTagInjector', () => {
       tenant: mockCDSConfig.cds.tenant,
       siteId: baseSite,
       spa: true,
-      profileTagEventReceiver: jasmine.anything(),
     });
     expect(appendChildSpy).toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
@@ -141,9 +140,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      name: 'Loaded',
-    });
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     subscription.unsubscribe();
 
@@ -157,9 +154,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      name: 'Loaded',
-    });
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
     getConsentBehavior.next({ consent: 'test' });
@@ -184,9 +179,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      name: 'Loaded',
-    });
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
     isConsentGivenValue = false;

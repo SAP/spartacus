@@ -1,23 +1,24 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
-import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { ConsentService } from 'projects/core/src/user/facade/consent.service';
+import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
 import { fromEvent, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
+  mapTo,
   switchMap,
   take,
   tap,
 } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
 import {
+  ConsentReferenceEvent,
   ProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
-} from '../model';
+} from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,7 +72,7 @@ export class ProfileTagInjector {
         filter(profileConsent => {
           return this.consentService.isConsentGiven(profileConsent);
         }),
-        map(_ => true),
+        mapTo(true),
         take(1),
         tap(() => {
           this.notifyProfileTagOfConsentChange({ granted: true });
@@ -102,22 +103,13 @@ export class ProfileTagInjector {
   private consentReferenceChanged(): Observable<CustomEvent> {
     return fromEvent(window, ProfileTagEventNames.ConsentReferenceChanged).pipe(
       map(event => <CustomEvent>event),
-      tap(event =>
-        console.log(
-          `Consent reference changed changed ${JSON.stringify(event.detail)}`
-        )
-      ),
-      tap(event => (this.consentReference = event.detail.consentReference)),
-      tap(_ => console.log(`this.consentReference: ${this.consentReference}`))
+      tap(event => (this.consentReference = event.detail.consentReference))
     );
   }
 
   private debugModeChanged(): Observable<CustomEvent> {
-    return fromEvent(window, ProfileTagEventNames.ProfileTagDebug).pipe(
-      map(event => <CustomEvent>event),
-      tap(event =>
-        console.log(`debug mode changed ${JSON.stringify(event.detail)}`)
-      ),
+    return fromEvent(window, ProfileTagEventNames.DebugFlagChanged).pipe(
+      map(event => <ConsentReferenceEvent>event),
       tap(event => (this.profileTagDebug = event.detail.debug))
     );
   }
