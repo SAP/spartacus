@@ -11,7 +11,9 @@
             [disabled]="loading$ | async"
           >
             <cx-icon [type]="iconTypes.HEART"></cx-icon>
-            {{ 'addToWishList.remove' | cxTranslate }}
+            <span class="button-text">{{
+              'addToWishList.remove' | cxTranslate
+            }}</span>
           </button>
         </div>
         <ng-template #addItem>
@@ -21,7 +23,9 @@
             [disabled]="loading$ | async"
           >
             <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
-            {{ 'addToWishList.add' | cxTranslate }}
+            <span class="button-text">{{
+              'addToWishList.add' | cxTranslate
+            }}</span>
           </button>
         </ng-template>
       </ng-container>
