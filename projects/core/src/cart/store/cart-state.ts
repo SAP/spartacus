@@ -22,8 +22,3 @@ export interface CartState {
   refresh: boolean;
   cartMergeComplete: boolean;
 }
-
-export interface CartWithCounter {
-  cart: Cart;
-  counter: number;
-}

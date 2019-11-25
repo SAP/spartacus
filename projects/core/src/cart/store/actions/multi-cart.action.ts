@@ -1,8 +1,10 @@
 import { Action } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import {
+  EntityDequeueAction,
   EntityFailAction,
   EntityLoadAction,
+  EntityQueueAction,
   EntityResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
@@ -34,6 +36,9 @@ export const ADD_EMAIL_TO_MULTI_CART_FAIL = '[Multi Cart] Add Email Fail';
 export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
 
 export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
+
+export const QUEUE_CART_ACTION = '[Multi Cart] Queue Cart Action';
+export const DEQUEUE_CART_ACTION = '[Multi Cart] Dequeue Cart Action';
 
 /**
  * To keep track of cart creation process we use cart with `fresh` id.
@@ -152,6 +157,20 @@ export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
   readonly type = ADD_EMAIL_TO_MULTI_CART_SUCCESS;
   constructor(public payload: { userId: string; cartId: string }) {
     super(MULTI_CART_FEATURE, payload.cartId);
+  }
+}
+
+export class QueueCartAction extends EntityQueueAction {
+  readonly type = QUEUE_CART_ACTION;
+  constructor(public payload: string) {
+    super(MULTI_CART_FEATURE, payload);
+  }
+}
+
+export class DequeueCartAction extends EntityDequeueAction {
+  readonly type = DEQUEUE_CART_ACTION;
+  constructor(public payload: string) {
+    super(MULTI_CART_FEATURE, payload);
   }
 }
 

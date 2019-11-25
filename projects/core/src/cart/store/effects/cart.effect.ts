@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { from, Observable, of } from 'rxjs';
+import { EMPTY, from, Observable, of } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -107,7 +107,10 @@ export class CartEffects {
                   err => err.reason === 'invalid'
                 );
                 if (couponExpiredErrors.length > 0) {
-                  return of(new CartActions.ClearExpiredCoupons({}));
+                  // clear coupons actions just wanted to reload cart again
+                  // no need to do it in refresh or keep that action
+                  // ! however removing this action will be a breaking change
+                  return of(new CartActions.LoadCart({ ...payload }));
                 }
 
                 if (error && error.error && error.error.errors) {
@@ -222,7 +225,9 @@ export class CartEffects {
   );
 
   @Effect()
-  refresh$: Observable<DeprecatedCartActions.LoadCart> = this.actions$.pipe(
+  refresh$: Observable<
+    DeprecatedCartActions.LoadCart | CartActions.DequeueCartAction
+  > = this.actions$.pipe(
     ofType(
       DeprecatedCartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
@@ -232,9 +237,7 @@ export class CartEffects {
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_ADD_VOUCHER_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_FAIL,
-      CartActions.CLEAR_EXPIRED_COUPONS
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
     ),
     map(
       (
@@ -247,18 +250,20 @@ export class CartEffects {
           | CheckoutActions.ClearCheckoutDeliveryModeSuccess
           | CartActions.CartAddVoucherSuccess
           | CartActions.CartRemoveVoucherSuccess
-          | CartActions.CartRemoveVoucherFail
-          | CartActions.ClearExpiredCoupons
       ) => action.payload
     ),
-    map(
-      payload =>
-        payload &&
-        new DeprecatedCartActions.LoadCart({
-          userId: payload.userId,
-          cartId: payload.cartId,
-        })
-    )
+    switchMap(payload => {
+      if (payload) {
+        return from([
+          new CartActions.DequeueCartAction(payload.cartId),
+          new DeprecatedCartActions.LoadCart({
+            userId: payload.userId,
+            cartId: payload.cartId,
+          }),
+        ]);
+      }
+      return EMPTY;
+    })
   );
 
   @Effect()
@@ -283,6 +288,8 @@ export class CartEffects {
     | DeprecatedCartActions.AddEmailToCartFail
     | CartActions.AddEmailToMultiCartFail
     | CartActions.AddEmailToMultiCartSuccess
+    | CartActions.DequeueCartAction
+    | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
     map((action: DeprecatedCartActions.AddEmailToCart) => action.payload),
@@ -309,6 +316,11 @@ export class CartEffects {
               ),
               new CartActions.AddEmailToMultiCartFail({
                 error: makeErrorSerializable(error),
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
+              new CartActions.DequeueCartAction(payload.cartId),
+              new DeprecatedCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),

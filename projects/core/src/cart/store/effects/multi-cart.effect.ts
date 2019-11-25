@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { CheckoutActions } from '../../../checkout/store/actions';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
@@ -56,6 +57,35 @@ export class MultiCartEffects {
     ofType(DeprecatedCartActions.DELETE_CART),
     map((action: DeprecatedCartActions.DeleteCart) => action.payload),
     mergeMap(payload => [new CartActions.RemoveCart(payload.cartId)])
+  );
+
+  @Effect()
+  queueAction$: Observable<CartActions.QueueCartAction> = this.actions$.pipe(
+    ofType(
+      DeprecatedCartActions.MERGE_CART,
+      CartActions.CART_ADD_ENTRY,
+      CartActions.CART_UPDATE_ENTRY,
+      CartActions.CART_REMOVE_ENTRY,
+      DeprecatedCartActions.ADD_EMAIL_TO_CART,
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
+      CartActions.CART_REMOVE_ENTRY,
+      CartActions.CART_ADD_VOUCHER,
+      CartActions.CART_REMOVE_VOUCHER
+    ),
+    map(
+      (
+        action:
+          | DeprecatedCartActions.MergeCart
+          | CartActions.CartAddEntry
+          | CartActions.CartUpdateEntry
+          | CartActions.CartRemoveEntry
+          | DeprecatedCartActions.AddEmailToCart
+          | CheckoutActions.ClearCheckoutDeliveryMode
+          | CartActions.CartAddVoucher
+          | CartActions.CartRemoveVoucher
+      ) => action.payload
+    ),
+    map(payload => payload && new CartActions.QueueCartAction(payload.cartId))
   );
 
   constructor(private actions$: Actions) {}

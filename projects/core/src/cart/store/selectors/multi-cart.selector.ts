@@ -7,12 +7,12 @@ import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
 import { EntityLoaderState } from '../../../state';
 import {
+  entityCounterSelector,
   entityLoadingSelector,
   entityStateSelector,
   entityValueSelector,
 } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { CartWithCounter } from '../cart-state';
 import {
   MultiCartState,
   MULTI_CART_FEATURE,
@@ -26,7 +26,7 @@ export const getMultiCartState: MemoizedSelector<
 
 export const getMultiCartEntities: MemoizedSelector<
   StateWithMultiCart,
-  EntityLoaderState<CartWithCounter>
+  EntityLoaderState<Cart>
 > = createSelector(
   getMultiCartState,
   (state: MultiCartState) => state.carts
@@ -34,11 +34,10 @@ export const getMultiCartEntities: MemoizedSelector<
 
 export const getCartEntitySelectorFactory = (
   cartId: string
-): MemoizedSelector<StateWithMultiCart, LoaderState<CartWithCounter>> => {
+): MemoizedSelector<StateWithMultiCart, LoaderState<Cart>> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityLoaderState<CartWithCounter>) =>
-      entityStateSelector(state, cartId)
+    (state: EntityLoaderState<Cart>) => entityStateSelector(state, cartId)
   );
 };
 
@@ -47,9 +46,8 @@ export const getCartSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, Cart> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityLoaderState<CartWithCounter>) => {
-      const value = entityValueSelector(state, cartId);
-      return value && value.cart ? value.cart : undefined;
+    (state: EntityLoaderState<Cart>) => {
+      return entityValueSelector(state, cartId);
     }
   );
 };
@@ -59,9 +57,9 @@ export const getCartCounterSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, number> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityLoaderState<CartWithCounter>) => {
-      const value = entityValueSelector(state, cartId);
-      return value && value.counter ? value.counter : 0;
+    (state: EntityLoaderState<Cart>) => {
+      const counter = entityCounterSelector(state, cartId);
+      return counter ? counter : 0;
     }
   );
 };
@@ -71,10 +69,9 @@ export const getCartLoadingSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, boolean> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityLoaderState<CartWithCounter>) => {
-      const value = entityValueSelector(state, cartId);
+    (state: EntityLoaderState<Cart>) => {
+      const counter = entityCounterSelector(state, cartId);
       const loading = entityLoadingSelector(state, cartId);
-      const counter = value && value.counter ? value.counter : 0;
       return loading || counter > 0;
     }
   );
