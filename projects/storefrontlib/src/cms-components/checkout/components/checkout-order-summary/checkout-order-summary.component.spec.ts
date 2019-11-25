@@ -12,6 +12,7 @@ import { AppliedCouponsComponent } from '../../../cart/cart-coupon/applied-coupo
 import { ICON_TYPE } from '../../../misc/icon';
 import { PromotionsComponent } from '../promotions/promotions.component';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -45,6 +46,7 @@ describe('CheckoutOrderSummaryComponent', () => {
         PromotionsComponent,
         AppliedCouponsComponent,
         MockCxIconComponent,
+        MockFeatureLevelDirective,
       ],
       providers: [
         { provide: CartService, useValue: mockCartService },

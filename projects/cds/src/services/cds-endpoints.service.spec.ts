@@ -1,11 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CdsConfig } from '../config/cds-config';
+import { StrategyRequest } from './../cds-models/cds-strategy-request.model';
 import { CdsEndpointsService } from './cds-endpoints.service';
 
 describe('CdsEndpointsService', () => {
   const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
   const STRATEGY_ID = 'test-strategy-id';
+  const BASE_SITE = 'electronics-spa';
+  const LANGUAGE = 'en';
+  const PAGE_SIZE = 10;
 
   const MOCK_CDS_CONFIG = {
     cds: {
@@ -107,6 +111,77 @@ describe('CdsEndpointsService', () => {
         })
       ).toBe(
         `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${MOCK_CDS_CONFIG.cds.tenant}/strategies/%C4%85%C4%87%C4%99%24%25/products`
+      );
+    });
+
+    it('should append query parameters to the URL', () => {
+      const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?site=${BASE_SITE}&language=${LANGUAGE}&pageSize=${PAGE_SIZE}`;
+      const STRATEGY_REQUEST: StrategyRequest = {
+        site: 'electronics-spa',
+        language: 'en',
+        pageSize: 10,
+      };
+
+      expect(
+        cdsEndpointsService.getUrl(
+          STRATEGY_PRODUCTS_ENDPOINT_KEY,
+          {
+            strategyId: STRATEGY_ID,
+          },
+          STRATEGY_REQUEST
+        )
+      ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
+    });
+
+    it('should append additional query parameters to URL that already has query parameters', () => {
+      const URL = `${FULLY_CALCULATED_URL}?pageSize=${PAGE_SIZE}`;
+      const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?pageSize=${PAGE_SIZE}&site=${BASE_SITE}&language=${LANGUAGE}`;
+
+      const STRATEGY_REQUEST_NO_PAGE_SIZE: StrategyRequest = {
+        site: 'electronics-spa',
+        language: 'en',
+      };
+      expect(
+        cdsEndpointsService.getUrl(
+          URL,
+          {
+            strategyId: STRATEGY_ID,
+          },
+          STRATEGY_REQUEST_NO_PAGE_SIZE
+        )
+      ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
+    });
+
+    it('should handle query params that have "null" as the value, and simply not pass them to the request', () => {
+      const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?site=${BASE_SITE}&pageSize=${PAGE_SIZE}`;
+
+      const STRATEGY_REQUEST: StrategyRequest = {
+        site: 'electronics-spa',
+        language: null,
+        pageSize: 10,
+      };
+
+      expect(
+        cdsEndpointsService.getUrl(
+          STRATEGY_PRODUCTS_ENDPOINT_KEY,
+          {
+            strategyId: STRATEGY_ID,
+          },
+          STRATEGY_REQUEST
+        )
+      ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
+    });
+
+    it('should prepend an unknown endpoint, without a leading slash, with the base url', () => {
+      const UNKNOWN_ENDPOINT_KEY =
+        'some-other-url-with-placeholders/${placeHolder1}/${placeHolder2}';
+      expect(
+        cdsEndpointsService.getUrl(UNKNOWN_ENDPOINT_KEY, {
+          placeHolder1: 'value1',
+          placeHolder2: 'value2',
+        })
+      ).toBe(
+        `${MOCK_CDS_CONFIG.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
       );
     });
   });

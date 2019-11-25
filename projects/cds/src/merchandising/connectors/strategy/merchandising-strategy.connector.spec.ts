@@ -9,6 +9,12 @@ import createSpy = jasmine.createSpy;
 
 const STRATEGY_ID = 'test-strategy-id';
 
+const STRATEGY_REQUEST = {
+  site: 'electronics-spa',
+  language: 'en',
+  pageSize: 10,
+};
+
 const MERCHANDISING_PRODUCTS_METADATA: Map<string, string> = new Map<
   string,
   string
@@ -76,7 +82,7 @@ describe('Strategy Connector', () => {
     let actualMerchandisingProducts: MerchandisingProducts;
 
     strategyConnector
-      .loadProductsForStrategy(STRATEGY_ID)
+      .loadProductsForStrategy(STRATEGY_ID, STRATEGY_REQUEST)
       .subscribe(strategyResult => {
         actualMerchandisingProducts = strategyResult;
       })
@@ -84,7 +90,8 @@ describe('Strategy Connector', () => {
 
     expect(actualMerchandisingProducts).toEqual(MERCHANDISING_PRODUCTS);
     expect(strategyAdapter.loadProductsForStrategy).toHaveBeenCalledWith(
-      STRATEGY_ID
+      STRATEGY_ID,
+      STRATEGY_REQUEST
     );
   });
 });
