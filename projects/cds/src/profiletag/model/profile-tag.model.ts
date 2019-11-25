@@ -13,7 +13,6 @@ export interface ProfileTagJsConfig {
   configUrl?: string;
   allowInsecureCookies?: boolean;
   gtmId?: string;
-  profileTagEventReceiver: Function;
 }
 
 export interface ProfileTagEvent {

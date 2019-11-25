@@ -3,7 +3,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { ConsentService } from 'projects/core/src/user/facade/consent.service';
-import { fromEventPattern, merge, Observable } from 'rxjs';
+import { fromEvent, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -14,7 +14,6 @@ import {
 } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
 import {
-  ProfileTagEvent,
   ProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
@@ -32,6 +31,10 @@ export class ProfileTagInjector {
     this.pageLoaded(),
     this.consentChanged()
   );
+  private profileTagEvents$ = merge(
+    this.consentReferenceChanged(),
+    this.debugModeChanged()
+  );
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -43,26 +46,9 @@ export class ProfileTagInjector {
 
   track(): Observable<boolean> {
     return this.addTracker().pipe(
-      tap(event => this.setEventVariables(event)),
-      filter(
-        profileTagEvent => profileTagEvent.name === ProfileTagEventNames.Loaded
-      ),
-      switchMap(_ => this.tracking$),
+      switchMap(_ => merge(this.tracking$, this.profileTagEvents$)),
       map(data => Boolean(data))
     );
-  }
-
-  private setEventVariables(event: ProfileTagEvent) {
-    switch (event.name) {
-      case ProfileTagEventNames.ConsentReferenceChanged:
-        this.consentReference = event.data.consentReference;
-        break;
-      case ProfileTagEventNames.ProfileTagDebug:
-        this.profileTagDebug = event.data.debug;
-        break;
-      default:
-        break;
-    }
   }
 
   private pageLoaded(): Observable<NgRouterEvent> {
@@ -97,33 +83,51 @@ export class ProfileTagInjector {
     this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted });
   }
 
-  private addTracker(): Observable<ProfileTagEvent> {
+  private addTracker(): Observable<Event> {
     return this.baseSiteService.getActive().pipe(
       filter(_ => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
       tap(_ => this.addScript()),
       tap(_ => this.initWindow()),
-      switchMap((siteId: string) => this.profileTagEventReceiver(siteId))
+      tap((siteId: string) => this.createConfig(siteId)),
+      switchMap(_ => this.profileTagLoaded())
     );
   }
 
-  private profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
-    return fromEventPattern(
-      handler => {
-        this.addProfileTagEventReceiver(siteId, handler);
-      },
-      () => {}
+  private profileTagLoaded(): Observable<Event> {
+    return fromEvent(window, ProfileTagEventNames.Loaded).pipe(take(1));
+  }
+
+  private consentReferenceChanged(): Observable<CustomEvent> {
+    return fromEvent(window, ProfileTagEventNames.ConsentReferenceChanged).pipe(
+      map(event => <CustomEvent>event),
+      tap(event =>
+        console.log(
+          `Consent reference changed changed ${JSON.stringify(event.detail)}`
+        )
+      ),
+      tap(event => (this.consentReference = event.detail.consentReference)),
+      tap(_ => console.log(`this.consentReference: ${this.consentReference}`))
     );
   }
 
-  private addProfileTagEventReceiver(siteId: string, handler: Function): void {
+  private debugModeChanged(): Observable<CustomEvent> {
+    return fromEvent(window, ProfileTagEventNames.ProfileTagDebug).pipe(
+      map(event => <CustomEvent>event),
+      tap(event =>
+        console.log(`debug mode changed ${JSON.stringify(event.detail)}`)
+      ),
+      tap(event => (this.profileTagDebug = event.detail.debug))
+    );
+  }
+
+  private createConfig(siteId: string): void {
     const newConfig: ProfileTagJsConfig = {
       ...this.config.cds.profileTag,
       tenant: this.config.cds.tenant,
       siteId,
       spa: true,
-      profileTagEventReceiver: handler,
     };
     this.exposeConfig(newConfig);
   }
