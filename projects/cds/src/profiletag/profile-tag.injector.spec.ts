@@ -10,8 +10,10 @@ import {
   AnonymousConsentsService,
   BaseSiteService,
   WindowRef,
+  CartService,
+  OrderEntry,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { CdsConfig } from '../config/cds-config';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagWindowObject } from './profile-tag.model';
@@ -44,6 +46,8 @@ describe('ProfileTagInjector', () => {
   let router;
   let anonymousConsentsService;
   let mockedWindowRef;
+  let cartService;
+  let orderEntryBehavior;
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
@@ -52,6 +56,7 @@ describe('ProfileTagInjector', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
+    orderEntryBehavior = new ReplaySubject<OrderEntry[]>();
     anonymousConsentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
@@ -73,6 +78,9 @@ describe('ProfileTagInjector', () => {
     baseSiteService = {
       getActive: () => getActiveBehavior,
     };
+    cartService = {
+      getEntries: () => orderEntryBehavior,
+    };
   }
   beforeEach(() => {
     setVariables();
@@ -87,6 +95,10 @@ describe('ProfileTagInjector', () => {
         {
           provide: AnonymousConsentsService,
           useValue: anonymousConsentsService,
+        },
+        {
+          provide: CartService,
+          useValue: cartService,
         },
       ],
     });
@@ -205,6 +217,49 @@ describe('ProfileTagInjector', () => {
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(6);
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
       event: 'Navigated',
+    });
+  });
+
+  it(`Should call the push method for every ModifiedCart event`, () => {
+    const profileTagLoaded$ = profileTagInjector.track();
+    const subscription = profileTagLoaded$.subscribe();
+    getActiveBehavior.next('electronics-test');
+    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
+      eventName: 'Loaded',
+    });
+    const mockCartEntry: OrderEntry = { entryNumber: 7 };
+    const mockCartEntry2: OrderEntry = { entryNumber: 1 };
+    orderEntryBehavior.next(mockCartEntry);
+    orderEntryBehavior.next(mockCartEntry2);
+    subscription.unsubscribe();
+    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(2);
+    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
+      event: 'ModifiedCart',
+      data: { entries: [] },
+    });
+    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
+      event: 'ModifiedCart',
+      data: { entries: mockCartEntry },
+    });
+    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
+      event: 'ModifiedCart',
+      data: { entries: mockCartEntry2 },
+    });
+  });
+
+  it(`Should not call the push method when ModifiedCart event doesnt happen`, () => {
+    orderEntryBehavior = null;
+    const profileTagLoaded$ = profileTagInjector.track();
+    const subscription = profileTagLoaded$.subscribe();
+    getActiveBehavior.next('electronics-test');
+    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
+      eventName: 'Loaded',
+    });
+    subscription.unsubscribe();
+    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
+    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
+      event: 'ModifiedCart',
+      data: { entries: [] },
     });
   });
 });
