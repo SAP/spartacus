@@ -12,7 +12,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CdsConfig } from '../../config';
+import { CdsConfig } from '../../config/index';
 import {
   ConsentReferenceEvent,
   DebugEvent,
@@ -135,7 +135,7 @@ export class ProfileTagInjector {
       .appendChild(profileTagScript);
   }
 
-  private initWindow() {
+  private initWindow(): void {
     this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
     this.w.Y_TRACKING = this.w.Y_TRACKING || {};
   }

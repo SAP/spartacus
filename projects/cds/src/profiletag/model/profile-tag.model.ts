@@ -15,11 +15,6 @@ export interface ProfileTagJsConfig {
   gtmId?: string;
 }
 
-export interface ProfileTagEvent {
-  name: ProfileTagEventNames;
-  data: any;
-}
-
 export interface ConsentReferenceEvent extends CustomEvent {
   detail: {
     consentReference: string;
