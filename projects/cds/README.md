@@ -85,6 +85,14 @@ The `configUrl` is the url from the Profiletag-UI of the configuration you creat
 
 The `gtmId` is optional and is used for profiletag integration with google-tag-manager. For more information, please refer to the profiletag documentation.
 
+## Backend Requirements
+
+### Headers
+
+The custom headers `x-profile-tag-debug` and `x-consent-reference` need to be added to.
+
+* `corsfilter.ycommercewebservices.allowedHeaders`
+* `corsfilter.assistedservicewebservices.allowedHeaders` if ASM is being used
 
 ### Consent
 
