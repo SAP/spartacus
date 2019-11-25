@@ -16,7 +16,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CdsConfig } from '../../config';
+import { CdsConfig } from '../../config/index';
 import {
   ProfileTagEvent,
   ProfileTagEventNames,
