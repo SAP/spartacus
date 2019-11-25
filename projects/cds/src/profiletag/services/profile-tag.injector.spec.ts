@@ -9,8 +9,8 @@ import {
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { ConsentService } from 'projects/core/src/user/facade/consent.service';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig } from '../../config';
-import { ProfileTagWindowObject } from '../model';
+import { CdsConfig } from '../../config/index';
+import { ProfileTagWindowObject } from '../model/index';
 import { ProfileTagInjector } from './profile-tag.injector';
 
 const mockCDSConfig: CdsConfig = {
