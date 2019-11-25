@@ -1,13 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
-import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { ConsentService } from 'projects/core/src/user/facade/consent.service';
+import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
 import { fromEventPattern, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
+  mapTo,
   switchMap,
   take,
   tap,
@@ -85,7 +85,7 @@ export class ProfileTagInjector {
         filter(profileConsent => {
           return this.consentService.isConsentGiven(profileConsent);
         }),
-        map(_ => true),
+        mapTo(true),
         take(1),
         tap(() => {
           this.notifyProfileTagOfConsentChange({ granted: true });
