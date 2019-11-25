@@ -7,8 +7,9 @@ import {
   ConsentService,
   OrderEntry,
   WindowRef,
+  Cart,
 } from '@spartacus/core';
-import { fromEventPattern, merge, Observable } from 'rxjs';
+import { fromEventPattern, merge, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -105,18 +106,25 @@ export class ProfileTagInjector {
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  private cartChanged(): Observable<OrderEntry[]> {
-    return this.cartService.getEntries().pipe(
-      tap(cart => {
-        this.notifyProfileTagOfCartChange({ entries: cart });
+  private cartChanged(): Observable<[OrderEntry[], Cart]> {
+    let sent = false;
+    const cartChanged = combineLatest(
+      this.cartService.getEntries(),
+      this.cartService.getActive()
+    );
+    return cartChanged.pipe(
+      filter(([entries, cart]) => !(!sent && entries.length === 0)),
+      tap(([entries, cart]) => {
+        sent = true;
+        this.notifyProfileTagOfCartChange({ entries, cart });
       })
     );
   }
 
-  private notifyProfileTagOfCartChange({ entries }): void {
+  private notifyProfileTagOfCartChange({ entries, cart }): void {
     this.w.Y_TRACKING.push({
       eventName: 'ModifiedCart',
-      data: { entries },
+      data: { entries, cart },
     });
   }
 

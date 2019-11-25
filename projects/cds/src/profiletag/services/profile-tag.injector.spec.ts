@@ -11,9 +11,10 @@ import {
   CartService,
   OrderEntry,
   WindowRef,
+  Cart,
 } from '@spartacus/core';
 import { ConsentService } from 'projects/core/src/user/facade/consent.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { CdsConfig } from '../../config/index';
 import { ProfileTagWindowObject } from '../model/index';
 import { ProfileTagInjector } from './profile-tag.injector';
@@ -48,6 +49,7 @@ describe('ProfileTagInjector', () => {
   let mockedWindowRef;
   let cartService;
   let orderEntryBehavior;
+  let cartBehavior;
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
@@ -56,6 +58,8 @@ describe('ProfileTagInjector', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
+    orderEntryBehavior = new ReplaySubject<OrderEntry[]>();
+    cartBehavior = new ReplaySubject<Cart>();
     consentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
@@ -79,6 +83,7 @@ describe('ProfileTagInjector', () => {
     };
     cartService = {
       getEntries: () => orderEntryBehavior,
+      getActive: () => cartBehavior,
     };
   }
   beforeEach(() => {
@@ -230,6 +235,7 @@ describe('ProfileTagInjector', () => {
     const mockCartEntry2: OrderEntry = { entryNumber: 1 };
     orderEntryBehavior.next(mockCartEntry);
     orderEntryBehavior.next(mockCartEntry2);
+    cartBehavior.next(null);
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(2);
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
