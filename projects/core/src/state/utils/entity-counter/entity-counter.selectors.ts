@@ -1,16 +1,16 @@
-import { LoaderState } from '../loader/loader-state';
-import { initialLoaderState } from '../loader/loader.reducer';
-import { EntityLoaderState } from './entity-loader-state';
+import { CounterState } from '../counter/counter-state';
+import { initialCounterState } from '../counter/counter.reducer';
+import { EntityCounterState } from './entity-counter-state';
 
 export function entityStateSelector<T>(
-  state: EntityLoaderState<T>,
+  state: EntityCounterState<T>,
   id: string
-): LoaderState<T> {
-  return state.entities[id] || initialLoaderState;
+): CounterState<T> {
+  return state.entities[id] || initialCounterState;
 }
 
 export function entityValueSelector<T>(
-  state: EntityLoaderState<T>,
+  state: EntityCounterState<T>,
   id: string
 ): T {
   const entityState = entityStateSelector(state, id);
@@ -18,7 +18,7 @@ export function entityValueSelector<T>(
 }
 
 export function entityLoadingSelector<T>(
-  state: EntityLoaderState<T>,
+  state: EntityCounterState<T>,
   id: string
 ): boolean {
   const entityState = entityStateSelector(state, id);
@@ -26,7 +26,7 @@ export function entityLoadingSelector<T>(
 }
 
 export function entityErrorSelector<T>(
-  state: EntityLoaderState<T>,
+  state: EntityCounterState<T>,
   id: string
 ): boolean {
   const entityState = entityStateSelector(state, id);
@@ -34,9 +34,17 @@ export function entityErrorSelector<T>(
 }
 
 export function entitySuccessSelector<T>(
-  state: EntityLoaderState<T>,
+  state: EntityCounterState<T>,
   id: string
 ): boolean {
   const entityState = entityStateSelector(state, id);
   return entityState.success;
+}
+
+export function entityCounterSelector<T>(
+  state: EntityCounterState<T>,
+  id: string
+): number {
+  const entityState = entityStateSelector(state, id);
+  return entityState.counter;
 }
