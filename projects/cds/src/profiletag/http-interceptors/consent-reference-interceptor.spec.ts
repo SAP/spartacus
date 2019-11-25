@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { ProfileTagInjector } from '../services';
+import { ProfileTagInjector } from '../services/index';
 import { ConsentReferenceInterceptor } from './consent-reference-interceptor';
 
 describe('consent reference interceptor', () => {

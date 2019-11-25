@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProfileTagInjector } from '../services';
+import { ProfileTagInjector } from '../services/index';
 
 @Injectable({ providedIn: 'root' })
 export class ConsentReferenceInterceptor implements HttpInterceptor {

@@ -22,7 +22,7 @@ import {
   ProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
-} from '../model';
+} from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',

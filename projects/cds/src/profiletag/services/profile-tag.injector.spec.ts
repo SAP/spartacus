@@ -12,8 +12,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig } from '../../config';
-import { ProfileTagWindowObject } from '../model';
+import { CdsConfig } from '../../config/index';
+import { ProfileTagWindowObject } from '../model/index';
 import { ProfileTagInjector } from './profile-tag.injector';
 
 const mockCDSConfig: CdsConfig = {
