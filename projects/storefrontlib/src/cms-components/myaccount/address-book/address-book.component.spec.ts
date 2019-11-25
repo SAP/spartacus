@@ -150,4 +150,45 @@ describe('AddressBookComponent', () => {
     el.query(By.css('.btn-action')).nativeElement.click();
     expect(component.addAddressButtonHandle).toHaveBeenCalled();
   });
+
+  it('should call addAddressButtonHandle()', () => {
+    component.addAddressButtonHandle();
+
+    expect(component.addAddressButtonHandle).toHaveBeenCalledWith();
+  });
+
+  it('should call editAddressButtonHandle(address: Address)', () => {
+    spyOn(component, 'editAddressButtonHandle');
+    component.editAddressButtonHandle(mockAddress);
+
+    expect(component.editAddressButtonHandle).toHaveBeenCalledWith(mockAddress);
+  });
+
+  it('should call addAddressSubmit(address: Address)', () => {
+    spyOn(component, 'addAddressSubmit');
+    component.addAddressSubmit(mockAddress);
+
+    expect(component.addAddressSubmit).toHaveBeenCalledWith(mockAddress);
+  });
+
+  it('should call addAddressCancel()', () => {
+    spyOn(component, 'addAddressCancel');
+    component.addAddressCancel();
+
+    expect(component.addAddressCancel).toHaveBeenCalledWith();
+  });
+
+  it('should call editAddressSubmit(address: Address)', () => {
+    spyOn(component, 'editAddressSubmit');
+    component.editAddressSubmit(mockAddress);
+
+    expect(component.editAddressSubmit).toHaveBeenCalledWith(mockAddress);
+  });
+
+  it('should call editAddressCancel()', () => {
+    spyOn(component, 'editAddressCancel');
+    component.editAddressCancel();
+
+    expect(component.editAddressCancel).toHaveBeenCalledWith();
+  });
 });
