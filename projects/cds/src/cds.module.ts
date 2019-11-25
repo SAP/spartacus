@@ -1,34 +1,43 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CdsConfig, cdsConfigToken } from './config/cds-config';
-import { MerchandisingStrategyAdapter } from './merchandising/adapters/strategy/merchandising.strategy.adapter';
+import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
+import { MerchandisingCarouselModule } from './cms-components/merchandising/carousel/merchandising-carousel/merchandising-carousel.module';
+import { cdsConfigValidator } from './config';
+import { CdsConfig } from './config/cds-config';
+import { DEFAULT_CDS_CONFIG } from './config/default-cds-config';
+import { CdsMerchandisingStrategyAdapter } from './merchandising/adapters/strategy/cds-merchandising-strategy.adapter';
 import {
   MERCHANDISING_PRODUCTS_NORMALIZER,
   MERCHANDISING_PRODUCT_NORMALIZER,
 } from './merchandising/connectors/strategy/converters';
-import { StrategyAdapter } from './merchandising/connectors/strategy/strategy.adapter';
+import { MerchandisingStrategyAdapter } from './merchandising/connectors/strategy/merchandising-strategy.adapter';
 import { MerchandisingProductNormalizer } from './merchandising/converters/merchandising-product-normalizer';
 import { MerchandisingProductsNormalizer } from './merchandising/converters/merchandising-products-normalizer';
 import { ProfileTagModule } from './profiletag/profile-tag.module';
 
 @NgModule({
-  imports: [ProfileTagModule],
-  exports: [ProfileTagModule],
+  imports: [ProfileTagModule, MerchandisingCarouselModule],
 })
 export class CdsModule {
-  static withConfig(config: CdsConfig): ModuleWithProviders<CdsModule> {
+  static forRoot(config: CdsConfig): ModuleWithProviders<CdsModule> {
     return {
       ngModule: CdsModule,
       providers: [
-        { provide: cdsConfigToken, useValue: config },
-        { provide: StrategyAdapter, useClass: MerchandisingStrategyAdapter },
+        provideConfig(DEFAULT_CDS_CONFIG),
+        provideConfig(config),
+        provideConfigValidator(cdsConfigValidator),
+        { provide: CdsConfig, useExisting: Config },
+        {
+          provide: MerchandisingStrategyAdapter,
+          useExisting: CdsMerchandisingStrategyAdapter,
+        },
         {
           provide: MERCHANDISING_PRODUCTS_NORMALIZER,
-          useClass: MerchandisingProductsNormalizer,
+          useExisting: MerchandisingProductsNormalizer,
           multi: true,
         },
         {
           provide: MERCHANDISING_PRODUCT_NORMALIZER,
-          useClass: MerchandisingProductNormalizer,
+          useExisting: MerchandisingProductNormalizer,
           multi: true,
         },
       ],

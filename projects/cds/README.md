@@ -15,7 +15,7 @@ To enable the cds module in spartacus, add it to the list of imports in your roo
 ```
 @NgModule({
   imports: [
-    CdsModule.withConfig(<CdsConfig>{
+    CdsModule.forRoot({
       cds: {
         tenant: 'my-tenant',
         baseUrl: 'https://api.us.context.cloud.sap)',
@@ -71,8 +71,8 @@ This will create the component in the 'Staged' catalog. To publish, run a sync, 
 Profiletag has the following configuration interface:
 ```
 interface ProfileTagConfig {
-  javascriptUrl: string;
-  configUrl: string;
+  javascriptUrl?: string;
+  configUrl?: string;
   allowInsecureCookies?: boolean;
   gtmId?: string;
 }
@@ -84,3 +84,13 @@ The `configUrl` is the url from the Profiletag-UI of the configuration you creat
 `allowInsecureCookies` is optional and specifies whether profiletag should set insecure cookies. The default value is false. For example, if running on http, setting this to true is requried. In production this should always be set to false.
 
 The `gtmId` is optional and is used for profiletag integration with google-tag-manager. For more information, please refer to the profiletag documentation.
+
+
+### Consent
+
+In order for CDS events do be sent, a consent with the ID Profile must be defined in the backend. Here is an example impex which accomplishes this:
+
+```
+INSERT_UPDATE ConsentTemplate;id[unique=true];name[lang=en];description[lang=$lang];version[unique=true];baseSite(uid)[unique=true,default=exampleUid];exposed
+;PROFILE;"Allow SAP Commerce Cloud, Context-Driven Services tracking";"We would like to store your browsing behaviour so that our website can dynamically present you with a personalised browsing experience and our customer support agents can provide you with contextual customer support.";1;;true
+```

@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, Renderer2 } from '@angular/core';
-import { Event as NgRouterEvent } from '@angular/router';
-import { AnonymousConsent } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProfileTagInjector } from '../../profiletag/profile-tag.injector';
 @Component({
@@ -11,12 +9,6 @@ import { ProfileTagInjector } from '../../profiletag/profile-tag.injector';
   `,
 })
 export class ProfileTagComponent {
-  profileTagEnabled$: Observable<AnonymousConsent | NgRouterEvent>;
-  constructor(
-    private profileTagInjector: ProfileTagInjector,
-    private renderer2: Renderer2
-  ) {
-    this.profileTagInjector.addScript(this.renderer2);
-    this.profileTagEnabled$ = this.profileTagInjector.injectScript();
-  }
+  profileTagEnabled$: Observable<boolean> = this.profileTagInjector.track();
+  constructor(private profileTagInjector: ProfileTagInjector) {}
 }

@@ -1,3 +1,4 @@
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Event as NgRouterEvent,
@@ -11,7 +12,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig, cdsConfigToken } from '../config/cds-config';
+import { CdsConfig } from '../config/cds-config';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagWindowObject } from './profile-tag.model';
 
@@ -37,12 +38,10 @@ describe('ProfileTagInjector', () => {
   let getActiveBehavior;
   let baseSiteService;
   let appendChildSpy;
-  let createElementSpy;
   let getConsentBehavior;
   let isConsentGivenValue;
   let routerEventsBehavior;
   let router;
-  let renderer2Mock;
   let anonymousConsentsService;
   let mockedWindowRef;
   function setVariables() {
@@ -53,10 +52,6 @@ describe('ProfileTagInjector', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
-    renderer2Mock = {
-      appendChild: () => ({}),
-      createElement: () => ({}),
-    };
     anonymousConsentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
@@ -70,23 +65,25 @@ describe('ProfileTagInjector', () => {
           push: jasmine.createSpy('push'),
         },
       },
-      document: {},
+      document: {
+        createElement: () => ({}),
+        getElementsByTagName: () => [{ appendChild: appendChildSpy }],
+      },
     };
     baseSiteService = {
       getActive: () => getActiveBehavior,
     };
-    createElementSpy = spyOn(renderer2Mock, 'createElement').and.callThrough();
-    appendChildSpy = spyOn(renderer2Mock, 'appendChild');
   }
   beforeEach(() => {
     setVariables();
     TestBed.configureTestingModule({
       providers: [
         ProfileTagInjector,
-        { provide: cdsConfigToken, useValue: mockCDSConfig },
+        { provide: CdsConfig, useValue: mockCDSConfig },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: BaseSiteService, useValue: baseSiteService },
         { provide: Router, useValue: router },
+        { provide: PLATFORM_ID, useValue: 'browser' },
         {
           provide: AnonymousConsentsService,
           useValue: anonymousConsentsService,
@@ -103,18 +100,18 @@ describe('ProfileTagInjector', () => {
   });
 
   it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
-    profileTagInjector.addScript(renderer2Mock);
-    const profileTagLoaded$ = profileTagInjector.injectScript();
-    profileTagLoaded$.subscribe().unsubscribe();
+    profileTagInjector.track();
+    const profileTagLoaded$ = profileTagInjector.track();
+    const profileTagLoadedSubcriber = profileTagLoaded$.subscribe();
+    profileTagLoadedSubcriber.unsubscribe();
 
-    expect(createElementSpy).toHaveBeenCalled();
-    expect(appendChildSpy).toHaveBeenCalled();
+    expect(appendChildSpy).not.toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.q).not.toBeDefined();
   });
 
   it(`Should add config parameters to the q array after the base site is active`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     const baseSite = 'electronics-test';
     getActiveBehavior.next(baseSite);
@@ -127,11 +124,12 @@ describe('ProfileTagInjector', () => {
       spa: true,
       profileTagEventReceiver: jasmine.anything(),
     });
+    expect(appendChildSpy).toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
   });
 
   it(`Should not call the push method if the event receiver callback hasn't been called`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
@@ -143,7 +141,7 @@ describe('ProfileTagInjector', () => {
 
   it(`Should call the push method if the site is active,
      and event receiver callback has been called with loaded`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
@@ -159,7 +157,7 @@ describe('ProfileTagInjector', () => {
   });
   it(`Should call the push method if the profile consent changes to true,
     and ignore all further changes, only sending one consent changed event,`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
@@ -186,7 +184,7 @@ describe('ProfileTagInjector', () => {
 
   it(`Should call the push method for every NavigationEnd event, 
     regardless of consent status, and even if the consent pipe ends due to take(1)`, () => {
-    const profileTagLoaded$ = profileTagInjector.injectScript();
+    const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({

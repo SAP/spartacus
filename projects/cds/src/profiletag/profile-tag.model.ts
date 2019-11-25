@@ -6,11 +6,11 @@ export interface ProfileTagWindowObject {
 }
 
 export interface ProfileTagJsConfig {
-  tenant: string;
-  siteId: string;
+  tenant?: string;
+  siteId?: string;
   spa: boolean;
-  javascriptUrl: string;
-  configUrl: string;
+  javascriptUrl?: string;
+  configUrl?: string;
   allowInsecureCookies?: boolean;
   gtmId?: string;
   profileTagEventReceiver: Function;

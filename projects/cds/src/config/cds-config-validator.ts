@@ -1,19 +1,19 @@
 import { CdsConfig } from './cds-config';
 
-export function cdsConfigValidator(config: CdsConfig) {
+export function cdsConfigValidator(config: CdsConfig): string | void {
   if (!config.cds) {
     return 'Please configure the config.cds object before using the CDS library';
   }
   if (config.cds.profileTag !== undefined) {
     if (
       config.cds.profileTag.configUrl === undefined ||
-      config.cds.tenant.trim().length === 0
+      config.cds.profileTag.configUrl.trim().length === 0
     ) {
       return 'Please configure cds.profileTag.configUrl before using the CDS library';
     }
     if (
       config.cds.profileTag.javascriptUrl === undefined ||
-      config.cds.tenant.trim().length === 0
+      config.cds.profileTag.javascriptUrl.trim().length === 0
     ) {
       return 'Please configure cds.profileTag.configUrl before using the CDS library';
     }

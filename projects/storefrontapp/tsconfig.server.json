@@ -8,8 +8,8 @@
     "paths": {
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
-      "@spartacus/assets": ["../../dist/assets"],
-      "@spartacus/cds": ["../../dist/cds"]
+      "@spartacus/cds": ["../../dist/cds"],
+      "@spartacus/assets": ["../../dist/assets"]
     }
   },
   "exclude": ["test.ts", "**/*.spec.ts"],
