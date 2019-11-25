@@ -1,20 +1,19 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import {
   BaseSiteService,
   CartService,
   ConsentService,
-  OrderEntry,
   WindowRef,
-  Cart,
 } from '@spartacus/core';
-import { fromEventPattern, merge, Observable, combineLatest } from 'rxjs';
+import { combineLatest, fromEventPattern, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   mapTo,
+  skipWhile,
   switchMap,
   take,
   tap,
@@ -33,7 +32,7 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
-  private tracking$: Observable<boolean | NgRouterEvent | OrderEntry[]> = merge(
+  private tracking$: Observable<boolean> = merge(
     this.pageLoaded(),
     this.consentChanged(),
     this.cartChanged()
@@ -75,12 +74,13 @@ export class ProfileTagInjector {
     }
   }
 
-  private pageLoaded(): Observable<NgRouterEvent> {
+  private pageLoaded(): Observable<boolean> {
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {
         this.w.Y_TRACKING.push({ event: 'Navigated' });
-      })
+      }),
+      mapTo(true)
     );
   }
 
@@ -106,24 +106,22 @@ export class ProfileTagInjector {
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  private cartChanged(): Observable<[OrderEntry[], Cart]> {
-    let sent = false;
-    const cartChanged = combineLatest(
+  private cartChanged(): Observable<boolean> {
+    return combineLatest(
       this.cartService.getEntries(),
       this.cartService.getActive()
-    );
-    return cartChanged.pipe(
-      filter(([entries, cart]) => !(!sent && entries.length === 0)),
+    ).pipe(
+      skipWhile(([entries]) => entries.length === 0),
       tap(([entries, cart]) => {
-        sent = true;
         this.notifyProfileTagOfCartChange({ entries, cart });
-      })
+      }),
+      mapTo(true)
     );
   }
 
   private notifyProfileTagOfCartChange({ entries, cart }): void {
     this.w.Y_TRACKING.push({
-      eventName: 'ModifiedCart',
+      event: 'ModifiedCart',
       data: { entries, cart },
     });
   }

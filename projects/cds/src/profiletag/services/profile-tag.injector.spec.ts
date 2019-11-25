@@ -8,10 +8,10 @@ import {
 } from '@angular/router';
 import {
   BaseSiteService,
+  Cart,
   CartService,
   OrderEntry,
   WindowRef,
-  Cart,
 } from '@spartacus/core';
 import { ConsentService } from 'projects/core/src/user/facade/consent.service';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -229,26 +229,27 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      eventName: 'Loaded',
+      name: 'Loaded',
     });
-    const mockCartEntry: OrderEntry = { entryNumber: 7 };
-    const mockCartEntry2: OrderEntry = { entryNumber: 1 };
+    const mockCartEntry: OrderEntry[] = [{ entryNumber: 7 }];
+    const mockCartEntry2: OrderEntry[] = [{ entryNumber: 1 }];
+    const testCart = { testCart: { id: 123 } };
+    cartBehavior.next(testCart);
     orderEntryBehavior.next(mockCartEntry);
     orderEntryBehavior.next(mockCartEntry2);
-    cartBehavior.next(null);
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(2);
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      eventName: 'ModifiedCart',
-      data: { entries: [] },
+      event: 'ModifiedCart',
+      data: { entries: [], cart: testCart },
     });
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      eventName: 'ModifiedCart',
-      data: { entries: mockCartEntry },
+      event: 'ModifiedCart',
+      data: { entries: mockCartEntry, cart: testCart },
     });
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      eventName: 'ModifiedCart',
-      data: { entries: mockCartEntry2 },
+      event: 'ModifiedCart',
+      data: { entries: mockCartEntry2, cart: testCart },
     });
   });
 
@@ -258,12 +259,12 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      eventName: 'Loaded',
+      event: 'Loaded',
     });
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      eventName: 'ModifiedCart',
+      event: 'ModifiedCart',
       data: { entries: [] },
     });
   });
