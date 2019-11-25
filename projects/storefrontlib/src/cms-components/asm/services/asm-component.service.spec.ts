@@ -1,15 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+import {
+  AsmAuthService,
+  AuthService,
+  RoutingService,
+  UserToken,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
 
 class MockAuthService {
-  logoutCustomerSupportAgent(): void {}
   logout(): void {}
   getUserToken(): Observable<UserToken> {
     return of({} as UserToken);
   }
+}
+
+class MockAsmAuthService {
+  logoutCustomerSupportAgent(): void {}
   isCustomerEmulationToken(): boolean {
     return undefined;
   }
@@ -23,22 +33,45 @@ class MockRoutingService {
   go() {}
 }
 
+const store = {};
+const MockWindowRef = {
+  localStorage: {
+    getItem: (key: string): string => {
+      return key in store ? store[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      store[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        delete store[key];
+      }
+    },
+  },
+};
+
 describe('AsmComponentService', () => {
   let authService: AuthService;
+  let asmAuthService: AsmAuthService;
   let routingService: RoutingService;
+  let windowRef: WindowRef;
   let asmComponentService: AsmComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useClass: MockAuthService },
+        { provide: AsmAuthService, useClass: MockAsmAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: WindowRef, useValue: MockWindowRef },
       ],
     });
 
     asmComponentService = TestBed.get(AsmComponentService);
     authService = TestBed.get(AuthService);
+    asmAuthService = TestBed.get(AsmAuthService);
     routingService = TestBed.get(RoutingService);
+    windowRef = TestBed.get(WindowRef);
   });
 
   it('should be created', () => {
@@ -48,39 +81,39 @@ describe('AsmComponentService', () => {
   describe('logoutCustomerSupportAgentAndCustomer()', () => {
     it('should logout asagent and not the customer when no customer session is in progress.', () => {
       spyOn(authService, 'logout').and.stub();
-      spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
+      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
       spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
-      expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
+      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
     });
 
     it('should logout both asagent and the customer when customer session is in progress.', () => {
       spyOn(authService, 'logout').and.stub();
-      spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
+      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(authService, 'isCustomerEmulationToken').and.returnValue(true);
+      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
-      expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
+      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(asmComponentService.logoutCustomer).toHaveBeenCalled();
     });
 
     it('should logout asagent and not the customer when a regular customer session is in progress', () => {
       spyOn(authService, 'logout').and.stub();
-      spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
+      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(authService, 'isCustomerEmulationToken').and.returnValue(false);
+      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
-      expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
+      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
     });
   });
@@ -98,7 +131,7 @@ describe('AsmComponentService', () => {
   describe('isCustomerEmulationSessionInProgress()', () => {
     it('should return true when user token is from an emulation session', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(authService, 'isCustomerEmulationToken').and.returnValue(true);
+      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()
@@ -109,13 +142,23 @@ describe('AsmComponentService', () => {
 
     it('should return false when user token is not from an emulation session', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(authService, 'isCustomerEmulationToken').and.returnValue(false);
+      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()
         .pipe(take(1))
         .subscribe(value => (result = value));
       expect(result).toBe(false);
+    });
+  });
+
+  describe('Unload', () => {
+    it('should remove local storage key to false on unload', () => {
+      windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
+      asmComponentService.unload();
+      expect(
+        windowRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)
+      ).toBeNull();
     });
   });
 });

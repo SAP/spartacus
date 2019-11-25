@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 import { SmartEditService } from '../services/smart-edit.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CmsTicketInterceptor implements HttpInterceptor {
   constructor(private service: SmartEditService) {}
 
