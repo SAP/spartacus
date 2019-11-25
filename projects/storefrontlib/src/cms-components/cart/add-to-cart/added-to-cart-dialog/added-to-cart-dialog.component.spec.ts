@@ -75,6 +75,8 @@ class MockCartItemComponent {
   @Input()
   potentialProductPromotions: PromotionResult[];
   @Input()
+  appliedProductPromotions: PromotionResult[];
+  @Input()
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
@@ -89,7 +91,7 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('AddedToCartDialogComponent', () => {
+fdescribe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
@@ -228,6 +230,7 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show promotion description', () => {
+    component.entry$ = of(mockOrderEntry[0]);
     component.cart$ = of({
       deliveryItemsQuantity: 1,
       totalPrice: {
@@ -240,6 +243,11 @@ describe('AddedToCartDialogComponent', () => {
             code: 'product_percentage_discount',
             promotionType: 'Rule Based Promotion',
           },
+          consumedEntries: [
+            {
+              orderEntryNumber: 1,
+            },
+          ],
         },
       ],
     });
