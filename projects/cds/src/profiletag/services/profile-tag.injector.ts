@@ -1,17 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
-import {
-  AnonymousConsent,
-  AnonymousConsentsService,
-  BaseSiteService,
-  WindowRef,
-} from '@spartacus/core';
+import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
 import { fromEventPattern, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
+  mapTo,
   switchMap,
   take,
   tap,
@@ -32,7 +28,7 @@ export class ProfileTagInjector {
   private w: ProfileTagWindowObject;
   public consentReference = null;
   public profileTagDebug = false;
-  private tracking$: Observable<AnonymousConsent | NgRouterEvent> = merge(
+  private tracking$: Observable<boolean | NgRouterEvent> = merge(
     this.pageLoaded(),
     this.consentChanged()
   );
@@ -41,7 +37,7 @@ export class ProfileTagInjector {
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
-    private anonymousConsentsService: AnonymousConsentsService,
+    private consentService: ConsentService,
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
@@ -81,14 +77,15 @@ export class ProfileTagInjector {
   /**
    * We are only interested in the first time the ProfileConsent is granted
    */
-  private consentChanged(): Observable<AnonymousConsent> {
-    return this.anonymousConsentsService
+  private consentChanged(): Observable<boolean> {
+    return this.consentService
       .getConsent(ProfileTagInjector.ProfileConsentTemplateId)
       .pipe(
         filter(Boolean),
         filter(profileConsent => {
-          return this.anonymousConsentsService.isConsentGiven(profileConsent);
+          return this.consentService.isConsentGiven(profileConsent);
         }),
+        mapTo(true),
         take(1),
         tap(() => {
           this.notifyProfileTagOfConsentChange({ granted: true });
