@@ -1,13 +1,19 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
-import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
-import { fromEvent, merge, Observable } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import {
+  BaseSiteService,
+  CartService,
+  ConsentService,
+  WindowRef,
+} from '@spartacus/core';
+import { combineLatest, fromEvent, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   mapTo,
+  skipWhile,
   switchMap,
   take,
   tap,
@@ -27,21 +33,24 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
-  public consentReference = null;
-  public profileTagDebug = false;
-  private tracking$: Observable<boolean | NgRouterEvent> = merge(
+  private tracking$: Observable<boolean> = merge(
     this.pageLoaded(),
-    this.consentChanged()
+    this.consentChanged(),
+    this.cartChanged()
   );
   private profileTagEvents$ = merge(
     this.consentReferenceChanged(),
     this.debugModeChanged()
   );
+  public consentReference = null;
+  public profileTagDebug = false;
+
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
+    private cartService: CartService,
     private consentService: ConsentService,
     @Inject(PLATFORM_ID) private platform: any
   ) {}
@@ -53,12 +62,13 @@ export class ProfileTagInjector {
     );
   }
 
-  private pageLoaded(): Observable<NgRouterEvent> {
+  private pageLoaded(): Observable<boolean> {
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {
         this.w.Y_TRACKING.push({ event: 'Navigated' });
-      })
+      }),
+      mapTo(true)
     );
   }
 
@@ -79,6 +89,29 @@ export class ProfileTagInjector {
           this.notifyProfileTagOfConsentChange({ granted: true });
         })
       );
+  }
+
+  /**
+   * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
+   */
+  private cartChanged(): Observable<boolean> {
+    return combineLatest(
+      this.cartService.getEntries(),
+      this.cartService.getActive()
+    ).pipe(
+      skipWhile(([entries]) => entries.length === 0),
+      tap(([entries, cart]) => {
+        this.notifyProfileTagOfCartChange({ entries, cart });
+      }),
+      mapTo(true)
+    );
+  }
+
+  private notifyProfileTagOfCartChange({ entries, cart }): void {
+    this.w.Y_TRACKING.push({
+      event: 'ModifiedCart',
+      data: { entries, cart },
+    });
   }
 
   private notifyProfileTagOfConsentChange({ granted }): void {
