@@ -8,9 +8,13 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import {
+  MERCHANDISING_FACET_NORMALIZER,
+  MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
+} from '..';
 import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
-import createSpy = jasmine.createSpy;
 
 const emptyPageSearchResults: ProductSearchPage = {};
 const defaultRouterState: RouterState = {
@@ -36,14 +40,12 @@ class ProductSearchServiceStub {
     return of();
   }
 }
-class MockConverterService {
-  pipeable = createSpy().and.returnValue(x => x);
-}
 
 describe('CdsMerchandisingUserContextService', () => {
   let cdsMerchandisingUserContextService: CdsMerchandisingUserContextService;
   let routingService: RoutingService;
   let productSearchService: ProductSearchService;
+  let converterService: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -58,7 +60,7 @@ describe('CdsMerchandisingUserContextService', () => {
         },
         {
           provide: ConverterService,
-          useClass: MockConverterService,
+          useClass: ConverterService,
         },
       ],
     });
@@ -71,6 +73,7 @@ describe('CdsMerchandisingUserContextService', () => {
     productSearchService = TestBed.get(ProductSearchService as Type<
       ProductSearchService
     >);
+    converterService = TestBed.get(ConverterService as Type<ConverterService>);
   });
 
   it('should be created', () => {
@@ -167,43 +170,60 @@ describe('CdsMerchandisingUserContextService', () => {
     expect(merchandisingUserContext).toEqual(expectedUserContext);
   });
 
-  /** TODO: This test needs to mock out the converts */
-  // it('should return a valid MerchandisingUserContext object, if there are facets', () => {
-  //   const expectedUserContext: MerchandisingUserContext = {
-  //     category: undefined,
-  //     productId: undefined,
-  //     facets: 'category:584:price:$200-$499.99',
-  //   };
+  it('should return a valid MerchandisingUserContext object, if there are facets', () => {
+    const expectedUserContext: MerchandisingUserContext = {
+      category: undefined,
+      productId: undefined,
+      facets: 'category:584:price:$200-$499.99',
+    };
 
-  //   const pageSearchResults: ProductSearchPage = {
-  //     breadcrumbs: [
-  //       {
-  //         facetCode: 'category',
-  //         facetName: 'Category',
-  //         facetValueCode: '584',
-  //         facetValueName: 'Hand-held Camcorders',
-  //       },
-  //       {
-  //         facetCode: 'price',
-  //         facetName: 'Price',
-  //         facetValueCode: '$200-$499.99',
-  //         facetValueName: '$200-$499.99',
-  //       },
-  //     ],
-  //   };
+    const pageSearchResults: ProductSearchPage = {
+      breadcrumbs: [
+        {
+          facetCode: 'category',
+          facetName: 'Category',
+          facetValueCode: '584',
+          facetValueName: 'Hand-held Camcorders',
+        },
+        {
+          facetCode: 'price',
+          facetName: 'Price',
+          facetValueCode: '$200-$499.99',
+          facetValueName: '$200-$499.99',
+        },
+      ],
+    };
 
-  //   spyOn(routingService, 'getRouterState').and.returnValue(
-  //     of(defaultRouterState)
-  //   );
-  //   spyOn(productSearchService, 'getResults').and.returnValue(
-  //     of(pageSearchResults)
-  //   );
+    const merchandisingFacets = [
+      {
+        code: pageSearchResults.breadcrumbs[0].facetCode,
+        value: pageSearchResults.breadcrumbs[0].facetValueCode,
+      },
+      {
+        code: pageSearchResults.breadcrumbs[1].facetCode,
+        value: pageSearchResults.breadcrumbs[1].facetValueCode,
+      },
+    ];
 
-  //   let merchandisingUserContext: MerchandisingUserContext;
-  //   cdsMerchandisingUserContextService
-  //     .getUserContext()
-  //     .subscribe(userContext => (merchandisingUserContext = userContext))
-  //     .unsubscribe();
-  //   expect(merchandisingUserContext).toEqual(expectedUserContext);
-  // });
+    const queryParams = `${merchandisingFacets[0].code}:${merchandisingFacets[0].value}:${merchandisingFacets[1].code}:${merchandisingFacets[1].value}`;
+
+    spyOn(routingService, 'getRouterState').and.returnValue(
+      of(defaultRouterState)
+    );
+    spyOn(productSearchService, 'getResults').and.returnValue(
+      of(pageSearchResults)
+    );
+    spyOn(converterService, 'pipeable')
+      .withArgs(MERCHANDISING_FACET_NORMALIZER)
+      .and.returnValue(map(() => merchandisingFacets))
+      .withArgs(MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER)
+      .and.returnValue(map(() => queryParams));
+
+    let merchandisingUserContext: MerchandisingUserContext;
+    cdsMerchandisingUserContextService
+      .getUserContext()
+      .subscribe(userContext => (merchandisingUserContext = userContext))
+      .unsubscribe();
+    expect(merchandisingUserContext).toEqual(expectedUserContext);
+  });
 });

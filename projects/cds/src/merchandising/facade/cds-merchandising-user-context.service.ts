@@ -14,16 +14,6 @@ import {
 } from '../connectors/strategy/converters';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 
-function isSameUserContext(
-  previous: MerchandisingUserContext,
-  current: MerchandisingUserContext
-): boolean {
-  return (
-    previous.category === current.category &&
-    previous.productId === current.productId
-  );
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -35,10 +25,15 @@ export class CdsMerchandisingUserContextService {
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
-    return combineLatest([this.getNavigationContext(), this.getFacets()]).pipe(
-      map(([userContext, facets]: [MerchandisingUserContext, string]) => {
+    return combineLatest([
+      this.getProductNavigationContext(),
+      this.getCategoryNavigationContext(),
+      this.getFacets(),
+    ]).pipe(
+      map(([productId, category, facets]: [string, string, string]) => {
         const userContextData: MerchandisingUserContext = {
-          ...userContext,
+          category,
+          productId,
           facets,
         };
         return userContextData;
@@ -46,21 +41,24 @@ export class CdsMerchandisingUserContextService {
     );
   }
 
-  private getNavigationContext(): Observable<MerchandisingUserContext> {
+  private getProductNavigationContext(): Observable<String> {
     return this.routingService.getRouterState().pipe(
-      map((routerState: RouterState) => {
-        const productCode = routerState.state.params['productCode'];
-        const categoryCode = routerState.state.params['categoryCode'];
-
-        const routerData: MerchandisingUserContext = {
-          productId: productCode,
-          category: categoryCode,
-        };
-        return routerData;
-      }),
-      distinctUntilChanged(isSameUserContext)
+      map(
+        (routerState: RouterState) => routerState.state.params['productCode']
+      ),
+      distinctUntilChanged()
     );
   }
+
+  private getCategoryNavigationContext(): Observable<String> {
+    return this.routingService.getRouterState().pipe(
+      map(
+        (routerState: RouterState) => routerState.state.params['categoryCode']
+      ),
+      distinctUntilChanged()
+    );
+  }
+
   private getFacets(): Observable<string> {
     return this.productSearchService.getResults().pipe(
       map(

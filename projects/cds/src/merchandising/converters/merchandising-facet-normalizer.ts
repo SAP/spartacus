@@ -7,16 +7,14 @@ export class MerchandisingFacetNormalizer
   implements Converter<Breadcrumb[], MerchandisingFacet[]> {
   convert(
     source: Breadcrumb[],
-    target?: MerchandisingFacet[]
+    target: MerchandisingFacet[] = []
   ): MerchandisingFacet[] {
-    if (target === undefined) target = [];
-
-    if (source !== undefined) {
-      target = source.map(breadcrumb => {
-        return {
+    if (source) {
+      source.forEach(breadcrumb => {
+        target.push({
           code: breadcrumb.facetCode,
           value: breadcrumb.facetValueCode,
-        };
+        });
       });
     }
 

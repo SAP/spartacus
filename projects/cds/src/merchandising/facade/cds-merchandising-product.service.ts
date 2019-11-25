@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { MerchandisingProducts } from '../model/merchandising-products.model';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { StrategyRequest } from './../../cds-models/cds-strategy-request.model';
@@ -40,7 +40,7 @@ export class CdsMerchandisingProductService {
           return strategyRequest;
         }
       ),
-      flatMap(context => {
+      mergeMap(context => {
         return this.strategyConnector.loadProductsForStrategy(
           strategyId,
           context
