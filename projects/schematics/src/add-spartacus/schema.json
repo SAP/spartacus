@@ -18,8 +18,7 @@
     },
     "baseSite": {
       "type": "string",
-      "description": "The base site to use with spartacus",
-      "default": "electronics"
+      "description": "The base site to use with spartacus"
     },
     "useMetaTags": {
       "type": "boolean",
