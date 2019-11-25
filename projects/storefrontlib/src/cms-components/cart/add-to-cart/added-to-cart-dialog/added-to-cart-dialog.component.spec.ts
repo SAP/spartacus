@@ -91,7 +91,7 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-fdescribe('AddedToCartDialogComponent', () => {
+describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
