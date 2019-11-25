@@ -22,25 +22,6 @@ export class ConfiguratorCommonsService {
     protected cartService: CartService
   ) {}
 
-  createConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    this.store.dispatch(
-      new ConfiguratorActions.CreateConfiguration(productCode)
-    );
-
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(productCode))
-    );
-  }
-
-  isConfigurationReady(productCode: string): Observable<boolean> {
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationStateFactory(productCode)),
-      map(state => !state.loading)
-    );
-  }
-
   hasConfiguration(productCode: string): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
@@ -53,32 +34,29 @@ export class ConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
-      tap(configuration => {
-        if (!this.isConfigurationCreated(configuration)) {
+      filter(configuration => this.isConfigurationCreated(configuration))
+    );
+  }
+
+  getOrCreateConfiguration(
+    productCode: string
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(ConfiguratorSelectors.getConfigurationStateFactory(productCode)),
+      tap(configurationState => {
+        if (
+          !this.isConfigurationCreated(configurationState.value) &&
+          configurationState.loading !== true
+        ) {
           this.store.dispatch(
             new ConfiguratorActions.CreateConfiguration(productCode)
           );
         }
       }),
-      filter(configuration => this.isConfigurationCreated(configuration))
-    );
-  }
-
-  readConfiguration(
-    configId: string,
-    productCode: string,
-    groupId: string
-  ): Observable<Configurator.Configuration> {
-    this.store.dispatch(
-      new ConfiguratorActions.ReadConfiguration({
-        configId: configId,
-        productCode: productCode,
-        groupId: groupId,
-      })
-    );
-
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(productCode))
+      filter(configurationState =>
+        this.isConfigurationCreated(configurationState.value)
+      ),
+      map(configurationState => configurationState.value)
     );
   }
 

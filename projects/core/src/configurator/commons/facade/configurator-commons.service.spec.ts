@@ -1,15 +1,19 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import * as ngrxStore from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { cold } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../../occ/utils/occ-constants';
+import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { StateWithConfiguration } from '../store/configuration-state';
+import {
+  CONFIGURATION_FEATURE,
+  StateWithConfiguration,
+} from '../store/configuration-state';
+import * as fromReducers from '../store/reducers/index';
+import { ConfiguratorSelectors } from '../store/selectors';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
@@ -45,6 +49,9 @@ const productConfiguration: Configurator.Configuration = {
     },
   ],
 };
+const productConfigurationChanged: Configurator.Configuration = {
+  configId: CONFIG_ID,
+};
 
 class MockCartService {}
 
@@ -71,9 +78,16 @@ describe('ConfiguratorCommonsService', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(
+          CONFIGURATION_FEATURE,
+          fromReducers.getConfiguratorReducers
+        ),
+      ],
       providers: [
         ConfiguratorCommonsService,
+
         {
           provide: CartService,
           useClass: MockCartService,
@@ -86,74 +100,42 @@ describe('ConfiguratorCommonsService', () => {
       ConfiguratorCommonsService
     >);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
-
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
-    spyOn(store, 'dispatch').and.stub();
-    spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
   });
 
   it('should create service', () => {
     expect(serviceUnderTest).toBeDefined();
   });
-
-  it('should create a configuration, accessing the store', () => {
-    const configurationFromStore = serviceUnderTest.createConfiguration(
-      PRODUCT_CODE
+  it('should be able to get configuration from store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
     );
-
-    expect(configurationFromStore).toBeDefined();
-    let productCode: string;
-    configurationFromStore.subscribe(
-      configuration => (productCode = configuration.productCode)
-    );
-    expect(productCode).toBe(PRODUCT_CODE);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.CreateConfiguration(productCode)
-    );
-  });
-
-  it('should read a configuration, accessing the store', () => {
-    const configurationFromStore = serviceUnderTest.readConfiguration(
-      CONFIG_ID,
-      PRODUCT_CODE,
-      GROUP_ID_1
-    );
-
-    expect(configurationFromStore).toBeDefined();
-    let productCode: string;
-    configurationFromStore.subscribe(
-      configuration => (productCode = configuration.productCode)
-    );
-    expect(productCode).toBe(PRODUCT_CODE);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ReadConfiguration({
-        configId: CONFIG_ID,
-        productCode: PRODUCT_CODE,
-        groupId: GROUP_ID_1,
-      })
-    );
+    let configurationFromStore = null;
+    store
+      .pipe(select(ConfiguratorSelectors.getConfigurationFactory(PRODUCT_CODE)))
+      .subscribe(configuration => {
+        configurationFromStore = configuration;
+      });
+    expect(configurationFromStore).toBe(productConfiguration);
   });
 
   it('should update a configuration, accessing the store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    store.dispatch(
+      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
+    );
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
     };
-
     serviceUnderTest.updateConfiguration(
       PRODUCT_CODE,
       GROUP_ID_1,
       changedAttribute
     );
+
     expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.UpdateConfiguration(
-        serviceUnderTest.createConfigurationExtract(
-          GROUP_ID_1,
-          changedAttribute,
-          productConfiguration
-        )
-      )
-    );
   });
 
   it('should create a new configuration object for changes received, containing one group', () => {
@@ -231,12 +213,32 @@ describe('ConfiguratorCommonsService', () => {
     expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
   });
 
-  it('should return "current" user id if user is not anonymous', () => {
-    const cart: Cart = {
-      code: CART_CODE,
-      guid: CART_GUID,
-      user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
-    };
-    expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_CURRENT);
+  describe('getConfiguration', () => {
+    it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
+      const obs = cold('x-y', {
+        x: productConfiguration,
+        y: productConfigurationChanged,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      const configurationObs = serviceUnderTest.getConfiguration(PRODUCT_CODE);
+      expect(configurationObs).toBeObservable(obs);
+    });
+
+    it('should filter incomplete configurations from store', () => {
+      productConfigurationChanged.configId = '';
+      const obs = cold('xy|', {
+        x: productConfiguration,
+        y: productConfigurationChanged,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+
+      const configurationObs = serviceUnderTest.getConfiguration(PRODUCT_CODE);
+
+      expect(configurationObs).toBeObservable(
+        cold('x-|', {
+          x: productConfiguration,
+        })
+      );
+    });
   });
 });
