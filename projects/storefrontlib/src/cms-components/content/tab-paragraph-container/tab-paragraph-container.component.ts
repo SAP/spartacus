@@ -51,7 +51,7 @@ export class TabParagraphContainerComponent
 
               return {
                 ...tab,
-                title: `${this.componentData.uid}.tabs.${tab.uid}`,
+                title: `${data.uid}.tabs.${tab.uid}`,
               };
             })
           )

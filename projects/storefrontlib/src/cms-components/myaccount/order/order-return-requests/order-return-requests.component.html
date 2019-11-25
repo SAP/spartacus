@@ -82,7 +82,10 @@
                 <div class="d-md-none cx-order-history-label">
                   {{ 'returnRequestList.status' | cxTranslate }}
                 </div>
-                {{ return?.status }}
+                {{
+                  'returnRequestList.statusDisplay'
+                    | cxTranslate: { context: return?.status }
+                }}
               </td>
             </tr>
           </tbody>
