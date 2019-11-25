@@ -37,7 +37,7 @@
 
           <div class="cx-dialog-promotions" *ngIf="cart$ | async as cart">
             <cx-promotions
-              [promotions]="getAppliedProductPromotions(cart)"
+              [promotions]="getAppliedProductPromotions(entry, cart)"
             ></cx-promotions>
           </div>
         </div>
