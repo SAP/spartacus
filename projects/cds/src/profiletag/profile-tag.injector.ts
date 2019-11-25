@@ -85,13 +85,16 @@ export class ProfileTagInjector {
   private cartChanged(): Observable<OrderEntry[]> {
     return this.cartService.getEntries().pipe(
       tap(cart => {
-        this.notifyProfileTagOfCartChange({ cartEntries: cart });
+        this.notifyProfileTagOfCartChange({ entries: cart });
       })
     );
   }
 
-  private notifyProfileTagOfCartChange({ cartEntries }): void {
-    this.w.Y_TRACKING.push({ event: 'CartChanged', cartEntries });
+  private notifyProfileTagOfCartChange({ entries }): void {
+    this.w.Y_TRACKING.push({
+      event: 'ModifiedCart',
+      data: { entries },
+    });
   }
 
   private notifyProfileTagOfConsentChange({ granted }): void {
