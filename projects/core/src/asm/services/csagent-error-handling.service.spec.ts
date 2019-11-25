@@ -3,11 +3,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
-} from '../../../global-message/index';
-import { AuthService } from '../../facade/auth.service';
+} from '../../global-message/index';
+import { AsmAuthService } from '../facade/asm-auth.service';
 import { CustomerSupportAgentErrorHandlingService } from './csagent-error-handling.service';
 
-class MockAuthService {
+class MockAsmAuthService {
   logoutCustomerSupportAgent(): void {}
 }
 
@@ -17,7 +17,7 @@ class MockGlobalMessageService {
 
 describe('CustomerSupportAgentErrorHandlingService', () => {
   let csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService;
-  let authService: MockAuthService;
+  let asmAuthService: MockAsmAuthService;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe('CustomerSupportAgentErrorHandlingService', () => {
       imports: [RouterTestingModule],
       providers: [
         CustomerSupportAgentErrorHandlingService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: AsmAuthService, useClass: MockAsmAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
@@ -33,16 +33,16 @@ describe('CustomerSupportAgentErrorHandlingService', () => {
     csagentErrorHandlingService = TestBed.get(
       CustomerSupportAgentErrorHandlingService
     );
-    authService = TestBed.get(AuthService);
+    asmAuthService = TestBed.get(AsmAuthService);
     globalMessageService = TestBed.get(GlobalMessageService);
   });
 
   describe(`terminateCustomerSupportAgentExpiredSession`, () => {
     it('should logout the agent and display an error message.', () => {
-      spyOn(authService, 'logoutCustomerSupportAgent').and.stub();
+      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
       spyOn(globalMessageService, 'add').and.stub();
       csagentErrorHandlingService.terminateCustomerSupportAgentExpiredSession();
-      expect(authService.logoutCustomerSupportAgent).toHaveBeenCalled();
+      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'asm.csagentTokenExpired',
