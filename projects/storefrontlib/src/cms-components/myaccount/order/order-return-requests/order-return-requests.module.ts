@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
@@ -26,8 +24,6 @@ import { OrderReturnRequestsComponent } from './order-return-requests.component'
       },
     }),
     RouterModule,
-    FormsModule,
-    NgSelectModule,
     ListNavigationModule,
     UrlModule,
     I18nModule,
