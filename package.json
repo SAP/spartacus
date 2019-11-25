@@ -8,8 +8,9 @@
   "scripts": {
     "build": "ng build storefrontapp --prod",
     "build:assets": "ng build assets && yarn generate:translations:ts-2-json",
-    "build:core:lib": "ng build core && ng build storefrontlib && yarn build:assets",
+    "build:core:lib": "ng build core && ng build storefrontlib && yarn build:assets && yarn build incubator",
     "build:qa": "ng build -c=qa",
+    "build:incubator": "ng build incubator",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:cy:cli": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:cli",
     "e2e:cy:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
@@ -56,6 +57,7 @@
     "release:lib": "cd projects/storefrontlib && release-it && cd ../..",
     "release:core": "cd projects/core && release-it && cd ../..",
     "release:schematics": "cd projects/schematics && release-it && cd ../..",
+    "release:incubator": "cd projects/incubator && release-it && cd ../..",
     "release:assets:with-changelog": "cd projects/assets && release-it --config .release-it.changelog.json && cd ../..",
     "release:styles:with-changelog": "cd projects/storefrontstyles && release-it --config .release-it.changelog.json && cd ../..",
     "release:lib:with-changelog": "cd projects/storefrontlib && release-it --config .release-it.changelog.json && cd ../..",

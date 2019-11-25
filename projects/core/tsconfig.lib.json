@@ -11,7 +11,10 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["esnext", "dom"]
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@spartacus/incubator": ["dist/incubator"]
+    }
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,

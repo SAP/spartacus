@@ -10,6 +10,6 @@
     "publishPath": "./../../dist/incubator"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build incubator"
+    "after:version:bump": "cd ../.. && yarn build:incubator"
   }
 }
