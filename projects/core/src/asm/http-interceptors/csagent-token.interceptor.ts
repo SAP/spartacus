@@ -11,12 +11,12 @@ import {
   InterceptorUtil,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
-import { AuthService } from '../facade/auth.service';
-import { UserToken } from '../models/token-types.model';
+import { AsmAuthService } from '../facade/asm-auth.service';
+import { UserToken } from '../../auth/models/token-types.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CustomerSupportAgentTokenInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private asmAuthService: AsmAuthService) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -46,7 +46,7 @@ export class CustomerSupportAgentTokenInterceptor implements HttpInterceptor {
         request.headers
       )
     ) {
-      return this.authService.getCustomerSupportAgentToken();
+      return this.asmAuthService.getCustomerSupportAgentToken();
     }
     return of(null);
   }

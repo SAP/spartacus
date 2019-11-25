@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10 <12"
+    "node": ">=10 <14"
   },
   "scripts": {
     "build": "ng build storefrontapp --prod",
@@ -42,7 +42,7 @@
     "start": "ng serve --proxy-config mock-server/proxy.backend.js",
     "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
     "start:qa": "ng serve -c=qa",
-    "start:ci": "ng serve -c=ci",
+    "start:ci": "yarn build && yarn start:prod -c=ci",
     "start:prod": "ng serve --prod",
     "start:ssl": "ng serve --ssl",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
