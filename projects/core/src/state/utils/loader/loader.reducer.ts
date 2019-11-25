@@ -52,14 +52,6 @@ export function loaderReducer<T>(
           error: false,
           success: true,
         };
-      } else if (entity.counter) {
-        return {
-          ...state,
-          counter: state.counter
-            ? state.counter + entity.counter
-            : entity.counter,
-          value: reducer ? reducer(state.value, action) : state.value,
-        };
       } else {
         // reset state action
         return {
