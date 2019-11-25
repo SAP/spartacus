@@ -56,7 +56,7 @@ export class ProfileTagInjector {
     );
   }
 
-  private setEventVariables(event: ProfileTagEvent) {
+  private setEventVariables(event: ProfileTagEvent): void {
     switch (event.name) {
       case ProfileTagEventNames.ConsentReferenceChanged:
         this.consentReference = event.data.consentReference;
@@ -141,7 +141,7 @@ export class ProfileTagInjector {
       .appendChild(profileTagScript);
   }
 
-  private initWindow() {
+  private initWindow(): void {
     this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
     this.w.Y_TRACKING = this.w.Y_TRACKING || {};
   }
