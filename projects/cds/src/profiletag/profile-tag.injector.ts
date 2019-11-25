@@ -92,7 +92,7 @@ export class ProfileTagInjector {
 
   private notifyProfileTagOfCartChange({ entries }): void {
     this.w.Y_TRACKING.push({
-      event: 'ModifiedCart',
+      eventName: 'ModifiedCart',
       data: { entries },
     });
   }

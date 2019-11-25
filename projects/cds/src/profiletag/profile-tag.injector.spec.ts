@@ -234,15 +234,15 @@ describe('ProfileTagInjector', () => {
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(2);
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      eventName: 'ModifiedCart',
       data: { entries: [] },
     });
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      eventName: 'ModifiedCart',
       data: { entries: mockCartEntry },
     });
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      eventName: 'ModifiedCart',
       data: { entries: mockCartEntry2 },
     });
   });
@@ -258,7 +258,7 @@ describe('ProfileTagInjector', () => {
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      eventName: 'ModifiedCart',
       data: { entries: [] },
     });
   });
