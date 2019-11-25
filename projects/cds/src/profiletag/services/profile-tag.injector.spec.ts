@@ -6,8 +6,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { ConsentService } from 'projects/core/src/user/facade/consent.service';
+import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { CdsConfig } from '../../config/index';
 import { ProfileTagWindowObject } from '../model/index';
