@@ -153,40 +153,44 @@ export function addPaymentMethod() {
     });
 }
 
-export function selectShippingAddress() {
+export function selectShippingAddress(mobile) {
   cy.server();
   cy.route(
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
   ).as('getdeliveryPage');
   cy.getByText(/proceed to checkout/i).click();
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  if (!mobile) {
+    cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  }
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
-  cy.get('button.cx-btn')
-    .contains('Continue')
-    .click({ force: true });
+  cy.get('.btn-primary').click({ force: true });
   cy.wait('@getdeliveryPage');
 }
 
-export function selectDeliveryMethod() {
+export function selectDeliveryMethod(mobile) {
   cy.server();
   cy.route(
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
-  cy.get('h3.cx-checkout-title').should('contain', 'Shipping Method');
+  if (!mobile) {
+    cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  }
   cy.get('#deliveryMode-standard-gross').should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage');
 }
 
-export function selectPaymentMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Payment');
+export function selectPaymentMethod(mobile) {
+  if (!mobile) {
+    cy.get('.cx-checkout-title').should('contain', 'Payment');
+  }
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('not.be.empty');
@@ -302,7 +306,7 @@ export function deletePaymentCard() {
     });
 }
 
-export function checkoutAsPersistentUserTest() {
+export function checkoutAsPersistentUserTest(mobile = false) {
   it('should login successfully', () => {
     loginSuccessfully();
   });
@@ -324,15 +328,15 @@ export function checkoutAsPersistentUserTest() {
   });
 
   it('should proceed to checkout and select shipping address', () => {
-    selectShippingAddress();
+    selectShippingAddress(mobile);
   });
 
   it('should choose delivery', () => {
-    selectDeliveryMethod();
+    selectDeliveryMethod(mobile);
   });
 
   it('should select payment method', () => {
-    selectPaymentMethod();
+    selectPaymentMethod(mobile);
   });
 
   it('should review and place order', () => {
