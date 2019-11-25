@@ -81,9 +81,6 @@ export function indexOfFirstOccurrence(
 /*!
  * Find the differences between two objects and push to a new object
  * (c) 2019 Chris Ferdinandi & Jascha Brinkmann, MIT License, https://gomakethings.com & https://twitter.com/jaschaio
- * @param  {Object} obj1 The original object
- * @param  {Object} obj2 The object to compare against it
- * @return {Object}      An object of differences between the two
  */
 export function diff<T, D>(objA: T, objB: D): Partial<T | D> {
   // Make sure an object to compare is provided
@@ -94,9 +91,6 @@ export function diff<T, D>(objA: T, objB: D): Partial<T | D> {
   let key;
   /**
    * Check if two arrays are equal
-   * @param  {Array}   arr1 The first array
-   * @param  {Array}   arr2 The second array
-   * @return {Boolean}      If true, both arrays are equal
    */
   function arraysMatch(arr1, arr2) {
     // Check if the arrays are the same length
@@ -113,9 +107,6 @@ export function diff<T, D>(objA: T, objB: D): Partial<T | D> {
 
   /**
    * Compare two items and push non-matches to object
-   * @param  {*}      item1 The first item
-   * @param  {*}      item2 The second item
-   * @param  {String} _key   The key in our object
    */
   function compare(item1, item2, _key) {
     // Get the object type
