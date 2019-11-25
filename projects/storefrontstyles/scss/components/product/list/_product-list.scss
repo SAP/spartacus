@@ -55,16 +55,20 @@
     display: grid;
     grid-gap: 5%;
     grid-template-columns: 1fr 1fr;
+
+    .btn-block {
+      cursor: pointer;
+    }
   }
 
   .cx-single-btn-container {
     display: grid;
     width: 50%;
     margin: auto;
-  }
 
-  .cx-single-btn-container div.btn.btn-block.btn-action {
-    cursor: pointer;
+    .btn-block {
+      cursor: pointer;
+    }
   }
 
   .grid-btn-padding {
