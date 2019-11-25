@@ -10,7 +10,7 @@ import { StrategyRequest } from './../../../cds-models/cds-strategy-request.mode
 
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class CdsMerchandisingStrategyAdapter
   implements MerchandisingStrategyAdapter {
   constructor(

@@ -1,21 +1,18 @@
-import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
-import { ProfileTagComponent } from '../cms-components/profile-tag/profile-tag.component';
+import { ProfileTagCmsModule } from './cms-components/profile-tag-cms.module';
+import { ConsentReferenceInterceptor } from './http-interceptors/consent-reference-interceptor';
+import { DebugInterceptor } from './http-interceptors/debug-interceptor';
 
 @NgModule({
-  imports: [
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ProfileTagComponent: {
-          component: ProfileTagComponent,
-        },
-      },
-    }),
-    CommonModule,
+  imports: [ProfileTagCmsModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ConsentReferenceInterceptor,
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: DebugInterceptor, multi: true },
   ],
-  exports: [ProfileTagComponent],
-  declarations: [ProfileTagComponent],
-  entryComponents: [ProfileTagComponent],
 })
 export class ProfileTagModule {}

@@ -17,5 +17,12 @@ export interface ProfileTagJsConfig {
 }
 
 export interface ProfileTagEvent {
-  eventName: string;
+  name: ProfileTagEventNames;
+  data: any;
+}
+
+export enum ProfileTagEventNames {
+  Loaded = 'Loaded',
+  ConsentReferenceChanged = 'ConsentReferenceChanged',
+  ProfileTagDebug = 'DebugFlagChanged',
 }
