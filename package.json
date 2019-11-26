@@ -8,7 +8,7 @@
   "scripts": {
     "build": "ng build storefrontapp --prod",
     "build:assets": "ng build assets && yarn generate:translations:ts-2-json",
-    "build:core:lib": "ng build core && ng build storefrontlib && yarn build:assets && yarn build incubator",
+    "build:core:lib": "ng build core && ng build storefrontlib && yarn build:assets && yarn build:incubator",
     "build:qa": "ng build -c=qa",
     "build:incubator": "ng build incubator",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
