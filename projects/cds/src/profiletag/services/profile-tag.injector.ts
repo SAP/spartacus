@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+<<<<<<< HEAD
 import { NavigationEnd, Router } from '@angular/router';
 import {
   BaseSiteService,
@@ -8,17 +9,29 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, fromEventPattern, merge, Observable } from 'rxjs';
+=======
+import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
+import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
+import { fromEventPattern, merge, Observable } from 'rxjs';
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
 import {
   distinctUntilChanged,
   filter,
   map,
   mapTo,
+<<<<<<< HEAD
   skipWhile,
+=======
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
   switchMap,
   take,
   tap,
 } from 'rxjs/operators';
+<<<<<<< HEAD
 import { CdsConfig } from '../../config';
+=======
+import { CdsConfig } from '../../config/index';
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
 import {
   ProfileTagEvent,
   ProfileTagEventNames,
@@ -32,7 +45,13 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
+<<<<<<< HEAD
   private tracking$: Observable<boolean> = merge(
+=======
+  public consentReference = null;
+  public profileTagDebug = false;
+  private tracking$: Observable<boolean | NgRouterEvent> = merge(
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
     this.pageLoaded(),
     this.consentChanged(),
     this.cartChanged()
@@ -45,7 +64,10 @@ export class ProfileTagInjector {
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
+<<<<<<< HEAD
     private cartService: CartService,
+=======
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
     private consentService: ConsentService,
     @Inject(PLATFORM_ID) private platform: any
   ) {}
@@ -61,7 +83,11 @@ export class ProfileTagInjector {
     );
   }
 
+<<<<<<< HEAD
   private setEventVariables(event: ProfileTagEvent) {
+=======
+  private setEventVariables(event: ProfileTagEvent): void {
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
     switch (event.name) {
       case ProfileTagEventNames.ConsentReferenceChanged:
         this.consentReference = event.data.consentReference;
@@ -74,7 +100,11 @@ export class ProfileTagInjector {
     }
   }
 
+<<<<<<< HEAD
   private pageLoaded(): Observable<boolean> {
+=======
+  private pageLoaded(): Observable<NgRouterEvent> {
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {
@@ -171,7 +201,7 @@ export class ProfileTagInjector {
       .appendChild(profileTagScript);
   }
 
-  private initWindow() {
+  private initWindow(): void {
     this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
     this.w.Y_TRACKING = this.w.Y_TRACKING || {};
   }

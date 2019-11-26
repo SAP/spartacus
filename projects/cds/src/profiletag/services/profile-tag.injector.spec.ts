@@ -6,6 +6,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+<<<<<<< HEAD
 import {
   BaseSiteService,
   Cart,
@@ -15,6 +16,10 @@ import {
 } from '@spartacus/core';
 import { ConsentService } from 'projects/core/src/user/facade/consent.service';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
+=======
+import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
 import { CdsConfig } from '../../config/index';
 import { ProfileTagWindowObject } from '../model/index';
 import { ProfileTagInjector } from './profile-tag.injector';
@@ -58,8 +63,11 @@ describe('ProfileTagInjector', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
+<<<<<<< HEAD
     orderEntryBehavior = new ReplaySubject<OrderEntry[]>();
     cartBehavior = new ReplaySubject<Cart>();
+=======
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
     consentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
@@ -99,10 +107,13 @@ describe('ProfileTagInjector', () => {
         {
           provide: ConsentService,
           useValue: consentsService,
+<<<<<<< HEAD
         },
         {
           provide: CartService,
           useValue: cartService,
+=======
+>>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
         },
       ],
     });
