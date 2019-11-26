@@ -125,16 +125,19 @@ function installPackageJsonDependencies(): Rule {
 }
 
 function getStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `baseUrl: '${options.baseUrl}',`;
+  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
+  const contextContent = !options.baseSite
+    ? ''
+    : `
+      context: {
+        baseSite: ['${options.baseSite}']
+      },`;
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
           prefix: '/rest/v2/'
         }
-      },
-      context: {
-        baseSite: ['${options.baseSite}']
-      },
+      },${contextContent}
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
