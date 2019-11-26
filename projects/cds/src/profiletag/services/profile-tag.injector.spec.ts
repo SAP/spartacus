@@ -6,14 +6,10 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import {
-  AnonymousConsentsService,
-  BaseSiteService,
-  WindowRef,
-} from '@spartacus/core';
+import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { CdsConfig } from '../../config/cds-config';
-import { ProfileTagWindowObject } from '../model/profile-tag.model';
+import { CdsConfig } from '../../config/index';
+import { ProfileTagWindowObject } from '../model/index';
 import { ProfileTagInjector } from './profile-tag.injector';
 
 const mockCDSConfig: CdsConfig = {
@@ -42,7 +38,7 @@ describe('ProfileTagInjector', () => {
   let isConsentGivenValue;
   let routerEventsBehavior;
   let router;
-  let anonymousConsentsService;
+  let consentsService;
   let mockedWindowRef;
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
@@ -52,7 +48,7 @@ describe('ProfileTagInjector', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
-    anonymousConsentsService = {
+    consentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
     };
@@ -85,8 +81,8 @@ describe('ProfileTagInjector', () => {
         { provide: Router, useValue: router },
         { provide: PLATFORM_ID, useValue: 'browser' },
         {
-          provide: AnonymousConsentsService,
-          useValue: anonymousConsentsService,
+          provide: ConsentService,
+          useValue: consentsService,
         },
       ],
     });
@@ -145,7 +141,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      eventName: 'Loaded',
+      name: 'Loaded',
     });
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     subscription.unsubscribe();
@@ -161,7 +157,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      eventName: 'Loaded',
+      name: 'Loaded',
     });
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
@@ -188,7 +184,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      eventName: 'Loaded',
+      name: 'Loaded',
     });
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
