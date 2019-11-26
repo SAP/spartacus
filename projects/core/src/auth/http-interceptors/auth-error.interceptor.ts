@@ -40,10 +40,6 @@ export class AuthErrorInterceptor implements HttpInterceptor {
         if (errResponse instanceof HttpErrorResponse) {
           switch (errResponse.status) {
             case 401: // Unauthorized
-              console.log(
-                '401 error caught in auth-error.interceptor.ts',
-                errResponse
-              );
               if (isClientTokenRequest) {
                 if (this.isExpiredToken(errResponse)) {
                   return this.clientErrorHandlingService.handleExpiredClientToken(
@@ -70,11 +66,6 @@ export class AuthErrorInterceptor implements HttpInterceptor {
               }
               break;
             case 400: // Bad Request
-              console.log(
-                '400 error caught in auth-error.interceptor.ts',
-                errResponse
-              );
-
               if (
                 errResponse.url.includes(OAUTH_ENDPOINT) &&
                 errResponse.error.error === 'invalid_grant'
