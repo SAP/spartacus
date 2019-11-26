@@ -60,7 +60,7 @@ export class UserTokenEffects {
     map((action: AuthActions.RevokeToken) => {
       return action.payload;
     }),
-    exhaustMap(userToken => {
+    mergeMap(userToken => {
       return this.userTokenService.revokeToken(userToken);
     })
   );
