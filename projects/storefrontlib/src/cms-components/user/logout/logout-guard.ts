@@ -22,6 +22,8 @@ export class LogoutGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<any> {
+    this.logout();
+
     return this.cms
       .hasPage({
         id: this.semanticPathService.get('logout'),
@@ -29,7 +31,6 @@ export class LogoutGuard implements CanActivate {
       })
       .pipe(
         tap(hasPage => {
-          this.logout();
           if (!hasPage) {
             this.routing.go({ cxRoute: 'home' });
           }
