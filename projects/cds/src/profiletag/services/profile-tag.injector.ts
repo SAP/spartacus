@@ -107,10 +107,10 @@ export class ProfileTagInjector {
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
   private cartChanged(): Observable<boolean> {
-    return combineLatest(
+    return combineLatest([
       this.cartService.getEntries(),
-      this.cartService.getActive()
-    ).pipe(
+      this.cartService.getActive(),
+    ]).pipe(
       skipWhile(([entries]) => entries.length === 0),
       tap(([entries, cart]) => {
         this.notifyProfileTagOfCartChange({ entries, cart });
