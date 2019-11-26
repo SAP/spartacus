@@ -10,10 +10,10 @@ import {
   BaseSiteService,
   Cart,
   CartService,
+  ConsentService,
   OrderEntry,
   WindowRef,
 } from '@spartacus/core';
-import { ConsentService } from 'projects/core/src/user/facade/consent.service';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { CdsConfig } from '../../config/index';
 import { ProfileTagWindowObject } from '../model/index';
