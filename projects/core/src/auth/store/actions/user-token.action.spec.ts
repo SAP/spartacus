@@ -85,4 +85,14 @@ describe('User Token Actions', () => {
       });
     });
   });
+
+  describe('RevokeUserToken Actions', () => {
+    it('should create the action', () => {
+      const action = new AuthActions.RevokeUserToken(token);
+      expect({ ...action }).toEqual({
+        type: AuthActions.REVOKE_USER_TOKEN,
+        payload: token,
+      });
+    });
+  });
 });

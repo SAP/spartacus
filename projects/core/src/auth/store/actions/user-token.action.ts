@@ -51,4 +51,5 @@ export type UserTokenAction =
   | LoadUserTokenSuccess
   | RefreshUserToken
   | RefreshUserTokenFail
-  | RefreshUserTokenSuccess;
+  | RefreshUserTokenSuccess
+  | RevokeUserToken;
