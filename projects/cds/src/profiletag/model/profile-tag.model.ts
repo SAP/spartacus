@@ -13,16 +13,21 @@ export interface ProfileTagJsConfig {
   configUrl?: string;
   allowInsecureCookies?: boolean;
   gtmId?: string;
-  profileTagEventReceiver: Function;
 }
 
-export interface ProfileTagEvent {
-  name: ProfileTagEventNames;
-  data: any;
+export interface ConsentReferenceEvent extends CustomEvent {
+  detail: {
+    consentReference: string;
+  };
+}
+export interface DebugEvent extends CustomEvent {
+  detail: {
+    debug: boolean;
+  };
 }
 
 export enum ProfileTagEventNames {
-  Loaded = 'Loaded',
-  ConsentReferenceChanged = 'ConsentReferenceChanged',
-  ProfileTagDebug = 'DebugFlagChanged',
+  Loaded = 'profiletag_loaded',
+  ConsentReferenceChanged = 'profiletag_consentReferenceChanged',
+  DebugFlagChanged = 'profiletag_debugFlagChanged',
 }
