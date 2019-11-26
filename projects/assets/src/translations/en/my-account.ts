@@ -130,5 +130,9 @@ export const myAccount = {
     startDateDesc: 'Start Date (descending)',
     endDateAsc: 'End Date (ascending)',
     endDateDesc: 'End Date (descending)',
+    notesPreffix:
+      'You can set your preferred channels for receiving coupon notifications on the ',
+    notesLink: 'Notification Channels',
+    notesSuffix: ' page.',
   },
 };

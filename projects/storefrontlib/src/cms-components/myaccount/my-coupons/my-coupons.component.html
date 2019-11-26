@@ -61,6 +61,16 @@
             ></cx-pagination>
           </div>
         </div>
+        <div class="cx-my-coupons-notes">
+          <span>
+            <cx-icon [type]="iconTypes.INFO"></cx-icon>
+            {{ 'myCoupons.notesPreffix' | cxTranslate
+            }}<a [routerLink]="['/my-account/notification-preference']">{{
+              'myCoupons.notesLink' | cxTranslate
+            }}</a
+            >{{ 'myCoupons.notesSuffix' | cxTranslate }}</span
+          >
+        </div>
       </ng-container>
     </ng-container>
 

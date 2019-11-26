@@ -7,6 +7,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { tap, map } from 'rxjs/operators';
+import { ICON_TYPE } from '../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-my-coupons',
@@ -16,6 +17,8 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   couponResult$: Observable<CustomerCouponSearchResult>;
   couponsLoading$: Observable<boolean>;
   couponSubscriptionLoading$: Observable<boolean>;
+
+  iconTypes = ICON_TYPE;
 
   private subscriptions = new Subscription();
 

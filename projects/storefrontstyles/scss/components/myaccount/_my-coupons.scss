@@ -45,4 +45,11 @@
       display: none;
     }
   }
+
+  .cx-my-coupons-notes {
+    a {
+      color: $dark;
+      font-weight: var(--cx-font-weight-bold);
+    }
+  }
 }
