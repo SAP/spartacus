@@ -6,11 +6,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import {
-  AnonymousConsentsService,
-  BaseSiteService,
-  WindowRef,
-} from '@spartacus/core';
+import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { CdsConfig } from '../../config/index';
 import { ProfileTagWindowObject } from '../model/index';
@@ -42,7 +38,7 @@ describe('ProfileTagInjector', () => {
   let isConsentGivenValue;
   let routerEventsBehavior;
   let router;
-  let anonymousConsentsService;
+  let consentsService;
   let mockedWindowRef;
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
@@ -52,7 +48,7 @@ describe('ProfileTagInjector', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
-    anonymousConsentsService = {
+    consentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
     };
@@ -85,8 +81,8 @@ describe('ProfileTagInjector', () => {
         { provide: Router, useValue: router },
         { provide: PLATFORM_ID, useValue: 'browser' },
         {
-          provide: AnonymousConsentsService,
-          useValue: anonymousConsentsService,
+          provide: ConsentService,
+          useValue: consentsService,
         },
       ],
     });
