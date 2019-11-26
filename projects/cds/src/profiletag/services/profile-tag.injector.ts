@@ -1,8 +1,15 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
-import { BaseSiteService, ConsentService, WindowRef } from '@spartacus/core';
-import { fromEventPattern, merge, Observable } from 'rxjs';
+import {
+  BaseSiteService,
+  CartService,
+  ConsentService,
+  OrderEntry,
+  WindowRef,
+  Cart,
+} from '@spartacus/core';
+import { fromEventPattern, merge, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -26,17 +33,20 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
+  private tracking$: Observable<boolean | NgRouterEvent | OrderEntry[]> = merge(
+    this.pageLoaded(),
+    this.consentChanged(),
+    this.cartChanged()
+  );
   public consentReference = null;
   public profileTagDebug = false;
-  private tracking$: Observable<boolean | NgRouterEvent> = merge(
-    this.pageLoaded(),
-    this.consentChanged()
-  );
+
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
     private baseSiteService: BaseSiteService,
     private router: Router,
+    private cartService: CartService,
     private consentService: ConsentService,
     @Inject(PLATFORM_ID) private platform: any
   ) {}
@@ -91,6 +101,31 @@ export class ProfileTagInjector {
           this.notifyProfileTagOfConsentChange({ granted: true });
         })
       );
+  }
+
+  /**
+   * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
+   */
+  private cartChanged(): Observable<[OrderEntry[], Cart]> {
+    let sent = false;
+    const cartChanged = combineLatest(
+      this.cartService.getEntries(),
+      this.cartService.getActive()
+    );
+    return cartChanged.pipe(
+      filter(([entries, cart]) => !(!sent && entries.length === 0)),
+      tap(([entries, cart]) => {
+        sent = true;
+        this.notifyProfileTagOfCartChange({ entries, cart });
+      })
+    );
+  }
+
+  private notifyProfileTagOfCartChange({ entries, cart }): void {
+    this.w.Y_TRACKING.push({
+      eventName: 'ModifiedCart',
+      data: { entries, cart },
+    });
   }
 
   private notifyProfileTagOfConsentChange({ granted }): void {
