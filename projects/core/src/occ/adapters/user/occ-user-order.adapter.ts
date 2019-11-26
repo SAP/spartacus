@@ -17,6 +17,7 @@ import {
   ORDER_HISTORY_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
+  ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
 } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
@@ -159,12 +160,10 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   public createReturnRequest(
     userId: string,
-    orderCode: string,
     returnRequestInput: ReturnRequestEntryInputList
   ): Observable<ReturnRequest> {
     const url = this.occEndpoints.getUrl('returnOrder', {
       userId,
-      orderId: orderCode,
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -172,12 +171,13 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
     returnRequestInput = this.converter.convert(
       returnRequestInput,
-      ORDER_RETURN_REQUEST_NORMALIZER
+      ORDER_RETURN_REQUEST_INPUT_SERIALIZER
     );
 
-    return this.http
-      .post(url, returnRequestInput, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.post(url, returnRequestInput, { headers }).pipe(
+      catchError((error: any) => throwError(error)),
+      this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER)
+    );
   }
 
   public loadReturnRequestList(

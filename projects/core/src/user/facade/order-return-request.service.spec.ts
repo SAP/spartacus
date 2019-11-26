@@ -47,12 +47,11 @@ describe('OrderReturnRequestService', () => {
   ));
 
   it('should be able to create order return request', () => {
-    service.createOrderReturnRequest('orderCode', {});
+    service.createOrderReturnRequest({ orderCode: 'test' });
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.CreateOrderReturnRequest({
         userId: OCC_USER_ID_CURRENT,
-        orderCode: 'orderCode',
-        returnRequestInput: {},
+        returnRequestInput: { orderCode: 'test' },
       })
     );
   });

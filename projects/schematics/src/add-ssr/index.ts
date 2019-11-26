@@ -237,6 +237,26 @@ function provideServerAndWebpackServerConfigs(
   ]);
 }
 
+function modifyMainServerTSFile() {
+  return (tree: Tree) => {
+    const mainServerPath = 'src/main.server.ts';
+    const buffer = tree.read(mainServerPath);
+    if (buffer) {
+      let mainServerFile = buffer.toString();
+      const engineExpressToRemove = `export { ngExpressEngine } from "@nguniversal/express-engine";`;
+      if (mainServerFile.includes(engineExpressToRemove)) {
+        const startPos = mainServerFile.indexOf(engineExpressToRemove);
+        const endPos = startPos + engineExpressToRemove.length + 1;
+        mainServerFile =
+          mainServerFile.substr(0, startPos) +
+          mainServerFile.substr(endPos, mainServerFile.length);
+        mainServerFile += `import { ngExpressEngine as engine } from '@nguniversal/express-engine';\nimport { NgExpressEngineDecorator } from '@spartacus/core';\nexport const ngExpressEngine = NgExpressEngineDecorator.get(engine);`;
+        tree.overwrite(mainServerPath, mainServerFile);
+      }
+    }
+  };
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const possibleProjectFiles = ['/angular.json', '/.angular.json'];
@@ -261,6 +281,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(templates, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
+      modifyMainServerTSFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };

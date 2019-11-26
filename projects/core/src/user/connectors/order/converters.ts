@@ -4,6 +4,7 @@ import {
   OrderHistoryList,
   ReturnRequestEntryInputList,
   ReturnRequestList,
+  ReturnRequest,
 } from '../../../model/order.model';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 
@@ -16,8 +17,12 @@ export const CONSIGNMENT_TRACKING_NORMALIZER = new InjectionToken<
 >('ConsignmentTrackingNormalizer');
 
 export const ORDER_RETURN_REQUEST_NORMALIZER = new InjectionToken<
-  Converter<any, ReturnRequestEntryInputList>
+  Converter<any, ReturnRequest>
 >('OrderReturnRequestNormalizer');
+
+export const ORDER_RETURN_REQUEST_INPUT_SERIALIZER = new InjectionToken<
+  Converter<ReturnRequestEntryInputList, any>
+>('OrderReturnRequestInputSerializer');
 
 export const ORDER_RETURNS_NORMALIZER = new InjectionToken<
   Converter<any, ReturnRequestList>

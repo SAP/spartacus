@@ -20,7 +20,7 @@ export class OrderReturnRequestEffect {
     map((action: UserActions.CreateOrderReturnRequest) => action.payload),
     switchMap(payload => {
       return this.orderConnector
-        .return(payload.userId, payload.orderCode, payload.returnRequestInput)
+        .return(payload.userId, payload.returnRequestInput)
         .pipe(
           map((returnRequest: ReturnRequest) => {
             return new UserActions.CreateOrderReturnRequestSuccess(

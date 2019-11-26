@@ -18,6 +18,7 @@ import * as fromOrderReturnRequestEffect from './order-return-request.effect';
 const mockReturnRequest: ReturnRequest = { rma: '000000' };
 
 const returnRequestInput: ReturnRequestEntryInputList = {
+  orderCode: 'orderCode',
   returnRequestEntryInputs: [{ orderEntryNumber: 0, quantity: 1 }],
 };
 
@@ -60,7 +61,6 @@ describe('Order Return Request effect', () => {
       spyOn(orderConnector, 'return').and.returnValue(of(mockReturnRequest));
       const action = new UserActions.CreateOrderReturnRequest({
         userId: 'userId',
-        orderCode: 'orderCode',
         returnRequestInput,
       });
 
@@ -78,9 +78,9 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for create order return request', () => {
       spyOn(orderConnector, 'return').and.returnValue(throwError('Error'));
+
       const action = new UserActions.CreateOrderReturnRequest({
         userId: 'userId',
-        orderCode: 'orderCode',
         returnRequestInput,
       });
 

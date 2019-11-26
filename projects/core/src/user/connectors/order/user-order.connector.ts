@@ -38,14 +38,9 @@ export class UserOrderConnector {
 
   public return(
     userId: string,
-    orderCode: string,
     returnRequestInput: ReturnRequestEntryInputList
   ): Observable<ReturnRequest> {
-    return this.adapter.createReturnRequest(
-      userId,
-      orderCode,
-      returnRequestInput
-    );
+    return this.adapter.createReturnRequest(userId, returnRequestInput);
   }
 
   public getReturnRequestList(

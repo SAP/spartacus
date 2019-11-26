@@ -92,7 +92,8 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.returnRequestService.createOrderReturnRequest(this.orderCode, {
+    this.returnRequestService.createOrderReturnRequest({
+      orderCode: this.orderCode,
       returnRequestEntryInputs: this.returnRequestEntryInput,
     });
 
