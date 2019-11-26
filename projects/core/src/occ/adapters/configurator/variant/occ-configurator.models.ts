@@ -77,6 +77,18 @@ export namespace OccConfigurator {
     selected?: boolean;
   }
 
+  export interface AddToCartParameters {
+    userId?: string;
+    cartId?: string;
+    product?: AddToCartProductData;
+    quantity?: number;
+    configId?: string;
+  }
+
+  export interface AddToCartProductData {
+    code?: string;
+  }
+
   export enum GroupType {
     CSTIC_GROUP = 'CSTIC_GROUP',
   }

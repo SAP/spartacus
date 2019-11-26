@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
+  CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
@@ -66,28 +67,24 @@ export class OccConfiguratorVariantAdapter
   }
 
   addToCart(
-    userId: string,
-    cartId: string,
-    productCode: string,
-    quantity: number = 1,
-    configId: string
+    parameters: Configurator.AddToCartParameters
   ): Observable<CartModification> {
     const url = this.occEndpointsService.getUrl('addConfigurationToCart', {
-      userId,
-      cartId,
+      userId: parameters.userId,
+      cartId: parameters.cartId,
     });
 
-    const occConfigOrderEntry = JSON.stringify({
-      configId: configId,
-      quantity: quantity,
-      product: { code: productCode },
-    });
+    const occAddToCartParameters = this.converterService.convert(
+      parameters,
+      CONFIGURATION_ADD_TO_CART_SERIALIZER
+    );
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+
     return this.http
-      .post<CartModification>(url, occConfigOrderEntry, { headers })
+      .post<CartModification>(url, occAddToCartParameters, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 

@@ -256,34 +256,24 @@ export class ConfiguratorEffects {
         take(1),
         filter(pendingChanges => pendingChanges === 0),
         switchMap(() => {
-          return this.configuratorCommonsConnector
-            .addToCart(
-              payload.userId,
-              payload.cartId,
-              payload.productCode,
-              payload.quantity,
-              payload.configId
+          return this.configuratorCommonsConnector.addToCart(payload).pipe(
+            switchMap((entry: CartModification) => {
+              return [
+                new ConfiguratorUiActions.RemoveUiState(payload.productCode),
+                new ConfiguratorActions.RemoveConfiguration(
+                  payload.productCode
+                ),
+                new CartActions.CartAddEntrySuccess({
+                  ...entry,
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                }),
+              ];
+            }),
+            catchError(error =>
+              of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
             )
-            .pipe(
-              switchMap((entry: CartModification) => {
-                return [
-                  new ConfiguratorUiActions.RemoveUiState(payload.productCode),
-                  new ConfiguratorActions.RemoveConfiguration(
-                    payload.productCode
-                  ),
-                  new CartActions.CartAddEntrySuccess({
-                    ...entry,
-                    userId: payload.userId,
-                    cartId: payload.cartId,
-                  }),
-                ];
-              }),
-              catchError(error =>
-                of(
-                  new CartActions.CartAddEntryFail(makeErrorSerializable(error))
-                )
-              )
-            );
+          );
         })
       );
     })

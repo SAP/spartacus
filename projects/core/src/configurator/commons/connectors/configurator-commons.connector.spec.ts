@@ -113,17 +113,16 @@ describe('ConfiguratorCommonsConnector', () => {
       ConfiguratorCommonsAdapter
     >);
 
+    const parameters: Configurator.AddToCartParameters = {
+      userId: USER_ID,
+      cartId: CART_ID,
+      productCode: PRODUCT_CODE,
+      quantity: QUANTITY,
+      configId: CONFIG_ID,
+    };
     let result;
-    service
-      .addToCart(USER_ID, CART_ID, PRODUCT_CODE, QUANTITY, CONFIG_ID)
-      .subscribe(res => (result = res));
-    expect(adapter.addToCart).toHaveBeenCalledWith(
-      USER_ID,
-      CART_ID,
-      PRODUCT_CODE,
-      QUANTITY,
-      CONFIG_ID
-    );
-    expect(result).toBe('addToCart' + USER_ID);
+    service.addToCart(parameters).subscribe(res => (result = res));
+    expect(adapter.addToCart).toHaveBeenCalledWith(parameters);
+    expect(result).toBe('addToCart' + parameters);
   });
 });
