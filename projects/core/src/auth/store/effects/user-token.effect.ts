@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../models/token-types.model';
@@ -57,7 +57,6 @@ export class UserTokenEffects {
   @Effect({ dispatch: false })
   revoke$ = this.actions$.pipe(
     ofType(AuthActions.REVOKE_TOKEN),
-    tap(action => console.log('revoke$ effect: Caught revoke action', action)),
     map((action: AuthActions.RevokeToken) => {
       return action.payload;
     }),
