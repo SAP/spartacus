@@ -56,7 +56,7 @@ export class UserTokenEffects {
 
   @Effect({ dispatch: false })
   revokeUserToken$ = this.actions$.pipe(
-    ofType(AuthActions.REVOKE_TOKEN),
+    ofType(AuthActions.REVOKE_USER_TOKEN),
     map((action: AuthActions.RevokeUserToken) => {
       return action.payload;
     }),

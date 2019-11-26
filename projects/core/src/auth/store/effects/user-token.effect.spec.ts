@@ -32,9 +32,7 @@ class UserAuthenticationTokenServiceMock {
 describe('UserToken effect', () => {
   let userTokenService: UserAuthenticationTokenService;
   let userTokenEffect: UserTokenEffects;
-  let actions$: Observable<
-    AuthActions.UserTokenAction | AuthActions.RevokeUserToken
-  >;
+  let actions$: Observable<AuthActions.UserTokenAction>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
