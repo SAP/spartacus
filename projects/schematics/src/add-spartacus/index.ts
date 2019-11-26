@@ -28,7 +28,7 @@ import { getAngularVersion } from '../shared/utils/package-utils';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = '^1.1.0';
+    const spartacusVersion = '^1.3.0';
     const ngrxVersion = '^8.3.0';
     const angularVersion = getAngularVersion(tree);
 
@@ -61,7 +61,7 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: '^2.13.2',
+        version: '^3.0.7',
         name: '@ng-select/ng-select',
       },
 
@@ -144,7 +144,9 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         fallbackLang: 'en'
       },
       features: {
-        level: '${options.featureLevel}'
+        level: '${options.featureLevel}',
+        consignmentTracking: true,
+        anonymousConsents: true
       }
     }`;
 }
