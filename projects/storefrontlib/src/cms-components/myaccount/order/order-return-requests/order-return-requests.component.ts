@@ -41,7 +41,9 @@ export class OrderReturnRequestsComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.returnRequestService.clearOrderReturnRequestList();
+  }
 
   changeSortCode(sortCode: string): void {
     const event: { sortCode: string; currentPage: number } = {
