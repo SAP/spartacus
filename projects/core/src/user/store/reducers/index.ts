@@ -32,6 +32,7 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -56,6 +57,7 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromUserOrdersReducer.reducer
     ),
     order: fromOrderDetailsReducer.reducer,
+    orderReturnRequest: fromOrderReturnRequestReducer.reducer,
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),

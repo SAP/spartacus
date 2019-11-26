@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, Subscription } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import {
   OrderEntry,
   CancellationReturnRequestEntryInput,
   RoutingService,
   LanguageService,
+  UserOrderService,
 } from '@spartacus/core';
 
 import { OrderDetailsService } from '../../order-details/order-details.service';
@@ -15,11 +16,12 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
   selector: 'cx-return-order-confirmation',
   templateUrl: './return-order-confirmation.component.html',
 })
-export class ReturnOrderConfirmationComponent implements OnInit {
+export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected routing: RoutingService,
-    protected languageService: LanguageService
+    protected languageService: LanguageService,
+    protected userOrderService: UserOrderService
   ) {}
 
   returnedEntries$: Observable<OrderEntry[]>;
@@ -27,6 +29,8 @@ export class ReturnOrderConfirmationComponent implements OnInit {
 
   lang = 'en';
   returnRequestEntryInput: CancellationReturnRequestEntryInput[];
+
+  subscription: Subscription;
 
   ngOnInit() {
     this.returnRequestEntryInput = this.orderDetailsService.cancellationReturnRequestInputs;
@@ -88,7 +92,26 @@ export class ReturnOrderConfirmationComponent implements OnInit {
   }
 
   submit() {
-    // submit nothing now, will be handled by ticket #5121
-    this.routing.go({ cxRoute: 'orders' });
+    this.userOrderService.createOrderReturnRequest({
+      orderCode: this.orderCode,
+      returnRequestEntryInputs: this.returnRequestEntryInput,
+    });
+
+    if (!this.subscription) {
+      this.subscription = this.userOrderService
+        .getOrderReturnRequest()
+        .pipe(filter(returnRequest => Boolean(returnRequest)))
+        .subscribe(returnRequest => {
+          console.log(returnRequest);
+          // should go to "return request details" page, will be handled by #5477
+          this.routing.go({ cxRoute: 'orders' });
+        });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -3,7 +3,11 @@ import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Title, User } from '../../model/misc.model';
-import { Order, OrderHistoryList } from '../../model/order.model';
+import {
+  Order,
+  OrderHistoryList,
+  ReturnRequest,
+} from '../../model/order.model';
 import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';
@@ -34,6 +38,7 @@ export interface UserState {
   payments: LoaderState<PaymentDetails[]>;
   orders: LoaderState<OrderHistoryList>;
   order: OrderDetailsState;
+  orderReturnRequest: OrderReturnRequestState;
   titles: TitlesState;
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
@@ -42,6 +47,10 @@ export interface UserState {
 
 export interface OrderDetailsState {
   order: Order;
+}
+
+export interface OrderReturnRequestState {
+  returnRequest?: ReturnRequest;
 }
 
 export interface RegionsState {

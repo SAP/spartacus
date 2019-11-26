@@ -1,13 +1,21 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
-import { Order, OrderHistoryList } from '../../../model/order.model';
+import {
+  Order,
+  OrderHistoryList,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
+} from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
+  ORDER_RETURN_REQUEST_NORMALIZER,
+  ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
 } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
@@ -146,5 +154,27 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     return this.http
       .get<ConsignmentTracking>(url)
       .pipe(this.converter.pipeable(CONSIGNMENT_TRACKING_NORMALIZER));
+  }
+
+  public createReturnRequest(
+    userId: string,
+    returnRequestInput: ReturnRequestEntryInputList
+  ): Observable<ReturnRequest> {
+    const url = this.occEndpoints.getUrl('returnOrder', {
+      userId,
+    });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    returnRequestInput = this.converter.convert(
+      returnRequestInput,
+      ORDER_RETURN_REQUEST_INPUT_SERIALIZER
+    );
+
+    return this.http.post(url, returnRequestInput, { headers }).pipe(
+      catchError((error: any) => throwError(error)),
+      this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER)
+    );
   }
 }

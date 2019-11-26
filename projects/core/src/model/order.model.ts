@@ -37,7 +37,29 @@ export interface CancellationReturnRequestEntryInput {
 }
 
 export interface ReturnRequestEntryInputList {
+  orderCode?: string;
   returnRequestEntryInputs?: CancellationReturnRequestEntryInput[];
+}
+
+export interface ReturnRequestEntry {
+  OrderEntry?: OrderEntry;
+  expectedQuantity?: number;
+  refundAmount?: Price;
+}
+
+export interface ReturnRequest {
+  cancellable?: boolean;
+  code?: string;
+  creationTime?: Date;
+  deliveryCost?: Price;
+  order?: Order;
+  refundDeliveryCost?: boolean;
+  returnEntries?: ReturnRequestEntry[];
+  returnLabelDownloadUrl?: string;
+  rma?: string;
+  status?: string;
+  subTotal?: Price;
+  totalPrice?: Price;
 }
 
 export interface PickupOrderEntryGroup {
