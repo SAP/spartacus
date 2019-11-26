@@ -4,6 +4,7 @@ import {
   MemoizedSelector,
 } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
+import { User } from '../../../model/misc.model';
 import { OrderEntry } from '../../../model/order.model';
 import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -13,7 +14,6 @@ import {
   CART_FEATURE,
   StateWithCart,
 } from '../cart-state';
-import { User } from '../../../model/misc.model';
 
 const getCartContentSelector = (state: CartState) => state.content;
 const getCartRefreshSelector = (state: CartState) => state.refresh;
@@ -87,20 +87,20 @@ export const getCartMergeComplete: MemoizedSelector<
 
 export const getCartEntriesMap: MemoizedSelector<
   StateWithCart,
-  { [code: string]: OrderEntry }
+  { [entryNumber: number]: OrderEntry }
 > = createSelector(
   getCartState,
   getCartEntriesSelector
 );
 
 export const getCartEntrySelectorFactory = (
-  productCode: string
+  entryNumber: number
 ): MemoizedSelector<StateWithCart, OrderEntry> => {
   return createSelector(
     getCartEntriesMap,
     entries => {
       if (entries) {
-        return entries[productCode];
+        return entries[entryNumber];
       }
     }
   );
@@ -112,7 +112,7 @@ export const getCartEntries: MemoizedSelector<
 > = createSelector(
   getCartEntriesMap,
   entities => {
-    return Object.keys(entities).map(code => entities[code]);
+    return Object.keys(entities).map(entryNumber => entities[entryNumber]);
   }
 );
 

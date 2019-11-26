@@ -340,12 +340,47 @@ describe('CartService', () => {
     });
   });
 
+  describe('getEntryForEntryNumber', () => {
+    it('should return an entry', () => {
+      const testCart: Cart = <Cart>{
+        entries: [
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
+        ],
+      };
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      let result: OrderEntry;
+      service
+        .getEntryForEntryNumber(0)
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(testCart.entries[0]);
+    });
+    it('should emit empty entry if nothing was found', () => {
+      const testCart: Cart = <Cart>{
+        entries: [
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
+        ],
+      };
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      let hasEmitted = false;
+      service
+        .getEntryForEntryNumber(2)
+        .subscribe(() => (hasEmitted = true))
+        .unsubscribe();
+      expect(hasEmitted).toBe(true);
+    });
+  });
+
   describe('getEntry', () => {
     it('should return an entry', () => {
       const testCart: Cart = <Cart>{
         entries: [
-          { product: { code: 'code1' } },
-          { product: { code: 'code2' } },
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
         ],
       };
       store.dispatch(new CartActions.LoadCartSuccess(testCart));
@@ -357,14 +392,49 @@ describe('CartService', () => {
         .unsubscribe();
       expect(result).toEqual(testCart.entries[0]);
     });
+
+    it('should return the first entry in case product is present multiple times in the cart', () => {
+      const testCart: Cart = <Cart>{
+        entries: [
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
+          { entryNumber: 2, product: { code: 'code2' } },
+        ],
+      };
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      let result: OrderEntry;
+      service
+        .getEntry('code2')
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(testCart.entries[1]);
+    });
+
+    it('should emit empty entry if nothing was found', () => {
+      const testCart: Cart = <Cart>{
+        entries: [
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
+        ],
+      };
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      let hasEmitted = false;
+      service
+        .getEntry('code3')
+        .subscribe(() => (hasEmitted = true))
+        .unsubscribe();
+      expect(hasEmitted).toBe(true);
+    });
   });
 
   describe('getEntries', () => {
     it('should return entries', () => {
       const testCart: Cart = <Cart>{
         entries: [
-          { product: { code: 'code1' } },
-          { product: { code: 'code2' } },
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
         ],
       };
       store.dispatch(new CartActions.LoadCartSuccess(testCart));
