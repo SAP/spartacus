@@ -9,10 +9,10 @@ import { DebugInterceptor } from './http-interceptors/debug-interceptor';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ConsentReferenceInterceptor,
+      useExisting: ConsentReferenceInterceptor,
       multi: true,
     },
-    { provide: HTTP_INTERCEPTORS, useClass: DebugInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useExisting: DebugInterceptor, multi: true },
   ],
 })
 export class ProfileTagModule {}
