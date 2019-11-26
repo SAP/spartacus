@@ -41,7 +41,7 @@ export class CdsMerchandisingUserContextService {
     );
   }
 
-  private getProductNavigationContext(): Observable<String> {
+  private getProductNavigationContext(): Observable<string> {
     return this.routingService.getRouterState().pipe(
       map(
         (routerState: RouterState) => routerState.state.params['productCode']
@@ -50,7 +50,7 @@ export class CdsMerchandisingUserContextService {
     );
   }
 
-  private getCategoryNavigationContext(): Observable<String> {
+  private getCategoryNavigationContext(): Observable<string> {
     return this.routingService.getRouterState().pipe(
       map(
         (routerState: RouterState) => routerState.state.params['categoryCode']
