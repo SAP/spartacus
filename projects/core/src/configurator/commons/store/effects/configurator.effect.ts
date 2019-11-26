@@ -18,6 +18,7 @@ import { ConfiguratorCommonsConnector } from '../../connectors/configurator-comm
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions, ConfiguratorUiActions } from '../actions';
 import {
+  AddToCart,
   AddToCartFinalize,
   ADD_TO_CART,
   ADD_TO_CART_FINALIZE,
@@ -254,7 +255,7 @@ export class ConfiguratorEffects {
   @Effect()
   addToCart$: Observable<AddToCartFinalize> = this.actions$.pipe(
     ofType(ADD_TO_CART),
-    map((action: { type: string; payload?: any }) => action.payload),
+    map((action: AddToCart) => action.payload),
     switchMap(payload => {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
@@ -273,18 +274,7 @@ export class ConfiguratorEffects {
     | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
     ofType(ADD_TO_CART_FINALIZE),
-    map(
-      (action: {
-        type: string;
-        payload?: {
-          userId: string;
-          cartId: string;
-          productCode: string;
-          quantity: number;
-          configId: string;
-        };
-      }) => action.payload
-    ),
+    map((action: AddToCartFinalize) => action.payload),
     switchMap(payload => {
       return this.configuratorCommonsConnector
         .addToCart(
