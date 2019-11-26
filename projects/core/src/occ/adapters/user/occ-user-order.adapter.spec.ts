@@ -18,6 +18,7 @@ import {
   ORDER_HISTORY_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
+  ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
 } from '../../../user/connectors/order/converters';
 import { ConverterService } from '../../../util/index';
 import { OccConfig } from '../../config/occ-config';
@@ -279,12 +280,13 @@ describe('OccUserOrderAdapter', () => {
     describe('createReturnRequest', () => {
       it('should be able to create an order return request', async(() => {
         const returnRequestInput: ReturnRequestEntryInputList = {
+          orderCode: orderData.code,
           returnRequestEntryInputs: [{ orderEntryNumber: 0, quantity: 1 }],
         };
 
         let result;
         occUserOrderAdapter
-          .createReturnRequest(userId, orderData.code, returnRequestInput)
+          .createReturnRequest(userId, returnRequestInput)
           .subscribe(res => (result = res));
 
         const mockReq = httpMock.expectOne(req => {
@@ -292,7 +294,6 @@ describe('OccUserOrderAdapter', () => {
         });
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith('returnOrder', {
           userId,
-          orderId: orderData.code,
         });
         expect(mockReq.cancelled).toBeFalsy();
         expect(mockReq.request.responseType).toEqual('json');
@@ -300,9 +301,24 @@ describe('OccUserOrderAdapter', () => {
         expect(result).toEqual(returnRequest);
         expect(converter.convert).toHaveBeenCalledWith(
           returnRequestInput,
-          ORDER_RETURN_REQUEST_NORMALIZER
+          ORDER_RETURN_REQUEST_INPUT_SERIALIZER
         );
       }));
+
+      it('should use converter', () => {
+        const returnRequestInput: ReturnRequestEntryInputList = {};
+        occUserOrderAdapter
+          .createReturnRequest(userId, returnRequestInput)
+          .subscribe();
+        httpMock
+          .expectOne(req => {
+            return req.method === 'POST';
+          })
+          .flush({});
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          ORDER_RETURN_REQUEST_NORMALIZER
+        );
+      });
     });
 
     describe('loadReturnRequestList', () => {

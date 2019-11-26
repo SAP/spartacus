@@ -28,7 +28,6 @@ export class OrderReturnRequestService {
    * @param returnRequestInput order return request entry input
    */
   createOrderReturnRequest(
-    orderCode: string,
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
     this.authService
@@ -38,7 +37,6 @@ export class OrderReturnRequestService {
         this.store.dispatch(
           new UserActions.CreateOrderReturnRequest({
             userId,
-            orderCode,
             returnRequestInput,
           })
         )

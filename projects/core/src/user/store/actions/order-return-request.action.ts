@@ -29,7 +29,6 @@ export class CreateOrderReturnRequest implements Action {
   constructor(
     public payload: {
       userId: string;
-      orderCode: string;
       returnRequestInput: ReturnRequestEntryInputList;
     }
   ) {}

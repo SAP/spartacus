@@ -2,11 +2,12 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
 } from '../../../model/order.model';
-import { UserActions } from './index';
 import { StateLoaderActions } from '../../../state/utils/index';
 import { USER_RETURN_REQUESTS } from '../user-state';
+import { UserActions } from './index';
 
 const returnRequestInput: ReturnRequestEntryInputList = {
+  orderCode: 'orderCode',
   returnRequestEntryInputs: [{ orderEntryNumber: 0, quantity: 1 }],
 };
 
@@ -35,7 +36,6 @@ describe('Order Return Request actions', () => {
     it('should create the action', () => {
       const action = new UserActions.CreateOrderReturnRequest({
         userId: 'userId',
-        orderCode: 'orderCode',
         returnRequestInput,
       });
 
@@ -43,7 +43,6 @@ describe('Order Return Request actions', () => {
         type: UserActions.CREATE_ORDER_RETURN_REQUEST,
         payload: {
           userId: 'userId',
-          orderCode: 'orderCode',
           returnRequestInput,
         },
       });
