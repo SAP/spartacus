@@ -32,13 +32,13 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
+  public consentReference = null;
+  public profileTagDebug = false;
   private tracking$: Observable<boolean> = merge(
     this.pageLoaded(),
     this.consentChanged(),
     this.cartChanged()
   );
-  public consentReference = null;
-  public profileTagDebug = false;
 
   constructor(
     private winRef: WindowRef,
@@ -61,7 +61,7 @@ export class ProfileTagInjector {
     );
   }
 
-  private setEventVariables(event: ProfileTagEvent) {
+  private setEventVariables(event: ProfileTagEvent): void {
     switch (event.name) {
       case ProfileTagEventNames.ConsentReferenceChanged:
         this.consentReference = event.data.consentReference;
