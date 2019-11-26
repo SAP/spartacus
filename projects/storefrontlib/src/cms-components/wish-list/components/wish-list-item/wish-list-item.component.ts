@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { WishListService } from '@spartacus/core';
+import { OrderEntry, WishListService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -8,7 +8,9 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WishListItemComponent {
-  @Input() cartEntry: any;
+  @Input()
+  compact = false;
+  @Input() cartEntry: OrderEntry;
 
   loading$: Observable<boolean> = this.wishListService.getWishListLoading();
 
@@ -16,5 +18,9 @@ export class WishListItemComponent {
 
   remove(entry: any) {
     this.wishListService.removeEntry(entry);
+  }
+
+  log(thing: any) {
+    console.log(thing);
   }
 }

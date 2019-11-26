@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
@@ -7,10 +7,14 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { MediaModule, StarRatingModule } from '../../shared/index';
+import {
+  ItemCounterModule,
+  MediaModule,
+  StarRatingModule,
+} from '../../shared/index';
 import { AddToCartModule } from '../cart/index';
-import { WishListComponent } from './components/wish-list/wish-list.component';
 import { WishListItemComponent } from './components/wish-list-item/wish-list-item.component';
+import { WishListComponent } from './components/wish-list/wish-list.component';
 
 @NgModule({
   imports: [
@@ -28,6 +32,7 @@ import { WishListItemComponent } from './components/wish-list-item/wish-list-ite
     RouterModule,
     StarRatingModule,
     UrlModule,
+    ItemCounterModule,
   ],
   declarations: [WishListComponent, WishListItemComponent],
   entryComponents: [WishListComponent],
