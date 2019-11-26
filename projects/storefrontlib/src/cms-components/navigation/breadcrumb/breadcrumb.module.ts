@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ConfigModule, CmsConfig, CmsPageTitleModule } from '@spartacus/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
-import { BudgetsListModule } from '../../organization/budgets/budget-list/budgets-list.module';
 
 @NgModule({
   imports: [
@@ -17,7 +16,6 @@ import { BudgetsListModule } from '../../organization/budgets/budget-list/budget
       },
     }),
     CmsPageTitleModule,
-    BudgetsListModule,
   ],
   declarations: [BreadcrumbComponent],
   exports: [BreadcrumbComponent],

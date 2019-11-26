@@ -19,7 +19,7 @@ import { BudgetFormComponent } from './budget-form.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ManageBudgetsListComponent: {
+        BudgetFormComponent: {
           component: BudgetFormComponent,
           guards: [AuthGuard],
         },

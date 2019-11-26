@@ -1,31 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule, CxDatePipe,
+  ConfigModule,
+  CxDatePipe,
   I18nModule,
   UrlModule,
   UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { BudgetEditComponent } from './budget-form.component';
+import { BudgetDetailsComponent } from './budget-details.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ManageBudgetsListComponent: {
-          component: BudgetEditComponent,
+        BudgetDetailsComponent: {
+          component: BudgetDetailsComponent,
           guards: [AuthGuard],
         },
       },
     }),
-    RouterModule,
     FormsModule,
     NgSelectModule,
     ListNavigationModule,
@@ -33,9 +32,9 @@ import { BudgetEditComponent } from './budget-form.component';
     I18nModule,
     ReactiveFormsModule,
   ],
-  declarations: [BudgetEditComponent],
-  exports: [BudgetEditComponent],
+  declarations: [BudgetDetailsComponent],
+  exports: [BudgetDetailsComponent],
   providers: [UserService, CxDatePipe],
-  entryComponents: [BudgetEditComponent],
+  entryComponents: [BudgetDetailsComponent],
 })
 export class BudgetDetailsModule {}
