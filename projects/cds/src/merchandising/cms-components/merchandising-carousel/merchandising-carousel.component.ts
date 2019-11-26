@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
@@ -60,12 +60,17 @@ export class MerchandisingCarouselComponent {
     )
   );
 
-  metadata$: Observable<Map<string, string>> = this.merchandisingProducts$.pipe(
-    map(merchandisingProducts => merchandisingProducts.metadata)
-  );
+  getMetdata(
+    merchandisingProducts: MerchandisingProducts
+  ): Map<string, string> {
+    return merchandisingProducts ? merchandisingProducts.metadata : undefined;
+  }
 
-  items$: Observable<Observable<Product>[]> = this.merchandisingProducts$.pipe(
-    map(merchandisingProducts => merchandisingProducts.products),
-    map(products => products.map(product => of(product)))
-  );
+  getProducts(
+    merchandisingProducts: MerchandisingProducts
+  ): Observable<Product>[] {
+    return merchandisingProducts && merchandisingProducts.products
+      ? merchandisingProducts.products.map(product => of(product))
+      : [EMPTY];
+  }
 }
