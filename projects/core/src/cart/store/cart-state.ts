@@ -16,7 +16,7 @@ export interface CartsState {
 
 export interface CartState {
   content: Cart;
-  entries: { [code: string]: OrderEntry };
+  entries: { [entryNumber: number]: OrderEntry };
   refresh: boolean;
   cartMergeComplete: boolean;
 }

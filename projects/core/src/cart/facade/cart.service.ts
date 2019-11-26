@@ -197,9 +197,21 @@ export class CartService {
     }
   }
 
+  getEntryForEntryNumber(entryNumber: number): Observable<OrderEntry> {
+    return this.store.pipe(
+      select(CartSelectors.getCartEntrySelectorFactory(entryNumber))
+    );
+  }
+
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
-      select(CartSelectors.getCartEntrySelectorFactory(productCode))
+      select(CartSelectors.getCartEntries),
+      map(entries => {
+        const filteredEntries = entries.filter(
+          entry => entry.product.code === productCode
+        );
+        return filteredEntries.length > 0 ? filteredEntries[0] : null;
+      })
     );
   }
 

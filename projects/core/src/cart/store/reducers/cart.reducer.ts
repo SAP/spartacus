@@ -38,7 +38,7 @@ export function reducer(
       let entries = {};
       if (content.entries) {
         entries = content.entries.reduce(
-          (entryMap: { [code: string]: any }, entry: OrderEntry) => {
+          (entryMap: { [entryNumber: number]: any }, entry: OrderEntry) => {
             return {
               ...entryMap,
               /*
@@ -47,10 +47,10 @@ export function reducer(
               In the case where the detailed once get resolved first, we merge the existing
               data with the new data from the response (to not delete existing detailed data).
               */
-              [entry.product.code]:
-                state.entries && state.entries[entry.product.code]
+              [entry.entryNumber]:
+                state.entries && state.entries[entry.entryNumber]
                   ? {
-                      ...state.entries[entry.product.code],
+                      ...state.entries[entry.entryNumber],
                       ...entry,
                     }
                   : entry,
