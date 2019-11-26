@@ -1,40 +1,17 @@
 %cx-delivery-mode-calydon {
   .form-check {
-    position: relative;
-
     input[type='radio'] {
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
-      width: 1.5em;
-      height: 1.5em;
-      //   opacity: 1;
-      position: relative;
-      //   top: 0;
-      //   left: 1.25em;
-      vertical-align: -2px;
-      border-radius: 100%;
-      border: 2px solid var(--cx-color-primary);
     }
 
     input[type='radio']::after {
-      content: '';
-
-      position: absolute;
-
-      width: 0.75em;
-      height: 0.75em;
-      margin: 0.125em;
-      font-size: 1.2em;
-      right: 0;
-      top: -0.3em;
       visibility: hidden;
     }
 
     input[type='radio']:checked::after {
       visibility: visible;
-      background-color: var(--cx-color-primary);
-      border-radius: 100%;
     }
   }
 }
