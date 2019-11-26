@@ -1,27 +1,27 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Event as NgRouterEvent, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import {
   BaseSiteService,
   CartService,
   ConsentService,
-  OrderEntry,
   WindowRef,
-  Cart,
 } from '@spartacus/core';
-import { fromEventPattern, merge, Observable, combineLatest } from 'rxjs';
+import { combineLatest, fromEvent, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   mapTo,
+  skipWhile,
   switchMap,
   take,
   tap,
 } from 'rxjs/operators';
-import { CdsConfig } from '../../config';
+import { CdsConfig } from '../../config/index';
 import {
-  ProfileTagEvent,
+  ConsentReferenceEvent,
+  DebugEvent,
   ProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
@@ -33,10 +33,14 @@ import {
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
   private w: ProfileTagWindowObject;
-  private tracking$: Observable<boolean | NgRouterEvent | OrderEntry[]> = merge(
+  private tracking$: Observable<boolean> = merge(
     this.pageLoaded(),
     this.consentChanged(),
     this.cartChanged()
+  );
+  private profileTagEvents$ = merge(
+    this.consentReferenceChanged(),
+    this.debugModeChanged()
   );
   public consentReference = null;
   public profileTagDebug = false;
@@ -53,34 +57,18 @@ export class ProfileTagInjector {
 
   track(): Observable<boolean> {
     return this.addTracker().pipe(
-      tap(event => this.setEventVariables(event)),
-      filter(
-        profileTagEvent => profileTagEvent.name === ProfileTagEventNames.Loaded
-      ),
-      switchMap(_ => this.tracking$),
+      switchMap(_ => merge(this.tracking$, this.profileTagEvents$)),
       map(data => Boolean(data))
     );
   }
 
-  private setEventVariables(event: ProfileTagEvent) {
-    switch (event.name) {
-      case ProfileTagEventNames.ConsentReferenceChanged:
-        this.consentReference = event.data.consentReference;
-        break;
-      case ProfileTagEventNames.ProfileTagDebug:
-        this.profileTagDebug = event.data.debug;
-        break;
-      default:
-        break;
-    }
-  }
-
-  private pageLoaded(): Observable<NgRouterEvent> {
+  private pageLoaded(): Observable<boolean> {
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {
         this.w.Y_TRACKING.push({ event: 'Navigated' });
-      })
+      }),
+      mapTo(true)
     );
   }
 
@@ -106,24 +94,22 @@ export class ProfileTagInjector {
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  private cartChanged(): Observable<[OrderEntry[], Cart]> {
-    let sent = false;
-    const cartChanged = combineLatest(
+  private cartChanged(): Observable<boolean> {
+    return combineLatest(
       this.cartService.getEntries(),
       this.cartService.getActive()
-    );
-    return cartChanged.pipe(
-      filter(([entries, cart]) => !(!sent && entries.length === 0)),
+    ).pipe(
+      skipWhile(([entries]) => entries.length === 0),
       tap(([entries, cart]) => {
-        sent = true;
         this.notifyProfileTagOfCartChange({ entries, cart });
-      })
+      }),
+      mapTo(true)
     );
   }
 
   private notifyProfileTagOfCartChange({ entries, cart }): void {
     this.w.Y_TRACKING.push({
-      eventName: 'ModifiedCart',
+      event: 'ModifiedCart',
       data: { entries, cart },
     });
   }
@@ -132,33 +118,42 @@ export class ProfileTagInjector {
     this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted });
   }
 
-  private addTracker(): Observable<ProfileTagEvent> {
+  private addTracker(): Observable<Event> {
     return this.baseSiteService.getActive().pipe(
       filter(_ => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
       tap(_ => this.addScript()),
       tap(_ => this.initWindow()),
-      switchMap((siteId: string) => this.profileTagEventReceiver(siteId))
+      tap((siteId: string) => this.createConfig(siteId)),
+      switchMap(_ => this.profileTagLoaded())
     );
   }
 
-  private profileTagEventReceiver(siteId: string): Observable<ProfileTagEvent> {
-    return fromEventPattern(
-      handler => {
-        this.addProfileTagEventReceiver(siteId, handler);
-      },
-      () => {}
+  private profileTagLoaded(): Observable<Event> {
+    return fromEvent(window, ProfileTagEventNames.Loaded).pipe(take(1));
+  }
+
+  private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
+    return fromEvent(window, ProfileTagEventNames.ConsentReferenceChanged).pipe(
+      map(event => <ConsentReferenceEvent>event),
+      tap(event => (this.consentReference = event.detail.consentReference))
     );
   }
 
-  private addProfileTagEventReceiver(siteId: string, handler: Function): void {
+  private debugModeChanged(): Observable<DebugEvent> {
+    return fromEvent(window, ProfileTagEventNames.DebugFlagChanged).pipe(
+      map(event => <DebugEvent>event),
+      tap(event => (this.profileTagDebug = event.detail.debug))
+    );
+  }
+
+  private createConfig(siteId: string): void {
     const newConfig: ProfileTagJsConfig = {
       ...this.config.cds.profileTag,
       tenant: this.config.cds.tenant,
       siteId,
       spa: true,
-      profileTagEventReceiver: handler,
     };
     this.exposeConfig(newConfig);
   }
@@ -173,7 +168,7 @@ export class ProfileTagInjector {
       .appendChild(profileTagScript);
   }
 
-  private initWindow() {
+  private initWindow(): void {
     this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
     this.w.Y_TRACKING = this.w.Y_TRACKING || {};
   }
