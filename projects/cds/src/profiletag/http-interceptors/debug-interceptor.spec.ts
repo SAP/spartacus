@@ -4,12 +4,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-<<<<<<< HEAD
-import { ProfileTagInjector } from '../services';
-=======
 import { OccEndpointsService } from '@spartacus/core';
 import { ProfileTagInjector } from '../services/index';
->>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
 import { DebugInterceptor } from './debug-interceptor';
 
 describe('Debug interceptor', () => {
@@ -18,12 +14,9 @@ describe('Debug interceptor', () => {
       return false;
     },
   };
-<<<<<<< HEAD
-=======
   const occEndPointsMock = {
     getBaseEndpoint: () => '/occ',
   };
->>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -37,13 +30,10 @@ describe('Debug interceptor', () => {
           useClass: DebugInterceptor,
           multi: true,
         },
-<<<<<<< HEAD
-=======
         {
           provide: OccEndpointsService,
           useValue: occEndPointsMock,
         },
->>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
       ],
     });
   });
@@ -53,11 +43,7 @@ describe('Debug interceptor', () => {
     (http: HttpClient, mock: HttpTestingController) => {
       let response;
       http
-<<<<<<< HEAD
-        .get('/hasHeader', {
-=======
         .get('/occ/hasHeader', {
->>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
           headers: {
             testHeader: 'test',
           },
@@ -83,11 +69,7 @@ describe('Debug interceptor', () => {
       injector.profileTagDebug = true;
       let response;
       http
-<<<<<<< HEAD
-        .get('/hasHeader', {
-=======
         .get('/occ/hasHeader', {
->>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
           headers: {
             testHeader: 'test',
           },
@@ -106,8 +88,6 @@ describe('Debug interceptor', () => {
     }
   ));
 
-<<<<<<< HEAD
-=======
   it('Should not add the x-profile-tag-debug header if url is not occ', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
@@ -133,7 +113,6 @@ describe('Debug interceptor', () => {
     }
   ));
 
->>>>>>> 694183b38093ce67c68f5e2243029636716e76c0
   afterEach(inject([HttpTestingController], (mock: HttpTestingController) => {
     verifyNoOpenRequests(mock);
   }));
