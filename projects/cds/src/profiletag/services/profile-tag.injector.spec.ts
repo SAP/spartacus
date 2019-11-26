@@ -244,17 +244,42 @@ describe('ProfileTagInjector', () => {
     });
   });
 
-  it(`Should not call the push method when ModifiedCart event doesnt happen`, () => {
-    orderEntryBehavior = null;
+  it(`Should not call the push method when the cart is not modified`, () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
     window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      event: 'ModifiedCart',
-      data: { entries: [] },
-    });
+  });
+
+  it(`Should not call the push method when the entries have only ever sent an empty array`, () => {
+    const profileTagLoaded$ = profileTagInjector.track();
+    const subscription = profileTagLoaded$.subscribe();
+    getActiveBehavior.next('electronics-test');
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    cartBehavior.next({ testCart: { id: 123 } });
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    subscription.unsubscribe();
+    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
+  });
+
+  it(`Should call the push method every time after a non-empty orderentry array is passed`, () => {
+    const profileTagLoaded$ = profileTagInjector.track();
+    const subscription = profileTagLoaded$.subscribe();
+    getActiveBehavior.next('electronics-test');
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    cartBehavior.next({ testCart: { id: 123 } });
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([{ test: {} }]);
+    orderEntryBehavior.next([{ test: {} }]);
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    subscription.unsubscribe();
+    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(4);
   });
 });

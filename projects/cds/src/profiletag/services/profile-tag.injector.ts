@@ -32,7 +32,9 @@ import {
 })
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
-  private w: ProfileTagWindowObject;
+  private profileTagWindow: ProfileTagWindowObject;
+  public consentReference = null;
+  public profileTagDebug = false;
   private tracking$: Observable<boolean> = merge(
     this.pageLoaded(),
     this.consentChanged(),
@@ -42,8 +44,6 @@ export class ProfileTagInjector {
     this.consentReferenceChanged(),
     this.debugModeChanged()
   );
-  public consentReference = null;
-  public profileTagDebug = false;
 
   constructor(
     private winRef: WindowRef,
@@ -66,7 +66,7 @@ export class ProfileTagInjector {
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {
-        this.w.Y_TRACKING.push({ event: 'Navigated' });
+        this.profileTagWindow.Y_TRACKING.push({ event: 'Navigated' });
       }),
       mapTo(true)
     );
@@ -95,10 +95,10 @@ export class ProfileTagInjector {
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
   private cartChanged(): Observable<boolean> {
-    return combineLatest(
+    return combineLatest([
       this.cartService.getEntries(),
-      this.cartService.getActive()
-    ).pipe(
+      this.cartService.getActive(),
+    ]).pipe(
       skipWhile(([entries]) => entries.length === 0),
       tap(([entries, cart]) => {
         this.notifyProfileTagOfCartChange({ entries, cart });
@@ -108,14 +108,14 @@ export class ProfileTagInjector {
   }
 
   private notifyProfileTagOfCartChange({ entries, cart }): void {
-    this.w.Y_TRACKING.push({
+    this.profileTagWindow.Y_TRACKING.push({
       event: 'ModifiedCart',
       data: { entries, cart },
     });
   }
 
   private notifyProfileTagOfConsentChange({ granted }): void {
-    this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted });
+    this.profileTagWindow.Y_TRACKING.push({ event: 'ConsentChanged', granted });
   }
 
   private addTracker(): Observable<Event> {
@@ -169,13 +169,15 @@ export class ProfileTagInjector {
   }
 
   private initWindow(): void {
-    this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
-    this.w.Y_TRACKING = this.w.Y_TRACKING || {};
+    this.profileTagWindow = <ProfileTagWindowObject>(
+      (<unknown>this.winRef.nativeWindow)
+    );
+    this.profileTagWindow.Y_TRACKING = this.profileTagWindow.Y_TRACKING || {};
   }
 
   private exposeConfig(options: ProfileTagJsConfig): void {
-    const q = this.w.Y_TRACKING.q || [];
+    const q = this.profileTagWindow.Y_TRACKING.q || [];
     q.push([options]);
-    this.w.Y_TRACKING.q = q;
+    this.profileTagWindow.Y_TRACKING.q = q;
   }
 }
