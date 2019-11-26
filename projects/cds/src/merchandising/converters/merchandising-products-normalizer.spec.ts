@@ -6,13 +6,10 @@ import { StrategyResult } from '../model/strategy.result';
 import { MerchandisingProductsNormalizer } from './merchandising-products-normalizer';
 import createSpy = jasmine.createSpy;
 
-const STRATEGY_RESULT_METADATA: Map<string, string> = new Map<string, string>();
-STRATEGY_RESULT_METADATA.set('test-metadata-field', 'test-metadata-value');
-const PRODUCT_METADATA: Map<string, string> = new Map<string, string>();
-PRODUCT_METADATA.set(
-  'test-product-metadata-field',
-  'test-product-metadata-field'
-);
+const STRATEGY_RESULT_METADATA: { [metadataAttributeName: string]: string } = {
+  'test-metadata-field': 'test-metadata-value',
+};
+
 const STRATEGY_RESULT: StrategyResult = {
   resultCount: 1,
   products: [
@@ -25,7 +22,9 @@ const STRATEGY_RESULT: StrategyResult = {
       thumbNailImage: 'http://some-thumbnail-imgae-url',
       mainImage: 'http://some-main-imgae-url',
       price: 20.99,
-      metadata: PRODUCT_METADATA,
+      metadata: {
+        'test-product-metadata-field': 'test-product-metadata-value',
+      },
     },
   ],
   paged: {
@@ -58,7 +57,7 @@ const MERCHANDISING_PRODUCTS_WITHOUT_METADATA: MerchandisingProducts = {
 };
 
 const MERCHANDISING_PRODUCTS_WITH_METADATA = {
-  metadata: STRATEGY_RESULT_METADATA,
+  metadata: new Map(Object.entries(STRATEGY_RESULT_METADATA)),
   ...MERCHANDISING_PRODUCTS_WITHOUT_METADATA,
 };
 
@@ -111,7 +110,7 @@ describe('MerchandisingProductsNormalizer', () => {
     };
 
     const NO_PRODUCTS_MERCHANDISING_PRODUCTS = {
-      metadata: STRATEGY_RESULT_METADATA,
+      metadata: new Map(Object.entries(STRATEGY_RESULT_METADATA)),
     };
 
     expect(productsNormalizer.convert(NO_PRODUCTS_STRATEGY_RESULT)).toEqual(
@@ -127,7 +126,7 @@ describe('MerchandisingProductsNormalizer', () => {
     };
 
     const EMPTY_PRODUCTS_MERCHANDISING_PRODUCTS = {
-      metadata: STRATEGY_RESULT_METADATA,
+      metadata: new Map(Object.entries(STRATEGY_RESULT_METADATA)),
       products: [],
     };
 

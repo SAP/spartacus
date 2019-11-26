@@ -18,7 +18,7 @@ export class MerchandisingProductsNormalizer
     }
 
     if (source.metadata) {
-      target.metadata = source.metadata;
+      target.metadata = new Map(Object.entries(source.metadata));
     }
 
     if (source.products) {
