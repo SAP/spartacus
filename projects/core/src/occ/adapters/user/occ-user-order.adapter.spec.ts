@@ -334,7 +334,7 @@ describe('OccUserOrderAdapter', () => {
         );
       }));
 
-      it('should fetch user Orders with defined options', async(() => {
+      it('should fetch user order return request list with defined options', async(() => {
         const PAGE_SIZE = 5;
         const currentPage = 1;
         const sort = 'byDate';
