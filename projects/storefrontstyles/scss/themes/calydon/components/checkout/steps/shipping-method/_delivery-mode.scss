@@ -26,7 +26,7 @@
         vertical-align: middle;
         left: -1.25rem;
       }
-      input:checked + span::before {
+      input[type='radio']:checked + span::before {
         width: 0.75em;
         height: 0.75em;
         margin: 0.125em;
@@ -38,3 +38,44 @@
     }
   }
 }
+
+// Another approach with Accessibility in mind
+// position: relative;
+
+// input[type='radio'] {
+//   height: 40px;
+//   left: 0;
+//   opacity: 0;
+//   position: absolute;
+//   top: 0;
+//   width: 40px;
+// }
+
+// input[type='radio'] + label::before {
+//   border: 2px solid;
+//   content: '';
+//   height: 40px;
+//   left: 0;
+//   position: absolute;
+//   top: 0;
+//   width: 40px;
+// }
+
+// input[type='radio'] + label::after {
+//   content: '';
+//   border: 4px solid;
+//   border-left: 0;
+//   border-top: 0;
+//   height: 20px;
+//   left: 14px;
+//   opacity: 0;
+//   position: absolute;
+//   top: 6px;
+//   transform: rotate(45deg);
+//   transition: opacity 0.2s ease-in-out;
+//   width: 12px;
+// }
+
+// input[type='radio']:checked + label::after {
+//   opacity: 1;
+// }

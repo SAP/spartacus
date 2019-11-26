@@ -12,7 +12,7 @@
           class="form-check"
           *ngFor="let mode of supportedDeliveryModes$ | async"
         >
-          <input
+          <!-- <input
             class="form-check-input"
             role="radio"
             type="radio"
@@ -21,14 +21,14 @@
             (change)="changeMode(mode.code)"
             [value]="mode.code"
             formControlName="deliveryModeId"
-          />
+          /> -->
           <label
             class="cx-delivery-label form-check-label
                 form-radio-label"
             for="deliveryMode-{{ mode.code }}"
           >
             <!-- feature flag start here -->
-            <!-- <input
+            <input
               class="form-check-input"
               role="radio"
               type="radio"
@@ -38,7 +38,7 @@
               [value]="mode.code"
               formControlName="deliveryModeId"
             />
-            <span class="overlay"></span> -->
+            <span class="overlay"></span>
             <!-- feature flag ends here -->
             <div class="cx-delivery-mode">{{ mode.name }}</div>
             <div class="cx-delivery-price">
