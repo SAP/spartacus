@@ -33,7 +33,8 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
         if (response instanceof HttpErrorResponse) {
           if (isInterceptingTokenRevocationRequest) {
             console.log(
-              'Error during token revokation.  Ending interceptor stream.'
+              'Error during token revokation.  Ending interceptor stream.',
+              response.status
             );
             return EMPTY;
           } else {

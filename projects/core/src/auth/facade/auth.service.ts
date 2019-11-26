@@ -78,6 +78,17 @@ export class AuthService {
   }
 
   /**
+   * TEMPORARY FUCNTION ADDITION.  THIS FNUNCTION IS REALLY IN AsmAuthService
+   */
+  isCustomerEmulationToken(userToken: UserToken): boolean {
+    return (
+      Boolean(userToken) &&
+      Boolean(userToken.userId) &&
+      userToken.userId !== 'current'
+    );
+  }
+
+  /**
    * Logout a storefront customer
    */
   logout(): void {
@@ -85,7 +96,9 @@ export class AuthService {
       .pipe(take(1))
       .subscribe(userToken => {
         this.store.dispatch(new AuthActions.Logout());
-        this.store.dispatch(new AuthActions.RevokeToken(userToken));
+        if (!this.isCustomerEmulationToken(userToken)) {
+          this.store.dispatch(new AuthActions.RevokeToken(userToken));
+        }
       });
   }
 
