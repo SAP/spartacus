@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import {
   CONFIGURATION_FEATURE,
@@ -18,6 +19,7 @@ import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '1234-56-7891';
 const GROUP_NAME = 'Software';
@@ -70,6 +72,24 @@ function mergeChangesAndGetFirstGroup(
   expect(groups.length).toBe(1);
   const groupForUpdateRequest = groups[0];
   return groupForUpdateRequest;
+}
+
+function callGetOrCreate(serviceUnderTest: ConfiguratorCommonsService) {
+  const productConfigurationLoaderState: LoaderState<
+    Configurator.Configuration
+  > = { value: productConfiguration };
+  const productConfigurationLoaderStateChanged: LoaderState<
+    Configurator.Configuration
+  > = { value: productConfigurationChanged };
+  const obs = cold('x-y', {
+    x: productConfigurationLoaderState,
+    y: productConfigurationLoaderStateChanged,
+  });
+  spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+  const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+    PRODUCT_CODE
+  );
+  return configurationObs;
 }
 
 describe('ConfiguratorCommonsService', () => {
@@ -186,31 +206,35 @@ describe('ConfiguratorCommonsService', () => {
     expect(groups.length).toBe(0);
   });
 
-  it('should return cart guid if user is anonymous', () => {
-    const cart: Cart = {
-      code: CART_CODE,
-      guid: CART_GUID,
-      user: { uid: OCC_USER_ID_ANONYMOUS },
-    };
-    expect(serviceUnderTest.getCartId(cart)).toBe(CART_GUID);
+  describe('getCartId', () => {
+    it('should return cart guid if user is anonymous', () => {
+      const cart: Cart = {
+        code: CART_CODE,
+        guid: CART_GUID,
+        user: { uid: OCC_USER_ID_ANONYMOUS },
+      };
+      expect(serviceUnderTest.getCartId(cart)).toBe(CART_GUID);
+    });
+
+    it('should return cart code if user is not anonymous', () => {
+      const cart: Cart = {
+        code: CART_CODE,
+        guid: CART_GUID,
+        user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
+      };
+      expect(serviceUnderTest.getCartId(cart)).toBe(CART_CODE);
+    });
   });
 
-  it('should return cart code if user is not anonymous', () => {
-    const cart: Cart = {
-      code: CART_CODE,
-      guid: CART_GUID,
-      user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
-    };
-    expect(serviceUnderTest.getCartId(cart)).toBe(CART_CODE);
-  });
-
-  it('should return anonymous user id if user is anonymous', () => {
-    const cart: Cart = {
-      code: CART_CODE,
-      guid: CART_GUID,
-      user: { uid: OCC_USER_ID_ANONYMOUS },
-    };
-    expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
+  describe('getUserId', () => {
+    it('should return anonymous user id if user is anonymous', () => {
+      const cart: Cart = {
+        code: CART_CODE,
+        guid: CART_GUID,
+        user: { uid: OCC_USER_ID_ANONYMOUS },
+      };
+      expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
+    });
   });
 
   describe('getConfiguration', () => {
@@ -239,6 +263,69 @@ describe('ConfiguratorCommonsService', () => {
           x: productConfiguration,
         })
       );
+    });
+  });
+
+  describe('getOrCreateConfiguration', () => {
+    it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
+      productConfigurationChanged.configId = CONFIG_ID;
+      const configurationObs = callGetOrCreate(serviceUnderTest);
+      expect(configurationObs).toBeObservable(
+        cold('x-y', {
+          x: productConfiguration,
+          y: productConfigurationChanged,
+        })
+      );
+    });
+
+    it('should filter incomplete configurations from store', () => {
+      productConfigurationChanged.configId = '';
+      const configurationObs = callGetOrCreate(serviceUnderTest);
+      expect(configurationObs).toBeObservable(
+        cold('x-', {
+          x: productConfiguration,
+        })
+      );
+    });
+
+    it('should create a new configuration if not existing yet', () => {
+      const productConfigurationLoaderState: LoaderState<
+        Configurator.Configuration
+      > = { loading: false };
+
+      const obs = cold('x', {
+        x: productConfigurationLoaderState,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      spyOn(store, 'dispatch').and.callThrough();
+
+      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+        PRODUCT_CODE
+      );
+
+      expect(configurationObs).toBeObservable(cold('', {}));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.CreateConfiguration(PRODUCT_CODE)
+      );
+    });
+
+    it('should not create a new configuration if not existing yet but status is loading', () => {
+      const productConfigurationLoaderState: LoaderState<
+        Configurator.Configuration
+      > = { loading: true };
+
+      const obs = cold('x', {
+        x: productConfigurationLoaderState,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      spyOn(store, 'dispatch').and.callThrough();
+
+      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+        PRODUCT_CODE
+      );
+
+      expect(configurationObs).toBeObservable(cold('', {}));
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
   });
 });
