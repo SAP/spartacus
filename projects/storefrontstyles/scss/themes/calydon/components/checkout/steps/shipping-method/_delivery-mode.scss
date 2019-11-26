@@ -5,11 +5,9 @@
       -moz-appearance: none;
       appearance: none;
     }
-
     input[type='radio']::after {
       visibility: hidden;
     }
-
     input[type='radio']:checked::after {
       visibility: visible;
     }
