@@ -31,6 +31,9 @@ describe('ConfiguratorCommonsConnector', () => {
   const PRODUCT_CODE = 'CONF_LAPTOP';
   const CONFIG_ID = '1234-56-7890';
   const GROUP_ID = 'GROUP1';
+  const USER_ID = 'theUser';
+  const CART_ID = '98876';
+  const QUANTITY = 1;
   const productConfiguration: Configurator.Configuration = {
     configId: CONFIG_ID,
     productCode: PRODUCT_CODE,
@@ -103,5 +106,24 @@ describe('ConfiguratorCommonsConnector', () => {
     service.readPriceSummary(CONFIG_ID).subscribe(res => (result = res));
     expect(result).toBe('readPriceSummary' + CONFIG_ID);
     expect(adapter.readPriceSummary).toHaveBeenCalledWith(CONFIG_ID);
+  });
+
+  it('should call adapter on addToCart', () => {
+    const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
+      ConfiguratorCommonsAdapter
+    >);
+
+    let result;
+    service
+      .addToCart(USER_ID, CART_ID, PRODUCT_CODE, QUANTITY, CONFIG_ID)
+      .subscribe(res => (result = res));
+    expect(adapter.addToCart).toHaveBeenCalledWith(
+      USER_ID,
+      CART_ID,
+      PRODUCT_CODE,
+      QUANTITY,
+      CONFIG_ID
+    );
+    expect(result).toBe('addToCart' + USER_ID);
   });
 });

@@ -162,8 +162,7 @@ export class CartService {
         }
       }),
       filter(cartState => this.isCreated(cartState.value.content)),
-      map(cartState => cartState.value.content),
-      take(1)
+      map(cartState => cartState.value.content)
     );
   }
 
