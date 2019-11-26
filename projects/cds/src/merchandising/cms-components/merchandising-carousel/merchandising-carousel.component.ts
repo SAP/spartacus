@@ -2,7 +2,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { distinctUntilKeyChanged, filter, map, mergeMap } from 'rxjs/operators';
+import {
+  distinctUntilKeyChanged,
+  filter,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
 import { MerchandisingProducts } from '../../model';
@@ -32,7 +37,7 @@ export class MerchandisingCarouselComponent {
     MerchandisingProducts
   > = this.componentData$.pipe(
     distinctUntilKeyChanged('strategy'),
-    mergeMap(data =>
+    switchMap(data =>
       this.cdsMerchandisingProductService
         .loadProductsForStrategy(data.strategy, data.numberToDisplay)
         .pipe(
