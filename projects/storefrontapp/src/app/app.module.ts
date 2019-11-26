@@ -32,12 +32,32 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
+    CdsModule.forRoot({
+      cds: {
+        tenant: 'argotest',
+        baseUrl: 'test',
+        endpoints: {
+          strategyProducts: 'example',
+        },
+        profileTag: {
+          javascriptUrl: environment.profileTagUrl,
+          configUrl: environment.configUrl,
+        },
+      },
+    }),
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
           legacy: false,
         },
+      },
+      pwa: {
+        enabled: false,
+      },
+      authentication: {
+        client_id: environment.authClientId,
+        client_secret: environment.authClientSecret,
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
