@@ -257,22 +257,50 @@ describe('ConfiguratorEffect', () => {
     });
   });
   describe('Effect groupChange', () => {
-    it('should emit ChangeGroupFinalize on ChangeGroup in case no changes are pending', () => {
+    it('should emit ReadConfigurationSuccess and SetCurrentGroup on ChangeGroup in case no changes are pending', () => {
       const payloadInput = {
         configId: configId,
         productCode: productCode,
         groupId: groupId,
       };
       const action = new ConfiguratorActions.ChangeGroup(payloadInput);
-      const completion = new ConfiguratorActions.ChangeGroupFinalize(
-        payloadInput
+      const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
+        productConfiguration
+      );
+      const setCurrentGroup = new ConfiguratorUiActions.SetCurrentGroup(
+        productConfiguration.productCode,
+        groupId
       );
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+
+      const expected = cold('-(bc)', {
+        b: setCurrentGroup,
+        c: readConfigurationSuccess,
+      });
+      expect(configEffects.groupChange$).toBeObservable(expected);
+    });
+    it('should emit ReadConfigurationFail in case read call is not successful', () => {
+      readMock.and.returnValue(throwError(errorResponse));
+      const payloadInput = {
+        configId: configId,
+        productCode: productCode,
+        groupId: groupId,
+      };
+      const action = new ConfiguratorActions.ChangeGroup(payloadInput);
+      const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
+        productConfiguration.productCode,
+        makeErrorSerializable(errorResponse)
+      );
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-b', {
+        b: readConfigurationFail,
+      });
       expect(configEffects.groupChange$).toBeObservable(expected);
     });
   });
-  describe('Effect groupChangeFinalize', () => {
+  /*describe('Effect groupChangeFinalize', () => {
     it('should emit ReadConfigurationSuccess and SetCurrentGroup on ChangeGroupFinalize in case no changes are pending', () => {
       const payloadInput = {
         configId: configId,
@@ -315,25 +343,60 @@ describe('ConfiguratorEffect', () => {
       });
       expect(configEffects.groupChangeFinalize$).toBeObservable(expected);
     });
-  });
+  });*/
   describe('Effect addToCart', () => {
-    it('should emit AddToCartFinalize on addToCart in case no changes are pending', () => {
+    it('should emit AddToCartSuccess, RemoveUiState and RemoveConfiguration on addToCart in case no changes are pending', () => {
       const payloadInput = {
-        configId: configId,
-        productCode: productCode,
+        userId: userId,
         cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configId: configId,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const completion = new ConfiguratorActions.AddToCartFinalize(
-        payloadInput
+      const cartAddEntrySuccess = new CartActions.CartAddEntrySuccess({
+        ...cartModification,
+        userId: userId,
+        cartId: cartId,
+      });
+      const removeUiState = new ConfiguratorUiActions.RemoveUiState(
+        productConfiguration.productCode
+      );
+      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
+        productConfiguration.productCode
       );
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bcd)', {
+        b: removeUiState,
+        c: removeConfiguration,
+        d: cartAddEntrySuccess,
+      });
+      expect(configEffects.addToCart$).toBeObservable(expected);
+    });
+    it('should emit AddToCartFail in case add to cart call is not successful', () => {
+      addToCartMock.and.returnValue(throwError(errorResponse));
+      const payloadInput = {
+        userId: userId,
+        cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configId: configId,
+      };
+      const action = new ConfiguratorActions.AddToCart(payloadInput);
+      const cartAddEntryFail = new CartActions.CartAddEntryFail(
+        makeErrorSerializable(errorResponse)
+      );
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-b', {
+        b: cartAddEntryFail,
+      });
       expect(configEffects.addToCart$).toBeObservable(expected);
     });
   });
-  describe('Effect addToCartFinalize', () => {
-    it('should emit AddToCartSuccess, RemoveUiState and RemoveConfiguration on AddToCartFinalize in case no changes are pending', () => {
+  /*describe('Effect addToCartFinalize', () => {
+    /*it('should emit AddToCartSuccess, RemoveUiState and RemoveConfiguration on AddToCartFinalize in case no changes are pending', () => {
       const payloadInput = {
         userId: userId,
         cartId: cartId,
@@ -361,8 +424,8 @@ describe('ConfiguratorEffect', () => {
         d: cartAddEntrySuccess,
       });
       expect(configEffects.addToCartFinalize$).toBeObservable(expected);
-    });
-    it('should emit AddToCartFail in case add to cart call is not successful', () => {
+    });*/
+  /*it('should emit AddToCartFail in case add to cart call is not successful', () => {
       addToCartMock.and.returnValue(throwError(errorResponse));
       const payloadInput = {
         configId: configId,
@@ -381,5 +444,5 @@ describe('ConfiguratorEffect', () => {
       });
       expect(configEffects.addToCartFinalize$).toBeObservable(expected);
     });
-  });
+  });*/
 });

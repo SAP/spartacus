@@ -19,13 +19,9 @@ import * as ConfiguratorSelectors from '../../store/selectors/configurator.selec
 import { ConfiguratorActions, ConfiguratorUiActions } from '../actions';
 import {
   AddToCart,
-  AddToCartFinalize,
   ADD_TO_CART,
-  ADD_TO_CART_FINALIZE,
   ChangeGroup,
-  ChangeGroupFinalize,
   CHANGE_GROUP,
-  CHANGE_GROUP_FINALIZE,
   CreateConfiguration,
   CreateConfigurationFail,
   CreateConfigurationSuccess,
@@ -208,7 +204,11 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
-  groupChange$: Observable<ChangeGroupFinalize> = this.actions$.pipe(
+  groupChange$: Observable<
+    | ConfiguratorUiActions.SetCurrentGroup
+    | ReadConfigurationFail
+    | ReadConfigurationSuccess
+  > = this.actions$.pipe(
     ofType(CHANGE_GROUP),
     map((action: ChangeGroup) => action.payload),
     switchMap(payload => {
@@ -216,44 +216,38 @@ export class ConfiguratorEffects {
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
         filter(pendingChanges => pendingChanges === 0),
-        map(() => new ChangeGroupFinalize(payload))
+        switchMap(() => {
+          return this.configuratorCommonsConnector
+            .readConfiguration(payload.configId, payload.groupId)
+            .pipe(
+              switchMap((configuration: Configurator.Configuration) => {
+                return [
+                  new ConfiguratorUiActions.SetCurrentGroup(
+                    payload.productCode,
+                    payload.groupId
+                  ),
+                  new ReadConfigurationSuccess(configuration),
+                ];
+              }),
+              catchError(error => [
+                new ReadConfigurationFail(
+                  payload.productCode,
+                  makeErrorSerializable(error)
+                ),
+              ])
+            );
+        })
       );
     })
   );
 
   @Effect()
-  groupChangeFinalize$: Observable<
-    | ConfiguratorUiActions.SetCurrentGroup
-    | ReadConfigurationFail
-    | ReadConfigurationSuccess
+  addToCart$: Observable<
+    | ConfiguratorUiActions.RemoveUiState
+    | ConfiguratorActions.RemoveConfiguration
+    | CartActions.CartAddEntrySuccess
+    | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
-    ofType(CHANGE_GROUP_FINALIZE),
-    map((action: ChangeGroupFinalize) => action.payload),
-    switchMap(payload => {
-      return this.configuratorCommonsConnector
-        .readConfiguration(payload.configId, payload.groupId)
-        .pipe(
-          switchMap((configuration: Configurator.Configuration) => {
-            return [
-              new ConfiguratorUiActions.SetCurrentGroup(
-                payload.productCode,
-                payload.groupId
-              ),
-              new ReadConfigurationSuccess(configuration),
-            ];
-          }),
-          catchError(error => [
-            new ReadConfigurationFail(
-              payload.productCode,
-              makeErrorSerializable(error)
-            ),
-          ])
-        );
-    })
-  );
-
-  @Effect()
-  addToCart$: Observable<AddToCartFinalize> = this.actions$.pipe(
     ofType(ADD_TO_CART),
     map((action: AddToCart) => action.payload),
     switchMap(payload => {
@@ -261,45 +255,37 @@ export class ConfiguratorEffects {
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
         filter(pendingChanges => pendingChanges === 0),
-        map(() => new AddToCartFinalize(payload))
-      );
-    })
-  );
-
-  @Effect()
-  addToCartFinalize$: Observable<
-    | ConfiguratorUiActions.RemoveUiState
-    | ConfiguratorActions.RemoveConfiguration
-    | CartActions.CartAddEntrySuccess
-    | CartActions.CartAddEntryFail
-  > = this.actions$.pipe(
-    ofType(ADD_TO_CART_FINALIZE),
-    map((action: AddToCartFinalize) => action.payload),
-    switchMap(payload => {
-      return this.configuratorCommonsConnector
-        .addToCart(
-          payload.userId,
-          payload.cartId,
-          payload.productCode,
-          payload.quantity,
-          payload.configId
-        )
-        .pipe(
-          switchMap((entry: CartModification) => {
-            return [
-              new ConfiguratorUiActions.RemoveUiState(payload.productCode),
-              new ConfiguratorActions.RemoveConfiguration(payload.productCode),
-              new CartActions.CartAddEntrySuccess({
-                ...entry,
-                userId: payload.userId,
-                cartId: payload.cartId,
+        switchMap(() => {
+          return this.configuratorCommonsConnector
+            .addToCart(
+              payload.userId,
+              payload.cartId,
+              payload.productCode,
+              payload.quantity,
+              payload.configId
+            )
+            .pipe(
+              switchMap((entry: CartModification) => {
+                return [
+                  new ConfiguratorUiActions.RemoveUiState(payload.productCode),
+                  new ConfiguratorActions.RemoveConfiguration(
+                    payload.productCode
+                  ),
+                  new CartActions.CartAddEntrySuccess({
+                    ...entry,
+                    userId: payload.userId,
+                    cartId: payload.cartId,
+                  }),
+                ];
               }),
-            ];
-          }),
-          catchError(error =>
-            of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
-          )
-        );
+              catchError(error =>
+                of(
+                  new CartActions.CartAddEntryFail(makeErrorSerializable(error))
+                )
+              )
+            );
+        })
+      );
     })
   );
 
