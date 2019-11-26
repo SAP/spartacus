@@ -17,6 +17,7 @@ import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
+  ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
 } from '../../../user/connectors/order/converters';
 import { ConverterService } from '../../../util/index';
 import { OccConfig } from '../../config/occ-config';
@@ -299,9 +300,24 @@ describe('OccUserOrderAdapter', () => {
         expect(result).toEqual(returnRequest);
         expect(converter.convert).toHaveBeenCalledWith(
           returnRequestInput,
-          ORDER_RETURN_REQUEST_NORMALIZER
+          ORDER_RETURN_REQUEST_INPUT_SERIALIZER
         );
       }));
+
+      it('should use converter', () => {
+        const returnRequestInput: ReturnRequestEntryInputList = {};
+        occUserOrderAdapter
+          .createReturnRequest(userId, returnRequestInput)
+          .subscribe();
+        httpMock
+          .expectOne(req => {
+            return req.method === 'POST';
+          })
+          .flush({});
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          ORDER_RETURN_REQUEST_NORMALIZER
+        );
+      });
     });
   });
 });
