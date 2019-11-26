@@ -13,8 +13,7 @@
     "types": [],
     "lib": ["esnext", "dom"],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/incubator": ["dist/incubator"]
+      "@spartacus/core": ["dist/core"]
     }
   },
   "angularCompilerOptions": {

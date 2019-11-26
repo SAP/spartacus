@@ -8,8 +8,7 @@
       "@ngrx/router-store": "fromNgrxRouter",
       "@ngrx/store": "store",
       "i18next": "i18next",
-      "i18next-xhr-backend": "i18nextXhrBackend",
-      "@spartacus/incubator": "incubator"
+      "i18next-xhr-backend": "i18nextXhrBackend"
     }
   }
 }
