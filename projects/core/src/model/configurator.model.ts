@@ -78,8 +78,4 @@ export namespace Configurator {
     STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
   }
-
-  export enum PriceType {
-    BUY = 'BUY',
-  }
 }

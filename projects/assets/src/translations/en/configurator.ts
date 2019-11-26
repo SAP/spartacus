@@ -17,12 +17,14 @@ export const configurator = {
     button: {
       previous: 'Previous',
       next: 'Next',
-      addToCart: 'Add To Cart',
     },
     priceSummary: {
       basePrice: 'Base Price',
       selectedOptions: 'Selected Options',
       totalPrice: 'Total',
+    },
+    addToCart: {
+      button: 'Add To Cart',
     },
   },
 };
