@@ -85,7 +85,7 @@ export class AsmAuthService {
       .pipe(take(1))
       .subscribe(userToken => {
         this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
-        this.store.dispatch(new AuthActions.RevokeToken(userToken));
+        this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
       });
   }
 }

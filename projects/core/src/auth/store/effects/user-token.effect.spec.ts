@@ -26,12 +26,15 @@ class UserAuthenticationTokenServiceMock {
   refreshToken(_refreshToken: string): Observable<UserToken> {
     return;
   }
+  revokeToken(_userToken: UserToken): void {}
 }
 
 describe('UserToken effect', () => {
   let userTokenService: UserAuthenticationTokenService;
   let userTokenEffect: UserTokenEffects;
-  let actions$: Observable<AuthActions.UserTokenAction>;
+  let actions$: Observable<
+    AuthActions.UserTokenAction | AuthActions.RevokeUserToken
+  >;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +55,7 @@ describe('UserToken effect', () => {
 
     spyOn(userTokenService, 'loadToken').and.returnValue(of(testToken));
     spyOn(userTokenService, 'refreshToken').and.returnValue(of(testToken));
+    spyOn(userTokenService, 'revokeToken').and.stub();
   });
 
   describe('loadUserToken$', () => {
@@ -84,5 +88,11 @@ describe('UserToken effect', () => {
       expect(userTokenEffect.refreshUserToken$).toBeObservable(expected);
       expect(testToken.expiration_time).toBeDefined();
     });
+  });
+
+  it('should navigate to the customers detail page', () => {
+    actions$ = of(new AuthActions.RevokeUserToken(testToken));
+    userTokenEffect.revokeUserToken$.subscribe();
+    expect(userTokenService.revokeToken).toHaveBeenCalledWith(testToken);
   });
 });

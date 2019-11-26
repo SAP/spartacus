@@ -18,7 +18,7 @@ export class Logout implements Action {
 // action types
 export type LoginLogoutAction = Login | Logout;
 
-export class RevokeToken implements Action {
+export class RevokeUserToken implements Action {
   readonly type = REVOKE_TOKEN;
   constructor(public payload: UserToken) {}
 }

@@ -97,7 +97,7 @@ export class AuthService {
       .subscribe(userToken => {
         this.store.dispatch(new AuthActions.Logout());
         if (!this.isCustomerEmulationToken(userToken)) {
-          this.store.dispatch(new AuthActions.RevokeToken(userToken));
+          this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
         }
       });
   }
