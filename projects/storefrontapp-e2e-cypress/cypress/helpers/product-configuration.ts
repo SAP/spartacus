@@ -147,7 +147,3 @@ export function clickAddToCartButton() {
     force: true,
   });
 }
-
-export function verifyNumberOfProductsInCart(numberAsString: string) {
-  cy.get(miniCartSelector).contains(numberAsString);
-}

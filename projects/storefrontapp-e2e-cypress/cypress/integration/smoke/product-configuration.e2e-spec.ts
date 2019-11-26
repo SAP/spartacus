@@ -1,3 +1,4 @@
+import * as cart from '../../helpers/cart';
 import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
@@ -174,7 +175,7 @@ context('Product Configuration', () => {
         'SAMSUNG'
       );
       configuration.clickAddToCartButton();
-      configuration.verifyNumberOfProductsInCart('1');
+      cart.verifyCartNotEmpty();
     });
   });
 });
