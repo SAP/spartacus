@@ -278,12 +278,13 @@ describe('OccUserOrderAdapter', () => {
     describe('createReturnRequest', () => {
       it('should be able to create an order return request', async(() => {
         const returnRequestInput: ReturnRequestEntryInputList = {
+          orderCode: orderData.code,
           returnRequestEntryInputs: [{ orderEntryNumber: 0, quantity: 1 }],
         };
 
         let result;
         occUserOrderAdapter
-          .createReturnRequest(userId, orderData.code, returnRequestInput)
+          .createReturnRequest(userId, returnRequestInput)
           .subscribe(res => (result = res));
 
         const mockReq = httpMock.expectOne(req => {
@@ -291,7 +292,6 @@ describe('OccUserOrderAdapter', () => {
         });
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith('returnOrder', {
           userId,
-          orderId: orderData.code,
         });
         expect(mockReq.cancelled).toBeFalsy();
         expect(mockReq.request.responseType).toEqual('json');

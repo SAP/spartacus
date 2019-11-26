@@ -44,12 +44,10 @@ export abstract class UserOrderAdapter {
   /**
    * Abstract method used to create return request
    * @param userId The `userId` for given user
-   * @param orderCode The `orderCode` for given order
    * @param returnRequestInput Return request entry input list
    */
   abstract createReturnRequest(
     userId: string,
-    orderCode: string,
     returnRequestInput: ReturnRequestEntryInputList
   ): Observable<ReturnRequest>;
 }

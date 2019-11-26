@@ -10,7 +10,6 @@ describe('Order Return RequestActions', () => {
     it('should create the action', () => {
       const action = new UserActions.CreateOrderReturnRequest({
         userId: 'userId',
-        orderCode: 'orderCode',
         returnRequestInput,
       });
 
@@ -18,7 +17,6 @@ describe('Order Return RequestActions', () => {
         type: UserActions.CREATE_ORDER_RETURN_REQUEST,
         payload: {
           userId: 'userId',
-          orderCode: 'orderCode',
           returnRequestInput,
         },
       });

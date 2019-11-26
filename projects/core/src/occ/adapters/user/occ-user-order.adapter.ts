@@ -157,12 +157,10 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   public createReturnRequest(
     userId: string,
-    orderCode: string,
     returnRequestInput: ReturnRequestEntryInputList
   ): Observable<ReturnRequest> {
     const url = this.occEndpoints.getUrl('returnOrder', {
       userId,
-      orderId: orderCode,
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

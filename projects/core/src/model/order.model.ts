@@ -37,6 +37,7 @@ export interface CancellationReturnRequestEntryInput {
 }
 
 export interface ReturnRequestEntryInputList {
+  orderCode?: string;
   returnRequestEntryInputs?: CancellationReturnRequestEntryInput[];
 }
 
