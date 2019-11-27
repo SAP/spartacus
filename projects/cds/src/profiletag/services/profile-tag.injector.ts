@@ -99,8 +99,8 @@ export class ProfileTagInjector {
         }),
         mapTo(true),
         take(1),
-        tap(() => {
-          this.notifyProfileTagOfConsentChange({ granted: true });
+        tap(granted => {
+          this.notifyProfileTagOfConsentChange(granted);
         })
       );
   }
@@ -115,30 +115,23 @@ export class ProfileTagInjector {
     ]).pipe(
       skipWhile(([entries]) => entries.length === 0),
       tap(([entries, cart]) => {
-        this.notifyProfileTagOfCartChange({ entries, cart });
+        this.notifyProfileTagOfCartChange(entries, cart);
       }),
       mapTo(true)
     );
   }
 
-  private notifyProfileTagOfCartChange({
-    entries,
-    cart,
-  }: {
-    entries: OrderEntry[];
-    cart: Cart;
-  }): void {
+  private notifyProfileTagOfCartChange(
+    entries: OrderEntry[],
+    cart: Cart
+  ): void {
     this.w.Y_TRACKING.push({
       event: 'ModifiedCart',
       data: { entries, cart },
     });
   }
 
-  private notifyProfileTagOfConsentChange({
-    granted,
-  }: {
-    granted: boolean;
-  }): void {
+  private notifyProfileTagOfConsentChange(granted: boolean): void {
     this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted });
   }
 
