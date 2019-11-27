@@ -12,7 +12,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { TOKEN_REVOCATION } from '../../occ/utils/interceptor-util';
 import { TokenRevocationInterceptor } from './token-revocation.interceptor';
 
-fdescribe('AuthErrorInterceptor', () => {
+describe('AuthErrorInterceptor', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
