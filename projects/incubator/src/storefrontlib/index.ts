@@ -1,1 +1,1 @@
-export * from './incubator-storefrontlib.module';
+export * from './incubator-storefront.module';
