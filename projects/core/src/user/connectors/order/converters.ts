@@ -2,8 +2,9 @@ import { InjectionToken } from '@angular/core';
 import { Converter } from '../../../util/converter.service';
 import {
   OrderHistoryList,
-  ReturnRequest,
   ReturnRequestEntryInputList,
+  ReturnRequestList,
+  ReturnRequest,
 } from '../../../model/order.model';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 
@@ -22,3 +23,7 @@ export const ORDER_RETURN_REQUEST_NORMALIZER = new InjectionToken<
 export const ORDER_RETURN_REQUEST_INPUT_SERIALIZER = new InjectionToken<
   Converter<ReturnRequestEntryInputList, any>
 >('OrderReturnRequestInputSerializer');
+
+export const ORDER_RETURNS_NORMALIZER = new InjectionToken<
+  Converter<any, ReturnRequestList>
+>('OrderReturnsNormalizer');

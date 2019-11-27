@@ -9,7 +9,7 @@ import {
   RoutingService,
   I18nTestingModule,
   LanguageService,
-  UserOrderService,
+  OrderReturnRequestService,
 } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
@@ -35,7 +35,7 @@ class MockLanguageService {
   }
 }
 
-class MockUserOrderService {
+class MockOrderReturnRequestService {
   createOrderReturnRequest = jasmine.createSpy();
   getOrderReturnRequest() {
     return of();
@@ -88,7 +88,10 @@ describe('ReturnOrderConfirmationComponent', () => {
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: UserOrderService, useClass: MockUserOrderService },
+        {
+          provide: OrderReturnRequestService,
+          useClass: MockOrderReturnRequestService,
+        },
       ],
       declarations: [
         ReturnOrderConfirmationComponent,
@@ -108,10 +111,7 @@ describe('ReturnOrderConfirmationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+  it('should get returned entries', () => {
     let returnedEntries: OrderEntry[];
     component.returnedEntries$
       .subscribe(value => (returnedEntries = value))

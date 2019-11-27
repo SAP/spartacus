@@ -6,6 +6,7 @@ import {
   OrderHistoryList,
   ReturnRequestEntryInputList,
   ReturnRequest,
+  ReturnRequestList,
 } from '../../../model/order.model';
 import { UserOrderAdapter } from './user-order.adapter';
 
@@ -40,5 +41,19 @@ export class UserOrderConnector {
     returnRequestInput: ReturnRequestEntryInputList
   ): Observable<ReturnRequest> {
     return this.adapter.createReturnRequest(userId, returnRequestInput);
+  }
+
+  public getReturnRequestList(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<ReturnRequestList> {
+    return this.adapter.loadReturnRequestList(
+      userId,
+      pageSize,
+      currentPage,
+      sort
+    );
   }
 }

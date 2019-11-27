@@ -108,7 +108,7 @@ describe('ReturnOrderComponent', () => {
       { orderEntryNumber: 0, quantity: 1 },
       { orderEntryNumber: 3, quantity: 5 },
     ];
-    component.ngOnInit();
+
     fixture.detectChanges();
     component.confirmReturn(entryInputs);
 

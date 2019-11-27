@@ -43,10 +43,6 @@ describe('CancellationReturnItemsComponent', () => {
     component = fixture.componentInstance;
 
     component.entries = mockEntries;
-    component.ngOnInit();
-    fixture.detectChanges();
-    el = fixture.debugElement;
-
     spyOn(component.confirm, 'emit').and.callThrough();
   });
 
@@ -55,6 +51,9 @@ describe('CancellationReturnItemsComponent', () => {
   });
 
   it('should initialize the entry inputs in order return/cancel page', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
     const inputControl = (component.inputsControl.controls[0] as FormGroup)
       .controls;
     expect(inputControl.quantity.value).toEqual('');
@@ -76,6 +75,7 @@ describe('CancellationReturnItemsComponent', () => {
     component.confirmRequest = true;
     component.ngOnInit();
     fixture.detectChanges();
+    el = fixture.debugElement;
 
     const completeLink = el.query(By.css('a'));
     expect(completeLink).toBeNull();
@@ -85,6 +85,10 @@ describe('CancellationReturnItemsComponent', () => {
   });
 
   it('should be able to set return/cancel quantities completely in order return/cancel page', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    el = fixture.debugElement;
+
     const completeLink = el.query(By.css('a'));
     completeLink.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(component.form.value.entryInput[0].quantity).toEqual(4);
@@ -94,6 +98,9 @@ describe('CancellationReturnItemsComponent', () => {
   });
 
   it('should disable the continue button when return quantities are not set', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
     component.form.value.entryInput[0].quantity = 0;
     component.disableEnableConfirm();
     expect(component.disableConfirmBtn).toEqual(true);
@@ -105,6 +112,8 @@ describe('CancellationReturnItemsComponent', () => {
 
   it('should make the return quantities not greater than returnableQuantity', () => {
     spyOn(component, 'disableEnableConfirm').and.callThrough();
+    component.ngOnInit();
+    fixture.detectChanges();
 
     component.onBlur('8', 0);
     expect(component.form.value.entryInput[0].quantity).toEqual(4);
@@ -112,6 +121,9 @@ describe('CancellationReturnItemsComponent', () => {
   });
 
   it('should emit confirmation with entryInputs', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
     component.form.value.entryInput[0].quantity = 2;
     component.confirmEntryInputs();
     expect(component.confirm.emit).toHaveBeenCalledWith([

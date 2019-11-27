@@ -5,6 +5,7 @@ import {
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
+  ReturnRequestList,
 } from '../../../model/order.model';
 
 export abstract class UserOrderAdapter {
@@ -50,4 +51,18 @@ export abstract class UserOrderAdapter {
     userId: string,
     returnRequestInput: ReturnRequestEntryInputList
   ): Observable<ReturnRequest>;
+
+  /**
+   * Abstract method used to load order return request list for an user.
+   * @param userId
+   * @param pageSize
+   * @param currentPage
+   * @param sort
+   */
+  abstract loadReturnRequestList(
+    userId: string,
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<ReturnRequestList>;
 }

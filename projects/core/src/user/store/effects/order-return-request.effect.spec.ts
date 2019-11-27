@@ -8,6 +8,7 @@ import { Observable, of, throwError } from 'rxjs';
 import {
   ReturnRequestEntryInputList,
   ReturnRequest,
+  ReturnRequestList,
 } from '../../../model/order.model';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
@@ -19,6 +20,14 @@ const mockReturnRequest: ReturnRequest = { rma: '000000' };
 const returnRequestInput: ReturnRequestEntryInputList = {
   orderCode: 'orderCode',
   returnRequestEntryInputs: [{ orderEntryNumber: 0, quantity: 1 }],
+};
+
+const mockReturnRequestList: ReturnRequestList = {
+  returnRequests: [{ rma: '01' }, { rma: '02' }],
+  pagination: {
+    totalPages: 13,
+  },
+  sorts: [{ selected: true }, { selected: false }],
 };
 
 describe('Order Return Request effect', () => {
@@ -81,6 +90,50 @@ describe('Order Return Request effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.createReturnRequest$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('loadReturnRequestList$', () => {
+    it('should load return request list', () => {
+      spyOn(orderConnector, 'getReturnRequestList').and.returnValue(
+        of(mockReturnRequestList)
+      );
+      const action = new UserActions.LoadOrderReturnRequestList({
+        userId: 'test@sap.com',
+        pageSize: 5,
+      });
+
+      const completion = new UserActions.LoadOrderReturnRequestListSuccess(
+        mockReturnRequestList
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderReturnRequestEffect.loadReturnRequestList$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should handle failures for load return request list', () => {
+      spyOn(orderConnector, 'getReturnRequestList').and.returnValue(
+        throwError('Error')
+      );
+      const action = new UserActions.LoadOrderReturnRequestList({
+        userId: 'test@sap.com',
+        pageSize: 5,
+      });
+
+      const completion = new UserActions.LoadOrderReturnRequestListFail(
+        'Error'
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderReturnRequestEffect.loadReturnRequestList$).toBeObservable(
         expected
       );
     });

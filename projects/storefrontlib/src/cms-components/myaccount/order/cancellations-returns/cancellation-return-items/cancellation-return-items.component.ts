@@ -1,4 +1,11 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import {
   OrderEntry,
@@ -8,6 +15,7 @@ import {
 @Component({
   selector: 'cx-cancellation-return-items',
   templateUrl: './cancellation-return-items.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CancellationReturnItemsComponent implements OnInit {
   @Input() entries: OrderEntry[];
@@ -22,7 +30,7 @@ export class CancellationReturnItemsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.formBuilder.group({
       entryInput: this.formBuilder.array([]),
     });
@@ -50,7 +58,7 @@ export class CancellationReturnItemsComponent implements OnInit {
     }
   }
 
-  setComplete() {
+  setComplete(): void {
     for (let i = 0; i < this.entries.length; i++) {
       this.inputsControl.at(i).setValue({
         orderEntryNumber: this.entries[i].entryNumber,
@@ -60,7 +68,7 @@ export class CancellationReturnItemsComponent implements OnInit {
     this.disableEnableConfirm();
   }
 
-  confirmEntryInputs() {
+  confirmEntryInputs(): void {
     const inputs: CancellationReturnRequestEntryInput[] = [];
     for (const input of this.form.value.entryInput) {
       if (input.quantity > 0) {
@@ -71,7 +79,7 @@ export class CancellationReturnItemsComponent implements OnInit {
     this.confirm.emit(inputs);
   }
 
-  disableEnableConfirm() {
+  disableEnableConfirm(): void {
     for (const input of this.form.value.entryInput) {
       if (input.quantity > 0) {
         this.disableConfirmBtn = false;
