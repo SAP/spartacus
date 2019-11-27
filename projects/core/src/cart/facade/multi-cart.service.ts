@@ -155,13 +155,6 @@ export class MultiCartService {
   }
 
   /**
-   * Initialize add entry process used for loading status
-   */
-  initAddEntryProcess(): void {
-    this.store.dispatch(new CartActions.CartStartAddEntryProcess());
-  }
-
-  /**
    * Remove entry from cart
    *
    * @param userId

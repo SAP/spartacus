@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, Observable, of, Subscription, timer } from 'rxjs';
+import { EMPTY, Observable, of, timer } from 'rxjs';
 import {
   debounce,
   distinctUntilChanged,
   filter,
   map,
+  share,
   shareReplay,
   switchMap,
   take,
@@ -22,10 +23,9 @@ import {
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process';
-import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
-import { ADD_ENTRY_PROCESS_ID, CartActions } from '../store';
+import { CartActions } from '../store';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
@@ -43,8 +43,6 @@ export class ActiveCartService {
   private userId = OCC_USER_ID_ANONYMOUS;
   private cartId;
   private cartUser: User;
-  private addEntrySub: Subscription;
-  private entriesToAdd: Array<{ productCode: string; quantity: number }> = [];
 
   private activeCartId$ = this.store.pipe(
     select(MultiCartSelectors.getActiveCartId),
@@ -203,16 +201,6 @@ export class ActiveCartService {
     }
   }
 
-  /**
-   * Returns loaded flag for add entry process (success)
-   */
-  getAddEntryLoaded() {
-    return this.store.pipe(
-      select(getProcessStateFactory(ADD_ENTRY_PROCESS_ID)),
-      map(payload => !payload.loading && payload.success)
-    );
-  }
-
   private setActiveCartIdToFresh() {
     this.store.dispatch(new CartActions.SetActiveCartId('fresh'));
   }
@@ -222,11 +210,9 @@ export class ActiveCartService {
       productCode: entry.product.code,
       quantity: entry.quantity,
     }));
-    this.cartForAddEntry()
+    this.requireLoadedCartForGuestMerge()
       .pipe(
-        filter(
-          cartState => !this.isGuestCart() && !this.isEmpty(cartState.value)
-        ),
+        filter(() => !this.isGuestCart()),
         take(1)
       )
       .subscribe(cartState => {
@@ -238,40 +224,56 @@ export class ActiveCartService {
       });
   }
 
-  private cartForAddEntry() {
-    let createInitialized = false;
-    let attemptedLoad = false;
+  private requireLoadedCartForGuestMerge() {
+    return this.requireLoadedCart(
+      this.cartSelector$.pipe(filter(() => !this.isGuestCart()))
+    );
+  }
 
-    return this.cartSelector$.pipe(
-      filter(() => !createInitialized),
+  private requireLoadedCart(
+    customCartSelector$?: Observable<LoaderState<Cart>>
+  ): Observable<LoaderState<Cart>> {
+    const cartSelector$ = customCartSelector$
+      ? customCartSelector$
+      : this.cartSelector$;
+
+    return cartSelector$.pipe(
+      filter(cartState => !cartState.loading),
+      filter(() => this.cartId !== FRESH_CART_ID),
+      take(1),
       switchMap(cartState => {
         if (
           this.isEmpty(cartState.value) &&
-          !cartState.loading &&
-          this.cartId !== FRESH_CART_ID
+          this.userId !== OCC_USER_ID_ANONYMOUS
         ) {
-          // why we load? We want to have only one active cart. So before creating new one make sure there are no active cart already.
-          if (!attemptedLoad && this.userId !== OCC_USER_ID_ANONYMOUS) {
-            this.load(undefined);
-            attemptedLoad = true;
-            return of(cartState);
-          }
-          if (
-            this.userId === OCC_USER_ID_ANONYMOUS ||
-            (cartState.success || cartState.error)
-          ) {
-            createInitialized = true;
-            this.setActiveCartIdToFresh();
-            return this.multiCartService.createCart({
-              userId: this.userId,
-              extraData: {
-                active: true,
-              },
-            });
-          }
+          this.load(undefined);
+          return cartSelector$;
         }
         return of(cartState);
-      })
+      }),
+      filter(
+        cartState =>
+          this.userId === OCC_USER_ID_ANONYMOUS ||
+          (cartState.success || cartState.error)
+      ),
+      take(1),
+      switchMap(cartState => {
+        if (this.isEmpty(cartState.value)) {
+          this.setActiveCartIdToFresh();
+          this.multiCartService.createCart({
+            userId: this.userId,
+            extraData: {
+              active: true,
+            },
+          });
+          return cartSelector$;
+        }
+        return of(cartState);
+      }),
+      filter(cartState => !cartState.loading),
+      filter(() => this.cartId !== FRESH_CART_ID),
+      filter(cartState => !this.isEmpty(cartState.value)),
+      share()
     );
   }
 
@@ -284,25 +286,16 @@ export class ActiveCartService {
   addEntry(productCode: string, quantity: number): void {
     // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
     // That's why add entry process was used instead of relying on loading flag from entity
-    this.entriesToAdd.push({ productCode, quantity });
-    if (!this.addEntrySub) {
-      this.addEntrySub = this.cartForAddEntry()
-        .pipe(
-          filter(cartState => !this.isEmpty(cartState.value)),
-          take(1)
-        )
-        .subscribe(cartState => {
-          this.multiCartService.addEntries(
-            this.userId,
-            getCartIdByUserId(cartState.value, this.userId),
-            this.entriesToAdd
-          );
-          this.entriesToAdd = [];
-          setTimeout(() => {
-            this.addEntrySub = undefined;
-          });
-        });
-    }
+    this.requireLoadedCart()
+      .pipe(take(1))
+      .subscribe(cartState => {
+        this.multiCartService.addEntry(
+          this.userId,
+          getCartIdByUserId(cartState.value, this.userId),
+          productCode,
+          quantity
+        );
+      });
   }
 
   /**

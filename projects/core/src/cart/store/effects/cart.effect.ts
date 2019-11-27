@@ -73,9 +73,6 @@ export class CartEffects {
             .pipe(
               mergeMap((cart: Cart) => {
                 let actions = [];
-                if (payload.extraData && payload.extraData.addEntries) {
-                  actions.push(new CartActions.CartSuccessAddEntryProcess());
-                }
                 if (cart) {
                   actions.push(new DeprecatedCartActions.LoadCartSuccess(cart));
                   actions.push(
