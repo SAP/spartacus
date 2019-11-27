@@ -44,7 +44,7 @@ export class OrderHistoryComponent implements OnDestroy {
    */
   tabTitleParam$: Observable<number> = this.orders$.pipe(
     map(order => order.pagination.totalResults),
-    filter(totalResults => Boolean(totalResults)),
+    filter(totalResults => totalResults !== undefined),
     take(1)
   );
 

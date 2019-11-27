@@ -37,7 +37,7 @@ export class OrderReturnRequestsComponent implements OnDestroy {
    */
   tabTitleParam$: Observable<number> = this.returnRequests$.pipe(
     map(returnRequests => returnRequests.pagination.totalResults),
-    filter(totalResults => Boolean(totalResults)),
+    filter(totalResults => totalResults !== undefined),
     take(1)
   );
 
