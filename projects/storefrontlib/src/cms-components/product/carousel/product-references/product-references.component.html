@@ -7,11 +7,12 @@
 
 <ng-template #carouselItem let-item="item">
   <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
-    <cx-media
-      [container]="item.images ? item.images.PRIMARY : null"
-      format="product"
-    >
-    </cx-media>
+    <ng-container *ngIf="item.images?.PRIMARY; else noImage">
+      <cx-media [container]="item.images.PRIMARY" format="product"> </cx-media>
+    </ng-container>
+    <ng-template #noImage>
+      <cx-media [container]="null" format="product"> </cx-media>
+    </ng-template>
     <h4>{{ item.name }}</h4>
     <div class="price">{{ item.price?.formattedValue }}</div>
   </a>
