@@ -33,9 +33,7 @@ export function processesReducer<T>(
         };
       } else if (
         action.meta.loader &&
-        !action.meta.loader.error &&
-        !action.meta.loader.success &&
-        !action.meta.loader.load
+        Object.keys(action.meta.loader).length === 0
       ) {
         // reset loader action should also be a reset action for process reducer
         return {
