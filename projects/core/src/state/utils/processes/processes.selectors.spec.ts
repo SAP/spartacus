@@ -1,8 +1,8 @@
-import { ProcessState } from './process-state';
-import { processesCountSelector } from './process.selectors';
+import { ProcessesState } from './processes-state';
+import { processesCountSelector } from './processes.selectors';
 
-describe('Process selectors', () => {
-  const TestState: ProcessState<string> = {
+describe('Processes selectors', () => {
+  const TestState: ProcessesState<string> = {
     processesCount: 1,
   };
 

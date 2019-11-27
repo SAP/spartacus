@@ -1,44 +1,44 @@
 import {
   popMeta,
-  ProcessPopAction,
-  ProcessPushAction,
-  ProcessResetAction,
-  PROCESS_POP_ACTION,
-  PROCESS_PUSH_ACTION,
-  PROCESS_RESET_ACTION,
+  ProcessesPopAction,
+  ProcessesPushAction,
+  ProcessesResetAction,
+  PROCESSES_POP_ACTION,
+  PROCESSES_PUSH_ACTION,
+  PROCESSES_RESET_ACTION,
   pushMeta,
   resetMeta,
-} from './process.action';
+} from './processes.action';
 
-describe('Process Actions', () => {
+describe('Processes Actions', () => {
   const TEST_ENTITY_TYPE = 'test';
 
   describe('Action creators', () => {
-    describe('ProcessPushAction', () => {
+    describe('ProcessesPushAction', () => {
       it('should create an action', () => {
-        const action = new ProcessPushAction(TEST_ENTITY_TYPE);
+        const action = new ProcessesPushAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
-          type: PROCESS_PUSH_ACTION,
+          type: PROCESSES_PUSH_ACTION,
           meta: pushMeta(TEST_ENTITY_TYPE),
         });
       });
     });
 
-    describe('ProcessPopAction', () => {
+    describe('ProcessesPopAction', () => {
       it('should create an action', () => {
-        const action = new ProcessPopAction(TEST_ENTITY_TYPE);
+        const action = new ProcessesPopAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
-          type: PROCESS_POP_ACTION,
+          type: PROCESSES_POP_ACTION,
           meta: popMeta(TEST_ENTITY_TYPE),
         });
       });
     });
 
-    describe('ProcessResetAction', () => {
+    describe('ProcessesResetAction', () => {
       it('should create an action', () => {
-        const action = new ProcessResetAction(TEST_ENTITY_TYPE);
+        const action = new ProcessesResetAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
-          type: PROCESS_RESET_ACTION,
+          type: PROCESSES_RESET_ACTION,
           meta: resetMeta(TEST_ENTITY_TYPE),
         });
       });
