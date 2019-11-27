@@ -64,21 +64,23 @@ export class TabParagraphContainerComponent
     this.activeTabNum = tabNum;
   }
 
-  ngAfterViewInit() {
-    this.subscription = this.children.changes.subscribe(
-      (tabComps: QueryList<ComponentWrapperDirective>) => {
-        tabComps.forEach(comp => {
-          if (comp.cmpRef.instance.tabTitleParam$) {
-            this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
-          } else {
-            this.tabTitleParams.push(null);
-          }
-        });
-      }
-    );
+  ngAfterViewInit(): void {
+    if (!this.subscription) {
+      this.subscription = this.children.changes.subscribe(
+        (tabComps: QueryList<ComponentWrapperDirective>) => {
+          tabComps.forEach(comp => {
+            if (comp.cmpRef.instance.tabTitleParam$) {
+              this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
+            } else {
+              this.tabTitleParams.push(null);
+            }
+          });
+        }
+      );
+    }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

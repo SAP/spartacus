@@ -31,6 +31,10 @@ export class OrderReturnRequestsComponent implements OnDestroy {
     })
   );
 
+  /**
+   * When "Order Return" feature is enabled, this component becomes one tab in
+   * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
+   */
   tabTitleParam$: Observable<number> = this.returnRequests$.pipe(
     map(returnRequests => returnRequests.pagination.totalResults),
     filter(totalResults => Boolean(totalResults)),
