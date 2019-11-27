@@ -1,7 +1,19 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Event as NgRouterEvent, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { BaseSiteService, Cart, CartService, ConsentService, OrderEntry, WindowRef } from '@spartacus/core';
+import {
+  Event as NgRouterEvent,
+  NavigationEnd,
+  NavigationStart,
+  Router,
+} from '@angular/router';
+import {
+  BaseSiteService,
+  Cart,
+  CartService,
+  ConsentService,
+  OrderEntry,
+  WindowRef,
+} from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { CdsConfig } from '../../config/index';
 import { ProfileTagEventNames, ProfileTagWindowObject } from '../model/index';
@@ -209,13 +221,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-<<<<<<< HEAD
     window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
-=======
-    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      name: 'Loaded',
-    });
->>>>>>> a020d3eb238516e375495694ad1d98af0b955eb8
     const mockCartEntry: OrderEntry[] = [{ entryNumber: 7 }];
     const mockCartEntry2: OrderEntry[] = [{ entryNumber: 1 }];
     const testCart = { testCart: { id: 123 } };
@@ -242,13 +248,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-<<<<<<< HEAD
     window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
-=======
-    nativeWindow.Y_TRACKING.q[0][0].profileTagEventReceiver({
-      name: 'Loaded',
-    });
->>>>>>> a020d3eb238516e375495694ad1d98af0b955eb8
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
   });
