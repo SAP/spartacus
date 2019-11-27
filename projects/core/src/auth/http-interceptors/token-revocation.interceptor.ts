@@ -32,17 +32,8 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
       catchError((response: any) => {
         if (response instanceof HttpErrorResponse) {
           if (isInterceptingTokenRevocationRequest) {
-            console.log(
-              'Error during token revokation.  Ending interceptor stream.',
-              response.status
-            );
             return EMPTY;
           } else {
-            console.log(
-              'Rethrow Error in TokenRevocationInterceptor',
-              response.status,
-              response.url
-            );
             return throwError(response);
           }
         }
