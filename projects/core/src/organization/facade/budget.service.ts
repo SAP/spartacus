@@ -57,7 +57,7 @@ export class BudgetService {
     return this.store.select(getBudgetList(params));
   }
 
-  get(budgetCode: string) {
+  get(budgetCode: string): Observable<Budget> {
     return this.getBudgetState(budgetCode).pipe(
       observeOn(queueScheduler),
       tap(state => {

@@ -1,3 +1,71 @@
-<ng-container>
-  details
+<ng-container class="container" *ngIf="budget$ | async as budget">
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'budget.details' | cxTranslate }}</h3>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <div class="row">
+        <div class="col-6">
+          <button
+            [routerLink]="
+              {
+                cxRoute: 'budgetEdit',
+                params: budget
+              } | cxUrl
+            "
+            class="btn btn-primary btn-block"
+          >
+            {{ 'budget.edit' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'budgets'
+              } | cxUrl
+            "
+            class="btn btn-secondary btn-block"
+          >
+            {{ 'budgets.back' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <span>{{ 'budget.id' | cxTranslate }}</span
+    ><span>{{ budget.code }}</span>
+  </div>
+  <div class="row">
+    <span>{{ 'budget.parentUnit' | cxTranslate }}</span
+    ><span>{{ budget.orgUnit.name }}</span>
+  </div>
+  <div class="row">
+    <span>{{ 'budget.name' | cxTranslate }}</span
+    ><span>{{ budget.name }}</span>
+  </div>
+  <div class="row">
+    <span>{{ 'budget.startDate' | cxTranslate }}</span
+    ><span>{{ budget.startDate | cxDate }}</span>
+  </div>
+  <div class="row">
+    <span>{{ 'budget.endDate' | cxTranslate }}</span
+    ><span>{{ budget.endDate | cxDate }}</span>
+  </div>
+  <div class="row">
+    <span>{{ 'budget.amount' | cxTranslate }}</span
+    ><span>{{ budget.budget }}</span>
+  </div>
+  <div class="row">
+    <span>{{ 'budget.amount' | cxTranslate }}</span
+    ><span>{{ budget.currency.symbol }}</span>
+  </div>
+  <div class="row">
+    <span>{{ 'budget.status' | cxTranslate }}</span
+    ><span>{{ budget.active }}</span>
+  </div>
 </ng-container>

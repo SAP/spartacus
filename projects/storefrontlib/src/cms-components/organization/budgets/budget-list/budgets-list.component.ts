@@ -73,7 +73,7 @@ export class BudgetsListComponent implements OnInit {
         ...this.defaultParams,
         ...params,
       })),
-      distinctUntilChanged((a, b) => shallowEqualObjects(a, b)),
+      distinctUntilChanged(shallowEqualObjects),
       map(this.normalizeParams),
       switchMap(params =>
         this.budgetsService.getList(params).pipe(

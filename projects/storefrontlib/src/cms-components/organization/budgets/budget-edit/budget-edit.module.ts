@@ -9,10 +9,33 @@ import {
 } from '@spartacus/core';
 import { BudgetEditComponent } from './budget-edit.component';
 import { BudgetFormModule } from '../budget-form/budget-form.module';
+import { RouterModule } from '@angular/router';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'budgetEdit' },
+      },
+      {
+        matcher: suffixUrlMatcher,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxSuffixUrlMatcher: {
+            marker: 'p',
+            paramName: 'budgetCode',
+          },
+        },
+      },
+    ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         BudgetEditComponent: {
