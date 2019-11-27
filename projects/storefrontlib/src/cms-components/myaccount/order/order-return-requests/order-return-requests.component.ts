@@ -1,45 +1,41 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
   ReturnRequestList,
   OrderReturnRequestService,
   TranslationService,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-return-requests',
   templateUrl: './order-return-requests.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderReturnRequestsComponent implements OnInit, OnDestroy {
+export class OrderReturnRequestsComponent implements OnDestroy {
   constructor(
     private returnRequestService: OrderReturnRequestService,
     private translation: TranslationService
   ) {}
 
-  returnRequests$: Observable<ReturnRequestList>;
-  isLoaded$: Observable<boolean>;
-  tabTitleParam$: Observable<number>;
-
   private PAGE_SIZE = 5;
-
   sortType: string;
 
-  ngOnInit(): void {
-    this.returnRequests$ = this.returnRequestService
-      .getOrderReturnRequestList(this.PAGE_SIZE)
-      .pipe(
-        tap((requestList: ReturnRequestList) => {
-          if (requestList.pagination) {
-            this.sortType = requestList.pagination.sort;
-          }
-        })
-      );
+  returnRequests$: Observable<
+    ReturnRequestList
+  > = this.returnRequestService.getOrderReturnRequestList(this.PAGE_SIZE).pipe(
+    tap((requestList: ReturnRequestList) => {
+      if (requestList.pagination) {
+        this.sortType = requestList.pagination.sort;
+      }
+    })
+  );
 
-    this.tabTitleParam$ = this.returnRequests$.pipe(
-      map(returnRequests => returnRequests.pagination.totalResults)
-    );
-  }
+  tabTitleParam$: Observable<number> = this.returnRequests$.pipe(
+    map(returnRequests => returnRequests.pagination.totalResults),
+    filter(totalResults => Boolean(totalResults)),
+    take(1)
+  );
 
   ngOnDestroy(): void {
     this.returnRequestService.clearOrderReturnRequestList();
