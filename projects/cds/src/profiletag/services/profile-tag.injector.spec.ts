@@ -217,7 +217,7 @@ describe('ProfileTagInjector', () => {
     });
   });
 
-  it(`Should call the push method for every ModifiedCart event`, () => {
+  it(`Should call the push method for every CartSnapshot event`, () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
@@ -231,15 +231,15 @@ describe('ProfileTagInjector', () => {
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(2);
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      event: 'CartSnapshot',
       data: { entries: [], cart: testCart },
     });
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      event: 'CartSnapshot',
       data: { entries: mockCartEntry, cart: testCart },
     });
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      event: 'CartSnapshot',
       data: { entries: mockCartEntry2, cart: testCart },
     });
   });

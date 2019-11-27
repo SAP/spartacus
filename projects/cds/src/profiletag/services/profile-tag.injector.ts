@@ -114,7 +114,7 @@ export class ProfileTagInjector {
     cart: Cart
   ): void {
     this.profileTagWindow.Y_TRACKING.push({
-      event: 'ModifiedCart',
+      event: 'CartSnapshot',
       data: { entries, cart },
     });
   }
