@@ -79,10 +79,16 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
           },
 
           md: {
-            slots: ['VariantConfigOverviewContent'],
+            slots: [
+              'VariantConfigOverviewContent',
+              'VariantConfigOverviewBottombar',
+            ],
           },
           xs: {
-            slots: ['VariantConfigOverviewContent'],
+            slots: [
+              'VariantConfigOverviewContent',
+              'VariantConfigOverviewBottombar',
+            ],
           },
         },
       },
