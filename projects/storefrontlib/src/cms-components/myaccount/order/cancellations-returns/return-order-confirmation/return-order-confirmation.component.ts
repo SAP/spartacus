@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { Observable, combineLatest, Subscription } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
@@ -15,8 +15,9 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
 @Component({
   selector: 'cx-return-order-confirmation',
   templateUrl: './return-order-confirmation.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
+export class ReturnOrderConfirmationComponent implements OnDestroy {
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected routing: RoutingService,
@@ -24,43 +25,38 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
     protected returnRequestService: OrderReturnRequestService
   ) {}
 
-  returnedEntries$: Observable<OrderEntry[]>;
   orderCode: string;
-
   lang = 'en';
-  returnRequestEntryInput: CancellationReturnRequestEntryInput[];
-
   subscription: Subscription;
 
-  ngOnInit() {
-    this.returnRequestEntryInput = this.orderDetailsService.cancellationReturnRequestInputs;
+  returnedEntries$: Observable<OrderEntry[]> = combineLatest([
+    this.orderDetailsService.getOrderDetails(),
+    this.languageService.getActive(),
+  ]).pipe(
+    filter(([order]) => Boolean(order.entries)),
+    tap(([order, lang]) => {
+      this.lang = lang;
+      this.orderCode = order.code;
+    }),
+    map(([order]) => {
+      const returnedEntries = [];
+      order.entries.forEach(entry => {
+        const returnedQty = this.getEntryReturnedQty(entry);
+        if (returnedQty > 0) {
+          const copiedEntry = Object.assign({}, entry, {
+            returnedItemsPrice: null,
+            returnedQuantity: returnedQty,
+          });
+          this.setReturnedEntryPrice(returnedQty, copiedEntry);
+          returnedEntries.push(copiedEntry);
+        }
+      });
+      return returnedEntries;
+    })
+  );
 
-    this.returnedEntries$ = combineLatest([
-      this.orderDetailsService.getOrderDetails(),
-      this.languageService.getActive(),
-    ]).pipe(
-      filter(([order]) => Boolean(order.entries)),
-      tap(([order, lang]) => {
-        this.lang = lang;
-        this.orderCode = order.code;
-      }),
-      map(([order]) => {
-        const returnedEntries = [];
-        order.entries.forEach(entry => {
-          const returnedQty = this.getEntryReturnedQty(entry);
-          if (returnedQty > 0) {
-            const copiedEntry = Object.assign({}, entry, {
-              returnedItemsPrice: null,
-              returnedQuantity: returnedQty,
-            });
-            this.setReturnedEntryPrice(returnedQty, copiedEntry);
-            returnedEntries.push(copiedEntry);
-          }
-        });
-        return returnedEntries;
-      })
-    );
-  }
+  returnRequestEntryInput: CancellationReturnRequestEntryInput[] = this
+    .orderDetailsService.cancellationReturnRequestInputs;
 
   protected getEntryReturnedQty(entry: OrderEntry): number {
     for (const input of this.returnRequestEntryInput) {
@@ -75,7 +71,7 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
    * As discussed, this calculation is moved to SPA side.
    * The calculation and validation should be in backend facade layer.
    */
-  protected setReturnedEntryPrice(qty: number, entry: OrderEntry) {
+  protected setReturnedEntryPrice(qty: number, entry: OrderEntry): void {
     const returnedItemsPriceData = Object.assign({}, entry.basePrice);
 
     returnedItemsPriceData.value =
@@ -91,7 +87,7 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
     entry.returnedItemsPrice = returnedItemsPriceData;
   }
 
-  submit() {
+  submit(): void {
     this.returnRequestService.createOrderReturnRequest({
       orderCode: this.orderCode,
       returnRequestEntryInputs: this.returnRequestEntryInput,
@@ -109,7 +105,7 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

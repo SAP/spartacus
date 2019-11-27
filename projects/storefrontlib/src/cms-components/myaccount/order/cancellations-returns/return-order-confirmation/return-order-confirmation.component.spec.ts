@@ -111,10 +111,7 @@ describe('ReturnOrderConfirmationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+  it('should get returned entries', () => {
     let returnedEntries: OrderEntry[];
     component.returnedEntries$
       .subscribe(value => (returnedEntries = value))

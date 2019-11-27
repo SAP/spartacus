@@ -19,7 +19,7 @@ import { StateWithUser } from '../store/user-state';
 export class OrderReturnRequestService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService?: AuthService
+    protected authService: AuthService
   ) {}
 
   /**
