@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
@@ -78,17 +81,6 @@ export class AuthService {
   }
 
   /**
-   * TEMPORARY FUCNTION ADDITION.  THIS FNUNCTION IS REALLY IN AsmAuthService
-   */
-  isCustomerEmulationToken(userToken: UserToken): boolean {
-    return (
-      Boolean(userToken) &&
-      Boolean(userToken.userId) &&
-      userToken.userId !== 'current'
-    );
-  }
-
-  /**
    * Logout a storefront customer
    */
   logout(): void {
@@ -96,7 +88,7 @@ export class AuthService {
       .pipe(take(1))
       .subscribe(userToken => {
         this.store.dispatch(new AuthActions.Logout());
-        if (!this.isCustomerEmulationToken(userToken)) {
+        if (Boolean(userToken) && userToken.userId === OCC_USER_ID_CURRENT) {
           this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
         }
       });
