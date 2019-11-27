@@ -1,7 +1,19 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Event as NgRouterEvent, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { BaseSiteService, Cart, CartService, ConsentService, OrderEntry, WindowRef } from '@spartacus/core';
+import {
+  Event as NgRouterEvent,
+  NavigationEnd,
+  NavigationStart,
+  Router,
+} from '@angular/router';
+import {
+  BaseSiteService,
+  Cart,
+  CartService,
+  ConsentService,
+  OrderEntry,
+  WindowRef,
+} from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { CdsConfig } from '../../config/index';
 import { ProfileTagWindowObject } from '../model/index';

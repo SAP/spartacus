@@ -26,7 +26,3 @@ export enum ProfileTagEventNames {
   ConsentReferenceChanged = 'ConsentReferenceChanged',
   ProfileTagDebug = 'DebugFlagChanged',
 }
-
-export interface ProfileTagPushEvent {
-  
-}
