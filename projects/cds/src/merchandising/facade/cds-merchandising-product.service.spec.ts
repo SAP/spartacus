@@ -1,29 +1,24 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  BaseSiteService,
-  ImageType,
-  LanguageService,
-  PageType,
-  RoutingService,
-} from '@spartacus/core';
-import { of } from 'rxjs';
+import { ImageType } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { MerchandisingProducts } from '../model/merchandising-products.model';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
-import { MerchandisingProducts } from './../model/merchandising.products.model';
+import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
+import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
 import { CdsMerchandisingProductService } from './cds-merchandising-product.service';
+import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
+import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 import createSpy = jasmine.createSpy;
 
 const STRATEGY_ID = 'test-strategy-id';
 
-const MERCHANDISING_PRODUCTS_METADATA: Map<string, string> = new Map<
+const merchandisingProductsMetadata: Map<string, string> = new Map<
   string,
   string
 >();
-MERCHANDISING_PRODUCTS_METADATA.set(
-  'test-metadata-field',
-  'test-metadata-value'
-);
-const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
+merchandisingProductsMetadata.set('test-metadata-field', 'test-metadata-value');
+const merchandisingProducts: MerchandisingProducts = {
   products: [
     {
       code: 'test-product-id',
@@ -43,35 +38,37 @@ const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
       },
     },
   ],
-  metadata: MERCHANDISING_PRODUCTS_METADATA,
+  metadata: merchandisingProductsMetadata,
+};
+const siteContext: MerchandisingSiteContext = {
+  site: 'electronics-spa',
+  language: 'en',
 };
 
 class MockStrategyConnector {
   loadProductsForStrategy = createSpy(
     'StrategyAdapter.loadProductsForStrategy'
-  ).and.callFake(() => of(MERCHANDISING_PRODUCTS));
+  ).and.callFake(() => of(merchandisingProducts));
 }
-class MockBaseSiteService {
-  getActive = createSpy('baseSiteService.getActive').and.callFake(() =>
-    of('electronics-spa')
-  );
+
+class SiteContextServiceStub {
+  getSiteContext(): Observable<MerchandisingSiteContext> {
+    return of();
+  }
 }
-class MockLanguageService {
-  getActive = createSpy('languageService.getActive').and.callFake(() =>
-    of('en')
-  );
+class UserContextServiceStub {
+  getUserContext(): Observable<MerchandisingUserContext> {
+    return of();
+  }
 }
 
 describe('CdsMerchandisingProductService', () => {
   let cdsMerchandisingPrductService: CdsMerchandisingProductService;
   let strategyConnector: MerchandisingStrategyConnector;
-  let routingService: jasmine.SpyObj<RoutingService>;
+  let siteContextService: CdsMerchandisingSiteContextService;
+  let userContextService: CdsMerchandisingUserContextService;
 
   beforeEach(() => {
-    const routingServiceSpy = jasmine.createSpyObj('RoutingService', [
-      'getRouterState',
-    ]);
-
     TestBed.configureTestingModule({
       providers: [
         {
@@ -79,16 +76,12 @@ describe('CdsMerchandisingProductService', () => {
           useClass: MockStrategyConnector,
         },
         {
-          provide: BaseSiteService,
-          useClass: MockBaseSiteService,
+          provide: CdsMerchandisingUserContextService,
+          useClass: UserContextServiceStub,
         },
         {
-          provide: LanguageService,
-          useClass: MockLanguageService,
-        },
-        {
-          provide: RoutingService,
-          useValue: routingServiceSpy,
+          provide: CdsMerchandisingSiteContextService,
+          useClass: SiteContextServiceStub,
         },
       ],
     });
@@ -98,7 +91,12 @@ describe('CdsMerchandisingProductService', () => {
     strategyConnector = TestBed.get(MerchandisingStrategyConnector as Type<
       MerchandisingStrategyConnector
     >);
-    routingService = TestBed.get(RoutingService);
+    siteContextService = TestBed.get(CdsMerchandisingSiteContextService as Type<
+      CdsMerchandisingSiteContextService
+    >);
+    userContextService = TestBed.get(CdsMerchandisingUserContextService as Type<
+      CdsMerchandisingUserContextService
+    >);
   });
 
   it('should be created', () => {
@@ -110,20 +108,18 @@ describe('CdsMerchandisingProductService', () => {
       site: 'electronics-spa',
       language: 'en',
       pageSize: 10,
-      productId: undefined,
+      category: '574',
     };
-    const router = {
-      state: {
-        url: '/',
-        queryParams: {},
-        params: {},
-        context: { id: '1', type: PageType.PRODUCT_PAGE },
-        cmsRequired: false,
-      },
-      navigationId: 1,
+    const userContext: MerchandisingUserContext = {
+      category: '574',
     };
+    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+      of(siteContext)
+    );
+    spyOn(userContextService, 'getUserContext').and.returnValue(
+      of(userContext)
+    );
 
-    routingService.getRouterState.and.returnValue(of(router));
     let actualMerchandisingProducts: MerchandisingProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
@@ -131,7 +127,7 @@ describe('CdsMerchandisingProductService', () => {
         actualMerchandisingProducts = strategyResult;
       })
       .unsubscribe();
-    expect(actualMerchandisingProducts).toEqual(MERCHANDISING_PRODUCTS);
+    expect(actualMerchandisingProducts).toEqual(merchandisingProducts);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -145,18 +141,14 @@ describe('CdsMerchandisingProductService', () => {
       pageSize: 10,
       productId: '123456',
     };
-    const router = {
-      state: {
-        url: '/',
-        queryParams: {},
-        params: { productCode: '123456' },
-        context: { id: '1', type: PageType.PRODUCT_PAGE },
-        cmsRequired: false,
-      },
-      navigationId: 1,
-    };
 
-    routingService.getRouterState.and.returnValue(of(router));
+    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+      of(siteContext)
+    );
+    spyOn(userContextService, 'getUserContext').and.returnValue(
+      of({ productId: '123456' })
+    );
+
     let actualMerchandisingProducts: MerchandisingProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
@@ -164,7 +156,7 @@ describe('CdsMerchandisingProductService', () => {
         actualMerchandisingProducts = strategyResult;
       })
       .unsubscribe();
-    expect(actualMerchandisingProducts).toEqual(MERCHANDISING_PRODUCTS);
+    expect(actualMerchandisingProducts).toEqual(merchandisingProducts);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest

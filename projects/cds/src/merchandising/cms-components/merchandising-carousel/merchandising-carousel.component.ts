@@ -22,13 +22,6 @@ export class MerchandisingCarouselComponent {
   metadata: Map<string, string>;
   items: Observable<Product>[];
 
-  constructor(
-    protected componentData: CmsComponentData<
-      CmsMerchandisingCarouselComponent
-    >,
-    protected cdsMerchandisingProductService: CdsMerchandisingProductService
-  ) {}
-
   private componentData$: Observable<
     CmsMerchandisingCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
@@ -71,8 +64,16 @@ export class MerchandisingCarouselComponent {
               merchandisingProducts && merchandisingProducts.products
                 ? merchandisingProducts.products.map(product => of(product))
                 : [EMPTY];
-          })
+          }),
+          filter(Boolean)
         )
     )
   );
+
+  constructor(
+    protected componentData: CmsComponentData<
+      CmsMerchandisingCarouselComponent
+    >,
+    protected cdsMerchandisingProductService: CdsMerchandisingProductService
+  ) {}
 }
