@@ -3,8 +3,10 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   BaseSiteService,
+  Cart,
   CartService,
   ConsentService,
+  OrderEntry,
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, fromEvent, merge, Observable } from 'rxjs';
@@ -85,8 +87,8 @@ export class ProfileTagInjector {
         }),
         mapTo(true),
         take(1),
-        tap(() => {
-          this.notifyProfileTagOfConsentChange({ granted: true });
+        tap(granted => {
+          this.notifyProfileTagOfConsentChange(granted);
         })
       );
   }
@@ -101,20 +103,23 @@ export class ProfileTagInjector {
     ]).pipe(
       skipWhile(([entries]) => entries.length === 0),
       tap(([entries, cart]) => {
-        this.notifyProfileTagOfCartChange({ entries, cart });
+        this.notifyProfileTagOfCartChange(entries, cart);
       }),
       mapTo(true)
     );
   }
 
-  private notifyProfileTagOfCartChange({ entries, cart }): void {
+  private notifyProfileTagOfCartChange(
+    entries: OrderEntry[],
+    cart: Cart
+  ): void {
     this.profileTagWindow.Y_TRACKING.push({
       event: 'ModifiedCart',
       data: { entries, cart },
     });
   }
 
-  private notifyProfileTagOfConsentChange({ granted }): void {
+  private notifyProfileTagOfConsentChange(granted: boolean): void {
     this.profileTagWindow.Y_TRACKING.push({ event: 'ConsentChanged', granted });
   }
 
