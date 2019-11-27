@@ -9,7 +9,11 @@ import {
   OrderEntry,
   WindowRef,
 } from '@spartacus/core';
+<<<<<<< HEAD
 import { combineLatest, fromEvent, merge, Observable } from 'rxjs';
+=======
+import { combineLatest, fromEventPattern, merge, Observable } from 'rxjs';
+>>>>>>> a020d3eb238516e375495694ad1d98af0b955eb8
 import {
   distinctUntilChanged,
   filter,
@@ -41,10 +45,13 @@ export class ProfileTagInjector {
     this.pageLoaded(),
     this.consentChanged(),
     this.cartChanged()
+<<<<<<< HEAD
   );
   private profileTagEvents$ = merge(
     this.consentReferenceChanged(),
     this.debugModeChanged()
+=======
+>>>>>>> a020d3eb238516e375495694ad1d98af0b955eb8
   );
 
   constructor(
@@ -64,11 +71,31 @@ export class ProfileTagInjector {
     );
   }
 
+<<<<<<< HEAD
+=======
+  private setEventVariables(event: ProfileTagEvent): void {
+    switch (event.name) {
+      case ProfileTagEventNames.ConsentReferenceChanged:
+        this.consentReference = event.data.consentReference;
+        break;
+      case ProfileTagEventNames.ProfileTagDebug:
+        this.profileTagDebug = event.data.debug;
+        break;
+      default:
+        break;
+    }
+  }
+
+>>>>>>> a020d3eb238516e375495694ad1d98af0b955eb8
   private pageLoaded(): Observable<boolean> {
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {
+<<<<<<< HEAD
         this.profileTagWindow.Y_TRACKING.push({ event: 'Navigated' });
+=======
+        this.w.Y_TRACKING.push({ event: 'Navigated' });
+>>>>>>> a020d3eb238516e375495694ad1d98af0b955eb8
       }),
       mapTo(true)
     );
@@ -113,14 +140,22 @@ export class ProfileTagInjector {
     entries: OrderEntry[],
     cart: Cart
   ): void {
+<<<<<<< HEAD
     this.profileTagWindow.Y_TRACKING.push({
+=======
+    this.w.Y_TRACKING.push({
+>>>>>>> a020d3eb238516e375495694ad1d98af0b955eb8
       event: 'ModifiedCart',
       data: { entries, cart },
     });
   }
 
   private notifyProfileTagOfConsentChange(granted: boolean): void {
+<<<<<<< HEAD
     this.profileTagWindow.Y_TRACKING.push({ event: 'ConsentChanged', granted });
+=======
+    this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted });
+>>>>>>> a020d3eb238516e375495694ad1d98af0b955eb8
   }
 
   private addTracker(): Observable<Event> {
