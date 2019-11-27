@@ -7,6 +7,7 @@ import {
   filter,
   map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
@@ -18,6 +19,9 @@ import { MerchandisingProducts } from '../../model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchandisingCarouselComponent {
+  metadata: Map<string, string>;
+  items: Observable<Product>[];
+
   constructor(
     protected componentData: CmsComponentData<
       CmsMerchandisingCarouselComponent
@@ -44,6 +48,9 @@ export class MerchandisingCarouselComponent {
           map(merchandsingProducts => {
             merchandsingProducts.metadata.set('title', data.title);
             merchandsingProducts.metadata.set('name', data.name);
+            merchandsingProducts.metadata.set('strategyid', data.strategy);
+            merchandsingProducts.metadata.set('id', data.uid);
+
             if (
               merchandsingProducts.products &&
               merchandsingProducts.products.length
@@ -55,22 +62,17 @@ export class MerchandisingCarouselComponent {
             }
 
             return merchandsingProducts;
+          }),
+          tap(merchandisingProducts => {
+            this.metadata = merchandisingProducts
+              ? merchandisingProducts.metadata
+              : undefined;
+            this.items =
+              merchandisingProducts && merchandisingProducts.products
+                ? merchandisingProducts.products.map(product => of(product))
+                : [EMPTY];
           })
         )
     )
   );
-
-  getMetdata(
-    merchandisingProducts: MerchandisingProducts
-  ): Map<string, string> {
-    return merchandisingProducts ? merchandisingProducts.metadata : undefined;
-  }
-
-  getProducts(
-    merchandisingProducts: MerchandisingProducts
-  ): Observable<Product>[] {
-    return merchandisingProducts && merchandisingProducts.products
-      ? merchandisingProducts.products.map(product => of(product))
-      : [EMPTY];
-  }
 }

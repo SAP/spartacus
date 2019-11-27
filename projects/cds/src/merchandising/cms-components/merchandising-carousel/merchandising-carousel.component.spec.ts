@@ -1,5 +1,6 @@
 import {
   Component,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
@@ -32,6 +33,20 @@ class MockCarouselComponent {
   @Input() items: any[];
 }
 
+/*
+ * The actual directrive would prefix our metadata attributes with the prefix input. We will not test
+ * the directive's behaviour as part of the tests for this component, so we should not expect the generated
+ * metadata attributes to contain any kind of prefix
+ */
+@Directive({
+  selector: '[cxAttributes]',
+  inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
+})
+class MockAttributesDirective {
+  @Input() cxAttributes: Map<string, string>;
+  @Input() cxAttributesNamePrefix: string;
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -48,7 +63,12 @@ class MockMediaComponent {
   @Input() format: string;
 }
 
-const mockMerchandisingProducts = {
+const mockMerchandisingProductsMetadata: Map<string, string> = new Map();
+mockMerchandisingProductsMetadata.set(
+  'custom-metadata-field-1',
+  'custom-metadata-data-value-1'
+);
+const mockMerchandisingProducts: MerchandisingProducts = {
   products: [
     {
       code: '1',
@@ -72,6 +92,7 @@ const mockMerchandisingProducts = {
       },
     },
   ],
+  metadata: mockMerchandisingProductsMetadata,
 };
 
 const mockComponentData: CmsMerchandisingCarouselComponent = {
@@ -105,6 +126,7 @@ describe('MerchandisingCarouselComponent', () => {
       declarations: [
         MerchandisingCarouselComponent,
         MockCarouselComponent,
+        MockAttributesDirective,
         MockMediaComponent,
         MockUrlPipe,
       ],
@@ -131,19 +153,47 @@ describe('MerchandisingCarouselComponent', () => {
     expect(component).toBeTruthy();
   }));
 
+  it('should have a title', async () => {
+    let actualTitle: string;
+    component.title$.subscribe(title => (actualTitle = title));
+    expect(actualTitle).toBe(mockComponentData.title);
+  });
+
+  it('should have MerchandisingProducts populated', () => {
+    const expectedMerchandisingProductsMetadata: Map<string, string> = new Map(
+      mockMerchandisingProductsMetadata
+    );
+
+    expectedMerchandisingProductsMetadata.set('title', mockComponentData.title);
+    expectedMerchandisingProductsMetadata.set('name', mockComponentData.name);
+    expectedMerchandisingProductsMetadata.set(
+      'strategyid',
+      mockComponentData.strategy
+    );
+    expectedMerchandisingProductsMetadata.set('id', mockComponentData.uid);
+
+    const expectedMerchandisingProducts: MerchandisingProducts = {
+      ...mockMerchandisingProducts,
+      metadata: expectedMerchandisingProductsMetadata,
+    };
+
+    let actualMerchandisingProducts: MerchandisingProducts;
+    component.merchandisingProducts$.subscribe(
+      merchandisingProducts =>
+        (actualMerchandisingProducts = merchandisingProducts)
+    );
+    expect(actualMerchandisingProducts).toEqual(expectedMerchandisingProducts);
+  });
+
   it('should have 2 items', async(() => {
-    let items: Observable<Product>[];
-    component.items$.subscribe(i => (items = i));
-    expect(items.length).toBe(2);
+    expect(component.items.length).toBe(2);
   }));
 
   it('should have product code 111 in first product', async(() => {
-    let items: Observable<Product>[];
-    component.items$.subscribe(i => (items = i));
     let product: Product;
-    items[0].subscribe(p => (product = p));
+    component.items[0].subscribe(p => (product = p));
 
-    expect(product).toBe(mockMerchandisingProducts.products[0]);
+    expect(product).toEqual(mockMerchandisingProducts.products[0]);
   }));
 
   describe('UI test', () => {
