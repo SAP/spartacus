@@ -1,0 +1,32 @@
+<ng-container *ngIf="productCode$ | async as productCode">
+  <ng-container *ngIf="configuratorType$ | async as configuratorType">
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          [routerLink]="
+            {
+              cxRoute: 'configure' + configuratorType,
+              params: { rootProduct: productCode }
+            } | cxUrl
+          "
+          role="link"
+          >Configuration</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="
+            {
+              cxRoute: 'configureOverview' + configuratorType,
+              params: { rootProduct: productCode }
+            } | cxUrl
+          "
+          role="link"
+          >Overview</a
+        >
+      </li>
+    </ul>
+  </ng-container>
+</ng-container>

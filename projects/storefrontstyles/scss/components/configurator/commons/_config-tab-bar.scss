@@ -1,0 +1,35 @@
+%cx-config-tab-bar {
+  .nav {
+    margin-bottom: 2rem;
+
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    justify-content: flex-end !important;
+
+    @include media-breakpoint-down(xs) {
+      justify-content: center !important;
+    }
+
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0;
+    }
+
+    li {
+      margin-bottom: -1px;
+
+      a {
+        color: black;
+        cursor: pointer;
+
+        &.active,
+        &:hover {
+          color: var(--cx-color-primary) !important;
+          border-width: 0 0 3px 0;
+          border-style: solid;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
