@@ -23,5 +23,8 @@ export const configurator = {
       selectedOptions: 'Selected Options',
       totalPrice: 'Total',
     },
+    addToCart: {
+      button: 'Add To Cart',
+    },
   },
 };

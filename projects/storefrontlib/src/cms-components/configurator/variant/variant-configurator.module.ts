@@ -14,6 +14,7 @@ import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
+import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
 import { ConfigAttributeFooterComponent } from '../commons/config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
@@ -64,6 +65,10 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
         },
         VariantConfigurationPrevNext: {
           component: ConfigPreviousNextButtonsComponent,
+          guards: [],
+        },
+        VariantConfigurationAddToCartButton: {
+          component: ConfigAddToCartButtonComponent,
           guards: [],
         },
       },
@@ -139,6 +144,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
   ],
   exports: [
@@ -153,6 +159,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
   ],
   providers: [UserService],
@@ -168,6 +175,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
   ],
 })

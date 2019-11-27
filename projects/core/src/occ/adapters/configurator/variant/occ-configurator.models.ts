@@ -77,6 +77,18 @@ export namespace OccConfigurator {
     selected?: boolean;
   }
 
+  export interface AddToCartParameters {
+    userId?: string;
+    cartId?: string;
+    product?: AddToCartProductData;
+    quantity?: number;
+    configId?: string;
+  }
+
+  export interface AddToCartProductData {
+    code?: string;
+  }
+
   export enum GroupType {
     CSTIC_GROUP = 'CSTIC_GROUP',
   }
@@ -94,7 +106,9 @@ export namespace OccConfigurator {
     NOT_IMPLEMENTED = 'NOT_IMPLEMENTED',
     SINGLE_SELECTION_IMAGE = 'SINGLE_SELECTION_IMAGE',
     MULTI_SELECTION_IMAGE = 'MULTI_SELECTION_IMAGE',
-    READ_ONLY_SINGLE_SELECTION_IMAGE = 'READ_ONLY_SINGLE_SELECTION_IMAGE',
-    READ_ONLY_MULTI_SELECTION_IMAGE = 'READ_ONLY_MULTI_SELECTION_IMAGE',
+  }
+
+  export enum PriceType {
+    BUY = 'BUY',
   }
 }

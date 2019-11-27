@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { CartService } from '../../../cart/facade/cart.service';
+import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../../occ/utils/occ-constants';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration, UiState } from '../store/configuration-state';
@@ -11,19 +17,10 @@ import * as ConfiguratorSelectors from '../store/selectors/configurator.selector
 
 @Injectable()
 export class ConfiguratorCommonsService {
-  constructor(protected store: Store<StateWithConfiguration>) {}
-
-  createConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    this.store.dispatch(
-      new ConfiguratorActions.CreateConfiguration(productCode)
-    );
-
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(productCode))
-    );
-  }
+  constructor(
+    protected store: Store<StateWithConfiguration>,
+    protected cartService: CartService
+  ) {}
 
   hasConfiguration(productCode: string): Observable<Boolean> {
     return this.store.pipe(
@@ -37,32 +34,29 @@ export class ConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
-      tap(configuration => {
-        if (!this.isConfigurationCreated(configuration)) {
+      filter(configuration => this.isConfigurationCreated(configuration))
+    );
+  }
+
+  getOrCreateConfiguration(
+    productCode: string
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(ConfiguratorSelectors.getConfigurationStateFactory(productCode)),
+      tap(configurationState => {
+        if (
+          !this.isConfigurationCreated(configurationState.value) &&
+          configurationState.loading !== true
+        ) {
           this.store.dispatch(
             new ConfiguratorActions.CreateConfiguration(productCode)
           );
         }
       }),
-      filter(configuration => this.isConfigurationCreated(configuration))
-    );
-  }
-
-  readConfiguration(
-    configId: string,
-    productCode: string,
-    groupId: string
-  ): Observable<Configurator.Configuration> {
-    this.store.dispatch(
-      new ConfiguratorActions.ReadConfiguration({
-        configId: configId,
-        productCode: productCode,
-        groupId: groupId,
-      })
-    );
-
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(productCode))
+      filter(configurationState =>
+        this.isConfigurationCreated(configurationState.value)
+      ),
+      map(configurationState => configurationState.value)
     );
   }
 
@@ -109,15 +103,46 @@ export class ConfiguratorCommonsService {
     this.store.dispatch(new UiActions.RemoveUiState(productCode));
   }
 
+  addToCart(productCode: string, configId: string) {
+    const cart$ = this.cartService.getOrCreateCart();
+    cart$.pipe(take(1)).subscribe(cart => {
+      const addToCartParameters: Configurator.AddToCartParameters = {
+        userId: this.getUserId(cart),
+        cartId: this.getCartId(cart),
+        productCode: productCode,
+        quantity: 1,
+        configId: configId,
+      };
+
+      this.store.dispatch(
+        new ConfiguratorActions.AddToCart(addToCartParameters)
+      );
+    });
+  }
+
   ////
   // Helper methods
   ////
+  getCartId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+  }
+
+  getUserId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS
+      ? cart.user.uid
+      : OCC_USER_ID_CURRENT;
+  }
+
   isUiStateCreated(uiState: UiState): boolean {
     return uiState !== undefined;
   }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    return configuration !== undefined;
+    return (
+      configuration !== undefined &&
+      configuration.configId !== undefined &&
+      configuration.configId.length !== 0
+    );
   }
 
   createConfigurationExtract(

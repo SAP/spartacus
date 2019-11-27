@@ -1,0 +1,12 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <div class="cx-config-add-to-cart-btn">
+    <div class="col-6 col-md-4">
+      <button
+        class="cx-btn btn btn-block btn-primary"
+        (click)="onAddToCart(configuration.productCode, configuration.configId)"
+      >
+        {{ 'configurator.addToCart.button' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

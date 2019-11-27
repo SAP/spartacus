@@ -1,3 +1,4 @@
+import * as cart from '../../helpers/cart';
 import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
@@ -161,6 +162,20 @@ context('Product Configuration', () => {
         'WCEM_DP_SOUND_CARD',
         'radioGroup'
       );
+    });
+  });
+
+  describe('Cart handling', () => {
+    it('should add configurable product to cart', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.selectAttribute(
+        'WCEM_DP_MONITOR_MNF',
+        'radioGroup',
+        'SAMSUNG'
+      );
+      configuration.clickAddToCartButton();
+      cart.verifyCartNotEmpty();
     });
   });
 });

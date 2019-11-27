@@ -22,6 +22,8 @@ class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
   createConfiguration = createSpy().and.callFake(productCode =>
     of('createConfiguration' + productCode)
   );
+
+  addToCart = createSpy().and.callFake(configId => of('addToCart' + configId));
 }
 
 describe('ConfiguratorCommonsConnector', () => {
@@ -29,6 +31,9 @@ describe('ConfiguratorCommonsConnector', () => {
   const PRODUCT_CODE = 'CONF_LAPTOP';
   const CONFIG_ID = '1234-56-7890';
   const GROUP_ID = 'GROUP1';
+  const USER_ID = 'theUser';
+  const CART_ID = '98876';
+  const QUANTITY = 1;
   const productConfiguration: Configurator.Configuration = {
     configId: CONFIG_ID,
     productCode: PRODUCT_CODE,
@@ -101,5 +106,23 @@ describe('ConfiguratorCommonsConnector', () => {
     service.readPriceSummary(CONFIG_ID).subscribe(res => (result = res));
     expect(result).toBe('readPriceSummary' + CONFIG_ID);
     expect(adapter.readPriceSummary).toHaveBeenCalledWith(CONFIG_ID);
+  });
+
+  it('should call adapter on addToCart', () => {
+    const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
+      ConfiguratorCommonsAdapter
+    >);
+
+    const parameters: Configurator.AddToCartParameters = {
+      userId: USER_ID,
+      cartId: CART_ID,
+      productCode: PRODUCT_CODE,
+      quantity: QUANTITY,
+      configId: CONFIG_ID,
+    };
+    let result;
+    service.addToCart(parameters).subscribe(res => (result = res));
+    expect(adapter.addToCart).toHaveBeenCalledWith(parameters);
+    expect(result).toBe('addToCart' + parameters);
   });
 });

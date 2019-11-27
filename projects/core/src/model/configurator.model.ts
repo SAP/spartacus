@@ -63,6 +63,14 @@ export namespace Configurator {
     minQuantity?: number;
   }
 
+  export interface AddToCartParameters {
+    userId: string;
+    cartId: string;
+    productCode: string;
+    quantity: number;
+    configId: string;
+  }
+
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
   }

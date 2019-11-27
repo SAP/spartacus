@@ -51,6 +51,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'configurator.attribute',
     'configurator.button',
     'configurator.priceSummary',
+    'configurator.addToCart',
   ],
 
   user: [

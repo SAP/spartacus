@@ -2,12 +2,12 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
+import { User } from '../../../model/misc.model';
 import { OrderEntry } from '../../../model/order.model';
 import { CartActions } from '../actions/index';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers/index';
 import { CartSelectors } from './../selectors/index';
-import { User } from '../../../model/misc.model';
 
 describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
@@ -161,7 +161,7 @@ describe('Cart selectors', () => {
       store.dispatch(new CartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({
-        '1234': { entryNumber: 0, product: { code: '1234' } },
+        0: { entryNumber: 0, product: { code: '1234' } },
       });
     });
   });
@@ -171,7 +171,7 @@ describe('Cart selectors', () => {
       let result: OrderEntry;
 
       store
-        .pipe(select(CartSelectors.getCartEntrySelectorFactory('1234')))
+        .pipe(select(CartSelectors.getCartEntrySelectorFactory(0)))
         .subscribe(value => {
           result = value;
         });

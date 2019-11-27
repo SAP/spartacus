@@ -39,11 +39,11 @@ $selectors: header, cx-storefront, cx-site-context-selector, cx-breadcrumb,
   cx-customer-selection, cx-guest-register-form, cx-config-attribute-read-only,
   cx-config-previous-next-buttons, cx-config-textfield-input-field,
   cx-config-textfield-form, cx-config-group-menu, cx-config-price-summary,
-  cx-config-attribute-input-field, cx-update-password, cx-tracking-events,
-  cx-asm-main-ui, cx-customer-selection, cx-guest-register-form,
-  cx-anonymous-consent-management-banner, cx-anonymous-consent-dialog,
-  cx-anonymous-consent-open-dialog, cx-consent-management-form,
-  cx-consent-management !default;
+  cx-config-add-to-cart-button, cx-config-attribute-input-field,
+  cx-update-password, cx-tracking-events, cx-asm-main-ui, cx-customer-selection,
+  cx-guest-register-form, cx-anonymous-consent-management-banner,
+  cx-anonymous-consent-dialog, cx-anonymous-consent-open-dialog,
+  cx-consent-management-form, cx-consent-management !default;
 
 // future theme's, can be introduced during minors
 $theme: '' !default;

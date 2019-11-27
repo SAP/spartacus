@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { ConfigModule } from '../../../../config/config.module';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
+  CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
+import { OccConfiguratorVariantAddToCartSerializer } from './converters/occ-configurator-variant-add-to-cart-serializer';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
 import { OccConfiguratorVariantSerializer } from './converters/occ-configurator-variant-serializer';
@@ -38,6 +40,11 @@ import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapte
     {
       provide: CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
       useExisting: OccConfiguratorVariantPriceSummaryNormalizer,
+      multi: true,
+    },
+    {
+      provide: CONFIGURATION_ADD_TO_CART_SERIALIZER,
+      useExisting: OccConfiguratorVariantAddToCartSerializer,
       multi: true,
     },
   ],

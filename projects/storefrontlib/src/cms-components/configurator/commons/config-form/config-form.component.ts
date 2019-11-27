@@ -30,16 +30,24 @@ export class ConfigFormComponent implements OnInit {
     this.configuration$ = this.routingService.getRouterState().pipe(
       map(routingData => routingData.state.params.rootProduct),
       switchMap(product =>
-        this.configuratorCommonsService.getConfiguration(product)
+        this.configuratorCommonsService.getOrCreateConfiguration(product)
       )
     );
-    this.currentGroup$ = this.configuration$.pipe(
-      switchMap(configuration =>
-        this.configuratorGroupsService.getCurrentGroup(
-          configuration.productCode
+    this.currentGroup$ = this.routingService
+      .getRouterState()
+      .pipe(
+        map(routingData => routingData.state.params.rootProduct),
+        switchMap(product =>
+          this.configuratorCommonsService.getConfiguration(product)
         )
       )
-    );
+      .pipe(
+        switchMap(configuration =>
+          this.configuratorGroupsService.getCurrentGroup(
+            configuration.productCode
+          )
+        )
+      );
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {

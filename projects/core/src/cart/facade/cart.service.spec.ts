@@ -7,9 +7,9 @@ import { CartActions } from '../../cart/store/actions/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithCart } from '../store/cart-state';
 import { CartDataService } from './cart-data.service';
 import { CartService } from './cart.service';
@@ -237,6 +237,42 @@ describe('CartService', () => {
     });
   });
 
+  describe('getOrCreateCart', () => {
+    it('should create cart if cart does not exist', done => {
+      const spy = spyOn(store, 'dispatch').and.callThrough();
+
+      cartData.userId = userId;
+      cartData.cart = {};
+      service.getOrCreateCart().subscribe(() => {});
+
+      setTimeout(() => {
+        expect(spy.calls.first().args).toEqual([
+          new CartActions.CreateCart({
+            userId: userId,
+          }),
+        ]);
+        done();
+      });
+    });
+
+    it('should not create cart if cart exists', done => {
+      store.dispatch(new CartActions.CreateCartSuccess(cart));
+      spyOn(store, 'dispatch').and.callThrough();
+
+      cartData.userId = userId;
+      cartData.cart = cart;
+      cartData.cartId = cart.code;
+      service.getOrCreateCart().subscribe(() => {});
+
+      setTimeout(() => {
+        expect(store.dispatch).not.toHaveBeenCalledWith(
+          new CartActions.CreateCart({ userId: userId })
+        );
+        done();
+      });
+    });
+  });
+
   describe('update CartEntry', () => {
     it('should be able to updateCartEntry with quantity > 0', () => {
       spyOn(store, 'dispatch').and.stub();
@@ -304,12 +340,47 @@ describe('CartService', () => {
     });
   });
 
+  describe('getEntryForEntryNumber', () => {
+    it('should return an entry', () => {
+      const testCart: Cart = <Cart>{
+        entries: [
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
+        ],
+      };
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      let result: OrderEntry;
+      service
+        .getEntryForEntryNumber(0)
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(testCart.entries[0]);
+    });
+    it('should emit empty entry if nothing was found', () => {
+      const testCart: Cart = <Cart>{
+        entries: [
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
+        ],
+      };
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      let hasEmitted = false;
+      service
+        .getEntryForEntryNumber(2)
+        .subscribe(() => (hasEmitted = true))
+        .unsubscribe();
+      expect(hasEmitted).toBe(true);
+    });
+  });
+
   describe('getEntry', () => {
     it('should return an entry', () => {
       const testCart: Cart = <Cart>{
         entries: [
-          { product: { code: 'code1' } },
-          { product: { code: 'code2' } },
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
         ],
       };
       store.dispatch(new CartActions.LoadCartSuccess(testCart));
@@ -321,14 +392,49 @@ describe('CartService', () => {
         .unsubscribe();
       expect(result).toEqual(testCart.entries[0]);
     });
+
+    it('should return the first entry in case product is present multiple times in the cart', () => {
+      const testCart: Cart = <Cart>{
+        entries: [
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
+          { entryNumber: 2, product: { code: 'code2' } },
+        ],
+      };
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      let result: OrderEntry;
+      service
+        .getEntry('code2')
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(testCart.entries[1]);
+    });
+
+    it('should emit empty entry if nothing was found', () => {
+      const testCart: Cart = <Cart>{
+        entries: [
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
+        ],
+      };
+      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+
+      let hasEmitted = false;
+      service
+        .getEntry('code3')
+        .subscribe(() => (hasEmitted = true))
+        .unsubscribe();
+      expect(hasEmitted).toBe(true);
+    });
   });
 
   describe('getEntries', () => {
     it('should return entries', () => {
       const testCart: Cart = <Cart>{
         entries: [
-          { product: { code: 'code1' } },
-          { product: { code: 'code2' } },
+          { entryNumber: 0, product: { code: 'code1' } },
+          { entryNumber: 1, product: { code: 'code2' } },
         ],
       };
       store.dispatch(new CartActions.LoadCartSuccess(testCart));

@@ -13,3 +13,7 @@ export const CONFIGURATION_SERIALIZER = new InjectionToken<
 export const CONFIGURATION_PRICE_SUMMARY_NORMALIZER = new InjectionToken<
   Converter<any, Configurator.Configuration>
 >('ConfigurationPriceSummaryNormalizer');
+
+export const CONFIGURATION_ADD_TO_CART_SERIALIZER = new InjectionToken<
+  Converter<Configurator.AddToCartParameters, any>
+>('ConfigurationAddToCartSerializer');

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 
@@ -26,6 +27,12 @@ export class ConfiguratorCommonsConnector {
     Configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     return this.adapter.updateConfiguration(Configuration);
+  }
+
+  addToCart(
+    parameters: Configurator.AddToCartParameters
+  ): Observable<CartModification> {
+    return this.adapter.addToCart(parameters);
   }
 
   readPriceSummary(configId: string): Observable<Configurator.Configuration> {

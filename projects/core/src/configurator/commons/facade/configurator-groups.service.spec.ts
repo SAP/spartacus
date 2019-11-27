@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { CartService } from '../../../cart/facade/cart.service';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import { StateWithConfiguration, UiState } from '../store/configuration-state';
 import { Configurator } from './../../../model/configurator.model';
@@ -22,6 +23,8 @@ const productConfiguration: Configurator.Configuration = {
   groups: [{ id: GROUP_ID_1 }, { id: GROUP_ID_2 }, { id: GROUP_ID_3 }],
 };
 
+class MockCartService {}
+
 describe('ConfiguratorGroupsService', () => {
   let serviceUnderTest: ConfiguratorGroupsService;
   let store: Store<StateWithConfiguration>;
@@ -30,7 +33,14 @@ describe('ConfiguratorGroupsService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
-      providers: [ConfiguratorGroupsService, ConfiguratorCommonsService],
+      providers: [
+        ConfiguratorGroupsService,
+        ConfiguratorCommonsService,
+        {
+          provide: CartService,
+          useClass: MockCartService,
+        },
+      ],
     }).compileComponents();
   }));
   beforeEach(() => {

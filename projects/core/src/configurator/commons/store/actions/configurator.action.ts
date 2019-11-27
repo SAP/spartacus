@@ -23,6 +23,10 @@ export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
   '[Configurator] Update Configuration finalize fail';
 export const CHANGE_GROUP = '[Configurator] Change group';
 export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
+export const ADD_TO_CART = '[Configurator] Add to cart';
+export const ADD_TO_CART_FINALIZE = '[Configurator] Add to cart finalize';
+
+export const REMOVE_CONFIGURATION = '[Configurator] Remove configuration';
 
 export const UPDATE_PRICE_SUMMARY =
   '[Configurator] Update Configuration Summary Price';
@@ -142,6 +146,26 @@ export class ChangeGroupFinalize extends StateEntityLoaderActions.EntityLoadActi
   }
 }
 
+export class AddToCart extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = ADD_TO_CART;
+  constructor(public payload: any) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class AddToCartFinalize extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = ADD_TO_CART_FINALIZE;
+  constructor(public payload: any) {
+    super(CONFIGURATION_DATA, payload.productCode);
+  }
+}
+
+export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAction {
+  readonly type = REMOVE_CONFIGURATION;
+  constructor(productCode: string | string[]) {
+    super(CONFIGURATION_DATA, productCode);
+  }
+}
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -158,4 +182,5 @@ export type ConfiguratorAction =
   | UpdatePriceSummaryFail
   | UpdatePriceSummarySuccess
   | ChangeGroup
-  | ChangeGroupFinalize;
+  | ChangeGroupFinalize
+  | RemoveConfiguration;

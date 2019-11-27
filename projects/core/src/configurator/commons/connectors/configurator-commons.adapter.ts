@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 
 export abstract class ConfiguratorCommonsAdapter {
@@ -32,6 +33,16 @@ export abstract class ConfiguratorCommonsAdapter {
   abstract updateConfiguration(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration>;
+
+  /**
+
+   * Abstract method to add a configuration to cart.
+   *
+   * @param parameters add to cart parameters object
+   */
+  abstract addToCart(
+    parameters: Configurator.AddToCartParameters
+  ): Observable<CartModification>;
 
   /**
    * Abstract method to read a configuration price
