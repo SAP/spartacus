@@ -1,2 +1,10 @@
 @import 'commons/index';
 @import 'textfield/index';
+
+$configurator-components-whitelist: cx-config-attribute-header, cx-config-form,
+  cx-configure-product, cx-config-attribute-radio-button,
+  cx-config-attribute-footer, cx-config-attribute-drop-down,
+  cx-config-attribute-read-only, cx-config-previous-next-buttons,
+  cx-config-textfield-input-field, cx-config-textfield-form,
+  cx-config-group-menu, cx-config-price-summary, cx-config-add-to-cart-button,
+  cx-config-attribute-input-field !default;

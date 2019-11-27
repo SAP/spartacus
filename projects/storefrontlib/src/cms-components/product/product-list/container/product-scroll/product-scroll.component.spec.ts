@@ -133,7 +133,7 @@ class MockUrlPipe implements PipeTransform {
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode: string;
+  @Input() product: string;
   @Input() showQuantity: boolean;
 }
 

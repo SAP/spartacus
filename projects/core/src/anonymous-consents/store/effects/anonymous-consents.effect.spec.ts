@@ -8,9 +8,9 @@ import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  Consent,
   ConsentTemplate,
 } from '../../../model/consent.model';
-import { SiteContextActions } from '../../../site-context/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
@@ -19,16 +19,17 @@ import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import * as fromEffect from './anonymous-consents.effect';
 
-class MockUserContentService {
+class MockUserConsentService {
   getConsentsResultSuccess(): Observable<boolean> {
     return of(true);
   }
-
   getConsents(): Observable<ConsentTemplate[]> {
     return of();
   }
-
   loadConsents(): void {}
+  isConsentWithdrawn(_consent: Consent): boolean {
+    return false;
+  }
 }
 
 class MockAnonymousConsentTemplatesConnector {
@@ -70,6 +71,15 @@ class MockAnonymousConsentsService {
   }
   isConsentGiven(_consent: AnonymousConsent) {
     return true;
+  }
+  isConsentWithdrawn(_consent: AnonymousConsent): boolean {
+    return false;
+  }
+  consentsUpdated(
+    _newConsents: AnonymousConsent[],
+    _previousConsents: AnonymousConsent[]
+  ): boolean {
+    return false;
   }
 }
 
@@ -145,12 +155,12 @@ describe('AnonymousConsentsEffects', () => {
           useClass: MockAnonymousConsentsService,
         },
         {
-          provide: AnonymousConsentsConfig,
-          useValue: mockAnonymousConsentsConfig,
+          provide: UserConsentService,
+          useClass: MockUserConsentService,
         },
         {
-          provide: UserConsentService,
-          useClass: MockUserContentService,
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
         },
         provideMockActions(() => actions$),
       ],
@@ -169,31 +179,6 @@ describe('AnonymousConsentsEffects', () => {
     userConsentService = TestBed.get(UserConsentService as Type<
       UserConsentService
     >);
-  });
-
-  describe('handleLogoutAndLanguageChange$', () => {
-    describe('when the language changes while the user is anonymous', () => {
-      it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
-        const action = new SiteContextActions.LanguageChange();
-        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
-
-        expect(effect.handleLogoutAndLanguageChange$).toBeObservable(expected);
-      });
-    });
-    describe('when the user logs out', () => {
-      it('should return AnonymousConsentsActions.LoadAnonymousConsentTemplates action', () => {
-        const action = new AuthActions.Logout();
-        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
-
-        expect(effect.handleLogoutAndLanguageChange$).toBeObservable(expected);
-      });
-    });
   });
 
   describe('loadAnonymousConsentTemplates$', () => {
@@ -279,6 +264,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(userConsentService, 'getConsents').and.returnValue(
         of(consentTemplateListMock)
       );
+      spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
@@ -314,6 +300,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(userConsentService, 'getConsents').and.returnValue(
         of(consentTemplateListMock)
       );
+      spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
       spyOn(userConsentService, 'loadConsents').and.stub();
 

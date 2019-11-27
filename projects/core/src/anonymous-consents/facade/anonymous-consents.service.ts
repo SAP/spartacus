@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { combineLatest, iif, Observable } from 'rxjs';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -13,7 +14,10 @@ import { AnonymousConsentsSelectors } from '../store/selectors/index';
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
-  constructor(protected store: Store<StateWithAnonymousConsents>) {}
+  constructor(
+    protected store: Store<StateWithAnonymousConsents>,
+    protected authService: AuthService
+  ) {}
 
   /**
    * Retrieves the anonymous consent templates.
@@ -25,11 +29,32 @@ export class AnonymousConsentsService {
   }
 
   /**
-   * Returns all the anonymous consent templates.
+   * Conditionally triggers the load of the anonymous consent templates if:
+   *   - `loadIfMissing` parameter is set to `true`
+   *   - the `templates` in the store are `undefined`
+   *
+   * Othewise it just returns the value from the store.
+   *
+   * @param loadIfMissing setting to `true` will trigger the load of the templates if the currently stored templates are `undefined`
    */
-  getTemplates(): Observable<ConsentTemplate[]> {
-    return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue)
+  getTemplates(loadIfMissing = false): Observable<ConsentTemplate[]> {
+    return iif(
+      () => loadIfMissing,
+      this.store.pipe(
+        select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue),
+        withLatestFrom(this.getLoadTemplatesLoading()),
+        filter(([_templates, loading]) => !loading),
+        tap(([templates, _loading]) => {
+          if (!Boolean(templates)) {
+            this.loadTemplates();
+          }
+        }),
+        filter(([templates, _loading]) => Boolean(templates)),
+        map(([templates, _loading]) => templates)
+      ),
+      this.store.pipe(
+        select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue)
+      )
     );
   }
 
@@ -100,14 +125,23 @@ export class AnonymousConsentsService {
   }
 
   /**
-   * Returns the anonymous consent with the given template code.
-   * @param templateCode a template code by which to filter anonymous consent templates.
+   * Returns the anonymous consent for the given template ID.
+   *
+   * As a side-effect, the method will call `getTemplates(true)` to load the templates if those are not present.
+   *
+   * @param templateId a template ID by which to filter anonymous consent templates.
    */
-  getConsent(templateCode: string): Observable<AnonymousConsent> {
-    return this.store.pipe(
-      select(
-        AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
-          templateCode
+  getConsent(templateId: string): Observable<AnonymousConsent> {
+    return this.authService.isUserLoggedIn().pipe(
+      filter(authenticated => !authenticated),
+      tap(_ => this.getTemplates(true)),
+      switchMap(_ =>
+        this.store.pipe(
+          select(
+            AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
+              templateId
+            )
+          )
         )
       )
     );
@@ -127,7 +161,7 @@ export class AnonymousConsentsService {
    * Sets all the anonymous consents' state to given.
    */
   giveAllConsents(): Observable<ConsentTemplate[]> {
-    return this.getTemplates().pipe(
+    return this.getTemplates(true).pipe(
       tap(templates =>
         templates.forEach(template => this.giveConsent(template.id))
       )
@@ -156,7 +190,7 @@ export class AnonymousConsentsService {
    * Sets all the anonymous consents' state to withdrawn.
    */
   withdrawAllConsents(): Observable<ConsentTemplate[]> {
-    return this.getTemplates().pipe(
+    return this.getTemplates(true).pipe(
       tap(templates =>
         templates.forEach(template => this.withdrawConsent(template.id))
       )
@@ -172,35 +206,40 @@ export class AnonymousConsentsService {
   }
 
   /**
-   * Toggles the visibility of the anonymous consents banner.
-   * @param visible the banner is visible if `true`, otherwise it's hidden
+   * Toggles the dismissed state of the anonymous consents banner.
+   * @param dismissed the banner will be dismissed if `true` is passed, otherwise it will be visible.
    */
-  toggleAnonymousConsentsBannerVisibility(visible: boolean): void {
+  toggleBannerDismissed(dismissed: boolean): void {
     this.store.dispatch(
-      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerVisibility(
-        visible
+      new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
+        dismissed
       )
     );
-    if (!visible) {
+    if (dismissed) {
       this.toggleTemplatesUpdated(false);
     }
   }
 
   /**
-   * Returns `true` if the banner is visible, `false` otherwise
+   * Returns `true` if the banner was dismissed, `false` otherwise.
    */
-  isAnonymousConsentsBannerVisible(): Observable<boolean> {
+  isBannerDismissed(): Observable<boolean> {
     return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentsBannerVisibility)
+      select(AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed)
     );
   }
 
   /**
    * Returns `true` if the consent templates were updated on the back-end.
+   * If the templates are not present in the store, it triggers the load.
    */
   getTemplatesUpdated(): Observable<boolean> {
-    return this.store.pipe(
-      select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+    return this.getTemplates(true).pipe(
+      switchMap(_ =>
+        this.store.pipe(
+          select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
+        )
+      )
     );
   }
 
@@ -214,6 +253,17 @@ export class AnonymousConsentsService {
         updated
       )
     );
+  }
+
+  /**
+   * Returns `true` if either the banner is not dismissed or if the templates were updated on the back-end.
+   * Otherwise, it returns `false`.
+   */
+  isBannerVisible(): Observable<boolean> {
+    return combineLatest([
+      this.isBannerDismissed(),
+      this.getTemplatesUpdated(),
+    ]).pipe(map(([dismissed, updated]) => !dismissed || updated));
   }
 
   /**
@@ -238,5 +288,45 @@ export class AnonymousConsentsService {
     }
 
     return false;
+  }
+
+  /**
+   * Serializes using `JSON.stringify()` and encodes using `encodeURIComponent()` methods
+   * @param consents to serialize and encode
+   */
+  serializeAndEncode(consents: AnonymousConsent[]): string {
+    if (!consents) {
+      return '';
+    }
+    const serialized = JSON.stringify(consents);
+    const encoded = encodeURIComponent(serialized);
+    return encoded;
+  }
+
+  /**
+   * Decodes using `decodeURIComponent()` and deserializes using `JSON.parse()`
+   * @param rawConsents to decode an deserialize
+   */
+  decodeAndDeserialize(rawConsents: string): AnonymousConsent[] {
+    const decoded = decodeURIComponent(rawConsents);
+    const unserialized = JSON.parse(decoded) as AnonymousConsent[];
+    return unserialized;
+  }
+
+  /**
+   *
+   * Compares the given `newConsents` and `previousConsents` and returns `true` if there are differences (the `newConsents` are updates).
+   * Otherwise it returns `false`.
+   *
+   * @param newConsents new consents to compare
+   * @param previousConsents old consents to compare
+   */
+  consentsUpdated(
+    newConsents: AnonymousConsent[],
+    previousConsents: AnonymousConsent[]
+  ): boolean {
+    const newRawConsents = this.serializeAndEncode(newConsents);
+    const previousRawConsents = this.serializeAndEncode(previousConsents);
+    return newRawConsents !== previousRawConsents;
   }
 }

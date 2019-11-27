@@ -1,7 +1,7 @@
 <div *ngIf="isReadOnly; else editableCoupons">
   <div *ngIf="sortedVouchers.length > 0">
     <div class="cx-applied-coupon-title">
-      {{ 'voucher.coupon' | cxTranslate: { count: sortedVouchers.length } }}
+      {{ 'voucher.vouchersApplied' | cxTranslate }}
     </div>
   </div>
   <div

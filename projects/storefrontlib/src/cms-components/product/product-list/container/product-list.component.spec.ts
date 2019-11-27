@@ -71,7 +71,7 @@ export class MockCxIconComponent {
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode;
+  @Input() product;
   @Input() showQuantity;
 }
 

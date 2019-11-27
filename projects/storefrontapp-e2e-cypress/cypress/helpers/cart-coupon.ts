@@ -22,9 +22,7 @@ export function applyCoupon(couponCode: string) {
 }
 
 export function removeCoupon(couponCode: string) {
-  getCouponItemFromCart(couponCode).within(() => {
-    cy.get('.close').click();
-  });
+  cy.get('.cx-coupon-apply > .close').click();
   getCouponItemFromCart(couponCode).should('not.exist');
   getCouponItemOrderSummary(couponCode).should('not.exist');
 }
@@ -67,8 +65,6 @@ export function verifyCouponAndPromotion(
 ) {
   //verify coupon in cart
   getCouponItemFromCart(couponCode).should('exist');
-  //verify coupon in order summary
-  getCouponItemOrderSummary(couponCode).should('exist');
   //verify promotion
   cy.get('.cx-promotions > :nth-child(1)').should('exist');
   //verify price
@@ -138,11 +134,11 @@ export function navigateToOrderHistoryPage(orderData: any) {
 export function getCouponItemFromCart(couponCode: string) {
   return cy
     .get('cx-cart-coupon > cx-applied-coupons > .row')
-    .contains('.cx-coupon-apply', couponCode);
+    .contains('.cx-cart-coupon-code', couponCode);
 }
 
 export function getCouponItemOrderSummary(couponCode: string) {
   return cy
-    .get('cx-order-summary > cx-applied-coupons')
+    .get('cx-order-summary > div > cx-applied-coupons')
     .contains('.cx-applied-coupon-code', couponCode);
 }

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
-  AsmModule,
   AuthModule,
   CartModule,
   CheckoutModule,
   CmsModule,
+  ConfigInitializerModule,
   ConfigModule,
   FeaturesConfigModule,
   GlobalMessageModule,
@@ -22,11 +22,11 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
 
 @NgModule({
   imports: [
-    AsmModule.forRoot(),
     StateModule.forRoot(),
     AuthModule.forRoot(),
     AnonymousConsentsModule.forRoot(),
     ConfigModule.forRoot(),
+    ConfigInitializerModule.forRoot(),
     RoutingModule.forRoot(),
     I18nModule.forRoot(),
     CmsModule.forRoot(),

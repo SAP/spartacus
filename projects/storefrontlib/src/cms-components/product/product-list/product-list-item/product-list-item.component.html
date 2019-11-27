@@ -35,7 +35,7 @@
         <cx-add-to-cart
           *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
           [showQuantity]="false"
-          [productCode]="product.code"
+          [product]="product"
         ></cx-add-to-cart>
         <cx-configure-product
           *ngIf="product.configurable"

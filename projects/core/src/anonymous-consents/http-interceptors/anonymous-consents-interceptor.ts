@@ -20,7 +20,7 @@ import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
 export const ANONYMOUS_CONSENTS_HEADER = 'X-Anonymous-Consents';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AnonymousConsentsInterceptor implements HttpInterceptor {
   constructor(
     private anonymousConsentsService: AnonymousConsentsService,
@@ -48,8 +48,9 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
             tap(event => {
               if (event instanceof HttpResponse) {
                 this.handleResponse(
+                  isUserLoggedIn,
                   event.headers.get(ANONYMOUS_CONSENTS_HEADER),
-                  isUserLoggedIn
+                  consents
                 );
               }
             })
@@ -60,17 +61,27 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     );
   }
 
-  private handleResponse(rawConsents: string, isUserLoggedIn: boolean): void {
-    if (rawConsents && !isUserLoggedIn) {
-      const consents = this.decodeAndDeserialize(rawConsents);
-      this.giveRequiredConsents(consents);
-    }
-  }
+  private handleResponse(
+    isUserLoggedIn: boolean,
+    newRawConsents: string,
+    previousConsents: AnonymousConsent[]
+  ): void {
+    if (!isUserLoggedIn && newRawConsents) {
+      let newConsents: AnonymousConsent[] = [];
+      newConsents = this.anonymousConsentsService.decodeAndDeserialize(
+        newRawConsents
+      );
+      newConsents = this.giveRequiredConsents(newConsents);
 
-  private decodeAndDeserialize(rawConsents: string): AnonymousConsent[] {
-    const decoded = decodeURIComponent(rawConsents);
-    const unserialized = JSON.parse(decoded) as AnonymousConsent[];
-    return unserialized;
+      if (
+        this.anonymousConsentsService.consentsUpdated(
+          newConsents,
+          previousConsents
+        )
+      ) {
+        this.anonymousConsentsService.setConsents(newConsents);
+      }
+    }
   }
 
   private handleRequest(
@@ -81,7 +92,9 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       return request;
     }
 
-    const rawConsents = this.serializeAndEncode(consents);
+    const rawConsents = this.anonymousConsentsService.serializeAndEncode(
+      consents
+    );
     return request.clone({
       setHeaders: {
         [ANONYMOUS_CONSENTS_HEADER]: rawConsents,
@@ -89,25 +102,20 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     });
   }
 
-  private serializeAndEncode(consents: AnonymousConsent[]): string {
-    if (!consents) {
-      return '';
-    }
-    const serialized = JSON.stringify(consents);
-    const encoded = encodeURIComponent(serialized);
-    return encoded;
-  }
-
   private isOccUrl(url: string): boolean {
     return url.includes(this.occEndpoints.getBaseEndpoint());
   }
 
-  private giveRequiredConsents(consents: AnonymousConsent[]): void {
+  private giveRequiredConsents(
+    consents: AnonymousConsent[]
+  ): AnonymousConsent[] {
+    const givenConsents = [...consents];
+
     if (
       Boolean(this.config.anonymousConsents) &&
       Boolean(this.config.anonymousConsents.requiredConsents)
     ) {
-      for (const consent of consents) {
+      for (const consent of givenConsents) {
         if (
           this.config.anonymousConsents.requiredConsents.includes(
             consent.templateCode
@@ -117,7 +125,6 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
         }
       }
     }
-
-    this.anonymousConsentsService.setConsents(consents);
+    return givenConsents;
   }
 }
