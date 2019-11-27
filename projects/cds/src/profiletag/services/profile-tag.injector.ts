@@ -60,7 +60,7 @@ export class ProfileTagInjector {
   track(): Observable<boolean> {
     return this.addTracker().pipe(
       switchMap(_ => merge(this.tracking$, this.profileTagEvents$)),
-      map(data => Boolean(data))
+      mapTo(true)
     );
   }
 
