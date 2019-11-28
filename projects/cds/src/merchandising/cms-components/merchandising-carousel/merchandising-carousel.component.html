@@ -1,11 +1,13 @@
-<ng-container *ngIf="merchandisingProducts$ | async as merchandisingProducts">
+<ng-container
+  *ngIf="merchandisingCarouselModel$ | async as merchandisingCarouselModel"
+>
   <div
     class="data-cx-merchandising-carousel"
-    [cxAttributes]="metadata"
+    [cxAttributes]="merchandisingCarouselModel.metadata"
     [cxAttributesNamePrefix]="'data-cx-merchandising-carousel'"
   ></div>
   <cx-carousel
-    [items]="items"
+    [items]="merchandisingCarouselModel.items$"
     [title]="title$ | async"
     [template]="carouselItem"
     itemWidth="285px"

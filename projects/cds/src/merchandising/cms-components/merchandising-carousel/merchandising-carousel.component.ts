@@ -7,11 +7,16 @@ import {
   filter,
   map,
   switchMap,
-  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import { MerchandisingProducts } from '../../model';
+import { MerchandisingProducts } from '../../model/merchandising-products.model';
+
+export interface MerchandisingCarouselModel {
+  metadata: Map<string, string>;
+  items$: Observable<Product>[];
+}
 
 @Component({
   selector: 'cx-merchandising-carousel',
@@ -19,9 +24,6 @@ import { MerchandisingProducts } from '../../model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchandisingCarouselComponent {
-  metadata: Map<string, string>;
-  items: Observable<Product>[];
-
   private componentData$: Observable<
     CmsMerchandisingCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
@@ -30,45 +32,72 @@ export class MerchandisingCarouselComponent {
     map(data => data.title)
   );
 
-  merchandisingProducts$: Observable<
-    MerchandisingProducts
+  merchandisingCarouselModel$: Observable<
+    MerchandisingCarouselModel
   > = this.componentData$.pipe(
     distinctUntilKeyChanged('strategy'),
     switchMap(data =>
-      this.cdsMerchandisingProductService
-        .loadProductsForStrategy(data.strategy, data.numberToDisplay)
-        .pipe(
-          map(merchandsingProducts => {
-            merchandsingProducts.metadata.set('title', data.title);
-            merchandsingProducts.metadata.set('name', data.name);
-            merchandsingProducts.metadata.set('strategyid', data.strategy);
-            merchandsingProducts.metadata.set('id', data.uid);
-
-            if (
-              merchandsingProducts.products &&
-              merchandsingProducts.products.length
-            ) {
-              merchandsingProducts.metadata.set(
-                'slots',
-                merchandsingProducts.products.length.toString()
-              );
-            }
-
-            return merchandsingProducts;
-          }),
-          tap(merchandisingProducts => {
-            this.metadata = merchandisingProducts
-              ? merchandisingProducts.metadata
-              : undefined;
-            this.items =
-              merchandisingProducts && merchandisingProducts.products
-                ? merchandisingProducts.products.map(product => of(product))
-                : [EMPTY];
-          }),
-          filter(Boolean)
-        )
-    )
+      this.cdsMerchandisingProductService.loadProductsForStrategy(
+        data.strategy,
+        data.numberToDisplay
+      )
+    ),
+    withLatestFrom(this.componentData$),
+    map(([merchandsingProducts, componentData]) => {
+      const metadata = this.getCarouselMetadata(
+        merchandsingProducts,
+        componentData
+      );
+      merchandsingProducts.metadata = metadata;
+      return merchandsingProducts;
+    }),
+    map(merchandsingProducts =>
+      this.mapMerchandisingProductsToCarouselModel(merchandsingProducts)
+    ),
+    filter<MerchandisingCarouselModel>(Boolean)
   );
+
+  private getCarouselMetadata(
+    merchandisingProducts: MerchandisingProducts,
+    componentData: CmsMerchandisingCarouselComponent
+  ): Map<string, string> {
+    const metadata = new Map<string, string>();
+
+    if (merchandisingProducts.metadata) {
+      merchandisingProducts.metadata.forEach((value, name) =>
+        metadata.set(name, value)
+      );
+    }
+
+    if (
+      merchandisingProducts.products &&
+      merchandisingProducts.products.length
+    ) {
+      metadata.set('slots', merchandisingProducts.products.length.toString());
+    }
+
+    metadata.set('title', componentData.title);
+    metadata.set('name', componentData.name);
+    metadata.set('strategyid', componentData.strategy);
+    metadata.set('id', componentData.uid);
+
+    return metadata;
+  }
+
+  private mapMerchandisingProductsToCarouselModel(
+    merchandisingProducts: MerchandisingProducts
+  ): MerchandisingCarouselModel {
+    return {
+      items$:
+        merchandisingProducts && merchandisingProducts.products
+          ? merchandisingProducts.products.map(product => of(product))
+          : [EMPTY],
+      metadata:
+        merchandisingProducts && merchandisingProducts.metadata
+          ? merchandisingProducts.metadata
+          : undefined,
+    } as MerchandisingCarouselModel;
+  }
 
   constructor(
     protected componentData: CmsComponentData<
