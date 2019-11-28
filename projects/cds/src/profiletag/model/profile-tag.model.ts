@@ -1,4 +1,4 @@
-export interface ProfileTagWindowObject {
+export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     push?: Function;
     q?: ProfileTagJsConfig[][];
@@ -13,16 +13,21 @@ export interface ProfileTagJsConfig {
   configUrl?: string;
   allowInsecureCookies?: boolean;
   gtmId?: string;
-  profileTagEventReceiver: Function;
 }
 
-export interface ProfileTagEvent {
-  name: ProfileTagEventNames;
-  data: any;
+export interface ConsentReferenceEvent extends CustomEvent {
+  detail: {
+    consentReference: string;
+  };
+}
+export interface DebugEvent extends CustomEvent {
+  detail: {
+    debug: boolean;
+  };
 }
 
 export enum ProfileTagEventNames {
-  Loaded = 'Loaded',
-  ConsentReferenceChanged = 'ConsentReferenceChanged',
-  ProfileTagDebug = 'DebugFlagChanged',
+  LOADED = 'profiletag_loaded',
+  CONSENT_REFERENCE_CHANGED = 'profiletag_consentReferenceChanged',
+  DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
 }
