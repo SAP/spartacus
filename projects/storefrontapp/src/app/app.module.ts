@@ -46,6 +46,9 @@ if (!environment.production) {
       },
     }),
     B2cStorefrontModule.withConfig({
+      checkout: {
+        guest: true,
+      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
