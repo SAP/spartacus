@@ -1,13 +1,13 @@
-import { ProcessesState } from './processes-state';
+import { ProcessesLoaderState } from './processes-loader-state';
 import {
   hasPendingProcessesSelector,
   isStableSelector,
-} from './processes.selectors';
+} from './processes-loader.selectors';
 
-describe('Processes selectors', () => {
+describe('Processes loader selectors', () => {
   describe('isStableSelector', () => {
     it('should return true when there are no processes and no loading', () => {
-      const TestState: ProcessesState<string> = {
+      const TestState: ProcessesLoaderState<string> = {
         processesCount: 0,
         loading: false,
       };
@@ -16,7 +16,7 @@ describe('Processes selectors', () => {
     });
 
     it('should return false when there are pending processes', () => {
-      const TestState: ProcessesState<string> = {
+      const TestState: ProcessesLoaderState<string> = {
         processesCount: 1,
       };
       const value = isStableSelector(TestState);
@@ -24,7 +24,7 @@ describe('Processes selectors', () => {
     });
 
     it('should return false when there are loading', () => {
-      const TestState: ProcessesState<string> = {
+      const TestState: ProcessesLoaderState<string> = {
         loading: true,
       };
       const value = isStableSelector(TestState);
@@ -34,7 +34,7 @@ describe('Processes selectors', () => {
 
   describe('hasPendingProcessesSelector', () => {
     it('should return true when there are pending processes', () => {
-      const TestState: ProcessesState<string> = {
+      const TestState: ProcessesLoaderState<string> = {
         processesCount: 2,
       };
       const value = hasPendingProcessesSelector(TestState);
@@ -42,7 +42,7 @@ describe('Processes selectors', () => {
     });
 
     it('should return false when there are no pending processes', () => {
-      const TestState: ProcessesState<string> = {
+      const TestState: ProcessesLoaderState<string> = {
         processesCount: 0,
       };
       const value = hasPendingProcessesSelector(TestState);

@@ -1,28 +1,31 @@
 import { Action } from '@ngrx/store';
 import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
-import { ProcessesState } from './processes-state';
-import { ProcessesAction } from './processes.action';
+import { ProcessesLoaderState } from './processes-loader-state';
+import { ProcessesLoaderAction } from './processes-loader.action';
 
-export const initialProcessesState: ProcessesState<any> = {
+export const initialProcessesState: ProcessesLoaderState<any> = {
   processesCount: 0,
 };
 
 /**
  * Higher order reducer that adds processes count
  */
-export function processesReducer<T>(
+export function processesLoaderReducer<T>(
   entityType: string,
   reducer?: (state: T, action: Action) => T
-): (state: ProcessesState<T>, action: ProcessesAction) => ProcessesState<T> {
+): (
+  state: ProcessesLoaderState<T>,
+  action: ProcessesLoaderAction
+) => ProcessesLoaderState<T> {
   return (
-    state: ProcessesState<T> = {
+    state: ProcessesLoaderState<T> = {
       ...initialProcessesState,
       ...initialLoaderState,
     },
-    action: ProcessesAction
-  ): ProcessesState<T> => {
+    action: ProcessesLoaderAction
+  ): ProcessesLoaderState<T> => {
     if (action.meta && action.meta.entityType === entityType) {
-      const processesCountDiff = action.meta.processesCount;
+      const processesCountDiff = action.meta.processesCountDiff;
       if (processesCountDiff) {
         return {
           ...state,

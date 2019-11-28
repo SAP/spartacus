@@ -1,44 +1,44 @@
 import {
   popMeta,
-  ProcessesPopAction,
-  ProcessesPushAction,
-  ProcessesResetAction,
-  PROCESSES_POP_ACTION,
-  PROCESSES_PUSH_ACTION,
-  PROCESSES_RESET_ACTION,
+  ProcessesLoaderPopAction,
+  ProcessesLoaderPushAction,
+  ProcessesLoaderResetAction,
+  PROCESSES_LOADER_POP_ACTION,
+  PROCESSES_LOADER_PUSH_ACTION,
+  PROCESSES_LOADER_RESET_ACTION,
   pushMeta,
   resetMeta,
-} from './processes.action';
+} from './processes-loader.action';
 
-describe('Processes Actions', () => {
+describe('Processes Loader Actions', () => {
   const TEST_ENTITY_TYPE = 'test';
 
   describe('Action creators', () => {
-    describe('ProcessesPushAction', () => {
+    describe('ProcessesLoaderPushAction', () => {
       it('should create an action', () => {
-        const action = new ProcessesPushAction(TEST_ENTITY_TYPE);
+        const action = new ProcessesLoaderPushAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
-          type: PROCESSES_PUSH_ACTION,
+          type: PROCESSES_LOADER_PUSH_ACTION,
           meta: pushMeta(TEST_ENTITY_TYPE),
         });
       });
     });
 
-    describe('ProcessesPopAction', () => {
+    describe('ProcessesLoaderPopAction', () => {
       it('should create an action', () => {
-        const action = new ProcessesPopAction(TEST_ENTITY_TYPE);
+        const action = new ProcessesLoaderPopAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
-          type: PROCESSES_POP_ACTION,
+          type: PROCESSES_LOADER_POP_ACTION,
           meta: popMeta(TEST_ENTITY_TYPE),
         });
       });
     });
 
-    describe('ProcessesResetAction', () => {
+    describe('ProcessesLoaderResetAction', () => {
       it('should create an action', () => {
-        const action = new ProcessesResetAction(TEST_ENTITY_TYPE);
+        const action = new ProcessesLoaderResetAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
-          type: PROCESSES_RESET_ACTION,
+          type: PROCESSES_LOADER_RESET_ACTION,
           meta: resetMeta(TEST_ENTITY_TYPE),
         });
       });
@@ -52,7 +52,7 @@ describe('Processes Actions', () => {
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
           loader: undefined,
-          processesCount: 1,
+          processesCountDiff: 1,
         });
       });
     });
@@ -63,7 +63,7 @@ describe('Processes Actions', () => {
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
           loader: undefined,
-          processesCount: -1,
+          processesCountDiff: -1,
         });
       });
     });
