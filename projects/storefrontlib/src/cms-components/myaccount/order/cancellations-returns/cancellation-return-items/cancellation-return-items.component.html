@@ -107,8 +107,9 @@
                       | cxTranslate
                   }}
                 </div>
-                <div [formGroupName]="i" *ngIf="!confirmRequest">
+                <div [formGroupName]="i">
                   <cx-item-counter
+                    *ngIf="!confirmRequest"
                     [isValueChangeable]="true"
                     [step]="1"
                     [min]="0"
@@ -117,10 +118,12 @@
                     formControlName="quantity"
                   >
                   </cx-item-counter>
+                  <input
+                    *ngIf="confirmRequest"
+                    formControlName="quantity"
+                    size="6"
+                  />
                 </div>
-                <ng-container *ngIf="confirmRequest">
-                  {{ item.returnedQuantity }}
-                </ng-container>
               </div>
               <!-- Cancel/Return Total Price -->
               <div
