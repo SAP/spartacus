@@ -47,7 +47,7 @@ import { UserComponentModule } from './user/user.module';
 import {
   BudgetsListModule,
   BudgetDetailsModule,
-  BudgetEditModule,
+  BudgetEditModule, BudgetCreateModule,
 } from './organization/index';
 
 @NgModule({
@@ -91,6 +91,7 @@ import {
     BannerCarouselModule,
     UserComponentModule,
     BudgetsListModule,
+    BudgetCreateModule,
     BudgetDetailsModule,
     BudgetEditModule,
   ],

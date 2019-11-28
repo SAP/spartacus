@@ -1,4 +1,25 @@
 export const budget = {
+  budget: {
+    details: 'Budget details',
+    id: 'ID',
+    name: 'Budget Name',
+    amount: 'Amount',
+    currency: 'Currency',
+    startDate: 'Start date',
+    endDate: 'End date',
+    costCenter: 'Cost center',
+    parentUnit: 'Parent Unit',
+    sortByMostRecent: 'sortByMostRecent',
+    noBudgets: 'No budgets',
+    edit: 'Edit',
+    disable: 'Disable',
+    enable: 'Enable',
+    status: 'Status',
+    back: 'Back to list',
+    active: 'Active',
+    deactivated: 'Deactivated',
+    costCenters: 'Cost Centers',
+  },
   budgetsList: {
     code: 'Code',
     name: 'Name',
@@ -18,5 +39,4 @@ export const budget = {
       byValue: 'Value',
     },
   },
-
 };

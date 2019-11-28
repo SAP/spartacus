@@ -29,7 +29,7 @@
             "
             class="btn btn-secondary btn-block"
           >
-            {{ 'budgets.back' | cxTranslate }}
+            {{ 'budget.back' | cxTranslate }}
           </a>
         </div>
       </div>
@@ -61,11 +61,24 @@
     ><span>{{ budget.budget }}</span>
   </div>
   <div class="row">
-    <span>{{ 'budget.amount' | cxTranslate }}</span
+    <span>{{ 'budget.currency' | cxTranslate }}</span
     ><span>{{ budget.currency.symbol }}</span>
   </div>
   <div class="row">
     <span>{{ 'budget.status' | cxTranslate }}</span
-    ><span>{{ budget.active }}</span>
+    ><span>{{
+      budget.active
+        ? ('budget.active' | cxTranslate)
+        : ('budget.deactivated' | cxTranslate)
+    }}</span>
   </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'budget.costCenters' | cxTranslate }}</h3>
+      </div>
+    </div>
+  </div>
+
+
 </ng-container>

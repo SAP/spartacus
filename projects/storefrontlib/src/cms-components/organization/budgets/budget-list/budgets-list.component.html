@@ -16,9 +16,7 @@
       <div class="row cx-search-links mb-3">
         <div class="col-12">
           <button
-            [routerLink]="[
-              '/my-company/organization-management/manage-budgets/create'
-            ]"
+            [routerLink]="{ cxRoute: 'budgetCreate' } | cxUrl"
             class="btn btn-primary btn-block"
           >
             {{ 'budgetsList.create' | cxTranslate }}
