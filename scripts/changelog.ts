@@ -1,12 +1,12 @@
 // tslint:disable:no-implicit-dependencies
 import { JsonObject, logging } from '@angular-devkit/core';
+import chalk from 'chalk';
+import * as program from 'commander';
+import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as semver from 'semver';
 import { packages } from './packages';
-import * as ejs from 'ejs';
-import * as program from 'commander';
-import chalk from 'chalk';
 import * as versionsHelper from './versions';
 
 const changelogTemplate = ejs.compile(
@@ -74,6 +74,7 @@ export default async function run(
     '@spartacus/styles': './projects/storefrontstyles',
     '@spartacus/assets': './projects/assets',
     '@spartacus/schematics': './projects/schematics',
+    '@spartacus/incubator': './projects/incubator',
   };
 
   const duplexUtil = through(function(chunk, _, callback) {
@@ -139,7 +140,6 @@ export default async function run(
               toSha = chunk.hash as string;
             }
             const notes: any = chunk.notes;
-            console.log(notes);
             if (Array.isArray(notes)) {
               notes.forEach(note => {
                 if (breakingChangesKeywords.includes(note.title)) {
@@ -273,6 +273,10 @@ if (typeof config.to === 'undefined') {
     case 'schematics':
     case '@spartacus/schematics':
       config.library = '@spartacus/schematics';
+      break;
+    case 'incubator':
+    case '@spartacus/incubator':
+      config.library = '@spartacus/incubator';
       break;
     default:
       config.library = undefined;
