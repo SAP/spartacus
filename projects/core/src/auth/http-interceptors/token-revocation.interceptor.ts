@@ -33,10 +33,9 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
         if (response instanceof HttpErrorResponse) {
           if (isInterceptingTokenRevocationRequest) {
             return EMPTY;
-          } else {
-            return throwError(response);
           }
         }
+        return throwError(response);
       })
     );
   }
