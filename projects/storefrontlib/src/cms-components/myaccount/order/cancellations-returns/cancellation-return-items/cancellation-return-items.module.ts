@@ -7,6 +7,7 @@ import { I18nModule } from '@spartacus/core';
 import {
   MediaModule,
   OnlyNumberDirectiveModule,
+  ItemCounterModule,
 } from '../../../../../shared/index';
 
 import { CancellationReturnItemsComponent } from './cancellation-return-items.component';
@@ -18,6 +19,7 @@ import { CancellationReturnItemsComponent } from './cancellation-return-items.co
     I18nModule,
     MediaModule,
     OnlyNumberDirectiveModule,
+    ItemCounterModule,
   ],
   declarations: [CancellationReturnItemsComponent],
   exports: [CancellationReturnItemsComponent],

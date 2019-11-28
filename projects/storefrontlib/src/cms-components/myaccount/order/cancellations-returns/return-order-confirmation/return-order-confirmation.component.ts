@@ -105,6 +105,13 @@ export class ReturnOrderConfirmationComponent implements OnDestroy {
     }
   }
 
+  back(): void {
+    this.routing.go({
+      cxRoute: 'orderReturn',
+      params: { code: this.orderCode },
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();

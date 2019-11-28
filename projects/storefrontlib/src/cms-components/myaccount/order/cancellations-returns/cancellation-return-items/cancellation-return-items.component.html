@@ -3,11 +3,9 @@
     {{ 'common.continue' | cxTranslate }}
   </button>
   <br />
-  <a (click)="setComplete()">{{
-    (cancelOrder
-      ? 'orderDetails.cancellationAndReturn.cancelAll'
-      : 'orderDetails.cancellationAndReturn.returnAll') | cxTranslate
-  }}</a>
+  <button class="btn btn-link" (click)="setAll()">
+    {{ 'orderDetails.cancellationAndReturn.setAll' | cxTranslate }}
+  </button>
 </ng-container>
 
 <div class="d-none d-md-block d-lg-block d-xl-block">
@@ -109,15 +107,20 @@
                       | cxTranslate
                   }}
                 </div>
-                <div [formGroupName]="i">
-                  <input
-                    type="text"
+                <div [formGroupName]="i" *ngIf="!confirmRequest">
+                  <cx-item-counter
+                    [isValueChangeable]="true"
+                    [step]="1"
+                    [min]="0"
+                    [max]="item.returnableQuantity"
+                    (update)="updateQty()"
                     formControlName="quantity"
-                    cxOnlyNumber
-                    (blur)="onBlur($event.target.value, i)"
-                    size="6"
-                  />
+                  >
+                  </cx-item-counter>
                 </div>
+                <ng-container *ngIf="confirmRequest">
+                  {{ item.returnedQuantity }}
+                </ng-container>
               </div>
               <!-- Cancel/Return Total Price -->
               <div
@@ -141,3 +144,9 @@
     </div>
   </div>
 </div>
+
+<ng-container *ngIf="!confirmRequest">
+  <button [disabled]="disableConfirmBtn" (click)="confirmEntryInputs()">
+    {{ 'common.continue' | cxTranslate }}
+  </button>
+</ng-container>

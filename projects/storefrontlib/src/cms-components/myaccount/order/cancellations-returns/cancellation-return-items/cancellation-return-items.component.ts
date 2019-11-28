@@ -37,16 +37,7 @@ export class CancellationReturnItemsComponent implements OnInit {
 
     this.inputsControl = this.form.get('entryInput') as FormArray;
 
-    if (this.confirmRequest) {
-      this.entries.forEach(entry => {
-        this.inputsControl.push(
-          this.formBuilder.group({
-            orderEntryNumber: entry.entryNumber,
-            quantity: [{ value: entry.returnedQuantity, disabled: true }],
-          })
-        );
-      });
-    } else {
+    if (!this.confirmRequest) {
       this.entries.forEach(entry => {
         this.inputsControl.push(
           this.formBuilder.group({
@@ -58,7 +49,7 @@ export class CancellationReturnItemsComponent implements OnInit {
     }
   }
 
-  setComplete(): void {
+  setAll(): void {
     for (let i = 0; i < this.entries.length; i++) {
       this.inputsControl.at(i).setValue({
         orderEntryNumber: this.entries[i].entryNumber,
@@ -89,13 +80,7 @@ export class CancellationReturnItemsComponent implements OnInit {
     this.disableConfirmBtn = true;
   }
 
-  onBlur(value: string, index: number): void {
-    if (this.entries[index].returnableQuantity < Number(value)) {
-      this.inputsControl.at(index).setValue({
-        orderEntryNumber: this.entries[index].entryNumber,
-        quantity: this.entries[index].returnableQuantity,
-      });
-    }
+  updateQty(): void {
     this.disableEnableConfirm();
   }
 }
