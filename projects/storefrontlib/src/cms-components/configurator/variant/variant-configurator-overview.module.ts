@@ -12,7 +12,6 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
-import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
 import { ConfigOverviewFormComponent } from '../commons/config-overview-form/config-overview-form.component';
@@ -98,7 +97,6 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     ReactiveFormsModule,
     NgSelectModule,
     UrlModule,
-    HamburgerMenuModule,
     I18nModule,
     IconModule,
   ],
