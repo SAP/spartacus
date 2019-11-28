@@ -123,13 +123,13 @@ export class OccEndpointsService {
   }
 
   private getEndpointForScope(endpoint: string, scope: string): string {
-    if (
+    const endpointConfig =
       this.config.backend &&
       this.config.backend.occ &&
-      this.config.backend.occ.endpoints[endpoint]
-    ) {
-      const endpointConfig = this.config.backend.occ.endpoints[endpoint];
+      this.config.backend.occ.endpoints &&
+      this.config.backend.occ.endpoints[endpoint];
 
+    if (endpointConfig) {
       if (typeof endpointConfig === 'string') {
         if (isDevMode() && scope) {
           console.warn(`${endpoint} endpoint configuration is not optimal`);
@@ -143,11 +143,8 @@ export class OccEndpointsService {
             console.warn(
               `${endpoint} endpoint configuration missing for scope "${scope}"`
             );
-            return (
-              endpointConfig[''] ||
-              endpointConfig[Object.keys(endpointConfig)[0]]
-            );
           }
+          return endpointConfig[''] || endpoint;
         }
       }
     }

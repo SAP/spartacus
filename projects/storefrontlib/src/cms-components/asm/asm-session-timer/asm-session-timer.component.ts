@@ -1,11 +1,20 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmConfig, RoutingService } from '@spartacus/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { AsmComponentService } from '../asm-component.service';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
+  styleUrls: ['./asm-session-timer.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
@@ -16,11 +25,12 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   constructor(
     private config: AsmConfig,
     private asmComponentService: AsmComponentService,
+    private authService: AuthService,
     private routingService: RoutingService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.timeLeft = this.getTimerStartDelayInSeconds();
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
@@ -32,6 +42,11 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.markForCheck();
     }, 1000);
 
+    this.resetOnNavigate();
+    this.resetOnCustomerSessionChange();
+  }
+
+  private resetOnNavigate(): void {
     this.subscriptions.add(
       this.routingService.isNavigating().subscribe(isNavigating => {
         if (isNavigating) {
@@ -41,7 +56,16 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     );
   }
 
-  resetTimer() {
+  private resetOnCustomerSessionChange(): void {
+    this.subscriptions.add(
+      this.authService
+        .getOccUserId()
+        .pipe(distinctUntilChanged())
+        .subscribe(_ => this.resetTimer())
+    );
+  }
+
+  resetTimer(): void {
     if (this.timeLeft > 0) {
       this.timeLeft = this.getTimerStartDelayInSeconds();
     }

@@ -6,6 +6,12 @@ import { ScopedLoaderState } from './scoped-loader.state';
 /**
  * Higher order reducer designed to add scope support for loader reducer
  *
+ * For backward compatibility, we accommodate scopes alongside current
+ * loading/error/success/value flags, thus those names can't be used as scope
+ * names.
+ *
+ * TODO: Improve, issue #5445
+ *
  * @param entityType
  * @param reducer
  */

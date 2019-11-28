@@ -6,5 +6,7 @@ export interface ScopedLoaderState<T> {
 }
 
 export type EntityScopedLoaderState<T> = EntityState<
-  ScopedLoaderState<T> | LoaderState<T>
+  | ScopedLoaderState<T>
+  /** TODO: deprecated since 1.4, remove, issue #5445 */
+  | LoaderState<T>
 >;

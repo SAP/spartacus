@@ -16,6 +16,13 @@ export function asmStoreConfigFactory(): StateConfig {
       storageSync: {
         keys: {
           'asm.asmUi': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.access_token': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.token_type': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.expires_in': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.expiration_time':
+            StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.scope': StorageSyncType.LOCAL_STORAGE,
+          'asm.csagentToken.value.userId': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },

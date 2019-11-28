@@ -12,5 +12,5 @@ export interface CustomerSearchOptions {
 }
 
 export interface AsmUi {
-  visible?: boolean;
+  collapsed?: boolean;
 }

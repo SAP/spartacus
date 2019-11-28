@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  Type,
-  Pipe,
-  PipeTransform,
-  Directive,
-} from '@angular/core';
+import { Component, Input, Type, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -30,6 +23,7 @@ import createSpy = jasmine.createSpy;
 import { CheckoutStepType, CheckoutStep } from '../../model/index';
 import { CheckoutConfigService } from '../../services/index';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -144,13 +138,6 @@ class MockCheckoutConfigService {
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
-}
-
-@Directive({
-  selector: '[cxFeatureLevel]',
-})
-class MockFeatureLevelDirective {
-  @Input() cxFeatureLevel() {}
 }
 
 describe('ReviewSubmitComponent', () => {

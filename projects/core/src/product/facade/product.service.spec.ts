@@ -61,34 +61,102 @@ describe('ProductService', () => {
       expect(result).toBe(mockProduct);
     });
 
-    it('should be able to get product data for multiple scopes', async () => {
-      let callNo = 0;
-      const productScopes = [{ code: '333' }, { name: 'test' }];
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
-          value: productScopes[callNo++], // serve different scope per call
-        })
-      );
+    describe('multiple scopes', () => {
+      it('should be able to get product data', async () => {
+        let callNo = 0;
+        const productScopes = [{ code: '333' }, { name: 'test' }];
+        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+          new BehaviorSubject({
+            value: productScopes[callNo++], // serve different scope per call
+          })
+        );
+        const result: Product = await service
+          .get('testId', ['scope1', 'scope2'])
+          .pipe(take(1))
+          .toPromise();
+        expect(result).toEqual({ code: '333', name: 'test' });
+      });
 
-      const result: Product = await service
-        .get('testId', ['scope1', 'scope2'])
-        .toPromise();
-      expect(result).toEqual({ code: '333', name: 'test' });
-    });
+      it('should emit partial product data', async () => {
+        let callNo = 0;
+        const productScopes = [undefined, { name: 'test' }];
+        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+          new BehaviorSubject({
+            value: productScopes[callNo++], // serve different scope per call
+          })
+        );
 
-    it('should emit partial product data for multiple scopes', async () => {
-      let callNo = 0;
-      const productScopes = [undefined, { name: 'test' }];
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
-          value: productScopes[callNo++], // serve different scope per call
-        })
-      );
+        const result: Product = await service
+          .get('testId', ['scope1', 'scope2'])
+          .pipe(take(1))
+          .toPromise();
+        expect(result).toEqual({ name: 'test' });
+      });
 
-      const result: Product = await service
-        .get('testId', ['scope1', 'scope2'])
-        .toPromise();
-      expect(result).toEqual({ name: 'test' });
+      it('should take into account order of scopes', async () => {
+        let callNo = 0;
+        const productScopes = [
+          { name: 'first', code: 'a' },
+          { name: 'second', description: 'b' },
+        ];
+        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+          new BehaviorSubject({
+            value: productScopes[callNo++], // serve different scope per call
+          })
+        );
+        const result: Product = await service
+          .get('testId', ['scope1', 'scope2'])
+          .pipe(take(1))
+          .toPromise();
+        expect(result).toEqual({ name: 'second', code: 'a', description: 'b' });
+      });
+
+      it('should take into account order of scopes for subsequent emissions', done => {
+        let callNo = 0;
+        const productSources = [
+          new BehaviorSubject<any>({
+            value: { name: 'first', code: 'a' },
+          }),
+          new BehaviorSubject<any>({
+            value: { name: 'second', description: 'b' },
+          }),
+        ];
+        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+          productSources[callNo++]
+        );
+
+        const results: Product[] = [];
+        service
+          .get('testId', ['scope1', 'scope2'])
+          .pipe(take(3))
+          .subscribe({
+            next: res => {
+              results.push(res);
+            },
+            complete: () => {
+              expect(results).toEqual([
+                { name: 'second', code: 'a', description: 'b' },
+                { name: 'second', code: 'c', description: 'b' }, // after 1st subsequent emission
+                { name: 'fourth', code: 'c', description: 'e' }, // after 2nd subsequent emission
+              ]);
+              done();
+            },
+          });
+
+        setTimeout(() => {
+          // 1st subsequent asynchronous emission (first source)
+          productSources[0].next({
+            value: { name: 'third', code: 'c' },
+          });
+
+          setTimeout(() => {
+            // 2nd subsequent asynchronous emission (second source)
+            productSources[1].next({
+              value: { name: 'fourth', description: 'e' },
+            });
+          });
+        });
+      });
     });
 
     it('should emit undefined if there is no scope ready', async () => {
@@ -164,7 +232,7 @@ describe('ProductService', () => {
     });
   });
 
-  describe('loadProduct(productCode)', () => {
+  describe('get(productCode)', () => {
     it('should be able to trigger the product load action for a product.', async () => {
       await service
         .get('productCode')
@@ -179,6 +247,9 @@ describe('ProductService', () => {
       const productMock = new BehaviorSubject({});
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         productMock
+      );
+      (store.dispatch as any).and.callFake(() =>
+        productMock.next({ success: true })
       );
 
       service

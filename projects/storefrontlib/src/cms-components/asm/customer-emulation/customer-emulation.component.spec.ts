@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, User, UserService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AsmComponentService } from '../asm-component.service';
+import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
 
 class MockUserService {
@@ -14,6 +14,9 @@ class MockUserService {
 
 class MockAsmComponentService {
   logoutCustomer(): void {}
+  isCustomerEmulationSessionInProgress(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 describe('CustomerEmulationComponent', () => {
@@ -57,6 +60,22 @@ describe('CustomerEmulationComponent', () => {
       el.query(By.css('input[formcontrolname="customer"]')).nativeElement
         .placeholder
     ).toEqual(`${testUser.name}, ${testUser.uid}`);
+    expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
+  });
+
+  it('should display alert message dusring regular customer session.', () => {
+    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
+    spyOn(userService, 'get').and.returnValue(of(testUser));
+    spyOn(
+      asmComponentService,
+      'isCustomerEmulationSessionInProgress'
+    ).and.returnValue(of(false));
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(el.query(By.css('input[formcontrolname="customer"]'))).toBeFalsy();
+    expect(el.query(By.css('div.asm-alert'))).toBeTruthy();
   });
 
   it("should call logoutCustomer() on 'End Session' button click", () => {
@@ -68,9 +87,7 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
 
     //Click button
-    const endSessionButton = fixture.debugElement.query(
-      By.css('.fd-button--negative')
-    );
+    const endSessionButton = fixture.debugElement.query(By.css('button'));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
     endSessionButton.nativeElement.click();
 

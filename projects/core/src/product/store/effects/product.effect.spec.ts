@@ -94,6 +94,7 @@ describe('Product Effects', () => {
         'scope'
       );
       actions$ = hot('-a-b---a--b', { a: action, b: action2 });
+      // first a-b are in 20 millisecond threshold so should be emitted together
       const expected = cold('-----(ab)a--b', { a: completion, b: completion2 });
       expect(
         effects.loadProduct$({ scheduler: getTestScheduler(), debounce: 20 })

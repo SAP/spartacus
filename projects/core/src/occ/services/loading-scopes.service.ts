@@ -25,22 +25,23 @@ export class LoadingScopesService {
     if (scopesConfig) {
       let i = 0;
 
-      scopes.reverse(); // to ensure proper scopes merging order
+      const completeScopes = [...scopes].reverse(); // to ensure proper scopes merging order
 
-      while (i < scopes.length) {
+      while (i < completeScopes.length) {
         const includedScopes =
-          scopesConfig[scopes[i]] && scopesConfig[scopes[i]].include;
+          scopesConfig[completeScopes[i]] &&
+          scopesConfig[completeScopes[i]].include;
         if (includedScopes) {
           for (const includedScope of includedScopes) {
-            if (!scopes.includes(includedScope)) {
-              scopes.push(includedScope);
+            if (!completeScopes.includes(includedScope)) {
+              completeScopes.push(includedScope);
             }
           }
         }
         i++;
       }
 
-      scopes.reverse();
+      return completeScopes.reverse();
     }
 
     return scopes;
