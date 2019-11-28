@@ -41,7 +41,12 @@ if (!environment.production) {
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: ['electronics-spa', 'apparel-uk-spa'],
+        baseSite: [
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
+        ],
       },
 
       // custom routing configuration for e2e testing
