@@ -62,7 +62,6 @@ export class PromotionService {
   }
 
   private getOrderPromotionsFromOrderHelper(order: Order): PromotionResult[] {
-    console.log('ORDER in promo service: ', order);
     const appliedOrderPromotions = [];
     appliedOrderPromotions.push(...(order.appliedOrderPromotions || []));
 
