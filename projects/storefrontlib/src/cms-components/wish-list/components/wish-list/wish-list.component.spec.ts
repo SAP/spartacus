@@ -10,15 +10,15 @@ import { of } from 'rxjs';
 import { WishListComponent } from './wish-list.component';
 import createSpy = jasmine.createSpy;
 
-class MockWishListService {
-  getWishList = createSpy().and.returnValue(of(mockWishList));
-  getWishListLoading = createSpy().and.returnValue(of(false));
-}
-
 const mockWishList: Cart = {
   code: 'xxx',
   entries: [{ product: { code: 'yyy' } }],
 };
+
+class MockWishListService {
+  getWishList = createSpy().and.returnValue(of(mockWishList));
+  getWishListLoading = createSpy().and.returnValue(of(false));
+}
 
 @Component({
   selector: 'cx-wish-list-item',
