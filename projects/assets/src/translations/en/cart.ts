@@ -35,7 +35,4 @@ export const cart = {
     anchorLabel: 'Enter or remove your coupon code',
     vouchersApplied: 'Applied coupons',
   },
-  wishList: {
-    remove: 'Remove',
-  },
 };
