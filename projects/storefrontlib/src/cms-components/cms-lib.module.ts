@@ -5,6 +5,7 @@ import { AsmModule } from './asm/asm.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
 import { TextfieldConfiguratorModule } from './configurator/textfield/textfield-configurator.module';
+import { VariantConfiguratorOverviewModule } from './configurator/variant/variant-configurator-overview.module';
 import { VariantConfiguratorModule } from './configurator/variant/variant-configurator.module';
 import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
 import {
@@ -88,6 +89,7 @@ import { UserComponentModule } from './user/user.module';
     BannerCarouselModule,
     UserComponentModule,
     VariantConfiguratorModule,
+    VariantConfiguratorOverviewModule,
     TextfieldConfiguratorModule,
   ],
 })
