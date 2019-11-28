@@ -7,6 +7,8 @@ export const CREATE_CONFIGURATION_FAIL =
   '[Configurator] Create Configuration Textfield Fail';
 export const CREATE_CONFIGURATION_SUCCESS =
   '[Configurator] Create Configuration Textfield Success';
+export const UPDATE_CONFIGURATION =
+  '[Configurator] Update Configuration Textfield';
 
 export class CreateConfiguration extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -29,7 +31,15 @@ export class CreateConfigurationSuccess extends StateLoaderActions.LoaderSuccess
   }
 }
 
+export class UpdateConfiguration extends StateLoaderActions.LoaderLoadAction {
+  readonly type = UPDATE_CONFIGURATION;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
-  | CreateConfigurationSuccess;
+  | CreateConfigurationSuccess
+  | UpdateConfiguration;

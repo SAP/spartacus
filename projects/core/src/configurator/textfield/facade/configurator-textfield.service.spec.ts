@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
@@ -10,9 +11,29 @@ import { ConfiguratorTextfieldService } from './configurator-textfield.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const ATTRIBUTE_NAME = 'AttributeName';
+const ATTRIBUTE_VALUE = 'AttributeValue';
+const SUCCESS = 'SUCCESS';
+const CHANGED_VALUE = 'theNewValue';
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
-  configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
+  configurationInfos: [
+    { configurationLabel: ATTRIBUTE_NAME, configurationValue: ATTRIBUTE_VALUE },
+  ],
+};
+
+const changedAttribute: ConfiguratorTextfield.ConfigurationInfo = {
+  configurationLabel: ATTRIBUTE_NAME,
+  configurationValue: CHANGED_VALUE,
+};
+
+const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
+  configurationInfos: [
+    {
+      configurationLabel: ATTRIBUTE_NAME,
+      configurationValue: CHANGED_VALUE,
+      status: SUCCESS,
+    },
+  ],
 };
 
 describe('ConfiguratorTextfieldService', () => {
@@ -62,6 +83,50 @@ describe('ConfiguratorTextfieldService', () => {
 
     expect(store.select).toHaveBeenCalledWith(
       ConfiguratorSelectors.getConfigurationContent
+    );
+  });
+
+  it('should update a configuration, accessing the store', () => {
+    spyOn(
+      serviceUnderTest,
+      'createNewConfigurationWithChange'
+    ).and.callThrough();
+
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    serviceUnderTest.updateConfiguration(changedAttribute);
+
+    expect(
+      serviceUnderTest.createNewConfigurationWithChange
+    ).toHaveBeenCalledWith(changedAttribute, productConfiguration);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.UpdateConfiguration(changedProductConfiguration)
+    );
+  });
+
+  it('should create new configuration with changed value', () => {
+    const result = serviceUnderTest.createNewConfigurationWithChange(
+      changedAttribute,
+      productConfiguration
+    );
+
+    expect(result).toBeDefined();
+    expect(result.configurationInfos[0].configurationValue).toBe(CHANGED_VALUE);
+    expect(result.configurationInfos[0].status).toBe(SUCCESS);
+  });
+
+  it('should create new configuration with same value if label could not be found', () => {
+    changedAttribute.configurationLabel = 'unknownLabel';
+    const result = serviceUnderTest.createNewConfigurationWithChange(
+      changedAttribute,
+      productConfiguration
+    );
+
+    expect(result).toBeDefined();
+    expect(result.configurationInfos[0].configurationValue).toBe(
+      ATTRIBUTE_VALUE
     );
   });
 });
