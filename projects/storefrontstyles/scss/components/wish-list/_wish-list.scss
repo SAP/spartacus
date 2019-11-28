@@ -1,4 +1,4 @@
-@import './cart-item-list';
+@import '../cart/cart-item-list';
 
 %cx-wish-list {
   @extend %cx-cart-item-list;
