@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter, ImageType, Product } from '@spartacus/core';
-import { MerchandisingProduct } from '../model/strategy.result';
+import { MerchandisingProduct } from '../model/strategy-result.model';
 @Injectable({ providedIn: 'root' })
 export class MerchandisingProductNormalizer
   implements Converter<MerchandisingProduct, Product> {

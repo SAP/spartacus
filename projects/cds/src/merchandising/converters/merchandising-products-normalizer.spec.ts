@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, ImageType } from '@spartacus/core';
-import { MerchandisingProducts } from '../model/merchandising.products.model';
-import { StrategyResult } from '../model/strategy.result';
+import { MerchandisingProducts } from '../model/merchandising-products.model';
+import { StrategyResult } from '../model/strategy-result.model';
 import { MerchandisingProductsNormalizer } from './merchandising-products-normalizer';
 import createSpy = jasmine.createSpy;
 

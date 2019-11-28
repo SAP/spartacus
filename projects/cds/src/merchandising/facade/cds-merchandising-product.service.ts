@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import {
-  BaseSiteService,
-  LanguageService,
-  RoutingService,
-} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
+import { MerchandisingProducts } from '../model/merchandising-products.model';
+import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { StrategyRequest } from './../../cds-models/cds-strategy-request.model';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
-import { MerchandisingProducts } from './../model/merchandising.products.model';
+import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
+import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
+import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +15,8 @@ import { MerchandisingProducts } from './../model/merchandising.products.model';
 export class CdsMerchandisingProductService {
   constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
-    protected baseSiteService: BaseSiteService,
-    protected languageService: LanguageService,
-    private routingService: RoutingService
+    protected merchandisingUserContextService: CdsMerchandisingUserContextService,
+    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService
   ) {}
 
   loadProductsForStrategy(
@@ -26,24 +24,28 @@ export class CdsMerchandisingProductService {
     numberToDisplay?: number
   ): Observable<MerchandisingProducts> {
     return combineLatest([
-      this.baseSiteService.getActive(),
-      this.languageService.getActive(),
-      this.routingService
-        .getRouterState()
-        .pipe(map(state => state.state.params['productCode'])),
+      this.merchandisingSiteContextService.getSiteContext(),
+      this.merchandisingUserContextService.getUserContext(),
     ]).pipe(
-      map(([site, language, productId]: [string, string, string]) => {
-        const strategyRequest: StrategyRequest = {
-          site,
-          language,
-          pageSize: numberToDisplay,
-          productId,
-        };
-        return strategyRequest;
-      }),
-      switchMap(context =>
-        this.strategyConnector.loadProductsForStrategy(strategyId, context)
-      )
+      map(
+        ([siteContext, userContext]: [
+          MerchandisingSiteContext,
+          MerchandisingUserContext
+        ]) => {
+          const strategyRequest: StrategyRequest = {
+            ...siteContext,
+            ...userContext,
+            pageSize: numberToDisplay,
+          };
+          return strategyRequest;
+        }
+      ),
+      mergeMap(context => {
+        return this.strategyConnector.loadProductsForStrategy(
+          strategyId,
+          context
+        );
+      })
     );
   }
 }

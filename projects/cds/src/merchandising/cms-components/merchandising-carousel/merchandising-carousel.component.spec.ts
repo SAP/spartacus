@@ -13,7 +13,7 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import { MerchandisingProducts } from '../../model/merchandising.products.model';
+import { MerchandisingProducts } from '../../model/merchandising-products.model';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 
 @Component({
