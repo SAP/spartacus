@@ -68,7 +68,7 @@ describe('Processes Loader Actions', () => {
       });
     });
 
-    describe('resetMeta', () => {
+    describe('processResetMeta', () => {
       it('should create a meta', () => {
         const meta = processesResetMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
