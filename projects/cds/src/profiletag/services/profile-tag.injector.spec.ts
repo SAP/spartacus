@@ -159,7 +159,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     subscription.unsubscribe();
 
@@ -173,7 +173,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
     getConsentBehavior.next({ consent: 'test' });
@@ -198,7 +198,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
     isConsentGivenValue = false;
@@ -221,7 +221,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     const mockCartEntry: OrderEntry[] = [{ entryNumber: 7 }];
     const mockCartEntry2: OrderEntry[] = [{ entryNumber: 1 }];
     const testCart = { testCart: { id: 123 } };
@@ -248,7 +248,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
   });
@@ -257,7 +257,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     cartBehavior.next({ testCart: { id: 123 } });
     orderEntryBehavior.next([]);
     orderEntryBehavior.next([]);
@@ -270,7 +270,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     cartBehavior.next({ testCart: { id: 123 } });
     orderEntryBehavior.next([]);
     orderEntryBehavior.next([]);

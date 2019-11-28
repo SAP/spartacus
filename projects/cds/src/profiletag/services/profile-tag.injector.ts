@@ -136,18 +136,27 @@ export class ProfileTagInjector {
   }
 
   private profileTagLoaded(): Observable<Event> {
-    return fromEvent(window, ProfileTagEventNames.Loaded).pipe(take(1));
+    return fromEvent(
+      this.winRef.nativeWindow,
+      ProfileTagEventNames.LOADED
+    ).pipe(take(1));
   }
 
   private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
-    return fromEvent(window, ProfileTagEventNames.ConsentReferenceChanged).pipe(
+    return fromEvent(
+      this.winRef.nativeWindow,
+      ProfileTagEventNames.CONSENT_REFERENCE_CHANGED
+    ).pipe(
       map(event => <ConsentReferenceEvent>event),
       tap(event => (this.consentReference = event.detail.consentReference))
     );
   }
 
   private debugModeChanged(): Observable<DebugEvent> {
-    return fromEvent(window, ProfileTagEventNames.DebugFlagChanged).pipe(
+    return fromEvent(
+      this.winRef.nativeWindow,
+      ProfileTagEventNames.DEBUG_FLAG_CHANGED
+    ).pipe(
       map(event => <DebugEvent>event),
       tap(event => (this.profileTagDebug = event.detail.debug))
     );
