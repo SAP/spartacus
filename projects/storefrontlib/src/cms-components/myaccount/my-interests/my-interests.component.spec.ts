@@ -17,6 +17,8 @@ import {
   UserInterestsService,
   ProductInterestEntryRelation,
   NotificationType,
+  ProductService,
+  Product,
 } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
@@ -67,6 +69,66 @@ class MockCxIconComponent {
 })
 class MockSpinnerComponent {}
 
+const p553637: Product = {
+  code: '553637',
+  name: 'NV10',
+  images: {
+    PRIMARY: {
+      thumbnail: {
+        altText: 'NV10',
+        format: 'thumbnail',
+        imageType: ImageType.PRIMARY,
+        url: 'image-url',
+      },
+    },
+  },
+  price: {
+    formattedValue: '$264.69',
+  },
+  stock: {
+    stockLevel: 0,
+    stockLevelStatus: 'outOfStock',
+  },
+};
+
+const p553638: Product = {
+  code: '553638',
+  name: 'NV11',
+  images: {
+    PRIMARY: {
+      thumbnail: {
+        altText: 'NV11',
+        format: 'thumbnail',
+        imageType: ImageType.PRIMARY,
+        url: 'image-url',
+      },
+    },
+  },
+  price: {
+    formattedValue: '$188.69',
+  },
+  stock: {
+    stockLevel: 0,
+    stockLevelStatus: 'outOfStock',
+  },
+  baseOptions: [
+    {
+      selected: {
+        variantOptionQualifiers: [
+          {
+            name: 'color',
+            value: 'red',
+          },
+          {
+            name: 'size',
+            value: 'XL',
+          },
+        ],
+      },
+    },
+  ],
+};
+
 const mockedInterests: ProductInterestSearchResult = {
   sorts: [{ code: 'name', asc: true }],
   pagination: {
@@ -79,24 +141,6 @@ const mockedInterests: ProductInterestSearchResult = {
     {
       product: {
         code: '553637',
-        name: 'NV10',
-        images: {
-          PRIMARY: {
-            thumbnail: {
-              altText: 'NV10',
-              format: 'thumbnail',
-              imageType: ImageType.PRIMARY,
-              url: 'image-url',
-            },
-          },
-        },
-        price: {
-          formattedValue: '$264.69',
-        },
-        stock: {
-          stockLevel: 0,
-          stockLevelStatus: 'outOfStock',
-        },
       },
       productInterestEntry: [
         {
@@ -108,40 +152,6 @@ const mockedInterests: ProductInterestSearchResult = {
     {
       product: {
         code: '553638',
-        name: 'NV11',
-        images: {
-          PRIMARY: {
-            thumbnail: {
-              altText: 'NV11',
-              format: 'thumbnail',
-              imageType: ImageType.PRIMARY,
-              url: 'image-url',
-            },
-          },
-        },
-        price: {
-          formattedValue: '$188.69',
-        },
-        stock: {
-          stockLevel: 0,
-          stockLevelStatus: 'outOfStock',
-        },
-        baseOptions: [
-          {
-            selected: {
-              variantOptionQualifiers: [
-                {
-                  name: 'color',
-                  value: 'red',
-                },
-                {
-                  name: 'size',
-                  value: 'XL',
-                },
-              ],
-            },
-          },
-        ],
       },
       productInterestEntry: [
         {
@@ -161,6 +171,7 @@ describe('MyInterestsComponent', () => {
   let component: MyInterestsComponent;
   let fixture: ComponentFixture<MyInterestsComponent>;
   let el: DebugElement;
+
   const productInterestService = jasmine.createSpyObj('UserInterestsService', [
     'loadProductInterests',
     'getAndLoadProductInterests',
@@ -170,6 +181,7 @@ describe('MyInterestsComponent', () => {
     'clearProductInterests',
     'resetRemoveInterestState',
   ]);
+  const productService = jasmine.createSpyObj('ProductService', ['get']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -178,6 +190,7 @@ describe('MyInterestsComponent', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
         { provide: UserInterestsService, useValue: productInterestService },
+        { provide: ProductService, useValue: productService },
       ],
       declarations: [
         MyInterestsComponent,
@@ -227,6 +240,8 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
+    productService.get.withArgs('553637').and.returnValue(of(p553637));
+    productService.get.withArgs('553638').and.returnValue(of(p553638));
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
@@ -290,6 +305,8 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
+    productService.get.withArgs('553637').and.returnValue(of(p553637));
+    productService.get.withArgs('553638').and.returnValue(of(p553638));
     productInterestService.getRemoveProdutInterestLoading.and.returnValue(
       cold('-a|', { a: true })
     );

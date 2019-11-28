@@ -11,6 +11,8 @@ import {
   ProductInterestEntryRelation,
   PaginationModel,
   TranslationService,
+  ProductService,
+  Product,
 } from '@spartacus/core';
 import { tap, map } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
@@ -47,7 +49,8 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   constructor(
     private productInterestService: UserInterestsService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private productService: ProductService
   ) {}
 
   ngOnInit() {
@@ -90,6 +93,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         };
       })
     );
+  }
+
+  getProduct(interest: ProductInterestEntryRelation): Observable<Product> {
+    return this.productService.get(interest.product.code);
   }
 
   removeInterest(result: ProductInterestEntryRelation): void {
