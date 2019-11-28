@@ -1,13 +1,15 @@
 import { Action } from '@ngrx/store';
+import {
+  EntityPopAction,
+  EntityProcessesResetAction,
+  EntityPushAction,
+} from 'projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action';
 import { Cart } from '../../../model/cart.model';
 import {
-  EntityDequeueAction,
   EntityFailAction,
   EntityLoadAction,
-  EntityQueueAction,
-  EntityResetAction,
   EntitySuccessAction,
-} from '../../../state/utils/entity-counter/entity-counter.action';
+} from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
@@ -47,7 +49,7 @@ export const DEQUEUE_CART_ACTION = '[Multi Cart] Dequeue Cart Action';
  */
 export const FRESH_CART_ID = 'fresh';
 
-export class ResetFreshCart extends EntityResetAction {
+export class ResetFreshCart extends EntityProcessesResetAction {
   readonly type = RESET_FRESH_CART;
   constructor() {
     super(MULTI_CART_FEATURE, FRESH_CART_ID);
@@ -123,7 +125,7 @@ export class MergeMultiCartSuccess extends EntityRemoveAction {
   }
 }
 
-export class ResetMultiCartDetails extends EntityResetAction {
+export class ResetMultiCartDetails extends EntityProcessesResetAction {
   readonly type = RESET_MULTI_CART_DETAILS;
   constructor() {
     super(MULTI_CART_FEATURE, undefined);
@@ -160,14 +162,14 @@ export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
   }
 }
 
-export class QueueCartAction extends EntityQueueAction {
+export class QueueCartAction extends EntityPushAction {
   readonly type = QUEUE_CART_ACTION;
   constructor(public payload: string) {
     super(MULTI_CART_FEATURE, payload);
   }
 }
 
-export class DequeueCartAction extends EntityDequeueAction {
+export class DequeueCartAction extends EntityPopAction {
   readonly type = DEQUEUE_CART_ACTION;
   constructor(public payload: string) {
     super(MULTI_CART_FEATURE, payload);

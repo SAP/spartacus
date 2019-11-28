@@ -3,15 +3,18 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
+import { ProcessesLoaderState } from 'projects/core/src/state';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
-import { CounterState, EntityCounterState } from '../../../state';
 import {
-  entityCounterSelector,
-  entityLoadingSelector,
   entityStateSelector,
   entityValueSelector,
-} from '../../../state/utils/entity-counter/entity-counter.selectors';
+} from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { EntityProcessesLoaderState } from '../../../state/utils/entity-processes-loader/entity-processes-loader-state';
+import {
+  entityHasPendingProcessesSelector,
+  entityIsStableSelector,
+} from '../../../state/utils/entity-processes-loader/entity-processes-loader.selectors';
 import {
   MultiCartState,
   MULTI_CART_FEATURE,
@@ -25,7 +28,7 @@ export const getMultiCartState: MemoizedSelector<
 
 export const getMultiCartEntities: MemoizedSelector<
   StateWithMultiCart,
-  EntityCounterState<Cart>
+  EntityProcessesLoaderState<Cart>
 > = createSelector(
   getMultiCartState,
   (state: MultiCartState) => state.carts
@@ -33,10 +36,11 @@ export const getMultiCartEntities: MemoizedSelector<
 
 export const getCartEntitySelectorFactory = (
   cartId: string
-): MemoizedSelector<StateWithMultiCart, CounterState<Cart>> => {
+): MemoizedSelector<StateWithMultiCart, ProcessesLoaderState<Cart>> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityCounterState<Cart>) => entityStateSelector(state, cartId)
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityStateSelector(state, cartId)
   );
 };
 
@@ -45,33 +49,30 @@ export const getCartSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, Cart> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityCounterState<Cart>) => {
+    (state: EntityProcessesLoaderState<Cart>) => {
       return entityValueSelector(state, cartId);
     }
   );
 };
 
-export const getCartCounterSelectorFactory = (
-  cartId: string
-): MemoizedSelector<StateWithMultiCart, number> => {
-  return createSelector(
-    getMultiCartEntities,
-    (state: EntityCounterState<Cart>) => {
-      const counter = entityCounterSelector(state, cartId);
-      return counter ? counter : 0;
-    }
-  );
-};
-
-export const getCartLoadingSelectorFactory = (
+export const getCartIsStableSelectorFactory = (
   cartId: string
 ): MemoizedSelector<StateWithMultiCart, boolean> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityCounterState<Cart>) => {
-      const counter = entityCounterSelector(state, cartId);
-      const loading = entityLoadingSelector(state, cartId);
-      return loading || counter > 0;
+    (state: EntityProcessesLoaderState<Cart>) => {
+      return entityIsStableSelector(state, cartId);
+    }
+  );
+};
+
+export const getCartHasPendingProcessesSelectorFactory = (
+  cartId: string
+): MemoizedSelector<StateWithMultiCart, boolean> => {
+  return createSelector(
+    getMultiCartEntities,
+    (state: EntityProcessesLoaderState<Cart>) => {
+      return entityHasPendingProcessesSelector(state, cartId);
     }
   );
 };

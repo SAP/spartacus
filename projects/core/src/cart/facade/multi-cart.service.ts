@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
-import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounce, distinctUntilChanged } from 'rxjs/operators';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
@@ -39,9 +39,8 @@ export class MultiCartService {
 
   isStable(cartId: string): Observable<boolean> {
     return this.store.pipe(
-      select(MultiCartSelectors.getCartLoadingSelectorFactory(cartId)),
-      map(loading => !loading),
-      debounce(state => (state ? timer(0) : EMPTY)),
+      select(MultiCartSelectors.getCartIsStableSelectorFactory(cartId)),
+      debounce(isStable => (isStable ? timer(0) : EMPTY)),
       distinctUntilChanged()
     );
   }

@@ -23,7 +23,7 @@ import { CartDataService } from '../../facade/cart-data.service';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
-import { getCartCounterSelectorFactory } from '../selectors/multi-cart.selector';
+import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
 
 @Injectable()
 export class CartEffects {
@@ -47,12 +47,14 @@ export class CartEffects {
           of(payload).pipe(
             withLatestFrom(
               this.store.pipe(
-                select(getCartCounterSelectorFactory(payload.cartId))
+                select(
+                  getCartHasPendingProcessesSelectorFactory(payload.cartId)
+                )
               )
             )
           )
         ),
-        filter(([_, counter]) => counter === 0),
+        filter(([_, hasPendingProcesses]) => !hasPendingProcesses),
         map(([payload]) => payload),
         switchMap(payload => {
           const loadCartParams = {
