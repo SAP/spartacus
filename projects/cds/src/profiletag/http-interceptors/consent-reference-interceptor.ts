@@ -7,12 +7,12 @@ import {
 import { Injectable } from '@angular/core';
 import { OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ProfileTagInjector } from '../services/index';
+import { ProfileTagEventTracker } from '../services/index';
 
 @Injectable({ providedIn: 'root' })
 export class ConsentReferenceInterceptor implements HttpInterceptor {
   constructor(
-    private profileTagInjector: ProfileTagInjector,
+    private profileTagEventTracker: ProfileTagEventTracker,
     private occEndpoints: OccEndpointsService
   ) {}
   intercept(
@@ -20,14 +20,14 @@ export class ConsentReferenceInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (
-      !this.profileTagInjector.consentReference ||
+      !this.profileTagEventTracker.consentReference ||
       !this.isOccUrl(request.url)
     ) {
       return next.handle(request);
     }
     const cdsHeaders = request.headers.set(
       'X-Consent-Reference',
-      this.profileTagInjector.consentReference
+      this.profileTagEventTracker.consentReference
     );
     const cdsRequest = request.clone({ headers: cdsHeaders });
     return next.handle(cdsRequest);
