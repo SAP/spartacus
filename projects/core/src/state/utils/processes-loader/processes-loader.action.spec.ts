@@ -3,11 +3,11 @@ import {
   ProcessesLoaderPopAction,
   ProcessesLoaderPushAction,
   ProcessesLoaderResetAction,
+  processesResetMeta,
   PROCESSES_LOADER_POP_ACTION,
   PROCESSES_LOADER_PUSH_ACTION,
   PROCESSES_LOADER_RESET_ACTION,
   pushMeta,
-  resetMeta,
 } from './processes-loader.action';
 
 describe('Processes Loader Actions', () => {
@@ -39,7 +39,7 @@ describe('Processes Loader Actions', () => {
         const action = new ProcessesLoaderResetAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
           type: PROCESSES_LOADER_RESET_ACTION,
-          meta: resetMeta(TEST_ENTITY_TYPE),
+          meta: processesResetMeta(TEST_ENTITY_TYPE),
         });
       });
     });
@@ -70,10 +70,11 @@ describe('Processes Loader Actions', () => {
 
     describe('resetMeta', () => {
       it('should create a meta', () => {
-        const meta = resetMeta(TEST_ENTITY_TYPE);
+        const meta = processesResetMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
           loader: {},
+          processesCountDiff: null,
         });
       });
     });

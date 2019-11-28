@@ -24,28 +24,25 @@ export function processesLoaderReducer<T>(
     },
     action: ProcessesLoaderAction
   ): ProcessesLoaderState<T> => {
+    const loaderState = loaderReducer(entityType, reducer)(state, action);
     if (action.meta && action.meta.entityType === entityType) {
       const processesCountDiff = action.meta.processesCountDiff;
       if (processesCountDiff) {
         return {
-          ...state,
-          ...loaderReducer(entityType, reducer)(state, action),
+          ...loaderState,
           processesCount: state.processesCount
             ? state.processesCount + processesCountDiff
             : processesCountDiff,
         };
-      } else if (
-        action.meta.loader &&
-        Object.keys(action.meta.loader).length === 0
-      ) {
-        // reset loader action should also be a reset action for process reducer
+      } else if (processesCountDiff === null) {
+        // reset action
         return {
+          ...loaderState,
           ...initialProcessesState,
-          ...loaderReducer(entityType, reducer)(state, action),
         };
       }
     }
 
-    return loaderReducer(entityType, reducer)(state, action);
+    return loaderState;
   };
 }
