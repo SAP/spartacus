@@ -22,7 +22,5 @@ export class MiniCartComponent {
     map(cart => cart.totalPrice.formattedValue)
   );
 
-  loaded$: Observable<boolean> = this.cartService.getLoaded();
-
   constructor(protected cartService: CartService) {}
 }
