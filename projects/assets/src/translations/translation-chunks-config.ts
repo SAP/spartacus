@@ -48,6 +48,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
 
   configurator: [
     'configurator.header',
+    'configurator.tabBar',
     'configurator.attribute',
     'configurator.button',
     'configurator.priceSummary',

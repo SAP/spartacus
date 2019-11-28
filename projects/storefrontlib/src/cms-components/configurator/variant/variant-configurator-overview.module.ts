@@ -16,6 +16,7 @@ import { IconModule } from '../../misc/icon/icon.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
 import { ConfigOverviewFormComponent } from '../commons/config-overview-form/config-overview-form.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
+import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
 import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
 import { VariantConfiguratorModule } from './variant-configurator.module';
@@ -35,6 +36,10 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
+        VariantConfigurationTabBar: {
+          component: ConfigTabBarComponent,
+          guards: [],
+        },
         VariantConfigurationOverviewTitle: {
           component: ConfigTitleComponent,
           guards: [],
@@ -79,12 +84,14 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
 
           md: {
             slots: [
+              'VariantConfigOverviewHeader',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],
           },
           xs: {
             slots: [
+              'VariantConfigOverviewHeader',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],

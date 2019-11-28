@@ -47,6 +47,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   configureCPQCONFIGURATOR: {
     paths: ['configureCPQCONFIGURATOR/:rootProduct'],
   },
+  configureOverviewCPQCONFIGURATOR: {
+    paths: ['configureOverviewCPQCONFIGURATOR/:rootProduct'],
+  },
   configureTEXTFIELD: {
     paths: ['configureTEXTFIELD/:rootProduct'],
   },

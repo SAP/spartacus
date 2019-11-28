@@ -3,7 +3,8 @@
     <ul class="nav justify-content-end">
       <li class="nav-item">
         <a
-          class="nav-link active"
+          class="nav-link"
+          [class.active]="!(isOverviewPage() | async)"
           [routerLink]="
             {
               cxRoute: 'configure' + configuratorType,
@@ -11,12 +12,13 @@
             } | cxUrl
           "
           role="link"
-          >Configuration</a
+          >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
         >
       </li>
       <li class="nav-item">
         <a
           class="nav-link"
+          [class.active]="isOverviewPage() | async"
           [routerLink]="
             {
               cxRoute: 'configureOverview' + configuratorType,
@@ -24,7 +26,7 @@
             } | cxUrl
           "
           role="link"
-          >Overview</a
+          >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
         >
       </li>
     </ul>
