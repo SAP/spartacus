@@ -3,7 +3,7 @@ export function verifyConfigurationOverviewPageIsDisplayed() {
 }
 
 export function navigateToConfigurationPage() {
-  cy.get('cx-config-tab-bar li:first a').click({
+  cy.get('cx-config-tab-bar div div:first a').click({
     force: true,
   });
 }

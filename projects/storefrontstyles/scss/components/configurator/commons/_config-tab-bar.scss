@@ -15,12 +15,19 @@
       margin-bottom: 0;
     }
 
-    li {
+    div {
       margin-bottom: -1px;
+      width: 50%;
+
+      @include media-breakpoint-up(sm) {
+        max-width: 200px;
+      }
 
       a {
         color: black;
         cursor: pointer;
+        padding: 0.5rem 0rem;
+        text-align: center;
 
         &.active,
         &:hover {

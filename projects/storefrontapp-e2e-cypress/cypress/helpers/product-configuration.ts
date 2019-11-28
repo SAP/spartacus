@@ -128,7 +128,7 @@ export function verifyTotalPrice(formattedPrice) {
 }
 
 export function navigateToOverviewPage() {
-  cy.get('cx-config-tab-bar li:last a').click({
+  cy.get('cx-config-tab-bar div div:last a').click({
     force: true,
   });
 }
