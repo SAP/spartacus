@@ -127,6 +127,12 @@ export function verifyTotalPrice(formattedPrice) {
   });
 }
 
+export function navigateToOverviewPage() {
+  cy.get('cx-config-tab-bar li:last a').click({
+    force: true,
+  });
+}
+
 export function clickOnGroup(groupIndex: number) {
   cy.get('.cx-config-menu-item')
     .eq(groupIndex)
