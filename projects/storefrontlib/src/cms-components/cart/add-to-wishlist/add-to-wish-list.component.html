@@ -5,15 +5,16 @@
         <div
           *ngIf="getProductInWishList(product, entries) as entry; else addItem"
         >
-          <span
-            >{{ 'addToWishList.inWishList' | cxTranslate }} (<button
-              class="btn btn-link button-remove"
-              (click)="remove(entry)"
-              [disabled]="loading$ | async"
-            >
-              {{ 'addToWishList.remove' | cxTranslate }}</button
-            >)</span
+          <button
+            class="btn btn-link button-remove"
+            (click)="remove(entry)"
+            [disabled]="loading$ | async"
           >
+            <cx-icon [type]="iconTypes.HEART"></cx-icon>
+            <span class="button-text">{{
+              'addToWishList.remove' | cxTranslate
+            }}</span>
+          </button>
         </div>
         <ng-template #addItem>
           <button
@@ -21,8 +22,10 @@
             (click)="add(product)"
             [disabled]="loading$ | async"
           >
-            <cx-icon [type]="iconTypes.HEART"></cx-icon>
-            {{ 'addToWishList.add' | cxTranslate }}
+            <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
+            <span class="button-text">{{
+              'addToWishList.add' | cxTranslate
+            }}</span>
           </button>
         </ng-template>
       </ng-container>
