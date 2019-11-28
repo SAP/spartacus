@@ -16,7 +16,7 @@ export const initialLoaderState: LoaderState<any> = {
  * action (LOAD, SUCCESS, FAIL, RESET)
  */
 export function loaderReducer<T>(
-  loadActionType: string,
+  entityType: string,
   reducer?: (state: T, action: Action) => T
 ): (state: LoaderState<T>, action: LoaderAction) => LoaderState<T> {
   return (
@@ -26,7 +26,7 @@ export function loaderReducer<T>(
     if (
       action.meta &&
       action.meta.loader &&
-      action.meta.entityType === loadActionType
+      action.meta.entityType === entityType
     ) {
       const entity = action.meta.loader;
 
