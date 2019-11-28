@@ -23,14 +23,14 @@
     </div>
 
     <div class="cx-list-item col-12">
-      <cx-promotions
-        [promotions]="getAppliedOrderPromotionsForOrder(order)"
-      ></cx-promotions>
+      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+        <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+      </ng-container>
 
       <cx-cart-item-list
         [items]="getConsignmentProducts(consignment)"
-        [appliedProductPromotions]="getAppliedPromotionsForOrder(order)"
         [isReadOnly]="true"
+        [promotionLocation]="promotionLocation"
       ></cx-cart-item-list>
     </div>
   </div>
@@ -42,13 +42,14 @@
       </div>
     </div>
     <div class="cx-list-item col-12">
-      <cx-promotions
-        [promotions]="getAppliedOrderPromotionsForOrder(order)"
-      ></cx-promotions>
+      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+        <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+      </ng-container>
+
       <cx-cart-item-list
         [items]="order?.unconsignedEntries"
-        [appliedProductPromotions]="getAppliedPromotionsForOrder(order)"
         [isReadOnly]="true"
+        [promotionLocation]="promotionLocation"
       ></cx-cart-item-list>
     </div>
   </div>

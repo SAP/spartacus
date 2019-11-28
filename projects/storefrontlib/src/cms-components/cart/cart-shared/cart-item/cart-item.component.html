@@ -104,8 +104,9 @@
       {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
     <!-- Promotion -->
-    <!-- Add potential promotions to cx-promotions when potential promotions  API is ready -->
-    <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
+    <cx-promotions
+      [promotions]="appliedProductPromotions$ | async"
+    ></cx-promotions>
     <!-- Actions -->
     <div *ngIf="!isReadOnly && item.updateable" class="cx-actions col-12">
       <button

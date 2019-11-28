@@ -3,13 +3,14 @@
     {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
   </h4>
 
-  <cx-promotions
-    [promotions]="getAppliedOrderPromotionsForOrder(order)"
-  ></cx-promotions>
+  <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+    <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+  </ng-container>
 
   <cx-cart-item-list
     [items]="order.entries"
     [isReadOnly]="true"
-    [appliedProductPromotions]="getAppliedPromotionsForOrder(order)"
-  ></cx-cart-item-list>
+    [promotionLocation]="promotionLocation"
+  >
+  </cx-cart-item-list>
 </div>

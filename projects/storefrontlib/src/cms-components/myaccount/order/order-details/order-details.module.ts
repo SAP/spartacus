@@ -22,6 +22,7 @@ import { OrderDetailShippingComponent } from './order-detail-shipping/order-deta
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from './order-details.service';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 
 const moduleComponents = [
   OrderDetailHeadlineComponent,
@@ -40,6 +41,7 @@ const moduleComponents = [
     I18nModule,
     FeaturesConfigModule,
     PromotionsModule,
+    PromotionHelperModule,
     RouterModule.forChild([
       {
         path: 'guest/order/:orderCode',

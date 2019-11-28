@@ -5,11 +5,13 @@ import {
   CartService,
   OrderEntry,
   PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../shared/components/modal/index';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
@@ -22,7 +24,8 @@ export class AddedToCartDialogComponent implements OnInit {
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   increment: boolean;
-
+  orderPromotions$: Observable<PromotionResult[]>;
+  promotionLocation: PromotionLocation = PromotionLocation.Cart;
   quantity = 0;
 
   @ViewChild('dialog', { static: false, read: ElementRef })
@@ -33,7 +36,8 @@ export class AddedToCartDialogComponent implements OnInit {
   constructor(
     protected modalService: ModalService,
     protected cartService: CartService,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected promotionService: PromotionService
   ) {}
 
   ngOnInit() {
@@ -51,6 +55,10 @@ export class AddedToCartDialogComponent implements OnInit {
         }
       })
     );
+
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
   }
 
   dismissModal(reason?: any): void {
@@ -67,64 +75,10 @@ export class AddedToCartDialogComponent implements OnInit {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  getAppliedOrderPromotions(cart: Cart): PromotionResult[] {
-    const appliedOrderPromotions = [];
-    appliedOrderPromotions.push(...(cart.appliedOrderPromotions || []));
-
-    return appliedOrderPromotions;
-  }
-
-  getAppliedProductPromotions(item: OrderEntry, cart: Cart): PromotionResult[] {
-    const appliedProductPromotions = [];
-    appliedProductPromotions.push(...(cart.appliedProductPromotions || []));
-
-    return this.getProductPromotionForOrderEntry(
-      item,
-      appliedProductPromotions
-    );
-  }
-
   private createEntryFormGroup(entry: OrderEntry): FormGroup {
     return this.fb.group({
       entryNumber: entry.entryNumber,
       quantity: entry.quantity,
     });
-  }
-
-  getProductPromotionForOrderEntry(
-    item: OrderEntry,
-    promotions: PromotionResult[]
-  ): PromotionResult[] {
-    const entryPromotions: PromotionResult[] = [];
-    if (promotions && promotions.length > 0) {
-      for (const promotion of promotions) {
-        if (
-          promotion.description &&
-          promotion.consumedEntries &&
-          promotion.consumedEntries.length > 0
-        ) {
-          for (const consumedEntry of promotion.consumedEntries) {
-            if (this.isConsumedByEntry(consumedEntry, item)) {
-              entryPromotions.push(promotion);
-            }
-          }
-        }
-      }
-    }
-    return entryPromotions;
-  }
-
-  private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
-    const consumedEntryNumber = consumedEntry.orderEntryNumber;
-    if (entry.entries && entry.entries.length > 0) {
-      for (const subEntry of entry.entries) {
-        if (subEntry.entryNumber === consumedEntryNumber) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return consumedEntryNumber === entry.entryNumber;
-    }
   }
 }

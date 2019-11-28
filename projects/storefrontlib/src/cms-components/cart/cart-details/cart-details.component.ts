@@ -4,9 +4,11 @@ import {
   CartService,
   OrderEntry,
   PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-cart-details',
@@ -17,8 +19,13 @@ export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
+  orderPromotions$: Observable<PromotionResult[]>;
+  promotionLocation: PromotionLocation = PromotionLocation.Cart;
 
-  constructor(protected cartService: CartService) {}
+  constructor(
+    protected cartService: CartService,
+    protected promotionService: PromotionService
+  ) {}
 
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
@@ -26,15 +33,8 @@ export class CartDetailsComponent implements OnInit {
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
     this.cartLoaded$ = this.cartService.getLoaded();
-  }
-
-  getAllOrderPromotionsForCart(cart: Cart): PromotionResult[] {
-    const potentialPromotions = [];
-    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
-
-    const appliedPromotions = [];
-    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
-
-    return [...potentialPromotions, ...appliedPromotions];
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
   }
 }

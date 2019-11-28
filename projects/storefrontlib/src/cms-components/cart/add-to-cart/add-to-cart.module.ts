@@ -14,6 +14,7 @@ import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
+import { PromotionHelperModule } from '../../../shared/services/promotion/promotion.module';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     RouterModule,
     SpinnerModule,
     PromotionsModule,
+    PromotionHelperModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductAddToCartComponent: {

@@ -30,16 +30,11 @@
             [isReadOnly]="false"
             [parent]="form.controls[entry.product.code]"
             [cartIsLoading]="!loaded"
+            [promotionLocation]="promotionLocation"
             (remove)="removeEntry($event)"
             (update)="updateEntry($event)"
             (view)="dismissModal('Product selected')"
           ></cx-cart-item>
-
-          <div class="cx-dialog-promotions" *ngIf="cart$ | async as cart">
-            <cx-promotions
-              [promotions]="getAppliedProductPromotions(entry, cart)"
-            ></cx-promotions>
-          </div>
         </div>
         <!-- Separator -->
         <div
@@ -59,10 +54,11 @@
           </div>
 
           <!-- Promotions -->
-          <div class="cx-dialog-promotions" *ngIf="cart$ | async as cart">
-            <cx-promotions
-              [promotions]="getAppliedOrderPromotions(cart)"
-            ></cx-promotions>
+          <div
+            class="cx-dialog-promotions"
+            *ngIf="orderPromotions$ | async as orderPromotions"
+          >
+            <cx-promotions [promotions]="orderPromotions"></cx-promotions>
           </div>
 
           <!-- Actions -->

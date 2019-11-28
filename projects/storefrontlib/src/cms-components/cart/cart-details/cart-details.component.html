@@ -5,15 +5,14 @@
         {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
       </div>
 
-      <cx-promotions
-        [promotions]="getAllOrderPromotionsForCart(cart)"
-      ></cx-promotions>
+      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+        <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+      </ng-container>
 
       <cx-cart-item-list
         [items]="entries"
-        [potentialProductPromotions]="cart.potentialProductPromotions"
-        [appliedProductPromotions]="cart.appliedProductPromotions"
         [cartIsLoading]="!(cartLoaded$ | async)"
+        [promotionLocation]="promotionLocation"
       ></cx-cart-item-list>
     </div>
   </ng-container>

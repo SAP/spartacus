@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CartService, PromotionResult } from '@spartacus/core';
+import { CartService, PromotionLocation } from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
@@ -15,6 +15,9 @@ export class CartItemListComponent implements OnInit {
   hasHeader = true;
 
   @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+
+  @Input()
   set items(_items) {
     this._items = _items;
     this.items.forEach(item => {
@@ -27,12 +30,6 @@ export class CartItemListComponent implements OnInit {
       }
     });
   }
-
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-
-  @Input()
-  appliedProductPromotions: PromotionResult[] = [];
 
   @Input()
   cartIsLoading = false;
@@ -65,47 +62,10 @@ export class CartItemListComponent implements OnInit {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  getProductPromotionForItem(
-    item: Item,
-    promotions: PromotionResult[]
-  ): PromotionResult[] {
-    const entryPromotions: PromotionResult[] = [];
-    if (promotions && promotions.length > 0) {
-      for (const promotion of promotions) {
-        if (
-          promotion.description &&
-          promotion.consumedEntries &&
-          promotion.consumedEntries.length > 0
-        ) {
-          for (const consumedEntry of promotion.consumedEntries) {
-            if (this.isConsumedByEntry(consumedEntry, item)) {
-              entryPromotions.push(promotion);
-            }
-          }
-        }
-      }
-    }
-    return entryPromotions;
-  }
-
   private createEntryFormGroup(entry): FormGroup {
     return this.fb.group({
       entryNumber: entry.entryNumber,
       quantity: entry.quantity,
     });
-  }
-
-  private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
-    const consumedEntryNumber = consumedEntry.orderEntryNumber;
-    if (entry.entries && entry.entries.length > 0) {
-      for (const subEntry of entry.entries) {
-        if (subEntry.entryNumber === consumedEntryNumber) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return consumedEntryNumber === entry.entryNumber;
-    }
   }
 }

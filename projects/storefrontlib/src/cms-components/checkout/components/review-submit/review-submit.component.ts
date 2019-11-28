@@ -14,10 +14,12 @@ import {
   TranslationService,
   UserAddressService,
   PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/index';
 import { CheckoutStepType } from '../../model/index';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-review-submit',
@@ -32,6 +34,8 @@ export class ReviewSubmitComponent implements OnInit {
   countryName$: Observable<string>;
   deliveryAddress$: Observable<Address>;
   paymentDetails$: Observable<PaymentDetails>;
+  orderPromotions$: Observable<PromotionResult[]>;
+  promotionLocation: PromotionLocation = PromotionLocation.Cart;
 
   constructor(
     checkoutDeliveryService: CheckoutDeliveryService,
@@ -39,6 +43,7 @@ export class ReviewSubmitComponent implements OnInit {
     userAddressService: UserAddressService,
     cartService: CartService,
     translation: TranslationService,
+    promotionService: PromotionService,
     checkoutConfigService: CheckoutConfigService // tslint:disable-line
   );
 
@@ -63,6 +68,7 @@ export class ReviewSubmitComponent implements OnInit {
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
     protected translation: TranslationService,
+    protected promotionService?: PromotionService,
     protected checkoutConfigService?: CheckoutConfigService
   ) {}
 
@@ -71,6 +77,9 @@ export class ReviewSubmitComponent implements OnInit {
     this.entries$ = this.cartService.getEntries();
     this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
 
     this.deliveryMode$ = this.checkoutDeliveryService
       .getSelectedDeliveryMode()
@@ -166,15 +175,5 @@ export class ReviewSubmitComponent implements OnInit {
 
       return step && step.routeName;
     }
-  }
-
-  getAllOrderPromotionsForCart(cart: Cart): PromotionResult[] {
-    const potentialPromotions = [];
-    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
-
-    const appliedPromotions = [];
-    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
-
-    return [...potentialPromotions, ...appliedPromotions];
   }
 }

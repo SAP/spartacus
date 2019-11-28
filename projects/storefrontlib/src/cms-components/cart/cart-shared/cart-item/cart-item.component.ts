@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { PromotionResult } from '@spartacus/core';
+import { PromotionResult, PromotionLocation } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 export interface Item {
   product?: any;
@@ -20,13 +22,11 @@ export class CartItemComponent implements OnInit {
   @Input()
   item: Item;
   @Input()
-  potentialProductPromotions: PromotionResult[];
-  @Input()
-  appliedProductPromotions: PromotionResult[];
-  @Input()
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.Cart;
 
   @Output()
   remove = new EventEmitter<any>();
@@ -38,7 +38,16 @@ export class CartItemComponent implements OnInit {
   @Input()
   parent: FormGroup;
 
-  ngOnInit() {}
+  appliedProductPromotions$: Observable<PromotionResult[]>;
+
+  constructor(protected promotionService: PromotionService) {}
+
+  ngOnInit() {
+    this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
+      this.item,
+      this.promotionLocation
+    );
+  }
 
   isProductOutOfStock(product) {
     // TODO Move stocklevelstatuses across the app to an enum
