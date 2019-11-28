@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ImageType, Product } from '@spartacus/core';
-import { MerchandisingProduct } from '../model/strategy.result';
+import { MerchandisingProduct } from '../model/strategy-result.model';
 import { MerchandisingProductNormalizer } from './merchandising-product-normalizer';
 
 const MERCHANDISING_PRODUCT_METADATA: Map<string, string> = new Map<

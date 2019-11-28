@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { MerchandisingProducts } from '../../model/merchandising.products.model';
+import { MerchandisingProducts } from '../../model/merchandising-products.model';
 import { StrategyRequest } from './../../../cds-models/cds-strategy-request.model';
 
 export abstract class MerchandisingStrategyAdapter {

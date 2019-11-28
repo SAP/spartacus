@@ -3,8 +3,10 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   BaseSiteService,
+  Cart,
   CartService,
   ConsentService,
+  OrderEntry,
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, fromEvent, merge, Observable } from 'rxjs';
@@ -32,7 +34,9 @@ import {
 })
 export class ProfileTagInjector {
   static ProfileConsentTemplateId = 'PROFILE';
-  private w: ProfileTagWindowObject;
+  private profileTagWindow: ProfileTagWindowObject;
+  public consentReference = null;
+  public profileTagDebug = false;
   private tracking$: Observable<boolean> = merge(
     this.pageLoaded(),
     this.consentChanged(),
@@ -42,8 +46,6 @@ export class ProfileTagInjector {
     this.consentReferenceChanged(),
     this.debugModeChanged()
   );
-  public consentReference = null;
-  public profileTagDebug = false;
 
   constructor(
     private winRef: WindowRef,
@@ -58,7 +60,7 @@ export class ProfileTagInjector {
   track(): Observable<boolean> {
     return this.addTracker().pipe(
       switchMap(_ => merge(this.tracking$, this.profileTagEvents$)),
-      map(data => Boolean(data))
+      mapTo(true)
     );
   }
 
@@ -66,7 +68,7 @@ export class ProfileTagInjector {
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {
-        this.w.Y_TRACKING.push({ event: 'Navigated' });
+        this.profileTagWindow.Y_TRACKING.push({ event: 'Navigated' });
       }),
       mapTo(true)
     );
@@ -85,8 +87,8 @@ export class ProfileTagInjector {
         }),
         mapTo(true),
         take(1),
-        tap(() => {
-          this.notifyProfileTagOfConsentChange({ granted: true });
+        tap(granted => {
+          this.notifyProfileTagOfConsentChange(granted);
         })
       );
   }
@@ -95,27 +97,30 @@ export class ProfileTagInjector {
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
   private cartChanged(): Observable<boolean> {
-    return combineLatest(
+    return combineLatest([
       this.cartService.getEntries(),
-      this.cartService.getActive()
-    ).pipe(
+      this.cartService.getActive(),
+    ]).pipe(
       skipWhile(([entries]) => entries.length === 0),
       tap(([entries, cart]) => {
-        this.notifyProfileTagOfCartChange({ entries, cart });
+        this.notifyProfileTagOfCartChange(entries, cart);
       }),
       mapTo(true)
     );
   }
 
-  private notifyProfileTagOfCartChange({ entries, cart }): void {
-    this.w.Y_TRACKING.push({
-      event: 'ModifiedCart',
+  private notifyProfileTagOfCartChange(
+    entries: OrderEntry[],
+    cart: Cart
+  ): void {
+    this.profileTagWindow.Y_TRACKING.push({
+      event: 'CartSnapshot',
       data: { entries, cart },
     });
   }
 
-  private notifyProfileTagOfConsentChange({ granted }): void {
-    this.w.Y_TRACKING.push({ event: 'ConsentChanged', granted });
+  private notifyProfileTagOfConsentChange(granted: boolean): void {
+    this.profileTagWindow.Y_TRACKING.push({ event: 'ConsentChanged', granted });
   }
 
   private addTracker(): Observable<Event> {
@@ -131,18 +136,27 @@ export class ProfileTagInjector {
   }
 
   private profileTagLoaded(): Observable<Event> {
-    return fromEvent(window, ProfileTagEventNames.Loaded).pipe(take(1));
+    return fromEvent(
+      this.winRef.nativeWindow,
+      ProfileTagEventNames.LOADED
+    ).pipe(take(1));
   }
 
   private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
-    return fromEvent(window, ProfileTagEventNames.ConsentReferenceChanged).pipe(
+    return fromEvent(
+      this.winRef.nativeWindow,
+      ProfileTagEventNames.CONSENT_REFERENCE_CHANGED
+    ).pipe(
       map(event => <ConsentReferenceEvent>event),
       tap(event => (this.consentReference = event.detail.consentReference))
     );
   }
 
   private debugModeChanged(): Observable<DebugEvent> {
-    return fromEvent(window, ProfileTagEventNames.DebugFlagChanged).pipe(
+    return fromEvent(
+      this.winRef.nativeWindow,
+      ProfileTagEventNames.DEBUG_FLAG_CHANGED
+    ).pipe(
       map(event => <DebugEvent>event),
       tap(event => (this.profileTagDebug = event.detail.debug))
     );
@@ -169,13 +183,15 @@ export class ProfileTagInjector {
   }
 
   private initWindow(): void {
-    this.w = <ProfileTagWindowObject>(<unknown>this.winRef.nativeWindow);
-    this.w.Y_TRACKING = this.w.Y_TRACKING || {};
+    this.profileTagWindow = <ProfileTagWindowObject>(
+      (<unknown>this.winRef.nativeWindow)
+    );
+    this.profileTagWindow.Y_TRACKING = this.profileTagWindow.Y_TRACKING || {};
   }
 
   private exposeConfig(options: ProfileTagJsConfig): void {
-    const q = this.w.Y_TRACKING.q || [];
+    const q = this.profileTagWindow.Y_TRACKING.q || [];
     q.push([options]);
-    this.w.Y_TRACKING.q = q;
+    this.profileTagWindow.Y_TRACKING.q = q;
   }
 }

@@ -91,20 +91,6 @@ if (!environment.production) {
         anonymousConsents: true,
       },
     }),
-    CdsModule.forRoot({
-      cds: {
-        tenant: 'argotest',
-        baseUrl: 'test',
-        endpoints: {
-          strategyProducts: 'example',
-        },
-        profileTag: {
-          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
-          configUrl:
-            'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
-        },
-      },
-    }),
     JsonLdBuilderModule,
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing

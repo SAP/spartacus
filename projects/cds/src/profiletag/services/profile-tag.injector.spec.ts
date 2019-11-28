@@ -159,7 +159,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     subscription.unsubscribe();
 
@@ -173,7 +173,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
     getConsentBehavior.next({ consent: 'test' });
@@ -198,7 +198,7 @@ describe('ProfileTagInjector', () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     isConsentGivenValue = true;
     getConsentBehavior.next({ consent: 'test' });
     isConsentGivenValue = false;
@@ -217,11 +217,11 @@ describe('ProfileTagInjector', () => {
     });
   });
 
-  it(`Should call the push method for every ModifiedCart event`, () => {
+  it(`Should call the push method for every CartSnapshot event`, () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     const mockCartEntry: OrderEntry[] = [{ entryNumber: 7 }];
     const mockCartEntry2: OrderEntry[] = [{ entryNumber: 1 }];
     const testCart = { testCart: { id: 123 } };
@@ -231,30 +231,55 @@ describe('ProfileTagInjector', () => {
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(2);
     expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      event: 'CartSnapshot',
       data: { entries: [], cart: testCart },
     });
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      event: 'CartSnapshot',
       data: { entries: mockCartEntry, cart: testCart },
     });
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'ModifiedCart',
+      event: 'CartSnapshot',
       data: { entries: mockCartEntry2, cart: testCart },
     });
   });
 
-  it(`Should not call the push method when ModifiedCart event doesnt happen`, () => {
-    orderEntryBehavior = null;
+  it(`Should not call the push method when the cart is not modified`, () => {
     const profileTagLoaded$ = profileTagInjector.track();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.Loaded));
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
     subscription.unsubscribe();
     expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      event: 'ModifiedCart',
-      data: { entries: [] },
-    });
+  });
+
+  it(`Should not call the push method when the entries have only ever sent an empty array`, () => {
+    const profileTagLoaded$ = profileTagInjector.track();
+    const subscription = profileTagLoaded$.subscribe();
+    getActiveBehavior.next('electronics-test');
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
+    cartBehavior.next({ testCart: { id: 123 } });
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    subscription.unsubscribe();
+    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
+  });
+
+  it(`Should call the push method every time after a non-empty orderentry array is passed`, () => {
+    const profileTagLoaded$ = profileTagInjector.track();
+    const subscription = profileTagLoaded$.subscribe();
+    getActiveBehavior.next('electronics-test');
+    window.dispatchEvent(new CustomEvent(ProfileTagEventNames.LOADED));
+    cartBehavior.next({ testCart: { id: 123 } });
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([{ test: {} }]);
+    orderEntryBehavior.next([{ test: {} }]);
+    orderEntryBehavior.next([]);
+    orderEntryBehavior.next([]);
+    subscription.unsubscribe();
+    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(4);
   });
 });
