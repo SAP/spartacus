@@ -14,7 +14,7 @@ import {
 } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process';
 import * as fromProcessReducers from '../../process/store/reducers/index';
-import { CartActions, StateWithMultiCart } from '../store';
+import { StateWithMultiCart } from '../store';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
@@ -307,28 +307,6 @@ describe('ActiveCartService', () => {
     });
   });
 
-  describe('getAddEntryLoaded', () => {
-    it('should return true for successful process', () => {
-      store.dispatch(new CartActions.CartSuccessAddEntryProcess());
-      let result;
-      service
-        .getAddEntryLoaded()
-        .subscribe(value => (result = value))
-        .unsubscribe();
-      expect(result).toBe(true);
-    });
-
-    it('should return false when loading', () => {
-      store.dispatch(new CartActions.CartStartAddEntryProcess());
-      let result;
-      service
-        .getAddEntryLoaded()
-        .subscribe(value => (result = value))
-        .unsubscribe();
-      expect(result).toBe(false);
-    });
-  });
-
   describe('addEntry', () => {
     it('should just add entry when cart exists', () => {
       spyOn<any>(service, 'load').and.callThrough();
@@ -599,23 +577,12 @@ describe('ActiveCartService', () => {
     it('should add each entry one by one', () => {
       spyOn(service, 'addEntry').and.callThrough();
 
-      service.addEntries([mockCartEntry, mockCartEntry], false);
+      service.addEntries([mockCartEntry, mockCartEntry]);
       expect(service['addEntry']).toHaveBeenCalledTimes(2);
       expect(service['addEntry']).toHaveBeenCalledWith(
         mockCartEntry.product.code,
         mockCartEntry.quantity,
         false
-      );
-    });
-
-    it('should pass guestMerge flag', () => {
-      spyOn(service, 'addEntry').and.callThrough();
-
-      service.addEntries([mockCartEntry], true);
-      expect(service['addEntry']).toHaveBeenCalledWith(
-        mockCartEntry.product.code,
-        mockCartEntry.quantity,
-        true
       );
     });
   });

@@ -204,40 +204,8 @@ describe('MultiCartService', () => {
     });
   });
 
-  describe('addEntries', () => {
-    it('should dispatch addEntries action', () => {
-      service.addEntries('userId', 'cartId', [
-        { productCode: 'productCode', quantity: 2 },
-      ]);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.CartAddEntries({
-          cartId: 'cartId',
-          userId: 'userId',
-          products: [{ productCode: 'productCode', quantity: 2 }],
-        })
-      );
-    });
-  });
-
-  describe('initAddEntryProcess', () => {
-    it('should dispatch CartStartAddEntryProcess action', () => {
-      service.initAddEntryProcess();
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.CartStartAddEntryProcess()
-      );
-    });
-  });
-
   describe('removeEntry', () => {
-    it('should dispatch RemoveEntry action', () => {
-      service.initAddEntryProcess();
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.CartStartAddEntryProcess()
-      );
-    });
+    it('should dispatch RemoveEntry action', () => {});
   });
 
   describe('updateEntry', () => {

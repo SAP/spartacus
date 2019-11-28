@@ -131,13 +131,11 @@ describe('Cart effect', () => {
           addEntries: true,
         },
       });
-      const cartSuccessAddEntryProcessCompletion = new CartActions.CartSuccessAddEntryProcess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: cartSuccessAddEntryProcessCompletion,
-        c: loadCartCompletion,
-        d: loadMultiCartCompletion,
+      const expected = cold('-(bc)', {
+        b: loadCartCompletion,
+        c: loadMultiCartCompletion,
       });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);

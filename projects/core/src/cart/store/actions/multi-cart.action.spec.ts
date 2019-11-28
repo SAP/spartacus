@@ -176,21 +176,6 @@ describe('MultiCart Actions', () => {
       });
     });
 
-    describe('SetCartLoading', () => {
-      it('should create the action', () => {
-        const payload = { cartId: 'cartId' };
-        const action = new CartActions.SetCartLoading(payload);
-        expect({ ...action }).toEqual({
-          type: CartActions.SET_CART_LOADING,
-          payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            MULTI_CART_FEATURE,
-            payload.cartId
-          ),
-        });
-      });
-    });
-
     describe('RemoveCart', () => {
       it('should create the action', () => {
         const payload = 'cartId';

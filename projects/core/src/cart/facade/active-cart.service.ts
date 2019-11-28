@@ -202,7 +202,7 @@ export class ActiveCartService {
   }
 
   private setActiveCartIdToFresh() {
-    this.store.dispatch(new CartActions.SetActiveCartId('fresh'));
+    this.store.dispatch(new CartActions.SetActiveCartId(FRESH_CART_ID));
   }
 
   private addEntriesGuestMerge(cartEntries: OrderEntry[]) {
@@ -210,18 +210,13 @@ export class ActiveCartService {
       productCode: entry.product.code,
       quantity: entry.quantity,
     }));
-    this.requireLoadedCartForGuestMerge()
-      .pipe(
-        filter(() => !this.isGuestCart()),
-        take(1)
-      )
-      .subscribe(cartState => {
-        this.multiCartService.addEntries(
-          this.userId,
-          getCartIdByUserId(cartState.value, this.userId),
-          entriesToAdd
-        );
-      });
+    this.requireLoadedCartForGuestMerge().subscribe(cartState => {
+      this.multiCartService.addEntries(
+        this.userId,
+        getCartIdByUserId(cartState.value, this.userId),
+        entriesToAdd
+      );
+    });
   }
 
   private requireLoadedCartForGuestMerge() {
@@ -273,6 +268,7 @@ export class ActiveCartService {
       filter(cartState => !cartState.loading),
       filter(() => this.cartId !== FRESH_CART_ID),
       filter(cartState => !this.isEmpty(cartState.value)),
+      take(1),
       share()
     );
   }
@@ -286,16 +282,14 @@ export class ActiveCartService {
   addEntry(productCode: string, quantity: number): void {
     // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
     // That's why add entry process was used instead of relying on loading flag from entity
-    this.requireLoadedCart()
-      .pipe(take(1))
-      .subscribe(cartState => {
-        this.multiCartService.addEntry(
-          this.userId,
-          getCartIdByUserId(cartState.value, this.userId),
-          productCode,
-          quantity
-        );
-      });
+    this.requireLoadedCart().subscribe(cartState => {
+      this.multiCartService.addEntry(
+        this.userId,
+        getCartIdByUserId(cartState.value, this.userId),
+        productCode,
+        quantity
+      );
+    });
   }
 
   /**
