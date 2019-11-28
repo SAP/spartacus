@@ -1,18 +1,24 @@
-import { Component, DebugElement, Input, Type } from '@angular/core';
+import { Component, EventEmitter, Input, Output, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AuthService, WishListService } from '@spartacus/core';
-import { WishListComponent } from './wish-list.component';
+import {
+  Cart,
+  I18nTestingModule,
+  OrderEntry,
+  WishListService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
+import { WishListComponent } from './wish-list.component';
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
 
-class MockAuthService {
-  isUserLoggedIn = createSpy().and.returnValue(of(true));
+class MockWishListService {
+  getWishList = createSpy().and.returnValue(of(mockWishList));
+  getWishListLoading = createSpy().and.returnValue(of(false));
 }
 
-const MockWishListService = jasmine.createSpyObj('WishListService', [
-  'getWishList',
-]);
+const mockWishList: Cart = {
+  code: 'xxx',
+  entries: [{ product: { code: 'yyy' } }],
+};
 
 @Component({
   selector: 'cx-wish-list-item',
@@ -20,26 +26,28 @@ const MockWishListService = jasmine.createSpyObj('WishListService', [
 })
 class MockWishListItemComponent {
   @Input()
-  cartEntry;
+  cartEntry: OrderEntry;
+  @Input()
+  isLoading = false;
+  @Output()
+  remove = new EventEmitter<OrderEntry>();
 }
 
 describe('WishListComponent', () => {
   let component: WishListComponent;
   let fixture: ComponentFixture<WishListComponent>;
-  let el: DebugElement;
 
   let wishListService: WishListService;
-  let authService: AuthService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [WishListComponent, MockWishListItemComponent],
       providers: [
         {
           provide: WishListService,
-          useValue: MockWishListService,
+          useClass: MockWishListService,
         },
-        { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
   }));
@@ -47,12 +55,8 @@ describe('WishListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListComponent);
     component = fixture.componentInstance;
-    el = fixture.debugElement;
 
-    wishListService = el.injector.get(WishListService as Type<WishListService>);
-    authService = fixture.debugElement.injector.get(AuthService as Type<
-      AuthService
-    >);
+    wishListService = TestBed.get(WishListService as Type<WishListService>);
     fixture.detectChanges();
   });
 
@@ -62,11 +66,5 @@ describe('WishListComponent', () => {
 
   it('should get wish list', () => {
     expect(wishListService.getWishList).toHaveBeenCalled();
-  });
-
-  it('should not display component when user is not logged in', () => {
-    authService.isUserLoggedIn = jasmine.createSpy().and.returnValue(of(false));
-
-    expect(el.query(By.css('cx-page'))).toBeNull();
   });
 });

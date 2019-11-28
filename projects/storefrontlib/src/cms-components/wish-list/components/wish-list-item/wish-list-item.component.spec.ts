@@ -5,19 +5,12 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { WishListItemComponent } from './wish-list-item.component';
-import { I18nTestingModule, WishListService } from '@spartacus/core';
-import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-
-const MockWishListService = jasmine.createSpyObj('WishListService', [
-  'removeEntry',
-  'getWishListLoading',
-]);
+import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
+import { WishListItemComponent } from './wish-list-item.component';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -29,29 +22,12 @@ export class MockAddToCartComponent {
 }
 
 @Component({
-  selector: 'cx-star-rating',
-  template: '*****',
-})
-export class MockStarRatingComponent {
-  @Input() rating;
-  @Input() disabled;
-}
-
-@Component({
   selector: 'cx-media',
   template: 'mock picture component',
 })
 export class MockPictureComponent {
   @Input() container;
   @Input() alt;
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-export class MockCxIconComponent {
-  @Input() type;
 }
 
 @Pipe({
@@ -61,10 +37,9 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-describe('WishListItemComponent in WishList', () => {
+describe('WishListItemComponent', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
-  let wishListService: WishListService;
   let el: DebugElement;
 
   const mockCartEntry = {
@@ -91,15 +66,7 @@ describe('WishListItemComponent in WishList', () => {
         WishListItemComponent,
         MockPictureComponent,
         MockAddToCartComponent,
-        MockStarRatingComponent,
         MockUrlPipe,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: WishListService,
-          useValue: MockWishListService,
-        },
       ],
     })
       .overrideComponent(WishListItemComponent, {
@@ -114,10 +81,6 @@ describe('WishListItemComponent in WishList', () => {
     component.cartEntry = mockCartEntry;
     el = fixture.debugElement;
 
-    wishListService = fixture.debugElement.injector.get(WishListService as Type<
-      WishListService
-    >);
-
     fixture.detectChanges();
   });
 
@@ -127,27 +90,25 @@ describe('WishListItemComponent in WishList', () => {
 
   it('should display product name', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-product-name')
-        .textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-name').textContent
     ).toContain(component.cartEntry.product.name);
+  });
+
+  it('should display product code', () => {
+    expect(
+      fixture.debugElement.nativeElement.querySelector('.cx-code').textContent
+    ).toContain(component.cartEntry.product.code);
   });
 
   it('should display product formatted price', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-product-price')
-        .textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-price').textContent
     ).toContain(component.cartEntry.basePrice.formattedValue);
   });
 
   it('should display product image', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-media')
-    ).not.toBeNull();
-  });
-
-  it('should display rating component', () => {
-    expect(
-      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
   });
 
@@ -158,15 +119,18 @@ describe('WishListItemComponent in WishList', () => {
   });
 
   it('should call remove', () => {
-    component.remove(mockCartEntry);
-    expect(wishListService.removeEntry).toHaveBeenCalledWith(mockCartEntry);
+    spyOn(component, 'removeEntry');
+    el.query(By.css('.cx-return-button button')).nativeElement.click();
+    expect(component.removeEntry).toHaveBeenCalledWith(mockCartEntry);
   });
 
   it('should disable remove link when loading', () => {
-    component.loading$ = of(false);
+    component.isLoading = true;
     fixture.detectChanges();
 
-    expect(el.query(By.css('.btn-link')).nativeElement.disabled).toBeFalsy();
+    expect(
+      el.query(By.css('.cx-return-button button')).nativeElement.disabled
+    ).toBeTruthy();
   });
 
   it('should not display add to cart component when product is out of stock', () => {
