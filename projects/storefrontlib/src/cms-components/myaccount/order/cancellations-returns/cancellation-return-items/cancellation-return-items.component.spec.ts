@@ -1,6 +1,5 @@
-import { Component, Input, DebugElement } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 
@@ -40,7 +39,6 @@ class MockItemCounterComponent {
 describe('CancellationReturnItemsComponent', () => {
   let component: CancellationReturnItemsComponent;
   let fixture: ComponentFixture<CancellationReturnItemsComponent>;
-  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -68,34 +66,24 @@ describe('CancellationReturnItemsComponent', () => {
 
   it('should initialize the entry inputs in order return/cancel page', () => {
     component.confirmRequest = false;
+    mockEntries[0].returnedQuantity = undefined;
     component.ngOnInit();
 
     const inputControl = (component.inputsControl.controls[0] as FormGroup)
       .controls;
-    expect(inputControl.quantity.value).toEqual('');
+    expect(inputControl.quantity.value).toEqual(null);
     expect(inputControl.orderEntryNumber.value).toEqual(1);
   });
 
   it('should display the entry inputs in order confirmation page', () => {
     component.confirmRequest = true;
+    mockEntries[0].returnedQuantity = 3;
     component.ngOnInit();
-    fixture.detectChanges();
-    el = fixture.debugElement;
 
     const inputControl = (component.inputsControl.controls[0] as FormGroup)
       .controls;
     expect(inputControl.quantity.value).toEqual(3);
     expect(inputControl.orderEntryNumber.value).toEqual(1);
-  });
-
-  it('should not display any buttons in return/cancel confirmation page', () => {
-    component.confirmRequest = true;
-    component.ngOnInit();
-    fixture.detectChanges();
-    el = fixture.debugElement;
-
-    const button = el.query(By.css('button'));
-    expect(button).toBeNull();
   });
 
   it('should be able to set return/cancel quantities to maximum in order return/cancel page', () => {

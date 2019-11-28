@@ -37,25 +37,14 @@ export class CancellationReturnItemsComponent implements OnInit {
 
     this.inputsControl = this.form.get('entryInput') as FormArray;
 
-    if (this.confirmRequest) {
-      this.entries.forEach(entry => {
-        this.inputsControl.push(
-          this.formBuilder.group({
-            orderEntryNumber: entry.entryNumber,
-            quantity: [{ value: entry.returnedQuantity, disabled: true }],
-          })
-        );
-      });
-    } else {
-      this.entries.forEach(entry => {
-        this.inputsControl.push(
-          this.formBuilder.group({
-            orderEntryNumber: entry.entryNumber,
-            quantity: '',
-          })
-        );
-      });
-    }
+    this.entries.forEach(entry => {
+      this.inputsControl.push(
+        this.formBuilder.group({
+          orderEntryNumber: entry.entryNumber,
+          quantity: entry.returnedQuantity,
+        })
+      );
+    });
   }
 
   setAll(): void {

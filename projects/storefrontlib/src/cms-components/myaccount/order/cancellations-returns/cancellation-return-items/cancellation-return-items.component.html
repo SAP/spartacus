@@ -109,20 +109,14 @@
                 </div>
                 <div [formGroupName]="i">
                   <cx-item-counter
-                    *ngIf="!confirmRequest"
-                    [isValueChangeable]="true"
                     [step]="1"
                     [min]="0"
                     [max]="item.returnableQuantity"
+                    [isValueChangeable]="!confirmRequest"
                     (update)="updateQty()"
                     formControlName="quantity"
                   >
                   </cx-item-counter>
-                  <input
-                    *ngIf="confirmRequest"
-                    formControlName="quantity"
-                    size="6"
-                  />
                 </div>
               </div>
               <!-- Cancel/Return Total Price -->
