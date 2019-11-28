@@ -119,7 +119,7 @@ export class ProfileTagEventTracker {
     this.profileTagWindow.Y_TRACKING.q = q;
   }
 
-  public notifyProfileTagOfConsentChange(granted: boolean): void {
-    this.profileTagWindow.Y_TRACKING.push({ event: 'ConsentChanged', granted });
+  public notifyProfileTagOfEventOccurence(event): void {
+    this.profileTagWindow.Y_TRACKING.push(event);
   }
 }

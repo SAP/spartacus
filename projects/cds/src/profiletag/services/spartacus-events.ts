@@ -1,5 +1,5 @@
 import { combineLatest, merge, Observable } from 'rxjs';
-import { Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
+import { CartService, ConsentService } from '@spartacus/core';
 import { filter, mapTo, skipWhile, take, tap } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
@@ -15,7 +15,7 @@ export class SpartacusEventTracker {
     this.consentChanged(),
     this.cartChanged()
   );
-  private profileTagWindow;
+
   constructor(
     private cartService: CartService,
     private consentService: ConsentService,
@@ -31,7 +31,9 @@ export class SpartacusEventTracker {
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       tap(() => {
-        this.profileTagWindow.Y_TRACKING.push({ event: 'Navigated' });
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence({
+          event: 'Navigated',
+        });
       }),
       mapTo(true)
     );
@@ -51,7 +53,10 @@ export class SpartacusEventTracker {
         mapTo(true),
         take(1),
         tap(granted => {
-          this.profileTagEventTracker.notifyProfileTagOfConsentChange(granted);
+          this.profileTagEventTracker.notifyProfileTagOfEventOccurence({
+            event: 'ConsentChanged',
+            granted,
+          });
         })
       );
   }
@@ -66,19 +71,15 @@ export class SpartacusEventTracker {
     ]).pipe(
       skipWhile(([entries]) => entries.length === 0),
       tap(([entries, cart]) => {
-        this.notifyProfileTagOfCartChange(entries, cart);
+        const cartSnapshotEvent = {
+          event: 'CartSnapshot',
+          data: { entries, cart },
+        };
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
+          cartSnapshotEvent
+        );
       }),
       mapTo(true)
     );
-  }
-
-  private notifyProfileTagOfCartChange(
-    entries: OrderEntry[],
-    cart: Cart
-  ): void {
-    this.profileTagWindow.Y_TRACKING.push({
-      event: 'CartSnapshot',
-      data: { entries, cart },
-    });
   }
 }
