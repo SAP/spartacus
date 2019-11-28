@@ -36,7 +36,6 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
         component: PageLayoutComponent,
         data: {
           cxSuffixUrlMatcher: {
-            marker: 'p',
             paramName: 'budgetCode',
           },
         },

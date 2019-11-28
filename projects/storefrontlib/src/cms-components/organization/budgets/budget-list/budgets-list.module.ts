@@ -6,7 +6,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule, CxDatePipe,
+  ConfigModule,
+  CxDatePipe,
   I18nModule,
   UrlModule,
   UserService,
