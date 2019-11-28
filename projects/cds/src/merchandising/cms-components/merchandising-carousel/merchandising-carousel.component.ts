@@ -17,13 +17,6 @@ import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-p
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchandisingCarouselComponent {
-  constructor(
-    protected componentData: CmsComponentData<
-      CmsMerchandisingCarouselComponent
-    >,
-    protected cdsMerchandisingProductService: CdsMerchandisingProductService
-  ) {}
-
   private componentData$: Observable<
     CmsMerchandisingCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
@@ -40,6 +33,14 @@ export class MerchandisingCarouselComponent {
       );
     }),
     map(merchandisingProducts => merchandisingProducts.products),
-    map(products => products.map(product => of(product)))
+    filter(Boolean),
+    map((products: Product[]) => products.map(product => of(product)))
   );
+
+  constructor(
+    protected componentData: CmsComponentData<
+      CmsMerchandisingCarouselComponent
+    >,
+    protected cdsMerchandisingProductService: CdsMerchandisingProductService
+  ) {}
 }

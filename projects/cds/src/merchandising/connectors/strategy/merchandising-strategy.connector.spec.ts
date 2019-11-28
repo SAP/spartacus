@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ImageType } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import { MerchandisingProducts } from '../../model/merchandising.products.model';
+import { MerchandisingProducts } from '../../model/merchandising-products.model';
 import { MerchandisingStrategyAdapter } from './merchandising-strategy.adapter';
 import { MerchandisingStrategyConnector } from './merchandising-strategy.connector';
 import createSpy = jasmine.createSpy;
