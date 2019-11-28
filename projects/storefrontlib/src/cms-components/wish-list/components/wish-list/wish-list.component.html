@@ -1,10 +1,33 @@
-<ng-container *ngIf="userLoggedIn$ | async">
-  <div class="cx-page" *ngIf="wishList$ | async as model">
-    <ng-container *ngFor="let entry of model?.entries">
+<ng-container *ngIf="wishList$ | async as wishList">
+  <ng-container *ngIf="wishList?.entries?.length > 0; else emptyWishList">
+    <div class="d-none d-md-block d-lg-block d-xl-block">
+      <div class="cx-item-list-header row">
+        <div class="cx-item-list-desc col-md-5 col-lg-5 col-xl-6">
+          {{ 'cartItems.description' | cxTranslate }}
+        </div>
+        <div class="cx-item-list-price col-md-3 col-lg-2 col-xl-2">
+          {{ 'cartItems.itemPrice' | cxTranslate }}
+        </div>
+        <div class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2">
+          {{ 'cartItems.quantity' | cxTranslate }}
+        </div>
+        <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
+          {{ 'cartItems.total' | cxTranslate }}
+        </div>
+      </div>
+    </div>
+
+    <div class="cx-item-list-row" *ngFor="let entry of wishList?.entries">
       <cx-wish-list-item
         [cartEntry]="entry"
-        class="cx-wish-list-item"
+        [isLoading]="loading$ | async"
+        class="cx-wish-list-items"
+        (remove)="removeEntry($event)"
       ></cx-wish-list-item>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
 </ng-container>
+
+<ng-template #emptyWishList>
+  <h2>No products in your wish list yet</h2>
+</ng-template>

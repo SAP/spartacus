@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OrderEntry, WishListService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { OrderEntry } from '@spartacus/core';
 
 @Component({
   selector: 'cx-wish-list-item',
@@ -9,18 +14,13 @@ import { Observable } from 'rxjs';
 })
 export class WishListItemComponent {
   @Input()
-  compact = false;
+  isLoading = false;
   @Input() cartEntry: OrderEntry;
 
-  loading$: Observable<boolean> = this.wishListService.getWishListLoading();
+  @Output()
+  remove = new EventEmitter<OrderEntry>();
 
-  constructor(protected wishListService: WishListService) {}
-
-  remove(entry: any) {
-    this.wishListService.removeEntry(entry);
-  }
-
-  log(thing: any) {
-    console.log(thing);
+  removeEntry(item: OrderEntry) {
+    this.remove.emit(item);
   }
 }

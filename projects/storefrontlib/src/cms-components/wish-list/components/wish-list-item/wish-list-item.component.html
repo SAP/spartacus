@@ -1,4 +1,4 @@
-<div [ngClass]="compact ? 'cx-compact row' : 'row'">
+<div class="row">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">
     <a [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl">
@@ -12,7 +12,7 @@
   <div class="cx-info col-10">
     <div class="cx-info-container row ">
       <!-- Item Description -->
-      <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
+      <div class="col-md-3 col-lg-3 col-xl-5">
         <div *ngIf="cartEntry.product.name" class="cx-name">
           <a
             class="cx-link"
@@ -37,13 +37,9 @@
       <!-- Item Price -->
       <div
         *ngIf="cartEntry.basePrice"
-        class="cx-price"
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+        class="cx-price col-md-3 col-lg-3 col-xl-2"
       >
-        <div
-          class="cx-label"
-          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
-        >
+        <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
           {{ 'cartItems.itemPrice' | cxTranslate }}
         </div>
         <div *ngIf="cartEntry.basePrice" class="cx-value">
@@ -51,14 +47,9 @@
         </div>
       </div>
       <!-- Item Quantity -->
-      <div
-        *ngIf="cartEntry.quantity"
-        class="cx-quantity"
-        [ngClass]="compact ? '' : ' col-3'"
-      >
+      <div *ngIf="cartEntry.quantity" class="cx-quantity col-3">
         <div
-          class="cx-label"
-          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+          class="cx-label d-block d-md-none d-lg-none d-xl-none"
           placement="left"
           title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
         >
@@ -67,9 +58,7 @@
         <div class="cx-value">{{ cartEntry.quantity }}</div>
       </div>
       <!-- Total -->
-      <div
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2 cx-add-to-cart'"
-      >
+      <div class="col-sm-5 col-md-3 col-lg-3 col-xl-2 cx-add-to-cart">
         <cx-add-to-cart
           *ngIf="cartEntry.product.stock.stockLevelStatus !== 'outOfStock'"
           [showQuantity]="false"
@@ -80,8 +69,8 @@
     <div class="cx-return-button col-12">
       <button
         class="btn btn-link"
-        (click)="remove(cartEntry)"
-        [disabled]="loading$ | async"
+        (click)="removeEntry(cartEntry)"
+        [disabled]="isLoading"
       >
         {{ 'common.remove' | cxTranslate }}
       </button>

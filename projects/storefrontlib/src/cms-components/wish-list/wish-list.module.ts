@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
@@ -24,6 +25,7 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
       cmsComponents: {
         WishListComponent: {
           component: WishListComponent,
+          guards: [AuthGuard],
         },
       },
     }),
