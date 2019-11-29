@@ -1,15 +1,8 @@
 import { Action } from '@ngrx/store';
 import { initialLoaderState } from '../loader';
 import { LoaderLoadAction } from '../loader/loader.action';
-import {
-  ProcessesLoaderPopAction,
-  ProcessesLoaderPushAction,
-  ProcessesLoaderResetAction,
-} from './processes-loader.action';
-import {
-  initialProcessesState,
-  processesLoaderReducer,
-} from './processes-loader.reducer';
+import { ProcessesDecrementAction, ProcessesIncrementAction, ProcessesLoaderResetAction } from './processes-loader.action';
+import { initialProcessesState, processesLoaderReducer } from './processes-loader.reducer';
 
 describe('Processes loader reducer', () => {
   const TEST_ENTITY_TYPE = 'test';
@@ -41,7 +34,7 @@ describe('Processes loader reducer', () => {
 
   describe('PUSH ACTION', () => {
     it('should increment processesCount', () => {
-      const action = new ProcessesLoaderPushAction(TEST_ENTITY_TYPE);
+      const action = new ProcessesIncrementAction(TEST_ENTITY_TYPE);
       const state = processesLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
       const expectedState = {
         loading: false,
@@ -54,7 +47,7 @@ describe('Processes loader reducer', () => {
     });
 
     it('should not change loaderState properties', () => {
-      const action = new ProcessesLoaderPushAction(TEST_ENTITY_TYPE);
+      const action = new ProcessesIncrementAction(TEST_ENTITY_TYPE);
       const previousState = {
         loading: true,
         error: false,
@@ -79,7 +72,7 @@ describe('Processes loader reducer', () => {
 
   describe('POP ACTION', () => {
     it('should decrement processesCount', () => {
-      const action = new ProcessesLoaderPopAction(TEST_ENTITY_TYPE);
+      const action = new ProcessesDecrementAction(TEST_ENTITY_TYPE);
       const state = processesLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
       const expectedState = {
         loading: false,
@@ -92,7 +85,7 @@ describe('Processes loader reducer', () => {
     });
 
     it('should not change loaderState properties', () => {
-      const action = new ProcessesLoaderPopAction(TEST_ENTITY_TYPE);
+      const action = new ProcessesDecrementAction(TEST_ENTITY_TYPE);
       const previousState = {
         loading: true,
         error: false,
