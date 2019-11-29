@@ -1,4 +1,4 @@
-export interface MerchandisingProduct {
+export interface StrategyProduct {
   id?: string;
   name?: string;
   description?: string;
@@ -17,7 +17,7 @@ export interface Paged {
 
 export interface StrategyResult {
   resultCount?: number;
-  products?: MerchandisingProduct[];
+  products?: StrategyProduct[];
   paged?: Paged;
   metadata?: { [metadataAttributeName: string]: string };
 }

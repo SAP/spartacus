@@ -11,7 +11,10 @@ import {
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import { MerchandisingProducts } from '../../model/merchandising-products.model';
+import {
+  MerchandisingProduct,
+  MerchandisingProducts,
+} from '../../model/merchandising-products.model';
 
 @Component({
   selector: 'cx-merchandising-carousel',
@@ -47,9 +50,16 @@ export class MerchandisingCarouselComponent {
       merchandsingProducts.metadata = metadata;
       return merchandsingProducts;
     }),
-    map(merchandsingProducts =>
-      this.mapMerchandisingProductsToCarouselModel(merchandsingProducts)
-    ),
+    map(merchandsingProducts => {
+      merchandsingProducts.products.forEach(
+        (merchandisingProduct, index) =>
+          (merchandisingProduct.metadata = this.getCarouselItemMetadata(
+            merchandisingProduct,
+            index + 1
+          ))
+      );
+      return this.mapMerchandisingProductsToCarouselModel(merchandsingProducts);
+    }),
     filter<{
       items$: Observable<Product>[];
       metadata: Map<string, string>;
@@ -79,6 +89,24 @@ export class MerchandisingCarouselComponent {
     metadata.set('name', componentData.name);
     metadata.set('strategyid', componentData.strategy);
     metadata.set('id', componentData.uid);
+
+    return metadata;
+  }
+
+  getCarouselItemMetadata(
+    merchandisingProduct: MerchandisingProduct,
+    index: number
+  ): Map<string, string> {
+    const metadata = new Map<string, string>();
+
+    if (merchandisingProduct.metadata) {
+      merchandisingProduct.metadata.forEach((value, name) =>
+        metadata.set(name, value)
+      );
+    }
+
+    metadata.set('slot', index.toString());
+    metadata.set('id', merchandisingProduct.code);
 
     return metadata;
   }
