@@ -5,7 +5,7 @@ import {
   UrlTree,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 
 @Injectable({
   providedIn: 'root',

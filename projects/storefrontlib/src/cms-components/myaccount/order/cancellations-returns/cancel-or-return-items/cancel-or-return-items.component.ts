@@ -12,7 +12,7 @@ import {
   CancelOrReturnRequestEntryInput,
   Price,
 } from '@spartacus/core';
-import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 
 @Component({
   selector: 'cx-cancel-or-return-items',

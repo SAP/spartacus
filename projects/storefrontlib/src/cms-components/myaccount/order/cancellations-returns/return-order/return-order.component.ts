@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import { OrderEntry, CancelOrReturnRequestEntryInput } from '@spartacus/core';
-import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 
 @Component({

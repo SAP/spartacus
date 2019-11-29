@@ -4,7 +4,7 @@ import { tap, filter, map } from 'rxjs/operators';
 import { OrderEntry, OrderReturnRequestService } from '@spartacus/core';
 
 import { OrderDetailsService } from '../../order-details/order-details.service';
-import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 
 @Component({
   selector: 'cx-return-order-confirmation',

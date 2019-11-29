@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CancelOrReturnRequestEntryInput } from '@spartacus/core';
-import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 import { CancelOrReturnRequestInputGuard } from './cancel-or-return-request-input.guard';
 
 class MockOrderCancelOrReturnService {
