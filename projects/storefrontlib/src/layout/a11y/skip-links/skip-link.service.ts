@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
-import { CmsService } from '@spartacus/core';
+import { Injectable, TemplateRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { SkipLinkConfig } from './config/index';
 
 @Injectable({
@@ -10,52 +8,32 @@ import { SkipLinkConfig } from './config/index';
 export class SkipLinkService {
   skippers = new BehaviorSubject([]);
 
-  private lastPageTemplate$ = this.cms.getCurrentPage().pipe(
-    filter(p => !!p),
-    map(p => p),
-    distinctUntilChanged()
-  );
+  constructor(protected config: SkipLinkConfig) {}
 
-  constructor(protected config: SkipLinkConfig, protected cms: CmsService) {
-    this.lastPageTemplate$
-      .pipe(
-        tap(_template => {
-          console.log(_template);
-          // this.removeInvalidSkippers(_template);
-          // this.hideExcludedSkippers(_template);
-        })
-      )
-      .subscribe();
-  }
-
-  add(key: string, target: HTMLElement) {
+  add(key: string, tpl: TemplateRef<any>) {
     const found = this.config.skipLinks ? this.config.skipLinks[key] : null;
 
     if (found) {
       const existing = this.skippers.value;
       existing.push({
-        target: target,
+        target: tpl,
         title: found.i18nKey,
         position: found.position,
+        key: key,
       });
       this.skippers.next(existing);
     }
   }
 
-  // removeInvalidSkippers(page: Page) {
-  //   let existing = this.skippers.value;
-  //   const pageSlotKeys = Object.keys(page.slots);
+  remove(key: string) {
+    const found = this.config.skipLinks ? this.config.skipLinks[key] : null;
 
-  //   existing.forEach(skipLink => {
-  //     const targetSlotClass = skipLink.target.classList[0];
-
-  //     if (!pageSlotKeys.includes(targetSlotClass)) {
-  //       existing = existing.filter(link => link !== skipLink);
-  //     }
-  //   });
-
-  //   this.skippers.next(existing);
-  // }
+    if (found) {
+      let existing = this.skippers.value;
+      existing = existing.filter(skipper => skipper.key !== key);
+      this.skippers.next(existing);
+    }
+  }
 
   // hideExcludedSkippers(page: Page) {
   //   const existing = this.skippers.value;

@@ -1,11 +1,13 @@
 <ng-template
   [cxOutlet]="position$ | async"
   [cxOutletContext]="{ components$: components$ }"
+  [cxSkip]="position$ | async"
 >
   <ng-container *ngFor="let component of components$ | async">
     <ng-template
       [cxOutlet]="component.flexType"
       [cxOutletContext]="{ component: component }"
+      [cxSkip]="component.flexType"
     >
       <ng-container [cxComponentWrapper]="component"></ng-container>
     </ng-template>

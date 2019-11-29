@@ -13,7 +13,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { SkipLinkService } from '../../../layout/a11y/skip-links/skip-link.service';
 
 @Component({
   selector: 'cx-page-slot',
@@ -26,8 +25,6 @@ export class PageSlotComponent {
     // add the position name as a css class so that
     // layout can be applied to it, using the position based class.
     this.renderer.addClass(this.hostElement.nativeElement, position);
-
-    this.skipLinkService.add(position, this.hostElement.nativeElement);
   }
 
   readonly position$ = new BehaviorSubject<string>(undefined);
@@ -59,8 +56,7 @@ export class PageSlotComponent {
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected hostElement: ElementRef,
-    protected skipLinkService: SkipLinkService
+    protected hostElement: ElementRef
   ) {}
 
   // add a class to indicate whether the class is empty or not

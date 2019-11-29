@@ -19,8 +19,5 @@ export const defaultSkipLinkConfig: SkipLinkConfig = {
     Footer: {
       i18nKey: 'groupSkipper.titles.footer',
     },
-    ReturningCustomerLoginComponent: {
-      i18nKey: 'groupSkipper.titles.header',
-    },
   },
 };
