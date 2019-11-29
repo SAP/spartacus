@@ -1,15 +1,15 @@
 import { Action } from '@ngrx/store';
-import {
-  EntityPopAction,
-  EntityProcessesResetAction,
-  EntityPushAction,
-} from 'projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action';
 import { Cart } from '../../../model/cart.model';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import {
+  EntityPopAction,
+  EntityProcessesResetAction,
+  EntityPushAction,
+} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
@@ -39,8 +39,8 @@ export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
 
 export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
 
-export const QUEUE_CART_ACTION = '[Multi Cart] Queue Cart Action';
-export const DEQUEUE_CART_ACTION = '[Multi Cart] Dequeue Cart Action';
+export const PUSH_CART_ACTION = '[Multi Cart] Push Cart Action';
+export const POP_CART_ACTION = '[Multi Cart] Pop Cart Action';
 
 /**
  * To keep track of cart creation process we use cart with `fresh` id.
@@ -162,15 +162,15 @@ export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
   }
 }
 
-export class QueueCartAction extends EntityPushAction {
-  readonly type = QUEUE_CART_ACTION;
+export class PushCartAction extends EntityPushAction {
+  readonly type = PUSH_CART_ACTION;
   constructor(public payload: string) {
     super(MULTI_CART_FEATURE, payload);
   }
 }
 
-export class DequeueCartAction extends EntityPopAction {
-  readonly type = DEQUEUE_CART_ACTION;
+export class PopCartAction extends EntityPopAction {
+  readonly type = POP_CART_ACTION;
   constructor(public payload: string) {
     super(MULTI_CART_FEATURE, payload);
   }
@@ -192,4 +192,6 @@ export type MultiCartActions =
   | RemoveCart
   | AddEmailToMultiCart
   | AddEmailToMultiCartFail
-  | AddEmailToMultiCartSuccess;
+  | AddEmailToMultiCartSuccess
+  | PushCartAction
+  | PopCartAction;

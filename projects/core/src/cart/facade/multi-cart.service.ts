@@ -4,7 +4,7 @@ import { EMPTY, Observable, timer } from 'rxjs';
 import { debounce, distinctUntilChanged } from 'rxjs/operators';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { LoaderState } from '../../state/utils/loader/loader-state';
+import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
 import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
@@ -31,15 +31,22 @@ export class MultiCartService {
    *
    * @param cartId
    */
-  getCartEntity(cartId: string): Observable<LoaderState<Cart>> {
+  getCartEntity(cartId: string): Observable<ProcessesLoaderState<Cart>> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntitySelectorFactory(cartId))
     );
   }
 
+  /**
+   * Returns true when there are no operations on that in progress and it is not currently loading
+   *
+   * @param cartId
+   */
   isStable(cartId: string): Observable<boolean> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartIsStableSelectorFactory(cartId)),
+      // We dispatch a lot of actions just after finishing some process or loading, so we want this flag not to flicker.
+      // This flickering should only be avoided for switching from false to true, because when we start the loading it should be instantly reported
       debounce(isStable => (isStable ? timer(0) : EMPTY)),
       distinctUntilChanged()
     );
@@ -60,7 +67,7 @@ export class MultiCartService {
     oldCartId?: string;
     toMergeCartGuid?: string;
     extraData?: any;
-  }): Observable<LoaderState<Cart>> {
+  }): Observable<ProcessesLoaderState<Cart>> {
     this.store.dispatch(
       new DeprecatedCartActions.CreateCart({
         extraData,

@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { CartActions } from '../store/actions';
@@ -70,18 +71,21 @@ describe('MultiCartService', () => {
     });
   });
 
-  describe('getCartEntity', () => {
+  fdescribe('getCartEntity', () => {
     it('should return cart entity with given id', done => {
       let result;
       service.getCartEntity('xxx').subscribe(cartEntity => {
         result = cartEntity;
       });
 
+      console.log(result);
+
       expect(result).toEqual({
         loading: false,
         success: false,
         error: false,
         value: undefined,
+        processesCount: 0,
       });
 
       store.dispatch(
@@ -99,9 +103,47 @@ describe('MultiCartService', () => {
         success: true,
         error: false,
         value: testCart,
+        processesCount: 0,
       });
 
       done();
+    });
+  });
+
+  describe('isStable', () => {
+    it('should return true when cart is stable', done => {
+      store.dispatch(
+        new CartActions.LoadMultiCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+        })
+      );
+      service
+        .isStable('xxx')
+        .pipe(take(1))
+        .subscribe(isStable => {
+          expect(isStable).toBe(true);
+          done();
+        });
+    });
+
+    it('should return false when there are pending processes', done => {
+      store.dispatch(
+        new CartActions.LoadMultiCart({
+          userId: 'userId',
+          cartId: 'xxx',
+        })
+      );
+      service
+        .isStable('cartId')
+        .subscribe(isStable => {
+          expect(isStable).toBe(false);
+          done();
+        })
+        .unsubscribe();
     });
   });
 
@@ -127,11 +169,13 @@ describe('MultiCartService', () => {
         error: false,
         success: false,
         value: undefined,
+        processesCount: 0,
       });
 
       store.dispatch(new CartActions.SetFreshCart(testCart));
 
       expect(result).toEqual({
+        processesCount: 0,
         loading: false,
         error: false,
         success: true,
@@ -204,8 +248,44 @@ describe('MultiCartService', () => {
     });
   });
 
+  describe('addEntries', () => {
+    it('should dispatch addEntry action for each product', () => {
+      service.addEntries('userId', 'cartId', [
+        { productCode: 'productCode', quantity: 2 },
+        { productCode: 'productCode2', quantity: 3 },
+      ]);
+      // @ts-ignore
+      expect(store.dispatch.calls.argsFor(0)[0]).toEqual(
+        new CartActions.CartAddEntry({
+          cartId: 'cartId',
+          userId: 'userId',
+          productCode: 'productCode',
+          quantity: 2,
+        })
+      );
+      // @ts-ignore
+      expect(store.dispatch.calls.argsFor(1)[0]).toEqual(
+        new CartActions.CartAddEntry({
+          cartId: 'cartId',
+          userId: 'userId',
+          productCode: 'productCode2',
+          quantity: 3,
+        })
+      );
+    });
+  });
+
   describe('removeEntry', () => {
-    it('should dispatch RemoveEntry action', () => {});
+    it('should dispatch RemoveEntry action', () => {
+      service.removeEntry('userId', 'cartId', 0);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartRemoveEntry({
+          cartId: 'cartId',
+          userId: 'userId',
+          entry: 0,
+        })
+      );
+    });
   });
 
   describe('updateEntry', () => {

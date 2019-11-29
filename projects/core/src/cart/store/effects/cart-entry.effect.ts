@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
-import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
+import { catchError, concatMap, map } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import * as DeprecatedCartActions from '../actions/cart.action';
@@ -14,7 +14,7 @@ export class CartEntryEffects {
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
     | DeprecatedCartActions.LoadCart
-    | CartActions.DequeueCartAction
+    | CartActions.PopCartAction
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
@@ -38,7 +38,7 @@ export class CartEntryEffects {
           catchError(error =>
             from([
               new CartActions.CartAddEntryFail(makeErrorSerializable(error)),
-              new CartActions.DequeueCartAction(payload.cartId),
+              new CartActions.PopCartAction(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
@@ -53,12 +53,12 @@ export class CartEntryEffects {
   removeEntry$: Observable<
     | CartActions.CartRemoveEntrySuccess
     | CartActions.CartRemoveEntryFail
-    | CartActions.DequeueCartAction
+    | CartActions.PopCartAction
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
-    mergeMap(payload =>
+    concatMap(payload =>
       this.cartEntryConnector
         .remove(payload.userId, payload.cartId, payload.entry)
         .pipe(
@@ -71,7 +71,7 @@ export class CartEntryEffects {
           catchError(error =>
             from([
               new CartActions.CartRemoveEntryFail(makeErrorSerializable(error)),
-              new CartActions.DequeueCartAction(payload.cartId),
+              new CartActions.PopCartAction(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
@@ -86,7 +86,7 @@ export class CartEntryEffects {
   updateEntry$: Observable<
     | CartActions.CartUpdateEntrySuccess
     | CartActions.CartUpdateEntryFail
-    | CartActions.DequeueCartAction
+    | CartActions.PopCartAction
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
@@ -104,7 +104,7 @@ export class CartEntryEffects {
           catchError(error =>
             from([
               new CartActions.CartUpdateEntryFail(makeErrorSerializable(error)),
-              new CartActions.DequeueCartAction(payload.cartId),
+              new CartActions.PopCartAction(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,

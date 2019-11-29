@@ -43,17 +43,20 @@ export class CartEffects {
     mergeMap(group =>
       group.pipe(
         debounceTime(0),
-        switchMap(payload =>
-          of(payload).pipe(
+        switchMap(payload => {
+          return of(payload).pipe(
+            // deprecated -> remove check when store is not optional
             withLatestFrom(
-              this.store.pipe(
-                select(
-                  getCartHasPendingProcessesSelectorFactory(payload.cartId)
-                )
-              )
+              !this.store
+                ? of(false)
+                : this.store.pipe(
+                    select(
+                      getCartHasPendingProcessesSelectorFactory(payload.cartId)
+                    )
+                  )
             )
-          )
-        ),
+          );
+        }),
         filter(([_, hasPendingProcesses]) => !hasPendingProcesses),
         map(([payload]) => payload),
         switchMap(payload => {
@@ -225,7 +228,7 @@ export class CartEffects {
 
   @Effect()
   refresh$: Observable<
-    DeprecatedCartActions.LoadCart | CartActions.DequeueCartAction
+    DeprecatedCartActions.LoadCart | CartActions.PopCartAction
   > = this.actions$.pipe(
     ofType(
       DeprecatedCartActions.MERGE_CART_SUCCESS,
@@ -254,7 +257,7 @@ export class CartEffects {
     switchMap(payload => {
       if (payload) {
         return from([
-          new CartActions.DequeueCartAction(payload.cartId),
+          new CartActions.PopCartAction(payload.cartId),
           new DeprecatedCartActions.LoadCart({
             userId: payload.userId,
             cartId: payload.cartId,
@@ -287,7 +290,7 @@ export class CartEffects {
     | DeprecatedCartActions.AddEmailToCartFail
     | CartActions.AddEmailToMultiCartFail
     | CartActions.AddEmailToMultiCartSuccess
-    | CartActions.DequeueCartAction
+    | CartActions.PopCartAction
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
@@ -318,7 +321,7 @@ export class CartEffects {
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-              new CartActions.DequeueCartAction(payload.cartId),
+              new CartActions.PopCartAction(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
@@ -350,10 +353,28 @@ export class CartEffects {
   );
 
   constructor(
+    actions$: Actions,
+    cartConnector: CartConnector,
+    cartData: CartDataService,
+    // tslint:disable-next-line:unified-signatures
+    store: Store<StateWithMultiCart>
+  );
+
+  /**
+   * @deprecated since version 1.4
+   * Use constructor(actions$: Actions, cartConnector: CartConnector, cartData: CartDataService, store: Store<StateWithMultiCart>) instead
+   */
+  constructor(
+    actions$: Actions,
+    cartConnector: CartConnector,
+    cartData: CartDataService
+  );
+
+  constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
     private cartData: CartDataService,
-    private store: Store<StateWithMultiCart>
+    private store?: Store<StateWithMultiCart>
   ) {}
 
   private isMissingData(payload: { userId: string; cartId: string }) {

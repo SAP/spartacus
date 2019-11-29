@@ -7,10 +7,7 @@ import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action'
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
-import {
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
-} from '../../../occ/utils/occ-constants';
+import { OCC_CART_ID_CURRENT, OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -356,7 +353,7 @@ export class CheckoutEffects {
   clearCheckoutDeliveryMode$: Observable<
     | CheckoutActions.ClearCheckoutDeliveryModeFail
     | CheckoutActions.ClearCheckoutDeliveryModeSuccess
-    | CartActions.DequeueCartAction
+    | CartActions.PopCartAction
     | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
@@ -378,7 +375,7 @@ export class CheckoutEffects {
               new CheckoutActions.ClearCheckoutDeliveryModeFail(
                 makeErrorSerializable(error)
               ),
-              new CartActions.DequeueCartAction(payload.cartId),
+              new CartActions.PopCartAction(payload.cartId),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,

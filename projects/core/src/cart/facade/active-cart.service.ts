@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, Observable, of, timer } from 'rxjs';
+import { EMPTY, Observable, timer } from 'rxjs';
 import {
   debounce,
   distinctUntilChanged,
   filter,
   map,
-  share,
   shareReplay,
   switchMap,
   take,
@@ -22,8 +21,8 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
-import { StateWithProcess } from '../../process';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import { CartActions } from '../store';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
@@ -58,7 +57,7 @@ export class ActiveCartService {
   );
 
   constructor(
-    protected store: Store<StateWithMultiCart | StateWithProcess<void>>,
+    protected store: Store<StateWithMultiCart>,
     protected authService: AuthService,
     protected multiCartService: MultiCartService
   ) {
@@ -144,6 +143,12 @@ export class ActiveCartService {
     );
   }
 
+  // Active cart leave it here - describe addEntry case
+  // current
+  // current
+  // fresh
+  // cart.code
+
   /**
    * Returns loaded flag (success or error)
    */
@@ -226,26 +231,27 @@ export class ActiveCartService {
   }
 
   private requireLoadedCart(
-    customCartSelector$?: Observable<LoaderState<Cart>>
-  ): Observable<LoaderState<Cart>> {
+    customCartSelector$?: Observable<ProcessesLoaderState<Cart>>
+  ): Observable<ProcessesLoaderState<Cart>> {
     const cartSelector$ = customCartSelector$
       ? customCartSelector$
       : this.cartSelector$;
 
     return cartSelector$.pipe(
       filter(cartState => !cartState.loading),
-      filter(() => this.cartId !== FRESH_CART_ID),
+      filter(() => this.cartId !== FRESH_CART_ID), // why? do not try to load or create when we are in cart creation process cart id is set to fresh only when we are creating new cart
       take(1),
       switchMap(cartState => {
+        // try to load for cart, because it might have been created on another device between our login and add entry
         if (
           this.isEmpty(cartState.value) &&
           this.userId !== OCC_USER_ID_ANONYMOUS
         ) {
           this.load(undefined);
-          return cartSelector$;
         }
-        return of(cartState);
+        return cartSelector$;
       }),
+      filter(cartState => !cartState.loading),
       filter(
         cartState =>
           this.userId === OCC_USER_ID_ANONYMOUS ||
@@ -261,15 +267,13 @@ export class ActiveCartService {
               active: true,
             },
           });
-          return cartSelector$;
         }
-        return of(cartState);
+        return cartSelector$;
       }),
       filter(cartState => !cartState.loading),
       filter(() => this.cartId !== FRESH_CART_ID),
-      filter(cartState => !this.isEmpty(cartState.value)),
-      take(1),
-      share()
+      // filter(cartState => !this.isEmpty(cartState.value)), // to check
+      take(1)
     );
   }
 
@@ -281,7 +285,6 @@ export class ActiveCartService {
    */
   addEntry(productCode: string, quantity: number): void {
     // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
-    // That's why add entry process was used instead of relying on loading flag from entity
     this.requireLoadedCart().subscribe(cartState => {
       this.multiCartService.addEntry(
         this.userId,

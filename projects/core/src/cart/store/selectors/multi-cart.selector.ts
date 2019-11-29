@@ -3,7 +3,6 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { ProcessesLoaderState } from 'projects/core/src/state';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
 import {
@@ -15,6 +14,7 @@ import {
   entityHasPendingProcessesSelector,
   entityIsStableSelector,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.selectors';
+import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import {
   MultiCartState,
   MULTI_CART_FEATURE,
@@ -49,9 +49,8 @@ export const getCartSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, Cart> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityProcessesLoaderState<Cart>) => {
-      return entityValueSelector(state, cartId);
-    }
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityValueSelector(state, cartId)
   );
 };
 
@@ -60,9 +59,8 @@ export const getCartIsStableSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, boolean> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityProcessesLoaderState<Cart>) => {
-      return entityIsStableSelector(state, cartId);
-    }
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityIsStableSelector(state, cartId)
   );
 };
 
@@ -71,9 +69,8 @@ export const getCartHasPendingProcessesSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, boolean> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityProcessesLoaderState<Cart>) => {
-      return entityHasPendingProcessesSelector(state, cartId);
-    }
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityHasPendingProcessesSelector(state, cartId)
   );
 };
 

@@ -1,5 +1,5 @@
-import * as fromMultiCart from './multi-cart.reducer';
 import { CartActions } from '../actions/index';
+import * as fromMultiCart from './multi-cart.reducer';
 
 describe('Multi Cart reducer', () => {
   describe('activeCartReducer', () => {
@@ -90,6 +90,15 @@ describe('Multi Cart reducer', () => {
       it('should not change active cart id when non active cart is removed', () => {
         const initialState = 'otherCode';
         const action = new CartActions.RemoveCart('cartCode');
+        const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual('otherCode');
+      });
+    });
+
+    describe('SET_ACTIVE_CART_ID action', () => {
+      it('should set active cart id to the provided one', () => {
+        const initialState = 'someCode';
+        const action = new CartActions.SetActiveCartId('otherCode');
         const state = fromMultiCart.activeCartReducer(initialState, action);
         expect(state).toEqual('otherCode');
       });
