@@ -19,6 +19,11 @@ import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const OWNER_PRODUCT: Configurator.Owner = {
+  productCode: PRODUCT_CODE,
+  key: PRODUCT_CODE,
+  type: Configurator.OwnerType.PRODUCT,
+};
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '1234-56-7891';
@@ -87,7 +92,7 @@ function callGetOrCreate(serviceUnderTest: ConfiguratorCommonsService) {
   });
   spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
   const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-    PRODUCT_CODE
+    OWNER_PRODUCT
   );
   return configurationObs;
 }
@@ -144,7 +149,10 @@ describe('ConfiguratorCommonsService', () => {
       of(productConfiguration)
     );
     store.dispatch(
-      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
+      new ConfiguratorActions.CreateConfigurationSuccess(
+        PRODUCT_CODE,
+        productConfiguration
+      )
     );
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,
@@ -300,12 +308,12 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-        PRODUCT_CODE
+        OWNER_PRODUCT
       );
 
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.CreateConfiguration(PRODUCT_CODE)
+        new ConfiguratorActions.CreateConfiguration(PRODUCT_CODE, PRODUCT_CODE)
       );
     });
 
@@ -321,7 +329,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-        PRODUCT_CODE
+        OWNER_PRODUCT
       );
 
       expect(configurationObs).toBeObservable(cold('', {}));

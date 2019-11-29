@@ -6,7 +6,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
+import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({
@@ -23,28 +24,29 @@ export class ConfigFormComponent implements OnInit {
   constructor(
     private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
-    private configuratorGroupsService: ConfiguratorGroupsService
+    private configuratorGroupsService: ConfiguratorGroupsService,
+    private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {
-    this.configuration$ = this.routingService.getRouterState().pipe(
-      map(routingData => routingData.state.params.rootProduct),
-      switchMap(product =>
-        this.configuratorCommonsService.getOrCreateConfiguration(product)
-      )
-    );
-    this.currentGroup$ = this.routingService
-      .getRouterState()
+    this.configuration$ = this.configRouterExtractorService
+      .extractConfigurationOwner(this.routingService)
       .pipe(
-        map(routingData => routingData.state.params.rootProduct),
-        switchMap(product =>
-          this.configuratorCommonsService.getConfiguration(product)
+        switchMap(owner =>
+          this.configuratorCommonsService.getOrCreateConfiguration(owner)
+        )
+      );
+    this.currentGroup$ = this.configRouterExtractorService
+      .extractConfigurationOwner(this.routingService)
+      .pipe(
+        switchMap(owner =>
+          this.configuratorCommonsService.getConfiguration(owner.key)
         )
       )
       .pipe(
         switchMap(configuration =>
           this.configuratorGroupsService.getCurrentGroup(
-            configuration.productCode
+            configuration.owner.key
           )
         )
       );

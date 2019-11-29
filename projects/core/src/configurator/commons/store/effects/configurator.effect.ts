@@ -53,19 +53,21 @@ export class ConfiguratorEffects {
     CreateConfigurationSuccess | CreateConfigurationFail
   > = this.actions$.pipe(
     ofType(CREATE_CONFIGURATION),
-    map((action: CreateConfiguration) => action.productCode),
-    mergeMap(productCode => {
+
+    mergeMap((action: CreateConfiguration) => {
       return this.configuratorCommonsConnector
-        .createConfiguration(productCode)
+        .createConfiguration(action.productCode)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             this.store.dispatch(new UpdatePriceSummary(configuration));
 
-            return [new CreateConfigurationSuccess(configuration)];
+            return [
+              new CreateConfigurationSuccess(action.ownerKey, configuration),
+            ];
           }),
           catchError(error => [
             new CreateConfigurationFail(
-              productCode,
+              action.ownerKey,
               makeErrorSerializable(error)
             ),
           ])
@@ -81,7 +83,7 @@ export class ConfiguratorEffects {
     map((action: ReadConfiguration) => action.payload),
     mergeMap(payload => {
       return this.configuratorCommonsConnector
-        .readConfiguration(payload.configId, payload.groupId)
+        .readConfiguration(payload.configId, payload.groupId, null)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             return [new ReadConfigurationSuccess(configuration)];
@@ -218,12 +220,12 @@ export class ConfiguratorEffects {
         filter(pendingChanges => pendingChanges === 0),
         switchMap(() => {
           return this.configuratorCommonsConnector
-            .readConfiguration(payload.configId, payload.groupId)
+            .readConfiguration(payload.configId, payload.groupId, {})
             .pipe(
               switchMap((configuration: Configurator.Configuration) => {
                 return [
                   new ConfiguratorUiActions.SetCurrentGroup(
-                    payload.productCode,
+                    payload.ownerKey,
                     payload.groupId
                   ),
                   new ReadConfigurationSuccess(configuration),
@@ -231,7 +233,7 @@ export class ConfiguratorEffects {
               }),
               catchError(error => [
                 new ReadConfigurationFail(
-                  payload.productCode,
+                  payload.ownerKey,
                   makeErrorSerializable(error)
                 ),
               ])

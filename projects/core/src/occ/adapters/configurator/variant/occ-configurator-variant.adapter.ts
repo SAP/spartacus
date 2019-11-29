@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
@@ -31,12 +32,22 @@ export class OccConfiguratorVariantAdapter
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.getUrl('createConfiguration', { productCode })
       )
-      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+      .pipe(
+        this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+        tap(configuration => {
+          configuration.owner = {
+            type: Configurator.OwnerType.PRODUCT,
+            key: Configurator.OwnerType.PRODUCT + '/' + productCode,
+            productCode: productCode,
+          };
+        })
+      );
   }
 
   readConfiguration(
     configId: string,
-    groupId: string
+    groupId: string,
+    configurationOwner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(
@@ -46,7 +57,10 @@ export class OccConfiguratorVariantAdapter
           { groupId: groupId }
         )
       )
-      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+      .pipe(
+        this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+        tap(configuration => (configuration.owner = configurationOwner))
+      );
   }
 
   updateConfiguration(

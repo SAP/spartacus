@@ -17,14 +17,14 @@ export class ConfiguratorGroupsService {
     private configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
-  getCurrentGroup(productCode: string): Observable<string> {
-    return this.configuratorCommonsService.getUiState(productCode).pipe(
+  getCurrentGroup(ownerKey: string): Observable<string> {
+    return this.configuratorCommonsService.getUiState(ownerKey).pipe(
       switchMap(uiState => {
         if (uiState && uiState.currentGroup) {
           return of(uiState.currentGroup);
         } else {
           return this.configuratorCommonsService
-            .getConfiguration(productCode)
+            .getConfiguration(ownerKey)
             .pipe(
               map(configuration =>
                 configuration &&
@@ -39,11 +39,12 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  navigateToGroup(configId: string, productCode: string, groupId: string) {
+  navigateToGroup(configId: string, ownerKey: string, groupId: string) {
+    console.log('CHHI navigate ' + ownerKey);
     this.store.dispatch(
       new ConfiguratorActions.ChangeGroup({
         configId: configId,
-        productCode: productCode,
+        ownerKey: ownerKey,
         groupId: groupId,
       })
     );

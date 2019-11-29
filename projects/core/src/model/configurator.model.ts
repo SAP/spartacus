@@ -43,6 +43,13 @@ export namespace Configurator {
     productCode?: string;
     groups?: Group[];
     priceSummary?: PriceSummary;
+    owner?: Owner;
+  }
+
+  export interface Owner {
+    type?: OwnerType;
+    key?: string;
+    productCode?: string;
   }
 
   export interface PriceSummary {
@@ -71,6 +78,10 @@ export namespace Configurator {
     configId: string;
   }
 
+  export enum OwnerType {
+    PRODUCT = 'product',
+    CART_ENTRY = 'cartEntry',
+  }
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
   }

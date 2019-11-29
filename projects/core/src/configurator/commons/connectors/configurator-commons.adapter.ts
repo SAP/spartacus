@@ -22,7 +22,8 @@ export abstract class ConfiguratorCommonsAdapter {
    */
   abstract readConfiguration(
     configId: string,
-    groupId: string
+    groupId: string,
+    configurationOwner: Configurator.Owner
   ): Observable<Configurator.Configuration>;
 
   /**

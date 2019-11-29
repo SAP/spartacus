@@ -18,9 +18,14 @@ export class ConfiguratorCommonsConnector {
 
   readConfiguration(
     configId: string,
-    groupId: string
+    groupId: string,
+    configurationOwner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.adapter.readConfiguration(configId, groupId);
+    return this.adapter.readConfiguration(
+      configId,
+      groupId,
+      configurationOwner
+    );
   }
 
   updateConfiguration(

@@ -51,6 +51,10 @@ const config: Configurator.Configuration = {
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
+  owner: {
+    type: Configurator.OwnerType.PRODUCT,
+    key: PRODUCT_CODE,
+  },
   groups: [
     {
       configurable: true,

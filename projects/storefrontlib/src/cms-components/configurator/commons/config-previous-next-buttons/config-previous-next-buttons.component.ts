@@ -13,6 +13,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -25,63 +26,65 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   constructor(
     private routingService: RoutingService,
     private configuratorGroupsService: ConfiguratorGroupsService,
-    private configuratorCommonsService: ConfiguratorCommonsService
+    private configuratorCommonsService: ConfiguratorCommonsService,
+    private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   @Output() nextGroup = new EventEmitter();
   @Output() previousGroup = new EventEmitter();
 
   ngOnInit(): void {
-    this.configuration$ = this.routingService.getRouterState().pipe(
-      map(routingData => routingData.state.params.rootProduct),
-      switchMap(product =>
-        this.configuratorCommonsService.getConfiguration(product)
-      )
-    );
+    this.configuration$ = this.configRouterExtractorService
+      .extractConfigurationOwner(this.routingService)
+      .pipe(
+        switchMap(owner =>
+          this.configuratorCommonsService.getConfiguration(owner.key)
+        )
+      );
   }
 
-  onPrevious(configId: string, productCode: string) {
-    this.navigateToPreviousGroup(configId, productCode);
+  onPrevious(configId: string, ownerKey: string) {
+    this.navigateToPreviousGroup(configId, ownerKey);
   }
-  onNext(configId: string, productCode: string) {
-    this.navigateToNextGroup(configId, productCode);
+  onNext(configId: string, ownerKey: string) {
+    this.navigateToNextGroup(configId, ownerKey);
   }
 
-  navigateToNextGroup(configId: string, productCode: string) {
+  navigateToNextGroup(configId: string, ownerKey: string) {
     this.configuratorGroupsService
-      .getNextGroup(productCode)
+      .getNextGroup(ownerKey)
       .pipe(take(1))
       .subscribe(groupId =>
         this.configuratorGroupsService.navigateToGroup(
           configId,
-          productCode,
+          ownerKey,
           groupId
         )
       );
   }
 
-  navigateToPreviousGroup(configId: string, productCode: string) {
+  navigateToPreviousGroup(configId: string, ownerKey: string) {
     this.configuratorGroupsService
-      .getPreviousGroup(productCode)
+      .getPreviousGroup(ownerKey)
       .pipe(take(1))
       .subscribe(groupId =>
         this.configuratorGroupsService.navigateToGroup(
           configId,
-          productCode,
+          ownerKey,
           groupId
         )
       );
   }
 
-  isFirstGroup(productCode: string): Observable<Boolean> {
+  isFirstGroup(ownerKey: string): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getPreviousGroup(productCode)
+      .getPreviousGroup(ownerKey)
       .pipe(map(group => !group));
   }
 
-  isLastGroup(productCode: string): Observable<Boolean> {
+  isLastGroup(ownerKey: string): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getNextGroup(productCode)
+      .getNextGroup(ownerKey)
       .pipe(map(group => !group));
   }
 }
