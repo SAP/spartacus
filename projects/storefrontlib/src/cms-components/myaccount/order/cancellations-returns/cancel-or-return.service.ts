@@ -12,12 +12,16 @@ import {
 export class OrderCancelOrReturnService {
   private _cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[] = [];
 
+  private lang = 'en';
+
+  private keepRequestInputs = false;
+
   constructor(
     protected languageService: LanguageService,
     protected routing: RoutingService
-  ) {}
-
-  private lang = 'en';
+  ) {
+    this.languageService.getActive().subscribe(value => (this.lang = value));
+  }
 
   get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {
     return this._cancelOrReturnRequestInputs;
@@ -28,7 +32,10 @@ export class OrderCancelOrReturnService {
   }
 
   clearCancelOrReturnRequestInputs() {
-    this._cancelOrReturnRequestInputs = [];
+    if (!this.keepRequestInputs) {
+      this._cancelOrReturnRequestInputs = [];
+    }
+    this.keepRequestInputs = false;
   }
 
   /**
@@ -53,7 +60,15 @@ export class OrderCancelOrReturnService {
     return returnedItemsPriceData;
   }
 
-  goToOrderCancelOrReturn(cxRoute: string, orderCode: string): void {
+  goToOrderCancelOrReturn(
+    cxRoute: string,
+    orderCode: string,
+    isBack?: boolean
+  ): void {
+    // When back from confirmation page to order return/cancel page,
+    // we want to keep the request inputs
+    this.keepRequestInputs = isBack;
+
     this.routing.go({
       cxRoute: cxRoute,
       params: { code: orderCode },

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import { OrderEntry, CancelOrReturnRequestEntryInput } from '@spartacus/core';
@@ -10,7 +10,7 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
   templateUrl: './return-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReturnOrderComponent {
+export class ReturnOrderComponent implements OnInit {
   constructor(
     protected cancelOrReturnService: OrderCancelOrReturnService,
     protected orderDetailsService: OrderDetailsService
@@ -33,6 +33,10 @@ export class ReturnOrderComponent {
       return returnableEntries;
     })
   );
+
+  ngOnInit(): void {
+    this.cancelOrReturnService.clearCancelOrReturnRequestInputs();
+  }
 
   confirmReturn(entryInputs: CancelOrReturnRequestEntryInput[]): void {
     this.cancelOrReturnService.cancelOrReturnRequestInputs = entryInputs;
