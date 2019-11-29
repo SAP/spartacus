@@ -8,15 +8,14 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  CartAddEvent,
   CartService,
   EventEmitter,
   OrderEntry,
   Product,
 } from '@spartacus/core';
 import { throttle } from 'helpful-decorators';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
@@ -117,27 +116,27 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.quantity = value;
   }
 
-  addToCart(event: MouseEvent) {
+  addToCart() {
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
 
     if (this.eventEmitter) {
-      this.eventEmitter.merge(
-        CartAddEvent,
-        this.hoverDetails.pipe(map(hover => ({ hover: hover }))),
-        (eventData: CartAddEvent) => {
-          return eventData.state.productCode === this.productCode;
-        }
-      );
-      // // emit mouse event
-      this.eventEmitter.merge(
-        CartAddEvent,
-        of({ mouseEvent: event }),
-        (eventData: CartAddEvent) => {
-          return eventData.state.productCode === this.productCode;
-        }
-      );
+      // this.eventEmitter.merge(
+      //   CartAddEvent,
+      //   this.hoverDetails.pipe(map(hover => ({ hover: hover }))),
+      //   (eventData: CartAddEvent) => {
+      //     return eventData.state.productCode === this.productCode;
+      //   }
+      // );
+      // // // emit mouse event
+      // this.eventEmitter.merge(
+      //   CartAddEvent,
+      //   of({ mouseEvent: event }),
+      //   (eventData: CartAddEvent) => {
+      //     return eventData.state.productCode === this.productCode;
+      //   }
+      // );
     }
 
     // check item is already present in the cart

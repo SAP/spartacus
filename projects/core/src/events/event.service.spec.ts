@@ -36,14 +36,14 @@ describe('EventService', () => {
   });
 
   it('should return event subscription', () => {
-    service.on(MockEvent);
+    service.get(MockEvent);
     expect(eventRegister.dispatch).toHaveBeenCalledWith(MockEvent);
   });
 
   it('should map to CxEvent', () => {
     let result;
     service
-      .on(MockEvent)
+      .get(MockEvent)
       .subscribe(ev => (result = ev))
       .unsubscribe();
     expect(result.value).toEqual('test value');

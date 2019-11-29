@@ -24,7 +24,7 @@ export class CartEventService {
     // this.attach(CartRemoveEntryEvent, builder.buildEntryRemoveEvent());
   }
 
-  private attach<T>(eventType: Type<T>, value$: Observable<any>) {
+  private attach<T>(eventType: Type<T>, value$: Observable<any>): void {
     this.eventRegister.attach(
       eventType,
       value$.pipe(map(state => <any>{ state }))

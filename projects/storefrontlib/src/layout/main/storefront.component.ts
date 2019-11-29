@@ -1,6 +1,20 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  CartAddEvent,
+  EventEmitter,
+  EventService,
+  RoutingService,
+  UiEvent,
+} from '@spartacus/core';
+import { PageLoadEvent } from 'projects/core/src/cms/events/cms-event.model';
+import { fromEvent, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 
 @Component({
@@ -16,15 +30,27 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    protected element: ElementRef,
+    eventEmitter: EventEmitter,
+    eventService: EventService
   ) {
-    // const source = of({ a: 1 });
-    // const merged = merge(source, of({ b: 'merged' }));
-    // const combined = combineLatest([source, of({ b: 'combined' })]);
-    // const zipped = zip(source, of({ b: 'zipped' }));
-    // merged.pipe(map(v => Object.assign({}, v))).subscribe(console.log);
-    // combined.pipe(map(v => Object.assign({}, ...v))).subscribe(console.log);
-    // zipped.pipe(map(v => Object.assign({}, ...v))).subscribe(console.log);
+    eventEmitter.attach(
+      UiEvent,
+      fromEvent(this.element.nativeElement, 'click').pipe(
+        map(UiData => ({ UiData }))
+      )
+    );
+
+    eventService
+      .get(CartAddEvent, UiEvent)
+      .subscribe(e => console.log('combined CartAddEvent and UiEvent', e));
+
+    eventService
+      .get(CartAddEvent, PageLoadEvent)
+      .subscribe(e =>
+        console.log('combined CartAddEvent and PageLoadEvent', e)
+      );
   }
 
   ngOnInit(): void {

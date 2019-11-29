@@ -3,7 +3,7 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { StateLoaderActions } from '../../state/index';
-import { CartActions } from '../store';
+import { CartActions } from '../store/index';
 
 const CART_LOAD_ACTIONS = [
   CartActions.LOAD_CART,
@@ -110,7 +110,7 @@ export class CartEventBuilder {
     return this.create([CartActions.CART_REMOVE_ENTRY_SUCCESS]);
   }
 
-  buildAddEvent() {
+  buildAddEvent(): Observable<any> {
     return this.create([CartActions.CART_ADD_ENTRY]);
   }
 
