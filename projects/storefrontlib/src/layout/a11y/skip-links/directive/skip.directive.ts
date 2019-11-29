@@ -20,7 +20,7 @@ export class SkipDirective implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit() {
-    this.skipLinkService.add(this.cxSkip, this.tpl);
+    this.skipLinkService.add(this.cxSkip, this.tpl.elementRef.nativeElement);
   }
 
   ngOnDestroy() {

@@ -8,7 +8,6 @@ export const defaultSkipLinkConfig: SkipLinkConfig = {
     BottomHeaderSlot: {
       position: SkipLinkScrollPosition.AFTER,
       i18nKey: 'groupSkipper.titles.main',
-      excludeOnTemplate: ['Product List'],
     },
     ProductLeftRefinements: {
       i18nKey: 'groupSkipper.titles.productFacets',

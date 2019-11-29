@@ -13,6 +13,7 @@ export class SkipLinkComponent {
   constructor(private skipLinkService: SkipLinkService) {}
 
   go(target: HTMLElement, position: SkipLinkScrollPosition, event: MouseEvent) {
+    target = <HTMLElement>target.parentNode;
     (<HTMLElement>event.target).blur();
     const options: ScrollIntoViewOptions =
       position === SkipLinkScrollPosition.AFTER ? { inline: 'end' } : {};
