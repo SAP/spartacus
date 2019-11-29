@@ -8,6 +8,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 
+import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 
 @Component({
@@ -17,6 +18,7 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
 })
 export class ReturnOrderComponent {
   constructor(
+    protected cancelOrReturnService: OrderCancelOrReturnService,
     protected orderDetailsService: OrderDetailsService,
     protected routing: RoutingService
   ) {}
@@ -40,7 +42,7 @@ export class ReturnOrderComponent {
   );
 
   confirmReturn(entryInputs: CancelOrReturnRequestEntryInput[]): void {
-    this.orderDetailsService.cancelOrReturnRequestInputs = entryInputs;
+    this.cancelOrReturnService.cancelOrReturnRequestInputs = entryInputs;
     this.routing.go({
       cxRoute: 'orderReturnConfirmation',
       params: { code: this.orderCode },

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { OrderEntry, CancelOrReturnRequestEntryInput } from '@spartacus/core';
+import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
 
 @Component({
   selector: 'cx-cancel-or-return-items',
@@ -25,7 +26,10 @@ export class CancelOrReturnItemsComponent implements OnInit {
   inputsControl: FormArray;
   disableConfirmBtn = true;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private cancelOrReturnService: OrderCancelOrReturnService
+  ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -42,6 +46,16 @@ export class CancelOrReturnItemsComponent implements OnInit {
         })
       );
     });
+  }
+
+  protected getEntryReturnedQty(entry: OrderEntry): number {
+    for (const input of this.cancelOrReturnService
+      .cancelOrReturnRequestInputs) {
+      if (input.orderEntryNumber === entry.entryNumber) {
+        return input.quantity;
+      }
+    }
+    return 0;
   }
 
   setAll(): void {
