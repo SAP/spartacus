@@ -1,1 +1,1 @@
-runSpartacusPipeline()
+runSpartacusPipelineTest()
