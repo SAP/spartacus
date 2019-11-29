@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -26,6 +27,13 @@ class MockRoutingService {
   }
 }
 
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform(): any {}
+}
+
 class MockConfiguratorCommonsService {
   public config: Configurator.Configuration = {
     configId: '1234-56-7890',
@@ -49,14 +57,14 @@ class MockConfiguratorCommonsService {
   }
 }
 
-describe('ConfigPriceSummaryComponent', () => {
+describe('ConfigTabBarComponent', () => {
   let component: ConfigTabBarComponent;
   let fixture: ComponentFixture<ConfigTabBarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfigTabBarComponent],
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [ConfigTabBarComponent, MockUrlPipe],
       providers: [
         {
           provide: ConfiguratorCommonsService,
