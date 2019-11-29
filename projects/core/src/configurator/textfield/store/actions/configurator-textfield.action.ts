@@ -10,6 +10,8 @@ export const CREATE_CONFIGURATION_SUCCESS =
 export const UPDATE_CONFIGURATION =
   '[Configurator] Update Configuration Textfield';
 
+export const ADD_TO_CART = '[Configurator] Add to cart Textfield';
+
 export class CreateConfiguration extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public payload: any) {
@@ -33,6 +35,13 @@ export class CreateConfigurationSuccess extends StateLoaderActions.LoaderSuccess
 
 export class UpdateConfiguration extends StateLoaderActions.LoaderLoadAction {
   readonly type = UPDATE_CONFIGURATION;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class AddToCart extends StateLoaderActions.LoaderLoadAction {
+  readonly type = ADD_TO_CART;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }

@@ -3,6 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { CartService } from '../../../cart/facade/cart.service';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
 import * as ConfiguratorActions from '../store/actions/configurator-textfield.action';
 import { StateWithConfigurationTextfield } from '../store/configuration-textfield-state';
@@ -36,6 +37,8 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
   ],
 };
 
+class MockCartService {}
+
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
@@ -43,7 +46,13 @@ describe('ConfiguratorTextfieldService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
-      providers: [ConfiguratorTextfieldService],
+      providers: [
+        ConfiguratorTextfieldService,
+        {
+          provide: CartService,
+          useClass: MockCartService,
+        },
+      ],
     }).compileComponents();
   }));
   beforeEach(() => {
