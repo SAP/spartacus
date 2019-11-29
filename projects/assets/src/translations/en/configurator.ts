@@ -6,6 +6,10 @@ export const configurator = {
       configId: 'Configuration ID',
       toconfig: 'Configure',
     },
+    tabBar: {
+      configuration: 'Configuration',
+      overview: 'Overview',
+    },
     attribute: {
       caption: 'Attributes',
       notSupported: 'Attibute Type is not supported.',
