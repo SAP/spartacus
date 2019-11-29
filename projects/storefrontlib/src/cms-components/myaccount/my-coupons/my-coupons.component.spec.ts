@@ -18,6 +18,7 @@ import {
 } from '@angular/core';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { ICON_TYPE } from '../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-coupon-card',
@@ -51,6 +52,14 @@ class MockedCouponCardComponent {
       notification: this.notificationOn,
     });
   }
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 const subLoading$ = new BehaviorSubject<boolean>(false);
@@ -140,7 +149,11 @@ describe('MyCouponsComponent', () => {
         ListNavigationModule,
         SpinnerModule,
       ],
-      declarations: [MyCouponsComponent, MockedCouponCardComponent],
+      declarations: [
+        MyCouponsComponent,
+        MockedCouponCardComponent,
+        MockCxIconComponent,
+      ],
       providers: [
         { provide: CustomerCouponService, useValue: customerCouponService },
       ],
@@ -188,6 +201,7 @@ describe('MyCouponsComponent', () => {
     const message = el.query(By.css('.cx-section-msg')).nativeElement
       .textContent;
     expect(message).toBeTruthy();
+    expect(el.query(By.css('.cx-my-coupons-notes span'))).toBeFalsy();
   });
 
   it('should show spinner when loading', () => {
@@ -216,6 +230,10 @@ describe('MyCouponsComponent', () => {
       'cx-coupon-card'
     );
     expect(couponCardComponent.length).toBe(couponsSearchResult.coupons.length);
+
+    expect(
+      el.query(By.css('.cx-my-coupons-notes span')).nativeElement
+    ).toBeTruthy();
   });
 
   it('should be able to change sort', () => {

@@ -15,10 +15,10 @@ import { CouponCardComponent } from './coupon-card/coupon-card.component';
 
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { CouponDialogComponent } from './coupon-card/coupon-dialog/coupon-dialog.component';
-import { IconModule } from '../../../cms-components/misc/icon/index';
 import { CouponClaimComponent } from './coupon-claim/coupon-claim.component';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
+import { IconModule } from '../../misc/icon/icon.module';
 
 @NgModule({
   imports: [

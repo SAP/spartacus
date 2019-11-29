@@ -131,5 +131,9 @@ export const myAccount = {
     endDateAsc: 'End Date (ascending)',
     endDateDesc: 'End Date (descending)',
     sortByMostRecent: 'Sort by Most recent',
+    notesPreffix:
+      'You can set your preferred channels for receiving coupon notifications on the ',
+    notesLink: 'Notification Channels',
+    notesSuffix: ' page.',
   },
 };
