@@ -14,15 +14,12 @@ export function reducer(
     case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
       const content = { ...action.payload };
-      console.log('CHHI reducer, action is ' + action.type);
-      console.log('CHHI reducer ' + JSON.stringify(state.owner));
-      console.log('CHHI reducer new ' + JSON.stringify(content.owner));
+
       const result = {
         ...state,
         ...content,
       };
-      console.log('CHHI reducer in result: ' + JSON.stringify(result.owner));
-      console.log('CHHI -----------------------------');
+
       return result;
     }
   }

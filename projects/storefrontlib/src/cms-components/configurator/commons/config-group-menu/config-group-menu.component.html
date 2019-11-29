@@ -3,13 +3,9 @@
     <ng-container *ngIf="configuration$ | async as configuration">
       <ng-container *ngFor="let group of configuration.groups">
         <li class="cx-config-menu-item">
-          <a
-            (click)="
-              click(configuration.configId, configuration.productCode, group)
-            "
-            role="link"
-            >{{ group.description }}</a
-          >
+          <a (click)="click(configuration, group)" role="link">{{
+            group.description
+          }}</a>
         </li>
       </ng-container>
     </ng-container>

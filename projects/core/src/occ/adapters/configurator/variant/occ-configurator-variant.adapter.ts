@@ -75,9 +75,12 @@ export class OccConfiguratorVariantAdapter
       CONFIGURATION_SERIALIZER
     );
 
-    return this.http
-      .put(url, occConfiguration)
-      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+    return this.http.put(url, occConfiguration).pipe(
+      this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+      tap(
+        resultConfiguration => (resultConfiguration.owner = configuration.owner)
+      )
+    );
   }
 
   addToCart(

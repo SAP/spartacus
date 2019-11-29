@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+import { Configurator } from '../../../model/configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
@@ -39,14 +40,9 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  navigateToGroup(configId: string, ownerKey: string, groupId: string) {
-    console.log('CHHI navigate ' + ownerKey);
+  navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
     this.store.dispatch(
-      new ConfiguratorActions.ChangeGroup({
-        configId: configId,
-        ownerKey: ownerKey,
-        groupId: groupId,
-      })
+      new ConfiguratorActions.ChangeGroup(configuration, groupId)
     );
   }
 

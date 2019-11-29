@@ -4,7 +4,7 @@
       <button
         class="cx-btn btn btn-block btn-action"
         [disabled]="isFirstGroup(configuration.owner.key) | async"
-        (click)="onPrevious(configuration.configId, configuration.owner.key)"
+        (click)="onPrevious(configuration)"
       >
         {{ 'configurator.button.previous' | cxTranslate }}
       </button>
@@ -13,7 +13,7 @@
       <button
         class="cx-btn btn btn-block btn-secondary"
         [disabled]="isLastGroup(configuration.owner.key) | async"
-        (click)="onNext(configuration.configId, configuration.owner.key)"
+        (click)="onNext(configuration)"
       >
         {{ 'configurator.button.next' | cxTranslate }}
       </button>

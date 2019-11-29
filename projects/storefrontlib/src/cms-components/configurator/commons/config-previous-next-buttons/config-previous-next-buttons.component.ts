@@ -43,36 +43,28 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
       );
   }
 
-  onPrevious(configId: string, ownerKey: string) {
-    this.navigateToPreviousGroup(configId, ownerKey);
+  onPrevious(configuration: Configurator.Configuration) {
+    this.navigateToPreviousGroup(configuration);
   }
-  onNext(configId: string, ownerKey: string) {
-    this.navigateToNextGroup(configId, ownerKey);
+  onNext(configuration: Configurator.Configuration) {
+    this.navigateToNextGroup(configuration);
   }
 
-  navigateToNextGroup(configId: string, ownerKey: string) {
+  navigateToNextGroup(configuration: Configurator.Configuration) {
     this.configuratorGroupsService
-      .getNextGroup(ownerKey)
+      .getNextGroup(configuration.owner.key)
       .pipe(take(1))
       .subscribe(groupId =>
-        this.configuratorGroupsService.navigateToGroup(
-          configId,
-          ownerKey,
-          groupId
-        )
+        this.configuratorGroupsService.navigateToGroup(configuration, groupId)
       );
   }
 
-  navigateToPreviousGroup(configId: string, ownerKey: string) {
+  navigateToPreviousGroup(configuration: Configurator.Configuration) {
     this.configuratorGroupsService
-      .getPreviousGroup(ownerKey)
+      .getPreviousGroup(configuration.owner.key)
       .pipe(take(1))
       .subscribe(groupId =>
-        this.configuratorGroupsService.navigateToGroup(
-          configId,
-          ownerKey,
-          groupId
-        )
+        this.configuratorGroupsService.navigateToGroup(configuration, groupId)
       );
   }
 

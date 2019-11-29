@@ -154,6 +154,7 @@ export class ConfiguratorCommonsService {
     const newConfiguration: Configurator.Configuration = {
       configId: configuration.configId,
       groups: [],
+      owner: configuration.owner,
     };
 
     const group = configuration.groups.find(

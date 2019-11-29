@@ -44,25 +44,25 @@ export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadActi
 
 export class CreateConfigurationFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = CREATE_CONFIGURATION_FAIL;
-  constructor(productCode: string, public payload: any) {
+  constructor(public productCode: string, public payload: any) {
     super(CONFIGURATION_DATA, productCode, payload);
   }
 }
 
 export class CreateConfigurationSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = CREATE_CONFIGURATION_SUCCESS;
-  constructor(
-    public ownerKey: string,
-    public payload: Configurator.Configuration
-  ) {
-    super(CONFIGURATION_DATA, ownerKey);
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 
 export class ReadConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = READ_CONFIGURATION;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA, payload.productCode);
+  constructor(
+    public configuration: Configurator.Configuration,
+    public groupId: string
+  ) {
+    super(CONFIGURATION_DATA, configuration.owner.key);
   }
 }
 
@@ -83,7 +83,7 @@ export class ReadConfigurationSuccess extends StateEntityLoaderActions.EntitySuc
 export class UpdateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = UPDATE_CONFIGURATION;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.productCode);
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 
@@ -97,14 +97,14 @@ export class UpdateConfigurationFail extends StateEntityLoaderActions.EntityFail
 export class UpdateConfigurationSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.productCode);
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 
 export class UpdateConfigurationFinalizeSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.productCode);
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 
@@ -118,7 +118,7 @@ export class UpdateConfigurationFinalizeFail extends StateEntityLoaderActions.En
 export class UpdatePriceSummary extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = UPDATE_PRICE_SUMMARY;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.productCode);
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 export class UpdatePriceSummaryFail extends StateEntityLoaderActions.EntityFailAction {
@@ -137,8 +137,11 @@ export class UpdatePriceSummarySuccess extends StateEntityLoaderActions.EntitySu
 
 export class ChangeGroup extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CHANGE_GROUP;
-  constructor(public payload: any) {
-    super(CONFIGURATION_DATA, payload.ownerKey);
+  constructor(
+    public configuration: Configurator.Configuration,
+    public groupId: string
+  ) {
+    super(CONFIGURATION_DATA, configuration.owner.key);
   }
 }
 
