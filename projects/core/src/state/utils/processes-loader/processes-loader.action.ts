@@ -4,8 +4,8 @@ import {
   resetMeta as loaderResetMeta,
 } from '../loader/loader.action';
 
-export const PROCESSES_LOADER_PUSH_ACTION = '[PROCESSES LOADER] PUSH';
-export const PROCESSES_LOADER_POP_ACTION = '[PROCESSES LOADER] POP';
+export const PROCESSES_INCREMENT_ACTION = '[PROCESSES LOADER] INCREMENT';
+export const PROCESSES_DECREMENT_ACTION = '[PROCESSES LOADER] DECREMENT';
 export const PROCESSES_LOADER_RESET_ACTION = '[PROCESSES LOADER] RESET';
 
 export interface ProcessesLoaderMeta extends LoaderMeta {
@@ -18,7 +18,9 @@ export interface ProcessesLoaderAction extends Action {
   readonly meta?: ProcessesLoaderMeta;
 }
 
-export function pushMeta(entityType: string): ProcessesLoaderMeta {
+export function processesIncrementMeta(
+  entityType: string
+): ProcessesLoaderMeta {
   return {
     entityType: entityType,
     loader: undefined,
@@ -26,7 +28,9 @@ export function pushMeta(entityType: string): ProcessesLoaderMeta {
   };
 }
 
-export function popMeta(entityType: string): ProcessesLoaderMeta {
+export function processesDecrementMeta(
+  entityType: string
+): ProcessesLoaderMeta {
   return {
     entityType: entityType,
     loader: undefined,
@@ -34,7 +38,9 @@ export function popMeta(entityType: string): ProcessesLoaderMeta {
   };
 }
 
-export function processesResetMeta(entityType: string): ProcessesLoaderMeta {
+export function processesLoaderResetMeta(
+  entityType: string
+): ProcessesLoaderMeta {
   // processes reset action is a reset action for loader reducer, but not the other way around
   return {
     ...loaderResetMeta(entityType),
@@ -46,22 +52,22 @@ export class ProcessesLoaderResetAction implements ProcessesLoaderAction {
   type = PROCESSES_LOADER_RESET_ACTION;
   readonly meta: ProcessesLoaderMeta;
   constructor(entityType: string) {
-    this.meta = processesResetMeta(entityType);
+    this.meta = processesLoaderResetMeta(entityType);
   }
 }
 
-export class ProcessesLoaderPushAction implements ProcessesLoaderAction {
-  type = PROCESSES_LOADER_PUSH_ACTION;
+export class ProcessesIncrementAction implements ProcessesLoaderAction {
+  type = PROCESSES_INCREMENT_ACTION;
   readonly meta: ProcessesLoaderMeta;
   constructor(entityType: string) {
-    this.meta = pushMeta(entityType);
+    this.meta = processesIncrementMeta(entityType);
   }
 }
 
-export class ProcessesLoaderPopAction implements ProcessesLoaderAction {
-  type = PROCESSES_LOADER_POP_ACTION;
+export class ProcessesDecrementAction implements ProcessesLoaderAction {
+  type = PROCESSES_DECREMENT_ACTION;
   readonly meta: ProcessesLoaderMeta;
   constructor(entityType: string) {
-    this.meta = popMeta(entityType);
+    this.meta = processesDecrementMeta(entityType);
   }
 }

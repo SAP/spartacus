@@ -2,9 +2,9 @@ import { initialLoaderState } from '@spartacus/core';
 import { initialEntityState } from '../entity/entity.reducer';
 import { initialProcessesState } from '../processes-loader';
 import {
-  EntityPopAction,
-  EntityProcessesResetAction,
-  EntityPushAction,
+  EntityProcessesDecrementAction,
+  EntityProcessesIncrementAction,
+  EntityProcessesLoaderResetAction,
 } from './entity-processes-loader.action';
 import { entityProcessesLoaderReducer } from './entity-processes-loader.reducer';
 
@@ -28,9 +28,12 @@ describe('EntityProcessesLoader reducer', () => {
   describe('single entity', () => {
     const TEST_ENTITY_ID = 'testId';
 
-    describe('PUSH ACTION', () => {
+    describe('PROCESSES INCREMENT ACTION', () => {
       it('should increment processesCount state', () => {
-        const action = new EntityPushAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
+        const action = new EntityProcessesIncrementAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITY_ID
+        );
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
           action
@@ -50,9 +53,12 @@ describe('EntityProcessesLoader reducer', () => {
       });
     });
 
-    describe('POP ACTION', () => {
+    describe('PROCESSES DECREMENT ACTION', () => {
       it('should increment processesCount state', () => {
-        const action = new EntityPopAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
+        const action = new EntityProcessesDecrementAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITY_ID
+        );
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
           action
@@ -72,9 +78,9 @@ describe('EntityProcessesLoader reducer', () => {
       });
     });
 
-    describe('RESET ACTION', () => {
+    describe('PROCESSES LOADER RESET ACTION', () => {
       it('should reset processes loader state', () => {
-        const action = new EntityProcessesResetAction(
+        const action = new EntityProcessesLoaderResetAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID
         );
@@ -113,9 +119,12 @@ describe('EntityProcessesLoader reducer', () => {
   describe('multiple entities', () => {
     const TEST_ENTITIES_ID = ['test1', 'test2'];
 
-    describe('PUSH ACTION', () => {
+    describe('PROCESSES INCREMENT ACTION', () => {
       it('should increment processesCount state', () => {
-        const action = new EntityPushAction(TEST_ENTITY_TYPE, TEST_ENTITIES_ID);
+        const action = new EntityProcessesIncrementAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITIES_ID
+        );
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
           action
@@ -142,9 +151,12 @@ describe('EntityProcessesLoader reducer', () => {
       });
     });
 
-    describe('POP ACTION', () => {
+    describe('PROCESSES DECREMENT ACTION', () => {
       it('should decrement processesCount state', () => {
-        const action = new EntityPopAction(TEST_ENTITY_TYPE, TEST_ENTITIES_ID);
+        const action = new EntityProcessesDecrementAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITIES_ID
+        );
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
           undefined,
           action
@@ -171,9 +183,9 @@ describe('EntityProcessesLoader reducer', () => {
       });
     });
 
-    describe('RESET ACTION', () => {
+    describe('PROCESSES LOADER RESET ACTION', () => {
       it('should reset processes loader state', () => {
-        const action = new EntityProcessesResetAction(
+        const action = new EntityProcessesLoaderResetAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITIES_ID
         );

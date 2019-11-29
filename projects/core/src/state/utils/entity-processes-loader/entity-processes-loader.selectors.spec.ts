@@ -2,6 +2,7 @@ import { EntityProcessesLoaderState } from './entity-processes-loader-state';
 import {
   entityHasPendingProcessesSelector,
   entityIsStableSelector,
+  entityProcessesLoaderStateSelector,
 } from './entity-processes-loader.selectors';
 
 describe('EntityProcessesLoader selectors', () => {
@@ -69,6 +70,38 @@ describe('EntityProcessesLoader selectors', () => {
       };
       const value = entityHasPendingProcessesSelector(TestState, testId);
       expect(value).toBe(false);
+    });
+  });
+
+  describe('entityProcessesLoaderStateSelector', () => {
+    it('should return entity when it exists', () => {
+      const TestState: EntityProcessesLoaderState<string> = {
+        entities: {
+          [testId]: {
+            processesCount: 0,
+            loading: false,
+            error: false,
+            value: 'test-value',
+            success: true,
+          },
+        },
+      };
+      const value = entityProcessesLoaderStateSelector(TestState, testId);
+      expect(value).toBe(TestState.entities[testId]);
+    });
+
+    it('should return initialProcessesState with initialLoaderState', () => {
+      const TestState: EntityProcessesLoaderState<string> = {
+        entities: {},
+      };
+      const value = entityProcessesLoaderStateSelector(TestState, testId);
+      expect(value).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: undefined,
+        processesCount: 0,
+      });
     });
   });
 });
