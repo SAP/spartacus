@@ -1,5 +1,6 @@
 import * as cart from '../../helpers/cart';
 import * as configuration from '../../helpers/product-configuration';
+import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
 
@@ -10,8 +11,14 @@ const configurator = 'CPQCONFIGURATOR';
 function goToConfigurationPage(configurator, testProduct) {
   cy.visit(`/electronics-spa/en/USD/configure${configurator}/${testProduct}`);
 }
+function goToConfigurationOverviewPage(configurator, testProduct) {
+  cy.visit(
+    `/electronics-spa/en/USD/configureOverview${configurator}/${testProduct}`
+  );
+}
 function goToProductDetailsPage(testProduct) {
   cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`);
+  cy.wait(2000);
 }
 
 context('Product Configuration', () => {
@@ -28,6 +35,7 @@ context('Product Configuration', () => {
 
     it('should be able to navigate from the product details page', () => {
       goToProductDetailsPage(testProduct);
+
       configuration.clickOnConfigureButton();
       configuration.verifyConfigurationPageIsDisplayed();
     });
@@ -63,6 +71,24 @@ context('Product Configuration', () => {
 
     it('Value should change on configuration change', () => {
       //TODO:
+    });
+  });
+
+  describe('Tab Navigation', () => {
+    it('Navigate from Configuration to Overview Page', () => {
+      goToConfigurationPage(configurator, testProductPricing);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.navigateToOverviewPage();
+      configurationOverview.verifyConfigurationOverviewPageIsDisplayed();
+    });
+
+    it('Navigate from Overview to Configuration Page', () => {
+      goToConfigurationOverviewPage(configurator, testProduct);
+      configurationOverview.verifyConfigurationOverviewPageIsDisplayed();
+
+      configurationOverview.navigateToConfigurationPage();
+      configuration.verifyConfigurationPageIsDisplayed();
     });
   });
 
