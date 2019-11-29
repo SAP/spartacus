@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
+import { LoaderState } from '../../state/utils/loader/loader-state';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
+import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { LoaderState } from '../../state/utils/loader/loader-state';
-import { Cart } from '../../model/cart.model';
 
 @Injectable()
 export class MultiCartService {
@@ -51,17 +53,14 @@ export class MultiCartService {
     extraData?: any;
   }): Observable<LoaderState<Cart>> {
     this.store.dispatch(
-      new CartActions.CreateCart({
+      new DeprecatedCartActions.CreateCart({
         extraData,
         userId,
         oldCartId,
         toMergeCartGuid,
       })
     );
-    // to keep track of cart creation process we use cart with `fresh` id
-    // after creating cart we switch to entity with `code` or `guid`
-    // for loading/error state we need `fresh` cart entity
-    return this.getCartEntity('fresh');
+    return this.getCartEntity(FRESH_CART_ID);
   }
 
   /**
@@ -79,7 +78,7 @@ export class MultiCartService {
     extraData?: any;
   }): void {
     this.store.dispatch(
-      new CartActions.LoadCart({
+      new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
         extraData,
@@ -133,13 +132,16 @@ export class MultiCartService {
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
   ): void {
-    this.store.dispatch(
-      new CartActions.CartAddEntries({
-        userId,
-        cartId,
-        products,
-      })
-    );
+    products.forEach(product => {
+      this.store.dispatch(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: product.productCode,
+          quantity: product.quantity,
+        })
+      );
+    });
   }
 
   /**
@@ -217,7 +219,7 @@ export class MultiCartService {
    */
   assignEmail(cartId: string, userId: string, email: string): void {
     this.store.dispatch(
-      new CartActions.AddEmailToCart({
+      new DeprecatedCartActions.AddEmailToCart({
         userId,
         cartId,
         email,
@@ -233,7 +235,7 @@ export class MultiCartService {
    */
   deleteCart(cartId: string, userId: string) {
     this.store.dispatch(
-      new CartActions.DeleteCart({
+      new DeprecatedCartActions.DeleteCart({
         userId,
         cartId,
       })

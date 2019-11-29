@@ -1,14 +1,14 @@
 import { Action } from '@ngrx/store';
-import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { Cart } from '../../../model/cart.model';
 import {
-  EntityLoadAction,
-  EntitySuccessAction,
   EntityFailAction,
+  EntityLoadAction,
   EntityResetAction,
+  EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { getCartIdByUserId } from '../../utils/utils';
-import { Cart } from '../../../model/cart.model';
+import { MULTI_CART_FEATURE } from '../multi-cart-state';
 
 export const RESET_FRESH_CART = '[Multi Cart] Reset Fresh Cart';
 
@@ -35,31 +35,38 @@ export const ADD_EMAIL_TO_MULTI_CART = '[Multi Cart] Add Email';
 export const ADD_EMAIL_TO_MULTI_CART_FAIL = '[Multi Cart] Add Email Fail';
 export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
 
+/**
+ * To keep track of cart creation process we use cart with `fresh` id.
+ * After creating cart we switch to entity with `code` or `guid`.
+ * We need `fresh` cart entity for loading/error state.
+ */
+export const FRESH_CART_ID = 'fresh';
+
 export class ResetFreshCart extends EntityResetAction {
   readonly type = RESET_FRESH_CART;
   constructor() {
-    super(MULTI_CART_FEATURE, 'fresh');
+    super(MULTI_CART_FEATURE, FRESH_CART_ID);
   }
 }
 
 export class SetFreshCart extends EntitySuccessAction {
   readonly type = SET_FRESH_CART;
   constructor(public payload: Cart) {
-    super(MULTI_CART_FEATURE, 'fresh', payload);
+    super(MULTI_CART_FEATURE, FRESH_CART_ID, payload);
   }
 }
 
 export class CreateMultiCart extends EntityLoadAction {
   readonly type = CREATE_MULTI_CART;
   constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, 'fresh');
+    super(MULTI_CART_FEATURE, FRESH_CART_ID);
   }
 }
 
 export class CreateMultiCartFail extends EntityFailAction {
   readonly type = CREATE_MULTI_CART_FAIL;
   constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, 'fresh');
+    super(MULTI_CART_FEATURE, FRESH_CART_ID);
   }
 }
 

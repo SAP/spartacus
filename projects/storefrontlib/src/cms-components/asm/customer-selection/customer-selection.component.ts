@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
@@ -20,6 +21,8 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'cx-customer-selection',
   templateUrl: './customer-selection.component.html',
+  styleUrls: ['./customer-selection.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
@@ -74,7 +77,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
         query: searchTermValue,
-        pageSize: this.config.asm.customeSearch.maxResults,
+        pageSize: this.config.asm.customerSearch.maxResults,
       });
     }
   }
@@ -110,5 +113,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.asmService.customerSearchReset();
   }
 }

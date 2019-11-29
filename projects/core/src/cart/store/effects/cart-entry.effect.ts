@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of, from } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
-import { CartModification } from 'projects/core/src/model';
 
 @Injectable()
 export class CartEntryEffects {
   @Effect()
   addEntry$: Observable<
-    CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
+    | CartActions.CartAddEntrySuccess
+    | CartActions.CartAddEntryFail
+    | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
-    mergeMap(payload =>
-      this.cartEntryConnector
+    tap(() => this.cartEntriesToAddCounter++),
+    concatMap(payload => {
+      return this.cartEntryConnector
         .add(
           payload.userId,
           payload.cartId,
@@ -24,6 +27,7 @@ export class CartEntryEffects {
           payload.quantity
         )
         .pipe(
+          tap(() => this.cartEntriesToAddCounter--),
           map(
             (entry: any) =>
               new CartActions.CartAddEntrySuccess({
@@ -35,57 +39,23 @@ export class CartEntryEffects {
           catchError(error =>
             of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
           )
-        )
-    )
-  );
-
-  @Effect()
-  addEntries$: Observable<
-    | CartActions.CartAddEntriesSuccess
-    | CartActions.CartAddEntriesFail
-    | CartActions.CartFailAddEntryProcess
-    | CartActions.LoadCart
-  > = this.actions$.pipe(
-    ofType(CartActions.CART_ADD_ENTRIES),
-    map((action: CartActions.CartAddEntries) => action.payload),
-    mergeMap(payload => {
-      const addEntry = (
-        products,
-        userId,
-        cartId
-      ): Observable<CartModification> => {
-        if (products && products.length) {
-          const [product, ...leftEntries] = products;
-          return this.cartEntryConnector
-            .add(userId, cartId, product.productCode, product.quantity)
-            .pipe(
-              mergeMap(() => {
-                return addEntry(leftEntries, userId, cartId);
-              })
-            );
-        }
-        return of({});
-      };
-      return addEntry(payload.products, payload.userId, payload.cartId).pipe(
-        mergeMap(() => {
-          return [
-            new CartActions.CartAddEntriesSuccess({}),
-            new CartActions.LoadCart({
-              userId: payload.userId,
-              cartId: payload.cartId,
-              extraData: {
-                addEntries: true,
-              },
-            }),
-          ];
-        }),
-        catchError(error =>
-          from([
-            new CartActions.CartAddEntriesFail(makeErrorSerializable(error)),
-            new CartActions.CartFailAddEntryProcess(),
-          ])
-        )
-      );
+        );
+    }),
+    mergeMap(result => {
+      if (this.cartEntriesToAddCounter === 0) {
+        const payload = result.payload;
+        return [
+          result,
+          new DeprecatedCartActions.LoadCart({
+            userId: payload.userId,
+            cartId: payload.cartId,
+            extraData: {
+              addEntries: true,
+            },
+          }),
+        ];
+      }
+      return [result];
     })
   );
 
@@ -138,6 +108,8 @@ export class CartEntryEffects {
         )
     )
   );
+
+  private cartEntriesToAddCounter = 0;
 
   constructor(
     private actions$: Actions,

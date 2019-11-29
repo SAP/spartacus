@@ -17,7 +17,7 @@ import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
       provide: CheckoutAdapter,
       useClass: OccCheckoutAdapter,
     },
-    { provide: ORDER_NORMALIZER, useClass: OccOrderNormalizer, multi: true },
+    { provide: ORDER_NORMALIZER, useExisting: OccOrderNormalizer, multi: true },
     {
       provide: CheckoutDeliveryAdapter,
       useClass: OccCheckoutDeliveryAdapter,

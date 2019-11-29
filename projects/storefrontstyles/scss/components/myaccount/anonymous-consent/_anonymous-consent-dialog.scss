@@ -9,7 +9,7 @@
     background-color: var(--cx-color-inverse);
 
     @include media-breakpoint-only(xs) {
-      padding: 0 0 1.5rem;
+      padding: 1.5rem;
       border-top: 1px solid var(--cx-color-light);
     }
   }

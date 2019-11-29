@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
 import { StateWithAuth } from '../store/auth-state';
 import { AuthSelectors } from '../store/selectors/index';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -29,36 +27,6 @@ export class AuthService {
         password: password,
       })
     );
-  }
-
-  /**
-   * Loads a user token for a customer support agent
-   * @param userId
-   * @param password
-   */
-  authorizeCustomerSupporAgent(userId: string, password: string): void {
-    this.store.dispatch(
-      new AuthActions.LoadCustomerSupportAgentToken({
-        userId: userId,
-        password: password,
-      })
-    );
-  }
-
-  /**
-   * Starts an ASM customer emulation session.
-   * A customer emulation session is stoped by calling logout().
-   * @param customerSupportAgentToken
-   * @param customerId
-   */
-  public startCustomerEmulationSession(
-    customerSupportAgentToken: UserToken,
-    customerId: string
-  ): void {
-    this.authorizeWithToken({
-      ...customerSupportAgentToken,
-      userId: customerId,
-    });
   }
 
   /**
@@ -84,34 +52,10 @@ export class AuthService {
   }
 
   /**
-   * Utility function to determine if a given token is a customer emulation session token.
-   * @param userToken
-   */
-  isCustomerEmulationToken(userToken: UserToken): boolean {
-    return !!userToken.userId && userToken.userId !== OCC_USER_ID_CURRENT;
-  }
-
-  /**
    * Returns the user's token
    */
   getUserToken(): Observable<UserToken> {
     return this.store.pipe(select(AuthSelectors.getUserToken));
-  }
-
-  /**
-   * Returns the customer support agent's token
-   */
-  getCustomerSupportAgentToken(): Observable<UserToken> {
-    return this.store.pipe(select(AuthSelectors.getCustomerSupportAgentToken));
-  }
-
-  /**
-   * Returns the customer support agent's token loading status
-   */
-  getCustomerSupportAgentTokenLoading(): Observable<boolean> {
-    return this.store.pipe(
-      select(AuthSelectors.getCustomerSupportAgentTokenLoading)
-    );
   }
 
   /**
@@ -140,12 +84,6 @@ export class AuthService {
     this.store.dispatch(new AuthActions.Logout());
   }
 
-  /**
-   * Logout a customer support agent
-   */
-  logoutCustomerSupportAgent(): void {
-    this.store.dispatch(new AuthActions.LogoutCustomerSupportAgent());
-  }
   /**
    * Returns a client token.  The client token from the store is returned if there is one.
    * Otherwise, an new token is fetched from the backend and saved in the store.

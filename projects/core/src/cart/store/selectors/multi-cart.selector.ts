@@ -65,12 +65,9 @@ export const getCartEntrySelectorFactory = (
   productCode: string
 ): MemoizedSelector<StateWithMultiCart, OrderEntry> => {
   return createSelector(
-    getMultiCartEntities,
-    (state: EntityLoaderState<Cart>) => {
-      const entityValue = entityValueSelector(state, cartId);
-      return entityValue && entityValue.entries
-        ? entityValue.entries.find(entry => entry.product.code === productCode)
-        : null;
+    getCartEntriesSelectorFactory(cartId),
+    (state: OrderEntry[]) => {
+      return state.find(entry => entry.product.code === productCode);
     }
   );
 };

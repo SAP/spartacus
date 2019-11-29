@@ -1,22 +1,23 @@
-import { TestBed } from '@angular/core/testing';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { AuthService } from '../../auth/index';
-import { ActiveCartService } from './active-cart.service';
-import { MultiCartService } from './multi-cart.service';
-import { Store, StoreModule } from '@ngrx/store';
-import * as fromReducers from '../../cart/store/reducers/index';
-import * as fromProcessReducers from '../../process/store/reducers/index';
-import { StateWithMultiCart, CartActions } from '../store';
-import { StateWithProcess } from '../../process';
 import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { AuthService } from '../../auth/index';
+import * as fromReducers from '../../cart/store/reducers/index';
+import { OrderEntry } from '../../model/order.model';
 import {
+  OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-  OCC_CART_ID_CURRENT,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
-import { OrderEntry } from '../../model/order.model';
-import { delay } from 'rxjs/operators';
+import { StateWithProcess } from '../../process';
+import * as fromProcessReducers from '../../process/store/reducers/index';
+import { CartActions, StateWithMultiCart } from '../store';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
+import { ActiveCartService } from './active-cart.service';
+import { MultiCartService } from './multi-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
@@ -257,7 +258,7 @@ describe('ActiveCartService', () => {
       service['loadOrMerge']('cartId');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.MergeCart({
+        new DeprecatedCartActions.MergeCart({
           userId: 'userId',
           cartId: 'cartId',
           extraData: {

@@ -7,6 +7,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { OccConfig } from '../../../occ/index';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-entry.effect';
 
@@ -88,7 +89,7 @@ describe('Cart effect', () => {
       const cartAddEntriesSuccessCompletion = new CartActions.CartAddEntriesSuccess(
         {}
       );
-      const loadCartCompletion = new CartActions.LoadCart({
+      const loadCartCompletion = new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
         extraData: {

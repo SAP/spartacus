@@ -1,9 +1,10 @@
 import { Cart } from '../../../model/cart.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
-import { CartActions } from './index';
-import { MULTI_CART_FEATURE } from '../multi-cart-state';
-import { entityRemoveMeta } from '../../../state/utils/entity/entity.action';
 import { entityResetMeta } from '../../../state/utils/entity-loader/entity-loader.action';
+import { entityRemoveMeta } from '../../../state/utils/entity/entity.action';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { CartActions } from './index';
+import { FRESH_CART_ID } from './multi-cart.action';
 
 const cart: Cart = {
   code: 'xxx',
@@ -28,7 +29,7 @@ describe('MultiCart Actions', () => {
           type: CartActions.RESET_FRESH_CART,
           meta: StateEntityLoaderActions.entityResetMeta(
             MULTI_CART_FEATURE,
-            'fresh'
+            FRESH_CART_ID
           ),
         });
       });
@@ -43,7 +44,7 @@ describe('MultiCart Actions', () => {
           payload,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             MULTI_CART_FEATURE,
-            'fresh'
+            FRESH_CART_ID
           ),
         });
       });
@@ -57,7 +58,7 @@ describe('MultiCart Actions', () => {
           payload: undefined,
           meta: StateEntityLoaderActions.entityLoadMeta(
             MULTI_CART_FEATURE,
-            'fresh'
+            FRESH_CART_ID
           ),
         });
       });
@@ -71,7 +72,7 @@ describe('MultiCart Actions', () => {
           payload: undefined,
           meta: StateEntityLoaderActions.entityFailMeta(
             MULTI_CART_FEATURE,
-            'fresh'
+            FRESH_CART_ID
           ),
         });
       });

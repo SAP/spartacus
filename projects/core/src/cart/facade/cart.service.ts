@@ -9,18 +9,19 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { ActiveCartService } from './active-cart.service';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
 import {
-  OCC_USER_ID_ANONYMOUS,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
 } from '../../occ/utils/occ-constants';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
+import { ActiveCartService } from './active-cart.service';
 import { CartDataService } from './cart-data.service';
 
 /**
@@ -117,7 +118,7 @@ export class CartService {
     // current cart and merge it into the existing cart
     if (!this.isCreated(this.cartData.cart)) {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: OCC_CART_ID_CURRENT,
         })
@@ -126,7 +127,7 @@ export class CartService {
       this.guestCartMerge();
     } else {
       this.store.dispatch(
-        new CartActions.MergeCart({
+        new DeprecatedCartActions.MergeCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.guid,
         })
@@ -137,7 +138,7 @@ export class CartService {
   private load(): void {
     if (this.cartData.userId !== OCC_USER_ID_ANONYMOUS) {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId
             ? this.cartData.cartId
@@ -146,7 +147,7 @@ export class CartService {
       );
     } else {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -164,7 +165,9 @@ export class CartService {
         tap(cartState => {
           if (!this.isCreated(cartState.value.content) && !cartState.loading) {
             this.store.dispatch(
-              new CartActions.CreateCart({ userId: this.cartData.userId })
+              new DeprecatedCartActions.CreateCart({
+                userId: this.cartData.userId,
+              })
             );
           }
         }),
@@ -237,7 +240,7 @@ export class CartService {
       return this.activeCartService.addEmail(email);
     }
     this.store.dispatch(
-      new CartActions.AddEmailToCart({
+      new DeprecatedCartActions.AddEmailToCart({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
         email: email,
@@ -330,7 +333,7 @@ export class CartService {
       });
 
     this.store.dispatch(
-      new CartActions.DeleteCart({
+      new DeprecatedCartActions.DeleteCart({
         userId: OCC_USER_ID_ANONYMOUS,
         cartId: this.cartData.cart.guid,
       })
@@ -345,7 +348,9 @@ export class CartService {
           // This step should happen before adding entries to avoid conflicts in the requests
           if (!this.isCreated(cartState.value.content)) {
             this.store.dispatch(
-              new CartActions.CreateCart({ userId: this.cartData.userId })
+              new DeprecatedCartActions.CreateCart({
+                userId: this.cartData.userId,
+              })
             );
           }
         }),
