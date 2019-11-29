@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Budget, Currency, OrgUnit } from '@spartacus/core';
+import { Budget, Currency, OrgUnit, UrlCommandRoute } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -32,11 +32,16 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   @Input()
   showCancelBtn = true;
 
+  @Input()
+  routerBackLink: UrlCommandRoute = {
+    cxRoute: 'budgets',
+  };
+
   @Output()
   submitBudget = new EventEmitter<any>();
 
   @Output()
-  backToList = new EventEmitter<any>();
+  clickBack = new EventEmitter<any>();
 
   budgetVerifySub: Subscription;
 
@@ -72,7 +77,7 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   }
 
   back(): void {
-    this.backToList.emit();
+    this.clickBack.emit();
   }
 
   verifyBudget(): void {

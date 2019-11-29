@@ -4,10 +4,59 @@
       <div class="cx-header">
         <h3>{{ 'budget.details' | cxTranslate }}</h3>
       </div>
+      <div class="row ">
+        <div class="col-6">{{ 'budget.id' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.code }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.parentUnit' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.orgUnit.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.name' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.startDate' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.startDate | cxDate }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.endDate' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.endDate | cxDate }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.amount' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.budget }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.currency' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.currency.symbol }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.status' | cxTranslate }}</div>
+        <div class="col-6">
+          {{
+            budget.active
+              ? ('budget.active' | cxTranslate)
+              : ('budget.deactivated' | cxTranslate)
+          }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-lg-6">
+          <button class="btn btn-secondary btn-block">
+            {{
+            budget.active
+              ? ('budget.disable' | cxTranslate)
+              : ('budget.enable' | cxTranslate)
+            }}
+          </button>
+        </div>
+      </div>
     </div>
     <div class="col-md-12 col-lg-6">
       <div class="row">
-        <div class="col-6">
+        <div class="col-md-12 col-lg-6">
           <button
             [routerLink]="
               {
@@ -20,7 +69,7 @@
             {{ 'budget.edit' | cxTranslate }}
           </button>
         </div>
-        <div class="col-6">
+        <div class="col-md-12 col-lg-6">
           <a
             [routerLink]="
               {
@@ -35,50 +84,16 @@
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <span>{{ 'budget.id' | cxTranslate }}</span
-    ><span>{{ budget.code }}</span>
-  </div>
-  <div class="row">
-    <span>{{ 'budget.parentUnit' | cxTranslate }}</span
-    ><span>{{ budget.orgUnit.name }}</span>
-  </div>
-  <div class="row">
-    <span>{{ 'budget.name' | cxTranslate }}</span
-    ><span>{{ budget.name }}</span>
-  </div>
-  <div class="row">
-    <span>{{ 'budget.startDate' | cxTranslate }}</span
-    ><span>{{ budget.startDate | cxDate }}</span>
-  </div>
-  <div class="row">
-    <span>{{ 'budget.endDate' | cxTranslate }}</span
-    ><span>{{ budget.endDate | cxDate }}</span>
-  </div>
-  <div class="row">
-    <span>{{ 'budget.amount' | cxTranslate }}</span
-    ><span>{{ budget.budget }}</span>
-  </div>
-  <div class="row">
-    <span>{{ 'budget.currency' | cxTranslate }}</span
-    ><span>{{ budget.currency.symbol }}</span>
-  </div>
-  <div class="row">
-    <span>{{ 'budget.status' | cxTranslate }}</span
-    ><span>{{
-      budget.active
-        ? ('budget.active' | cxTranslate)
-        : ('budget.deactivated' | cxTranslate)
-    }}</span>
-  </div>
-  <div class="row">
+  <div class="row section">
     <div class="col-md-12 col-lg-6">
       <div class="cx-header">
         <h3>{{ 'budget.costCenters' | cxTranslate }}</h3>
       </div>
+      <cx-table
+        [pageSize]="10"
+        [columns]="getCostCenterColumns() | async"
+        [tableData]="budget.costCenters"
+      ></cx-table>
     </div>
   </div>
-
-
 </ng-container>

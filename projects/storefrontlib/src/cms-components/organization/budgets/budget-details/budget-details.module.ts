@@ -17,6 +17,7 @@ import { RouterModule } from '@angular/router';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
+import { TableModule } from '../../../../shared/components/table/table.module';
 // import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 // import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 
@@ -55,6 +56,7 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
     UrlModule,
     I18nModule,
     ReactiveFormsModule,
+    TableModule,
   ],
   declarations: [BudgetDetailsComponent],
   exports: [BudgetDetailsComponent],

@@ -4,7 +4,7 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
+  CxDatePipe, I18nModule,
   UserService,
 } from '@spartacus/core';
 import { BudgetEditComponent } from './budget-edit.component';
@@ -45,6 +45,7 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
       },
     }),
     BudgetFormModule,
+    I18nModule,
   ],
   declarations: [BudgetEditComponent],
   exports: [BudgetEditComponent],

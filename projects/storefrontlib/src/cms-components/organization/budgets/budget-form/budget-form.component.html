@@ -1,19 +1,16 @@
 <div [formGroup]="budget">
   <div class="row">
-    <div class="col-md-12 col-lg-9">
-
+    <div class="col-md-12 col-lg-12">
       <div class="form-group">
         <label>
           <span class="label-content required">{{
             'budgetForm.code.label' | cxTranslate
-            }}</span>
+          }}</span>
           <input
             class="form-control"
             type="text"
             required
-            placeholder="{{
-              'budgetForm.code.placeholder' | cxTranslate
-            }}"
+            placeholder="{{ 'budgetForm.code.placeholder' | cxTranslate }}"
             formControlName="code"
           />
         </label>
@@ -22,7 +19,7 @@
         <label>
           <span class="label-content required">{{
             'budgetForm.name.label' | cxTranslate
-            }}</span>
+          }}</span>
           <input
             type="text"
             class="form-control"
@@ -34,12 +31,12 @@
       </div>
 
       <div class="form-group">
-        <ng-container  *ngIf="businessUnits$ as businessUnits">
+        <ng-container *ngIf="businessUnits$ as businessUnits">
           <div *ngIf="businessUnits.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
                 'budgetForm.businessUnits' | cxTranslate
-                }}</span>
+              }}</span>
               <ng-select
                 formControlName="orgUnit"
                 [searchable]="false"
@@ -55,15 +52,13 @@
         </ng-container>
       </div>
 
-
-
       <div class="form-group">
         <ng-container *ngIf="currencies$ | async as currencies">
           <div *ngIf="currencies.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'budgetForm.currencies' | cxTranslate
-                }}</span>
+                'budgetForm.currency' | cxTranslate
+              }}</span>
               <ng-select
                 formControlName="currencies"
                 [searchable]="false"
@@ -83,24 +78,26 @@
         <label>
           <span class="label-content">{{
             'budgetForm.amount.label' | cxTranslate
-            }}</span>
+          }}</span>
           <input
             type="text"
             class="form-control"
-            placeholder="{{
-              'budgetForm.amount.placeholder' | cxTranslate
-            }}"
+            placeholder="{{ 'budgetForm.amount.placeholder' | cxTranslate }}"
             formControlName="budget"
           />
         </label>
       </div>
-
+    </div>
   </div>
-  <div class="cx-checkout-btns row">
+  <div class="row">
     <div class="col-md-12 col-lg-6" *ngIf="showCancelBtn">
-      <button class="btn btn-block btn-action" (click)="back()">
+      <a
+        class="btn btn-block btn-action"
+        (click)="back()"
+        [routerLink]="routerBackLink | cxUrl"
+      >
         {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
-      </button>
+      </a>
     </div>
     <div class="col-md-12 col-lg-6">
       <button
