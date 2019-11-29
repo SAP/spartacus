@@ -10,7 +10,7 @@ import {
   ItemCounterModule,
 } from '../../../../../shared/index';
 
-import { CancellationReturnItemsComponent } from './cancellation-return-items.component';
+import { CancelOrReturnItemsComponent } from './cancellation-return-items.component';
 
 @NgModule({
   imports: [
@@ -21,8 +21,8 @@ import { CancellationReturnItemsComponent } from './cancellation-return-items.co
     OnlyNumberDirectiveModule,
     ItemCounterModule,
   ],
-  declarations: [CancellationReturnItemsComponent],
-  exports: [CancellationReturnItemsComponent],
-  entryComponents: [CancellationReturnItemsComponent],
+  declarations: [CancelOrReturnItemsComponent],
+  exports: [CancelOrReturnItemsComponent],
+  entryComponents: [CancelOrReturnItemsComponent],
 })
-export class CancellationReturnItemsModule {}
+export class CancelOrReturnItemsModule {}

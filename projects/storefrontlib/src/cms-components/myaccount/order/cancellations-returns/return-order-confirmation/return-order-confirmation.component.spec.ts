@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import {
   Order,
   OrderEntry,
-  CancellationReturnRequestEntryInput,
+  CancelOrReturnRequestEntryInput,
   RoutingService,
   I18nTestingModule,
   LanguageService,
@@ -18,11 +18,11 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
   template: '',
   selector: 'cx-cancellation-return-items',
 })
-class MockCancellationReturnItemsComponent {
+class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
   @Input() confirmRequest = false;
   @Input() cancelOrder = true;
-  @Output() confirm = new EventEmitter<CancellationReturnRequestEntryInput[]>();
+  @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 }
 
 class MockRoutingService {
@@ -66,7 +66,7 @@ const mockOrder: Order = {
 };
 
 class MockOrderDetailsService {
-  cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[] = [
+  cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[] = [
     { orderEntryNumber: 0, quantity: 1 },
     { orderEntryNumber: 3, quantity: 2 },
   ];
@@ -95,7 +95,7 @@ describe('ReturnOrderConfirmationComponent', () => {
       ],
       declarations: [
         ReturnOrderConfirmationComponent,
-        MockCancellationReturnItemsComponent,
+        MockCancelOrReturnItemsComponent,
       ],
     }).compileComponents();
   }));

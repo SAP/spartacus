@@ -7,22 +7,19 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import {
-  OrderEntry,
-  CancellationReturnRequestEntryInput,
-} from '@spartacus/core';
+import { OrderEntry, CancelOrReturnRequestEntryInput } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cancellation-return-items',
   templateUrl: './cancellation-return-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CancellationReturnItemsComponent implements OnInit {
+export class CancelOrReturnItemsComponent implements OnInit {
   @Input() entries: OrderEntry[];
   @Input() confirmRequest = false;
   @Input() cancelOrder = true;
 
-  @Output() confirm = new EventEmitter<CancellationReturnRequestEntryInput[]>();
+  @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 
   form: FormGroup;
   inputsControl: FormArray;
@@ -58,7 +55,7 @@ export class CancellationReturnItemsComponent implements OnInit {
   }
 
   confirmEntryInputs(): void {
-    const inputs: CancellationReturnRequestEntryInput[] = [];
+    const inputs: CancelOrReturnRequestEntryInput[] = [];
     for (const input of this.form.value.entryInput) {
       if (input.quantity > 0) {
         inputs.push(input);

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 
-import { CancellationReturnItemsComponent } from './cancellation-return-items.component';
+import { CancelOrReturnItemsComponent } from './cancellation-return-items.component';
 
 const mockEntries = [
   {
@@ -36,15 +36,15 @@ class MockItemCounterComponent {
   @Input() isValueChangeable;
 }
 
-describe('CancellationReturnItemsComponent', () => {
-  let component: CancellationReturnItemsComponent;
-  let fixture: ComponentFixture<CancellationReturnItemsComponent>;
+describe('CancelOrReturnItemsComponent', () => {
+  let component: CancelOrReturnItemsComponent;
+  let fixture: ComponentFixture<CancelOrReturnItemsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
-        CancellationReturnItemsComponent,
+        CancelOrReturnItemsComponent,
         MockMediaComponent,
         MockItemCounterComponent,
       ],
@@ -52,7 +52,7 @@ describe('CancellationReturnItemsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CancellationReturnItemsComponent);
+    fixture = TestBed.createComponent(CancelOrReturnItemsComponent);
     component = fixture.componentInstance;
 
     component.entries = mockEntries;

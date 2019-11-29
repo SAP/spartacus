@@ -2,16 +2,16 @@ import { Type } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CancellationReturnRequestEntryInput } from '@spartacus/core';
+import { CancelOrReturnRequestEntryInput } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
-import { CancellationReturnRequestInputGuard } from './cancellation-return-request-input.guard';
+import { CancelOrReturnRequestInputGuard } from './cancellation-return-request-input.guard';
 
 class MockOrderDetailsService {
-  cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[];
+  cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[];
 }
 
-describe(`CancellationReturnRequestInputGuard`, () => {
-  let guard: CancellationReturnRequestInputGuard;
+describe(`CancelOrReturnRequestInputGuard`, () => {
+  let guard: CancelOrReturnRequestInputGuard;
   let mockOrderDetailsService: MockOrderDetailsService;
 
   beforeEach(() => {
@@ -22,17 +22,17 @@ describe(`CancellationReturnRequestInputGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(CancellationReturnRequestInputGuard as Type<
-      CancellationReturnRequestInputGuard
+    guard = TestBed.get(CancelOrReturnRequestInputGuard as Type<
+      CancelOrReturnRequestInputGuard
     >);
     mockOrderDetailsService = TestBed.get(OrderDetailsService as Type<
       OrderDetailsService
     >);
   });
 
-  describe(`when there is NO cancellationReturnRequestInputs`, () => {
+  describe(`when there is NO cancelOrReturnRequestInputs`, () => {
     it(`should return UrlTree to order return/cancel page`, () => {
-      mockOrderDetailsService.cancellationReturnRequestInputs = undefined;
+      mockOrderDetailsService.cancelOrReturnRequestInputs = undefined;
       const urlTree = guard.canActivate({
         url: [
           { path: 'my-account' },
@@ -46,9 +46,9 @@ describe(`CancellationReturnRequestInputGuard`, () => {
     });
   });
 
-  describe(`when there is cancellationReturnRequestInputs`, () => {
+  describe(`when there is cancelOrReturnRequestInputs`, () => {
     it(`should return true`, () => {
-      mockOrderDetailsService.cancellationReturnRequestInputs = [
+      mockOrderDetailsService.cancelOrReturnRequestInputs = [
         { orderEntryNumber: 0, quantity: 1 },
       ];
       expect(

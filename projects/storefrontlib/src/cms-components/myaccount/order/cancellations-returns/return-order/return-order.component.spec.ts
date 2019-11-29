@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import {
   Order,
   OrderEntry,
-  CancellationReturnRequestEntryInput,
+  CancelOrReturnRequestEntryInput,
   RoutingService,
 } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
@@ -15,10 +15,10 @@ import { ReturnOrderComponent } from './return-order.component';
   template: '',
   selector: 'cx-cancellation-return-items',
 })
-class MockCancellationReturnItemsComponent {
+class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
   @Input() cancelOrder = true;
-  @Output() confirm = new EventEmitter<CancellationReturnRequestEntryInput[]>();
+  @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 }
 
 class MockRoutingService {
@@ -37,20 +37,18 @@ const mockOrder: Order = {
 };
 
 class MockOrderDetailsService {
-  _cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[];
+  _cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[];
 
   getOrderDetails() {
     return of(mockOrder);
   }
 
-  get cancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
-    return this._cancellationReturnRequestInputs;
+  get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {
+    return this._cancelOrReturnRequestInputs;
   }
 
-  set cancellationReturnRequestInputs(
-    values: CancellationReturnRequestEntryInput[]
-  ) {
-    this._cancellationReturnRequestInputs = values;
+  set cancelOrReturnRequestInputs(values: CancelOrReturnRequestEntryInput[]) {
+    this._cancelOrReturnRequestInputs = values;
   }
 }
 
@@ -67,10 +65,7 @@ describe('ReturnOrderComponent', () => {
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-      declarations: [
-        ReturnOrderComponent,
-        MockCancellationReturnItemsComponent,
-      ],
+      declarations: [ReturnOrderComponent, MockCancelOrReturnItemsComponent],
     }).compileComponents();
   }));
 
@@ -112,7 +107,7 @@ describe('ReturnOrderComponent', () => {
     fixture.detectChanges();
     component.confirmReturn(entryInputs);
 
-    expect(orderService.cancellationReturnRequestInputs).toEqual(entryInputs);
+    expect(orderService.cancelOrReturnRequestInputs).toEqual(entryInputs);
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderReturnConfirmation',
       params: { code: '1' },

@@ -31,14 +31,14 @@ export interface OrderEntry {
   returnableQuantity?: number;
 }
 
-export interface CancellationReturnRequestEntryInput {
+export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
   quantity?: number;
 }
 
 export interface ReturnRequestEntryInputList {
   orderCode?: string;
-  returnRequestEntryInputs?: CancellationReturnRequestEntryInput[];
+  returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
 export interface ReturnRequestEntry {

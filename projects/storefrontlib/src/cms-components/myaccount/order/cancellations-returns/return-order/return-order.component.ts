@@ -4,7 +4,7 @@ import { tap, filter, map } from 'rxjs/operators';
 
 import {
   OrderEntry,
-  CancellationReturnRequestEntryInput,
+  CancelOrReturnRequestEntryInput,
   RoutingService,
 } from '@spartacus/core';
 
@@ -39,8 +39,8 @@ export class ReturnOrderComponent {
     })
   );
 
-  confirmReturn(entryInputs: CancellationReturnRequestEntryInput[]): void {
-    this.orderDetailsService.cancellationReturnRequestInputs = entryInputs;
+  confirmReturn(entryInputs: CancelOrReturnRequestEntryInput[]): void {
+    this.orderDetailsService.cancelOrReturnRequestInputs = entryInputs;
     this.routing.go({
       cxRoute: 'orderReturnConfirmation',
       params: { code: this.orderCode },

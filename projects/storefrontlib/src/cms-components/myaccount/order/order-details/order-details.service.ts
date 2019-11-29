@@ -3,7 +3,7 @@ import {
   Order,
   RoutingService,
   UserOrderService,
-  CancellationReturnRequestEntryInput,
+  CancelOrReturnRequestEntryInput,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
@@ -13,7 +13,7 @@ export class OrderDetailsService {
   orderCode$: Observable<string>;
   orderLoad$: Observable<{}>;
 
-  private _cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[];
+  private _cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[];
 
   constructor(
     private userOrderService: UserOrderService,
@@ -41,13 +41,13 @@ export class OrderDetailsService {
     );
   }
 
-  get cancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
-    return this._cancellationReturnRequestInputs;
+  get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {
+    return this._cancelOrReturnRequestInputs;
   }
 
-  set cancellationReturnRequestInputs(
-    values: CancellationReturnRequestEntryInput[]
+  set cancelOrReturnRequestInputs(
+    values: CancelOrReturnRequestEntryInput[]
   ) {
-    this._cancellationReturnRequestInputs = values;
+    this._cancelOrReturnRequestInputs = values;
   }
 }

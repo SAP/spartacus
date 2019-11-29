@@ -4,7 +4,7 @@ import { Observable, combineLatest, Subscription } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import {
   OrderEntry,
-  CancellationReturnRequestEntryInput,
+  CancelOrReturnRequestEntryInput,
   RoutingService,
   LanguageService,
   OrderReturnRequestService,
@@ -55,8 +55,8 @@ export class ReturnOrderConfirmationComponent implements OnDestroy {
     })
   );
 
-  returnRequestEntryInput: CancellationReturnRequestEntryInput[] = this
-    .orderDetailsService.cancellationReturnRequestInputs;
+  returnRequestEntryInput: CancelOrReturnRequestEntryInput[] = this
+    .orderDetailsService.cancelOrReturnRequestInputs;
 
   protected getEntryReturnedQty(entry: OrderEntry): number {
     for (const input of this.returnRequestEntryInput) {
