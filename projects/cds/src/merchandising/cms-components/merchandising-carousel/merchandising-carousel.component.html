@@ -1,10 +1,19 @@
-<cx-carousel
-  [items]="items$ | async"
-  [title]="title$ | async"
-  [template]="carouselItem"
-  itemWidth="285px"
+<ng-container
+  *ngIf="merchandisingCarouselModel$ | async as merchandisingCarouselModel"
 >
-</cx-carousel>
+  <div
+    class="data-cx-merchandising-carousel"
+    [cxAttributes]="merchandisingCarouselModel.metadata"
+    [cxAttributesNamePrefix]="'data-cx-merchandising-carousel'"
+  ></div>
+  <cx-carousel
+    [items]="merchandisingCarouselModel.items$"
+    [title]="title$ | async"
+    [template]="carouselItem"
+    itemWidth="285px"
+  >
+  </cx-carousel>
+</ng-container>
 
 <ng-template #carouselItem let-item="item">
   <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">

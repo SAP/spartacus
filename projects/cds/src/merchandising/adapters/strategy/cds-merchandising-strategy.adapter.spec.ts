@@ -49,13 +49,6 @@ const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
   metadata: MERCHANDISING_PRODUCTS_METADATA,
 };
 
-const STRATEGY_RESULT_METADATA: Map<string, string> = new Map<string, string>();
-STRATEGY_RESULT_METADATA.set('test-metadata-field', 'test-metadata-value');
-const PRODUCT_METADATA: Map<string, string> = new Map<string, string>();
-PRODUCT_METADATA.set(
-  'test-product-metadata-field',
-  'test-product-metadata-field'
-);
 const STRATEGY_RESULT: StrategyResult = {
   resultCount: 1,
   products: [
@@ -68,14 +61,18 @@ const STRATEGY_RESULT: StrategyResult = {
       thumbNailImage: 'http://some-thumbnail-imgae-url',
       mainImage: 'http://some-main-imgae-url',
       price: 20.99,
-      metadata: PRODUCT_METADATA,
+      metadata: {
+        'test-product-metadata-field': 'test-product-metadata-value',
+      },
     },
   ],
   paged: {
     from: 1,
     size: 5,
   },
-  metadata: STRATEGY_RESULT_METADATA,
+  metadata: {
+    'test-metadata-field': 'test-metadata-value',
+  },
 };
 const STRATEGY_REQUEST = {
   site: 'electronics-spa',

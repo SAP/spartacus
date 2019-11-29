@@ -4,14 +4,6 @@ import { ImageType, Product } from '@spartacus/core';
 import { MerchandisingProduct } from '../model/strategy-result.model';
 import { MerchandisingProductNormalizer } from './merchandising-product-normalizer';
 
-const MERCHANDISING_PRODUCT_METADATA: Map<string, string> = new Map<
-  string,
-  string
->();
-MERCHANDISING_PRODUCT_METADATA.set(
-  'test-product-metadata-field',
-  'test-product-metadata-field'
-);
 const MERCHANDISING_PRODUCT: MerchandisingProduct = {
   id: 'test-product-id',
   name: 'test-product',
@@ -21,7 +13,9 @@ const MERCHANDISING_PRODUCT: MerchandisingProduct = {
   thumbNailImage: 'http://some-thumbnail-imgae-url',
   mainImage: 'http://some-main-imgae-url',
   price: 20.99,
-  metadata: MERCHANDISING_PRODUCT_METADATA,
+  metadata: {
+    'test-product-metadata-field': 'test-product-metadata-value',
+  },
 };
 
 const NO_PRICE_PRODUCT: Product = {
