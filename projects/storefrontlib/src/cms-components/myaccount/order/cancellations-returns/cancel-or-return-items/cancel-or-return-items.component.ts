@@ -10,8 +10,8 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { OrderEntry, CancelOrReturnRequestEntryInput } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-cancellation-return-items',
-  templateUrl: './cancellation-return-items.component.html',
+  selector: 'cx-cancel-or-return-items',
+  templateUrl: './cancel-or-return-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CancelOrReturnItemsComponent implements OnInit {

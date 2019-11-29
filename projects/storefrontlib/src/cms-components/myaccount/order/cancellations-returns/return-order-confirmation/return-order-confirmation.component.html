@@ -10,10 +10,10 @@
 </div>
 
 <ng-container *ngIf="returnedEntries$ | async as returnedEntries">
-  <cx-cancellation-return-items
+  <cx-cancel-or-return-items
     [entries]="returnedEntries"
     [cancelOrder]="false"
     [confirmRequest]="true"
   >
-  </cx-cancellation-return-items>
+  </cx-cancel-or-return-items>
 </ng-container>

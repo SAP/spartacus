@@ -10,7 +10,7 @@ import {
   ItemCounterModule,
 } from '../../../../../shared/index';
 
-import { CancelOrReturnItemsComponent } from './cancellation-return-items.component';
+import { CancelOrReturnItemsComponent } from './cancel-or-return-items.component';
 
 @NgModule({
   imports: [

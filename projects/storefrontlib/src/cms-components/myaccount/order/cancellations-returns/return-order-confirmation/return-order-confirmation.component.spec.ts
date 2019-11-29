@@ -16,7 +16,7 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
 
 @Component({
   template: '',
-  selector: 'cx-cancellation-return-items',
+  selector: 'cx-cancel-or-return-items',
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];

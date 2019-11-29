@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CancelOrReturnRequestEntryInput } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
-import { CancelOrReturnRequestInputGuard } from './cancellation-return-request-input.guard';
+import { CancelOrReturnRequestInputGuard } from './cancel-or-return-request-input.guard';
 
 class MockOrderDetailsService {
   cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[];

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 
-import { CancelOrReturnItemsComponent } from './cancellation-return-items.component';
+import { CancelOrReturnItemsComponent } from './cancel-or-return-items.component';
 
 const mockEntries = [
   {

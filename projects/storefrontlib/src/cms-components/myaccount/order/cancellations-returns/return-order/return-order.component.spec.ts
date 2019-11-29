@@ -13,7 +13,7 @@ import { ReturnOrderComponent } from './return-order.component';
 
 @Component({
   template: '',
-  selector: 'cx-cancellation-return-items',
+  selector: 'cx-cancel-or-return-items',
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
