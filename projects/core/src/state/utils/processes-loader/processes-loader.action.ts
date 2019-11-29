@@ -1,5 +1,8 @@
 import { Action } from '@ngrx/store';
-import { LoaderMeta, resetMeta as loaderResetMeta } from '../loader/loader.action';
+import {
+  LoaderMeta,
+  resetMeta as loaderResetMeta,
+} from '../loader/loader.action';
 
 export const PROCESSES_INCREMENT_ACTION = '[PROCESSES LOADER] INCREMENT';
 export const PROCESSES_DECREMENT_ACTION = '[PROCESSES LOADER] DECREMENT';
@@ -15,7 +18,9 @@ export interface ProcessesLoaderAction extends Action {
   readonly meta?: ProcessesLoaderMeta;
 }
 
-export function processesIncrementMeta(entityType: string): ProcessesLoaderMeta {
+export function processesIncrementMeta(
+  entityType: string
+): ProcessesLoaderMeta {
   return {
     entityType: entityType,
     loader: undefined,
@@ -23,7 +28,9 @@ export function processesIncrementMeta(entityType: string): ProcessesLoaderMeta 
   };
 }
 
-export function processesDecrementMeta(entityType: string): ProcessesLoaderMeta {
+export function processesDecrementMeta(
+  entityType: string
+): ProcessesLoaderMeta {
   return {
     entityType: entityType,
     loader: undefined,

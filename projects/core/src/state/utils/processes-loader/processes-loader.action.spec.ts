@@ -1,4 +1,14 @@
-import { ProcessesDecrementAction, processesDecrementMeta, ProcessesIncrementAction, processesIncrementMeta, ProcessesLoaderResetAction, processesResetMeta, PROCESSES_DECREMENT_ACTION, PROCESSES_INCREMENT_ACTION, PROCESSES_LOADER_RESET_ACTION } from './processes-loader.action';
+import {
+  ProcessesDecrementAction,
+  processesDecrementMeta,
+  ProcessesIncrementAction,
+  processesIncrementMeta,
+  ProcessesLoaderResetAction,
+  processesResetMeta,
+  PROCESSES_DECREMENT_ACTION,
+  PROCESSES_INCREMENT_ACTION,
+  PROCESSES_LOADER_RESET_ACTION,
+} from './processes-loader.action';
 
 describe('Processes Loader Actions', () => {
   const TEST_ENTITY_TYPE = 'test';

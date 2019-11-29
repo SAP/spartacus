@@ -1,8 +1,15 @@
 import { Action } from '@ngrx/store';
 import { initialLoaderState } from '../loader';
 import { LoaderLoadAction } from '../loader/loader.action';
-import { ProcessesDecrementAction, ProcessesIncrementAction, ProcessesLoaderResetAction } from './processes-loader.action';
-import { initialProcessesState, processesLoaderReducer } from './processes-loader.reducer';
+import {
+  ProcessesDecrementAction,
+  ProcessesIncrementAction,
+  ProcessesLoaderResetAction,
+} from './processes-loader.action';
+import {
+  initialProcessesState,
+  processesLoaderReducer,
+} from './processes-loader.reducer';
 
 describe('Processes loader reducer', () => {
   const TEST_ENTITY_TYPE = 'test';
