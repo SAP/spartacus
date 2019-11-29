@@ -4,10 +4,11 @@ import {
   processesDecrementMeta,
   processesIncrementMeta,
   ProcessesLoaderMeta,
-  processesResetMeta,
+  processesLoaderResetMeta,
 } from '../processes-loader/processes-loader.action';
 
-export const ENTITY_PROCESSES_RESET_ACTION = '[ENTITY] PROCESSES RESET';
+export const ENTITY_PROCESSES_LOADER_RESET_ACTION =
+  '[ENTITY] PROCESSES LOADER RESET';
 export const ENTITY_PROCESSES_INCREMENT_ACTION = '[ENTITY] PROCESSES INCREMENT';
 export const ENTITY_PROCESSES_DECREMENT_ACTION = '[ENTITY] PROCESSES DECREMENT';
 
@@ -20,12 +21,12 @@ export interface EntityProcessesLoaderAction extends Action {
   readonly meta?: EntityProcessesLoaderMeta;
 }
 
-export function entityProcessesResetMeta(
+export function entityProcessesLoaderResetMeta(
   entityType: string,
   id: string | string[]
 ): EntityProcessesLoaderMeta {
   return {
-    ...processesResetMeta(entityType),
+    ...processesLoaderResetMeta(entityType),
     ...entityMeta(entityType, id),
   };
 }
@@ -50,11 +51,12 @@ export function entityProcessesDecrementMeta(
   };
 }
 
-export class EntityProcessesResetAction implements EntityProcessesLoaderAction {
-  type = ENTITY_PROCESSES_RESET_ACTION;
+export class EntityProcessesLoaderResetAction
+  implements EntityProcessesLoaderAction {
+  type = ENTITY_PROCESSES_LOADER_RESET_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
-    this.meta = entityProcessesResetMeta(entityType, id);
+    this.meta = entityProcessesLoaderResetMeta(entityType, id);
   }
 }
 

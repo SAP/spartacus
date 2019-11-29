@@ -4,7 +4,7 @@ import { initialProcessesState } from '../processes-loader';
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
-  EntityProcessesResetAction,
+  EntityProcessesLoaderResetAction,
 } from './entity-processes-loader.action';
 import { entityProcessesLoaderReducer } from './entity-processes-loader.reducer';
 
@@ -78,9 +78,9 @@ describe('EntityProcessesLoader reducer', () => {
       });
     });
 
-    describe('RESET ACTION', () => {
+    describe('PROCESSES LOADER RESET ACTION', () => {
       it('should reset processes loader state', () => {
-        const action = new EntityProcessesResetAction(
+        const action = new EntityProcessesLoaderResetAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID
         );
@@ -183,9 +183,9 @@ describe('EntityProcessesLoader reducer', () => {
       });
     });
 
-    describe('RESET ACTION', () => {
+    describe('PROCESSES LOADER RESET ACTION', () => {
       it('should reset processes loader state', () => {
-        const action = new EntityProcessesResetAction(
+        const action = new EntityProcessesLoaderResetAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITIES_ID
         );

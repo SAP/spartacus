@@ -1,18 +1,18 @@
 import {
   processesDecrementMeta,
   processesIncrementMeta,
-  processesResetMeta,
+  processesLoaderResetMeta,
 } from '../processes-loader/processes-loader.action';
 import {
   EntityProcessesDecrementAction,
   entityProcessesDecrementMeta,
   EntityProcessesIncrementAction,
   entityProcessesIncrementMeta,
-  EntityProcessesResetAction,
-  entityProcessesResetMeta,
+  EntityProcessesLoaderResetAction,
+  entityProcessesLoaderResetMeta,
   ENTITY_PROCESSES_DECREMENT_ACTION,
   ENTITY_PROCESSES_INCREMENT_ACTION,
-  ENTITY_PROCESSES_RESET_ACTION,
+  ENTITY_PROCESSES_LOADER_RESET_ACTION,
 } from './entity-processes-loader.action';
 
 describe('EntityProcessesLoader Actions', () => {
@@ -48,13 +48,16 @@ describe('EntityProcessesLoader Actions', () => {
 
     describe('EntityProcessesResetAction', () => {
       it('should create an action', () => {
-        const action = new EntityProcessesResetAction(
+        const action = new EntityProcessesLoaderResetAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID
         );
         expect({ ...action }).toEqual({
-          type: ENTITY_PROCESSES_RESET_ACTION,
-          meta: entityProcessesResetMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID),
+          type: ENTITY_PROCESSES_LOADER_RESET_ACTION,
+          meta: entityProcessesLoaderResetMeta(
+            TEST_ENTITY_TYPE,
+            TEST_ENTITY_ID
+          ),
         });
       });
     });
@@ -89,9 +92,12 @@ describe('EntityProcessesLoader Actions', () => {
 
     describe('entityProcessesResetMeta', () => {
       it('should create a meta', () => {
-        const meta = entityProcessesResetMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
+        const meta = entityProcessesLoaderResetMeta(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITY_ID
+        );
         expect(meta).toEqual({
-          ...processesResetMeta(TEST_ENTITY_TYPE),
+          ...processesLoaderResetMeta(TEST_ENTITY_TYPE),
           entityId: TEST_ENTITY_ID,
         });
       });
