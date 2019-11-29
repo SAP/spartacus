@@ -1,5 +1,8 @@
+import { Type } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
 import { Configurator } from 'projects/core/src/model';
 import { StateEntityLoaderActions } from '../../../../state/utils/index';
+import { ConfigUtilsService } from '../../utils/config-utils.service';
 import { CONFIGURATION_DATA } from '../configuration-state';
 import * as ConfiguratorActions from './configurator.action';
 
@@ -9,10 +12,18 @@ const GROUP_ID = 'GROUP1';
 const CONFIGURATION: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
-  owner: { key: PRODUCT_CODE },
+  owner: { productCode: PRODUCT_CODE, type: Configurator.OwnerType.PRODUCT },
 };
 
 describe('ConfiguratorActions', () => {
+  let configuratorUtils: ConfigUtilsService;
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({}).compileComponents();
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(CONFIGURATION.owner);
+  }));
   it('should provide create action with proper type', () => {
     const createAction = new ConfiguratorActions.CreateConfiguration(
       PRODUCT_CODE,
@@ -77,7 +88,7 @@ describe('ConfiguratorActions', () => {
           payload: CONFIGURATION,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             CONFIGURATION_DATA,
-            CONFIGURATION.productCode
+            CONFIGURATION.owner.key
           ),
         });
       });
@@ -95,7 +106,7 @@ describe('ConfiguratorActions', () => {
           payload: CONFIGURATION,
           meta: StateEntityLoaderActions.entityLoadMeta(
             CONFIGURATION_DATA,
-            CONFIGURATION.productCode
+            CONFIGURATION.owner.key
           ),
         });
       });
@@ -130,7 +141,7 @@ describe('ConfiguratorActions', () => {
           payload: CONFIGURATION,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             CONFIGURATION_DATA,
-            CONFIGURATION.productCode
+            CONFIGURATION.owner.key
           ),
         });
       });

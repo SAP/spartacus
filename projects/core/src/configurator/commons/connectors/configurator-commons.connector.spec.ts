@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Configurator } from '../../../model/configurator.model';
+import { ConfigUtilsService } from '../utils/config-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
 import createSpy = jasmine.createSpy;
@@ -28,6 +29,7 @@ class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
 
 describe('ConfiguratorCommonsConnector', () => {
   let service: ConfiguratorCommonsConnector;
+  let configuratorUtils: ConfigUtilsService;
   const PRODUCT_CODE = 'CONF_LAPTOP';
   const CONFIG_ID = '1234-56-7890';
   const GROUP_ID = 'GROUP1';
@@ -37,7 +39,7 @@ describe('ConfiguratorCommonsConnector', () => {
   const productConfiguration: Configurator.Configuration = {
     configId: CONFIG_ID,
     productCode: PRODUCT_CODE,
-    owner: { key: PRODUCT_CODE, type: Configurator.OwnerType.PRODUCT },
+    owner: { productCode: PRODUCT_CODE, type: Configurator.OwnerType.PRODUCT },
   };
 
   beforeEach(() => {
@@ -53,6 +55,10 @@ describe('ConfiguratorCommonsConnector', () => {
     service = TestBed.get(ConfiguratorCommonsConnector as Type<
       ConfiguratorCommonsConnector
     >);
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(productConfiguration.owner);
   });
 
   it('should be created', () => {

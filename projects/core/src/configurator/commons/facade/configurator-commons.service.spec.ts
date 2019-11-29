@@ -15,13 +15,14 @@ import {
 } from '../store/configuration-state';
 import * as fromReducers from '../store/reducers/index';
 import { ConfiguratorSelectors } from '../store/selectors';
+import { ConfigUtilsService } from '../utils/config-utils.service';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const OWNER_PRODUCT: Configurator.Owner = {
   productCode: PRODUCT_CODE,
-  key: PRODUCT_CODE,
+
   type: Configurator.OwnerType.PRODUCT,
 };
 
@@ -36,10 +37,7 @@ const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
-  owner: {
-    type: Configurator.OwnerType.PRODUCT,
-    key: Configurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
-  },
+  owner: OWNER_PRODUCT,
   groups: [
     {
       id: GROUP_ID_1,
@@ -103,6 +101,7 @@ function callGetOrCreate(serviceUnderTest: ConfiguratorCommonsService) {
 
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
+  let configuratorUtils: ConfigUtilsService;
   let store: Store<StateWithConfiguration>;
 
   beforeEach(async(() => {
@@ -128,6 +127,10 @@ describe('ConfiguratorCommonsService', () => {
     serviceUnderTest = TestBed.get(ConfiguratorCommonsService as Type<
       ConfiguratorCommonsService
     >);
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
   });
@@ -314,7 +317,10 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.CreateConfiguration(PRODUCT_CODE, PRODUCT_CODE)
+        new ConfiguratorActions.CreateConfiguration(
+          OWNER_PRODUCT.key,
+          PRODUCT_CODE
+        )
       );
     });
 

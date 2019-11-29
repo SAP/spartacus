@@ -27,7 +27,7 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
 });
-const owner = {
+const owner: Configurator.Owner = {
   type: Configurator.OwnerType.PRODUCT,
   key: Configurator.OwnerType.PRODUCT + '/' + productCode,
 };
