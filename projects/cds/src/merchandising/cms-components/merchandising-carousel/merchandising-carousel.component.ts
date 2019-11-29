@@ -89,7 +89,7 @@ export class MerchandisingCarouselComponent {
   ): Observable<MerchandisingProduct>[] {
     return merchandisingProducts && merchandisingProducts.products
       ? merchandisingProducts.products.map((product, index) => {
-          product.metadata = this.getCarouselItemMetadata(product, index);
+          product.metadata = this.getCarouselItemMetadata(product, index + 1);
           return of(product);
         })
       : [EMPTY];
