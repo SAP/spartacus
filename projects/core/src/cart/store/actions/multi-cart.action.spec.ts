@@ -255,7 +255,7 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('PushCartAction', () => {
+  describe('CartProcessesIncrementAction', () => {
     it('should create the action', () => {
       const payload = 'cartId';
       const action = new CartActions.CartProcessesIncrementAction(payload);
@@ -270,7 +270,7 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('PopCartAction', () => {
+  describe('CartProcessesDecrementAction', () => {
     it('should create the action', () => {
       const payload = 'cartId';
       const action = new CartActions.CartProcessesDecrementAction(payload);
