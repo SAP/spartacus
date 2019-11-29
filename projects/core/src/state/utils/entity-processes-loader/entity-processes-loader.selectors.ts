@@ -1,4 +1,9 @@
 import { entityStateSelector } from '../entity-loader/entity-loader.selectors';
+import { initialLoaderState } from '../loader/loader.reducer';
+import {
+  initialProcessesState,
+  ProcessesLoaderState,
+} from '../processes-loader';
 import {
   hasPendingProcessesSelector,
   isStableSelector,
@@ -19,4 +24,13 @@ export function entityIsStableSelector<T>(
 ): boolean {
   const entityState = entityStateSelector(state, id);
   return isStableSelector(entityState);
+}
+
+export function entityProcessesLoaderStateSelector<T>(
+  state: EntityProcessesLoaderState<T>,
+  id: string
+): ProcessesLoaderState<T> {
+  return (
+    state.entities[id] || { ...initialLoaderState, ...initialProcessesState }
+  );
 }

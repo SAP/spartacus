@@ -1,15 +1,15 @@
 import { Action } from '@ngrx/store';
 import { entityMeta, EntityMeta } from '../entity/entity.action';
 import {
-  popMeta,
+  processesDecrementMeta,
+  processesIncrementMeta,
   ProcessesLoaderMeta,
   processesResetMeta,
-  pushMeta,
 } from '../processes-loader/processes-loader.action';
 
 export const ENTITY_PROCESSES_RESET_ACTION = '[ENTITY] PROCESSES RESET';
-export const ENTITY_PUSH_ACTION = '[ENTITY] PUSH';
-export const ENTITY_POP_ACTION = '[ENTITY] POP';
+export const ENTITY_PROCESSES_INCREMENT_ACTION = '[ENTITY] PROCESSES INCREMENT';
+export const ENTITY_PROCESSES_DECREMENT_ACTION = '[ENTITY] PROCESSES DECREMENT';
 
 export interface EntityProcessesLoaderMeta
   extends EntityMeta,
@@ -30,22 +30,22 @@ export function entityProcessesResetMeta(
   };
 }
 
-export function entityPushMeta(
+export function entityProcessesIncrementMeta(
   entityType: string,
   id: string | string[]
 ): EntityProcessesLoaderMeta {
   return {
-    ...pushMeta(entityType),
+    ...processesIncrementMeta(entityType),
     ...entityMeta(entityType, id),
   };
 }
 
-export function entityPopMeta(
+export function entityProcessesDecrementMeta(
   entityType: string,
   id: string | string[]
 ): EntityProcessesLoaderMeta {
   return {
-    ...popMeta(entityType),
+    ...processesDecrementMeta(entityType),
     ...entityMeta(entityType, id),
   };
 }
@@ -58,18 +58,20 @@ export class EntityProcessesResetAction implements EntityProcessesLoaderAction {
   }
 }
 
-export class EntityPushAction implements EntityProcessesLoaderAction {
-  type = ENTITY_PUSH_ACTION;
+export class EntityProcessesIncrementAction
+  implements EntityProcessesLoaderAction {
+  type = ENTITY_PROCESSES_INCREMENT_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
-    this.meta = entityPushMeta(entityType, id);
+    this.meta = entityProcessesIncrementMeta(entityType, id);
   }
 }
 
-export class EntityPopAction implements EntityProcessesLoaderAction {
-  type = ENTITY_POP_ACTION;
+export class EntityProcessesDecrementAction
+  implements EntityProcessesLoaderAction {
+  type = ENTITY_PROCESSES_DECREMENT_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
-    this.meta = entityPopMeta(entityType, id);
+    this.meta = entityProcessesDecrementMeta(entityType, id);
   }
 }
