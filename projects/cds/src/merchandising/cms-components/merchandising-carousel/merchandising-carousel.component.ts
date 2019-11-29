@@ -13,11 +13,6 @@ import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
 import { MerchandisingProducts } from '../../model/merchandising-products.model';
 
-export interface MerchandisingCarouselModel {
-  metadata: Map<string, string>;
-  items$: Observable<Product>[];
-}
-
 @Component({
   selector: 'cx-merchandising-carousel',
   templateUrl: './merchandising-carousel.component.html',
@@ -32,9 +27,10 @@ export class MerchandisingCarouselComponent {
     map(data => data.title)
   );
 
-  merchandisingCarouselModel$: Observable<
-    MerchandisingCarouselModel
-  > = this.componentData$.pipe(
+  merchandisingCarouselModel$: Observable<{
+    items$: Observable<Product>[];
+    metadata: Map<string, string>;
+  }> = this.componentData$.pipe(
     distinctUntilKeyChanged('strategy'),
     switchMap(data =>
       this.cdsMerchandisingProductService.loadProductsForStrategy(
@@ -54,7 +50,10 @@ export class MerchandisingCarouselComponent {
     map(merchandsingProducts =>
       this.mapMerchandisingProductsToCarouselModel(merchandsingProducts)
     ),
-    filter<MerchandisingCarouselModel>(Boolean)
+    filter<{
+      items$: Observable<Product>[];
+      metadata: Map<string, string>;
+    }>(Boolean)
   );
 
   private getCarouselMetadata(
@@ -86,7 +85,10 @@ export class MerchandisingCarouselComponent {
 
   private mapMerchandisingProductsToCarouselModel(
     merchandisingProducts: MerchandisingProducts
-  ): MerchandisingCarouselModel {
+  ): {
+    items$: Observable<Product>[];
+    metadata: Map<string, string>;
+  } {
     return {
       items$:
         merchandisingProducts && merchandisingProducts.products
@@ -96,7 +98,7 @@ export class MerchandisingCarouselComponent {
         merchandisingProducts && merchandisingProducts.metadata
           ? merchandisingProducts.metadata
           : undefined,
-    } as MerchandisingCarouselModel;
+    };
   }
 
   constructor(
