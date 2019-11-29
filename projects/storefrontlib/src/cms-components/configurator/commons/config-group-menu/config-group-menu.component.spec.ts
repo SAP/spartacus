@@ -25,6 +25,55 @@ const mockRouterState: any = {
   },
 };
 
+const config: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  consistent: true,
+  complete: true,
+  productCode: PRODUCT_CODE,
+  groups: [
+    {
+      configurable: true,
+      description: 'Core components',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.1',
+      name: '1',
+      attributes: [
+        {
+          label: 'Expected Number',
+          name: 'EXP_NUMBER',
+          required: true,
+          uiType: Configurator.UiType.NOT_IMPLEMENTED,
+          values: [],
+        },
+        {
+          label: 'Processor',
+          name: 'CPQ_CPU',
+          required: true,
+          selectedSingleValue: 'INTELI5_35',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          values: [],
+        },
+      ],
+    },
+    {
+      configurable: true,
+      description: 'Peripherals & Accessories',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.2',
+      name: '2',
+      attributes: [],
+    },
+    {
+      configurable: true,
+      description: 'Software',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.3',
+      name: '3',
+      attributes: [],
+    },
+  ],
+};
+
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return of(mockRouterState);
@@ -40,62 +89,14 @@ class MockConfiguratorGroupService {
 }
 
 class MockConfiguratorCommonsService {
-  public config: Configurator.Configuration = {
-    configId: CONFIG_ID,
-    consistent: true,
-    complete: true,
-    productCode: PRODUCT_CODE,
-    groups: [
-      {
-        configurable: true,
-        description: 'Core components',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.1',
-        name: '1',
-        attributes: [
-          {
-            label: 'Expected Number',
-            name: 'EXP_NUMBER',
-            required: true,
-            uiType: Configurator.UiType.NOT_IMPLEMENTED,
-            values: [],
-          },
-          {
-            label: 'Processor',
-            name: 'CPQ_CPU',
-            required: true,
-            selectedSingleValue: 'INTELI5_35',
-            uiType: Configurator.UiType.RADIOBUTTON,
-            values: [],
-          },
-        ],
-      },
-      {
-        configurable: true,
-        description: 'Peripherals & Accessories',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.2',
-        name: '2',
-        attributes: [],
-      },
-      {
-        configurable: true,
-        description: 'Software',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.3',
-        name: '3',
-        attributes: [],
-      },
-    ],
-  };
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(this.config);
+    return of(config);
   }
   hasConfiguration(): Observable<boolean> {
     return of(false);
   }
   readConfiguration(): Observable<Configurator.Configuration> {
-    return of(this.config);
+    return of(config);
   }
 }
 
@@ -169,7 +170,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.click(CONFIG_ID, PRODUCT_CODE, { id: 'groupdId' });
+    component.click(config, { id: 'groupdId' });
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });

@@ -249,7 +249,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       );
       spyOn(configurationGroupsService, 'navigateToGroup');
 
-      classUnderTest.navigateToPreviousGroup(config.configId, PRODUCT_CODE);
+      classUnderTest.navigateToPreviousGroup(config);
     });
     //this is the actual test
     expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
@@ -271,7 +271,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       );
       spyOn(configurationGroupsService, 'navigateToGroup');
 
-      classUnderTest.navigateToNextGroup(config.configId, PRODUCT_CODE);
+      classUnderTest.navigateToNextGroup(config);
     });
 
     expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);

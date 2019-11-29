@@ -27,15 +27,22 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
     },
   },
+};
+const owner: Configurator.Owner = {
+  productCode: PRODUCT_CODE,
+  type: Configurator.OwnerType.PRODUCT,
+  key: Configurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
 };
 const configRead: Configurator.Configuration = {
   configId: 'a',
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
+  owner: owner,
 };
 
 const configRead2: Configurator.Configuration = {
@@ -43,10 +50,12 @@ const configRead2: Configurator.Configuration = {
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
+  owner: owner,
 };
 
 const configCreate: Configurator.Configuration = {
   configId: '1234-56-7890',
+  owner: owner,
   groups: [
     {
       configurable: true,
