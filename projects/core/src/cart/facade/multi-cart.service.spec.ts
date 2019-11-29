@@ -71,14 +71,12 @@ describe('MultiCartService', () => {
     });
   });
 
-  fdescribe('getCartEntity', () => {
+  describe('getCartEntity', () => {
     it('should return cart entity with given id', done => {
       let result;
       service.getCartEntity('xxx').subscribe(cartEntity => {
         result = cartEntity;
       });
-
-      console.log(result);
 
       expect(result).toEqual({
         loading: false,
@@ -320,7 +318,7 @@ describe('MultiCartService', () => {
           result = cart;
         });
 
-      expect(result).toEqual(null);
+      expect(result).toEqual(undefined);
 
       store.dispatch(
         new CartActions.LoadMultiCartSuccess({

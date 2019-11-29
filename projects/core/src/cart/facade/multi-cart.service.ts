@@ -46,7 +46,9 @@ export class MultiCartService {
     return this.store.pipe(
       select(MultiCartSelectors.getCartIsStableSelectorFactory(cartId)),
       // We dispatch a lot of actions just after finishing some process or loading, so we want this flag not to flicker.
-      // This flickering should only be avoided for switching from false to true, because when we start the loading it should be instantly reported
+      // This flickering should only be avoided when switching from false to true
+      // Start of loading should be showed instantly (no debounce)
+      // Extra actions are only dispatched after some loading
       debounce(isStable => (isStable ? timer(0) : EMPTY)),
       distinctUntilChanged()
     );
