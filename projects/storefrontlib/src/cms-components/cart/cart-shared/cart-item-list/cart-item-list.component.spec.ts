@@ -138,4 +138,21 @@ describe('CartItemListComponent', () => {
       component.form.controls[multipleMockItems[1].product.code]
     ).toBeDefined();
   });
+
+  it('should display ghost loader when cart is loading', () => {
+    component.cartIsLoading = true;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('.cx-ghost-overlay-loader')
+    ).toBeTruthy();
+  });
+
+  it('should  not display ghost loader when cart is loading', () => {
+    component.cartIsLoading = false;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('.cx-ghost-overlay-loader')
+    ).not.toBeTruthy();
+  });
+
 });

@@ -16,7 +16,8 @@
 </div>
 
 <div [formGroup]="form">
-  <div class="cx-item-list-row" *ngFor="let item of items">
+  <div class="cx-item-list-row position-relative" *ngFor="let item of items" >
+    <div class="cx-ghost-overlay-loader" *ngIf="cartIsLoading"></div>
     <div class="cx-item-list-items">
       <cx-cart-item
         [parent]="form.controls[item.product.code]"
