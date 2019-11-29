@@ -6,11 +6,16 @@ import {
   CartVoucherService,
   AuthService,
   OCC_USER_ID_ANONYMOUS,
+  CustomerCouponService,
+  WindowRef,
+  CustomerCoupon,
+  CustomerCouponSearchResult,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, startWith, tap } from 'rxjs/operators';
 
+const HAS_CUSTOMER_COUPON_CLASS = 'has-customer-coupon';
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
@@ -21,6 +26,10 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   submitDisabled$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
+  applicableCoupons: CustomerCoupon[];
+  filteredCoupons: CustomerCoupon[];
+
+  private ignoreCloseEvent = false;
 
   private subscription = new Subscription();
 
@@ -28,20 +37,30 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private authService: AuthService,
     private cartVoucherService: CartVoucherService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private customerCouponService: CustomerCouponService,
+    protected winRef: WindowRef
   ) {}
 
   ngOnInit() {
+    this.customerCouponService.loadCustomerCoupons(100);
     this.cart$ = combineLatest([
       this.cartService.getActive(),
       this.authService.getOccUserId(),
+      this.customerCouponService.getCustomerCoupons(100),
     ]).pipe(
       tap(
-        ([cart, userId]: [Cart, string]) =>
-          (this.cartId =
-            userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code)
+        ([cart, userId, customerCoupons]: [
+          Cart,
+          string,
+          CustomerCouponSearchResult
+        ]) => {
+          this.cartId =
+            userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+          this.getApplicableCustomerCoupons(cart, customerCoupons.coupons);
+        }
       ),
-      map(([cart]: [Cart, string]) => cart)
+      map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)
     );
 
     this.cartIsLoading$ = this.cartService
@@ -75,6 +94,19 @@ export class CartCouponComponent implements OnInit, OnDestroy {
           this.onSuccess(success);
         })
     );
+
+    this.subscription.add(
+      this.cartVoucherService.getAddVoucherResultError().subscribe(error => {
+        this.onError(error);
+      })
+    );
+  }
+
+  onError(error: boolean) {
+    if (error) {
+      this.customerCouponService.loadCustomerCoupons(100);
+      this.cartVoucherService.resetAddVoucherProcessingState();
+    }
   }
 
   onSuccess(success: boolean) {
@@ -84,8 +116,82 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
   }
 
+  private getApplicableCustomerCoupons(
+    cart: Cart,
+    coupons: CustomerCoupon[]
+  ): void {
+    this.applicableCoupons = coupons;
+    if (cart.appliedVouchers) {
+      cart.appliedVouchers.forEach(appliedVoucher => {
+        this.applicableCoupons = this.applicableCoupons.filter(
+          coupon => coupon.couponId !== appliedVoucher.code
+        );
+      });
+    }
+    this.filteredCoupons = this.applicableCoupons;
+  }
+
   applyVoucher(): void {
     this.cartVoucherService.addVoucher(this.form.value.couponCode, this.cartId);
+  }
+  applyCustomerCoupon(couponId: string): void {
+    this.cartVoucherService.addVoucher(couponId, this.cartId);
+    this.toggleBodyClass('couponbox-is-active', false);
+  }
+
+  filter(query: string): void {
+    const filterValue = query.toLowerCase();
+
+    this.filteredCoupons = this.applicableCoupons.filter(coupon => {
+      if (coupon.couponId.toLowerCase().indexOf(filterValue) === 0) {
+        console.log(coupon.couponId);
+      }
+      return coupon.couponId.toLowerCase().indexOf(filterValue) > -1;
+    });
+  }
+
+  open(): void {
+    this.filteredCoupons = this.applicableCoupons;
+    this.toggleBodyClass('couponbox-is-active', true);
+    this.toggleBodyClass(
+      HAS_CUSTOMER_COUPON_CLASS,
+      this.applicableCoupons.length > 0 ? true : false
+    );
+  }
+
+  close(event: UIEvent): void {
+    if (!this.ignoreCloseEvent) {
+      this.toggleBodyClass('couponbox-is-active', false);
+      if (event && event.target) {
+        (<HTMLElement>event.target).blur();
+      }
+    }
+    this.ignoreCloseEvent = false;
+  }
+
+  avoidReopen(event: UIEvent): void {
+    if (this.hasBodyClass('couponbox-is-active')) {
+      this.close(event);
+      event.preventDefault();
+    }
+  }
+
+  disableClose(): void {
+    this.ignoreCloseEvent = true;
+  }
+
+  toggleBodyClass(className: string, add?: boolean) {
+    if (add === undefined) {
+      this.winRef.document.body.classList.toggle(className);
+    } else {
+      add
+        ? this.winRef.document.body.classList.add(className)
+        : this.winRef.document.body.classList.remove(className);
+    }
+  }
+
+  hasBodyClass(className: string): boolean {
+    return this.winRef.document.body.classList.contains(className);
   }
 
   ngOnDestroy(): void {
