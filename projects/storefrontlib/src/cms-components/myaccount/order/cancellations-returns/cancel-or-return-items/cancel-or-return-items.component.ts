@@ -7,7 +7,11 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { OrderEntry, CancelOrReturnRequestEntryInput } from '@spartacus/core';
+import {
+  OrderEntry,
+  CancelOrReturnRequestEntryInput,
+  Price,
+} from '@spartacus/core';
 import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
 
 @Component({
@@ -42,20 +46,14 @@ export class CancelOrReturnItemsComponent implements OnInit {
       this.inputsControl.push(
         this.formBuilder.group({
           orderEntryNumber: entry.entryNumber,
-          quantity: entry.returnedQuantity,
+          quantity: this.cancelOrReturnService.getEntryCancelledOrReturnedQty(
+            entry
+          ),
         })
       );
     });
-  }
 
-  protected getEntryReturnedQty(entry: OrderEntry): number {
-    for (const input of this.cancelOrReturnService
-      .cancelOrReturnRequestInputs) {
-      if (input.orderEntryNumber === entry.entryNumber) {
-        return input.quantity;
-      }
-    }
-    return 0;
+    this.disableEnableConfirm();
   }
 
   setAll(): void {
@@ -75,11 +73,18 @@ export class CancelOrReturnItemsComponent implements OnInit {
         inputs.push(input);
       }
     }
-
     this.confirm.emit(inputs);
   }
 
-  disableEnableConfirm(): void {
+  updateQty(): void {
+    this.disableEnableConfirm();
+  }
+
+  getItemPrice(entry: OrderEntry): Price {
+    return this.cancelOrReturnService.getCancelledOrReturnedPrice(entry);
+  }
+
+  protected disableEnableConfirm(): void {
     for (const input of this.form.value.entryInput) {
       if (input.quantity > 0) {
         this.disableConfirmBtn = false;
@@ -87,9 +92,5 @@ export class CancelOrReturnItemsComponent implements OnInit {
       }
     }
     this.disableConfirmBtn = true;
-  }
-
-  updateQty(): void {
-    this.disableEnableConfirm();
   }
 }

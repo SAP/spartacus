@@ -35,7 +35,7 @@ describe(`CancelOrReturnRequestInputGuard`, () => {
 
   describe(`when there is NO cancelOrReturnRequestInputs`, () => {
     it(`should return UrlTree to order return/cancel page`, () => {
-      mockCancelOrReturnService.cancelOrReturnRequestInputs = undefined;
+      mockCancelOrReturnService.cancelOrReturnRequestInputs = [];
       const urlTree = guard.canActivate({
         url: [
           { path: 'my-account' },

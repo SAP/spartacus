@@ -1,12 +1,7 @@
 import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-import {
-  OrderEntry,
-  CancelOrReturnRequestEntryInput,
-  RoutingService,
-  OrderReturnRequestService,
-} from '@spartacus/core';
+import { OrderEntry, OrderReturnRequestService } from '@spartacus/core';
 
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
@@ -19,7 +14,6 @@ import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
 export class ReturnOrderConfirmationComponent implements OnDestroy {
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected routing: RoutingService,
     protected cancelOrReturnService: OrderCancelOrReturnService,
     protected returnRequestService: OrderReturnRequestService
   ) {}
@@ -35,7 +29,7 @@ export class ReturnOrderConfirmationComponent implements OnDestroy {
     map(order => {
       const returnedEntries = [];
       order.entries.forEach(entry => {
-        if (this.isEntryReturned(entry)) {
+        if (this.cancelOrReturnService.isEntryCancelledOrReturned(entry)) {
           returnedEntries.push(entry);
         }
       });
@@ -43,41 +37,33 @@ export class ReturnOrderConfirmationComponent implements OnDestroy {
     })
   );
 
-  returnRequestEntryInput: CancelOrReturnRequestEntryInput[] = this
-    .cancelOrReturnService.cancelOrReturnRequestInputs;
-
-  protected isEntryReturned(entry: OrderEntry): boolean {
-    for (const input of this.returnRequestEntryInput) {
-      if (input.orderEntryNumber === entry.entryNumber) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   submit(): void {
     this.returnRequestService.createOrderReturnRequest({
       orderCode: this.orderCode,
-      returnRequestEntryInputs: this.returnRequestEntryInput,
+      returnRequestEntryInputs: this.cancelOrReturnService
+        .cancelOrReturnRequestInputs,
     });
 
+    this.cancelOrReturnService.clearCancelOrReturnRequestInputs();
+
+    // should go to "return request details" page, will be handled by #5477.
+    // this part will be refactored after #5477 done.
     if (!this.subscription) {
       this.subscription = this.returnRequestService
         .getOrderReturnRequest()
         .pipe(filter(returnRequest => Boolean(returnRequest)))
         .subscribe(returnRequest => {
           console.log(returnRequest);
-          // should go to "return request details" page, will be handled by #5477
-          this.routing.go({ cxRoute: 'orders' });
+          //this.routing.go({ cxRoute: 'orders' });
         });
     }
   }
 
   back(): void {
-    this.routing.go({
-      cxRoute: 'orderReturn',
-      params: { code: this.orderCode },
-    });
+    this.cancelOrReturnService.goToOrderCancelOrReturn(
+      'orderReturn',
+      this.orderCode
+    );
   }
 
   ngOnDestroy(): void {

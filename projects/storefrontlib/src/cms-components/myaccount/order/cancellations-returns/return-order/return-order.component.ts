@@ -1,13 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-
-import {
-  OrderEntry,
-  CancelOrReturnRequestEntryInput,
-  RoutingService,
-} from '@spartacus/core';
-
+import { OrderEntry, CancelOrReturnRequestEntryInput } from '@spartacus/core';
 import { OrderCancelOrReturnService } from '../cancel-or-returns.service';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 
@@ -19,8 +13,7 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
 export class ReturnOrderComponent {
   constructor(
     protected cancelOrReturnService: OrderCancelOrReturnService,
-    protected orderDetailsService: OrderDetailsService,
-    protected routing: RoutingService
+    protected orderDetailsService: OrderDetailsService
   ) {}
 
   orderCode: string;
@@ -43,9 +36,9 @@ export class ReturnOrderComponent {
 
   confirmReturn(entryInputs: CancelOrReturnRequestEntryInput[]): void {
     this.cancelOrReturnService.cancelOrReturnRequestInputs = entryInputs;
-    this.routing.go({
-      cxRoute: 'orderReturnConfirmation',
-      params: { code: this.orderCode },
-    });
+    this.cancelOrReturnService.goToOrderCancelOrReturn(
+      'orderReturnConfirmation',
+      this.orderCode
+    );
   }
 }

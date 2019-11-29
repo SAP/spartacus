@@ -17,7 +17,7 @@ export class CancelOrReturnRequestInputGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    if (this.cancelOrReturnService.cancelOrReturnRequestInputs) {
+    if (this.cancelOrReturnService.cancelOrReturnRequestInputs.length > 0) {
       return true;
     } else {
       const urlSegments: string[] = route.url.map(seg => seg.path);
