@@ -1,0 +1,11 @@
+@import '../cart/cart-item-list';
+
+%cx-wish-list {
+  @extend %cx-cart-item-list;
+
+  @include media-breakpoint-down(sm) {
+    .cx-item-list-row:last-of-type {
+      border: none;
+    }
+  }
+}
