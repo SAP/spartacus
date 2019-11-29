@@ -38,7 +38,9 @@ export function processesDecrementMeta(
   };
 }
 
-export function processesResetMeta(entityType: string): ProcessesLoaderMeta {
+export function processesLoaderResetMeta(
+  entityType: string
+): ProcessesLoaderMeta {
   // processes reset action is a reset action for loader reducer, but not the other way around
   return {
     ...loaderResetMeta(entityType),
@@ -50,7 +52,7 @@ export class ProcessesLoaderResetAction implements ProcessesLoaderAction {
   type = PROCESSES_LOADER_RESET_ACTION;
   readonly meta: ProcessesLoaderMeta;
   constructor(entityType: string) {
-    this.meta = processesResetMeta(entityType);
+    this.meta = processesLoaderResetMeta(entityType);
   }
 }
 
