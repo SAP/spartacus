@@ -48,12 +48,8 @@ export class MerchandisingCarouselComponent {
       return merchandsingProducts;
     }),
     map(merchandsingProducts =>
-      this.mapMerchandisingProductsToCarouselModel(merchandsingProducts)
-    ),
-    filter<{
-      items$: Observable<Product>[];
-      metadata: Map<string, string>;
-    }>(Boolean)
+      this.mapMerchandisingProductsItems(merchandsingProducts)
+    )
   );
 
   private getCarouselMetadata(
@@ -83,7 +79,7 @@ export class MerchandisingCarouselComponent {
     return metadata;
   }
 
-  private mapMerchandisingProductsToCarouselModel(
+  private mapMerchandisingProductsItems(
     merchandisingProducts: MerchandisingProducts
   ): {
     items$: Observable<Product>[];
