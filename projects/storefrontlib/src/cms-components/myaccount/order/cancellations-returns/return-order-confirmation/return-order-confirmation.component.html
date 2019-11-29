@@ -1,3 +1,14 @@
+{{ 'orderDetails.cancellationAndReturn.returnNote' | cxTranslate }}
+
+<div class="col-md-6">
+  <button class="btn btn-block btn-action" (click)="back()">
+    {{ 'common.back' | cxTranslate }}
+  </button>
+  <button class="btn btn-block btn-primary" (click)="submit()">
+    {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
+  </button>
+</div>
+
 <ng-container *ngIf="returnedEntries$ | async as returnedEntries">
   <cx-cancellation-return-items
     [entries]="returnedEntries"
@@ -5,10 +16,4 @@
     [confirmRequest]="true"
   >
   </cx-cancellation-return-items>
-
-  <div class="col-md-6">
-    <button class="btn btn-block btn-primary" (click)="submit()">
-      {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
-    </button>
-  </div>
 </ng-container>

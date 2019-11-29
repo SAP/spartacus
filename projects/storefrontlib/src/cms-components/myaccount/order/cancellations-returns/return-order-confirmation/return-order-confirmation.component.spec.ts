@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
@@ -79,7 +79,7 @@ class MockOrderDetailsService {
 describe('ReturnOrderConfirmationComponent', () => {
   let component: ReturnOrderConfirmationComponent;
   let fixture: ComponentFixture<ReturnOrderConfirmationComponent>;
-  //let routingService: MockRoutingService;
+  let routingService: MockRoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -104,7 +104,7 @@ describe('ReturnOrderConfirmationComponent', () => {
     fixture = TestBed.createComponent(ReturnOrderConfirmationComponent);
     component = fixture.componentInstance;
 
-    //routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
   });
 
   it('should create', () => {
@@ -138,5 +138,15 @@ describe('ReturnOrderConfirmationComponent', () => {
     component.submit();
     // will be handled in #5477
     // expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
+  });
+
+  it('should be able to back to return order page', () => {
+    fixture.detectChanges();
+    component.back();
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderReturn',
+      params: { code: '1' },
+    });
   });
 });
