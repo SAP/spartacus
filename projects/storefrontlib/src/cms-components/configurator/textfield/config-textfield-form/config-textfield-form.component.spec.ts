@@ -11,6 +11,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { PageLayoutModule } from '../../../../cms-structure/page/page-layout/page-layout.module';
 import { VariantConfiguratorModule } from '../../variant/variant-configurator.module';
+import { ConfigTextfieldAddToCartButtonComponent } from '../config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
 import { ConfigTextfieldInputFieldComponent } from '../config-textfield-input-field/config-textfield-input-field.component';
 import { ConfigTextfieldFormComponent } from './config-textfield-form.component';
 
@@ -53,6 +54,7 @@ describe('ConfigTextfieldFormComponent', () => {
       declarations: [
         ConfigTextfieldFormComponent,
         ConfigTextfieldInputFieldComponent,
+        ConfigTextfieldAddToCartButtonComponent,
       ],
       providers: [
         {
