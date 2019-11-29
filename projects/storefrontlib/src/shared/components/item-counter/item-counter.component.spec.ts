@@ -28,9 +28,14 @@ const testData = [
   { incomingValue: 6, adjustedValue: 5, isMaxOrMinValueOrBeyond: true },
 ];
 
-//add additional
 const testData2 = [
   { incomingValue: -1, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 0, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValueOrBeyond: false },
+];
+
+const testData3 = [
+  { incomingValue: -1, adjustedValue: -1, isMaxOrMinValueOrBeyond: true },
   { incomingValue: 0, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
   { incomingValue: 1, adjustedValue: 1, isMaxOrMinValueOrBeyond: false },
 ];
@@ -279,6 +284,14 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.min = 0;
     itemCounterComponent.max = 5;
     testData2.forEach(({ incomingValue, adjustedValue }) => {
+      expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
+        adjustedValue
+      );
+    });
+
+    itemCounterComponent.min = undefined;
+    itemCounterComponent.max = 5;
+    testData3.forEach(({ incomingValue, adjustedValue }) => {
       expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
         adjustedValue
       );
