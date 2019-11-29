@@ -10,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PageLayoutModule } from '../../../../cms-structure/page/page-layout/page-layout.module';
-import { VariantConfiguratorModule } from '../../variant/variant-configurator.module';
 import { ConfigTextfieldInputFieldComponent } from '../config-textfield-input-field/config-textfield-input-field.component';
 import { ConfigTextfieldFormComponent } from './config-textfield-form.component';
 
@@ -47,7 +46,7 @@ describe('ConfigTextfieldFormComponent', () => {
         I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        VariantConfiguratorModule,
+
         PageLayoutModule,
       ],
       declarations: [

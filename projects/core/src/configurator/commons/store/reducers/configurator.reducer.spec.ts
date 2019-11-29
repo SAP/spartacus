@@ -10,10 +10,14 @@ import {
   UpdateConfigurationSuccess,
 } from './../actions/configurator.action';
 import * as StateReduce from './configurator.reducer';
-
+const owner: Configurator.Owner = {
+  type: Configurator.OwnerType.PRODUCT,
+  key: Configurator.OwnerType.PRODUCT + '/' + 'CONF_LAPTOP',
+};
 const configuration: Configurator.Configuration = {
   configId: 'ds',
   productCode: 'CONF_LAPTOP',
+  owner: owner,
 };
 
 describe('Configurator reducer', () => {

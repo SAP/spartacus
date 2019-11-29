@@ -12,9 +12,16 @@ import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;
+  const productCode = 'CONF_LAPTOP';
+  const owner: Configurator.Owner = {
+    type: Configurator.OwnerType.PRODUCT,
+    key: Configurator.OwnerType.PRODUCT + '/' + productCode,
+  };
+
   const configuration: Configurator.Configuration = {
     configId: 'a',
-    productCode: 'CONF_PRODUCT',
+    productCode: productCode,
+    owner: owner,
   };
 
   beforeEach(() => {
@@ -37,9 +44,7 @@ describe('Configurator selectors', () => {
     store
       .pipe(
         select(
-          ConfiguratorSelectors.getConfigurationFactory(
-            configuration.productCode
-          )
+          ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
         )
       )
       .subscribe(value => (result = value));
@@ -52,9 +57,7 @@ describe('Configurator selectors', () => {
     store
       .pipe(
         select(
-          ConfiguratorSelectors.getConfigurationFactory(
-            configuration.productCode
-          )
+          ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
         )
       )
       .subscribe(value => (result = value));

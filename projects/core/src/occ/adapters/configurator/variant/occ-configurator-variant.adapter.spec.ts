@@ -90,7 +90,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readConfiguration endpoint', () => {
     occConfiguratorVariantAdapter
-      .readConfiguration(configId, groupId)
+      .readConfiguration(configId, groupId, productConfiguration.owner)
       .subscribe();
 
     const mockReq = httpMock.expectOne(req => {

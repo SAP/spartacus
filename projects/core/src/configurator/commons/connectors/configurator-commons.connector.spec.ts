@@ -37,6 +37,7 @@ describe('ConfiguratorCommonsConnector', () => {
   const productConfiguration: Configurator.Configuration = {
     configId: CONFIG_ID,
     productCode: PRODUCT_CODE,
+    owner: { key: PRODUCT_CODE, type: Configurator.OwnerType.PRODUCT },
   };
 
   beforeEach(() => {
@@ -76,10 +77,14 @@ describe('ConfiguratorCommonsConnector', () => {
 
     let result;
     service
-      .readConfiguration(CONFIG_ID, GROUP_ID)
+      .readConfiguration(CONFIG_ID, GROUP_ID, productConfiguration.owner)
       .subscribe(res => (result = res));
     expect(result).toBe('readConfiguration' + CONFIG_ID);
-    expect(adapter.readConfiguration).toHaveBeenCalledWith(CONFIG_ID, GROUP_ID);
+    expect(adapter.readConfiguration).toHaveBeenCalledWith(
+      CONFIG_ID,
+      GROUP_ID,
+      productConfiguration.owner
+    );
   });
 
   it('should call adapter on updateConfiguration', () => {

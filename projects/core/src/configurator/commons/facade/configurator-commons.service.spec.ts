@@ -36,6 +36,10 @@ const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  owner: {
+    type: Configurator.OwnerType.PRODUCT,
+    key: Configurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
+  },
   groups: [
     {
       id: GROUP_ID_1,
@@ -149,10 +153,7 @@ describe('ConfiguratorCommonsService', () => {
       of(productConfiguration)
     );
     store.dispatch(
-      new ConfiguratorActions.CreateConfigurationSuccess(
-        PRODUCT_CODE,
-        productConfiguration
-      )
+      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration)
     );
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,

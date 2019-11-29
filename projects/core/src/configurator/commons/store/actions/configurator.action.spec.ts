@@ -1,3 +1,4 @@
+import { Configurator } from 'projects/core/src/model';
 import { StateEntityLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_DATA } from '../configuration-state';
 import * as ConfiguratorActions from './configurator.action';
@@ -5,20 +6,24 @@ import * as ConfiguratorActions from './configurator.action';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '15468-5464-9852-54682';
 const GROUP_ID = 'GROUP1';
-const PAYLOAD = {
+const CONFIGURATION: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
-  groupId: GROUP_ID,
+  owner: { key: PRODUCT_CODE },
 };
 
 describe('ConfiguratorActions', () => {
   it('should provide create action with proper type', () => {
-    const createAction = new ConfiguratorActions.CreateConfiguration('');
+    const createAction = new ConfiguratorActions.CreateConfiguration(
+      PRODUCT_CODE,
+      PRODUCT_CODE
+    );
     expect(createAction.type).toBe(ConfiguratorActions.CREATE_CONFIGURATION);
   });
 
   it('should provide create action that carries productCode as a payload', () => {
     const createAction = new ConfiguratorActions.CreateConfiguration(
+      PRODUCT_CODE,
       PRODUCT_CODE
     );
     expect(createAction.productCode).toBe(PRODUCT_CODE);
@@ -27,13 +32,17 @@ describe('ConfiguratorActions', () => {
   describe('ReadConfiguration Actions', () => {
     describe('ReadConfiguration', () => {
       it('Should create the action', () => {
-        const action = new ConfiguratorActions.ReadConfiguration(PAYLOAD);
+        const action = new ConfiguratorActions.ReadConfiguration(
+          CONFIGURATION,
+          GROUP_ID
+        );
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION,
-          payload: PAYLOAD,
+          configuration: CONFIGURATION,
+          groupId: GROUP_ID,
           meta: StateEntityLoaderActions.entityLoadMeta(
             CONFIGURATION_DATA,
-            PAYLOAD.productCode
+            CONFIGURATION.owner.key
           ),
         });
       });
@@ -61,14 +70,14 @@ describe('ConfiguratorActions', () => {
     describe('ReadConfigurationSuccess', () => {
       it('Should create the action', () => {
         const action = new ConfiguratorActions.ReadConfigurationSuccess(
-          PAYLOAD
+          CONFIGURATION
         );
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
-          payload: PAYLOAD,
+          payload: CONFIGURATION,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             CONFIGURATION_DATA,
-            PAYLOAD.productCode
+            CONFIGURATION.productCode
           ),
         });
       });
@@ -78,13 +87,15 @@ describe('ConfiguratorActions', () => {
   describe('UpdateConfiguration Actions', () => {
     describe('UpdateConfiguration', () => {
       it('Should create the action', () => {
-        const action = new ConfiguratorActions.UpdateConfiguration(PAYLOAD);
+        const action = new ConfiguratorActions.UpdateConfiguration(
+          CONFIGURATION
+        );
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION,
-          payload: PAYLOAD,
+          payload: CONFIGURATION,
           meta: StateEntityLoaderActions.entityLoadMeta(
             CONFIGURATION_DATA,
-            PAYLOAD.productCode
+            CONFIGURATION.productCode
           ),
         });
       });
@@ -112,14 +123,14 @@ describe('ConfiguratorActions', () => {
     describe('UpdateConfigurationSuccess', () => {
       it('Should create the action', () => {
         const action = new ConfiguratorActions.UpdateConfigurationSuccess(
-          PAYLOAD
+          CONFIGURATION
         );
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
-          payload: PAYLOAD,
+          payload: CONFIGURATION,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             CONFIGURATION_DATA,
-            PAYLOAD.productCode
+            CONFIGURATION.productCode
           ),
         });
       });
