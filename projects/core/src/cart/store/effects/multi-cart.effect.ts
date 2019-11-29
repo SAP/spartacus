@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CheckoutActions } from '../../../checkout/store/actions';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
@@ -56,11 +56,11 @@ export class MultiCartEffects {
   removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
     ofType(DeprecatedCartActions.DELETE_CART),
     map((action: DeprecatedCartActions.DeleteCart) => action.payload),
-    mergeMap(payload => [new CartActions.RemoveCart(payload.cartId)])
+    map(payload => new CartActions.RemoveCart(payload.cartId))
   );
 
   @Effect()
-  queueAction$: Observable<
+  processesIncrementAction$: Observable<
     CartActions.CartProcessesIncrementAction
   > = this.actions$.pipe(
     ofType(
@@ -70,7 +70,6 @@ export class MultiCartEffects {
       CartActions.CART_REMOVE_ENTRY,
       DeprecatedCartActions.ADD_EMAIL_TO_CART,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
-      CartActions.CART_REMOVE_ENTRY,
       CartActions.CART_ADD_VOUCHER,
       CartActions.CART_REMOVE_VOUCHER
     ),

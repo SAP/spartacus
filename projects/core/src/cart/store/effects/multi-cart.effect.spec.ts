@@ -4,6 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
+import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import * as fromCartReducers from '../../store/reducers/index';
 import * as DeprecatedCartActions from '../actions/cart.action';
@@ -131,6 +132,73 @@ describe('Cart effect', () => {
         b: addEmailToMultiCartCompletion,
       });
       expect(cartEffects.addEmail2$).toBeObservable(expected);
+    });
+  });
+
+  describe('removeCart$', () => {
+    it('should dispatch RemoveCart action', () => {
+      const payload = {
+        userId: 'userId',
+        cartId: 'cartId',
+      };
+      const action = new DeprecatedCartActions.DeleteCart(payload);
+      const removeCartCompletion = new CartActions.RemoveCart(payload.cartId);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', {
+        b: removeCartCompletion,
+      });
+      expect(cartEffects.removeCart$).toBeObservable(expected);
+    });
+  });
+
+  describe('processesIncrement$', () => {
+    it('should dispatch CartProcessesIncrement action', () => {
+      const payload = {
+        userId: 'userId',
+        cartId: 'cartId',
+      };
+      const action1 = new DeprecatedCartActions.MergeCart(payload);
+      const action2 = new CartActions.CartAddEntry(payload);
+      const action3 = new CartActions.CartUpdateEntry(payload);
+      const action4 = new CartActions.CartRemoveEntry(payload);
+      const action5 = new DeprecatedCartActions.AddEmailToCart({
+        ...payload,
+        email: 'email',
+      });
+      const action6 = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
+      const action7 = new CartActions.CartAddVoucher({
+        ...payload,
+        voucherId: 'voucherId',
+      });
+      const action8 = new CartActions.CartRemoveVoucher({
+        ...payload,
+        voucherId: 'voucherId',
+      });
+
+      const processesIncrementCompletion = new CartActions.CartProcessesIncrementAction(
+        payload.cartId
+      );
+      actions$ = hot('-a-b-c-d-e-f-g-h', {
+        a: action1,
+        b: action2,
+        c: action3,
+        d: action4,
+        e: action5,
+        f: action6,
+        g: action7,
+        h: action8,
+      });
+      const expected = cold('-1-2-3-4-5-6-7-8', {
+        1: processesIncrementCompletion,
+        2: processesIncrementCompletion,
+        3: processesIncrementCompletion,
+        4: processesIncrementCompletion,
+        5: processesIncrementCompletion,
+        6: processesIncrementCompletion,
+        7: processesIncrementCompletion,
+        8: processesIncrementCompletion,
+      });
+      expect(cartEffects.processesIncrementAction$).toBeObservable(expected);
     });
   });
 });
