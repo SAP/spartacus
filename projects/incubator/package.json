@@ -1,0 +1,9 @@
+{
+  "name": "@spartacus/incubator",
+  "version": "0.0.1",
+  "description": "Spartacus incubator library",
+  "peerDependencies": {
+    "@angular/common": "^8.2.5",
+    "@angular/core": "^8.2.5"
+  }
+}
