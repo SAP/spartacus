@@ -47,23 +47,14 @@ export class MerchandisingCarouselComponent {
         merchandsingProducts,
         componentData
       );
-      merchandsingProducts.metadata = metadata;
-      return merchandsingProducts;
-    }),
-    map(merchandsingProducts => {
-      merchandsingProducts.products.forEach(
-        (merchandisingProduct, index) =>
-          (merchandisingProduct.metadata = this.getCarouselItemMetadata(
-            merchandisingProduct,
-            index + 1
-          ))
+      const items$ = this.mapMerchandisingProductsToCarouselItems(
+        merchandsingProducts
       );
-      return this.mapMerchandisingProductsToCarouselModel(merchandsingProducts);
-    }),
-    filter<{
-      items$: Observable<Product>[];
-      metadata: Map<string, string>;
-    }>(Boolean)
+      return {
+        items$,
+        metadata,
+      };
+    })
   );
 
   private getCarouselMetadata(
@@ -93,6 +84,17 @@ export class MerchandisingCarouselComponent {
     return metadata;
   }
 
+  private mapMerchandisingProductsToCarouselItems(
+    merchandisingProducts: MerchandisingProducts
+  ): Observable<MerchandisingProduct>[] {
+    return merchandisingProducts && merchandisingProducts.products
+      ? merchandisingProducts.products.map((product, index) => {
+          product.metadata = this.getCarouselItemMetadata(product, index);
+          return of(product);
+        })
+      : [EMPTY];
+  }
+
   getCarouselItemMetadata(
     merchandisingProduct: MerchandisingProduct,
     index: number
@@ -109,24 +111,6 @@ export class MerchandisingCarouselComponent {
     metadata.set('id', merchandisingProduct.code);
 
     return metadata;
-  }
-
-  private mapMerchandisingProductsToCarouselModel(
-    merchandisingProducts: MerchandisingProducts
-  ): {
-    items$: Observable<Product>[];
-    metadata: Map<string, string>;
-  } {
-    return {
-      items$:
-        merchandisingProducts && merchandisingProducts.products
-          ? merchandisingProducts.products.map(product => of(product))
-          : [EMPTY],
-      metadata:
-        merchandisingProducts && merchandisingProducts.metadata
-          ? merchandisingProducts.metadata
-          : undefined,
-    };
   }
 
   constructor(
