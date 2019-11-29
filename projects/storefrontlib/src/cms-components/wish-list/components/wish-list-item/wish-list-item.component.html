@@ -26,13 +26,13 @@
           {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product.code }}
         </div>
         <!-- Variants -->
-        <div
+        <!-- TODO #5593 <div
           *ngFor="let variant of cartEntry.product.variantOptionQualifiers"
           class="cx-property"
         >
           <div class="cx-label">{{ variant.name }}</div>
           <div class="cx-value">{{ variant.value }}</div>
-        </div>
+        </div> -->
       </div>
       <!-- Item Price -->
       <div
