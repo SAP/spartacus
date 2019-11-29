@@ -6,9 +6,9 @@ import {
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import {
-  EntityPopAction,
-  EntityProcessesResetAction,
-  EntityPushAction,
+  EntityProcessesDecrementAction,
+  EntityProcessesIncrementAction,
+  EntityProcessesLoaderResetAction,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { getCartIdByUserId } from '../../utils/utils';
@@ -39,8 +39,10 @@ export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
 
 export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
 
-export const PUSH_CART_ACTION = '[Multi Cart] Push Cart Action';
-export const POP_CART_ACTION = '[Multi Cart] Pop Cart Action';
+export const CART_PROCESSES_INCREMENT_ACTION =
+  '[Multi Cart] Cart Processes Increment Action';
+export const CART_PROCESSES_DECREMENT_ACTION =
+  '[Multi Cart] Cart Processes Decrement Action';
 
 /**
  * To keep track of cart creation process we use cart with `fresh` id.
@@ -49,7 +51,7 @@ export const POP_CART_ACTION = '[Multi Cart] Pop Cart Action';
  */
 export const FRESH_CART_ID = 'fresh';
 
-export class ResetFreshCart extends EntityProcessesResetAction {
+export class ResetFreshCart extends EntityProcessesLoaderResetAction {
   readonly type = RESET_FRESH_CART;
   constructor() {
     super(MULTI_CART_FEATURE, FRESH_CART_ID);
@@ -125,7 +127,7 @@ export class MergeMultiCartSuccess extends EntityRemoveAction {
   }
 }
 
-export class ResetMultiCartDetails extends EntityProcessesResetAction {
+export class ResetMultiCartDetails extends EntityProcessesLoaderResetAction {
   readonly type = RESET_MULTI_CART_DETAILS;
   constructor() {
     super(MULTI_CART_FEATURE, undefined);
@@ -162,15 +164,15 @@ export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
   }
 }
 
-export class PushCartAction extends EntityPushAction {
-  readonly type = PUSH_CART_ACTION;
+export class CartProcessesIncrementAction extends EntityProcessesIncrementAction {
+  readonly type = CART_PROCESSES_INCREMENT_ACTION;
   constructor(public payload: string) {
     super(MULTI_CART_FEATURE, payload);
   }
 }
 
-export class PopCartAction extends EntityPopAction {
-  readonly type = POP_CART_ACTION;
+export class CartProcessesDecrementAction extends EntityProcessesDecrementAction {
+  readonly type = CART_PROCESSES_DECREMENT_ACTION;
   constructor(public payload: string) {
     super(MULTI_CART_FEATURE, payload);
   }
@@ -193,5 +195,5 @@ export type MultiCartActions =
   | AddEmailToMultiCart
   | AddEmailToMultiCartFail
   | AddEmailToMultiCartSuccess
-  | PushCartAction
-  | PopCartAction;
+  | CartProcessesIncrementAction
+  | CartProcessesDecrementAction;

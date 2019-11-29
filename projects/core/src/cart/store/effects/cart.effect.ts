@@ -45,8 +45,8 @@ export class CartEffects {
         debounceTime(0),
         switchMap(payload => {
           return of(payload).pipe(
-            // deprecated -> remove check when store is not optional
             withLatestFrom(
+              // TODO: deprecated -> remove check for store in 2.0 when store will be required
               !this.store
                 ? of(false)
                 : this.store.pipe(
@@ -111,8 +111,13 @@ export class CartEffects {
                 if (couponExpiredErrors.length > 0) {
                   // clear coupons actions just wanted to reload cart again
                   // no need to do it in refresh or keep that action
-                  // ! however removing this action will be a breaking change
-                  return of(new CartActions.LoadCart({ ...payload }));
+                  // however removing this action will be a breaking change
+                  // remove that action in 2.0 release
+                  // @deprecated since 1.4
+                  return from([
+                    new CartActions.LoadCart({ ...payload }),
+                    new CartActions.ClearExpiredCoupons({}),
+                  ]);
                 }
 
                 if (error && error.error && error.error.errors) {
@@ -228,7 +233,7 @@ export class CartEffects {
 
   @Effect()
   refresh$: Observable<
-    DeprecatedCartActions.LoadCart | CartActions.PopCartAction
+    DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrementAction
   > = this.actions$.pipe(
     ofType(
       DeprecatedCartActions.MERGE_CART_SUCCESS,
@@ -257,7 +262,7 @@ export class CartEffects {
     switchMap(payload => {
       if (payload) {
         return from([
-          new CartActions.PopCartAction(payload.cartId),
+          new CartActions.CartProcessesDecrementAction(payload.cartId),
           new DeprecatedCartActions.LoadCart({
             userId: payload.userId,
             cartId: payload.cartId,
@@ -290,7 +295,7 @@ export class CartEffects {
     | DeprecatedCartActions.AddEmailToCartFail
     | CartActions.AddEmailToMultiCartFail
     | CartActions.AddEmailToMultiCartSuccess
-    | CartActions.PopCartAction
+    | CartActions.CartProcessesDecrementAction
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
@@ -321,7 +326,7 @@ export class CartEffects {
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-              new CartActions.PopCartAction(payload.cartId),
+              new CartActions.CartProcessesDecrementAction(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,

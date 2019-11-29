@@ -60,7 +60,9 @@ export class MultiCartEffects {
   );
 
   @Effect()
-  queueAction$: Observable<CartActions.PushCartAction> = this.actions$.pipe(
+  queueAction$: Observable<
+    CartActions.CartProcessesIncrementAction
+  > = this.actions$.pipe(
     ofType(
       DeprecatedCartActions.MERGE_CART,
       CartActions.CART_ADD_ENTRY,
@@ -85,7 +87,10 @@ export class MultiCartEffects {
           | CartActions.CartRemoveVoucher
       ) => action.payload
     ),
-    map(payload => payload && new CartActions.PushCartAction(payload.cartId))
+    map(
+      payload =>
+        payload && new CartActions.CartProcessesIncrementAction(payload.cartId)
+    )
   );
 
   constructor(private actions$: Actions) {}

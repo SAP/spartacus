@@ -29,7 +29,7 @@ describe('MultiCart Actions', () => {
         const action = new CartActions.ResetFreshCart();
         expect({ ...action }).toEqual({
           type: CartActions.RESET_FRESH_CART,
-          meta: StateEntityProcessesLoaderActions.entityProcessesResetMeta(
+          meta: StateEntityProcessesLoaderActions.entityProcessesLoaderResetMeta(
             MULTI_CART_FEATURE,
             FRESH_CART_ID
           ),
@@ -174,7 +174,7 @@ describe('MultiCart Actions', () => {
       const action = new CartActions.ResetMultiCartDetails();
       expect({ ...action }).toEqual({
         type: CartActions.RESET_MULTI_CART_DETAILS,
-        meta: StateEntityProcessesLoaderActions.entityProcessesResetMeta(
+        meta: StateEntityProcessesLoaderActions.entityProcessesLoaderResetMeta(
           MULTI_CART_FEATURE,
           undefined
         ),
@@ -258,11 +258,11 @@ describe('MultiCart Actions', () => {
   describe('PushCartAction', () => {
     it('should create the action', () => {
       const payload = 'cartId';
-      const action = new CartActions.PushCartAction(payload);
+      const action = new CartActions.CartProcessesIncrementAction(payload);
       expect({ ...action }).toEqual({
-        type: CartActions.PUSH_CART_ACTION,
+        type: CartActions.CART_PROCESSES_INCREMENT_ACTION,
         payload,
-        meta: StateEntityProcessesLoaderActions.entityPushMeta(
+        meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
           MULTI_CART_FEATURE,
           payload
         ),
@@ -273,11 +273,11 @@ describe('MultiCart Actions', () => {
   describe('PopCartAction', () => {
     it('should create the action', () => {
       const payload = 'cartId';
-      const action = new CartActions.PopCartAction(payload);
+      const action = new CartActions.CartProcessesDecrementAction(payload);
       expect({ ...action }).toEqual({
-        type: CartActions.POP_CART_ACTION,
+        type: CartActions.CART_PROCESSES_DECREMENT_ACTION,
         payload,
-        meta: StateEntityProcessesLoaderActions.entityPopMeta(
+        meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
           MULTI_CART_FEATURE,
           payload
         ),

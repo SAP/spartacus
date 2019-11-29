@@ -5,14 +5,12 @@ import {
 } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
-import {
-  entityStateSelector,
-  entityValueSelector,
-} from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { entityValueSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityProcessesLoaderState } from '../../../state/utils/entity-processes-loader/entity-processes-loader-state';
 import {
   entityHasPendingProcessesSelector,
   entityIsStableSelector,
+  entityProcessesLoaderStateSelector,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.selectors';
 import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import {
@@ -40,7 +38,7 @@ export const getCartEntitySelectorFactory = (
   return createSelector(
     getMultiCartEntities,
     (state: EntityProcessesLoaderState<Cart>) =>
-      entityStateSelector(state, cartId)
+      entityProcessesLoaderStateSelector(state, cartId)
   );
 };
 

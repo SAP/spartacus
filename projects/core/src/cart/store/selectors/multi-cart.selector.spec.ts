@@ -82,6 +82,7 @@ describe('Multi Cart selectors', () => {
               success: true,
               error: false,
               loading: false,
+              processesCount: 0,
             },
           },
         },
@@ -109,6 +110,7 @@ describe('Multi Cart selectors', () => {
             success: true,
             error: false,
             loading: false,
+            processesCount: 0,
           },
         },
       });
@@ -129,6 +131,7 @@ describe('Multi Cart selectors', () => {
         error: false,
         success: false,
         value: undefined,
+        processesCount: 0,
       });
 
       loadCart();
@@ -138,6 +141,7 @@ describe('Multi Cart selectors', () => {
         success: true,
         error: false,
         loading: false,
+        processesCount: 0,
       });
     });
   });
@@ -191,7 +195,9 @@ describe('Multi Cart selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(new CartActions.PushCartAction(testCart.code));
+      store.dispatch(
+        new CartActions.CartProcessesIncrementAction(testCart.code)
+      );
 
       expect(result).toEqual(true);
     });
@@ -230,7 +236,7 @@ describe('Multi Cart selectors', () => {
         )
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(null);
+      expect(result).toEqual(undefined);
 
       loadCart();
 
