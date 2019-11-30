@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
-  TOKEN_REVOCATION,
+  TOKEN_REVOCATION_HEADER,
 } from '../../../occ/utils/interceptor-util';
 import { AuthConfig } from '../../config/auth-config';
 import { UserToken } from '../../models/token-types.model';
@@ -72,7 +72,7 @@ export class UserAuthenticationTokenService {
   revokeToken(userToken: UserToken): Observable<{}> {
     const url = this.occEndpointsService.getRawEndpoint('revoke');
     const headers = InterceptorUtil.createHeader(
-      TOKEN_REVOCATION,
+      TOKEN_REVOCATION_HEADER,
       true,
       new HttpHeaders({
         Authorization: `${userToken.token_type} ${userToken.access_token}`,

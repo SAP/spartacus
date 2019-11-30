@@ -13,7 +13,7 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, throwError } from 'rxjs';
-import { TOKEN_REVOCATION } from '../../occ/utils/interceptor-util';
+import { TOKEN_REVOCATION_HEADER } from '../../occ/utils/interceptor-util';
 import { TokenRevocationInterceptor } from './token-revocation.interceptor';
 
 const mockErrorStatusText = 'Mock error';
@@ -61,7 +61,7 @@ describe('TokenRevocationInterceptor', () => {
       const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'POST';
       });
-      expect(mockReq.request.headers.get(TOKEN_REVOCATION)).toBeNull();
+      expect(mockReq.request.headers.get(TOKEN_REVOCATION_HEADER)).toBeNull();
       expect(mockReq.request.headers.get('mockHeader')).toEqual('true');
       mockReq.flush({});
     }
@@ -71,9 +71,10 @@ describe('TokenRevocationInterceptor', () => {
     it('should re-throw error if request is not a token revocation request.', inject(
       [HttpClient],
       (http: HttpClient) => {
-        spyOn<any>(tokenRevocationInterceptor, 'isTokenRevocationRequest').and.returnValue(
-          false
-        );
+        spyOn<any>(
+          tokenRevocationInterceptor,
+          'isTokenRevocationRequest'
+        ).and.returnValue(false);
         http.post('/test', {}, {}).subscribe();
 
         const mockReq: TestRequest = httpMock.expectOne(req => {
@@ -81,13 +82,15 @@ describe('TokenRevocationInterceptor', () => {
         });
 
         let resultError;
-        tokenRevocationInterceptor.intercept(mockReq.request, new MockHandler()).subscribe(
-          _success => fail(),
-          error => {
-            resultError = error;
-          },
-          () => fail()
-        );
+        tokenRevocationInterceptor
+          .intercept(mockReq.request, new MockHandler())
+          .subscribe(
+            _success => fail(),
+            error => {
+              resultError = error;
+            },
+            () => fail()
+          );
         expect(resultError.statusText).toEqual(mockErrorStatusText);
       }
     ));
@@ -95,22 +98,25 @@ describe('TokenRevocationInterceptor', () => {
     it('should fail silently (stop the interceptor chain) if an error occurs on a token revocation request', inject(
       [HttpClient],
       (http: HttpClient) => {
-        spyOn<any>(tokenRevocationInterceptor, 'isTokenRevocationRequest').and.returnValue(
-          true
-        );
+        spyOn<any>(
+          tokenRevocationInterceptor,
+          'isTokenRevocationRequest'
+        ).and.returnValue(true);
         http.post('/test', {}, {}).subscribe();
 
         const mockReq: TestRequest = httpMock.expectOne(req => {
           return req.method === 'POST';
         });
         let resultCompleted = false;
-        tokenRevocationInterceptor.intercept(mockReq.request, new MockHandler()).subscribe(
-          _success => fail(),
-          _error => fail(),
-          () => {
-            resultCompleted = true;
-          }
-        );
+        tokenRevocationInterceptor
+          .intercept(mockReq.request, new MockHandler())
+          .subscribe(
+            _success => fail(),
+            _error => fail(),
+            () => {
+              resultCompleted = true;
+            }
+          );
         expect(resultCompleted).toBeTruthy();
       }
     ));

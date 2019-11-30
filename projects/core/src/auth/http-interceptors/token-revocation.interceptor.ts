@@ -9,7 +9,7 @@ import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
   InterceptorUtil,
-  TOKEN_REVOCATION,
+  TOKEN_REVOCATION_HEADER,
 } from '../../occ/utils/interceptor-util';
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +24,7 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
       request
     );
     if (isInterceptingTokenRevocationRequest) {
-      request = InterceptorUtil.removeHeader(TOKEN_REVOCATION, request);
+      request = InterceptorUtil.removeHeader(TOKEN_REVOCATION_HEADER, request);
     }
 
     return next.handle(request).pipe(
@@ -40,7 +40,7 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
   private isTokenRevocationRequest(request: HttpRequest<any>): boolean {
     const isTokenRevocationHeaderPresent = InterceptorUtil.getInterceptorParam<
       string
-    >(TOKEN_REVOCATION, request.headers);
+    >(TOKEN_REVOCATION_HEADER, request.headers);
     return Boolean(isTokenRevocationHeaderPresent);
   }
 }
