@@ -6,7 +6,7 @@ export interface OccEndpoints {
    */
   login?: string;
   /**
-   * Client lgoout (revoke authorization token)
+   * Client logout (revoke authorization token)
    *
    * @member {string}
    */
