@@ -1,5 +1,4 @@
 import {
-  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -29,13 +28,11 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-      catchError((response: any) => {
-        if (response instanceof HttpErrorResponse) {
-          if (isInterceptingTokenRevocationRequest) {
-            return EMPTY;
-          }
+      catchError((error: any) => {
+        if (isInterceptingTokenRevocationRequest) {
+          return EMPTY;
         }
-        return throwError(response);
+        return throwError(error);
       })
     );
   }
