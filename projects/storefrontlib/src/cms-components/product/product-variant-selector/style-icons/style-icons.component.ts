@@ -14,7 +14,7 @@ export class StyleIconsComponent implements OnInit {
   @Input()
   variants: VariantOption[];
 
-  variantNames: { [key: string]: string };
+  variantNames: { [key: string]: string } = {};
 
   ngOnInit() {
     this.variants.forEach(variant => {
