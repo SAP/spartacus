@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/utils/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
-import { USER_RETURN_REQUESTS } from '../user-state';
 
 @Injectable()
 export class OrderReturnRequestEffect {

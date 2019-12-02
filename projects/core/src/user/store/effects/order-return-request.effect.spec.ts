@@ -10,12 +10,10 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/utils/index';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
 import * as fromOrderReturnRequestEffect from './order-return-request.effect';
-import { USER_RETURN_REQUESTS } from '../user-state';
 
 const mockReturnRequest: ReturnRequest = { rma: '000000' };
 
