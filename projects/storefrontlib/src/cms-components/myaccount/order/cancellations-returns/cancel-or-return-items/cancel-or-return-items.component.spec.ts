@@ -74,6 +74,7 @@ describe('CancelOrReturnItemsComponent', () => {
     >);
 
     component.entries = mockEntries;
+    component.cancelOrder = false;
     spyOn(component.confirm, 'emit').and.callThrough();
   });
 
