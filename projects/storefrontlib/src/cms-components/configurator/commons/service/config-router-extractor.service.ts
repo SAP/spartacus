@@ -26,6 +26,8 @@ export class ConfigRouterExtractorService {
           owner.type = params.ownerType;
           if (owner.type === Configurator.OwnerType.PRODUCT) {
             owner.productCode = entityKey;
+          } else {
+            owner.documentEntryId = entityKey;
           }
         } else {
           owner.type = Configurator.OwnerType.PRODUCT;
