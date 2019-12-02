@@ -20,16 +20,14 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const isInterceptingTokenRevocationRequest = this.isTokenRevocationRequest(
-      request
-    );
-    if (isInterceptingTokenRevocationRequest) {
+    const isTokenRevocationRequest = this.isTokenRevocationRequest(request);
+    if (isTokenRevocationRequest) {
       request = InterceptorUtil.removeHeader(TOKEN_REVOCATION_HEADER, request);
     }
 
     return next.handle(request).pipe(
       catchError((error: any) => {
-        if (isInterceptingTokenRevocationRequest) {
+        if (isTokenRevocationRequest) {
           return EMPTY;
         }
         return throwError(error);
@@ -37,7 +35,7 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
     );
   }
 
-  private isTokenRevocationRequest(request: HttpRequest<any>): boolean {
+  protected isTokenRevocationRequest(request: HttpRequest<any>): boolean {
     const isTokenRevocationHeaderPresent = InterceptorUtil.getInterceptorParam<
       string
     >(TOKEN_REVOCATION_HEADER, request.headers);
