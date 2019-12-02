@@ -25,7 +25,7 @@ class MockHandler {
   }
 }
 
-describe('TokenRevocationInterceptor', () => {
+fdescribe('TokenRevocationInterceptor', () => {
   let httpMock: HttpTestingController;
   let tokenRevocationInterceptor: TokenRevocationInterceptor;
 
@@ -49,13 +49,15 @@ describe('TokenRevocationInterceptor', () => {
     expect(tokenRevocationInterceptor).toBeTruthy();
   });
 
-  it('should remove the header TOKEN_REVOCATION form the request', inject(
+  it('should remove the header TOKEN_REVOCATION_HEADER form the request', inject(
     [HttpClient],
     (http: HttpClient) => {
       const headers = new HttpHeaders({
-        TOKEN_REVOCATION: 'true',
+        [TOKEN_REVOCATION_HEADER]: 'true',
         mockHeader: 'true',
       });
+      expect(headers.get(TOKEN_REVOCATION_HEADER)).toBeTruthy();
+
       http.post('/test', {}, { headers }).subscribe();
 
       const mockReq: TestRequest = httpMock.expectOne(req => {
@@ -118,6 +120,49 @@ describe('TokenRevocationInterceptor', () => {
             }
           );
         expect(resultCompleted).toBeTruthy();
+      }
+    ));
+  });
+  describe('isTokenRevocationRequest', () => {
+    it('should be true when the request has the token revocation header.', inject(
+      [HttpClient],
+      (http: HttpClient) => {
+        http.post('/test', {}, {}).subscribe();
+        const testRequest: TestRequest = httpMock.expectOne(req => {
+          return req.method === 'POST';
+        });
+
+        const headers = new HttpHeaders({
+          [TOKEN_REVOCATION_HEADER]: 'true',
+        });
+        const mockRequest: HttpRequest<any> = testRequest.request.clone({
+          headers,
+        });
+        expect(mockRequest.headers.get(TOKEN_REVOCATION_HEADER)).toBeTruthy();
+        const isTokenRevocationRequest = tokenRevocationInterceptor[
+          'isTokenRevocationRequest'
+        ](mockRequest);
+        expect(isTokenRevocationRequest).toBeTruthy();
+      }
+    ));
+
+    it('should be false when the request does not have the token revocation header.', inject(
+      [HttpClient],
+      (http: HttpClient) => {
+        http.post('/test', {}, {}).subscribe();
+        const testRequest: TestRequest = httpMock.expectOne(req => {
+          return req.method === 'POST';
+        });
+
+        const headers = new HttpHeaders();
+        const mockRequest: HttpRequest<any> = testRequest.request.clone({
+          headers,
+        });
+        expect(mockRequest.headers.get(TOKEN_REVOCATION_HEADER)).toBeNull();
+        const isTokenRevocationRequest = tokenRevocationInterceptor[
+          'isTokenRevocationRequest'
+        ](mockRequest);
+        expect(isTokenRevocationRequest).toBeFalsy();
       }
     ));
   });
