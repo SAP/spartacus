@@ -1,9 +1,13 @@
 import { Action } from '@ngrx/store';
-import { Order } from '../../../model/order.model';
+import {
+  Order,
+  CancellationRequestEntryInputList,
+} from '../../../model/order.model';
 import {
   LoaderFailAction,
   LoaderLoadAction,
   LoaderSuccessAction,
+  LoaderResetAction,
 } from '../../../state/utils/loader/loader.action';
 import { USER_ORDER_DETAILS } from '../user-state';
 
@@ -14,6 +18,7 @@ export const CLEAR_ORDER_DETAILS = '[User] Clear Order Details';
 
 export const CANCEL_ORDER = '[User] Cancel Order';
 export const CANCEL_ORDER_FAIL = '[User] Cancel Order Fail';
+export const CANCEL_ORDER_SUCCESS = '[User] Cancel Order Success';
 
 export class LoadOrderDetails extends LoaderLoadAction {
   readonly type = LOAD_ORDER_DETAILS;
@@ -41,13 +46,22 @@ export class LoadOrderDetailsSuccess extends LoaderSuccessAction {
   }
 }
 
-export class ClearOrderDetails implements Action {
+export class ClearOrderDetails extends LoaderResetAction {
   readonly type = CLEAR_ORDER_DETAILS;
+  constructor() {
+    super(USER_ORDER_DETAILS);
+  }
 }
 
 export class CancelOrder extends LoaderLoadAction {
   readonly type = CANCEL_ORDER;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: {
+      userId: string;
+      orderCode: string;
+      cancelRequestInput: CancellationRequestEntryInputList;
+    }
+  ) {
     super(USER_ORDER_DETAILS);
   }
 }
@@ -59,10 +73,18 @@ export class CancelOrderFail extends LoaderFailAction {
   }
 }
 
+export class CancelOrderSuccess extends LoaderSuccessAction {
+  readonly type = CANCEL_ORDER_SUCCESS;
+  constructor(public payload: any) {
+    super(USER_ORDER_DETAILS);
+  }
+}
+
 export type OrderDetailsAction =
   | LoadOrderDetails
   | LoadOrderDetailsFail
   | LoadOrderDetailsSuccess
   | ClearOrderDetails
   | CancelOrder
-  | CancelOrderFail;
+  | CancelOrderFail
+  | CancelOrderSuccess;

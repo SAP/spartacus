@@ -37,6 +37,11 @@ export class CancelOrderConfirmationComponent implements OnDestroy {
   );
 
   submit(): void {
+    this.orderDetailsService.cancelOrder(this.orderCode, {
+      cancellationRequestEntryInputs: this.cancelOrReturnService
+        .cancelOrReturnRequestInputs,
+    });
+
     this.cancelOrReturnService.clearCancelOrReturnRequestInputs();
   }
 

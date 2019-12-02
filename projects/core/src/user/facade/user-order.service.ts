@@ -7,8 +7,7 @@ import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import {
   Order,
   OrderHistoryList,
-  ReturnRequestEntryInputList,
-  ReturnRequest,
+  CancellationRequestEntryInputList,
 } from '../../model/order.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
@@ -154,30 +153,24 @@ export class UserOrderService {
   }
 
   /**
-   * Create order return request
-   * @param returnRequestInput order return request entry input
+   * Cancel and order
    */
-  createOrderReturnRequest(
-    returnRequestInput: ReturnRequestEntryInputList
+  cancelOrder(
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
   ): void {
     this.authService
       .getOccUserId()
       .pipe(take(1))
       .subscribe(userId =>
         this.store.dispatch(
-          new UserActions.CreateOrderReturnRequest({
+          new UserActions.CancelOrder({
             userId,
-            returnRequestInput,
+            orderCode,
+            cancelRequestInput,
           })
         )
       )
       .unsubscribe();
-  }
-
-  /**
-   * Return an order return request
-   */
-  getOrderReturnRequest(): Observable<ReturnRequest> {
-    return this.store.pipe(select(UsersSelectors.getOrderReturnRequest));
   }
 }

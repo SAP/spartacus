@@ -41,12 +41,4 @@ export class UserOrdersEffect {
         );
     })
   );
-
-  @Effect()
-  resetUserOrders$: Observable<Action> = this.actions$.pipe(
-    ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_USER_ORDERS),
-    map(() => {
-      return new StateLoaderActions.LoaderResetAction(USER_ORDERS);
-    })
-  );
 }
