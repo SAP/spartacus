@@ -5,6 +5,15 @@ function isFeatureConfig(config: any): config is FeaturesConfig {
 }
 
 function isInLevel(level, version) {
+  if (level === '*') {
+    return true;
+  }
+  if (
+    version.indexOf('!') !== -1 &&
+    version.substr(1, version.length) === level
+  ) {
+    return false;
+  }
   const levelParts = level.split('.');
   const versionParts = version.split('.');
 
