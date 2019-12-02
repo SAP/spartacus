@@ -14,7 +14,7 @@ export const defaultOccProductConfig: OccConfig = {
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
         // tslint:disable:max-line-length
         productSearch:
-          'products/search?fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch',
+          'products/search?fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch',
         // tslint:enable
         productSuggestions: 'products/suggestions',
       },

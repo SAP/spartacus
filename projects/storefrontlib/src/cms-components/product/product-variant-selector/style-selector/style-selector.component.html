@@ -1,6 +1,6 @@
 <ng-container>
   <div class="variant-selector">
-    <div class="variant-name">
+    <div *ngIf="variants.selected" class="variant-name">
       {{ 'variant.style' | cxTranslate }}:
       <span class="style-name">{{
         (variants?.selected.variantOptionQualifiers)[0].value
