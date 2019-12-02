@@ -15,7 +15,7 @@ export abstract class ProductAdapter {
 
   /**
    * Abstract method used to load data for multiple product and scopes
-   * Adapter is sable to optimize necessary backend calls and load
+   * Adapter is able to optimize necessary backend calls and load
    * products in the most efficient way possible.
    *
    * @param products
