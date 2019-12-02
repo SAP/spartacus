@@ -27,7 +27,7 @@ const testCart: Cart = {
   },
 };
 
-describe('Cart effect', () => {
+describe('Multi Cart effect', () => {
   let cartEffects: fromEffects.MultiCartEffects;
   let actions$: Observable<any>;
 
@@ -157,20 +157,19 @@ describe('Cart effect', () => {
         userId: 'userId',
         cartId: 'cartId',
       };
-      const action1 = new DeprecatedCartActions.MergeCart(payload);
-      const action2 = new CartActions.CartAddEntry(payload);
-      const action3 = new CartActions.CartUpdateEntry(payload);
-      const action4 = new CartActions.CartRemoveEntry(payload);
-      const action5 = new DeprecatedCartActions.AddEmailToCart({
+      const action1 = new CartActions.CartAddEntry(payload);
+      const action2 = new CartActions.CartUpdateEntry(payload);
+      const action3 = new CartActions.CartRemoveEntry(payload);
+      const action4 = new DeprecatedCartActions.AddEmailToCart({
         ...payload,
         email: 'email',
       });
-      const action6 = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
-      const action7 = new CartActions.CartAddVoucher({
+      const action5 = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
+      const action6 = new CartActions.CartAddVoucher({
         ...payload,
         voucherId: 'voucherId',
       });
-      const action8 = new CartActions.CartRemoveVoucher({
+      const action7 = new CartActions.CartRemoveVoucher({
         ...payload,
         voucherId: 'voucherId',
       });
@@ -178,7 +177,7 @@ describe('Cart effect', () => {
       const processesIncrementCompletion = new CartActions.CartProcessesIncrementAction(
         payload.cartId
       );
-      actions$ = hot('-a-b-c-d-e-f-g-h', {
+      actions$ = hot('-a-b-c-d-e-f-g', {
         a: action1,
         b: action2,
         c: action3,
@@ -186,9 +185,8 @@ describe('Cart effect', () => {
         e: action5,
         f: action6,
         g: action7,
-        h: action8,
       });
-      const expected = cold('-1-2-3-4-5-6-7-8', {
+      const expected = cold('-1-2-3-4-5-6-7', {
         1: processesIncrementCompletion,
         2: processesIncrementCompletion,
         3: processesIncrementCompletion,
@@ -196,7 +194,6 @@ describe('Cart effect', () => {
         5: processesIncrementCompletion,
         6: processesIncrementCompletion,
         7: processesIncrementCompletion,
-        8: processesIncrementCompletion,
       });
       expect(cartEffects.processesIncrementAction$).toBeObservable(expected);
     });
