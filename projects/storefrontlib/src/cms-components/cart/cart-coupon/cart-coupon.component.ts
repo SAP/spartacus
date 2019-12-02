@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { map, startWith, tap } from 'rxjs/operators';
 
 const HAS_CUSTOMER_COUPON_CLASS = 'has-customer-coupon';
+const MAX_CUSTOMER_COUPON_PAGE = 100;
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
@@ -43,11 +44,11 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.customerCouponService.loadCustomerCoupons(100);
+    this.customerCouponService.loadCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE);
     this.cart$ = combineLatest([
       this.cartService.getActive(),
       this.authService.getOccUserId(),
-      this.customerCouponService.getCustomerCoupons(100),
+      this.customerCouponService.getCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE),
     ]).pipe(
       tap(
         ([cart, userId, customerCoupons]: [
@@ -104,7 +105,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   onError(error: boolean) {
     if (error) {
-      this.customerCouponService.loadCustomerCoupons(100);
+      this.customerCouponService.loadCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE);
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }
@@ -120,7 +121,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     cart: Cart,
     coupons: CustomerCoupon[]
   ): void {
-    this.applicableCoupons = coupons;
+    this.applicableCoupons = coupons || [];
     if (cart.appliedVouchers) {
       cart.appliedVouchers.forEach(appliedVoucher => {
         this.applicableCoupons = this.applicableCoupons.filter(
@@ -142,12 +143,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   filter(query: string): void {
     const filterValue = query.toLowerCase();
 
-    this.filteredCoupons = this.applicableCoupons.filter(coupon => {
-      if (coupon.couponId.toLowerCase().indexOf(filterValue) === 0) {
-        console.log(coupon.couponId);
-      }
-      return coupon.couponId.toLowerCase().indexOf(filterValue) > -1;
-    });
+    this.filteredCoupons = this.applicableCoupons.filter(
+      coupon => coupon.couponId.toLowerCase().indexOf(filterValue) > -1
+    );
   }
 
   open(): void {
@@ -169,12 +167,12 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.ignoreCloseEvent = false;
   }
 
-  avoidReopen(event: UIEvent): void {
-    if (this.hasBodyClass('couponbox-is-active')) {
-      this.close(event);
-      event.preventDefault();
-    }
-  }
+  // avoidReopen(event: UIEvent): void {
+  //   if (this.hasBodyClass('couponbox-is-active')) {
+  //     this.close(event);
+  //     event.preventDefault();
+  //   }
+  // }
 
   disableClose(): void {
     this.ignoreCloseEvent = true;

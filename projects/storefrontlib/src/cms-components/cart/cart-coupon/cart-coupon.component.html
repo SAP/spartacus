@@ -22,7 +22,7 @@
             />
 
             <div
-              *ngIf="filteredCoupons.length > 0"
+              *ngIf="filteredCoupons && filteredCoupons.length > 0"
               class="cx-customer-coupons"
               (click)="close($event)"
             >

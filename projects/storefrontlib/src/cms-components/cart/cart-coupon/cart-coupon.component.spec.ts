@@ -10,6 +10,8 @@ import {
   Cart,
   CartVoucherService,
   AuthService,
+  CustomerCouponService,
+  CustomerCouponSearchResult,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
@@ -54,7 +56,24 @@ describe('CartCouponComponent', () => {
     'getAddVoucherResultSuccess',
     'resetAddVoucherProcessingState',
     'getAddVoucherResultLoading',
+    'getAddVoucherResultError',
   ]);
+
+  const mockCustomerCouponService = jasmine.createSpyObj(
+    'CustomerCouponService',
+    ['loadCustomerCoupons', 'getCustomerCoupons']
+  );
+
+  const couponsSearchResult: CustomerCouponSearchResult = {
+    coupons: [
+      {
+        couponId: 'CustomerCoupon1',
+      },
+      {
+        couponId: 'CustomerCoupon2',
+      },
+    ],
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -68,6 +87,7 @@ describe('CartCouponComponent', () => {
         { provide: CartService, useValue: mockCartService },
         { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
+        { provide: CustomerCouponService, useValue: mockCustomerCouponService },
       ],
     }).compileComponents();
   }));
@@ -85,6 +105,9 @@ describe('CartCouponComponent', () => {
     mockCartVoucherService.addVoucher.and.stub();
     mockCartVoucherService.resetAddVoucherProcessingState.and.stub();
     mockCartVoucherService.resetAddVoucherProcessingState.calls.reset();
+    mockCartVoucherService.getAddVoucherResultError.and.returnValue(of());
+    mockCustomerCouponService.loadCustomerCoupons.and.stub();
+    mockCustomerCouponService.getCustomerCoupons.and.returnValue(of([]));
   });
 
   it('should create', () => {
@@ -92,7 +115,7 @@ describe('CartCouponComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show coupon input and submit buttom', () => {
+  it('should show coupon input and submit button', () => {
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
       of(false)
     );
@@ -189,6 +212,49 @@ describe('CartCouponComponent', () => {
 
     const button = el.query(By.css('.apply-coupon-button')).nativeElement;
     expect(button.disabled).toBeTruthy();
+  });
+
+  it('should list customer coupons', () => {
+    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
+      of(couponsSearchResult)
+    );
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+    ).toEqual(2);
+  });
+
+  it('should filter customer coupons', () => {
+    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
+      of(couponsSearchResult)
+    );
+    fixture.detectChanges();
+    input = el.query(By.css('.input-coupon-code')).nativeElement;
+    input.value = 'coupon2';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+    ).toEqual(1);
+
+    const customerCouponResult = el.query(
+      By.css('.cx-customer-coupons .coupon-id')
+    ).nativeElement;
+    expect((<HTMLElement>customerCouponResult).innerText).toEqual(
+      'CustomerCoupon2'
+    );
+  });
+
+  it('should apply customer coupons', () => {
+    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
+      of(couponsSearchResult)
+    );
+    fixture.detectChanges();
+    const customerCoupon = el.queryAll(By.css('.cx-customer-coupons a'))[0]
+      .nativeElement;
+    customerCoupon.click();
+    fixture.detectChanges();
+    expect(mockCartVoucherService.addVoucher).toHaveBeenCalled();
   });
 
   it('should reset state when ondestory is triggered', () => {
