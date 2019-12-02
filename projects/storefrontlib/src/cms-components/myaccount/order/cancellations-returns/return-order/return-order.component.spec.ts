@@ -6,10 +6,11 @@ import {
   Order,
   OrderEntry,
   CancelOrReturnRequestEntryInput,
-  RoutingService,
 } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 import { ReturnOrderComponent } from './return-order.component';
+import createSpy = jasmine.createSpy;
 
 @Component({
   template: '',
@@ -19,10 +20,6 @@ class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
   @Input() cancelOrder = true;
   @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
-}
-
-class MockRoutingService {
-  go = jasmine.createSpy('go');
 }
 
 const mockOrder: Order = {
@@ -37,12 +34,13 @@ const mockOrder: Order = {
 };
 
 class MockOrderDetailsService {
-  _cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[];
-
   getOrderDetails() {
     return of(mockOrder);
   }
+}
 
+class MockOrderCancelOrReturnService {
+  _cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[];
   get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {
     return this._cancelOrReturnRequestInputs;
   }
@@ -50,20 +48,25 @@ class MockOrderDetailsService {
   set cancelOrReturnRequestInputs(values: CancelOrReturnRequestEntryInput[]) {
     this._cancelOrReturnRequestInputs = values;
   }
+
+  goToOrderCancelOrReturn = createSpy();
+  clearCancelOrReturnRequestInputs = createSpy();
 }
 
 describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
-  let orderService: MockOrderDetailsService;
-  let routingService: MockRoutingService;
+  let returnService: MockOrderCancelOrReturnService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: OrderCancelOrReturnService,
+          useClass: MockOrderCancelOrReturnService,
+        },
       ],
       declarations: [ReturnOrderComponent, MockCancelOrReturnItemsComponent],
     }).compileComponents();
@@ -73,9 +76,8 @@ describe('ReturnOrderComponent', () => {
     fixture = TestBed.createComponent(ReturnOrderComponent);
     component = fixture.componentInstance;
 
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    orderService = TestBed.get(OrderDetailsService as Type<
-      OrderDetailsService
+    returnService = TestBed.get(OrderCancelOrReturnService as Type<
+      OrderCancelOrReturnService
     >);
   });
 
@@ -83,7 +85,7 @@ describe('ReturnOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize', () => {
+  it('should be able to get returnable entries', () => {
     fixture.detectChanges();
     let returnableEntries: OrderEntry[];
     component.returnableEntries$
@@ -98,6 +100,11 @@ describe('ReturnOrderComponent', () => {
     ]);
   });
 
+  it('should clear return request input when initialize', () => {
+    component.ngOnInit();
+    expect(returnService.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
+  });
+
   it('should go to order confirmation page', () => {
     const entryInputs = [
       { orderEntryNumber: 0, quantity: 1 },
@@ -107,10 +114,10 @@ describe('ReturnOrderComponent', () => {
     fixture.detectChanges();
     component.confirmReturn(entryInputs);
 
-    expect(orderService.cancelOrReturnRequestInputs).toEqual(entryInputs);
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'orderReturnConfirmation',
-      params: { code: '1' },
-    });
+    expect(returnService.cancelOrReturnRequestInputs).toEqual(entryInputs);
+    expect(returnService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
+      'orderReturnConfirmation',
+      '1'
+    );
   });
 });

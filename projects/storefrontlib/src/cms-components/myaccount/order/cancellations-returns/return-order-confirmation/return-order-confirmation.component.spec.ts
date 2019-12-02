@@ -6,13 +6,13 @@ import {
   Order,
   OrderEntry,
   CancelOrReturnRequestEntryInput,
-  RoutingService,
   I18nTestingModule,
-  LanguageService,
   OrderReturnRequestService,
 } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
+import createSpy = jasmine.createSpy;
 
 @Component({
   template: '',
@@ -25,16 +25,6 @@ class MockCancelOrReturnItemsComponent {
   @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 }
 
-class MockRoutingService {
-  go = jasmine.createSpy('go');
-}
-
-class MockLanguageService {
-  getActive() {
-    return of('en');
-  }
-}
-
 class MockOrderReturnRequestService {
   createOrderReturnRequest = jasmine.createSpy();
   getOrderReturnRequest() {
@@ -42,35 +32,31 @@ class MockOrderReturnRequestService {
   }
 }
 
+class MockOrderCancelOrReturnService {
+  _cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[];
+  get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {
+    return this._cancelOrReturnRequestInputs;
+  }
+
+  set cancelOrReturnRequestInputs(values: CancelOrReturnRequestEntryInput[]) {
+    this._cancelOrReturnRequestInputs = values;
+  }
+
+  goToOrderCancelOrReturn = createSpy();
+  clearCancelOrReturnRequestInputs = createSpy();
+  isEntryCancelledOrReturned(): boolean {
+    return true;
+  }
+}
+
 const mockOrder: Order = {
   code: '1',
-  entries: [
-    {
-      entryNumber: 0,
-      returnableQuantity: 1,
-      basePrice: { value: 10.0, currencyIso: 'USD' },
-    },
-    {
-      entryNumber: 1,
-      returnableQuantity: 0,
-      basePrice: { value: 20.0, currencyIso: 'USD' },
-    },
-    {
-      entryNumber: 3,
-      returnableQuantity: 5,
-      basePrice: { value: 30.0, currencyIso: 'USD' },
-    },
-  ],
+  entries: [{ entryNumber: 0 }, { entryNumber: 3 }],
   created: new Date('2019-02-11T13:02:58+0000'),
   returnable: true,
 };
 
 class MockOrderDetailsService {
-  cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[] = [
-    { orderEntryNumber: 0, quantity: 1 },
-    { orderEntryNumber: 3, quantity: 2 },
-  ];
-
   getOrderDetails() {
     return of(mockOrder);
   }
@@ -79,18 +65,20 @@ class MockOrderDetailsService {
 describe('ReturnOrderConfirmationComponent', () => {
   let component: ReturnOrderConfirmationComponent;
   let fixture: ComponentFixture<ReturnOrderConfirmationComponent>;
-  let routingService: MockRoutingService;
+  let returnService: MockOrderCancelOrReturnService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
-        { provide: LanguageService, useClass: MockLanguageService },
-        { provide: RoutingService, useClass: MockRoutingService },
         {
           provide: OrderReturnRequestService,
           useClass: MockOrderReturnRequestService,
+        },
+        {
+          provide: OrderCancelOrReturnService,
+          useClass: MockOrderCancelOrReturnService,
         },
       ],
       declarations: [
@@ -104,7 +92,9 @@ describe('ReturnOrderConfirmationComponent', () => {
     fixture = TestBed.createComponent(ReturnOrderConfirmationComponent);
     component = fixture.componentInstance;
 
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    returnService = TestBed.get(OrderCancelOrReturnService as Type<
+      OrderCancelOrReturnService
+    >);
   });
 
   it('should create', () => {
@@ -118,20 +108,7 @@ describe('ReturnOrderConfirmationComponent', () => {
       .unsubscribe();
 
     expect(component.orderCode).toEqual('1');
-
-    expect(returnedEntries[0].entryNumber).toEqual(0);
-    expect(returnedEntries[0].returnedQuantity).toEqual(1);
-    expect(returnedEntries[0].returnedItemsPrice.value).toEqual(10.0);
-    expect(returnedEntries[0].returnedItemsPrice.formattedValue).toEqual(
-      '$10.00'
-    );
-
-    expect(returnedEntries[1].entryNumber).toEqual(3);
-    expect(returnedEntries[1].returnedQuantity).toEqual(2);
-    expect(returnedEntries[1].returnedItemsPrice.value).toEqual(60.0);
-    expect(returnedEntries[1].returnedItemsPrice.formattedValue).toEqual(
-      '$60.00'
-    );
+    expect(returnedEntries).toEqual([{ entryNumber: 0 }, { entryNumber: 3 }]);
   });
 
   it('should be able to submit', () => {
@@ -144,9 +121,10 @@ describe('ReturnOrderConfirmationComponent', () => {
     fixture.detectChanges();
     component.back();
 
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'orderReturn',
-      params: { code: '1' },
-    });
+    expect(returnService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
+      'orderReturn',
+      '1',
+      true
+    );
   });
 });

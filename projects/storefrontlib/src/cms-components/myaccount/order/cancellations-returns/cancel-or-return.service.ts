@@ -34,8 +34,9 @@ export class OrderCancelOrReturnService {
   clearCancelOrReturnRequestInputs() {
     if (!this.keepRequestInputs) {
       this._cancelOrReturnRequestInputs = [];
+    } else {
+      this.keepRequestInputs = false;
     }
-    this.keepRequestInputs = false;
   }
 
   /**
