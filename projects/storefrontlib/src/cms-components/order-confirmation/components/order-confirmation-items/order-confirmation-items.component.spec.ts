@@ -5,7 +5,7 @@ import {
   CheckoutService,
   I18nTestingModule,
   Order,
-  PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
@@ -13,6 +13,8 @@ import { OrderConfirmationItemsComponent } from './order-confirmation-items.comp
 
 import createSpy = jasmine.createSpy;
 import { PromotionsModule } from '../../../checkout';
+import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
@@ -21,9 +23,7 @@ class MockReviewSubmitComponent {
   @Input()
   isReadOnly: boolean;
   @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-  @Input()
-  appliedProductPromotions: PromotionResult[] = [];
+  promotionLocation: PromotionLocation = PromotionLocation.Checkout;
 }
 
 class MockCheckoutService {
@@ -41,19 +41,13 @@ class MockCheckoutService {
   }
 }
 
-const mockedOrder: Order = {
-  guid: '1',
-  appliedOrderPromotions: [
-    {
-      consumedEntries: [
-        {
-          orderEntryNumber: 2,
-        },
-      ],
-      description: 'test applied order promotion',
-    },
-  ],
-};
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
 
 describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
@@ -61,12 +55,12 @@ describe('OrderConfirmationItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule],
+      imports: [I18nTestingModule, PromotionsModule, PromotionHelperModule],
       declarations: [
         OrderConfirmationItemsComponent,
         MockReviewSubmitComponent,
       ],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }, { provide: PromotionService, useClass: MockPromotionService }],
     }).compileComponents();
   }));
 
@@ -85,23 +79,5 @@ describe('OrderConfirmationItemsComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     expect(items()).toBeTruthy();
-  });
-
-  describe('when order has applied promotions and applied promotions are defined', () => {
-    it('should contain applied promotion', () => {
-      const expectedResult: PromotionResult[] = [
-        {
-          consumedEntries: [
-            {
-              orderEntryNumber: 2,
-            },
-          ],
-          description: 'test applied order promotion',
-        },
-      ];
-
-      const promotions = component.getAppliedPromotionsForOrder(mockedOrder);
-      expect(promotions).toEqual(expectedResult);
-    });
   });
 });

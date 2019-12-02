@@ -7,13 +7,15 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
-  PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 import { PromotionsModule } from '../../../../checkout';
+import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
+import { PromotionHelperModule } from '../../../../../shared/services/promotion/promotion.module';
 
 const mockOrder: Order = {
   code: '1',
@@ -78,9 +80,9 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  appliedProductPromotions: PromotionResult[] = [];
-  @Input()
   cartIsLoading = false;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.Order;
 }
 
 @Component({
@@ -94,19 +96,13 @@ class MockConsignmentTrackingComponent {
   orderCode: string;
 }
 
-const mockedOrder: Order = {
-  guid: '1',
-  appliedOrderPromotions: [
-    {
-      consumedEntries: [
-        {
-          orderEntryNumber: 2,
-        },
-      ],
-      description: 'test applied order promotion',
-    },
-  ],
-};
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
 
 describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
@@ -126,6 +122,7 @@ describe('OrderDetailItemsComponent', () => {
         CardModule,
         I18nTestingModule,
         PromotionsModule,
+        PromotionHelperModule,
         FeaturesConfigModule,
       ],
       providers: [
@@ -135,6 +132,10 @@ describe('OrderDetailItemsComponent', () => {
           useValue: {
             features: { level: '1.1', consignmentTracking: '1.2' },
           },
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService
         },
       ],
       declarations: [
@@ -171,23 +172,5 @@ describe('OrderDetailItemsComponent', () => {
   it('should order details item be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
-  });
-
-  describe('when order has applied promotions and applied promotions are defined', () => {
-    it('should contain applied promotion', () => {
-      const expectedResult: PromotionResult[] = [
-        {
-          consumedEntries: [
-            {
-              orderEntryNumber: 2,
-            },
-          ],
-          description: 'test applied order promotion',
-        },
-      ];
-
-      const promotions = component.getAppliedPromotionsForOrder(mockedOrder);
-      expect(promotions).toEqual(expectedResult);
-    });
   });
 });

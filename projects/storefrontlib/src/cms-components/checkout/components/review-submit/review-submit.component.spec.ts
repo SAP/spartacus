@@ -12,8 +12,8 @@ import {
   I18nTestingModule,
   OrderEntry,
   PaymentDetails,
-  PromotionResult,
   UserAddressService,
+  PromotionLocation,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/cart/index';
@@ -25,6 +25,8 @@ import { CheckoutConfigService } from '../../services/index';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { PromotionsModule } from '../../..';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -77,9 +79,7 @@ class MockCartItemListComponent {
   @Input()
   isReadOnly: boolean;
   @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-  @Input()
-  appliedProductPromotions: PromotionResult[] = [];
+  promotionLocation: PromotionLocation = PromotionLocation.Cart;
 }
 
 @Component({
@@ -143,6 +143,14 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
+
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
@@ -150,7 +158,7 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule, RouterTestingModule],
+      imports: [I18nTestingModule, PromotionsModule, PromotionHelperModule, RouterTestingModule],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
@@ -172,6 +180,10 @@ describe('ReviewSubmitComponent', () => {
         {
           provide: CheckoutConfigService,
           useClass: MockCheckoutConfigService,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService
         },
       ],
     }).compileComponents();
@@ -354,14 +366,6 @@ describe('ReviewSubmitComponent', () => {
         { entryNumber: 456 },
       ]);
       expect(getCartItemList().isReadOnly).toBe(true);
-    });
-
-    it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {
-      fixture.detectChanges();
-      expect(getCartItemList().potentialProductPromotions).toEqual([
-        { description: 'Promotion 1' },
-        { description: 'Promotion 2' },
-      ]);
     });
   });
 });

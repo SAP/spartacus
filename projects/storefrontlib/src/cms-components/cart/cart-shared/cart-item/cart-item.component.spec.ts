@@ -4,7 +4,8 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
-
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 @Pipe({
   name: 'cxUrl',
 })
@@ -47,13 +48,21 @@ const mockProduct = {
   },
 };
 
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule, PromotionHelperModule],
       declarations: [
         CartItemComponent,
         MockMediaComponent,
@@ -64,6 +73,9 @@ describe('CartItemComponent', () => {
       providers: [
         {
           provide: ControlContainer,
+        },
+        {
+          provide: PromotionService, useClass: MockPromotionService
         },
       ],
     }).compileComponents();

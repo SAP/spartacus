@@ -14,7 +14,7 @@ import {
   CartService,
   I18nTestingModule,
   OrderEntry,
-  PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
@@ -23,7 +23,8 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
 import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
-
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 class MockCartService {
   getLoaded(): Observable<boolean> {
     return of();
@@ -73,15 +74,13 @@ class MockCartItemComponent {
   @Input()
   item: Observable<OrderEntry>;
   @Input()
-  potentialProductPromotions: PromotionResult[];
-  @Input()
-  appliedProductPromotions: PromotionResult[];
-  @Input()
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
   @Input()
   parent: FormGroup;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.Cart;
 }
 
 @Pipe({
@@ -89,6 +88,14 @@ class MockCartItemComponent {
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
 }
 
 describe('AddedToCartDialogComponent', () => {
@@ -108,6 +115,7 @@ describe('AddedToCartDialogComponent', () => {
         I18nTestingModule,
         AutoFocusDirectiveModule,
         PromotionsModule,
+        PromotionHelperModule
       ],
       declarations: [
         AddedToCartDialogComponent,
@@ -123,6 +131,10 @@ describe('AddedToCartDialogComponent', () => {
         {
           provide: CartService,
           useClass: MockCartService,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
         },
       ],
     }).compileComponents();
@@ -222,54 +234,5 @@ describe('AddedToCartDialogComponent', () => {
     expect(dialogTitleEl.textContent).toEqual(
       ' addToCart.itemsIncrementedInYourCart '
     );
-  });
-
-  it('should show promotions item', () => {
-    fixture.detectChanges();
-    expect(el.query(By.css('cx-promotions'))).toBeDefined();
-  });
-
-  it('should show promotion description', () => {
-    component.entry$ = of(mockOrderEntry[0]);
-    component.cart$ = of({
-      deliveryItemsQuantity: 1,
-      totalPrice: {
-        formattedValue: '$100.00',
-      },
-      appliedProductPromotions: [
-        {
-          description: '10% off on products EOS450D + 18-55 IS Kit',
-          promotion: {
-            code: 'product_percentage_discount',
-            promotionType: 'Rule Based Promotion',
-          },
-          consumedEntries: [
-            {
-              orderEntryNumber: 1,
-            },
-          ],
-        },
-      ],
-    });
-    fixture.detectChanges();
-
-    const dialogTitleEl = el.query(By.css('cx-promotions')).nativeElement;
-    expect(dialogTitleEl.textContent).toEqual(
-      '10% off on products EOS450D + 18-55 IS Kit'
-    );
-  });
-
-  it('should not show promotion if no promotion is applied', () => {
-    component.cart$ = of({
-      deliveryItemsQuantity: 1,
-      totalPrice: {
-        formattedValue: '$100.00',
-      },
-      appliedProductPromotions: [],
-    });
-    fixture.detectChanges();
-
-    const dialogTitleEl = el.query(By.css('cx-promotions')).nativeElement;
-    expect(dialogTitleEl.textContent).toEqual('');
   });
 });

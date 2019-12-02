@@ -9,7 +9,6 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-order-history',
@@ -20,12 +19,11 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     private routing: RoutingService,
     private userOrderService: UserOrderService,
     private translation: TranslationService,
-    protected promotionService: PromotionService
   ) {}
 
   orders$: Observable<OrderHistoryList>;
   isLoaded$: Observable<boolean>;
-  orderPromotions$: Observable<PromotionResult[]>;
+  $: Observable<PromotionResult[]>;
 
   private PAGE_SIZE = 5;
 
