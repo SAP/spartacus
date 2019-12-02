@@ -54,6 +54,8 @@ export function paymentDetailCard() {
   // go to shipping address
   fillShippingAddress(user);
 
+  cy.wait(`@${request.deliveryPage}`);
+
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
