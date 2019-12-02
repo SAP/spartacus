@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
-import { extractFields, mergeFields, parseFields } from '../utils/occ-fields';
+import { mergeFields, parseFields } from '../utils/occ-fields';
 import { ScopedData } from '../../model/scoped-data';
-import { map, shareReplay } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+
+export interface ScopedDataWithUrl {
+  /** Url (with fields) to load scoped data */
+  url?: string;
+  /** extracted fields object, used to extract data from broader model */
+  scopedData: ScopedData<any>;
+}
 
 /**
  * Intermediate model to accommodate all data needed to perform occ fields optimizations
  * wrapping ScopedData with url and fields
  */
-export interface OccFieldsModel {
-  /** Url (with fields) to load scoped data */
-  url?: string;
+export interface OccFieldsModel extends ScopedDataWithUrl {
   /** extracted fields object, used to extract data from broader model */
   fields?: object;
-  /** scoped data model */
-  scopedData: ScopedData<any>;
 }
 
 /**
@@ -23,7 +24,7 @@ export interface OccFieldsModel {
  *
  * One url groups all scopes it covers with related occFieldsModels
  */
-export interface OccMergedUrls {
+export interface OccOptimimalUrlGroups {
   [optimalUrl: string]: {
     [scope: string]: OccFieldsModel;
   };
@@ -41,63 +42,6 @@ export class OccFieldsService {
   protected FIELDS_PARAM = 'fields';
 
   /**
-   * Optimize occ endpoint calls merging requests to the same url by merging field parameters
-   *
-   * @param occFieldsModels
-   * @param dataFactory
-   */
-  optimalLoad<T>(
-    occFieldsModels: OccFieldsModel[],
-    dataFactory?: (url: string) => Observable<T>
-  ): ScopedData<T>[] {
-    const result = [];
-
-    if (!dataFactory) {
-      dataFactory = url => this.http.get<any>(url);
-    }
-
-    const mergedUrls = this.getMergedUrls(occFieldsModels);
-
-    Object.entries(mergedUrls).forEach(
-      ([url, groupedModelsSet]: [
-        string,
-        {
-          [scope: string]: OccFieldsModel;
-        }
-      ]) => {
-        const groupedModels = Object.values(groupedModelsSet);
-
-        if (groupedModels.length === 1) {
-          // only one scope for url, we can pass the data straightaway
-          result.push({
-            ...groupedModels[0].scopedData,
-            data$: dataFactory(url),
-          });
-        } else {
-          // multiple scopes per url
-          // we have to split the model per each scope
-          const data$ = dataFactory(url).pipe(
-            shareReplay(1),
-            // TODO deprecated since 1.4, remove
-            map(data => JSON.parse(JSON.stringify(data)))
-          );
-
-          groupedModels.forEach(modelData => {
-            result.push({
-              ...modelData.scopedData,
-              data$: data$.pipe(
-                map(data => extractFields<T>(data, modelData.fields))
-              ),
-            });
-          });
-        }
-      }
-    );
-
-    return result;
-  }
-
-  /**
    * Merge similar occ endpoints calls by merging fields parameter
    *
    * We assume that different scopes are defined by different fields parameters,
@@ -106,9 +50,9 @@ export class OccFieldsService {
    *
    * @param models
    */
-  getMergedUrls(models: OccFieldsModel[]): OccMergedUrls {
-    const groupedByUrls: OccMergedUrls = {};
-    for (const model of models) {
+  getOptimalUrlGroups(models: ScopedDataWithUrl[]): OccOptimimalUrlGroups {
+    const groupedByUrls: OccOptimimalUrlGroups = {};
+    for (const model of models as OccFieldsModel[]) {
       const [urlPart, fields] = this.splitFields(model.url);
       if (!groupedByUrls[urlPart]) {
         groupedByUrls[urlPart] = {};
@@ -117,7 +61,7 @@ export class OccFieldsService {
       groupedByUrls[urlPart][model.scopedData.scope] = model;
     }
 
-    const mergedUrls: OccMergedUrls = {};
+    const mergedUrls: OccOptimimalUrlGroups = {};
     for (const [url, group] of Object.entries(groupedByUrls)) {
       const urlWithFields = this.getUrlWithFields(
         url,
