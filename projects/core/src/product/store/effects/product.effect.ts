@@ -17,8 +17,8 @@ import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
 
 @Injectable()
 export class ProductEffects {
-  // we want to cancel all ongoing requests with when currency or language
-  // changes, that's why observe them and switch actions stream on each change
+  // we want to cancel all ongoing requests when currency or language changes,
+  // that's why observe them and switch actions stream on each change
   private contextSafeActions$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
