@@ -26,10 +26,5 @@ export const configurator = {
     addToCart: {
       button: 'Add To Cart',
     },
-    textfield: {
-      addToCart: {
-        button: 'Add To Cart',
-      },
-    },
   },
 };
