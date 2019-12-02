@@ -10,6 +10,7 @@ import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import * as fromConfigurationReducers from '../../store/reducers/index';
+import { ConfigUtilsService } from '../../utils/config-utils.service';
 import { ConfiguratorUiActions } from '../actions';
 import * as ConfiguratorActions from '../actions/configurator.action';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
@@ -29,7 +30,7 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
 });
 const owner: Configurator.Owner = {
   type: Configurator.OwnerType.PRODUCT,
-  key: Configurator.OwnerType.PRODUCT + '/' + productCode,
+  productCode: productCode,
 };
 const productConfiguration: Configurator.Configuration = {
   configId: 'a',
@@ -50,6 +51,7 @@ describe('ConfiguratorEffect', () => {
   let readMock: jasmine.Spy;
   let addToCartMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
+  let configuratorUtils: ConfigUtilsService;
 
   let actions$: Observable<any>;
 
@@ -95,6 +97,10 @@ describe('ConfiguratorEffect', () => {
     configEffects = TestBed.get(fromEffects.ConfiguratorEffects as Type<
       fromEffects.ConfiguratorEffects
     >);
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(owner);
   });
 
   it('should provide configuration effects', () => {

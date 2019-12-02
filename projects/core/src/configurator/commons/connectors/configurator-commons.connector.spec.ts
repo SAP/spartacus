@@ -6,6 +6,16 @@ import { ConfigUtilsService } from '../utils/config-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
 import createSpy = jasmine.createSpy;
+const PRODUCT_CODE = 'CONF_LAPTOP';
+const CONFIG_ID = '1234-56-7890';
+const productConfiguration: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  productCode: PRODUCT_CODE,
+  owner: {
+    productCode: PRODUCT_CODE,
+    type: Configurator.OwnerType.PRODUCT,
+  },
+};
 
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
   readPriceSummary = createSpy().and.callFake(configId =>
@@ -20,8 +30,8 @@ class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
     of('updateConfiguration' + configuration.configId)
   );
 
-  createConfiguration = createSpy().and.callFake(productCode =>
-    of('createConfiguration' + productCode)
+  createConfiguration = createSpy().and.callFake(owner =>
+    of('createConfiguration' + owner)
   );
 
   addToCart = createSpy().and.callFake(configId => of('addToCart' + configId));
@@ -30,17 +40,11 @@ class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
 describe('ConfiguratorCommonsConnector', () => {
   let service: ConfiguratorCommonsConnector;
   let configuratorUtils: ConfigUtilsService;
-  const PRODUCT_CODE = 'CONF_LAPTOP';
-  const CONFIG_ID = '1234-56-7890';
+
   const GROUP_ID = 'GROUP1';
   const USER_ID = 'theUser';
   const CART_ID = '98876';
   const QUANTITY = 1;
-  const productConfiguration: Configurator.Configuration = {
-    configId: CONFIG_ID,
-    productCode: PRODUCT_CODE,
-    owner: { productCode: PRODUCT_CODE, type: Configurator.OwnerType.PRODUCT },
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -72,8 +76,10 @@ describe('ConfiguratorCommonsConnector', () => {
 
     let result;
     service.createConfiguration(PRODUCT_CODE).subscribe(res => (result = res));
-    expect(result).toBe('createConfiguration' + PRODUCT_CODE);
-    expect(adapter.createConfiguration).toHaveBeenCalledWith(PRODUCT_CODE);
+    expect(result).toBe('createConfiguration' + productConfiguration.owner);
+    expect(adapter.createConfiguration).toHaveBeenCalledWith(
+      productConfiguration.owner
+    );
   });
 
   it('should call adapter on readConfiguration', () => {

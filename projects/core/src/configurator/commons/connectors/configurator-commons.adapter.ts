@@ -9,7 +9,7 @@ export abstract class ConfiguratorCommonsAdapter {
    * @param productCode Root product code
    */
   abstract createConfiguration(
-    productCode: string
+    owner: Configurator.Owner
   ): Observable<Configurator.Configuration>;
 
   /**

@@ -10,6 +10,7 @@ import {
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
+import { ConfigUtilsService } from '../../../../configurator/commons/utils/config-utils.service';
 import { Configurator } from '../../../../model/configurator.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
@@ -29,6 +30,10 @@ const groupId = 'GROUP1';
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
+  owner: {
+    type: Configurator.OwnerType.PRODUCT,
+    productCode: productCode,
+  },
 };
 
 describe('OccConfigurationVariantAdapter', () => {
@@ -36,6 +41,7 @@ describe('OccConfigurationVariantAdapter', () => {
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
   let occEnpointsService: OccEndpointsService;
+  let configuratorUtils: ConfigUtilsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,6 +63,10 @@ describe('OccConfigurationVariantAdapter', () => {
     occConfiguratorVariantAdapter = TestBed.get(
       OccConfiguratorVariantAdapter as Type<OccConfiguratorVariantAdapter>
     );
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(productConfiguration.owner);
 
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'convert').and.callThrough();
@@ -68,7 +78,9 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call createConfiguration endpoint', () => {
-    occConfiguratorVariantAdapter.createConfiguration(productCode).subscribe();
+    occConfiguratorVariantAdapter
+      .createConfiguration(productConfiguration.owner)
+      .subscribe();
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'GET' && req.url === 'createConfiguration';

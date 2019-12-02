@@ -5,6 +5,7 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  ConfigUtilsService,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -53,7 +54,7 @@ const config: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: {
     type: Configurator.OwnerType.PRODUCT,
-    key: PRODUCT_CODE,
+    productCode: PRODUCT_CODE,
   },
   groups: [
     {
@@ -109,6 +110,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfigPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfigPreviousNextButtonsComponent>;
   let configurationGroupsService: ConfiguratorGroupsService;
+  let configuratorUtils: ConfigUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -144,6 +146,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       ConfiguratorGroupsService
     >);
     fixture.detectChanges();
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(config.owner);
   });
 
   it('should create', () => {

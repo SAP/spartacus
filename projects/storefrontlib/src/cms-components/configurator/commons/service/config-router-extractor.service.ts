@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Configurator, RoutingService } from '@spartacus/core';
+import {
+  Configurator,
+  ConfigUtilsService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -8,6 +12,8 @@ import { map } from 'rxjs/operators';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfigRouterExtractorService {
+  constructor(private configUtilsService: ConfigUtilsService) {}
+
   extractConfigurationOwner(
     routingService: RoutingService
   ): Observable<Configurator.Owner> {
@@ -17,16 +23,15 @@ export class ConfigRouterExtractorService {
         const owner: Configurator.Owner = {};
         if (params.ownerType) {
           const entityKey = params.entityKey;
-          owner.key = params.ownerType + '/' + entityKey;
           owner.type = params.ownerType;
           if (owner.type === Configurator.OwnerType.PRODUCT) {
             owner.productCode = entityKey;
           }
         } else {
-          owner.key = params.rootProduct;
+          owner.type = Configurator.OwnerType.PRODUCT;
           owner.productCode = params.rootProduct;
         }
-
+        this.configUtilsService.setOwnerKey(owner);
         return owner;
       })
     );

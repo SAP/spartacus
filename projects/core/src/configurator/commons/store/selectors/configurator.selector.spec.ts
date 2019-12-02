@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { ConfigUtilsService } from '../../utils/config-utils.service';
 import { ConfiguratorActions } from '../actions';
 import { Configurator } from './../../../../model/configurator.model';
 import {
@@ -12,10 +13,11 @@ import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;
+  let configuratorUtils: ConfigUtilsService;
   const productCode = 'CONF_LAPTOP';
   const owner: Configurator.Owner = {
     type: Configurator.OwnerType.PRODUCT,
-    key: Configurator.OwnerType.PRODUCT + '/' + productCode,
+    productCode: productCode,
   };
 
   const configuration: Configurator.Configuration = {
@@ -36,6 +38,10 @@ describe('Configurator selectors', () => {
     });
 
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(owner);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

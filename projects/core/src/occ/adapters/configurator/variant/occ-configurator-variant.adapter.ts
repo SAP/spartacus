@@ -26,8 +26,9 @@ export class OccConfiguratorVariantAdapter
   ) {}
 
   createConfiguration(
-    productCode: string
+    owner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
+    const productCode = owner.productCode;
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.getUrl('createConfiguration', { productCode })
@@ -35,11 +36,7 @@ export class OccConfiguratorVariantAdapter
       .pipe(
         this.converterService.pipeable(CONFIGURATION_NORMALIZER),
         tap(configuration => {
-          configuration.owner = {
-            type: Configurator.OwnerType.PRODUCT,
-            key: Configurator.OwnerType.PRODUCT + '/' + productCode,
-            productCode: productCode,
-          };
+          configuration.owner = owner;
         })
       );
   }
