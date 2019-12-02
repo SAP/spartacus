@@ -2,19 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  CartService,
-  EventEmitter,
-  OrderEntry,
-  Product,
-} from '@spartacus/core';
-import { throttle } from 'helpful-decorators';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { CartService, OrderEntry, Product } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
 import { CurrentProductService } from '../../product/current-product.service';
@@ -46,36 +39,18 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  hoverDetails: BehaviorSubject<{}[]> = new BehaviorSubject([]);
-
-  @HostListener('mouseenter') onEnter() {
-    this.hoverDetails.next([]);
-  }
-
-  @HostListener('mousemove', ['$event'])
-  @throttle(300)
-  onHover(event: MouseEvent) {
-    if (event.target instanceof HTMLButtonElement) {
-      const mousePositions = this.hoverDetails.value;
-      mousePositions.push({ offsetX: event.offsetX, offsetY: event.offsetY });
-      this.hoverDetails.next(mousePositions);
-    }
-  }
-
   constructor(
     cartService: CartService,
     modalService: ModalService,
     currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    eventRegister?: EventEmitter
+    cd: ChangeDetectorRef
   );
 
   constructor(
     protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef,
-    private eventEmitter?: EventEmitter
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -119,24 +94,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   addToCart() {
     if (!this.productCode || this.quantity <= 0) {
       return;
-    }
-
-    if (this.eventEmitter) {
-      // this.eventEmitter.merge(
-      //   CartAddEvent,
-      //   this.hoverDetails.pipe(map(hover => ({ hover: hover }))),
-      //   (eventData: CartAddEvent) => {
-      //     return eventData.state.productCode === this.productCode;
-      //   }
-      // );
-      // // // emit mouse event
-      // this.eventEmitter.merge(
-      //   CartAddEvent,
-      //   of({ mouseEvent: event }),
-      //   (eventData: CartAddEvent) => {
-      //     return eventData.state.productCode === this.productCode;
-      //   }
-      // );
     }
 
     // check item is already present in the cart
