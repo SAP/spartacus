@@ -25,7 +25,7 @@ class MockHandler {
   }
 }
 
-fdescribe('TokenRevocationInterceptor', () => {
+describe('TokenRevocationInterceptor', () => {
   let httpMock: HttpTestingController;
   let tokenRevocationInterceptor: TokenRevocationInterceptor;
 
