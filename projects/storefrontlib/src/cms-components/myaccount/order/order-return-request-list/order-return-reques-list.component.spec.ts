@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { OrderReturnRequestsComponent } from './order-return-requests.component';
+import { OrderReturnRequestsComponent } from './order-return-request-list.component';
 
 const mockReturns: ReturnRequestList = {
   returnRequests: [
@@ -49,7 +49,7 @@ class MockOrderReturnRequestService {
   clearOrderReturnRequestList() {}
 }
 
-describe('OrderReturnRequestsComponent', () => {
+describe('OrderReturnRequestListComponent', () => {
   let component: OrderReturnRequestsComponent;
   let fixture: ComponentFixture<OrderReturnRequestsComponent>;
   let returnService: MockOrderReturnRequestService;

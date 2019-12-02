@@ -7,10 +7,9 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
-  UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { OrderReturnRequestsComponent } from './order-return-requests.component';
+import { OrderReturnRequestsComponent as OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 @NgModule({
   imports: [
@@ -18,7 +17,7 @@ import { OrderReturnRequestsComponent } from './order-return-requests.component'
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrderReturnRequestListComponent: {
-          component: OrderReturnRequestsComponent,
+          component: OrderReturnRequestListComponent,
           guards: [AuthGuard],
         },
       },
@@ -28,9 +27,8 @@ import { OrderReturnRequestsComponent } from './order-return-requests.component'
     UrlModule,
     I18nModule,
   ],
-  declarations: [OrderReturnRequestsComponent],
-  exports: [OrderReturnRequestsComponent],
-  providers: [UserService],
-  entryComponents: [OrderReturnRequestsComponent],
+  declarations: [OrderReturnRequestListComponent],
+  exports: [OrderReturnRequestListComponent],
+  entryComponents: [OrderReturnRequestListComponent],
 })
-export class OrderReturnRequestsModule {}
+export class OrderReturnRequestListModule {}

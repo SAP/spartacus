@@ -10,10 +10,12 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../../model/order.model';
+import { StateLoaderActions } from '../../../state/utils/index';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
 import * as fromOrderReturnRequestEffect from './order-return-request.effect';
+import { USER_RETURN_REQUESTS } from '../user-state';
 
 const mockReturnRequest: ReturnRequest = { rma: '000000' };
 
@@ -134,6 +136,23 @@ describe('Order Return Request effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.loadReturnRequestList$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('resetReturnRequestList$', () => {
+    it('should reset return request list action', () => {
+      const action = new UserActions.ClearOrderReturnRequestList();
+
+      const completion = new StateLoaderActions.LoaderResetAction(
+        USER_RETURN_REQUESTS
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderReturnRequestEffect.resetReturnRequestList$).toBeObservable(
         expected
       );
     });

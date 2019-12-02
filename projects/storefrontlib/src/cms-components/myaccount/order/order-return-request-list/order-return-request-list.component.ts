@@ -8,8 +8,8 @@ import { Observable, combineLatest } from 'rxjs';
 import { tap, map, filter, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-order-return-requests',
-  templateUrl: './order-return-requests.component.html',
+  selector: 'cx-order-return-request-list',
+  templateUrl: './order-return-request-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderReturnRequestsComponent implements OnDestroy {
