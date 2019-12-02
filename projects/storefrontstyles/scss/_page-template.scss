@@ -12,7 +12,7 @@ $page-template-whitelist: LandingPage2Template, ContentPage1Template,
   CategoryPageTemplate, ProductListPageTemplate, SearchResultsListPageTemplate,
   ProductDetailsPageTemplate, CartPageTemplate, LoginPageTemplate,
   MultiStepCheckoutSummaryPageTemplate, ErrorPageTemplate,
-  StoreFinderPageTemplate, CheckoutLoginPageTemplate, AccountPageTemplate !default;
+  StoreFinderPageTemplate, CheckoutLoginPageTemplate, AccountPageTemplate, CompanyPageTemplate !default;
 
 @each $selector in $page-template-whitelist {
   .#{$selector} {

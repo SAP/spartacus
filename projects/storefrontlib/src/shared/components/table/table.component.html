@@ -1,0 +1,29 @@
+<ng-container *ngIf="tableData">
+  <table class="table cx-table">
+    <thead class="cx-thead-mobile">
+      <th scope="col" *ngFor="let column of columns">
+        {{ column.value }}
+      </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of tableData" (click)="goToDetail(row)">
+        <td class="cx-code" *ngFor="let column of columns">
+          <div class="d-md-none cx-label">
+            {{ column.value }}
+          </div>
+          <a
+            [routerLink]="
+              {
+                cxRoute: cxRoute,
+                params: row
+              } | cxUrl
+            "
+            class="cx-value"
+          >
+            {{ row[column.key] }}
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

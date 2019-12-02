@@ -1,0 +1,37 @@
+%CompanyPageTemplate {
+  // @extend %pageBody !optional;
+
+  max-width: 1140px;
+  padding: 2rem 1.5rem 0 1.5rem;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+
+  @include media-breakpoint-down(md) {
+    display: inline-block;
+  }
+
+  cx-page-slot {
+    &.BodyContent {
+      flex: 0 100%;
+
+      cx-budget-edit,
+      cx-budget-create > * {
+        max-width: var(--cx-max-width, 50%);
+        @include media-breakpoint-down(md) {
+          max-width: var(--cx-max-width, 75%);
+        }
+      }
+    }
+
+    .row {
+      padding: 0.5rem 0;
+      &.section {
+        padding: 1.5rem 0 0;
+      }
+    }
+  }
+}

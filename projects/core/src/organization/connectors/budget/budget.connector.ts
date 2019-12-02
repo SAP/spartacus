@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { Budget } from '../../../model/budget.model';
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetSearchConfig } from '../../model/search-config';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import BudgetsList = Occ.BudgetsList;
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,7 @@ export class BudgetConnector {
     return this.adapter.load(userId, budgetCode);
   }
 
-  getList(userId: string, params?: BudgetSearchConfig): Observable<Budget[]> {
+  getList(userId: string, params?: BudgetSearchConfig): Observable<BudgetsList> {
     return this.adapter.loadList(userId, params);
   }
 

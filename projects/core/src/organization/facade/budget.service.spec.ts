@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { Budget } from '../../model/budget.model';
+import { Budget, BudgetListModel } from '../../model/budget.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { BudgetActions } from '../store/actions/index';
@@ -13,7 +13,6 @@ import { BudgetService } from './budget.service';
 import { BudgetSearchConfig } from '../model/search-config';
 import {
   AuthService,
-  LoaderState,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '@spartacus/core';
@@ -103,7 +102,7 @@ describe('BudgetService', () => {
     const params: BudgetSearchConfig = { sort: 'code' };
 
     it('getList() should trigger load budgets when they are not present in the store', () => {
-      let budgets: LoaderState<Budget>;
+      let budgets: BudgetListModel;
       service
         .getList(params)
         .subscribe(data => {
@@ -120,8 +119,8 @@ describe('BudgetService', () => {
 
     it('getList() should be able to get budgets when they are present in the store', () => {
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      store.dispatch(new BudgetActions.LoadBudgetsSuccess());
-      let budgets: LoaderState<Budget>;
+      store.dispatch(new BudgetActions.LoadBudgetsSuccess(params));
+      let budgets: any;
       service
         .getList(params)
         .subscribe(data => {

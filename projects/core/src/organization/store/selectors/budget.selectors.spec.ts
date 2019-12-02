@@ -9,7 +9,7 @@ import {
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { BudgetSelectors } from '../selectors/index';
-import { EntityLoaderState, LoaderState } from '@spartacus/core';
+import { LoaderState } from '@spartacus/core';
 
 describe('Budget Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -56,19 +56,21 @@ describe('Budget Selectors', () => {
 
   describe('getBudgetManagementState ', () => {
     it('should return budgets state', () => {
-      let result: EntityLoaderState<Budget>;
+      // let result: BudgetManagement; //EntityLoaderState<Budget>;
+      let result: any;
       store
         .pipe(select(BudgetSelectors.getBudgetManagementState))
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      expect(result).toEqual({ entities });
+      expect(result).toEqual( entities );
     });
   });
 
   describe('getBudgets', () => {
     it('should return budgets', () => {
-      let result: { [id: string]: LoaderState<Budget> };
+      // let result: EntityState<LoaderState<Budget>>; // { [id: string]: LoaderState<Budget> }
+      let result: any;
       store
         .pipe(select(BudgetSelectors.getBudgetsState))
         .subscribe(value => (result = value));

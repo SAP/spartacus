@@ -120,7 +120,7 @@ describe('Budget Effects', () => {
     it('should return LoadBudgetSuccess action', () => {
       const action = new BudgetActions.LoadBudgets({ userId, params });
       const completion = new BudgetActions.LoadBudgetSuccess([budget]);
-      const completion2 = new BudgetActions.LoadBudgetsSuccess();
+      const completion2 = new BudgetActions.LoadBudgetsSuccess(params);
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
