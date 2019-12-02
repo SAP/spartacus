@@ -158,7 +158,12 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule, PromotionHelperModule, RouterTestingModule],
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        PromotionHelperModule,
+        RouterTestingModule,
+      ],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
@@ -183,7 +188,7 @@ describe('ReviewSubmitComponent', () => {
         },
         {
           provide: PromotionService,
-          useClass: MockPromotionService
+          useClass: MockPromotionService,
         },
       ],
     }).compileComponents();

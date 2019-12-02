@@ -135,7 +135,7 @@ describe('OrderDetailItemsComponent', () => {
         },
         {
           provide: PromotionService,
-          useClass: MockPromotionService
+          useClass: MockPromotionService,
         },
       ],
       declarations: [

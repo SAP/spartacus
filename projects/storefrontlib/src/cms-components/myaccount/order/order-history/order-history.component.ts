@@ -18,7 +18,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private routing: RoutingService,
     private userOrderService: UserOrderService,
-    private translation: TranslationService,
+    private translation: TranslationService
   ) {}
 
   orders$: Observable<OrderHistoryList>;

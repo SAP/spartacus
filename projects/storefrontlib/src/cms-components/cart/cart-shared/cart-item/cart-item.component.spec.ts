@@ -62,7 +62,12 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule, PromotionHelperModule],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        PromotionHelperModule,
+      ],
       declarations: [
         CartItemComponent,
         MockMediaComponent,
@@ -75,7 +80,8 @@ describe('CartItemComponent', () => {
           provide: ControlContainer,
         },
         {
-          provide: PromotionService, useClass: MockPromotionService
+          provide: PromotionService,
+          useClass: MockPromotionService,
         },
       ],
     }).compileComponents();

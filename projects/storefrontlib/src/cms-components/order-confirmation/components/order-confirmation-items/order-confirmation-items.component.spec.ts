@@ -60,7 +60,10 @@ describe('OrderConfirmationItemsComponent', () => {
         OrderConfirmationItemsComponent,
         MockReviewSubmitComponent,
       ],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }, { provide: PromotionService, useClass: MockPromotionService }],
+      providers: [
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: PromotionService, useClass: MockPromotionService },
+      ],
     }).compileComponents();
   }));
 

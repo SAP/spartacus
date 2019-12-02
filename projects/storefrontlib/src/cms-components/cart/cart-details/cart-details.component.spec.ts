@@ -70,7 +70,12 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule, PromotionHelperModule, I18nTestingModule],
+      imports: [
+        RouterTestingModule,
+        PromotionsModule,
+        PromotionHelperModule,
+        I18nTestingModule,
+      ],
       declarations: [
         CartDetailsComponent,
         MockCartItemListComponent,
@@ -79,11 +84,11 @@ describe('CartDetailsComponent', () => {
       providers: [
         {
           provide: CartService,
-          useClass: MockCartService
+          useClass: MockCartService,
         },
         {
           provide: PromotionService,
-          useClass: MockPromotionService
+          useClass: MockPromotionService,
         },
       ],
     }).compileComponents();

@@ -115,7 +115,7 @@ describe('AddedToCartDialogComponent', () => {
         I18nTestingModule,
         AutoFocusDirectiveModule,
         PromotionsModule,
-        PromotionHelperModule
+        PromotionHelperModule,
       ],
       declarations: [
         AddedToCartDialogComponent,

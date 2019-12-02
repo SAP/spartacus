@@ -14,7 +14,6 @@ import { Observable, of } from 'rxjs';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderHistoryComponent } from './order-history.component';
 
-
 const mockOrders: OrderHistoryList = {
   orders: [
     {
