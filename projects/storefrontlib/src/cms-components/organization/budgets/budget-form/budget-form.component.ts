@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Budget, Currency, OrgUnit, UrlCommandRoute } from '@spartacus/core';
+import { Budget, Currency, CurrencyService, OrgUnit, UrlCommandRoute } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -59,10 +59,11 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
     budget: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, protected currencyService: CurrencyService) {}
 
   ngOnInit() {
-    // Fetching countries
+    this.currencies$ = this.currencyService.getAll();
+    // this.orgUnits = this.currencyService.getAll();
   }
 
   currencySelected(currency: Currency): void {
