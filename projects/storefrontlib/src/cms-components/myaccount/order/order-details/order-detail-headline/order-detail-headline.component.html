@@ -28,6 +28,19 @@
       *cxFeature="'cancellationAndReturn'"
     >
       <button
+        *ngIf="order.cancellable"
+        [routerLink]="
+          {
+            cxRoute: 'orderCancel',
+            params: order
+          } | cxUrl
+        "
+        class="btn btn-action"
+      >
+        {{ 'orderDetails.cancellationAndReturn.cancelAction' | cxTranslate }}
+      </button>
+
+      <button
         *ngIf="order.returnable"
         [routerLink]="
           {

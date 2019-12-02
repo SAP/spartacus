@@ -34,7 +34,7 @@ export const myAccount = {
     },
     cancellationAndReturn: {
       returnAction: 'Request a Return',
-      cancelAction: 'Cancel Order Items',
+      cancelAction: 'Cancel Items',
       item: 'Item',
       itemPrice: 'Item Price',
       quantity: 'Max Quantity',

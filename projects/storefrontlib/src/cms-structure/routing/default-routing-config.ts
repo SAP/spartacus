@@ -50,6 +50,14 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/order/:orderCode/return/confirmation'],
     paramsMapping: { orderCode: 'code' },
   },
+  orderCancel: {
+    paths: ['my-account/order/:orderCode/cancel'],
+    paramsMapping: { orderCode: 'code' },
+  },
+  orderCancelConfirmation: {
+    paths: ['my-account/order/:orderCode/cancel/confirmation'],
+    paramsMapping: { orderCode: 'code' },
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {
