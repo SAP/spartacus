@@ -12,6 +12,10 @@ export class LoadingScopesService {
    *
    * I.e. if 'details' scope includes 'list' scope by configuration, it'll return ['details', 'list']
    *
+   * If scope data overlaps with each other, the data should be merged in the order of scopes provided,
+   * i.e. the last scope is merged last, overwriting parts of the data already provided by preceding scope.
+   * It should apply also to implicit scopes (that are included by configuration).
+   *
    * @param model
    * @param scopes
    */
@@ -25,23 +29,23 @@ export class LoadingScopesService {
     if (scopesConfig) {
       let i = 0;
 
-      const completeScopes = [...scopes].reverse(); // to ensure proper scopes merging order
+      const expandedScopes = [...scopes].reverse(); // to ensure proper scopes merging order
 
-      while (i < completeScopes.length) {
+      while (i < expandedScopes.length) {
         const includedScopes =
-          scopesConfig[completeScopes[i]] &&
-          scopesConfig[completeScopes[i]].include;
+          scopesConfig[expandedScopes[i]] &&
+          scopesConfig[expandedScopes[i]].include;
         if (includedScopes) {
           for (const includedScope of includedScopes) {
-            if (!completeScopes.includes(includedScope)) {
-              completeScopes.push(includedScope);
+            if (!expandedScopes.includes(includedScope)) {
+              expandedScopes.push(includedScope);
             }
           }
         }
         i++;
       }
 
-      return completeScopes.reverse();
+      return expandedScopes.reverse();
     }
 
     return scopes;

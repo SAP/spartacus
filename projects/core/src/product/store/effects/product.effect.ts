@@ -17,22 +17,29 @@ import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
 
 @Injectable()
 export class ProductEffects {
+  // we want to cancel all ongoing requests with when currency or language
+  // changes, that's why observe them and switch actions stream on each change
+  private contextSafeActions$ = this.actions$.pipe(
+    ofType(
+      SiteContextActions.CURRENCY_CHANGE,
+      SiteContextActions.LANGUAGE_CHANGE
+    ),
+    startWith({}),
+    switchMapTo(this.actions$)
+  );
+
   loadProduct$ = createEffect(
     () => ({ scheduler, debounce = 0 } = {}): Observable<
       ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
     > =>
-      this.actions$.pipe(
-        ofType(
-          SiteContextActions.CURRENCY_CHANGE,
-          SiteContextActions.LANGUAGE_CHANGE
-        ),
-        startWith({}),
-        switchMapTo(this.actions$),
+      this.contextSafeActions$.pipe(
         ofType(ProductActions.LOAD_PRODUCT),
         map((action: ProductActions.LoadProduct) => ({
           code: action.payload,
           scope: action.meta.scope,
         })),
+        // we are grouping all load actions that happens at the same time
+        // to optimize loading and pass them all to productConnector.getMany
         bufferDebounceTime(debounce, scheduler),
         mergeMap(products =>
           merge(
