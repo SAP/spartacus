@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action, ActionsSubject } from '@ngrx/store';
+import { CartActions, StateLoaderActions } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { StateLoaderActions } from '../../state/index';
-import { CartActions } from '../store/index';
 
 const CART_LOAD_ACTIONS = [
   CartActions.LOAD_CART,

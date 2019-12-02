@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActionsSubject } from '@ngrx/store';
+import { CartActions } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CartActions } from '../store';
 import { CartEventBuilder } from './cart-event.builder';
 
 class MockActionsSubject {

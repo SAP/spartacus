@@ -1,6 +1,5 @@
 export * from './cart.module';
 export * from './connectors/index';
-export * from './event/index';
 export * from './facade/index';
 export * from './store/cart-state';
 export * from './store/index';

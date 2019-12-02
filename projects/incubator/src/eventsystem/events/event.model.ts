@@ -10,14 +10,13 @@ export class CxStateEvent<T> extends CxEvent {
   state: T;
 }
 
-export class UiEvent<T> extends CxEvent {
-  UiData?: any;
-}
-
+/**
+ * The cx event source holds an array of sources.
+ * There are no more properties in this object for now
+ * but that could change over time.
+ */
 export interface CxEventSource<T> {
   sources: BehaviorSubject<Observable<T>[]>;
-
-  merged: EventSource<T>[];
 }
 
 export interface EventSource<T> {

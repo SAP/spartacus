@@ -3,12 +3,11 @@ import { Config, provideConfig } from '../config/config.module';
 import { CmsConfig } from './config/cms-config';
 import { CmsStructureConfig } from './config/cms-structure.config';
 import { defaultCmsModuleConfig } from './config/default-cms-config';
-import { CmsEventModule } from './events/cms-event.module';
 import { CmsService } from './facade/cms.service';
 import { CmsPageTitleModule } from './page/page.module';
 import { CmsStoreModule } from './store/cms-store.module';
 @NgModule({
-  imports: [CmsStoreModule, CmsEventModule, CmsPageTitleModule],
+  imports: [CmsStoreModule, CmsPageTitleModule],
 })
 export class CmsModule {
   static forRoot(): ModuleWithProviders<CmsModule> {

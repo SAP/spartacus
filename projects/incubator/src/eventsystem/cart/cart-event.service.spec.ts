@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { EventEmitter } from '../../events';
+import { EventEmitter } from '../../../../../../core/src/events';
 import { CartEventBuilder } from './cart-event.builder';
 import {
   CartAddEntryEvent,

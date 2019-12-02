@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action, ActionsSubject } from '@ngrx/store';
+import { CmsActions } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CmsActions } from '../store/index';
 
 @Injectable({
   providedIn: 'root',
