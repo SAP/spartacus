@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import {
   Order,
   CancellationRequestEntryInputList,
@@ -75,7 +74,7 @@ export class CancelOrderFail extends LoaderFailAction {
 
 export class CancelOrderSuccess extends LoaderSuccessAction {
   readonly type = CANCEL_ORDER_SUCCESS;
-  constructor(public payload: any) {
+  constructor() {
     super(USER_ORDER_DETAILS);
   }
 }
