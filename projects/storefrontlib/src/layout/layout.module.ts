@@ -7,7 +7,7 @@ import { LayoutConfig } from './config/layout-config';
 const layoutModules = [OutletRefModule];
 
 @NgModule({
-  imports: [...layoutModules, SkipLinkModule],
+  imports: [...layoutModules, SkipLinkModule, OutletRefModule],
   providers: [{ provide: LayoutConfig, useExisting: Config }],
   exports: [...layoutModules],
 })

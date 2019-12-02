@@ -11,6 +11,7 @@
     padding: 16px 32px 16px 32px;
     border-radius: 0 0 5px 5px;
     border: 2px solid var(--cx-color-dark);
+    border-top-width: 0;
     z-index: 11;
 
     &:focus {
