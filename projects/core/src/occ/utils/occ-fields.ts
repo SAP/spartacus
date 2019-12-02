@@ -36,9 +36,12 @@ export function optimizeFields(fields: object = {}): object {
  * Parse sting field definition to an AST object
  *
  * @param fields Fields string definition
- * @param startIndex User for recurrence
+ * @param startIndex Used for recurrence
  */
-export function parseFields(fields, startIndex = 0): [object, number] | object {
+export function parseFields(
+  fields: string,
+  startIndex = 0
+): [object, number] | object {
   const parsedFields = {};
 
   let i = startIndex;

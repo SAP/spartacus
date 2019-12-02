@@ -151,18 +151,22 @@ describe('stringifyFields', () => {
 });
 
 describe('extractFields for given fields definition', () => {
-  const data: any = {
-    ala: 'val1',
-    ula: { franek: 'val2', tolek: 'val3' },
-    ela: 'val4',
-  };
+  let data: any;
+  beforeEach(() => {
+    data = {
+      ala: 'val1',
+      ula: { franek: 'val2', tolek: 'val3' },
+      ela: 'val4',
+    };
+  });
+
   it('should extract part of the object', () => {
     expect(extractFields(data, 'ala,ela')).toEqual({
       ala: 'val1',
       ela: 'val4',
     });
   });
-  it('should work for nexted object', () => {
+  it('should work for nested object', () => {
     expect(extractFields(data, 'ala,ula(franek)')).toEqual({
       ala: 'val1',
       ula: { franek: 'val2' },

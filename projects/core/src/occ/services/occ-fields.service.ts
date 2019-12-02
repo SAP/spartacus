@@ -9,13 +9,13 @@ import { HttpClient } from '@angular/common/http';
  * Intermediate model to accommodate all data needed to perform occ fields optimizations
  * wrapping ScopedData with url and fields
  */
-export interface OccFieldsModels {
+export interface OccFieldsModel {
   /** Url (with fields) to load scoped data */
   url?: string;
   /** extracted fields object, used to extract data from broader model */
   fields?: object;
   /** scoped data model */
-  model: ScopedData<any>;
+  scopedData: ScopedData<any>;
 }
 
 /**
@@ -25,7 +25,7 @@ export interface OccFieldsModels {
  */
 export interface OccMergedUrls {
   [optimalUrl: string]: {
-    [scope: string]: OccFieldsModels;
+    [scope: string]: OccFieldsModel;
   };
 }
 
@@ -47,7 +47,7 @@ export class OccFieldsService {
    * @param dataFactory
    */
   optimalLoad<T>(
-    occFieldsModels: OccFieldsModels[],
+    occFieldsModels: OccFieldsModel[],
     dataFactory?: (url: string) => Observable<T>
   ): ScopedData<T>[] {
     const result = [];
@@ -59,32 +59,34 @@ export class OccFieldsService {
     const mergedUrls = this.getMergedUrls(occFieldsModels);
 
     Object.entries(mergedUrls).forEach(
-      ([url, scopes]: [
+      ([url, groupedModelsSet]: [
         string,
         {
-          [scope: string]: OccFieldsModels;
+          [scope: string]: OccFieldsModel;
         }
       ]) => {
-        const scopesForUrl = Object.values(scopes);
+        const groupedModels = Object.values(groupedModelsSet);
 
-        if (scopesForUrl.length === 1) {
-          // only one scope for url
+        if (groupedModels.length === 1) {
+          // only one scope for url, we can pass the data straightaway
           result.push({
-            ...scopesForUrl[0].model,
+            ...groupedModels[0].scopedData,
             data$: dataFactory(url),
           });
         } else {
           // multiple scopes per url
+          // we have to split the model per each scope
           const data$ = dataFactory(url).pipe(
             shareReplay(1),
+            // TODO deprecated since 1.4, remove
             map(data => JSON.parse(JSON.stringify(data)))
           );
 
-          scopesForUrl.forEach(modelData => {
+          groupedModels.forEach(modelData => {
             result.push({
-              ...modelData.model,
+              ...modelData.scopedData,
               data$: data$.pipe(
-                map(product => extractFields<T>(product, modelData.fields))
+                map(data => extractFields<T>(data, modelData.fields))
               ),
             });
           });
@@ -98,9 +100,13 @@ export class OccFieldsService {
   /**
    * Merge similar occ endpoints calls by merging fields parameter
    *
+   * We assume that different scopes are defined by different fields parameters,
+   * so we are grouping all requests with the same urls (except fields definition)
+   * and merging into one request with fields that will satisfy all separate ones.
+   *
    * @param models
    */
-  getMergedUrls(models: OccFieldsModels[]): OccMergedUrls {
+  getMergedUrls(models: OccFieldsModel[]): OccMergedUrls {
     const groupedByUrls: OccMergedUrls = {};
     for (const model of models) {
       const [urlPart, fields] = this.splitFields(model.url);
@@ -108,16 +114,16 @@ export class OccFieldsService {
         groupedByUrls[urlPart] = {};
       }
       model.fields = fields ? parseFields(fields) : {};
-      groupedByUrls[urlPart][model.model.scope] = model;
+      groupedByUrls[urlPart][model.scopedData.scope] = model;
     }
 
     const mergedUrls: OccMergedUrls = {};
-    for (const [url, load] of Object.entries(groupedByUrls)) {
+    for (const [url, group] of Object.entries(groupedByUrls)) {
       const urlWithFields = this.getUrlWithFields(
         url,
-        Object.values(load).map(lo => lo.fields)
+        Object.values(group).map(lo => lo.fields)
       );
-      mergedUrls[urlWithFields] = load;
+      mergedUrls[urlWithFields] = group;
     }
 
     return mergedUrls;
@@ -134,8 +140,8 @@ export class OccFieldsService {
     const paramsMap = {};
 
     if (params) {
-      params.split('&').map(pram => {
-        const keyValue = pram.split('=');
+      params.split('&').map(param => {
+        const keyValue = param.split('=');
         paramsMap[keyValue[0]] = keyValue[1];
       });
     }
@@ -167,11 +173,8 @@ export class OccFieldsService {
     const mergedFields = mergeFields(fields);
 
     if (fields) {
-      if (url.includes('?')) {
-        url += `&${this.FIELDS_PARAM}=${mergedFields}`;
-      } else {
-        url += `?${this.FIELDS_PARAM}=${mergedFields}`;
-      }
+      url += url.includes('?') ? '&' : '?';
+      url += `${this.FIELDS_PARAM}=${mergedFields}`;
     }
 
     return url;
