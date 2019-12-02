@@ -140,21 +140,4 @@ describe('Order Return Request effect', () => {
       );
     });
   });
-
-  describe('resetReturnRequestList$', () => {
-    it('should reset return request list action', () => {
-      const action = new UserActions.ClearOrderReturnRequestList();
-
-      const completion = new StateLoaderActions.LoaderResetAction(
-        USER_RETURN_REQUESTS
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(orderReturnRequestEffect.resetReturnRequestList$).toBeObservable(
-        expected
-      );
-    });
-  });
 });

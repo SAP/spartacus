@@ -9,6 +9,7 @@ import {
   LoaderFailAction,
   LoaderLoadAction,
   LoaderSuccessAction,
+  LoaderResetAction,
 } from '../../../state/utils/loader/loader.action';
 
 export const CREATE_ORDER_RETURN_REQUEST = '[User] Create Order Return Request';
@@ -74,9 +75,11 @@ export class LoadOrderReturnRequestListSuccess extends LoaderSuccessAction {
   }
 }
 
-export class ClearOrderReturnRequestList implements Action {
+export class ClearOrderReturnRequestList extends LoaderResetAction {
   readonly type = CLEAR_ORDER_RETURN_REQUESTS;
-  constructor() {}
+  constructor() {
+    super(USER_RETURN_REQUESTS);
+  }
 }
 
 export type OrderReturnRequestAction =

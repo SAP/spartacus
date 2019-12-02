@@ -69,17 +69,6 @@ export class OrderReturnRequestEffect {
     })
   );
 
-  @Effect()
-  resetReturnRequestList$: Observable<Action> = this.actions$.pipe(
-    ofType(
-      UserActions.CLEAR_USER_MISCS_DATA,
-      UserActions.CLEAR_ORDER_RETURN_REQUESTS
-    ),
-    map(() => {
-      return new StateLoaderActions.LoaderResetAction(USER_RETURN_REQUESTS);
-    })
-  );
-
   constructor(
     private actions$: Actions,
     private orderConnector: UserOrderConnector
