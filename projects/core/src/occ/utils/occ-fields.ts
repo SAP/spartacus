@@ -111,6 +111,7 @@ function getObjectPart<T>(data: T, fields: object): T {
 
   if (
     keys.length === 0 ||
+    // we should not extract parts of the object with ambiguous fields definitions
     keys.find(el => el === 'BASIC' || el === 'DEFAULT' || el === 'FULL')
   ) {
     return data;
