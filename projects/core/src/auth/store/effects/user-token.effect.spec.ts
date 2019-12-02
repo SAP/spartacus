@@ -26,7 +26,7 @@ class UserAuthenticationTokenServiceMock {
   refreshToken(_refreshToken: string): Observable<UserToken> {
     return;
   }
-  revokeToken(_userToken: UserToken): Observable<{}> {
+  revoke(_userToken: UserToken): Observable<{}> {
     return;
   }
 }
@@ -55,7 +55,7 @@ describe('UserToken effect', () => {
 
     spyOn(userTokenService, 'loadToken').and.returnValue(of(testToken));
     spyOn(userTokenService, 'refreshToken').and.returnValue(of(testToken));
-    spyOn(userTokenService, 'revokeToken').and.returnValue(of({}));
+    spyOn(userTokenService, 'revoke').and.returnValue(of({}));
   });
 
   describe('loadUserToken$', () => {

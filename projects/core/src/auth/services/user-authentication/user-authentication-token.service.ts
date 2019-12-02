@@ -69,7 +69,7 @@ export class UserAuthenticationTokenService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  revokeToken(userToken: UserToken): Observable<{}> {
+  revoke(userToken: UserToken): Observable<{}> {
     const url = this.occEndpointsService.getRawEndpoint('revoke');
     const headers = InterceptorUtil.createHeader(
       TOKEN_REVOCATION_HEADER,

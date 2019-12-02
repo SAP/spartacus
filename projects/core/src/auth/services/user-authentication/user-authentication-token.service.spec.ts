@@ -145,7 +145,7 @@ describe('UserAuthenticationTokenService', () => {
 
   describe('revoke user token', () => {
     it('should make a revocation request for given user token', () => {
-      authTokenService.revokeToken(token).subscribe();
+      authTokenService.revoke(token).subscribe();
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'POST';

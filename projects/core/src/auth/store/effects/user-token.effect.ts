@@ -63,7 +63,7 @@ export class UserTokenEffects {
       return action.payload;
     }),
     mergeMap((userToken: UserToken) => {
-      return this.userTokenService.revokeToken(userToken).pipe(
+      return this.userTokenService.revoke(userToken).pipe(
         map(() => new AuthActions.RevokeUserTokenSuccess(userToken)),
         catchError(error => of(new AuthActions.RevokeUserTokenFail(error)))
       );
