@@ -5,7 +5,6 @@ import { from, Observable, of } from 'rxjs';
 import {
   catchError,
   concatMap,
-  debounceTime,
   exhaustMap,
   filter,
   groupBy,
@@ -43,7 +42,6 @@ export class CartEffects {
     groupBy(payload => payload.cartId),
     mergeMap(group$ =>
       group$.pipe(
-        debounceTime(0),
         switchMap(payload => {
           return of(payload).pipe(
             withLatestFrom(
@@ -78,6 +76,7 @@ export class CartEffects {
             .load(loadCartParams.userId, loadCartParams.cartId)
             .pipe(
               mergeMap((cart: Cart) => {
+                console.log(cart);
                 let actions = [];
                 if (cart) {
                   actions.push(new DeprecatedCartActions.LoadCartSuccess(cart));
@@ -103,6 +102,7 @@ export class CartEffects {
                     }),
                   ];
                 }
+                console.log(actions);
                 return actions;
               }),
               catchError(error => {
