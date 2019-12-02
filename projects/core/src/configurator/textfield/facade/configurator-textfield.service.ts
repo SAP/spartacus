@@ -86,7 +86,7 @@ export class ConfiguratorTextfieldService {
     });
   }
 
-  private callAddToCartActionWithConfigurationData(
+  callAddToCartActionWithConfigurationData(
     addToCartParameters: ConfiguratorTextfield.AddToCartParameters
   ): void {
     this.store
