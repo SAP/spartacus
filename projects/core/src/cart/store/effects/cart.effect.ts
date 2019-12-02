@@ -40,8 +40,8 @@ export class CartEffects {
     ofType(DeprecatedCartActions.LOAD_CART),
     map((action: DeprecatedCartActions.LoadCart) => action.payload),
     groupBy(payload => payload.cartId),
-    mergeMap(group =>
-      group.pipe(
+    mergeMap(group$ =>
+      group$.pipe(
         debounceTime(0),
         switchMap(payload => {
           return of(payload).pipe(

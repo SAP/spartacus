@@ -97,12 +97,7 @@ export class ActiveCartService {
       }),
       filter(({ loading }) => !loading),
       tap(({ cart, cartId, loaded }) => {
-        if (
-          this.isEmpty(cart) &&
-          !loaded &&
-          cartId !== FRESH_CART_ID &&
-          cartId !== OCC_CART_ID_CURRENT
-        ) {
+        if (this.isEmpty(cart) && !loaded && cartId !== FRESH_CART_ID) {
           this.load(cartId);
         }
       }),
@@ -143,16 +138,14 @@ export class ActiveCartService {
     );
   }
 
-  // Active cart leave it here - describe addEntry case
-  // current
-  // current
-  // fresh
-  // cart.code
-
   /**
-   * Returns loaded flag (success or error)
+   * Returns true when cart is stable (not loading and not pending processes on cart)
    */
   getLoaded(): Observable<boolean> {
+    // Debounce is used here, to avoid flickering when we switch between different cart entities.
+    // For example during `addEntry` method. We might try to load current cart, so `current cart will be then active id.
+    // After load fails we might create new cart so we switch to `fresh` cart entity used when creating cart.
+    // At the end we finally switch to cart `code` for cart id. Between those switches cart `getLoaded` function should not flicker.
     return this.activeCartId$.pipe(
       switchMap(cartId => this.multiCartService.isStable(cartId)),
       debounce(state => (state ? timer(0) : EMPTY)),
@@ -195,7 +188,7 @@ export class ActiveCartService {
           active: true,
         },
       });
-    } else if (cartId) {
+    } else if (cartId && cartId !== OCC_CART_ID_CURRENT) {
       this.multiCartService.loadCart({
         userId: this.userId,
         cartId: cartId,
@@ -233,16 +226,20 @@ export class ActiveCartService {
   private requireLoadedCart(
     customCartSelector$?: Observable<ProcessesLoaderState<Cart>>
   ): Observable<ProcessesLoaderState<Cart>> {
+    // For guest cart merge we want to filter guest cart in the whole stream
+    // We have to wait with load/create/addEntry after guest cart will be deleted.
+    // That's why you can provide custom selector with this filter applied.
     const cartSelector$ = customCartSelector$
       ? customCartSelector$
       : this.cartSelector$;
 
     return cartSelector$.pipe(
       filter(cartState => !cartState.loading),
-      filter(() => this.cartId !== FRESH_CART_ID), // why? do not try to load or create when we are in cart creation process cart id is set to fresh only when we are creating new cart
+      // Avoid load/create call when there are new cart creating at the moment
+      filter(() => this.cartId !== FRESH_CART_ID),
       take(1),
       switchMap(cartState => {
-        // try to load for cart, because it might have been created on another device between our login and add entry
+        // Try to load the cart, because it might have been created on another device between our login and add entry call
         if (
           this.isEmpty(cartState.value) &&
           this.userId !== OCC_USER_ID_ANONYMOUS
@@ -252,6 +249,7 @@ export class ActiveCartService {
         return cartSelector$;
       }),
       filter(cartState => !cartState.loading),
+      // create cart can happen to anonymous user if it is not empty or to any other user if it is loaded and empty
       filter(
         cartState =>
           this.userId === OCC_USER_ID_ANONYMOUS ||
@@ -271,8 +269,10 @@ export class ActiveCartService {
         return cartSelector$;
       }),
       filter(cartState => !cartState.loading),
+      filter(cartState => cartState.success || cartState.error),
+      // wait for active cart id to point to code/guid to avoid some work on fresh entity
       filter(() => this.cartId !== FRESH_CART_ID),
-      // filter(cartState => !this.isEmpty(cartState.value)), // to check
+      filter(cartState => !this.isEmpty(cartState.value)),
       take(1)
     );
   }
@@ -284,7 +284,6 @@ export class ActiveCartService {
    * @param quantity
    */
   addEntry(productCode: string, quantity: number): void {
-    // In case there is no new cart trying to load current cart cause flicker in loaders (loader, pause and then loader again)
     this.requireLoadedCart().subscribe(cartState => {
       this.multiCartService.addEntry(
         this.userId,

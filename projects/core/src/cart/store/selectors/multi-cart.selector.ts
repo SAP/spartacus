@@ -90,7 +90,9 @@ export const getCartEntrySelectorFactory = (
   return createSelector(
     getCartEntriesSelectorFactory(cartId),
     (state: OrderEntry[]) => {
-      return state.find(entry => entry.product.code === productCode);
+      return state
+        ? state.find(entry => entry.product.code === productCode)
+        : undefined;
     }
   );
 };

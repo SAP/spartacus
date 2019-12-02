@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { OrderEntry } from '../../model/order.model';
@@ -42,7 +42,8 @@ class MultiCartServiceStub {
   removeEntry() {}
   getEntries() {}
   createCart() {}
-  addEntries() {}
+  addEntry() {}
+  isStable() {}
 }
 
 const mockCartEntry: OrderEntry = {
@@ -195,37 +196,28 @@ describe('ActiveCartService', () => {
   });
 
   describe('getLoaded', () => {
-    it('should return true for success flag', () => {
-      service['cartSelector$'] = of({ success: true, loading: false });
+    it('should return true when isStable returns true', done => {
+      spyOn(multiCartService, 'isStable').and.returnValue(of(true));
 
-      let result;
       service
         .getLoaded()
-        .subscribe(val => (result = val))
-        .unsubscribe();
-      expect(result).toBe(true);
+        .pipe(take(1))
+        .subscribe(val => {
+          expect(val).toBe(true);
+          done();
+        });
     });
 
-    it('should return false for loading flag', () => {
-      service['cartSelector$'] = of({ success: true, loading: true });
+    it('should return false when isStable returns false', done => {
+      spyOn(multiCartService, 'isStable').and.returnValue(of(false));
 
-      let result;
       service
         .getLoaded()
-        .subscribe(val => (result = val))
-        .unsubscribe();
-      expect(result).toBe(false);
-    });
-
-    it('should return true for error flag', () => {
-      service['cartSelector$'] = of({ error: true, loading: false });
-
-      let result;
-      service
-        .getLoaded()
-        .subscribe(val => (result = val))
-        .unsubscribe();
-      expect(result).toBe(true);
+        .pipe(take(1))
+        .subscribe(val => {
+          expect(val).toBe(false);
+          done();
+        });
     });
   });
 
@@ -308,130 +300,19 @@ describe('ActiveCartService', () => {
   });
 
   describe('addEntry', () => {
-    it('should just add entry when cart exists', () => {
-      spyOn<any>(service, 'load').and.callThrough();
-      spyOn(multiCartService, 'createCart').and.callThrough();
-      spyOn(multiCartService, 'addEntries').and.callThrough();
-      service['userId'] = OCC_USER_ID_CURRENT;
-      service['cartSelector$'] = of({
-        value: { code: 'code', guid: 'guid' },
-        loading: false,
-        success: true,
-      });
+    it('should just add entry after cart is provided', () => {
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ value: { code: 'code', guid: 'guid' } })
+      );
+      spyOn(multiCartService, 'addEntry').and.callThrough();
 
       service.addEntry('productCode', 2);
 
-      expect(multiCartService['createCart']).not.toHaveBeenCalled();
-      expect(service['load']).not.toHaveBeenCalled();
-      expect(multiCartService['addEntries']).toHaveBeenCalledWith(
-        OCC_USER_ID_CURRENT,
-        'code',
-        [{ productCode: 'productCode', quantity: 2 }]
-      );
-    });
-
-    it('should create cart and add entries when there is no cart and user is anonymous', done => {
-      spyOn<any>(service, 'load').and.callThrough();
-      spyOn(multiCartService, 'createCart').and.returnValue(
-        of({ value: { code: 'code', guid: 'guid' } }).pipe(delay(1))
-      );
-      spyOn(multiCartService, 'addEntries').and.callThrough();
-      service['userId'] = OCC_USER_ID_ANONYMOUS;
-      service['cartSelector$'] = of({
-        value: undefined,
-        loading: false,
-        success: false,
-      });
-
-      service.addEntry('productCode', 2);
-      service.addEntry('productCode2', 3);
-
-      setTimeout(() => {
-        expect(multiCartService['createCart']).toHaveBeenCalledWith({
-          userId: OCC_USER_ID_ANONYMOUS,
-          extraData: {
-            active: true,
-          },
-        });
-        expect(service['load']).not.toHaveBeenCalled();
-        expect(multiCartService['addEntries']).toHaveBeenCalledWith(
-          OCC_USER_ID_ANONYMOUS,
-          'guid',
-          [
-            { productCode: 'productCode', quantity: 2 },
-            { productCode: 'productCode2', quantity: 3 },
-          ]
-        );
-        done();
-      }, 10);
-    });
-
-    it('should attempt to load cart and then add entries if there is no cart and user is not anonymous', () => {
-      spyOn<any>(service, 'load').and.callThrough();
-      spyOn(multiCartService, 'createCart').and.callThrough();
-      spyOn(multiCartService, 'addEntries').and.callThrough();
-      const cartSelector$ = new BehaviorSubject<any>({
-        value: undefined,
-        loading: false,
-        success: false,
-      });
-      service['userId'] = OCC_USER_ID_CURRENT;
-      service['cartSelector$'] = cartSelector$.asObservable();
-
-      service.addEntry('productCode', 2);
-
-      expect(service['load']).toHaveBeenCalledWith(undefined);
-      expect(multiCartService['addEntries']).not.toHaveBeenCalled();
-
-      cartSelector$.next({ value: undefined, loading: true, success: false });
-      expect(multiCartService['addEntries']).not.toHaveBeenCalled();
-
-      cartSelector$.next({
-        value: { code: 'code', guid: 'guid' },
-        loading: false,
-        success: true,
-      });
-      expect(multiCartService['createCart']).not.toHaveBeenCalled();
-      expect(multiCartService['addEntries']).toHaveBeenCalledWith(
-        OCC_USER_ID_CURRENT,
-        'code',
-        [{ productCode: 'productCode', quantity: 2 }]
-      );
-    });
-
-    it('should fallback to creating cart after load fails', () => {
-      spyOn<any>(service, 'load').and.callThrough();
-      spyOn(multiCartService, 'createCart').and.returnValue(
-        of({ value: { code: 'code2', guid: 'guid2' } })
-      );
-      spyOn(multiCartService, 'addEntries').and.callThrough();
-      const cartSelector$ = new BehaviorSubject<any>({
-        value: undefined,
-        loading: false,
-        success: false,
-      });
-      service['userId'] = OCC_USER_ID_CURRENT;
-      service['cartSelector$'] = cartSelector$.asObservable();
-
-      service.addEntry('productCode', 2);
-
-      expect(service['load']).toHaveBeenCalledWith(undefined);
-      expect(multiCartService['addEntries']).not.toHaveBeenCalled();
-
-      cartSelector$.next({ value: undefined, loading: true, success: false });
-      expect(multiCartService['addEntries']).not.toHaveBeenCalled();
-
-      cartSelector$.next({ value: undefined, loading: false, error: true });
-      expect(multiCartService['createCart']).toHaveBeenCalledWith({
-        userId: OCC_USER_ID_CURRENT,
-        extraData: {
-          active: true,
-        },
-      });
-      expect(multiCartService['addEntries']).toHaveBeenCalledWith(
-        OCC_USER_ID_CURRENT,
-        'code2',
-        [{ productCode: 'productCode', quantity: 2 }]
+      expect(multiCartService['addEntry']).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS,
+        'guid',
+        'productCode',
+        2
       );
     });
   });
@@ -581,8 +462,7 @@ describe('ActiveCartService', () => {
       expect(service['addEntry']).toHaveBeenCalledTimes(2);
       expect(service['addEntry']).toHaveBeenCalledWith(
         mockCartEntry.product.code,
-        mockCartEntry.quantity,
-        false
+        mockCartEntry.quantity
       );
     });
   });
@@ -609,9 +489,12 @@ describe('ActiveCartService', () => {
       spyOn(multiCartService, 'deleteCart').and.callThrough();
       spyOn(service, 'addEntries').and.callThrough();
       spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
+      spyOn<any>(service, 'addEntriesGuestMerge').and.callThrough();
 
       service['guestCartMerge']('cartId');
-      expect(service['addEntries']).toHaveBeenCalledWith([mockCartEntry], true);
+      expect(service['addEntriesGuestMerge']).toHaveBeenCalledWith([
+        mockCartEntry,
+      ]);
       expect(multiCartService['deleteCart']).toHaveBeenCalledWith(
         'cartId',
         OCC_USER_ID_ANONYMOUS
