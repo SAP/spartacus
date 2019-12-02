@@ -3,7 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
@@ -55,7 +55,17 @@ const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
 
-class MockCartService {}
+const cart: Cart = {
+  code: CART_CODE,
+  guid: CART_GUID,
+  user: { uid: OCC_USER_ID_ANONYMOUS },
+};
+
+class MockCartService {
+  getOrCreateCart(): Observable<Cart> {
+    return of(cart);
+  }
+}
 
 function mergeChangesAndGetFirstGroup(
   serviceUnderTest: ConfiguratorCommonsService,
@@ -208,32 +218,42 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('getCartId', () => {
     it('should return cart guid if user is anonymous', () => {
-      const cart: Cart = {
-        code: CART_CODE,
-        guid: CART_GUID,
-        user: { uid: OCC_USER_ID_ANONYMOUS },
-      };
       expect(serviceUnderTest.getCartId(cart)).toBe(CART_GUID);
     });
 
     it('should return cart code if user is not anonymous', () => {
-      const cart: Cart = {
+      const namedCart: Cart = {
         code: CART_CODE,
         guid: CART_GUID,
         user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
       };
-      expect(serviceUnderTest.getCartId(cart)).toBe(CART_CODE);
+      expect(serviceUnderTest.getCartId(namedCart)).toBe(CART_CODE);
     });
   });
 
   describe('getUserId', () => {
     it('should return anonymous user id if user is anonymous', () => {
-      const cart: Cart = {
-        code: CART_CODE,
-        guid: CART_GUID,
-        user: { uid: OCC_USER_ID_ANONYMOUS },
-      };
       expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
+    });
+  });
+
+  describe('addToCart', () => {
+    it('should get cart, create addToCartParameters and call addToCart action', () => {
+      const addToCartParams: Configurator.AddToCartParameters = {
+        cartId: CART_GUID,
+        userId: OCC_USER_ID_ANONYMOUS,
+        productCode: PRODUCT_CODE,
+        quantity: 1,
+        configId: CONFIG_ID,
+      };
+
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.AddToCart(addToCartParams)
+      );
     });
   });
 
