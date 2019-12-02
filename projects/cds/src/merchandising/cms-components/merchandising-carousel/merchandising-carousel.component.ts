@@ -95,7 +95,7 @@ export class MerchandisingCarouselComponent {
       : [EMPTY];
   }
 
-  getCarouselItemMetadata(
+  private getCarouselItemMetadata(
     merchandisingProduct: MerchandisingProduct,
     index: number
   ): Map<string, string> {
