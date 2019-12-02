@@ -428,37 +428,6 @@ describe('AddressFormComponent', () => {
 
       expect(isContinueBtnDisabled()).toBeFalsy();
     });
-
-    it('should touch all form fields when clicking submit invalid form', () => {
-      // TODO(issue:#4604) Deprecated since 1.3.0
-      isLevelBool.next(true);
-      fixture.detectChanges();
-
-      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
-
-      expect(controls['titleCode'].touched).toBeFalsy();
-      expect(controls['firstName'].touched).toBeFalsy();
-      expect(controls['lastName'].touched).toBeFalsy();
-      expect(controls['line1'].touched).toBeFalsy();
-      expect(controls['town'].touched).toBeFalsy();
-      expect(controls.region.touched).toBeFalsy();
-      expect(controls.country.touched).toBeFalsy();
-      expect(controls['postalCode'].touched).toBeFalsy();
-
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
-
-      expect(controls['titleCode'].touched).toBeTruthy();
-      expect(controls['firstName'].touched).toBeTruthy();
-      expect(controls['lastName'].touched).toBeTruthy();
-      expect(controls['line1'].touched).toBeTruthy();
-      expect(controls['town'].touched).toBeTruthy();
-      expect(controls.region.touched).toBeTruthy();
-      expect(controls.country.touched).toBeTruthy();
-      expect(controls['postalCode'].touched).toBeTruthy();
-    });
   });
 
   describe('UI cancel button', () => {
