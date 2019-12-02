@@ -15,7 +15,6 @@ export interface OccEndpoints {
     | {
         list?: string;
         details?: string;
-        order?: string;
         [scope: string]: string;
       };
   /**

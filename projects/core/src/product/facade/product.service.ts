@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, queueScheduler } from 'rxjs';
 import { auditTime, map, observeOn, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
@@ -36,6 +36,12 @@ export class ProductService {
    *
    * The underlying product loader ensures that the product is
    * only loaded once, even in case of parallel observers.
+   *
+   * You should provide product data scope you are interested in to not load all
+   * the data if not needed. You can provide more than one scope.
+   *
+   * @param productCode Product code to load
+   * @param scopes Scope or scopes of the product data
    */
   get(
     productCode: string,
@@ -93,7 +99,7 @@ export class ProductService {
       select(
         ProductSelectors.getSelectedProductStateFactory(productCode, scope)
       ),
-      observeOn(asyncScheduler),
+      observeOn(queueScheduler),
       tap(productState => {
         const attemptedLoad =
           productState.loading || productState.success || productState.error;

@@ -25,15 +25,15 @@ export function scopedLoaderReducer<T>(entityType, reducer?) {
     if (
       action &&
       action.meta &&
-      action.meta.scope &&
-      action.meta.entityType === entityType
+      action.meta.entityType === entityType &&
+      action.meta.scope
     ) {
       return {
         ...state,
         [action.meta.scope]: loader(state[action.meta.scope], action),
       };
     } else {
-      return { ...state, ...loader(state, action) };
+      return loader(state, action);
     }
   };
 }
