@@ -88,7 +88,7 @@
 //   cartIsLoading: Observable<boolean>;
 // }
 
-// fdescribe('PromotionService', () => {
+// describe('PromotionService', () => {
 //   it('should be created', () => {
 //     expect(true).toBeTruthy();
 //   })
