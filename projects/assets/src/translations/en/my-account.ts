@@ -43,7 +43,8 @@ export const myAccount = {
       setAll: 'Set all quantities to maximum',
       totalPrice: 'Total',
       submit: 'Submit Request',
-      returnNote: 'The following items will be included in the return request',
+      returnNote: 'The following items will be included in the return request.',
+      cancelNote: 'The following items will be included in the cancellation request.',
     },
   },
   orderHistory: {
