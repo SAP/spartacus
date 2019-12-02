@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
@@ -362,7 +369,7 @@ export class CheckoutEffects {
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
     filter(payload => Boolean(payload.cartId)),
-    switchMap(payload => {
+    concatMap(payload => {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(

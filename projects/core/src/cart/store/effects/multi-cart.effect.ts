@@ -64,7 +64,6 @@ export class MultiCartEffects {
     CartActions.CartProcessesIncrementAction
   > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.MERGE_CART,
       CartActions.CART_ADD_ENTRY,
       CartActions.CART_UPDATE_ENTRY,
       CartActions.CART_REMOVE_ENTRY,
@@ -76,7 +75,6 @@ export class MultiCartEffects {
     map(
       (
         action:
-          | DeprecatedCartActions.MergeCart
           | CartActions.CartAddEntry
           | CartActions.CartUpdateEntry
           | CartActions.CartRemoveEntry
@@ -86,10 +84,7 @@ export class MultiCartEffects {
           | CartActions.CartRemoveVoucher
       ) => action.payload
     ),
-    map(
-      payload =>
-        payload && new CartActions.CartProcessesIncrementAction(payload.cartId)
-    )
+    map(payload => new CartActions.CartProcessesIncrementAction(payload.cartId))
   );
 
   constructor(private actions$: Actions) {}
