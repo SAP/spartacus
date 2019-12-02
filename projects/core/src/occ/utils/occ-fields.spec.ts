@@ -172,6 +172,12 @@ describe('extractFields for given fields definition', () => {
       ula: { franek: 'val2' },
     });
   });
+  it('should for nested object', () => {
+    expect(extractFields(data, 'ala,ula')).toEqual({
+      ala: 'val1',
+      ula: { franek: 'val2', tolek: 'val3' },
+    });
+  });
   it('should not create missing keys', () => {
     expect(extractFields(data, 'ala,tola')).toEqual({
       ala: 'val1',

@@ -172,7 +172,7 @@ export class OccFieldsService {
   private getUrlWithFields(url: string, fields: (string | object)[]): string {
     const mergedFields = mergeFields(fields);
 
-    if (fields) {
+    if (mergedFields) {
       url += url.includes('?') ? '&' : '?';
       url += `${this.FIELDS_PARAM}=${mergedFields}`;
     }

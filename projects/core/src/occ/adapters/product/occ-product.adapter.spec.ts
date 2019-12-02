@@ -7,7 +7,6 @@ import { TestBed } from '@angular/core/testing';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductAdapter } from './occ-product.adapter';
-
 import createSpy = jasmine.createSpy;
 
 const productCode = 'testCode';
@@ -19,7 +18,8 @@ const product = {
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
-    (url, { productCode }) => url + productCode
+    (url, { productCode }, _, scope) =>
+      `${url}${productCode}` + (scope ? `?fields=${scope}` : '')
   );
 }
 
@@ -72,10 +72,94 @@ describe('OccProductAdapter', () => {
       mockReq.flush(product);
     });
 
+    it('should load product details for given product code amd scope', () => {
+      service.load(productCode, 'scope').subscribe(result => {
+        expect(result).toEqual(product);
+      });
+
+      const mockReq = httpMock.expectOne(`product${productCode}?fields=scope`);
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(product);
+    });
+
     it('should use converter', () => {
       const converter = TestBed.get(ConverterService as Type<ConverterService>);
 
       service.load(productCode).subscribe();
+      httpMock.expectOne('product' + productCode).flush(product);
+
+      expect(converter.pipeable).toHaveBeenCalledWith(PRODUCT_NORMALIZER);
+    });
+  });
+
+  describe('loadMany', () => {
+    it('should load one product', () => {
+      const scopedData = service.loadMany([{ code: productCode, scope: '' }]);
+
+      expect(scopedData.length).toEqual(1);
+
+      scopedData[0].data$.subscribe(result => {
+        expect(result).toEqual(product);
+      });
+
+      const mockReq = httpMock.expectOne('product' + productCode);
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(product);
+    });
+
+    it('should load multiple product scopes and codes product code', () => {
+      const scopedData = service.loadMany([
+        { code: productCode, scope: '' },
+        { code: '333', scope: 'scope' },
+      ]);
+
+      expect(scopedData.length).toEqual(2);
+
+      scopedData[0].data$.subscribe(result => {
+        expect(result).toEqual(product);
+      });
+
+      scopedData[1].data$.subscribe(result => {
+        expect(result.code).toEqual('333');
+      });
+
+      const mockReq1 = httpMock.match(`product${productCode}`)[0];
+      const mockReq2 = httpMock.match('product333?fields=scope')[0];
+
+      mockReq1.flush(product);
+      mockReq2.flush({ code: '333' });
+    });
+
+    it('should merge request and split payload for multiple scopes', () => {
+      const scopedData = service.loadMany([
+        { code: productCode, scope: 'code' },
+        { code: productCode, scope: 'name' },
+      ]);
+
+      expect(scopedData.length).toEqual(2);
+
+      scopedData[0].data$.subscribe(result => {
+        expect(result).toEqual({ code: product.code });
+      });
+      scopedData[1].data$.subscribe(result => {
+        expect(result).toEqual({ name: product.name });
+      });
+
+      const mockReq = httpMock.expectOne('producttestCode?fields=code,name');
+
+      mockReq.flush(product);
+    });
+
+    it('should use converter', () => {
+      const converter = TestBed.get(ConverterService as Type<ConverterService>);
+
+      const scopedData = service.loadMany([{ code: productCode, scope: '' }]);
+      scopedData[0].data$.subscribe();
+
       httpMock.expectOne('product' + productCode).flush(product);
 
       expect(converter.pipeable).toHaveBeenCalledWith(PRODUCT_NORMALIZER);
