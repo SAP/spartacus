@@ -43,10 +43,6 @@ export class ProfileTagEventTracker {
     return this.profileTagEvents$;
   }
 
-  public getProfileTagWindow() {
-    return this.profileTagWindow;
-  }
-
   public addTracker(): Observable<Event> {
     return this.baseSiteService.getActive().pipe(
       filter(_ => isPlatformBrowser(this.platform)),
