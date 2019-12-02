@@ -5,6 +5,7 @@ import {
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
+  CancellationRequestEntryInputList,
   ReturnRequestList,
 } from '../../../model/order.model';
 
@@ -65,4 +66,16 @@ export abstract class UserOrderAdapter {
     currentPage: number,
     sort: string
   ): Observable<ReturnRequestList>;
+
+  /**
+   * Abstract method used to cancel order
+   * @param userId
+   * @param orderCode
+   * @param cancelRequestInput Cancel request entry input list
+   */
+  abstract cancel(
+    userId: string,
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
+  ): Observable<{}>;
 }

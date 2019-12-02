@@ -42,6 +42,10 @@ export interface ReturnRequestEntryInputList {
   returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
+export interface CancellationRequestEntryInputList {
+  cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
+}
+
 export interface ReturnRequestEntry {
   OrderEntry?: OrderEntry;
   expectedQuantity?: number;
