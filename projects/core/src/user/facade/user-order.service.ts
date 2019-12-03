@@ -5,6 +5,7 @@ import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
+import { OCC_USER_ID_CURRENT } from '../../occ';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -23,6 +24,8 @@ export class UserOrderService {
    * @deprecated since version 1.2
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -43,18 +46,28 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.LoadOrderDetails({
-            userId: occUserId,
-            orderCode: orderCode,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.LoadOrderDetails({
+              userId: occUserId,
+              orderCode: orderCode,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.LoadOrderDetails({
+          userId: OCC_USER_ID_CURRENT,
+          orderCode: orderCode,
+        })
+      );
+    }
   }
 
   /**
@@ -97,20 +110,32 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.LoadUserOrders({
-            userId: occUserId,
-            pageSize: pageSize,
-            currentPage: currentPage,
-            sort: sort,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.LoadUserOrders({
+              userId: occUserId,
+              pageSize: pageSize,
+              currentPage: currentPage,
+              sort: sort,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.LoadUserOrders({
+          userId: OCC_USER_ID_CURRENT,
+          pageSize: pageSize,
+          currentPage: currentPage,
+          sort: sort,
+        })
+      );
+    }
   }
 
   /**
