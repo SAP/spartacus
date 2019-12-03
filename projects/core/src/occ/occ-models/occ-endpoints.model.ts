@@ -5,6 +5,7 @@ export interface OccEndpoints {
    * @member {string}
    */
   login?: string;
+
   /**
    * Client logout (revoke authorization token)
    *
@@ -14,9 +15,21 @@ export interface OccEndpoints {
   /**
    * Get product details
    *
-   * @member {string}
+   * @member string
    */
   product?: string;
+
+  /**
+   * Get product details for scope
+   *
+   * @member Object
+   */
+  product_scopes?: {
+    list?: string;
+    details?: string;
+    [scope: string]: string;
+  };
+
   /**
    * Get reviews for a product
    *
