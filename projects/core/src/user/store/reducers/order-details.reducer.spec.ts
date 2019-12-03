@@ -2,7 +2,7 @@ import { Order } from '../../../model/order.model';
 import { UserActions } from '../actions/index';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 
-fdescribe('Order Details Reducer', () => {
+describe('Order Details Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromOrderDetailsReducer;

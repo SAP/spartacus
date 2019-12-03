@@ -19,6 +19,7 @@ export class CancelOrderConfirmationComponent {
 
   orderCode: string;
   cancelSubmit = false;
+  isCancelling$ = this.cancelOrReturnService.isCancelling$;
 
   cancelledEntries$: Observable<
     OrderEntry[]
@@ -35,8 +36,6 @@ export class CancelOrderConfirmationComponent {
       return cancelledEntries;
     })
   );
-
-  isCancelling$ = this.cancelOrReturnService.isCancelling$;
 
   submit(): void {
     this.cancelSubmit = true;
