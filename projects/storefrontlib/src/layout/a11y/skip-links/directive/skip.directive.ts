@@ -1,10 +1,4 @@
-import {
-  Directive,
-  TemplateRef,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Directive, Input, OnDestroy, OnInit, ElementRef } from '@angular/core';
 import { SkipLinkService } from '../skip-link.service';
 
 @Directive({
@@ -15,12 +9,12 @@ export class SkipDirective implements OnInit, OnDestroy {
   cxSkip: string;
 
   constructor(
-    private tpl: TemplateRef<any>,
+    private elRef: ElementRef<any>,
     private skipLinkService: SkipLinkService
   ) {}
 
   ngOnInit() {
-    this.skipLinkService.add(this.cxSkip, this.tpl.elementRef.nativeElement);
+    this.skipLinkService.add(this.cxSkip, this.elRef.nativeElement);
   }
 
   ngOnDestroy() {
