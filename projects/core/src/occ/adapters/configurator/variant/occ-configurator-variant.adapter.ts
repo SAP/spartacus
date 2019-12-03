@@ -102,16 +102,19 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
-  readPriceSummary(configId: string): Observable<Configurator.Configuration> {
+  readPriceSummary(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl('readPriceSummary', {
-      configId,
+      configId: configuration.configId,
     });
 
     //Send empty object as delta prices are not supported yet
-    return this.http
-      .patch(url, {})
-      .pipe(
-        this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER)
-      );
+    return this.http.patch(url, {}).pipe(
+      this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER),
+      tap(
+        resultConfiguration => (resultConfiguration.owner = configuration.owner)
+      )
+    );
   }
 }

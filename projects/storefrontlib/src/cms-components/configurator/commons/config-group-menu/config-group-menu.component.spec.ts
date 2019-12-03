@@ -7,6 +7,7 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  ConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -20,12 +21,17 @@ const CONFIG_ID = '12342';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
     },
   },
 };
 
 const config: Configurator.Configuration = {
+  owner: {
+    productCode: PRODUCT_CODE,
+    type: Configurator.OwnerType.PRODUCT,
+  },
   configId: CONFIG_ID,
   consistent: true,
   complete: true,
@@ -106,6 +112,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   let configuratorGroupsService: MockConfiguratorGroupService;
   let hamburgerMenuService: HamburgerMenuService;
   let htmlElem: HTMLElement;
+  let configuratorUtils: ConfigUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -143,7 +150,10 @@ describe('ConfigurationGroupMenuComponent', () => {
     hamburgerMenuService = TestBed.get(HamburgerMenuService as Type<
       HamburgerMenuService
     >);
-
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });

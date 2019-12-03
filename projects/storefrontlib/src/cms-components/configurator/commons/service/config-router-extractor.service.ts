@@ -5,7 +5,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 /**
  * Service to extract the configuration owner key from the current route
@@ -18,6 +18,7 @@ export class ConfigRouterExtractorService {
     routingService: RoutingService
   ): Observable<Configurator.Owner> {
     return routingService.getRouterState().pipe(
+      filter(routingData => routingData.state.params.entityKey),
       map(routingData => {
         const params = routingData.state.params;
         const owner: Configurator.Owner = {};

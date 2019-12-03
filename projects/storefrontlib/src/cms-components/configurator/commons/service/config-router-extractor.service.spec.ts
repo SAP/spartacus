@@ -16,7 +16,8 @@ const CART_ENTRY_NUMBER = '0';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
     },
   },
 };

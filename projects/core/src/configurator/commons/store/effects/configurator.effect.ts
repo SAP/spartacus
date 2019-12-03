@@ -109,7 +109,7 @@ export class ConfiguratorEffects {
     //mergeMap here as we need to process each update
     //(which only sends one changed attribute at a time),
     //so we must not cancel inner emissions
-    mergeMap(payload => {
+    mergeMap((payload: Configurator.Configuration) => {
       return this.configuratorCommonsConnector
         .updateConfiguration(payload)
         .pipe(
@@ -120,7 +120,7 @@ export class ConfiguratorEffects {
             const errorPayload = makeErrorSerializable(error);
             errorPayload.configId = payload.configId;
             return [
-              new UpdateConfigurationFail(payload.productCode, errorPayload),
+              new UpdateConfigurationFail(payload.owner.key, errorPayload),
             ];
           })
         );
@@ -137,20 +137,16 @@ export class ConfiguratorEffects {
         action.payload
     ),
     mergeMap(payload => {
-      return this.configuratorCommonsConnector
-        .readPriceSummary(payload.configId)
-        .pipe(
-          map((configuration: Configurator.Configuration) => {
-            return new UpdatePriceSummarySuccess(configuration);
-          }),
-          catchError(error => {
-            const errorPayload = makeErrorSerializable(error);
-            errorPayload.configId = payload.configId;
-            return [
-              new UpdatePriceSummaryFail(payload.productCode, errorPayload),
-            ];
-          })
-        );
+      return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
+        map((configuration: Configurator.Configuration) => {
+          return new UpdatePriceSummarySuccess(configuration);
+        }),
+        catchError(error => {
+          const errorPayload = makeErrorSerializable(error);
+          errorPayload.configId = payload.configId;
+          return [new UpdatePriceSummaryFail(payload.owner.key, errorPayload)];
+        })
+      );
     })
   );
 
@@ -162,7 +158,7 @@ export class ConfiguratorEffects {
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_SUCCESS),
     map((action: UpdateConfigurationSuccess) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload: Configurator.Configuration) => {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),

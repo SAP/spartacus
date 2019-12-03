@@ -120,9 +120,11 @@ describe('ConfiguratorCommonsConnector', () => {
     >);
 
     let result;
-    service.readPriceSummary(CONFIG_ID).subscribe(res => (result = res));
-    expect(result).toBe('readPriceSummary' + CONFIG_ID);
-    expect(adapter.readPriceSummary).toHaveBeenCalledWith(CONFIG_ID);
+    service
+      .readPriceSummary(productConfiguration)
+      .subscribe(res => (result = res));
+    expect(result).toBe('readPriceSummary' + productConfiguration);
+    expect(adapter.readPriceSummary).toHaveBeenCalledWith(productConfiguration);
   });
 
   it('should call adapter on addToCart', () => {

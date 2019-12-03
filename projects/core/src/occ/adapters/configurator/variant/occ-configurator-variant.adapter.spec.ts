@@ -150,7 +150,9 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call readConfigurationPrice endpoint', () => {
-    occConfiguratorVariantAdapter.readPriceSummary(configId).subscribe();
+    occConfiguratorVariantAdapter
+      .readPriceSummary(productConfiguration)
+      .subscribe();
 
     const mockReq = httpMock.expectOne(req => {
       return req.method === 'PATCH' && req.url === 'readPriceSummary';

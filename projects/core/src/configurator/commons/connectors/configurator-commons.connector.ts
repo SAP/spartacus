@@ -49,7 +49,9 @@ export class ConfiguratorCommonsConnector {
     return this.adapter.addToCart(parameters);
   }
 
-  readPriceSummary(configId: string): Observable<Configurator.Configuration> {
-    return this.adapter.readPriceSummary(configId);
+  readPriceSummary(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return this.adapter.readPriceSummary(configuration);
   }
 }

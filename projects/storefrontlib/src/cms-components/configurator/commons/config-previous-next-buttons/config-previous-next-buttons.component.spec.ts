@@ -23,7 +23,8 @@ const GROUP_2_ID = 'group2';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
     },
   },
 };
