@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
+import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import {
   OCC_CART_ID_CURRENT,
@@ -14,7 +15,9 @@ import {
 } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process';
 import * as fromProcessReducers from '../../process/store/reducers/index';
-import { StateWithMultiCart } from '../store';
+import { ProcessesLoaderState } from '../../state';
+import { CartActions, StateWithMultiCart } from '../store';
+import { FRESH_CART_ID } from '../store/actions/cart-group.actions';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
@@ -534,6 +537,137 @@ describe('ActiveCartService', () => {
       userId$.next(OCC_CART_ID_CURRENT);
       const result = service['isJustLoggedIn'](OCC_USER_ID_CURRENT);
       expect(result).toBe(false);
+    });
+  });
+
+  describe('setActiveCartIdToFresh', () => {
+    it('should dispatch SetActiveCartId action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      service['setActiveCartIdToFresh']();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.SetActiveCartId(FRESH_CART_ID)
+      );
+    });
+  });
+
+  describe('requireLoadedCart', () => {
+    const cartState = {
+      loading: false,
+      success: true,
+      error: false,
+      value: {
+        code: 'code',
+      },
+    };
+
+    it('should return cart if this already exists without loading again and creating new one', () => {
+      spyOn<any>(service, 'load').and.callThrough();
+      spyOn(multiCartService, 'createCart').and.callThrough();
+
+      service['cartSelector$'] = of(cartState);
+
+      service['requireLoadedCart']().subscribe(cart => {
+        expect(cart).toEqual(cartState);
+        expect(service['load']).not.toHaveBeenCalled();
+        expect(multiCartService.createCart).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should try to load cart for logged user if it is not already loaded', done => {
+      const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
+      spyOn<any>(service, 'load').and.callFake(() => {
+        cart$.next({
+          loading: false,
+          success: true,
+          error: false,
+          value: {
+            code: 'code',
+          },
+        });
+      });
+      spyOn(multiCartService, 'createCart').and.callThrough();
+
+      service['userId'] = OCC_USER_ID_CURRENT;
+      service['cartSelector$'] = cart$.asObservable();
+
+      service['requireLoadedCart']().subscribe(cart => {
+        expect(cart).toEqual(cartState);
+        expect(service['load']).toHaveBeenCalledWith(undefined);
+        expect(multiCartService.createCart).not.toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should try to create cart after failed load cart for logged user', done => {
+      const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
+      spyOn<any>(service, 'setActiveCartIdToFresh').and.callFake(() => {});
+      spyOn<any>(service, 'load').and.callFake(() => {
+        cart$.next({
+          loading: false,
+          success: false,
+          error: true,
+          value: undefined,
+        });
+      });
+      spyOn(multiCartService, 'createCart').and.callFake(() => {
+        cart$.next({
+          loading: false,
+          success: true,
+          error: false,
+          value: {
+            code: 'code',
+          },
+        });
+        return of();
+      });
+
+      service['userId'] = OCC_USER_ID_CURRENT;
+      service['cartSelector$'] = cart$.asObservable();
+
+      service['requireLoadedCart']().subscribe(cart => {
+        expect(cart).toEqual(cartState);
+        expect(service['load']).toHaveBeenCalledWith(undefined);
+        expect(multiCartService.createCart).toHaveBeenCalledWith({
+          userId: OCC_USER_ID_CURRENT,
+          extraData: {
+            active: true,
+          },
+        });
+        done();
+      });
+    });
+
+    it('should try to create cart for anonymous user', done => {
+      const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
+      spyOn<any>(service, 'load').and.callThrough();
+      spyOn<any>(service, 'setActiveCartIdToFresh').and.callFake(() => {});
+
+      spyOn(multiCartService, 'createCart').and.callFake(() => {
+        cart$.next({
+          loading: false,
+          success: true,
+          error: false,
+          value: {
+            code: 'code',
+          },
+        });
+        return of();
+      });
+
+      service['userId'] = OCC_USER_ID_ANONYMOUS;
+      service['cartSelector$'] = cart$.asObservable();
+
+      service['requireLoadedCart']().subscribe(cart => {
+        expect(cart).toEqual(cartState);
+        expect(service['load']).not.toHaveBeenCalled();
+        expect(multiCartService.createCart).toHaveBeenCalledWith({
+          userId: OCC_USER_ID_ANONYMOUS,
+          extraData: {
+            active: true,
+          },
+        });
+        done();
+      });
     });
   });
 });
