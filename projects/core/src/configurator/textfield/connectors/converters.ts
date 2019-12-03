@@ -9,3 +9,7 @@ export const CONFIGURATION_TEXTFIELD_NORMALIZER = new InjectionToken<
 export const CONFIGURATION_TEXTFIELD_SERIALIZER = new InjectionToken<
   Converter<ConfiguratorTextfield.Configuration, any>
 >('ConfigurationSerializer');
+
+export const CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER = new InjectionToken<
+  Converter<ConfiguratorTextfield.AddToCartParameters, any>
+>('ConfigurationAddToCartSerializer');
