@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
+import { OCC_USER_ID_CURRENT } from '../../occ';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -32,6 +33,8 @@ export class UserService {
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -57,13 +60,18 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserDetails(occUserId))
-      )
-      .unsubscribe();
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(new UserActions.LoadUserDetails(occUserId))
+        )
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT));
+    }
   }
 
   /**
@@ -123,13 +131,18 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.RemoveUser(occUserId))
-      )
-      .unsubscribe();
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(new UserActions.RemoveUser(occUserId))
+        )
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(new UserActions.RemoveUser(OCC_USER_ID_CURRENT));
+    }
   }
 
   /**
@@ -193,18 +206,28 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UpdateUserDetails({
-            username: occUserId,
-            userDetails,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.UpdateUserDetails({
+              username: occUserId,
+              userDetails,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.UpdateUserDetails({
+          username: OCC_USER_ID_CURRENT,
+          userDetails,
+        })
+      );
+    }
   }
 
   /**
@@ -263,19 +286,30 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UpdateEmailAction({
-            uid: occUserId,
-            password,
-            newUid,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.UpdateEmailAction({
+              uid: occUserId,
+              password,
+              newUid,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.UpdateEmailAction({
+          uid: OCC_USER_ID_CURRENT,
+          password,
+          newUid,
+        })
+      );
+    }
   }
 
   /**
@@ -318,19 +352,30 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UpdatePassword({
-            userId: occUserId,
-            oldPassword,
-            newPassword,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.UpdatePassword({
+              userId: occUserId,
+              oldPassword,
+              newPassword,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.UpdatePassword({
+          userId: OCC_USER_ID_CURRENT,
+          oldPassword,
+          newPassword,
+        })
+      );
+    }
   }
 
   /**
