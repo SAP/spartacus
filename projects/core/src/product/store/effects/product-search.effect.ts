@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { NEVER, Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class ProductsSearchEffects {
@@ -68,8 +69,26 @@ export class ProductsSearchEffects {
     })
   );
 
+  /**
+   * Use product search result data to populate product list state
+   */
+  @Effect()
+  populateProductState: Observable<
+    ProductActions.LoadProductSuccess
+  > = isPlatformBrowser(this.platrofmId)
+    ? this.actions$.pipe(
+        ofType(ProductActions.SEARCH_PRODUCTS_SUCCESS),
+        mergeMap((action: ProductActions.SearchProductsSuccess) => {
+          return action.payload.products.map(
+            product => new ProductActions.LoadProductSuccess(product, 'list')
+          );
+        })
+      )
+    : NEVER;
+
   constructor(
     private actions$: Actions,
-    private productSearchConnector: ProductSearchConnector
+    private productSearchConnector: ProductSearchConnector,
+    @Inject(PLATFORM_ID) private platrofmId: any
   ) {}
 }
