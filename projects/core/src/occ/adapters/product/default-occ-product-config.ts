@@ -10,7 +10,7 @@ export const defaultOccProductConfig: OccConfig = {
           list:
             'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
           details:
-            'products/${productCode}?fields=averageRating,numberOfReviews,categories(code,name,url),description,classifications(DEFAULT),stock',
+            'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL)',
         },
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
