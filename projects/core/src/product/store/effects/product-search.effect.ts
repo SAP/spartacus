@@ -73,7 +73,7 @@ export class ProductsSearchEffects {
    * Use product search result data to populate product list state
    */
   @Effect()
-  populateProductState: Observable<
+  populateProductState$: Observable<
     ProductActions.LoadProductSuccess
   > = isPlatformBrowser(this.platrofmId)
     ? this.actions$.pipe(

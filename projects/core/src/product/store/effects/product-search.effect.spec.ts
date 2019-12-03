@@ -12,10 +12,11 @@ import { ProductSearchConnector } from '../../connectors/search/product-search.c
 import { SearchConfig } from '../../model/search-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from './product-search.effect';
-
 import createSpy = jasmine.createSpy;
 
-const searchResult: ProductSearchPage = { products: [] };
+const searchResult: ProductSearchPage = {
+  products: [{ code: '1' }, { code: '2' }],
+};
 const suggestionList: Occ.SuggestionList = { suggestions: [] };
 
 class MockProductSearchConnector {
@@ -60,9 +61,7 @@ describe('ProductSearch Effects', () => {
 
       expect(effects.searchProducts$).toBeObservable(expected);
     });
-  });
 
-  describe('searchProducts$', () => {
     it('should return auxiliarySearchResult from SearchProductsSuccess', () => {
       const action = new ProductActions.SearchProducts(
         {
@@ -97,6 +96,24 @@ describe('ProductSearch Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.getProductSuggestions$).toBeObservable(expected);
+    });
+  });
+
+  describe('populateProductState$', () => {
+    it('should emit product load actions with list scope', () => {
+      const action = new ProductActions.SearchProductsSuccess(searchResult);
+      const load1 = new ProductActions.LoadProductSuccess(
+        searchResult.products[0],
+        'list'
+      );
+      const load2 = new ProductActions.LoadProductSuccess(
+        searchResult.products[1],
+        'list'
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', { b: load1, c: load2 });
+
+      expect(effects.populateProductState$).toBeObservable(expected);
     });
   });
 });
