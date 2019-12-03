@@ -11,15 +11,15 @@ import { deepMerge } from '../../config/utils/deep-merge';
 
 @Injectable()
 export class ProductService {
-  /**
-   * @deprecated since 1.4
-   */
-  constructor(store: Store<StateWithProduct>);
   constructor(
     store: Store<StateWithProduct>,
     // tslint:disable-next-line:unified-signatures
     loadingScopes: LoadingScopesService
   );
+  /**
+   * @deprecated since 1.4
+   */
+  constructor(store: Store<StateWithProduct>);
 
   constructor(
     protected store: Store<StateWithProduct>,
