@@ -28,9 +28,14 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     VariantConfiguratorModule,
     RouterModule.forChild([
       {
-        path: 'configureOverviewCPQCONFIGURATOR/:rootProduct',
-        data: { pageLabel: '/configureOverviewCPQCONFIGURATOR' },
-        component: PageLayoutComponent,
+        path: 'configureOverviewCPQCONFIGURATOR/:ownerType',
+        children: [
+          {
+            path: 'entityKey/:entityKey',
+            component: PageLayoutComponent,
+            data: { pageLabel: '/configureOverviewCPQCONFIGURATOR' },
+          },
+        ],
         canActivate: [CmsPageGuard],
       },
     ]),

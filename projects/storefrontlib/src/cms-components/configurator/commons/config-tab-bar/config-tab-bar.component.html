@@ -1,4 +1,4 @@
-<ng-container *ngIf="productCode$ | async as productCode">
+<ng-container *ngIf="owner$ | async as owner">
   <ng-container *ngIf="configuratorType$ | async as configuratorType">
     <div class="nav">
       <div>
@@ -8,7 +8,7 @@
           [routerLink]="
             {
               cxRoute: 'configure' + configuratorType,
-              params: { rootProduct: productCode }
+              params: { entityKey: owner.id, ownerType: owner.type }
             } | cxUrl
           "
           role="link"
@@ -22,7 +22,7 @@
           [routerLink]="
             {
               cxRoute: 'configureOverview' + configuratorType,
-              params: { rootProduct: productCode }
+              params: { entityKey: owner.id, ownerType: owner.type }
             } | cxUrl
           "
           role="link"

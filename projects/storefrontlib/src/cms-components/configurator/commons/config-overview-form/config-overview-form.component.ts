@@ -5,7 +5,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
+import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-overview-form',
@@ -17,15 +18,17 @@ export class ConfigOverviewFormComponent implements OnInit {
 
   constructor(
     private routingService: RoutingService,
-    private configuratorCommonsService: ConfiguratorCommonsService
+    private configuratorCommonsService: ConfiguratorCommonsService,
+    private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {
-    this.configuration$ = this.routingService.getRouterState().pipe(
-      map(routingData => routingData.state.params.rootProduct),
-      switchMap(product =>
-        this.configuratorCommonsService.getOrCreateConfiguration(product)
-      )
-    );
+    this.configuration$ = this.configRouterExtractorService
+      .extractConfigurationOwner(this.routingService)
+      .pipe(
+        switchMap(owner =>
+          this.configuratorCommonsService.getOrCreateConfiguration(owner)
+        )
+      );
   }
 }

@@ -13,7 +13,7 @@ import * as StateReduce from './configurator.reducer';
 const productCode = 'CONF_LAPTOP';
 const owner: Configurator.Owner = {
   type: Configurator.OwnerType.PRODUCT,
-  productCode: productCode,
+  id: productCode,
 };
 const configuration: Configurator.Configuration = {
   configId: 'ds',

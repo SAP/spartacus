@@ -8,17 +8,16 @@ import { Configurator } from '../../../model/configurator.model';
 export class ConfigUtilsService {
   setOwnerKey(owner: Configurator.Owner) {
     if (owner.type === Configurator.OwnerType.PRODUCT) {
-      if (!owner.productCode) {
+      if (!owner.id) {
         throw new Error('We expect a product code!');
       }
-      owner.key = owner.type + '/' + owner.productCode;
     } else if (owner.type === Configurator.OwnerType.CART_ENTRY) {
-      if (!owner.documentEntryId) {
+      if (!owner.id) {
         throw new Error('We expect a document entry Id!');
       }
-      owner.key = owner.type + '/' + owner.documentEntryId;
     } else {
       throw new Error('We expect an owner type!');
     }
+    owner.key = owner.type + '/' + owner.id;
   }
 }

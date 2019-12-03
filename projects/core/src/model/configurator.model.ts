@@ -49,8 +49,7 @@ export namespace Configurator {
   export interface Owner {
     type?: OwnerType;
     key?: string;
-    productCode?: string;
-    documentEntryId?: string;
+    id?: string;
   }
 
   export interface PriceSummary {

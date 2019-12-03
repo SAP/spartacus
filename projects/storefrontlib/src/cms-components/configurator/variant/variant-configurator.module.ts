@@ -38,12 +38,6 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ProductModule,
     RouterModule.forChild([
       {
-        path: 'configureCPQCONFIGURATOR/:rootProduct',
-        component: PageLayoutComponent,
-        data: { pageLabel: '/configureCPQCONFIGURATOR' },
-        canActivate: [CmsPageGuard],
-      },
-      {
         path: 'configureCPQCONFIGURATOR/:ownerType',
         children: [
           {

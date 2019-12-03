@@ -46,11 +46,9 @@ export class ConfiguratorCommonsService {
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true
         ) {
+          console.log('CHHI create: ' + JSON.stringify(owner));
           this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(
-              owner.key,
-              owner.productCode
-            )
+            new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
           );
         }
       }),

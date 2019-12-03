@@ -17,7 +17,7 @@ describe('Configurator selectors', () => {
   const productCode = 'CONF_LAPTOP';
   const owner: Configurator.Owner = {
     type: Configurator.OwnerType.PRODUCT,
-    productCode: productCode,
+    id: productCode,
   };
 
   const configuration: Configurator.Configuration = {

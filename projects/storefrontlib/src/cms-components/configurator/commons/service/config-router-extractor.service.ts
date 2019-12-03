@@ -25,14 +25,10 @@ export class ConfigRouterExtractorService {
         if (params.ownerType) {
           const entityKey = params.entityKey;
           owner.type = params.ownerType;
-          if (owner.type === Configurator.OwnerType.PRODUCT) {
-            owner.productCode = entityKey;
-          } else {
-            owner.documentEntryId = entityKey;
-          }
+          owner.id = entityKey;
         } else {
           owner.type = Configurator.OwnerType.PRODUCT;
-          owner.productCode = params.rootProduct;
+          owner.id = params.rootProduct;
         }
         this.configUtilsService.setOwnerKey(owner);
         return owner;

@@ -25,7 +25,7 @@ describe('ConfigUtilsService', () => {
 
   it('should set key for product related owner', () => {
     owner.type = Configurator.OwnerType.PRODUCT;
-    owner.productCode = productCode;
+    owner.id = productCode;
     serviceUnderTest.setOwnerKey(owner);
     expect(owner.key.includes(productCode)).toBe(true);
     expect(owner.key.includes(Configurator.OwnerType.PRODUCT)).toBe(true);
@@ -33,9 +33,9 @@ describe('ConfigUtilsService', () => {
 
   it('should set key for document related owner', () => {
     owner.type = Configurator.OwnerType.CART_ENTRY;
-    owner.documentEntryId = '1';
+    owner.id = '1';
     serviceUnderTest.setOwnerKey(owner);
-    expect(owner.key.includes(owner.documentEntryId)).toBe(true);
+    expect(owner.key.includes(owner.id)).toBe(true);
     expect(owner.key.includes(Configurator.OwnerType.CART_ENTRY)).toBe(true);
   });
 

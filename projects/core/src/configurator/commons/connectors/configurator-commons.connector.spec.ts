@@ -12,7 +12,7 @@ const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
   owner: {
-    productCode: PRODUCT_CODE,
+    id: PRODUCT_CODE,
     type: Configurator.OwnerType.PRODUCT,
   },
 };

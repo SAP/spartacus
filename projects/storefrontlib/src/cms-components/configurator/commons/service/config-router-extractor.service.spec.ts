@@ -59,7 +59,7 @@ describe('ConfigRouterExtractorService', () => {
     serviceUnderTest
       .extractConfigurationOwner(routingService)
       .subscribe(ownerFromRouting => (owner = ownerFromRouting));
-    expect(owner.productCode).toBe(PRODUCT_CODE);
+    expect(owner.id).toBe(PRODUCT_CODE);
     expect(owner.type).toBe(Configurator.OwnerType.PRODUCT);
     expect(owner.key.includes(Configurator.OwnerType.PRODUCT)).toBe(true);
   });
@@ -72,7 +72,7 @@ describe('ConfigRouterExtractorService', () => {
     serviceUnderTest
       .extractConfigurationOwner(routingService)
       .subscribe(ownerFromRouting => (owner = ownerFromRouting));
-    expect(owner.productCode).toBe(PRODUCT_CODE);
+    expect(owner.id).toBe(PRODUCT_CODE);
     expect(owner.type).toBe(Configurator.OwnerType.PRODUCT);
     expect(owner.key.includes(Configurator.OwnerType.PRODUCT)).toBe(true);
   });
@@ -85,8 +85,7 @@ describe('ConfigRouterExtractorService', () => {
     serviceUnderTest
       .extractConfigurationOwner(routingService)
       .subscribe(ownerFromRouting => (owner = ownerFromRouting));
-    expect(owner.productCode).toBeUndefined();
-    expect(owner.documentEntryId).toBe(CART_ENTRY_NUMBER);
+    expect(owner.id).toBe(CART_ENTRY_NUMBER);
     expect(owner.type).toBe(Configurator.OwnerType.CART_ENTRY);
     expect(owner.key.includes(Configurator.OwnerType.CART_ENTRY)).toBe(true);
   });

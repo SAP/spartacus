@@ -18,7 +18,7 @@ export class ConfiguratorCommonsConnector {
     productCode: string
   ): Observable<Configurator.Configuration> {
     const owner: Configurator.Owner = {
-      productCode: productCode,
+      id: productCode,
       type: Configurator.OwnerType.PRODUCT,
     };
     this.configUtilsService.setOwnerKey(owner);

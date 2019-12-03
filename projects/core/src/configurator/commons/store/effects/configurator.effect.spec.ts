@@ -30,7 +30,7 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
 });
 const owner: Configurator.Owner = {
   type: Configurator.OwnerType.PRODUCT,
-  productCode: productCode,
+  id: productCode,
 };
 const productConfiguration: Configurator.Configuration = {
   configId: 'a',

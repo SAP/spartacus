@@ -21,7 +21,7 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const OWNER_PRODUCT: Configurator.Owner = {
-  productCode: PRODUCT_CODE,
+  id: PRODUCT_CODE,
 
   type: Configurator.OwnerType.PRODUCT,
 };

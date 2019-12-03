@@ -29,7 +29,7 @@ const mockRouterState: any = {
 
 const config: Configurator.Configuration = {
   owner: {
-    productCode: PRODUCT_CODE,
+    id: PRODUCT_CODE,
     type: Configurator.OwnerType.PRODUCT,
   },
   configId: CONFIG_ID,

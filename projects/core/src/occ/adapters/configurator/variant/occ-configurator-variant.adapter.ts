@@ -28,7 +28,7 @@ export class OccConfiguratorVariantAdapter
   createConfiguration(
     owner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
-    const productCode = owner.productCode;
+    const productCode = owner.id;
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.getUrl('createConfiguration', { productCode })

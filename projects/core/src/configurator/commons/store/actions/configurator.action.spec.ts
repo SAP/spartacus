@@ -12,7 +12,7 @@ const GROUP_ID = 'GROUP1';
 const CONFIGURATION: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
-  owner: { productCode: PRODUCT_CODE, type: Configurator.OwnerType.PRODUCT },
+  owner: { id: PRODUCT_CODE, type: Configurator.OwnerType.PRODUCT },
 };
 
 describe('ConfiguratorActions', () => {

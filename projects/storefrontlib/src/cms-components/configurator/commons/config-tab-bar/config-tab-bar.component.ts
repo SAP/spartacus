@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { Configurator, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-tab-bar',
@@ -9,13 +10,16 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigTabBarComponent {
-  productCode$: Observable<string>;
+  owner$: Observable<Configurator.Owner>;
   configuratorType$: Observable<string>;
 
-  constructor(private routingService: RoutingService) {
-    this.productCode$ = routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.params.rootProduct));
+  constructor(
+    private routingService: RoutingService,
+    private configRouterExtractorService: ConfigRouterExtractorService
+  ) {
+    this.owner$ = this.configRouterExtractorService.extractConfigurationOwner(
+      this.routingService
+    );
 
     this.configuratorType$ = routingService
       .getRouterState()

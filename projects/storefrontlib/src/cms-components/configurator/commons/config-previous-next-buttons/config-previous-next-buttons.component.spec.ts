@@ -55,7 +55,7 @@ const config: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: {
     type: Configurator.OwnerType.PRODUCT,
-    productCode: PRODUCT_CODE,
+    id: PRODUCT_CODE,
   },
   groups: [
     {
