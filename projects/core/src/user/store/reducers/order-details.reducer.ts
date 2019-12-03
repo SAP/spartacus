@@ -12,10 +12,6 @@ export function reducer(
       const order: Order = action.payload;
       return order;
     }
-
-    case UserActions.CLEAR_ORDER_DETAILS: {
-      return initialState;
-    }
   }
   return state;
 }

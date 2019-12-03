@@ -1,5 +1,7 @@
 import { Order } from '../../../model/order.model';
 import { UserActions } from './index';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { USER_ORDER_DETAILS } from '../user-state';
 
 const mockOrderDetails: Order = { code: '123' };
 
@@ -16,6 +18,7 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_DETAILS,
         payload: mockOrderDetailsParams,
+        meta: StateLoaderActions.loadMeta(USER_ORDER_DETAILS),
       });
     });
   });
@@ -28,6 +31,7 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_DETAILS_FAIL,
         payload: error,
+        meta: StateLoaderActions.failMeta(USER_ORDER_DETAILS, error),
       });
     });
   });
@@ -39,6 +43,7 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_DETAILS_SUCCESS,
         payload: mockOrderDetails,
+        meta: StateLoaderActions.successMeta(USER_ORDER_DETAILS),
       });
     });
   });
@@ -49,6 +54,48 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CLEAR_ORDER_DETAILS,
+        meta: StateLoaderActions.resetMeta(USER_ORDER_DETAILS),
+      });
+    });
+  });
+
+  describe('CancelOrder Action', () => {
+    it('should create the action', () => {
+      const payload = {
+        userId: 'test',
+        orderCode: 'test',
+        cancelRequestInput: {},
+      };
+      const action = new UserActions.CancelOrder(payload);
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CANCEL_ORDER,
+        payload: payload,
+        meta: StateLoaderActions.loadMeta(USER_ORDER_DETAILS),
+      });
+    });
+  });
+
+  describe('CancelOrderFail Action', () => {
+    it('should create the action', () => {
+      const error = 'mockError';
+      const action = new UserActions.CancelOrderFail(error);
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CANCEL_ORDER_FAIL,
+        payload: error,
+        meta: StateLoaderActions.failMeta(USER_ORDER_DETAILS, error),
+      });
+    });
+  });
+
+  describe('CancelOrderSuccess Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.CancelOrderSuccess();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CANCEL_ORDER_SUCCESS,
+        meta: StateLoaderActions.successMeta(USER_ORDER_DETAILS),
       });
     });
   });

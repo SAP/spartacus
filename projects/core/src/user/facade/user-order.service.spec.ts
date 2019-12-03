@@ -166,25 +166,34 @@ describe('UserOrderService', () => {
     );
   });
 
-  it('should be able to create order return request', () => {
-    service.createOrderReturnRequest({ orderCode: 'test' });
+  it('should be able to cancel an order', () => {
+    service.cancelOrder('test', {});
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.CreateOrderReturnRequest({
+      new UserActions.CancelOrder({
         userId: OCC_USER_ID_CURRENT,
-        returnRequestInput: { orderCode: 'test' },
+        orderCode: 'test',
+        cancelRequestInput: {},
       })
     );
   });
 
-  it('should be able to get order return request', () => {
+  it('should be able to get order details state', () => {
     store.dispatch(
-      new UserActions.CreateOrderReturnRequestSuccess({
-        rma: '000000',
+      new UserActions.LoadOrderDetails({
+        userId: OCC_USER_ID_CURRENT,
+        orderCode: 'test',
       })
     );
     service
-      .getOrderReturnRequest()
-      .subscribe(r => expect(r).toEqual({ rma: '000000' }))
+      .getOrderDetailsState()
+      .subscribe(r =>
+        expect(r).toEqual({
+          loading: true,
+          error: false,
+          success: false,
+          value: {},
+        })
+      )
       .unsubscribe();
   });
 });

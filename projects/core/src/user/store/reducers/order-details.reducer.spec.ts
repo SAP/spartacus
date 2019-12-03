@@ -2,7 +2,7 @@ import { Order } from '../../../model/order.model';
 import { UserActions } from '../actions/index';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 
-describe('Order Details Reducer', () => {
+fdescribe('Order Details Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromOrderDetailsReducer;
@@ -21,7 +21,7 @@ describe('Order Details Reducer', () => {
       const action = new UserActions.LoadOrderDetailsSuccess(mockOrderDetails);
       const state = fromOrderDetailsReducer.reducer(initialState, action);
 
-      expect(state.order).toEqual(mockOrderDetails);
+      expect(state).toEqual(mockOrderDetails);
     });
   });
 });
