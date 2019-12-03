@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Configurator } from '@spartacus/core';
+import { Configurator } from '../../../model/configurator.model';
 
 /**
  * Utilities: Creating the key for a configuration owner object
