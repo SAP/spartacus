@@ -7,13 +7,13 @@ describe('Wish list', () => {
     });
   });
 
-  describe('anonymous', () => {
-    xit('should go to login and redirect to PDP', () => {
-      wishlist.addToWishListAnonymous();
+  describe('Anonymous', () => {
+    it('should go to login and redirect to PDP', () => {
+      wishlist.addToWishListAnonymous(wishlist.products[0]);
     });
   });
 
-  describe('logged in', () => {
+  describe('Logged in', () => {
     beforeEach(() => {
       cy.restoreLocalStorage();
     });
@@ -23,8 +23,6 @@ describe('Wish list', () => {
     });
 
     it('should add to wish list', () => {
-      wishlist.registerWishListUser();
-      wishlist.loginWishListUser();
       wishlist.addToWishList(wishlist.products[0]);
       wishlist.verifyProductInWishListPdp();
       wishlist.verifyProductInWishList(wishlist.products[0]);

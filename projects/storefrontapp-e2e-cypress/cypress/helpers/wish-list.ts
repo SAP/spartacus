@@ -23,13 +23,6 @@ export const products: TestProduct[] = [
   },
 ];
 
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  }).format(price);
-
 export const WishListUser = {
   user: 'standard',
   registrationData: {
@@ -41,14 +34,12 @@ export const WishListUser = {
   },
 };
 
-export function registerWishListUser() {
-  cy.visit('/login/register');
+function registerWishListUser() {
   register({ ...WishListUser.registrationData });
   cy.url().should('not.contain', 'register');
 }
 
-export function loginWishListUser() {
-  cy.visit('/login');
+function loginWishListUser() {
   login(
     WishListUser.registrationData.email,
     WishListUser.registrationData.password
@@ -65,7 +56,21 @@ export function waitForGetWishList() {
   ).as('get_wish_list');
 }
 
-export function addToWishListAnonymous() {}
+export function addToWishListAnonymous(product: TestProduct) {
+  cy.visit(`/product/${product.code}`);
+
+  cy.get('cx-add-to-wishlist .button-add-link').click({ force: true });
+
+  cy.get('cx-breadcrumb > h1').should('contain', 'Login');
+
+  cy.get('cx-login-form .btn-register').click({ force: true });
+
+  registerWishListUser();
+
+  loginWishListUser();
+
+  cy.get('cx-product-intro > .code').should('contain', `${product.code}`);
+}
 
 export function addToWishList(product: TestProduct) {
   cy.visit(`/product/${product.code}`);
@@ -149,6 +154,8 @@ export function checkWishListPersisted(product: TestProduct) {
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+
+  cy.getByText(/Sign in \/ Register/i).click();
 
   loginWishListUser();
 
