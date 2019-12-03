@@ -1,6 +1,6 @@
-<ng-container *ngIf="cancellableEntries$ | async as cancellableEntrie">
+<ng-container *ngIf="cancellableEntries$ | async as cancellableEntries">
   <cx-cancel-or-return-items
-    [entries]="cancellableEntrie"
+    [entries]="cancellableEntries"
     [cancelOrder]="true"
     (confirm)="confirmCancel($event)"
   >
