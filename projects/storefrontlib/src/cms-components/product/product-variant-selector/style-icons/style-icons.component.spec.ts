@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StyleIconsComponent } from './style-icons.component';
 
-describe('StyleIconsComponent', () => {
+fdescribe('StyleIconsComponent', () => {
   let component: StyleIconsComponent;
   let fixture: ComponentFixture<StyleIconsComponent>;
 
@@ -21,5 +21,9 @@ describe('StyleIconsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  xit('should set variantNames array', () => {
+    component.ngOnInit();
+    expect(Object.keys(component.variantNames).length).toBeGreaterThan(0);
   });
 });
