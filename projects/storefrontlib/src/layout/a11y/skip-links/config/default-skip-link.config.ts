@@ -1,22 +1,21 @@
 import { SkipLinkConfig, SkipLinkScrollPosition } from './skip-link.config';
 
 export const defaultSkipLinkConfig: SkipLinkConfig = {
-  skipLinks: {
-    SiteContext: {
+  skipLinks: [
+    {
+      key: 'SiteContext',
       i18nKey: 'groupSkipper.titles.header',
     },
-    BottomHeaderSlot: {
+    {
+      key: 'BottomHeaderSlot',
       position: SkipLinkScrollPosition.AFTER,
       i18nKey: 'groupSkipper.titles.main',
     },
-    ProductLeftRefinements: {
+    {
+      key: 'ProductLeftRefinements',
       i18nKey: 'groupSkipper.titles.productFacets',
     },
-    ProductListSlot: {
-      i18nKey: 'groupSkipper.titles.productList',
-    },
-    Footer: {
-      i18nKey: 'groupSkipper.titles.footer',
-    },
-  },
+    { key: 'ProductListSlot', i18nKey: 'groupSkipper.titles.productList' },
+    { key: 'Footer', i18nKey: 'groupSkipper.titles.footer' },
+  ],
 };

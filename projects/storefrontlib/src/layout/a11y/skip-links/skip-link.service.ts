@@ -11,7 +11,7 @@ export class SkipLinkService {
   constructor(protected config: SkipLinkConfig) {}
 
   add(key: string, target: HTMLElement) {
-    const found = this.config.skipLinks ? this.config.skipLinks[key] : null;
+    const found = this.config.skipLinks.find(skipLink => skipLink.key === key);
 
     if (found) {
       const existing = this.skippers.value;
@@ -26,11 +26,11 @@ export class SkipLinkService {
   }
 
   remove(key: string) {
-    const found = this.config.skipLinks ? this.config.skipLinks[key] : null;
+    const found = this.config.skipLinks.find(skipLink => skipLink.key === key);
 
     if (found) {
       let existing = this.skippers.value;
-      existing = existing.filter(skipper => skipper.key !== key);
+      existing = existing.filter(skipLink => skipLink.key !== key);
       this.skippers.next(existing);
     }
   }
