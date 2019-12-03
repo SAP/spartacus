@@ -33,7 +33,7 @@ export function optimizeFields(fields: object = {}): object {
 }
 
 /**
- * Parse sting field definition to an AST object
+ * Parse string field definition to an AST object
  *
  * @param fields Fields string definition
  * @param startIndex Used for recurrence
