@@ -4,11 +4,9 @@ import { OutletRefModule } from '../cms-structure/outlet/outlet-ref/outlet-ref.m
 import { SkipLinkModule } from './a11y';
 import { LayoutConfig } from './config/layout-config';
 
-const layoutModules = [OutletRefModule];
-
 @NgModule({
-  imports: [...layoutModules, SkipLinkModule, OutletRefModule],
+  imports: [SkipLinkModule, OutletRefModule],
   providers: [{ provide: LayoutConfig, useExisting: Config }],
-  exports: [...layoutModules],
+  exports: [OutletRefModule],
 })
 export class LayoutModule {}
