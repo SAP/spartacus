@@ -46,7 +46,6 @@ export class ConfiguratorCommonsService {
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true
         ) {
-          console.log('CHHI create: ' + JSON.stringify(owner));
           this.store.dispatch(
             new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
           );
@@ -102,7 +101,7 @@ export class ConfiguratorCommonsService {
     this.store.dispatch(new UiActions.RemoveUiState(productCode));
   }
 
-  addToCart(productCode: string, configId: string) {
+  addToCart(productCode: string, configId: string, ownerKey: string) {
     const cart$ = this.cartService.getOrCreateCart();
     cart$.pipe(take(1)).subscribe(cart => {
       const addToCartParameters: Configurator.AddToCartParameters = {
@@ -111,6 +110,7 @@ export class ConfiguratorCommonsService {
         productCode: productCode,
         quantity: 1,
         configId: configId,
+        ownerKey: ownerKey,
       };
 
       this.store.dispatch(

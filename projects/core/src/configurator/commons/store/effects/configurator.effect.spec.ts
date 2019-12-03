@@ -325,12 +325,13 @@ describe('ConfiguratorEffect', () => {
 
   describe('Effect addToCart', () => {
     it('should emit AddToCartSuccess, RemoveUiState and RemoveConfiguration on addToCart in case no changes are pending', () => {
-      const payloadInput = {
+      const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
         productCode: productCode,
         quantity: quantity,
         configId: configId,
+        ownerKey: owner.key,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
       const cartAddEntrySuccess = new CartActions.CartAddEntrySuccess({
@@ -355,12 +356,13 @@ describe('ConfiguratorEffect', () => {
 
     it('should emit AddToCartFail in case add to cart call is not successful', () => {
       addToCartMock.and.returnValue(throwError(errorResponse));
-      const payloadInput = {
+      const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
         productCode: productCode,
         quantity: quantity,
         configId: configId,
+        ownerKey: owner.key,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
       const cartAddEntryFail = new CartActions.CartAddEntryFail(

@@ -32,7 +32,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
       );
   }
 
-  onAddToCart(productCode: string, configId: string) {
-    this.configuratorCommonsService.addToCart(productCode, configId);
+  onAddToCart(productCode: string, configId: string, ownerKey: string) {
+    this.configuratorCommonsService.addToCart(productCode, configId, ownerKey);
   }
 }

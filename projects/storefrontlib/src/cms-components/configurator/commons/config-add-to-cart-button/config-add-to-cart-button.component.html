@@ -3,7 +3,13 @@
     <div class="col-6 col-md-4">
       <button
         class="cx-btn btn btn-block btn-primary"
-        (click)="onAddToCart(configuration.productCode, configuration.configId)"
+        (click)="
+          onAddToCart(
+            configuration.productCode,
+            configuration.configId,
+            configuration.owner.key
+          )
+        "
       >
         {{ 'configurator.addToCart.button' | cxTranslate }}
       </button>

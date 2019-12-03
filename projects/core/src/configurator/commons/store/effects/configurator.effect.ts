@@ -253,7 +253,7 @@ export class ConfiguratorEffects {
   > = this.actions$.pipe(
     ofType(ADD_TO_CART),
     map((action: AddToCart) => action.payload),
-    switchMap(payload => {
+    switchMap((payload: Configurator.AddToCartParameters) => {
       return this.store.pipe(
         select(ConfiguratorSelectors.getPendingChanges),
         take(1),
@@ -262,10 +262,8 @@ export class ConfiguratorEffects {
           return this.configuratorCommonsConnector.addToCart(payload).pipe(
             switchMap((entry: CartModification) => {
               return [
-                new ConfiguratorUiActions.RemoveUiState(payload.productCode),
-                new ConfiguratorActions.RemoveConfiguration(
-                  payload.productCode
-                ),
+                new ConfiguratorUiActions.RemoveUiState(payload.ownerKey),
+                new ConfiguratorActions.RemoveConfiguration(payload.ownerKey),
                 new CartActions.CartAddEntrySuccess({
                   ...entry,
                   userId: payload.userId,

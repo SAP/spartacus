@@ -76,6 +76,7 @@ export namespace Configurator {
     productCode: string;
     quantity: number;
     configId: string;
+    ownerKey: string;
   }
 
   export enum OwnerType {
