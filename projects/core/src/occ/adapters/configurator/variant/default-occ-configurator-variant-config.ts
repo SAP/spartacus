@@ -18,6 +18,8 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/carts/${cartId}/entries/configurator/cpqconfigurator',
 
           readPriceSummary: '/pricing/${configId}/cpqconfigurator',
+          getConfigurationOverview:
+            'configurationOverview/${configId}/cpqconfigurator',
         },
       },
     },

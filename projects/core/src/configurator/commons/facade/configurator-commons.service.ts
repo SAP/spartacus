@@ -83,6 +83,14 @@ export class ConfiguratorCommonsService {
       });
   }
 
+  getConfigurationOverview(configId) {
+    this.store.dispatch(new ConfiguratorActions.CreateConfiguration(configId));
+
+    return this.store.pipe(
+      select(ConfiguratorSelectors.getOverviewFactory(configId))
+    );
+  }
+
   getUiState(productCode: string): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForProduct(productCode)),

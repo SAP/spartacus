@@ -1,6 +1,9 @@
 import { Configurator } from '../../../../model/configurator.model';
 import { StateEntityLoaderActions } from '../../../../state/utils/index';
-import { CONFIGURATION_DATA } from '../configuration-state';
+import {
+  CONFIGURATION_DATA,
+  CONFIGURATION_OVERVIEW_DATA,
+} from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
 export const CREATE_CONFIGURATION_FAIL =
@@ -34,6 +37,13 @@ export const UPDATE_PRICE_SUMMARY_FAIL =
   '[Configurator] Update Configuration Price Summary fail';
 export const UPDATE_PRICE_SUMMARY_SUCCESS =
   '[Configurator] Update Configuration Price Summary success';
+
+export const GET_CONFIGURATION_OVERVIEW =
+  '[Configurator] Get Configuration Overview';
+export const GET_CONFIGURATION_OVERVIEW_FAIL =
+  '[Configurator] Get Configuration Overview fail';
+export const GET_CONFIGURATION_OVERVIEW_SUCCESS =
+  '[Configurator] Get Configuration Overview success';
 
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -166,6 +176,28 @@ export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAct
     super(CONFIGURATION_DATA, productCode);
   }
 }
+
+export class GetConfigurationOverview extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = GET_CONFIGURATION_OVERVIEW;
+  constructor(public payload: any) {
+    super(CONFIGURATION_OVERVIEW_DATA, payload.productCode);
+  }
+}
+
+export class GetConfigurationOverviewFail extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
+  constructor(productCode: string, public payload: any) {
+    super(CONFIGURATION_OVERVIEW_DATA, productCode, payload);
+  }
+}
+
+export class GetConfigurationOverviewSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_OVERVIEW_DATA, payload.productCode);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -183,4 +215,7 @@ export type ConfiguratorAction =
   | UpdatePriceSummarySuccess
   | ChangeGroup
   | ChangeGroupFinalize
-  | RemoveConfiguration;
+  | RemoveConfiguration
+  | GetConfigurationOverview
+  | GetConfigurationOverviewFail
+  | GetConfigurationOverviewSuccess;

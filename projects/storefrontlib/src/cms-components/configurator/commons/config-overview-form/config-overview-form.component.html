@@ -1,3 +1,26 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  {{ configuration.productCode }}
+  <ng-container *ngIf="hasAttributes() | async; else noAttributes">
+    <ng-container *ngFor="let group of configuration.groups">
+      <section class="cx-config-overview-group">
+        <h2 class="cx-config-overview-group-name">{{ group.description }}</h2>
+
+        <div
+          class="cx-config-group-attribute"
+          *ngFor="let attribute of group.attributes"
+        >
+          <cx-config-overview-attribute
+            [attribute]="attribute"
+          ></cx-config-overview-attribute>
+        </div>
+      </section>
+    </ng-container>
+  </ng-container>
 </ng-container>
+
+<ng-template #noAttributes>
+  <section class="cx-config-overview-no-attributes">
+    <!-- TODO: Change text, as we currently do not support filtering on overview page-->
+    <h2>No Results</h2>
+    <p>Remove filter(s) to see Overview content</p>
+  </section>
+</ng-template>

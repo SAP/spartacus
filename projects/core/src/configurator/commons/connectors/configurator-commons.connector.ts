@@ -38,4 +38,10 @@ export class ConfiguratorCommonsConnector {
   readPriceSummary(configId: string): Observable<Configurator.Configuration> {
     return this.adapter.readPriceSummary(configId);
   }
+
+  getConfigurationOverview(
+    configId: string
+  ): Observable<Configurator.ConfigurationOverview> {
+    return this.adapter.getConfigurationOverview(configId);
+  }
 }

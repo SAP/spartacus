@@ -45,6 +45,11 @@ export namespace Configurator {
     priceSummary?: PriceSummary;
   }
 
+  export interface ConfigurationOverview {
+    configId: string;
+    groups?: Group[];
+  }
+
   export interface PriceSummary {
     basePrice?: PriceDetails;
     currentTotal?: PriceDetails;

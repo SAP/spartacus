@@ -89,6 +89,20 @@ export namespace OccConfigurator {
     code?: string;
   }
 
+  export interface ConfigurationOverview {
+    id: string;
+    groups?: GroupOverview[];
+  }
+
+  export interface GroupOverview {
+    id: string;
+    characteristicValues: CharacteristicOverview[];
+  }
+
+  export interface CharacteristicOverview {
+    characteristic: string;
+    value: string;
+  }
   export enum GroupType {
     CSTIC_GROUP = 'CSTIC_GROUP',
   }

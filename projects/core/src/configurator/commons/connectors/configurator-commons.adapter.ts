@@ -52,4 +52,13 @@ export abstract class ConfiguratorCommonsAdapter {
   abstract readPriceSummary(
     configId: string
   ): Observable<Configurator.Configuration>;
+
+  /**
+   * Abstract method to get configuration overview
+   *
+   * @param configId configuration id
+   */
+  abstract getConfigurationOverview(
+    configId: string
+  ): Observable<Configurator.ConfigurationOverview>;
 }

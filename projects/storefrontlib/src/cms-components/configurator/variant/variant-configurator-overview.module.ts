@@ -14,6 +14,7 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { IconModule } from '../../misc/icon/icon.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
+import { ConfigOverviewAttributeComponent } from '../commons/config-overview-attribute/config-overview-attribute.component';
 import { ConfigOverviewFormComponent } from '../commons/config-overview-form/config-overview-form.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
@@ -101,9 +102,12 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     IconModule,
   ],
 
-  declarations: [ConfigOverviewFormComponent],
-  exports: [ConfigOverviewFormComponent],
+  declarations: [ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
+  exports: [ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
   providers: [UserService],
-  entryComponents: [ConfigOverviewFormComponent],
+  entryComponents: [
+    ConfigOverviewFormComponent,
+    ConfigOverviewAttributeComponent,
+  ],
 })
 export class VariantConfiguratorOverviewModule {}

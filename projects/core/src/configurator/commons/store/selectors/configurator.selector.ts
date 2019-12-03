@@ -32,6 +32,14 @@ export const getConfigurationState: MemoizedSelector<
   (state: ConfigurationState) => state.configurations
 );
 
+export const getOverviewState: MemoizedSelector<
+  StateWithConfiguration,
+  EntityLoaderState<Configurator.ConfigurationOverview>
+> = createSelector(
+  getConfigurationsState,
+  (state: ConfigurationState) => state.configurationOverviews
+);
+
 export const getPendingChanges: MemoizedSelector<
   StateWithConfiguration,
   number
@@ -52,11 +60,36 @@ export const getConfigurationStateFactory = (
   );
 };
 
+export const getOverviewStateFactory = (
+  code: string
+): MemoizedSelector<
+  StateWithConfiguration,
+  LoaderState<Configurator.ConfigurationOverview>
+> => {
+  return createSelector(
+    getOverviewState,
+    details => StateEntityLoaderSelectors.entityStateSelector(details, code)
+  );
+};
+
 export const getConfigurationFactory = (
   code: string
 ): MemoizedSelector<StateWithConfiguration, Configurator.Configuration> => {
   return createSelector(
     getConfigurationStateFactory(code),
+    configurationState =>
+      StateLoaderSelectors.loaderValueSelector(configurationState)
+  );
+};
+
+export const getOverviewFactory = (
+  code: string
+): MemoizedSelector<
+  StateWithConfiguration,
+  Configurator.ConfigurationOverview
+> => {
+  return createSelector(
+    getOverviewStateFactory(code),
     configurationState =>
       StateLoaderSelectors.loaderValueSelector(configurationState)
   );
