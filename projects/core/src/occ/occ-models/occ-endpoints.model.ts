@@ -5,18 +5,25 @@ export interface OccEndpoints {
    * @member {string}
    */
   login?: string;
+
   /**
    * Get product details
    *
-   * @member {string | Object}
+   * @member string
    */
-  product?:
-    | string
-    | {
-        list?: string;
-        details?: string;
-        [scope: string]: string;
-      };
+  product?: string;
+
+  /**
+   * Get product details for scope
+   *
+   * @member Object
+   */
+  product_scopes?: {
+    list?: string;
+    details?: string;
+    [scope: string]: string;
+  };
+
   /**
    * Get reviews for a product
    *

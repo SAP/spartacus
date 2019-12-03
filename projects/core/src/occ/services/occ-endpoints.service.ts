@@ -12,6 +12,8 @@ import { OccConfig } from '../config/occ-config';
 export class OccEndpointsService {
   private activeBaseSite: string;
 
+  private readonly SCOPE_SUFFIX = '_scopes';
+
   constructor(
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
@@ -123,31 +125,23 @@ export class OccEndpointsService {
   }
 
   private getEndpointForScope(endpoint: string, scope: string): string {
-    const endpointConfig =
+    const endpointsConfig =
       this.config.backend &&
       this.config.backend.occ &&
-      this.config.backend.occ.endpoints &&
-      this.config.backend.occ.endpoints[endpoint];
+      this.config.backend.occ.endpoints;
 
-    if (endpointConfig) {
-      if (typeof endpointConfig === 'string') {
-        if (isDevMode() && scope) {
-          console.warn(`${endpoint} endpoint configuration is not optimal`);
-        }
-        return endpointConfig;
-      } else {
-        if (endpointConfig[scope]) {
-          return endpointConfig[scope];
-        } else {
-          if (isDevMode()) {
-            console.warn(
-              `${endpoint} endpoint configuration missing for scope "${scope}"`
-            );
-          }
-          return endpointConfig[''] || endpoint;
-        }
+    if (scope) {
+      const endpointConfig = endpointsConfig[`${endpoint}${this.SCOPE_SUFFIX}`];
+      if (endpointConfig && endpointConfig[scope]) {
+        return endpointConfig[scope];
+      }
+      if (isDevMode()) {
+        console.warn(
+          `${endpoint} endpoint configuration missing for scope "${scope}"`
+        );
       }
     }
-    return endpoint;
+
+    return endpointsConfig[endpoint] || endpoint;
   }
 }

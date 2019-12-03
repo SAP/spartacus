@@ -6,6 +6,12 @@ export const defaultOccProductConfig: OccConfig = {
       endpoints: {
         product:
           'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL)',
+        product_scopes: {
+          list:
+            'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
+          details:
+            'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL)',
+        },
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
         // productReferences:
@@ -17,6 +23,13 @@ export const defaultOccProductConfig: OccConfig = {
           'products/search?fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch',
         // tslint:enable
         productSuggestions: 'products/suggestions',
+      },
+    },
+    loadingScopes: {
+      product: {
+        details: {
+          include: ['list'],
+        },
       },
     },
   },
