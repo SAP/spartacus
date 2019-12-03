@@ -1,5 +1,6 @@
-export * from './container/product-list.component';
 export * from './container/product-list-component.service';
+export * from './container/product-list.component';
+export * from './container/product-scroll/product-scroll.component';
 export * from './product-facet-navigation/product-facet-navigation.component';
 export * from './product-grid-item/product-grid-item.component';
 export * from './product-list-item/product-list-item.component';

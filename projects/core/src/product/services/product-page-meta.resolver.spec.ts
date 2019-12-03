@@ -5,6 +5,7 @@ import { I18nTestingModule, TranslationService } from '../../i18n';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
+import { FeatureConfigService } from '@spartacus/core';
 
 class MockRoutingService {
   getRouterState() {
@@ -59,6 +60,10 @@ class MockTranslationService {
   }
 }
 
+class MockFeatureConfigService {
+  isLevel = () => true;
+}
+
 describe('ProductPageMetaResolver', () => {
   let service: ProductPageMetaResolver;
 
@@ -70,6 +75,10 @@ describe('ProductPageMetaResolver', () => {
         { provide: ProductService, useClass: MockProductService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
 
