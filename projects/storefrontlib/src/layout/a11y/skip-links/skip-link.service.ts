@@ -15,7 +15,7 @@ export class SkipLinkService {
 
     if (found) {
       const existing = this.skippers.value;
-      existing.push({
+      existing.splice(this.getSkipperIndexInArray(key), 0, {
         target: target,
         title: found.i18nKey,
         position: found.position,
@@ -33,5 +33,26 @@ export class SkipLinkService {
       existing = existing.filter(skipLink => skipLink.key !== key);
       this.skippers.next(existing);
     }
+  }
+
+  getSkipperIndexInArray(key: string) {
+    let index = this.config.skipLinks.findIndex(
+      skipLink => skipLink.key === key
+    );
+
+    while (index > 0) {
+      index--;
+      const previous = this.config.skipLinks[index];
+      if (previous) {
+        const existing = this.skippers.value;
+        const found = existing.findIndex(
+          skipLink => skipLink.key === previous.key
+        );
+        if (found > -1) {
+          return found + 1;
+        }
+      }
+    }
+    return 0;
   }
 }
