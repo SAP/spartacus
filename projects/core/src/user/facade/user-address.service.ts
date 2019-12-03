@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
+import { OCC_USER_ID_CURRENT } from '../../occ';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -22,6 +23,8 @@ export class UserAddressService {
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -33,13 +36,20 @@ export class UserAddressService {
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserAddresses(occUserId))
-      )
-      .unsubscribe();
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(new UserActions.LoadUserAddresses(occUserId))
+        )
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT)
+      );
+    }
   }
 
   /**
@@ -47,18 +57,28 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.AddUserAddress({
-            userId: occUserId,
-            address: address,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.AddUserAddress({
+              userId: occUserId,
+              address: address,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.AddUserAddress({
+          userId: OCC_USER_ID_CURRENT,
+          address: address,
+        })
+      );
+    }
   }
 
   /**
@@ -66,19 +86,30 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UpdateUserAddress({
-            userId: occUserId,
-            addressId: addressId,
-            address: { defaultAddress: true },
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.UpdateUserAddress({
+              userId: occUserId,
+              addressId: addressId,
+              address: { defaultAddress: true },
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.UpdateUserAddress({
+          userId: OCC_USER_ID_CURRENT,
+          addressId: addressId,
+          address: { defaultAddress: true },
+        })
+      );
+    }
   }
 
   /**
@@ -87,19 +118,30 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UpdateUserAddress({
-            userId: occUserId,
-            addressId: addressId,
-            address: address,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.UpdateUserAddress({
+              userId: occUserId,
+              addressId: addressId,
+              address: address,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.UpdateUserAddress({
+          userId: OCC_USER_ID_CURRENT,
+          addressId: addressId,
+          address: address,
+        })
+      );
+    }
   }
 
   /**
@@ -107,18 +149,28 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.DeleteUserAddress({
-            userId: occUserId,
-            addressId: addressId,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.DeleteUserAddress({
+              userId: occUserId,
+              addressId: addressId,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.DeleteUserAddress({
+          userId: OCC_USER_ID_CURRENT,
+          addressId: addressId,
+        })
+      );
+    }
   }
 
   /**
