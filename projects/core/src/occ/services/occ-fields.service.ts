@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 export interface ScopedDataWithUrl {
   /** Url (with fields) to load scoped data */
   url?: string;
-  /** extracted fields object, used to extract data from broader model */
+  /** scoped data model */
   scopedData: ScopedData<any>;
 }
 

@@ -59,9 +59,8 @@ describe('OccProductAdapter', () => {
 
   describe('load product details', () => {
     it('should load product details for given product code', () => {
-      service.load(productCode).subscribe(result => {
-        expect(result).toEqual(product);
-      });
+      let result;
+      service.load(productCode).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === 'product' + productCode;
@@ -70,18 +69,19 @@ describe('OccProductAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(product);
+      expect(result).toEqual(product);
     });
 
-    it('should load product details for given product code amd scope', () => {
-      service.load(productCode, 'scope').subscribe(result => {
-        expect(result).toEqual(product);
-      });
+    it('should load product details for given product code and scope', () => {
+      let result;
+      service.load(productCode, 'scope').subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(`product${productCode}?fields=scope`);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(product);
+      expect(result).toEqual(product);
     });
 
     it('should use converter', () => {
@@ -100,15 +100,15 @@ describe('OccProductAdapter', () => {
 
       expect(scopedData.length).toEqual(1);
 
-      scopedData[0].data$.subscribe(result => {
-        expect(result).toEqual(product);
-      });
+      let result;
+      scopedData[0].data$.subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne('product' + productCode);
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(product);
+      expect(result).toEqual(product);
     });
 
     it('should load multiple product scopes and codes product code', () => {
@@ -119,19 +119,19 @@ describe('OccProductAdapter', () => {
 
       expect(scopedData.length).toEqual(2);
 
-      scopedData[0].data$.subscribe(result => {
-        expect(result).toEqual(product);
-      });
+      let result1;
+      scopedData[0].data$.subscribe(res => (result1 = res));
 
-      scopedData[1].data$.subscribe(result => {
-        expect(result.code).toEqual('333');
-      });
+      let result2;
+      scopedData[1].data$.subscribe(res => (result2 = res));
 
       const mockReq1 = httpMock.match(`product${productCode}`)[0];
       const mockReq2 = httpMock.match('product333?fields=scope')[0];
 
       mockReq1.flush(product);
       mockReq2.flush({ code: '333' });
+      expect(result1).toEqual(product);
+      expect(result2.code).toEqual('333');
     });
 
     it('should merge request and split payload for multiple scopes', () => {
@@ -142,16 +142,16 @@ describe('OccProductAdapter', () => {
 
       expect(scopedData.length).toEqual(2);
 
-      scopedData[0].data$.subscribe(result => {
-        expect(result).toEqual({ code: product.code });
-      });
-      scopedData[1].data$.subscribe(result => {
-        expect(result).toEqual({ name: product.name });
-      });
+      let result1;
+      scopedData[0].data$.subscribe(res => (result1 = res));
+      let result2;
+      scopedData[1].data$.subscribe(res => (result2 = res));
 
       const mockReq = httpMock.expectOne('producttestCode?fields=code,name');
 
       mockReq.flush(product);
+      expect(result1).toEqual({ code: product.code });
+      expect(result2).toEqual({ name: product.name });
     });
 
     it('should use converter', () => {
