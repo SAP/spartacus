@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Converter, ImageType, Product } from '@spartacus/core';
-import { MerchandisingProduct } from '../model/strategy-result.model';
+import { Converter, ImageType } from '@spartacus/core';
+import { MerchandisingProduct } from '../model/merchandising-products.model';
+import { StrategyProduct } from '../model/strategy-result.model';
 @Injectable({ providedIn: 'root' })
-export class MerchandisingProductNormalizer
-  implements Converter<MerchandisingProduct, Product> {
-  convert(source: MerchandisingProduct, target?: Product): Product {
+export class StrategyProductNormalizer
+  implements Converter<StrategyProduct, MerchandisingProduct> {
+  convert(
+    source: StrategyProduct,
+    target?: MerchandisingProduct
+  ): MerchandisingProduct {
     if (target === undefined) {
       target = {};
     }
@@ -27,6 +31,10 @@ export class MerchandisingProductNormalizer
         value: source.price,
       };
     }
+
+    target.metadata = source.metadata
+      ? new Map<string, string>(Object.entries(source.metadata))
+      : undefined;
 
     return target;
   }

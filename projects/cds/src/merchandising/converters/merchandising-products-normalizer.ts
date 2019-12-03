@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter, ConverterService } from '@spartacus/core';
-import { MERCHANDISING_PRODUCT_NORMALIZER } from '../connectors/strategy/converters';
+import { STRATEGY_PRODUCT_NORMALIZER } from '../connectors/strategy/converters';
 import { MerchandisingProducts } from '../model/merchandising-products.model';
 import { StrategyResult } from '../model/strategy-result.model';
 
@@ -25,7 +25,7 @@ export class MerchandisingProductsNormalizer
       target.products = source.products.map(merchandisingProduct =>
         this.convertorService.convert(
           merchandisingProduct,
-          MERCHANDISING_PRODUCT_NORMALIZER
+          STRATEGY_PRODUCT_NORMALIZER
         )
       );
     }

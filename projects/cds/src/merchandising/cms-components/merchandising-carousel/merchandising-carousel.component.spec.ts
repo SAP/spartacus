@@ -14,7 +14,10 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import { MerchandisingProducts } from '../../model/merchandising-products.model';
+import {
+  MerchandisingProduct,
+  MerchandisingProducts,
+} from '../../model/merchandising-products.model';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 
 @Component({
@@ -184,7 +187,7 @@ describe('MerchandisingCarouselComponent', () => {
     expectedMerchandisingCarouselModelMetadata.set('id', mockComponentData.uid);
 
     let actualCarouselMetadata: Map<string, string>;
-    const actualCarouselProducts: Product[] = [];
+    const actualCarouselProducts: MerchandisingProduct[] = [];
     component.merchandisingCarouselModel$.subscribe(merchandisingProducts => {
       actualCarouselMetadata = merchandisingProducts.metadata;
       merchandisingProducts.items$.forEach(observableProduct =>
@@ -219,30 +222,38 @@ describe('MerchandisingCarouselComponent', () => {
 
   describe('UI test', () => {
     it('should have 2 rendered templates', async(() => {
-      const el = fixture.debugElement.queryAll(By.css('a'));
-      expect(el.length).toEqual(2);
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product')
+      );
+      expect(el.length).toBe(2);
     }));
 
     it('should render product name in template', async(() => {
-      const el = fixture.debugElement.query(By.css('a:first-child h4'));
-      expect(el.nativeElement).toBeTruthy();
-      expect(el.nativeElement.innerText).toEqual('product 1');
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product + a h4')
+      );
+      expect(el[0].nativeElement).toBeTruthy();
+      expect(el[0].nativeElement.innerText).toBe('product 1');
+      expect(el[1].nativeElement).toBeTruthy();
+      expect(el[1].nativeElement.innerText).toBe('product 2');
     }));
 
     it('should render product price in template', async(() => {
-      const el = fixture.debugElement.query(By.css('a:last-child .price'));
-      expect(el.nativeElement).toBeTruthy();
-      expect(el.nativeElement.innerText).toEqual('200.00');
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product + a .price')
+      );
+      expect(el[0].nativeElement).toBeTruthy();
+      expect(el[0].nativeElement.innerText).toBe('100.00');
+      expect(el[1].nativeElement).toBeTruthy();
+      expect(el[1].nativeElement.innerText).toBe('200.00');
     }));
 
-    it('should render product primary image for the first item', async(() => {
-      const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
-      expect(el.nativeElement).toBeTruthy();
-    }));
-
-    it('should not render product primary image for the 2nd item', async(() => {
-      const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-      expect(el).toBeNull();
+    it('should only render product primary image for the first item', async(() => {
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product + a')
+      );
+      expect(el[0].query(By.css('cx-media'))).toBeTruthy();
+      expect(el[1].query(By.css('cx-media'))).toBeFalsy();
     }));
   });
 });

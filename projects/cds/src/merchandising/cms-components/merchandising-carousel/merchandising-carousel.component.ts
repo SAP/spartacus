@@ -11,7 +11,10 @@ import {
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import { MerchandisingProducts } from '../../model/merchandising-products.model';
+import {
+  MerchandisingProduct,
+  MerchandisingProducts,
+} from '../../model/merchandising-products.model';
 
 @Component({
   selector: 'cx-merchandising-carousel',
@@ -44,12 +47,14 @@ export class MerchandisingCarouselComponent {
         merchandsingProducts,
         componentData
       );
-      merchandsingProducts.metadata = metadata;
-      return merchandsingProducts;
-    }),
-    map(merchandsingProducts =>
-      this.mapMerchandisingProductsItems(merchandsingProducts)
-    )
+      const items$ = this.mapMerchandisingProductsToCarouselItems(
+        merchandsingProducts
+      );
+      return {
+        items$,
+        metadata,
+      };
+    })
   );
 
   private getCarouselMetadata(
@@ -79,22 +84,33 @@ export class MerchandisingCarouselComponent {
     return metadata;
   }
 
-  private mapMerchandisingProductsItems(
+  private mapMerchandisingProductsToCarouselItems(
     merchandisingProducts: MerchandisingProducts
-  ): {
-    items$: Observable<Product>[];
-    metadata: Map<string, string>;
-  } {
-    return {
-      items$:
-        merchandisingProducts && merchandisingProducts.products
-          ? merchandisingProducts.products.map(product => of(product))
-          : [EMPTY],
-      metadata:
-        merchandisingProducts && merchandisingProducts.metadata
-          ? merchandisingProducts.metadata
-          : undefined,
-    };
+  ): Observable<MerchandisingProduct>[] {
+    return merchandisingProducts && merchandisingProducts.products
+      ? merchandisingProducts.products.map((product, index) => {
+          product.metadata = this.getCarouselItemMetadata(product, index + 1);
+          return of(product);
+        })
+      : [EMPTY];
+  }
+
+  private getCarouselItemMetadata(
+    merchandisingProduct: MerchandisingProduct,
+    index: number
+  ): Map<string, string> {
+    const metadata = new Map<string, string>();
+
+    if (merchandisingProduct.metadata) {
+      merchandisingProduct.metadata.forEach((value, name) =>
+        metadata.set(name, value)
+      );
+    }
+
+    metadata.set('slot', index.toString());
+    metadata.set('id', merchandisingProduct.code);
+
+    return metadata;
   }
 
   constructor(
