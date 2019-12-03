@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Order,
-  RoutingService,
-  UserOrderService,
-  CancellationRequestEntryInputList,
-} from '@spartacus/core';
+import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
@@ -37,12 +32,5 @@ export class OrderDetailsService {
     return this.orderLoad$.pipe(
       switchMap(() => this.userOrderService.getOrderDetails())
     );
-  }
-
-  cancelOrder(
-    orderCode: string,
-    cancelRequestInput: CancellationRequestEntryInputList
-  ): void {
-    this.userOrderService.cancelOrder(orderCode, cancelRequestInput);
   }
 }

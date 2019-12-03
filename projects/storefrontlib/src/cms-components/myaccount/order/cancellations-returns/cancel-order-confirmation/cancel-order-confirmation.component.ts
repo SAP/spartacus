@@ -1,5 +1,5 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import { OrderEntry } from '@spartacus/core';
 
@@ -11,14 +11,14 @@ import { OrderCancelOrReturnService } from '../cancel-or-return.service';
   templateUrl: './cancel-order-confirmation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CancelOrderConfirmationComponent implements OnDestroy {
+export class CancelOrderConfirmationComponent {
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected cancelOrReturnService: OrderCancelOrReturnService
   ) {}
 
   orderCode: string;
-  subscription: Subscription;
+  cancelSubmit = false;
 
   cancelledEntries$: Observable<
     OrderEntry[]
@@ -36,13 +36,14 @@ export class CancelOrderConfirmationComponent implements OnDestroy {
     })
   );
 
+  isCancelling$ = this.cancelOrReturnService.isCancelling$;
+
   submit(): void {
-    this.orderDetailsService.cancelOrder(this.orderCode, {
+    this.cancelSubmit = true;
+    this.cancelOrReturnService.cancelOrder(this.orderCode, {
       cancellationRequestEntryInputs: this.cancelOrReturnService
         .cancelOrReturnRequestInputs,
     });
-
-    this.cancelOrReturnService.clearCancelOrReturnRequestInputs();
   }
 
   back(): void {
@@ -51,11 +52,5 @@ export class CancelOrderConfirmationComponent implements OnDestroy {
       this.orderCode,
       true
     );
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

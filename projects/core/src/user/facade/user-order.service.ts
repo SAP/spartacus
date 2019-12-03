@@ -10,6 +10,7 @@ import {
   CancellationRequestEntryInputList,
 } from '../../model/order.model';
 import { StateWithProcess } from '../../process/store/process-state';
+import { LoaderState } from '../../state/index';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
@@ -172,5 +173,12 @@ export class UserOrderService {
         )
       )
       .unsubscribe();
+  }
+
+  /**
+   * Returns the order details success flag
+   */
+  getOrderDetailsState(): Observable<LoaderState<Order>> {
+    return this.store.pipe(select(UsersSelectors.getOrderState));
   }
 }

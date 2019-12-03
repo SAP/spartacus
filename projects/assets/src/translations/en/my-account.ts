@@ -44,7 +44,11 @@ export const myAccount = {
       totalPrice: 'Total',
       submit: 'Submit Request',
       returnNote: 'The following items will be included in the return request.',
-      cancelNote: 'The following items will be included in the cancellation request.',
+      cancelNote:
+        'The following items will be included in the cancellation request.',
+      returnSuccess: 'Your return request ({{rma}}) was submitted',
+      cancelSuccess:
+        'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
     },
   },
   orderHistory: {
