@@ -2,7 +2,7 @@ import { generateMail, randomString } from './user';
 import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
 
-export const normalProductCode = '358639';
+export const normalProductCode = '6666666';
 export const productCodeList = [
   '553637',
   '592506',
