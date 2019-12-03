@@ -49,7 +49,7 @@ export class BudgetEffects {
           // TODO: extract into the same service with denormalization
           const budgetsEntities = budgets.budgets;
           const budgetPage = {
-            ids: budgets.budgets.map(budget => budget.code),
+            ids: budgetsEntities.map(budget => budget.code),
             pagination: budgets.pagination,
             sorts: budgets.sorts,
           };

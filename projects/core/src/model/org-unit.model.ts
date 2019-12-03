@@ -1,5 +1,5 @@
 export interface B2BUnitNode {
-  active: boolean;
+  active?: boolean;
   children?: Array<B2BUnitNode>;
   id?: string;
   name?: string;

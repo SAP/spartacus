@@ -1,5 +1,7 @@
 import { Observable } from 'rxjs';
 import { B2BUnitNode } from 'projects/core/src/model/index';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import B2BUnitNodeList = Occ.B2BUnitNodeList;
 
 export abstract class OrgUnitAdapter {
   /**
@@ -12,7 +14,7 @@ export abstract class OrgUnitAdapter {
    */
   abstract load(userId: string, orgUnitId: string): Observable<B2BUnitNode>;
 
-  abstract loadList(userId: string, params?: any): Observable<B2BUnitNode>;
+  abstract loadList(userId: string, params?: any): Observable<B2BUnitNodeList>;
 
   abstract create(
     userId: string,

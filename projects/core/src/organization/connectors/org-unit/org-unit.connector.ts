@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { B2BUnitNode } from 'projects/core/src/model';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import B2BUnitNodeList = Occ.B2BUnitNodeList;
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,7 @@ export class OrgUnitConnector {
     return this.adapter.load(userId, orgUnitId);
   }
 
-  getList(userId: string, params?: any): Observable<B2BUnitNode> {
+  getList(userId: string, params?: any): Observable<B2BUnitNodeList> {
     return this.adapter.loadList(userId, params);
   }
 

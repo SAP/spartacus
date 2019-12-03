@@ -8,7 +8,7 @@ export const BUDGET_FEATURE = 'budget';
 export const BUDGET_ENTITIES = 'budget-entities';
 export const BUDGET_LISTS = 'budget-lists';
 export const ORG_UNIT_FEATURE = 'orgUnit';
-export const ORG_ENTITIES = 'orgUnit-entities';
+export const ORG_UNIT_ENTITIES = 'orgUnit-entities';
 export const ORG_UNIT_LISTS = 'orgUnit-list';
 
 export interface BudgetManagement {
@@ -17,8 +17,8 @@ export interface BudgetManagement {
 }
 
 export interface OrgUnits {
-  [ORG_ENTITIES]?: EntityLoaderState<B2BUnitNode>;
-  [ORG_UNIT_LISTS]?: EntityLoaderState<B2BUnitNode>;
+  [ORG_UNIT_ENTITIES]?: EntityLoaderState<B2BUnitNode>;
+  [ORG_UNIT_LISTS]?: EntityLoaderState<ListModel>;
 }
 
 export interface StateWithOrganization {
