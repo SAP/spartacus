@@ -24,7 +24,7 @@ export class UserPaymentService {
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
-   * 
+   *
    *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
@@ -46,8 +46,8 @@ export class UserPaymentService {
         )
         .unsubscribe();
     } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
       this.store.dispatch(
-        // TODO(issue:#5628) Deprecated since 1.3.0
         new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT)
       );
     }
