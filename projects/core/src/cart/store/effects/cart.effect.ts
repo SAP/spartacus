@@ -76,7 +76,6 @@ export class CartEffects {
             .load(loadCartParams.userId, loadCartParams.cartId)
             .pipe(
               mergeMap((cart: Cart) => {
-                console.log(cart);
                 let actions = [];
                 if (cart) {
                   actions.push(new DeprecatedCartActions.LoadCartSuccess(cart));
@@ -102,7 +101,6 @@ export class CartEffects {
                     }),
                   ];
                 }
-                console.log(actions);
                 return actions;
               }),
               catchError(error => {
