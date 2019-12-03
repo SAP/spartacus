@@ -34,7 +34,7 @@ describe('Order Return Request Reducer', () => {
     });
   });
 
-  describe('LOAD_ORDER_RETURN_REQUESTS_SUCCESS action', () => {
+  describe('LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS action', () => {
     it('should populate the user Orders state entities', () => {
       const returnRequests: ReturnRequest[] = [{ rma: '01' }, { rma: '02' }];
       const pagination: PaginationModel = {

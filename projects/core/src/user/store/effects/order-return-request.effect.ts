@@ -39,7 +39,7 @@ export class OrderReturnRequestEffect {
   loadReturnRequestList$: Observable<
     UserActions.OrderReturnRequestAction
   > = this.actions$.pipe(
-    ofType(UserActions.LOAD_ORDER_RETURN_REQUESTS),
+    ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: UserActions.LoadOrderReturnRequestList) => action.payload),
     switchMap(payload => {
       return this.orderConnector

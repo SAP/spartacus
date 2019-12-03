@@ -27,7 +27,7 @@ export function returnRequestListReducer(
   action: UserActions.OrderReturnRequestAction
 ): ReturnRequestList {
   switch (action.type) {
-    case UserActions.LOAD_ORDER_RETURN_REQUESTS_SUCCESS: {
+    case UserActions.LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS: {
       return action.payload ? action.payload : returnRequestListInitialState;
     }
   }
