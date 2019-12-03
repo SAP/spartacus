@@ -15,7 +15,7 @@ import { PageType } from '../../model/cms.model';
 import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
-import { FeatureConfigService } from '../../features-config';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 
 /**
  * Resolves the page data for the Product Detail Page
