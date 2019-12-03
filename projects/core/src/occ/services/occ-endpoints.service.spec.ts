@@ -11,8 +11,8 @@ describe('OccEndpointsService', () => {
         prefix: '/test-occPrefix',
         endpoints: {
           login: '/authorizationserver/oauth/token',
-          product: {
-            '': 'configured-endpoint1/${test}?fields=abc',
+          product: 'configured-endpoint1/${test}?fields=abc',
+          product_scopes: {
             test: 'configured-endpoint1/${test}?fields=test',
           },
         },
@@ -88,7 +88,7 @@ describe('OccEndpointsService', () => {
 
       it('should not resolve endpoint for missing scope when no default is specified', () => {
         const config = TestBed.get(OccConfig);
-        delete config.backend.occ.endpoints.product[''];
+        delete config.backend.occ.endpoints.product;
 
         const url = service.getUrl(
           'product',
