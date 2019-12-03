@@ -52,6 +52,13 @@ export class UserOrderConnector {
     return this.adapter.createReturnRequest(userId, returnRequestInput);
   }
 
+  public getReturnRequestDetail(
+    userId: string,
+    returnRequestCode: string
+  ): Observable<ReturnRequest> {
+    return this.adapter.loadReturnRequestDetail(userId, returnRequestCode);
+  }
+
   public getReturnRequestList(
     userId: string,
     pageSize?: number,

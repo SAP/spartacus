@@ -222,4 +222,16 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       .get<ReturnRequestList>(url)
       .pipe(this.converter.pipeable(ORDER_RETURNS_NORMALIZER));
   }
+
+  public loadReturnRequestDetails(
+    userId: string,
+    returnRequestCode: string
+  ): Observable<ReturnRequest> {
+    
+    const url = this.occEndpoints.getUrl('orderReturns', { userId }, params);
+
+    return this.http
+      .get<ReturnRequestList>(url)
+      .pipe(this.converter.pipeable(ORDER_RETURNS_NORMALIZER));
+  }
 }
