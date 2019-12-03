@@ -8,12 +8,6 @@ function isInLevel(level, version) {
   if (level === '*') {
     return true;
   }
-  if (
-    version.indexOf('!') !== -1 &&
-    version.substr(1, version.length) === level
-  ) {
-    return false;
-  }
   const levelParts = level.split('.');
   const versionParts = version.split('.');
 
@@ -30,7 +24,9 @@ function isInLevel(level, version) {
 
 export function isFeatureLevel(config: unknown, level: string): boolean {
   if (isFeatureConfig(config)) {
-    return isInLevel(config.features.level, level);
+    return level.indexOf('!') !== -1
+      ? !isInLevel(config.features.level, level.substr(1, level.length))
+      : isInLevel(config.features.level, level);
   }
 }
 
@@ -39,6 +35,8 @@ export function isFeatureEnabled(config: unknown, feature: string): boolean {
     const featureConfig = config.features[feature];
     return typeof featureConfig === 'string'
       ? isFeatureLevel(config, featureConfig)
+      : feature.indexOf('!') !== -1
+      ? !featureConfig
       : featureConfig;
   }
 }

@@ -27,11 +27,16 @@ describe('Feature Config Utils', () => {
         expect(isFeatureLevel(config, '1.3.1')).toBeFalsy();
         expect(isFeatureLevel(config, '1.20')).toBeFalsy();
       });
+      it('should return false for negate values', () => {
+        expect(isFeatureLevel(config, '!1.2')).toBeFalsy();
+        expect(isFeatureLevel(config, '!1.3')).toBeFalsy();
+        expect(isFeatureLevel(config, '!1.5')).toBeTruthy();
+      });
     });
-    it('should return correct value if feature level is set to 999', () => {
+    it('should return correct value if feature level is set to * (latest)', () => {
       const config: FeaturesConfig = {
         features: {
-          level: '999',
+          level: '*',
         },
       };
       expect(isFeatureLevel(config, '1.2')).toBeTruthy();
