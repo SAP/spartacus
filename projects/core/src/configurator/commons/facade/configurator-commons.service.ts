@@ -46,9 +46,18 @@ export class ConfiguratorCommonsService {
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true
         ) {
-          this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
-          );
+          if (owner.type === Configurator.OwnerType.PRODUCT) {
+            this.store.dispatch(
+              new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
+            );
+          } else {
+            this.store.dispatch(
+              new ConfiguratorActions.LoadCartEntryConfiguration(
+                owner.key,
+                owner.id
+              )
+            );
+          }
         }
       }),
       filter(configurationState =>

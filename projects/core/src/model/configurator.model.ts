@@ -44,6 +44,7 @@ export namespace Configurator {
     groups?: Group[];
     priceSummary?: PriceSummary;
     owner?: Owner;
+    nextOwner?: Owner;
   }
 
   export interface Owner {

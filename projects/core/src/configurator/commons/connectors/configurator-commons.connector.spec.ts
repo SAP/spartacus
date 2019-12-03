@@ -138,6 +138,7 @@ describe('ConfiguratorCommonsConnector', () => {
       productCode: PRODUCT_CODE,
       quantity: QUANTITY,
       configId: CONFIG_ID,
+      ownerKey: 'theKey',
     };
     let result;
     service.addToCart(parameters).subscribe(res => (result = res));

@@ -1,18 +1,36 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-config-add-to-cart-btn">
     <div class="col-6 col-md-4">
-      <button
-        class="cx-btn btn btn-block btn-primary"
-        (click)="
-          onAddToCart(
-            configuration.productCode,
-            configuration.configId,
-            configuration.owner.key
-          )
-        "
+      <ng-container *ngIf="hasBeenAddedToCart$ | async as hasBeenAddedToCart">
+        <ng-container *ngIf="hasBeenAddedToCart.hasBeenAdded">
+          <button
+            class="cx-btn btn btn-block btn-primary"
+            (click)="
+              onAddToCart(
+                configuration.productCode,
+                configuration.configId,
+                configuration.owner.key
+              )
+            "
+          >
+            {{ 'configurator.addToCart.buttonAfterAddToCart' | cxTranslate }}
+          </button></ng-container
+        >
+        <ng-container *ngIf="!hasBeenAddedToCart.hasBeenAdded">
+          <button
+            class="cx-btn btn btn-block btn-primary"
+            (click)="
+              onAddToCart(
+                configuration.productCode,
+                configuration.configId,
+                configuration.owner.key
+              )
+            "
+          >
+            {{ 'configurator.addToCart.button' | cxTranslate }}
+          </button></ng-container
+        ></ng-container
       >
-        {{ 'configurator.addToCart.button' | cxTranslate }}
-      </button>
     </div>
   </div>
 </ng-container>

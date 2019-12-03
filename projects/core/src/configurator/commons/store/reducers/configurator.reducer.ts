@@ -22,6 +22,58 @@ export function reducer(
 
       return result;
     }
+    case ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY: {
+      const content = { ...action.configuration };
+      content.nextOwner = {
+        type: Configurator.OwnerType.CART_ENTRY,
+        id: action.cartEntryNo,
+      };
+      const result = {
+        ...state,
+        ...content,
+      };
+
+      return result;
+    }
+    case ConfiguratorActions.LOAD_CART_ENTRY_CONFIGURATION: {
+      //This is hardcoded as long as we don't have the configure from cart option
+      //It is meant to illustrate the overview navigation
+      const content: Configurator.Configuration = {
+        configId: '1234',
+        productCode: 'WCEM_DEPENDENCY_PC',
+        groups: [
+          {
+            id: 'Group1',
+            name: 'Group1',
+            configurable: true,
+            attributes: [
+              {
+                name: 'huhu',
+                uiType: Configurator.UiType.STRING,
+                label: 'Test mand. and readonly',
+              },
+              {
+                name: 'Manufacturer',
+                uiType: Configurator.UiType.RADIOBUTTON,
+                label: 'Manufacturer',
+              },
+            ],
+          },
+        ],
+        owner: {
+          type: Configurator.OwnerType.CART_ENTRY,
+          key: Configurator.OwnerType.CART_ENTRY + '/' + action.cartEntryNumber,
+          id: action.cartEntryNumber,
+        },
+      };
+
+      const result = {
+        ...state,
+        ...content,
+      };
+
+      return result;
+    }
   }
   return state;
 }

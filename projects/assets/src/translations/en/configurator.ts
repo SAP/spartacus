@@ -29,6 +29,7 @@ export const configurator = {
     },
     addToCart: {
       button: 'Add To Cart',
+      buttonAfterAddToCart: 'Continue To Cart',
     },
   },
 };

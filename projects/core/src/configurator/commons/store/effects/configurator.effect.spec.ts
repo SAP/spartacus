@@ -339,9 +339,7 @@ describe('ConfiguratorEffect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const removeUiState = new ConfiguratorUiActions.RemoveUiState(
-        productConfiguration.productCode
-      );
+      const removeUiState = new ConfiguratorUiActions.RemoveUiState(owner.key);
       const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
         productConfiguration.productCode
       );
