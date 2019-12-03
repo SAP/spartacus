@@ -64,6 +64,7 @@ export const product = {
   addToWishList: {
     add: 'Add to Wish List',
     remove: 'Remove from Wish List',
+    anonymous: 'Sign in to add to wish list',
   },
   CMSTabParagraphContainer: {
     tabs: {

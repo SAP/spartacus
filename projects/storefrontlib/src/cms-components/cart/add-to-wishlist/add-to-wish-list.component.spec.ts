@@ -1,6 +1,15 @@
-import { Component, DebugElement, Input, Type } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+  Type,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
   Cart,
@@ -9,7 +18,7 @@ import {
   Product,
   WishListService,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
@@ -51,7 +60,9 @@ const mockWishList: Cart = {
 };
 
 class MockAuthService {
-  isUserLoggedIn = createSpy().and.returnValue(of(true));
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 const wishListSubject = new BehaviorSubject(mockWishList);
@@ -75,6 +86,13 @@ class MockIconComponent {
   @Input() type;
 }
 
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform(): any {}
+}
+
 describe('AddToWishListComponent', () => {
   let component: AddToWishListComponent;
   let fixture: ComponentFixture<AddToWishListComponent>;
@@ -83,21 +101,25 @@ describe('AddToWishListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AddToWishListComponent, MockIconComponent],
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [AddToWishListComponent, MockIconComponent, MockUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: WishListService, useClass: MockWishListService },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
       ],
-    }).compileComponents();
-
-    wishListService = TestBed.get(WishListService as Type<WishListService>);
+    })
+      .overrideComponent(AddToWishListComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToWishListComponent);
     component = fixture.componentInstance;
+
+    wishListService = TestBed.get(WishListService as Type<WishListService>);
 
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -153,15 +175,27 @@ describe('AddToWishListComponent', () => {
   });
 
   describe('UI', () => {
-    it('should show remove from wish list if product is the in wish list', () => {
-      fixture.detectChanges();
-      expect(el.query(By.css('.button-remove')).nativeElement).toBeDefined();
+    describe('logged in user', () => {
+      it('should show remove from wish list if product is the in wish list', () => {
+        fixture.detectChanges();
+        expect(el.query(By.css('.button-remove')).nativeElement).toBeDefined();
+      });
+
+      it('should show add to wish list if product is NOT the in wish list', () => {
+        wishListSubject.next(mockEmptyWishList);
+        fixture.detectChanges();
+        expect(el.query(By.css('.button-add')).nativeElement).toBeDefined();
+      });
     });
 
-    it('should show add to wish list if product is NOT the in wish list', () => {
-      wishListSubject.next(mockEmptyWishList);
-      fixture.detectChanges();
-      expect(el.query(By.css('.button-add')).nativeElement).toBeDefined();
+    describe('anonymous', () => {
+      it('should show "login to add to wish list link"', () => {
+        component.userLoggedIn$ = of(false);
+        fixture.detectChanges();
+        expect(
+          el.query(By.css('.button-add-link')).nativeElement
+        ).toBeDefined();
+      });
     });
   });
 });
