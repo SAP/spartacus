@@ -8,6 +8,7 @@ export function returnRequestReducer(
   action: UserActions.OrderReturnRequestAction
 ): ReturnRequest {
   switch (action.type) {
+    case UserActions.LOAD_ORDER_RETURN_REQUEST_SUCCESS:
     case UserActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS: {
       const returnRequest: ReturnRequest = action.payload;
       return returnRequest;

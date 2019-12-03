@@ -47,8 +47,18 @@ export class OrderReturnRequestService {
   /**
    * Return an order return request
    */
-  getOrderReturnRequest(): Observable<ReturnRequest> {
-    return this.store.pipe(select(UsersSelectors.getOrderReturnRequest));
+  getOrderReturnRequest(returnRequestCode: string): Observable<ReturnRequest> {
+    return this.store.pipe(
+      select(UsersSelectors.getOrderReturnRequestState),
+      tap(returnState => {
+        const attemptedLoad =
+          returnState.loading || returnState.success || returnState.error;
+        if (!attemptedLoad) {
+          this.loadOrderReturnRequestDetail(returnRequestCode);
+        }
+      }),
+      map(returnState => returnState.value)
+    );
   }
 
   /**
@@ -68,6 +78,25 @@ export class OrderReturnRequestService {
       }),
       map(returnListState => returnListState.value)
     );
+  }
+
+  /**
+   * Loads order return request detail
+   * @param returnRequestCode
+   */
+  loadOrderReturnRequestDetail(returnRequestCode: string): void {
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(occUserId =>
+        this.store.dispatch(
+          new UserActions.LoadOrderReturnRequest({
+            userId: occUserId,
+            returnRequestCode,
+          })
+        )
+      )
+      .unsubscribe();
   }
 
   /**

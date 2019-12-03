@@ -20,6 +20,13 @@ export const CREATE_ORDER_RETURN_REQUEST_FAIL =
 export const CREATE_ORDER_RETURN_REQUEST_SUCCESS =
   '[User] Create Order Return Request Success';
 
+export const LOAD_ORDER_RETURN_REQUEST =
+  '[User] Load Order Return Request details';
+export const LOAD_ORDER_RETURN_REQUEST_FAIL =
+  '[User] Load Order Return Request details Fail';
+export const LOAD_ORDER_RETURN_REQUEST_SUCCESS =
+  '[User] Load Order Return Request details Success';
+
 export const LOAD_ORDER_RETURN_REQUEST_LIST =
   '[User] Load User Order Return Request list';
 export const LOAD_ORDER_RETURN_REQUEST_LIST_FAIL =
@@ -50,6 +57,32 @@ export class CreateOrderReturnRequestFail extends LoaderFailAction {
 
 export class CreateOrderReturnRequestSuccess extends LoaderSuccessAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST_SUCCESS;
+  constructor(public payload: ReturnRequest) {
+    super(USER_RETURN_REQUEST_DETAILS);
+  }
+}
+
+export class LoadOrderReturnRequest extends LoaderLoadAction {
+  readonly type = LOAD_ORDER_RETURN_REQUEST;
+  constructor(
+    public payload: {
+      userId: string;
+      returnRequestCode: string;
+    }
+  ) {
+    super(USER_RETURN_REQUEST_DETAILS);
+  }
+}
+
+export class LoadOrderReturnRequestFail extends LoaderFailAction {
+  readonly type = LOAD_ORDER_RETURN_REQUEST_FAIL;
+  constructor(public payload: any) {
+    super(USER_RETURN_REQUEST_DETAILS, payload);
+  }
+}
+
+export class LoadOrderReturnRequestSuccess extends LoaderSuccessAction {
+  readonly type = LOAD_ORDER_RETURN_REQUEST_SUCCESS;
   constructor(public payload: ReturnRequest) {
     super(USER_RETURN_REQUEST_DETAILS);
   }
@@ -94,6 +127,9 @@ export type OrderReturnRequestAction =
   | CreateOrderReturnRequest
   | CreateOrderReturnRequestFail
   | CreateOrderReturnRequestSuccess
+  | LoadOrderReturnRequest
+  | LoadOrderReturnRequestFail
+  | LoadOrderReturnRequestSuccess
   | LoadOrderReturnRequestList
   | LoadOrderReturnRequestListFail
   | LoadOrderReturnRequestListSuccess
