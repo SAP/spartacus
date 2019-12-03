@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { OCC_USER_ID_CURRENT } from '../../occ';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -23,6 +24,8 @@ export class UserPaymentService {
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   * 
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -34,13 +37,20 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserPaymentMethods(occUserId))
-      )
-      .unsubscribe();
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(new UserActions.LoadUserPaymentMethods(occUserId))
+        )
+        .unsubscribe();
+    } else {
+      this.store.dispatch(
+        // TODO(issue:#5628) Deprecated since 1.3.0
+        new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT)
+      );
+    }
   }
 
   /**
@@ -67,18 +77,28 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.SetDefaultUserPaymentMethod({
-            userId: occUserId,
-            paymentMethodId,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.SetDefaultUserPaymentMethod({
+              userId: occUserId,
+              paymentMethodId,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.SetDefaultUserPaymentMethod({
+          userId: OCC_USER_ID_CURRENT,
+          paymentMethodId,
+        })
+      );
+    }
   }
 
   /**
@@ -87,18 +107,28 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.DeleteUserPaymentMethod({
-            userId: occUserId,
-            paymentMethodId,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.DeleteUserPaymentMethod({
+              userId: occUserId,
+              paymentMethodId,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.DeleteUserPaymentMethod({
+          userId: OCC_USER_ID_CURRENT,
+          paymentMethodId,
+        })
+      );
+    }
   }
 
   /**
