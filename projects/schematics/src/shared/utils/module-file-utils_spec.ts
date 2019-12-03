@@ -1,10 +1,17 @@
-import * as path from 'path';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import * as path from 'path';
 import { getPathResultsForFile } from './file-utils';
-import { addImport, importModule } from './module-file-utils';
+import {
+  addImport,
+  addToModuleDeclarations,
+  addToModuleEntryComponents,
+  addToModuleExports,
+  addToModuleImports,
+  stripTsFromImport,
+} from './module-file-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -49,6 +56,20 @@ describe('Module file utils', () => {
       .toPromise();
   });
 
+  describe('stripTsFromImport', () => {
+    it('should strip the .ts when present', () => {
+      const test1 = '../../components.ts';
+      expect(stripTsFromImport(test1)).toEqual('../../components');
+
+      const test2 = '../../ts.ts.ts';
+      expect(stripTsFromImport(test2)).toEqual('../../ts.ts');
+    });
+    it('should NOT strip the .ts when the import path does not end with it', () => {
+      const test = '../ts.tsts';
+      expect(stripTsFromImport(test)).toEqual(test);
+    });
+  });
+
   describe('addImport', () => {
     it('should add passed import', async () => {
       const appModulePath = getPathResultsForFile(
@@ -70,22 +91,82 @@ describe('Module file utils', () => {
     });
   });
 
-  describe('importModule', () => {
-    it('should add passed position to import array', async () => {
-      const appModulePath = getPathResultsForFile(
-        appTree,
-        'app.module.ts',
-        'src'
-      )[0];
-      expect(appModulePath).toBeTruthy();
-      importModule(appTree, appModulePath, 'MockUnitTestModule');
+  describe('add metadata to ng module', () => {
+    describe('addToModuleImports', () => {
+      it('should add passed position to imports array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleImports(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
 
-      const buffer = appTree.read(appModulePath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const fileContent = buffer.toString();
-        expect(fileContent.includes('MockUnitTestModule')).toBeTruthy();
-      }
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleDeclarations', () => {
+      it('should add passed position to declarations array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleDeclarations(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleEntryComponents', () => {
+      it('should add passed position to entryComponents array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleEntryComponents(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleExports', () => {
+      it('should add passed position to exports array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleExports(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
     });
   });
 });

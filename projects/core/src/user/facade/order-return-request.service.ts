@@ -96,4 +96,11 @@ export class OrderReturnRequestService {
       )
       .unsubscribe();
   }
+
+  /**
+   * Cleaning order return request list
+   */
+  clearOrderReturnRequestList(): void {
+    this.store.dispatch(new UserActions.ClearOrderReturnRequestList());
+  }
 }
