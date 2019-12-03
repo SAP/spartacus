@@ -11,6 +11,7 @@ import {
 } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
+import { OCC_USER_ID_CURRENT } from '../../occ';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -39,6 +40,8 @@ export class UserConsentService {
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -50,13 +53,20 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserConsents(occUserId))
-      )
-      .unsubscribe();
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(new UserActions.LoadUserConsents(occUserId))
+        )
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.LoadUserConsents(OCC_USER_ID_CURRENT)
+      );
+    }
   }
 
   /**
@@ -170,19 +180,30 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.GiveUserConsent({
-            userId: occUserId,
-            consentTemplateId,
-            consentTemplateVersion,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.GiveUserConsent({
+              userId: occUserId,
+              consentTemplateId,
+              consentTemplateVersion,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.GiveUserConsent({
+          userId: OCC_USER_ID_CURRENT,
+          consentTemplateId,
+          consentTemplateVersion,
+        })
+      );
+    }
   }
 
   /**
@@ -224,18 +245,28 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.WithdrawUserConsent({
-            userId: occUserId,
-            consentCode,
-          })
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(occUserId =>
+          this.store.dispatch(
+            new UserActions.WithdrawUserConsent({
+              userId: occUserId,
+              consentCode,
+            })
+          )
         )
-      )
-      .unsubscribe();
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      this.store.dispatch(
+        new UserActions.WithdrawUserConsent({
+          userId: OCC_USER_ID_CURRENT,
+          consentCode,
+        })
+      );
+    }
   }
 
   /**
