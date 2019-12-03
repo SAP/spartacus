@@ -61,7 +61,7 @@ export const product = {
     outOfStock: 'Out of stock',
     inStock: 'In stock',
   },
-  CMSTabParagraphContainer: {
+  TabPanelContainer: {
     tabs: {
       ProductDetailsTabComponent: 'Product Details',
       ProductSpecsTabComponent: 'Specs',

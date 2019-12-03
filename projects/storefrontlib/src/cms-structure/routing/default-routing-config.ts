@@ -50,6 +50,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/order/:orderCode/return/confirmation'],
     paramsMapping: { orderCode: 'code' },
   },
+  returnRequestDetails: {
+    paths: ['my-account/return-request/:returnCode'],
+    paramsMapping: { returnCode: 'rma' },
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

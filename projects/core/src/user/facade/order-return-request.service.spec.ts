@@ -102,4 +102,11 @@ describe('OrderReturnRequestService', () => {
       })
     );
   });
+
+  it('should be able to clear order return requests list', () => {
+    service.clearOrderReturnRequestList();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ClearOrderReturnRequestList()
+    );
+  });
 });

@@ -114,4 +114,15 @@ describe('Order Return Request actions', () => {
       });
     });
   });
+
+  describe('ClearOrderReturnRequestList Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ClearOrderReturnRequestList();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CLEAR_ORDER_RETURN_REQUESTS,
+        meta: StateLoaderActions.resetMeta(USER_RETURN_REQUESTS),
+      });
+    });
+  });
 });
