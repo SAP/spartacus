@@ -9,8 +9,9 @@ export const CREATE_CONFIGURATION_SUCCESS =
   '[Configurator] Create Configuration Textfield Success';
 export const UPDATE_CONFIGURATION =
   '[Configurator] Update Configuration Textfield';
-
 export const ADD_TO_CART = '[Configurator] Add to cart Textfield';
+export const REMOVE_CONFIGURATION =
+  '[Configurator] Remove Configuration Textfield';
 
 export class CreateConfiguration extends StateLoaderActions.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -47,8 +48,16 @@ export class AddToCart extends StateLoaderActions.LoaderLoadAction {
   }
 }
 
+export class RemoveConfiguration extends StateLoaderActions.LoaderResetAction {
+  readonly type = REMOVE_CONFIGURATION;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
   | CreateConfigurationSuccess
-  | UpdateConfiguration;
+  | UpdateConfiguration
+  | RemoveConfiguration;

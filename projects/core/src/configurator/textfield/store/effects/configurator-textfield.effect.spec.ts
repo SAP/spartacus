@@ -138,9 +138,14 @@ describe('ConfiguratorTextfieldEffect', () => {
         cartId: cartId,
       });
 
+      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
+        payloadInput
+      );
+
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(b)', {
-        b: cartAddEntrySuccess,
+      const expected = cold('-(bc)', {
+        b: removeConfiguration,
+        c: cartAddEntrySuccess,
       });
       expect(configEffects.addToCart$).toBeObservable(expected);
     });

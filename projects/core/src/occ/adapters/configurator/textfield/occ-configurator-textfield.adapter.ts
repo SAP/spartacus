@@ -53,7 +53,6 @@ export class OccConfiguratorTextfieldAdapter
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    console.log('im adapter');
     return this.http
       .post<CartModification>(url, occAddToCartParameters, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));

@@ -12,6 +12,7 @@ export function reducer(
     | ConfiguratorActions.CreateConfiguration
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.UpdateConfiguration
+    | ConfiguratorActions.RemoveConfiguration
 ): ConfigurationTextfieldState {
   switch (action.type) {
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
@@ -22,6 +23,9 @@ export function reducer(
         content: content,
         refresh: false,
       };
+    }
+    case ConfiguratorActions.REMOVE_CONFIGURATION: {
+      return state;
     }
   }
   return state;

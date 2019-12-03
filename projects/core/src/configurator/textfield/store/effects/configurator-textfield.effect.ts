@@ -14,6 +14,7 @@ import {
   CreateConfigurationFail,
   CreateConfigurationSuccess,
   CREATE_CONFIGURATION,
+  RemoveConfiguration,
 } from '../actions/configurator-textfield.action';
 
 @Injectable()
@@ -43,18 +44,23 @@ export class ConfiguratorTextfieldEffects {
 
   @Effect()
   addToCart$: Observable<
-    CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
+    | RemoveConfiguration
+    | CartActions.CartAddEntrySuccess
+    | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
     ofType(ADD_TO_CART),
     map((action: AddToCart) => action.payload),
     mergeMap(payload => {
       return this.configuratorTextfieldConnector.addToCart(payload).pipe(
-        map((entry: CartModification) => {
-          return new CartActions.CartAddEntrySuccess({
-            ...entry,
-            userId: payload.userId,
-            cartId: payload.cartId,
-          });
+        switchMap((entry: CartModification) => {
+          return [
+            new RemoveConfiguration(payload),
+            new CartActions.CartAddEntrySuccess({
+              ...entry,
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
+          ];
         }),
         catchError(error =>
           of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))

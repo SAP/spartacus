@@ -73,7 +73,6 @@ export class ConfiguratorTextfieldService {
   }
 
   addToCart(productCode: string) {
-    console.log('im textfield service: ' + productCode);
     const cart$ = this.cartService.getOrCreateCart();
     cart$.pipe(take(1)).subscribe(cart => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
@@ -96,8 +95,6 @@ export class ConfiguratorTextfieldService {
       )
       .subscribe(configuration => {
         addToCartParameters.configuration = configuration;
-        console.log('AddToCartParams:');
-        console.log(addToCartParameters);
         this.store.dispatch(
           new ConfiguratorActions.AddToCart(addToCartParameters)
         );
