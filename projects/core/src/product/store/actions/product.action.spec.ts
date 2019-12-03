@@ -1,7 +1,7 @@
 import { Product } from '../../../model/product.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import * as fromProduct from './product.action';
+import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {
@@ -12,9 +12,10 @@ describe('Product Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProduct.LOAD_PRODUCT,
           payload: productCode,
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: EntityScopedLoaderActions.entityScopedLoadMeta(
             PRODUCT_DETAIL_ENTITY,
-            productCode
+            productCode,
+            ''
           ),
         });
       });
@@ -29,9 +30,10 @@ describe('Product Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProduct.LOAD_PRODUCT_FAIL,
           payload,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: EntityScopedLoaderActions.entityScopedFailMeta(
             PRODUCT_DETAIL_ENTITY,
             productCode,
+            '',
             payload
           ),
         });
@@ -46,9 +48,10 @@ describe('Product Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProduct.LOAD_PRODUCT_SUCCESS,
           payload,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: EntityScopedLoaderActions.entityScopedSuccessMeta(
             PRODUCT_DETAIL_ENTITY,
-            payload.code
+            payload.code,
+            ''
           ),
         });
       });
