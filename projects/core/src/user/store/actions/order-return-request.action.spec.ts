@@ -3,7 +3,10 @@ import {
   ReturnRequestList,
 } from '../../../model/order.model';
 import { StateLoaderActions } from '../../../state/utils/index';
-import { USER_RETURN_REQUESTS } from '../user-state';
+import {
+  USER_RETURN_REQUESTS,
+  USER_RETURN_REQUEST_DETAILS,
+} from '../user-state';
 import { UserActions } from './index';
 
 const returnRequestInput: ReturnRequestEntryInputList = {
@@ -45,6 +48,7 @@ describe('Order Return Request actions', () => {
           userId: 'userId',
           returnRequestInput,
         },
+        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -57,6 +61,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CREATE_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
+        meta: StateLoaderActions.failMeta(USER_RETURN_REQUEST_DETAILS, error),
       });
     });
   });
@@ -70,6 +75,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS,
         payload: { rma: '0000' },
+        meta: StateLoaderActions.successMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });

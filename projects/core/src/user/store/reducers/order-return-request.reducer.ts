@@ -1,20 +1,16 @@
 import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
 import { UserActions } from '../actions/index';
-import { OrderReturnRequestState } from '../user-state';
 
-export const returnRequestInitialState: OrderReturnRequestState = {};
+export const returnRequestInitialState = {};
 
 export function returnRequestReducer(
   state = returnRequestInitialState,
   action: UserActions.OrderReturnRequestAction
-): OrderReturnRequestState {
+): ReturnRequest {
   switch (action.type) {
     case UserActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS: {
       const returnRequest: ReturnRequest = action.payload;
-
-      return {
-        returnRequest,
-      };
+      return returnRequest;
     }
   }
   return state;

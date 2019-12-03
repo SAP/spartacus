@@ -12,6 +12,7 @@ import { ConsentTemplate } from '../../../model/consent.model';
 import {
   OrderHistoryList,
   ReturnRequestList,
+  ReturnRequest,
   Order,
 } from '../../../model/order.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
@@ -25,6 +26,7 @@ import {
   USER_PAYMENT_METHODS,
   USER_RETURN_REQUESTS,
   USER_ORDER_DETAILS,
+  USER_RETURN_REQUEST_DETAILS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
@@ -66,7 +68,10 @@ export function getReducers(): ActionReducerMap<UserState> {
       USER_ORDER_DETAILS,
       fromOrderDetailsReducer.reducer
     ),
-    orderReturn: fromOrderReturnRequestReducer.returnRequestReducer,
+    orderReturn: loaderReducer<ReturnRequest>(
+      USER_RETURN_REQUEST_DETAILS,
+      fromOrderReturnRequestReducer.returnRequestReducer
+    ),
     orderReturnList: loaderReducer<ReturnRequestList>(
       USER_RETURN_REQUESTS,
       fromOrderReturnRequestReducer.returnRequestListReducer

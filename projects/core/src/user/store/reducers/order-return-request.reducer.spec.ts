@@ -30,7 +30,7 @@ describe('Order Return Request Reducer', () => {
         action
       );
 
-      expect(state.returnRequest).toEqual(mockReturnRequest);
+      expect(state).toEqual(mockReturnRequest);
     });
   });
 

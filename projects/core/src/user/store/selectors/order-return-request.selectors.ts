@@ -1,17 +1,13 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
-import {
-  OrderReturnRequestState,
-  StateWithUser,
-  UserState,
-} from '../user-state';
+import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { StateLoaderSelectors } from '../../../state/utils/index';
 
 export const getOrderReturnRequestState: MemoizedSelector<
   StateWithUser,
-  OrderReturnRequestState
+  LoaderState<ReturnRequest>
 > = createSelector(
   getUserState,
   (state: UserState) => state.orderReturn
@@ -22,7 +18,8 @@ export const getOrderReturnRequest: MemoizedSelector<
   ReturnRequest
 > = createSelector(
   getOrderReturnRequestState,
-  (state: OrderReturnRequestState) => state.returnRequest
+  (state: LoaderState<ReturnRequest>) =>
+    StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getOrderReturnRequestListState: MemoizedSelector<
