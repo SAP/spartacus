@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StyleIconsComponent } from './style-icons.component';
 
-fdescribe('StyleIconsComponent', () => {
+describe('StyleIconsComponent', () => {
   let component: StyleIconsComponent;
   let fixture: ComponentFixture<StyleIconsComponent>;
 
