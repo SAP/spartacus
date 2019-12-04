@@ -179,7 +179,7 @@ class MockOrderDetailsService {
   }
 }
 
-fdescribe('PromotionService', () => {
+describe('PromotionService', () => {
   let promotionService: PromotionService;
 
   beforeEach(() => {
