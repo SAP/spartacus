@@ -11,7 +11,7 @@ import {
   GlobalMessageType,
   UserOrderService,
 } from '@spartacus/core';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, share } from 'rxjs/operators';
 
 @Injectable()
 export class OrderCancelOrReturnService {
@@ -35,7 +35,8 @@ export class OrderCancelOrReturnService {
         });
       }
     }),
-    map(state => state.loading)
+    map(state => state.loading),
+    share()
   );
 
   constructor(
