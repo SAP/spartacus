@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { ConfigUtilsService } from '../../utils/config-utils.service';
 import { ConfiguratorActions } from '../actions';
 import { Configurator } from './../../../../model/configurator.model';
 import {
@@ -12,9 +13,17 @@ import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;
+  let configuratorUtils: ConfigUtilsService;
+  const productCode = 'CONF_LAPTOP';
+  const owner: Configurator.Owner = {
+    type: Configurator.OwnerType.PRODUCT,
+    id: productCode,
+  };
+
   const configuration: Configurator.Configuration = {
     configId: 'a',
-    productCode: 'CONF_PRODUCT',
+    productCode: productCode,
+    owner: owner,
   };
 
   beforeEach(() => {
@@ -29,6 +38,10 @@ describe('Configurator selectors', () => {
     });
 
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(owner);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -37,9 +50,7 @@ describe('Configurator selectors', () => {
     store
       .pipe(
         select(
-          ConfiguratorSelectors.getConfigurationFactory(
-            configuration.productCode
-          )
+          ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
         )
       )
       .subscribe(value => (result = value));
@@ -52,9 +63,7 @@ describe('Configurator selectors', () => {
     store
       .pipe(
         select(
-          ConfiguratorSelectors.getConfigurationFactory(
-            configuration.productCode
-          )
+          ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
         )
       )
       .subscribe(value => (result = value));

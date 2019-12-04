@@ -1,0 +1,34 @@
+<ng-container *ngIf="owner$ | async as owner">
+  <ng-container *ngIf="configuratorType$ | async as configuratorType">
+    <div class="nav">
+      <div>
+        <a
+          class="nav-link"
+          [class.active]="!(isOverviewPage() | async)"
+          [routerLink]="
+            {
+              cxRoute: 'configure' + configuratorType,
+              params: { entityKey: owner.id, ownerType: owner.type }
+            } | cxUrl
+          "
+          role="link"
+          >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
+        >
+      </div>
+      <div>
+        <a
+          class="nav-link"
+          [class.active]="isOverviewPage() | async"
+          [routerLink]="
+            {
+              cxRoute: 'configureOverview' + configuratorType,
+              params: { entityKey: owner.id, ownerType: owner.type }
+            } | cxUrl
+          "
+          role="link"
+          >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
+        >
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

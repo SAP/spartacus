@@ -7,6 +7,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
+  ProductModule,
   UrlModule,
   UserService,
 } from '@spartacus/core';
@@ -26,6 +27,7 @@ import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-gr
 import { ConfigImageComponent } from '../commons/config-image/config-image.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
+import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
 import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
 import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
 
@@ -33,16 +35,26 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
   imports: [
     CommonModule,
     ConfigureProductModule,
+    ProductModule,
     RouterModule.forChild([
       {
-        path: 'configureCPQCONFIGURATOR/:rootProduct',
-        data: { pageLabel: '/configureCPQCONFIGURATOR' },
-        component: PageLayoutComponent,
+        path: 'configureCPQCONFIGURATOR/:ownerType',
+        children: [
+          {
+            path: 'entityKey/:entityKey',
+            component: PageLayoutComponent,
+            data: { pageLabel: '/configureCPQCONFIGURATOR' },
+          },
+        ],
         canActivate: [CmsPageGuard],
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
+        VariantConfigurationTabBar: {
+          component: ConfigTabBarComponent,
+          guards: [],
+        },
         VariantConfigurationForm: {
           component: ConfigFormComponent,
           guards: [],
@@ -146,6 +158,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
+    ConfigTabBarComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -161,6 +174,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
+    ConfigTabBarComponent,
   ],
   providers: [UserService],
   entryComponents: [
@@ -177,6 +191,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
+    ConfigTabBarComponent,
   ],
 })
 export class VariantConfiguratorModule {}

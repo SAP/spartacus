@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
@@ -26,18 +27,25 @@ export class OccConfiguratorVariantAdapter
   ) {}
 
   createConfiguration(
-    productCode: string
+    owner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
+    const productCode = owner.id;
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.getUrl('createConfiguration', { productCode })
       )
-      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+      .pipe(
+        this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+        tap(configuration => {
+          configuration.owner = owner;
+        })
+      );
   }
 
   readConfiguration(
     configId: string,
-    groupId: string
+    groupId: string,
+    configurationOwner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(
@@ -47,7 +55,10 @@ export class OccConfiguratorVariantAdapter
           { groupId: groupId }
         )
       )
-      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+      .pipe(
+        this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+        tap(configuration => (configuration.owner = configurationOwner))
+      );
   }
 
   updateConfiguration(
@@ -62,9 +73,12 @@ export class OccConfiguratorVariantAdapter
       CONFIGURATION_SERIALIZER
     );
 
-    return this.http
-      .put(url, occConfiguration)
-      .pipe(this.converterService.pipeable(CONFIGURATION_NORMALIZER));
+    return this.http.put(url, occConfiguration).pipe(
+      this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+      tap(
+        resultConfiguration => (resultConfiguration.owner = configuration.owner)
+      )
+    );
   }
 
   addToCart(
@@ -89,17 +103,20 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
-  readPriceSummary(configId: string): Observable<Configurator.Configuration> {
+  readPriceSummary(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl('readPriceSummary', {
-      configId,
+      configId: configuration.configId,
     });
 
     //Send empty object as delta prices are not supported yet
-    return this.http
-      .patch(url, {})
-      .pipe(
-        this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER)
-      );
+    return this.http.patch(url, {}).pipe(
+      this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER),
+      tap(
+        resultConfiguration => (resultConfiguration.owner = configuration.owner)
+      )
+    );
   }
   getConfigurationOverview(
     configId: string

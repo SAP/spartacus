@@ -15,10 +15,12 @@ export function reducer(
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
       const content = { ...action.payload };
 
-      return {
+      const result = {
         ...state,
         ...content,
       };
+
+      return result;
     }
   }
   return state;

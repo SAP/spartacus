@@ -29,27 +29,25 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
+  getConfiguration(ownerKey: string): Observable<Configurator.Configuration> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
+      select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
       filter(configuration => this.isConfigurationCreated(configuration))
     );
   }
 
   getOrCreateConfiguration(
-    productCode: string
+    owner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationStateFactory(productCode)),
+      select(ConfiguratorSelectors.getConfigurationStateFactory(owner.key)),
       tap(configurationState => {
         if (
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true
         ) {
           this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(productCode)
+            new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
           );
         }
       }),
@@ -111,7 +109,7 @@ export class ConfiguratorCommonsService {
     this.store.dispatch(new UiActions.RemoveUiState(productCode));
   }
 
-  addToCart(productCode: string, configId: string) {
+  addToCart(productCode: string, configId: string, ownerKey: string) {
     const cart$ = this.cartService.getOrCreateCart();
     cart$.pipe(take(1)).subscribe(cart => {
       const addToCartParameters: Configurator.AddToCartParameters = {
@@ -120,6 +118,7 @@ export class ConfiguratorCommonsService {
         productCode: productCode,
         quantity: 1,
         configId: configId,
+        ownerKey: ownerKey,
       };
 
       this.store.dispatch(
@@ -161,6 +160,7 @@ export class ConfiguratorCommonsService {
     const newConfiguration: Configurator.Configuration = {
       configId: configuration.configId,
       groups: [],
+      owner: configuration.owner,
     };
 
     const group = configuration.groups.find(

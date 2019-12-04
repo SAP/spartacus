@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -7,6 +7,7 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  ConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -27,15 +28,21 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
     },
   },
+};
+const owner: Configurator.Owner = {
+  id: PRODUCT_CODE,
+  type: Configurator.OwnerType.PRODUCT,
 };
 const configRead: Configurator.Configuration = {
   configId: 'a',
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
+  owner: owner,
 };
 
 const configRead2: Configurator.Configuration = {
@@ -43,10 +50,12 @@ const configRead2: Configurator.Configuration = {
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
+  owner: owner,
 };
 
 const configCreate: Configurator.Configuration = {
   configId: '1234-56-7890',
+  owner: owner,
   groups: [
     {
       configurable: true,
@@ -183,6 +192,7 @@ function checkCurrentGroupObs(
 }
 describe('ConfigurationFormComponent', () => {
   let component: ConfigFormComponent;
+  let configuratorUtils: ConfigUtilsService;
   let fixture: ComponentFixture<ConfigFormComponent>;
 
   beforeEach(async(() => {
@@ -226,6 +236,10 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigFormComponent);
     component = fixture.componentInstance;
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(owner);
   });
 
   it('should create component', () => {

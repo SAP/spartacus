@@ -1,7 +1,6 @@
 import { OccConfig } from '../../../config/occ-config';
 
 export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
-  console.log('Variant Configuration is loaded!');
   return {
     backend: {
       occ: {

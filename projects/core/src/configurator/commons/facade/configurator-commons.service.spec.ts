@@ -15,10 +15,16 @@ import {
 } from '../store/configuration-state';
 import * as fromReducers from '../store/reducers/index';
 import { ConfiguratorSelectors } from '../store/selectors';
+import { ConfigUtilsService } from '../utils/config-utils.service';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const OWNER_PRODUCT: Configurator.Owner = {
+  id: PRODUCT_CODE,
+
+  type: Configurator.OwnerType.PRODUCT,
+};
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '1234-56-7891';
@@ -31,6 +37,7 @@ const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  owner: OWNER_PRODUCT,
   groups: [
     {
       id: GROUP_ID_1,
@@ -87,13 +94,14 @@ function callGetOrCreate(serviceUnderTest: ConfiguratorCommonsService) {
   });
   spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
   const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-    PRODUCT_CODE
+    OWNER_PRODUCT
   );
   return configurationObs;
 }
 
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
+  let configuratorUtils: ConfigUtilsService;
   let store: Store<StateWithConfiguration>;
 
   beforeEach(async(() => {
@@ -119,6 +127,10 @@ describe('ConfiguratorCommonsService', () => {
     serviceUnderTest = TestBed.get(ConfiguratorCommonsService as Type<
       ConfiguratorCommonsService
     >);
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
   });
@@ -300,12 +312,15 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-        PRODUCT_CODE
+        OWNER_PRODUCT
       );
 
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.CreateConfiguration(PRODUCT_CODE)
+        new ConfiguratorActions.CreateConfiguration(
+          OWNER_PRODUCT.key,
+          PRODUCT_CODE
+        )
       );
     });
 
@@ -321,7 +336,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-        PRODUCT_CODE
+        OWNER_PRODUCT
       );
 
       expect(configurationObs).toBeObservable(cold('', {}));
