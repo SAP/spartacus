@@ -15,7 +15,6 @@ import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, startWith, tap } from 'rxjs/operators';
 
-//const HAS_CUSTOMER_COUPON_CLASS = 'has-customer-coupon';
 const MAX_CUSTOMER_COUPON_PAGE = 100;
 @Component({
   selector: 'cx-cart-coupon',
