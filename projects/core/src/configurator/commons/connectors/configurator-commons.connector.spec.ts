@@ -18,6 +18,10 @@ const productConfiguration: Configurator.Configuration = {
 };
 
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
+  getConfigurationOverview = createSpy().and.callFake((configId: string) =>
+    of('getConfigurationOverview' + configId)
+  );
+
   readPriceSummary = createSpy().and.callFake(configId =>
     of('readPriceSummary' + configId)
   );

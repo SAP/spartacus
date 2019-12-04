@@ -5,8 +5,11 @@
     padding: 25px 0;
 
     .cx-config-overview-group-name {
-      padding: 15px 5px;
-      background-color: var(--cx-color-light);
+      margin-left: -25px;
+      margin-right: -25px;
+      padding: 15px 25px;
+      background-color: var(--cx-color-background);
+      border: solid 1px var(--cx-color-light);
     }
   }
 }

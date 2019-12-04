@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
+import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/config-overview-attribute.component';
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
 
 const routerStateObservable = null;
@@ -19,48 +20,34 @@ const configurationCreateObservable = null;
 
 const configCreate: Configurator.Configuration = {
   configId: '1234-56-7890',
-  groups: [
-    {
-      configurable: true,
-      description: 'Core components',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      attributes: [
-        {
-          label: 'Expected Number',
-          name: 'EXP_NUMBER',
-          required: true,
-          uiType: Configurator.UiType.NOT_IMPLEMENTED,
-          values: [],
-        },
-        {
-          label: 'Processor',
-          name: 'CPQ_CPU',
-          required: true,
-          selectedSingleValue: 'INTELI5_35',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          values: [],
-        },
-      ],
-    },
-    {
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      attributes: [],
-    },
-    {
-      configurable: true,
-      description: 'Software',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      attributes: [],
-    },
-  ],
+  overview: {
+    groups: [
+      {
+        id: '1',
+        groupDescription: 'Group 1',
+        characteristicValues: [
+          {
+            characteristic: 'C1',
+            value: 'V1',
+          },
+        ],
+      },
+      {
+        id: '2',
+        groupDescription: 'Group 2',
+        characteristicValues: [
+          {
+            characteristic: 'C2',
+            value: 'V2',
+          },
+          {
+            characteristic: 'C3',
+            value: 'V3',
+          },
+        ],
+      },
+    ],
+  },
 };
 
 class MockRoutingService {
@@ -93,7 +80,10 @@ describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfigOverviewFormComponent],
+      declarations: [
+        ConfigOverviewFormComponent,
+        ConfigOverviewAttributeComponent,
+      ],
       providers: [
         {
           provide: RoutingService,
