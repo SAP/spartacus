@@ -152,8 +152,7 @@ export class UserOrderService {
       this.authService
         .getOccUserId()
         .pipe(take(1))
-        .subscribe(userId => callback(userId))
-        .unsubscribe();
+        .subscribe(userId => callback(userId));
     } else {
       // TODO(issue:#5628) Deprecated since 1.3.0
       callback(OCC_USER_ID_CURRENT);
