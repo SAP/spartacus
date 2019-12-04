@@ -8,6 +8,7 @@ import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { ConfiguratorUiActions } from '../store/actions/';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import {
   CONFIGURATION_FEATURE,
@@ -138,6 +139,25 @@ describe('ConfiguratorCommonsService', () => {
   it('should create service', () => {
     expect(serviceUnderTest).toBeDefined();
   });
+
+  it('should call matching action on removeConfiguration', () => {
+    spyOn(store, 'dispatch').and.callThrough();
+    serviceUnderTest.removeConfiguration(productConfiguration.owner.key);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.RemoveConfiguration(
+        productConfiguration.owner.key
+      )
+    );
+  });
+
+  it('should call matching action on removeUiState', () => {
+    spyOn(store, 'dispatch').and.callThrough();
+    serviceUnderTest.removeUiState(productConfiguration.owner.key);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorUiActions.RemoveUiState(productConfiguration.owner.key)
+    );
+  });
+
   it('should be able to get configuration from store', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
       of(productConfiguration)
