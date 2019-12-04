@@ -32,6 +32,7 @@ describe('my interests - customer with interests', () => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
     notification.subscribeStockNotifications();
+    cy.reload();
   });
 
   it('should page and sort', () => {
