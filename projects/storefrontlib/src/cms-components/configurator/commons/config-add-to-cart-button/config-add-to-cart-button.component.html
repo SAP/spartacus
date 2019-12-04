@@ -1,7 +1,7 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="configuratorType$ | async as configuratorType">
     <div class="cx-config-add-to-cart-btn">
-      <div class="col-6 col-md-4">
+      <div class="col-sm-6 col-md-4">
         <ng-container *ngIf="hasBeenAddedToCart$ | async as hasBeenAddedToCart">
           <ng-container *ngIf="hasBeenAddedToCart.hasBeenAdded">
             <button
