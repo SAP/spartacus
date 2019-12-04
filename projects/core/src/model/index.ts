@@ -12,3 +12,4 @@ export * from './product.model';
 export * from './shared.model';
 export * from './store-finder.model';
 export * from './customer-coupon.model';
+export * from './scoped-data';
