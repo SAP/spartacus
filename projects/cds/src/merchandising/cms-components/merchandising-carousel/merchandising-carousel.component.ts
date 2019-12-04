@@ -1,20 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
   map,
   switchMap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import {
-  MerchandisingProduct,
-  MerchandisingProducts,
-} from '../../model/merchandising-products.model';
+import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
+import { MerchandisingCarouselModel } from './merchandising-carousel.model';
 
 @Component({
   selector: 'cx-merchandising-carousel',
@@ -30,93 +25,21 @@ export class MerchandisingCarouselComponent {
     map(data => data.title)
   );
 
-  merchandisingCarouselModel$: Observable<{
-    items$: Observable<Product>[];
-    metadata: Map<string, string>;
-  }> = this.componentData$.pipe(
+  merchandisingCarouselModel$: Observable<
+    MerchandisingCarouselModel
+  > = this.componentData$.pipe(
     distinctUntilKeyChanged('strategy'),
     switchMap(data =>
-      this.cdsMerchandisingProductService.loadProductsForStrategy(
-        data.strategy,
-        data.numberToDisplay
+      this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
+        data
       )
-    ),
-    withLatestFrom(this.componentData$),
-    map(([merchandsingProducts, componentData]) => {
-      const metadata = this.getCarouselMetadata(
-        merchandsingProducts,
-        componentData
-      );
-      const items$ = this.mapMerchandisingProductsToCarouselItems(
-        merchandsingProducts
-      );
-      return {
-        items$,
-        metadata,
-      };
-    })
+    )
   );
-
-  private getCarouselMetadata(
-    merchandisingProducts: MerchandisingProducts,
-    componentData: CmsMerchandisingCarouselComponent
-  ): Map<string, string> {
-    const metadata = new Map<string, string>();
-
-    if (merchandisingProducts.metadata) {
-      merchandisingProducts.metadata.forEach((value, name) =>
-        metadata.set(name, value)
-      );
-    }
-
-    if (
-      merchandisingProducts.products &&
-      merchandisingProducts.products.length
-    ) {
-      metadata.set('slots', merchandisingProducts.products.length.toString());
-    }
-
-    metadata.set('title', componentData.title);
-    metadata.set('name', componentData.name);
-    metadata.set('strategyid', componentData.strategy);
-    metadata.set('id', componentData.uid);
-
-    return metadata;
-  }
-
-  private mapMerchandisingProductsToCarouselItems(
-    merchandisingProducts: MerchandisingProducts
-  ): Observable<MerchandisingProduct>[] {
-    return merchandisingProducts && merchandisingProducts.products
-      ? merchandisingProducts.products.map((product, index) => {
-          product.metadata = this.getCarouselItemMetadata(product, index + 1);
-          return of(product);
-        })
-      : [EMPTY];
-  }
-
-  private getCarouselItemMetadata(
-    merchandisingProduct: MerchandisingProduct,
-    index: number
-  ): Map<string, string> {
-    const metadata = new Map<string, string>();
-
-    if (merchandisingProduct.metadata) {
-      merchandisingProduct.metadata.forEach((value, name) =>
-        metadata.set(name, value)
-      );
-    }
-
-    metadata.set('slot', index.toString());
-    metadata.set('id', merchandisingProduct.code);
-
-    return metadata;
-  }
 
   constructor(
     protected componentData: CmsComponentData<
       CmsMerchandisingCarouselComponent
     >,
-    protected cdsMerchandisingProductService: CdsMerchandisingProductService
+    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService
   ) {}
 }
