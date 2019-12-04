@@ -53,7 +53,11 @@ import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-fie
     ConfigTextfieldInputFieldComponent,
     ConfigTextfieldAddToCartButtonComponent,
   ],
-  exports: [ConfigTextfieldFormComponent, ConfigTextfieldInputFieldComponent],
+  exports: [
+    ConfigTextfieldFormComponent,
+    ConfigTextfieldInputFieldComponent,
+    ConfigTextfieldAddToCartButtonComponent,
+  ],
   providers: [UserService],
   entryComponents: [
     ConfigTextfieldFormComponent,

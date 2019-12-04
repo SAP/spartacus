@@ -271,7 +271,7 @@ export interface OccEndpoints {
    */
   createConfigurationTextfield?: string;
   /**
-   * Endpoint for add textfield configuration to cartf
+   * Endpoint for add textfield configuration to cart
    *
    * @member {string}
    */

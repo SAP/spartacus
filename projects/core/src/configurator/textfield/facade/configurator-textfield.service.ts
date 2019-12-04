@@ -54,24 +54,6 @@ export class ConfiguratorTextfieldService {
       });
   }
 
-  createNewConfigurationWithChange(
-    changedAttribute: ConfiguratorTextfield.ConfigurationInfo,
-    oldConfiguration: ConfiguratorTextfield.Configuration
-  ): ConfiguratorTextfield.Configuration {
-    const newConfiguration: ConfiguratorTextfield.Configuration = {
-      configurationInfos: [],
-    };
-    oldConfiguration.configurationInfos.forEach(info => {
-      if (info.configurationLabel === changedAttribute.configurationLabel) {
-        changedAttribute.status = SUCCESS_STATUS;
-        newConfiguration.configurationInfos.push(changedAttribute);
-      } else {
-        newConfiguration.configurationInfos.push(info);
-      }
-    });
-    return newConfiguration;
-  }
-
   addToCart(productCode: string) {
     const cart$ = this.cartService.getOrCreateCart();
     cart$.pipe(take(1)).subscribe(cart => {
@@ -83,6 +65,19 @@ export class ConfiguratorTextfieldService {
       };
       this.callAddToCartActionWithConfigurationData(addToCartParameters);
     });
+  }
+
+  ////
+  // Helper methods
+  ////
+  getCartId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+  }
+
+  getUserId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS
+      ? cart.user.uid
+      : OCC_USER_ID_CURRENT;
   }
 
   callAddToCartActionWithConfigurationData(
@@ -101,16 +96,21 @@ export class ConfiguratorTextfieldService {
       });
   }
 
-  ////
-  // Helper methods
-  ////
-  getCartId(cart: Cart): string {
-    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
-  }
-
-  getUserId(cart: Cart): string {
-    return cart.user.uid === OCC_USER_ID_ANONYMOUS
-      ? cart.user.uid
-      : OCC_USER_ID_CURRENT;
+  createNewConfigurationWithChange(
+    changedAttribute: ConfiguratorTextfield.ConfigurationInfo,
+    oldConfiguration: ConfiguratorTextfield.Configuration
+  ): ConfiguratorTextfield.Configuration {
+    const newConfiguration: ConfiguratorTextfield.Configuration = {
+      configurationInfos: [],
+    };
+    oldConfiguration.configurationInfos.forEach(info => {
+      if (info.configurationLabel === changedAttribute.configurationLabel) {
+        changedAttribute.status = SUCCESS_STATUS;
+        newConfiguration.configurationInfos.push(changedAttribute);
+      } else {
+        newConfiguration.configurationInfos.push(info);
+      }
+    });
+    return newConfiguration;
   }
 }
