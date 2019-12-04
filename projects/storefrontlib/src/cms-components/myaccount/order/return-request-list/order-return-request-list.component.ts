@@ -12,7 +12,7 @@ import { tap, map, filter, take } from 'rxjs/operators';
   templateUrl: './order-return-request-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderReturnRequestsComponent implements OnDestroy {
+export class OrderReturnRequestListComponent implements OnDestroy {
   constructor(
     private returnRequestService: OrderReturnRequestService,
     private translation: TranslationService
