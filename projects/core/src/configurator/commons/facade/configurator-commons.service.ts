@@ -46,9 +46,18 @@ export class ConfiguratorCommonsService {
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true
         ) {
-          this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
-          );
+          if (owner.type === Configurator.OwnerType.PRODUCT) {
+            this.store.dispatch(
+              new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
+            );
+          } else {
+            this.store.dispatch(
+              new ConfiguratorActions.LoadCartEntryConfiguration(
+                owner.key,
+                owner.id
+              )
+            );
+          }
         }
       }),
       filter(configurationState =>
@@ -109,8 +118,12 @@ export class ConfiguratorCommonsService {
     this.store.dispatch(new UiActions.SetUiState(productCode, state));
   }
 
-  removeUiState(productCode: string | string[]) {
-    this.store.dispatch(new UiActions.RemoveUiState(productCode));
+  removeUiState(ownerKey: string) {
+    this.store.dispatch(new UiActions.RemoveUiState(ownerKey));
+  }
+
+  removeConfiguration(ownerKey: string) {
+    this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(ownerKey));
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {

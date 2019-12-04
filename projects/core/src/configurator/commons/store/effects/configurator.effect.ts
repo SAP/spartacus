@@ -18,7 +18,9 @@ import { ConfiguratorCommonsConnector } from '../../connectors/configurator-comm
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions, ConfiguratorUiActions } from '../actions';
 import {
+  AddOwner,
   AddToCart,
+  ADD_OWNER,
   ADD_TO_CART,
   ChangeGroup,
   CHANGE_GROUP,
@@ -57,7 +59,6 @@ export class ConfiguratorEffects {
     CreateConfigurationSuccess | CreateConfigurationFail
   > = this.actions$.pipe(
     ofType(CREATE_CONFIGURATION),
-
     mergeMap((action: CreateConfiguration) => {
       return this.configuratorCommonsConnector
         .createConfiguration(action.productCode)
@@ -275,7 +276,7 @@ export class ConfiguratorEffects {
   @Effect()
   addToCart$: Observable<
     | ConfiguratorUiActions.RemoveUiState
-    | ConfiguratorActions.RemoveConfiguration
+    | ConfiguratorActions.AddOwner
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
@@ -291,7 +292,10 @@ export class ConfiguratorEffects {
             switchMap((entry: CartModification) => {
               return [
                 new ConfiguratorUiActions.RemoveUiState(payload.ownerKey),
-                new ConfiguratorActions.RemoveConfiguration(payload.ownerKey),
+                new ConfiguratorActions.AddOwner(
+                  payload.ownerKey,
+                  '' + entry.entry.entryNumber
+                ),
                 new CartActions.CartAddEntrySuccess({
                   ...entry,
                   userId: payload.userId,
@@ -304,6 +308,27 @@ export class ConfiguratorEffects {
             )
           );
         })
+      );
+    })
+  );
+
+  @Effect()
+  addOwner$: Observable<
+    ConfiguratorActions.SetNextOwnerCartEntry
+  > = this.actions$.pipe(
+    ofType(ADD_OWNER),
+    switchMap((action: AddOwner) => {
+      return this.store.pipe(
+        select(ConfiguratorSelectors.getConfigurationFactory(action.ownerKey)),
+        take(1),
+
+        map(
+          configuration =>
+            new ConfiguratorActions.SetNextOwnerCartEntry(
+              configuration,
+              action.cartEntryNo
+            )
+        )
       );
     })
   );

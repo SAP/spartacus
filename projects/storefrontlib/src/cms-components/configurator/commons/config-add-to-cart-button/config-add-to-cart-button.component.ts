@@ -5,7 +5,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
 
 @Component({
@@ -15,6 +15,8 @@ import { ConfigRouterExtractorService } from '../service/config-router-extractor
 })
 export class ConfigAddToCartButtonComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
+  hasBeenAddedToCart$: Observable<any>;
+  configuratorType$: Observable<string>;
 
   constructor(
     private routingService: RoutingService,
@@ -30,9 +32,50 @@ export class ConfigAddToCartButtonComponent implements OnInit {
           this.configuratorCommonsService.getConfiguration(owner.key)
         )
       );
+    this.configuratorType$ = this.configRouterExtractorService.getConfiguratorType(
+      this.routingService
+    );
+
+    this.hasBeenAddedToCart$ = this.configRouterExtractorService.hasBeenAddedToCart(
+      this.routingService
+    );
   }
 
-  onAddToCart(productCode: string, configId: string, ownerKey: string) {
-    this.configuratorCommonsService.addToCart(productCode, configId, ownerKey);
+  onAddToCart(
+    productCode: string,
+    configId: string,
+    ownerKey: string,
+    configuratorType: string
+  ) {
+    this.configRouterExtractorService
+      .hasBeenAddedToCart(this.routingService)
+      .pipe(take(1))
+      .subscribe(config => {
+        if (config.hasBeenAdded) {
+          this.routingService.go('cart');
+        } else {
+          this.configuratorCommonsService.addToCart(
+            productCode,
+            configId,
+            ownerKey
+          );
+          this.configuratorCommonsService
+            .getConfiguration(ownerKey)
+            .pipe(
+              filter(configuration => configuration.nextOwner !== undefined),
+              take(1)
+            )
+            .subscribe(configuration => {
+              this.routingService.go(
+                'configureOverview' +
+                  configuratorType +
+                  '/cartEntry/entityKey/' +
+                  configuration.nextOwner.id,
+                {}
+              );
+            });
+          this.configuratorCommonsService.removeConfiguration(ownerKey);
+        }
+      });
   }
 }

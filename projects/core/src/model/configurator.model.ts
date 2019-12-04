@@ -45,6 +45,7 @@ export namespace Configurator {
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner?: Owner;
+    nextOwner?: Owner;
   }
 
   export interface Owner {

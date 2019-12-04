@@ -24,6 +24,7 @@ const groupId = 'GROUP-1';
 const cartId = 'CART-1234';
 const userId = 'theUser';
 const quantity = 1;
+const entryNumber = 47;
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
@@ -43,7 +44,11 @@ const productConfiguration: Configurator.Configuration = {
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
-  entry: { product: { code: productCode }, quantity: 1 },
+  entry: {
+    product: { code: productCode },
+    quantity: 1,
+    entryNumber: entryNumber,
+  },
 };
 
 describe('ConfiguratorEffect', () => {
@@ -324,7 +329,7 @@ describe('ConfiguratorEffect', () => {
   });
 
   describe('Effect addToCart', () => {
-    it('should emit AddToCartSuccess, RemoveUiState and RemoveConfiguration on addToCart in case no changes are pending', () => {
+    it('should emit AddToCartSuccess, RemoveUiState and AddOwner on addToCart in case no changes are pending', () => {
       const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
@@ -339,11 +344,10 @@ describe('ConfiguratorEffect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const removeUiState = new ConfiguratorUiActions.RemoveUiState(
-        productConfiguration.productCode
-      );
-      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
-        productConfiguration.productCode
+      const removeUiState = new ConfiguratorUiActions.RemoveUiState(owner.key);
+      const removeConfiguration = new ConfiguratorActions.AddOwner(
+        owner.key,
+        '' + entryNumber
       );
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {

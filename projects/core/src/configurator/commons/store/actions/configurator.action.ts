@@ -3,6 +3,8 @@ import { StateEntityLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
+export const LOAD_CART_ENTRY_CONFIGURATION =
+  '[Configurator] Load Cart Entry Configuration';
 export const CREATE_CONFIGURATION_FAIL =
   '[Configurator] Create Configuration Fail';
 export const CREATE_CONFIGURATION_SUCCESS =
@@ -34,6 +36,9 @@ export const UPDATE_PRICE_SUMMARY_FAIL =
   '[Configurator] Update Configuration Price Summary fail';
 export const UPDATE_PRICE_SUMMARY_SUCCESS =
   '[Configurator] Update Configuration Price Summary success';
+export const ADD_OWNER = '[Configurator] Add owner';
+export const SET_NEXT_OWNER_CART_ENTRY =
+  '[Configurator] Set next owner cart entry';
 
 export const GET_CONFIGURATION_OVERVIEW =
   '[Configurator] Get Configuration Overview';
@@ -45,6 +50,13 @@ export const GET_CONFIGURATION_OVERVIEW_SUCCESS =
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public ownerKey: string, public productCode: string) {
+    super(CONFIGURATION_DATA, ownerKey);
+  }
+}
+
+export class LoadCartEntryConfiguration extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = LOAD_CART_ENTRY_CONFIGURATION;
+  constructor(public ownerKey: string, public cartEntryNumber: string) {
     super(CONFIGURATION_DATA, ownerKey);
   }
 }
@@ -194,6 +206,22 @@ export class GetConfigurationOverviewSuccess extends StateEntityLoaderActions.En
   }
 }
 
+export class AddOwner extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = ADD_OWNER;
+  constructor(public ownerKey: string, public cartEntryNo: string) {
+    super(CONFIGURATION_DATA, ownerKey);
+  }
+}
+export class SetNextOwnerCartEntry extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = SET_NEXT_OWNER_CART_ENTRY;
+  constructor(
+    public configuration: Configurator.Configuration,
+    public cartEntryNo: string
+  ) {
+    super(CONFIGURATION_DATA, configuration.owner.key);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -211,7 +239,10 @@ export type ConfiguratorAction =
   | UpdatePriceSummarySuccess
   | ChangeGroup
   | ChangeGroupFinalize
-  | RemoveConfiguration
   | GetConfigurationOverview
   | GetConfigurationOverviewFail
-  | GetConfigurationOverviewSuccess;
+  | GetConfigurationOverviewSuccess
+  | AddOwner
+  | SetNextOwnerCartEntry
+  | LoadCartEntryConfiguration
+  | RemoveConfiguration;
