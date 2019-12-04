@@ -37,20 +37,9 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(new UserActions.LoadUserPaymentMethods(occUserId))
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      this.store.dispatch(
-        new UserActions.LoadUserPaymentMethods(OCC_USER_ID_CURRENT)
-      );
-    }
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId))
+    );
   }
 
   /**
@@ -77,28 +66,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.SetDefaultUserPaymentMethod({
-              userId: occUserId,
-              paymentMethodId,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.SetDefaultUserPaymentMethod({
-          userId: OCC_USER_ID_CURRENT,
+          userId: userId,
           paymentMethodId,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -107,28 +82,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.DeleteUserPaymentMethod({
-              userId: occUserId,
-              paymentMethodId,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.DeleteUserPaymentMethod({
-          userId: OCC_USER_ID_CURRENT,
+          userId: userId,
           paymentMethodId,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -143,5 +104,22 @@ export class UserPaymentService {
    */
   loadBillingCountries(): void {
     this.store.dispatch(new UserActions.LoadBillingCountries());
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId))
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }

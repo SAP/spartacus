@@ -36,20 +36,9 @@ export class UserAddressService {
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(new UserActions.LoadUserAddresses(occUserId))
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      this.store.dispatch(
-        new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT)
-      );
-    }
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.LoadUserAddresses(userId))
+    );
   }
 
   /**
@@ -57,28 +46,14 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.AddUserAddress({
-              userId: occUserId,
-              address: address,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.AddUserAddress({
-          userId: OCC_USER_ID_CURRENT,
-          address: address,
+          userId,
+          address,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -86,30 +61,15 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.UpdateUserAddress({
-              userId: occUserId,
-              addressId: addressId,
-              address: { defaultAddress: true },
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
-          userId: OCC_USER_ID_CURRENT,
-          addressId: addressId,
+          userId,
+          addressId,
           address: { defaultAddress: true },
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -118,30 +78,15 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.UpdateUserAddress({
-              userId: occUserId,
-              addressId: addressId,
-              address: address,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
-          userId: OCC_USER_ID_CURRENT,
-          addressId: addressId,
+          userId,
+          addressId,
           address: address,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -149,28 +94,14 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.DeleteUserAddress({
-              userId: occUserId,
-              addressId: addressId,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.DeleteUserAddress({
-          userId: OCC_USER_ID_CURRENT,
-          addressId: addressId,
+          userId,
+          addressId,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -253,5 +184,22 @@ export class UserAddressService {
         return regions;
       })
     );
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId))
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }

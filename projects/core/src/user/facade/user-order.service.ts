@@ -46,28 +46,14 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.LoadOrderDetails({
-              userId: occUserId,
-              orderCode: orderCode,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.LoadOrderDetails({
-          userId: OCC_USER_ID_CURRENT,
-          orderCode: orderCode,
+          userId,
+          orderCode,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -110,32 +96,16 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.LoadUserOrders({
-              userId: occUserId,
-              pageSize: pageSize,
-              currentPage: currentPage,
-              sort: sort,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.LoadUserOrders({
-          userId: OCC_USER_ID_CURRENT,
-          pageSize: pageSize,
-          currentPage: currentPage,
-          sort: sort,
+          userId,
+          pageSize,
+          currentPage,
+          sort,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -171,5 +141,22 @@ export class UserOrderService {
    */
   clearConsignmentTracking(): void {
     this.store.dispatch(new UserActions.ClearConsignmentTracking());
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId))
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }

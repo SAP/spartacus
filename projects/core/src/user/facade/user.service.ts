@@ -60,18 +60,9 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(new UserActions.LoadUserDetails(occUserId))
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      this.store.dispatch(new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT));
-    }
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.LoadUserDetails(userId))
+    );
   }
 
   /**
@@ -131,18 +122,9 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(new UserActions.RemoveUser(occUserId))
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      this.store.dispatch(new UserActions.RemoveUser(OCC_USER_ID_CURRENT));
-    }
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.RemoveUser(userId))
+    );
   }
 
   /**
@@ -206,28 +188,14 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.UpdateUserDetails({
-              username: occUserId,
-              userDetails,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.UpdateUserDetails({
-          username: OCC_USER_ID_CURRENT,
+          username: userId,
           userDetails,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -286,30 +254,15 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.UpdateEmailAction({
-              uid: occUserId,
-              password,
-              newUid,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.UpdateEmailAction({
-          uid: OCC_USER_ID_CURRENT,
+          uid: userId,
           password,
           newUid,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -352,30 +305,15 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.UpdatePassword({
-              userId: occUserId,
-              oldPassword,
-              newPassword,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.UpdatePassword({
-          userId: OCC_USER_ID_CURRENT,
+          userId,
           oldPassword,
           newPassword,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -411,5 +349,22 @@ export class UserService {
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new UserActions.UpdatePasswordReset());
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId))
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }
