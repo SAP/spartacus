@@ -79,7 +79,9 @@ export class NavigationService {
     }
 
     if (nodeData.children && nodeData.children.length > 0) {
-      nodeData.children.forEach(child => this.loadNavigationEntryItems(child, false, itemsList))
+      nodeData.children.forEach(child =>
+        this.loadNavigationEntryItems(child, false, itemsList)
+      );
     }
 
     if (root) {
