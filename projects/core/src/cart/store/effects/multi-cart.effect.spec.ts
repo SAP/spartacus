@@ -4,6 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
+import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import * as fromCartReducers from '../../store/reducers/index';
 import * as DeprecatedCartActions from '../actions/cart.action';
@@ -26,7 +27,7 @@ const testCart: Cart = {
   },
 };
 
-describe('Cart effect', () => {
+describe('Multi Cart effect', () => {
   let cartEffects: fromEffects.MultiCartEffects;
   let actions$: Observable<any>;
 
@@ -134,65 +135,67 @@ describe('Cart effect', () => {
     });
   });
 
-  describe('setLoading$', () => {
-    it('should dispatch SetCartLoading action for MergeCart', () => {
+  describe('removeCart$', () => {
+    it('should dispatch RemoveCart action', () => {
       const payload = {
+        userId: 'userId',
         cartId: 'cartId',
       };
-      const action = new DeprecatedCartActions.MergeCart(payload);
-      const setCartLoadingCompletion = new CartActions.SetCartLoading({
-        cartId: 'cartId',
-      });
+      const action = new DeprecatedCartActions.DeleteCart(payload);
+      const removeCartCompletion = new CartActions.RemoveCart(payload.cartId);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
-        b: setCartLoadingCompletion,
+        b: removeCartCompletion,
       });
-      expect(cartEffects.setLoading$).toBeObservable(expected);
+      expect(cartEffects.removeCart$).toBeObservable(expected);
     });
+  });
 
-    it('should dispatch SetCartLoading action for CartAddEntry', () => {
+  describe('processesIncrement$', () => {
+    it('should dispatch CartProcessesIncrement action', () => {
       const payload = {
+        userId: 'userId',
         cartId: 'cartId',
       };
-      const action = new CartActions.CartAddEntry(payload);
-      const setCartLoadingCompletion = new CartActions.SetCartLoading({
-        cartId: 'cartId',
+      const action1 = new CartActions.CartAddEntry(payload);
+      const action2 = new CartActions.CartUpdateEntry(payload);
+      const action3 = new CartActions.CartRemoveEntry(payload);
+      const action4 = new DeprecatedCartActions.AddEmailToCart({
+        ...payload,
+        email: 'email',
       });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: setCartLoadingCompletion,
+      const action5 = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
+      const action6 = new CartActions.CartAddVoucher({
+        ...payload,
+        voucherId: 'voucherId',
       });
-      expect(cartEffects.setLoading$).toBeObservable(expected);
-    });
+      const action7 = new CartActions.CartRemoveVoucher({
+        ...payload,
+        voucherId: 'voucherId',
+      });
 
-    it('should dispatch SetCartLoading action for CartUpdateEntry', () => {
-      const payload = {
-        cartId: 'cartId',
-      };
-      const action = new CartActions.CartUpdateEntry(payload);
-      const setCartLoadingCompletion = new CartActions.SetCartLoading({
-        cartId: 'cartId',
+      const processesIncrementCompletion = new CartActions.CartProcessesIncrementAction(
+        payload.cartId
+      );
+      actions$ = hot('-a-b-c-d-e-f-g', {
+        a: action1,
+        b: action2,
+        c: action3,
+        d: action4,
+        e: action5,
+        f: action6,
+        g: action7,
       });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: setCartLoadingCompletion,
+      const expected = cold('-1-2-3-4-5-6-7', {
+        1: processesIncrementCompletion,
+        2: processesIncrementCompletion,
+        3: processesIncrementCompletion,
+        4: processesIncrementCompletion,
+        5: processesIncrementCompletion,
+        6: processesIncrementCompletion,
+        7: processesIncrementCompletion,
       });
-      expect(cartEffects.setLoading$).toBeObservable(expected);
-    });
-
-    it('should dispatch SetCartLoading action for CartRemoveEntry', () => {
-      const payload = {
-        cartId: 'cartId',
-      };
-      const action = new CartActions.CartRemoveEntry(payload);
-      const setCartLoadingCompletion = new CartActions.SetCartLoading({
-        cartId: 'cartId',
-      });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: setCartLoadingCompletion,
-      });
-      expect(cartEffects.setLoading$).toBeObservable(expected);
+      expect(cartEffects.processesIncrementAction$).toBeObservable(expected);
     });
   });
 });

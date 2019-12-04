@@ -626,12 +626,6 @@ describe('CartService', () => {
       expect(activeCart['getLoaded']).toHaveBeenCalled();
     });
 
-    it('getAddEntryLoaded should invoke ActiveCartService getAddEntryLoaded', () => {
-      spyOn(activeCart, 'getAddEntryLoaded');
-      service.getAddEntryLoaded();
-      expect(activeCart['getAddEntryLoaded']).toHaveBeenCalled();
-    });
-
     it('addEntry should invoke ActiveCartService addEntry', () => {
       spyOn(activeCart, 'addEntry');
       service.addEntry('testId', 1);

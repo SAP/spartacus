@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { CheckoutActions } from '../../../checkout/store/actions';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
@@ -52,34 +53,38 @@ export class MultiCartEffects {
   );
 
   @Effect()
-  setLoading$: Observable<CartActions.SetCartLoading> = this.actions$.pipe(
+  removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
+    ofType(DeprecatedCartActions.DELETE_CART),
+    map((action: DeprecatedCartActions.DeleteCart) => action.payload),
+    map(payload => new CartActions.RemoveCart(payload.cartId))
+  );
+
+  @Effect()
+  processesIncrementAction$: Observable<
+    CartActions.CartProcessesIncrementAction
+  > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.MERGE_CART,
       CartActions.CART_ADD_ENTRY,
       CartActions.CART_UPDATE_ENTRY,
-      CartActions.CART_REMOVE_ENTRY
+      CartActions.CART_REMOVE_ENTRY,
+      DeprecatedCartActions.ADD_EMAIL_TO_CART,
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
+      CartActions.CART_ADD_VOUCHER,
+      CartActions.CART_REMOVE_VOUCHER
     ),
     map(
       (
         action:
-          | CartActions.MergeCart
           | CartActions.CartAddEntry
           | CartActions.CartUpdateEntry
           | CartActions.CartRemoveEntry
+          | DeprecatedCartActions.AddEmailToCart
+          | CheckoutActions.ClearCheckoutDeliveryMode
+          | CartActions.CartAddVoucher
+          | CartActions.CartRemoveVoucher
       ) => action.payload
     ),
-    mergeMap(payload => [
-      new CartActions.SetCartLoading({
-        cartId: payload.cartId,
-      }),
-    ])
-  );
-
-  @Effect()
-  removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.DELETE_CART),
-    map((action: DeprecatedCartActions.DeleteCart) => action.payload),
-    mergeMap(payload => [new CartActions.RemoveCart(payload.cartId)])
+    map(payload => new CartActions.CartProcessesIncrementAction(payload.cartId))
   );
 
   constructor(private actions$: Actions) {}

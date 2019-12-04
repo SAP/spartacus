@@ -84,6 +84,7 @@ describe('Multi Cart selectors', () => {
               success: true,
               error: false,
               loading: false,
+              processesCount: 0,
             },
           },
         },
@@ -111,6 +112,7 @@ describe('Multi Cart selectors', () => {
             success: true,
             error: false,
             loading: false,
+            processesCount: 0,
           },
         },
       });
@@ -131,6 +133,7 @@ describe('Multi Cart selectors', () => {
         error: false,
         success: false,
         value: undefined,
+        processesCount: 0,
       });
 
       loadCart();
@@ -140,6 +143,7 @@ describe('Multi Cart selectors', () => {
         success: true,
         error: false,
         loading: false,
+        processesCount: 0,
       });
     });
   });
@@ -156,6 +160,48 @@ describe('Multi Cart selectors', () => {
       loadCart();
 
       expect(result).toEqual(testCart);
+    });
+  });
+
+  describe('getCartIsStableSelectorFactory', () => {
+    it('should return cart stability flag', () => {
+      let result;
+      store
+        .pipe(
+          select(
+            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
+          )
+        )
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      loadCart();
+
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getCartHasPendingProcessesSelectorFactory', () => {
+    it('should return cart stability flag', () => {
+      let result;
+      store
+        .pipe(
+          select(
+            MultiCartSelectors.getCartHasPendingProcessesSelectorFactory(
+              testCart.code
+            )
+          )
+        )
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(
+        new CartActions.CartProcessesIncrementAction(testCart.code)
+      );
+
+      expect(result).toEqual(true);
     });
   });
 
@@ -192,7 +238,7 @@ describe('Multi Cart selectors', () => {
         )
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(null);
+      expect(result).toEqual(undefined);
 
       loadCart();
 

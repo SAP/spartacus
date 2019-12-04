@@ -61,7 +61,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     } else if (this.productCode) {
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
-      // force hasStock and quanity for the time being, as we do not have more info:
+      // force hasStock and quantity for the time being, as we do not have more info:
       this.quantity = 1;
       this.hasStock = true;
       this.cd.markForCheck();
@@ -120,7 +120,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalInstance = this.modalRef.componentInstance;
     modalInstance.entry$ = this.cartEntry$;
     modalInstance.cart$ = this.cartService.getActive();
-    modalInstance.loaded$ = this.cartService.getAddEntryLoaded();
+    modalInstance.loaded$ = this.cartService.getLoaded();
     modalInstance.quantity = this.quantity;
     modalInstance.increment = this.increment;
   }
