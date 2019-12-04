@@ -23,6 +23,13 @@ export class ProtectedRoutesService {
   }
 
   /**
+   * Tells if the app is protected
+   */
+  isAppProtected(): boolean {
+    return this.shouldProtect;
+  }
+
+  /**
    * Tells if the url is protected
    */
   isUrlProtected(urlSegments: string[]): boolean {

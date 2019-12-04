@@ -7,6 +7,7 @@ import {
   PageType,
   RoutingService,
   SemanticPathService,
+  ProtectedRoutesService,
 } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 
@@ -18,7 +19,8 @@ export class LogoutGuard implements CanActivate {
     protected auth: AuthService,
     protected cms: CmsService,
     protected routing: RoutingService,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
+    protected protectedRoutes: ProtectedRoutesService
   ) {}
 
   canActivate(): Observable<any> {
@@ -32,7 +34,9 @@ export class LogoutGuard implements CanActivate {
       .pipe(
         tap(hasPage => {
           if (!hasPage) {
-            this.routing.go({ cxRoute: 'home' });
+            this.routing.go({
+              cxRoute: this.protectedRoutes.isAppProtected ? 'login' : 'home',
+            });
           }
         })
       );
