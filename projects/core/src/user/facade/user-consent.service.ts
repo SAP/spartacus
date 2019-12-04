@@ -53,20 +53,9 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(new UserActions.LoadUserConsents(occUserId))
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      this.store.dispatch(
-        new UserActions.LoadUserConsents(OCC_USER_ID_CURRENT)
-      );
-    }
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.LoadUserConsents(userId))
+    );
   }
 
   /**
@@ -180,30 +169,15 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.GiveUserConsent({
-              userId: occUserId,
-              consentTemplateId,
-              consentTemplateVersion,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.GiveUserConsent({
-          userId: OCC_USER_ID_CURRENT,
+          userId,
           consentTemplateId,
           consentTemplateVersion,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -245,28 +219,14 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId =>
-          this.store.dispatch(
-            new UserActions.WithdrawUserConsent({
-              userId: occUserId,
-              consentCode,
-            })
-          )
-        )
-        .unsubscribe();
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
+    this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
-          userId: OCC_USER_ID_CURRENT,
+          userId: userId,
           consentCode,
         })
-      );
-    }
+      )
+    );
   }
 
   /**
@@ -329,5 +289,22 @@ export class UserConsentService {
     }
 
     return updatedTemplateList;
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId))
+        .unsubscribe();
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }
