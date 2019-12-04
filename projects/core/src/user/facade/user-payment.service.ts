@@ -69,7 +69,7 @@ export class UserPaymentService {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.SetDefaultUserPaymentMethod({
-          userId: userId,
+          userId,
           paymentMethodId,
         })
       )
@@ -85,7 +85,7 @@ export class UserPaymentService {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.DeleteUserPaymentMethod({
-          userId: userId,
+          userId,
           paymentMethodId,
         })
       )

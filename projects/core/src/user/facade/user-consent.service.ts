@@ -222,7 +222,7 @@ export class UserConsentService {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
-          userId: userId,
+          userId,
           consentCode,
         })
       )

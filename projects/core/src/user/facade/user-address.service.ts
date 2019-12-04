@@ -83,7 +83,7 @@ export class UserAddressService {
         new UserActions.UpdateUserAddress({
           userId,
           addressId,
-          address: address,
+          address,
         })
       )
     );
