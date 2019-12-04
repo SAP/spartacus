@@ -37,5 +37,6 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
           routerState.state.params.rootProduct
         )
       );
+    this.routingService.go({ cxRoute: 'cart' });
   }
 }
