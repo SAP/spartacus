@@ -111,7 +111,9 @@ describe('ProductIntroComponent in product', () => {
     });
 
     it('should not display rating component when rating is unavailable', () => {
-      productIntroComponent.product$ = of<Product>({ averageRating: undefined });
+      productIntroComponent.product$ = of<Product>({
+        averageRating: undefined,
+      });
       fixture.detectChanges();
       expect(
         fixture.debugElement.nativeElement.querySelector('cx-star-rating')
@@ -119,23 +121,26 @@ describe('ProductIntroComponent in product', () => {
     });
 
     it('should display noReviews when rating is unavailable', () => {
-      productIntroComponent.product$ = of<Product>({ averageRating: undefined });
+      productIntroComponent.product$ = of<Product>({
+        averageRating: undefined,
+      });
       fixture.detectChanges();
-      expect(
-        fixture.debugElement.nativeElement.innerText
-      ).toContain('productDetails.noReviews');
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'productDetails.noReviews'
+      );
     });
 
     it('should not display Show Reviews when no reviews available', () => {
-      productIntroComponent.product$ = of<Product>({ averageRating: undefined });
+      productIntroComponent.product$ = of<Product>({
+        averageRating: undefined,
+      });
       productIntroComponent.ngAfterContentChecked = () => {
         productIntroComponent.reviewsTabAvailable.next(true);
-      }
+      };
       fixture.detectChanges();
-      expect(
-        fixture.debugElement.nativeElement.innerText
-      ).not.toContain('productSummary.showReviews')
-    })
+      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+        'productSummary.showReviews'
+      );
+    });
   });
-
 });
