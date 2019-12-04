@@ -2,13 +2,13 @@
 
 %cx-cart-coupon__body {
   &.couponbox-is-active {
-    &.has-customer-coupon {
-      cx-cart-coupon {
-        .cx-customer-coupons {
-          display: block;
-        }
+    //&.has-customer-coupon {
+    cx-cart-coupon {
+      .cx-customer-coupons {
+        display: block;
       }
     }
+    //}
   }
 }
 

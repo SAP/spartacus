@@ -1,17 +1,76 @@
 import { user } from '../sample-data/checkout-flow';
 
+export const myCouponCode1 = 'springfestival';
+export const myCouponCode2 = 'midautumn';
+
 export function addProductToCart(productCode: string) {
   cy.get('cx-searchbox input')
     .clear()
     .type(`${productCode}{enter}`);
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .getAllByText(/Add To Cart/i)
+    .first()
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.getByText(/view cart/i).click();
   });
 }
+
+export function verifyEmptyCoupons() {
+  cy.get('.cx-customer-coupons').should('not.exist');
+}
+
+export function verifyMyCoupons() {
+  cy.get('.cx-customer-coupons .coupon-id').should('have.length', 2);
+  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode1);
+  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode2);
+}
+
+export function filterAndApplyMyCoupons(filterCode: string) {
+  cy.get('#applyVoucher').type(filterCode);
+  cy.get('.cx-customer-coupons .coupon-id').should('have.length', 1);
+  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode2);
+  cy.get('.cx-customer-coupons a').click();
+  cy.get('cx-global-message').should(
+    'contain',
+    `${myCouponCode2} has been applied`
+  );
+  getCouponItemFromCart(myCouponCode2).should('exist');
+  cy.get('.cx-customer-coupons .coupon-id').should(
+    'not.contain',
+    myCouponCode2
+  );
+  verifyMyCouponsAfterApply();
+}
+
+export function verifyMyCouponsAfterApply() {
+  navigateToCheckoutPage();
+  navigateToCartPage();
+  getCouponItemFromCart(myCouponCode2).should('exist');
+  cy.get('.cx-customer-coupons .coupon-id').should(
+    'not.contain',
+    myCouponCode2
+  );
+}
+
+export function claimCoupon(couponCode: string) {
+  cy.request({
+    method: 'POST',
+    url: `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/current/customercoupons/${couponCode}/claim`,
+    headers: {
+      Authorization: `bearer ${
+        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
+          .token.access_token
+      }`,
+    },
+  }).then(response => {
+    expect(response.status).to.eq(201);
+  });
+}
+
 export function applyCoupon(couponCode: string) {
   cy.get('#applyVoucher').type(couponCode);
   cy.get('.col-md-4 > .btn').click();

@@ -8,6 +8,7 @@ export const couponCode2 = 'CouponForProduct';
 export const productCode3 = '1986316';
 export const couponCode3 = 'FreeGiftCoupon';
 export const giftProductCode = '443175';
+export const productCode4 = '1934793';
 
 describe('Cart Coupon', () => {
   beforeEach(() => {
@@ -72,6 +73,28 @@ describe('Cart Coupon', () => {
 
     cartCoupon.placeOrder(stateAuth).then(orderData => {
       cartCoupon.varifyOrderHistory(orderData);
+    });
+  });
+
+  it('should list customer coupons and able to filter and apply', () => {
+    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
+      .auth;
+    cartCoupon.addProductToCart(productCode4);
+    cartCoupon.verifyEmptyCoupons();
+    cartCoupon.claimCoupon(cartCoupon.myCouponCode1);
+    cartCoupon.claimCoupon(cartCoupon.myCouponCode2);
+
+    cartCoupon.navigateToCartPage();
+    cartCoupon.verifyMyCoupons();
+    cartCoupon.filterAndApplyMyCoupons('autumn');
+
+    cartCoupon.placeOrder(stateAuth).then(orderData => {
+      cartCoupon.varifyOrderHistory(
+        orderData,
+        cartCoupon.myCouponCode2,
+        '$79.85',
+        '$20'
+      );
     });
   });
 });

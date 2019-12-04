@@ -15,7 +15,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, startWith, tap } from 'rxjs/operators';
 
-const HAS_CUSTOMER_COUPON_CLASS = 'has-customer-coupon';
+//const HAS_CUSTOMER_COUPON_CLASS = 'has-customer-coupon';
 const MAX_CUSTOMER_COUPON_PAGE = 100;
 @Component({
   selector: 'cx-cart-coupon',
@@ -150,11 +150,14 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   open(): void {
     this.filteredCoupons = this.applicableCoupons;
-    this.toggleBodyClass('couponbox-is-active', true);
     this.toggleBodyClass(
-      HAS_CUSTOMER_COUPON_CLASS,
+      'couponbox-is-active',
       this.applicableCoupons.length > 0 ? true : false
     );
+    // this.toggleBodyClass(
+    //   HAS_CUSTOMER_COUPON_CLASS,
+    //   this.applicableCoupons.length > 0 ? true : false
+    // );
   }
 
   close(event: UIEvent): void {
@@ -166,13 +169,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
     this.ignoreCloseEvent = false;
   }
-
-  // avoidReopen(event: UIEvent): void {
-  //   if (this.hasBodyClass('couponbox-is-active')) {
-  //     this.close(event);
-  //     event.preventDefault();
-  //   }
-  // }
 
   disableClose(): void {
     this.ignoreCloseEvent = true;

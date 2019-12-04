@@ -75,6 +75,8 @@ describe('CartCouponComponent', () => {
     ],
   };
 
+  const appliedVouchers: Voucher[] = [{ code: 'CustomerCoupon1' }];
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
@@ -107,7 +109,7 @@ describe('CartCouponComponent', () => {
     mockCartVoucherService.resetAddVoucherProcessingState.calls.reset();
     mockCartVoucherService.getAddVoucherResultError.and.returnValue(of());
     mockCustomerCouponService.loadCustomerCoupons.and.stub();
-    mockCustomerCouponService.getCustomerCoupons.and.returnValue(of([]));
+    mockCustomerCouponService.getCustomerCoupons.and.returnValue(of({}));
   });
 
   it('should create', () => {
@@ -214,14 +216,27 @@ describe('CartCouponComponent', () => {
     expect(button.disabled).toBeTruthy();
   });
 
-  it('should list customer coupons', () => {
+  it('should not list customer coupons when no customer coupons', () => {
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+    ).toEqual(0);
+  });
+
+  it('should list customer coupons when has customer coupons', () => {
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
+    input = el.query(By.css('.input-coupon-code')).nativeElement;
+    input.click();
+    fixture.detectChanges();
     expect(
       fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
     ).toEqual(2);
+    expect(
+      fixture.debugElement.queryAll(By.css('.couponbox-is-active'))
+    ).toBeTruthy();
   });
 
   it('should filter customer coupons', () => {
@@ -245,6 +260,19 @@ describe('CartCouponComponent', () => {
     );
   });
 
+  it('should not show applied customer coupon', () => {
+    mockCartService.getActive.and.returnValue(
+      of<Cart>({ appliedVouchers: appliedVouchers })
+    );
+    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
+      of(couponsSearchResult)
+    );
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+    ).toEqual(1);
+  });
+
   it('should apply customer coupons', () => {
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(
       of(couponsSearchResult)
@@ -255,6 +283,12 @@ describe('CartCouponComponent', () => {
     customerCoupon.click();
     fixture.detectChanges();
     expect(mockCartVoucherService.addVoucher).toHaveBeenCalled();
+  });
+
+  it('should reload customer coupons on apply error', () => {
+    mockCartVoucherService.getAddVoucherResultError.and.returnValue(of(true));
+    fixture.detectChanges();
+    expect(mockCustomerCouponService.loadCustomerCoupons).toHaveBeenCalled();
   });
 
   it('should reset state when ondestory is triggered', () => {
