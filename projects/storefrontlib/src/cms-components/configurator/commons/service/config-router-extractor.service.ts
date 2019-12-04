@@ -55,7 +55,6 @@ export class ConfigRouterExtractorService {
     } else if (url.includes('configure')) {
       configuratorType = url.split('configure')[1].split('/')[0];
     }
-
     return configuratorType;
   }
 

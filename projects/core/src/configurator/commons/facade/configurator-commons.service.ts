@@ -106,8 +106,12 @@ export class ConfiguratorCommonsService {
     this.store.dispatch(new UiActions.SetUiState(productCode, state));
   }
 
-  removeUiState(productCode: string | string[]) {
-    this.store.dispatch(new UiActions.RemoveUiState(productCode));
+  removeUiState(ownerKey: string) {
+    this.store.dispatch(new UiActions.RemoveUiState(ownerKey));
+  }
+
+  removeConfiguration(ownerKey: string) {
+    this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(ownerKey));
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {

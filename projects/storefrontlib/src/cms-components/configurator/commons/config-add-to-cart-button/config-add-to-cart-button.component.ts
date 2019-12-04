@@ -74,6 +74,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
                 {}
               );
             });
+          this.configuratorCommonsService.removeConfiguration(ownerKey);
         }
       });
   }

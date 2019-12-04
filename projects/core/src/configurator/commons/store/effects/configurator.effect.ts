@@ -248,7 +248,6 @@ export class ConfiguratorEffects {
   @Effect()
   addToCart$: Observable<
     | ConfiguratorUiActions.RemoveUiState
-    | ConfiguratorActions.RemoveConfiguration
     | ConfiguratorActions.AddOwner
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
@@ -269,7 +268,6 @@ export class ConfiguratorEffects {
                   payload.ownerKey,
                   '' + entry.entry.entryNumber
                 ),
-                //new ConfiguratorActions.RemoveConfiguration(payload.ownerKey),
                 new CartActions.CartAddEntrySuccess({
                   ...entry,
                   userId: payload.userId,
