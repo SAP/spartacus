@@ -3,7 +3,7 @@
     label {
       margin: 0 0 10px 0;
       a {
-        @include type('5');
+        @include type('6');
         color: var(--cx-color-dark);
         &:hover {
           color: var(--cx-color-primary);

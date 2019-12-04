@@ -5,12 +5,12 @@
 
   .channels {
     span {
-      @include type('5');
+      @include type('6');
     }
   }
 
   .container p a {
-    @include type('5');
+    @include type('6');
     color: var(--cx-color-dark);
     &:hover {
       color: var(--cx-color-primary);
