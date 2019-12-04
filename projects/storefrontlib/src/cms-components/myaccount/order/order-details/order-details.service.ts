@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Order,
-  RoutingService,
-  UserOrderService,
-  CancellationReturnRequestEntryInput,
-} from '@spartacus/core';
+import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
@@ -12,8 +7,6 @@ import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 export class OrderDetailsService {
   orderCode$: Observable<string>;
   orderLoad$: Observable<{}>;
-
-  private _cancellationReturnRequestInputs: CancellationReturnRequestEntryInput[];
 
   constructor(
     private userOrderService: UserOrderService,
@@ -39,15 +32,5 @@ export class OrderDetailsService {
     return this.orderLoad$.pipe(
       switchMap(() => this.userOrderService.getOrderDetails())
     );
-  }
-
-  get cancellationReturnRequestInputs(): CancellationReturnRequestEntryInput[] {
-    return this._cancellationReturnRequestInputs;
-  }
-
-  set cancellationReturnRequestInputs(
-    values: CancellationReturnRequestEntryInput[]
-  ) {
-    this._cancellationReturnRequestInputs = values;
   }
 }

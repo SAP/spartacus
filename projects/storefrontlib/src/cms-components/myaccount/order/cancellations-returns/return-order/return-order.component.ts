@@ -1,13 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-
-import {
-  OrderEntry,
-  CancellationReturnRequestEntryInput,
-  RoutingService,
-} from '@spartacus/core';
-
+import { OrderEntry, CancelOrReturnRequestEntryInput } from '@spartacus/core';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 
 @Component({
@@ -15,10 +10,10 @@ import { OrderDetailsService } from '../../order-details/order-details.service';
   templateUrl: './return-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReturnOrderComponent {
+export class ReturnOrderComponent implements OnInit {
   constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected routing: RoutingService
+    protected cancelOrReturnService: OrderCancelOrReturnService,
+    protected orderDetailsService: OrderDetailsService
   ) {}
 
   orderCode: string;
@@ -39,11 +34,15 @@ export class ReturnOrderComponent {
     })
   );
 
-  confirmReturn(entryInputs: CancellationReturnRequestEntryInput[]): void {
-    this.orderDetailsService.cancellationReturnRequestInputs = entryInputs;
-    this.routing.go({
-      cxRoute: 'orderReturnConfirmation',
-      params: { code: this.orderCode },
-    });
+  ngOnInit(): void {
+    this.cancelOrReturnService.clearCancelOrReturnRequestInputs();
+  }
+
+  confirmReturn(entryInputs: CancelOrReturnRequestEntryInput[]): void {
+    this.cancelOrReturnService.cancelOrReturnRequestInputs = entryInputs;
+    this.cancelOrReturnService.goToOrderCancelOrReturn(
+      'orderReturnConfirmation',
+      this.orderCode
+    );
   }
 }

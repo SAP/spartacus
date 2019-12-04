@@ -9,26 +9,31 @@ import {
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import {
   OrderEntry,
-  CancellationReturnRequestEntryInput,
+  CancelOrReturnRequestEntryInput,
+  Price,
 } from '@spartacus/core';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 
 @Component({
-  selector: 'cx-cancellation-return-items',
-  templateUrl: './cancellation-return-items.component.html',
+  selector: 'cx-cancel-or-return-items',
+  templateUrl: './cancel-or-return-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CancellationReturnItemsComponent implements OnInit {
+export class CancelOrReturnItemsComponent implements OnInit {
   @Input() entries: OrderEntry[];
   @Input() confirmRequest = false;
   @Input() cancelOrder = true;
 
-  @Output() confirm = new EventEmitter<CancellationReturnRequestEntryInput[]>();
+  @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 
   form: FormGroup;
   inputsControl: FormArray;
   disableConfirmBtn = true;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private cancelOrReturnService: OrderCancelOrReturnService
+  ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -41,10 +46,14 @@ export class CancellationReturnItemsComponent implements OnInit {
       this.inputsControl.push(
         this.formBuilder.group({
           orderEntryNumber: entry.entryNumber,
-          quantity: entry.returnedQuantity,
+          quantity: this.cancelOrReturnService.getEntryCancelledOrReturnedQty(
+            entry
+          ),
         })
       );
     });
+
+    this.disableEnableConfirm();
   }
 
   setAll(): void {
@@ -58,17 +67,24 @@ export class CancellationReturnItemsComponent implements OnInit {
   }
 
   confirmEntryInputs(): void {
-    const inputs: CancellationReturnRequestEntryInput[] = [];
+    const inputs: CancelOrReturnRequestEntryInput[] = [];
     for (const input of this.form.value.entryInput) {
       if (input.quantity > 0) {
         inputs.push(input);
       }
     }
-
     this.confirm.emit(inputs);
   }
 
-  disableEnableConfirm(): void {
+  updateQty(): void {
+    this.disableEnableConfirm();
+  }
+
+  getItemPrice(entry: OrderEntry): Price {
+    return this.cancelOrReturnService.getCancelledOrReturnedPrice(entry);
+  }
+
+  protected disableEnableConfirm(): void {
     for (const input of this.form.value.entryInput) {
       if (input.quantity > 0) {
         this.disableConfirmBtn = false;
@@ -76,9 +92,5 @@ export class CancellationReturnItemsComponent implements OnInit {
       }
     }
     this.disableConfirmBtn = true;
-  }
-
-  updateQty(): void {
-    this.disableEnableConfirm();
   }
 }

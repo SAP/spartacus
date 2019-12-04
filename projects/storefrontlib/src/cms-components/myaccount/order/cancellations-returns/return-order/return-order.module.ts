@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard, CmsConfig, ConfigModule } from '@spartacus/core';
 import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../../cms-structure/guards/cms-page.guard';
-import { CancellationReturnItemsModule } from '../cancellation-return-items/cancellation-return-items.module';
+import { CancelOrReturnItemsModule } from '../cancel-or-return-items/cancel-or-return-items.module';
 import { ReturnOrderComponent } from './return-order.component';
 
 @NgModule({
@@ -26,7 +26,7 @@ import { ReturnOrderComponent } from './return-order.component';
         },
       },
     }),
-    CancellationReturnItemsModule,
+    CancelOrReturnItemsModule,
   ],
   declarations: [ReturnOrderComponent],
   exports: [ReturnOrderComponent],

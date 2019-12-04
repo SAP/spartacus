@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
-
-import { CancellationReturnItemsComponent } from './cancellation-return-items.component';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
+import { CancelOrReturnItemsComponent } from './cancel-or-return-items.component';
+import createSpy = jasmine.createSpy;
 
 const mockEntries = [
   {
@@ -36,15 +37,29 @@ class MockItemCounterComponent {
   @Input() isValueChangeable;
 }
 
-describe('CancellationReturnItemsComponent', () => {
-  let component: CancellationReturnItemsComponent;
-  let fixture: ComponentFixture<CancellationReturnItemsComponent>;
+class MockOrderCancelOrReturnService {
+  getCancelledOrReturnedPrice = createSpy();
+  getEntryCancelledOrReturnedQty(): number {
+    return 1;
+  }
+}
+
+describe('CancelOrReturnItemsComponent', () => {
+  let component: CancelOrReturnItemsComponent;
+  let fixture: ComponentFixture<CancelOrReturnItemsComponent>;
+  let returnService: MockOrderCancelOrReturnService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
+      providers: [
+        {
+          provide: OrderCancelOrReturnService,
+          useClass: MockOrderCancelOrReturnService,
+        },
+      ],
       declarations: [
-        CancellationReturnItemsComponent,
+        CancelOrReturnItemsComponent,
         MockMediaComponent,
         MockItemCounterComponent,
       ],
@@ -52,37 +67,26 @@ describe('CancellationReturnItemsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CancellationReturnItemsComponent);
+    fixture = TestBed.createComponent(CancelOrReturnItemsComponent);
     component = fixture.componentInstance;
+    returnService = TestBed.get(OrderCancelOrReturnService as Type<
+      OrderCancelOrReturnService
+    >);
 
     component.entries = mockEntries;
     spyOn(component.confirm, 'emit').and.callThrough();
-    spyOn(component, 'disableEnableConfirm').and.callThrough();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the entry inputs in order return/cancel page', () => {
-    component.confirmRequest = false;
-    mockEntries[0].returnedQuantity = undefined;
+  it('should initialize the entry inputs', () => {
     component.ngOnInit();
 
     const inputControl = (component.inputsControl.controls[0] as FormGroup)
       .controls;
-    expect(inputControl.quantity.value).toEqual(null);
-    expect(inputControl.orderEntryNumber.value).toEqual(1);
-  });
-
-  it('should display the entry inputs in order confirmation page', () => {
-    component.confirmRequest = true;
-    mockEntries[0].returnedQuantity = 3;
-    component.ngOnInit();
-
-    const inputControl = (component.inputsControl.controls[0] as FormGroup)
-      .controls;
-    expect(inputControl.quantity.value).toEqual(3);
+    expect(inputControl.quantity.value).toEqual(1);
     expect(inputControl.orderEntryNumber.value).toEqual(1);
   });
 
@@ -92,18 +96,18 @@ describe('CancellationReturnItemsComponent', () => {
     component.setAll();
 
     expect(component.form.value.entryInput[0].quantity).toEqual(4);
-    expect(component.disableEnableConfirm).toHaveBeenCalled();
+    expect(component.disableConfirmBtn).toEqual(false);
   });
 
   it('should disable the continue button when return quantities are not set', () => {
     component.ngOnInit();
 
     component.form.value.entryInput[0].quantity = 0;
-    component.disableEnableConfirm();
+    component.updateQty();
     expect(component.disableConfirmBtn).toEqual(true);
 
     component.form.value.entryInput[0].quantity = 1;
-    component.disableEnableConfirm();
+    component.updateQty();
     expect(component.disableConfirmBtn).toEqual(false);
   });
 
@@ -118,5 +122,12 @@ describe('CancellationReturnItemsComponent', () => {
         quantity: 2,
       },
     ]);
+  });
+
+  it('should get item price', () => {
+    component.getItemPrice(mockEntries[0]);
+    expect(returnService.getCancelledOrReturnedPrice).toHaveBeenCalledWith(
+      mockEntries[0]
+    );
   });
 });

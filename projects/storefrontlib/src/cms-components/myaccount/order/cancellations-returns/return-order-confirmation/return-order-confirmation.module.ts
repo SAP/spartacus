@@ -9,9 +9,9 @@ import {
 } from '@spartacus/core';
 import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../../cms-structure/guards/cms-page.guard';
-import { CancellationReturnItemsModule } from '../cancellation-return-items/cancellation-return-items.module';
+import { CancelOrReturnItemsModule } from '../cancel-or-return-items/cancel-or-return-items.module';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
-import { CancellationReturnRequestInputGuard } from '../guards/cancellation-return-request-input.guard';
+import { CancelOrReturnRequestInputGuard } from '../guards/cancel-or-return-request-input.guard';
 
 @NgModule({
   imports: [
@@ -28,11 +28,11 @@ import { CancellationReturnRequestInputGuard } from '../guards/cancellation-retu
       cmsComponents: {
         ReturnOrderConfirmationComponent: {
           component: ReturnOrderConfirmationComponent,
-          guards: [AuthGuard, CancellationReturnRequestInputGuard],
+          guards: [AuthGuard, CancelOrReturnRequestInputGuard],
         },
       },
     }),
-    CancellationReturnItemsModule,
+    CancelOrReturnItemsModule,
     I18nModule,
   ],
   declarations: [ReturnOrderConfirmationComponent],

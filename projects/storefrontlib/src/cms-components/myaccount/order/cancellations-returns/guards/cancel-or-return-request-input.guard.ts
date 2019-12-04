@@ -5,19 +5,19 @@ import {
   UrlTree,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-import { OrderDetailsService } from '../../order-details/order-details.service';
+import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CancellationReturnRequestInputGuard implements CanActivate {
+export class CancelOrReturnRequestInputGuard implements CanActivate {
   constructor(
-    private orderDetailsService: OrderDetailsService,
+    private cancelOrReturnService: OrderCancelOrReturnService,
     private router: Router
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    if (this.orderDetailsService.cancellationReturnRequestInputs) {
+    if (this.cancelOrReturnService.cancelOrReturnRequestInputs.length > 0) {
       return true;
     } else {
       const urlSegments: string[] = route.url.map(seg => seg.path);
