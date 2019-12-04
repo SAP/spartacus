@@ -21,27 +21,14 @@ export class ConfigTabBarComponent {
       this.routingService
     );
 
-    this.configuratorType$ = routingService
-      .getRouterState()
-      .pipe(
-        map(routingData => this.getConfiguratorType(routingData.state.url))
-      );
+    this.configuratorType$ = this.configRouterExtractorService.getConfiguratorType(
+      routingService
+    );
   }
 
   isOverviewPage(): Observable<boolean> {
-    return this.routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.url.includes('Overview')));
-  }
-
-  getConfiguratorType(url: string): string {
-    let configuratorType: string;
-    if (url.includes('configureOverview')) {
-      configuratorType = url.split('configureOverview')[1].split('/')[0];
-    } else if (url.includes('configure')) {
-      configuratorType = url.split('configure')[1].split('/')[0];
-    }
-
-    return configuratorType;
+    return this.configRouterExtractorService
+      .isOverview(this.routingService)
+      .pipe(map(isOverview => isOverview.isOverview));
   }
 }

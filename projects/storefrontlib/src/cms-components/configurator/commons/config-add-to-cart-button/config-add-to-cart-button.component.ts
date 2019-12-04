@@ -16,6 +16,7 @@ import { ConfigRouterExtractorService } from '../service/config-router-extractor
 export class ConfigAddToCartButtonComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
   hasBeenAddedToCart$: Observable<any>;
+  isOverview$: Observable<any>;
   configuratorType$: Observable<string>;
 
   constructor(
@@ -37,6 +38,10 @@ export class ConfigAddToCartButtonComponent implements OnInit {
     );
 
     this.hasBeenAddedToCart$ = this.configRouterExtractorService.hasBeenAddedToCart(
+      this.routingService
+    );
+
+    this.isOverview$ = this.configRouterExtractorService.isOverview(
       this.routingService
     );
   }
@@ -65,14 +70,21 @@ export class ConfigAddToCartButtonComponent implements OnInit {
               take(1)
             )
             .subscribe(configuration => {
-              this.routingService.go(
-                'configureOverview' +
-                  configuratorType +
-                  '/cartEntry/entityKey/' +
-                  configuration.nextOwner.id,
-                {}
-              );
+              this.isOverview$.pipe(take(1)).subscribe(isOverview => {
+                if (isOverview.isOverview) {
+                  this.routingService.go('cart');
+                } else {
+                  this.routingService.go(
+                    'configureOverview' +
+                      configuratorType +
+                      '/cartEntry/entityKey/' +
+                      configuration.nextOwner.id,
+                    {}
+                  );
+                }
+              });
             });
+
           this.configuratorCommonsService.removeConfiguration(owner);
         }
       });
