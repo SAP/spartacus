@@ -76,6 +76,7 @@ import { ProductVariantSelectorModule } from '../product-variant-selector/produc
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,
+    ProductScrollComponent,
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })

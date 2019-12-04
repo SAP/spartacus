@@ -36,6 +36,9 @@
 
   .cx-property {
     display: flex;
+    &:last-of-type {
+      margin-bottom: 0.5rem;
+    }
   }
 
   .cx-label {
