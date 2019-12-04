@@ -95,10 +95,6 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    const errorResponse: HttpErrorResponse = new HttpErrorResponse({
-      error: 'notFound',
-      status: 404,
-    });
     createMock.and.returnValue(throwError(errorResponse));
     const payloadInput = { productCode: productCode };
     const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
