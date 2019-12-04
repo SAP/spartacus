@@ -5,12 +5,17 @@ import {
 } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
-import { EntityLoaderState } from '../../../state';
 import {
   entityStateSelector,
   entityValueSelector,
 } from '../../../state/utils/entity-loader/entity-loader.selectors';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { EntityProcessesLoaderState } from '../../../state/utils/entity-processes-loader/entity-processes-loader-state';
+import {
+  entityHasPendingProcessesSelector,
+  entityIsStableSelector,
+  entityProcessesLoaderStateSelector,
+} from '../../../state/utils/entity-processes-loader/entity-processes-loader.selectors';
+import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import {
   MultiCartState,
   MULTI_CART_FEATURE,
@@ -24,7 +29,7 @@ export const getMultiCartState: MemoizedSelector<
 
 export const getMultiCartEntities: MemoizedSelector<
   StateWithMultiCart,
-  EntityLoaderState<Cart>
+  EntityProcessesLoaderState<Cart>
 > = createSelector(
   getMultiCartState,
   (state: MultiCartState) => state.carts
@@ -32,10 +37,11 @@ export const getMultiCartEntities: MemoizedSelector<
 
 export const getCartEntitySelectorFactory = (
   cartId: string
-): MemoizedSelector<StateWithMultiCart, LoaderState<Cart>> => {
+): MemoizedSelector<StateWithMultiCart, ProcessesLoaderState<Cart>> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityLoaderState<Cart>) => entityStateSelector(state, cartId)
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityProcessesLoaderStateSelector(state, cartId)
   );
 };
 
@@ -44,7 +50,28 @@ export const getCartSelectorFactory = (
 ): MemoizedSelector<StateWithMultiCart, Cart> => {
   return createSelector(
     getMultiCartEntities,
-    (state: EntityLoaderState<Cart>) => entityValueSelector(state, cartId)
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityValueSelector(state, cartId)
+  );
+};
+
+export const getCartIsStableSelectorFactory = (
+  cartId: string
+): MemoizedSelector<StateWithMultiCart, boolean> => {
+  return createSelector(
+    getMultiCartEntities,
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityIsStableSelector(state, cartId)
+  );
+};
+
+export const getCartHasPendingProcessesSelectorFactory = (
+  cartId: string
+): MemoizedSelector<StateWithMultiCart, boolean> => {
+  return createSelector(
+    getMultiCartEntities,
+    (state: EntityProcessesLoaderState<Cart>) =>
+      entityHasPendingProcessesSelector(state, cartId)
   );
 };
 
@@ -52,10 +79,9 @@ export const getCartEntriesSelectorFactory = (
   cartId: string
 ): MemoizedSelector<StateWithMultiCart, OrderEntry[]> => {
   return createSelector(
-    getMultiCartEntities,
-    (state: EntityLoaderState<Cart>) => {
-      const entityValue = entityValueSelector(state, cartId);
-      return entityValue && entityValue.entries ? entityValue.entries : [];
+    getCartSelectorFactory(cartId),
+    (state: Cart) => {
+      return state && state.entries ? state.entries : [];
     }
   );
 };
@@ -67,7 +93,9 @@ export const getCartEntrySelectorFactory = (
   return createSelector(
     getCartEntriesSelectorFactory(cartId),
     (state: OrderEntry[]) => {
-      return state.find(entry => entry.product.code === productCode);
+      return state
+        ? state.find(entry => entry.product.code === productCode)
+        : undefined;
     }
   );
 };

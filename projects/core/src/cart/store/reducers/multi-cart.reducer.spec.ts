@@ -105,6 +105,15 @@ describe('Multi Cart reducer', () => {
       });
     });
 
+    describe('SET_ACTIVE_CART_ID action', () => {
+      it('should set active cart id to the provided one', () => {
+        const initialState = 'someCode';
+        const action = new CartActions.SetActiveCartId('otherCode');
+        const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual('otherCode');
+      });
+    });
+
     describe('other actions', () => {
       it('should return the default state', () => {
         const initialState = 'otherCode';

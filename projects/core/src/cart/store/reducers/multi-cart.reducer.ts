@@ -30,6 +30,8 @@ export function activeCartReducer(
       } else {
         return state;
       }
+    case CartActions.SET_ACTIVE_CART_ID:
+      return action.payload;
   }
   return state;
 }

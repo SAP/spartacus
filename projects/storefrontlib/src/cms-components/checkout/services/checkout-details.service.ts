@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
+  distinctUntilChanged,
   filter,
   map,
   shareReplay,
@@ -41,7 +42,8 @@ export class CheckoutDetailsService {
         }
         return cartData.code;
       }),
-      filter(cartId => !!cartId)
+      filter(cartId => !!cartId),
+      distinctUntilChanged()
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
