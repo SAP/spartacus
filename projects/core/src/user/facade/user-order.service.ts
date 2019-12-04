@@ -176,7 +176,7 @@ export class UserOrderService {
   }
 
   /**
-   * Returns the order details success flag
+   * Returns the order details state
    */
   getOrderDetailsState(): Observable<LoaderState<Order>> {
     return this.store.pipe(select(UsersSelectors.getOrderState));

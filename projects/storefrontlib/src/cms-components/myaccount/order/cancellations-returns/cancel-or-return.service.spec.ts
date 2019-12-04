@@ -128,8 +128,10 @@ describe('OrderCancelOrReturnService', () => {
   });
 
   it('should be able to cancel order', () => {
-    service.cancelOrder('test', {});
-    expect(userOrderService.cancelOrder).toHaveBeenCalledWith('test', {});
+    service.cancelOrder('test');
+    expect(userOrderService.cancelOrder).toHaveBeenCalledWith('test', {
+      cancellationRequestEntryInputs: mockRequestInputs,
+    });
   });
 
   it('should add global message and redirect to order history page after cancel success', () => {
