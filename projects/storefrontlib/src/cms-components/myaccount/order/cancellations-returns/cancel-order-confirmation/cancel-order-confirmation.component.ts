@@ -39,10 +39,7 @@ export class CancelOrderConfirmationComponent {
 
   submit(): void {
     this.cancelSubmit = true;
-    this.cancelOrReturnService.cancelOrder(this.orderCode, {
-      cancellationRequestEntryInputs: this.cancelOrReturnService
-        .cancelOrReturnRequestInputs,
-    });
+    this.cancelOrReturnService.cancelOrder(this.orderCode);
   }
 
   back(): void {

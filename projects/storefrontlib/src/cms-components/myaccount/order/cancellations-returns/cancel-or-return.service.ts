@@ -6,7 +6,6 @@ import {
   LanguageService,
   Price,
   RoutingService,
-  CancellationRequestEntryInputList,
   GlobalMessageService,
   GlobalMessageType,
   UserOrderService,
@@ -119,10 +118,9 @@ export class OrderCancelOrReturnService {
     return 0;
   }
 
-  cancelOrder(
-    orderCode: string,
-    cancelRequestInput: CancellationRequestEntryInputList
-  ): void {
-    this.userOrderService.cancelOrder(orderCode, cancelRequestInput);
+  cancelOrder(orderCode: string): void {
+    this.userOrderService.cancelOrder(orderCode, {
+      cancellationRequestEntryInputs: this.cancelOrReturnRequestInputs,
+    });
   }
 }
