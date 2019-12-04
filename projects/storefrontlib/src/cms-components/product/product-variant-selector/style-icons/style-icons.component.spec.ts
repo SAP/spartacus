@@ -8,9 +8,8 @@ fdescribe('StyleIconsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StyleIconsComponent ]
-    })
-    .compileComponents();
+      declarations: [StyleIconsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -39,10 +39,9 @@
         ></cx-add-to-cart>
       </div>
     </div>
-    <div class="row"
-      *ngIf="product.variantOptions"
-    >
-      <cx-style-icons class="list-style-icons"
+    <div class="row" *ngIf="product.variantOptions">
+      <cx-style-icons
+        class="list-style-icons"
         [variants]="product.variantOptions"
       ></cx-style-icons>
     </div>
