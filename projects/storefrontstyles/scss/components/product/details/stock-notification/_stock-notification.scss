@@ -3,20 +3,12 @@
     label {
       margin: 0 0 10px 0;
       a {
-        color: $dark;
-        font-weight: var(--cx-font-weight-bold);
+        @include type('5');
+        color: var(--cx-color-dark);
+        &:hover {
+          color: var(--cx-color-primary);
+        }
       }
-    }
-  }
-
-  .cx-dialog-title {
-    font-size: var(--cx-font-size, 1.375rem);
-    font-weight: var(--cx-font-weight-bold);
-  }
-
-  .channels {
-    span {
-      font-weight: var(--cx-font-weight-bold);
     }
   }
 }
