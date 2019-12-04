@@ -6,7 +6,6 @@ import { entityReducer } from '../../../../state/utils/entity/entity.reducer';
 import {
   ConfigurationState,
   CONFIGURATION_DATA,
-  CONFIGURATION_OVERVIEW_DATA,
   CONFIGURATION_UI_DATA,
   UiState,
 } from './../configuration-state';
@@ -26,10 +25,6 @@ export function getConfiguratorReducers(): ActionReducerMap<
       CONFIGURATION_UI_DATA,
       UiStateReduce.reducer
     ),
-
-    configurationOverviews: entityLoaderReducer<
-      Configurator.ConfigurationOverview
-    >(CONFIGURATION_OVERVIEW_DATA),
 
     pendingChangesCounter: StateReduce.reducerPendingChanges,
   };

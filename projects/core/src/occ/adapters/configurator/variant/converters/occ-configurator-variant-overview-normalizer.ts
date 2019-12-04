@@ -5,41 +5,17 @@ import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantOverviewNormalizer
-  implements
-    Converter<
-      OccConfigurator.ConfigurationOverview,
-      Configurator.ConfigurationOverview
-    > {
+  implements Converter<OccConfigurator.Overview, Configurator.Configuration> {
   constructor() {}
 
   convert(
-    source: OccConfigurator.ConfigurationOverview,
-    target?: Configurator.ConfigurationOverview
+    source: OccConfigurator.Overview,
+    target?: Configurator.Configuration
   ): Configurator.Configuration {
     target = {
       configId: source.id,
-      groups: [],
+      overview: source,
     };
-
-    source.groups.forEach(group => {
-      const targetGroup: Configurator.Group = {
-        id: group.id,
-        attributes: [],
-      };
-
-      group.characteristicValues.forEach(value => {
-        targetGroup.attributes.push({
-          name: value.characteristic,
-          values: [
-            {
-              valueDisplay: value.value,
-            },
-          ],
-        });
-      });
-
-      target.groups.push(targetGroup);
-    });
 
     return target;
   }

@@ -56,8 +56,9 @@ export class ConfiguratorCommonsConnector {
   }
 
   getConfigurationOverview(
-    configId: string
-  ): Observable<Configurator.ConfigurationOverview> {
-    return this.adapter.getConfigurationOverview(configId);
+    configId: string,
+    owner: Configurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return this.adapter.getConfigurationOverview(configId, owner);
   }
 }

@@ -58,8 +58,10 @@ export abstract class ConfiguratorCommonsAdapter {
    * Abstract method to get configuration overview
    *
    * @param configId configuration id
+   * @param owner configuration owner
    */
   abstract getConfigurationOverview(
-    configId: string
-  ): Observable<Configurator.ConfigurationOverview>;
+    configId: string,
+    owner: Configurator.Owner
+  ): Observable<Configurator.Configuration>;
 }

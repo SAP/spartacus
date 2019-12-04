@@ -119,14 +119,16 @@ export class OccConfiguratorVariantAdapter
     );
   }
   getConfigurationOverview(
-    configId: string
-  ): Observable<Configurator.ConfigurationOverview> {
+    configId: string,
+    owner: Configurator.Owner
+  ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl('getConfigurationOverview', {
       configId,
     });
 
-    return this.http
-      .get(url)
-      .pipe(this.converterService.pipeable(CONFIGURATION_OVERVIEW_NORMALIZER));
+    return this.http.get(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_OVERVIEW_NORMALIZER),
+      tap(configuration => (configuration.owner = owner))
+    );
   }
 }

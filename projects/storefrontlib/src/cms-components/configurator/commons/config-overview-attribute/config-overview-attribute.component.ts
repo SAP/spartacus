@@ -8,7 +8,7 @@ import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigOverviewAttributeComponent {
-  @Input() attribute: Configurator.Attribute;
+  @Input() values: Configurator.CharacteristicOverview;
 
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 }

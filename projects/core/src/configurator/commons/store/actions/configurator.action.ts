@@ -1,9 +1,6 @@
 import { Configurator } from '../../../../model/configurator.model';
 import { StateEntityLoaderActions } from '../../../../state/utils/index';
-import {
-  CONFIGURATION_DATA,
-  CONFIGURATION_OVERVIEW_DATA,
-} from '../configuration-state';
+import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
 export const CREATE_CONFIGURATION_FAIL =
@@ -178,22 +175,22 @@ export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAct
 
 export class GetConfigurationOverview extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = GET_CONFIGURATION_OVERVIEW;
-  constructor(public payload: any) {
-    super(CONFIGURATION_OVERVIEW_DATA, payload.productCode);
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 
 export class GetConfigurationOverviewFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
-  constructor(productCode: string, public payload: any) {
-    super(CONFIGURATION_OVERVIEW_DATA, productCode, payload);
+  constructor(public ownerKey: string, public payload: any) {
+    super(CONFIGURATION_DATA, ownerKey, payload);
   }
 }
 
 export class GetConfigurationOverviewSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_OVERVIEW_DATA, payload.productCode);
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 

@@ -89,13 +89,14 @@ export namespace OccConfigurator {
     code?: string;
   }
 
-  export interface ConfigurationOverview {
+  export interface Overview {
     id: string;
     groups?: GroupOverview[];
   }
 
   export interface GroupOverview {
     id: string;
+    groupDescription: string;
     characteristicValues: CharacteristicOverview[];
   }
 

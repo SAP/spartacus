@@ -81,11 +81,15 @@ export class ConfiguratorCommonsService {
       });
   }
 
-  getConfigurationOverview(configId) {
-    this.store.dispatch(new ConfiguratorActions.CreateConfiguration(configId));
+  getConfigurationOverview(configuration: Configurator.Configuration) {
+    this.store.dispatch(
+      new ConfiguratorActions.GetConfigurationOverview(configuration)
+    );
 
     return this.store.pipe(
-      select(ConfiguratorSelectors.getOverviewFactory(configId))
+      select(
+        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+      )
     );
   }
 

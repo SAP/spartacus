@@ -1,8 +1,7 @@
-<div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
+<div>
   <label
-    id="{{ uiKeyGenerator.createAttributeUiKey('label', attribute.name) }}"
     class="cx-config-overview-attribute-label"
-    [attr.aria-label]="attribute.label"
-    >{{ attribute.label }}</label
+    [attr.aria-label]="values.value"
+    >{{ values.value }}</label
   >
 </div>

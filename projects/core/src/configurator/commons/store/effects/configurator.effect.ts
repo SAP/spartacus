@@ -26,6 +26,7 @@ import {
   CreateConfigurationFail,
   CreateConfigurationSuccess,
   CREATE_CONFIGURATION,
+  GetConfigurationOverview,
   GetConfigurationOverviewFail,
   GetConfigurationOverviewSuccess,
   GET_CONFIGURATION_OVERVIEW,
@@ -158,25 +159,19 @@ export class ConfiguratorEffects {
     GetConfigurationOverviewSuccess | GetConfigurationOverviewFail
   > = this.actions$.pipe(
     ofType(GET_CONFIGURATION_OVERVIEW),
-    map(
-      (action: { type: string; payload?: Configurator.Configuration }) =>
-        action.payload
-    ),
+    map((action: GetConfigurationOverview) => action.payload),
     mergeMap(payload => {
       return this.configuratorCommonsConnector
-        .getConfigurationOverview(payload.configId)
+        .getConfigurationOverview(payload.configId, payload.owner)
         .pipe(
           map((configuration: Configurator.Configuration) => {
             return new GetConfigurationOverviewSuccess(configuration);
           }),
           catchError(error => {
             const errorPayload = makeErrorSerializable(error);
-            errorPayload.configId = payload.configId;
+            errorPayload.configId = payload.owner.id;
             return [
-              new GetConfigurationOverviewFail(
-                payload.productCode,
-                errorPayload
-              ),
+              new GetConfigurationOverviewFail(payload.owner.key, errorPayload),
             ];
           })
         );

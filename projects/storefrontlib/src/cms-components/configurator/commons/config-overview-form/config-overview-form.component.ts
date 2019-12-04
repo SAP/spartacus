@@ -5,7 +5,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { ConfigRouterExtractorService } from '../service/config-router-extractor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigOverviewFormComponent implements OnInit {
-  configurationOverview$: Observable<Configurator.ConfigurationOverview>;
+  configuration$: Observable<Configurator.Configuration>;
 
   constructor(
     private routingService: RoutingService,
@@ -23,27 +23,34 @@ export class ConfigOverviewFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.configurationOverview$ = this.configRouterExtractorService
+    this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
-          this.configuratorCommonsService.getConfigurationOverview(owner)
+        mergeMap(owner =>
+          this.configuratorCommonsService.getOrCreateConfiguration(owner)
+        ),
+        take(1),
+        mergeMap(configuration =>
+          this.configuratorCommonsService.getConfigurationOverview(
+            configuration
+          )
         )
       );
   }
 
-  hasAttributes(): Observable<boolean> {
-    return this.configurationOverview$.pipe(
-      map(configuration => {
-        // We use FOR loop instead of the forEach method, because we want to quit the
-        // method as soon as we found one group which contains an attribute
-        for (let g = 0; g < configuration.groups.length; g++) {
-          if (configuration.groups[g].attributes.length > 0) {
-            return true;
-          }
-        }
-        return false;
-      })
-    );
+  hasAttributes(configuration: Configurator.Configuration): boolean {
+    if (
+      configuration.overview === undefined ||
+      configuration.overview === null
+    ) {
+      return false;
+    }
+
+    for (let g = 0; g < configuration.overview.groups.length; g++) {
+      if (configuration.overview.groups[g].characteristicValues.length > 0) {
+        return true;
+      }
+    }
+    return false;
   }
 }
