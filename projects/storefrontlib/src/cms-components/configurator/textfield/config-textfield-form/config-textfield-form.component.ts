@@ -28,4 +28,8 @@ export class ConfigTextfieldFormComponent implements OnInit {
       )
     );
   }
+
+  updateConfiguration(attribute: ConfiguratorTextfield.ConfigurationInfo) {
+    this.configuratorTextfieldService.updateConfiguration(attribute);
+  }
 }

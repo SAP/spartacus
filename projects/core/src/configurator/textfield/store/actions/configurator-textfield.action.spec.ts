@@ -28,6 +28,15 @@ describe('ConfiguratorTextfieldActions', () => {
     );
   });
 
+  it('should provide update action with proper type', () => {
+    const updateAction: ConfiguratorTextfieldActions.ConfiguratorAction = new ConfiguratorTextfieldActions.UpdateConfiguration(
+      {}
+    );
+    expect(updateAction.type).toBe(
+      ConfiguratorTextfieldActions.UPDATE_CONFIGURATION
+    );
+  });
+
   it('should provide create action that carries productCode as a payload', () => {
     const productCode = 'CONF_LAPTOP';
     const createAction = new ConfiguratorTextfieldActions.CreateConfiguration({

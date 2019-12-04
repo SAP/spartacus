@@ -8,8 +8,6 @@
   justify-content: center;
   align-content: flex-start;
 
-  background-color: var(--cx-color-background);
-
   @include media-breakpoint-up(lg) {
     cx-page-slot.TextfieldConfigContent {
       max-width: 75%;

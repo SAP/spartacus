@@ -12,6 +12,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
+import { ConfigTextfieldAddToCartButtonComponent } from './config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
 import { ConfigTextfieldFormComponent } from './config-textfield-form/config-textfield-form.component';
 import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-field/config-textfield-input-field.component';
 
@@ -50,12 +51,18 @@ import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-fie
   declarations: [
     ConfigTextfieldFormComponent,
     ConfigTextfieldInputFieldComponent,
+    ConfigTextfieldAddToCartButtonComponent,
   ],
-  exports: [ConfigTextfieldFormComponent, ConfigTextfieldInputFieldComponent],
+  exports: [
+    ConfigTextfieldFormComponent,
+    ConfigTextfieldInputFieldComponent,
+    ConfigTextfieldAddToCartButtonComponent,
+  ],
   providers: [UserService],
   entryComponents: [
     ConfigTextfieldFormComponent,
     ConfigTextfieldInputFieldComponent,
+    ConfigTextfieldAddToCartButtonComponent,
   ],
 })
 export class TextfieldConfiguratorModule {}

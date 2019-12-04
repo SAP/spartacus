@@ -8,4 +8,12 @@ export namespace ConfiguratorTextfield {
     configurationValue?: string;
     status?: string;
   }
+
+  export interface AddToCartParameters {
+    userId: string;
+    cartId: string;
+    productCode: string;
+    quantity: number;
+    configuration?: Configuration;
+  }
 }

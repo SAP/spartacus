@@ -1,8 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { ConfiguratorTextfieldAdapter } from '../../../../configurator/textfield/connectors/configurator-textfield.adapter';
-import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../../../../configurator/textfield/connectors/converters';
+import {
+  CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,
+  CONFIGURATION_TEXTFIELD_NORMALIZER,
+} from '../../../../configurator/textfield/connectors/converters';
+import { CartModification } from '../../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
@@ -27,5 +32,29 @@ export class OccConfiguratorTextfieldAdapter
         })
       )
       .pipe(this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER));
+  }
+
+  addToCart(
+    parameters: ConfiguratorTextfield.AddToCartParameters
+  ): Observable<CartModification> {
+    const url = this.occEndpointsService.getUrl(
+      'addConfigurationTextfieldToCart',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+      }
+    );
+
+    const occAddToCartParameters = this.converterService.convert(
+      parameters,
+      CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER
+    );
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http
+      .post<CartModification>(url, occAddToCartParameters, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 }

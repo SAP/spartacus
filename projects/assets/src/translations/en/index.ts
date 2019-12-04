@@ -4,6 +4,7 @@ import { cart } from './cart';
 import { checkout } from './checkout';
 import { common } from './common';
 import { configurator } from './configurator';
+import { configuratorTextfield } from './configurator-textfield';
 import { myAccount } from './my-account';
 import { payment } from './payment';
 import { product } from './product';
@@ -24,4 +25,5 @@ export const en = {
   storeFinder,
   user,
   configurator,
+  configuratorTextfield,
 };
