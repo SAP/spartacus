@@ -1,5 +1,4 @@
 import * as notification from '../../../helpers/notification';
-import * as orderDetail from '../../../helpers/consignment-tracking';
 
 describe('my interests - guest', () => {
   before(() => {
@@ -31,13 +30,11 @@ describe('my interests - customer', () => {
 describe('my interests - customer with interests', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    orderDetail.loginUsingUserWithOrder();
+    cy.requireLoggedIn();
     notification.subscribeStockNotifications();
   });
 
   it('should page and sort', () => {
     notification.verifyPagingAndSorting();
   });
-
-  after(() => notification.unsubscribeStockNotifications());
 });

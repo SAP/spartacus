@@ -234,17 +234,19 @@ export function navigateToMyInterestsPage() {
 }
 
 export function subscribeStockNotifications() {
+  const apiUrl = Cypress.env('API_URL');
   cy.window()
     .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
     .then(({ auth }) => {
-      cy.subscribeBackInStock(auth, productCodeList, 'BACK_IN_STOCK');
-    });
-}
-
-export function unsubscribeStockNotifications() {
-  cy.window()
-    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
-    .then(({ auth }) => {
-      cy.unsubscribeBackInStock(auth, productCodeList, 'BACK_IN_STOCK');
+      productCodeList.forEach(productCode => {
+        cy.request({
+          method: 'POST',
+          url: `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?productCode=${productCode}&notificationType=BACK_IN_STOCK`,
+          form: false,
+          headers: {
+            Authorization: `bearer ${auth.userToken.token.access_token}`,
+          },
+        });
+      });
     });
 }
