@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { MerchandisingProduct } from '../../model';
+import { MerchandisingProduct } from '../../../model/merchandising-products.model';
 
 export interface MerchandisingCarouselModel {
   items$: Observable<MerchandisingProduct>[];

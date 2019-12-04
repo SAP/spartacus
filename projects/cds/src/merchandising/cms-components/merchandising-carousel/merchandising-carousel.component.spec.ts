@@ -16,7 +16,7 @@ import { MerchandisingProduct } from '../..';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
-import { MerchandisingCarouselModel } from './merchandising-carousel.model';
+import { MerchandisingCarouselModel } from './model/index';
 
 @Component({
   selector: 'cx-carousel',

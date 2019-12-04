@@ -7,7 +7,7 @@ import {
   MerchandisingProduct,
   MerchandisingProducts,
 } from '../../model/merchandising-products.model';
-import { MerchandisingCarouselModel } from './merchandising-carousel.model';
+import { MerchandisingCarouselModel } from './model/index';
 
 @Injectable({
   providedIn: 'root',

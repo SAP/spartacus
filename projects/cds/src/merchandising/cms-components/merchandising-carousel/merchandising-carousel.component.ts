@@ -9,7 +9,7 @@ import {
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
-import { MerchandisingCarouselModel } from './merchandising-carousel.model';
+import { MerchandisingCarouselModel } from './model/index';
 
 @Component({
   selector: 'cx-merchandising-carousel',
