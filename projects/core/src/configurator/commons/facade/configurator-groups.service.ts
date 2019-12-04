@@ -18,14 +18,14 @@ export class ConfiguratorGroupsService {
     private configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
-  getCurrentGroup(ownerKey: string): Observable<string> {
-    return this.configuratorCommonsService.getUiState(ownerKey).pipe(
+  getCurrentGroup(owner: Configurator.Owner): Observable<string> {
+    return this.configuratorCommonsService.getUiState(owner).pipe(
       switchMap(uiState => {
         if (uiState && uiState.currentGroup) {
           return of(uiState.currentGroup);
         } else {
           return this.configuratorCommonsService
-            .getConfiguration(ownerKey)
+            .getConfiguration(owner)
             .pipe(
               map(configuration =>
                 configuration &&
@@ -46,62 +46,58 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  setCurrentGroup(productCode: string, groupId: string) {
-    this.store.dispatch(new UiActions.SetCurrentGroup(productCode, groupId));
+  setCurrentGroup(owner: Configurator.Owner, groupId: string) {
+    this.store.dispatch(new UiActions.SetCurrentGroup(owner.key, groupId));
   }
 
-  getNextGroup(productCode: string): Observable<string> {
-    return this.getCurrentGroup(productCode).pipe(
+  getNextGroup(owner: Configurator.Owner): Observable<string> {
+    return this.getCurrentGroup(owner).pipe(
       switchMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
         }
 
-        return this.configuratorCommonsService
-          .getConfiguration(productCode)
-          .pipe(
-            map(configuration => {
-              let nextGroup = null;
-              configuration.groups.forEach((group, index) => {
-                if (
-                  group.id === currentGroupId &&
-                  configuration.groups[index + 1] //Check if next group exists
-                ) {
-                  nextGroup = configuration.groups[index + 1].id;
-                }
-              });
-              return nextGroup;
-            }),
-            take(1)
-          );
+        return this.configuratorCommonsService.getConfiguration(owner).pipe(
+          map(configuration => {
+            let nextGroup = null;
+            configuration.groups.forEach((group, index) => {
+              if (
+                group.id === currentGroupId &&
+                configuration.groups[index + 1] //Check if next group exists
+              ) {
+                nextGroup = configuration.groups[index + 1].id;
+              }
+            });
+            return nextGroup;
+          }),
+          take(1)
+        );
       })
     );
   }
 
-  getPreviousGroup(productCode: string): Observable<string> {
-    return this.getCurrentGroup(productCode).pipe(
+  getPreviousGroup(owner: Configurator.Owner): Observable<string> {
+    return this.getCurrentGroup(owner).pipe(
       switchMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
         }
 
-        return this.configuratorCommonsService
-          .getConfiguration(productCode)
-          .pipe(
-            map(configuration => {
-              let nextGroup = null;
-              configuration.groups.forEach((group, index) => {
-                if (
-                  group.id === currentGroupId &&
-                  configuration.groups[index - 1] //Check if previous group exists
-                ) {
-                  nextGroup = configuration.groups[index - 1].id;
-                }
-              });
-              return nextGroup;
-            }),
-            take(1)
-          );
+        return this.configuratorCommonsService.getConfiguration(owner).pipe(
+          map(configuration => {
+            let nextGroup = null;
+            configuration.groups.forEach((group, index) => {
+              if (
+                group.id === currentGroupId &&
+                configuration.groups[index - 1] //Check if previous group exists
+              ) {
+                nextGroup = configuration.groups[index - 1].id;
+              }
+            });
+            return nextGroup;
+          }),
+          take(1)
+        );
       })
     );
   }

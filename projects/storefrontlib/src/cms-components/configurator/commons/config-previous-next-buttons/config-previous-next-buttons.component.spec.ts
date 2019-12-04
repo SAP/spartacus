@@ -202,7 +202,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       nextGroup
     );
 
-    expect(classUnderTest.isLastGroup(PRODUCT_CODE)).toBeObservable(
+    expect(classUnderTest.isLastGroup(config.owner)).toBeObservable(
       cold('-a-b-c', {
         a: false,
         b: false,
@@ -224,7 +224,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       previousGroup
     );
 
-    expect(classUnderTest.isFirstGroup(PRODUCT_CODE)).toBeObservable(
+    expect(classUnderTest.isFirstGroup(config.owner)).toBeObservable(
       cold('-a-b-c-d-e', {
         a: true,
         b: false,

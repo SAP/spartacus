@@ -22,16 +22,18 @@ export class ConfiguratorCommonsService {
     protected cartService: CartService
   ) {}
 
-  hasConfiguration(productCode: string): Observable<Boolean> {
+  hasConfiguration(owner: Configurator.Owner): Observable<Boolean> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
+      select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       map(configuration => this.isConfigurationCreated(configuration))
     );
   }
 
-  getConfiguration(ownerKey: string): Observable<Configurator.Configuration> {
+  getConfiguration(
+    owner: Configurator.Owner
+  ): Observable<Configurator.Configuration> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
+      select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter(configuration => this.isConfigurationCreated(configuration))
     );
   }
@@ -90,28 +92,28 @@ export class ConfiguratorCommonsService {
       });
   }
 
-  getUiState(productCode: string): Observable<UiState> {
+  getUiState(owner: Configurator.Owner): Observable<UiState> {
     return this.store.pipe(
-      select(UiSelectors.getUiStateForProduct(productCode)),
+      select(UiSelectors.getUiStateForProduct(owner.key)),
       tap(uiState => {
         if (!this.isUiStateCreated(uiState)) {
-          this.store.dispatch(new UiActions.CreateUiState(productCode));
+          this.store.dispatch(new UiActions.CreateUiState(owner.key));
         }
       }),
       filter(uiState => this.isUiStateCreated(uiState))
     );
   }
 
-  setUiState(productCode: string, state: UiState) {
-    this.store.dispatch(new UiActions.SetUiState(productCode, state));
+  setUiState(owner: Configurator.Owner, state: UiState) {
+    this.store.dispatch(new UiActions.SetUiState(owner.key, state));
   }
 
-  removeUiState(ownerKey: string) {
-    this.store.dispatch(new UiActions.RemoveUiState(ownerKey));
+  removeUiState(owner: Configurator.Owner) {
+    this.store.dispatch(new UiActions.RemoveUiState(owner.key));
   }
 
-  removeConfiguration(ownerKey: string) {
-    this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(ownerKey));
+  removeConfiguration(owner: Configurator.Owner) {
+    this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(owner.key));
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {

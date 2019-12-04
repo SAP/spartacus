@@ -29,7 +29,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
-          this.configuratorCommonsService.getConfiguration(owner.key)
+          this.configuratorCommonsService.getConfiguration(owner)
         )
       );
     this.configuratorType$ = this.configRouterExtractorService.getConfiguratorType(
@@ -42,9 +42,8 @@ export class ConfigAddToCartButtonComponent implements OnInit {
   }
 
   onAddToCart(
-    productCode: string,
+    owner: Configurator.Owner,
     configId: string,
-    ownerKey: string,
     configuratorType: string
   ) {
     this.configRouterExtractorService
@@ -55,12 +54,12 @@ export class ConfigAddToCartButtonComponent implements OnInit {
           this.routingService.go('cart');
         } else {
           this.configuratorCommonsService.addToCart(
-            productCode,
+            owner.id,
             configId,
-            ownerKey
+            owner.key
           );
           this.configuratorCommonsService
-            .getConfiguration(ownerKey)
+            .getConfiguration(owner)
             .pipe(
               filter(configuration => configuration.nextOwner !== undefined),
               take(1)
@@ -74,7 +73,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
                 {}
               );
             });
-          this.configuratorCommonsService.removeConfiguration(ownerKey);
+          this.configuratorCommonsService.removeConfiguration(owner);
         }
       });
   }
