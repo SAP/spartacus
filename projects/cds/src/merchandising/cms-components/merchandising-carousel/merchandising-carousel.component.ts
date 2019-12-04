@@ -28,6 +28,33 @@ export class MerchandisingCarouselComponent {
     CmsMerchandisingCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
 
+  carouselStyle$: Observable<{
+    [key: string]: string;
+  }> = this.componentData$.pipe(
+    map(data => {
+      const style = {};
+      if (data.backgroundColour) {
+        style['background-color'] = data.backgroundColour;
+      }
+      if (data.textColour) {
+        style['color'] = data.textColour;
+      }
+      return style;
+    })
+  );
+
+  carouselItemStyle$: Observable<{
+    [key: string]: string;
+  }> = this.componentData$.pipe(
+    map(data => {
+      const style = {};
+      if (data.textColour) {
+        style['color'] = data.textColour;
+      }
+      return style;
+    })
+  );
+
   title$: Observable<string> = this.componentData$.pipe(
     map(data => data.title)
   );

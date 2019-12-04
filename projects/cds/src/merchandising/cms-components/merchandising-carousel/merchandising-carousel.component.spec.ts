@@ -108,6 +108,8 @@ const mockComponentData: CmsMerchandisingCarouselComponent = {
   name: 'Mock Product Carousel',
   strategy: 'test-strategy-1',
   container: 'false',
+  backgroundColour: '#000000',
+  textColour: '#ffffff',
 };
 
 const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
@@ -157,13 +159,34 @@ describe('MerchandisingCarouselComponent', () => {
     expect(component).toBeTruthy();
   }));
 
-  it('should have a title', async () => {
+  it('should have a title', async(() => {
     let actualTitle: string;
     component.title$.subscribe(title => (actualTitle = title));
     expect(actualTitle).toBe(mockComponentData.title);
-  });
+  }));
 
-  it('should have MerchandisingProducts populated', () => {
+  it('should have a carouselStyle', async(() => {
+    let actualCarouselStyle: { [key: string]: string };
+    component.carouselStyle$.subscribe(
+      carouselStyle => (actualCarouselStyle = carouselStyle)
+    );
+    expect(actualCarouselStyle).toEqual({
+      'background-color': mockComponentData.backgroundColour,
+      color: mockComponentData.textColour,
+    });
+  }));
+
+  it('should have a carouselItemStyle', async(() => {
+    let actualCarouselItemStyle: { [key: string]: string };
+    component.carouselItemStyle$.subscribe(
+      carouselItemStyle => (actualCarouselItemStyle = carouselItemStyle)
+    );
+    expect(actualCarouselItemStyle).toEqual({
+      color: mockComponentData.textColour,
+    });
+  }));
+
+  it('should have MerchandisingProducts populated', async(() => {
     let actualCarouselMetadata: Map<string, string>;
     const actualCarouselProducts: MerchandisingProduct[] = [];
     component.merchandisingCarouselModel$.subscribe(merchandisingProducts => {
@@ -176,7 +199,7 @@ describe('MerchandisingCarouselComponent', () => {
     });
     expect(actualCarouselMetadata).toEqual(merchandisingCarouselModel.metadata);
     expect(actualCarouselProducts).toEqual(merchandisingCarouselModelProducts);
-  });
+  }));
 
   it('should have 2 items', async(() => {
     let items: Observable<Product>[];

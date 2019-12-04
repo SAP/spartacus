@@ -7,6 +7,7 @@
     [cxAttributesNamePrefix]="'data-cx-merchandising-carousel'"
   ></div>
   <cx-carousel
+    [ngStyle]="carouselStyle$ | async"
     [items]="merchandisingCarouselModel.items$"
     [title]="title$ | async"
     [template]="carouselItem"
@@ -29,7 +30,9 @@
       format="product"
     >
     </cx-media>
-    <h4>{{ item.name }}</h4>
-    <div class="price">{{ item.price?.formattedValue }}</div>
+    <h4 [ngStyle]="carouselItemStyle$ | async">{{ item.name }}</h4>
+    <div [ngStyle]="carouselItemStyle$ | async" class="price">
+      {{ item.price?.formattedValue }}
+    </div>
   </a>
 </ng-template>
