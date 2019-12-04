@@ -126,7 +126,7 @@ describe('ConfiguratorGroupsService', () => {
   it('should delegate setting the current group to the store', () => {
     serviceUnderTest.setCurrentGroup(productConfiguration.owner, GROUP_ID_1);
     const expectedAction = new UiActions.SetCurrentGroup(
-      PRODUCT_CODE,
+      productConfiguration.owner.key,
       GROUP_ID_1
     );
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
