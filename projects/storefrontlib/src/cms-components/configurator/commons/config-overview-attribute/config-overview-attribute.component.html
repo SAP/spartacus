@@ -1,7 +1,12 @@
-<div>
-  <label
-    class="cx-config-overview-attribute-label"
-    [attr.aria-label]="values.value"
-    >{{ values.value }}</label
-  >
+<div class="row">
+  <div class="col-sm-5">
+    <span class="cx-config-overview-attribute-value">{{ values.value }}</span>
+  </div>
+  <div class="col-sm-7">
+    <span
+      class="cx-config-overview-attribute-label"
+      [attr.aria-label]="values.characteristic"
+      >{{ values.characteristic }}</span
+    >
+  </div>
 </div>
