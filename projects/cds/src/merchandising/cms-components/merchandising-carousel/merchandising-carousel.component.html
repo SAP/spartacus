@@ -30,9 +30,11 @@
       format="product"
     >
     </cx-media>
-    <h4 [ngStyle]="carouselItemStyle$ | async">{{ item.name }}</h4>
-    <div [ngStyle]="carouselItemStyle$ | async" class="price">
-      {{ item.price?.formattedValue }}
+    <div [ngStyle]="carouselItemStyle$ | async">
+      <h4>{{ item.name }}</h4>
+      <div class="price">
+        {{ item.price?.formattedValue }}
+      </div>
     </div>
   </a>
 </ng-template>
