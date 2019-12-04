@@ -47,4 +47,25 @@ export class ConfigRouterExtractorService {
       })
     );
   }
+
+  getConfiguratorTypeFromUrl(url: string): string {
+    let configuratorType: string;
+    if (url.includes('configureOverview')) {
+      configuratorType = url.split('configureOverview')[1].split('/')[0];
+    } else if (url.includes('configure')) {
+      configuratorType = url.split('configure')[1].split('/')[0];
+    }
+
+    return configuratorType;
+  }
+
+  getConfiguratorType(routingService: RoutingService): Observable<string> {
+    return routingService
+      .getRouterState()
+      .pipe(
+        map(routerState =>
+          this.getConfiguratorTypeFromUrl(routerState.state.url)
+        )
+      );
+  }
 }

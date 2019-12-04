@@ -16,6 +16,7 @@ import { ConfigRouterExtractorService } from '../service/config-router-extractor
 export class ConfigAddToCartButtonComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
   hasBeenAddedToCart$: Observable<any>;
+  configuratorType$: Observable<string>;
 
   constructor(
     private routingService: RoutingService,
@@ -31,17 +32,26 @@ export class ConfigAddToCartButtonComponent implements OnInit {
           this.configuratorCommonsService.getConfiguration(owner.key)
         )
       );
+    this.configuratorType$ = this.configRouterExtractorService.getConfiguratorType(
+      this.routingService
+    );
+
     this.hasBeenAddedToCart$ = this.configRouterExtractorService.hasBeenAddedToCart(
       this.routingService
     );
   }
 
-  onAddToCart(productCode: string, configId: string, ownerKey: string) {
+  onAddToCart(
+    productCode: string,
+    configId: string,
+    ownerKey: string,
+    configuratorType: string
+  ) {
     this.configRouterExtractorService
       .hasBeenAddedToCart(this.routingService)
       .pipe(take(1))
-      .subscribe(hasBeenAdded => {
-        if (hasBeenAdded.hasBeenAdded) {
+      .subscribe(config => {
+        if (config.hasBeenAdded) {
           this.routingService.go('cart');
         } else {
           this.configuratorCommonsService.addToCart(
@@ -57,7 +67,9 @@ export class ConfigAddToCartButtonComponent implements OnInit {
             )
             .subscribe(configuration => {
               this.routingService.go(
-                'configureOverviewCPQCONFIGURATOR/cartEntry/entityKey/' +
+                'configureOverview' +
+                  configuratorType +
+                  '/cartEntry/entityKey/' +
                   configuration.nextOwner.id,
                 {}
               );
