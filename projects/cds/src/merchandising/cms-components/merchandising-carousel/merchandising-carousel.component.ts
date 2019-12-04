@@ -17,6 +17,13 @@ import { MerchandisingCarouselModel } from './merchandising-carousel.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchandisingCarouselComponent {
+  constructor(
+    protected componentData: CmsComponentData<
+      CmsMerchandisingCarouselComponent
+    >,
+    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService
+  ) {}
+
   private componentData$: Observable<
     CmsMerchandisingCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
@@ -35,11 +42,4 @@ export class MerchandisingCarouselComponent {
       )
     )
   );
-
-  constructor(
-    protected componentData: CmsComponentData<
-      CmsMerchandisingCarouselComponent
-    >,
-    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService
-  ) {}
 }

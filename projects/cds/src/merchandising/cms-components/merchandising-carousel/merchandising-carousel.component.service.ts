@@ -13,6 +13,10 @@ import { MerchandisingCarouselModel } from './merchandising-carousel.model';
   providedIn: 'root',
 })
 export class MerchandisingCarouselComponentService {
+  constructor(
+    protected cdsMerchandisingProductService: CdsMerchandisingProductService
+  ) {}
+
   getMerchandisingCarouselModel(
     cmsComponent: CmsMerchandisingCarouselComponent
   ): Observable<MerchandisingCarouselModel> {
@@ -94,8 +98,4 @@ export class MerchandisingCarouselComponentService {
 
     return metadata;
   }
-
-  constructor(
-    protected cdsMerchandisingProductService: CdsMerchandisingProductService
-  ) {}
 }
