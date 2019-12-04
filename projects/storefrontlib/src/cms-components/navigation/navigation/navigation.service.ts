@@ -112,7 +112,9 @@ export class NavigationService {
     }
 
     if (nodeData.children && nodeData.children.length > 0) {
-      const children = this.populateChildren(nodeData, items);
+      const children = nodeData.children
+        .map(child => this.populateNavigationNode(child, items))
+        .filter(Boolean);
       if (children.length > 0) {
         node.children = children;
       }
@@ -158,18 +160,5 @@ export class NavigationService {
         },
       });
     }
-  }
-
-  private populateChildren(node, items) {
-    const children = [];
-
-    for (const child of node.children) {
-      const childNode = this.populateNavigationNode(child, items);
-      if (childNode) {
-        children.push(childNode);
-      }
-    }
-
-    return children;
   }
 }
