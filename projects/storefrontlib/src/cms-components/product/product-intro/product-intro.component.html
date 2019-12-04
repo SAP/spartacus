@@ -1,5 +1,5 @@
 <ng-container *ngIf="product$ | async as product">
-  <div class="rating">
+  <div class="rating" *ngIf="product.averageRating">
     <cx-star-rating
       [rating]="product?.averageRating"
       [disabled]="true"
@@ -11,6 +11,9 @@
       (click)="showReviews()"
       >{{ 'productSummary.showReviews' | cxTranslate }}</a
     >
+  </div>
+  <div class="rating" *ngIf="!product.averageRating">
+    {{ 'productDetails.noReviews' | cxTranslate }}
   </div>
   <div class="code">
     {{ 'productSummary.id' | cxTranslate }} {{ product?.code }}
