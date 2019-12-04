@@ -1,11 +1,11 @@
-import { StateWithMultiCart } from '../multi-cart-state';
-import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store, select } from '@ngrx/store';
-import * as fromReducers from './../reducers/index';
 import { Type } from '@angular/core';
-import { Cart } from '../../../model/cart.model';
+import { TestBed } from '@angular/core/testing';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { MultiCartSelectors } from '.';
+import { Cart } from '../../../model/cart.model';
 import { CartActions } from '../actions';
+import { StateWithMultiCart } from '../multi-cart-state';
+import * as fromReducers from './../reducers/index';
 
 describe('Multi Cart selectors', () => {
   let store: Store<StateWithMultiCart>;
@@ -82,6 +82,7 @@ describe('Multi Cart selectors', () => {
               success: true,
               error: false,
               loading: false,
+              processesCount: 0,
             },
           },
         },
@@ -109,6 +110,7 @@ describe('Multi Cart selectors', () => {
             success: true,
             error: false,
             loading: false,
+            processesCount: 0,
           },
         },
       });
@@ -129,6 +131,7 @@ describe('Multi Cart selectors', () => {
         error: false,
         success: false,
         value: undefined,
+        processesCount: 0,
       });
 
       loadCart();
@@ -138,6 +141,7 @@ describe('Multi Cart selectors', () => {
         success: true,
         error: false,
         loading: false,
+        processesCount: 0,
       });
     });
   });
@@ -154,6 +158,48 @@ describe('Multi Cart selectors', () => {
       loadCart();
 
       expect(result).toEqual(testCart);
+    });
+  });
+
+  describe('getCartIsStableSelectorFactory', () => {
+    it('should return cart stability flag', () => {
+      let result;
+      store
+        .pipe(
+          select(
+            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
+          )
+        )
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      loadCart();
+
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getCartHasPendingProcessesSelectorFactory', () => {
+    it('should return cart stability flag', () => {
+      let result;
+      store
+        .pipe(
+          select(
+            MultiCartSelectors.getCartHasPendingProcessesSelectorFactory(
+              testCart.code
+            )
+          )
+        )
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(
+        new CartActions.CartProcessesIncrementAction(testCart.code)
+      );
+
+      expect(result).toEqual(true);
     });
   });
 
@@ -190,7 +236,7 @@ describe('Multi Cart selectors', () => {
         )
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(null);
+      expect(result).toEqual(undefined);
 
       loadCart();
 

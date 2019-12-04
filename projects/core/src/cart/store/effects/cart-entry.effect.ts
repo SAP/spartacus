@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { catchError, concatMap, map } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import * as DeprecatedCartActions from '../actions/cart.action';
@@ -14,10 +14,10 @@ export class CartEntryEffects {
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
     | DeprecatedCartActions.LoadCart
+    | CartActions.CartProcessesDecrementAction
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
-    tap(() => this.cartEntriesToAddCounter++),
     concatMap(payload => {
       return this.cartEntryConnector
         .add(
@@ -27,7 +27,6 @@ export class CartEntryEffects {
           payload.quantity
         )
         .pipe(
-          tap(() => this.cartEntriesToAddCounter--),
           map(
             (entry: any) =>
               new CartActions.CartAddEntrySuccess({
@@ -37,35 +36,29 @@ export class CartEntryEffects {
               })
           ),
           catchError(error =>
-            of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
+            from([
+              new CartActions.CartAddEntryFail(makeErrorSerializable(error)),
+              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new DeprecatedCartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
           )
         );
-    }),
-    mergeMap(result => {
-      if (this.cartEntriesToAddCounter === 0) {
-        const payload = result.payload;
-        return [
-          result,
-          new DeprecatedCartActions.LoadCart({
-            userId: payload.userId,
-            cartId: payload.cartId,
-            extraData: {
-              addEntries: true,
-            },
-          }),
-        ];
-      }
-      return [result];
     })
   );
 
   @Effect()
   removeEntry$: Observable<
-    CartActions.CartRemoveEntrySuccess | CartActions.CartRemoveEntryFail
+    | CartActions.CartRemoveEntrySuccess
+    | CartActions.CartRemoveEntryFail
+    | CartActions.CartProcessesDecrementAction
+    | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
-    mergeMap(payload =>
+    concatMap(payload =>
       this.cartEntryConnector
         .remove(payload.userId, payload.cartId, payload.entry)
         .pipe(
@@ -76,9 +69,14 @@ export class CartEntryEffects {
             });
           }),
           catchError(error =>
-            of(
-              new CartActions.CartRemoveEntryFail(makeErrorSerializable(error))
-            )
+            from([
+              new CartActions.CartRemoveEntryFail(makeErrorSerializable(error)),
+              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new DeprecatedCartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
           )
         )
     )
@@ -86,11 +84,14 @@ export class CartEntryEffects {
 
   @Effect()
   updateEntry$: Observable<
-    CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail
+    | CartActions.CartUpdateEntrySuccess
+    | CartActions.CartUpdateEntryFail
+    | CartActions.CartProcessesDecrementAction
+    | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
-    mergeMap(payload =>
+    concatMap(payload =>
       this.cartEntryConnector
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
@@ -101,15 +102,18 @@ export class CartEntryEffects {
             });
           }),
           catchError(error =>
-            of(
-              new CartActions.CartUpdateEntryFail(makeErrorSerializable(error))
-            )
+            from([
+              new CartActions.CartUpdateEntryFail(makeErrorSerializable(error)),
+              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new DeprecatedCartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
           )
         )
     )
   );
-
-  private cartEntriesToAddCounter = 0;
 
   constructor(
     private actions$: Actions,
