@@ -12,6 +12,7 @@ import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
+import { LoaderState } from '../../state/index';
 
 @Injectable({
   providedIn: 'root',
@@ -131,5 +132,12 @@ export class OrderReturnRequestService {
    */
   clearOrderReturnRequestList(): void {
     this.store.dispatch(new UserActions.ClearOrderReturnRequestList());
+  }
+
+  /**
+   * Get the order return request state
+   */
+  getReturnRequestState(): Observable<LoaderState<ReturnRequest>> {
+    return this.store.pipe(select(UsersSelectors.getOrderReturnRequestState));
   }
 }

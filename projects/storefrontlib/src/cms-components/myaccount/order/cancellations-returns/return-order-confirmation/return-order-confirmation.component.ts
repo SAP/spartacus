@@ -1,7 +1,7 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-import { OrderEntry, OrderReturnRequestService } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/core';
 
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancelOrReturnService } from '../cancel-or-return.service';
@@ -11,15 +11,15 @@ import { OrderCancelOrReturnService } from '../cancel-or-return.service';
   templateUrl: './return-order-confirmation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReturnOrderConfirmationComponent implements OnDestroy {
+export class ReturnOrderConfirmationComponent {
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected cancelOrReturnService: OrderCancelOrReturnService,
-    protected returnRequestService: OrderReturnRequestService
+    protected cancelOrReturnService: OrderCancelOrReturnService
   ) {}
 
   orderCode: string;
-  subscription: Subscription;
+  returnSubmit = false;
+  isReturning$ = this.cancelOrReturnService.isReturning$;
 
   returnedEntries$: Observable<
     OrderEntry[]
@@ -38,25 +38,8 @@ export class ReturnOrderConfirmationComponent implements OnDestroy {
   );
 
   submit(): void {
-    this.returnRequestService.createOrderReturnRequest({
-      orderCode: this.orderCode,
-      returnRequestEntryInputs: this.cancelOrReturnService
-        .cancelOrReturnRequestInputs,
-    });
-
-    this.cancelOrReturnService.clearCancelOrReturnRequestInputs();
-
-    // should go to "return request details" page, will be handled by #5477.
-    // this part will be refactored after #5477 done.
-    /*if (!this.subscription) {
-      this.subscription = this.returnRequestService
-        .getOrderReturnRequest()
-        .pipe(filter(returnRequest => Boolean(returnRequest)))
-        .subscribe(returnRequest => {
-          console.log(returnRequest);
-          //this.routing.go({ cxRoute: 'orders' });
-        });
-    }*/
+    this.returnSubmit = true;
+    this.cancelOrReturnService.returnOrder(this.orderCode);
   }
 
   back(): void {
@@ -65,11 +48,5 @@ export class ReturnOrderConfirmationComponent implements OnDestroy {
       this.orderCode,
       true
     );
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

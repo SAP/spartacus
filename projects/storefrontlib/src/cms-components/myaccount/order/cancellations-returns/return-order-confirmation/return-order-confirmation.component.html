@@ -4,7 +4,11 @@
   <button class="btn btn-block btn-action" (click)="back()">
     {{ 'common.back' | cxTranslate }}
   </button>
-  <button class="btn btn-block btn-primary" (click)="submit()">
+  <button
+    class="btn btn-block btn-primary"
+    (click)="submit()"
+    [disabled]="returnSubmit && isReturning$ | async"
+  >
     {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
   </button>
 </div>

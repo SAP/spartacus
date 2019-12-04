@@ -9,6 +9,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   UserOrderService,
+  OrderReturnRequestService,
 } from '@spartacus/core';
 import { tap, map, share } from 'rxjs/operators';
 
@@ -38,11 +39,33 @@ export class OrderCancelOrReturnService {
     share()
   );
 
+  isReturning$ = this.returnRequestService.getReturnRequestState().pipe(
+    tap(state => {
+      if (state.success && !state.loading) {
+        this.clearCancelOrReturnRequestInputs();
+        this.globalMessageService.add(
+          {
+            key: 'orderDetails.cancellationAndReturn.returnSuccess',
+            params: { rma: state.value.rma },
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+        this.routing.go({
+          cxRoute: 'returnRequestDetails',
+          params: { rma: state.value.rma },
+        });
+      }
+    }),
+    map(state => state.loading),
+    share()
+  );
+
   constructor(
     protected languageService: LanguageService,
     protected routing: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected userOrderService: UserOrderService
+    protected userOrderService: UserOrderService,
+    protected returnRequestService: OrderReturnRequestService
   ) {
     this.languageService.getActive().subscribe(value => (this.lang = value));
   }
@@ -121,6 +144,13 @@ export class OrderCancelOrReturnService {
   cancelOrder(orderCode: string): void {
     this.userOrderService.cancelOrder(orderCode, {
       cancellationRequestEntryInputs: this.cancelOrReturnRequestInputs,
+    });
+  }
+
+  returnOrder(orderCode: string): void {
+    this.returnRequestService.createOrderReturnRequest({
+      orderCode,
+      returnRequestEntryInputs: this.cancelOrReturnRequestInputs,
     });
   }
 }
