@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { MERCHANDISING_PRODUCTS_NORMALIZER } from '../../connectors/strategy/converters';
 import { MerchandisingProducts } from '../../model/merchandising-products.model';
-import { StrategyResult } from '../../model/strategy-result.model';
+import { StrategyProducts } from '../../model/strategy-products.model';
 import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
 import createSpy = jasmine.createSpy;
 
@@ -49,7 +49,7 @@ const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
   metadata: MERCHANDISING_PRODUCTS_METADATA,
 };
 
-const STRATEGY_RESULT: StrategyResult = {
+const STRATEGY_RESULT: StrategyProducts = {
   resultCount: 1,
   products: [
     {
