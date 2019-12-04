@@ -3,7 +3,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../../model/cms.model';
 import { Product } from '../../../model/product.model';
@@ -36,7 +36,9 @@ const product: Product = {
 };
 
 class MockProductConnector {
-  get = createSpy().and.returnValue(of(product));
+  getMany = createSpy().and.callFake(products =>
+    products.map(pr => ({ ...pr, data$: of(product) }))
+  );
 }
 
 describe('Product Effects', () => {
@@ -76,10 +78,27 @@ describe('Product Effects', () => {
     it('should return loadProductStart action if product not loaded', () => {
       const action = new ProductActions.LoadProduct(productCode);
       const completion = new ProductActions.LoadProductSuccess(product);
-
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
-      expect(effects.loadProduct$).toBeObservable(expected);
+      expect(
+        effects.loadProduct$({ scheduler: getTestScheduler() })
+      ).toBeObservable(expected);
+    });
+
+    it('should group actions for specified time frame', () => {
+      const action = new ProductActions.LoadProduct(productCode);
+      const action2 = new ProductActions.LoadProduct(productCode, 'scope');
+      const completion = new ProductActions.LoadProductSuccess(product);
+      const completion2 = new ProductActions.LoadProductSuccess(
+        product,
+        'scope'
+      );
+      actions$ = hot('-a-b---a--b', { a: action, b: action2 });
+      // first a-b are in 20 millisecond threshold so should be emitted together
+      const expected = cold('-----(ab)a--b', { a: completion, b: completion2 });
+      expect(
+        effects.loadProduct$({ scheduler: getTestScheduler(), debounce: 20 })
+      ).toBeObservable(expected);
     });
   });
 });
