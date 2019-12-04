@@ -80,6 +80,51 @@ describe('Order Return Request actions', () => {
     });
   });
 
+  describe('LoadOrderReturnRequest Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.LoadOrderReturnRequest({
+        userId: 'userId',
+        returnRequestCode: 'test',
+      });
+
+      expect({ ...action }).toEqual({
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST,
+        payload: {
+          userId: 'userId',
+          returnRequestCode: 'test',
+        },
+        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUEST_DETAILS),
+      });
+    });
+  });
+
+  describe('LoadOrderReturnRequestFail Action', () => {
+    it('should create the action', () => {
+      const error = 'mockError';
+      const action = new UserActions.LoadOrderReturnRequestFail(error);
+
+      expect({ ...action }).toEqual({
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST_FAIL,
+        payload: error,
+        meta: StateLoaderActions.failMeta(USER_RETURN_REQUEST_DETAILS, error),
+      });
+    });
+  });
+
+  describe('LoadOrderReturnRequestSuccess Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.LoadOrderReturnRequestSuccess({
+        rma: '0000',
+      });
+
+      expect({ ...action }).toEqual({
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST_SUCCESS,
+        payload: { rma: '0000' },
+        meta: StateLoaderActions.successMeta(USER_RETURN_REQUEST_DETAILS),
+      });
+    });
+  });
+
   describe('LoadOrderReturnRequestList Actions', () => {
     it('should create the action', () => {
       const action = new UserActions.LoadOrderReturnRequestList(

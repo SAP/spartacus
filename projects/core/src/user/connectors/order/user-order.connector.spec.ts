@@ -29,6 +29,12 @@ class MockOrderAdapter implements UserOrderAdapter {
     'UserOrderAdapter.loadReturnRequestList'
   ).and.callFake(userId => of(`loadReturnRequestList-${userId}`));
 
+  loadReturnRequestDetail = createSpy(
+    'UserOrderAdapter.loadReturnRequestDetail'
+  ).and.callFake((userId, returnRequestCode) =>
+    of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
+  );
+
   cancel = createSpy('UserOrderAdapter.cancel').and.callFake(
     (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
   );
@@ -105,6 +111,18 @@ describe('UserOrderConnector', () => {
       undefined,
       undefined,
       undefined
+    );
+  });
+
+  it('getReturnRequestDetail should call adapter', () => {
+    let result;
+    service
+      .getReturnRequestDetail('userId', 'returnRequestCode')
+      .subscribe(res => (result = res));
+    expect(result).toBe('loadReturnRequestDetail-userId-returnRequestCode');
+    expect(adapter.loadReturnRequestDetail).toHaveBeenCalledWith(
+      'userId',
+      'returnRequestCode'
     );
   });
 });

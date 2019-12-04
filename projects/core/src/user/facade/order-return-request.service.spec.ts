@@ -63,9 +63,19 @@ describe('OrderReturnRequestService', () => {
       })
     );
     service
-      .getOrderReturnRequest()
+      .getOrderReturnRequest('000000')
       .subscribe(r => expect(r).toEqual({ rma: '000000' }))
       .unsubscribe();
+  });
+
+  it('should be able to load an order return requests data', () => {
+    service.loadOrderReturnRequestDetail('test');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadOrderReturnRequest({
+        userId: OCC_USER_ID_CURRENT,
+        returnRequestCode: 'test',
+      })
+    );
   });
 
   it('should be able to get order return requests list', () => {
