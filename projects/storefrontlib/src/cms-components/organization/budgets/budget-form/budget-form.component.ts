@@ -8,7 +8,13 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Budget, Currency, CurrencyService, OrgUnit, UrlCommandRoute } from '@spartacus/core';
+import {
+  Budget,
+  Currency,
+  CurrencyService,
+  OrgUnit,
+  UrlCommandRoute,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -45,6 +51,7 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
 
   budgetVerifySub: Subscription;
 
+  // budget: FormGroup;
   budget: FormGroup = this.fb.group({
     code: [''],
     name: [''],
@@ -59,7 +66,10 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
     budget: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, protected currencyService: CurrencyService) {}
+  constructor(
+    private fb: FormBuilder,
+    protected currencyService: CurrencyService
+  ) {}
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
@@ -67,13 +77,15 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   }
 
   currencySelected(currency: Currency): void {
-    this.budget['controls'].titleCode.setValue(currency.isocode);
+    console.log(currency)
+    this.budget['controls'].currency['controls'].isocode.setValue(
+      currency.isocode
+    );
   }
 
   businessUnitSelected(orgUnit: OrgUnit): void {
-    this.budget['controls'].businessUnits['controls'].isocode.setValue(
-      orgUnit.uid
-    );
+    console.log(orgUnit)
+    this.budget['controls'].businessUnits['controls'].uid.setValue(orgUnit.uid);
     // this.businessUnits$.next(orgUnit.uid);
   }
 

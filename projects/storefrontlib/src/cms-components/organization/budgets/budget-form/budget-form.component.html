@@ -31,14 +31,17 @@
       </div>
 
       <div class="form-group">
-        <ng-container *ngIf="businessUnits$ as businessUnits">
+        <ng-container
+          *ngIf="businessUnits$ as businessUnits"
+          formGroupName="orgUnit"
+        >
           <div *ngIf="businessUnits.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
                 'budgetForm.businessUnits' | cxTranslate
               }}</span>
               <ng-select
-                formControlName="orgUnit"
+                formControlName="uid"
                 [searchable]="false"
                 [clearable]="false"
                 [items]="businessUnits"
@@ -53,19 +56,22 @@
       </div>
 
       <div class="form-group">
-        <ng-container *ngIf="currencies$ | async as currencies">
+        <ng-container
+          *ngIf="currencies$ | async as currencies"
+          formGroupName="currency"
+        >
           <div *ngIf="currencies.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
                 'budgetForm.currency' | cxTranslate
               }}</span>
               <ng-select
-                formControlName="currencies"
+                formControlName="isocode"
                 [searchable]="false"
                 [clearable]="false"
                 [items]="currencies"
                 bindLabel="name"
-                bindValue="code"
+                bindValue="isocode"
                 (change)="currencySelected($event)"
               >
               </ng-select>

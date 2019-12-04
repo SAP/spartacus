@@ -5,10 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
 import { B2BUNIT_NORMALIZER } from '../../../organization/connectors/org-unit/converters';
-import { BudgetSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
-import { B2BUnitNode } from 'projects/core/src/model';
+import B2BUnitNode = Occ.B2BUnitNode;
+import B2BUnitNodeList = Occ.B2BUnitNodeList;
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
@@ -26,9 +26,9 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   loadList(
     userId: string,
-    params?: BudgetSearchConfig
-  ): Observable<Occ.B2BUnitNode> {
-    return this.http.get<Occ.B2BUnitNode>(
+    params?: any
+  ): Observable<B2BUnitNodeList> {
+    return this.http.get<Occ.B2BUnitNodeList>(
       this.getOrgUnitsEndpoint(userId, params)
     );
   }
