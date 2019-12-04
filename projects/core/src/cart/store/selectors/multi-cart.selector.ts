@@ -5,7 +5,10 @@ import {
 } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
-import { entityValueSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import {
+  entityStateSelector,
+  entityValueSelector,
+} from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityProcessesLoaderState } from '../../../state/utils/entity-processes-loader/entity-processes-loader-state';
 import {
   entityHasPendingProcessesSelector,
