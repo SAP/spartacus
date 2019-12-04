@@ -65,7 +65,6 @@ describe('OrderCancelOrReturnService', () => {
     messageService = TestBed.get(GlobalMessageService as Type<
       GlobalMessageService
     >);
-
     service.cancelOrReturnRequestInputs = mockRequestInputs;
   });
 
