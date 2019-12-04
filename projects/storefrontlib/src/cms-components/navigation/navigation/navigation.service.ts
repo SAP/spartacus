@@ -79,17 +79,11 @@ export class NavigationService {
     }
 
     if (nodeData.children && nodeData.children.length > 0) {
-      this.processChildren(nodeData, itemsList);
+      nodeData.children.forEach(child => this.loadNavigationEntryItems(child, false, itemsList))
     }
 
     if (root) {
       this.cmsService.loadNavigationItems(nodeData.uid, itemsList);
-    }
-  }
-
-  private processChildren(node, itemsList): void {
-    for (const child of node.children) {
-      this.loadNavigationEntryItems(child, false, itemsList);
     }
   }
 
