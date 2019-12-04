@@ -48,14 +48,29 @@ export function reducer(
             configurable: true,
             attributes: [
               {
-                name: 'huhu',
-                uiType: Configurator.UiType.STRING,
-                label: 'Test mand. and readonly',
-              },
-              {
                 name: 'Manufacturer',
                 uiType: Configurator.UiType.RADIOBUTTON,
                 label: 'Manufacturer',
+                values: [
+                  { valueCode: '1', valueDisplay: 'Any' },
+                  { valueCode: '2', valueDisplay: 'Philips' },
+                  { valueCode: '3', valueDisplay: 'Samsung' },
+                ],
+              },
+              {
+                name: 'Model',
+                uiType: Configurator.UiType.RADIOBUTTON,
+                label: 'Model',
+                values: [
+                  { valueCode: '1', valueDisplay: 'Samsung S27A950D' },
+                  { valueCode: '2', valueDisplay: 'Samsung S24A350H' },
+                  { valueCode: '3', valueDisplay: 'Philips 247E3LSU' },
+                ],
+              },
+              {
+                name: 'huhu',
+                uiType: Configurator.UiType.STRING,
+                label: 'Test mand. and readonly',
               },
             ],
           },
