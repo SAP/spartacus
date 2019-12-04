@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { OCC_USER_ID_CURRENT } from '../../occ';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
