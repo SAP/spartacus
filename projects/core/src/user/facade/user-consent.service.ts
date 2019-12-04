@@ -11,7 +11,7 @@ import {
 } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
-import { OCC_USER_ID_CURRENT } from '../../occ';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,

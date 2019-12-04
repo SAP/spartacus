@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
-import { OCC_USER_ID_CURRENT } from '../../occ';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
