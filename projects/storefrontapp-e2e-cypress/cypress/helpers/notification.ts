@@ -2,24 +2,24 @@ import { generateMail, randomString } from './user';
 import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
 
-export const normalProductCode = '6666666';
+export const normalProductCode = '666600';
 export const productCodeList = [
-  '553637',
-  '592506',
-  '932577',
-  '3357724',
-  '4205431',
-  '358639',
-  '2053266',
-  '898520',
-  '816379',
-  '1978440_red',
-  '1934793',
+  '666600',
+  '666601',
+  '666602',
+  '666603',
+  '666604',
+  '666605',
+  '666606',
+  '666607',
+  '666608',
+  '666609',
+  '666610',
 ];
 export const firstProductCodeSelector =
   'cx-my-interests .cx-product-interests-product-item:first .cx-code';
-export const firstProductAscending = '4205431';
-export const firstProductDescending = '898520';
+export const firstProductAscending = '666600';
+export const firstProductDescending = '666610';
 // notification preference
 export function navigateToNotificationPreferencePage() {
   cy.selectUserMenuOption({
@@ -231,4 +231,20 @@ export function navigateToMyInterestsPage() {
   cy.selectUserMenuOption({
     option: 'My Interests',
   });
+}
+
+export function subscribeStockNotifications() {
+  cy.window()
+    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
+    .then(({ auth }) => {
+      cy.subscribeBackInStock(auth, productCodeList, 'BACK_IN_STOCK');
+    });
+}
+
+export function unsubscribeStockNotifications() {
+  cy.window()
+    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
+    .then(({ auth }) => {
+      cy.unsubscribeBackInStock(auth, productCodeList, 'BACK_IN_STOCK');
+    });
 }
