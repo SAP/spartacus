@@ -15,6 +15,7 @@ import { PageType } from '../../model/cms.model';
 import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 
 /**
  * Resolves the page data for the Product Detail Page
@@ -33,18 +34,22 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageImageResolver {
-  // resuable observable for product data based on the current page
+  protected readonly PRODUCT_SCOPE =
+    this.features && this.features.isLevel('1.4') ? 'details' : '';
+
+  // reusable observable for product data based on the current page
   private product$ = this.routingService.getRouterState().pipe(
     map(state => state.state.params['productCode']),
     filter(code => !!code),
-    switchMap(code => this.productService.get(code)),
+    switchMap(code => this.productService.get(code, this.PRODUCT_SCOPE)),
     filter(Boolean)
   );
 
   constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected features?: FeatureConfigService
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -176,7 +181,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
       map(([p, label]: [Product, string]) => {
         const breadcrumbs = [];
         breadcrumbs.push({ label: label, link: '/' });
-        for (const { name, code, url } of p.categories) {
+        for (const { name, code, url } of p.categories || []) {
           breadcrumbs.push({
             label: name || code,
             link: url,
