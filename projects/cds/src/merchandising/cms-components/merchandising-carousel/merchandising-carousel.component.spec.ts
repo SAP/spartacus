@@ -64,6 +64,19 @@ class MockMediaComponent {
   @Input() format: string;
 }
 
+const mockComponentData: CmsMerchandisingCarouselComponent = {
+  uid: '001',
+  typeCode: 'MerchandisingCarouselComponent',
+  modifiedTime: new Date('2017-12-21T18:15:15+0000'),
+  scroll: 'ALLVISIBLE',
+  title: 'Mock Title',
+  name: 'Mock Product Carousel',
+  strategy: 'test-strategy-1',
+  container: 'false',
+  backgroundColour: '#000000',
+  textColour: '#ffffff',
+};
+
 const merchandisingCarouselModelProducts: MerchandisingProduct[] = [
   {
     code: '1',
@@ -97,19 +110,9 @@ const merchandisingCarouselModel: MerchandisingCarouselModel = {
     of(merchandisingProduct)
   ),
   metadata: merchandisingCarouselModelMetadata,
-};
-
-const mockComponentData: CmsMerchandisingCarouselComponent = {
-  uid: '001',
-  typeCode: 'MerchandisingCarouselComponent',
-  modifiedTime: new Date('2017-12-21T18:15:15+0000'),
-  scroll: 'ALLVISIBLE',
-  title: 'Mock Title',
-  name: 'Mock Product Carousel',
-  strategy: 'test-strategy-1',
-  container: 'false',
-  backgroundColour: '#000000',
-  textColour: '#ffffff',
+  title: mockComponentData.title,
+  backgroundColor: mockComponentData.backgroundColour,
+  textColor: mockComponentData.textColour,
 };
 
 const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
@@ -147,13 +150,11 @@ describe('MerchandisingCarouselComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MerchandisingCarouselComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
   it('should be created', async(() => {
     expect(component).toBeTruthy();
@@ -161,8 +162,26 @@ describe('MerchandisingCarouselComponent', () => {
 
   it('should have a title', async(() => {
     let actualTitle: string;
-    component.title$.subscribe(title => (actualTitle = title));
+    component.merchandisingCarouselModel$.subscribe(
+      carouselModel => (actualTitle = carouselModel.title)
+    );
     expect(actualTitle).toBe(mockComponentData.title);
+  }));
+
+  it('should have a background color', async(() => {
+    let actualBackgroundColor: string;
+    component.merchandisingCarouselModel$.subscribe(
+      carouselModel => (actualBackgroundColor = carouselModel.backgroundColor)
+    );
+    expect(actualBackgroundColor).toBe(mockComponentData.backgroundColour);
+  }));
+
+  it('should have a text color', async(() => {
+    let actualTextColor: string;
+    component.merchandisingCarouselModel$.subscribe(
+      carouselModel => (actualTextColor = carouselModel.textColor)
+    );
+    expect(actualTextColor).toBe(mockComponentData.textColour);
   }));
 
   it('should have MerchandisingProducts populated', async(() => {
