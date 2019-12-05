@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StyleIconsComponent } from './style-icons.component';
-import { OccConfig, VariantOption } from '@spartacus/core';
+import { OccConfig, VariantOption, VariantQualifier } from '@spartacus/core';
 
 const mockOccBackendUrl = 'abc';
 const mockVariants: VariantOption[] = [
@@ -10,14 +10,14 @@ const mockVariants: VariantOption[] = [
     variantOptionQualifiers: [
       {
         name: 'test2',
-        qualifier: 'rollupProperty',
+        qualifier: VariantQualifier.ROLLUP_PROPERTY,
         image: {
           url: 'http://test1-rollup.com',
         },
       },
       {
         name: 'test1',
-        qualifier: 'thumbnail',
+        qualifier: VariantQualifier.THUMBNAIL,
         image: {
           url: 'http://test1-thumbnail.com',
         },
@@ -72,8 +72,12 @@ describe('StyleIconsComponent', () => {
   });
 
   it('should get variant url for thumbnail type of qualifier', () => {
-    const thumbnailUrl = component.getVariantThumbnailUrl(component.variants[0].variantOptionQualifiers);
+    const thumbnailUrl = component.getVariantThumbnailUrl(
+      component.variants[0].variantOptionQualifiers
+    );
 
-    expect(thumbnailUrl).toEqual(mockOccBackendUrl+mockVariants[0].variantOptionQualifiers[1].image.url);
+    expect(thumbnailUrl).toEqual(
+      mockOccBackendUrl + mockVariants[0].variantOptionQualifiers[1].image.url
+    );
   });
 });

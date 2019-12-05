@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import {
+  OccConfig,
   VariantOption,
   VariantOptionQualifier,
-} from 'projects/backend/occ-client/lib/models';
-import { OccConfig } from '@spartacus/core';
+  VariantQualifier,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-style-icons',
@@ -30,7 +32,7 @@ export class StyleIconsComponent implements OnInit {
     variantOptionQualifiers: VariantOptionQualifier[]
   ): string {
     const thumbnail = variantOptionQualifiers.find(
-      item => item.qualifier === 'thumbnail'
+      item => item.qualifier === VariantQualifier.THUMBNAIL
     );
     return thumbnail
       ? `${this.config.backend.occ.baseUrl}${thumbnail.image.url}`
@@ -41,7 +43,7 @@ export class StyleIconsComponent implements OnInit {
     variantOptionQualifiers: VariantOptionQualifier[]
   ): string {
     const rollupProperty = variantOptionQualifiers.find(
-      item => item.qualifier === 'rollupProperty'
+      item => item.qualifier === VariantQualifier.ROLLUP_PROPERTY
     );
     const property = rollupProperty
       ? variantOptionQualifiers.find(

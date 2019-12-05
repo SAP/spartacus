@@ -4,7 +4,7 @@ import { User } from './misc.model';
 export interface VariantOptionQualifier {
   image?: Image;
   name?: string;
-  qualifier?: string;
+  qualifier?: VariantQualifier;
   value?: string;
 }
 
@@ -184,4 +184,12 @@ export interface Product {
   variantType?: VariantType;
   volumePrices?: Price[];
   volumePricesFlag?: boolean;
+}
+
+export enum VariantQualifier {
+  SIZE = 'size',
+  STYLE = 'style',
+  THUMBNAIL = 'thumbnail',
+  PRODUCT = 'product',
+  ROLLUP_PROPERTY = 'rollupProperty',
 }
