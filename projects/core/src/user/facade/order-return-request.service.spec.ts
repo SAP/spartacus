@@ -119,4 +119,24 @@ describe('OrderReturnRequestService', () => {
       new UserActions.ClearOrderReturnRequestList()
     );
   });
+
+  it('should be able to get return request details state', () => {
+    store.dispatch(
+      new UserActions.LoadOrderReturnRequest({
+        userId: OCC_USER_ID_CURRENT,
+        returnRequestCode: 'test',
+      })
+    );
+    service
+      .getReturnRequestState()
+      .subscribe(r =>
+        expect(r).toEqual({
+          loading: true,
+          error: false,
+          success: false,
+          value: {},
+        })
+      )
+      .unsubscribe();
+  });
 });
