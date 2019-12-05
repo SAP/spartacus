@@ -318,7 +318,7 @@ describe('Cart effect', () => {
           userId: userId,
           cartId: cartId,
         });
-        const decrementCompletion = new CartActions.CartProcessesDecrementAction(
+        const decrementCompletion = new CartActions.CartProcessesDecrement(
           cartId
         );
 

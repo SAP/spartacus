@@ -174,7 +174,7 @@ describe('Multi Cart effect', () => {
         voucherId: 'voucherId',
       });
 
-      const processesIncrementCompletion = new CartActions.CartProcessesIncrementAction(
+      const processesIncrementCompletion = new CartActions.CartProcessesIncrement(
         payload.cartId
       );
       actions$ = hot('-a-b-c-d-e-f-g', {
@@ -195,7 +195,7 @@ describe('Multi Cart effect', () => {
         6: processesIncrementCompletion,
         7: processesIncrementCompletion,
       });
-      expect(cartEffects.processesIncrementAction$).toBeObservable(expected);
+      expect(cartEffects.processesIncrement$).toBeObservable(expected);
     });
   });
 });
