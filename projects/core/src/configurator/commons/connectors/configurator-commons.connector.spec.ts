@@ -131,6 +131,27 @@ describe('ConfiguratorCommonsConnector', () => {
     expect(adapter.readPriceSummary).toHaveBeenCalledWith(productConfiguration);
   });
 
+  it('should call adapter on getConfigurationOverview', () => {
+    const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
+      ConfiguratorCommonsAdapter
+    >);
+
+    let result;
+    service
+      .getConfigurationOverview(
+        productConfiguration.configId,
+        productConfiguration.owner
+      )
+      .subscribe(res => (result = res));
+    expect(result).toBe(
+      'getConfigurationOverview' + productConfiguration.configId
+    );
+    expect(adapter.getConfigurationOverview).toHaveBeenCalledWith(
+      productConfiguration.configId,
+      productConfiguration.owner
+    );
+  });
+
   it('should call adapter on addToCart', () => {
     const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
       ConfiguratorCommonsAdapter
