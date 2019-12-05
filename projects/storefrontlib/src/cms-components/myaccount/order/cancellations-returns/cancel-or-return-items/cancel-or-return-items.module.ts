@@ -4,11 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { I18nModule } from '@spartacus/core';
 
-import {
-  MediaModule,
-  OnlyNumberDirectiveModule,
-  ItemCounterModule,
-} from '../../../../../shared/index';
+import { MediaModule, ItemCounterModule } from '../../../../../shared/index';
 
 import { CancelOrReturnItemsComponent } from './cancel-or-return-items.component';
 
@@ -18,7 +14,6 @@ import { CancelOrReturnItemsComponent } from './cancel-or-return-items.component
     ReactiveFormsModule,
     I18nModule,
     MediaModule,
-    OnlyNumberDirectiveModule,
     ItemCounterModule,
   ],
   declarations: [CancelOrReturnItemsComponent],

@@ -20,7 +20,8 @@ export class ReturnRequestService {
       filter(Boolean),
       switchMap((returnCode: string) =>
         this.returnRequestService.getOrderReturnRequest(returnCode)
-      )
+      ),
+      filter(returnRequest => Boolean(returnRequest.returnEntries))
     );
   }
 }

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { ReturnRequest, OrderEntry } from '@spartacus/core';
+import { ReturnRequest } from '@spartacus/core';
 import { ReturnRequestService } from '../return-request.service';
 
 @Component({
@@ -11,15 +10,7 @@ import { ReturnRequestService } from '../return-request.service';
 export class ReturnRequestItemsComponent {
   constructor(protected returnRequestService: ReturnRequestService) {}
 
-  orderEntries: OrderEntry[];
-
   returnRequest$: Observable<
     ReturnRequest
-  > = this.returnRequestService.getReturnRequest().pipe(
-    tap(returnRequest => {
-      this.orderEntries = returnRequest.returnEntries.map(
-        returnEntry => returnEntry.orderEntry
-      );
-    })
-  );
+  > = this.returnRequestService.getReturnRequest();
 }

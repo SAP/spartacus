@@ -15,6 +15,8 @@ import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
+import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/converters';
+import { OccReturnRequestNormalizer } from './converters/index';
 
 @NgModule({
   imports: [
@@ -35,6 +37,11 @@ import { OccUserAdapter } from './occ-user.adapter';
       useClass: OccUserPaymentAdapter,
     },
     { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
+    {
+      provide: ORDER_RETURN_REQUEST_NORMALIZER,
+      useExisting: OccReturnRequestNormalizer,
+      multi: true,
+    },
   ],
 })
 export class UserOccModule {}

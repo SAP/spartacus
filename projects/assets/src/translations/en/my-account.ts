@@ -158,4 +158,14 @@ export const myAccount = {
     statusDisplay_TAX_REVERSAL_FAILED: 'Tax Reversal Failed',
     statusDisplay_COMPLETED: 'Completed',
   },
+  returnRequest: {
+    returnRequestId: 'Return Request #',
+    orderCode: 'For Order #',
+    status: 'Return status',
+    cancel: 'Cancel Return Request',
+    item: 'Descripton',
+    itemPrice: 'Item Price',
+    returnQty: 'Return Quanity',
+    total: 'Total',
+  },
 };

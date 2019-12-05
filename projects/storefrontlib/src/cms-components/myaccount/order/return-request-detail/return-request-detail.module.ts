@@ -8,7 +8,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { CancelOrReturnItemsModule } from '../cancellations-returns/cancel-or-return-items/cancel-or-return-items.module';
+import { MediaModule } from '../../../../shared/index';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { ReturnRequestService } from './return-request.service';
@@ -44,7 +44,7 @@ const components = [
     RouterModule,
     UrlModule,
     I18nModule,
-    CancelOrReturnItemsModule,
+    MediaModule,
   ],
   declarations: [...components],
   exports: [...components],
