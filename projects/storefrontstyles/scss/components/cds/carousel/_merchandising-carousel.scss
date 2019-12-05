@@ -2,11 +2,8 @@
 
 %cx-merchandising-carousel {
   @extend %cx-product-carousel;
-  background-color: var(
-    --cx-merchandising-carousel-background-color,
-    var(--cx-color-inverse)
-  );
-  color: var(--cx-merchandising-carousel-color-text, var(--cx-color-text));
+  background-color: var(--cx-color-background);
+  color: var(--cx-color-text);
   a {
     color: inherit;
   }

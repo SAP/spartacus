@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
-  map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
@@ -29,18 +29,6 @@ export class MerchandisingCarouselComponent {
     CmsMerchandisingCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
 
-  backgroundColor$: Observable<string> = this.componentData$.pipe(
-    map(data => data.backgroundColour)
-  );
-
-  textColor$: Observable<string> = this.componentData$.pipe(
-    map(data => data.textColour)
-  );
-
-  title$: Observable<string> = this.componentData$.pipe(
-    map(data => data.title)
-  );
-
   merchandisingCarouselModel$: Observable<
     MerchandisingCarouselModel
   > = this.componentData$.pipe(
@@ -49,20 +37,16 @@ export class MerchandisingCarouselComponent {
       this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
         data
       )
-    )
+    ),
+    tap(data => {
+      this.el.nativeElement.style.setProperty(
+        '--cx-color-background',
+        data.backgroundColor
+      );
+      this.el.nativeElement.style.setProperty(
+        '--cx-color-text',
+        data.textColor
+      );
+    })
   );
-
-  setBackgroundColor(color: string): void {
-    this.el.nativeElement.style.setProperty(
-      '--cx-merchandising-carousel-background-color',
-      color
-    );
-  }
-
-  setTextColor(color: string): void {
-    this.el.nativeElement.style.setProperty(
-      '--cx-merchandising-carousel-color-text',
-      color
-    );
-  }
 }

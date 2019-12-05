@@ -1,24 +1,18 @@
 <ng-container
   *ngIf="merchandisingCarouselModel$ | async as merchandisingCarouselModel"
 >
-  <ng-container *ngIf="backgroundColor$ | async as backgroundColor">
-    <ng-container *ngIf="textColor$ | async as textColor">
-      {{ setBackgroundColor(backgroundColor) }}
-      {{ setTextColor(textColor) }}
-      <div
-        class="data-cx-merchandising-carousel"
-        [cxAttributes]="merchandisingCarouselModel.metadata"
-        [cxAttributesNamePrefix]="'data-cx-merchandising-carousel'"
-      ></div>
-      <cx-carousel
-        [items]="merchandisingCarouselModel.items$"
-        [title]="title$ | async"
-        [template]="carouselItem"
-        itemWidth="285px"
-      >
-      </cx-carousel>
-    </ng-container>
-  </ng-container>
+  <div
+    class="data-cx-merchandising-carousel"
+    [cxAttributes]="merchandisingCarouselModel.metadata"
+    [cxAttributesNamePrefix]="'data-cx-merchandising-carousel'"
+  ></div>
+  <cx-carousel
+    [items]="merchandisingCarouselModel.items$"
+    [title]="merchandisingCarouselModel.title"
+    [template]="carouselItem"
+    itemWidth="285px"
+  >
+  </cx-carousel>
 </ng-container>
 
 <ng-template #carouselItem let-item="item">
