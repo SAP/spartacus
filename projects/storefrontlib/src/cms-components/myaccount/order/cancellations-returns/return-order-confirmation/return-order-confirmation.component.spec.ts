@@ -43,6 +43,7 @@ class MockOrderCancelOrReturnService {
   }
 
   goToOrderCancelOrReturn = createSpy();
+  returnOrder = createSpy();
   clearCancelOrReturnRequestInputs = createSpy();
   isEntryCancelledOrReturned(): boolean {
     return true;
@@ -113,8 +114,8 @@ describe('ReturnOrderConfirmationComponent', () => {
 
   it('should be able to submit', () => {
     component.submit();
-    // will be handled in #5477
-    // expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
+    expect(component.returnSubmit).toEqual(true);
+    expect(returnService.returnOrder).toHaveBeenCalled();
   });
 
   it('should be able to back to return order page', () => {

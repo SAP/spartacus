@@ -9,6 +9,8 @@ import {
   UserOrderService,
   LoaderState,
   GlobalMessageType,
+  OrderReturnRequestService,
+  ReturnRequest,
 } from '@spartacus/core';
 import { of, BehaviorSubject } from 'rxjs';
 import { OrderCancelOrReturnService } from './cancel-or-return.service';
@@ -31,6 +33,16 @@ class MockUserOrderService {
   }
 }
 
+const returnRequestState: BehaviorSubject<
+  LoaderState<ReturnRequest>
+> = new BehaviorSubject({});
+class MockOrderReturnRequestService {
+  createOrderReturnRequest = jasmine.createSpy();
+  getReturnRequestState() {
+    return returnRequestState;
+  }
+}
+
 class MockGlobalMessageService {
   add = jasmine.createSpy('add');
 }
@@ -45,6 +57,7 @@ describe('OrderCancelOrReturnService', () => {
   let routingService: MockRoutingService;
   let userOrderService: MockUserOrderService;
   let messageService: MockGlobalMessageService;
+  let returnRequestService: MockOrderReturnRequestService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -54,6 +67,10 @@ describe('OrderCancelOrReturnService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: UserOrderService, useClass: MockUserOrderService },
+        {
+          provide: OrderReturnRequestService,
+          useClass: MockOrderReturnRequestService,
+        },
       ],
     });
 
@@ -62,6 +79,9 @@ describe('OrderCancelOrReturnService', () => {
     >);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
     userOrderService = TestBed.get(UserOrderService as Type<UserOrderService>);
+    returnRequestService = TestBed.get(OrderReturnRequestService as Type<
+      OrderReturnRequestService
+    >);
     messageService = TestBed.get(GlobalMessageService as Type<
       GlobalMessageService
     >);
@@ -168,6 +188,53 @@ describe('OrderCancelOrReturnService', () => {
 
     expect(routingService.go).not.toHaveBeenCalledWith({
       cxRoute: 'orders',
+    });
+  });
+
+  it('should be able to return order', () => {
+    service.returnOrder('test');
+    expect(returnRequestService.createOrderReturnRequest).toHaveBeenCalledWith({
+      orderCode: 'test',
+      returnRequestEntryInputs: mockRequestInputs,
+    });
+  });
+
+  it('should add global message and redirect to return request details page after return success', () => {
+    spyOn(service, 'clearCancelOrReturnRequestInputs').and.callThrough();
+
+    returnRequestState.next({
+      loading: false,
+      error: false,
+      success: true,
+      value: { rma: '1' },
+    });
+    service.isReturning$.subscribe().unsubscribe();
+    expect(service.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'returnRequestDetails',
+      params: { rma: '1' },
+    });
+    expect(messageService.add).toHaveBeenCalledWith(
+      {
+        key: 'orderDetails.cancellationAndReturn.returnSuccess',
+        params: { rma: '1' },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  });
+
+  it('should do nothing when returning', () => {
+    returnRequestState.next({
+      loading: true,
+      error: false,
+      success: false,
+      value: { rma: '1' },
+    });
+    service.isReturning$.subscribe().unsubscribe();
+
+    expect(routingService.go).not.toHaveBeenCalledWith({
+      cxRoute: 'returnRequestDetails',
+      params: { rma: '1' },
     });
   });
 });
