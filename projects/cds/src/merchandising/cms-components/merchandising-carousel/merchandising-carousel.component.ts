@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -21,38 +21,20 @@ export class MerchandisingCarouselComponent {
     protected componentData: CmsComponentData<
       CmsMerchandisingCarouselComponent
     >,
-    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService
+    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
+    protected el: ElementRef
   ) {}
 
   private componentData$: Observable<
     CmsMerchandisingCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
 
-  carouselStyle$: Observable<{
-    [key: string]: string;
-  }> = this.componentData$.pipe(
-    map(data => {
-      const style = {};
-      if (data.backgroundColour) {
-        style['background-color'] = data.backgroundColour;
-      }
-      if (data.textColour) {
-        style['color'] = data.textColour;
-      }
-      return style;
-    })
+  backgroundColor$: Observable<string> = this.componentData$.pipe(
+    map(data => data.backgroundColour)
   );
 
-  carouselItemStyle$: Observable<{
-    [key: string]: string;
-  }> = this.componentData$.pipe(
-    map(data => {
-      const style = {};
-      if (data.textColour) {
-        style['color'] = data.textColour;
-      }
-      return style;
-    })
+  textColor$: Observable<string> = this.componentData$.pipe(
+    map(data => data.textColour)
   );
 
   title$: Observable<string> = this.componentData$.pipe(
@@ -69,4 +51,18 @@ export class MerchandisingCarouselComponent {
       )
     )
   );
+
+  setBackgroundColor(color: string): void {
+    this.el.nativeElement.style.setProperty(
+      '--cx-merchandising-carousel-background-color',
+      color
+    );
+  }
+
+  setTextColor(color: string): void {
+    this.el.nativeElement.style.setProperty(
+      '--cx-merchandising-carousel-color-text',
+      color
+    );
+  }
 }

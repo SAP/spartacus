@@ -1,19 +1,24 @@
 <ng-container
   *ngIf="merchandisingCarouselModel$ | async as merchandisingCarouselModel"
 >
-  <div
-    class="data-cx-merchandising-carousel"
-    [cxAttributes]="merchandisingCarouselModel.metadata"
-    [cxAttributesNamePrefix]="'data-cx-merchandising-carousel'"
-  ></div>
-  <cx-carousel
-    [ngStyle]="carouselStyle$ | async"
-    [items]="merchandisingCarouselModel.items$"
-    [title]="title$ | async"
-    [template]="carouselItem"
-    itemWidth="285px"
-  >
-  </cx-carousel>
+  <ng-container *ngIf="backgroundColor$ | async as backgroundColor">
+    <ng-container *ngIf="textColor$ | async as textColor">
+      {{ setBackgroundColor(backgroundColor) }}
+      {{ setTextColor(textColor) }}
+      <div
+        class="data-cx-merchandising-carousel"
+        [cxAttributes]="merchandisingCarouselModel.metadata"
+        [cxAttributesNamePrefix]="'data-cx-merchandising-carousel'"
+      ></div>
+      <cx-carousel
+        [items]="merchandisingCarouselModel.items$"
+        [title]="title$ | async"
+        [template]="carouselItem"
+        itemWidth="285px"
+      >
+      </cx-carousel>
+    </ng-container>
+  </ng-container>
 </ng-container>
 
 <ng-template #carouselItem let-item="item">
@@ -30,11 +35,9 @@
       format="product"
     >
     </cx-media>
-    <div [ngStyle]="carouselItemStyle$ | async">
-      <h4>{{ item.name }}</h4>
-      <div class="price">
-        {{ item.price?.formattedValue }}
-      </div>
+    <h4>{{ item.name }}</h4>
+    <div class="price">
+      {{ item.price?.formattedValue }}
     </div>
   </a>
 </ng-template>
