@@ -3,7 +3,7 @@ import {
   Suggestion,
 } from '../../model/product-search.model';
 import { Product, ProductReference, Review } from '../../model/product.model';
-import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
+import { EntityScopedLoaderState } from '../../state/utils/scoped-loader/scoped-loader.state';
 
 export const PRODUCT_FEATURE = 'product';
 export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
@@ -13,7 +13,7 @@ export interface StateWithProduct {
 }
 
 export interface ProductsState {
-  details: EntityLoaderState<Product>;
+  details: EntityScopedLoaderState<Product>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
   references: ProductReferencesState;

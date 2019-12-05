@@ -12,6 +12,9 @@ describe('OccEndpointsService', () => {
         endpoints: {
           login: '/authorizationserver/oauth/token',
           product: 'configured-endpoint1/${test}?fields=abc',
+          product_scopes: {
+            test: 'configured-endpoint1/${test}?fields=test',
+          },
         },
       },
     },
@@ -61,9 +64,62 @@ describe('OccEndpointsService', () => {
       );
     });
 
+    describe('using scope', () => {
+      it('should return endpoint from config', () => {
+        const url = service.getUrl('product', undefined, undefined, 'test');
+
+        expect(url).toEqual(
+          baseEndpoint + '/configured-endpoint1/${test}?fields=test'
+        );
+      });
+
+      it('should fallback to default scope', () => {
+        const url = service.getUrl(
+          'product',
+          undefined,
+          undefined,
+          'test-non-existing'
+        );
+
+        expect(url).toEqual(
+          baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
+        );
+      });
+
+      it('should not resolve endpoint for missing scope when no default is specified', () => {
+        const config = TestBed.get(OccConfig);
+        delete config.backend.occ.endpoints.product;
+
+        const url = service.getUrl(
+          'product',
+          undefined,
+          undefined,
+          'test-non-existing'
+        );
+
+        expect(url).toBe('test-baseUrl/test-occPrefix/test-baseSite/product');
+      });
+
+      it('should use string configuration for backward compatibility', () => {
+        const config = TestBed.get(OccConfig);
+        config.backend.occ.endpoints.product =
+          'configured-endpoint1/${test}?fields=fallback';
+
+        const url = service.getUrl(
+          'product',
+          undefined,
+          undefined,
+          'test-non-existing'
+        );
+
+        expect(url).toBe(
+          'test-baseUrl/test-occPrefix/test-baseSite/configured-endpoint1/${test}?fields=fallback'
+        );
+      });
+    });
+
     it('should apply parameters to configured endpoint', () => {
       const url = service.getUrl('product', { test: 'test-value' });
-
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/test-value?fields=abc'
       );
