@@ -2387,7 +2387,7 @@ export namespace Occ {
      */
     deliveryCost?: Price;
     /**
-     * @member {PaymentDetaiOrder} [order]
+     * @member {order} [order]
      */
     order?: Order;
     /**

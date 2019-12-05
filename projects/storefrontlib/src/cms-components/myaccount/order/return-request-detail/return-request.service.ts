@@ -7,7 +7,9 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ReturnRequestService {
   constructor(
     private routingService: RoutingService,

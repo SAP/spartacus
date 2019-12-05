@@ -167,5 +167,9 @@ export const myAccount = {
     itemPrice: 'Item Price',
     returnQty: 'Return Quanity',
     total: 'Total',
+    summary: 'Return Totals',
+    subtotal: 'Subtotal',
+    deliveryCode: 'Delivery cost',
+    estimatedRefund: 'Estimated refund',
   },
 };
