@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CartAddEvent } from './cart';
 import { PageLoadEvent } from './cms';
 import { EventService } from './events/index';
-import { UiEvent } from './ui';
+import { ClickEvent } from './ui';
 
 /**
  * This demo component adds a click event to the cx-storefront,
@@ -11,15 +11,17 @@ import { UiEvent } from './ui';
 @Component({
   selector: 'cx-event-demo',
   template: `
-    <div cxClickEvent="grandparent"></div>
+    <div cxUiEvent="hover" cxUiEventTarget="grandparent"></div>
   `,
 })
 export class EventDemoComponent {
   constructor(eventService: EventService) {
+    // dispatch any of these events using a single API
+    eventService.get(ClickEvent, PageLoadEvent).subscribe(console.log);
+
+    // dispatch events together with the main event (CartAddEvent)
     eventService
-      .get(CartAddEvent, PageLoadEvent, UiEvent)
-      .subscribe(evData =>
-        console.log('combine add-to-cart, page load and click event', evData)
-      );
+      .getCombined(CartAddEvent, PageLoadEvent, ClickEvent)
+      .subscribe(console.log);
   }
 }

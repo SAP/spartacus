@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { ClickEventDirective } from './click-event.directive';
+import { UiEventDirective } from './ui-event.directive';
 
 @NgModule({
-  declarations: [ClickEventDirective],
-  exports: [ClickEventDirective],
+  declarations: [UiEventDirective],
+  exports: [UiEventDirective],
 })
 export class UiEventModule {}
