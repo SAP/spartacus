@@ -5,18 +5,13 @@ import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { Budget, BudgetListModel } from '../../model/budget.model';
-import {
-  StateWithOrganization,
-} from '../store/organization-state';
+import { StateWithOrganization } from '../store/organization-state';
 import { OrgUnitActions } from '../store/actions/index';
 import {
-  getBudgetState,
-  getBudgetList,
-} from '../store/selectors/budget.selector';
-import { BudgetSearchConfig } from '../model/search-config';
-// import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
-// import { LOAD_BUDGETS_PROCESS_ID } from '../../../../../dist/core/src/organization/store/organization-state';
+  getOrgUnitState,
+  getOrgUnitList,
+} from '../store/selectors/org-unit.selector';
+import { B2BUnitNode, B2BUnitNodeList } from '../../model';
 
 @Injectable()
 export class OrgUnitService {
@@ -45,24 +40,20 @@ export class OrgUnitService {
       );
   }
 
- // getBudgetsProcess() {
- //    return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
- //  }
-
-  private getBudgetState(budgetCode: string) {
-    return this.store.select(getBudgetState(budgetCode));
+  private getOrgUnitState(orgUnitId: string) {
+    return this.store.select(getOrgUnitState(orgUnitId));
   }
 
-  private getBudgetList(params): Observable<LoaderState<BudgetListModel>> {
-    return this.store.select(getBudgetList(params));
+  private getOrgUnitsList(params): Observable<LoaderState<B2BUnitNodeList>> {
+    return this.store.select(getOrgUnitList(params));
   }
 
-  get(budgetCode: string): Observable<Budget> {
-    return this.getBudgetState(budgetCode).pipe(
+  get(orgUnitId: string): Observable<B2BUnitNode> {
+    return this.getOrgUnitState(orgUnitId).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadBudget(budgetCode);
+          this.loadOrgUnit(orgUnitId);
         }
       }),
       filter(state => state.success || state.error),
@@ -70,32 +61,19 @@ export class OrgUnitService {
     );
   }
 
-  getList(params: BudgetSearchConfig): Observable<BudgetListModel> {
-    return this.getBudgetList(params).pipe(
+  getList(params?: any): Observable<B2BUnitNodeList> {
+    return this.getOrgUnitsList(params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<BudgetListModel>) => {
+      tap((process: LoaderState<B2BUnitNodeList>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadBudgets(params);
+          this.loadOrgUnits(params);
         }
       }),
-      filter((process: LoaderState<BudgetListModel>) => process.success || process.error),
+      filter(
+        (process: LoaderState<B2BUnitNodeList>) =>
+          process.success || process.error
+      ),
       map(result => result.value)
     );
-  }
-
-  create(budget: Budget) {
-    this.user$
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(new OrgUnitActions.CreateBudget({ userId, budget }))
-      );
-  }
-
-  update(budget: Budget) {
-    this.user$
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(new OrgUnitActions.UpdateBudget({ userId, budget }))
-      );
   }
 }

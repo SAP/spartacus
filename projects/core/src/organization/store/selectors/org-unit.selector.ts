@@ -3,7 +3,6 @@ import { B2BUnitNode, B2BUnitNodeList } from '../../../model/org-unit.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { serializeBudgetSearchConfig } from '../../utils/budgets';
 import {
   OrgUnits,
   OrganizationState,
@@ -46,7 +45,7 @@ export const getOrgUnitList = (
     (state: OrgUnits) => {
       const list: any = entityStateSelector(
         state[ORG_UNIT_LISTS],
-        serializeBudgetSearchConfig(params)
+        params
       );
       if (!list.value || !list.value.ids) {
         return list;

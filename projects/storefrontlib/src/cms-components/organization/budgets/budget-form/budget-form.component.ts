@@ -8,6 +8,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+
 import {
   Budget,
   Currency,
@@ -15,7 +18,8 @@ import {
   OrgUnit,
   UrlCommandRoute,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { OrgUnitService } from '../../../../../../core/src/organization/facade/org-unit.service';
+import { B2BUnitNode } from '../../../../../../core/src/model/org-unit.model';
 
 @Component({
   selector: 'cx-budget-form',
@@ -23,7 +27,7 @@ import { Observable, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetFormComponent implements OnInit, OnDestroy {
-  businessUnits$: Observable<OrgUnit[]>;
+  businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
 
   @Input()
@@ -68,23 +72,29 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    protected currencyService: CurrencyService
+    protected currencyService: CurrencyService,
+    protected orgUnitService: OrgUnitService
   ) {}
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
-    // this.orgUnits = this.currencyService.getAll();
+    this.businessUnits$ = this.orgUnitService
+      .getList({fields:'DEFAULT'})
+      .pipe(
+        map(list => list.unitNodes));
+
+    this.businessUnits$.pipe(take(1)).subscribe(console.log)
   }
 
   currencySelected(currency: Currency): void {
-    console.log(currency)
+    console.log(currency);
     this.budget['controls'].currency['controls'].isocode.setValue(
       currency.isocode
     );
   }
 
   businessUnitSelected(orgUnit: OrgUnit): void {
-    console.log(orgUnit)
+    console.log(orgUnit);
     this.budget['controls'].businessUnits['controls'].uid.setValue(orgUnit.uid);
     // this.businessUnits$.next(orgUnit.uid);
   }

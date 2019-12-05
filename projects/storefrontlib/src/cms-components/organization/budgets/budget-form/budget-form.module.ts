@@ -4,27 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule, CxDatePipe,
+  CxDatePipe,
   I18nModule,
   UrlModule,
   UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { BudgetFormComponent } from './budget-form.component';
+import { OrgUnitService } from '../../../../../../core/src/organization/facade/org-unit.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        BudgetFormComponent: {
-          component: BudgetFormComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
     RouterModule,
     FormsModule,
     NgSelectModule,
@@ -35,7 +26,7 @@ import { BudgetFormComponent } from './budget-form.component';
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],
-  providers: [UserService, CxDatePipe],
+  providers: [UserService, CxDatePipe, OrgUnitService],
   entryComponents: [BudgetFormComponent],
 })
 export class BudgetFormModule {}

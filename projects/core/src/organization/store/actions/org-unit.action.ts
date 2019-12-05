@@ -8,9 +8,6 @@ import { ORG_UNIT_ENTITIES,
   ORG_UNIT_LISTS
 } from '../organization-state';
 
-function serializeB2BUnitNodeSearchConfig(param) {
-  return param.toString()
-}
 export const LOAD_ORG_UNIT = '[B2BUnitNode] Load B2BUnitNode Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnitNode] Load B2BUnitNode Data Fail';
 export const LOAD_ORG_UNIT_SUCCESS = '[B2BUnitNode] Load B2BUnitNode Data Success';
@@ -59,7 +56,7 @@ export class LoadOrgUnits extends EntityLoadAction {
       params: any;
     }
   ) {
-    super(ORG_UNIT_LISTS, serializeB2BUnitNodeSearchConfig(payload.params));
+    super(ORG_UNIT_LISTS, payload.params);
   }
 }
 
@@ -68,7 +65,7 @@ export class LoadOrgUnitsFail extends EntityFailAction {
   constructor(public payload: any) {
     super(
       ORG_UNIT_LISTS,
-      serializeB2BUnitNodeSearchConfig(payload.params),
+      payload.params,
       payload.error
     );
   }
@@ -77,7 +74,7 @@ export class LoadOrgUnitsFail extends EntityFailAction {
 export class LoadOrgUnitsSuccess extends EntitySuccessAction {
   readonly type = LOAD_ORG_UNITS_SUCCESS;
   constructor(public payload: any) {
-    super(ORG_UNIT_LISTS, serializeB2BUnitNodeSearchConfig(payload.params));
+    super(ORG_UNIT_LISTS, payload.params);
   }
 }
 
