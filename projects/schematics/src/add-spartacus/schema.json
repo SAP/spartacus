@@ -18,8 +18,7 @@
     },
     "baseSite": {
       "type": "string",
-      "description": "The base site to use with spartacus",
-      "default": "electronics"
+      "description": "The base site to use with spartacus"
     },
     "useMetaTags": {
       "type": "boolean",
@@ -28,7 +27,7 @@
     "featureLevel": {
       "type": "string",
       "description": "Configure feature level for application.",
-      "default": "1.2"
+      "default": "1.3"
     },
     "overwriteAppComponent": {
       "type": "boolean",
