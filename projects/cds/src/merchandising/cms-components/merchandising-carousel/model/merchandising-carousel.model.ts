@@ -4,4 +4,7 @@ import { MerchandisingProduct } from '../../../model/merchandising-products.mode
 export interface MerchandisingCarouselModel {
   items$: Observable<MerchandisingProduct>[];
   metadata: Map<string, string>;
+  title: string;
+  backgroundColor: string;
+  textColor: string;
 }

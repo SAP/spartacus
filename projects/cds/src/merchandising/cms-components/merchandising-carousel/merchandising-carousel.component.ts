@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
-  map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
@@ -21,16 +21,13 @@ export class MerchandisingCarouselComponent {
     protected componentData: CmsComponentData<
       CmsMerchandisingCarouselComponent
     >,
-    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService
+    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
+    protected el: ElementRef
   ) {}
 
   private componentData$: Observable<
     CmsMerchandisingCarouselComponent
   > = this.componentData.data$.pipe(filter(Boolean));
-
-  title$: Observable<string> = this.componentData$.pipe(
-    map(data => data.title)
-  );
 
   merchandisingCarouselModel$: Observable<
     MerchandisingCarouselModel
@@ -40,6 +37,16 @@ export class MerchandisingCarouselComponent {
       this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
         data
       )
-    )
+    ),
+    tap(data => {
+      this.el.nativeElement.style.setProperty(
+        '--cx-color-background',
+        data.backgroundColor
+      );
+      this.el.nativeElement.style.setProperty(
+        '--cx-color-text',
+        data.textColor
+      );
+    })
   );
 }
