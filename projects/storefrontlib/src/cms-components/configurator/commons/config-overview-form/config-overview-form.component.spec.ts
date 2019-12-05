@@ -14,12 +14,26 @@ import { ConfigAttributeHeaderComponent } from '../config-attribute-header/confi
 import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/config-overview-attribute.component';
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
 
-const routerStateObservable = null;
 const configurationObservable = null;
-const configurationCreateObservable = null;
+const PRODUCT_CODE = 'CONF_LAPTOP';
 
-const configCreate: Configurator.Configuration = {
+const mockRouterState: any = {
+  state: {
+    params: {
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
+    },
+  },
+};
+
+const owner: Configurator.Owner = {
+  id: PRODUCT_CODE,
+  type: Configurator.OwnerType.PRODUCT,
+};
+
+let configCreate: Configurator.Configuration = {
   configId: '1234-56-7890',
+  owner: owner,
   overview: {
     groups: [
       {
@@ -49,10 +63,17 @@ const configCreate: Configurator.Configuration = {
     ],
   },
 };
+const configInitial: Configurator.Configuration = {
+  configId: '1235-56-7890',
+  owner: owner,
+  overview: {
+    groups: [],
+  },
+};
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
+    return of(mockRouterState);
   }
 }
 
@@ -66,8 +87,16 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObservable;
   }
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
+  getOrCreateConfiguration(
+    productCode: string
+  ): Observable<Configurator.Configuration> {
+    configCreate.productCode = productCode;
+    return of(configCreate);
+  }
+  getConfigurationOverview(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return of(configuration);
   }
   hasConfiguration(): Observable<boolean> {
     return of(false);
@@ -76,6 +105,7 @@ class MockConfiguratorCommonsService {
 describe('ConfigurationOverviewFormComponent', () => {
   let component: ConfigOverviewFormComponent;
   let fixture: ComponentFixture<ConfigOverviewFormComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -104,10 +134,39 @@ describe('ConfigurationOverviewFormComponent', () => {
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigOverviewFormComponent);
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
+  });
+
+  it('should display configuration overview', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(htmlElem.querySelectorAll('.cx-config-overview-group').length).toBe(
+      2
+    );
+
+    expect(
+      htmlElem.querySelectorAll('cx-config-overview-attribute').length
+    ).toBe(3);
+  });
+
+  it('should display no result text in case of empty configuration', () => {
+    configCreate = configInitial;
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(htmlElem.querySelectorAll('.cx-config-overview-group').length).toBe(
+      0
+    );
+
+    expect(
+      htmlElem.querySelectorAll('cx-config-overview-attribute').length
+    ).toBe(0);
   });
 });
