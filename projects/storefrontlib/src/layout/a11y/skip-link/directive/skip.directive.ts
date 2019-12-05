@@ -1,5 +1,5 @@
 import { Directive, Input, OnDestroy, OnInit, ElementRef } from '@angular/core';
-import { SkipLinkService } from '../skip-link.service';
+import { SkipLinkService } from '../service/skip-link.service';
 
 @Directive({
   selector: '[cxSkip]',

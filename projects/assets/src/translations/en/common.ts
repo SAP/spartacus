@@ -99,9 +99,9 @@ export const common = {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
   },
-  groupSkipper: {
+  skipLink: {
     skipTo: 'Skip to',
-    titles: {
+    labels: {
       header: 'Header',
       main: 'Main Content',
       footer: 'Footer',

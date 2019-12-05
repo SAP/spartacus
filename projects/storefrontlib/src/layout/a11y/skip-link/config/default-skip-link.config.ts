@@ -4,18 +4,18 @@ export const defaultSkipLinkConfig: SkipLinkConfig = {
   skipLinks: [
     {
       key: 'SiteContext',
-      i18nKey: 'groupSkipper.titles.header',
+      i18nKey: 'skipLink.labels.header',
     },
     {
       key: 'BottomHeaderSlot',
       position: SkipLinkScrollPosition.AFTER,
-      i18nKey: 'groupSkipper.titles.main',
+      i18nKey: 'skipLink.labels.main',
     },
     {
       key: 'ProductLeftRefinements',
-      i18nKey: 'groupSkipper.titles.productFacets',
+      i18nKey: 'skipLink.labels.productFacets',
     },
-    { key: 'ProductListSlot', i18nKey: 'groupSkipper.titles.productList' },
-    { key: 'Footer', i18nKey: 'groupSkipper.titles.footer' },
+    { key: 'ProductListSlot', i18nKey: 'skipLink.labels.productList' },
+    { key: 'Footer', i18nKey: 'skipLink.labels.footer' },
   ],
 };

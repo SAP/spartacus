@@ -10,6 +10,10 @@ import { OutletDirective } from '../../outlet';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
+import {
+  SkipDirective,
+  SkipLinkConfig,
+} from 'projects/storefrontlib/src/layout/a11y';
 
 class MockCmsService {
   getContentSlot(): Observable<ContentSlotData> {
@@ -32,6 +36,8 @@ class MockDynamicAttributeService {
 
 class MockCmsMappingService {}
 
+const MockSkipLinkConfig: SkipLinkConfig = { skipLinks: [] };
+
 describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
   let fixture: ComponentFixture<PageSlotComponent>;
@@ -46,6 +52,7 @@ describe('PageSlotComponent', () => {
         PageSlotComponent,
         ComponentWrapperDirective,
         OutletDirective,
+        SkipDirective,
       ],
       providers: [
         Renderer2,
@@ -60,6 +67,10 @@ describe('PageSlotComponent', () => {
         {
           provide: DynamicAttributeService,
           useClass: MockDynamicAttributeService,
+        },
+        {
+          provide: SkipLinkConfig,
+          useValue: MockSkipLinkConfig,
         },
       ],
     }).compileComponents();

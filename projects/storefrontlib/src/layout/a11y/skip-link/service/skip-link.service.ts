@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SkipLinkConfig } from './config/index';
+import { SkipLinkConfig } from '../config/index';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,7 @@ export class SkipLinkService {
     }
   }
 
-  getSkipperIndexInArray(key: string) {
+  protected getSkipperIndexInArray(key: string) {
     let index = this.config.skipLinks.findIndex(
       skipLink => skipLink.key === key
     );

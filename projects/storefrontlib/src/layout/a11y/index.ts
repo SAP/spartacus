@@ -1,1 +1,1 @@
-export * from './skip-links/index';
+export * from './skip-link/index';

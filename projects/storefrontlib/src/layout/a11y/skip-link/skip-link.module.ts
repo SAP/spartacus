@@ -10,7 +10,7 @@ import {
   OutletService,
 } from 'projects/storefrontlib/src/cms-structure';
 import { defaultSkipLinkConfig, SkipLinkConfig } from './config';
-import { SkipLinkComponent } from './skip-link.component';
+import { SkipLinkComponent } from './component/skip-link.component';
 
 @NgModule({
   imports: [

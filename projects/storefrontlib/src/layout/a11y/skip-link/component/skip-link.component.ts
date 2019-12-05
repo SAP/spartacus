@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkipLinkScrollPosition } from './config/index';
-import { SkipLinkService } from './skip-link.service';
+import { SkipLinkScrollPosition } from '../config/index';
+import { SkipLinkService } from '../service/skip-link.service';
 
 @Component({
   selector: 'cx-skip-link',
