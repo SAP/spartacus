@@ -18,9 +18,9 @@ import { IconConfig } from './cms-components/misc/icon/index';
 import { QualtricsConfig } from './cms-components/misc/qualtrics/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { FeatureToggles } from './feature-toggles';
-import { SkipLinkConfig } from './layout/a11y/index';
 import { LayoutConfig } from './layout/config/layout-config';
 import { ViewConfig } from './shared/config/view-config';
+import { SkipLinkConfig } from './layout/a11y/skip-link/config';
 
 export type StorefrontConfig =
   | AnonymousConsentsConfig

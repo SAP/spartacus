@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkipLinkScrollPosition } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 
 @Component({
@@ -12,12 +11,7 @@ export class SkipLinkComponent {
 
   constructor(private skipLinkService: SkipLinkService) {}
 
-  go(target: HTMLElement, position: SkipLinkScrollPosition, event: MouseEvent) {
-    target = <HTMLElement>target.parentNode;
-    (<HTMLElement>event.target).blur();
-    const options: ScrollIntoViewOptions =
-      position === SkipLinkScrollPosition.AFTER ? { inline: 'end' } : {};
-
-    target.scrollIntoView(options);
+  go(link, event: MouseEvent) {
+    this.skipLinkService.go(link.target, link.position, event);
   }
 }

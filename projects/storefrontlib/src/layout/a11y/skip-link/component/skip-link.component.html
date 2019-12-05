@@ -1,8 +1,4 @@
-<button
-  *ngFor="let link of links$ | async"
-  (click)="go(link.target, link.position, $event)"
-  [hidden]="link.hidden"
->
+<button *ngFor="let link of links$ | async" (click)="go(link, $event)">
   {{ 'skipLink.skipTo' | cxTranslate }}
   {{ link.title | cxTranslate }}
 </button>

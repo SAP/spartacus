@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SkipLinkConfig } from '../config/index';
+import { SkipLinkConfig, SkipLinkScrollPosition } from '../config/index';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +33,15 @@ export class SkipLinkService {
       existing = existing.filter(skipLink => skipLink.key !== key);
       this.skippers.next(existing);
     }
+  }
+
+  go(target: HTMLElement, position: SkipLinkScrollPosition, event: MouseEvent) {
+    target = <HTMLElement>target.parentNode;
+    (<HTMLElement>event.target).blur();
+    const options: ScrollIntoViewOptions =
+      position === SkipLinkScrollPosition.AFTER ? { inline: 'end' } : {};
+
+    target.scrollIntoView(options);
   }
 
   protected getSkipperIndexInArray(key: string) {

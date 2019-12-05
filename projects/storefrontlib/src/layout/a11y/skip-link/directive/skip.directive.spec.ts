@@ -15,7 +15,7 @@ const SKIP_KEY_2 = 'Key2';
 })
 class TestContainerComponent {}
 
-fdescribe('SkipDirective', () => {
+describe('SkipDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: SkipLinkService;
 
