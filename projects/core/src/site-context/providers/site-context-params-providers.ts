@@ -1,14 +1,20 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
-import { SiteContextParamsService } from '../services/site-context-params.service';
 import { UrlSerializer } from '@angular/router';
-import { SiteContextUrlSerializer } from '../services/site-context-url-serializer';
+import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
+import { SiteContextParamsService } from '../services/site-context-params.service';
 import { SiteContextRoutesHandler } from '../services/site-context-routes-handler';
+import { SiteContextUrlSerializer } from '../services/site-context-url-serializer';
+
+// functions below should not be exposed in public API:
 
 export function initSiteContextRoutesHandler(
-  siteContextRoutesHandler: SiteContextRoutesHandler
+  siteContextRoutesHandler: SiteContextRoutesHandler,
+  configInit: ConfigInitializerService
 ) {
   return () => {
-    siteContextRoutesHandler.init();
+    configInit.getStableConfig('context').then(() => {
+      siteContextRoutesHandler.init();
+    });
   };
 }
 
@@ -19,6 +25,32 @@ export const siteContextParamsProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
     useFactory: initSiteContextRoutesHandler,
+    deps: [SiteContextRoutesHandler, ConfigInitializerService],
+    multi: true,
+  },
+];
+
+/**
+ * @deprecated since 1.3.1; TODO: remove
+ */
+export function deprecatedInitSiteContextRoutesHandler(
+  siteContextRoutesHandler: SiteContextRoutesHandler
+) {
+  return () => {
+    siteContextRoutesHandler.init();
+  };
+}
+
+/**
+ * @deprecated since 1.3.1; TODO: remove
+ */
+export const deprecatedSiteContextParamsProviders: Provider[] = [
+  SiteContextParamsService,
+  SiteContextUrlSerializer,
+  { provide: UrlSerializer, useExisting: SiteContextUrlSerializer },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: deprecatedInitSiteContextRoutesHandler,
     deps: [SiteContextRoutesHandler],
     multi: true,
   },
