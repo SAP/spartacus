@@ -10,7 +10,7 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
-import { EventDemoModule } from '@spartacus/incubator';
+import { ɵEventDemoModule } from '@spartacus/incubator';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
@@ -73,7 +73,7 @@ if (!environment.production) {
     JsonLdBuilderModule,
 
     // incubator features
-    EventDemoModule,
+    ɵEventDemoModule,
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.

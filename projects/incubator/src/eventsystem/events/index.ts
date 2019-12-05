@@ -1,3 +1,3 @@
-export * from './event.emitter';
+export { EventEmitter as ɵEventEmitter } from './event.emitter';
 export * from './event.model';
-export * from './event.service';
+export { EventService as ɵEventService } from './event.service';
