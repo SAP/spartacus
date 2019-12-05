@@ -12,13 +12,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Product } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { MerchandisingProduct } from '../..';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import {
-  MerchandisingProduct,
-  MerchandisingProducts,
-} from '../../model/merchandising-products.model';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
+import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
+import { MerchandisingCarouselModel } from './model/index';
 
 @Component({
   selector: 'cx-carousel',
@@ -66,36 +64,39 @@ class MockMediaComponent {
   @Input() format: string;
 }
 
-const mockMerchandisingProductsMetadata: Map<string, string> = new Map();
-mockMerchandisingProductsMetadata.set(
-  'custom-metadata-field-1',
-  'custom-metadata-data-value-1'
-);
-const mockMerchandisingProducts: MerchandisingProducts = {
-  products: [
-    {
-      code: '1',
-      name: 'product 1',
-      price: {
-        formattedValue: '100.00',
-      },
-      images: {
-        PRIMARY: {
-          image: {
-            url: 'whatever.jpg',
-          },
+const merchandisingCarouselModelProducts: MerchandisingProduct[] = [
+  {
+    code: '1',
+    name: 'product 1',
+    price: {
+      formattedValue: '100.00',
+    },
+    images: {
+      PRIMARY: {
+        image: {
+          url: 'whatever.jpg',
         },
       },
     },
-    {
-      code: '2',
-      name: 'product 2',
-      price: {
-        formattedValue: '200.00',
-      },
+  },
+  {
+    code: '2',
+    name: 'product 2',
+    price: {
+      formattedValue: '200.00',
     },
-  ],
-  metadata: mockMerchandisingProductsMetadata,
+  },
+];
+const merchandisingCarouselModelMetadata: Map<string, string> = new Map();
+merchandisingCarouselModelMetadata.set(
+  'custom-metadata-field-1',
+  'custom-metadata-data-value-1'
+);
+const merchandisingCarouselModel: MerchandisingCarouselModel = {
+  items$: merchandisingCarouselModelProducts.map(merchandisingProduct =>
+    of(merchandisingProduct)
+  ),
+  metadata: merchandisingCarouselModelMetadata,
 };
 
 const mockComponentData: CmsMerchandisingCarouselComponent = {
@@ -107,15 +108,17 @@ const mockComponentData: CmsMerchandisingCarouselComponent = {
   name: 'Mock Product Carousel',
   strategy: 'test-strategy-1',
   container: 'false',
+  backgroundColour: '#000000',
+  textColour: '#ffffff',
 };
 
 const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
-class MockCdsMerchandisingProductService {
-  loadProductsForStrategy(): Observable<MerchandisingProducts> {
-    return of(mockMerchandisingProducts);
+class MockMerchandisingCarouselComponentService {
+  getMerchandisingCarouselModel(): Observable<MerchandisingCarouselModel> {
+    return of(merchandisingCarouselModel);
   }
 }
 
@@ -139,8 +142,8 @@ describe('MerchandisingCarouselComponent', () => {
           useValue: MockCmsMerchandisingCarouselComponent,
         },
         {
-          provide: CdsMerchandisingProductService,
-          useClass: MockCdsMerchandisingProductService,
+          provide: MerchandisingCarouselComponentService,
+          useClass: MockMerchandisingCarouselComponentService,
         },
       ],
     }).compileComponents();
@@ -156,36 +159,13 @@ describe('MerchandisingCarouselComponent', () => {
     expect(component).toBeTruthy();
   }));
 
-  it('should have a title', async () => {
+  it('should have a title', async(() => {
     let actualTitle: string;
     component.title$.subscribe(title => (actualTitle = title));
     expect(actualTitle).toBe(mockComponentData.title);
-  });
+  }));
 
-  it('should have MerchandisingProducts populated', () => {
-    const expectedMerchandisingCarouselModelMetadata: Map<
-      string,
-      string
-    > = new Map(mockMerchandisingProductsMetadata);
-
-    expectedMerchandisingCarouselModelMetadata.set(
-      'title',
-      mockComponentData.title
-    );
-    expectedMerchandisingCarouselModelMetadata.set(
-      'name',
-      mockComponentData.name
-    );
-    expectedMerchandisingCarouselModelMetadata.set(
-      'strategyid',
-      mockComponentData.strategy
-    );
-    expectedMerchandisingCarouselModelMetadata.set(
-      'slots',
-      mockMerchandisingProducts.products.length.toString()
-    );
-    expectedMerchandisingCarouselModelMetadata.set('id', mockComponentData.uid);
-
+  it('should have MerchandisingProducts populated', async(() => {
     let actualCarouselMetadata: Map<string, string>;
     const actualCarouselProducts: MerchandisingProduct[] = [];
     component.merchandisingCarouselModel$.subscribe(merchandisingProducts => {
@@ -196,16 +176,15 @@ describe('MerchandisingCarouselComponent', () => {
         )
       );
     });
-    expect(actualCarouselMetadata).toEqual(
-      expectedMerchandisingCarouselModelMetadata
-    );
-    expect(actualCarouselProducts).toEqual(mockMerchandisingProducts.products);
-  });
+    expect(actualCarouselMetadata).toEqual(merchandisingCarouselModel.metadata);
+    expect(actualCarouselProducts).toEqual(merchandisingCarouselModelProducts);
+  }));
 
   it('should have 2 items', async(() => {
     let items: Observable<Product>[];
     component.merchandisingCarouselModel$.subscribe(
-      merchandisingCarouselModel => (items = merchandisingCarouselModel.items$)
+      actualMerchandisingCarouselModel =>
+        (items = actualMerchandisingCarouselModel.items$)
     );
     expect(items.length).toBe(2);
   }));
@@ -213,11 +192,12 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have product code 111 in first product', async(() => {
     let items: Observable<Product>[];
     component.merchandisingCarouselModel$.subscribe(
-      merchandisingCarouselModel => (items = merchandisingCarouselModel.items$)
+      actualMerchandisingCarouselModel =>
+        (items = actualMerchandisingCarouselModel.items$)
     );
     let product: Product;
     items[0].subscribe(p => (product = p));
-    expect(product).toEqual(mockMerchandisingProducts.products[0]);
+    expect(product).toEqual(merchandisingCarouselModelProducts[0]);
   }));
 
   describe('UI test', () => {
