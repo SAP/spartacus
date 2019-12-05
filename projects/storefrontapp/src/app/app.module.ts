@@ -64,7 +64,7 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
       features: {
-        level: '1.3',
+        level: '1.4',
         anonymousConsents: true,
       },
     }),

@@ -16,7 +16,7 @@ import { MerchandisingProduct } from '../..';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
-import { MerchandisingCarouselModel } from './merchandising-carousel.model';
+import { MerchandisingCarouselModel } from './model/index';
 
 @Component({
   selector: 'cx-carousel',
@@ -108,6 +108,8 @@ const mockComponentData: CmsMerchandisingCarouselComponent = {
   name: 'Mock Product Carousel',
   strategy: 'test-strategy-1',
   container: 'false',
+  backgroundColour: '#000000',
+  textColour: '#ffffff',
 };
 
 const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
@@ -157,13 +159,13 @@ describe('MerchandisingCarouselComponent', () => {
     expect(component).toBeTruthy();
   }));
 
-  it('should have a title', async () => {
+  it('should have a title', async(() => {
     let actualTitle: string;
     component.title$.subscribe(title => (actualTitle = title));
     expect(actualTitle).toBe(mockComponentData.title);
-  });
+  }));
 
-  it('should have MerchandisingProducts populated', () => {
+  it('should have MerchandisingProducts populated', async(() => {
     let actualCarouselMetadata: Map<string, string>;
     const actualCarouselProducts: MerchandisingProduct[] = [];
     component.merchandisingCarouselModel$.subscribe(merchandisingProducts => {
@@ -176,7 +178,7 @@ describe('MerchandisingCarouselComponent', () => {
     });
     expect(actualCarouselMetadata).toEqual(merchandisingCarouselModel.metadata);
     expect(actualCarouselProducts).toEqual(merchandisingCarouselModelProducts);
-  });
+  }));
 
   it('should have 2 items', async(() => {
     let items: Observable<Product>[];

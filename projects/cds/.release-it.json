@@ -1,0 +1,15 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "cds-${version}",
+    "commitMessage": "Bumping cds version to ${version}",
+    "tagAnnotation": "Bumping cds version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/cds"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && ng build cds"
+  }
+}
