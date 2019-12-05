@@ -146,6 +146,14 @@ export class MockProductListComponentService {
   model$ = createSpy('model$');
 }
 
+@Component({
+  selector: 'cx-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
+}
+
 describe('ProductScrollComponent', () => {
   let component: ProductScrollComponent;
   let fixture: ComponentFixture<ProductScrollComponent>;
@@ -161,6 +169,7 @@ describe('ProductScrollComponent', () => {
         MediaComponent,
         MockStarRatingComponent,
         MockAddToCartComponent,
+        MockStyleIconsComponent,
       ],
       imports: [
         InfiniteScrollModule,

@@ -52,6 +52,14 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+@Component({
+  selector: 'cx-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
+}
+
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
@@ -83,6 +91,7 @@ describe('ProductListItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        MockStyleIconsComponent,
       ],
     })
       .overrideComponent(ProductListItemComponent, {
