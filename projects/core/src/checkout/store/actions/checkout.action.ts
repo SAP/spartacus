@@ -199,7 +199,9 @@ export class ResetSetDeliveryModeProcess extends StateEntityLoaderActions.Entity
   }
 }
 
-export class CreatePaymentDetails extends StateEntityLoaderActions.EntityLoadAction {
+export class CreatePaymentDetails
+  extends StateEntityLoaderActions.EntityLoadAction
+  implements Action {
   readonly type = CREATE_PAYMENT_DETAILS;
   constructor(
     public payload: {
@@ -208,18 +210,26 @@ export class CreatePaymentDetails extends StateEntityLoaderActions.EntityLoadAct
       paymentDetails: PaymentDetails;
     }
   ) {
-    super(PROCESS_FEATURE, CREATE_PAYMENT_DETAILS);
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
   }
 }
 
-export class CreatePaymentDetailsFail implements Action {
+export class CreatePaymentDetailsFail
+  extends StateEntityLoaderActions.EntityFailAction
+  implements Action {
   readonly type = CREATE_PAYMENT_DETAILS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
+  }
 }
 
-export class CreatePaymentDetailsSuccess implements Action {
+export class CreatePaymentDetailsSuccess
+  extends StateEntityLoaderActions.EntitySuccessAction
+  implements Action {
   readonly type = CREATE_PAYMENT_DETAILS_SUCCESS;
-  constructor(public payload: PaymentDetails) {}
+  constructor(public payload: PaymentDetails) {
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
+  }
 }
 
 export class SetPaymentDetails extends StateEntityLoaderActions.EntityLoadAction {
