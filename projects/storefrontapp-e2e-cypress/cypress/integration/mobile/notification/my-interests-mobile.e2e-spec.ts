@@ -1,5 +1,6 @@
 import { formats } from '../../../sample-data/viewports';
 import * as notification from '../../../helpers/notification';
+import * as orderDetail from '../../../helpers/consignment-tracking';
 
 describe(`${formats.mobile.width + 1}p resolution - My interests`, () => {
   beforeEach(() => {
@@ -23,9 +24,7 @@ describe(`${formats.mobile.width +
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
-    cy.requireLoggedIn();
-    notification.subscribeStockNotifications();
-    cy.reload();
+    orderDetail.loginUsingUserWithOrder();
   });
 
   it('should page and sort', () => {

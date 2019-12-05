@@ -2,24 +2,24 @@ import { generateMail, randomString } from './user';
 import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
 
-export const normalProductCode = '666600';
+export const normalProductCode = '1978440_green';
 export const productCodeList = [
-  '666600',
-  '666601',
-  '666602',
-  '666603',
-  '666604',
-  '666605',
-  '666606',
-  '666607',
-  '666608',
-  '666609',
-  '666610',
+  '553637',
+  '592506',
+  '932577',
+  '3357724',
+  '4205431',
+  '358639',
+  '2053266',
+  '898520',
+  '816379',
+  '1978440_red',
+  '1934793',
 ];
 export const firstProductCodeSelector =
   'cx-my-interests .cx-product-interests-product-item:first .cx-code';
-export const firstProductAscending = '666600';
-export const firstProductDescending = '666610';
+export const firstProductAscending = '4205431';
+export const firstProductDescending = '898520';
 // notification preference
 export function navigateToNotificationPreferencePage() {
   cy.selectUserMenuOption({
@@ -231,22 +231,4 @@ export function navigateToMyInterestsPage() {
   cy.selectUserMenuOption({
     option: 'My Interests',
   });
-}
-
-export function subscribeStockNotifications() {
-  const apiUrl = Cypress.env('API_URL');
-  cy.window()
-    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
-    .then(({ auth }) => {
-      productCodeList.forEach(productCode => {
-        cy.request({
-          method: 'POST',
-          url: `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?productCode=${productCode}&notificationType=BACK_IN_STOCK`,
-          form: false,
-          headers: {
-            Authorization: `bearer ${auth.userToken.token.access_token}`,
-          },
-        });
-      });
-    });
 }
