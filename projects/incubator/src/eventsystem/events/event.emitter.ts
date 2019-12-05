@@ -1,5 +1,5 @@
 import { Injectable, Type } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CxEventSource } from './event.model';
 
@@ -29,6 +29,19 @@ export class EventEmitter {
   private events = new Map<Type<any>, CxEventSource<any>>();
 
   /**
+   * Attach an event source for the given Event Type.
+   *
+   * @param eventType the (global) event type
+   * @param source an observable that represents the source
+   */
+  attach<T>(eventType: Type<T>, source: Observable<T>): void {
+    const event = this.getEvent(eventType);
+    const sources: Observable<T>[] = event.sources.value;
+    sources.push(source);
+    event.sources.next(sources);
+  }
+
+  /**
    * Dispatch a value stream for the given event type. The event values
    * are resolved from various sources.
    */
@@ -55,16 +68,18 @@ export class EventEmitter {
   }
 
   /**
-   * Attach an event source for the given Event Type.
-   *
-   * @param eventType the (global) event type
-   * @param source an observable that represents the source
+   * Returns a merged observable from the various event types, if any.
    */
-  attach<T>(eventType: Type<T>, source: Observable<T>): void {
-    const event = this.getEvent(eventType);
-    const sources: Observable<T>[] = event.sources.value;
-    sources.push(source);
-    event.sources.next(sources);
+  dispatchAny<T>(...eventTypes: Type<T>[]): Observable<T> {
+    if (eventTypes && eventTypes.length > 0) {
+      return merge(
+        ...eventTypes.map(eventType => {
+          return this.dispatch(eventType);
+        })
+      ).pipe(map(d => Object.assign({}, d)));
+    } else {
+      return of({} as T);
+    }
   }
 
   /**
@@ -79,20 +94,4 @@ export class EventEmitter {
     }
     return this.events.get(eventType);
   }
-
-  // /**
-  //  * We can detach all event sources, but cannot
-  //  * throw away the event savely. We might have active subscribers,
-  //  * and future source might be (re)attached for those sources as well.
-  //  *
-  //  * We currently do not have the capability to only detach a single source.
-  //  * This is actually risky, as the API caller of this method might be unaware
-  //  * of any other source contributors of this event.
-  //  *
-  //  * @experimental
-  //  */
-  // detach<T>(eventType: Type<T>): void {
-  //   const event = this.getEvent(eventType);
-  //   event.sources.next([]);
-  // }
 }
