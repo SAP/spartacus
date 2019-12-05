@@ -9,18 +9,38 @@ import {
   SemanticPathService,
   ProtectedRoutesService,
 } from '@spartacus/core';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LogoutGuard implements CanActivate {
   constructor(
+    auth: AuthService,
+    cms: CmsService,
+    routing: RoutingService,
+    semanticPathService: SemanticPathService,
+    // tslint:disable-next-line: unified-signatures
+    protectedRoutes: ProtectedRoutesService
+  );
+  /**
+   * @deprecated since 1.4
+   * Check #5666 for more info
+   *
+   * TODO(issue:5666) Deprecated since 1.4
+   */
+  constructor(
+    auth: AuthService,
+    cms: CmsService,
+    routing: RoutingService,
+    semanticPathService: SemanticPathService
+  );
+  constructor(
     protected auth: AuthService,
     protected cms: CmsService,
     protected routing: RoutingService,
     protected semanticPathService: SemanticPathService,
-    protected protectedRoutes: ProtectedRoutesService
+    protected protectedRoutes?: ProtectedRoutesService
   ) {}
 
   canActivate(): Observable<any> {
@@ -32,14 +52,18 @@ export class LogoutGuard implements CanActivate {
         type: PageType.CONTENT_PAGE,
       })
       .pipe(
-        tap(hasPage => {
-          if (!hasPage) {
-            this.routing.go({
-              cxRoute: this.protectedRoutes.isAppProtected() ? 'login' : 'home',
-            });
-          }
-        })
+        filter(hasPage => !hasPage),
+        tap(() => this.redirect())
       );
+  }
+
+  protected redirect(): void {
+    const cxRoute =
+      this.protectedRoutes && this.protectedRoutes.isAppProtected()
+        ? 'login'
+        : 'home';
+
+    this.routing.go({ cxRoute });
   }
 
   protected logout(): void {
