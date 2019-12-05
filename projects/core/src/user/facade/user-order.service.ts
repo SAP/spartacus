@@ -5,7 +5,7 @@ import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { OCC_USER_ID_CURRENT } from '../../occ';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
