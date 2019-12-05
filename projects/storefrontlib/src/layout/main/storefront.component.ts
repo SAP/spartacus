@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
@@ -22,8 +16,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService,
-    protected element: ElementRef
+    private routingService: RoutingService
   ) {}
 
   ngOnInit(): void {

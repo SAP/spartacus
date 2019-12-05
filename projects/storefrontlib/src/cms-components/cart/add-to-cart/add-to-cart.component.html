@@ -19,7 +19,7 @@
   class="btn btn-primary btn-block"
   type="button"
   [disabled]="quantity <= 0 || quantity > maxQuantity"
-  (click)="addToCart($event)"
+  (click)="addToCart()"
 >
   {{ 'addToCart.addToCart' | cxTranslate }}
 </button>
