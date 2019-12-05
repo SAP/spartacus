@@ -6,10 +6,14 @@ import {
   NavigationStart,
 } from '@angular/router';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
-import { ProfileTagEventNames, ProfileTagWindowObject } from '../model/index';
+import {
+  DebugEvent,
+  ProfileTagEventNames,
+  ProfileTagWindowObject,
+} from '../model/index';
 import { ProfileTagEventTracker } from './profiletag-events';
 
 const mockCDSConfig: CdsConfig = {
@@ -39,6 +43,7 @@ describe('ProfileTagEventTracker', () => {
   let getConsentBehavior;
   let routerEventsBehavior;
   let router;
+  let debugBehavior;
 
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
@@ -47,6 +52,7 @@ describe('ProfileTagEventTracker', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
+    debugBehavior = new ReplaySubject<DebugEvent>();
     mockedWindowRef = {
       nativeWindow: {
         addEventListener: (_, listener) => {
@@ -132,6 +138,20 @@ describe('ProfileTagEventTracker', () => {
     getActiveBehavior.next('electronics-test');
     eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
+    subscription.unsubscribe();
+
+    expect(timesCalled).toEqual(1);
+  });
+
+  it(`Should call the debugChanged method when profileTagDebug value changes`, () => {
+    let timesCalled = 0;
+    const subscription = profileTagEventTracker
+      .debugModeChanged()
+      .pipe(tap(_ => timesCalled++))
+      .subscribe();
+    const debugEvent = new CustomEvent(ProfileTagEventNames.DEBUG_FLAG_CHANGED);
+    eventListener(debugEvent);
+    debugBehavior.next(debugEvent);
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(1);
