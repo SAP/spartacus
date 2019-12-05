@@ -1,8 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ImageType } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import { MerchandisingProducts } from '../../model/merchandising-products.model';
+import { StrategyProducts } from '../../model';
 import { MerchandisingStrategyAdapter } from './merchandising-strategy.adapter';
 import { MerchandisingStrategyConnector } from './merchandising-strategy.connector';
 import createSpy = jasmine.createSpy;
@@ -15,42 +14,21 @@ const STRATEGY_REQUEST = {
   pageSize: 10,
 };
 
-const MERCHANDISING_PRODUCTS_METADATA: Map<string, string> = new Map<
-  string,
-  string
->();
-MERCHANDISING_PRODUCTS_METADATA.set(
-  'test-metadata-field',
-  'test-metadata-value'
-);
-
-const MERCHANDISING_PRODUCTS: MerchandisingProducts = {
+const STRATEGY_PRODUCTS: StrategyProducts = {
   products: [
     {
-      code: 'test-product-id',
-      name: 'test-product',
-      price: {
-        formattedValue: '20.99',
-        value: 20.99,
-      },
-      images: {
-        PRIMARY: {
-          product: {
-            url: 'http://some-main-imgae-url',
-            format: 'product',
-            imageType: ImageType.PRIMARY,
-          },
-        },
-      },
+      id: 'test-product-id',
     },
   ],
-  metadata: MERCHANDISING_PRODUCTS_METADATA,
+  metadata: {
+    'test-metadata-field': 'test-metadata-value',
+  },
 };
 
 class MockStrategyAdapter implements MerchandisingStrategyAdapter {
   loadProductsForStrategy = createSpy(
     'StrategyAdapter.loadProductsForStrategy'
-  ).and.callFake(() => of(MERCHANDISING_PRODUCTS));
+  ).and.callFake(() => of(STRATEGY_PRODUCTS));
 }
 
 describe('Strategy Connector', () => {
@@ -79,16 +57,16 @@ describe('Strategy Connector', () => {
   });
 
   it('loadProductsForStrategy should call adapter', () => {
-    let actualMerchandisingProducts: MerchandisingProducts;
+    let actualStrategyProducts: StrategyProducts;
 
     strategyConnector
       .loadProductsForStrategy(STRATEGY_ID, STRATEGY_REQUEST)
-      .subscribe(strategyResult => {
-        actualMerchandisingProducts = strategyResult;
+      .subscribe(strategyProducts => {
+        actualStrategyProducts = strategyProducts;
       })
       .unsubscribe();
 
-    expect(actualMerchandisingProducts).toEqual(MERCHANDISING_PRODUCTS);
+    expect(actualStrategyProducts).toEqual(STRATEGY_PRODUCTS);
     expect(strategyAdapter.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       STRATEGY_REQUEST
