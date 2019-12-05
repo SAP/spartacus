@@ -65,15 +65,15 @@ describe('StyleIconsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should set variantNames array', () => {
-  //   component.ngOnInit();
-  //
-  //   expect(Object.keys(component.variantNames).length).toBeGreaterThan(0);
-  // });
-  //
-  // it('should get variant url for thumbnail type of qualifier', () => {
-  //   const thumbnailUrl = component.getVariantThumbnailUrl(component.variants[0].variantOptionQualifiers);
-  //
-  //   expect(thumbnailUrl).toEqual(mockOccBackendUrl+mockVariants[0].variantOptionQualifiers[1].image.url);
-  // });
+  it('should set variantNames array', () => {
+    component.ngOnInit();
+
+    expect(Object.keys(component.variantNames).length).toBeGreaterThan(0);
+  });
+
+  it('should get variant url for thumbnail type of qualifier', () => {
+    const thumbnailUrl = component.getVariantThumbnailUrl(component.variants[0].variantOptionQualifiers);
+
+    expect(thumbnailUrl).toEqual(mockOccBackendUrl+mockVariants[0].variantOptionQualifiers[1].image.url);
+  });
 });
