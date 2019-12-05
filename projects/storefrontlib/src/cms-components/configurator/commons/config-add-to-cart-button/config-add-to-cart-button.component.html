@@ -3,35 +3,26 @@
     <div class="cx-config-add-to-cart-btn">
       <div class="col-sm-6 col-md-4">
         <ng-container *ngIf="hasBeenAddedToCart$ | async as hasBeenAddedToCart">
-          <ng-container *ngIf="hasBeenAddedToCart.hasBeenAdded">
-            <button
-              class="cx-btn btn btn-block btn-primary"
-              (click)="
-                onAddToCart(
-                  configuration.owner,
-                  configuration.configId,
-                  configuratorType
-                )
-              "
-            >
-              {{ 'configurator.addToCart.buttonAfterAddToCart' | cxTranslate }}
-            </button></ng-container
+          <button
+            class="cx-btn btn btn-block btn-primary"
+            (click)="
+              onAddToCart(
+                configuration.owner,
+                configuration.configId,
+                configuratorType
+              )
+            "
           >
-          <ng-container *ngIf="!hasBeenAddedToCart.hasBeenAdded">
-            <button
-              class="cx-btn btn btn-block btn-primary"
-              (click)="
-                onAddToCart(
-                  configuration.owner,
-                  configuration.configId,
-                  configuratorType
-                )
-              "
+            <ng-container *ngIf="hasBeenAddedToCart.hasBeenAdded">
+              {{
+                'configurator.addToCart.buttonAfterAddToCart' | cxTranslate
+              }}</ng-container
             >
-              {{ 'configurator.addToCart.button' | cxTranslate }}
-            </button></ng-container
-          ></ng-container
-        >
+            <ng-container *ngIf="!hasBeenAddedToCart.hasBeenAdded">
+              {{ 'configurator.addToCart.button' | cxTranslate }}</ng-container
+            >
+          </button>
+        </ng-container>
       </div>
     </div>
   </ng-container>
