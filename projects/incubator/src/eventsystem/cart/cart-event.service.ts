@@ -36,10 +36,10 @@ export class CartEventService {
 
     attach(CartAddEntryEvent, builder.buildEntryCreateEvent());
     attach(CartUpdateEntryEvent, builder.buildEntryUpdateEvent());
+    attach(CartRemoveEntryEvent, builder.buildEntryRemoveEvent());
 
     attach(CartErrorEvent, builder.buildErrorEvent());
     attach(CartChangeEvent, builder.buildChangeEvent());
     attach(CartMergeEvent, builder.buildMergeEvent());
-    attach(CartRemoveEntryEvent, builder.buildEntryRemoveEvent());
   }
 }
