@@ -1,14 +1,14 @@
-import { WindowRef, BaseSiteService } from '@spartacus/core';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { fromEvent, merge, Observable } from 'rxjs';
 import {
-  map,
-  tap,
-  take,
-  filter,
   distinctUntilChanged,
+  filter,
+  map,
   switchMap,
+  take,
+  tap,
 } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
 import {
@@ -55,14 +55,14 @@ export class ProfileTagEventTracker {
     );
   }
 
-  private profileTagLoaded(): Observable<Event> {
+  public profileTagLoaded(): Observable<Event> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.LOADED
     ).pipe(take(1));
   }
 
-  private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
+  public consentReferenceChanged(): Observable<ConsentReferenceEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.CONSENT_REFERENCE_CHANGED
@@ -72,7 +72,7 @@ export class ProfileTagEventTracker {
     );
   }
 
-  private debugModeChanged(): Observable<DebugEvent> {
+  public debugModeChanged(): Observable<DebugEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.DEBUG_FLAG_CHANGED
