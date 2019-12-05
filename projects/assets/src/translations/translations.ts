@@ -1,4 +1,5 @@
 import { en } from './en/index';
+import { zh } from './zh/index';
 
 interface TranslationResources {
   [lang: string]: {
@@ -10,4 +11,5 @@ interface TranslationResources {
 
 export const translations: TranslationResources = {
   en,
+  zh,
 };

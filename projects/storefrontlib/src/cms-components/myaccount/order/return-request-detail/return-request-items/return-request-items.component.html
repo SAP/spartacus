@@ -1,0 +1,8 @@
+<ng-container *ngIf="returnRequest$ | async as returnRequest">
+  <cx-cancel-or-return-items
+    [entries]="orderEntries"
+    [cancelOrder]="false"
+    [confirmRequest]="true"
+  >
+  </cx-cancel-or-return-items>
+</ng-container>

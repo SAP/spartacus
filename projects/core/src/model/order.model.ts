@@ -47,7 +47,7 @@ export interface CancellationRequestEntryInputList {
 }
 
 export interface ReturnRequestEntry {
-  OrderEntry?: OrderEntry;
+  orderEntry?: OrderEntry;
   expectedQuantity?: number;
   refundAmount?: Price;
 }
