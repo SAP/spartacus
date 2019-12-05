@@ -13,6 +13,8 @@ const mockEntries = [
     entryNumber: 1,
     returnableQuantity: 4,
     returnedQuantity: 3,
+    cancellableQuantity: 2,
+    cancelledQuantity: 1,
     product: { code: 'test' },
   },
 ];
@@ -97,6 +99,14 @@ describe('CancelOrReturnItemsComponent', () => {
     component.setAll();
 
     expect(component.form.value.entryInput[0].quantity).toEqual(4);
+    expect(component.disableConfirmBtn).toEqual(false);
+
+    component.cancelOrder = true;
+    component.confirmRequest = false;
+    component.ngOnInit();
+    component.setAll();
+
+    expect(component.form.value.entryInput[0].quantity).toEqual(2);
     expect(component.disableConfirmBtn).toEqual(false);
   });
 
