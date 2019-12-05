@@ -165,27 +165,6 @@ describe('MerchandisingCarouselComponent', () => {
     expect(actualTitle).toBe(mockComponentData.title);
   }));
 
-  it('should have a carouselStyle', async(() => {
-    let actualCarouselStyle: { [key: string]: string };
-    component.carouselStyle$.subscribe(
-      carouselStyle => (actualCarouselStyle = carouselStyle)
-    );
-    expect(actualCarouselStyle).toEqual({
-      'background-color': mockComponentData.backgroundColour,
-      color: mockComponentData.textColour,
-    });
-  }));
-
-  it('should have a carouselItemStyle', async(() => {
-    let actualCarouselItemStyle: { [key: string]: string };
-    component.carouselItemStyle$.subscribe(
-      carouselItemStyle => (actualCarouselItemStyle = carouselItemStyle)
-    );
-    expect(actualCarouselItemStyle).toEqual({
-      color: mockComponentData.textColour,
-    });
-  }));
-
   it('should have MerchandisingProducts populated', async(() => {
     let actualCarouselMetadata: Map<string, string>;
     const actualCarouselProducts: MerchandisingProduct[] = [];
