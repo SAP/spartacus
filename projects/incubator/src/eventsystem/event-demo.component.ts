@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CartAddEvent } from './cart';
 import { PageLoadEvent } from './cms';
-import { EventService } from './events/index';
+import { EventService } from './events/event.service';
 import { ClickEvent } from './ui';
 
 /**
