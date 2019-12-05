@@ -35,7 +35,7 @@ export class LogoutGuard implements CanActivate {
         tap(hasPage => {
           if (!hasPage) {
             this.routing.go({
-              cxRoute: this.protectedRoutes.isAppProtected ? 'login' : 'home',
+              cxRoute: this.protectedRoutes.isAppProtected() ? 'login' : 'home',
             });
           }
         })

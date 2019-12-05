@@ -158,4 +158,36 @@ describe('ProtectedRoutesService', () => {
       });
     });
   });
+
+  describe('isAppProtected', () => {
+    describe('when app not protected', () => {
+      beforeEach(() => {
+        beforeEachWithConfig({
+          protected: false,
+          routes: {
+            login: { paths: ['login'] },
+          },
+        });
+      });
+
+      it('should return false', () => {
+        expect(service.isAppProtected()).toBe(false);
+      });
+    });
+
+    describe('when app protected', () => {
+      beforeEach(() => {
+        beforeEachWithConfig({
+          protected: true,
+          routes: {
+            login: { paths: ['login'] },
+          },
+        });
+      });
+
+      it('should return true', () => {
+        expect(service.isAppProtected()).toBe(true);
+      });
+    });
+  });
 });

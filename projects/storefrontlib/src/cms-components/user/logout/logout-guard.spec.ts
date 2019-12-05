@@ -7,6 +7,7 @@ import {
   CmsService,
   RoutingService,
   SemanticPathService,
+  ProtectedRoutesService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LogoutGuard } from './logout-guard';
@@ -29,16 +30,22 @@ class MockCmsService {
 }
 
 class MockRoutingService {
-  go() {}
+  go = jasmine.createSpy();
 }
 
 class MockSemanticPathService {
   get() {}
 }
 
+class MockProtectedRoutesService {
+  isAppProtected() {}
+}
+
 describe('LogoutGuard', () => {
   let logoutGuard: LogoutGuard;
   let authService: AuthService;
+  let routingService: RoutingService;
+  let protectedRoutesService: ProtectedRoutesService;
 
   let zone: NgZone;
   let router: Router;
@@ -60,10 +67,18 @@ describe('LogoutGuard', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
+        {
+          provide: ProtectedRoutesService,
+          useClass: MockProtectedRoutesService,
+        },
       ],
     });
     authService = TestBed.get(AuthService as Type<AuthService>);
     logoutGuard = TestBed.get(LogoutGuard as Type<LogoutGuard>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    protectedRoutesService = TestBed.get(ProtectedRoutesService as Type<
+      ProtectedRoutesService
+    >);
     router = TestBed.get(Router as Type<Router>);
 
     zone = TestBed.get(NgZone as Type<NgZone>);
@@ -87,6 +102,24 @@ describe('LogoutGuard', () => {
     it('should logout and clear user state', async () => {
       await zone.run(() => router.navigateByUrl('/logout'));
       expect(authService.logout).toHaveBeenCalled();
+    });
+
+    it('should redirect to home page if app not protected', () => {
+      spyOn(protectedRoutesService, 'isAppProtected').and.returnValue(false);
+      logoutGuard.canActivate().subscribe();
+
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'home',
+      });
+    });
+
+    it('should redirect to login page if app protected', () => {
+      spyOn(protectedRoutesService, 'isAppProtected').and.returnValue(true);
+      logoutGuard.canActivate().subscribe();
+
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'login',
+      });
     });
   });
 });
