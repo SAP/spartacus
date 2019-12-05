@@ -117,7 +117,6 @@ export class MergeMultiCart implements Action {
   constructor(public payload: any) {}
 }
 
-// I don't know if we should keep it or replace with different action for removal
 export class MergeMultiCartSuccess extends EntityRemoveAction {
   readonly type = MERGE_MULTI_CART_SUCCESS;
   constructor(
