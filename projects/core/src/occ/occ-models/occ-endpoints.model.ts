@@ -290,6 +290,11 @@ export interface OccEndpoints {
   cartVoucher?: string;
 
   /**
+   * Endpoint for cancel an order
+   */
+  cancelOrder?: string;
+
+  /**
    * Endpoint for creating order return request
    */
   returnOrder?: string;

@@ -6,10 +6,11 @@ import {
   Order,
   OrderEntry,
   CancelOrReturnRequestEntryInput,
+  I18nTestingModule,
 } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancelOrReturnService } from '../cancel-or-return.service';
-import { ReturnOrderComponent } from './return-order.component';
+import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -18,25 +19,9 @@ import createSpy = jasmine.createSpy;
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
+  @Input() confirmRequest = false;
   @Input() cancelOrder = true;
   @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
-}
-
-const mockOrder: Order = {
-  code: '1',
-  entries: [
-    { entryNumber: 0, returnableQuantity: 1 },
-    { entryNumber: 1, returnableQuantity: 0 },
-    { entryNumber: 3, returnableQuantity: 5 },
-  ],
-  created: new Date('2019-02-11T13:02:58+0000'),
-  returnable: true,
-};
-
-class MockOrderDetailsService {
-  getOrderDetails() {
-    return of(mockOrder);
-  }
 }
 
 class MockOrderCancelOrReturnService {
@@ -51,16 +36,33 @@ class MockOrderCancelOrReturnService {
 
   goToOrderCancelOrReturn = createSpy();
   clearCancelOrReturnRequestInputs = createSpy();
+  cancelOrder = createSpy();
+  isEntryCancelledOrReturned(): boolean {
+    return true;
+  }
 }
 
-describe('ReturnOrderComponent', () => {
-  let component: ReturnOrderComponent;
-  let fixture: ComponentFixture<ReturnOrderComponent>;
-  let returnService: MockOrderCancelOrReturnService;
+const mockOrder: Order = {
+  code: '1',
+  entries: [{ entryNumber: 0 }, { entryNumber: 3 }],
+  created: new Date('2019-02-11T13:02:58+0000'),
+  cancellable: true,
+};
+
+class MockOrderDetailsService {
+  getOrderDetails() {
+    return of(mockOrder);
+  }
+}
+
+describe('CancelOrderConfirmationComponent', () => {
+  let component: CancelOrderConfirmationComponent;
+  let fixture: ComponentFixture<CancelOrderConfirmationComponent>;
+  let cancelService: MockOrderCancelOrReturnService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         {
@@ -68,15 +70,18 @@ describe('ReturnOrderComponent', () => {
           useClass: MockOrderCancelOrReturnService,
         },
       ],
-      declarations: [ReturnOrderComponent, MockCancelOrReturnItemsComponent],
+      declarations: [
+        CancelOrderConfirmationComponent,
+        MockCancelOrReturnItemsComponent,
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReturnOrderComponent);
+    fixture = TestBed.createComponent(CancelOrderConfirmationComponent);
     component = fixture.componentInstance;
 
-    returnService = TestBed.get(OrderCancelOrReturnService as Type<
+    cancelService = TestBed.get(OrderCancelOrReturnService as Type<
       OrderCancelOrReturnService
     >);
   });
@@ -85,39 +90,30 @@ describe('ReturnOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be able to get returnable entries', () => {
-    fixture.detectChanges();
-    let returnableEntries: OrderEntry[];
-    component.returnableEntries$
-      .subscribe(value => {
-        returnableEntries = value;
-      })
+  it('should get cancelled entries', () => {
+    let cancelledEntries: OrderEntry[];
+    component.cancelledEntries$
+      .subscribe(value => (cancelledEntries = value))
       .unsubscribe();
+
     expect(component.orderCode).toEqual('1');
-    expect(returnableEntries).toEqual([
-      { entryNumber: 0, returnableQuantity: 1 },
-      { entryNumber: 3, returnableQuantity: 5 },
-    ]);
+    expect(cancelledEntries).toEqual([{ entryNumber: 0 }, { entryNumber: 3 }]);
   });
 
-  it('should clear return request input when initialize', () => {
-    component.ngOnInit();
-    expect(returnService.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
+  it('should be able to submit', () => {
+    component.submit();
+    expect(component.cancelSubmit).toEqual(true);
+    expect(cancelService.cancelOrder).toHaveBeenCalled();
   });
 
-  it('should go to return confirmation page', () => {
-    const entryInputs = [
-      { orderEntryNumber: 0, quantity: 1 },
-      { orderEntryNumber: 3, quantity: 5 },
-    ];
-
+  it('should be able to back to cancel order page', () => {
     fixture.detectChanges();
-    component.confirmReturn(entryInputs);
+    component.back();
 
-    expect(returnService.cancelOrReturnRequestInputs).toEqual(entryInputs);
-    expect(returnService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
-      'orderReturnConfirmation',
-      '1'
+    expect(cancelService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
+      'orderCancel',
+      '1',
+      true
     );
   });
 });

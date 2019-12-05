@@ -7,10 +7,10 @@ import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import {
   Order,
   OrderHistoryList,
-  ReturnRequestEntryInputList,
-  ReturnRequest,
+  CancellationRequestEntryInputList,
 } from '../../model/order.model';
 import { StateWithProcess } from '../../process/store/process-state';
+import { LoaderState } from '../../state/index';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
@@ -154,20 +154,21 @@ export class UserOrderService {
   }
 
   /**
-   * Create order return request
-   * @param returnRequestInput order return request entry input
+   * Cancel and order
    */
-  createOrderReturnRequest(
-    returnRequestInput: ReturnRequestEntryInputList
+  cancelOrder(
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
   ): void {
     this.authService
       .getOccUserId()
       .pipe(take(1))
       .subscribe(userId =>
         this.store.dispatch(
-          new UserActions.CreateOrderReturnRequest({
+          new UserActions.CancelOrder({
             userId,
-            returnRequestInput,
+            orderCode,
+            cancelRequestInput,
           })
         )
       )
@@ -175,9 +176,9 @@ export class UserOrderService {
   }
 
   /**
-   * Return an order return request
+   * Returns the order details state
    */
-  getOrderReturnRequest(): Observable<ReturnRequest> {
-    return this.store.pipe(select(UsersSelectors.getOrderReturnRequest));
+  getOrderDetailsState(): Observable<LoaderState<Order>> {
+    return this.store.pipe(select(UsersSelectors.getOrderState));
   }
 }

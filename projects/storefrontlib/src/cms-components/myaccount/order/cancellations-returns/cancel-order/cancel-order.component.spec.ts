@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancelOrReturnService } from '../cancel-or-return.service';
-import { ReturnOrderComponent } from './return-order.component';
+import { CancelOrderComponent } from './cancel-order.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -25,12 +25,12 @@ class MockCancelOrReturnItemsComponent {
 const mockOrder: Order = {
   code: '1',
   entries: [
-    { entryNumber: 0, returnableQuantity: 1 },
-    { entryNumber: 1, returnableQuantity: 0 },
-    { entryNumber: 3, returnableQuantity: 5 },
+    { entryNumber: 0, cancellableQuantity: 1 },
+    { entryNumber: 1, cancellableQuantity: 0 },
+    { entryNumber: 3, cancellableQuantity: 5 },
   ],
   created: new Date('2019-02-11T13:02:58+0000'),
-  returnable: true,
+  cancellable: true,
 };
 
 class MockOrderDetailsService {
@@ -53,10 +53,10 @@ class MockOrderCancelOrReturnService {
   clearCancelOrReturnRequestInputs = createSpy();
 }
 
-describe('ReturnOrderComponent', () => {
-  let component: ReturnOrderComponent;
-  let fixture: ComponentFixture<ReturnOrderComponent>;
-  let returnService: MockOrderCancelOrReturnService;
+describe('CancelOrderComponent', () => {
+  let component: CancelOrderComponent;
+  let fixture: ComponentFixture<CancelOrderComponent>;
+  let cancelService: MockOrderCancelOrReturnService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -68,15 +68,15 @@ describe('ReturnOrderComponent', () => {
           useClass: MockOrderCancelOrReturnService,
         },
       ],
-      declarations: [ReturnOrderComponent, MockCancelOrReturnItemsComponent],
+      declarations: [CancelOrderComponent, MockCancelOrReturnItemsComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReturnOrderComponent);
+    fixture = TestBed.createComponent(CancelOrderComponent);
     component = fixture.componentInstance;
 
-    returnService = TestBed.get(OrderCancelOrReturnService as Type<
+    cancelService = TestBed.get(OrderCancelOrReturnService as Type<
       OrderCancelOrReturnService
     >);
   });
@@ -85,38 +85,38 @@ describe('ReturnOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be able to get returnable entries', () => {
+  it('should be able to get cancellable entries', () => {
     fixture.detectChanges();
-    let returnableEntries: OrderEntry[];
-    component.returnableEntries$
+    let cancellableEntries: OrderEntry[];
+    component.cancellableEntries$
       .subscribe(value => {
-        returnableEntries = value;
+        cancellableEntries = value;
       })
       .unsubscribe();
     expect(component.orderCode).toEqual('1');
-    expect(returnableEntries).toEqual([
-      { entryNumber: 0, returnableQuantity: 1 },
-      { entryNumber: 3, returnableQuantity: 5 },
+    expect(cancellableEntries).toEqual([
+      { entryNumber: 0, cancellableQuantity: 1 },
+      { entryNumber: 3, cancellableQuantity: 5 },
     ]);
   });
 
-  it('should clear return request input when initialize', () => {
+  it('should clear cancel request input when initialize', () => {
     component.ngOnInit();
-    expect(returnService.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
+    expect(cancelService.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
   });
 
-  it('should go to return confirmation page', () => {
+  it('should go to cancel confirmation page', () => {
     const entryInputs = [
       { orderEntryNumber: 0, quantity: 1 },
       { orderEntryNumber: 3, quantity: 5 },
     ];
 
     fixture.detectChanges();
-    component.confirmReturn(entryInputs);
+    component.confirmCancel(entryInputs);
 
-    expect(returnService.cancelOrReturnRequestInputs).toEqual(entryInputs);
-    expect(returnService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
-      'orderReturnConfirmation',
+    expect(cancelService.cancelOrReturnRequestInputs).toEqual(entryInputs);
+    expect(cancelService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
+      'orderCancelConfirmation',
       '1'
     );
   });

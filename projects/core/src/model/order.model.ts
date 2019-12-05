@@ -27,8 +27,9 @@ export interface OrderEntry {
   totalPrice?: Price;
   updateable?: boolean;
   returnedItemsPrice?: Price;
-  returnedQuantity?: number;
   returnableQuantity?: number;
+  cancelledItemsPrice?: Price;
+  cancellableQuantity?: number;
 }
 
 export interface CancelOrReturnRequestEntryInput {
@@ -39,6 +40,10 @@ export interface CancelOrReturnRequestEntryInput {
 export interface ReturnRequestEntryInputList {
   orderCode?: string;
   returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
+}
+
+export interface CancellationRequestEntryInputList {
+  cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
 }
 
 export interface ReturnRequestEntry {
@@ -151,4 +156,5 @@ export interface Order {
   unconsignedEntries?: OrderEntry[];
   user?: Principal;
   returnable?: boolean;
+  cancellable?: boolean;
 }

@@ -11,6 +11,7 @@ import {
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
+  CancellationRequestEntryInputList,
 } from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
@@ -156,6 +157,24 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     return this.http
       .get<ConsignmentTracking>(url)
       .pipe(this.converter.pipeable(CONSIGNMENT_TRACKING_NORMALIZER));
+  }
+
+  public cancel(
+    userId: string,
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
+  ): Observable<{}> {
+    const url = this.occEndpoints.getUrl('cancelOrder', {
+      userId,
+      orderId: orderCode,
+    });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .post(url, cancelRequestInput, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   public createReturnRequest(

@@ -25,6 +25,7 @@ export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
 export const USER_RETURN_REQUESTS = '[User] Order Return Requests';
+export const USER_ORDER_DETAILS = '[User] User Order Details';
 export const REGIONS = '[User] Regions';
 
 export interface StateWithUser {
@@ -39,17 +40,13 @@ export interface UserState {
   countries: DeliveryCountriesState;
   payments: LoaderState<PaymentDetails[]>;
   orders: LoaderState<OrderHistoryList>;
-  order: OrderDetailsState;
+  order: LoaderState<Order>;
   orderReturn: OrderReturnRequestState;
   orderReturnList: LoaderState<ReturnRequestList>;
   titles: TitlesState;
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
-}
-
-export interface OrderDetailsState {
-  order: Order;
 }
 
 export interface OrderReturnRequestState {

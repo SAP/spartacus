@@ -34,7 +34,7 @@ export const myAccount = {
     },
     cancellationAndReturn: {
       returnAction: 'Request a Return',
-      cancelAction: 'Cancel Order Items',
+      cancelAction: 'Cancel Items',
       item: 'Item',
       itemPrice: 'Item Price',
       quantity: 'Max Quantity',
@@ -43,7 +43,12 @@ export const myAccount = {
       setAll: 'Set all quantities to maximum',
       totalPrice: 'Total',
       submit: 'Submit Request',
-      returnNote: 'The following items will be included in the return request',
+      returnNote: 'The following items will be included in the return request.',
+      cancelNote:
+        'The following items will be included in the cancellation request.',
+      returnSuccess: 'Your return request ({{rma}}) was submitted',
+      cancelSuccess:
+        'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
     },
   },
   orderHistory: {
