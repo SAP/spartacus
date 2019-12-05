@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
-import { StrategyProducts } from '../../model';
+import { StrategyProducts } from '../../model/strategy-products.model';
 import { MerchandisingStrategyAdapter } from './merchandising-strategy.adapter';
 import { MerchandisingStrategyConnector } from './merchandising-strategy.connector';
 import createSpy = jasmine.createSpy;

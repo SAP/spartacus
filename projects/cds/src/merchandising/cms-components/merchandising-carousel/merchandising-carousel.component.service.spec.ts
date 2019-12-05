@@ -4,8 +4,8 @@ import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import { StrategyProducts } from '../../model';
 import { MerchandisingProduct } from '../../model/merchandising-products.model';
+import { StrategyProducts } from '../../model/strategy-products.model';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 
 const mockStrategyProducts: StrategyProducts = {
@@ -50,7 +50,7 @@ const mockProducts = {
       formattedValue: '200.00',
     },
   },
-} as { [code: string]: Product };
+};
 
 const mockComponentData: CmsMerchandisingCarouselComponent = {
   uid: '001',
@@ -138,7 +138,7 @@ describe('MerchandisingCarouselComponentService', () => {
         return {
           ...mockProducts[strategyProduct.id],
           metadata: merchandisingProductMetadata,
-        } as MerchandisingProduct;
+        };
       }
     );
 

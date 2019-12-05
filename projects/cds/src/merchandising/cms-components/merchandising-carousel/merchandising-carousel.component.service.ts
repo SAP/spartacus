@@ -9,7 +9,7 @@ import {
   StrategyProduct,
   StrategyProducts,
 } from '../../model/strategy-products.model';
-import { MerchandisingCarouselModel } from './merchandising-carousel.model';
+import { MerchandisingCarouselModel } from './model/merchandising-carousel.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,16 +71,13 @@ export class MerchandisingCarouselComponentService {
     return strategyProducts && strategyProducts.products
       ? strategyProducts.products.map((strategyProduct, index) =>
           this.productService.get(strategyProduct.id).pipe(
-            map(
-              product =>
-                ({
-                  ...product,
-                  metadata: this.getCarouselItemMetadata(
-                    strategyProduct,
-                    index + 1
-                  ),
-                } as MerchandisingProduct)
-            )
+            map(product => ({
+              ...product,
+              metadata: this.getCarouselItemMetadata(
+                strategyProduct,
+                index + 1
+              ),
+            }))
           )
         )
       : [EMPTY];
