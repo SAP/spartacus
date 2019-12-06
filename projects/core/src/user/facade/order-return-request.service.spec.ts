@@ -139,4 +139,11 @@ describe('OrderReturnRequestService', () => {
       )
       .unsubscribe();
   });
+
+  it('should be able to clear order return requests details', () => {
+    service.clearOrderReturnRequestDetail();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ClearOrderReturnRequest()
+    );
+  });
 });
