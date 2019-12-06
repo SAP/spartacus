@@ -41,6 +41,9 @@ export class MerchandisingCarouselComponentService {
         return {
           items$,
           metadata,
+          title: cmsComponent.title,
+          backgroundColor: cmsComponent.backgroundColour,
+          textColor: cmsComponent.textColour,
         };
       })
     );
