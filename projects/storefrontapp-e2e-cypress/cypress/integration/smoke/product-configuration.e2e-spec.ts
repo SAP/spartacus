@@ -9,11 +9,13 @@ const testProductPricing = 'WEC_DRAGON_CAR';
 const configurator = 'CPQCONFIGURATOR';
 
 function goToConfigurationPage(configurator, testProduct) {
-  cy.visit(`/electronics-spa/en/USD/configure${configurator}/${testProduct}`);
+  cy.visit(
+    `/electronics-spa/en/USD/configure${configurator}/product/entityKey/${testProduct}`
+  );
 }
 function goToConfigurationOverviewPage(configurator, testProduct) {
   cy.visit(
-    `/electronics-spa/en/USD/configureOverview${configurator}/${testProduct}`
+    `/electronics-spa/en/USD/configureOverview${configurator}/product/entityKey/${testProduct}`
   );
 }
 function goToProductDetailsPage(testProduct) {
