@@ -109,4 +109,10 @@
   cx-order-details-totals {
     order: 3;
   }
+
+  cx-tab-paragraph-container {
+    .active {
+      background-color: var(--cx-color-inverse);
+    }
+  }
 }
