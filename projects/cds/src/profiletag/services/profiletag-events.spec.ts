@@ -10,6 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
 import {
+  ConsentReferenceEvent,
   DebugEvent,
   ProfileTagEventNames,
   ProfileTagWindowObject,
@@ -157,5 +158,30 @@ describe('ProfileTagEventTracker', () => {
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(1);
+  });
+
+  it(`Should call the consentReferenceChanged method when consentReference value changes`, () => {
+    let timesCalled = 0;
+    const subscription = profileTagEventTracker
+      .consentReferenceChanged()
+      .pipe(tap(_ => timesCalled++))
+      .subscribe();
+
+    let consentReferenceChangedEvent = <ConsentReferenceEvent>(
+      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_CHANGED, {
+        detail: { consentReference: 'some_id' },
+      })
+    );
+    eventListener(consentReferenceChangedEvent);
+
+    consentReferenceChangedEvent = <ConsentReferenceEvent>(
+      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_CHANGED, {
+        detail: { consentReference: 'another_id' },
+      })
+    );
+    eventListener(consentReferenceChangedEvent);
+    subscription.unsubscribe();
+
+    expect(timesCalled).toEqual(2);
   });
 });
