@@ -12,6 +12,7 @@ import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 
 @Injectable({
   providedIn: 'root',
@@ -30,18 +31,14 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(
-          new UserActions.CreateOrderReturnRequest({
-            userId,
-            returnRequestInput,
-          })
-        )
-      )
-      .unsubscribe();
+    this.withUserId(userId => {
+      this.store.dispatch(
+        new UserActions.CreateOrderReturnRequest({
+          userId,
+          returnRequestInput,
+        })
+      );
+    });
   }
 
   /**
@@ -85,18 +82,14 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.LoadOrderReturnRequest({
-            userId: occUserId,
-            returnRequestCode,
-          })
-        )
-      )
-      .unsubscribe();
+    this.withUserId(userId => {
+      this.store.dispatch(
+        new UserActions.LoadOrderReturnRequest({
+          userId: userId,
+          returnRequestCode,
+        })
+      );
+    });
   }
 
   /**
@@ -110,20 +103,16 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.LoadOrderReturnRequestList({
-            userId: occUserId,
-            pageSize: pageSize,
-            currentPage: currentPage,
-            sort: sort,
-          })
-        )
-      )
-      .unsubscribe();
+    this.withUserId(userId => {
+      this.store.dispatch(
+        new UserActions.LoadOrderReturnRequestList({
+          userId: userId,
+          pageSize: pageSize,
+          currentPage: currentPage,
+          sort: sort,
+        })
+      );
+    });
   }
 
   /**
@@ -131,5 +120,21 @@ export class OrderReturnRequestService {
    */
   clearOrderReturnRequestList(): void {
     this.store.dispatch(new UserActions.ClearOrderReturnRequestList());
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }
