@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
+  map,
   switchMap,
   take,
   tap,
@@ -15,12 +16,14 @@ import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
+import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
 export class WishListService {
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected multiCartService: MultiCartService
   ) {}
 
   createWishList(userId: string, name?: string, description?: string): void {
@@ -39,11 +42,7 @@ export class WishListService {
         }
       }),
       filter(([wishListId]) => Boolean(wishListId)),
-      switchMap(([wishListId]) =>
-        this.store.pipe(
-          select(MultiCartSelectors.getCartSelectorFactory(wishListId))
-        )
-      )
+      switchMap(([wishListId]) => this.multiCartService.getCart(wishListId))
     );
   }
 
@@ -65,14 +64,7 @@ export class WishListService {
         take(1)
       )
       .subscribe(([wishListId, userId]) =>
-        this.store.dispatch(
-          new CartActions.CartAddEntry({
-            userId: userId,
-            cartId: wishListId,
-            productCode: productCode,
-            quantity: 1,
-          })
-        )
+        this.multiCartService.addEntry(userId, wishListId, productCode, 1)
       );
   }
 
@@ -90,18 +82,16 @@ export class WishListService {
         take(1)
       )
       .subscribe(([wishListId, userId]) =>
-        this.store.dispatch(
-          new CartActions.CartRemoveEntry({
-            userId: userId,
-            cartId: wishListId,
-            entry: entry.entryNumber,
-          })
-        )
+        this.multiCartService.removeEntry(userId, wishListId, entry.entryNumber)
       );
   }
 
   getWishListLoading(): Observable<boolean> {
-    return this.store.pipe(select(MultiCartSelectors.getWishListLoading));
+    return this.getWishListId().pipe(
+      switchMap(wishListId =>
+        this.multiCartService.isStable(wishListId).pipe(map(stable => !stable))
+      )
+    );
   }
 
   protected getWishListId(): Observable<string> {

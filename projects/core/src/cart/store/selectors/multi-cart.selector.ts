@@ -5,10 +5,7 @@ import {
 } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
-import {
-  entityStateSelector,
-  entityValueSelector,
-} from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { entityValueSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityProcessesLoaderState } from '../../../state/utils/entity-processes-loader/entity-processes-loader-state';
 import {
   entityHasPendingProcessesSelector,
@@ -114,10 +111,4 @@ export const getWishListId: MemoizedSelector<
 > = createSelector(
   getMultiCartState,
   (state: MultiCartState) => state.wishList
-);
-
-export const getWishListLoading = createSelector(
-  getMultiCartState,
-  (state: MultiCartState) =>
-    entityStateSelector(state.carts, state.wishList).loading
 );

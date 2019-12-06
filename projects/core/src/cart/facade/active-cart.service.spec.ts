@@ -90,6 +90,7 @@ describe('ActiveCartService', () => {
         loading: false,
         success: false,
         error: false,
+        processesCount: 0,
       });
       service['activeCartId$'] = of('code');
       spyOn<any>(service, 'load').and.callThrough();
@@ -114,6 +115,7 @@ describe('ActiveCartService', () => {
         loading: false,
         success: true,
         error: false,
+        processesCount: 0,
       });
       service['activeCartId$'] = of('code');
       service['initActiveCart']();
@@ -142,6 +144,7 @@ describe('ActiveCartService', () => {
         loading: true,
         success: true,
         error: false,
+        processesCount: 1,
       });
       service['activeCartId$'] = of('code');
       service['initActiveCart']();
@@ -551,16 +554,20 @@ describe('ActiveCartService', () => {
   });
 
   describe('requireLoadedCart', () => {
-    const cartState = {
-      loading: false,
-      success: true,
-      error: false,
-      value: {
-        code: 'code',
-      },
-    };
+    let cartState;
 
-    it('should return cart if this already exists without loading again and creating new one', () => {
+    beforeEach(() => {
+      cartState = {
+        loading: false,
+        success: true,
+        error: false,
+        value: {
+          code: 'code',
+        },
+      };
+    });
+
+    it('should return cart if this already exists without loading again and creating new one', done => {
       spyOn<any>(service, 'load').and.callThrough();
       spyOn(multiCartService, 'createCart').and.callThrough();
 
@@ -570,6 +577,7 @@ describe('ActiveCartService', () => {
         expect(cart).toEqual(cartState);
         expect(service['load']).not.toHaveBeenCalled();
         expect(multiCartService.createCart).not.toHaveBeenCalled();
+        done();
       });
     });
 

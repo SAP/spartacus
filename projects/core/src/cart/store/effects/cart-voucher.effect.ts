@@ -20,7 +20,7 @@ export class CartVoucherEffects {
   addCartVoucher$: Observable<
     | CartActions.CartVoucherAction
     | CartActions.LoadCart
-    | CartActions.CartProcessesDecrementAction
+    | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) => action.payload),
@@ -42,7 +42,7 @@ export class CartVoucherEffects {
           catchError(error =>
             from([
               new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
-              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
@@ -56,7 +56,7 @@ export class CartVoucherEffects {
   @Effect()
   removeCartVoucher$: Observable<
     | CartActions.CartVoucherAction
-    | CartActions.CartProcessesDecrementAction
+    | CartActions.CartProcessesDecrement
     | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_VOUCHER),
@@ -81,7 +81,7 @@ export class CartVoucherEffects {
               new CartActions.CartRemoveVoucherFail(
                 makeErrorSerializable(error)
               ),
-              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,

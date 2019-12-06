@@ -255,12 +255,12 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('CartProcessesIncrementAction', () => {
+  describe('CartProcessesIncrement', () => {
     it('should create the action', () => {
       const payload = 'cartId';
-      const action = new CartActions.CartProcessesIncrementAction(payload);
+      const action = new CartActions.CartProcessesIncrement(payload);
       expect({ ...action }).toEqual({
-        type: CartActions.CART_PROCESSES_INCREMENT_ACTION,
+        type: CartActions.CART_PROCESSES_INCREMENT,
         payload,
         meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
           MULTI_CART_FEATURE,
@@ -270,12 +270,12 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('CartProcessesDecrementAction', () => {
+  describe('CartProcessesDecrement', () => {
     it('should create the action', () => {
       const payload = 'cartId';
-      const action = new CartActions.CartProcessesDecrementAction(payload);
+      const action = new CartActions.CartProcessesDecrement(payload);
       expect({ ...action }).toEqual({
-        type: CartActions.CART_PROCESSES_DECREMENT_ACTION,
+        type: CartActions.CART_PROCESSES_DECREMENT,
         payload,
         meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
           MULTI_CART_FEATURE,

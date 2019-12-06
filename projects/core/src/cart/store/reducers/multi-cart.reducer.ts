@@ -7,10 +7,7 @@ export const wishListinitialState = '';
 
 export function activeCartReducer(
   state = activeCartInitialState,
-  action:
-    | CartActions.CartAction
-    | CartActions.CartEntryAction
-    | CartActions.MultiCartActions
+  action: CartActions.CartAction | CartActions.MultiCartActions
 ): string {
   switch (action.type) {
     case CartActions.LOAD_MULTI_CART_SUCCESS:

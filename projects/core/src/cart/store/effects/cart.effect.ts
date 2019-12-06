@@ -229,7 +229,7 @@ export class CartEffects {
 
   @Effect()
   refresh$: Observable<
-    DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrementAction
+    DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(
       CartActions.CART_ADD_ENTRY_SUCCESS,
@@ -254,7 +254,7 @@ export class CartEffects {
     ),
     concatMap(payload =>
       from([
-        new CartActions.CartProcessesDecrementAction(payload.cartId),
+        new CartActions.CartProcessesDecrement(payload.cartId),
         new DeprecatedCartActions.LoadCart({
           userId: payload.userId,
           cartId: payload.cartId,
@@ -300,7 +300,7 @@ export class CartEffects {
     | DeprecatedCartActions.AddEmailToCartFail
     | CartActions.AddEmailToMultiCartFail
     | CartActions.AddEmailToMultiCartSuccess
-    | CartActions.CartProcessesDecrementAction
+    | CartActions.CartProcessesDecrement
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
@@ -331,7 +331,7 @@ export class CartEffects {
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new CartActions.CartProcessesDecrement(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,

@@ -39,10 +39,8 @@ export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
 
 export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
 
-export const CART_PROCESSES_INCREMENT_ACTION =
-  '[Multi Cart] Cart Processes Increment Action';
-export const CART_PROCESSES_DECREMENT_ACTION =
-  '[Multi Cart] Cart Processes Decrement Action';
+export const CART_PROCESSES_INCREMENT = '[Multi Cart] Cart Processes Increment';
+export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
 
 /**
  * To keep track of cart creation process we use cart with `fresh` id.
@@ -117,7 +115,6 @@ export class MergeMultiCart implements Action {
   constructor(public payload: any) {}
 }
 
-// I don't know if we should keep it or replace with different action for removal
 export class MergeMultiCartSuccess extends EntityRemoveAction {
   readonly type = MERGE_MULTI_CART_SUCCESS;
   constructor(
@@ -164,15 +161,15 @@ export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
   }
 }
 
-export class CartProcessesIncrementAction extends EntityProcessesIncrementAction {
-  readonly type = CART_PROCESSES_INCREMENT_ACTION;
+export class CartProcessesIncrement extends EntityProcessesIncrementAction {
+  readonly type = CART_PROCESSES_INCREMENT;
   constructor(public payload: string) {
     super(MULTI_CART_FEATURE, payload);
   }
 }
 
-export class CartProcessesDecrementAction extends EntityProcessesDecrementAction {
-  readonly type = CART_PROCESSES_DECREMENT_ACTION;
+export class CartProcessesDecrement extends EntityProcessesDecrementAction {
+  readonly type = CART_PROCESSES_DECREMENT;
   constructor(public payload: string) {
     super(MULTI_CART_FEATURE, payload);
   }
@@ -195,5 +192,5 @@ export type MultiCartActions =
   | AddEmailToMultiCart
   | AddEmailToMultiCartFail
   | AddEmailToMultiCartSuccess
-  | CartProcessesIncrementAction
-  | CartProcessesDecrementAction;
+  | CartProcessesIncrement
+  | CartProcessesDecrement;

@@ -59,9 +59,11 @@ export class MultiCartEffects {
     map(payload => new CartActions.RemoveCart(payload.cartId))
   );
 
+  // TODO: Change actions to extend Increment action instead of doing extra dispatch in this effect
+  // Change for 2.0 release
   @Effect()
-  processesIncrementAction$: Observable<
-    CartActions.CartProcessesIncrementAction
+  processesIncrement$: Observable<
+    CartActions.CartProcessesIncrement
   > = this.actions$.pipe(
     ofType(
       CartActions.CART_ADD_ENTRY,
@@ -84,7 +86,7 @@ export class MultiCartEffects {
           | CartActions.CartRemoveVoucher
       ) => action.payload
     ),
-    map(payload => new CartActions.CartProcessesIncrementAction(payload.cartId))
+    map(payload => new CartActions.CartProcessesIncrement(payload.cartId))
   );
 
   constructor(private actions$: Actions) {}
