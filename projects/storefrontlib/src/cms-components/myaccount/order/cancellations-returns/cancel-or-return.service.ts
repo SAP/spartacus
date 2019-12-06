@@ -42,26 +42,28 @@ export class OrderCancelOrReturnService {
     );
   }
 
-  isReturning$ = this.returnRequestService.getReturnRequestState().pipe(
-    tap(state => {
-      if (state.success && !state.loading) {
-        this.clearCancelOrReturnRequestInputs();
-        this.globalMessageService.add(
-          {
-            key: 'orderDetails.cancellationAndReturn.returnSuccess',
+  get isReturning$(): Observable<boolean> {
+    return this.returnRequestService.getReturnRequestState().pipe(
+      tap(state => {
+        if (state.success && !state.loading) {
+          this.clearCancelOrReturnRequestInputs();
+          this.globalMessageService.add(
+            {
+              key: 'orderDetails.cancellationAndReturn.returnSuccess',
+              params: { rma: state.value.rma },
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+          this.routing.go({
+            cxRoute: 'returnRequestDetails',
             params: { rma: state.value.rma },
-          },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-        this.routing.go({
-          cxRoute: 'returnRequestDetails',
-          params: { rma: state.value.rma },
-        });
-      }
-    }),
-    map(state => state.loading),
-    share()
-  );
+          });
+        }
+      }),
+      map(state => state.loading),
+      share()
+    );
+  }
 
   constructor(
     protected languageService: LanguageService,
