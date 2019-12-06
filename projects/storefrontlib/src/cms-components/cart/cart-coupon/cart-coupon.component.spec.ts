@@ -12,6 +12,8 @@ import {
   AuthService,
   CustomerCouponService,
   CustomerCouponSearchResult,
+  FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
@@ -64,6 +66,11 @@ describe('CartCouponComponent', () => {
     ['loadCustomerCoupons', 'getCustomerCoupons']
   );
 
+  // const mockFeatureConfigService = jasmine.createSpyObj(
+  //   'FeatureConfigService',
+  //   ['isEnabled', ]
+  // );
+
   const couponsSearchResult: CustomerCouponSearchResult = {
     coupons: [
       {
@@ -79,7 +86,7 @@ describe('CartCouponComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
+      imports: [I18nTestingModule, ReactiveFormsModule, FeaturesConfigModule],
       declarations: [
         CartCouponComponent,
         MockAppliedCouponsComponent,
@@ -90,6 +97,12 @@ describe('CartCouponComponent', () => {
         { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
         { provide: CustomerCouponService, useValue: mockCustomerCouponService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { customerCoupon: true },
+          },
+        },
       ],
     }).compileComponents();
   }));

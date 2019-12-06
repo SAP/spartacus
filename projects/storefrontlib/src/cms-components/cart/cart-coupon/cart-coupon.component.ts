@@ -151,12 +151,8 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.filteredCoupons = this.applicableCoupons;
     this.toggleBodyClass(
       'couponbox-is-active',
-      this.applicableCoupons.length > 0 ? true : false
+      this.applicableCoupons.length > 0
     );
-    // this.toggleBodyClass(
-    //   HAS_CUSTOMER_COUPON_CLASS,
-    //   this.applicableCoupons.length > 0 ? true : false
-    // );
   }
 
   close(event: UIEvent): void {
