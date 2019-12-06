@@ -26,4 +26,8 @@ export class ReturnRequestService {
       filter(returnRequest => Boolean(returnRequest.returnEntries))
     );
   }
+
+  clearReturnRequest(): void {
+    this.returnRequestService.clearOrderReturnRequestDetail();
+  }
 }
