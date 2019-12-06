@@ -21,7 +21,7 @@ describe('My coupons test for anonymous user', () => {
 
     it('claim customer coupon failed for anonymous user', () => {
       myCoupons.verifyClaimCouponFailedAsAnonymous(myCoupons.invalidCouponCode);
-    }); 
+    });
   });
 });
 
@@ -37,8 +37,7 @@ describe('My coupons test for login user', () => {
 
   it('claim customer coupon, switch notification button and find product', () => {
     myCoupons.verifyMyCoupons();
-  }); 
-  
+  });
 });
 
 describe('My coupons test for pagination and sort', () => {
@@ -53,5 +52,5 @@ describe('My coupons test for pagination and sort', () => {
 
   it('should page and sort my coupon list', () => {
     myCoupons.verifyPagingAndSorting();
-  }); 
+  });
 });

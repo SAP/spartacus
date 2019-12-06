@@ -45,9 +45,9 @@ export function verifyPagingAndSorting() {
   );
   cy.get('.cx-coupon-card').should('have.length', PageSize);
   cy.get('cx-pagination:last .page-link').should('have.length', 4);
-  cy.get('cx-pagination:last').within( () => {
+  cy.get('cx-pagination:last').within(() => {
     cy.getByText('2').click();
-  })
+  });
   cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
   cy.get('cx-pagination:last .page-link:first').click();
   cy.get('.cx-coupon-card').should('have.length', PageSize);
@@ -93,11 +93,11 @@ export function verifyMyCoupons() {
   verifyCouponsClaiming();
   verifyEnableDisableNotification();
   verifyReadMore();
-  verifyFindProduct(CouponWithOpenCatalog,10);
+  verifyFindProduct(CouponWithOpenCatalog, 10);
   goMyCoupon();
-  verifyFindProduct(CouponWithProductCategory,4);
+  verifyFindProduct(CouponWithProductCategory, 4);
   goMyCoupon();
-  verifyFindProduct(CouponWithProducts,1);
+  verifyFindProduct(CouponWithProducts, 1);
 }
 
 export function claimCoupon(couponCode: string) {
@@ -152,33 +152,33 @@ export function verifyCouponsClaiming() {
 export function verifyEnableDisableNotification() {
   verfifyNotificationDisable();
   cy.get('[type="checkbox"]:first')
-  .should('be.enabled')
-  .then(el => {
-    cy.wrap(el).check();;
-  });
+    .should('be.enabled')
+    .then(el => {
+      cy.wrap(el).check();
+    });
   verfifyNotificationEnable();
   cy.get('[type="checkbox"]:first')
-  .should('be.enabled')
-  .then(el => {
-    cy.wrap(el).uncheck();;
-  });
+    .should('be.enabled')
+    .then(el => {
+      cy.wrap(el).uncheck();
+    });
   verfifyNotificationDisable();
 }
 
 export function verfifyNotificationEnable() {
   cy.get('[type="checkbox"]:first')
-  .should('be.enabled')
+    .should('be.enabled')
     .then(el => {
       cy.wrap(el).should('be.checked');
-    }); 
+    });
 }
 
 export function verfifyNotificationDisable() {
   cy.get('[type="checkbox"]:first')
-  .should('be.enabled')
+    .should('be.enabled')
     .then(el => {
       cy.wrap(el).should('not.be.checked');
-    });  
+    });
 }
 
 export function verifyReadMore() {
@@ -188,17 +188,18 @@ export function verifyReadMore() {
 }
 
 export function verifyFindProduct(couponCode: string, productNumber: number) {
-  cy.getByText(couponCode).parent().parent().parent('.cx-coupon-data').within(() => {
-    cy.get('.cx-coupon-find-product:first .btn')
-    .should('contain', ' Find Products')
-    .click();
-  });
+  cy.getByText(couponCode)
+    .parent()
+    .parent()
+    .parent('.cx-coupon-data')
+    .within(() => {
+      cy.get('.cx-coupon-find-product:first .btn')
+        .should('contain', ' Find Products')
+        .click();
+    });
   cy.get('cx-breadcrumb').within(() => {
     cy.get('span:last a').should('contain', 'My Coupons');
-    cy.get('h1').should(
-      'contain',
-      couponCode
-    );
+    cy.get('h1').should('contain', couponCode);
   });
   cy.get('cx-product-list-item').should('have.length', productNumber);
 }

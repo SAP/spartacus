@@ -1,7 +1,8 @@
 import * as myCoupons from '../../../helpers/my-coupons';
 import { formats } from '../../../sample-data/viewports';
 
-describe(`${formats.mobile.width + 1}p resolution - My coupons test for anonymous user`, () => {
+describe(`${formats.mobile.width +
+  1}p resolution - My coupons test for anonymous user`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -11,7 +12,8 @@ describe(`${formats.mobile.width + 1}p resolution - My coupons test for anonymou
     myCoupons.verifyMyCouponsAsAnonymous();
   });
 
-  describe(`${formats.mobile.width + 1}p resolution - claim coupon test for anonymous user`, () => {
+  describe(`${formats.mobile.width +
+    1}p resolution - claim coupon test for anonymous user`, () => {
     beforeEach(() => {
       cy.window().then(win => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -24,11 +26,12 @@ describe(`${formats.mobile.width + 1}p resolution - My coupons test for anonymou
 
     it('claim customer coupon failed for anonymous user', () => {
       myCoupons.verifyClaimCouponFailedAsAnonymous(myCoupons.invalidCouponCode);
-    }); 
+    });
   });
 });
 
-describe(`${formats.mobile.width + 1}p resolution - My coupons test for login user`, () => {
+describe(`${formats.mobile.width +
+  1}p resolution - My coupons test for login user`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -41,11 +44,11 @@ describe(`${formats.mobile.width + 1}p resolution - My coupons test for login us
 
   it('claim customer coupon, switch notification button and find product', () => {
     myCoupons.verifyMyCoupons();
-  }); 
-  
+  });
 });
 
-describe(`${formats.mobile.width + 1}p resolution - My coupons test for pagination and sort`, () => {
+describe(`${formats.mobile.width +
+  1}p resolution - My coupons test for pagination and sort`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -58,5 +61,5 @@ describe(`${formats.mobile.width + 1}p resolution - My coupons test for paginati
 
   it('should page and sort my coupon list', () => {
     myCoupons.verifyPagingAndSorting();
-  }); 
+  });
 });
