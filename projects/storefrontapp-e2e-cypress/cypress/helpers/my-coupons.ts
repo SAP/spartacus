@@ -11,7 +11,11 @@ export const loginContainUrl = '/login';
 export const myCouponsContainUrl = '/coupons';
 export const validCouponCode = 'customerCoupon1';
 export const invalidCouponCode = 'invalidCoupon';
-export const findProductCoupon = 'qualifyProductCoupon';
+export const CouponWithOpenCatalog = 'dragonboat';
+export const CouponWithProductCategory = 'springfestival';
+export const CouponWithProducts = 'midautumn';
+export const PageSize = 10;
+export const NumberInPage2 = 1;
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';
@@ -20,79 +24,80 @@ export function verifyPagingAndSorting() {
   const firstCouponEndDateDescending = 'customerCoupon11';
   const firstCouponCodeSelector =
     'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
-  it('should page and sort', () => {
-    cy.get(firstCouponCodeSelector).should(
-      'contain',
-      firstCouponStartDateAscending
-    );
-    cy.get('.top cx-sorting .ng-select').ngSelect('Start Date (descending)');
-    cy.get(firstCouponCodeSelector).should(
-      'contain',
-      firstCouponStartDateDescending
-    );
-    cy.get('.top cx-sorting .ng-select').ngSelect('End Date (ascending)');
-    cy.get(firstCouponCodeSelector).should(
-      'contain',
-      firstCouponEndDateAscending
-    );
-    cy.get('.top cx-sorting .ng-select').ngSelect('End Date (descending)');
-    cy.get(firstCouponCodeSelector).should(
-      'contain',
-      firstCouponEndDateDescending
-    );
-    cy.get('.cx-coupon-card').should('have.length', 10);
-    cy.get('cx-pagination:first .page-link').should('have.length', 4);
-  });
+  cy.get(firstCouponCodeSelector).should(
+    'contain',
+    firstCouponStartDateAscending
+  );
+  cy.get('.top cx-sorting .ng-select').ngSelect('Start Date (descending)');
+  cy.get(firstCouponCodeSelector).should(
+    'contain',
+    firstCouponStartDateDescending
+  );
+  cy.get('.top cx-sorting .ng-select').ngSelect('End Date (ascending)');
+  cy.get(firstCouponCodeSelector).should(
+    'contain',
+    firstCouponEndDateAscending
+  );
+  cy.get('.top cx-sorting .ng-select').ngSelect('End Date (descending)');
+  cy.get(firstCouponCodeSelector).should(
+    'contain',
+    firstCouponEndDateDescending
+  );
+  cy.get('.cx-coupon-card').should('have.length', PageSize);
+  cy.get('cx-pagination:first .page-link').should('have.length', 4);
+  cy.get('cx-pagination:first').within( () => {
+    cy.getByText('2').click();
+  })
+  cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
+  cy.get('cx-pagination:first .page-link:first').click();
+  cy.get('.cx-coupon-card').should('have.length', PageSize);
+  cy.get('cx-pagination:first .page-link:last').click();
+  cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
 }
 
 export function verifyMyCouponsAsAnonymous() {
-  it('should redirect from my coupons page to login page', () => {
-    cy.visit('/my-account/coupons');
-    cy.location('pathname').should('contain', loginContainUrl);
-  });
+  cy.visit('/my-account/coupons');
+  cy.location('pathname').should('contain', loginContainUrl);
 }
 
 export function verifyClaimCouponSuccessAsAnonymous(couponCode: string) {
-  it('should redirect to login page and claim coupon success', () => {
-    claimCoupon(couponCode);
-    cy.location('pathname').should('contain', loginContainUrl);
-    login(
-      standardUser.registrationData.email,
-      standardUser.registrationData.password
-    );
-    cy.location('pathname').should('contain', myCouponsContainUrl);
-    cy.get('.cx-coupon-card').within(() => {
-      cy.get('.cx-coupon-card-id').should('contain', couponCode);
-    });
+  claimCoupon(couponCode);
+  cy.location('pathname').should('contain', loginContainUrl);
+  login(
+    standardUser.registrationData.email,
+    standardUser.registrationData.password
+  );
+  cy.location('pathname').should('contain', myCouponsContainUrl);
+  cy.get('.cx-coupon-card').within(() => {
+    cy.get('.cx-coupon-card-id').should('contain', couponCode);
   });
 }
 
 export function verifyClaimCouponFailedAsAnonymous(couponCode: string) {
-  it('should redirect to login page and claim coupon fail', () => {
-    claimCoupon(couponCode);
-    cy.location('pathname').should('contain', loginContainUrl);
-    login(
-      standardUser.registrationData.email,
-      standardUser.registrationData.password
-    );
-    cy.location('pathname').should('contain', myCouponsContainUrl);
-    alerts.getErrorAlert().should('exist');
-  });
+  claimCoupon(couponCode);
+  cy.location('pathname').should('contain', loginContainUrl);
+  login(
+    standardUser.registrationData.email,
+    standardUser.registrationData.password
+  );
+  cy.location('pathname').should('contain', myCouponsContainUrl);
+  alerts.getErrorAlert().should('exist');
+}
+
+export function goMyCoupon() {
+  cy.visit('/my-account/coupons');
+  cy.get('.cx-coupon-card').should('have.length', 3);
 }
 
 export function verifyMyCoupons() {
-  it('should claim and display coupons', () => {
-    verifyCoupons();
-  });
-
-  it('should enable/disable coupon notification', () => {
-    verifyEnableDisableNotification();
-  });
-
-  it('should read more detail and find product', () => {
-    verifyReadMore();
-    verifyFindProduct();
-  });
+  verifyCouponsClaiming();
+  verifyEnableDisableNotification();
+  verifyReadMore();
+  verifyFindProduct(CouponWithOpenCatalog,10);
+  goMyCoupon();
+  verifyFindProduct(CouponWithProductCategory,4);
+  goMyCoupon();
+  verifyFindProduct(CouponWithProducts,1);
 }
 
 export function claimCoupon(couponCode: string) {
@@ -128,50 +133,52 @@ export function retrieveTokenAndRegister() {
   );
 }
 
-export function verifyCoupons() {
-  cy.get('cx-breadcrumb h1').should('contain', 'My Coupons');
-  cy.get('.cx-my-coupons-header').should('contain', 'My coupons');
+export function verifyCouponsClaiming() {
   cy.get('cx-my-coupons .cx-section-msg').should(
     'contain',
     'You have no coupons available'
   );
-  claimCoupon(findProductCoupon);
+  claimCoupon(CouponWithOpenCatalog);
   cy.location('pathname').should('contain', myCouponsContainUrl);
   cy.get('.cx-coupon-card:first').within(() => {
-    cy.get('.cx-coupon-card-id').should('contain', findProductCoupon);
+    cy.get('.cx-coupon-card-id').should('contain', CouponWithOpenCatalog);
   });
+  claimCoupon(CouponWithProductCategory);
+  cy.get('.cx-coupon-card').should('have.length', 2);
+  claimCoupon(CouponWithProducts);
+  cy.get('.cx-coupon-card').should('have.length', 3);
 }
 
 export function verifyEnableDisableNotification() {
-  cy.get('[type="checkbox"]')
-    .first()
-    .should('not.be.checked');
-
-  cy.get('[type="checkbox"]')
-    .first()
-    .check();
+  verfifyNotificationDisable();
+  cy.get('[type="checkbox"]:first')
+  .should('be.enabled')
+  .then(el => {
+    cy.wrap(el).check();;
+  });
   verfifyNotificationEnable();
-
-  cy.get('[type="checkbox"]')
-    .first()
-    .uncheck();
+  cy.get('[type="checkbox"]:first')
+  .should('be.enabled')
+  .then(el => {
+    cy.wrap(el).uncheck();;
+  });
   verfifyNotificationDisable();
 }
 
 export function verfifyNotificationEnable() {
-  cy.visit('/');
-  cy.visit('/my-account/coupons');
-  cy.get('[type="checkbox"]')
-    .first()
-    .should('be.checked');
+  cy.get('[type="checkbox"]:first')
+  .should('be.enabled')
+    .then(el => {
+      cy.wrap(el).should('be.checked');
+    }); 
 }
 
 export function verfifyNotificationDisable() {
-  cy.visit('/');
-  cy.visit('/my-account/coupons');
-  cy.get('[type="checkbox"]')
-    .first()
-    .should('not.be.checked');
+  cy.get('[type="checkbox"]:first')
+  .should('be.enabled')
+    .then(el => {
+      cy.wrap(el).should('not.be.checked');
+    });  
 }
 
 export function verifyReadMore() {
@@ -180,17 +187,18 @@ export function verifyReadMore() {
   cy.get('.cx-dialog-header span').click();
 }
 
-export function verifyFindProduct() {
-  cy.get('.cx-coupon-find-product:first .btn')
+export function verifyFindProduct(couponCode: string, productNumber: number) {
+  cy.getByText(couponCode).parent().parent().parent('.cx-coupon-data').within(() => {
+    cy.get('.cx-coupon-find-product:first .btn')
     .should('contain', ' Find Products')
     .click();
-
-  cy.location('pathname').should('contain', 'search');
+  });
   cy.get('cx-breadcrumb').within(() => {
     cy.get('span:last a').should('contain', 'My Coupons');
     cy.get('h1').should(
       'contain',
-      '1 result for coupon "qualifyProductCoupon"'
+      couponCode
     );
   });
+  cy.get('cx-product-list-item').should('have.length', productNumber);
 }
