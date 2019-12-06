@@ -60,7 +60,9 @@ export class CancelOrReturnItemsComponent implements OnInit {
     for (let i = 0; i < this.entries.length; i++) {
       this.inputsControl.at(i).setValue({
         orderEntryNumber: this.entries[i].entryNumber,
-        quantity: this.entries[i].returnableQuantity,
+        quantity: this.cancelOrder
+          ? this.entries[i].cancellableQuantity
+          : this.entries[i].returnableQuantity,
       });
     }
     this.disableEnableConfirm();

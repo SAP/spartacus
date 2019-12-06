@@ -3,13 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
-import { CartActions } from '../store/actions/index';
-import * as fromReducers from '../store/reducers/index';
+import { Cart } from '../../model/cart.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
+import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
+import * as fromReducers from '../store/reducers/index';
 import { CartVoucherService } from './cart-voucher.service';
-import { Cart } from '../../model/cart.model';
 
 const userId = 'testUserId';
 
@@ -45,7 +46,7 @@ describe('CartVoucherService', () => {
     service = TestBed.get(CartVoucherService as Type<CartVoucherService>);
     store = TestBed.get(Store as Type<Store<StateWithCart>>);
 
-    store.dispatch(new CartActions.CreateCartSuccess(cart));
+    store.dispatch(new DeprecatedCartActions.CreateCartSuccess(cart));
   });
 
   describe('add Voucher', () => {

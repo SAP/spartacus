@@ -1,7 +1,16 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RoutingService, LanguageService, OrderEntry } from '@spartacus/core';
-import { of } from 'rxjs';
+import {
+  RoutingService,
+  LanguageService,
+  GlobalMessageService,
+  Order,
+  OrderEntry,
+  UserOrderService,
+  LoaderState,
+  GlobalMessageType,
+} from '@spartacus/core';
+import { of, BehaviorSubject } from 'rxjs';
 import { OrderCancelOrReturnService } from './cancel-or-return.service';
 
 class MockRoutingService {
@@ -14,6 +23,18 @@ class MockLanguageService {
   }
 }
 
+const orderState: BehaviorSubject<LoaderState<Order>> = new BehaviorSubject({});
+class MockUserOrderService {
+  cancelOrder = jasmine.createSpy();
+  getOrderDetailsState() {
+    return orderState;
+  }
+}
+
+class MockGlobalMessageService {
+  add = jasmine.createSpy('add');
+}
+
 const mockRequestInputs = [
   { orderEntryNumber: 1, quantity: 1 },
   { orderEntryNumber: 2, quantity: 2 },
@@ -22,19 +43,17 @@ const mockRequestInputs = [
 describe('OrderCancelOrReturnService', () => {
   let service: OrderCancelOrReturnService;
   let routingService: MockRoutingService;
+  let userOrderService: MockUserOrderService;
+  let messageService: MockGlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         OrderCancelOrReturnService,
-        {
-          provide: LanguageService,
-          useClass: MockLanguageService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+        { provide: LanguageService, useClass: MockLanguageService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: UserOrderService, useClass: MockUserOrderService },
       ],
     });
 
@@ -42,6 +61,10 @@ describe('OrderCancelOrReturnService', () => {
       OrderCancelOrReturnService
     >);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    userOrderService = TestBed.get(UserOrderService as Type<UserOrderService>);
+    messageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
     service.cancelOrReturnRequestInputs = mockRequestInputs;
   });
 
@@ -102,5 +125,49 @@ describe('OrderCancelOrReturnService', () => {
     const price = service.getCancelledOrReturnedPrice(entry);
     expect(price.value).toEqual(10.0);
     expect(price.formattedValue).toEqual('$10.00');
+  });
+
+  it('should be able to cancel order', () => {
+    service.cancelOrder('test');
+    expect(userOrderService.cancelOrder).toHaveBeenCalledWith('test', {
+      cancellationRequestEntryInputs: mockRequestInputs,
+    });
+  });
+
+  it('should add global message and redirect to order history page after cancel success', () => {
+    spyOn(service, 'clearCancelOrReturnRequestInputs').and.callThrough();
+
+    orderState.next({
+      loading: false,
+      error: false,
+      success: true,
+      value: { code: '1' },
+    });
+    service.isCancelling$.subscribe().unsubscribe();
+    expect(service.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orders',
+    });
+    expect(messageService.add).toHaveBeenCalledWith(
+      {
+        key: 'orderDetails.cancellationAndReturn.cancelSuccess',
+        params: { orderCode: '1' },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  });
+
+  it('should do nothing when cancelling', () => {
+    orderState.next({
+      loading: true,
+      error: false,
+      success: false,
+      value: { code: '1' },
+    });
+    service.isCancelling$.subscribe().unsubscribe();
+
+    expect(routingService.go).not.toHaveBeenCalledWith({
+      cxRoute: 'orders',
+    });
   });
 });

@@ -5,6 +5,7 @@ import {
   Order,
   OrderHistoryList,
   ReturnRequestEntryInputList,
+  CancellationRequestEntryInputList,
   ReturnRequest,
   ReturnRequestList,
 } from '../../../model/order.model';
@@ -34,6 +35,14 @@ export class UserOrderConnector {
     consignmentCode: string
   ): Observable<ConsignmentTracking> {
     return this.adapter.getConsignmentTracking(orderCode, consignmentCode);
+  }
+
+  public cancel(
+    userId: string,
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
+  ): Observable<{}> {
+    return this.adapter.cancel(userId, orderCode, cancelRequestInput);
   }
 
   public return(

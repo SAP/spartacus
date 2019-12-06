@@ -6,19 +6,46 @@ import {
   LanguageService,
   Price,
   RoutingService,
+  GlobalMessageService,
+  GlobalMessageType,
+  UserOrderService,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { tap, map, share } from 'rxjs/operators';
 
 @Injectable()
 export class OrderCancelOrReturnService {
   private _cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[] = [];
-
   private lang = 'en';
-
   private keepRequestInputs = false;
+
+  get isCancelling$(): Observable<boolean> {
+    return this.userOrderService.getOrderDetailsState().pipe(
+      tap(state => {
+        if (state.success && !state.loading) {
+          this.clearCancelOrReturnRequestInputs();
+          this.globalMessageService.add(
+            {
+              key: 'orderDetails.cancellationAndReturn.cancelSuccess',
+              params: { orderCode: state.value.code },
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+          this.routing.go({
+            cxRoute: 'orders',
+          });
+        }
+      }),
+      map(state => state.loading),
+      share()
+    );
+  }
 
   constructor(
     protected languageService: LanguageService,
-    protected routing: RoutingService
+    protected routing: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected userOrderService: UserOrderService
   ) {
     this.languageService.getActive().subscribe(value => (this.lang = value));
   }
@@ -92,5 +119,11 @@ export class OrderCancelOrReturnService {
       }
     }
     return 0;
+  }
+
+  cancelOrder(orderCode: string): void {
+    this.userOrderService.cancelOrder(orderCode, {
+      cancellationRequestEntryInputs: this.cancelOrReturnRequestInputs,
+    });
   }
 }

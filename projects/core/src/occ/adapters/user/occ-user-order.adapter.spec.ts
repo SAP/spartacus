@@ -12,6 +12,7 @@ import {
   Order,
   ReturnRequestEntryInputList,
   ReturnRequest,
+  CancellationRequestEntryInputList,
 } from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
@@ -275,6 +276,33 @@ describe('OccUserOrderAdapter', () => {
           CONSIGNMENT_TRACKING_NORMALIZER
         );
       });
+    });
+
+    describe('cancel', () => {
+      it('should be able to cancel an order', async(() => {
+        const cancelRequestInput: CancellationRequestEntryInputList = {
+          cancellationRequestEntryInputs: [
+            { orderEntryNumber: 0, quantity: 1 },
+          ],
+        };
+
+        let result;
+        occUserOrderAdapter
+          .cancel(userId, orderData.code, cancelRequestInput)
+          .subscribe(res => (result = res));
+
+        const mockReq = httpMock.expectOne(req => {
+          return req.method === 'POST';
+        });
+        expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cancelOrder', {
+          userId,
+          orderId: orderData.code,
+        });
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush({});
+        expect(result).toEqual({});
+      }));
     });
 
     describe('createReturnRequest', () => {

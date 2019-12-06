@@ -105,7 +105,7 @@ describe('ReturnOrderComponent', () => {
     expect(returnService.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
   });
 
-  it('should go to order confirmation page', () => {
+  it('should go to return confirmation page', () => {
     const entryInputs = [
       { orderEntryNumber: 0, quantity: 1 },
       { orderEntryNumber: 3, quantity: 5 },
