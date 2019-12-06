@@ -7,6 +7,7 @@ import {
   ReturnRequestEntryInputList,
   CancellationRequestEntryInputList,
   ReturnRequestList,
+  ReturnRequestModification,
 } from '../../../model/order.model';
 
 export abstract class UserOrderAdapter {
@@ -87,5 +88,16 @@ export abstract class UserOrderAdapter {
     userId: string,
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
+  ): Observable<{}>;
+
+  /**
+   * Abstract method used to cancel one return request
+   * @param userId
+   * @param returnRequestCode
+   */
+  abstract cancelReturnRequest(
+    userId: string,
+    returnRequestCode: string,
+    returnRequestModification: ReturnRequestModification
   ): Observable<{}>;
 }
