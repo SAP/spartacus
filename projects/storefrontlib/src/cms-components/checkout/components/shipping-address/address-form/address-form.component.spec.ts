@@ -397,7 +397,6 @@ describe('AddressFormComponent', () => {
   it('should call verifyAddress', () => {
     spyOn(component, 'verifyAddress').and.callThrough();
     const mockCountryIsocode = 'test country isocode';
-    //component.countrySelected({ isocode: mockCountryIsocode });
     component.regionSelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
     component.regions$.subscribe(_ => _);
