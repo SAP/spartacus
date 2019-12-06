@@ -15,7 +15,10 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_CART_ID_CURRENT,
+} from '../../utils/occ-constants';
 import { OccCartAdapter } from './occ-cart.adapter';
 
 const userId = '123';
@@ -136,7 +139,9 @@ describe('OccCartAdapter', () => {
 
     it('should load current cart for given userId', () => {
       let result;
-      occCartAdapter.load(userId, 'current').subscribe(res => (result = res));
+      occCartAdapter
+        .load(userId, OCC_CART_ID_CURRENT)
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === 'carts';
@@ -321,7 +326,9 @@ describe('OccCartAdapter', () => {
 
       it('should load current cart for given userId', () => {
         let result;
-        occCartAdapter.load(userId, 'current').subscribe(res => (result = res));
+        occCartAdapter
+          .load(userId, OCC_CART_ID_CURRENT)
+          .subscribe(res => (result = res));
 
         const mockReq = httpMock.expectOne(req => {
           return (
