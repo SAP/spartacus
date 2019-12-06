@@ -96,7 +96,6 @@ const mockSuggestedAddressModalRef: any = {
 };
 
 class MockModalService {
-  //open = createSpy();
   open(): any {
     return mockSuggestedAddressModalRef;
   }
