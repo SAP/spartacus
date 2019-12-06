@@ -18,7 +18,7 @@ export class ProductVariantSelectorComponent implements OnInit {
 
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
-      filter(product => !!product),
+      filter(product => !!(product && product.baseOptions)),
       distinctUntilChanged(),
       tap(product => {
         product.baseOptions.forEach(option => {
