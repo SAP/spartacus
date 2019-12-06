@@ -123,7 +123,6 @@
 
     @include media-breakpoint-down(sm) {
       @include type('5');
-      font-weight: $font-weight-normal;
     }
   }
 
@@ -170,7 +169,6 @@
 
   .cx-order-history-no-order {
     @include type('5');
-    font-weight: $font-weight-normal;
     min-height: 415px;
 
     @include media-breakpoint-down(sm) {
@@ -182,9 +180,5 @@
     .btn {
       margin: 1.25rem 0;
     }
-  }
-
-  .cx-order-history-body {
-    background-color: var(--cx-color-inverse);
   }
 }
