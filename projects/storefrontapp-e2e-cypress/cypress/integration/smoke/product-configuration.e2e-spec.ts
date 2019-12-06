@@ -9,11 +9,13 @@ const testProductPricing = 'WEC_DRAGON_CAR';
 const configurator = 'CPQCONFIGURATOR';
 
 function goToConfigurationPage(configurator, testProduct) {
-  cy.visit(`/electronics-spa/en/USD/configure${configurator}/${testProduct}`);
+  cy.visit(
+    `/electronics-spa/en/USD/configure${configurator}/product/entityKey/${testProduct}`
+  );
 }
 function goToConfigurationOverviewPage(configurator, testProduct) {
   cy.visit(
-    `/electronics-spa/en/USD/configureOverview${configurator}/${testProduct}`
+    `/electronics-spa/en/USD/configureOverview${configurator}/product/entityKey/${testProduct}`
   );
 }
 function goToProductDetailsPage(testProduct) {
@@ -76,7 +78,7 @@ context('Product Configuration', () => {
 
   describe('Tab Navigation', () => {
     it('Navigate from Configuration to Overview Page', () => {
-      goToConfigurationPage(configurator, testProductPricing);
+      goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
 
       configuration.navigateToOverviewPage();
@@ -89,6 +91,32 @@ context('Product Configuration', () => {
 
       configurationOverview.navigateToConfigurationPage();
       configuration.verifyConfigurationPageIsDisplayed();
+    });
+  });
+
+  describe('Overview Content', () => {
+    it('Show default Overview Content', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.navigateToOverviewPage();
+      configurationOverview.verifyConfigurationOverviewPageIsDisplayed();
+      configurationOverview.verifyNumberOfGroupsDisplayed(2);
+    });
+
+    it('Show Overview Content with changed Configuration', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.selectAttribute(
+        'WCEM_DP_MONITOR_MNF',
+        'radioGroup',
+        'PHILIPS'
+      );
+
+      configuration.navigateToOverviewPage();
+      configurationOverview.verifyConfigurationOverviewPageIsDisplayed();
+      configurationOverview.verifyNumberOfGroupsDisplayed(3);
     });
   });
 

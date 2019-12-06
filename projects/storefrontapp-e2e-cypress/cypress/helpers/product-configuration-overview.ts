@@ -7,3 +7,9 @@ export function navigateToConfigurationPage() {
     force: true,
   });
 }
+
+export function verifyNumberOfGroupsDisplayed(number: number) {
+  cy.get('.cx-config-overview-group')
+    .its('length')
+    .should('eq', number);
+}
