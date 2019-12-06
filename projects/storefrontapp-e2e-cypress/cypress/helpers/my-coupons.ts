@@ -44,14 +44,14 @@ export function verifyPagingAndSorting() {
     firstCouponEndDateDescending
   );
   cy.get('.cx-coupon-card').should('have.length', PageSize);
-  cy.get('cx-pagination:first .page-link').should('have.length', 4);
-  cy.get('cx-pagination:first').within( () => {
+  cy.get('cx-pagination:last .page-link').should('have.length', 4);
+  cy.get('cx-pagination:last').within( () => {
     cy.getByText('2').click();
   })
   cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
-  cy.get('cx-pagination:first .page-link:first').click();
+  cy.get('cx-pagination:last .page-link:first').click();
   cy.get('.cx-coupon-card').should('have.length', PageSize);
-  cy.get('cx-pagination:first .page-link:last').click();
+  cy.get('cx-pagination:last .page-link:last').click();
   cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
 }
 

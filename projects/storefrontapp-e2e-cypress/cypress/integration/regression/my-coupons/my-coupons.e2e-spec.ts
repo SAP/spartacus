@@ -29,7 +29,6 @@ describe('My coupons test for login user', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
-    //cy.reload();
     cy.visit('/');
     cy.selectUserMenuOption({
       option: 'My Coupons',
@@ -46,7 +45,6 @@ describe('My coupons test for pagination and sort', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.login(myCoupons.testUser, myCoupons.testPassword);
-    //cy.reload();
     cy.visit('/');
     cy.selectUserMenuOption({
       option: 'My Coupons',
