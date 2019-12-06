@@ -71,6 +71,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,
+    ProductScrollComponent,
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })
