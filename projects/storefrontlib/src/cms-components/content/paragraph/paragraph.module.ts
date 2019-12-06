@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 import { ConfigModule } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';

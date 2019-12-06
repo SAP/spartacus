@@ -8,13 +8,13 @@ import {
   Provider,
 } from '@angular/core';
 
+import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer/config-initializer';
 import {
   ConfigValidator,
   ConfigValidatorToken,
   validateConfig,
 } from './config-validator/config-validator';
 import { deepMerge } from './utils/deep-merge';
-import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer/config-initializer';
 
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app

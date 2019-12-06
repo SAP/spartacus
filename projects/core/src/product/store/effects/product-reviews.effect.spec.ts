@@ -13,9 +13,9 @@ import {
 import { Review } from '../../../model/product.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
+import { ProductReviewsConnector } from '../../connectors/index';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
-import { ProductReviewsConnector } from '../../connectors/index';
 
 import createSpy = jasmine.createSpy;
 

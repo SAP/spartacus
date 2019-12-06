@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 
 import { CmsConfig, ConfigModule } from '@spartacus/core';
 
-import { LinkComponent } from './link.component';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
+import { LinkComponent } from './link.component';
 
 @NgModule({
   imports: [

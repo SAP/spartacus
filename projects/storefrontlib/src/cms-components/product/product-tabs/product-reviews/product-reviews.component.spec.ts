@@ -10,8 +10,8 @@ import {
 } from '@spartacus/core';
 
 import { ItemCounterModule } from '../../../../shared';
-import { ProductReviewsComponent } from './product-reviews.component';
 import { CurrentProductService } from '../../current-product.service';
+import { ProductReviewsComponent } from './product-reviews.component';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };

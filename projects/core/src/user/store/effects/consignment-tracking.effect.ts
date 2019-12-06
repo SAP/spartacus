@@ -4,9 +4,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
 
 @Injectable()
 export class ConsignmentTrackingEffects {

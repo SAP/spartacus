@@ -5,6 +5,7 @@ import {
 } from '@ngrx/store';
 
 import { Cart } from '../../../model/cart.model';
+import { User } from '../../../model/misc.model';
 import { OrderEntry } from '../../../model/order.model';
 import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -14,7 +15,6 @@ import {
   CartState,
   StateWithCart,
 } from '../cart-state';
-import { User } from '../../../model/misc.model';
 
 const getCartContentSelector = (state: CartState) => state.content;
 const getCartRefreshSelector = (state: CartState) => state.refresh;

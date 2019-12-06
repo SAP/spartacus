@@ -1,5 +1,5 @@
-import { isDevMode, Pipe, PipeTransform } from '@angular/core';
 import { DatePipe, getLocaleId } from '@angular/common';
+import { isDevMode, Pipe, PipeTransform } from '@angular/core';
 
 import { LanguageService } from '../site-context/facade/language.service';
 

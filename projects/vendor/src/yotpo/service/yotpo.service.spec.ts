@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
 
 import {
   PageType,

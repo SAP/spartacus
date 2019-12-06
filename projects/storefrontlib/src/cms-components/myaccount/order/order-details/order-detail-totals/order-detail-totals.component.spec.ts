@@ -5,8 +5,8 @@ import { of } from 'rxjs';
 
 import { Cart, Order } from '@spartacus/core';
 
-import { OrderDetailTotalsComponent } from './order-detail-totals.component';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailTotalsComponent } from './order-detail-totals.component';
 
 @Component({
   selector: 'cx-order-summary',

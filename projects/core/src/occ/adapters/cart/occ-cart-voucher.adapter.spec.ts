@@ -2,19 +2,19 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 
 import { CART_VOUCHER_NORMALIZER } from '../../../cart/connectors/voucher/converters';
 import { Cart } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccConfig } from '../../index';
-import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 import { OccEndpointsService } from '../../services';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
 } from '../user/unit-test.helper';
+import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 
 const userId = '123';
 const cartId = '456';

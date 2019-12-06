@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import { mergeFields, parseFields } from '../utils/occ-fields';
 import { ScopedData } from '../../model/scoped-data';
+import { mergeFields, parseFields } from '../utils/occ-fields';
 
 export interface ScopedDataWithUrl {
   /** Url (with fields) to load scoped data */

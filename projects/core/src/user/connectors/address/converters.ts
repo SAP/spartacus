@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
-import { Converter } from '../../../util/converter.service';
 import { Address, AddressValidation } from '../../../model/address.model';
+import { Converter } from '../../../util/converter.service';
 
 export const ADDRESS_NORMALIZER = new InjectionToken<Converter<any, Address>>(
   'AddressNormalizer'

@@ -26,9 +26,9 @@ import { StoreFinderListComponent } from './components/store-finder-search-resul
 import { StoreFinderSearchResultComponent } from './components/store-finder-search-result/store-finder-search-result.component';
 import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
 import { StoreFinderStoreDescriptionComponent } from './components/store-finder-store-description/store-finder-store-description.component';
+import { StoreFinderStoreComponent } from './components/store-finder-store/store-finder-store.component';
 import { StoreFinderStoresCountComponent } from './components/store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderComponent } from './components/store-finder/store-finder.component';
-import { StoreFinderStoreComponent } from './components/store-finder-store/store-finder-store.component';
 
 @NgModule({
   imports: [

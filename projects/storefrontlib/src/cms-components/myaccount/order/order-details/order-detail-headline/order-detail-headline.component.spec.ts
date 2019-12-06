@@ -5,8 +5,8 @@ import { of } from 'rxjs';
 
 import { I18nTestingModule, Order } from '@spartacus/core';
 
-import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
 
 const mockOrder: Order = {
   code: '1',

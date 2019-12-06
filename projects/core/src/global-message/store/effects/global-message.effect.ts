@@ -13,6 +13,11 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
+import { Translatable } from '../../../i18n/translatable';
+import {
+  countOfDeepEqualObjects,
+  indexOfFirstOccurrence,
+} from '../../../util/compare-equal-objects';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
   GlobalMessage,
@@ -21,11 +26,6 @@ import {
 import { GlobalMessageActions } from '../actions/index';
 import { StateWithGlobalMessage } from '../global-message-state';
 import { GlobalMessageSelectors } from '../selectors/index';
-import {
-  countOfDeepEqualObjects,
-  indexOfFirstOccurrence,
-} from '../../../util/compare-equal-objects';
-import { Translatable } from '../../../i18n/translatable';
 
 @Injectable()
 export class GlobalMessageEffect {

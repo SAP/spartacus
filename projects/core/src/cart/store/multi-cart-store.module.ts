@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
+import { ConfigModule } from '../../config/config.module';
+import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
+import { MultiCartEffects } from './effects/multi-cart.effect';
 import { MULTI_CART_FEATURE } from './multi-cart-state';
 import {
   multiCartMetaReducers,
   multiCartReducerProvider,
   multiCartReducerToken,
 } from './reducers/index';
-import { ConfigModule } from '../../config/config.module';
-import { StateConfig, StorageSyncType } from '../../state/config/state-config';
-import { MultiCartEffects } from './effects/multi-cart.effect';
 
 export function multiCartStoreConfigFactory(): StateConfig {
   const config: StateConfig = {

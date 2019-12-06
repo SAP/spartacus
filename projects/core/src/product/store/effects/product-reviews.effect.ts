@@ -3,13 +3,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
-import { ErrorModel } from '../../../model/misc.model';
-import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
-import { ProductActions } from '../actions/index';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
+import { ErrorModel } from '../../../model/misc.model';
+import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
+import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductReviewsEffects {

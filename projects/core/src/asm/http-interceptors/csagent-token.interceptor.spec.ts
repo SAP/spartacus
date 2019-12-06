@@ -10,8 +10,8 @@ import { Observable, of } from 'rxjs';
 
 import { AsmAuthService, OccConfig } from '@spartacus/core';
 
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { UserToken } from '../../auth/models/token-types.model';
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { CustomerSupportAgentTokenInterceptor } from './csagent-token.interceptor';
 
 const testToken = {

@@ -2,12 +2,12 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { UserToken } from '../../auth/models/token-types.model';
-import * as fromReducers from '../store/reducers/index';
-import { AsmAuthService } from './asm-auth.service';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { AsmActions } from '../store/actions';
 import { ASM_FEATURE, AsmState } from '../store/asm-state';
+import * as fromReducers from '../store/reducers/index';
+import { AsmAuthService } from './asm-auth.service';
 
 const mockToken = {
   userId: 'user@sap.com',

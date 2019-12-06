@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 
-import { CmsComponentData } from '@spartacus/storefront';
 import { CmsComponent, CmsParagraphComponent } from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
 
 import { ParagraphComponent } from './paragraph.component';
 

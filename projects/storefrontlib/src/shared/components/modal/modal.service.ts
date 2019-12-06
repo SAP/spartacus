@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ModalRef } from './modal-ref';
 import { ModalOptions } from './modal-options';
+import { ModalRef } from './modal-ref';
 
 /**
  * A service to handle modal

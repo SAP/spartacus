@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ProductReference } from '../../../model/product.model';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
 import { ProductReferencesAdapter } from '../../../product/connectors/references/product-references.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccProductReferencesAdapter implements ProductReferencesAdapter {

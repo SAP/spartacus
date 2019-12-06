@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 import { CardType, PaymentDetails } from '../../../model/cart.model';
+import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 
 @Injectable({
   providedIn: 'root',

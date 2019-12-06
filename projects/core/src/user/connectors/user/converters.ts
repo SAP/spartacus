@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
-import { Converter } from '../../../util/converter.service';
 import { Title, User, UserSignUp } from '../../../model/misc.model';
+import { Converter } from '../../../util/converter.service';
 
 export const USER_NORMALIZER = new InjectionToken<Converter<any, User>>(
   'UserNormalizer'

@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
 import { EntityScopedLoaderAction } from '../../../product/store/actions/product.action';
 import { LoaderState } from '../loader/loader-state';
+import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
 import { ScopedLoaderState } from './scoped-loader.state';
 
 /**

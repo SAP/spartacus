@@ -1,15 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 
-import { ProductAdapter } from '../../../product/connectors/product/product.adapter';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
-import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { Product } from '../../../model/product.model';
+import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
+import { ProductAdapter } from '../../../product/connectors/product/product.adapter';
 import { ScopedProductData } from '../../../product/connectors/product/scoped-product-data';
-import { ScopedDataWithUrl } from '../../services/occ-fields.service';
+import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { ScopedDataWithUrl } from '../../services/occ-fields.service';
 import { OccRequestsOptimizerService } from '../../services/occ-requests-optimizer.service';
 
 @Injectable()

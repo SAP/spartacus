@@ -7,8 +7,8 @@ import { of } from 'rxjs';
 import { ProductReference } from '../../../model/product.model';
 import * as fromProductReducers from '../../store/reducers/index';
 import { ProductSelectors } from '../../store/selectors/index';
-import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 import { ProductActions } from '../actions';
+import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 
 const productCode = 'productCode';
 const product = {

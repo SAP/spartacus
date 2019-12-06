@@ -5,16 +5,16 @@ import { filter, take, tap } from 'rxjs/operators';
 
 import { Currency } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
-import { SiteContextActions } from '../store/actions/index';
-import { SiteContextSelectors } from '../store/selectors/index';
-import { StateWithSiteContext } from '../store/state';
-import { SiteContext } from './site-context.interface';
-import { SiteContextConfig } from '../config/site-context-config';
 import {
   getContextParameterDefault,
   getContextParameterValues,
 } from '../config/context-config-utils';
+import { SiteContextConfig } from '../config/site-context-config';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
+import { SiteContextActions } from '../store/actions/index';
+import { SiteContextSelectors } from '../store/selectors/index';
+import { StateWithSiteContext } from '../store/state';
+import { SiteContext } from './site-context.interface';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.

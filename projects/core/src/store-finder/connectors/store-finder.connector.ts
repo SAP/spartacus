@@ -1,14 +1,14 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { StoreFinderSearchConfig } from '../model/search-config';
-import { StoreFinderAdapter } from './store-finder.adapter';
-import { PointOfService } from '../../model/point-of-service.model';
 import { GeoPoint } from '../../model/misc.model';
+import { PointOfService } from '../../model/point-of-service.model';
 import {
   StoreCount,
   StoreFinderSearchPage,
 } from '../../model/store-finder.model';
+import { StoreFinderSearchConfig } from '../model/search-config';
+import { StoreFinderAdapter } from './store-finder.adapter';
 
 @Injectable({ providedIn: 'root' })
 export class StoreFinderConnector {

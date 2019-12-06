@@ -5,8 +5,8 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, ConfigModule } from '../config/config.module';
 import { AsmConfig } from './config/asm-config';
 import { defaultAsmConfig } from './config/default-asm-config';
-import { AsmStoreModule } from './store/asm-store.module';
 import { interceptors } from './http-interceptors/index';
+import { AsmStoreModule } from './store/asm-store.module';
 
 @NgModule({
   imports: [

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 
-import { reducerProvider, reducerToken } from './reducers/index';
-import { GLOBAL_MESSAGE_FEATURE } from './global-message-state';
 import { StateModule } from '../../state/state.module';
+import { GLOBAL_MESSAGE_FEATURE } from './global-message-state';
+import { reducerProvider, reducerToken } from './reducers/index';
 
 @NgModule({
   imports: [

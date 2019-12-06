@@ -6,8 +6,8 @@ import {
   errorHandlers,
   httpErrorInterceptors,
 } from './http-interceptors/index';
-import { GlobalMessageStoreModule } from './store/global-message-store.module';
 import { GlobalMessageEffect } from './store/effects/global-message.effect';
+import { GlobalMessageStoreModule } from './store/global-message-store.module';
 
 import { Config, ConfigModule } from '../config/config.module';
 import { defaultGlobalMessageConfigFactory } from './config/default-global-message-config';

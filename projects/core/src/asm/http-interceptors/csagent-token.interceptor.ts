@@ -8,12 +8,12 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
+import { UserToken } from '../../auth/models/token-types.model';
 import {
   InterceptorUtil,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 import { AsmAuthService } from '../facade/asm-auth.service';
-import { UserToken } from '../../auth/models/token-types.model';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerSupportAgentTokenInterceptor implements HttpInterceptor {

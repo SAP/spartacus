@@ -1,10 +1,10 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import { GoogleMapRendererService } from './google-map-renderer.service';
-import { ExternalJsFileLoader } from './external-js-file-loader.service';
-import { StoreDataService } from '../facade/store-data.service';
-import { StoreFinderConfig } from '../config/store-finder-config';
 import { defaultStoreFinderConfig as config } from '../config/default-store-finder-config';
+import { StoreFinderConfig } from '../config/store-finder-config';
+import { StoreDataService } from '../facade/store-data.service';
+import { ExternalJsFileLoader } from './external-js-file-loader.service';
+import { GoogleMapRendererService } from './google-map-renderer.service';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import { Images } from '../../../../model/image.model';
+import { Product } from '../../../../model/product.model';
+import { Converter } from '../../../../util/converter.service';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
-import { Converter } from '../../../../util/converter.service';
-import { Product } from '../../../../model/product.model';
-import { Images } from '../../../../model/image.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductImageNormalizer implements Converter<Occ.Product, Product> {

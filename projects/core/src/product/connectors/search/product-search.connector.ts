@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ProductSearchAdapter } from './product-search.adapter';
-import { SearchConfig } from '../../model/search-config';
 import {
   ProductSearchPage,
   Suggestion,
 } from '../../../model/product-search.model';
+import { SearchConfig } from '../../model/search-config';
+import { ProductSearchAdapter } from './product-search.adapter';
 
 @Injectable({
   providedIn: 'root',

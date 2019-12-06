@@ -1,7 +1,7 @@
 import { initialEntityState } from '@spartacus/core';
 
-import { entityScopedLoaderReducer } from './entity-scoped-loader.reducer';
 import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
+import { entityScopedLoaderReducer } from './entity-scoped-loader.reducer';
 
 describe('entityScopedLoaderReducer', () => {
   const TEST_ENTITY_TYPE = 'test';

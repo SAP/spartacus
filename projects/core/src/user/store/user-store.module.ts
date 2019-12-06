@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { RouterModule } from '@angular/router';
 
-import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
-import { effects } from './effects/index';
-import { USER_FEATURE } from './user-state';
 import { StateModule } from '../../state/state.module';
+import { effects } from './effects/index';
+import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+import { USER_FEATURE } from './user-state';
 
 @NgModule({
   imports: [

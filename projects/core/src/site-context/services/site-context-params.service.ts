@@ -1,12 +1,12 @@
 import { Injectable, Injector } from '@angular/core';
 
-import { SiteContextConfig } from '../config/site-context-config';
-import { SiteContext } from '../facade/site-context.interface';
-import { ContextServiceMap } from '../providers/context-service-map';
 import {
   getContextParameterDefault,
   getContextParameterValues,
 } from '../config/context-config-utils';
+import { SiteContextConfig } from '../config/site-context-config';
+import { SiteContext } from '../facade/site-context.interface';
+import { ContextServiceMap } from '../providers/context-service-map';
 
 @Injectable()
 export class SiteContextParamsService {

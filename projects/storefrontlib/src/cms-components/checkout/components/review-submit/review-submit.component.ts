@@ -17,8 +17,8 @@ import {
 } from '@spartacus/core';
 
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../services/index';
 import { CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
 
 @Component({
   selector: 'cx-review-submit',

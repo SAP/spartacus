@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { getContextParameterDefault } from '../../../site-context/config/context-config-utils';
+import { SiteContextConfig } from '../../../site-context/config/site-context-config';
 import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { SiteContextConfig } from '../../../site-context/config/site-context-config';
-import { getContextParameterDefault } from '../../../site-context/config/context-config-utils';
 import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
 } from '../../../site-context/providers/context-ids';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextInterceptor implements HttpInterceptor {

@@ -5,13 +5,13 @@ import {
   Optional,
 } from '@angular/core';
 
-import { ConfigInitializerService } from './config-initializer.service';
+import { ConfigValidatorModule } from '../config-validator/config-validator.module';
 import {
   CONFIG_INITIALIZER,
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from './config-initializer';
-import { ConfigValidatorModule } from '../config-validator/config-validator.module';
+import { ConfigInitializerService } from './config-initializer.service';
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,

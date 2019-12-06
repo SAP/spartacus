@@ -1,7 +1,7 @@
 import { Product } from '../../../model/product.model';
+import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import * as fromProduct from './product.action';
-import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {

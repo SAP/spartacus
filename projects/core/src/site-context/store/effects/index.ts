@@ -1,6 +1,6 @@
-import { LanguagesEffects } from './languages.effect';
-import { CurrenciesEffects } from './currencies.effect';
 import { BaseSiteEffects } from './base-site.effect';
+import { CurrenciesEffects } from './currencies.effect';
+import { LanguagesEffects } from './languages.effect';
 
 export const effects: any[] = [
   LanguagesEffects,

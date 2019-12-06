@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from '../../global-message/index';
 import { GeoPoint } from '../../model/misc.model';
+import { RoutingService } from '../../routing/index';
 import { WindowRef } from '../../window/window-ref';
 import { StoreFinderActions } from '../store/actions/index';
 import { StoreFinderSelectors } from '../store/selectors/index';
@@ -12,11 +17,6 @@ import {
   ViewAllStoresState,
 } from '../store/store-finder-state';
 import { StoreFinderSearchConfig } from './../model/search-config';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-} from '../../global-message/index';
-import { RoutingService } from '../../routing/index';
 
 @Injectable()
 export class StoreFinderService {

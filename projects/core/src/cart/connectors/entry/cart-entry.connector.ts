@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { CartEntryAdapter } from './cart-entry.adapter';
 import { CartModification } from '../../../model/cart.model';
+import { CartEntryAdapter } from './cart-entry.adapter';
 
 @Injectable({
   providedIn: 'root',

@@ -3,9 +3,9 @@ import { Subscription } from 'rxjs';
 
 import { ProductSearchPage } from '@spartacus/core';
 
+import { ViewConfig } from '../../../../../shared/config/view-config';
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
-import { ViewConfig } from '../../../../../shared/config/view-config';
 
 @Component({
   selector: 'cx-product-scroll',

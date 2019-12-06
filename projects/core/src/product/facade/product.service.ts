@@ -3,12 +3,12 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, queueScheduler } from 'rxjs';
 import { auditTime, map, observeOn, shareReplay, tap } from 'rxjs/operators';
 
+import { deepMerge } from '../../config/utils/deep-merge';
 import { Product } from '../../model/product.model';
+import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
-import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { deepMerge } from '../../config/utils/deep-merge';
 
 @Injectable()
 export class ProductService {

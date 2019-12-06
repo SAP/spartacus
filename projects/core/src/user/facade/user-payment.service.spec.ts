@@ -4,6 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../../auth/facade/auth.service';
+import { Country } from '../../model';
 import { PaymentDetails } from '../../model/cart.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
@@ -13,7 +14,6 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserPaymentService } from './user-payment.service';
-import { Country } from '../../model';
 
 class MockAuthService {
   getOccUserId(): Observable<string> {

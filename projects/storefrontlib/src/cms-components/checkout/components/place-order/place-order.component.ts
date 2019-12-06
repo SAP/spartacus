@@ -4,8 +4,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { CheckoutService, RoutingService } from '@spartacus/core';
 

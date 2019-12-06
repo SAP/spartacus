@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
 
 import {
   Cart,

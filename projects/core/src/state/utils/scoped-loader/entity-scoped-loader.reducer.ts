@@ -1,11 +1,11 @@
-import { ScopedLoaderState } from './scoped-loader.state';
 import { scopedLoaderReducer } from './scoped-loader.reducer';
+import { ScopedLoaderState } from './scoped-loader.state';
 
-import { entityReducer } from '../entity/entity.reducer';
-import { LoaderAction } from '../loader/loader.action';
 import { EntityLoaderState } from '../entity-loader/entity-loader-state';
 import { EntityLoaderAction } from '../entity-loader/entity-loader.action';
+import { entityReducer } from '../entity/entity.reducer';
 import { LoaderState } from '../loader/loader-state';
+import { LoaderAction } from '../loader/loader.action';
 
 /**
  * Higher order reducer that wraps scopedLoaderReducer and EntityReducer enhancing

@@ -17,9 +17,9 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 
+import { CheckoutStepType } from '../..';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
-import { CheckoutStepType } from '../..';
 
 export interface CardWithAddress {
   card: Card;

@@ -1,6 +1,6 @@
+import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Route } from '@angular/router';
-import { isPlatformServer } from '@angular/common';
 
 import { CmsConfig } from '@spartacus/core';
 

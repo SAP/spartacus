@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
-import { reducerProvider, reducerToken } from './reducers/index';
-import { effects } from './effects/index';
 import { CHECKOUT_FEATURE } from './checkout-state';
+import { effects } from './effects/index';
+import { reducerProvider, reducerToken } from './reducers/index';
 
 @NgModule({
   imports: [

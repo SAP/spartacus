@@ -4,6 +4,8 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/index';
+import { Cart } from '../../model/cart.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -13,8 +15,6 @@ import {
 import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID, StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
-import { Cart } from '../../model/cart.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class CartVoucherService {

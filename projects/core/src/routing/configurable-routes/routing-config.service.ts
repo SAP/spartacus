@@ -1,7 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 
-import { RouteConfig } from './routes-config';
 import { RoutingConfig } from './config/routing-config';
+import { RouteConfig } from './routes-config';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingConfigService {
