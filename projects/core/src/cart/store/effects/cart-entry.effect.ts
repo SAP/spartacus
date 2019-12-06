@@ -14,7 +14,7 @@ export class CartEntryEffects {
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
     | DeprecatedCartActions.LoadCart
-    | CartActions.CartProcessesDecrementAction
+    | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
@@ -38,7 +38,7 @@ export class CartEntryEffects {
           catchError(error =>
             from([
               new CartActions.CartAddEntryFail(makeErrorSerializable(error)),
-              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new CartActions.CartProcessesDecrement(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
@@ -53,7 +53,7 @@ export class CartEntryEffects {
   removeEntry$: Observable<
     | CartActions.CartRemoveEntrySuccess
     | CartActions.CartRemoveEntryFail
-    | CartActions.CartProcessesDecrementAction
+    | CartActions.CartProcessesDecrement
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY),
@@ -71,7 +71,7 @@ export class CartEntryEffects {
           catchError(error =>
             from([
               new CartActions.CartRemoveEntryFail(makeErrorSerializable(error)),
-              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new CartActions.CartProcessesDecrement(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
@@ -86,7 +86,7 @@ export class CartEntryEffects {
   updateEntry$: Observable<
     | CartActions.CartUpdateEntrySuccess
     | CartActions.CartUpdateEntryFail
-    | CartActions.CartProcessesDecrementAction
+    | CartActions.CartProcessesDecrement
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
@@ -104,7 +104,7 @@ export class CartEntryEffects {
           catchError(error =>
             from([
               new CartActions.CartUpdateEntryFail(makeErrorSerializable(error)),
-              new CartActions.CartProcessesDecrementAction(payload.cartId),
+              new CartActions.CartProcessesDecrement(payload.cartId),
               new DeprecatedCartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,

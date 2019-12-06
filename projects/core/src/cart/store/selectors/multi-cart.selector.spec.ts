@@ -197,9 +197,7 @@ describe('Multi Cart selectors', () => {
 
       expect(result).toEqual(false);
 
-      store.dispatch(
-        new CartActions.CartProcessesIncrementAction(testCart.code)
-      );
+      store.dispatch(new CartActions.CartProcessesIncrement(testCart.code));
 
       expect(result).toEqual(true);
     });

@@ -21,7 +21,6 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
-import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import { CartActions } from '../store';
@@ -81,21 +80,21 @@ export class ActiveCartService {
   private initActiveCart() {
     this.activeCart$ = this.cartSelector$.pipe(
       withLatestFrom(this.activeCartId$),
-      map(([cartEntity, activeCartId]: [LoaderState<Cart>, string]): {
+      map(([cartEntity, activeCartId]: [ProcessesLoaderState<Cart>, string]): {
         cart: Cart;
         cartId: string;
-        loading: boolean;
+        isStable: boolean;
         loaded: boolean;
       } => {
         return {
           cart: cartEntity.value,
           cartId: activeCartId,
-          loading: cartEntity.loading,
+          isStable: !cartEntity.loading && cartEntity.processesCount === 0,
           loaded:
             (cartEntity.error || cartEntity.success) && !cartEntity.loading,
         };
       }),
-      filter(({ loading }) => !loading),
+      filter(({ isStable }) => isStable),
       tap(({ cart, cartId, loaded }) => {
         if (this.isEmpty(cart) && !loaded && cartId !== FRESH_CART_ID) {
           this.load(cartId);
@@ -107,6 +106,7 @@ export class ActiveCartService {
           this.cartUser = cart.user;
         }
       }),
+      distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }

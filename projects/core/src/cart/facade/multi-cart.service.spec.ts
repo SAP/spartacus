@@ -48,7 +48,7 @@ describe('MultiCartService', () => {
   });
 
   describe('getCart', () => {
-    it('should return cart with given id', done => {
+    it('should return cart with given id', () => {
       let result;
       service.getCart('xxx').subscribe(cart => {
         result = cart;
@@ -67,12 +67,11 @@ describe('MultiCartService', () => {
       );
 
       expect(result).toEqual(testCart);
-      done();
     });
   });
 
   describe('getCartEntity', () => {
-    it('should return cart entity with given id', done => {
+    it('should return cart entity with given id', () => {
       let result;
       service.getCartEntity('xxx').subscribe(cartEntity => {
         result = cartEntity;
@@ -103,8 +102,6 @@ describe('MultiCartService', () => {
         value: testCart,
         processesCount: 0,
       });
-
-      done();
     });
   });
 
@@ -146,7 +143,7 @@ describe('MultiCartService', () => {
   });
 
   describe('createCart', () => {
-    it('should create cart and return observable with cart', done => {
+    it('should create cart and return observable with cart', () => {
       let result;
 
       service.createCart({ userId: 'userId' }).subscribe(cart => {
@@ -179,8 +176,6 @@ describe('MultiCartService', () => {
         success: true,
         value: testCart,
       });
-
-      done();
     });
   });
 
@@ -207,7 +202,7 @@ describe('MultiCartService', () => {
   });
 
   describe('getEntries', () => {
-    it('should return cart entries', done => {
+    it('should return cart entries', () => {
       let result;
       service.getEntries('xxx').subscribe(cart => {
         result = cart;
@@ -226,8 +221,6 @@ describe('MultiCartService', () => {
       );
 
       expect(result).toEqual(testCart.entries);
-
-      done();
     });
   });
 
@@ -310,7 +303,7 @@ describe('MultiCartService', () => {
   });
 
   describe('getEntry', () => {
-    it('should return cart entry', done => {
+    it('should return cart entry', () => {
       let result;
       service
         .getEntry('xxx', testCart.entries[0].product.code)
@@ -331,7 +324,6 @@ describe('MultiCartService', () => {
       );
 
       expect(result).toEqual(testCart.entries[0]);
-      done();
     });
   });
 
