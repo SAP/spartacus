@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
+
 import { Currency } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
 import { SiteContextActions } from '../store/actions/index';

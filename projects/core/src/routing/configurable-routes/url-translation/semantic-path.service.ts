@@ -1,4 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
+
 import { UrlParsingService } from './url-parsing.service';
 import { RouteConfig, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';

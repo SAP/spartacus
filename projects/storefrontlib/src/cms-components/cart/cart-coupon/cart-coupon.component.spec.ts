@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { of } from 'rxjs';
+
 import {
   CartService,
   I18nTestingModule,
@@ -11,7 +13,6 @@ import {
   CartVoucherService,
   AuthService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
 import { ICON_TYPE } from '@spartacus/storefront';
 

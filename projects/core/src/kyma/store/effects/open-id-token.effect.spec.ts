@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import * as fromStore from '../';
 import { UserToken } from '../../../auth';
 import { AuthActions } from '../../../auth/store/actions/index';

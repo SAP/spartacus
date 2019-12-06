@@ -1,9 +1,10 @@
+import { Injectable } from '@angular/core';
+
 import { Occ } from '../../../occ-models/occ.models';
 import {
   Converter,
   ConverterService,
 } from '../../../../util/converter.service';
-import { Injectable } from '@angular/core';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ProductSearchPage } from '../../../../model/product-search.model';
 

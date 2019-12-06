@@ -5,6 +5,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as operators from 'rxjs/operators';
+
 import { defaultGlobalMessageConfigFactory } from '../../config/default-global-message-config';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {

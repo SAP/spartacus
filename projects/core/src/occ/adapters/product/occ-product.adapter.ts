@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ProductAdapter } from '../../../product/connectors/product/product.adapter';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+
+import { ProductAdapter } from '../../../product/connectors/product/product.adapter';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';

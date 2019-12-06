@@ -6,9 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Facet, ProductSearchPage } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+
+import { Facet, ProductSearchPage } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { ProductListComponentService } from '../container/product-list-component.service';

@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+
 import { I18nTestingModule, User } from '@spartacus/core';
 import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 import { UpdateProfileFormComponent } from './update-profile-form.component';

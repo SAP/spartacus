@@ -1,4 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BehaviorSubject } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 import {
   Cart,
   CartService,
@@ -6,11 +10,8 @@ import {
   CartVoucherService,
   Voucher,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
 import { PromotionsModule } from '../../../checkout';
 import { OrderSummaryComponent } from './order-summary.component';
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 class MockCartService {

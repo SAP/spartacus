@@ -1,12 +1,13 @@
 import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { GlobalMessageComponent } from './global-message.component';
 import createSpy = jasmine.createSpy;
 

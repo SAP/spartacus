@@ -1,7 +1,8 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService, RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+
+import { AuthService, RoutingService, UserService } from '@spartacus/core';
 import { CustomFormValidators } from '../../../../shared/utils/validators/custom-form-validators';
 
 @Component({

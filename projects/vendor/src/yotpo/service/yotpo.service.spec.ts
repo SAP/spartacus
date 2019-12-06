@@ -1,15 +1,14 @@
 import { ElementRef } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+
 import {
   Product,
   ProductService,
   RoutingService,
   PageType,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-
-import { TestBed } from '@angular/core/testing';
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
-
 import { YotpoService } from './yotpo.service';
 
 class MockYotpoConfig extends YotpoConfig {

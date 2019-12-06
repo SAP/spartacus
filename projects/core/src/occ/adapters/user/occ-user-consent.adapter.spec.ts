@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import {
   CONSENT_TEMPLATE_NORMALIZER,
   ConverterService,

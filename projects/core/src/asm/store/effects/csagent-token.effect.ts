@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../../auth/models/token-types.model';
 import { UserAuthenticationTokenService } from '../../../auth/services/user-authentication/user-authentication-token.service';

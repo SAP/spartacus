@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Injector, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import {
   CmsConfig,
   ConfigModule,

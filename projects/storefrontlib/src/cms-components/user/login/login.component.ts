@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, User, UserService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
+import { AuthService, User, UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',

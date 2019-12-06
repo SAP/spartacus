@@ -1,4 +1,5 @@
 import { Action, ActionReducer, MetaReducer, UPDATE } from '@ngrx/store';
+
 import { WindowRef } from '../../window/window-ref';
 import {
   DEFAULT_LOCAL_STORAGE_KEY,

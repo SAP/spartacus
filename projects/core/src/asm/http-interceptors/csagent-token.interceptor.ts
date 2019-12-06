@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+
 import {
   InterceptorUtil,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,

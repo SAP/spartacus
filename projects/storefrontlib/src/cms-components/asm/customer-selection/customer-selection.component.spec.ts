@@ -8,6 +8,8 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
+
 import {
   AsmConfig,
   AsmService,
@@ -16,7 +18,6 @@ import {
   I18nTestingModule,
   User,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
 

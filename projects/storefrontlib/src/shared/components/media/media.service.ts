@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { OccConfig } from '@spartacus/core';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT } from '../../../layout/config/layout-config';

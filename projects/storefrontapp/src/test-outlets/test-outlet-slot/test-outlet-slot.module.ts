@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 import {
   PageLayoutModule,
   OutletRefModule,
   CmsPageGuard,
 } from '@spartacus/storefront';
-import { CommonModule } from '@angular/common';
 import { TestOutletSlotComponent } from './test-outlet-slot.component';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [

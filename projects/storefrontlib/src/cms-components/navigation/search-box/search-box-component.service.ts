@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+
 import {
   ProductSearchPage,
   RoutingService,
@@ -6,8 +9,6 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';

@@ -5,6 +5,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+
 import { TranslationService } from './translation.service';
 import { shallowEqualObjects } from '../util/compare-equal-objects';
 import { Translatable, TranslatableParams } from './translatable';

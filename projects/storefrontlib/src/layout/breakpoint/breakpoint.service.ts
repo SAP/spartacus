@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import {
   debounceTime,
@@ -7,6 +6,8 @@ import {
   map,
   startWith,
 } from 'rxjs/operators';
+
+import { WindowRef } from '@spartacus/core';
 import { BREAKPOINT, LayoutConfig } from '../config/layout-config';
 
 const DEFAULT_BREAKPOINTS = {

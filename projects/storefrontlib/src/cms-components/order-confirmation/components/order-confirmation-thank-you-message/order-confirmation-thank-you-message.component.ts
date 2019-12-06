@@ -4,9 +4,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutService, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
+import { CheckoutService, Order } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',

@@ -4,6 +4,9 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
+
 import {
   AsmAuthService,
   AuthService,
@@ -14,8 +17,6 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({

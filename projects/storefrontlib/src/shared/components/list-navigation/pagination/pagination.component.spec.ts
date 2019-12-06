@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { PaginationModel } from '@spartacus/core';
 import { PaginationComponent } from './pagination.component';
 

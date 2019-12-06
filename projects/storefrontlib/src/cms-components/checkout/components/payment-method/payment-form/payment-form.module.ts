@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+
 import { I18nModule } from '@spartacus/core';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { IconModule } from '../../../../misc/icon/icon.module';

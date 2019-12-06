@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+
 import {
   AuthService,
   GlobalMessageService,
@@ -6,7 +8,6 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-update-email',

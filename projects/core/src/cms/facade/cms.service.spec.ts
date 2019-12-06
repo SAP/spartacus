@@ -4,6 +4,7 @@ import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+
 import { PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing/index';
 import { LoaderState } from '../../state';

@@ -1,8 +1,9 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Translatable } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+
+import { Translatable } from '@spartacus/core';
 import {
   GlobalMessage,
   GlobalMessageType,

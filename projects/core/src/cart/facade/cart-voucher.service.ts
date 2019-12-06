@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
 import { take, map } from 'rxjs/operators';
+
 import { AuthService } from '../../auth/index';
 import * as fromProcessStore from '../../process/store/process-state';
 import {

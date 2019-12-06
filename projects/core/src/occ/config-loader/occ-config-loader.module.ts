@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import {
   ConfigInitializer,
   CONFIG_INITIALIZER,

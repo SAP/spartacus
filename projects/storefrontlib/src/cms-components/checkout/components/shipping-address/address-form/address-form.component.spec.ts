@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { Observable, of } from 'rxjs';
+
 import {
   AddressValidation,
   CheckoutDeliveryService,
@@ -14,7 +16,6 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
 

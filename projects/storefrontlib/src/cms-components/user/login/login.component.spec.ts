@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   AuthService,
   I18nTestingModule,
@@ -10,7 +12,6 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
 
 import createSpy = jasmine.createSpy;

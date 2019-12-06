@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { I18nextTranslationService } from './i18next-translation.service';
 import i18next from 'i18next';
 import { first, take } from 'rxjs/operators';
+import * as AngularCore from '@angular/core';
+
+import { I18nextTranslationService } from './i18next-translation.service';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
-import * as AngularCore from '@angular/core';
 
 const testKey = 'testKey';
 const testOptions = 'testOptions';

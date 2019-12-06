@@ -4,6 +4,7 @@ import {
   NgModule,
   Optional,
 } from '@angular/core';
+
 import { ConfigInitializerService } from './config-initializer.service';
 import {
   CONFIG_INITIALIZER,

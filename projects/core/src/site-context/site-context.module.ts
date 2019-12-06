@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import { Config, ConfigModule } from '../config/config.module';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
 import { StateModule } from '../state/index';

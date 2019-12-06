@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
 import { ModalService } from '../../../../../shared/components/modal/index';

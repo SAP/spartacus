@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { ProductReference } from '../../../../model/product.model';
 import { Occ } from '../../../occ-models/occ.models';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';

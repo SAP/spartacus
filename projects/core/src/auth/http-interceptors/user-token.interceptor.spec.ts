@@ -6,8 +6,9 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
+
+import { OccConfig } from '@spartacus/core';
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from './../../auth/models/token-types.model';
 import { UserTokenInterceptor } from './user-token.interceptor';

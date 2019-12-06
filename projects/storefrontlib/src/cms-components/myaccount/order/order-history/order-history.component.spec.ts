@@ -2,6 +2,8 @@ import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   AuthService,
   I18nTestingModule,
@@ -10,7 +12,6 @@ import {
   UserOrderService,
   UserToken,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderHistoryComponent } from './order-history.component';
 

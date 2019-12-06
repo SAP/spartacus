@@ -1,4 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import {
   AsmAuthService,
   AuthService,
@@ -6,8 +9,6 @@ import {
   UserToken,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
 

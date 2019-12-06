@@ -1,7 +1,7 @@
 import { filter } from 'rxjs/operators';
+import { MonoTypeOperatorFunction } from 'rxjs';
 
 import { EntityLoadAction } from '../entity-loader/entity-loader.action';
-import { MonoTypeOperatorFunction } from 'rxjs';
 
 export function ofLoaderLoad(
   entityType: string

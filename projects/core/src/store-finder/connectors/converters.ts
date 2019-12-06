@@ -1,6 +1,7 @@
+import { InjectionToken } from '@angular/core';
+
 import { Converter } from '../../util/converter.service';
 import { PointOfService } from '../../model/point-of-service.model';
-import { InjectionToken } from '@angular/core';
 import {
   StoreFinderSearchPage,
   StoreCount,

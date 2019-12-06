@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { TranslatePipe } from './translate.pipe';
 import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;

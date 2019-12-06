@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+
 import { I18nTestingModule, StoreDataService } from '@spartacus/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 

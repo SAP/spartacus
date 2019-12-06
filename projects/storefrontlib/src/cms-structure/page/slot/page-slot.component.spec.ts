@@ -1,11 +1,12 @@
 import { Renderer2, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../outlet';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';

@@ -2,13 +2,14 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
+
 import {
   AuthRedirectService,
   CartService,
   I18nTestingModule,
   User,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 
 import createSpy = jasmine.createSpy;

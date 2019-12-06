@@ -1,4 +1,5 @@
 import { Injectable, TemplateRef } from '@angular/core';
+
 import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
 
 @Injectable({

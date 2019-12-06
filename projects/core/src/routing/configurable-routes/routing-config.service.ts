@@ -1,4 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
+
 import { RouteConfig } from './routes-config';
 import { RoutingConfig } from './config/routing-config';
 

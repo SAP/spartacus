@@ -1,4 +1,5 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
+
 import { provideConfig } from '@spartacus/core';
 import { YotpoConfig } from './yotpo';
 

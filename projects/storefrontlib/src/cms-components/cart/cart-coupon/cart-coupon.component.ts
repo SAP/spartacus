@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, combineLatest } from 'rxjs';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { map, startWith, tap } from 'rxjs/operators';
+
 import {
   Cart,
   CartService,
@@ -7,9 +11,6 @@ import {
   AuthService,
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { map, startWith, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-coupon',

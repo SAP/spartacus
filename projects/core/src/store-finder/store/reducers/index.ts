@@ -1,6 +1,6 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-
 import { InjectionToken, Provider } from '@angular/core';
+
 import { StoresState, STORE_FINDER_DATA } from '../store-finder-state';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 

@@ -5,6 +5,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+
 import {
   Address,
   CartService,
@@ -13,8 +16,6 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepType } from '../..';

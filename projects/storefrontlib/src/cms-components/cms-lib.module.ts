@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { HamburgerMenuModule } from '../layout/index';
 import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
 import { AsmModule } from './asm/asm.module';

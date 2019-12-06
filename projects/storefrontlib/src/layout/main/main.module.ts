@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { FeaturesConfigModule } from '@spartacus/core';
 import { GlobalMessageComponentModule } from '../../cms-components/misc/global-message/global-message.module';
 import { OutletModule, OutletRefModule } from '../../cms-structure/index';

@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { OccRequestsOptimizerService } from './occ-requests-optimizer.service';
-import { ScopedDataWithUrl } from './occ-fields.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+
+import { OccRequestsOptimizerService } from './occ-requests-optimizer.service';
+import { ScopedDataWithUrl } from './occ-fields.service';
 
 describe('OccRequestsOptimizerService', () => {
   let service: OccRequestsOptimizerService;

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Region } from '../../../model/address.model';
 import { StateLoaderActions } from '../../../state/utils/index';
 import { REGIONS } from '../user-state';

@@ -2,12 +2,13 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
+
 import {
   ConsignmentTracking,
   I18nTestingModule,
   UserOrderService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import { SpinnerModule } from '../../../../../../../shared/components/spinner/spinner.module';
 import { TrackingEventsComponent } from './tracking-events.component';
 

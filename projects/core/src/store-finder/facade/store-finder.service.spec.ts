@@ -1,6 +1,8 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { NavigationExtras } from '@angular/router';
+
 import { GeoPoint } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
 import { StoreFinderActions } from '../store/actions/index';
@@ -9,7 +11,6 @@ import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
 import { GlobalMessageService } from '../../global-message/index';
 import { UrlCommands, RoutingService } from '../../routing/index';
-import { NavigationExtras } from '@angular/router';
 
 class MockRoutingService {
   go(

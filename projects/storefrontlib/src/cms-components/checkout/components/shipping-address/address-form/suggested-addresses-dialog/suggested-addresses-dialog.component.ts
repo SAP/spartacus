@@ -4,6 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+
 import { Address } from '@spartacus/core';
 import { ModalService } from '../../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../../misc/icon/index';

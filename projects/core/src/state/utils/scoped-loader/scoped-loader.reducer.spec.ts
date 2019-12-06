@@ -1,6 +1,7 @@
+import { Action } from '@ngrx/store';
+
 import { scopedLoaderReducer } from './scoped-loader.reducer';
 import { loaderReducer } from '../loader/loader.reducer';
-import { Action } from '@ngrx/store';
 import { LoaderLoadAction } from '../loader/loader.action';
 
 describe('scopedLoaderReducer', () => {

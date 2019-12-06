@@ -1,5 +1,6 @@
 import { PLATFORM_ID, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { CmsConfig } from '@spartacus/core';
 import { CmsMappingService } from './cms-mapping.service';
 

@@ -1,5 +1,6 @@
-import { CartPageLayoutHandler } from './cart-page-layout-handler';
 import { of } from 'rxjs';
+
+import { CartPageLayoutHandler } from './cart-page-layout-handler';
 
 describe('CartPageLayoutHandler', () => {
   const mockCartService: any = {

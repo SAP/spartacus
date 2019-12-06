@@ -6,13 +6,14 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
+
 import {
   CheckoutDeliveryService,
   DeliveryMode,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 @Component({

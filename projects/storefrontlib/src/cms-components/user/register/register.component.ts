@@ -5,6 +5,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
+
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -22,8 +25,6 @@ import {
   UserService,
   UserSignUp,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
 import { sortTitles } from '../../../shared/utils/forms/title-utils';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 

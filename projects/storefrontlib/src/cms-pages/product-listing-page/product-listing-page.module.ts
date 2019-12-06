@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { CmsPageGuard, PageLayoutComponent } from '../../cms-structure/index';
 import { suffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 @NgModule({

@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+
 import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';

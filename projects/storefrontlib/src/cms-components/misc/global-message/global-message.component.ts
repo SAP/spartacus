@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 
 @Component({

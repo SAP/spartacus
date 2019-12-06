@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -9,6 +8,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+
+import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { CurrentProductService } from '../../current-product.service';
 
 @Component({

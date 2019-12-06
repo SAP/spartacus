@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CartService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
+
+import { CartService } from '@spartacus/core';
 import { ICON_TYPE } from '../../misc/icon/index';
 
 @Component({

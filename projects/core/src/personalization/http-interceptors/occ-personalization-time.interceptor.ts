@@ -8,11 +8,11 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { WindowRef } from '../../window/window-ref';
-import { isPlatformBrowser } from '@angular/common';
 
 const PERSONALIZATION_TIME_KEY = 'personalization-time';
 

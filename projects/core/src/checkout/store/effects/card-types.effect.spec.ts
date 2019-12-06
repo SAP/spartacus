@@ -2,13 +2,14 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+
 import {
   CardType,
   CheckoutPaymentAdapter,
   CheckoutPaymentConnector,
 } from '@spartacus/core';
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
 import { CheckoutActions } from '../actions/index';
 import { CardTypesEffects } from './card-types.effect';
 

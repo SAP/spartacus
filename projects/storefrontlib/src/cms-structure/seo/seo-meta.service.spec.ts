@@ -1,8 +1,9 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
-import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+
+import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { SeoMetaService } from './seo-meta.service';
 
 class MockPageMetaService {

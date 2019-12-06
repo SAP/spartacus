@@ -1,17 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  AnonymousConsentsConfig,
-  AnonymousConsentsService,
-  ANONYMOUS_CONSENTS_FEATURE,
-  AuthService,
-  ConsentTemplate,
-  GlobalMessageService,
-  GlobalMessageType,
-  isFeatureEnabled,
-  isFeatureLevel,
-  UserConsentService,
-} from '@spartacus/core';
-import {
   BehaviorSubject,
   combineLatest,
   concat,
@@ -27,6 +15,19 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+
+import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+  ANONYMOUS_CONSENTS_FEATURE,
+  AuthService,
+  ConsentTemplate,
+  GlobalMessageService,
+  GlobalMessageType,
+  isFeatureEnabled,
+  isFeatureLevel,
+  UserConsentService,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-consent-management',

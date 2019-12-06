@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
+
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { TranslationResources } from '../translation-resources';

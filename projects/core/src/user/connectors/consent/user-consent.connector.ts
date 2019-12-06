@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { UserConsentAdapter } from './user-consent.adapter';
 import { ConsentTemplate } from '../../../model/consent.model';
 

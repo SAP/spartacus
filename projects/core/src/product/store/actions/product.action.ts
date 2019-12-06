@@ -1,7 +1,8 @@
+import { Action } from '@ngrx/store';
+
 import { Product } from '../../../model/product.model';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
-import { Action } from '@ngrx/store';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';

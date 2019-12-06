@@ -1,5 +1,6 @@
 import { Directive, HostBinding, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 import { JsonLdScriptFactory } from './json-ld-script.factory';
 
 /**

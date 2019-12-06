@@ -8,6 +8,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+
 import {
   Address,
   AddressValidation,
@@ -20,8 +23,6 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
 import {
   ModalRef,
   ModalService,

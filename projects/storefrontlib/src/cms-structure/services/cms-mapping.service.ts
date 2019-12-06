@@ -1,7 +1,8 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { CmsConfig } from '@spartacus/core';
 import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
+
+import { CmsConfig } from '@spartacus/core';
 
 /**
  * Please don't put that service in public API.

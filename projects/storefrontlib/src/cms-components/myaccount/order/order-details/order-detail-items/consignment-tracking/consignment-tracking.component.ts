@@ -1,10 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import {
   Consignment,
   ConsignmentTracking,
   UserOrderService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import {
   ModalRef,
   ModalService,

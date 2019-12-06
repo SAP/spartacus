@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
-import { YotpoService } from './../service/yotpo.service';
 import { Observable } from 'rxjs';
+
+import { YotpoService } from './../service/yotpo.service';
 import { Product } from '@spartacus/core';
 
 @Component({

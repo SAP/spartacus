@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import {
   GoogleMapRendererService,
   I18nTestingModule,

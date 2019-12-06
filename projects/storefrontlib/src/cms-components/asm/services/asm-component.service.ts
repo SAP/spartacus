@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { mergeMap, take } from 'rxjs/operators';
+
 import {
   AsmAuthService,
   AuthService,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 @Injectable({

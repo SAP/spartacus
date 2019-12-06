@@ -4,11 +4,10 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-
-import { CheckoutService, RoutingService } from '@spartacus/core';
-
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+
+import { CheckoutService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-place-order',

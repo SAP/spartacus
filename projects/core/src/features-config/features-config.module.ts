@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import { FeaturesConfig } from './config/features-config';
 import { Config, provideConfig } from '../config/config.module';
 import { FeatureLevelDirective } from './directives/feature-level.directive';

@@ -3,20 +3,21 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { cold, hot } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+
 import {
   GlobalMessage,
   GlobalMessageService,
 } from '../../../global-message/index';
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
 import { Review } from '../../../model/product.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
+import { ProductReviewsConnector } from '../../connectors/index';
 
 import createSpy = jasmine.createSpy;
-import { ProductReviewsConnector } from '../../connectors/index';
 
 const reviewData: Review[] = [
   {

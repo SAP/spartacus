@@ -5,8 +5,8 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
+
 import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';

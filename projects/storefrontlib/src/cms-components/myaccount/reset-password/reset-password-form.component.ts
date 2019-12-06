@@ -5,8 +5,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+
+import { RoutingService, UserService } from '@spartacus/core';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
 @Component({

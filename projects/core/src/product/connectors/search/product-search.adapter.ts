@@ -1,6 +1,6 @@
-import { SearchConfig } from '../../model/search-config';
-
 import { Observable } from 'rxjs';
+
+import { SearchConfig } from '../../model/search-config';
 import {
   Suggestion,
   ProductSearchPage,

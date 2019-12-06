@@ -5,13 +5,14 @@ import {
 } from '@angular/common/http/testing';
 import { ErrorHandler, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import {
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { HttpResponseStatus } from '../models/response-status.model';
 import {
   BadGatewayHandler,

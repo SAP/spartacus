@@ -4,6 +4,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import {
   Address,
   CheckoutService,
@@ -12,8 +15,6 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 
 @Component({

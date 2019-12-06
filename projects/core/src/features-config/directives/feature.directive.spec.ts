@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
+
+import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 
 @Component({ selector: 'cx-test-cmp', template: '' })
 class TestComponent {}

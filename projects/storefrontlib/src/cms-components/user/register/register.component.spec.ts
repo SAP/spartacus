@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -20,7 +22,6 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 
 import createSpy = jasmine.createSpy;

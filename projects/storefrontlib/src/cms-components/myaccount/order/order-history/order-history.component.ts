@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
 import {
   Order,
   OrderHistoryList,
@@ -6,8 +9,6 @@ import {
   TranslationService,
   UserOrderService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-history',

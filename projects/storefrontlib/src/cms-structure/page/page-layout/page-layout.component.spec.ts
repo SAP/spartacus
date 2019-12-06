@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CmsService, ContentSlotData, Page } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+
+import { CmsService, ContentSlotData, Page } from '@spartacus/core';
 import { OutletDirective } from '../../outlet';
 import { PageLayoutComponent } from './page-layout.component';
 import { PageLayoutService } from './page-layout.service';

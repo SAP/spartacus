@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Product } from '@spartacus/core';
 import { JsonLdProductOfferBuilder } from './jsonld-product-offer.builder';
 

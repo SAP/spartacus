@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
 import { PaymentDetails } from '../../../model/cart.model';
 import { OccConfig } from '../../config/occ-config';

@@ -1,13 +1,14 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   CheckoutService,
   Order,
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
 
 class MockCheckoutService {

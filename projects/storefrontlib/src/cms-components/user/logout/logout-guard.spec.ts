@@ -2,13 +2,14 @@ import { Component, NgZone, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   AuthService,
   CmsService,
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { LogoutGuard } from './logout-guard';
 
 class MockAuthService {

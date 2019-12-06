@@ -1,7 +1,8 @@
+import { Action } from '@ngrx/store';
+
 import { StateLoaderActions } from '../../../state/utils/index';
 import { UserToken } from '../../../auth/models/token-types.model';
 import { CSAGENT_TOKEN_DATA } from '../asm-state';
-import { Action } from '@ngrx/store';
 import { LOGOUT_CUSTOMER_SUPPORT_AGENT } from '../../../auth/store/actions/login-logout.action';
 
 export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN =

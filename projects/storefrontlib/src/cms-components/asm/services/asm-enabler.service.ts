@@ -4,6 +4,7 @@ import {
   ComponentFactoryResolver,
   Injectable,
 } from '@angular/core';
+
 import { WindowRef } from '@spartacus/core';
 import { OutletPosition, OutletService } from '../../../cms-structure/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';

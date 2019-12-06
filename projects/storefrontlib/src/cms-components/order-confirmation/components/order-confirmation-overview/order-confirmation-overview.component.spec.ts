@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+
+import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
 import { Card } from '../../../../shared/components/card/card.component';
 import { OrderConfirmationOverviewComponent } from './order-confirmation-overview.component';
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { GeoPoint } from '../../../model/misc.model';
 import { PointOfService } from '../../../model/point-of-service.model';
 import {

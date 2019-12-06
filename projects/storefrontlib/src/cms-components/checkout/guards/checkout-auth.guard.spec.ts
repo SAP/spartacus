@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   AuthRedirectService,
   AuthService,
@@ -10,7 +12,6 @@ import {
   User,
   UserToken,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 

@@ -1,13 +1,14 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   Cart,
   CartService,
   I18nTestingModule,
   OrderEntry,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartTotalsComponent } from './cart-totals.component';
 

@@ -1,6 +1,8 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
+
 import {
   Consignment,
   FeaturesConfig,
@@ -9,7 +11,6 @@ import {
   Order,
   PromotionResult,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';

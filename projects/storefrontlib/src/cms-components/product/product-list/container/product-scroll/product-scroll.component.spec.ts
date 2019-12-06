@@ -8,8 +8,9 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
+import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
 import { ProductGridItemComponent } from '../..';
 import { MediaComponent } from '../../../../../shared/components/media';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';

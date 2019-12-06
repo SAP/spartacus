@@ -8,8 +8,9 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
+
+import { I18nTestingModule } from '@spartacus/core';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ProductListComponentService } from '../container/product-list-component.service';

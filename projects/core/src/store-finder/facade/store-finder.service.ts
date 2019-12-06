@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import { GeoPoint } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
 import { StoreFinderActions } from '../store/actions/index';

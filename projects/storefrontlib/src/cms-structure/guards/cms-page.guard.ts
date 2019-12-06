@@ -1,15 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import {
-  CmsActivatedRouteSnapshot,
-  CmsService,
-  Page,
-  PageContext,
-  PageType,
-  ProtectedRoutesGuard,
-  RoutingService,
-  SemanticPathService,
-} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
   filter,
@@ -20,6 +10,17 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+
+import {
+  CmsActivatedRouteSnapshot,
+  CmsService,
+  Page,
+  PageContext,
+  PageType,
+  ProtectedRoutesGuard,
+  RoutingService,
+  SemanticPathService,
+} from '@spartacus/core';
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';

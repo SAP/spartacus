@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 import {
   AuthRedirectService,
   AuthService,
@@ -8,7 +10,6 @@ import {
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
 

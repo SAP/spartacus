@@ -8,6 +8,7 @@ import {
   startWith,
   switchMapTo,
 } from 'rxjs/operators';
+
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import { ProductActions } from '../actions/index';

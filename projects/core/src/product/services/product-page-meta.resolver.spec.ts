@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { PageMeta } from '../../cms';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { RoutingService } from '../../routing';

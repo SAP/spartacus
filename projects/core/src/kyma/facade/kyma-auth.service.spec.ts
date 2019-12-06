@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+
 import { OpenIdToken } from '../models/kyma-token-types.model';
 import { KymaActions } from '../store/actions/index';
 import * as fromKymaStore from '../store/index';

@@ -8,6 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { iif, Observable } from 'rxjs';
 import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+
 import { AuthService } from '../../auth/index';
 import {
   ANONYMOUS_CONSENTS_FEATURE,

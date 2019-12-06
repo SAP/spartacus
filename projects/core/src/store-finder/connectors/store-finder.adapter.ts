@@ -1,5 +1,6 @@
-import { StoreFinderSearchConfig } from '../model/search-config';
 import { Observable } from 'rxjs';
+
+import { StoreFinderSearchConfig } from '../model/search-config';
 import { PointOfService } from '../../model/point-of-service.model';
 import { GeoPoint } from '../../model/misc.model';
 import {

@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+
 import { CardType, PaymentDetails } from '../../../model/cart.model';
 
 export abstract class CheckoutPaymentAdapter {

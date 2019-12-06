@@ -1,7 +1,8 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { Product } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
+
+import { Product } from '@spartacus/core';
 import { CurrentProductService } from '../../../../../cms-components/product/current-product.service';
 import { JsonLdBuilder, SchemaBuilder } from '../schema.interface';
 import { JSONLD_PRODUCT_BUILDER } from '../tokens';

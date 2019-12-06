@@ -1,6 +1,7 @@
-import { StoreFinderSearchConfig } from '../model/search-config';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+
+import { StoreFinderSearchConfig } from '../model/search-config';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import { PointOfService } from '../../model/point-of-service.model';
 import { GeoPoint } from '../../model/misc.model';

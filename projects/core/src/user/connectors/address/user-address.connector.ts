@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { UserAddressAdapter } from './user-address.adapter';
 import { Observable } from 'rxjs';
+
+import { UserAddressAdapter } from './user-address.adapter';
 import { Address, AddressValidation } from '../../../model/address.model';
 
 @Injectable({

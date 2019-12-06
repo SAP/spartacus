@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 

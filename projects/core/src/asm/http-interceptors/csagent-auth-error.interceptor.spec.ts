@@ -9,9 +9,10 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
+import { Type } from '@angular/core';
+
 import { USE_CUSTOMER_SUPPORT_AGENT_TOKEN } from '../../occ/utils/interceptor-util';
 import { CustomerSupportAgentAuthErrorInterceptor } from './csagent-auth-error.interceptor';
-import { Type } from '@angular/core';
 import { CustomerSupportAgentErrorHandlingService } from '../services/index';
 
 class MockCustomerSupportAgentErrorHandlingService {

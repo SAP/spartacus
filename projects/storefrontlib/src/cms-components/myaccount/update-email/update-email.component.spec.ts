@@ -9,6 +9,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
+import { Observable, of } from 'rxjs';
+
 import {
   AuthService,
   GlobalMessage,
@@ -19,7 +21,6 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { UpdateEmailComponent } from './update-email.component';
 
 @Component({

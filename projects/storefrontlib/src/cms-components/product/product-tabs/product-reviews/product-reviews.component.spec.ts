@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+
 import {
   I18nTestingModule,
   ProductReviewService,
   Product,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { ItemCounterModule } from '../../../../shared';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { CurrentProductService } from '../../current-product.service';

@@ -4,6 +4,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
+
 import {
   AuthService,
   GlobalMessageService,
@@ -13,8 +16,6 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../../shared/components/modal/index';
 

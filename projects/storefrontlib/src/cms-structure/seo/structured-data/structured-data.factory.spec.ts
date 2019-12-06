@@ -1,6 +1,7 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
 import { SchemaBuilder, SCHEMA_BUILDER } from './builders';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
 import { StructuredDataFactory } from './structured-data.factory';

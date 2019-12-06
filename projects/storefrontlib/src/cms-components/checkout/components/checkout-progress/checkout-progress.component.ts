@@ -1,9 +1,10 @@
-import { RoutingService, RoutingConfigService } from '@spartacus/core';
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { CheckoutConfig } from '../../config/checkout-config';
-import { CheckoutStep } from '../../model/checkout-step.model';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
+import { RoutingService, RoutingConfigService } from '@spartacus/core';
+import { CheckoutConfig } from '../../config/checkout-config';
+import { CheckoutStep } from '../../model/checkout-step.model';
 
 @Component({
   selector: 'cx-checkout-progress',

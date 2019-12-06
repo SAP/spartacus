@@ -1,7 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
+import { AnonymousConsentsService } from '@spartacus/core';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalService } from '../../../shared/components/modal/index';
 

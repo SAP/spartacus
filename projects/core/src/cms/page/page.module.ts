@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { PageMetaResolver } from './page-meta.resolver';
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
 

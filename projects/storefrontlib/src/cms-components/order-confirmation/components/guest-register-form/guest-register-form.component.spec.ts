@@ -1,6 +1,8 @@
 import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+
 import {
   I18nTestingModule,
   UserToken,
@@ -8,7 +10,6 @@ import {
   UserService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { GuestRegisterFormComponent } from './guest-register-form.component';
 
 import createSpy = jasmine.createSpy;

@@ -2,6 +2,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { RouterStateSnapshot } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import { ActionReducerMap } from '@ngrx/store';
+
 import { PageType } from '../../../model/cms.model';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 import { PageContext } from '../../models/page-context.model';

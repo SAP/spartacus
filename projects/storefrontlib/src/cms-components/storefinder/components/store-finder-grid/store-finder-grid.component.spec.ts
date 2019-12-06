@@ -2,8 +2,9 @@ import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoutingService, StoreFinderService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+
+import { RoutingService, StoreFinderService } from '@spartacus/core';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 const countryIsoCode = 'CA';

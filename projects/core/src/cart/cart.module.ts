@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { CartDataService } from './facade/cart-data.service';
 import { CartService, CartVoucherService } from './facade/index';

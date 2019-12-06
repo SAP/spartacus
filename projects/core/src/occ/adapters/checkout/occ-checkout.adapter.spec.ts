@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { CheckoutDetails, ConverterService } from '@spartacus/core';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { Order } from '../../../model/order.model';

@@ -5,9 +5,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Country, Region, UserAddressService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+
+import { Country, Region, UserAddressService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-billing-address-form',

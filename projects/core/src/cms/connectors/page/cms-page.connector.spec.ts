@@ -1,7 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
+
+import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { PageType } from '../../../model/cms.model';
 import { CmsPageAdapter } from './cms-page.adapter';
 import { CmsPageConnector } from './cms-page.connector';

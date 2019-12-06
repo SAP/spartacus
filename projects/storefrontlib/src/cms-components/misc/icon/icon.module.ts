@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import { Config, ConfigModule } from '@spartacus/core';
 import { fontawesomeIconConfig } from './fontawesome-icon.config';
 import { IconComponent } from './icon.component';
