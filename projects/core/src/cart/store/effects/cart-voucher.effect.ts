@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
@@ -19,7 +19,9 @@ export class CartVoucherEffects {
 
   @Effect()
   addCartVoucher$: Observable<
-    CartActions.CartVoucherAction
+    | CartActions.CartVoucherAction
+    | CartActions.LoadCart
+    | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) => action.payload),
@@ -39,7 +41,14 @@ export class CartVoucherEffects {
             });
           }),
           catchError(error =>
-            of(new CartActions.CartAddVoucherFail(makeErrorSerializable(error)))
+            from([
+              new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
+              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.LoadCart({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
+            ])
           )
         );
     })
@@ -47,7 +56,9 @@ export class CartVoucherEffects {
 
   @Effect()
   removeCartVoucher$: Observable<
-    CartActions.CartVoucherAction
+    | CartActions.CartVoucherAction
+    | CartActions.CartProcessesDecrement
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_VOUCHER),
     map((action: CartActions.CartRemoveVoucher) => action.payload),
@@ -67,11 +78,16 @@ export class CartVoucherEffects {
             });
           }),
           catchError(error =>
-            of(
+            from([
               new CartActions.CartRemoveVoucherFail(
                 makeErrorSerializable(error)
-              )
-            )
+              ),
+              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.LoadCart({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
+            ])
           )
         );
     })

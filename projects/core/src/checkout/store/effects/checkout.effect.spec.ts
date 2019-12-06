@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 
 import { AuthActions } from '../../../auth/store/actions/index';
 import { CartDataService } from '../../../cart/facade/cart-data.service';
+import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
@@ -261,7 +262,7 @@ describe('Checkout effect', () => {
       const setDeliveryModeSuccess = new CheckoutActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
-      const loadCart = new CartActions.LoadCart({
+      const loadCart = new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
       });
@@ -357,10 +358,16 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const completion1 = new CheckoutActions.PlaceOrderSuccess(orderDetails);
+      const removeCartCompletion = new CartActions.RemoveCart(cartId);
+      const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(
+        orderDetails
+      );
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(b)', { b: completion1 });
+      const expected = cold('-(bc)', {
+        b: removeCartCompletion,
+        c: placeOrderSuccessCompletion,
+      });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
     });
