@@ -96,7 +96,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   }
 
   getProduct(interest: ProductInterestEntryRelation): Observable<Product> {
-    return this.productService.get(interest.product.code);
+    return this.productService.get(interest.product.code, 'productInterests');
   }
 
   removeInterest(result: ProductInterestEntryRelation): void {

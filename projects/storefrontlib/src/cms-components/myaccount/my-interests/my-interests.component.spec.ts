@@ -240,8 +240,12 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637').and.returnValue(of(p553637));
-    productService.get.withArgs('553638').and.returnValue(of(p553638));
+    productService.get
+      .withArgs('553637', 'productInterests')
+      .and.returnValue(of(p553637));
+    productService.get
+      .withArgs('553638', 'productInterests')
+      .and.returnValue(of(p553638));
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
@@ -305,8 +309,12 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637').and.returnValue(of(p553637));
-    productService.get.withArgs('553638').and.returnValue(of(p553638));
+    productService.get
+      .withArgs('553637', 'productInterests')
+      .and.returnValue(of(p553637));
+    productService.get
+      .withArgs('553638', 'productInterests')
+      .and.returnValue(of(p553638));
     productInterestService.getRemoveProdutInterestLoading.and.returnValue(
       cold('-a|', { a: true })
     );
