@@ -1,6 +1,5 @@
 {
   "rulesDirectory": ["node_modules/codelyzer"],
-  "extends": ["tslint-import-group-ordering"],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
@@ -59,40 +58,28 @@
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "linebreak-style": [true, "LF"],
-    "ordered-imports": true,
-    "import-group-ordering": {
-      "severity": "warning",
-      "options": {
-        "imports-groups": [
+    "ordered-imports": [
+      true,
+      {
+        "grouped-imports": true,
+        "groups": [
           {
-            "name": "dependencies"
+            "name": "dependencies",
+            "match": "^(?!\\.|@spartacus).*",
+            "order": 10
           },
           {
-            "name": "spartacus"
+            "name": "project",
+            "match": "^(@spartacus)",
+            "order": 20
           },
           {
-            "name": "other"
-          }
-        ],
-        "matching-rules": [
-          {
-            "type": "dependencies",
-            "imports-group": "dependencies",
-            "disable-native-nodejs-modules": true,
-            "from-package.json": true
-          },
-          {
-            "type": "project",
-            "matches": "^(@spartacus)",
-            "imports-group": "spartacus"
-          },
-          {
-            "type": "project",
-            "matches": ".*",
-            "imports-group": "other"
+            "name": "internal",
+            "match": "^\\.",
+            "order": 30
           }
         ]
       }
-    }
+    ]
   }
 }
