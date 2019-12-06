@@ -26,6 +26,7 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation/prod
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
+import { ProductVariantSelectorModule } from '../product-variant-selector/product-variant-selector.module';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     InfiniteScrollModule,
     ViewConfigModule,
+    ProductVariantSelectorModule,
   ],
   declarations: [
     ProductListComponent,

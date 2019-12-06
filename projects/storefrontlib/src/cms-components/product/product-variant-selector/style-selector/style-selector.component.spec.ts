@@ -1,8 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, OccConfig, UrlCommandRoute } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  OccConfig,
+  UrlCommandRoute,
+  BaseOption,
+  VariantType,
+} from '@spartacus/core';
 import { VariantStyleSelectorComponent } from './style-selector.component';
 import { Pipe, PipeTransform } from '@angular/core';
+
+const mockVariant: BaseOption = {
+  selected: {
+    code: 'test',
+    variantOptionQualifiers: [{ value: '123' }],
+  },
+  options: [],
+  variantType: VariantType.APPAREL_SIZE,
+};
 
 @Pipe({
   name: 'cxUrl',
@@ -33,6 +48,7 @@ describe('VariantStyleSelectorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VariantStyleSelectorComponent);
     component = fixture.componentInstance;
+    component.variants = mockVariant;
     fixture.detectChanges();
   });
 

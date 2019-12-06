@@ -31,6 +31,10 @@
   </div>
 </div>
 
+<div class="cx-style-icons" *ngIf="product.variantOptions">
+  <cx-style-icons [variants]="product.variantOptions"></cx-style-icons>
+</div>
+
 <cx-add-to-cart
   *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
   [showQuantity]="false"

@@ -93,6 +93,14 @@ export class MockViewConfig {
   };
 }
 
+@Component({
+  selector: 'cx-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
+}
+
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -135,6 +143,7 @@ describe('ProductListComponent', () => {
         MockUrlPipe,
         MockCxIconComponent,
         ProductScrollComponent,
+        MockStyleIconsComponent,
       ],
     }).compileComponents();
   }));

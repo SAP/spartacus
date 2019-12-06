@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { VariantStyleSelectorModule } from './style-selector/style-selector.module';
 import { VariantSizeSelectorModule } from './size-selector/size-selector.module';
 import { ProductVariantGuard } from './guards/product-variant.guard';
+import { StyleIconsComponent } from './style-icons/style-icons.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { ProductVariantGuard } from './guards/product-variant.guard';
     VariantStyleSelectorModule,
     VariantSizeSelectorModule,
   ],
-  declarations: [ProductVariantSelectorComponent],
+  declarations: [ProductVariantSelectorComponent, StyleIconsComponent],
   entryComponents: [ProductVariantSelectorComponent],
+  exports: [StyleIconsComponent],
 })
 export class ProductVariantSelectorModule {}
