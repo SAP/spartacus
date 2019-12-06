@@ -15,6 +15,8 @@ import { MerchandisingCarouselModel } from './model/merchandising-carousel.model
   providedIn: 'root',
 })
 export class MerchandisingCarouselComponentService {
+  protected readonly PRODUCT_SCOPE = 'list';
+
   constructor(
     protected cdsMerchandisingProductService: CdsMerchandisingProductService,
     protected productService: ProductService
@@ -73,7 +75,7 @@ export class MerchandisingCarouselComponentService {
   ): Observable<MerchandisingProduct>[] {
     return strategyProducts && strategyProducts.products
       ? strategyProducts.products.map((strategyProduct, index) =>
-          this.productService.get(strategyProduct.id).pipe(
+          this.productService.get(strategyProduct.id, this.PRODUCT_SCOPE).pipe(
             map(product => ({
               ...product,
               metadata: this.getCarouselItemMetadata(
