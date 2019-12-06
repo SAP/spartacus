@@ -6,10 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import {
+  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENT_STATUS,
   AuthRedirectService,
   AuthService,
   ConsentTemplate,

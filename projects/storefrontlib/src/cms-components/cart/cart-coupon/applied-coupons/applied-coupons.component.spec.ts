@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import {
+  CartVoucherService,
   I18nTestingModule,
   Voucher,
-  CartVoucherService,
 } from '@spartacus/core';
 
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';

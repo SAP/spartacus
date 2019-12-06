@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { ProductReference } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
-import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
+import { PRODUCT_FEATURE, ProductsState } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReferenceService } from './product-reference.service';
 

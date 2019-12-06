@@ -12,8 +12,8 @@ import { SiteContext } from './site-context.interface';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
 import { SiteContextConfig } from '../config/site-context-config';
 import {
-  getContextParameterValues,
   getContextParameterDefault,
+  getContextParameterValues,
 } from '../config/context-config-utils';
 
 /**

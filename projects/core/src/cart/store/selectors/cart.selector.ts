@@ -9,9 +9,9 @@ import { OrderEntry } from '../../../model/order.model';
 import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
+  CART_FEATURE,
   CartsState,
   CartState,
-  CART_FEATURE,
   StateWithCart,
 } from '../cart-state';
 import { User } from '../../../model/misc.model';

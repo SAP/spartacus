@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import {
   Cart,
   CartService,
-  I18nTestingModule,
   CartVoucherService,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { OrderSummaryComponent } from '../../../../cms-components/cart/cart-shared/order-summary/order-summary.component';

@@ -1,7 +1,7 @@
 import { SiteContextConfig } from './site-context-config';
 import {
-  getContextParameterValues,
   getContextParameterDefault,
+  getContextParameterValues,
 } from './context-config-utils';
 
 describe('Context Config Utils', () => {

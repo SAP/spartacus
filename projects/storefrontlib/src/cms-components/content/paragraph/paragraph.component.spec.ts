@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
+import { CmsComponent, CmsParagraphComponent } from '@spartacus/core';
 
 import { ParagraphComponent } from './paragraph.component';
 

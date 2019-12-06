@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 
 import { StarRatingModule } from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';

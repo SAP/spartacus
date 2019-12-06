@@ -14,7 +14,7 @@ import {
   ANONYMOUS_CONSENTS_FEATURE,
   isFeatureEnabled,
 } from '../../features-config/index';
-import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
+import { ANONYMOUS_CONSENT_STATUS, AnonymousConsent } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';

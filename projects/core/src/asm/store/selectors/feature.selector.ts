@@ -1,6 +1,6 @@
 import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
 
-import { AsmState, ASM_FEATURE, StateWithAsm } from '../asm-state';
+import { ASM_FEATURE, AsmState, StateWithAsm } from '../asm-state';
 
 export const getAsmState: MemoizedSelector<
   StateWithAsm,

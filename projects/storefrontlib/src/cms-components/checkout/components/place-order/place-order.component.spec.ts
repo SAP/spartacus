@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 
 import {
   CheckoutService,
-  RoutingService,
-  Order,
   I18nTestingModule,
+  Order,
+  RoutingService,
 } from '@spartacus/core';
 
 import { PlaceOrderComponent } from './place-order.component';

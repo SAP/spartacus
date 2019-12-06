@@ -9,10 +9,10 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
 import {
+  ANONYMOUS_CONSENTS_FEATURE,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENTS_FEATURE,
   AuthRedirectService,
   AuthService,
   ConsentTemplate,

@@ -12,8 +12,8 @@ import { ConsentTemplate } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
-  AnonymousConsentsState,
   ANONYMOUS_CONSENTS,
+  AnonymousConsentsState,
 } from '../anonymous-consents-state';
 import * as fromAnonymousConsentsBanner from './anonymous-consents-banner.reducer';
 import * as fromAnonymousConsentsUpdate from './anonymous-consents-update.reducer';

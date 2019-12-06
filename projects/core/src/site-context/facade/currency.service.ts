@@ -11,8 +11,8 @@ import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 import { SiteContextConfig } from '../config/site-context-config';
 import {
-  getContextParameterValues,
   getContextParameterDefault,
+  getContextParameterValues,
 } from '../config/context-config-utils';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 

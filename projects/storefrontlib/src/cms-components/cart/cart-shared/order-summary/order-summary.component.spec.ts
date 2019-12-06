@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 import {
   Cart,
   CartService,
-  I18nTestingModule,
   CartVoucherService,
+  I18nTestingModule,
   Voucher,
 } from '@spartacus/core';
 

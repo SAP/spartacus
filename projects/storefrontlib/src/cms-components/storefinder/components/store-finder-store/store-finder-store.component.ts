@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 import {
-  StoreFinderService,
   PointOfService,
   RoutingService,
+  StoreFinderService,
 } from '@spartacus/core';
 
 import { ICON_TYPE } from '../../../misc/icon';

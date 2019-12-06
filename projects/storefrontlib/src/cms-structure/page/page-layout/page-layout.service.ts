@@ -11,7 +11,7 @@ import {
   LayoutSlotConfig,
   SlotConfig,
 } from '../../../layout/config/layout-config';
-import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
+import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
 
 @Injectable()
 export class PageLayoutService {

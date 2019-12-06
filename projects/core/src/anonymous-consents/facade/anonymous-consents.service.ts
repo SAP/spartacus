@@ -5,8 +5,8 @@ import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';

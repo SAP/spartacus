@@ -6,9 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import {
   I18nTestingModule,
+  PointOfService,
   RoutingService,
   StoreFinderService,
-  PointOfService,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 

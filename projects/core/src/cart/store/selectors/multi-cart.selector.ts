@@ -15,8 +15,8 @@ import {
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.selectors';
 import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import {
-  MultiCartState,
   MULTI_CART_FEATURE,
+  MultiCartState,
   StateWithMultiCart,
 } from '../multi-cart-state';
 

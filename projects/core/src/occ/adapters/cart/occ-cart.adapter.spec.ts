@@ -17,8 +17,8 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
 import {
-  OCC_USER_ID_ANONYMOUS,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
 } from '../../utils/occ-constants';
 import { OccCartAdapter } from './occ-cart.adapter';
 

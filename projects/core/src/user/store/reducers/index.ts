@@ -6,8 +6,8 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 
+import * as fromDeliveryCountries from './delivery-countries.reducer';
 import { AuthActions } from '../../../auth/store/actions/index';
-import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { OrderHistoryList } from '../../../model/order.model';
@@ -15,15 +15,15 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   REGIONS,
   RegionsState,
-  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  UserState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
-import * as fromDeliveryCountries from './delivery-countries.reducer';
+import { Address } from '../../../model/address.model';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromRegionsReducer from './regions.reducer';

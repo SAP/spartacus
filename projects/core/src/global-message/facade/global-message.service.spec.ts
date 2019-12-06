@@ -7,8 +7,8 @@ import { of } from 'rxjs';
 import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageActions } from '../store/actions/index';
 import {
-  GlobalMessageState,
   GLOBAL_MESSAGE_FEATURE,
+  GlobalMessageState,
 } from '../store/global-message-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { GlobalMessageService } from './global-message.service';

@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import {
-  AnonymousConsentsConfig,
   ANONYMOUS_CONSENTS_FEATURE,
+  AnonymousConsentsConfig,
   CmsNavigationComponent,
   isFeatureEnabled,
 } from '@spartacus/core';

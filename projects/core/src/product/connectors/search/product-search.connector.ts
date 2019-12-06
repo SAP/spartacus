@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { ProductSearchAdapter } from './product-search.adapter';
 import { SearchConfig } from '../../model/search-config';
 import {
-  Suggestion,
   ProductSearchPage,
+  Suggestion,
 } from '../../../model/product-search.model';
 
 @Injectable({

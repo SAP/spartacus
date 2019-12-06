@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ProductSearchPage } from '@spartacus/core';

@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
 
-import { WindowRef, LanguageService } from '@spartacus/core';
+import { LanguageService, WindowRef } from '@spartacus/core';
 
 export const htmlLangProvider: Provider = {
   provide: APP_INITIALIZER,

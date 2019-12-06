@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducerToken, reducerProvider } from './reducers/index';
+import { reducerProvider, reducerToken } from './reducers/index';
 import { effects } from './effects/index';
 import { STORE_FINDER_FEATURE } from './store-finder-state';
 

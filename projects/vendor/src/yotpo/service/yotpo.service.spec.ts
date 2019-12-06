@@ -3,10 +3,10 @@ import { Observable, of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 
 import {
+  PageType,
   Product,
   ProductService,
   RoutingService,
-  PageType,
 } from '@spartacus/core';
 
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';

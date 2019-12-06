@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 
 import {
   I18nTestingModule,
-  ProductReviewService,
   Product,
+  ProductReviewService,
 } from '@spartacus/core';
 
 import { ItemCounterModule } from '../../../../shared';

@@ -17,9 +17,9 @@ import {
 } from 'rxjs/operators';
 
 import {
+  ANONYMOUS_CONSENTS_FEATURE,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENTS_FEATURE,
   AuthService,
   ConsentTemplate,
   GlobalMessageService,

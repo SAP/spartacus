@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsLinkComponent, CmsComponent } from '@spartacus/core';
+import { CmsComponent, CmsLinkComponent } from '@spartacus/core';
 
 import { LinkComponent } from './link.component';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';

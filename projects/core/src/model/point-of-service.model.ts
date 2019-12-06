@@ -1,4 +1,4 @@
-import { Time, GeoPoint } from './misc.model';
+import { GeoPoint, Time } from './misc.model';
 import { Address } from './address.model';
 import { Image } from './image.model';
 

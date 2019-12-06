@@ -5,7 +5,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { OpenIdToken } from '../models/kyma-token-types.model';
 import { KymaActions } from '../store/actions/index';
 import * as fromKymaStore from '../store/index';
-import { KymaState, KYMA_FEATURE } from '../store/kyma-state';
+import { KYMA_FEATURE, KymaState } from '../store/kyma-state';
 import { KymaService } from './kyma.service';
 
 const mockOpenIdToken = {

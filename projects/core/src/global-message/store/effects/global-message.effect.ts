@@ -3,14 +3,14 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
+  concatMap,
   delay,
   filter,
+  map,
   pluck,
   switchMap,
-  map,
-  withLatestFrom,
   take,
-  concatMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import { GlobalMessageConfig } from '../../config/global-message-config';

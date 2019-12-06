@@ -1,4 +1,4 @@
-import { Directive, TemplateRef, Input, OnInit } from '@angular/core';
+import { Directive, Input, OnInit, TemplateRef } from '@angular/core';
 
 import { OutletPosition } from '../outlet.model';
 import { OutletService } from '../outlet.service';

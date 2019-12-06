@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 
-import { PROCESS_FEATURE, LoaderState } from '@spartacus/core';
+import { LoaderState, PROCESS_FEATURE } from '@spartacus/core';
 
 import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Address, AddressValidation } from '../../model/address.model';

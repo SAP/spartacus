@@ -10,10 +10,10 @@ import {
   Occ,
   TITLE_NORMALIZER,
   User,
-  UserSignUp,
   USER_NORMALIZER,
   USER_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
+  UserSignUp,
 } from '@spartacus/core';
 
 import { OccConfig } from '../../config/occ-config';

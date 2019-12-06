@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { RoutingService, StoreFinderService, GeoPoint } from '@spartacus/core';
+import { GeoPoint, RoutingService, StoreFinderService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-grid',

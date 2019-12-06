@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
+  distinctUntilChanged,
   filter,
   map,
   switchMap,
   tap,
-  distinctUntilChanged,
 } from 'rxjs/operators';
 
 import {

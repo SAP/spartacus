@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { CmsComponentData } from '@spartacus/storefront';
-import { PageMetaService, PageMeta, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
 
 import { BreadcrumbComponent } from './breadcrumb.component';
 

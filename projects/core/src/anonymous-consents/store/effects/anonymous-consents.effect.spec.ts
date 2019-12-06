@@ -7,8 +7,8 @@ import { Observable, of } from 'rxjs';
 
 import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   Consent,
   ConsentTemplate,
 } from '../../../model/consent.model';

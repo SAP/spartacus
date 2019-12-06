@@ -1,4 +1,4 @@
-import { Optional, PLATFORM_ID, Provider, InjectionToken } from '@angular/core';
+import { InjectionToken, Optional, PLATFORM_ID, Provider } from '@angular/core';
 import { TransferState } from '@angular/platform-browser';
 import { META_REDUCERS } from '@ngrx/store';
 

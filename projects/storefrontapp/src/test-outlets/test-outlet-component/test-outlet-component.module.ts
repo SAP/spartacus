@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import {
-  PageLayoutModule,
-  OutletRefModule,
   CmsPageGuard,
+  OutletRefModule,
+  PageLayoutModule,
 } from '@spartacus/storefront';
 
 import { TestOutletComponentComponent } from './test-outlet-component.component';

@@ -2,8 +2,8 @@ import { Observable } from 'rxjs';
 
 import { SearchConfig } from '../../model/search-config';
 import {
-  Suggestion,
   ProductSearchPage,
+  Suggestion,
 } from '../../../model/product-search.model';
 
 export abstract class ProductSearchAdapter {

@@ -6,8 +6,8 @@ import { CheckoutActions } from '../../../checkout/store/actions/index';
 import { Cart } from '../../../model/cart.model';
 import { entityProcessesLoaderReducer } from '../../../state/utils/entity-processes-loader/entity-processes-loader.reducer';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-import { CartsState, CartState, CART_DATA } from '../cart-state';
-import { MultiCartState, MULTI_CART_FEATURE } from '../multi-cart-state';
+import { CART_DATA, CartsState, CartState } from '../cart-state';
+import { MULTI_CART_FEATURE, MultiCartState } from '../multi-cart-state';
 import { reducer as cartReducer } from './cart.reducer';
 import { activeCartReducer, cartEntitiesReducer } from './multi-cart.reducer';
 

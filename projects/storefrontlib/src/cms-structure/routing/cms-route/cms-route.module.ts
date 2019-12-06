@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 
 import { addCmsRoute } from './add-cms-route';
 

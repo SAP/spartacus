@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { UrlSegmentGroup, PRIMARY_OUTLET } from '@angular/router';
+import { PRIMARY_OUTLET, UrlSegmentGroup } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class UrlParsingService {

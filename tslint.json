@@ -59,6 +59,10 @@
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "linebreak-style": [true, "LF"],
+    "ordered-imports": [true, {
+      "import-sources-order": "any",
+      "named-imports-order": "case-insensitive"
+    }],
     "import-group-ordering": {
       "severity": "warning",
       "options": {

@@ -1,8 +1,8 @@
 import { StateTransferType, StorageSyncType } from '../config/state-config';
 import {
   createShellObject,
-  getExclusionKeys,
   filterKeysByType,
+  getExclusionKeys,
   getStateSlice,
   getStateSliceValue,
   handleExclusions,

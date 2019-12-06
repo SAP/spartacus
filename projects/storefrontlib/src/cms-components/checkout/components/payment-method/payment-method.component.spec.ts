@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 
 import {
   Address,
+  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -16,7 +17,6 @@ import {
   RoutingConfigService,
   RoutingService,
   UserPaymentService,
-  CartService,
 } from '@spartacus/core';
 
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';

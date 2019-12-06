@@ -4,11 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 
 import {
-  I18nTestingModule,
-  UserToken,
   AuthService,
-  UserService,
+  I18nTestingModule,
   RoutingService,
+  UserService,
+  UserToken,
 } from '@spartacus/core';
 
 import { GuestRegisterFormComponent } from './guest-register-form.component';

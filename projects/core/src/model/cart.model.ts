@@ -2,8 +2,8 @@ import { Price, Promotion } from './product.model';
 import {
   DeliveryMode,
   OrderEntry,
-  PromotionOrderEntryConsumed,
   PickupOrderEntryGroup,
+  PromotionOrderEntryConsumed,
 } from './order.model';
 import { Address } from './address.model';
 import { Currency } from './misc.model';

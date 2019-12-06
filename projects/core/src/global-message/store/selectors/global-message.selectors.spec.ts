@@ -10,9 +10,9 @@ import {
   GlobalMessageType,
 } from '../../models/global-message.model';
 import {
+  GLOBAL_MESSAGE_FEATURE,
   GlobalMessageEntities,
   GlobalMessageState,
-  GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
 import { GlobalMessageActions } from './../actions/index';

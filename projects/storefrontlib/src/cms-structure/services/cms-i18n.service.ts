@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { TranslationService, TranslationChunkService } from '@spartacus/core';
+import { TranslationChunkService, TranslationService } from '@spartacus/core';
 
 import { CmsMappingService } from './cms-mapping.service';
 

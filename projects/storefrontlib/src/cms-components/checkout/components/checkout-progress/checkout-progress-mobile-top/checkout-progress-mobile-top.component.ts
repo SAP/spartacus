@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import {
-  RoutingService,
-  CartService,
   Cart,
+  CartService,
   RoutingConfigService,
+  RoutingService,
 } from '@spartacus/core';
 
 import { CheckoutConfig } from '../../../config/checkout-config';

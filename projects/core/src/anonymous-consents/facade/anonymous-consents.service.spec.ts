@@ -5,13 +5,13 @@ import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../model/index';
 import {
-  AnonymousConsentsActions,
   ANONYMOUS_CONSENTS_STORE_FEATURE,
+  AnonymousConsentsActions,
   StateWithAnonymousConsents,
 } from '../store/index';
 import * as fromStoreReducers from '../store/reducers/index';

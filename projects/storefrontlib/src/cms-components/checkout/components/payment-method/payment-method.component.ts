@@ -10,6 +10,7 @@ import { filter, map, take } from 'rxjs/operators';
 
 import {
   Address,
+  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -19,7 +20,6 @@ import {
   RoutingService,
   TranslationService,
   UserPaymentService,
-  CartService,
 } from '@spartacus/core';
 
 import { Card } from '../../../../shared/components/card/card.component';

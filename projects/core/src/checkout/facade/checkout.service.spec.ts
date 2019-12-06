@@ -6,7 +6,7 @@ import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
-import { CheckoutState, CHECKOUT_FEATURE } from '../store/checkout-state';
+import { CHECKOUT_FEATURE, CheckoutState } from '../store/checkout-state';
 import * as CheckoutActionsReducers from '../store/reducers/index';
 import { CheckoutService } from './checkout.service';
 

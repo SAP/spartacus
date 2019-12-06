@@ -3,8 +3,8 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 
 import {
-  CheckoutState,
   CHECKOUT_DETAILS,
+  CheckoutState,
   CheckoutStepsState,
 } from '../checkout-state';
 

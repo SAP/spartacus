@@ -3,8 +3,8 @@ import { InjectionToken } from '@angular/core';
 import { Converter } from '../../util/converter.service';
 import { PointOfService } from '../../model/point-of-service.model';
 import {
-  StoreFinderSearchPage,
   StoreCount,
+  StoreFinderSearchPage,
 } from '../../model/store-finder.model';
 
 export const POINT_OF_SERVICE_NORMALIZER = new InjectionToken<

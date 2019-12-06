@@ -1,9 +1,9 @@
 import { Injectable, isDevMode } from '@angular/core';
 
 import { UrlParsingService } from './url-parsing.service';
-import { RouteConfig, ParamsMapping } from '../routes-config';
+import { ParamsMapping, RouteConfig } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
-import { UrlCommandRoute, UrlCommands, UrlCommand } from './url-command';
+import { UrlCommand, UrlCommandRoute, UrlCommands } from './url-command';
 import { RoutingConfigService } from '../routing-config.service';
 
 @Injectable({ providedIn: 'root' })
