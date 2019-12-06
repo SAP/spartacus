@@ -27,10 +27,10 @@ export const defaultOccUserConfig: OccConfig = {
           'orders/${orderCode}/consignments/${consignmentCode}/tracking',
         cancelOrder: 'users/${userId}/orders/${orderId}/cancellation',
         returnOrder:
-          'users/${userId}/orderReturns?fields=DEFAULT,returnEntries(orderEntry(product(images(FULL)),basePrice(formattedValue)))',
+          'users/${userId}/orderReturns?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name, code,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
         orderReturns: 'users/${userId}/orderReturns?fields=BASIC',
         orderReturnDetail:
-          'users/${userId}/orderReturns/${returnRequestCode}?fields=DEFAULT,returnEntries(orderEntry(product(images(FULL)),basePrice(formattedValue)))',
+          'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name, code,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
         // tslint:enable
       },
     },
