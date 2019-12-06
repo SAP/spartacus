@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
+import { ProductService } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
+import { MerchandisingProduct } from '../../model/merchandising-products.model';
 import {
-  MerchandisingProduct,
-  MerchandisingProducts,
-} from '../../model/merchandising-products.model';
-import { MerchandisingCarouselModel } from './model/index';
+  StrategyProduct,
+  StrategyProducts,
+} from '../../model/strategy-products.model';
+import { MerchandisingCarouselModel } from './model/merchandising-carousel.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MerchandisingCarouselComponentService {
+  protected readonly PRODUCT_SCOPE = 'list';
+
   constructor(
-    protected cdsMerchandisingProductService: CdsMerchandisingProductService
+    protected cdsMerchandisingProductService: CdsMerchandisingProductService,
+    protected productService: ProductService
   ) {}
 
   getMerchandisingCarouselModel(
@@ -27,13 +32,13 @@ export class MerchandisingCarouselComponentService {
         cmsComponent.numberToDisplay
       ),
     ]).pipe(
-      map(([componentData, merchandisingProducts]) => {
+      map(([componentData, strategyProducts]) => {
         const metadata = this.getCarouselMetadata(
-          merchandisingProducts,
+          strategyProducts,
           componentData
         );
-        const items$ = this.mapMerchandisingProductsToCarouselItems(
-          merchandisingProducts
+        const items$ = this.mapStrategyProductsToCarouselItems(
+          strategyProducts
         );
         return {
           items$,
@@ -47,22 +52,14 @@ export class MerchandisingCarouselComponentService {
   }
 
   private getCarouselMetadata(
-    merchandisingProducts: MerchandisingProducts,
+    strategyProducts: StrategyProducts,
     componentData: CmsMerchandisingCarouselComponent
   ): Map<string, string> {
-    const metadata = new Map<string, string>();
-
-    if (merchandisingProducts.metadata) {
-      merchandisingProducts.metadata.forEach((value, name) =>
-        metadata.set(name, value)
-      );
-    }
-
-    if (
-      merchandisingProducts.products &&
-      merchandisingProducts.products.length
-    ) {
-      metadata.set('slots', merchandisingProducts.products.length.toString());
+    const metadata = strategyProducts.metadata
+      ? new Map<string, string>(Object.entries(strategyProducts.metadata))
+      : new Map<string, string>();
+    if (strategyProducts.products && strategyProducts.products.length) {
+      metadata.set('slots', strategyProducts.products.length.toString());
     }
 
     metadata.set('title', componentData.title);
@@ -73,31 +70,34 @@ export class MerchandisingCarouselComponentService {
     return metadata;
   }
 
-  private mapMerchandisingProductsToCarouselItems(
-    merchandisingProducts: MerchandisingProducts
+  private mapStrategyProductsToCarouselItems(
+    strategyProducts: StrategyProducts
   ): Observable<MerchandisingProduct>[] {
-    return merchandisingProducts && merchandisingProducts.products
-      ? merchandisingProducts.products.map((product, index) => {
-          product.metadata = this.getCarouselItemMetadata(product, index + 1);
-          return of(product);
-        })
+    return strategyProducts && strategyProducts.products
+      ? strategyProducts.products.map((strategyProduct, index) =>
+          this.productService.get(strategyProduct.id, this.PRODUCT_SCOPE).pipe(
+            map(product => ({
+              ...product,
+              metadata: this.getCarouselItemMetadata(
+                strategyProduct,
+                index + 1
+              ),
+            }))
+          )
+        )
       : [EMPTY];
   }
 
   private getCarouselItemMetadata(
-    merchandisingProduct: MerchandisingProduct,
+    strategyProduct: StrategyProduct,
     index: number
   ): Map<string, string> {
-    const metadata = new Map<string, string>();
-
-    if (merchandisingProduct.metadata) {
-      merchandisingProduct.metadata.forEach((value, name) =>
-        metadata.set(name, value)
-      );
-    }
+    const metadata = strategyProduct.metadata
+      ? new Map<string, string>(Object.entries(strategyProduct.metadata))
+      : new Map<string, string>();
 
     metadata.set('slot', index.toString());
-    metadata.set('id', merchandisingProduct.code);
+    metadata.set('id', strategyProduct.id);
 
     return metadata;
   }

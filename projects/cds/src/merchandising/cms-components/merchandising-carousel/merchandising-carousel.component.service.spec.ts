@@ -1,44 +1,55 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import {
-  MerchandisingProduct,
-  MerchandisingProducts,
-} from '../../model/merchandising-products.model';
+import { MerchandisingProduct } from '../../model/merchandising-products.model';
+import { StrategyProducts } from '../../model/strategy-products.model';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 
-const mockMerchandisingProductsMetadata: Map<string, string> = new Map();
-mockMerchandisingProductsMetadata.set(
-  'custom-metadata-field-1',
-  'custom-metadata-data-value-1'
-);
-const mockMerchandisingProducts: MerchandisingProducts = {
+const mockStrategyProducts: StrategyProducts = {
   products: [
     {
-      code: '1',
-      name: 'product 1',
-      price: {
-        formattedValue: '100.00',
-      },
-      images: {
-        PRIMARY: {
-          image: {
-            url: 'whatever.jpg',
-          },
-        },
+      id: '1',
+      metadata: {
+        'product-1-metadata-field': 'product-1-metadata-value',
       },
     },
     {
-      code: '2',
-      name: 'product 2',
-      price: {
-        formattedValue: '200.00',
+      id: '2',
+      metadata: {
+        'product-2-metadata-field': 'product-2-metadata-value',
       },
     },
   ],
-  metadata: mockMerchandisingProductsMetadata,
+  metadata: {
+    'custom-metadata-field-1': 'custom-metadata-data-value-1',
+  },
+};
+
+const mockProducts = {
+  1: {
+    code: '1',
+    name: 'product 1',
+    price: {
+      formattedValue: '100.00',
+    },
+    images: {
+      PRIMARY: {
+        image: {
+          url: 'whatever.jpg',
+        },
+      },
+    },
+  },
+  2: {
+    code: '2',
+    name: 'product 2',
+    price: {
+      formattedValue: '200.00',
+    },
+  },
 };
 
 const mockComponentData: CmsMerchandisingCarouselComponent = {
@@ -53,8 +64,14 @@ const mockComponentData: CmsMerchandisingCarouselComponent = {
 };
 
 class MockCdsMerchandisingProductService {
-  loadProductsForStrategy(): Observable<MerchandisingProducts> {
-    return of(mockMerchandisingProducts);
+  loadProductsForStrategy(): Observable<StrategyProducts> {
+    return of(mockStrategyProducts);
+  }
+}
+
+class MockProductService {
+  get(code): Observable<Product> {
+    return of(mockProducts[code]);
   }
 }
 
@@ -64,6 +81,10 @@ describe('MerchandisingCarouselComponentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
         {
           provide: CdsMerchandisingProductService,
           useClass: MockCdsMerchandisingProductService,
@@ -86,7 +107,7 @@ describe('MerchandisingCarouselComponentService', () => {
     const expectedMerchandisingCarouselModelMetadata: Map<
       string,
       string
-    > = new Map(mockMerchandisingProductsMetadata);
+    > = new Map(Object.entries(mockStrategyProducts.metadata));
 
     expectedMerchandisingCarouselModelMetadata.set(
       'title',
@@ -102,25 +123,43 @@ describe('MerchandisingCarouselComponentService', () => {
     );
     expectedMerchandisingCarouselModelMetadata.set(
       'slots',
-      mockMerchandisingProducts.products.length.toString()
+      mockStrategyProducts.products.length.toString()
     );
     expectedMerchandisingCarouselModelMetadata.set('id', mockComponentData.uid);
+
+    const expectedMerchandisingCarouselModelProducts: MerchandisingProduct[] = mockStrategyProducts.products.map(
+      (strategyProduct, index) => {
+        const merchandisingProductMetadata = new Map<string, string>(
+          Object.entries(strategyProduct.metadata)
+        );
+        merchandisingProductMetadata.set('id', strategyProduct.id);
+        merchandisingProductMetadata.set('slot', (index + 1).toString());
+
+        return {
+          ...mockProducts[strategyProduct.id],
+          metadata: merchandisingProductMetadata,
+        };
+      }
+    );
 
     let actualCarouselMetadata: Map<string, string>;
     const actualCarouselProducts: MerchandisingProduct[] = [];
     componentService
       .getMerchandisingCarouselModel(mockComponentData)
-      .subscribe(merchandisingCarouselModel => {
-        actualCarouselMetadata = merchandisingCarouselModel.metadata;
-        merchandisingCarouselModel.items$.forEach(observableProduct =>
+      .subscribe(merchandisingProducts => {
+        actualCarouselMetadata = merchandisingProducts.metadata;
+        merchandisingProducts.items$.forEach(observableProduct =>
           observableProduct.subscribe(product =>
             actualCarouselProducts.push(product)
           )
         );
       });
+
     expect(actualCarouselMetadata).toEqual(
       expectedMerchandisingCarouselModelMetadata
     );
-    expect(actualCarouselProducts).toEqual(mockMerchandisingProducts.products);
+    expect(actualCarouselProducts).toEqual(
+      expectedMerchandisingCarouselModelProducts
+    );
   });
 });

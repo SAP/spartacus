@@ -1,2 +1,2 @@
 export * from './merchandising-products.model';
-export * from './strategy-result.model';
+export * from './strategy-products.model';
