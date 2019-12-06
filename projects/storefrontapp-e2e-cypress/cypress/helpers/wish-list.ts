@@ -97,7 +97,6 @@ export function verifyProductInWishList(product: TestProduct) {
 
   getWishListItem(product.name).within(() => {
     cy.get('.cx-code').should('contain', product.code);
-    cy.get('.cx-quantity>.cx-value').should('contain', 1);
   });
 }
 
