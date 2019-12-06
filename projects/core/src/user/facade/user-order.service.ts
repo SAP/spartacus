@@ -9,6 +9,7 @@ import {
   OrderHistoryList,
   CancellationRequestEntryInputList,
 } from '../../model/order.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/index';
 import { UserActions } from '../store/actions/index';
@@ -28,6 +29,8 @@ export class UserOrderService {
    * @deprecated since version 1.2
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -48,18 +51,14 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.LoadOrderDetails({
-            userId: occUserId,
-            orderCode: orderCode,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.LoadOrderDetails({
+          userId,
+          orderCode,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -102,20 +101,16 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.LoadUserOrders({
-            userId: occUserId,
-            pageSize: pageSize,
-            currentPage: currentPage,
-            sort: sort,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.LoadUserOrders({
+          userId,
+          pageSize,
+          currentPage,
+          sort,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -152,27 +147,22 @@ export class UserOrderService {
   clearConsignmentTracking(): void {
     this.store.dispatch(new UserActions.ClearConsignmentTracking());
   }
-
-  /**
+  /*
    * Cancel and order
    */
   cancelOrder(
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(
-          new UserActions.CancelOrder({
-            userId,
-            orderCode,
-            cancelRequestInput,
-          })
-        )
-      )
-      .unsubscribe();
+    this.withUserId(userId => {
+      this.store.dispatch(
+        new UserActions.CancelOrder({
+          userId,
+          orderCode,
+          cancelRequestInput,
+        })
+      );
+    });
   }
 
   /**
@@ -180,5 +170,21 @@ export class UserOrderService {
    */
   getOrderDetailsState(): Observable<LoaderState<Order>> {
     return this.store.pipe(select(UsersSelectors.getOrderState));
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }
