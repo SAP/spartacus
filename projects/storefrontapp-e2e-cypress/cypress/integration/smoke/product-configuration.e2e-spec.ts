@@ -204,6 +204,9 @@ context('Product Configuration', () => {
       );
       configuration.clickAddToCartButton();
       cart.verifyCartNotEmpty();
+      configuration.verifyOverviewPageIsDisplayed();
+      configuration.clickAddToCartButton();
+      configuration.verifyConfigurableProductInCart(testProduct);
     });
   });
 });
