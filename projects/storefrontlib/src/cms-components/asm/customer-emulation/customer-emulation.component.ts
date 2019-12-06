@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
 import { User, UserService } from '@spartacus/core';
+
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({

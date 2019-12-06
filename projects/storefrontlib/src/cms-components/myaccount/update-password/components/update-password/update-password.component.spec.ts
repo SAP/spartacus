@@ -15,6 +15,7 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
+
 import { UpdatePasswordComponent } from './update-password.component';
 
 class MockUserService {

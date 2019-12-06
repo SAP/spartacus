@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 
 import { Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
 

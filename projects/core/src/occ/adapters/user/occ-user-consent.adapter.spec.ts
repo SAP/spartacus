@@ -10,6 +10,7 @@ import {
   ConverterService,
   Occ,
 } from '@spartacus/core';
+
 import { ConsentTemplate } from '../../../model/consent.model';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';

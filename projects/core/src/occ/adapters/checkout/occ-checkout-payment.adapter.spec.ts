@@ -11,6 +11,7 @@ import {
   PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/core';
+
 import { Cart, PaymentDetails } from '../../../model/cart.model';
 import { Occ, OccConfig } from '../../index';
 import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';

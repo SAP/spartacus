@@ -12,6 +12,7 @@ import {
   OrderEntry,
   PromotionResult,
 } from '@spartacus/core';
+
 import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';

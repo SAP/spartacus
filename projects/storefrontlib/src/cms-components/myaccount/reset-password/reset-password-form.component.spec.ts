@@ -10,6 +10,7 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
+
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 
 class MockUserService {

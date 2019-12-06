@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Cart, CartService, OrderEntry } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../shared/components/modal/index';
 

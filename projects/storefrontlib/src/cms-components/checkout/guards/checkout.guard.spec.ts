@@ -9,6 +9,7 @@ import {
   RoutingConfigService,
 } from '@spartacus/core';
 import { CheckoutConfigService, CheckoutStepType } from '@spartacus/storefront';
+
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';

@@ -11,6 +11,7 @@ import {
   StoreFinderCoreModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { LayoutConfig } from '../../layout/config/layout-config';
 import { ListNavigationModule } from '../../shared/components/list-navigation/list-navigation.module';
 import { SpinnerModule } from '../../shared/components/spinner/spinner.module';

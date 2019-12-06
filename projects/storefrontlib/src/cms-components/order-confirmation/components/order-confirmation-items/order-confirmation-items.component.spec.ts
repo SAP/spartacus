@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 
 import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
+
 import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 

@@ -12,6 +12,7 @@ import {
   User,
   UserToken,
 } from '@spartacus/core';
+
 import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 

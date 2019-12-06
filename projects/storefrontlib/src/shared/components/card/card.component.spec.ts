@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { I18nTestingModule } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
 

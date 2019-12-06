@@ -9,6 +9,7 @@ import {
   ProductService,
   SemanticPathService,
 } from '@spartacus/core';
+
 import { ProductCarouselItem } from './product-carousel.model';
 
 @Injectable({

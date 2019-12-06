@@ -8,6 +8,7 @@ import {
   ContextServiceMap,
   SiteContextModule,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { IconModule } from '../icon/index';
 import { LanguageCurrencyComponent } from './language-currency.component';

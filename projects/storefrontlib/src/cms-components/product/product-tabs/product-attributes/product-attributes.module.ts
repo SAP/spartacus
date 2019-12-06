@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
+
 import { ProductAttributesComponent } from './product-attributes.component';
 
 @NgModule({

@@ -10,6 +10,7 @@ import {
 } from 'rxjs/operators';
 
 import { Product, ProductReviewService, Review } from '@spartacus/core';
+
 import { CurrentProductService } from '../../current-product.service';
 
 @Component({

@@ -7,6 +7,7 @@ import {
   CmsService,
   ContentSlotComponentData,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/index';
 
 /**

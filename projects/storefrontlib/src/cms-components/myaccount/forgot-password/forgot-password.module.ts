@@ -10,6 +10,7 @@ import {
   NotAuthGuard,
   UrlModule,
 } from '@spartacus/core';
+
 import { ForgotPasswordComponent } from './forgot-password.component';
 
 @NgModule({

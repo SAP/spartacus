@@ -10,6 +10,7 @@ import {
   PointOfService,
   StoreDataService,
 } from '@spartacus/core';
+
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';

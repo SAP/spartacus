@@ -8,6 +8,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { IconModule } from '../../misc/icon/icon.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { HighlightPipe } from './highlight.pipe';

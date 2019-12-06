@@ -9,6 +9,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { ViewConfig } from '../../../shared/config/view-config';
 import { ViewConfigModule } from '../../../shared/config/view-config.module';
 import {

@@ -18,6 +18,7 @@ import {
   OrderEntry,
   PromotionResult,
 } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../../cms-components';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';

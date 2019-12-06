@@ -10,6 +10,7 @@ import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { CartService, OrderEntry, Product } from '@spartacus/core';
+
 import { ModalRef, ModalService } from '../../../shared/components/modal/index';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';

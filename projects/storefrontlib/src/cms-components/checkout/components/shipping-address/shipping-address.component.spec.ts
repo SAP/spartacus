@@ -12,6 +12,7 @@ import {
   RoutingService,
   UserAddressService,
 } from '@spartacus/core';
+
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { ShippingAddressComponent } from './shipping-address.component';

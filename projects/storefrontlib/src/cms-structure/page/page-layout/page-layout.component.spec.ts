@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
+
 import { OutletDirective } from '../../outlet';
 import { PageLayoutComponent } from './page-layout.component';
 import { PageLayoutService } from './page-layout.service';

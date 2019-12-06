@@ -17,6 +17,7 @@ import {
   StateModule,
   UserModule,
 } from '@spartacus/core';
+
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
 import { ViewConfigModule } from '../shared/config/view-config.module';

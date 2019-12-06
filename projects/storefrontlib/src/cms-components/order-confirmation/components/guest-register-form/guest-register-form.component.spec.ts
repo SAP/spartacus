@@ -10,6 +10,7 @@ import {
   UserService,
   RoutingService,
 } from '@spartacus/core';
+
 import { GuestRegisterFormComponent } from './guest-register-form.component';
 
 import createSpy = jasmine.createSpy;

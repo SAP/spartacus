@@ -9,6 +9,7 @@ import {
   I18nTestingModule,
   OrderEntry,
 } from '@spartacus/core';
+
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartTotalsComponent } from './cart-totals.component';
 

@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ProductSearchPage } from '@spartacus/core';
+
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ViewConfig } from '../../../../../shared/config/view-config';

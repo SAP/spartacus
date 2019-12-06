@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Product } from '@spartacus/core';
+
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
 

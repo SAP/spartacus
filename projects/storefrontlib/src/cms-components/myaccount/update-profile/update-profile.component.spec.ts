@@ -21,6 +21,7 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
+
 import { UpdateProfileComponent } from './update-profile.component';
 
 @Component({

@@ -30,6 +30,7 @@ import {
   UserPaymentService,
   UserService,
 } from '@spartacus/core';
+
 import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}

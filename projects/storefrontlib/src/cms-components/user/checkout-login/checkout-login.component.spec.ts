@@ -10,6 +10,7 @@ import {
   I18nTestingModule,
   User,
 } from '@spartacus/core';
+
 import { CheckoutLoginComponent } from './checkout-login.component';
 
 import createSpy = jasmine.createSpy;

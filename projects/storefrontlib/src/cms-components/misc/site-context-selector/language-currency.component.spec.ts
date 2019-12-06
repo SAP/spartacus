@@ -14,6 +14,7 @@ import {
   Language,
   LanguageService,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';

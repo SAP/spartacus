@@ -12,6 +12,7 @@ import {
   RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
+
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';

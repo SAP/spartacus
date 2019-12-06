@@ -6,6 +6,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { SiteContextConfig } from '@spartacus/core';
+
 import { Language } from '../../model/misc.model';
 import { SiteConnector } from '../connectors/site.connector';
 import { SiteContextActions } from '../store/actions/index';

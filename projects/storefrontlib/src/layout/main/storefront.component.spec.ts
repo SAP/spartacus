@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { RoutingService } from '@spartacus/core';
+
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
 import { StorefrontComponent } from './storefront.component';
 

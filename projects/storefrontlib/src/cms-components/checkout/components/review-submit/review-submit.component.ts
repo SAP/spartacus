@@ -15,6 +15,7 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
+
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/index';
 import { CheckoutStepType } from '../../model/index';

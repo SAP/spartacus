@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Address } from '@spartacus/core';
+
 import { AddressBookComponentService } from './address-book.component.service';
 
 @Component({

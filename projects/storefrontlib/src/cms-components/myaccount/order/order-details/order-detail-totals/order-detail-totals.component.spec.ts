@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { Cart, Order } from '@spartacus/core';
+
 import { OrderDetailTotalsComponent } from './order-detail-totals.component';
 import { OrderDetailsService } from '../order-details.service';
 

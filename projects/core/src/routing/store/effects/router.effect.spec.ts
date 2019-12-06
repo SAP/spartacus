@@ -9,6 +9,7 @@ import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 
 import { AuthActions } from '@spartacus/core';
+
 import { RoutingActions } from '../actions/index';
 import * as fromEffects from './router.effect';
 

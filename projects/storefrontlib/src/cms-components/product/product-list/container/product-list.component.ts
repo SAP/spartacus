@@ -3,6 +3,7 @@ import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { ProductSearchPage } from '@spartacus/core';
+
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewModes } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';

@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 
 import { UserSignUp } from '@spartacus/core';
+
 import { UserAdapter } from './user.adapter';
 import { UserConnector } from './user.connector';
 import createSpy = jasmine.createSpy;

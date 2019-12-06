@@ -9,6 +9,7 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
+
 import { Card } from '../../../../../shared/components/card/card.component';
 import { OrderDetailsService } from '../order-details.service';
 

@@ -14,6 +14,7 @@ import {
   UserToken,
   WindowRef,
 } from '@spartacus/core';
+
 import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
 

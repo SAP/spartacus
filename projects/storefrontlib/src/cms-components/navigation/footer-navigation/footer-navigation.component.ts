@@ -8,6 +8,7 @@ import {
   CmsNavigationComponent,
   isFeatureEnabled,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';

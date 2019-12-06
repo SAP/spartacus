@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { OccConfig } from '@spartacus/core';
+
 import { LayoutConfig } from '../../../layout';
 import { MediaService } from './media.service';
 

@@ -7,6 +7,7 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
+
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';

@@ -9,6 +9,7 @@ import {
   ConsentTemplate,
   isFeatureLevel,
 } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../modal/index';
 

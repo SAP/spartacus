@@ -7,6 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
 
 import { I18nTestingModule } from '@spartacus/core';
+
 import { PageLayoutService } from '../../../../cms-structure';
 import {
   ListNavigationModule,

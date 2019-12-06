@@ -6,6 +6,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { DELIVERY_MODE_NORMALIZER, OccConfig } from '@spartacus/core';
+
 import { Address } from '../../../model/address.model';
 import { Cart } from '../../../model/cart.model';
 import {

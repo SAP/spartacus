@@ -4,6 +4,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 
 import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
+
 import { SeoMetaService } from './seo-meta.service';
 
 class MockPageMetaService {

@@ -11,6 +11,7 @@ import {
   UrlCommands,
   UserToken,
 } from '@spartacus/core';
+
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 
 const mockUserToken = {

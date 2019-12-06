@@ -11,6 +11,7 @@ import {
   Order,
   PromotionResult,
 } from '@spartacus/core';
+
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';

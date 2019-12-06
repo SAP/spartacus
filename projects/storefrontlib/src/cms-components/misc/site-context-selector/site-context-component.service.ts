@@ -9,6 +9,7 @@ import {
   LANGUAGE_CONTEXT_ID,
   SiteContext,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextType } from './site-context.model';
 

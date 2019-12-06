@@ -9,6 +9,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 
 import { AsmAuthService, OccConfig } from '@spartacus/core';
+
 import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { UserToken } from '../../auth/models/token-types.model';
 import { CustomerSupportAgentTokenInterceptor } from './csagent-token.interceptor';

@@ -12,6 +12,7 @@ import {
   UrlModule,
   UserService,
 } from '@spartacus/core';
+
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderHistoryComponent } from './order-history.component';
 

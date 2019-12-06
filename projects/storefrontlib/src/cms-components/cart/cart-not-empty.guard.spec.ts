@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { Cart, CartService, RoutingService } from '@spartacus/core';
+
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
 
 const CART_EMPTY = Object.freeze({ totalItems: 0 });

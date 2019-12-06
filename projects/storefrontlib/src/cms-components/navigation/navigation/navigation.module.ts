@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { NavigationUIComponent } from './navigation-ui.component';

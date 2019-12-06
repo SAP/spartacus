@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { StoreFinderService, I18nTestingModule } from '@spartacus/core';
+
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
 class ActivatedRouteMock {

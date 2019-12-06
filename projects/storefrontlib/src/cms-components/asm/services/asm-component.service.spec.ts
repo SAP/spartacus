@@ -9,6 +9,7 @@ import {
   UserToken,
   WindowRef,
 } from '@spartacus/core';
+
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
 

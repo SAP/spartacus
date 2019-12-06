@@ -8,6 +8,7 @@ import {
   ContentSlotComponentData,
   I18nTestingModule,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';

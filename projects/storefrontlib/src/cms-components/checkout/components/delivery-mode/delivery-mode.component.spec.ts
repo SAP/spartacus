@@ -11,6 +11,7 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
 

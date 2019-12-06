@@ -10,6 +10,7 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { CloseAccountModalComponent } from './close-account-modal.component';

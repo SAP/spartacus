@@ -8,6 +8,7 @@ import {
   ConfigModule,
   I18nModule,
 } from '@spartacus/core';
+
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdateProfileFormComponent } from './components/update-profile-form.component';
 import { UpdateProfileComponent } from './update-profile.component';

@@ -10,6 +10,7 @@ import {
   I18nTestingModule,
   ProductSearchService,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';

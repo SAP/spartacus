@@ -15,6 +15,7 @@ import {
   I18nTestingModule,
   UserPaymentService,
 } from '@spartacus/core';
+
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';

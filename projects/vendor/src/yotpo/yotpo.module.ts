@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Config, ConfigModule } from '@spartacus/core';
+
 import { YotporeviewComponent } from './yotporeview/yotpo-review.component';
 import { YotpostarratingComponent } from './yotpostarrating/yotpo-star-rating.component';
 import { YotpoConfig } from './yotpoconfig/yotpo-config';

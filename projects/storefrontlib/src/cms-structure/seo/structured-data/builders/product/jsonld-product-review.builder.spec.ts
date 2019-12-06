@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 
 import { Product, ProductReviewService, Review } from '@spartacus/core';
+
 import { JsonLdProductReviewBuilder } from './jsonld-product-review.builder';
 
 const simpleProductMock: Product = {

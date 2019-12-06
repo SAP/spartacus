@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ConfigModule, CmsConfig } from '@spartacus/core';
+
 import { ProductDetailsTabComponent } from './product-details-tab.component';
 
 @NgModule({

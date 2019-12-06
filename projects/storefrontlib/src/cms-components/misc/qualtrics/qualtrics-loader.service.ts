@@ -3,6 +3,7 @@ import { BehaviorSubject, fromEvent, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 
 import { WindowRef } from '@spartacus/core';
+
 import { QualtricsConfig } from './config/qualtrics-config';
 
 @Injectable({

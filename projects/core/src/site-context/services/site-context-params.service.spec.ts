@@ -8,6 +8,7 @@ import {
   SiteContext,
   SiteContextConfig,
 } from '@spartacus/core';
+
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,

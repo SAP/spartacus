@@ -13,6 +13,7 @@ import {
   OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
+
 import {
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { RoutingService } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../misc/icon';
 
 @Component({

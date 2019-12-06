@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LoadingScopesService } from './loading-scopes.service';
 import { OccConfig } from '@spartacus/core';
+
+import { LoadingScopesService } from './loading-scopes.service';
 
 describe('LoadingScopesService', () => {
   let service: LoadingScopesService;

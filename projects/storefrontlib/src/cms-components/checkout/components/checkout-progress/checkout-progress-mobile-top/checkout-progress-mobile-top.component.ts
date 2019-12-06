@@ -8,6 +8,7 @@ import {
   Cart,
   RoutingConfigService,
 } from '@spartacus/core';
+
 import { CheckoutConfig } from '../../../config/checkout-config';
 import { CheckoutStep } from '../../../model/checkout-step.model';
 

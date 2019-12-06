@@ -7,6 +7,7 @@ import {
   OutletRefModule,
   CmsPageGuard,
 } from '@spartacus/storefront';
+
 import { TestOutletComponentComponent } from './test-outlet-component.component';
 
 @NgModule({

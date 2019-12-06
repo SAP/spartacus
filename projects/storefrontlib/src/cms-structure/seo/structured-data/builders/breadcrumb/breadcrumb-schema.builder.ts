@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { PageMeta, PageMetaService } from '@spartacus/core';
+
 import { SchemaBuilder } from '../schema.interface';
 
 @Injectable({

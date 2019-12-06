@@ -3,6 +3,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 import { CmsService, Page } from '@spartacus/core';
+
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import {
   BREAKPOINT,

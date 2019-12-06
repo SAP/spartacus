@@ -11,6 +11,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';

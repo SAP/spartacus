@@ -8,6 +8,7 @@ import {
   ProductReviewService,
   Product,
 } from '@spartacus/core';
+
 import { ItemCounterModule } from '../../../../shared';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { CurrentProductService } from '../../current-product.service';

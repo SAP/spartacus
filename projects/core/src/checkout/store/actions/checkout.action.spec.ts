@@ -1,7 +1,3 @@
-import { Address } from '../../../model/address.model';
-import { PaymentDetails } from '../../../model/cart.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
-import { CheckoutActions } from '../actions/index';
 import {
   PROCESS_FEATURE,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -10,6 +6,11 @@ import {
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
   StateEntityLoaderActions,
 } from '@spartacus/core';
+
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { CheckoutActions } from '../actions/index';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';

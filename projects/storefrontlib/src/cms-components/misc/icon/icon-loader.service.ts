@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { WindowRef } from '@spartacus/core';
+
 import {
   IconConfig,
   IconConfigResource,

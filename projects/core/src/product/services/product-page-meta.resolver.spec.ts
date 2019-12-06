@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
+import { FeatureConfigService } from '@spartacus/core';
+
 import { PageMeta } from '../../cms';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
-import { FeatureConfigService } from '@spartacus/core';
 
 class MockRoutingService {
   getRouterState() {

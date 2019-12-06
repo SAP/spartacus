@@ -6,6 +6,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Product, TranslationService, WindowRef } from '@spartacus/core';
+
 import { CurrentProductService } from '../current-product.service';
 
 @Component({

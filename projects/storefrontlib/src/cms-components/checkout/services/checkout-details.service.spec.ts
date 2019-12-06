@@ -13,6 +13,7 @@ import {
   DeliveryMode,
   PaymentDetails,
 } from '@spartacus/core';
+
 import { CheckoutDetailsService } from './checkout-details.service';
 
 const cartId = 'cartId';

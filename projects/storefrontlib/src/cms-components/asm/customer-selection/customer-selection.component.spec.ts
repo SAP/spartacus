@@ -18,6 +18,7 @@ import {
   I18nTestingModule,
   User,
 } from '@spartacus/core';
+
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
 

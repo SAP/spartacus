@@ -8,6 +8,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import { LoginComponent } from './login.component';
 

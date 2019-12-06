@@ -14,6 +14,7 @@ import {
   DeliveryMode,
   RoutingService,
 } from '@spartacus/core';
+
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 @Component({

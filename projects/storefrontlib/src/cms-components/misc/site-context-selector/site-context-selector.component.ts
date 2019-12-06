@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SiteContext } from '@spartacus/core';
+
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextType } from './site-context.model';

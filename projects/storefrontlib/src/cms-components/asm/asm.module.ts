@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AsmModule as AsmCoreModule, I18nModule } from '@spartacus/core';
+
 import { AsmLoaderModule } from './asm-loader.module';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';

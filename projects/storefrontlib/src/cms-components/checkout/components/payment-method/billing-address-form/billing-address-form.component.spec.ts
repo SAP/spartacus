@@ -17,6 +17,7 @@ import {
   Region,
   UserAddressService,
 } from '@spartacus/core';
+
 import { BillingAddressFormComponent } from './billing-address-form.component';
 
 describe('BillingAddressFormComponent', () => {

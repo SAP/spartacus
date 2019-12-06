@@ -29,6 +29,7 @@ import {
   UserPaymentService,
   UserService,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../model';
 
 @Injectable({

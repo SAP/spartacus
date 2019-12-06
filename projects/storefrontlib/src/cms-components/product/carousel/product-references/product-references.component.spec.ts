@@ -16,6 +16,7 @@ import {
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';

@@ -9,6 +9,7 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
+
 import { OrderConfirmationGuard } from './order-confirmation.guard';
 
 class MockCheckoutService {

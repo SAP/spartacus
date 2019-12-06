@@ -9,6 +9,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
+
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';

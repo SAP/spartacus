@@ -21,6 +21,7 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
+
 import { UpdateEmailComponent } from './update-email.component';
 
 @Component({

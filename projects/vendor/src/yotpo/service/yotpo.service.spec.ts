@@ -8,6 +8,7 @@ import {
   RoutingService,
   PageType,
 } from '@spartacus/core';
+
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 import { YotpoService } from './yotpo.service';
 

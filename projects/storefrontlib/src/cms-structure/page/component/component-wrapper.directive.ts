@@ -19,6 +19,7 @@ import {
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentMapperService } from './component-mapper.service';
 import { CxApiService } from './cx-api.service';

@@ -8,6 +8,7 @@ import {
   PaymentDetails,
   UserPaymentService,
 } from '@spartacus/core';
+
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
 

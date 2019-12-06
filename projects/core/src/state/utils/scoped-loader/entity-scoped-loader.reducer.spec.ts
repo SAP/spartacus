@@ -1,5 +1,6 @@
-import { entityScopedLoaderReducer } from './entity-scoped-loader.reducer';
 import { initialEntityState } from '@spartacus/core';
+
+import { entityScopedLoaderReducer } from './entity-scoped-loader.reducer';
 import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
 
 describe('entityScopedLoaderReducer', () => {

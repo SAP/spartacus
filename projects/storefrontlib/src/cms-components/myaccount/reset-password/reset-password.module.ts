@@ -9,6 +9,7 @@ import {
   I18nModule,
   NotAuthGuard,
 } from '@spartacus/core';
+
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 
 @NgModule({

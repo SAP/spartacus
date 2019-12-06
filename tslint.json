@@ -67,10 +67,7 @@
             "name": "dependencies"
           },
           {
-            "name": "common"
-          },
-          {
-            "name": "product"
+            "name": "spartacus"
           },
           {
             "name": "other"
@@ -78,20 +75,15 @@
         ],
         "matching-rules": [
           {
-            "type": "project",
-            "matches": "^(common)",
-            "imports-group": "common"
-          },
-          {
-            "type": "project",
-            "matches": "^(product)",
-            "imports-group": "product"
-          },
-          {
             "type": "dependencies",
             "imports-group": "dependencies",
             "disable-native-nodejs-modules": true,
             "from-package.json": true
+          },
+          {
+            "type": "project",
+            "matches": "^(@spartacus)",
+            "imports-group": "spartacus"
           },
           {
             "type": "project",

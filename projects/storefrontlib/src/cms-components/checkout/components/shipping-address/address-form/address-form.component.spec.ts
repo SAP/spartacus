@@ -16,6 +16,7 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
+
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
 

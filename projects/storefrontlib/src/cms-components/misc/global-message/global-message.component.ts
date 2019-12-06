@@ -6,6 +6,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 
 @Component({

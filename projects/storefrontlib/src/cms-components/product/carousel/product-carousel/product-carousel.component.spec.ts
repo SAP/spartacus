@@ -16,6 +16,7 @@ import {
   Product,
   ProductService,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';
 

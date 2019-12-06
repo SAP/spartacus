@@ -18,6 +18,7 @@ import {
   PromotionResult,
   UserAddressService,
 } from '@spartacus/core';
+
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';

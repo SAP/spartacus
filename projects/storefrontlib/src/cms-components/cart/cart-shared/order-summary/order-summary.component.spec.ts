@@ -10,6 +10,7 @@ import {
   CartVoucherService,
   Voucher,
 } from '@spartacus/core';
+
 import { PromotionsModule } from '../../../checkout';
 import { OrderSummaryComponent } from './order-summary.component';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';

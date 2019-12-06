@@ -25,6 +25,7 @@ import {
   UserService,
   UserSignUp,
 } from '@spartacus/core';
+
 import { sortTitles } from '../../../shared/utils/forms/title-utils';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 

@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { RoutingService, StoreFinderService } from '@spartacus/core';
+
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 const countryIsoCode = 'CA';

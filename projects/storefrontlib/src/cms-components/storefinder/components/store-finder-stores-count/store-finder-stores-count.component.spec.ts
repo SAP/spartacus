@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { I18nTestingModule, StoreFinderService } from '@spartacus/core';
+
 import { SpinnerModule } from '../../../../shared';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 

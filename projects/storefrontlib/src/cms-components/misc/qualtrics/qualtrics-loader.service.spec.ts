@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { WindowRef } from '@spartacus/core';
+
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 

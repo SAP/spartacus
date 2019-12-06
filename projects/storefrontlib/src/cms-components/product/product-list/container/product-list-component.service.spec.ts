@@ -9,6 +9,7 @@ import {
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
+
 import { ProductListComponentService } from './product-list-component.service';
 
 export class MockRouter {

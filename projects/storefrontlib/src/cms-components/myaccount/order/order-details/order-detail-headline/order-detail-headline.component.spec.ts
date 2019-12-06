@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { I18nTestingModule, Order } from '@spartacus/core';
+
 import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
 import { OrderDetailsService } from '../order-details.service';
 

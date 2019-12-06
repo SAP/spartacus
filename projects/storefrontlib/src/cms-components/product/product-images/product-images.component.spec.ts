@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 
 import { Product } from '@spartacus/core';
+
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
 

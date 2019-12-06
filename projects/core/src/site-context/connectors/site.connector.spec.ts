@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 
 import { CountryType } from '@spartacus/core';
+
 import { SiteAdapter } from './site.adapter';
 import { SiteConnector } from './site.connector';
 

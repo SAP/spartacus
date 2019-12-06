@@ -15,6 +15,7 @@ import {
   USER_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
 } from '@spartacus/core';
+
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
 import { OccUserAdapter } from './occ-user.adapter';

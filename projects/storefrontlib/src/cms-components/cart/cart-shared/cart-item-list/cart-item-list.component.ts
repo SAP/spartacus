@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { CartService, PromotionResult } from '@spartacus/core';
+
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({

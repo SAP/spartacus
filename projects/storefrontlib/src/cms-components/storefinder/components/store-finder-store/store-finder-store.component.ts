@@ -7,6 +7,7 @@ import {
   PointOfService,
   RoutingService,
 } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../misc/icon';
 
 @Component({

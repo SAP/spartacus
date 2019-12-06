@@ -7,6 +7,7 @@ import {
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
+
 import { Card } from '../../../shared/components/card/card.component';
 
 @Component({

@@ -1,4 +1,5 @@
 import { CmsStructureConfig } from '@spartacus/core';
+
 import {
   defaultPageHeaderConfig,
   headerComponents,

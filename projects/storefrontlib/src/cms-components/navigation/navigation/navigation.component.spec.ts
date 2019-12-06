@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { CmsNavigationComponent } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/index';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationComponent } from './navigation.component';

@@ -9,6 +9,7 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
+
 import { CurrentProductService } from './current-product.service';
 
 const router = {

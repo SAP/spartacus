@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
+
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import {
   CheckoutConfig,

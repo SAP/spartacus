@@ -1,8 +1,9 @@
+import { AuthActions } from '@spartacus/core';
+
 import { StateLoaderActions } from '../../../state/utils/index';
 import { UserToken } from '../../../auth/models/token-types.model';
 import { CSAGENT_TOKEN_DATA } from '../asm-state';
 import { AsmActions } from './index';
-import { AuthActions } from '@spartacus/core';
 
 const token: UserToken = {
   access_token: 'xxx',

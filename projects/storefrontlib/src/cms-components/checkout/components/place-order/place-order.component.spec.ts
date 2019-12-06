@@ -10,6 +10,7 @@ import {
   Order,
   I18nTestingModule,
 } from '@spartacus/core';
+
 import { PlaceOrderComponent } from './place-order.component';
 
 const checkoutServiceStub = {

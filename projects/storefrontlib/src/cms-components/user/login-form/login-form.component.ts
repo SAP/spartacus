@@ -10,6 +10,7 @@ import {
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
+
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
 

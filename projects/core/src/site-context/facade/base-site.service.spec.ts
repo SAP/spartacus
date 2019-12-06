@@ -10,6 +10,7 @@ import {
   SiteContextConfig,
   StateWithSiteContext,
 } from '@spartacus/core';
+
 import { SiteAdapter } from '../connectors/site.adapter';
 import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';

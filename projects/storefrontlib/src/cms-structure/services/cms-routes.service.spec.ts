@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { CmsRoute, PageType } from '@spartacus/core';
+
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsMappingService } from './cms-mapping.service';
 import { CmsRoutesService } from './cms-routes.service';

@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 
 import { Product } from '@spartacus/core';
+
 import { CurrentProductService } from '../../current-product.service';
 import { ProductDetailsTabComponent } from './product-details-tab.component';
 

@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 
 import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
+
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 
 import createSpy = jasmine.createSpy;

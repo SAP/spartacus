@@ -8,6 +8,7 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
+
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 
 @Injectable({

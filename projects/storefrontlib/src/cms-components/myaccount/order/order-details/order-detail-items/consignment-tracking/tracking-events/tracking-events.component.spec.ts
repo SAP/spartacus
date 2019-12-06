@@ -9,6 +9,7 @@ import {
   I18nTestingModule,
   UserOrderService,
 } from '@spartacus/core';
+
 import { SpinnerModule } from '../../../../../../../shared/components/spinner/spinner.module';
 import { TrackingEventsComponent } from './tracking-events.component';
 

@@ -9,6 +9,7 @@ import {
   CmsNavigationComponent,
   I18nTestingModule,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';

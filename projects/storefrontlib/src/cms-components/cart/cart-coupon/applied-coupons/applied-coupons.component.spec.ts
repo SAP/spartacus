@@ -7,6 +7,7 @@ import {
   Voucher,
   CartVoucherService,
 } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 

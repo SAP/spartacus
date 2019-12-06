@@ -10,6 +10,7 @@ import {
   UserOrderService,
 } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+
 import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
 

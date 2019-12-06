@@ -13,8 +13,9 @@ import {
   CartVoucherService,
   AuthService,
 } from '@spartacus/core';
-import { CartCouponComponent } from './cart-coupon.component';
 import { ICON_TYPE } from '@spartacus/storefront';
+
+import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
   selector: 'cx-icon',

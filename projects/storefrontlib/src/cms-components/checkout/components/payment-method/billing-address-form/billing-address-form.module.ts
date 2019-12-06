@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { I18nModule } from '@spartacus/core';
+
 import { BillingAddressFormComponent } from './billing-address-form.component';
 
 @NgModule({

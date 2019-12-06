@@ -12,6 +12,7 @@ import {
   CheckoutPaymentService,
   LoaderState,
 } from '@spartacus/core';
+
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
 

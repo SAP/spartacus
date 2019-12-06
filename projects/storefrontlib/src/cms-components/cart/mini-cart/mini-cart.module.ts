@@ -8,6 +8,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { MiniCartComponent } from './mini-cart.component';
 

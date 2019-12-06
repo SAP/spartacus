@@ -12,6 +12,7 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
+
 import { LoginComponent } from './login.component';
 
 import createSpy = jasmine.createSpy;

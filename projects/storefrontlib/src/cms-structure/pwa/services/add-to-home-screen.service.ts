@@ -6,6 +6,7 @@ import {
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
+
 import { PWAModuleConfig } from '../pwa.module-config';
 
 @Injectable()

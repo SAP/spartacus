@@ -8,6 +8,7 @@ import {
   I18nTestingModule,
   CartVoucherService,
 } from '@spartacus/core';
+
 import { OrderSummaryComponent } from '../../../../cms-components/cart/cart-shared/order-summary/order-summary.component';
 import { AppliedCouponsComponent } from '../../../cart/cart-coupon/applied-coupons/applied-coupons.component';
 import { ICON_TYPE } from '../../../misc/icon';

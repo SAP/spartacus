@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { CmsService, Page } from '@spartacus/core';
 import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { PageLayoutService } from './page-layout.service';

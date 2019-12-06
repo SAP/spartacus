@@ -12,6 +12,7 @@ import {
   I18nTestingModule,
   UrlCommandRoute,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/index';
 import { MiniCartComponent } from './mini-cart.component';
 

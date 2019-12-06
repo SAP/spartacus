@@ -22,6 +22,7 @@ import {
   Translatable,
   UserConsentService,
 } from '@spartacus/core';
+
 import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({

@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ParagraphComponent } from './paragraph.component';
 import { ConfigModule } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
+
+import { ParagraphComponent } from './paragraph.component';
 
 @NgModule({
   imports: [

@@ -10,6 +10,7 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
+
 import { LogoutGuard } from './logout-guard';
 
 class MockAuthService {

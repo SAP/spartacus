@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
+
 import { OccOrderNormalizer } from './occ-order-normalizer';
 
 describe('OccOrderNormalizer', () => {

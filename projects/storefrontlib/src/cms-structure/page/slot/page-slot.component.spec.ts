@@ -7,6 +7,7 @@ import {
   ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
+
 import { OutletDirective } from '../../outlet';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';

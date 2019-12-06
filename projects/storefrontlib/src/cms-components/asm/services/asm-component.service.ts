@@ -8,6 +8,7 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
+
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 @Injectable({

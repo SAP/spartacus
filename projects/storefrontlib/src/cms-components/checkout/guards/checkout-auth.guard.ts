@@ -11,6 +11,7 @@ import {
   User,
   UserToken,
 } from '@spartacus/core';
+
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
 @Injectable({

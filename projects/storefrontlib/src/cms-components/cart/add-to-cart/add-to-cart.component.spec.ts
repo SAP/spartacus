@@ -12,6 +12,7 @@ import {
   OrderEntry,
   Product,
 } from '@spartacus/core';
+
 import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';

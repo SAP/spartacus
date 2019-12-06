@@ -9,6 +9,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { CheckoutConfig } from '../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';

@@ -7,6 +7,7 @@ import {
   CmsService,
   SemanticPathService,
 } from '@spartacus/core';
+
 import { NavigationNode } from './navigation-node.model';
 
 @Injectable({

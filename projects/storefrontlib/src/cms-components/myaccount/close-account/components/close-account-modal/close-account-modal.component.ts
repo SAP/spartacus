@@ -16,6 +16,7 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../../shared/components/modal/index';
 

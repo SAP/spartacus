@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { RoutingService, UserService } from '@spartacus/core';
+
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 @Component({
   selector: 'cx-forgot-password',

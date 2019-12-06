@@ -10,9 +10,10 @@ import {
   StoreFinderService,
   PointOfService,
 } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+
 import { SpinnerModule } from '../../../../shared';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 const mockStoreFinderService = {
   getStoresLoading: jasmine.createSpy(),

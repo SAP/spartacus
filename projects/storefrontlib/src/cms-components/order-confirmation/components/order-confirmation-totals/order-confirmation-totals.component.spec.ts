@@ -9,6 +9,7 @@ import {
   I18nTestingModule,
   Order,
 } from '@spartacus/core';
+
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
 
 import createSpy = jasmine.createSpy;

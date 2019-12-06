@@ -8,6 +8,7 @@ import {
 } from 'rxjs/operators';
 
 import { WindowRef } from '@spartacus/core';
+
 import { BREAKPOINT, LayoutConfig } from '../config/layout-config';
 
 const DEFAULT_BREAKPOINTS = {

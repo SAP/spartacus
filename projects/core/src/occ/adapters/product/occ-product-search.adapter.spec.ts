@@ -10,6 +10,7 @@ import {
   PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '@spartacus/core';
+
 import { ProductSearchPage } from '../../../model/product-search.model';
 import { SearchConfig } from '../../../product/model/search-config';
 import { Occ } from '../../occ-models/occ.models';

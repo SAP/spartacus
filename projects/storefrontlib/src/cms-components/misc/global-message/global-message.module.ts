@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { I18nModule } from '@spartacus/core';
+
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { GlobalMessageComponent } from './global-message.component';
 

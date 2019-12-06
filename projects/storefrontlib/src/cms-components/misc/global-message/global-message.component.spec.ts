@@ -8,6 +8,7 @@ import {
   GlobalMessageType,
   I18nTestingModule,
 } from '@spartacus/core';
+
 import { GlobalMessageComponent } from './global-message.component';
 import createSpy = jasmine.createSpy;
 

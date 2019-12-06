@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { CmsConfig, ConfigModule, UrlModule } from '@spartacus/core';
+
 import {
   CarouselModule,
   MediaModule,

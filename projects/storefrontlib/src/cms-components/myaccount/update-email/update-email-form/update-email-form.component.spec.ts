@@ -4,6 +4,7 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { I18nTestingModule } from '@spartacus/core';
+
 import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 import { UpdateEmailFormComponent } from './update-email-form.component';
 

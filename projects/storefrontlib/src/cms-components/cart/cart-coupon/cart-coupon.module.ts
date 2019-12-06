@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 import { CartCouponComponent } from './cart-coupon.component';

@@ -7,6 +7,7 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
+
 import { ConsentManagementFormComponent } from './consent-management-form.component';
 
 describe('ConsentManagementFormComponent', () => {

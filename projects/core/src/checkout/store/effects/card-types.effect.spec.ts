@@ -10,6 +10,7 @@ import {
   CheckoutPaymentAdapter,
   CheckoutPaymentConnector,
 } from '@spartacus/core';
+
 import { CheckoutActions } from '../actions/index';
 import { CardTypesEffects } from './card-types.effect';
 

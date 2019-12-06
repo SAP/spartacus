@@ -7,6 +7,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { CmsComponent, OccConfig } from '@spartacus/core';
+
 import * as fromCmsReducer from '../../../cms/store/reducers/index';
 import { PageType } from '../../../model/cms.model';
 import { RoutingService } from '../../../routing/index';
