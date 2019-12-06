@@ -130,6 +130,13 @@ export class OrderReturnRequestService {
     return this.store.pipe(select(UsersSelectors.getOrderReturnRequestState));
   }
 
+  /**
+   * Cleaning order return request details
+   */
+  clearOrderReturnRequestDetail(): void {
+    this.store.dispatch(new UserActions.ClearOrderReturnRequest());
+  }
+
   /*
    * Utility method to distinquish pre / post 1.3.0 in a convenient way.
    *
