@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  OccConfig,
   Product,
   RoutingService,
   BaseOption,
+  VariantQualifier,
+  VariantOptionQualifier,
 } from '@spartacus/core';
 
 @Component({
@@ -12,18 +13,13 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantSizeSelectorComponent {
-  constructor(
-    private config: OccConfig,
-    private routingService: RoutingService
-  ) {}
+  constructor(private routingService: RoutingService) {}
 
   @Input()
   product: Product;
 
   @Input()
   variants: BaseOption;
-
-  baseUrl = this.config.backend.occ.baseUrl;
 
   changeSize(code: string): void {
     if (code) {
@@ -33,5 +29,9 @@ export class VariantSizeSelectorComponent {
       });
     }
     return null;
+  }
+  getVariantOptionValue(qualifiers: VariantOptionQualifier[]) {
+    const obj = qualifiers.find(q => q.qualifier === VariantQualifier.SIZE);
+    return obj ? obj.value : '';
   }
 }

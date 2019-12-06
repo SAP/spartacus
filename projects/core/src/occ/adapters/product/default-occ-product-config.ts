@@ -5,7 +5,7 @@ export const defaultOccProductConfig: OccConfig = {
     occ: {
       endpoints: {
         product:
-          'products/${productCode}?fields=FULL,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL)',
+          'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL),baseOptions,baseProduct,variantOptions,variantType',
         product_scopes: {
           list:
             'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',

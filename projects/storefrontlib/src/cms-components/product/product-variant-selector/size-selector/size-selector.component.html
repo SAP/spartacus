@@ -10,7 +10,7 @@
         *ngFor="let v of variants?.options"
         value="{{ v.code }}"
         [selected]="v.code === product?.code"
-        >{{ v.variantOptionQualifiers[0].value }}</option
+        >{{ getVariantOptionValue(v.variantOptionQualifiers) }}</option
       >
     </select>
     <a

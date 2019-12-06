@@ -3,7 +3,7 @@
     <div *ngIf="variants.selected" class="variant-name">
       {{ 'variant.style' | cxTranslate }}:
       <span class="style-name">{{
-        (variants?.selected.variantOptionQualifiers)[0].value
+        getVariantOptionValue(variants?.selected.variantOptionQualifiers)
       }}</span>
     </div>
     <ul class="variant-list">
@@ -20,9 +20,9 @@
           class="colorVariant"
         >
           <img
-            src="{{ baseUrl }}{{ v.variantOptionQualifiers[0].image.url }}"
-            title="{{ v.variantOptionQualifiers[0].value }}"
-            alt="{{ v.variantOptionQualifiers[0].value }}"
+            src="{{ getVariantThumbnailUrl(v.variantOptionQualifiers) }}"
+            title="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+            alt="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
           />
         </a>
       </li>

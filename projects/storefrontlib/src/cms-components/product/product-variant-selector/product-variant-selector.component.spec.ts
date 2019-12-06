@@ -20,7 +20,7 @@ const mockProduct: Product = {
   code: 'code2',
   baseOptions: [
     {
-      variantType: VariantType.APPAREL_STYLE,
+      variantType: VariantType.STYLE,
       options: [
         {
           code: 'mock_code_3',
@@ -119,8 +119,6 @@ describe('ProductVariantSelectorComponent', () => {
       mockProduct.baseOptions.length
     );
 
-    expect(Object.keys(component.variants)[0]).toEqual(
-      VariantType.APPAREL_STYLE
-    );
+    expect(Object.keys(component.variants)[0]).toEqual(VariantType.STYLE);
   });
 });

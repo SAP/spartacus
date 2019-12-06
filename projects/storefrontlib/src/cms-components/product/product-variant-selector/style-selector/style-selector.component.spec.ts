@@ -10,13 +10,21 @@ import {
 import { VariantStyleSelectorComponent } from './style-selector.component';
 import { Pipe, PipeTransform } from '@angular/core';
 
+const mockOccBackendUrl = 'abc';
 const mockVariant: BaseOption = {
   selected: {
     code: 'test',
-    variantOptionQualifiers: [{ value: '123' }],
+    variantOptionQualifiers: [
+      {
+        value: '123',
+        image: {
+          url: 'http://test1-thumbnail.com',
+        },
+      },
+    ],
   },
   options: [],
-  variantType: VariantType.APPAREL_SIZE,
+  variantType: VariantType.SIZE,
 };
 
 @Pipe({
@@ -56,7 +64,13 @@ describe('VariantStyleSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set up baseUrl variable', () => {
-    expect(component.baseUrl).toEqual('abc');
+  it('should get variant url for thumbnail type of qualifier', () => {
+    const thumbnailUrl = component.getVariantThumbnailUrl(
+      component.variants.selected.variantOptionQualifiers
+    );
+    expect(thumbnailUrl).toEqual(
+      mockOccBackendUrl +
+        mockVariant.selected.variantOptionQualifiers[0].image.url
+    );
   });
 });

@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OccConfig, Product, BaseOption } from '@spartacus/core';
+import {
+  OccConfig,
+  BaseOption,
+  VariantQualifier,
+  VariantOptionQualifier,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-style-selector',
@@ -9,11 +14,22 @@ import { OccConfig, Product, BaseOption } from '@spartacus/core';
 export class VariantStyleSelectorComponent {
   constructor(private config: OccConfig) {}
 
-  @Input()
-  product: Product;
+  variantQualifier = VariantQualifier;
 
   @Input()
   variants: BaseOption;
 
-  baseUrl = this.config.backend.occ.baseUrl;
+  getVariantOptionValue(qualifiers: VariantOptionQualifier[]) {
+    const obj = qualifiers.find(q => q.qualifier === VariantQualifier.STYLE);
+    return obj ? obj.value : '';
+  }
+
+  getVariantThumbnailUrl(
+    variantOptionQualifiers: VariantOptionQualifier[]
+  ): string {
+    const qualifier = variantOptionQualifiers.find(item => item.image);
+    return qualifier
+      ? `${this.config.backend.occ.baseUrl}${qualifier.image.url}`
+      : '';
+  }
 }
