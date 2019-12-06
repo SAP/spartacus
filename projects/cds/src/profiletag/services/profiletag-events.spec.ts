@@ -6,7 +6,7 @@ import {
   NavigationStart,
 } from '@angular/router';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
 import {
@@ -43,7 +43,6 @@ describe('ProfileTagEventTracker', () => {
   let getConsentBehavior;
   let routerEventsBehavior;
   let router;
-  let debugBehavior;
 
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
@@ -52,7 +51,6 @@ describe('ProfileTagEventTracker', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
-    debugBehavior = new ReplaySubject<DebugEvent>();
     mockedWindowRef = {
       nativeWindow: {
         addEventListener: (_, listener) => {
@@ -149,9 +147,13 @@ describe('ProfileTagEventTracker', () => {
       .debugModeChanged()
       .pipe(tap(_ => timesCalled++))
       .subscribe();
-    const debugEvent = new CustomEvent(ProfileTagEventNames.DEBUG_FLAG_CHANGED);
+
+    const debugEvent = <DebugEvent>(
+      new CustomEvent(ProfileTagEventNames.DEBUG_FLAG_CHANGED, {
+        detail: { debug: true },
+      })
+    );
     eventListener(debugEvent);
-    debugBehavior.next(debugEvent);
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(1);
