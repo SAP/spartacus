@@ -1,7 +1,7 @@
 import { Cart } from '../../../model/cart.model';
 import { StateLoaderActions } from '../../../state/utils/index';
 import { CART_DATA } from '../cart-state';
-import { CartActions } from './index';
+import * as DeprecatedCartActions from './cart.action';
 
 const cart: Cart = {
   code: 'xxx',
@@ -22,9 +22,9 @@ describe('Cart Actions', () => {
     describe('CreateCart', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
-        const action = new CartActions.CreateCart(userId);
+        const action = new DeprecatedCartActions.CreateCart(userId);
         expect({ ...action }).toEqual({
-          type: CartActions.CREATE_CART,
+          type: DeprecatedCartActions.CREATE_CART,
           payload: userId,
           meta: StateLoaderActions.loadMeta(CART_DATA),
         });
@@ -34,10 +34,10 @@ describe('Cart Actions', () => {
     describe('CreateCartFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new CartActions.CreateCartFail(error);
+        const action = new DeprecatedCartActions.CreateCartFail(error);
 
         expect({ ...action }).toEqual({
-          type: CartActions.CREATE_CART_FAIL,
+          type: DeprecatedCartActions.CREATE_CART_FAIL,
           payload: error,
           meta: StateLoaderActions.failMeta(CART_DATA, error),
         });
@@ -46,9 +46,9 @@ describe('Cart Actions', () => {
 
     describe('CreateCartSuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CreateCartSuccess(cart);
+        const action = new DeprecatedCartActions.CreateCartSuccess(cart);
         expect({ ...action }).toEqual({
-          type: CartActions.CREATE_CART_SUCCESS,
+          type: DeprecatedCartActions.CREATE_CART_SUCCESS,
           payload: cart,
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
@@ -61,12 +61,12 @@ describe('Cart Actions', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
-        const action = new CartActions.LoadCart({
+        const action = new DeprecatedCartActions.LoadCart({
           userId: userId,
           cartId: cartId,
         });
         expect({ ...action }).toEqual({
-          type: CartActions.LOAD_CART,
+          type: DeprecatedCartActions.LOAD_CART,
           payload: { userId: userId, cartId: cartId },
           meta: StateLoaderActions.loadMeta(CART_DATA),
         });
@@ -76,10 +76,10 @@ describe('Cart Actions', () => {
     describe('LoadCartFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new CartActions.LoadCartFail(error);
+        const action = new DeprecatedCartActions.LoadCartFail(error);
 
         expect({ ...action }).toEqual({
-          type: CartActions.LOAD_CART_FAIL,
+          type: DeprecatedCartActions.LOAD_CART_FAIL,
           payload: error,
           meta: StateLoaderActions.failMeta(CART_DATA, error),
         });
@@ -88,9 +88,9 @@ describe('Cart Actions', () => {
 
     describe('LoadCartSuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.LoadCartSuccess(cart);
+        const action = new DeprecatedCartActions.LoadCartSuccess(cart);
         expect({ ...action }).toEqual({
-          type: CartActions.LOAD_CART_SUCCESS,
+          type: DeprecatedCartActions.LOAD_CART_SUCCESS,
           payload: cart,
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
@@ -104,13 +104,13 @@ describe('Cart Actions', () => {
         const userId = 'anonymous';
         const cartId = 'testCartId';
         const email = 'test@test.com';
-        const action = new CartActions.AddEmailToCart({
+        const action = new DeprecatedCartActions.AddEmailToCart({
           userId: userId,
           cartId: cartId,
           email: email,
         });
         expect({ ...action }).toEqual({
-          type: CartActions.ADD_EMAIL_TO_CART,
+          type: DeprecatedCartActions.ADD_EMAIL_TO_CART,
           payload: { userId: userId, cartId: cartId, email: email },
           meta: StateLoaderActions.loadMeta(CART_DATA),
         });
@@ -120,10 +120,10 @@ describe('Cart Actions', () => {
     describe('AddEmailToCartFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new CartActions.AddEmailToCartFail(error);
+        const action = new DeprecatedCartActions.AddEmailToCartFail(error);
 
         expect({ ...action }).toEqual({
-          type: CartActions.ADD_EMAIL_TO_CART_FAIL,
+          type: DeprecatedCartActions.ADD_EMAIL_TO_CART_FAIL,
           payload: error,
           meta: StateLoaderActions.failMeta(CART_DATA, error),
         });
@@ -132,9 +132,9 @@ describe('Cart Actions', () => {
 
     describe('AddEmailToCartSuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.AddEmailToCartSuccess({});
+        const action = new DeprecatedCartActions.AddEmailToCartSuccess({});
         expect({ ...action }).toEqual({
-          type: CartActions.ADD_EMAIL_TO_CART_SUCCESS,
+          type: DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
           payload: {},
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
@@ -147,12 +147,12 @@ describe('Cart Actions', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
-        const action = new CartActions.MergeCart({
+        const action = new DeprecatedCartActions.MergeCart({
           userId: userId,
           cartId: cartId,
         });
         expect({ ...action }).toEqual({
-          type: CartActions.MERGE_CART,
+          type: DeprecatedCartActions.MERGE_CART,
           payload: { userId: userId, cartId: cartId },
         });
       });
@@ -161,12 +161,12 @@ describe('Cart Actions', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
-        const action = new CartActions.MergeCartSuccess({
+        const action = new DeprecatedCartActions.MergeCartSuccess({
           userId: userId,
           cartId: cartId,
         });
         expect({ ...action }).toEqual({
-          type: CartActions.MERGE_CART_SUCCESS,
+          type: DeprecatedCartActions.MERGE_CART_SUCCESS,
           payload: { userId, cartId },
         });
       });
@@ -178,12 +178,12 @@ describe('Cart Actions', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
-        const action = new CartActions.DeleteCart({
+        const action = new DeprecatedCartActions.DeleteCart({
           userId: userId,
           cartId: cartId,
         });
         expect({ ...action }).toEqual({
-          type: CartActions.DELETE_CART,
+          type: DeprecatedCartActions.DELETE_CART,
           payload: { userId: userId, cartId: cartId },
           meta: StateLoaderActions.loadMeta(CART_DATA),
         });
@@ -192,10 +192,10 @@ describe('Cart Actions', () => {
     describe('DeleteCartFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new CartActions.DeleteCartFail(error);
+        const action = new DeprecatedCartActions.DeleteCartFail(error);
 
         expect({ ...action }).toEqual({
-          type: CartActions.DELETE_CART_FAIL,
+          type: DeprecatedCartActions.DELETE_CART_FAIL,
           payload: error,
           meta: StateLoaderActions.failMeta(CART_DATA, error),
         });
@@ -205,18 +205,18 @@ describe('Cart Actions', () => {
 
   describe('ResetCartDetails', () => {
     it('should create the action', () => {
-      const action = new CartActions.ResetCartDetails();
+      const action = new DeprecatedCartActions.ResetCartDetails();
       expect({ ...action }).toEqual({
-        type: CartActions.RESET_CART_DETAILS,
+        type: DeprecatedCartActions.RESET_CART_DETAILS,
       });
     });
   });
 
   describe('ClearCart', () => {
     it('should create the action', () => {
-      const action = new CartActions.ClearCart();
+      const action = new DeprecatedCartActions.ClearCart();
       expect({ ...action }).toEqual({
-        type: CartActions.CLEAR_CART,
+        type: DeprecatedCartActions.CLEAR_CART,
         meta: StateLoaderActions.resetMeta(CART_DATA),
       });
     });
