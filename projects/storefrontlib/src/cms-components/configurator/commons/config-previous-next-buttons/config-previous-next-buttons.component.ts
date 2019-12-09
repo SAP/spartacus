@@ -38,7 +38,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
-          this.configuratorCommonsService.getConfiguration(owner.key)
+          this.configuratorCommonsService.getConfiguration(owner)
         )
       );
   }
@@ -52,7 +52,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   navigateToNextGroup(configuration: Configurator.Configuration) {
     this.configuratorGroupsService
-      .getNextGroup(configuration.owner.key)
+      .getNextGroup(configuration.owner)
       .pipe(take(1))
       .subscribe(groupId =>
         this.configuratorGroupsService.navigateToGroup(configuration, groupId)
@@ -61,22 +61,22 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   navigateToPreviousGroup(configuration: Configurator.Configuration) {
     this.configuratorGroupsService
-      .getPreviousGroup(configuration.owner.key)
+      .getPreviousGroup(configuration.owner)
       .pipe(take(1))
       .subscribe(groupId =>
         this.configuratorGroupsService.navigateToGroup(configuration, groupId)
       );
   }
 
-  isFirstGroup(ownerKey: string): Observable<Boolean> {
+  isFirstGroup(owner: Configurator.Owner): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getPreviousGroup(ownerKey)
+      .getPreviousGroup(owner)
       .pipe(map(group => !group));
   }
 
-  isLastGroup(ownerKey: string): Observable<Boolean> {
+  isLastGroup(owner: Configurator.Owner): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getNextGroup(ownerKey)
+      .getNextGroup(owner)
       .pipe(map(group => !group));
   }
 }

@@ -142,7 +142,7 @@ describe('ConfiguratorCommonsService', () => {
 
   it('should call matching action on removeConfiguration', () => {
     spyOn(store, 'dispatch').and.callThrough();
-    serviceUnderTest.removeConfiguration(productConfiguration.owner.key);
+    serviceUnderTest.removeConfiguration(productConfiguration.owner);
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.RemoveConfiguration(
         productConfiguration.owner.key
@@ -152,7 +152,7 @@ describe('ConfiguratorCommonsService', () => {
 
   it('should call matching action on removeUiState', () => {
     spyOn(store, 'dispatch').and.callThrough();
-    serviceUnderTest.removeUiState(productConfiguration.owner.key);
+    serviceUnderTest.removeUiState(productConfiguration.owner);
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorUiActions.RemoveUiState(productConfiguration.owner.key)
     );
@@ -288,7 +288,9 @@ describe('ConfiguratorCommonsService', () => {
         y: productConfigurationChanged,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      const configurationObs = serviceUnderTest.getConfiguration(PRODUCT_CODE);
+      const configurationObs = serviceUnderTest.getConfiguration(
+        productConfiguration.owner
+      );
       expect(configurationObs).toBeObservable(obs);
     });
 
@@ -300,7 +302,9 @@ describe('ConfiguratorCommonsService', () => {
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
 
-      const configurationObs = serviceUnderTest.getConfiguration(PRODUCT_CODE);
+      const configurationObs = serviceUnderTest.getConfiguration(
+        productConfiguration.owner
+      );
 
       expect(configurationObs).toBeObservable(
         cold('x-|', {

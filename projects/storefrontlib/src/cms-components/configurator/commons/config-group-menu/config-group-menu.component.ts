@@ -31,7 +31,7 @@ export class ConfigGroupMenuComponent implements OnInit {
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
-          this.configuratorCommonsService.getConfiguration(owner.key)
+          this.configuratorCommonsService.getConfiguration(owner)
         )
       );
   }
