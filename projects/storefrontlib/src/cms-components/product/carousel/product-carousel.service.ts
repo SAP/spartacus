@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import {
   Product,
   ProductReference,
@@ -6,8 +9,7 @@ import {
   ProductService,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+
 import { ProductCarouselItem } from './product-carousel.model';
 
 @Injectable({

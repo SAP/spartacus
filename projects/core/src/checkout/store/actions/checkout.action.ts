@@ -1,18 +1,19 @@
 import { Action } from '@ngrx/store';
+
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
-  StateLoaderActions,
   StateEntityLoaderActions,
+  StateLoaderActions,
 } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   CHECKOUT_DETAILS,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
-  SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
+  SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '../checkout-state';
 

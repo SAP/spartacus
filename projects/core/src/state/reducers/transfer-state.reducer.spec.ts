@@ -1,4 +1,5 @@
 import { INIT } from '@ngrx/store';
+
 import { StateConfig, StateTransferType } from '../config/state-config';
 import {
   CX_KEY,

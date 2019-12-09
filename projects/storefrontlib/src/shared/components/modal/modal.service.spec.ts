@@ -1,5 +1,6 @@
+import { inject, TestBed } from '@angular/core/testing';
+
 import { ModalService } from './modal.service';
-import { TestBed, inject } from '@angular/core/testing';
 
 // @todo: add more test after removing NgbModal-related dependencies
 

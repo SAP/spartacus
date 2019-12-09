@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { PointOfService } from '../../model/point-of-service.model';
 import { StoreDataService } from './store-data.service';
 

@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
 import { CheckoutDeliveryConnector } from './checkout-delivery.connector';
 import createSpy = jasmine.createSpy;

@@ -1,4 +1,5 @@
 import { initialLoaderState } from '@spartacus/core';
+
 import { initialEntityState } from '../entity/entity.reducer';
 import { initialProcessesState } from '../processes-loader';
 import {

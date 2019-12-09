@@ -5,9 +5,11 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { AuthActions } from '@spartacus/core';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
+
+import { AuthActions } from '@spartacus/core';
+
 import { RoutingActions } from '../actions/index';
 import * as fromEffects from './router.effect';
 

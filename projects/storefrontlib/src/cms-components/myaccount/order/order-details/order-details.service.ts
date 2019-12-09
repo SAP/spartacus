@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+
+import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 
 @Injectable()
 export class OrderDetailsService {

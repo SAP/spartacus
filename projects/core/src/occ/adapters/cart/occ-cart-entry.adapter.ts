@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
 import { CART_MODIFICATION_NORMALIZER } from '../../../cart/connectors/entry/converters';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';

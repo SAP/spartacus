@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 import { I18nModule } from '@spartacus/core';
+
 import { SpinnerComponent } from './spinner.component';
 
 @NgModule({

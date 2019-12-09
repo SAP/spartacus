@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
+
 import { Currency } from '../../model/misc.model';
 import { WindowRef } from '../../window/window-ref';
+import {
+  getContextParameterDefault,
+  getContextParameterValues,
+} from '../config/context-config-utils';
+import { SiteContextConfig } from '../config/site-context-config';
+import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
 import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
-import { SiteContextConfig } from '../config/site-context-config';
-import {
-  getContextParameterValues,
-  getContextParameterDefault,
-} from '../config/context-config-utils';
-import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.

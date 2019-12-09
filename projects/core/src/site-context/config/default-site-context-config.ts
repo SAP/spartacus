@@ -1,8 +1,8 @@
-import { SiteContextConfig } from './site-context-config';
 import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
 } from '../providers/context-ids';
+import { SiteContextConfig } from './site-context-config';
 
 export function defaultSiteContextConfigFactory(): SiteContextConfig {
   return {

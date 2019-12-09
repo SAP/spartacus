@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { Order, OrderHistoryList } from '../../../model/order.model';
 import { UserOrderAdapter } from './user-order.adapter';

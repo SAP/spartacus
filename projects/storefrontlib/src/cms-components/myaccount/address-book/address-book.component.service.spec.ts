@@ -10,6 +10,7 @@ import {
   User,
   UserAddressService,
 } from '@spartacus/core';
+
 import { AddressBookComponentService } from './address-book.component.service';
 
 const mockAddresses: Address[] = [

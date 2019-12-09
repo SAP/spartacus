@@ -4,11 +4,13 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import {
   ConverterService,
   PRODUCT_REVIEW_NORMALIZER,
   PRODUCT_REVIEW_SERIALIZER,
 } from '@spartacus/core';
+
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';

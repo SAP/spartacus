@@ -1,7 +1,9 @@
 import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+
+import { Product } from '@spartacus/core';
+
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 import { YotpoService } from './../service/yotpo.service';
 import { YotpostarratingComponent } from './yotpo-star-rating.component';

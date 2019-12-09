@@ -1,6 +1,7 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterStateSnapshot } from '@angular/router';
+
 import { WindowRef } from '../../window';
 import { ExternalRoutesGuard } from './external-routes.guard';
 

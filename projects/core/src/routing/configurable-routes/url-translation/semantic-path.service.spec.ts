@@ -2,6 +2,7 @@ import * as AngularCore from '@angular/core';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { RouteConfig } from '../routes-config';
 import { RoutingConfigService } from '../routing-config.service';
 import { SemanticPathService } from './semantic-path.service';

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
+
 import { PageComponentModule } from '../../cms-structure/index';
 import { AsmEnablerService } from './services/asm-enabler.service';
 

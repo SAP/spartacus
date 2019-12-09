@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+
 import { ICON_TYPE } from '../../../misc/icon';
 
 export enum ViewModes {

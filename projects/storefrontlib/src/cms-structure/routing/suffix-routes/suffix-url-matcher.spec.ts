@@ -1,5 +1,6 @@
-import { suffixUrlMatcher, SuffixRoute } from './suffix-url-matcher';
 import { UrlSegment } from '@angular/router';
+
+import { SuffixRoute, suffixUrlMatcher } from './suffix-url-matcher';
 
 describe('suffixUrlMatcher', () => {
   let mockRoute: SuffixRoute;

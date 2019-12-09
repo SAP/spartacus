@@ -1,7 +1,8 @@
 import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
+
 import {
-  AnonymousConsentsState,
   ANONYMOUS_CONSENTS_STORE_FEATURE,
+  AnonymousConsentsState,
   StateWithAnonymousConsents,
 } from '../anonymous-consents-state';
 

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { OnlyNumberDirective } from './only-number.directive';
 
 @NgModule({

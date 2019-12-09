@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 import {
   CmsConfig,
   ConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 import { ViewConfig } from '../../../shared/config/view-config';
 import { ViewConfigModule } from '../../../shared/config/view-config.module';
 import {

@@ -1,11 +1,12 @@
-import { Occ } from '../../../occ-models/occ.models';
+import { Injectable } from '@angular/core';
+
+import { ProductSearchPage } from '../../../../model/product-search.model';
+import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import {
   Converter,
   ConverterService,
 } from '../../../../util/converter.service';
-import { Injectable } from '@angular/core';
-import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
-import { ProductSearchPage } from '../../../../model/product-search.model';
+import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable({ providedIn: 'root' })
 export class OccProductSearchPageNormalizer

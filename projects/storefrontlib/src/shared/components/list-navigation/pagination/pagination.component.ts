@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+
 import { PaginationModel } from '@spartacus/core';
 
 const PAGE_FIRST = 1;

@@ -3,6 +3,7 @@ import localeDe from '@angular/common/locales/de';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { LanguageService } from '../site-context';
 import { I18nConfig } from './config/i18n-config';
 import { CxDatePipe } from './date.pipe';

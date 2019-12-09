@@ -8,6 +8,8 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Observable, of } from 'rxjs';
+
 import {
   CmsComponent,
   CmsService,
@@ -18,7 +20,7 @@ import {
   LANGUAGE_CONTEXT_ID,
   LanguageService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';

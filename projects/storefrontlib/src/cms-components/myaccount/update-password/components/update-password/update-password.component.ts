@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   UserService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-update-password',

@@ -1,5 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
+
 import { SiteContextState } from '../state';
 import * as fromBaseSite from './base-site.reducer';
 import * as fromCurrencies from './currencies.reducer';

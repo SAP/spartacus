@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
+
 import { JsonLdDirective } from './json-ld.directive';
 import { StructuredDataFactory } from './structured-data.factory';
 

@@ -3,8 +3,10 @@ import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
+
+import { SiteContextConfig } from '@spartacus/core';
+
 import { Currency } from '../../model/misc.model';
 import { SiteConnector } from '../connectors/site.connector';
 import { SiteContextActions } from '../store/actions/index';

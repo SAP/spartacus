@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { Product } from '../../../model/product.model';
 import { ProductAdapter } from './product.adapter';
 import { ScopedProductData } from './scoped-product-data';

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { CartVoucherAdapter } from '../../../cart/connectors/voucher/cart-voucher.adapter';
 import { CART_VOUCHER_NORMALIZER } from '../../../cart/connectors/voucher/converters';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';

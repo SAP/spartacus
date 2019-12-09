@@ -5,6 +5,8 @@ import {
   ActionReducerMap,
   MetaReducer,
 } from '@ngrx/store';
+
+import { UserToken } from '../../../auth/models/token-types.model';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { CustomerSearchPage } from '../../models/asm.models';
@@ -14,7 +16,6 @@ import {
   CUSTOMER_SEARCH_DATA,
 } from '../asm-state';
 import * as fromAsmUiReducer from './asm-ui.reducer';
-import { UserToken } from '../../../auth/models/token-types.model';
 
 export function getReducers(): ActionReducerMap<AsmState> {
   return {

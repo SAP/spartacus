@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+
 import { ConfigModule } from '../../../config/config.module';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { defaultOccSiteContextConfig } from './default-occ-site-context-config';

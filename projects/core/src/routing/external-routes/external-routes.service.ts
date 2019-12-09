@@ -1,5 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Router, Routes, UrlMatcher } from '@angular/router';
+
 import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
 import { ExternalRoutesConfig } from './external-routes-config';
 import { ExternalRoutesGuard } from './external-routes.guard';

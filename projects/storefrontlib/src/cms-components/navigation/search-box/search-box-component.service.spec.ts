@@ -1,5 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   CmsComponent,
   ProductSearchPage,
@@ -9,7 +11,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';

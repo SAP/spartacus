@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import { Config, ConfigModule } from '../config/index';
 import { AnonymousConsentsConfig } from './config/anonymous-consents-config';
 import { defaultAnonymousConsentsConfig } from './config/default-anonymous-consents-config';

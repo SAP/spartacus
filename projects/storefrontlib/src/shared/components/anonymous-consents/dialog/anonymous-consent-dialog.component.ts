@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, take, tap } from 'rxjs/operators';
+
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -6,8 +9,7 @@ import {
   ConsentTemplate,
   isFeatureLevel,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, take, tap } from 'rxjs/operators';
+
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../modal/index';
 

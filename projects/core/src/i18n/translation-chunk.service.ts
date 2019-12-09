@@ -1,4 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
+
 import { I18nConfig } from './config/i18n-config';
 
 @Injectable()

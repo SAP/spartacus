@@ -5,6 +5,7 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
+
 import { AuthActions } from '../../../auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -14,11 +15,11 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   REGIONS,
   RegionsState,
-  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  UserState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';

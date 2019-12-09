@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { RoutingConfig } from '../configurable-routes/config/routing-config';
 
 @Injectable({ providedIn: 'root' })

@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+
 import { Review } from '../../../model/product.model';
 
 export abstract class ProductReviewsAdapter {

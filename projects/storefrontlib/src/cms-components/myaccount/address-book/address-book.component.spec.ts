@@ -7,8 +7,10 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Address, I18nTestingModule, User } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+
+import { Address, I18nTestingModule, User } from '@spartacus/core';
+
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';

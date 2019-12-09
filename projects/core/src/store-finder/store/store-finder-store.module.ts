@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
-import { StoreModule } from '@ngrx/store';
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
-import { reducerToken, reducerProvider } from './reducers/index';
 import { effects } from './effects/index';
+import { reducerProvider, reducerToken } from './reducers/index';
 import { STORE_FINDER_FEATURE } from './store-finder-state';
 
 @NgModule({

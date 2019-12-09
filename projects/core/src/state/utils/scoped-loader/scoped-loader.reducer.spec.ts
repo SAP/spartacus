@@ -1,7 +1,8 @@
-import { scopedLoaderReducer } from './scoped-loader.reducer';
-import { loaderReducer } from '../loader/loader.reducer';
 import { Action } from '@ngrx/store';
+
 import { LoaderLoadAction } from '../loader/loader.action';
+import { loaderReducer } from '../loader/loader.reducer';
+import { scopedLoaderReducer } from './scoped-loader.reducer';
 
 describe('scopedLoaderReducer', () => {
   const TEST_ENTITY_TYPE = 'test';

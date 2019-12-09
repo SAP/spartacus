@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
 import {
   Address,
   CardType,
@@ -13,7 +15,7 @@ import {
   I18nTestingModule,
   UserPaymentService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';

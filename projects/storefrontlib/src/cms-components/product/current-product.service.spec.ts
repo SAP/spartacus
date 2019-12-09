@@ -1,5 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   FeatureConfigService,
   PageType,
@@ -7,7 +9,7 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { CurrentProductService } from './current-product.service';
 
 const router = {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { PageMetaResolver } from './page-meta.resolver';
+
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
+import { PageMetaResolver } from './page-meta.resolver';
 
 @NgModule({
   providers: [

@@ -3,15 +3,16 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
+
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { StateLoaderSelectors } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
+  CHECKOUT_FEATURE,
   CheckoutState,
   CheckoutStepsState,
-  CHECKOUT_FEATURE,
   StateWithCheckout,
 } from '../checkout-state';
 

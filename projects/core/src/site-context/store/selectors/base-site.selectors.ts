@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { BaseSite } from '../../../model/misc.model';
 import { SiteContextState, StateWithSiteContext } from '../state';
 import { getSiteContextState } from './site-context.selector';

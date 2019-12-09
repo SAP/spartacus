@@ -1,10 +1,11 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { WindowRef } from '../../window/window-ref';
 import { PersonalizationConfig } from '../config/personalization-config';

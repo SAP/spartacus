@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../occ-models/occ.models';
-import { Converter } from '../../../../util/converter.service';
+
 import { Product, ProductReferences } from '../../../../model/product.model';
+import { Converter } from '../../../../util/converter.service';
+import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable()
 export class ProductReferenceNormalizer

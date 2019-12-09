@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { ProductReferencesAdapter } from './product-references.adapter';
 import { ProductReferencesConnector } from './product-references.connector';
 
