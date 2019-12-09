@@ -77,6 +77,10 @@
       }
 
       .cx-property {
+        @include type('7');
+      }
+
+      .cx-property {
         .cx-label,
         .cx-value {
           display: inline;
