@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import {
   EntityFailAction,
@@ -44,11 +45,9 @@ export class CreateWishListFail extends EntityFailAction {
   }
 }
 
-export class LoadWisthList extends EntityLoadAction {
+export class LoadWisthList implements Action {
   readonly type = LOAD_WISH_LIST;
-  constructor(public payload: string) {
-    super(MULTI_CART_FEATURE, payload);
-  }
+  constructor(public payload: string) {}
 }
 
 export class LoadWisthListSuccess extends EntitySuccessAction {
