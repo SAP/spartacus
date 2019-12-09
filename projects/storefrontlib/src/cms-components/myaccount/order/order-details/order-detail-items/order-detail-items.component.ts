@@ -18,8 +18,24 @@ import { PromotionService } from '../../../../../shared/services/promotion/promo
 })
 export class OrderDetailItemsComponent implements OnInit {
   constructor(
+    orderDetailsService: OrderDetailsService,
+    // tslint:disable-next-line:unified-signatures
+    promotionService?: PromotionService
+  );
+
+  /**
+   * @deprecated Since 1.4
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(
+    orderDetailsService: OrderDetailsService,
+  );
+
+
+  constructor(
     private orderDetailsService: OrderDetailsService,
-    protected promotionService: PromotionService
+    protected promotionService?: PromotionService
   ) {}
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;

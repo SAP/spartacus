@@ -220,7 +220,7 @@ describe('PromotionService', () => {
           description: 'test applied order promotion for cart',
         },
       ];
-      const promotionLocation: PromotionLocation = PromotionLocation.Cart;
+      const promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
       let appliedOrderPromotions: PromotionResult[];
 
       it('should return appropriate applied order promotions for cart', () => {

@@ -26,7 +26,7 @@ export class CartItemComponent implements OnInit {
   @Input()
   cartIsLoading = false;
   @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   @Output()
   remove = new EventEmitter<any>();

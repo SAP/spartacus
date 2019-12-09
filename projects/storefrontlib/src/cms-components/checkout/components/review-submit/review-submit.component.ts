@@ -35,7 +35,7 @@ export class ReviewSubmitComponent implements OnInit {
   deliveryAddress$: Observable<Address>;
   paymentDetails$: Observable<PaymentDetails>;
   orderPromotions$: Observable<PromotionResult[]>;
-  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   constructor(
     checkoutDeliveryService: CheckoutDeliveryService,
@@ -43,8 +43,8 @@ export class ReviewSubmitComponent implements OnInit {
     userAddressService: UserAddressService,
     cartService: CartService,
     translation: TranslationService,
-    promotionService: PromotionService,
-    checkoutConfigService: CheckoutConfigService // tslint:disable-line
+    checkoutConfigService: CheckoutConfigService, // tslint:disable-line
+    promotionService: PromotionService // tslint:disable-line
   );
 
   /**
@@ -62,14 +62,28 @@ export class ReviewSubmitComponent implements OnInit {
     translation: TranslationService
   );
 
+  /**
+   * @deprecated Since 1.4
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(
+    checkoutDeliveryService: CheckoutDeliveryService,
+    checkoutPaymentService: CheckoutPaymentService,
+    userAddressService: UserAddressService,
+    cartService: CartService,
+    translation: TranslationService,
+    checkoutConfigService: CheckoutConfigService
+  );
+
   constructor(
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
     protected translation: TranslationService,
-    protected promotionService?: PromotionService,
-    protected checkoutConfigService?: CheckoutConfigService
+    protected checkoutConfigService?: CheckoutConfigService,
+    protected promotionService?: PromotionService
   ) {}
 
   ngOnInit() {

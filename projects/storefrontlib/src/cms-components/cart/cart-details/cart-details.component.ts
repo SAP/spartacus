@@ -20,11 +20,26 @@ export class CartDetailsComponent implements OnInit {
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
   orderPromotions$: Observable<PromotionResult[]>;
-  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+
+  constructor(
+    cartService: CartService,
+    // tslint:disable-next-line:unified-signatures
+    promotionService?: PromotionService
+  );
+
+ /**
+   * @deprecated Since 1.4
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(
+    cartService: CartService,
+  );
 
   constructor(
     protected cartService: CartService,
-    protected promotionService: PromotionService
+    protected promotionService?: PromotionService
   ) {}
 
   ngOnInit() {

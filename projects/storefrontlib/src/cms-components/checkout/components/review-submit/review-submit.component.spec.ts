@@ -79,7 +79,7 @@ class MockCartItemListComponent {
   @Input()
   isReadOnly: boolean;
   @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Component({

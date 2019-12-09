@@ -25,7 +25,7 @@ export class AddedToCartDialogComponent implements OnInit {
   loaded$: Observable<boolean>;
   increment: boolean;
   orderPromotions$: Observable<PromotionResult[]>;
-  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   quantity = 0;
 
   @ViewChild('dialog', { static: false, read: ElementRef })
@@ -34,10 +34,29 @@ export class AddedToCartDialogComponent implements OnInit {
   form: FormGroup = this.fb.group({});
 
   constructor(
+    modalService: ModalService,
+    cartService: CartService,
+    fb: FormBuilder,
+    // tslint:disable-next-line:unified-signatures
+    promotionService: PromotionService
+  );
+
+  /**
+   * @deprecated Since 1.4
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(
+    modalService: ModalService,
+    cartService: CartService,
+    fb: FormBuilder,
+  );
+
+  constructor(
     protected modalService: ModalService,
     protected cartService: CartService,
     protected fb: FormBuilder,
-    protected promotionService: PromotionService
+    protected promotionService?: PromotionService
   ) {}
 
   ngOnInit() {

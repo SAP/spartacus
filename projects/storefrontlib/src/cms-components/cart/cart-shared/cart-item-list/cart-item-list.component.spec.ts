@@ -54,7 +54,7 @@ class MockCartItemComponent {
   @Input() isReadOnly;
   @Input() cartIsLoading;
   @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 describe('CartItemListComponent', () => {

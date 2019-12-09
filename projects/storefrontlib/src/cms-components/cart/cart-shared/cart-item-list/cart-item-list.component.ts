@@ -15,7 +15,7 @@ export class CartItemListComponent implements OnInit {
   hasHeader = true;
 
   @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   @Input()
   set items(_items) {

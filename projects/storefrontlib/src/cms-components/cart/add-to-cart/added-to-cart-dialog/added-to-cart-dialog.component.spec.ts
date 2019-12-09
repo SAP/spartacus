@@ -80,7 +80,7 @@ class MockCartItemComponent {
   @Input()
   parent: FormGroup;
   @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.Cart;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Pipe({
