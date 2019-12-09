@@ -26,6 +26,7 @@ export class ProfileTagInjector {
       mapTo(true)
     );
   }
+
   notifyProfileTagOfConsentGranted() {
     return this.spartacusEventTracker.consentGranted().pipe(
       tap(granted => {
@@ -36,6 +37,7 @@ export class ProfileTagInjector {
       })
     );
   }
+
   notifyProfileTagOfCartChange() {
     return this.spartacusEventTracker.cartChanged().pipe(
       tap(([entries, cart]) => {
@@ -50,6 +52,7 @@ export class ProfileTagInjector {
       mapTo(true)
     );
   }
+
   notifyProfileTagOfPageLoaded() {
     return this.spartacusEventTracker.navigated().pipe(
       tap(_ => {
