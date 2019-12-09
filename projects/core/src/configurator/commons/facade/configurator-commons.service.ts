@@ -90,7 +90,7 @@ export class ConfiguratorCommonsService {
       });
   }
 
-  getConfigurationOverview(configuration: Configurator.Configuration) {
+  getConfigurationWithOverview(configuration: Configurator.Configuration) {
     this.store.dispatch(
       new ConfiguratorActions.GetConfigurationOverview(configuration)
     );

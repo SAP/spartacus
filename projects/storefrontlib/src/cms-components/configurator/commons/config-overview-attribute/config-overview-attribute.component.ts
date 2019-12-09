@@ -7,7 +7,7 @@ import { Configurator } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigOverviewAttributeComponent {
-  @Input() values: Configurator.CharacteristicOverview;
+  @Input() values: Configurator.AttributeOverview;
 
   constructor() {}
 }

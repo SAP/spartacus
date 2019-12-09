@@ -138,17 +138,13 @@ describe('ConfiguratorCommonsConnector', () => {
 
     let result;
     service
-      .getConfigurationOverview(
-        productConfiguration.configId,
-        productConfiguration.owner
-      )
+      .getConfigurationOverview(productConfiguration.configId)
       .subscribe(res => (result = res));
     expect(result).toBe(
       'getConfigurationOverview' + productConfiguration.configId
     );
     expect(adapter.getConfigurationOverview).toHaveBeenCalledWith(
-      productConfiguration.configId,
-      productConfiguration.owner
+      productConfiguration.configId
     );
   });
 

@@ -5,16 +5,26 @@ import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantOverviewNormalizer
-  implements Converter<OccConfigurator.Overview, Configurator.Configuration> {
+  implements Converter<OccConfigurator.Overview, Configurator.Overview> {
   constructor() {}
 
   convert(
     source: OccConfigurator.Overview,
-    target?: Configurator.Configuration
-  ): Configurator.Configuration {
+    target?: Configurator.Overview
+  ): Configurator.Overview {
     target = {
-      configId: source.id,
-      overview: source,
+      groups: source.groups.map(group => {
+        return {
+          id: group.id,
+          groupDescription: group.groupDescription,
+          attributes: group.characteristicValues.map(characteristic => {
+            return {
+              attribute: characteristic.characteristic,
+              value: characteristic.value,
+            };
+          }),
+        };
+      }),
     };
 
     return target;

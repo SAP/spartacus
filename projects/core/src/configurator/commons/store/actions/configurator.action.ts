@@ -201,8 +201,8 @@ export class GetConfigurationOverviewFail extends StateEntityLoaderActions.Entit
 
 export class GetConfigurationOverviewSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+  constructor(public ownerKey: string, public payload: Configurator.Overview) {
+    super(CONFIGURATION_DATA, ownerKey);
   }
 }
 

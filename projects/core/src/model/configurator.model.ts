@@ -61,11 +61,11 @@ export namespace Configurator {
   export interface GroupOverview {
     id: string;
     groupDescription: string;
-    characteristicValues: CharacteristicOverview[];
+    attributes: AttributeOverview[];
   }
 
-  export interface CharacteristicOverview {
-    characteristic: string;
+  export interface AttributeOverview {
+    attribute: string;
     value: string;
   }
 

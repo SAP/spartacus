@@ -6,7 +6,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigOverviewAttributeComponent } from './config-overview-attribute.component';
 
-describe('ConfigurationOverviewFormComponent', () => {
+describe('ConfigurationOverviewAttributeComponent', () => {
   let component: ConfigOverviewAttributeComponent;
   let fixture: ComponentFixture<ConfigOverviewAttributeComponent>;
 
@@ -26,6 +26,10 @@ describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigOverviewAttributeComponent);
     component = fixture.componentInstance;
+    component.values = {
+      attribute: 'Test Attribute Name',
+      value: 'Test Attribute Value',
+    };
   });
 
   it('should create component', () => {

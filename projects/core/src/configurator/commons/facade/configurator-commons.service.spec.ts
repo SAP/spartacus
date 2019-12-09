@@ -195,7 +195,7 @@ describe('ConfiguratorCommonsService', () => {
       of(productConfiguration)
     );
     spyOn(store, 'dispatch').and.callThrough();
-    serviceUnderTest.getConfigurationOverview(productConfiguration);
+    serviceUnderTest.getConfigurationWithOverview(productConfiguration);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.GetConfigurationOverview(productConfiguration)

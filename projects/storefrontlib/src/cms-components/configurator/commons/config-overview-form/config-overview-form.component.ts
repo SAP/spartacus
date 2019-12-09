@@ -5,7 +5,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
 
 @Component({
@@ -26,12 +26,12 @@ export class ConfigOverviewFormComponent implements OnInit {
     this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        mergeMap(owner =>
+        switchMap(owner =>
           this.configuratorCommonsService.getOrCreateConfiguration(owner)
         ),
         take(1),
-        mergeMap(configuration =>
-          this.configuratorCommonsService.getConfigurationOverview(
+        switchMap(configuration =>
+          this.configuratorCommonsService.getConfigurationWithOverview(
             configuration
           )
         )
@@ -47,7 +47,7 @@ export class ConfigOverviewFormComponent implements OnInit {
     }
 
     for (let g = 0; g < configuration.overview.groups.length; g++) {
-      if (configuration.overview.groups[g].characteristicValues.length > 0) {
+      if (configuration.overview.groups[g].attributes.length > 0) {
         return true;
       }
     }

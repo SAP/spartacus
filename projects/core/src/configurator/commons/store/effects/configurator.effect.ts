@@ -163,10 +163,13 @@ export class ConfiguratorEffects {
     map((action: GetConfigurationOverview) => action.payload),
     mergeMap(payload => {
       return this.configuratorCommonsConnector
-        .getConfigurationOverview(payload.configId, payload.owner)
+        .getConfigurationOverview(payload.configId)
         .pipe(
-          map((configuration: Configurator.Configuration) => {
-            return new GetConfigurationOverviewSuccess(configuration);
+          map((overview: Configurator.Overview) => {
+            return new GetConfigurationOverviewSuccess(
+              payload.owner.key,
+              overview
+            );
           }),
           catchError(error => {
             const errorPayload = makeErrorSerializable(error);

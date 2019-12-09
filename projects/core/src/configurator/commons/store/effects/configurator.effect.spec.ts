@@ -39,6 +39,20 @@ const productConfiguration: Configurator.Configuration = {
   owner: owner,
   complete: true,
   consistent: true,
+  overview: {
+    groups: [
+      {
+        id: 'a',
+        groupDescription: 'a',
+        attributes: [
+          {
+            attribute: 'a',
+            value: 'A',
+          },
+        ],
+      },
+    ],
+  },
   groups: [{ id: groupId, attributes: [{ name: 'attrName' }] }],
 };
 const cartModification: CartModification = {
@@ -79,8 +93,8 @@ describe('ConfiguratorEffect', () => {
         return of(productConfiguration);
       }
 
-      getConfigurationOverview(): Observable<Configurator.Configuration> {
-        return of(productConfiguration);
+      getConfigurationOverview(): Observable<Configurator.Overview> {
+        return of(productConfiguration.overview);
       }
     }
     TestBed.configureTestingModule({
@@ -197,7 +211,8 @@ describe('ConfiguratorEffect', () => {
     );
 
     const completion = new ConfiguratorActions.GetConfigurationOverviewSuccess(
-      productConfiguration
+      owner.key,
+      productConfiguration.overview
     );
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -206,9 +221,9 @@ describe('ConfiguratorEffect', () => {
   });
 
   it('must not emit anything in case source action is not covered, getConfigurationOverview', () => {
-    const payloadInput = { configId: configId, owner: owner };
     const action = new ConfiguratorActions.GetConfigurationOverviewSuccess(
-      payloadInput
+      owner.key,
+      {}
     );
     actions$ = hot('-a', { a: action });
 

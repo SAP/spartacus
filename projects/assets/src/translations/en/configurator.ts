@@ -31,5 +31,9 @@ export const configurator = {
       button: 'Add To Cart',
       buttonAfterAddToCart: 'Continue To Cart',
     },
+    overviewForm: {
+      noAttributeHeader: 'No Results',
+      noAttributeText: 'Remove filter(s) to see Overview content',
+    },
   },
 };

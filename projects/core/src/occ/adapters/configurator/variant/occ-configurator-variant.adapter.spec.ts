@@ -172,10 +172,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call getConfigurationOverview endpoint', () => {
     occConfiguratorVariantAdapter
-      .getConfigurationOverview(
-        productConfiguration.configId,
-        productConfiguration.owner
-      )
+      .getConfigurationOverview(productConfiguration.configId)
       .subscribe();
 
     const mockReq = httpMock.expectOne(req => {

@@ -9,12 +9,12 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/config-overview-attribute.component';
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
 
-const configurationObservable = null;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const mockRouterState: any = {
@@ -31,7 +31,7 @@ const owner: Configurator.Owner = {
   type: Configurator.OwnerType.PRODUCT,
 };
 
-let configCreate: Configurator.Configuration = {
+const configCreate: Configurator.Configuration = {
   configId: '1234-56-7890',
   owner: owner,
   overview: {
@@ -39,9 +39,9 @@ let configCreate: Configurator.Configuration = {
       {
         id: '1',
         groupDescription: 'Group 1',
-        characteristicValues: [
+        attributes: [
           {
-            characteristic: 'C1',
+            attribute: 'C1',
             value: 'V1',
           },
         ],
@@ -49,13 +49,45 @@ let configCreate: Configurator.Configuration = {
       {
         id: '2',
         groupDescription: 'Group 2',
-        characteristicValues: [
+        attributes: [
           {
-            characteristic: 'C2',
+            attribute: 'C2',
             value: 'V2',
           },
           {
-            characteristic: 'C3',
+            attribute: 'C3',
+            value: 'V3',
+          },
+        ],
+      },
+    ],
+  },
+};
+let configCreate2: Configurator.Configuration = {
+  configId: '1234-56-7890',
+  owner: owner,
+  overview: {
+    groups: [
+      {
+        id: '1',
+        groupDescription: 'Group 1',
+        attributes: [
+          {
+            attribute: 'C1',
+            value: 'V1',
+          },
+        ],
+      },
+      {
+        id: '2',
+        groupDescription: 'Group 2',
+        attributes: [
+          {
+            attribute: 'C2',
+            value: 'V2',
+          },
+          {
+            attribute: 'C3',
             value: 'V3',
           },
         ],
@@ -71,37 +103,57 @@ const configInitial: Configurator.Configuration = {
   },
 };
 
+let routerStateObservable = null;
+let configurationObservable = null;
+let overviewObservable = null;
+
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return routerStateObservable ? routerStateObservable : of(mockRouterState);
   }
 }
 
 class MockConfiguratorCommonsService {
-  createConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    configCreate.productCode = productCode;
-    return of(configCreate);
-  }
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObservable;
-  }
   getOrCreateConfiguration(
     productCode: string
   ): Observable<Configurator.Configuration> {
     configCreate.productCode = productCode;
-    return of(configCreate);
+    return configurationObservable
+      ? configurationObservable
+      : of(configCreate2);
   }
-  getConfigurationOverview(
+  getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return of(configuration);
-  }
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
+    return overviewObservable ? overviewObservable : of(configuration);
   }
 }
+
+function checkConfigurationOverviewObs(
+  component: ConfigOverviewFormComponent,
+  routerMarbels: string,
+  configurationMarbels: string,
+  overviewMarbels: string,
+  expectedMarbels: string
+) {
+  routerStateObservable = cold(routerMarbels, {
+    a: mockRouterState,
+  });
+  configurationObservable = cold(configurationMarbels, {
+    x: configCreate,
+    y: configCreate2,
+  });
+  overviewObservable = cold(overviewMarbels, {
+    u: configCreate,
+    v: configCreate2,
+  });
+  component.ngOnInit();
+
+  expect(component.configuration$).toBeObservable(
+    cold(expectedMarbels, { u: configCreate, v: configCreate2 })
+  );
+}
+
 describe('ConfigurationOverviewFormComponent', () => {
   let component: ConfigOverviewFormComponent;
   let fixture: ComponentFixture<ConfigOverviewFormComponent>;
@@ -156,7 +208,7 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   it('should display no result text in case of empty configuration', () => {
-    configCreate = configInitial;
+    configCreate2 = configInitial;
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -168,5 +220,23 @@ describe('ConfigurationOverviewFormComponent', () => {
     expect(
       htmlElem.querySelectorAll('cx-config-overview-attribute').length
     ).toBe(0);
+  });
+
+  it('should only get the minimum needed 2 emissions of overview if overview emits slowly', () => {
+    checkConfigurationOverviewObs(
+      component,
+      'aa',
+      '---xy',
+      '---uv',
+      '-------uv'
+    );
+  });
+
+  it('should get 2 emissions of overview if configurations service emits fast', () => {
+    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--uv');
+  });
+
+  it('should get 2 emissions of overview if router and config service emit slowly', () => {
+    checkConfigurationOverviewObs(component, 'a-----a', '--x--y', 'uv', '--uv');
   });
 });
