@@ -1,5 +1,3 @@
-import { testProductUrl } from '../tabbing-order';
-
 export interface GroupSkipperPageConfig {
   pageUrl: string;
   expectedSkipperCount: number;
@@ -22,7 +20,7 @@ export const groupSkipperConfigNotLoggedIn: GroupSkipperConfig = {
     expectedSkipperCount: 3,
   },
   productList: { pageUrl: '/Brands/all/c/brands', expectedSkipperCount: 4 },
-  product: { pageUrl: testProductUrl, expectedSkipperCount: 3 },
+  product: { pageUrl: '/product/779841', expectedSkipperCount: 3 },
   cart: { pageUrl: '/cart', expectedSkipperCount: 3 },
   sale: { pageUrl: '/sale', expectedSkipperCount: 3 },
   contact: { pageUrl: '/contact', expectedSkipperCount: 3 },
