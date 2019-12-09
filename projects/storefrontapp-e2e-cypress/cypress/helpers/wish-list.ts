@@ -1,4 +1,5 @@
 import { login, register } from './auth-forms';
+import { waitForPage } from './checkout-flow';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -57,7 +58,11 @@ export function waitForGetWishList() {
 }
 
 export function addToWishListAnonymous(product: TestProduct) {
+  const productPage = waitForPage(product.code, 'productPage');
+
   cy.visit(`/product/${product.code}`);
+
+  cy.wait(`@${productPage}`);
 
   cy.get('cx-add-to-wishlist .button-add-link').click({ force: true });
 
@@ -81,7 +86,11 @@ export function addToWishListFromPage() {
 }
 
 export function addToWishList(product: TestProduct) {
+  const productPage = waitForPage(product.code, 'productPage');
+
   cy.visit(`/product/${product.code}`);
+
+  cy.wait(`@${productPage}`);
 
   waitForGetWishList();
 
@@ -168,17 +177,17 @@ export function checkWishListPersisted(product: TestProduct) {
 
   verifyProductInWishList(product);
 
-  getWishListItem(product.name).within(() => {
-    cy.get('.cx-link').click({ force: true });
-  });
+  goToProductPage(product);
 
   verifyProductInWishListPdp();
 }
 
 export function goToProductPage(product: TestProduct) {
+  const productPage = waitForPage(product.code, 'productPage');
   getWishListItem(product.name).within(() => {
     cy.get('.cx-name>.cx-link').click({ force: true });
   });
+  cy.wait(`@${productPage}`);
 }
 
 function getCartItem(name: string) {
