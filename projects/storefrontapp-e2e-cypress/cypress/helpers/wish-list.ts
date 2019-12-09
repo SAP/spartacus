@@ -141,8 +141,6 @@ export function addProductToCart(product: TestProduct) {
     cy.get('cx-add-to-cart>button').click();
   });
 
-  cy.wait(10000);
-
   cy.wait('@add_to_cart');
 
   cy.get('cx-added-to-cart-dialog').within(() => {
