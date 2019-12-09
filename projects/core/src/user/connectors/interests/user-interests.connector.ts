@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { UserInterestsAdapter } from './user-interests.adapter';
 import { Observable } from 'rxjs';
+
 import {
-  ProductInterestSearchResult,
-  ProductInterestEntryRelation,
   NotificationType,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
+import { UserInterestsAdapter } from './user-interests.adapter';
 
 @Injectable({
   providedIn: 'root',

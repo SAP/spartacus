@@ -1,10 +1,10 @@
-import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
 import {
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
   ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
 } from '../entity-loader/entity-loader.action';
+import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
 
 describe('EntityScopedLoaderActions', () => {
   const TEST_ENTITY_TYPE = 'test';

@@ -1,12 +1,13 @@
 import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { filter, mapTo, take } from 'rxjs/operators';
+
+import { Config } from '../config.module';
+import { deepMerge } from '../utils/deep-merge';
 import {
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from './config-initializer';
-import { Config } from '../config.module';
-import { BehaviorSubject } from 'rxjs';
-import { filter, mapTo, take } from 'rxjs/operators';
-import { deepMerge } from '../utils/deep-merge';
 
 /**
  * Provides support for CONFIG_INITIALIZERS

@@ -7,6 +7,7 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
+
 import { WindowRef } from '@spartacus/core';
 
 @Injectable({

@@ -4,15 +4,15 @@ import {
   processesLoaderResetMeta,
 } from '../processes-loader/processes-loader.action';
 import {
+  ENTITY_PROCESSES_DECREMENT_ACTION,
+  ENTITY_PROCESSES_INCREMENT_ACTION,
+  ENTITY_PROCESSES_LOADER_RESET_ACTION,
   EntityProcessesDecrementAction,
   entityProcessesDecrementMeta,
   EntityProcessesIncrementAction,
   entityProcessesIncrementMeta,
   EntityProcessesLoaderResetAction,
   entityProcessesLoaderResetMeta,
-  ENTITY_PROCESSES_DECREMENT_ACTION,
-  ENTITY_PROCESSES_INCREMENT_ACTION,
-  ENTITY_PROCESSES_LOADER_RESET_ACTION,
 } from './entity-processes-loader.action';
 
 describe('EntityProcessesLoader Actions', () => {

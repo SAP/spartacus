@@ -8,6 +8,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+
 import { GoogleMapRendererService } from '@spartacus/core';
 
 @Component({

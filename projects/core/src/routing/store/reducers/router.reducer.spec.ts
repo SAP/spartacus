@@ -8,6 +8,7 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
+
 import { PageType } from '../../../model/cms.model';
 import { RouterState } from '../routing-state';
 import * as fromReducer from './router.reducer';

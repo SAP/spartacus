@@ -1,5 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap } from '@ngrx/store';
+
 import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import { PROCESS_FEATURE } from '../process-state';

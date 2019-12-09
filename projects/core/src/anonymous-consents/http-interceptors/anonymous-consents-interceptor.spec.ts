@@ -1,8 +1,8 @@
 import {
+  HTTP_INTERCEPTORS,
   HttpClient,
   HttpInterceptor,
   HttpRequest,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -11,14 +11,15 @@ import {
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
 import { AuthService } from '../../auth/index';
-import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
+import { ANONYMOUS_CONSENT_STATUS, AnonymousConsent } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/index';
 import {
-  AnonymousConsentsInterceptor,
   ANONYMOUS_CONSENTS_HEADER,
+  AnonymousConsentsInterceptor,
 } from './anonymous-consents-interceptor';
 
 const mockAnonymousConsents: AnonymousConsent[] = [

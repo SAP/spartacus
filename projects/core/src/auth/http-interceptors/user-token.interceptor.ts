@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { AuthService } from '../facade/auth.service';
 

@@ -5,14 +5,15 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+
 import {
   CmsService,
   ContentSlotComponentData,
   ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-slot',

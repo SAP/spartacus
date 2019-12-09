@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { JavaRegExpConverter } from './java-reg-exp-converter';
 
 /**

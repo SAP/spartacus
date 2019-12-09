@@ -1,5 +1,5 @@
-import { LoaderState } from '../loader/loader-state';
 import { EntityState } from '../entity/entity-state';
+import { LoaderState } from '../loader/loader-state';
 
 export interface ScopedLoaderState<T> {
   [scope: string]: LoaderState<T>;

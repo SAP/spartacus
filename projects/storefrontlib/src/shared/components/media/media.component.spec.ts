@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
 import { MediaComponent } from './media.component';
 import { Media } from './media.model';
 import { MediaService } from './media.service';

@@ -1,11 +1,13 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
 import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
+
 import { ConsentManagementFormComponent } from './consent-management-form.component';
 
 describe('ConsentManagementFormComponent', () => {

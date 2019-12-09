@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationStart, Router } from '@angular/router';
 import { of } from 'rxjs';
+
 import { HamburgerMenuService } from './hamburger-menu.service';
 
 class MockRouter {

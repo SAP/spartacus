@@ -1,5 +1,6 @@
 import { Provider } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
+
 import { provideConfigFactory } from '../../config/config.module';
 import { OccConfig } from './occ-config';
 

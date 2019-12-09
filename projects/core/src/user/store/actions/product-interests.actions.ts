@@ -1,26 +1,26 @@
 import {
-  PRODUCT_INTERESTS,
-  REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
-  ADD_PRODUCT_INTEREST_PROCESS_ID,
-} from '../user-state';
-import {
-  ProductInterestSearchResult,
-  ProductInterestEntryRelation,
   NotificationType,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
-  LoaderLoadAction,
-  LoaderFailAction,
-  LoaderSuccessAction,
-  LoaderResetAction,
-} from '../../../state/utils/loader/loader.action';
-import {
   EntityFailAction,
   EntityLoadAction,
-  EntitySuccessAction,
   EntityResetAction,
+  EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import {
+  LoaderFailAction,
+  LoaderLoadAction,
+  LoaderResetAction,
+  LoaderSuccessAction,
+} from '../../../state/utils/loader/loader.action';
+import {
+  ADD_PRODUCT_INTEREST_PROCESS_ID,
+  PRODUCT_INTERESTS,
+  REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
+} from '../user-state';
 
 export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
 export const LOAD_PRODUCT_INTERESTS_FAIL = 'Load Product Interests Fail';

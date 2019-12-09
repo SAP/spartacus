@@ -1,5 +1,6 @@
 import { Params } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
+
 import { PageContext } from '../models/page-context.model';
 
 export const ROUTING_FEATURE = 'router';

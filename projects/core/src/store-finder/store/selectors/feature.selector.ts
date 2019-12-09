@@ -1,8 +1,9 @@
 import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
+
 import {
   StateWithStoreFinder,
-  StoresState,
   STORE_FINDER_FEATURE,
+  StoresState,
 } from '../store-finder-state';
 
 export const getStoreFinderState: MemoizedSelector<

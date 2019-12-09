@@ -6,6 +6,7 @@ import { ForgotPasswordEffects } from './forgot-password.effect';
 import { NotificationPreferenceEffects } from './notification-preference.effect';
 import { OrderDetailsEffect } from './order-details.effect';
 import { UserPaymentMethodsEffects } from './payment-methods.effect';
+import { ProductInterestsEffect } from './product-interests.effect';
 import { RegionsEffects } from './regions.effect';
 import { ResetPasswordEffects } from './reset-password.effect';
 import { TitlesEffects } from './titles.effect';
@@ -16,7 +17,6 @@ import { UserConsentsEffect } from './user-consents.effect';
 import { UserDetailsEffects } from './user-details.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { UserRegisterEffects } from './user-register.effect';
-import { ProductInterestsEffect } from './product-interests.effect';
 
 export const effects: any[] = [
   ClearMiscsDataEffect,

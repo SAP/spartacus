@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+
 import { ItemCounterModule, MediaModule } from '../../../shared/index';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';

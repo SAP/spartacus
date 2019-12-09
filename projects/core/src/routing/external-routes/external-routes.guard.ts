@@ -5,6 +5,7 @@ import {
   CanActivate,
   RouterStateSnapshot,
 } from '@angular/router';
+
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({ providedIn: 'root' })

@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { WindowRef } from './window-ref';
 
 describe('WindowRef service', () => {

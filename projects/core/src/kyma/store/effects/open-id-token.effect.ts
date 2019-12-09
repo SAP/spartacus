@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { iif, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, withLatestFrom } from 'rxjs/operators';
+
 import { AuthActions } from '../../../auth/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { KymaConfig } from '../../config/kyma-config';

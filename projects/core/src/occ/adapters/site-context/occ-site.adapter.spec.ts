@@ -5,13 +5,15 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import {
   ConverterService,
-  CountryType,
   COUNTRY_NORMALIZER,
+  CountryType,
   OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
+
 import {
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,

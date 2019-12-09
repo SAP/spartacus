@@ -6,7 +6,9 @@ import {
   Type,
 } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+
 import { CmsConfig } from '@spartacus/core';
+
 import { ComponentMapperService } from './component-mapper.service';
 
 const createSpy = jasmine.createSpy;

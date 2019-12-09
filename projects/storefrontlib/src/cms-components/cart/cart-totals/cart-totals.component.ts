@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Cart, CartService, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
+import { Cart, CartService, OrderEntry } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-totals',

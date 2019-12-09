@@ -13,6 +13,7 @@ import {
 } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+
 import { Config } from '../../config/config.module';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { I18nConfig } from '../../i18n/config/i18n-config';

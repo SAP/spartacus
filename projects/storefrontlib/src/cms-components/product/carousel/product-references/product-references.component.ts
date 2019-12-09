@@ -1,18 +1,20 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { combineLatest, Observable, of } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+
 import {
   CmsProductReferencesComponent,
   Product,
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import {
-  filter,
-  map,
-  switchMap,
-  tap,
-  distinctUntilChanged,
-} from 'rxjs/operators';
+
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 

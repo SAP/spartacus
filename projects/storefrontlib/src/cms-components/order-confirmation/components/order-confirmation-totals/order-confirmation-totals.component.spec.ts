@@ -1,16 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
+
 import {
   Cart,
   CheckoutService,
   I18nTestingModule,
   Order,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
 
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {

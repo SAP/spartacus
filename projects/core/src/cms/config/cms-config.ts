@@ -1,5 +1,6 @@
 import { StaticProvider } from '@angular/core';
 import { Routes } from '@angular/router';
+
 import { AuthConfig } from '../../auth/config/auth-config';
 import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';

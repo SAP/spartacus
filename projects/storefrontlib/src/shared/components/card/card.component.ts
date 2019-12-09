@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 
 export interface CardAction {

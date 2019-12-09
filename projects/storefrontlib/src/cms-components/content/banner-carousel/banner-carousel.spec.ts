@@ -1,13 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CarouselComponent } from 'projects/storefrontlib/src/shared';
+import { of } from 'rxjs';
+
 import {
   CmsBannerCarouselComponent,
   CmsBannerCarouselEffect,
   CmsComponent,
   CmsService,
 } from '@spartacus/core';
-import { CarouselComponent } from 'projects/storefrontlib/src/shared';
-import { of } from 'rxjs';
+
 import {
   CmsComponentData,
   ComponentWrapperDirective,

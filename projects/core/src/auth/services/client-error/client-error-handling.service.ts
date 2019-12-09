@@ -1,6 +1,5 @@
+import { HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 

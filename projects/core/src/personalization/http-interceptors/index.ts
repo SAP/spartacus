@@ -1,5 +1,5 @@
-import { Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Provider } from '@angular/core';
 
 import { OccPersonalizationIdInterceptor } from './occ-personalization-id.interceptor';
 import { OccPersonalizationTimeInterceptor } from './occ-personalization-time.interceptor';

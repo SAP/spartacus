@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';

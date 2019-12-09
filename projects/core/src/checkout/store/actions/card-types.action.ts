@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { CardType } from '../../../model/cart.model';
 
 export const LOAD_CARD_TYPES = '[Checkout] Load Card Types';

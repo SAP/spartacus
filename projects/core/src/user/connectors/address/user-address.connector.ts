@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { UserAddressAdapter } from './user-address.adapter';
 import { Observable } from 'rxjs';
+
 import { Address, AddressValidation } from '../../../model/address.model';
+import { UserAddressAdapter } from './user-address.adapter';
 
 @Injectable({
   providedIn: 'root',

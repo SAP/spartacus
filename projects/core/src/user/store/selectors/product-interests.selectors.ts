@@ -1,12 +1,13 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { UserState, StateWithUser } from '../user-state';
+
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
-  loaderValueSelector,
   loaderLoadingSelector,
+  loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
+import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
-import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 
 export const getInterestsState: MemoizedSelector<
   StateWithUser,

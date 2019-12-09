@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+
 import { User } from '../../model/misc.model';
 import {
   AsmUi,
@@ -8,7 +9,7 @@ import {
   CustomerSearchPage,
 } from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
-import { AsmState, ASM_FEATURE } from '../store/asm-state';
+import { ASM_FEATURE, AsmState } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmService } from './asm.service';
 

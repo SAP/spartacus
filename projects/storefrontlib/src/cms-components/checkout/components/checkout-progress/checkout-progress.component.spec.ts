@@ -4,13 +4,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+
 import {
   I18nTestingModule,
   RoutesConfig,
   RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';

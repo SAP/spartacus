@@ -1,17 +1,16 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-
-import { GlobalMessageService } from './facade/global-message.service';
-import {
-  httpErrorInterceptors,
-  errorHandlers,
-} from './http-interceptors/index';
-import { GlobalMessageStoreModule } from './store/global-message-store.module';
-import { GlobalMessageEffect } from './store/effects/global-message.effect';
 
 import { Config, ConfigModule } from '../config/config.module';
 import { defaultGlobalMessageConfigFactory } from './config/default-global-message-config';
 import { GlobalMessageConfig } from './config/global-message-config';
+import { GlobalMessageService } from './facade/global-message.service';
+import {
+  errorHandlers,
+  httpErrorInterceptors,
+} from './http-interceptors/index';
+import { GlobalMessageEffect } from './store/effects/global-message.effect';
+import { GlobalMessageStoreModule } from './store/global-message-store.module';
 
 @NgModule({
   imports: [

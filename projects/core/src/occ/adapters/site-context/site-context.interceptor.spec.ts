@@ -1,4 +1,4 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -6,8 +6,10 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig, SiteContextConfig } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+
+import { OccConfig, SiteContextConfig } from '@spartacus/core';
+
 import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
 import { SiteContextInterceptor } from './site-context.interceptor';

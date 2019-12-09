@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ItemCounterComponent } from './item-counter.component';
 import { OnlyNumberDirectiveModule } from '../../directives/only-number/only-number.directive.module';
+import { ItemCounterComponent } from './item-counter.component';
 
 @NgModule({
   imports: [

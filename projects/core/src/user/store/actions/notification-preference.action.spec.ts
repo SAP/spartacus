@@ -1,13 +1,13 @@
-import { UserActions } from './index';
 import { NotificationPreference } from '../../../model/notification-preference.model';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateLoaderActions } from '../../../state/utils/index';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
-  NOTIFICATION_PREFERENCES,
-} from '../user-state';
 import { resetMeta } from '../../../state/utils/loader/loader.action';
+import {
+  NOTIFICATION_PREFERENCES,
+  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
+} from '../user-state';
+import { UserActions } from './index';
 
 const userId = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [

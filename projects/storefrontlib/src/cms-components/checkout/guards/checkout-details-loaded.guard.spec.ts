@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutDetailsLoadedGuard } from './checkout-details-loaded.guard';
 

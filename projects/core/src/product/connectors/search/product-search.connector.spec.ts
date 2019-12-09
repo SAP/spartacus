@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
+
 import { ProductSearchAdapter } from './product-search.adapter';
 import { ProductSearchConnector } from './product-search.connector';
 import createSpy = jasmine.createSpy;

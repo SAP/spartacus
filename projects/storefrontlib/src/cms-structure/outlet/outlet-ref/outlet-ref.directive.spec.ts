@@ -1,5 +1,6 @@
 import { Component, TemplateRef, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { OutletDirective } from '../outlet.directive';
 import { OutletService } from '../outlet.service';
 import { OutletRefDirective } from './outlet-ref.directive';

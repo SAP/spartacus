@@ -8,13 +8,15 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   CmsProductReferencesComponent,
   Product,
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';

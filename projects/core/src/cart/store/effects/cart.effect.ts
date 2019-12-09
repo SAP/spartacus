@@ -13,6 +13,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
+
 import { CheckoutActions } from '../../../checkout/store/actions/index';
 import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';

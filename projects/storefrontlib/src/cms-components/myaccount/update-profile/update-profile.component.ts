@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -7,8 +10,6 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-update-profile',

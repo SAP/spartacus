@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+
 import { Title, User, UserSignUp } from '../../../model/misc.model';
 
 export abstract class UserAdapter {

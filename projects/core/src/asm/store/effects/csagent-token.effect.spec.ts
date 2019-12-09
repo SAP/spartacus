@@ -3,11 +3,12 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import { UserToken } from '../../../auth/models/token-types.model';
-import { AsmActions } from '../actions/index';
-import { AuthActions } from '../../../auth/store/actions/index';
-import { CustomerSupportAgentTokenEffects } from './csagent-token.effect';
 import { UserAuthenticationTokenService } from '../../../auth/services/user-authentication/user-authentication-token.service';
+import { AuthActions } from '../../../auth/store/actions/index';
+import { AsmActions } from '../actions/index';
+import { CustomerSupportAgentTokenEffects } from './csagent-token.effect';
 
 const testToken: UserToken = {
   access_token: 'xxx',

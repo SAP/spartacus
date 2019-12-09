@@ -1,5 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
 
 export abstract class AddToHomeScreenComponent implements OnInit {

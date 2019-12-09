@@ -9,13 +9,15 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { Observable, of } from 'rxjs';
+
 import {
   Country,
   I18nTestingModule,
   Region,
   UserAddressService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { BillingAddressFormComponent } from './billing-address-form.component';
 
 describe('BillingAddressFormComponent', () => {

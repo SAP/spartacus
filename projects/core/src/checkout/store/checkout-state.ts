@@ -1,7 +1,7 @@
-import { LoaderState } from '../../state/utils/loader/loader-state';
-import { CardType, PaymentDetails } from '../../model/cart.model';
 import { Address, AddressValidation } from '../../model/address.model';
+import { CardType, PaymentDetails } from '../../model/cart.model';
 import { DeliveryMode, Order } from '../../model/order.model';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 
 export const CHECKOUT_FEATURE = 'checkout';
 export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';

@@ -1,17 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
-import { MyInterestsComponent } from './my-interests.component';
-import { MediaModule } from '../../../shared/components/media/media.module';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+
 import {
-  ConfigModule,
+  AuthGuard,
   CmsConfig,
+  ConfigModule,
   I18nModule,
   UrlModule,
-  AuthGuard,
 } from '@spartacus/core';
+
+import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
+import { MediaModule } from '../../../shared/components/media/media.module';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { MyInterestsComponent } from './my-interests.component';
 
 @NgModule({
   declarations: [MyInterestsComponent],

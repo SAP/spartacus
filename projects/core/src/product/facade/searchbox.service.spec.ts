@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
+
 import {
   ProductSearchPage,
   Suggestion,

@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { OccConfig } from '../../../occ/index';
 import { CartVoucherAdapter } from '../../connectors';

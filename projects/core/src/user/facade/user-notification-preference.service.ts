@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
+import { NotificationPreference } from '../../model/notification-preference.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
@@ -10,7 +12,6 @@ import {
   StateWithUser,
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from '../store/user-state';
-import { NotificationPreference } from '../../model/notification-preference.model';
 
 @Injectable({
   providedIn: 'root',

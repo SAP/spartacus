@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { ConsignmentTracking } from '../../../model/index';
 
 export const LOAD_CONSIGNMENT_TRACKING = '[User] Load Consignment Tracking';

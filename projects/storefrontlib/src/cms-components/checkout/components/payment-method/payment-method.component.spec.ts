@@ -2,8 +2,11 @@ import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+
 import {
   Address,
+  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -14,9 +17,8 @@ import {
   RoutingConfigService,
   RoutingService,
   UserPaymentService,
-  CartService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/index';

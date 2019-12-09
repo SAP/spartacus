@@ -1,12 +1,14 @@
 import { Directive, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+
 import {
   CmsService,
   CMSTabParagraphContainer,
   ContentSlotComponentData,
   I18nTestingModule,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';

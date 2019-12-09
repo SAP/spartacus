@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { HamburgerMenuService } from './hamburger-menu.service';
 
 @Component({

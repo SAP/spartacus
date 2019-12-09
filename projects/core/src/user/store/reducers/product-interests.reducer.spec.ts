@@ -1,6 +1,6 @@
-import * as fromInterestsReducer from './product-interests.reducer';
-import { UserActions } from '../actions/index';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
+import { UserActions } from '../actions/index';
+import * as fromInterestsReducer from './product-interests.reducer';
 
 describe('Product Interests Reducer', () => {
   describe('Undefined Action', () => {

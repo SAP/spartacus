@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { ConsentTemplate } from '../../model/consent.model';
 import { AnonymousConsentTemplatesAdapter } from './anonymous-consent-templates.adapter';
 

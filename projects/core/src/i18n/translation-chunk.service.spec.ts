@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { I18nConfig } from './config/i18n-config';
 import { TranslationChunkService } from './translation-chunk.service';
 

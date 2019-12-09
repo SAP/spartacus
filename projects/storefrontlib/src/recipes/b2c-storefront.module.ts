@@ -1,5 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import { ConfigModule, provideConfig } from '@spartacus/core';
+
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
 import { b2cLayoutConfig } from './config/b2c-layout-config';

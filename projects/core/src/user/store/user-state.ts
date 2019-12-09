@@ -1,12 +1,12 @@
+import { NotificationPreference } from '../../model';
 import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
-import { LoaderState } from '../../state';
-import { NotificationPreference } from '../../model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
+import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';

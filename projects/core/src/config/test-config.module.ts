@@ -5,6 +5,7 @@ import {
   NgModule,
   PLATFORM_ID,
 } from '@angular/core';
+
 import { provideConfigFactory } from './config.module';
 import { getCookie } from './utils/get-cookie';
 

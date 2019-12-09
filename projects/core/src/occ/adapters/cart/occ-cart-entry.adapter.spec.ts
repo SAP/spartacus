@@ -4,8 +4,10 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
 import { FeatureConfigService } from 'projects/core/src/features-config';
+
+import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
+
 import { Cart, CartModification } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services';

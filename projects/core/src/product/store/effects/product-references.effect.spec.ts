@@ -5,6 +5,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import { ProductReference } from '../../../model/product.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import { OccConfig } from '../../../occ/config/occ-config';

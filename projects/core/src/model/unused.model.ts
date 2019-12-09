@@ -1,9 +1,9 @@
 import { Address } from './address.model';
-import { Image } from './image.model';
-import { Product, Stock } from './product.model';
-import { GeoPoint, PaginationModel, SortModel } from './misc.model';
 import { Cart, Principal } from './cart.model';
+import { Image } from './image.model';
+import { GeoPoint, PaginationModel, SortModel } from './misc.model';
 import { OpeningSchedule } from './point-of-service.model';
+import { Product, Stock } from './product.model';
 
 export interface CategoryHierarchy {
   id?: string;

@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  pluck,
+  shareReplay,
+  tap,
+} from 'rxjs/operators';
+
 import {
   ActivatedRouterStateSnapshot,
   CurrencyService,
@@ -9,14 +18,6 @@ import {
   RoutingService,
   SearchConfig,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  pluck,
-  shareReplay,
-  tap,
-} from 'rxjs/operators';
 
 interface ProductListRouteParams {
   brandCode?: string;

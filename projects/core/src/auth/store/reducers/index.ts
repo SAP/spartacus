@@ -6,6 +6,7 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
+
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { ClientToken } from '../../models/token-types.model';
 import { AuthActions } from '../actions/index';

@@ -1,13 +1,4 @@
 import { Injectable } from '@angular/core';
-import {
-  Address,
-  CartService,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
-  OCC_USER_ID_ANONYMOUS,
-  PaymentDetails,
-} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -17,6 +8,16 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+
+import {
+  Address,
+  CartService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+  CheckoutService,
+  OCC_USER_ID_ANONYMOUS,
+  PaymentDetails,
+} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

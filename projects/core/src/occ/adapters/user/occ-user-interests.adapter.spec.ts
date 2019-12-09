@@ -3,19 +3,19 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../../occ/config/occ-config';
-
-import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
-import {
-  ProductInterestEntryRelation,
-  NotificationType,
-} from '../../../model/product-interest.model';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { MockOccEndpointsService } from './unit-test.helper';
-import { ConverterService } from '../../../util/converter.service';
 import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+
+import {
+  NotificationType,
+  ProductInterestEntryRelation,
+} from '../../../model/product-interest.model';
+import { OccConfig } from '../../../occ/config/occ-config';
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
+import { MockOccEndpointsService } from './unit-test.helper';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

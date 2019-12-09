@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+
 import { PageMetaResolver } from '../../cms';
 import { PageMeta } from '../../cms/model/page.model';
 import { TranslationService } from '../../i18n/translation.service';

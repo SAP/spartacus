@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
+
 import {
   CmsBannerCarouselComponent as model,
   CmsService,
   ContentSlotComponentData,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+
 import { CmsComponentData } from '../../../cms-structure/index';
 
 /**

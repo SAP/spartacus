@@ -1,29 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MyInterestsComponent } from './my-interests.component';
 import {
-  PipeTransform,
-  Pipe,
   Component,
   DebugElement,
   Input,
+  Pipe,
+  PipeTransform,
 } from '@angular/core';
-import { of, Observable } from 'rxjs';
-import { LayoutConfig } from '../../../layout/config/layout-config';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { cold, getTestScheduler } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+
 import {
   I18nTestingModule,
-  ProductInterestSearchResult,
-  OccConfig,
   ImageType,
-  UserInterestsService,
-  ProductInterestEntryRelation,
   NotificationType,
-  ProductService,
+  OccConfig,
   Product,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
+  ProductService,
+  UserInterestsService,
 } from '@spartacus/core';
-import { RouterTestingModule } from '@angular/router/testing';
+
+import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
-import { By } from '@angular/platform-browser';
-import { cold, getTestScheduler } from 'jasmine-marbles';
+import { MyInterestsComponent } from './my-interests.component';
 
 @Component({
   template: '',

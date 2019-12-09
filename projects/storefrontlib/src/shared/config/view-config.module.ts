@@ -1,6 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ViewConfig } from './view-config';
+
 import { Config, provideConfig } from '@spartacus/core';
+
+import { ViewConfig } from './view-config';
 
 @NgModule({})
 export class ViewConfigModule {

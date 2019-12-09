@@ -1,7 +1,7 @@
 import { EntityState } from '../../state';
+import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
-import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
 export const CMS_FEATURE = 'cms';
 export const NAVIGATION_DETAIL_ENTITY = '[Cms] Navigation Entity';

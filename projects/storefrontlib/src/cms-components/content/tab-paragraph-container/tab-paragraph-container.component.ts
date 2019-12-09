@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsService, CMSTabParagraphContainer } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
+import { CmsService, CMSTabParagraphContainer } from '@spartacus/core';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 
 @Component({

@@ -3,12 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+
 import {
   I18nTestingModule,
   RoutingService,
   UserService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 
 class MockUserService {

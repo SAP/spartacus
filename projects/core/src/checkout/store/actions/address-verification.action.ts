@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Address, AddressValidation } from '../../../model/address.model';
 
 export const VERIFY_ADDRESS = '[Checkout] Verify Address';

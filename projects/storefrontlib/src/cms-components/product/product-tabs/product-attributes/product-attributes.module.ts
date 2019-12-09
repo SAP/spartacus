@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+
 import { ProductAttributesComponent } from './product-attributes.component';
 
 @NgModule({

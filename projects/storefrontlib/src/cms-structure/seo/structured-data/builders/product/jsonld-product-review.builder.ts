@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+
+import { Product, ProductReviewService, Review } from '@spartacus/core';
+
 import { JsonLdBuilder } from '../schema.interface';
 
 /**

@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import { Config, provideConfig } from '../config/config.module';
 import { defaultStateConfig } from './config/default-state-config';
 import { StateConfig } from './config/state-config';

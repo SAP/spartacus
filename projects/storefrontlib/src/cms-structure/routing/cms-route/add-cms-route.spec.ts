@@ -1,5 +1,6 @@
-import { addCmsRoute } from './add-cms-route';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+
+import { addCmsRoute } from './add-cms-route';
 
 describe('addCmsRoute', () => {
   let mockRouter;

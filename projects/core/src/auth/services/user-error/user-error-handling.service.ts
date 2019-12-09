@@ -2,6 +2,7 @@ import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
+
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';

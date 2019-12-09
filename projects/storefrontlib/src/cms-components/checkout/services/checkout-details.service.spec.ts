@@ -1,5 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   Address,
   Cart,
@@ -11,7 +13,7 @@ import {
   DeliveryMode,
   PaymentDetails,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { CheckoutDetailsService } from './checkout-details.service';
 
 const cartId = 'cartId';

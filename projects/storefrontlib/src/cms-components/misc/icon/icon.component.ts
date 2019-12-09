@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostBinding, Input } from '@angular/core';
+
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE } from './icon.model';
 

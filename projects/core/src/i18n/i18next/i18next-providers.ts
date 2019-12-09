@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
+
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { i18nextInit } from './i18next-init';

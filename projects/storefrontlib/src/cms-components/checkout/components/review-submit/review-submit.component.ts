@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+
 import {
   Address,
   Cart,
@@ -14,9 +15,10 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
+
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../services/index';
 import { CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
 
 @Component({
   selector: 'cx-review-submit',

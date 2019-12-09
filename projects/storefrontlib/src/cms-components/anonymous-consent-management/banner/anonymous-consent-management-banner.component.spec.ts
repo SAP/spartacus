@@ -1,11 +1,13 @@
 import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   AnonymousConsentsService,
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';

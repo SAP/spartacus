@@ -1,5 +1,6 @@
-import { AbstractStoreItemComponent } from './abstract-store-item.component';
 import { StoreDataService } from '@spartacus/core';
+
+import { AbstractStoreItemComponent } from './abstract-store-item.component';
 
 class MockStoreDataService extends StoreDataService {
   getStoreLatitude(): number {

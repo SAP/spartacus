@@ -1,7 +1,5 @@
 {
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": true
-  },
+  "tslint.autoFixOnSave": true,
   "typescript.tsdk": "node_modules/typescript/lib"
 }

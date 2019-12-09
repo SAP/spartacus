@@ -1,8 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+
 import { CmsService, Page } from '@spartacus/core';
 import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { PageLayoutService } from './page-layout.service';

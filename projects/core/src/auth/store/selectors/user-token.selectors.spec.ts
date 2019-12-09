@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+
 import { UserToken } from '../../models/token-types.model';
 import { AuthActions } from '../actions/index';
 import { StateWithAuth } from '../auth-state';

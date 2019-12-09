@@ -1,6 +1,8 @@
 import { DebugElement, ElementRef, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { GoogleMapRendererService } from '@spartacus/core';
+
 import { StoreFinderMapComponent } from './store-finder-map.component';
 
 class MapRendererServiceMock {

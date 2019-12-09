@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CartService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { CartService } from '@spartacus/core';
+
 import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-layout-handler';
 
 @Injectable({

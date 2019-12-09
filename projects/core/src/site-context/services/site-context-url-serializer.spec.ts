@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UrlSegmentGroup, UrlTree } from '@angular/router';
+
 import { SiteContextParamsService } from './site-context-params.service';
 import {
   SiteContextUrlSerializer,

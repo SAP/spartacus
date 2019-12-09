@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import { StoreCount } from '../../../model/store-finder.model';
 import { OccConfig } from '../../../occ';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';

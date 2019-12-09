@@ -1,6 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
 import { FeatureConfigService } from '../../features-config';
 import { PageType } from '../../model/cms.model';
 import { Page, PageMeta } from '../model/page.model';

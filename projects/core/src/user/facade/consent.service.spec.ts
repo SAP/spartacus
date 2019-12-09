@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
 import { AnonymousConsentsService } from '../../anonymous-consents/index';
 import { AnonymousConsent, Consent } from '../../model/index';
 import { ConsentService } from './consent.service';

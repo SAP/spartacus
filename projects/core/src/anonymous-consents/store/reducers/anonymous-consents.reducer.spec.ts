@@ -1,6 +1,6 @@
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../../model/consent.model';
 import { AnonymousConsentsActions } from '../actions/index';

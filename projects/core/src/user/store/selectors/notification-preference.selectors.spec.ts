@@ -1,12 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
-import * as fromReducers from '../reducers';
-import { UsersSelectors } from '../selectors/index';
-import { UserActions } from '../actions/index';
-import { StateWithUser, USER_FEATURE } from '../user-state';
+import { select, Store, StoreModule } from '@ngrx/store';
+
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { UserActions } from '../actions/index';
+import * as fromReducers from '../reducers';
+import { UsersSelectors } from '../selectors/index';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockNotificationPreference: NotificationPreference[] = [
   {

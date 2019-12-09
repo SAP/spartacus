@@ -1,7 +1,9 @@
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
-import { YotpoService } from './../service/yotpo.service';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { Product } from '@spartacus/core';
+
+import { YotpoService } from './../service/yotpo.service';
 
 @Component({
   selector: 'cx-yotpo-review',

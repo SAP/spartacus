@@ -1,4 +1,4 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import {
   HttpEvent,
   HttpHandler,
@@ -6,13 +6,13 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
-import { PersonalizationConfig } from '../config/personalization-config';
 import { WindowRef } from '../../window/window-ref';
-import { isPlatformBrowser } from '@angular/common';
+import { PersonalizationConfig } from '../config/personalization-config';
 
 const PERSONALIZATION_ID_KEY = 'personalization-id';
 

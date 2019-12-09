@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs';
+
 import {
-  ProductInterestSearchResult,
-  ProductInterestEntryRelation,
   NotificationType,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
 
 export abstract class UserInterestsAdapter {

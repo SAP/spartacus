@@ -4,10 +4,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   Consent,
   ConsentTemplate,
 } from '../../../model/consent.model';

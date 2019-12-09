@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
+
 import { NotificationPreference } from '../../../model/notification-preference.model';
+import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
 
 @Injectable({
   providedIn: 'root',

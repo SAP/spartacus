@@ -1,14 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ScopedData } from '../../model/scoped-data';
 import { map, shareReplay } from 'rxjs/operators';
+
+import { ScopedData } from '../../model/scoped-data';
 import { extractFields } from '../utils/occ-fields';
 import {
   OccFieldsModel,
   OccFieldsService,
   ScopedDataWithUrl,
 } from './occ-fields.service';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',

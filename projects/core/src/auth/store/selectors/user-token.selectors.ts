@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { UserToken } from '../../models/token-types.model';
 import { AuthState, StateWithAuth, UserTokenState } from '../auth-state';
 import { getAuthState } from './feature.selector';

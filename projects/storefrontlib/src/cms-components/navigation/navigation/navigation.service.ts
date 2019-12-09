@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+
 import {
   CmsNavigationComponent,
   CmsService,
   SemanticPathService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+
 import { NavigationNode } from './navigation-node.model';
 
 @Injectable({

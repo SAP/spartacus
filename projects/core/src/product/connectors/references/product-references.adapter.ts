@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+
 import { ProductReference } from '../../../model/product.model';
 
 export abstract class ProductReferencesAdapter {

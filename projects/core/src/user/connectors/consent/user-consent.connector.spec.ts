@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
+
 import { UserConsentAdapter } from './user-consent.adapter';
 import { UserConsentConnector } from './user-consent.connector';
 import createSpy = jasmine.createSpy;

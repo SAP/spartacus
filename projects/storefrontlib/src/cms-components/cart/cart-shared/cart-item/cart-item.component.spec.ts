@@ -2,7 +2,9 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { I18nTestingModule } from '@spartacus/core';
+
 import { CartItemComponent } from './cart-item.component';
 
 @Pipe({

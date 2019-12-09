@@ -1,7 +1,8 @@
 import { InjectionToken } from '@angular/core';
-import { Converter } from '../../util/converter.service';
-import { Currency, Language } from '../../model/misc.model';
+
 import { Country, Region } from '../../model/address.model';
+import { Currency, Language } from '../../model/misc.model';
+import { Converter } from '../../util/converter.service';
 
 export const LANGUAGE_NORMALIZER = new InjectionToken<Converter<any, Language>>(
   'LanguageNormalizer'

@@ -5,6 +5,7 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { INIT } from '@ngrx/store';
+
 import { AUTH_FEATURE, StateWithAuth } from '../../auth/store/auth-state';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';

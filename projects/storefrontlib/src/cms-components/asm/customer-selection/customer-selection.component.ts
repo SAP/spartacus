@@ -9,14 +9,15 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
 import {
   AsmConfig,
   AsmService,
   CustomerSearchPage,
   User,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-selection',

@@ -1,12 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
 import { Product } from '../../../model/product.model';
 import { ProductActions } from '../actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 import * as fromReducers from '../reducers/index';
 import { ProductSelectors } from '../selectors/index';
-import { Subscription } from 'rxjs';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithProduct>;

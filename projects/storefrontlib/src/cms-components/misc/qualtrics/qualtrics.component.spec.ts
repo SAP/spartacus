@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 import { QualtricsComponent } from './qualtrics.component';
 

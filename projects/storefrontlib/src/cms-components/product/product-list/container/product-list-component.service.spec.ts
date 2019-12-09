@@ -1,13 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, of } from 'rxjs';
+
 import {
   CurrencyService,
   LanguageService,
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+
 import { ProductListComponentService } from './product-list-component.service';
 
 export class MockRouter {

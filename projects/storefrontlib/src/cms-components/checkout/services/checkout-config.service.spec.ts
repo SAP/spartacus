@@ -1,8 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { of } from 'rxjs';
+
+import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
+
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import {
   CheckoutConfig,

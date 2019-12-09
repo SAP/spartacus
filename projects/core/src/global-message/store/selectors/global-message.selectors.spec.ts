@@ -1,16 +1,18 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Translatable } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+
+import { Translatable } from '@spartacus/core';
+
 import {
   GlobalMessage,
   GlobalMessageType,
 } from '../../models/global-message.model';
 import {
+  GLOBAL_MESSAGE_FEATURE,
   GlobalMessageEntities,
   GlobalMessageState,
-  GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
 import { GlobalMessageActions } from './../actions/index';

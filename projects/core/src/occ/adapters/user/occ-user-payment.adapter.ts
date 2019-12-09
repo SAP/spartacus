@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+
 import { PAYMENT_DETAILS_NORMALIZER } from '../../../checkout/connectors/payment/converters';
 import { PaymentDetails } from '../../../model/cart.model';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';

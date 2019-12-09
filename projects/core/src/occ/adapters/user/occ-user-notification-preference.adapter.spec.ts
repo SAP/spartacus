@@ -4,6 +4,16 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
+import {
+  NotificationPreference,
+  NotificationPreferenceList,
+} from '../../../model/notification-preference.model';
+import {
+  NOTIFICATION_PREFERENCE_NORMALIZER,
+  NOTIFICATION_PREFERENCE_SERIALIZER,
+} from '../../../user/connectors/notification-preference/converters';
+import { ConverterService } from '../../../util/converter.service';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
@@ -11,15 +21,6 @@ import {
   MockOccEndpointsService,
   mockOccModuleConfig,
 } from './unit-test.helper';
-import {
-  NOTIFICATION_PREFERENCE_NORMALIZER,
-  NOTIFICATION_PREFERENCE_SERIALIZER,
-} from '../../../user/connectors/notification-preference/converters';
-import { ConverterService } from '../../../util/converter.service';
-import {
-  NotificationPreference,
-  NotificationPreferenceList,
-} from '../../../model/notification-preference.model';
 
 const userId = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [

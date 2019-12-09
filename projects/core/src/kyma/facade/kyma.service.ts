@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import { OpenIdToken } from '../models/kyma-token-types.model';
 import { KymaActions } from '../store/actions/index';
 import { StateWithKyma } from '../store/kyma-state';

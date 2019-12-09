@@ -1,8 +1,10 @@
 import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+
+import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
+
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 
 import createSpy = jasmine.createSpy;

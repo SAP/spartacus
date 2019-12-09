@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../config/auth-config';
 import { UserToken } from '../../models/token-types.model';

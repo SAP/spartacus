@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { CartVoucherAdapter } from './cart-voucher.adapter';
 import { CartVoucherConnector } from './cart-voucher.connector';
 import createSpy = jasmine.createSpy;

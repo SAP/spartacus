@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'cxDate' })
 export class MockDatePipe extends DatePipe implements PipeTransform {

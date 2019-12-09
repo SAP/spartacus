@@ -1,7 +1,9 @@
 import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
-import { CmsService, Page } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+
+import { CmsService, Page } from '@spartacus/core';
+
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import {
   BREAKPOINT,
@@ -9,7 +11,7 @@ import {
   LayoutSlotConfig,
   SlotConfig,
 } from '../../../layout/config/layout-config';
-import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
+import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
 
 @Injectable()
 export class PageLayoutService {

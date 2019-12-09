@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+
 import { ConsignmentTracking } from '../../../model/index';
 import * as fromReducers from '../reducers';
 import { UsersSelectors } from '../selectors/index';

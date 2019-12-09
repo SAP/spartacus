@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
-import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { filter } from 'rxjs/operators';
+
+import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { OpenIdAuthenticationTokenService } from './open-id-token.service';

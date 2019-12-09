@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
 import {
   CustomerSearchOptions,
   CustomerSearchPage,

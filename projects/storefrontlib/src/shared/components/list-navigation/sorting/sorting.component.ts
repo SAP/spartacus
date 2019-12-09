@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+
 import { SortModel } from '@spartacus/core';
 
 @Component({

@@ -17,6 +17,7 @@ import {
   CheckoutConfigService,
   CheckoutDetailsService,
 } from '@spartacus/storefront';
+
 import { ExpressCheckoutService } from './express-checkout.service';
 
 const mockDetails: CheckoutDetails = {

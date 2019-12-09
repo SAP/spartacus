@@ -3,16 +3,21 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
+  concatMap,
   delay,
   filter,
+  map,
   pluck,
   switchMap,
-  map,
-  withLatestFrom,
   take,
-  concatMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
+import { Translatable } from '../../../i18n/translatable';
+import {
+  countOfDeepEqualObjects,
+  indexOfFirstOccurrence,
+} from '../../../util/compare-equal-objects';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
   GlobalMessage,
@@ -21,11 +26,6 @@ import {
 import { GlobalMessageActions } from '../actions/index';
 import { StateWithGlobalMessage } from '../global-message-state';
 import { GlobalMessageSelectors } from '../selectors/index';
-import {
-  countOfDeepEqualObjects,
-  indexOfFirstOccurrence,
-} from '../../../util/compare-equal-objects';
-import { Translatable } from '../../../i18n/translatable';
 
 @Injectable()
 export class GlobalMessageEffect {

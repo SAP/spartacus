@@ -13,6 +13,7 @@ import {
   SiteContextConfig,
   StateConfig,
 } from '@spartacus/core';
+
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/index';
 import { QualtricsConfig } from './cms-components/misc/qualtrics/index';

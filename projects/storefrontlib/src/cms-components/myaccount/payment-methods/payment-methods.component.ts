@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
 import {
   PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+
 import { Card } from '../../../shared/components/card/card.component';
 
 @Component({

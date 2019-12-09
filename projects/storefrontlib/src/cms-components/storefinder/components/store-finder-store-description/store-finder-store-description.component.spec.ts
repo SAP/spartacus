@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { I18nTestingModule, StoreDataService } from '@spartacus/core';
+
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 
 class StoreDataServiceMock {

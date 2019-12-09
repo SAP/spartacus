@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   GlobalMessage,
   GlobalMessageService,
@@ -13,7 +15,7 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { UpdatePasswordComponent } from './update-password.component';
 
 class MockUserService {

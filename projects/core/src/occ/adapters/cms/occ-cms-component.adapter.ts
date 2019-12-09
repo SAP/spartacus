@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
+
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsComponent, PageType } from '../../../model/cms.model';

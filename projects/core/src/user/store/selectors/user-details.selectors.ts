@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { User } from '../../../model/misc.model';
 import { StateWithUser, UserDetailsState, UserState } from '../user-state';
 import { getUserState } from './feature.selector';

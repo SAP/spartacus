@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+
 import { NotificationPreference } from '../../../model/notification-preference.model';
 
 export abstract class UserNotificationPreferenceAdapter {

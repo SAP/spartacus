@@ -5,6 +5,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as operators from 'rxjs/operators';
+
+import * as utils from '../../../util/compare-equal-objects';
 import { defaultGlobalMessageConfigFactory } from '../../config/default-global-message-config';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
@@ -17,7 +19,6 @@ import {
   GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
-import * as utils from '../../../util/compare-equal-objects';
 
 function spyOnOperator(obj: any, prop: string): any {
   const oldProp: Function = obj[prop];

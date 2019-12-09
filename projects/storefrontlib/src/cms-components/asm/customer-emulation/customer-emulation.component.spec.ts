@@ -1,8 +1,10 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, User, UserService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+
+import { I18nTestingModule, User, UserService } from '@spartacus/core';
+
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
 

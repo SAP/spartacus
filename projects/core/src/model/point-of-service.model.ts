@@ -1,6 +1,6 @@
-import { Time, GeoPoint } from './misc.model';
 import { Address } from './address.model';
 import { Image } from './image.model';
+import { GeoPoint, Time } from './misc.model';
 
 export interface PointOfService {
   address?: Address;

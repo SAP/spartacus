@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
 import { AsmConfig } from '../../../asm/config/asm-config';
 import { CUSTOMER_SEARCH_PAGE_NORMALIZER } from '../../../asm/connectors/converters';
 import {

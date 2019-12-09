@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import {
   CmsConfig,
   ConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { defaultCheckoutConfig } from '../../../config/default-checkout-config';
 import { CheckoutAuthGuard } from '../../../guards/checkout-auth.guard';
 import { CartNotEmptyGuard } from './../../../../../cms-components/cart/cart-not-empty.guard';

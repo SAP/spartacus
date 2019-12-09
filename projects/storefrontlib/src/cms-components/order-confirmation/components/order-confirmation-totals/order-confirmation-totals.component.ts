@@ -4,8 +4,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutService, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
+
+import { CheckoutService, Order } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-confirmation-totals',

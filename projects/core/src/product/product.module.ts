@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { ProductReferenceService } from './facade/product-reference.service';
 import { ProductReviewService } from './facade/product-review.service';

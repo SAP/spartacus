@@ -1,5 +1,6 @@
 import { Renderer2, RendererFactory2, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+
 import { DynamicAttributeService } from './dynamic-attribute.service';
 
 const mockProperties = {

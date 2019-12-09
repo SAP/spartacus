@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import { ConfigModule } from '../../../config/config.module';
 import { Currency } from '../../../model/misc.model';
 import { OccModule } from '../../../occ/occ.module';

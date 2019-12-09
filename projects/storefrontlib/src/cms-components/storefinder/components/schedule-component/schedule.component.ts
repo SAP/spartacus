@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
 import { StoreDataService } from '@spartacus/core';
 
 const WEEK_DAYS_NUMBER = 7;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Order, Consignment, OrderEntry } from '@spartacus/core';
+import { Consignment, Order, OrderEntry } from '@spartacus/core';
 
 import { OrderDetailsService } from '../order-details.service';
 

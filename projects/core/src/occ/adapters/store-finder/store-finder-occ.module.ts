@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { ConfigModule } from '../../../config/config.module';
 import { StoreFinderAdapter } from '../../../store-finder/connectors/store-finder.adapter';
 import { defaultOccStoreFinderConfig } from './default-occ-store-finder-config';

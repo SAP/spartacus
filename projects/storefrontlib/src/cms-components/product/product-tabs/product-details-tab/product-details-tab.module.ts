@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { ConfigModule, CmsConfig } from '@spartacus/core';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
+
 import { ProductDetailsTabComponent } from './product-details-tab.component';
 
 @NgModule({

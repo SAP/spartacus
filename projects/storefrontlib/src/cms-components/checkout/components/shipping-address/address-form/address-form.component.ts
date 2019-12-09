@@ -8,6 +8,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+
 import {
   Address,
   AddressValidation,
@@ -20,14 +23,13 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+
 import {
   ModalRef,
   ModalService,
 } from '../../../../../shared/components/modal/index';
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { sortTitles } from '../../../../../shared/utils/forms/title-utils';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
   selector: 'cx-address-form',

@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
+
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';

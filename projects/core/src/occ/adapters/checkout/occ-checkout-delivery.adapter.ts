@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
+
 import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/checkout-delivery.adapter';
 import { DELIVERY_MODE_NORMALIZER } from '../../../checkout/connectors/delivery/converters';
 import { Address } from '../../../model/address.model';

@@ -1,19 +1,21 @@
-import { Component, Input, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { of } from 'rxjs';
+
 import {
+  AuthService,
+  Cart,
   CartService,
+  CartVoucherService,
   I18nTestingModule,
   Voucher,
-  Cart,
-  CartVoucherService,
-  AuthService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
-import { CartCouponComponent } from './cart-coupon.component';
 import { ICON_TYPE } from '@spartacus/storefront';
+
+import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
   selector: 'cx-icon',

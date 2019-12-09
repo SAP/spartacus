@@ -3,9 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { I18nTestingModule } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
+
+import { I18nTestingModule } from '@spartacus/core';
+
 import { PageLayoutService } from '../../../../cms-structure';
 import {
   ListNavigationModule,

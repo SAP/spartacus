@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { SemanticPathService } from './semantic-path.service';
 import { UrlPipe } from './url.pipe';
 

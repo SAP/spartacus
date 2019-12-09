@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FeatureConfigService } from './feature-config.service';
 import { FeaturesConfig } from '@spartacus/core';
+
+import { FeatureConfigService } from './feature-config.service';
 
 describe('FeatureConfigService', () => {
   const mockFeaturesConfig: FeaturesConfig = {

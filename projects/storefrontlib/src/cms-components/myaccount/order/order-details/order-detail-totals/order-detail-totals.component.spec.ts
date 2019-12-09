@@ -1,12 +1,12 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Cart, Order } from '@spartacus/core';
-
 import { of } from 'rxjs';
 
-import { OrderDetailTotalsComponent } from './order-detail-totals.component';
+import { Cart, Order } from '@spartacus/core';
+
 import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailTotalsComponent } from './order-detail-totals.component';
 
 @Component({
   selector: 'cx-order-summary',

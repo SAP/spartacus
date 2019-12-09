@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { CartVoucherAdapter } from './cart-voucher.adapter';
 
 @Injectable({

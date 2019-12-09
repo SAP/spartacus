@@ -1,9 +1,11 @@
-import { Component, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { ProductSearchPage } from '@spartacus/core';
-import { ViewModes } from '../../product-view/product-view.component';
+import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ProductListComponentService } from '../product-list-component.service';
+
+import { ProductSearchPage } from '@spartacus/core';
+
 import { ViewConfig } from '../../../../../shared/config/view-config';
+import { ViewModes } from '../../product-view/product-view.component';
+import { ProductListComponentService } from '../product-list-component.service';
 
 @Component({
   selector: 'cx-product-scroll',

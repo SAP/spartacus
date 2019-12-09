@@ -1,5 +1,6 @@
 import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
-import { AuthState, AUTH_FEATURE, StateWithAuth } from '../auth-state';
+
+import { AUTH_FEATURE, AuthState, StateWithAuth } from '../auth-state';
 
 export const getAuthState: MemoizedSelector<
   StateWithAuth,

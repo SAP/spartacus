@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
+
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
@@ -14,8 +15,8 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
 import {
-  OCC_USER_ID_ANONYMOUS,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
 } from '../../utils/occ-constants';
 
 // TODO: Deprecated, remove Issue: #4125. Use configurable endpoints.

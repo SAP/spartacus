@@ -1,5 +1,7 @@
 import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   AuthService,
   GlobalMessageService,
@@ -8,7 +10,7 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { CloseAccountModalComponent } from './close-account-modal.component';

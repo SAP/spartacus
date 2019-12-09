@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
+
 import {
   AsmAuthService,
   AuthService,
@@ -17,7 +19,7 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 

@@ -3,6 +3,7 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
+
 import { Cart } from '../../../model/cart.model';
 import { OrderEntry } from '../../../model/order.model';
 import { entityValueSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
@@ -14,8 +15,8 @@ import {
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.selectors';
 import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import {
-  MultiCartState,
   MULTI_CART_FEATURE,
+  MultiCartState,
   StateWithMultiCart,
 } from '../multi-cart-state';
 

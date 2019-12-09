@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { Title, User, UserSignUp } from '../../../model/misc.model';
 import { UserAdapter } from './user.adapter';
 

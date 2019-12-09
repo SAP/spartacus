@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
+
 import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
@@ -20,7 +22,7 @@ import {
   Translatable,
   UserConsentService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({

@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed, TestBedStatic } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of, ReplaySubject } from 'rxjs';
+
 import { AuthService, UserToken } from '../../auth/index';
 import { CartActions } from '../../cart/store/actions/index';
 import * as fromReducers from '../../cart/store/reducers/index';

@@ -1,4 +1,5 @@
 import { Action, ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
+
 import { deepMerge } from '../../config/utils/deep-merge';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';

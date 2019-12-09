@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+
 import { AuthService } from '../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';

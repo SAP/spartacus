@@ -1,6 +1,6 @@
-import { getCartIdByUserId } from './utils';
 import { Cart } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
+import { getCartIdByUserId } from './utils';
 
 describe('Cart utils', () => {
   describe('getCartIdByUserId', () => {

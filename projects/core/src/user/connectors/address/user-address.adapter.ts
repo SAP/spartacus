@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+
 import { Address, AddressValidation } from '../../../model/address.model';
 
 export abstract class UserAddressAdapter {

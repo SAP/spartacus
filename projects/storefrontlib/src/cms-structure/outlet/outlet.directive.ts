@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
+
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 

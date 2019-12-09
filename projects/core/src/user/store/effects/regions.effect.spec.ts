@@ -4,6 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import { Region } from '../../../model/index';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';

@@ -1,4 +1,4 @@
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 /**
  * Utility class when working with forms.

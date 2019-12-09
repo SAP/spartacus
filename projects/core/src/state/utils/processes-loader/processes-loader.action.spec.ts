@@ -1,13 +1,13 @@
 import {
+  PROCESSES_DECREMENT_ACTION,
+  PROCESSES_INCREMENT_ACTION,
+  PROCESSES_LOADER_RESET_ACTION,
   ProcessesDecrementAction,
   processesDecrementMeta,
   ProcessesIncrementAction,
   processesIncrementMeta,
   ProcessesLoaderResetAction,
   processesLoaderResetMeta,
-  PROCESSES_DECREMENT_ACTION,
-  PROCESSES_INCREMENT_ACTION,
-  PROCESSES_LOADER_RESET_ACTION,
 } from './processes-loader.action';
 
 describe('Processes Loader Actions', () => {

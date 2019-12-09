@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+
 import { Order } from '../../../model/order.model';
 import * as fromReducers from '../reducers';
 import { UsersSelectors } from '../selectors/index';

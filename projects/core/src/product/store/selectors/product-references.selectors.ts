@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { ProductReference } from '../../../model/product.model';
 import {
   ProductReferencesState,

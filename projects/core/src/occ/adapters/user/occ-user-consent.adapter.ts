@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+
 import { ConsentTemplate } from '../../../model/consent.model';
 import { CONSENT_TEMPLATE_NORMALIZER } from '../../../user/connectors/consent/converters';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';

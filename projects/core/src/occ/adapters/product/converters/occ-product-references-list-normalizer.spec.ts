@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { ProductReference } from '../../../../model/product.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';

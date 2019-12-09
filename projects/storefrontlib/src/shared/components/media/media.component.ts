@@ -7,6 +7,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
+
 import { Media } from './media.model';
 import { MediaService } from './media.service';
 

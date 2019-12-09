@@ -15,7 +15,12 @@
     "member-ordering": [
       true,
       {
-        "order": ["static-field", "instance-field", "static-method", "instance-method"]
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
       }
     ],
     "no-arg": true,
@@ -52,6 +57,29 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "linebreak-style": [true, "LF"]
+    "linebreak-style": [true, "LF"],
+    "ordered-imports": [
+      true,
+      {
+        "grouped-imports": true,
+        "groups": [
+          {
+            "name": "dependencies",
+            "match": "^(?!\\.|@spartacus).*",
+            "order": 10
+          },
+          {
+            "name": "project",
+            "match": "^(@spartacus)",
+            "order": 20
+          },
+          {
+            "name": "internal",
+            "match": "^\\.",
+            "order": 30
+          }
+        ]
+      }
+    ]
   }
 }

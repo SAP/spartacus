@@ -1,9 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AuthRedirectService } from './auth-redirect.service';
-import { RoutingService } from '../../routing/facade/routing.service';
 import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { RoutingService } from '../../routing/facade/routing.service';
+import { AuthRedirectService } from './auth-redirect.service';
 
 class MockRoutingService {
   go = jasmine.createSpy('go');

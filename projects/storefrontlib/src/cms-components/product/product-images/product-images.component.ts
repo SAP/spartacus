@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+
+import { Product } from '@spartacus/core';
+
 import { CurrentProductService } from '../current-product.service';
 
 @Component({

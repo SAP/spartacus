@@ -1,4 +1,7 @@
 import { Injectable, Injector, Optional } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
+
 import {
   CmsSiteContextSelectorComponent,
   ContextServiceMap,
@@ -6,8 +9,7 @@ import {
   LANGUAGE_CONTEXT_ID,
   SiteContext,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextType } from './site-context.model';
 

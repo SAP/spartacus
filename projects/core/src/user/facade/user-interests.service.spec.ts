@@ -1,16 +1,17 @@
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+
+import {
+  NotificationType,
+  ProductInterestSearchResult,
+} from '../../model/product-interest.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserInterestsService } from './user-interests.service';
-import { Type } from '@angular/core';
-import {
-  ProductInterestSearchResult,
-  NotificationType,
-} from '../../model/product-interest.model';
 
 const emptyInterestList: ProductInterestSearchResult = {
   results: [],

@@ -1,8 +1,9 @@
-import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
+import { Action } from '@ngrx/store';
+
 import { EntityScopedLoaderAction } from '../../../product/store/actions/product.action';
 import { LoaderState } from '../loader/loader-state';
+import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
 import { ScopedLoaderState } from './scoped-loader.state';
-import { Action } from '@ngrx/store';
 
 /**
  * Higher order reducer designed to add scope support for loader reducer

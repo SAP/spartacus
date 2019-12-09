@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { CartAdapter } from './cart.adapter';
 import { CartConnector } from './cart.connector';
 import createSpy = jasmine.createSpy;

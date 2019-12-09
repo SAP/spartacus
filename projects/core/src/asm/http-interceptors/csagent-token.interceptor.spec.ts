@@ -6,10 +6,12 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { AsmAuthService, OccConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
+
+import { AsmAuthService, OccConfig } from '@spartacus/core';
+
 import { UserToken } from '../../auth/models/token-types.model';
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { CustomerSupportAgentTokenInterceptor } from './csagent-token.interceptor';
 
 const testToken = {
