@@ -6,7 +6,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { OutletPosition } from './outlet.model';
+import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
 @Directive({
@@ -24,26 +24,44 @@ export class OutletDirective implements OnInit {
   constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private outletService: OutletService
+    private outletService: OutletService<
+      TemplateRef<any> | ComponentFactory<any>
+    >
   ) {}
 
   ngOnInit(): void {
-    this.renderTemplate(OutletPosition.BEFORE);
-    this.renderTemplate(OutletPosition.REPLACE, true);
-    this.renderTemplate(OutletPosition.AFTER);
+    this.renderOutlet(OutletPosition.BEFORE);
+    this.renderOutlet(OutletPosition.REPLACE);
+    this.renderOutlet(OutletPosition.AFTER);
   }
 
-  private renderTemplate(position: OutletPosition, replace = false): void {
-    const template = this.outletService.get(this.cxOutlet, position);
-    if (template && template instanceof ComponentFactory) {
-      this.vcr.createComponent(template);
-    } else if ((template && template instanceof TemplateRef) || replace) {
-      this.vcr.createEmbeddedView(
-        <TemplateRef<any>>template || this.templateRef,
-        {
-          $implicit: this._context,
-        }
-      );
+  private renderOutlet(position: OutletPosition): void {
+    let templates: any[] = <any[]>(
+      this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
+    );
+
+    if (!templates && position === OutletPosition.REPLACE) {
+      templates = [this.templateRef];
+    }
+
+    // Just in case someone extended the `OutletService` and
+    // returns a singular object.
+    if (!Array.isArray(templates)) {
+      templates = [templates];
+    }
+
+    templates.forEach(obj => {
+      this.create(obj);
+    });
+  }
+
+  private create(tmplOrFactory: any): void {
+    if (tmplOrFactory instanceof ComponentFactory) {
+      this.vcr.createComponent(tmplOrFactory);
+    } else if (tmplOrFactory instanceof TemplateRef) {
+      this.vcr.createEmbeddedView(<TemplateRef<any>>tmplOrFactory, {
+        $implicit: this._context,
+      });
     }
   }
 }
