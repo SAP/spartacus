@@ -44,7 +44,7 @@ export function skipLinkFactory(
     const factory = componentFactoryResolver.resolveComponentFactory(
       SkipLinkComponent
     );
-    outletService.add('cx-storefront', factory, OutletPosition.BEFORE);
+    outletService.add('cx-storefront', <any>factory, OutletPosition.BEFORE);
   };
   return isReady;
 }
