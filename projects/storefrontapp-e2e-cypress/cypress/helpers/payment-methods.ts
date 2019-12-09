@@ -77,6 +77,9 @@ export function paymentDetailCard() {
 export function addSecondaryPaymentCard() {
   const request = requestPages();
 
+  // TODO: Remove this constant variable, fix for: #5459
+  const customTimeout = 10000;
+
   // go to product page
   const productId = '3595723';
   cy.visit(`/product/${productId}`);
@@ -95,13 +98,17 @@ export function addSecondaryPaymentCard() {
   cy.getByText(/Ship to this address/i).click({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
-  cy.wait(`@${request.deliveryPage}`);
+  // TODO: Remove constant timeout variable, fix for: #5459
+  // cy.wait(`@${request.deliveryPage}`);
+  cy.wait(customTimeout);
 
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
-  cy.wait(`@${request.paymentPage}`);
+  // TODO: Remove constant timeout variable, fix for: #5459
+  // cy.wait(`@${request.paymentPage}`);
+  cy.wait(customTimeout);
 
   // fill in payment method
   cy.getByText('Add New Payment').click({ force: true });
