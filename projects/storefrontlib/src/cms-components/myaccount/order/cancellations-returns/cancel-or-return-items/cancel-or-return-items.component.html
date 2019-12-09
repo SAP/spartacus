@@ -1,5 +1,9 @@
 <ng-container *ngIf="!confirmRequest">
-  <button [disabled]="disableConfirmBtn" (click)="confirmEntryInputs()">
+  <button
+    class="btn btn-primary"
+    [disabled]="disableConfirmBtn"
+    (click)="confirmEntryInputs()"
+  >
     {{ 'common.continue' | cxTranslate }}
   </button>
   <br />
@@ -153,7 +157,11 @@
 </div>
 
 <ng-container *ngIf="!confirmRequest">
-  <button [disabled]="disableConfirmBtn" (click)="confirmEntryInputs()">
+  <button
+    class="btn btn-primary"
+    [disabled]="disableConfirmBtn"
+    (click)="confirmEntryInputs()"
+  >
     {{ 'common.continue' | cxTranslate }}
   </button>
 </ng-container>
