@@ -11,7 +11,7 @@ describe('my interests - guest', () => {
   });
 });
 
-describe('my interests - customer', () => {
+describe.skip('my interests - customer', () => {
   beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
@@ -28,7 +28,7 @@ describe('my interests - customer', () => {
   });
 });
 
-describe('my interests - customer with interests', () => {
+describe.skip('my interests - customer with interests', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();

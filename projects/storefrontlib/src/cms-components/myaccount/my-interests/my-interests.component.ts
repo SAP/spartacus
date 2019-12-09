@@ -1,20 +1,20 @@
 import {
-  Component,
-  OnInit,
-  OnDestroy,
   ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
-  UserInterestsService,
-  ProductInterestSearchResult,
-  ProductInterestEntryRelation,
   PaginationModel,
-  TranslationService,
-  ProductService,
   Product,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
+  ProductService,
+  TranslationService,
+  UserInterestsService,
 } from '@spartacus/core';
-import { tap, map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {
@@ -116,13 +116,13 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   }
 
   removeInterest(
-    result: ProductInterestEntryRelation & {
+    relation: ProductInterestEntryRelation & {
       product$?: Observable<Product>;
     }
   ): void {
     this.productInterestService.removeProdutInterest({
-      product: result.product,
-      productInterestEntry: result.productInterestEntry,
+      product: relation.product,
+      productInterestEntry: relation.productInterestEntry,
     });
   }
 

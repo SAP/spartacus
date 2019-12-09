@@ -1,5 +1,6 @@
 import * as notification from '../../../helpers/notification';
-describe('Stock Notification for Guest', () => {
+
+describe.skip('Stock Notification for Guest', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
@@ -9,7 +10,7 @@ describe('Stock Notification for Guest', () => {
   });
 });
 
-describe('Stock Notification for Customer', () => {
+describe.skip('Stock Notification for Customer', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
