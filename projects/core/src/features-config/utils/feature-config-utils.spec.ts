@@ -4,7 +4,7 @@ import {
   isFeatureLevel,
 } from '@spartacus/core';
 
-describe('Feature Config Utils', () => {
+fdescribe('Feature Config Utils', () => {
   describe('isFeatureLevel', () => {
     describe('when feature level is defined', () => {
       const config: FeaturesConfig = {
@@ -78,6 +78,22 @@ describe('Feature Config Utils', () => {
         },
       };
       expect(isFeatureEnabled(config, 'testFeature')).toBeFalsy();
+    });
+    it('should return false if feature is enabled but negation is used', () => {
+      const config: FeaturesConfig = {
+        features: {
+          testFeature: true,
+        },
+      };
+      expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
+    });
+    it('should return true if feature is disabled but negation is used', () => {
+      const config: FeaturesConfig = {
+        features: {
+          testFeature: false,
+        },
+      };
+      expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
     });
   });
 });
