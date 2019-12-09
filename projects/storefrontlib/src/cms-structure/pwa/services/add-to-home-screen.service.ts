@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+
 import { PWAModuleConfig } from '../pwa.module-config';
 
 @Injectable()

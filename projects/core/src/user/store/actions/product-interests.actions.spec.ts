@@ -1,23 +1,23 @@
+import { NotificationType } from '../../../model/product-interest.model';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
+  entityFailMeta,
+  entityLoadMeta,
+  entityResetMeta,
+  entitySuccessMeta,
+} from '../../../state/utils/entity-loader/entity-loader.action';
+import {
+  failMeta,
+  loadMeta,
+  resetMeta,
+  successMeta,
+} from '../../../state/utils/loader/loader.action';
+import {
+  ADD_PRODUCT_INTEREST_PROCESS_ID,
   PRODUCT_INTERESTS,
   REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
-  ADD_PRODUCT_INTEREST_PROCESS_ID,
 } from '../user-state';
 import { UserActions } from './index';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-  resetMeta,
-} from '../../../state/utils/loader/loader.action';
-import { NotificationType } from '../../../model/product-interest.model';
-import {
-  entityLoadMeta,
-  entitySuccessMeta,
-  entityFailMeta,
-  entityResetMeta,
-} from '../../../state/utils/entity-loader/entity-loader.action';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
 
 const userId = 'qingyu@sap.com';
 const productCode = '343898';

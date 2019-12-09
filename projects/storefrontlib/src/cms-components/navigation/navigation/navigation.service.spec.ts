@@ -1,11 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+
 import {
   CmsNavigationComponent,
   CmsService,
   SemanticPathService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+
 import { NavigationNode } from './navigation-node.model';
 import { NavigationService } from './navigation.service';
 import createSpy = jasmine.createSpy;

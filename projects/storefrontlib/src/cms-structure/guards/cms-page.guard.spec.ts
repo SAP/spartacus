@@ -2,6 +2,8 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
@@ -10,7 +12,7 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';

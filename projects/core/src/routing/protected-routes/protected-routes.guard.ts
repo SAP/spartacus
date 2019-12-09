@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
+
 import { AuthGuard } from '../../auth/guards/auth.guard';
 import { ProtectedRoutesService } from './protected-routes.service';
 

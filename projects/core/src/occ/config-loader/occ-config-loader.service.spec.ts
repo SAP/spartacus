@@ -2,6 +2,7 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TransferState } from '@angular/platform-browser';
 import { of } from 'rxjs';
+
 import { Config } from '../../config/config.module';
 import { I18nConfig } from '../../i18n';
 import { BaseSite } from '../../model/misc.model';

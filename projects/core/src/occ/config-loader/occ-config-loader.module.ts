@@ -1,7 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+
 import {
-  ConfigInitializer,
   CONFIG_INITIALIZER,
+  ConfigInitializer,
 } from '../../config/config-initializer/config-initializer';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';

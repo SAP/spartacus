@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';

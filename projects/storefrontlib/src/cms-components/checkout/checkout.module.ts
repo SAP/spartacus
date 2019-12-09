@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import { CheckoutOrchestratorModule } from './components/checkout-orchestrator/checkout-orchestrator.module';
 import { CheckoutOrderSummaryModule } from './components/checkout-order-summary/checkout-order-summary.module';
 // tslint:disable-next-line

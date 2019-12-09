@@ -1,6 +1,6 @@
+import { NotificationPreference } from '../../../model/notification-preference.model';
 import { UserActions } from '../actions/index';
 import * as fromReducer from './notification-preference.reducer';
-import { NotificationPreference } from '../../../model/notification-preference.model';
 
 const mockNotificationPreference: NotificationPreference[] = [
   {

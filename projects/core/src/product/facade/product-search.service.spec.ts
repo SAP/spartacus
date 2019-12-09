@@ -3,6 +3,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
+
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
 import { ProductActions } from '../store/actions/index';

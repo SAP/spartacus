@@ -1,13 +1,13 @@
-import { DebugElement, PipeTransform, Pipe } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import {
-  UserService,
-  RoutingService,
   I18nTestingModule,
+  RoutingService,
+  UserService,
 } from '@spartacus/core';
 
 import { ForgotPasswordComponent } from './forgot-password.component';

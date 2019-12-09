@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
+
 import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';

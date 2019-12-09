@@ -3,9 +3,10 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+
 import { Review } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
-import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
+import { PRODUCT_FEATURE, ProductsState } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReviewService } from './product-review.service';
 

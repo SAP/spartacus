@@ -1,12 +1,12 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Order } from '@spartacus/core';
-
 import { of } from 'rxjs';
 
-import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
+import { I18nTestingModule, Order } from '@spartacus/core';
+
 import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
 
 const mockOrder: Order = {
   code: '1',

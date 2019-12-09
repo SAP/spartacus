@@ -1,4 +1,5 @@
 import { Title } from '@spartacus/core';
+
 import { sortTitles } from './title-utils';
 
 describe('TitleUtils', () => {

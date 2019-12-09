@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import {
   CmsConfig,
   ConfigModule,
@@ -8,6 +9,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+
 import { CartSharedModule } from '../../../../cms-components/cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';

@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Product } from '@spartacus/core';
+
 import { JsonLdBaseProductBuilder } from './jsonld-base-product.builder';
 
 const simpeProductMock: Product = {

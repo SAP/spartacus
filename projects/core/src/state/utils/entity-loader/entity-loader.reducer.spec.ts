@@ -1,4 +1,5 @@
-import { entityLoaderReducer } from './entity-loader.reducer';
+import { initialLoaderState } from '@spartacus/core';
+
 import { initialEntityState } from '../entity/entity.reducer';
 import {
   EntityFailAction,
@@ -6,7 +7,7 @@ import {
   EntityResetAction,
   EntitySuccessAction,
 } from './entity-loader.action';
-import { initialLoaderState } from '@spartacus/core';
+import { entityLoaderReducer } from './entity-loader.reducer';
 
 describe('EntityLoader reducer', () => {
   const TEST_ENTITY_TYPE = 'test';

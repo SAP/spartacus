@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+
 import { ImageType } from '../../../../model/image.model';
 import { Product } from '../../../../model/product.model';
 import { OccConfig } from '../../../config/occ-config';

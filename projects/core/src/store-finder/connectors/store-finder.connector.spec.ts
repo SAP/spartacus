@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+
 import { GeoPoint } from '../../model';
 import { StoreFinderSearchConfig } from '../model';
 import { StoreFinderAdapter } from './store-finder.adapter';

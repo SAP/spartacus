@@ -1,5 +1,6 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
+
 import { SchemaBuilder } from './builders/schema.interface';
 import { SCHEMA_BUILDER } from './builders/tokens';
 import { JsonLdScriptFactory } from './json-ld-script.factory';

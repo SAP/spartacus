@@ -3,13 +3,14 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { Product } from '../../model/product.model';
+import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductService } from './product.service';
-import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 class MockLoadingScopesService {

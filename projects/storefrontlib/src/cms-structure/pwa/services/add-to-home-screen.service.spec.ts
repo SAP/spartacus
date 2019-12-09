@@ -1,10 +1,12 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+
 import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
+
 import { PWAModuleConfig } from '../pwa.module-config';
 import { AddToHomeScreenService } from './add-to-home-screen.service';
 import createSpy = jasmine.createSpy;

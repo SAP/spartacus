@@ -8,6 +8,7 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
@@ -15,6 +16,7 @@ import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
+
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 registerLocaleData(localeDe);

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { HamburgerMenuModule } from '../layout/index';
 import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
 import { AsmModule } from './asm/asm.module';
@@ -17,6 +18,7 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  MyInterestsModule,
   NotificationPreferenceModule,
   OrderDetailsModule,
   OrderHistoryModule,
@@ -25,7 +27,6 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-  MyInterestsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,

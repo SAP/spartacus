@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+
 import {
   AuthService,
   BaseSiteService,
@@ -25,12 +26,13 @@ import {
   TranslationService,
   UserAddressService,
   UserConsentService,
+  UserInterestsService,
+  UserNotificationPreferenceService,
   UserOrderService,
   UserPaymentService,
   UserService,
-  UserNotificationPreferenceService,
-  UserInterestsService,
 } from '@spartacus/core';
+
 import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}

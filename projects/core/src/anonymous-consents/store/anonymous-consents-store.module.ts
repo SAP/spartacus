@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+
 import { ConfigModule } from '../../config/index';
 import { StateConfig, StorageSyncType } from '../../state/index';
 import { StateModule } from '../../state/state.module';

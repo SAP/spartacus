@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+
 import {
   Address,
   CartService,
@@ -10,7 +12,7 @@ import {
   RoutingService,
   UserAddressService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { ShippingAddressComponent } from './shipping-address.component';

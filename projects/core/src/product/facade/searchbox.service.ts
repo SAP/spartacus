@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import { ProductSearchPage, Suggestion } from '../../model/index';
 import { SearchConfig } from '../model/index';
 import { ProductActions } from '../store/actions/index';

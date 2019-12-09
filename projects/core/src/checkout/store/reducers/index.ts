@@ -1,17 +1,15 @@
 import { InjectionToken, Provider } from '@angular/core';
-
 import { ActionReducerMap } from '@ngrx/store';
 
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
-  CheckoutState,
   CHECKOUT_DETAILS,
+  CheckoutState,
   CheckoutStepsState,
 } from '../checkout-state';
-
 import * as fromAddressVerification from './address-verification.reducer';
 import * as fromCardTypes from './card-types.reducer';
 import * as fromCheckout from './checkout.reducer';
-import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 export function getReducers(): ActionReducerMap<CheckoutState> {
   return {

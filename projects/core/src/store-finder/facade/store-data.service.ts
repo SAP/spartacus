@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { PointOfService } from '../../model/point-of-service.model';
 
 @Injectable()

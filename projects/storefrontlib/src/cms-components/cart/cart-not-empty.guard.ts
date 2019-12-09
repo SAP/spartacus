@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Cart, CartService, RoutingService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+
+import { Cart, CartService, RoutingService } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

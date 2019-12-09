@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
 import {
-  StoreFinderService,
   PointOfService,
   RoutingService,
+  StoreFinderService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+
 import { ICON_TYPE } from '../../../misc/icon';
 
 @Component({

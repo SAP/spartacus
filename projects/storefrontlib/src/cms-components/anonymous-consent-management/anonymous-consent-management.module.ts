@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import {
   CmsConfig,
   ConfigModule,
   FeaturesConfigModule,
   I18nModule,
 } from '@spartacus/core';
+
 import { AnonymousConsentManagementBannerComponent } from './banner/anonymous-consent-management-banner.component';
 import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-consent-open-dialog.component';
 

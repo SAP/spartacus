@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { BreadcrumbSchemaBuilder } from './breadcrumb/index';
 import {
   JsonLdBaseProductBuilder,

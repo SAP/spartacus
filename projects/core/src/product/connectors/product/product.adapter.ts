@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+
 import { Product } from '../../../model/product.model';
 import { ScopedProductData } from './scoped-product-data';
 

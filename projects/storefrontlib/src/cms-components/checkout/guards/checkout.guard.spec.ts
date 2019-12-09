@@ -1,13 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject } from 'rxjs';
+
 import {
   CartService,
   RoutesConfig,
   RoutingConfigService,
 } from '@spartacus/core';
 import { CheckoutConfigService, CheckoutStepType } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';

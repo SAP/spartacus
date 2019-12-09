@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+
 import {
   FeatureConfigService,
   Product,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',

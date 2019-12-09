@@ -1,15 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StockNotificationComponent } from './stock-notification.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
 import {
-  ConfigModule,
   CmsConfig,
+  ConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
+
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { RouterModule } from '@angular/router';
+import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
+import { StockNotificationComponent } from './stock-notification.component';
 
 @NgModule({
   declarations: [StockNotificationComponent, StockNotificationDialogComponent],

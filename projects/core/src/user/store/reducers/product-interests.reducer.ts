@@ -1,5 +1,5 @@
-import { UserActions } from '../actions/index';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
+import { UserActions } from '../actions/index';
 
 export const initialState: ProductInterestSearchResult = {
   results: [],

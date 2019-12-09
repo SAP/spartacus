@@ -3,13 +3,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+
 import {
   CheckoutDeliveryService,
   DeliveryMode,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
 

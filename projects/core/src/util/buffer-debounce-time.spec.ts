@@ -1,4 +1,5 @@
 import { cold, getTestScheduler } from 'jasmine-marbles';
+
 import { bufferDebounceTime } from './buffer-debounce-time';
 
 describe('bufferDebounceTime', () => {

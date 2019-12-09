@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Product } from '@spartacus/core';
-import { CurrentProductService } from '../../current-product.service';
 import { Observable } from 'rxjs';
+
+import { Product } from '@spartacus/core';
+
+import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-attributes',

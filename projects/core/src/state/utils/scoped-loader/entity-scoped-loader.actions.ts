@@ -1,3 +1,5 @@
+import { Action } from '@ngrx/store';
+
 import {
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
@@ -9,7 +11,6 @@ import {
   entityResetMeta,
   entitySuccessMeta,
 } from '../entity-loader/entity-loader.action';
-import { Action } from '@ngrx/store';
 
 export namespace EntityScopedLoaderActions {
   export interface EntityScopedLoaderMeta extends EntityLoaderMeta {

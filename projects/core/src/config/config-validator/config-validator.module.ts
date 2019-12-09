@@ -5,6 +5,7 @@ import {
   NgModule,
   Optional,
 } from '@angular/core';
+
 import { ConfigInitializerService } from '../config-initializer/config-initializer.service';
 import {
   ConfigValidator,

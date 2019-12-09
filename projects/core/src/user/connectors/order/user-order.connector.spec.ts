@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
+
 import { UserOrderAdapter } from './user-order.adapter';
 import { UserOrderConnector } from './user-order.connector';
 

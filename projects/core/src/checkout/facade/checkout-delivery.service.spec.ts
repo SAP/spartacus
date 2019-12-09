@@ -1,16 +1,18 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+
+import { LoaderState, PROCESS_FEATURE } from '@spartacus/core';
+
 import { CartDataService } from '../../cart/facade/cart-data.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
 import { DeliveryMode } from '../../model/order.model';
+import * as fromProcessReducers from '../../process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
-import { PROCESS_FEATURE, LoaderState } from '@spartacus/core';
-import * as fromProcessReducers from '../../process/store/reducers/index';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;

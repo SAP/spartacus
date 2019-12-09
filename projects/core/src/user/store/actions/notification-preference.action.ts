@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/utils/index';
+import { NotificationPreference } from '../../../model/notification-preference.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -6,11 +6,11 @@ import {
   EntityResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { StateLoaderActions } from '../../../state/utils/index';
 import {
-  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
   NOTIFICATION_PREFERENCES,
+  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from '../user-state';
-import { NotificationPreference } from '../../../model/notification-preference.model';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';

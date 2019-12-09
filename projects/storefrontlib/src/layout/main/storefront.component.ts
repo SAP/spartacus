@@ -1,6 +1,8 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+
+import { RoutingService } from '@spartacus/core';
+
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 
 @Component({

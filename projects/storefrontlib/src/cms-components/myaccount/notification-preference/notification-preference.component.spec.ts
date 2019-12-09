@@ -1,14 +1,16 @@
+import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NotificationPreferenceComponent } from './notification-preference.component';
+import { By } from '@angular/platform-browser';
+import { cold, getTestScheduler } from 'jasmine-marbles';
+import { of } from 'rxjs';
+
 import {
   I18nTestingModule,
   NotificationPreference,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
-import { DebugElement, Component } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { cold, getTestScheduler } from 'jasmine-marbles';
+
+import { NotificationPreferenceComponent } from './notification-preference.component';
 
 @Component({
   selector: 'cx-spinner',

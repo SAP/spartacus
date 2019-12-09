@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Config, ConfigModule, provideConfig } from './config.module';
 
 describe('ConfigModule', () => {

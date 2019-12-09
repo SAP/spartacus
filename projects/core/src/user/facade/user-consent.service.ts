@@ -9,6 +9,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+
 import { AuthService } from '../../auth/facade/auth.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/index';

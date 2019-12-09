@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import {
   AuthGuard,
   CmsConfig,
@@ -7,6 +8,7 @@ import {
   I18nModule,
   UserAddressService,
 } from '@spartacus/core';
+
 import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressFormModule } from '../../checkout/components/shipping-address/address-form/address-form.module';

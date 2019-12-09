@@ -1,10 +1,11 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+
 import { SmartEditService } from '../services/smart-edit.service';
 import { CmsTicketInterceptor } from './cms-ticket.interceptor';
 

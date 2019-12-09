@@ -8,6 +8,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
 import {
   Address,
   AddressValidation,
@@ -19,8 +22,7 @@ import {
   GlobalMessageType,
   UserPaymentService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+
 import { Card } from '../../../../../shared/components/card/card.component'; // tslint:disable-line
 import {
   ModalRef,

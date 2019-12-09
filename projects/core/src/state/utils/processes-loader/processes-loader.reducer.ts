@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
 import { ProcessesLoaderState } from './processes-loader-state';
 import { ProcessesLoaderAction } from './processes-loader.action';

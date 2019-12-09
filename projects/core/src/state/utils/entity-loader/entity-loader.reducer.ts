@@ -1,6 +1,6 @@
 import { entityReducer } from '../entity/entity.reducer';
-import { loaderReducer } from '../loader/loader.reducer';
 import { LoaderAction } from '../loader/loader.action';
+import { loaderReducer } from '../loader/loader.reducer';
 import { EntityLoaderState } from './entity-loader-state';
 import { EntityLoaderAction } from './entity-loader.action';
 

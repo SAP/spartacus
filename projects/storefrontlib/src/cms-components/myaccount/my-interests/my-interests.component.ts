@@ -5,6 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
 import {
   PaginationModel,
   Product,
@@ -14,7 +16,6 @@ import {
   TranslationService,
   UserInterestsService,
 } from '@spartacus/core';
-import { map, tap } from 'rxjs/operators';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {

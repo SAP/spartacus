@@ -1,7 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConsignmentTracking, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+
+import { ConsignmentTracking, UserOrderService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-tracking-events',

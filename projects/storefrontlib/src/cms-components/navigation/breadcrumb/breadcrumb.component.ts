@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import {
   CmsBreadcrumbsComponent,
   PageMeta,
   PageMetaService,
   TranslationService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({

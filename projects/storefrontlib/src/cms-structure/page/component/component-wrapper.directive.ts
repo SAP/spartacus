@@ -11,6 +11,7 @@ import {
   Renderer2,
   ViewContainerRef,
 } from '@angular/core';
+
 import {
   CmsComponent,
   CmsConfig,
@@ -18,6 +19,7 @@ import {
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentMapperService } from './component-mapper.service';
 import { CxApiService } from './cx-api.service';

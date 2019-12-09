@@ -1,14 +1,15 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
-import { UserNotificationPreferenceService } from './user-notification-preference.service';
-import { StoreModule, Store } from '@ngrx/store';
-import * as fromStoreReducers from '../store/reducers/index';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
 import { Type } from '@angular/core';
-import { UserActions } from '../store/actions/index';
+import { inject, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
+import { UserActions } from '../store/actions/index';
+import * as fromStoreReducers from '../store/reducers/index';
+import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { UserNotificationPreferenceService } from './user-notification-preference.service';
 
 describe('UserNotificationPreferenceService', () => {
   let userNotificationPreferenceService: UserNotificationPreferenceService;

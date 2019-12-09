@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+
 import { I18nTestingModule } from '@spartacus/core';
+
 import { ICON_TYPE } from '../../../../../misc/index';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
 

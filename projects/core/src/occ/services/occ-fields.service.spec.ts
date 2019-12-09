@@ -1,10 +1,11 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+
 import {
   OccFieldsModel,
   OccFieldsService,
   ScopedDataWithUrl,
 } from './occ-fields.service';
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('OccFieldsService', () => {
   let service: OccFieldsService;

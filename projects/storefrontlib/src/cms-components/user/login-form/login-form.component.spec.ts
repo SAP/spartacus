@@ -4,6 +4,8 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   AuthRedirectService,
   AuthService,
@@ -12,7 +14,7 @@ import {
   UserToken,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+
 import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
 

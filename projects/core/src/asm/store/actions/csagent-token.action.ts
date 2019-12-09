@@ -1,8 +1,9 @@
-import { StateLoaderActions } from '../../../state/utils/index';
-import { UserToken } from '../../../auth/models/token-types.model';
-import { CSAGENT_TOKEN_DATA } from '../asm-state';
 import { Action } from '@ngrx/store';
+
+import { UserToken } from '../../../auth/models/token-types.model';
 import { LOGOUT_CUSTOMER_SUPPORT_AGENT } from '../../../auth/store/actions/login-logout.action';
+import { StateLoaderActions } from '../../../state/utils/index';
+import { CSAGENT_TOKEN_DATA } from '../asm-state';
 
 export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN =
   '[Auth] Load Customer Service Agent Token';

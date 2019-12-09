@@ -1,12 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { LinkComponent } from './link.component';
+
+import { CmsComponent, CmsLinkComponent } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsLinkComponent, CmsComponent } from '@spartacus/core';
+
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
+import { LinkComponent } from './link.component';
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;

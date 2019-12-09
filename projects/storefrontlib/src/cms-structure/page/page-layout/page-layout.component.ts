@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+
 import { PageLayoutService } from './page-layout.service';
 
 @Component({

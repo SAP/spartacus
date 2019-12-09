@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { BaseSite } from '../../model/misc.model';
 import { OccConfig } from '../config/occ-config';
 import { Occ } from '../occ-models/occ.models';

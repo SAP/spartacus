@@ -1,28 +1,29 @@
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { StockNotificationComponent } from './stock-notification.component';
 import {
-  I18nTestingModule,
-  NotificationPreference,
   AuthService,
   GlobalMessageService,
-  TranslationService,
-  UserNotificationPreferenceService,
-  ProductInterestSearchResult,
+  I18nTestingModule,
+  NotificationPreference,
   NotificationType,
+  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   Product,
-  OCC_USER_ID_ANONYMOUS,
+  ProductInterestSearchResult,
+  TranslationService,
   UserInterestsService,
+  UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
-import { CurrentProductService } from '../current-product.service';
+
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { of, Observable, BehaviorSubject } from 'rxjs';
-import { By } from '@angular/platform-browser';
+import { CurrentProductService } from '../current-product.service';
+import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
+import { StockNotificationComponent } from './stock-notification.component';
 
 describe('StockNotificationComponent', () => {
   let component: StockNotificationComponent;

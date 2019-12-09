@@ -1,7 +1,9 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CountryType } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
+
+import { CountryType } from '@spartacus/core';
+
 import { SiteAdapter } from './site.adapter';
 import { SiteConnector } from './site.connector';
 

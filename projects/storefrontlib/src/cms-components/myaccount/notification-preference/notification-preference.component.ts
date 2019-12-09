@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
 import {
   NotificationPreference,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-notification-preference',

@@ -1,12 +1,14 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+
 import {
   contextServiceMapProvider,
   LanguageService,
   SiteContext,
   SiteContextConfig,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,

@@ -1,17 +1,19 @@
 import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
   I18nTestingModule,
+  PointOfService,
   RoutingService,
   StoreFinderService,
-  PointOfService,
 } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+
 import { SpinnerModule } from '../../../../shared';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 const mockStoreFinderService = {
   getStoresLoading: jasmine.createSpy(),

@@ -1,8 +1,9 @@
 /// <reference types="@types/googlemaps" />
-import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { Injectable } from '@angular/core';
-import { StoreDataService } from '../facade/store-data.service';
+
 import { StoreFinderConfig } from '../config/store-finder-config';
+import { StoreDataService } from '../facade/store-data.service';
+import { ExternalJsFileLoader } from './external-js-file-loader.service';
 
 @Injectable()
 export class GoogleMapRendererService {

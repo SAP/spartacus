@@ -9,6 +9,7 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
+
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 
 @Component({

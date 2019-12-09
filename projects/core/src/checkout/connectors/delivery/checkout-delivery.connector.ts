@@ -1,8 +1,9 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
+import { Observable } from 'rxjs';
+
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
+import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
 
 @Injectable({
   providedIn: 'root',

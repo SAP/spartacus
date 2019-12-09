@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
 import { ModalService } from '../../../shared/index';
 

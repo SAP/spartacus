@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { BaseSite } from '../../../model/misc.model';
 
 export const LOAD_BASE_SITE = '[Site-context] Load BaseSite';

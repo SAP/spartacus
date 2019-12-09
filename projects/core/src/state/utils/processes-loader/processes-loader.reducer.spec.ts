@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { initialLoaderState } from '../loader';
 import { LoaderLoadAction } from '../loader/loader.action';
 import {

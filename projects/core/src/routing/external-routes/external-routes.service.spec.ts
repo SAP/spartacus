@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
 import { ExternalRoutesConfig } from './external-routes-config';
 import { ExternalRoutesGuard } from './external-routes.guard';

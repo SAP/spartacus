@@ -5,6 +5,7 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
+
 import { AuthActions } from '../../../auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -14,15 +15,15 @@ import { OrderHistoryList } from '../../../model/order.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
+  NOTIFICATION_PREFERENCES,
+  PRODUCT_INTERESTS,
   REGIONS,
   RegionsState,
-  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  NOTIFICATION_PREFERENCES,
-  PRODUCT_INTERESTS,
+  UserState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
@@ -30,6 +31,7 @@ import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
+import * as fromInterestsReducer from './product-interests.reducer';
 import * as fromRegionsReducer from './regions.reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
 import * as fromTitlesReducer from './titles.reducer';
@@ -37,7 +39,6 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import * as fromInterestsReducer from './product-interests.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {

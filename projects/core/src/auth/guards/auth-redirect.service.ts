@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { RoutingService } from '../../routing/facade/routing.service';
 
 @Injectable({

@@ -1,17 +1,18 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import { StockNotificationDialogComponent } from './stock-notification-dialog.component';
 import {
-  UserInterestsService,
   I18nTestingModule,
   NotificationPreference,
+  UserInterestsService,
 } from '@spartacus/core';
+
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement } from '@angular/core';
-import { of } from 'rxjs';
-import { By } from '@angular/platform-browser';
+import { StockNotificationDialogComponent } from './stock-notification-dialog.component';
 
 describe('StockNotificationDialogComponent', () => {
   let component: StockNotificationDialogComponent;

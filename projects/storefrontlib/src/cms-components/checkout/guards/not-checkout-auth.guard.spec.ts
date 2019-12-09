@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
+
 import {
   AuthService,
   CartService,
@@ -10,6 +11,7 @@ import {
   UrlCommands,
   UserToken,
 } from '@spartacus/core';
+
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 
 const mockUserToken = {

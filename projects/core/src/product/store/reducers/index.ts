@@ -1,12 +1,13 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+
 import { Product } from '../../../model/product.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { entityScopedLoaderReducer } from '../../../state/utils/scoped-loader/entity-scoped-loader.reducer';
 import { PRODUCT_DETAIL_ENTITY, ProductsState } from '../product-state';
 import * as fromProductReferences from './product-references.reducer';
 import * as fromProductReviews from './product-reviews.reducer';
 import * as fromProductsSearch from './product-search.reducer';
-import { entityScopedLoaderReducer } from '../../../state/utils/scoped-loader/entity-scoped-loader.reducer';
 
 export function getReducers(): ActionReducerMap<ProductsState> {
   return {

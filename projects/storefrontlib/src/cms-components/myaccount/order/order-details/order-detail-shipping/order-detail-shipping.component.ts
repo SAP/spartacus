@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import {
   Address,
   DeliveryMode,
@@ -6,10 +9,9 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
+
 import { Card } from '../../../../../shared/components/card/card.component';
 import { OrderDetailsService } from '../order-details.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-details-shipping',

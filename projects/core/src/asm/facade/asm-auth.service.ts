@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
-import { UserToken } from '../../auth/models/token-types.model';
+
 import { AuthService } from '../../auth/facade/auth.service';
-import { AsmSelectors } from '../store/selectors/index';
-import { StateWithAsm } from '../store/asm-state';
+import { UserToken } from '../../auth/models/token-types.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { AsmActions } from '../store/actions/index';
+import { StateWithAsm } from '../store/asm-state';
+import { AsmSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+
 import {
   AuthGuard,
   CmsConfig,
@@ -11,6 +12,7 @@ import {
   UrlModule,
   UserService,
 } from '@spartacus/core';
+
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderHistoryComponent } from './order-history.component';
 

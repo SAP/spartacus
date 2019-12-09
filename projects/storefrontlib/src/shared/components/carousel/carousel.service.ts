@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { WindowRef } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

@@ -1,4 +1,5 @@
 import { Injectable, NgZone, Optional } from '@angular/core';
+
 import {
   AuthService,
   BaseSiteService,
@@ -24,12 +25,13 @@ import {
   TranslationService,
   UserAddressService,
   UserConsentService,
+  UserInterestsService,
+  UserNotificationPreferenceService,
   UserOrderService,
   UserPaymentService,
   UserService,
-  UserNotificationPreferenceService,
-  UserInterestsService,
 } from '@spartacus/core';
+
 import { CmsComponentData } from '../model';
 
 @Injectable({

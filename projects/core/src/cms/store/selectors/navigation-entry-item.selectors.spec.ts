@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+
 import { CmsComponent } from '../../../model/cms.model';
 import { CmsActions } from '../actions/index';
 import { StateWithCms } from '../cms-state';

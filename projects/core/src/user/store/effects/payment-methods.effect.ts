@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+
 import { PaymentDetails } from '../../../model/cart.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';

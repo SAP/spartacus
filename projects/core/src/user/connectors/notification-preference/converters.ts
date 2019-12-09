@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { Converter } from '../../../util/converter.service';
 

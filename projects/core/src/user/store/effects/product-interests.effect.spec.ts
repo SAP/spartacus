@@ -1,18 +1,19 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromInterestsEffect from './product-interests.effect';
-import { UserActions } from '../actions/index';
-import { Actions } from '@ngrx/effects';
-import { of, throwError } from 'rxjs';
-import {
-  ProductInterestSearchResult,
-  NotificationType,
-} from '../../../model/product-interest.model';
-import { hot, cold } from 'jasmine-marbles';
-import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
-import { UserInterestsAdapter } from '../../connectors/interests/user-interests.adapter';
 import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { cold, hot } from 'jasmine-marbles';
+import { of, throwError } from 'rxjs';
+
+import {
+  NotificationType,
+  ProductInterestSearchResult,
+} from '../../../model/product-interest.model';
+import { UserInterestsAdapter } from '../../connectors/interests/user-interests.adapter';
+import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
+import { UserActions } from '../actions/index';
+import * as fromInterestsEffect from './product-interests.effect';
 const loadParams = {
   userId: 'qingyu@sap.com',
   pageSize: 5,

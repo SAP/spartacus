@@ -4,6 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+
 import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
 import { UserAdapter } from '../../connectors/user/user.adapter';

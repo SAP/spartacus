@@ -1,4 +1,5 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+
 import { HttpErrorModel } from '../model';
 import { makeErrorSerializable, UNKNOWN_ERROR } from './serialization-utils';
 

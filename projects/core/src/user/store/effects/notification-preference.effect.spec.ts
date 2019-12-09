@@ -4,11 +4,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { UserNotificationPreferenceConnector } from '../../connectors/notification-preference/user-notification-preference.connector';
+
+import { NotificationPreference } from '../../../model/notification-preference.model';
 import { UserNotificationPreferenceAdapter } from '../../connectors/notification-preference/user-notification-preference.adapter';
+import { UserNotificationPreferenceConnector } from '../../connectors/notification-preference/user-notification-preference.connector';
 import { UserActions } from '../actions/index';
 import * as fromEffect from './notification-preference.effect';
-import { NotificationPreference } from '../../../model/notification-preference.model';
 
 const userId = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [

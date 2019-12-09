@@ -2,9 +2,11 @@ import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import { Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
 

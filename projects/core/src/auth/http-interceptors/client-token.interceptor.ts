@@ -1,21 +1,20 @@
-import { Injectable } from '@angular/core';
 import {
+  HttpEvent,
+  HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpHandler,
-  HttpEvent,
 } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
-import { AuthService } from '../facade/auth.service';
-import {
-  USE_CLIENT_TOKEN,
-  InterceptorUtil,
-} from '../../occ/utils/interceptor-util';
-import { ClientToken } from '../models/token-types.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../occ/utils/interceptor-util';
+import { AuthService } from '../facade/auth.service';
+import { ClientToken } from '../models/token-types.model';
 
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {

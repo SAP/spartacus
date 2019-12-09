@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
 
 export class CustomFormValidators {

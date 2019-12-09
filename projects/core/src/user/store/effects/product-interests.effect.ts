@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
-import { UserActions } from '../actions/index';
+import { catchError, map, switchMap } from 'rxjs/operators';
+
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
-import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ProductInterestsEffect {

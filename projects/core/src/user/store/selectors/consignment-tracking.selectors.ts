@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { ConsignmentTracking } from '../../../model/index';
 import {
   ConsignmentTrackingState,

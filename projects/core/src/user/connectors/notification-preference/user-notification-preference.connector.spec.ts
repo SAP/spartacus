@@ -1,10 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
-import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
-import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
+
 import createSpy = jasmine.createSpy;
 import { NotificationPreference } from '../../../model/notification-preference.model';
+import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
+import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
 
 const user = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [

@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+
 import { OrderHistoryList } from '../../../model/order.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { UserActions } from '../actions/index';

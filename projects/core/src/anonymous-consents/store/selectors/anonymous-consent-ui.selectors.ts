@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { StateWithAnonymousConsents } from '../anonymous-consents-state';
 import { getAnonymousConsentState } from './feature.selector';
 

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { Config, ConfigModule } from '../config/config.module';
 import { defaultStoreFinderConfig } from './config/default-store-finder-config';
 import { StoreFinderConfig } from './config/store-finder-config';

@@ -2,15 +2,16 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
+
 import { AuthService } from '../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../model/index';
 import {
-  AnonymousConsentsActions,
   ANONYMOUS_CONSENTS_STORE_FEATURE,
+  AnonymousConsentsActions,
   StateWithAnonymousConsents,
 } from '../store/index';
 import * as fromStoreReducers from '../store/reducers/index';

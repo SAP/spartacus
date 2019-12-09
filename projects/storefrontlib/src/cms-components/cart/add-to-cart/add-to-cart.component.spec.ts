@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
 import {
   Cart,
   CartService,
@@ -10,7 +12,7 @@ import {
   OrderEntry,
   Product,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+
 import { ModalService } from '../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../../product';

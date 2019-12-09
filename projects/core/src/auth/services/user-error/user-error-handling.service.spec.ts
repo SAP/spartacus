@@ -3,6 +3,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
+
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE } from './icon.model';
 import { IconModule } from './icon.module';

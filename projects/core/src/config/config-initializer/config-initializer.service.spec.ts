@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ConfigInitializerService } from './config-initializer.service';
 import { Config, ConfigInitializer } from '@spartacus/core';
+
 import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
+import { ConfigInitializerService } from './config-initializer.service';
 
 const MockConfig = {
   test: 'test',

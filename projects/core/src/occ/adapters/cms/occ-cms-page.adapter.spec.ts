@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors';
 import { CmsStructureConfigService } from '../../../cms/services';
 import { CmsComponent, PageType } from '../../../model/cms.model';

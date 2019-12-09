@@ -1,6 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { NotificationPreference, UserInterestsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+
+import { NotificationPreference, UserInterestsService } from '@spartacus/core';
+
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 
 @Component({

@@ -1,17 +1,19 @@
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BehaviorSubject } from 'rxjs';
+
 import {
   Cart,
   CartService,
-  I18nTestingModule,
   CartVoucherService,
+  I18nTestingModule,
   Voucher,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { PromotionsModule } from '../../../checkout';
 import { OrderSummaryComponent } from './order-summary.component';
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 class MockCartService {
   getActive(): BehaviorSubject<Cart> {
