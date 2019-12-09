@@ -45,55 +45,71 @@ describe('Feature Config Utils', () => {
   });
 
   describe('isFeatureEnabled', () => {
-    it('should return correct value if feature is enabled for level', () => {
-      const config: FeaturesConfig = {
-        features: {
-          level: '1.0',
-          testFeature: '1.0',
-        },
-      };
-      expect(isFeatureEnabled(config, 'testFeature')).toBeTruthy();
+    describe('feature enabled for level', () => {
+      it('should return correct value if feature is enabled for level', () => {
+        const config: FeaturesConfig = {
+          features: {
+            level: '1.0',
+            testFeature: '1.0',
+          },
+        };
+        expect(isFeatureEnabled(config, 'testFeature')).toBeTruthy();
+      });
+
+      it('should return false if feature is disabled for level', () => {
+        const config: FeaturesConfig = {
+          features: {
+            level: '1.0',
+            testFeature: '1.2',
+          },
+        };
+        expect(isFeatureEnabled(config, 'testFeature')).toBeFalsy();
+      });
+
+      it('should return false if feature is disabled for level with negation', () => {
+        const config: FeaturesConfig = {
+          features: {
+            level: '1.3',
+            testFeature: '1.2',
+          },
+        };
+        expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
+      });
     });
-    it('should return false if feature is disabled for level', () => {
-      const config: FeaturesConfig = {
-        features: {
-          level: '1.0',
-          testFeature: '1.2',
-        },
-      };
-      expect(isFeatureEnabled(config, 'testFeature')).toBeFalsy();
-    });
-    it('should return true if feature is enabled explicitly', () => {
-      const config: FeaturesConfig = {
-        features: {
-          testFeature: true,
-        },
-      };
-      expect(isFeatureEnabled(config, 'testFeature')).toBeTruthy();
-    });
-    it('should return false if feature is disabled explicitly', () => {
-      const config: FeaturesConfig = {
-        features: {
-          testFeature: false,
-        },
-      };
-      expect(isFeatureEnabled(config, 'testFeature')).toBeFalsy();
-    });
-    it('should return false if feature is enabled but negation is used', () => {
-      const config: FeaturesConfig = {
-        features: {
-          testFeature: true,
-        },
-      };
-      expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
-    });
-    it('should return true if feature is disabled but negation is used', () => {
-      const config: FeaturesConfig = {
-        features: {
-          testFeature: false,
-        },
-      };
-      expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
+
+    describe('feature enabled explicitly', () => {
+      it('should return true if feature is enabled', () => {
+        const config: FeaturesConfig = {
+          features: {
+            testFeature: true,
+          },
+        };
+        expect(isFeatureEnabled(config, 'testFeature')).toBeTruthy();
+      });
+      it('should return false if feature is disabled', () => {
+        const config: FeaturesConfig = {
+          features: {
+            testFeature: false,
+          },
+        };
+        expect(isFeatureEnabled(config, 'testFeature')).toBeFalsy();
+      });
+      it('should return false if feature is enabled but negation is used', () => {
+        const config: FeaturesConfig = {
+          features: {
+            testFeature: true,
+          },
+        };
+        expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
+      });
+      it('should return true if feature is disabled but negation is used', () => {
+        const config: FeaturesConfig = {
+          features: {
+            testFeature: false,
+          },
+        };
+        expect(isFeatureEnabled(config, '!testFeature')).toBeTruthy();
+      });
     });
   });
 });
