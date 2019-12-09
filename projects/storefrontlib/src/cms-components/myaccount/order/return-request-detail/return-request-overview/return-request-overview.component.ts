@@ -1,25 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ReturnRequest } from '@spartacus/core';
 import { ReturnRequestService } from '../return-request.service';
 
 @Component({
   selector: 'cx-return-request-overview',
   templateUrl: './return-request-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReturnRequestOverviewComponent {
   constructor(protected returnRequestService: ReturnRequestService) {}
 
-  returnRequstCode: string;
+  cancelSubmit = false;
 
   returnRequest$: Observable<
     ReturnRequest
-  > = this.returnRequestService
-    .getReturnRequest()
-    .pipe(tap(returnRequest => (this.returnRequstCode = returnRequest.rma)));
+  > = this.returnRequestService.getReturnRequest();
 
-  cancelReturn(): void {
-    this.returnRequestService.cancelReturnRequest(this.returnRequstCode);
+  isCancelling$ = this.returnRequestService.isCancelling$;
+
+  cancelReturn(returnRequestCode: string): void {
+    this.cancelSubmit = true;
+    this.returnRequestService.cancelReturnRequest(returnRequestCode);
   }
 }
