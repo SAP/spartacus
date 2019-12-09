@@ -7,7 +7,7 @@ import {
   DebugElement,
   Input,
 } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import {
   I18nTestingModule,
@@ -23,7 +23,6 @@ import {
 import { RouterTestingModule } from '@angular/router/testing';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { By } from '@angular/platform-browser';
-import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 
 @Component({
@@ -56,20 +55,12 @@ class MockUrlPipe implements PipeTransform {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Component({
   selector: 'cx-spinner',
   template: '',
 })
 class MockSpinnerComponent {}
 
-const p553637: Product = {
+const p553637$: Observable<Product> = of({
   code: '553637',
   name: 'NV10',
   images: {
@@ -89,9 +80,9 @@ const p553637: Product = {
     stockLevel: 0,
     stockLevelStatus: 'outOfStock',
   },
-};
+});
 
-const p553638: Product = {
+const p553638$: Observable<Product> = of({
   code: '553638',
   name: 'NV11',
   images: {
@@ -127,7 +118,7 @@ const p553638: Product = {
       },
     },
   ],
-};
+});
 
 const mockedInterests: ProductInterestSearchResult = {
   sorts: [{ code: 'name', asc: true }],
@@ -196,7 +187,6 @@ describe('MyInterestsComponent', () => {
         MyInterestsComponent,
         MockUrlPipe,
         MockMediaComponent,
-        MockCxIconComponent,
         MockSpinnerComponent,
       ],
     }).compileComponents();
@@ -240,12 +230,8 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
-    productService.get
-      .withArgs('553637', 'productInterests')
-      .and.returnValue(of(p553637));
-    productService.get
-      .withArgs('553638', 'productInterests')
-      .and.returnValue(of(p553638));
+    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
+    productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
@@ -309,12 +295,8 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
-    productService.get
-      .withArgs('553637', 'productInterests')
-      .and.returnValue(of(p553637));
-    productService.get
-      .withArgs('553638', 'productInterests')
-      .and.returnValue(of(p553638));
+    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
+    productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
     productInterestService.getRemoveProdutInterestLoading.and.returnValue(
       cold('-a|', { a: true })
     );

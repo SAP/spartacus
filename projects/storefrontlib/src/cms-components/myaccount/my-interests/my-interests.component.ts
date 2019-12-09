@@ -15,14 +15,19 @@ import {
   Product,
 } from '@spartacus/core';
 import { tap, map } from 'rxjs/operators';
-import { ICON_TYPE } from '../../misc/icon/icon.model';
+
+interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
+  results?: (ProductInterestEntryRelation & {
+    product$?: Observable<Product>;
+  })[];
+}
+
 @Component({
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
-  iconTypes = ICON_TYPE;
   private DEFAULT_PAGE_SIZE = 10;
   private sortMapping = {
     byNameAsc: 'name:asc',
@@ -42,7 +47,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   ];
   pagination: PaginationModel;
 
-  interests$: Observable<ProductInterestSearchResult>;
+  interests$: Observable<ProductInterestSearchResultUI>;
   isRemoveDisabled$: Observable<boolean>;
   getInterestsloading$: Observable<boolean>;
   sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
@@ -66,7 +71,16 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
               totalResults: interests.pagination.totalCount,
               sort: 'byNameAsc',
             })
-        )
+        ),
+        map(interest => ({
+          ...interest,
+          results: interest.results
+            ? interest.results.map(result => ({
+                ...result,
+                product$: this.getProduct(result),
+              }))
+            : interest.results,
+        }))
       );
 
     this.getInterestsloading$ = this.productInterestService.getProdutInterestsLoading();
@@ -95,12 +109,21 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     );
   }
 
-  getProduct(interest: ProductInterestEntryRelation): Observable<Product> {
-    return this.productService.get(interest.product.code, 'productInterests');
+  private getProduct(
+    interest: ProductInterestEntryRelation
+  ): Observable<Product> {
+    return this.productService.get(interest.product.code, 'details');
   }
 
-  removeInterest(result: ProductInterestEntryRelation): void {
-    this.productInterestService.removeProdutInterest(result);
+  removeInterest(
+    result: ProductInterestEntryRelation & {
+      product$?: Observable<Product>;
+    }
+  ): void {
+    this.productInterestService.removeProdutInterest({
+      product: result.product,
+      productInterestEntry: result.productInterestEntry,
+    });
   }
 
   sortChange(sort: string): void {
