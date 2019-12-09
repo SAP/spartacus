@@ -79,6 +79,7 @@ describe('Router Effects', () => {
 
       spyOn(router, 'resetConfig');
       effects.clearCmsRoutes$.subscribe(() => {
+        // @ts-ignore
         expect(router.resetConfig).toHaveBeenCalledWith([
           { path: 'test2', component: true },
         ]);
