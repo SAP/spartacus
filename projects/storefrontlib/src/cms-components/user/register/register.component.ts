@@ -220,20 +220,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    // TODO(issue:#4534) Deprecated since 1.3.0
-    if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
-      this.userService.register(
-        this.collectDataFromRegisterForm(this.userRegistrationForm.value)
-      );
-    } else {
-      if (this.userRegistrationForm.valid) {
-        this.userService.register(
-          this.collectDataFromRegisterForm(this.userRegistrationForm.value)
-        );
-      } else {
-        this.markFormAsTouched();
-      }
-    }
+    this.userService.register(
+      this.collectDataFromRegisterForm(this.userRegistrationForm.value)
+    );
   }
 
   titleSelected(title: Title): void {
@@ -312,12 +301,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return false;
     }
     return this.userRegistrationForm.invalid;
-  }
-
-  private markFormAsTouched(): void {
-    Object.keys(this.userRegistrationForm.controls).forEach(key => {
-      this.userRegistrationForm.controls[key].markAsTouched();
-    });
   }
 
   ngOnDestroy() {
