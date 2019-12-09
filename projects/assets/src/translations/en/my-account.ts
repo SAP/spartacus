@@ -171,5 +171,7 @@ export const myAccount = {
     subtotal: 'Subtotal',
     deliveryCode: 'Delivery cost',
     estimatedRefund: 'Estimated refund',
+    note:
+      'The totals are estimated and may not include applicable taxes or other charges.',
   },
 };
