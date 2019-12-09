@@ -5,8 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
  * all event types. We can use this base type to add
  * meta info to the events going forward.
  */
-export class CxEvent {}
-export class CxStateEvent<T> extends CxEvent {
+export class Event {}
+export class StateEvent<T> extends Event {
   state: T;
 }
 
@@ -15,11 +15,6 @@ export class CxStateEvent<T> extends CxEvent {
  * There are no more properties in this object for now
  * but that could change over time.
  */
-export interface CxEventSource<T> {
-  sources: BehaviorSubject<Observable<T>[]>;
-}
-
 export interface EventSource<T> {
-  source: Observable<T>;
-  compareFn?: (eventData: CxEvent) => boolean;
+  sources: BehaviorSubject<Observable<T>[]>;
 }

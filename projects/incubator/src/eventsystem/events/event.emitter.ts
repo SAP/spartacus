@@ -1,18 +1,19 @@
 import { Injectable, Type } from '@angular/core';
-import { BehaviorSubject, combineLatest, merge, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { CxEventSource } from './event.model';
+import { EventSource } from './event.model';
 
 /**
- * The EventEmitter provides a service to control events in Spartacus.
+ * The EventEmitter provides a service to attach and observe event
+ * sources. Events are driven by EventTypes, which are class signatures
+ * for the given event.
  *
- * Events are driven by an Event Type. Event types are global Classes
- * which might not be in the final build, this depends on the modules
- * you use.
+ * It is possible to attach multipe sources to a single event, even without
+ * knowing as multiple decoupled features can attach sources to the same
+ * event type.
  *
- * Event sources can be attach and dispatch with the `EventEmiter`.
- * The various sources are combined into a single emission, so that a subscriber
- * will get the events in a combined observable.
+ * If there are multiple sources attached to same event, the sources are
+ * combined in a single emission.
  */
 @Injectable({
   providedIn: 'root',
@@ -20,18 +21,14 @@ import { CxEventSource } from './event.model';
 export class EventEmitter {
   /**
    * The various event sources are collected in a map, stored by
-   * the `EventType` key. The event sources are organized in the
-   * `CxEventSource`, so that additional (runtime) data might be
-   * stored in the future.
-   *
-   * This is a private structure, which might evolve over time.
+   * the `EventType` class.
    */
-  private events = new Map<Type<any>, CxEventSource<any>>();
+  private events = new Map<Type<any>, EventSource<any>>();
 
   /**
    * Attach an event source for the given Event Type.
    *
-   * @param eventType the (global) event type
+   * @param eventType the event type
    * @param source an observable that represents the source
    */
   attach<T>(eventType: Type<T>, source: Observable<T>): void {
@@ -42,10 +39,10 @@ export class EventEmitter {
   }
 
   /**
-   * Dispatch a value stream for the given event type. The event values
-   * are resolved from various sources.
+   * Observes all sources for the given event type. The event
+   * sources are combined in a single observable.
    */
-  dispatch<T>(eventType: Type<T>): Observable<T> {
+  observe<T>(eventType: Type<T>): Observable<T> {
     return this.getEvent(eventType).sources.pipe(
       switchMap(sources => combineLatest(sources)),
       map(data => Object.assign({}, ...data))
@@ -53,40 +50,11 @@ export class EventEmitter {
   }
 
   /**
-   * Returns a combined observable from the various event types, if any.
+   * Helper method to get the `EventSource` for the given event type.
+   *
+   * @param eventType the event type
    */
-  dispatchAll<T>(...eventTypes: Type<T>[]): Observable<T> {
-    if (eventTypes && eventTypes.length > 0) {
-      return combineLatest(
-        eventTypes.map(eventType => {
-          return this.dispatch(eventType);
-        })
-      ).pipe(map(d => Object.assign({}, ...d)));
-    } else {
-      return of({} as T);
-    }
-  }
-
-  /**
-   * Returns a merged observable from the various event types, if any.
-   */
-  dispatchAny<T>(...eventTypes: Type<T>[]): Observable<T> {
-    if (eventTypes && eventTypes.length > 0) {
-      return merge(
-        ...eventTypes.map(eventType => {
-          return this.dispatch(eventType);
-        })
-      ).pipe(map(d => Object.assign({}, d)));
-    } else {
-      return of({} as T);
-    }
-  }
-
-  /**
-   * Returns the `CxEventSource` with an observable array of event
-   * sources for a given event type.
-   */
-  protected getEvent<T>(eventType: Type<T>): CxEventSource<T> {
+  private getEvent<T>(eventType: Type<T>): EventSource<T> {
     if (!this.events.get(eventType)) {
       this.events.set(eventType, {
         sources: new BehaviorSubject([]),
