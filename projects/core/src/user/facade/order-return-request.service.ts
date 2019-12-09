@@ -7,6 +7,7 @@ import {
   ReturnRequestList,
   ReturnRequestEntryInputList,
   ReturnRequest,
+  ReturnRequestModification,
 } from '../../model/order.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
@@ -135,6 +136,24 @@ export class OrderReturnRequestService {
    */
   clearOrderReturnRequestDetail(): void {
     this.store.dispatch(new UserActions.ClearOrderReturnRequest());
+  }
+
+  /*
+   * Cancel oreder return request
+   */
+  cancelOrderReturnRequest(
+    returnRequestCode: string,
+    returnRequestModification: ReturnRequestModification
+  ): void {
+    this.withUserId(userId => {
+      this.store.dispatch(
+        new UserActions.CancelOrderReturnRequest({
+          userId,
+          returnRequestCode,
+          returnRequestModification,
+        })
+      );
+    });
   }
 
   /*

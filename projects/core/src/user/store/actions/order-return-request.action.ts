@@ -2,6 +2,7 @@ import {
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
+  ReturnRequestModification,
 } from '../../../model/order.model';
 import {
   USER_RETURN_REQUESTS,
@@ -26,6 +27,12 @@ export const LOAD_ORDER_RETURN_REQUEST_FAIL =
   '[User] Load Order Return Request details Fail';
 export const LOAD_ORDER_RETURN_REQUEST_SUCCESS =
   '[User] Load Order Return Request details Success';
+
+export const CANCEL_ORDER_RETURN_REQUEST = '[User] Cancel Order Return Request';
+export const CANCEL_ORDER_RETURN_REQUEST_FAIL =
+  '[User] Cancel Order Return Request Fail';
+export const CANCEL_ORDER_RETURN_REQUEST_SUCCESS =
+  '[User] Cancel Order Return Request Success';
 
 export const LOAD_ORDER_RETURN_REQUEST_LIST =
   '[User] Load User Order Return Request List';
@@ -91,6 +98,33 @@ export class LoadOrderReturnRequestSuccess extends LoaderSuccessAction {
   }
 }
 
+export class CancelOrderReturnRequest extends LoaderLoadAction {
+  readonly type = CANCEL_ORDER_RETURN_REQUEST;
+  constructor(
+    public payload: {
+      userId: string;
+      returnRequestCode: string;
+      returnRequestModification: ReturnRequestModification;
+    }
+  ) {
+    super(USER_RETURN_REQUEST_DETAILS);
+  }
+}
+
+export class CancelOrderReturnRequestFail extends LoaderFailAction {
+  readonly type = CANCEL_ORDER_RETURN_REQUEST_FAIL;
+  constructor(public payload: any) {
+    super(USER_RETURN_REQUEST_DETAILS, payload);
+  }
+}
+
+export class CancelOrderReturnRequestSuccess extends LoaderSuccessAction {
+  readonly type = CANCEL_ORDER_RETURN_REQUEST_SUCCESS;
+  constructor() {
+    super(USER_RETURN_REQUEST_DETAILS);
+  }
+}
+
 export class LoadOrderReturnRequestList extends LoaderLoadAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST;
   constructor(
@@ -140,6 +174,9 @@ export type OrderReturnRequestAction =
   | LoadOrderReturnRequest
   | LoadOrderReturnRequestFail
   | LoadOrderReturnRequestSuccess
+  | CancelOrderReturnRequest
+  | CancelOrderReturnRequestFail
+  | CancelOrderReturnRequestSuccess
   | LoadOrderReturnRequestList
   | LoadOrderReturnRequestListFail
   | LoadOrderReturnRequestListSuccess

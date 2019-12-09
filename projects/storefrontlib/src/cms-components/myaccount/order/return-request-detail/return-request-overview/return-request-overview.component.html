@@ -24,7 +24,11 @@
       </div>
     </div>
     <div class="cx-detail col-sm-12 col-md-3">
-      <button *ngIf="returnRequest.cancellable" class="btn btn-action">
+      <button
+        *ngIf="returnRequest.cancellable"
+        class="btn btn-action"
+        (click)="cancelReturn()"
+      >
         {{ 'returnRequest.cancel' | cxTranslate }}
       </button>
     </div>

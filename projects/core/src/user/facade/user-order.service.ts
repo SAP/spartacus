@@ -147,8 +147,9 @@ export class UserOrderService {
   clearConsignmentTracking(): void {
     this.store.dispatch(new UserActions.ClearConsignmentTracking());
   }
+
   /*
-   * Cancel and order
+   * Cancel an order
    */
   cancelOrder(
     orderCode: string,

@@ -252,7 +252,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     });
 
     return this.http
-      .post(url, returnRequestModification, { headers })
+      .patch(url, returnRequestModification, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

@@ -3,6 +3,7 @@ import {
   OrderReturnRequestService,
   RoutingService,
   ReturnRequest,
+  ReturnRequestModification,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -29,5 +30,11 @@ export class ReturnRequestService {
 
   clearReturnRequest(): void {
     this.returnRequestService.clearOrderReturnRequestDetail();
+  }
+
+  cancelReturnRequest(returnRequestCode: string): void {
+    this.returnRequestService.cancelOrderReturnRequest(returnRequestCode, {
+      status: 'CANCELLING',
+    });
   }
 }
