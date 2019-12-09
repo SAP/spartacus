@@ -133,11 +133,15 @@ export function siteContextChange(
 ): void {
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
 
-  cy.wait(`@${alias}`);
+  cy.wait(`@${alias}`)
+    .its('status')
+    .should('eq', 200);
 
   cy.route('GET', `*${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext');
+  cy.wait('@switchedContext')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function verifySiteContextChangeUrl(
