@@ -1,14 +1,5 @@
 import * as cartCoupon from '../../../helpers/cart-coupon';
 
-export const productCode1 = '300938';
-export const couponCode1 = 'CouponForCart';
-export const productCode2 = '493683';
-export const couponCode2 = 'CouponForProduct';
-export const productCode3 = '1986316';
-export const couponCode3 = 'FreeGiftCoupon';
-export const giftProductCode = '443175';
-export const productCode4 = '1934793';
-
 describe('Cart Coupon', () => {
   beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
@@ -19,78 +10,87 @@ describe('Cart Coupon', () => {
   it('should show the promotion for cart, discount in price and success message when applied a coupon with cart total action successfully.', () => {
     const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
       .auth;
-    cartCoupon.addProductToCart(productCode1);
-    cartCoupon.applyCoupon(couponCode1);
-    cartCoupon.verifyCouponAndPromotion(couponCode1, '$104.12', '$10');
+    cartCoupon.addProductToCart(cartCoupon.productCode1);
+    cartCoupon.applyCoupon(cartCoupon.couponCode1);
+    cartCoupon.verifyCouponAndPromotion(
+      cartCoupon.couponCode1,
+      '$104.12',
+      '$10'
+    );
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.varifyOrderHistory(orderData, couponCode1, '$104.12', '$10');
+      cartCoupon.varifyOrderHistory(
+        orderData,
+        cartCoupon.couponCode1,
+        '$104.12',
+        '$10'
+      );
     });
   });
 
   it('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
     const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
       .auth;
-    cartCoupon.addProductToCart(productCode2);
-    cartCoupon.applyCoupon(couponCode2);
-    cartCoupon.verifyCouponAndPromotion(couponCode2, '$88.84', '$29.61');
+    cartCoupon.addProductToCart(cartCoupon.productCode2);
+    cartCoupon.applyCoupon(cartCoupon.couponCode2);
+    cartCoupon.verifyCouponAndPromotion(
+      cartCoupon.couponCode2,
+      '$88.84',
+      '$29.61'
+    );
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.varifyOrderHistory(orderData, couponCode2, '$88.84', '$29.61');
+      cartCoupon.varifyOrderHistory(
+        orderData,
+        cartCoupon.couponCode2,
+        '$88.84',
+        '$29.61'
+      );
     });
   });
 
   it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
     const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
       .auth;
-    cartCoupon.addProductToCart(productCode3);
-    cartCoupon.applyCoupon(couponCode3);
-    cartCoupon.addProductToCart(giftProductCode);
-    cartCoupon.verifyGiftProductCoupon(giftProductCode);
-    cartCoupon.verifyCouponAndPromotion(couponCode3, '$1,920.27', '$20');
+    cartCoupon.addProductToCart(cartCoupon.productCode3);
+    cartCoupon.applyCoupon(cartCoupon.couponCode3);
+    cartCoupon.addProductToCart(cartCoupon.giftProductCode);
+    cartCoupon.verifyGiftProductCoupon(cartCoupon.giftProductCode);
+    cartCoupon.verifyCouponAndPromotion(
+      cartCoupon.couponCode3,
+      '$1,920.27',
+      '$20'
+    );
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.varifyOrderHistory(orderData, couponCode3, '$1,920.27', '$20');
+      cartCoupon.varifyOrderHistory(
+        orderData,
+        cartCoupon.couponCode3,
+        '$1,920.27',
+        '$20'
+      );
     });
   });
 
   it('should show error message when applied a wrong coupon', () => {
-    cartCoupon.addProductToCart(productCode1);
+    cartCoupon.addProductToCart(cartCoupon.productCode1);
     cartCoupon.applyWrongCoupon();
   });
 
   it('should remove the coupon when back to cart and place order without coupon', () => {
     const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
       .auth;
-    cartCoupon.addProductToCart(productCode1);
-    cartCoupon.applyCoupon(couponCode1);
-    cartCoupon.verifyCouponAndPromotion(couponCode1, '$104.12', '$10');
+    cartCoupon.addProductToCart(cartCoupon.productCode1);
+    cartCoupon.applyCoupon(cartCoupon.couponCode1);
+    cartCoupon.verifyCouponAndPromotion(
+      cartCoupon.couponCode1,
+      '$104.12',
+      '$10'
+    );
 
     cartCoupon.navigateToCheckoutPage();
     cartCoupon.navigateToCartPage();
-    cartCoupon.removeCoupon(couponCode1);
+    cartCoupon.removeCoupon(cartCoupon.couponCode1);
 
     cartCoupon.placeOrder(stateAuth).then(orderData => {
       cartCoupon.varifyOrderHistory(orderData);
-    });
-  });
-
-  it('should list customer coupons and able to filter and apply', () => {
-    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
-      .auth;
-    cartCoupon.addProductToCart(productCode4);
-    cartCoupon.verifyEmptyCoupons();
-    cartCoupon.claimCoupon(cartCoupon.myCouponCode1);
-    cartCoupon.claimCoupon(cartCoupon.myCouponCode2);
-
-    cartCoupon.navigateToCartPage();
-    cartCoupon.verifyMyCoupons();
-    cartCoupon.filterAndApplyMyCoupons('autumn');
-
-    cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.varifyOrderHistory(
-        orderData,
-        cartCoupon.myCouponCode2,
-        '$79.85',
-        '$20'
-      );
     });
   });
 });

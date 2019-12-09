@@ -7,7 +7,6 @@ export interface FeatureToggles {
      */
     level?: string;
     consignmentTracking?: boolean;
-    customerCoupon?: boolean;
     anonymousConsents?: boolean;
   };
 }

@@ -1,5 +1,6 @@
 import * as myCoupons from '../../../helpers/my-coupons';
 import { formats } from '../../../sample-data/viewports';
+import * as cartCoupon from '../../../helpers/cart-coupon';
 
 describe(`${formats.mobile.width +
   1}p resolution - My coupons test for anonymous user`, () => {
@@ -10,6 +11,12 @@ describe(`${formats.mobile.width +
 
   it('enter my coupons using anonymous user', () => {
     myCoupons.verifyMyCouponsAsAnonymous();
+  });
+
+  it('should apply customer coupon failed for anonymous user', () => {
+    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
+    cartCoupon.addProductToCart(cartCoupon.productCode4);
+    cartCoupon.applyMyCouponAsAnonymous(cartCoupon.myCouponCode2);
   });
 
   describe(`${formats.mobile.width +
@@ -32,18 +39,64 @@ describe(`${formats.mobile.width +
 
 describe(`${formats.mobile.width +
   1}p resolution - My coupons test for login user`, () => {
-  before(() => {
+  beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.requireLoggedIn();
     cy.visit('/');
-    cy.selectUserMenuOption({
-      option: 'My Coupons',
-    });
   });
 
   it('claim customer coupon, switch notification button and find product', () => {
+    cy.selectUserMenuOption({
+      option: 'My Coupons',
+    });
     myCoupons.verifyMyCoupons();
+  });
+
+  it('should list customer coupons and able to filter and apply at cart', () => {
+    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
+    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
+      .auth;
+    cartCoupon.addProductToCart(cartCoupon.productCode4);
+    cartCoupon.verifyEmptyCoupons();
+    cartCoupon.claimCoupon(cartCoupon.myCouponCode1);
+    cartCoupon.claimCoupon(cartCoupon.myCouponCode2);
+
+    cartCoupon.navigateToCartPage();
+    cartCoupon.verifyMyCoupons();
+    cartCoupon.filterAndApplyMyCoupons('autumn', cartCoupon.myCouponCode2);
+    cartCoupon.applyCoupon(cartCoupon.couponCode1);
+    cartCoupon.verifyCouponAndPrice(cartCoupon.myCouponCode2, '$69.85', '$30');
+
+    cartCoupon.placeOrder(stateAuth).then(orderData => {
+      cartCoupon.varifyOrderHistory(
+        orderData,
+        cartCoupon.myCouponCode2,
+        '$69.85',
+        '$30'
+      );
+    });
+  });
+
+  it('should remove customer coupon from cart', () => {
+    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
+    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
+      .auth;
+    cartCoupon.addProductToCart(cartCoupon.productCode4);
+    cartCoupon.claimCoupon(cartCoupon.myCouponCode2);
+    cartCoupon.filterAndApplyMyCoupons(
+      cartCoupon.myCouponCode2,
+      cartCoupon.myCouponCode2
+    );
+    cartCoupon.verifyCouponAndPrice(cartCoupon.myCouponCode2, '$79.85', '$20');
+
+    cartCoupon.navigateToCheckoutPage();
+    cartCoupon.navigateToCartPage();
+    cartCoupon.removeCoupon(cartCoupon.myCouponCode2);
+
+    cartCoupon.placeOrder(stateAuth).then(orderData => {
+      cartCoupon.varifyOrderHistory(orderData);
+    });
   });
 });
 
