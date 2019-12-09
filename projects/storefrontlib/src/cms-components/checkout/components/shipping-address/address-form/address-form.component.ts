@@ -214,19 +214,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       });
     }
 
-    // TODO(issue:#4604) Deprecated since 1.3.0
-    if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
-      this.submitAddressIfDirty();
-    } else {
-      if (this.address.valid) {
-        this.submitAddressIfDirty();
-      } else {
-        this.markFormAsTouched();
-      }
-    }
-  }
-
-  private submitAddressIfDirty() {
     if (this.address.dirty) {
       this.checkoutDeliveryService.verifyAddress(this.address.value);
     } else {
@@ -247,12 +234,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       return false;
     }
     return this.address.invalid;
-  }
-
-  private markFormAsTouched(): void {
-    Object.keys(this.address.controls).forEach(key => {
-      this.address.controls[key].markAsTouched();
-    });
   }
 
   openSuggestedAddress(results: AddressValidation): void {
