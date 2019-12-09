@@ -15,7 +15,7 @@ export interface PromotionResult {
 }
 
 export enum PromotionLocation {
-  Cart = 'CART',
+  ActiveCart = 'CART',
   Checkout = 'CHECKOUT',
   Order = 'ORDER',
 }
