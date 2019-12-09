@@ -7,6 +7,14 @@ describe('Wish list', () => {
     });
   });
 
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
   describe('Anonymous', () => {
     it('should go to login and redirect to PDP', () => {
       wishlist.addToWishListAnonymous(wishlist.products[0]);
@@ -14,14 +22,6 @@ describe('Wish list', () => {
   });
 
   describe('Logged in', () => {
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-    });
-
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
-
     it('should add to wish list', () => {
       wishlist.addToWishListFromPage();
       wishlist.verifyProductInWishListPdp();
