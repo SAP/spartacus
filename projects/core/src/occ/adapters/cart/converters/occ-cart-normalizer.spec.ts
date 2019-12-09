@@ -41,7 +41,6 @@ describe('OccCartNormalizer', () => {
     };
     const result = occCartNormalizer.convert(cart);
     expect(result.entries[0].product.code).toBe('test1converted');
-    // @ts-ignore
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
   });
 
