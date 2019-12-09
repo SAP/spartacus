@@ -30,6 +30,7 @@ export const configurator = {
     addToCart: {
       button: 'Add To Cart',
       buttonAfterAddToCart: 'Continue To Cart',
+      confirmation: 'Configuration has been added to the cart',
     },
   },
 };

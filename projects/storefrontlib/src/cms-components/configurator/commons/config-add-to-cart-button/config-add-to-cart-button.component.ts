@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -22,7 +24,8 @@ export class ConfigAddToCartButtonComponent implements OnInit {
   constructor(
     private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    private configRouterExtractorService: ConfigRouterExtractorService,
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +49,30 @@ export class ConfigAddToCartButtonComponent implements OnInit {
     );
   }
 
+  private navigateToCart() {
+    this.routingService.go('cart');
+  }
+
+  private navigateToOverview(
+    configuratorType: string,
+    configuration: Configurator.Configuration
+  ) {
+    this.routingService.go(
+      'configureOverview' +
+        configuratorType +
+        '/cartEntry/entityKey/' +
+        configuration.nextOwner.id,
+      {}
+    );
+  }
+
+  private displayConfirmationMessage() {
+    this.globalMessageService.add(
+      { key: 'configurator.addToCart.confirmation' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  }
+
   onAddToCart(
     owner: Configurator.Owner,
     configId: string,
@@ -56,13 +83,14 @@ export class ConfigAddToCartButtonComponent implements OnInit {
       .pipe(take(1))
       .subscribe(config => {
         if (config.hasBeenAdded) {
-          this.routingService.go('cart');
+          this.navigateToCart();
         } else {
           this.configuratorCommonsService.addToCart(
             owner.id,
             configId,
             owner.key
           );
+
           this.configuratorCommonsService
             .getConfiguration(owner)
             .pipe(
@@ -72,16 +100,11 @@ export class ConfigAddToCartButtonComponent implements OnInit {
             .subscribe(configuration => {
               this.isOverview$.pipe(take(1)).subscribe(isOverview => {
                 if (isOverview.isOverview) {
-                  this.routingService.go('cart');
+                  this.navigateToCart();
                 } else {
-                  this.routingService.go(
-                    'configureOverview' +
-                      configuratorType +
-                      '/cartEntry/entityKey/' +
-                      configuration.nextOwner.id,
-                    {}
-                  );
+                  this.navigateToOverview(configuratorType, configuration);
                 }
+                this.displayConfirmationMessage();
               });
             });
 
