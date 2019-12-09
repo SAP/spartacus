@@ -102,14 +102,14 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  onError(error: boolean) {
+  private onError(error: boolean) {
     if (error) {
       this.customerCouponService.loadCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE);
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }
 
-  onSuccess(success: boolean) {
+  private onSuccess(success: boolean) {
     if (success) {
       this.form.reset();
       this.cartVoucherService.resetAddVoucherProcessingState();

@@ -2,13 +2,11 @@
 
 %cx-cart-coupon__body {
   &.couponbox-is-active {
-    //&.has-customer-coupon {
     cx-cart-coupon {
       .cx-customer-coupons {
         display: block;
       }
     }
-    //}
   }
 }
 
@@ -40,9 +38,8 @@
     max-height: 130px;
     overflow: auto;
     width: 100%;
-    color: #000;
-    background-color: #fff;
-    font-size: var(--cx-font-small, 1rem);
+    background-color: var(--cx-color-inverse);
+    @include type();
 
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
       0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
@@ -66,8 +63,7 @@
         }
 
         .coupon-id {
-          font-size: 0.8rem;
-          font-weight: 400;
+          @include type('7');
           padding: 6px 3px;
           word-break: break-word;
         }

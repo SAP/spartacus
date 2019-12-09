@@ -111,7 +111,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSortLabels(): Observable<{
+  private getSortLabels(): Observable<{
     byStartDateAsc: string;
     byStartDateDesc: string;
     byEndDateAsc: string;
