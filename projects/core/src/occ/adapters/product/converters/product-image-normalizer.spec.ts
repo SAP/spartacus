@@ -39,6 +39,12 @@ describe('ProductImageNormalizer', () => {
       },
       {
         altText: 'Test alt text',
+        format: 'zoom',
+        imageType: ImageType.PRIMARY,
+        url: 'https://hybris.com/demo.jpg',
+      },
+      {
+        altText: 'Test alt text',
         format: 'product',
         galleryIndex: 0,
         imageType: ImageType.GALLERY,
@@ -70,6 +76,12 @@ describe('ProductImageNormalizer', () => {
           format: 'thumbnail',
           imageType: ImageType.PRIMARY,
           url: '/test2',
+        },
+        zoom: {
+          altText: 'Test alt text',
+          format: 'zoom',
+          imageType: ImageType.PRIMARY,
+          url: 'https://hybris.com/demo.jpg',
         },
       },
       GALLERY: [
