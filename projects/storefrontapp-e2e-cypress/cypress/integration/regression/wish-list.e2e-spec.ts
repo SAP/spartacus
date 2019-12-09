@@ -23,18 +23,20 @@ describe('Wish list', () => {
     });
 
     it('should add to wish list', () => {
-      wishlist.addToWishList(wishlist.products[0]);
+      wishlist.addToWishListFromPage();
       wishlist.verifyProductInWishListPdp();
       wishlist.verifyProductInWishList(wishlist.products[0]);
     });
 
-    it('should remove product from wish list page', () => {
-      wishlist.removeProductFromWishListPage(wishlist.products[0]);
+    it('should remove product from wish list from product details page', () => {
+      wishlist.goToProductPage(wishlist.products[0]);
+      wishlist.removeProductFromPdp();
+      wishlist.addToWishListFromPage();
     });
 
-    it('should remove product from wish list from product details page', () => {
-      wishlist.addToWishList(wishlist.products[0]);
-      wishlist.removeProductFromPdp();
+    it('should remove product from wish list page', () => {
+      wishlist.verifyProductInWishList(wishlist.products[0]);
+      wishlist.removeProductFromWishListPage(wishlist.products[0]);
     });
 
     it('should add product to cart from wish list', () => {

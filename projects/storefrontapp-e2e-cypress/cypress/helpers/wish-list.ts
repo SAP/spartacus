@@ -72,6 +72,14 @@ export function addToWishListAnonymous(product: TestProduct) {
   cy.get('cx-product-intro > .code').should('contain', `${product.code}`);
 }
 
+export function addToWishListFromPage() {
+  waitForGetWishList();
+
+  cy.get('cx-add-to-wishlist .button-add').click({ force: true });
+
+  cy.wait('@get_wish_list');
+}
+
 export function addToWishList(product: TestProduct) {
   cy.visit(`/product/${product.code}`);
 
@@ -130,8 +138,10 @@ export function addProductToCart(product: TestProduct) {
   ).as('add_to_cart');
 
   getWishListItem(product.name).within(() => {
-    cy.get('cx-add-to-cart>button').click({ force: true });
+    cy.get('cx-add-to-cart>button').click();
   });
+
+  cy.wait(10000);
 
   cy.wait('@add_to_cart');
 
@@ -165,6 +175,12 @@ export function checkWishListPersisted(product: TestProduct) {
   });
 
   verifyProductInWishListPdp();
+}
+
+export function goToProductPage(product: TestProduct) {
+  getWishListItem(product.name).within(() => {
+    cy.get('.cx-name>.cx-link').click({ force: true });
+  });
 }
 
 function getCartItem(name: string) {
