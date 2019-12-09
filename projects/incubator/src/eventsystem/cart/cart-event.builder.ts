@@ -79,10 +79,10 @@ export class CartEventBuilder {
     ]);
   }
 
-  buildLoadEvent() {
+  buildLoadEvent(): Observable<any> {
     return this.create([CartActions.LOAD_CART_SUCCESS]);
   }
-  buildMergeEvent() {
+  buildMergeEvent(): Observable<any> {
     return this.create([CartActions.MERGE_CART_SUCCESS]);
   }
 
@@ -97,15 +97,15 @@ export class CartEventBuilder {
     ]);
   }
 
-  buildEntryCreateEvent() {
+  buildEntryCreateEvent(): Observable<any> {
     return this.create([CartActions.CART_ADD_ENTRY_SUCCESS]);
   }
 
-  buildEntryUpdateEvent() {
+  buildEntryUpdateEvent(): Observable<any> {
     return this.create([CartActions.CART_UPDATE_ENTRY_SUCCESS]);
   }
 
-  buildEntryRemoveEvent() {
+  buildEntryRemoveEvent(): Observable<any> {
     return this.create([CartActions.CART_REMOVE_ENTRY_SUCCESS]);
   }
 
