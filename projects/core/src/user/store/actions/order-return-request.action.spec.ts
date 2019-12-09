@@ -125,6 +125,50 @@ describe('Order Return Request actions', () => {
     });
   });
 
+  describe('CancelOrderReturnRequest Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.CancelOrderReturnRequest({
+        userId: 'userId',
+        returnRequestCode: 'test',
+        returnRequestModification: {},
+      });
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CANCEL_ORDER_RETURN_REQUEST,
+        payload: {
+          userId: 'userId',
+          returnRequestCode: 'test',
+          returnRequestModification: {},
+        },
+        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUEST_DETAILS),
+      });
+    });
+  });
+
+  describe('CancelOrderReturnRequestFail Action', () => {
+    it('should create the action', () => {
+      const error = 'mockError';
+      const action = new UserActions.CancelOrderReturnRequestFail(error);
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CANCEL_ORDER_RETURN_REQUEST_FAIL,
+        payload: error,
+        meta: StateLoaderActions.failMeta(USER_RETURN_REQUEST_DETAILS, error),
+      });
+    });
+  });
+
+  describe('CancelOrderReturnRequestSuccess Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.CancelOrderReturnRequestSuccess();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CANCEL_ORDER_RETURN_REQUEST_SUCCESS,
+        meta: StateLoaderActions.successMeta(USER_RETURN_REQUEST_DETAILS),
+      });
+    });
+  });
+
   describe('LoadOrderReturnRequestList Actions', () => {
     it('should create the action', () => {
       const action = new UserActions.LoadOrderReturnRequestList(

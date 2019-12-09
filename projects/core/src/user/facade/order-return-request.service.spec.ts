@@ -146,4 +146,15 @@ describe('OrderReturnRequestService', () => {
       new UserActions.ClearOrderReturnRequest()
     );
   });
+
+  it('should be able to cancel an order return request', () => {
+    service.cancelOrderReturnRequest('test', { status: 'CANCELLING' });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.CancelOrderReturnRequest({
+        userId: OCC_USER_ID_CURRENT,
+        returnRequestCode: 'test',
+        returnRequestModification: { status: 'CANCELLING' },
+      })
+    );
+  });
 });
