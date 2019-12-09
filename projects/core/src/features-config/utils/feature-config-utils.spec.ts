@@ -75,6 +75,17 @@ describe('Feature Config Utils', () => {
         };
         expect(isFeatureEnabled(config, '!testFeature')).toBeFalsy();
       });
+
+      it('should return true if feature is disabled for level with negation', () => {
+        const config: FeaturesConfig = {
+          features: {
+            level: '1.0',
+            testFeature: '1.2',
+          },
+        };
+
+        expect(isFeatureEnabled(config, '!testFeature')).toBeTruthy();
+      });
     });
 
     describe('feature enabled explicitly', () => {
