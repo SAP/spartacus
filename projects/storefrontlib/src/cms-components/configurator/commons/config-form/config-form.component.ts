@@ -40,12 +40,10 @@ export class ConfigFormComponent implements OnInit {
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
-          this.configuratorCommonsService.getConfiguration(owner.key)
+          this.configuratorCommonsService.getConfiguration(owner)
         ),
         switchMap(configuration =>
-          this.configuratorGroupsService.getCurrentGroup(
-            configuration.owner.key
-          )
+          this.configuratorGroupsService.getCurrentGroup(configuration.owner)
         )
       );
   }

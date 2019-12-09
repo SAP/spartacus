@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
 import { StateEntityLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_DATA } from '../configuration-state';
@@ -36,7 +37,7 @@ export const UPDATE_PRICE_SUMMARY_FAIL =
   '[Configurator] Update Configuration Price Summary fail';
 export const UPDATE_PRICE_SUMMARY_SUCCESS =
   '[Configurator] Update Configuration Price Summary success';
-export const ADD_OWNER = '[Configurator] Add owner';
+export const ADD_NEXT_OWNER = '[Configurator] Add next owner';
 export const SET_NEXT_OWNER_CART_ENTRY =
   '[Configurator] Set next owner cart entry';
 
@@ -206,20 +207,16 @@ export class GetConfigurationOverviewSuccess extends StateEntityLoaderActions.En
   }
 }
 
-export class AddOwner extends StateEntityLoaderActions.EntityLoadAction {
-  readonly type = ADD_OWNER;
-  constructor(public ownerKey: string, public cartEntryNo: string) {
-    super(CONFIGURATION_DATA, ownerKey);
-  }
+export class AddNextOwner implements Action {
+  readonly type = ADD_NEXT_OWNER;
+  constructor(public ownerKey: string, public cartEntryNo: string) {}
 }
-export class SetNextOwnerCartEntry extends StateEntityLoaderActions.EntityLoadAction {
+export class SetNextOwnerCartEntry implements Action {
   readonly type = SET_NEXT_OWNER_CART_ENTRY;
   constructor(
     public configuration: Configurator.Configuration,
     public cartEntryNo: string
-  ) {
-    super(CONFIGURATION_DATA, configuration.owner.key);
-  }
+  ) {}
 }
 
 export type ConfiguratorAction =
@@ -242,7 +239,7 @@ export type ConfiguratorAction =
   | GetConfigurationOverview
   | GetConfigurationOverviewFail
   | GetConfigurationOverviewSuccess
-  | AddOwner
+  | AddNextOwner
   | SetNextOwnerCartEntry
   | LoadCartEntryConfiguration
   | RemoveConfiguration;

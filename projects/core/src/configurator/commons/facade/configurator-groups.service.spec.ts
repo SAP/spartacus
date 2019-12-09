@@ -21,6 +21,10 @@ const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
   groups: [{ id: GROUP_ID_1 }, { id: GROUP_ID_2 }, { id: GROUP_ID_3 }],
+  owner: {
+    id: PRODUCT_CODE,
+    type: Configurator.OwnerType.PRODUCT,
+  },
 };
 
 class MockCartService {}
@@ -69,7 +73,9 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
       of(uiState)
     );
-    const currentGroup = serviceUnderTest.getCurrentGroup(PRODUCT_CODE);
+    const currentGroup = serviceUnderTest.getCurrentGroup(
+      productConfiguration.owner
+    );
 
     expect(currentGroup).toBeDefined();
     currentGroup.subscribe(groupId => {
@@ -79,7 +85,9 @@ describe('ConfiguratorGroupsService', () => {
 
   it('should get the currentGroup from configuration', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(of(null));
-    const currentGroup = serviceUnderTest.getCurrentGroup(PRODUCT_CODE);
+    const currentGroup = serviceUnderTest.getCurrentGroup(
+      productConfiguration.owner
+    );
 
     expect(currentGroup).toBeDefined();
     currentGroup.subscribe(groupId => {
@@ -91,7 +99,9 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
       of(uiState)
     );
-    const currentGroup = serviceUnderTest.getNextGroup(PRODUCT_CODE);
+    const currentGroup = serviceUnderTest.getNextGroup(
+      productConfiguration.owner
+    );
 
     expect(currentGroup).toBeDefined();
     currentGroup.subscribe(groupId => {
@@ -103,7 +113,9 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
       of(uiState)
     );
-    const currentGroup = serviceUnderTest.getPreviousGroup(PRODUCT_CODE);
+    const currentGroup = serviceUnderTest.getPreviousGroup(
+      productConfiguration.owner
+    );
 
     expect(currentGroup).toBeDefined();
     currentGroup.subscribe(groupId => {
@@ -112,9 +124,9 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   it('should delegate setting the current group to the store', () => {
-    serviceUnderTest.setCurrentGroup(PRODUCT_CODE, GROUP_ID_1);
+    serviceUnderTest.setCurrentGroup(productConfiguration.owner, GROUP_ID_1);
     const expectedAction = new UiActions.SetCurrentGroup(
-      PRODUCT_CODE,
+      productConfiguration.owner.key,
       GROUP_ID_1
     );
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

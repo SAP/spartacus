@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Configurator, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CurrentProductService } from '../../../product/current-product.service';
@@ -22,6 +22,7 @@ export class ConfigureProductComponent implements OnInit, OnDestroy {
 
   product$: Observable<Product> = this.currentProductService.getProduct();
   subscription: Subscription;
+  ownerTypeProduct: Configurator.OwnerType = Configurator.OwnerType.PRODUCT;
 
   constructor(
     private currentProductService: CurrentProductService,

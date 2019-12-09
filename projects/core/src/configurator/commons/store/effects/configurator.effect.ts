@@ -18,9 +18,9 @@ import { ConfiguratorCommonsConnector } from '../../connectors/configurator-comm
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions, ConfiguratorUiActions } from '../actions';
 import {
-  AddOwner,
+  AddNextOwner,
   AddToCart,
-  ADD_OWNER,
+  ADD_NEXT_OWNER,
   ADD_TO_CART,
   ChangeGroup,
   CHANGE_GROUP,
@@ -279,7 +279,7 @@ export class ConfiguratorEffects {
   @Effect()
   addToCart$: Observable<
     | ConfiguratorUiActions.RemoveUiState
-    | ConfiguratorActions.AddOwner
+    | ConfiguratorActions.AddNextOwner
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
@@ -295,7 +295,7 @@ export class ConfiguratorEffects {
             switchMap((entry: CartModification) => {
               return [
                 new ConfiguratorUiActions.RemoveUiState(payload.ownerKey),
-                new ConfiguratorActions.AddOwner(
+                new ConfiguratorActions.AddNextOwner(
                   payload.ownerKey,
                   '' + entry.entry.entryNumber
                 ),
@@ -319,8 +319,8 @@ export class ConfiguratorEffects {
   addOwner$: Observable<
     ConfiguratorActions.SetNextOwnerCartEntry
   > = this.actions$.pipe(
-    ofType(ADD_OWNER),
-    switchMap((action: AddOwner) => {
+    ofType(ADD_NEXT_OWNER),
+    switchMap((action: AddNextOwner) => {
       return this.store.pipe(
         select(ConfiguratorSelectors.getConfigurationFactory(action.ownerKey)),
         take(1),

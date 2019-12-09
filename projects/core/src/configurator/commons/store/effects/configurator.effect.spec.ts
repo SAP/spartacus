@@ -396,7 +396,7 @@ describe('ConfiguratorEffect', () => {
         cartId: cartId,
       });
       const removeUiState = new ConfiguratorUiActions.RemoveUiState(owner.key);
-      const removeConfiguration = new ConfiguratorActions.AddOwner(
+      const removeConfiguration = new ConfiguratorActions.AddNextOwner(
         owner.key,
         '' + entryNumber
       );
