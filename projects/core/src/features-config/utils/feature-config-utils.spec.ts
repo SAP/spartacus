@@ -4,7 +4,7 @@ import {
   isFeatureLevel,
 } from '@spartacus/core';
 
-fdescribe('Feature Config Utils', () => {
+describe('Feature Config Utils', () => {
   describe('isFeatureLevel', () => {
     describe('when feature level is defined', () => {
       const config: FeaturesConfig = {
