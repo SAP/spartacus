@@ -288,6 +288,24 @@ export interface OccEndpoints {
    * @member {string}
    */
   cartVoucher?: string;
+  /**
+   * Endpoint for notification preference
+   *
+   * @member {string}
+   */
+  notificationPreference?: string;
+  /**
+   * Endpoint for product interests
+   *
+   * @member {string}
+   */
+  productInterests?: string;
+  /**
+   * Endpoint for getting product interests
+   *
+   * @member {string}
+   */
+  getProductInterests?: string;
 
   /**
    * Endpoint for cancel an order
@@ -303,4 +321,9 @@ export interface OccEndpoints {
    * Endpoint for user's order return requests
    */
   orderReturns?: string;
+
+  /**
+   * Endpoint for order return request details
+   */
+  orderReturnDetail?: string;
 }

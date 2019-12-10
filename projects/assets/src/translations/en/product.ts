@@ -70,4 +70,32 @@ export const product = {
       deliveryTab: 'Shipping',
     },
   },
+  stockNotification: {
+    notifyMe: 'NOTIFY ME',
+    stopNotify: 'STOP NOTIFICATION',
+    getNotify: 'Get notified when this product is available.',
+    getNotifySuffix: 'to get notified when this product is available.',
+    activateChannelsPrefix: 'To be notified you need to activate the ',
+    channelsLink: 'Notification Channels',
+    activateChannelsSuffix: '.',
+    notified: 'You will be notified when this product is back in stock.',
+    getNotified: 'Get notified when this product is back in stock.',
+    unsubscribeSuccess:
+      'You will not receive back-in-stock notification for this product.',
+    subscriptionDialog: {
+      header: 'Out of stock subscription',
+      notifiedPrefix: 'You will be notified on:',
+      notifiedSuffix: 'as soons as this product is back in stock.',
+      manageChannelsPrefix:
+        'Manage your prefered notification channels at the ',
+      manageChannelsLink: 'Notification Preference',
+      manageChannelsSuffix: ' page.',
+      manageSubscriptionsPrefix: 'You can manage your subscriptions at ',
+      manageSubscriptionsLink: 'My Interests',
+      manageSubscriptionsSuffix: ' page.',
+      okBtn: 'OK',
+      subscribing:
+        'Subscribing you to Out of Stock notifications for this product',
+    },
+  },
 };
