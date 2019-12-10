@@ -59,13 +59,11 @@ export class ConfigRouterExtractorService {
   }
 
   isOverview(routingService: RoutingService): Observable<any> {
-    return routingService
-      .getRouterState()
-      .pipe(
-        map(routingData => ({
-          isOverview: routingData.state.url.includes('configureOverview'),
-        }))
-      );
+    return routingService.getRouterState().pipe(
+      map(routingData => ({
+        isOverview: routingData.state.url.includes('configureOverview'),
+      }))
+    );
   }
 
   getConfiguratorType(routingService: RoutingService): Observable<string> {
