@@ -4,3 +4,4 @@ export * from './consent/index';
 export * from './payment/index';
 export * from './order/index';
 export * from './customer-coupon/index';
+export * from './interests/index';

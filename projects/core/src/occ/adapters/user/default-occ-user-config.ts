@@ -28,6 +28,10 @@ export const defaultOccUserConfig: OccConfig = {
         claimCoupon: 'users/${userId}/customercoupons/${couponCode}/claim',
         couponNotification:
           'users/${userId}/customercoupons/${couponCode}/notification',
+        notificationPreference: 'users/${userId}/notificationpreferences',
+        productInterests: 'users/${userId}/productinterests',
+        getProductInterests:
+          'users/${userId}/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))',
       },
     },
   },

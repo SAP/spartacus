@@ -52,18 +52,17 @@ describe('Cart Coupon', () => {
       .auth;
     cartCoupon.addProductToCart(cartCoupon.productCode3);
     cartCoupon.applyCoupon(cartCoupon.couponCode3);
-    cartCoupon.addProductToCart(cartCoupon.giftProductCode);
     cartCoupon.verifyGiftProductCoupon(cartCoupon.giftProductCode);
     cartCoupon.verifyCouponAndPromotion(
       cartCoupon.couponCode3,
-      '$1,920.27',
+      '$1,914.23',
       '$20'
     );
     cartCoupon.placeOrder(stateAuth).then(orderData => {
       cartCoupon.varifyOrderHistory(
         orderData,
         cartCoupon.couponCode3,
-        '$1,920.27',
+        '$1,914.23',
         '$20'
       );
     });

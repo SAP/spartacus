@@ -6,6 +6,8 @@ import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { LoaderState } from '../../state';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
+import { NotificationPreference } from '../../model';
+import { ProductInterestSearchResult } from '../../model/product-interest.model';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
@@ -15,6 +17,10 @@ export const REGISTER_USER_PROCESS_ID = 'registerUser';
 export const REMOVE_USER_PROCESS_ID = 'removeUser';
 export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
 export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
+export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID =
+  'updateNotificationPreferences';
+export const ADD_PRODUCT_INTEREST_PROCESS_ID = 'addProductInterests';
+export const REMOVE_PRODUCT_INTERESTS_PROCESS_ID = 'removeProductInterests';
 
 export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
@@ -27,6 +33,8 @@ export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID = 'subscribeCustomerCoupon';
 export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID =
   'unsubscribeCustomerCoupon';
 export const CLAIM_CUSTOMER_COUPON_PROCESS_ID = 'claimCustomerCoupon';
+export const NOTIFICATION_PREFERENCES = '[User] Notification Preferences';
+export const PRODUCT_INTERESTS = '[User] Product Interests';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -46,6 +54,8 @@ export interface UserState {
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
   customerCoupons: LoaderState<CustomerCouponSearchResult>;
+  notificationPreferences: LoaderState<NotificationPreference[]>;
+  productInterests: LoaderState<ProductInterestSearchResult>;
 }
 
 export interface OrderDetailsState {
