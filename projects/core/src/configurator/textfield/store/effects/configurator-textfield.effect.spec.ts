@@ -6,6 +6,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
+import { CartActions } from '../../../../cart/store/actions/';
+import { CartModification } from '../../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
@@ -15,13 +17,26 @@ import * as reducers from '../reducers/index';
 import * as fromEffects from './configurator-textfield.effect';
 
 const productCode = 'CONF_LAPTOP';
+const cartId = 'CART-1234';
+const userId = 'theUser';
+const quantity = 1;
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [],
 };
+const errorResponse: HttpErrorResponse = new HttpErrorResponse({
+  error: 'notFound',
+  status: 404,
+});
+const cartModification: CartModification = {
+  quantity: 1,
+  quantityAdded: 1,
+  entry: { product: { code: productCode }, quantity: 1 },
+};
 
 describe('ConfiguratorTextfieldEffect', () => {
   let createMock: jasmine.Spy;
+  let addToCartMock: jasmine.Spy;
 
   let configEffects: fromEffects.ConfiguratorTextfieldEffects;
 
@@ -29,8 +44,10 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   beforeEach(() => {
     createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
+    addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
     class MockConnector {
       createConfiguration = createMock;
+      addToCart = addToCartMock;
     }
 
     TestBed.configureTestingModule({
@@ -78,10 +95,6 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    const errorResponse: HttpErrorResponse = new HttpErrorResponse({
-      error: 'notFound',
-      status: 404,
-    });
     createMock.and.returnValue(throwError(errorResponse));
     const payloadInput = { productCode: productCode };
     const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
@@ -103,5 +116,55 @@ describe('ConfiguratorTextfieldEffect', () => {
     actions$ = hot('-a', { a: action });
 
     configEffects.createConfiguration$.subscribe(emitted => fail(emitted));
+  });
+
+  describe('Textfield Effect addToCart', () => {
+    it('should emit AddToCartSuccess on addToCart', () => {
+      const payloadInput = {
+        userId: userId,
+        cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configuration: productConfiguration,
+      };
+      const action = new ConfiguratorActions.AddToCart(payloadInput);
+      const cartAddEntrySuccess = new CartActions.CartAddEntrySuccess({
+        ...cartModification,
+        userId: userId,
+        cartId: cartId,
+      });
+
+      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
+        payloadInput
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: removeConfiguration,
+        c: cartAddEntrySuccess,
+      });
+      expect(configEffects.addToCart$).toBeObservable(expected);
+    });
+    it('should emit AddToCartFail in case add to cart call is not successful', () => {
+      addToCartMock.and.returnValue(throwError(errorResponse));
+      const payloadInput = {
+        userId: userId,
+        cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configuration: productConfiguration,
+      };
+      const action = new ConfiguratorActions.AddToCart(payloadInput);
+      const cartAddEntryFail = new CartActions.CartAddEntryFail(
+        makeErrorSerializable(errorResponse)
+      );
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-b', {
+        b: cartAddEntryFail,
+      });
+      expect(configEffects.addToCart$).toBeObservable(expected);
+    });
   });
 });

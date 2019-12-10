@@ -7,6 +7,9 @@ export function defaultOccConfiguratorTextfieldConfigFactory(): OccConfig {
         endpoints: {
           createConfigurationTextfield:
             'products/${productCode}/configurator/textfield',
+
+          addConfigurationTextfieldToCart:
+            'users/${userId}/carts/${cartId}/entries/configurator/textfield',
         },
       },
     },

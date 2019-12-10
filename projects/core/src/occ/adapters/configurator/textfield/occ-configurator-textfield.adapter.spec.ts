@@ -5,7 +5,9 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccConfiguratorTextfieldAdapter } from '.';
+import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../../../../configurator/textfield/connectors/converters';
+import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
 
@@ -18,6 +20,30 @@ class MockOccEndpointsService {
   }
 }
 const productCode = 'CONF_LAPTOP';
+const USER_ID = 'theUser';
+const CART_ID = '98876';
+const PRODUCT_CODE = 'CPQ_LAPTOP';
+const QUANTITY = 1;
+const LABEL1 = 'LABEL1';
+const VALUE1 = 'VALUE1';
+const SUCCESS = 'SUCCESS';
+const configuration: ConfiguratorTextfield.Configuration = {
+  configurationInfos: [
+    {
+      configurationLabel: LABEL1,
+      configurationValue: VALUE1,
+      status: SUCCESS,
+    },
+  ],
+};
+
+const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
+  userId: USER_ID,
+  cartId: CART_ID,
+  productCode: PRODUCT_CODE,
+  quantity: QUANTITY,
+  configuration: configuration,
+};
 
 describe('OccConfigurationTextfieldAdapter', () => {
   let occConfiguratorVariantAdapter: OccConfiguratorTextfieldAdapter;
@@ -73,6 +99,30 @@ describe('OccConfigurationTextfieldAdapter', () => {
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_TEXTFIELD_NORMALIZER
+    );
+  });
+
+  it('should call addConfigurationTextfieldToCart endpoint', () => {
+    occConfiguratorVariantAdapter.addToCart(addToCartParameters).subscribe();
+
+    const mockReq = httpMock.expectOne(req => {
+      return (
+        req.method === 'POST' && req.url === 'addConfigurationTextfieldToCart'
+      );
+    });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'addConfigurationTextfieldToCart',
+      {
+        userId: USER_ID,
+        cartId: CART_ID,
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CART_MODIFICATION_NORMALIZER
     );
   });
 });

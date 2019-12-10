@@ -38,9 +38,15 @@ export class ConfigTextfieldInputFieldComponent implements OnInit {
   }
 
   getIdLabel(attribute: ConfiguratorTextfield.ConfigurationInfo): string {
-    return this.PREFIX_TEXTFIELD + 'label' + attribute.configurationLabel;
+    return (
+      this.PREFIX_TEXTFIELD +
+      'label' +
+      attribute.configurationLabel.replace(/\s/g, '')
+    );
   }
   getId(attribute: ConfiguratorTextfield.ConfigurationInfo): string {
-    return this.PREFIX_TEXTFIELD + attribute.configurationLabel;
+    return (
+      this.PREFIX_TEXTFIELD + attribute.configurationLabel.replace(/\s/g, '')
+    );
   }
 }
