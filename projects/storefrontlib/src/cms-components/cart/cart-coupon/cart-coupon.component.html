@@ -31,7 +31,7 @@
                   *ngFor="let coupon of filteredCoupons"
                   (click)="applyCustomerCoupon(coupon.couponId)"
                 >
-                  <div class="coupon-id" [innerHTML]="coupon.couponId"></div>
+                  <div class="coupon-id">{{ coupon.couponId }}</div>
                 </a>
               </div>
             </div>
