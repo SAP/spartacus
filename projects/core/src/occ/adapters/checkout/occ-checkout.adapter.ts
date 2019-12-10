@@ -13,6 +13,9 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
 import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
+
+// To be changed to a more optimised params after ticket: C3PO-1076
+const FULL_PARAMS = 'fields=FULL';
 const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 const ORDERS_ENDPOINT = '/orders';
 const CARTS_ENDPOINT = '/carts/';
@@ -56,7 +59,6 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     const params = new HttpParams({
       fromString: `fields=${CHECKOUT_PARAMS}`,
     });
-
     return this.http.get<CheckoutDetails>(url, { params });
   }
 
