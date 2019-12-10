@@ -6,12 +6,11 @@ describe('My coupons test for anonymous user', () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  it('enter my coupons using anonymous user', () => {
+  it('should redirect to login page when entering my coupons using anonymous user', () => {
     myCoupons.verifyMyCouponsAsAnonymous();
   });
 
   it('should apply customer coupon failed for anonymous user', () => {
-    cartCoupon.addProductToCart(cartCoupon.productCode4);
     cartCoupon.applyMyCouponAsAnonymous(cartCoupon.myCouponCode2);
   });
 
@@ -19,6 +18,7 @@ describe('My coupons test for anonymous user', () => {
     beforeEach(() => {
       cy.window().then(win => win.sessionStorage.clear());
       cy.reload();
+      cy.getByText('Sign In / Register').should('exist');
       myCoupons.registerUser();
     });
     it('claim customer coupon successfully for anonymous user', () => {
@@ -45,45 +45,12 @@ describe('My coupons test for login user', () => {
     myCoupons.verifyMyCoupons();
   });
 
-  it('should list customer coupons and able to filter and apply at cart', () => {
-    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
-      .auth;
-    cartCoupon.addProductToCart(cartCoupon.productCode4);
-    cartCoupon.verifyEmptyCoupons();
-    cartCoupon.claimCoupon(cartCoupon.myCouponCode1);
-    cartCoupon.claimCoupon(cartCoupon.myCouponCode2);
-
-    cartCoupon.navigateToCartPage();
-    cartCoupon.verifyMyCoupons();
-    cartCoupon.filterAndApplyMyCoupons('autumn', cartCoupon.myCouponCode2);
-    cartCoupon.applyCoupon(cartCoupon.couponCode1);
-    //don't verify the total price which easy to changed by sample data
-    cartCoupon.verifyCouponAndSavedPrice(cartCoupon.myCouponCode2, '$30');
-
-    cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.verifyOrderHistoryForCouponAndPrice(
-        orderData,
-        cartCoupon.myCouponCode2,
-        '$30'
-      );
-    });
+  it('should list customer coupons and able to filter and apply in cart', () => {
+    cartCoupon.verifyOrderPlacingWithCouponAndCustomerCoupon();
   });
 
   it('should remove customer coupon from cart', () => {
-    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
-      .auth;
-    cartCoupon.addProductToCart(cartCoupon.productCode4);
-    cartCoupon.claimCoupon(cartCoupon.myCouponCode2);
-    cartCoupon.filterAndApplyMyCoupons('autumn', cartCoupon.myCouponCode2);
-    cartCoupon.verifyCouponAndSavedPrice(cartCoupon.myCouponCode2, '$20');
-
-    cartCoupon.navigateToCheckoutPage();
-    cartCoupon.navigateToCartPage();
-    cartCoupon.removeCoupon(cartCoupon.myCouponCode2);
-
-    cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.varifyOrderHistory(orderData);
-    });
+    cartCoupon.verifyCustomerCouponRemoving();
   });
 });
 
