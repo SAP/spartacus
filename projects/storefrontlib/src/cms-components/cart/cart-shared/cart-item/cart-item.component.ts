@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   FeatureConfigService,
@@ -6,6 +6,7 @@ import {
   RoutingService,
   AuthRedirectService,
 } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 
 export interface Item {
   product?: any;
@@ -19,7 +20,7 @@ export interface Item {
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
 })
-export class CartItemComponent implements OnInit {
+export class CartItemComponent implements OnInit, OnDestroy {
   @Input()
   compact = false;
   @Input()
@@ -47,6 +48,8 @@ export class CartItemComponent implements OnInit {
   @Input()
   parent: FormGroup;
 
+  private subscription: Subscription;
+
   ngOnInit() {}
 
   constructor(
@@ -61,12 +64,12 @@ export class CartItemComponent implements OnInit {
   }
 
   doOtionalAction() {
-    this.authService.getUserToken().subscribe(token => {
-      if (!token.access_token) {
+    this.subscription = this.authService.isUserLoggedIn().subscribe(loggedIn => {
+      if (loggedIn) {
+        this.optionalAction.emit(this.item);
+      } else {
         this.routingService.go({ cxRoute: 'login' });
         this.authRedirectService.reportAuthGuard();
-      } else {
-        this.optionalAction.emit(this.item);
       }
     });
   }
@@ -90,5 +93,11 @@ export class CartItemComponent implements OnInit {
 
   viewItem() {
     this.view.emit();
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
   }
 }
