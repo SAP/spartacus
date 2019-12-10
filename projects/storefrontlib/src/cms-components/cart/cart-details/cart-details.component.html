@@ -11,7 +11,7 @@
         [items]="entries"
         [potentialProductPromotions]="cart.potentialProductPromotions"
         [cartIsLoading]="!(cartLoaded$ | async)"
-        [optionalButton]="'SaveForLater'"
+        [optionalButton]="'saveForLater'"
         (optionalAction)="saveForLater($event)"
       ></cx-cart-item-list>
     </div>

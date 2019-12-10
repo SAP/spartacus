@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Output,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   CartService,
@@ -20,7 +12,7 @@ import { Item } from '../cart-item/cart-item.component';
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
 })
-export class CartItemListComponent implements OnInit, OnChanges {
+export class CartItemListComponent implements OnInit {
   @Input()
   isReadOnly = false;
 
@@ -78,19 +70,6 @@ export class CartItemListComponent implements OnInit, OnChanges {
 
   isSelectiveCartEnabled() {
     return this.featureConfig.isEnabled('selectiveCart');
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // if (
-    //   changes.items &&
-    //   changes.items.currentValue &&
-    //   changes.items.previousValue &&
-    //   !changes.items.currentValue.every((e: any) =>
-    //     changes.items.previousValue.includes(e)
-    //   )
-    // ) {
-    //   this.createOrUpdateForm();
-    // }
   }
 
   doOtionalAction(item: Item): void {
@@ -154,17 +133,5 @@ export class CartItemListComponent implements OnInit, OnChanges {
     } else {
       return consumedEntryNumber === entry.entryNumber;
     }
-  }
-
-  createOrUpdateForm() {
-    this.items.forEach(item => {
-      const { code } = item.product;
-      if (!this.form.controls[code]) {
-        this.form.setControl(code, this.createEntryFormGroup(item));
-      } else {
-        const entryForm = this.form.controls[code] as FormGroup;
-        entryForm.controls.quantity.setValue(item.quantity);
-      }
-    });
   }
 }
