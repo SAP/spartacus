@@ -26,6 +26,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updateProfileForm',
     'consentManagementForm',
     'wishlist',
+    'notificationPreference',
+    'myInterests',
   ],
   storeFinder: ['storeFinder'],
   pwa: ['pwa'],
@@ -46,6 +48,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'addToCart',
     'addToWishList',
     'CMSTabParagraphContainer',
+    'stockNotification',
   ],
   user: [
     'anonymousConsents',
