@@ -135,24 +135,41 @@ export function verifyCouponAndPromotion(
   totalPrice: string,
   savedPrice: string
 ) {
-  verifyCouponAndPrice(couponCode, totalPrice, savedPrice);
-  //verify promotion
-  cy.get('.cx-promotions > :nth-child(1)').should('exist');
-}
-
-export function verifyCouponAndPrice(
-  couponCode: string,
-  totalPrice: string,
-  savedPrice: string
-) {
   //verify coupon in cart
   getCouponItemFromCart(couponCode).should('exist');
-
+  //verify promotion
+  cy.get('.cx-promotions > :nth-child(1)').should('exist');
   //verify price
   cy.get('.cx-summary-partials').within(() => {
     cy.get('.cx-summary-amount').should('contain', totalPrice);
     cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
   });
+}
+
+export function verifyCouponAndSavedPrice(
+  couponCode: string,
+  savedPrice: string
+) {
+  //verify coupon in cart
+  getCouponItemFromCart(couponCode).should('exist');
+
+  //verify saved price
+  cy.get('.cx-summary-partials').within(() => {
+    cy.get(':nth-child(5)').should('contain', `You saved: ${savedPrice}`);
+  });
+}
+
+export function verifyOrderHistoryForCouponAndPrice(
+  orderData: any,
+  couponCode?: string,
+  savedPrice?: string
+) {
+  navigateToOrderHistoryPage(orderData);
+  if (couponCode) {
+    verifyCouponAndSavedPrice(couponCode, savedPrice);
+  } else {
+    verifyNoCouponInOrderHistory();
+  }
 }
 
 export function verifyGiftProductCoupon(productCode: string) {

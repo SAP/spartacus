@@ -66,13 +66,13 @@ describe(`${formats.mobile.width +
     cartCoupon.verifyMyCoupons();
     cartCoupon.filterAndApplyMyCoupons('autumn', cartCoupon.myCouponCode2);
     cartCoupon.applyCoupon(cartCoupon.couponCode1);
-    cartCoupon.verifyCouponAndPrice(cartCoupon.myCouponCode2, '$69.85', '$30');
+    //don't verify the total price which easy to changed by sample data
+    cartCoupon.verifyCouponAndSavedPrice(cartCoupon.myCouponCode2, '$30');
 
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.varifyOrderHistory(
+      cartCoupon.verifyOrderHistoryForCouponAndPrice(
         orderData,
         cartCoupon.myCouponCode2,
-        '$69.85',
         '$30'
       );
     });
@@ -84,11 +84,8 @@ describe(`${formats.mobile.width +
       .auth;
     cartCoupon.addProductToCart(cartCoupon.productCode4);
     cartCoupon.claimCoupon(cartCoupon.myCouponCode2);
-    cartCoupon.filterAndApplyMyCoupons(
-      cartCoupon.myCouponCode2,
-      cartCoupon.myCouponCode2
-    );
-    cartCoupon.verifyCouponAndPrice(cartCoupon.myCouponCode2, '$79.85', '$20');
+    cartCoupon.filterAndApplyMyCoupons('autumn', cartCoupon.myCouponCode2);
+    cartCoupon.verifyCouponAndSavedPrice(cartCoupon.myCouponCode2, '$20');
 
     cartCoupon.navigateToCheckoutPage();
     cartCoupon.navigateToCartPage();
