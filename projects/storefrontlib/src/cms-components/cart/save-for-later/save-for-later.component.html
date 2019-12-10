@@ -1,6 +1,6 @@
 <ng-container *ngIf="cart$ | async as cart">
   <ng-container *ngIf="entries$ | async as entries">
-    <div class="cart-details-wrapper">
+    <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
       <div class="cx-total">
         {{
           'saveForLaterItems.itemTotal'

@@ -5,8 +5,8 @@ import {
   OrderEntry,
   SelectiveCartService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 
 @Component({
@@ -21,7 +21,7 @@ export class CartDetailsComponent implements OnInit {
 
   constructor(
     protected cartService: CartService,
-    protected selecttiveCartService: SelectiveCartService
+    protected selectiveCartService: SelectiveCartService
   ) {}
 
   ngOnInit() {
@@ -29,7 +29,10 @@ export class CartDetailsComponent implements OnInit {
     this.entries$ = this.cartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
-    this.cartLoaded$ = this.cartService.getLoaded();
+    this.cartLoaded$ = combineLatest([
+      this.cartService.getLoaded(),
+      this.selectiveCartService.getLoaded(),
+    ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
   }
 
   getAllPromotionsForCart(cart: Cart): any[] {
@@ -46,6 +49,6 @@ export class CartDetailsComponent implements OnInit {
 
   saveForLater(item: Item) {
     this.cartService.removeEntry(item);
-    this.selecttiveCartService.addEntry(item.product.code, item.quantity);
+    this.selectiveCartService.addEntry(item.product.code, item.quantity);
   }
 }

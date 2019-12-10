@@ -64,9 +64,7 @@ export class CartItemListComponent implements OnInit {
   ) {}
 
   // TODO remove for 2.0 - left to keep backward compatibility
-  ngOnInit(): void {
-    //this.createOrUpdateForm();
-  }
+  ngOnInit(): void {}
 
   isSelectiveCartEnabled() {
     return this.featureConfig.isEnabled('selectiveCart');
@@ -74,6 +72,7 @@ export class CartItemListComponent implements OnInit {
 
   doOtionalAction(item: Item): void {
     this.optionalAction.emit(item);
+    this.items = this.items.filter(i => i.product.code !== item.product.code);
   }
 
   removeEntry(item: Item): void {

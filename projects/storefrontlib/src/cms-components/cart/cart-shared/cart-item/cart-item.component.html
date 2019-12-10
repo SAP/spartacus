@@ -87,7 +87,9 @@
       </div>
       <!-- Total -->
 
-      <ng-container *ngIf="this.isSelectiveCartEnabled() && !showTotal; else total">
+      <ng-container
+        *ngIf="this.isSelectiveCartEnabled() && !showTotal; else total"
+      >
         <div
           *ngIf="!isProductOutOfStock(item.product)"
           class="cx-total"
@@ -95,9 +97,7 @@
         >
           <div
             class="cx-label"
-            [ngClass]="
-              compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'
-            "
+            [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
           >
             {{ 'saveForLaterItems.stock' | cxTranslate }}
           </div>
