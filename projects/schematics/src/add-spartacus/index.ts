@@ -147,9 +147,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         fallbackLang: 'en'
       },
       features: {
-        level: '${options.featureLevel}',
-        consignmentTracking: true,
-        anonymousConsents: true
+        level: '${options.featureLevel}'
       }
     }`;
 }
