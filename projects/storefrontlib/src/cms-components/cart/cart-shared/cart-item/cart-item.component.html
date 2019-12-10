@@ -66,6 +66,7 @@
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
+
         <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
         <div
           *ngIf="!isReadOnly && parent"
@@ -85,19 +86,42 @@
         </div>
       </div>
       <!-- Total -->
-      <div
-        *ngIf="item.totalPrice"
-        class="cx-total"
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
-      >
+
+      <ng-container *ngIf="this.isSelectiveCartEnabled(); else total">
+        <ng-container *ngIf="!showTotal; else total">
+          <div
+            *ngIf="!isProductOutOfStock(item.product)"
+            class="cx-total"
+            [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+          >
+            <div
+              class="cx-label"
+              [ngClass]="
+                compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'
+              "
+            >
+              {{ 'cartItems.stock' | cxTranslate }}
+            </div>
+            <div class="cx-value">{{ item.product.stock.stockLevel }}</div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #total>
         <div
-          class="cx-label"
-          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+          *ngIf="item.totalPrice"
+          class="cx-total"
+          [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
         >
-          {{ 'cartItems.total' | cxTranslate }}
+          <div
+            class="cx-label"
+            [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+          >
+            {{ 'cartItems.total' | cxTranslate }}
+          </div>
+          <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
         </div>
-        <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
-      </div>
+      </ng-template>
     </div>
     <!-- Availability -->
     <div *ngIf="isProductOutOfStock(item)" class="cx-availability col-12">
@@ -106,7 +130,22 @@
     <!-- Promotion -->
     <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly && item.updateable" class="cx-actions col-12">
+    <div
+      *ngIf="(!isReadOnly && item.updateable) || optionalButton"
+      class="cx-actions col-12"
+    >
+      <div *ngIf="optionalButton" class="col-md-3 col-lg-3 col-xl-3">
+        <button
+          class="link"
+          [class.disabled]="cartIsLoading"
+          [disabled]="cartIsLoading"
+          (click)="doOtionalAction()"
+        >
+          {{ optionalButton }}
+        </button>
+      </div>
+
+      <div class="col-md-3 col-lg-3 col-xl-3"></div>
       <button
         class="link"
         [class.disabled]="cartIsLoading"

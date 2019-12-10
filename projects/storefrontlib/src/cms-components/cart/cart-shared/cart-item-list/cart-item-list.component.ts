@@ -1,13 +1,26 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CartService, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  PromotionResult,
+  SelectiveCartService,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
 })
-export class CartItemListComponent implements OnInit {
+export class CartItemListComponent implements OnInit, OnChanges {
   @Input()
   isReadOnly = false;
 
@@ -34,6 +47,15 @@ export class CartItemListComponent implements OnInit {
   @Input()
   cartIsLoading = false;
 
+  @Input()
+  optionalButton = undefined;
+
+  @Input()
+  showTotal = true;
+
+  @Output()
+  optionalAction = new EventEmitter<any>();
+
   form: FormGroup = this.fb.group({});
 
   private _items: Item[] = [];
@@ -42,10 +64,38 @@ export class CartItemListComponent implements OnInit {
     return this._items;
   }
 
-  constructor(protected cartService: CartService, protected fb: FormBuilder) {}
+  constructor(
+    protected cartService: CartService,
+    protected fb: FormBuilder,
+    protected selectiveCartService: SelectiveCartService,
+    private featureConfig: FeatureConfigService
+  ) {}
 
   // TODO remove for 2.0 - left to keep backward compatibility
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    //this.createOrUpdateForm();
+  }
+
+  isSelectiveCartEnabled() {
+    return this.featureConfig.isEnabled('selectiveCart');
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // if (
+    //   changes.items &&
+    //   changes.items.currentValue &&
+    //   changes.items.previousValue &&
+    //   !changes.items.currentValue.every((e: any) =>
+    //     changes.items.previousValue.includes(e)
+    //   )
+    // ) {
+    //   this.createOrUpdateForm();
+    // }
+  }
+
+  doOtionalAction(item: Item): void {
+    this.optionalAction.emit(item);
+  }
 
   removeEntry(item: Item): void {
     this.cartService.removeEntry(item);
@@ -104,5 +154,17 @@ export class CartItemListComponent implements OnInit {
     } else {
       return consumedEntryNumber === entry.entryNumber;
     }
+  }
+
+  createOrUpdateForm() {
+    this.items.forEach(item => {
+      const { code } = item.product;
+      if (!this.form.controls[code]) {
+        this.form.setControl(code, this.createEntryFormGroup(item));
+      } else {
+        const entryForm = this.form.controls[code] as FormGroup;
+        entryForm.controls.quantity.setValue(item.quantity);
+      }
+    });
   }
 }

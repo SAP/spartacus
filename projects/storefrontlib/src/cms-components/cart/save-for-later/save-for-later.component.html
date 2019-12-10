@@ -1,4 +1,4 @@
-<ng-container *ngIf="cart$ | async as cart">
+<ng-container *ngIf="saveForLaterCart$ | async as cart">
   <ng-container *ngIf="entries$ | async as entries">
     <div class="cart-details-wrapper">
       <div class="cx-total">
@@ -11,8 +11,8 @@
         [items]="entries"
         [potentialProductPromotions]="cart.potentialProductPromotions"
         [cartIsLoading]="!(cartLoaded$ | async)"
-        [optionalButton]="'SaveForLater'"
-        (optionalAction)="saveForLater($event)"
+        [optionalButton]="'MoveToCart'"
+        (optionalAction)="moveToCart($event)"
       ></cx-cart-item-list>
     </div>
   </ng-container>

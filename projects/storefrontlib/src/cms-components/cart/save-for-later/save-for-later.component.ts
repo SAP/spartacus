@@ -1,35 +1,34 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  Cart,
-  CartService,
-  OrderEntry,
   SelectiveCartService,
+  Cart,
+  OrderEntry,
+  ActiveCartService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 
 @Component({
-  selector: 'cx-cart-details',
-  templateUrl: './cart-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-save-for-later',
+  templateUrl: './save-for-later.component.html',
 })
-export class CartDetailsComponent implements OnInit {
+export class SaveForLaterComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
 
   constructor(
-    protected cartService: CartService,
-    protected selecttiveCartService: SelectiveCartService
+    protected cartService: ActiveCartService,
+    protected selectiveCartService: SelectiveCartService
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
-    this.entries$ = this.cartService
+    this.cart$ = this.selectiveCartService.getCart();
+    this.entries$ = this.selectiveCartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
-    this.cartLoaded$ = this.cartService.getLoaded();
+    this.cartLoaded$ = this.selectiveCartService.getLoaded();
   }
 
   getAllPromotionsForCart(cart: Cart): any[] {
@@ -44,8 +43,8 @@ export class CartDetailsComponent implements OnInit {
     return [...potentialPromotions, ...appliedPromotions];
   }
 
-  saveForLater(item: Item) {
-    this.cartService.removeEntry(item);
-    this.selecttiveCartService.addEntry(item.product.code, item.quantity);
+  moveToCart(item: Item) {
+    this.selectiveCartService.removeEntry(item);
+    this.cartService.addEntry(item.product.code, item.quantity);
   }
 }
