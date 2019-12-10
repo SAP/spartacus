@@ -7,6 +7,7 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  ConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -20,9 +21,63 @@ const CONFIG_ID = '12342';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
     },
   },
+};
+
+const config: Configurator.Configuration = {
+  owner: {
+    id: PRODUCT_CODE,
+    type: Configurator.OwnerType.PRODUCT,
+  },
+  configId: CONFIG_ID,
+  consistent: true,
+  complete: true,
+  productCode: PRODUCT_CODE,
+  groups: [
+    {
+      configurable: true,
+      description: 'Core components',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.1',
+      name: '1',
+      attributes: [
+        {
+          label: 'Expected Number',
+          name: 'EXP_NUMBER',
+          required: true,
+          uiType: Configurator.UiType.NOT_IMPLEMENTED,
+          values: [],
+        },
+        {
+          label: 'Processor',
+          name: 'CPQ_CPU',
+          required: true,
+          selectedSingleValue: 'INTELI5_35',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          values: [],
+        },
+      ],
+    },
+    {
+      configurable: true,
+      description: 'Peripherals & Accessories',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.2',
+      name: '2',
+      attributes: [],
+    },
+    {
+      configurable: true,
+      description: 'Software',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      id: '1-CPQ_LAPTOP.3',
+      name: '3',
+      attributes: [],
+    },
+  ],
 };
 
 class MockRoutingService {
@@ -40,62 +95,14 @@ class MockConfiguratorGroupService {
 }
 
 class MockConfiguratorCommonsService {
-  public config: Configurator.Configuration = {
-    configId: CONFIG_ID,
-    consistent: true,
-    complete: true,
-    productCode: PRODUCT_CODE,
-    groups: [
-      {
-        configurable: true,
-        description: 'Core components',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.1',
-        name: '1',
-        attributes: [
-          {
-            label: 'Expected Number',
-            name: 'EXP_NUMBER',
-            required: true,
-            uiType: Configurator.UiType.NOT_IMPLEMENTED,
-            values: [],
-          },
-          {
-            label: 'Processor',
-            name: 'CPQ_CPU',
-            required: true,
-            selectedSingleValue: 'INTELI5_35',
-            uiType: Configurator.UiType.RADIOBUTTON,
-            values: [],
-          },
-        ],
-      },
-      {
-        configurable: true,
-        description: 'Peripherals & Accessories',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.2',
-        name: '2',
-        attributes: [],
-      },
-      {
-        configurable: true,
-        description: 'Software',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.3',
-        name: '3',
-        attributes: [],
-      },
-    ],
-  };
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(this.config);
+    return of(config);
   }
   hasConfiguration(): Observable<boolean> {
     return of(false);
   }
   readConfiguration(): Observable<Configurator.Configuration> {
-    return of(this.config);
+    return of(config);
   }
 }
 
@@ -105,6 +112,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   let configuratorGroupsService: MockConfiguratorGroupService;
   let hamburgerMenuService: HamburgerMenuService;
   let htmlElem: HTMLElement;
+  let configuratorUtils: ConfigUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -142,7 +150,10 @@ describe('ConfigurationGroupMenuComponent', () => {
     hamburgerMenuService = TestBed.get(HamburgerMenuService as Type<
       HamburgerMenuService
     >);
-
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
@@ -169,7 +180,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.click(CONFIG_ID, PRODUCT_CODE, { id: 'groupdId' });
+    component.click(config, { id: 'groupdId' });
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });

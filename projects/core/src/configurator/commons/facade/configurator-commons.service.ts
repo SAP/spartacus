@@ -22,35 +22,44 @@ export class ConfiguratorCommonsService {
     protected cartService: CartService
   ) {}
 
-  hasConfiguration(productCode: string): Observable<Boolean> {
+  hasConfiguration(owner: Configurator.Owner): Observable<Boolean> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
+      select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       map(configuration => this.isConfigurationCreated(configuration))
     );
   }
 
   getConfiguration(
-    productCode: string
+    owner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
+      select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter(configuration => this.isConfigurationCreated(configuration))
     );
   }
 
   getOrCreateConfiguration(
-    productCode: string
+    owner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationStateFactory(productCode)),
+      select(ConfiguratorSelectors.getConfigurationStateFactory(owner.key)),
       tap(configurationState => {
         if (
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true
         ) {
-          this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(productCode)
-          );
+          if (owner.type === Configurator.OwnerType.PRODUCT) {
+            this.store.dispatch(
+              new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
+            );
+          } else {
+            this.store.dispatch(
+              new ConfiguratorActions.LoadCartEntryConfiguration(
+                owner.key,
+                owner.id
+              )
+            );
+          }
         }
       }),
       filter(configurationState =>
@@ -83,27 +92,31 @@ export class ConfiguratorCommonsService {
       });
   }
 
-  getUiState(productCode: string): Observable<UiState> {
+  getUiState(owner: Configurator.Owner): Observable<UiState> {
     return this.store.pipe(
-      select(UiSelectors.getUiStateForProduct(productCode)),
+      select(UiSelectors.getUiStateForProduct(owner.key)),
       tap(uiState => {
         if (!this.isUiStateCreated(uiState)) {
-          this.store.dispatch(new UiActions.CreateUiState(productCode));
+          this.store.dispatch(new UiActions.CreateUiState(owner.key));
         }
       }),
       filter(uiState => this.isUiStateCreated(uiState))
     );
   }
 
-  setUiState(productCode: string, state: UiState) {
-    this.store.dispatch(new UiActions.SetUiState(productCode, state));
+  setUiState(owner: Configurator.Owner, state: UiState) {
+    this.store.dispatch(new UiActions.SetUiState(owner.key, state));
   }
 
-  removeUiState(productCode: string | string[]) {
-    this.store.dispatch(new UiActions.RemoveUiState(productCode));
+  removeUiState(owner: Configurator.Owner) {
+    this.store.dispatch(new UiActions.RemoveUiState(owner.key));
   }
 
-  addToCart(productCode: string, configId: string) {
+  removeConfiguration(owner: Configurator.Owner) {
+    this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(owner.key));
+  }
+
+  addToCart(productCode: string, configId: string, ownerKey: string) {
     const cart$ = this.cartService.getOrCreateCart();
     cart$.pipe(take(1)).subscribe(cart => {
       const addToCartParameters: Configurator.AddToCartParameters = {
@@ -112,6 +125,7 @@ export class ConfiguratorCommonsService {
         productCode: productCode,
         quantity: 1,
         configId: configId,
+        ownerKey: ownerKey,
       };
 
       this.store.dispatch(
@@ -153,6 +167,7 @@ export class ConfiguratorCommonsService {
     const newConfiguration: Configurator.Configuration = {
       configId: configuration.configId,
       groups: [],
+      owner: configuration.owner,
     };
 
     const group = configuration.groups.find(

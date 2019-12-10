@@ -22,7 +22,7 @@ export class ConfigAttributeDropDownComponent implements OnInit {
 
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
-  @Input() productCode: string;
+  @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
@@ -32,7 +32,7 @@ export class ConfigAttributeDropDownComponent implements OnInit {
 
   onSelect() {
     const event: ConfigFormUpdateEvent = {
-      productCode: this.productCode,
+      productCode: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         selectedSingleValue: this.attributeDropDownForm.value,

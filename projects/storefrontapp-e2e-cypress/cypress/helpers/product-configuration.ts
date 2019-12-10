@@ -3,7 +3,6 @@ const nextGroupButtonSelector =
 const previousGroupButtonSelector =
   'cx-config-previous-next-buttons div div:first button';
 const addToCartButtonSelector = 'cx-config-add-to-cart-button div div button';
-const miniCartSelector = 'cx-mini-cart a .count';
 
 export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
@@ -23,6 +22,10 @@ export function clickOnPreviousGroupButton() {
 
 export function verifyConfigurationPageIsDisplayed() {
   cy.get('cx-config-form').should('be.visible');
+}
+
+export function verifyOverviewPageIsDisplayed() {
+  cy.get('cx-config-overview-form').should('be.visible');
 }
 
 export function verifyPreviousGroupButtonIsEnabled() {
@@ -127,6 +130,12 @@ export function verifyTotalPrice(formattedPrice) {
   });
 }
 
+export function navigateToOverviewPage() {
+  cy.get('cx-config-tab-bar div div:last a').click({
+    force: true,
+  });
+}
+
 export function clickOnGroup(groupIndex: number) {
   cy.get('.cx-config-menu-item')
     .eq(groupIndex)
@@ -146,4 +155,10 @@ export function clickAddToCartButton() {
   cy.get(addToCartButtonSelector).click({
     force: true,
   });
+}
+
+export function verifyConfigurableProductInCart(productName: string) {
+  cy.get('cx-cart-item-list')
+    .contains(productName)
+    .should('be.visible');
 }

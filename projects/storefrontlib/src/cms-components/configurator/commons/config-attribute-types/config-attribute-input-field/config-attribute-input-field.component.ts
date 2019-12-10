@@ -22,7 +22,7 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
 
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
-  @Input() productCode: string;
+  @Input() ownerKey: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
@@ -32,7 +32,7 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
 
   onChange() {
     const event: ConfigFormUpdateEvent = {
-      productCode: this.productCode,
+      productCode: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
         userInput: this.attributeInputForm.value,

@@ -3,7 +3,7 @@
     [routerLink]="
       {
         cxRoute: 'configure' + configuratorType,
-        params: { rootProduct: productCode }
+        params: { ownerType: ownerTypeProduct, entityKey: productCode }
       } | cxUrl
     "
     class="btn btn-primary btn-block"

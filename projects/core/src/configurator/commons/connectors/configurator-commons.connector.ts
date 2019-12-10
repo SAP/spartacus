@@ -2,25 +2,39 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
+import { ConfigUtilsService } from '../utils/config-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfiguratorCommonsConnector {
-  constructor(protected adapter: ConfiguratorCommonsAdapter) {}
+  constructor(
+    protected adapter: ConfiguratorCommonsAdapter,
+    protected configUtilsService: ConfigUtilsService
+  ) {}
 
   createConfiguration(
     productCode: string
   ): Observable<Configurator.Configuration> {
-    return this.adapter.createConfiguration(productCode);
+    const owner: Configurator.Owner = {
+      id: productCode,
+      type: Configurator.OwnerType.PRODUCT,
+    };
+    this.configUtilsService.setOwnerKey(owner);
+    return this.adapter.createConfiguration(owner);
   }
 
   readConfiguration(
     configId: string,
-    groupId: string
+    groupId: string,
+    configurationOwner: Configurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.adapter.readConfiguration(configId, groupId);
+    return this.adapter.readConfiguration(
+      configId,
+      groupId,
+      configurationOwner
+    );
   }
 
   updateConfiguration(
@@ -35,7 +49,9 @@ export class ConfiguratorCommonsConnector {
     return this.adapter.addToCart(parameters);
   }
 
-  readPriceSummary(configId: string): Observable<Configurator.Configuration> {
-    return this.adapter.readPriceSummary(configId);
+  readPriceSummary(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return this.adapter.readPriceSummary(configuration);
   }
 }

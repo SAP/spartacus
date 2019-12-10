@@ -5,6 +5,7 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  ConfigUtilsService,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -22,7 +23,8 @@ const GROUP_2_ID = 'group2';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
     },
   },
 };
@@ -51,6 +53,10 @@ const config: Configurator.Configuration = {
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
+  owner: {
+    type: Configurator.OwnerType.PRODUCT,
+    id: PRODUCT_CODE,
+  },
   groups: [
     {
       configurable: true,
@@ -105,6 +111,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfigPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfigPreviousNextButtonsComponent>;
   let configurationGroupsService: ConfiguratorGroupsService;
+  let configuratorUtils: ConfigUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -140,6 +147,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       ConfiguratorGroupsService
     >);
     fixture.detectChanges();
+    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
+      ConfigUtilsService
+    >);
+    configuratorUtils.setOwnerKey(config.owner);
   });
 
   it('should create', () => {
@@ -191,7 +202,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       nextGroup
     );
 
-    expect(classUnderTest.isLastGroup(PRODUCT_CODE)).toBeObservable(
+    expect(classUnderTest.isLastGroup(config.owner)).toBeObservable(
       cold('-a-b-c', {
         a: false,
         b: false,
@@ -213,7 +224,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       previousGroup
     );
 
-    expect(classUnderTest.isFirstGroup(PRODUCT_CODE)).toBeObservable(
+    expect(classUnderTest.isFirstGroup(config.owner)).toBeObservable(
       cold('-a-b-c-d-e', {
         a: true,
         b: false,
@@ -245,7 +256,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       );
       spyOn(configurationGroupsService, 'navigateToGroup');
 
-      classUnderTest.navigateToPreviousGroup(config.configId, PRODUCT_CODE);
+      classUnderTest.navigateToPreviousGroup(config);
     });
     //this is the actual test
     expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
@@ -267,7 +278,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       );
       spyOn(configurationGroupsService, 'navigateToGroup');
 
-      classUnderTest.navigateToNextGroup(config.configId, PRODUCT_CODE);
+      classUnderTest.navigateToNextGroup(config);
     });
 
     expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);

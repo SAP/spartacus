@@ -3,8 +3,8 @@
     <div class="col-6 col-md-3">
       <button
         class="cx-btn btn btn-block btn-action"
-        [disabled]="isFirstGroup(configuration.productCode) | async"
-        (click)="onPrevious(configuration.configId, configuration.productCode)"
+        [disabled]="isFirstGroup(configuration.owner) | async"
+        (click)="onPrevious(configuration)"
       >
         {{ 'configurator.button.previous' | cxTranslate }}
       </button>
@@ -12,8 +12,8 @@
     <div class="col-6 col-md-3">
       <button
         class="cx-btn btn btn-block btn-secondary"
-        [disabled]="isLastGroup(configuration.productCode) | async"
-        (click)="onNext(configuration.configId, configuration.productCode)"
+        [disabled]="isLastGroup(configuration.owner) | async"
+        (click)="onNext(configuration)"
       >
         {{ 'configurator.button.next' | cxTranslate }}
       </button>

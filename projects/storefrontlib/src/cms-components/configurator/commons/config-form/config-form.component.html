@@ -24,21 +24,21 @@
               *ngIf="attribute.uiType === UiType.RADIOBUTTON"
               [attribute]="attribute"
               [group]="group.id"
-              [productCode]="configuration.productCode"
+              [ownerKey]="configuration.owner.key"
               (selectionChange)="updateConfiguration($event)"
             ></cx-config-attribute-radio-button>
             <cx-config-attribute-drop-down
               *ngIf="attribute.uiType === UiType.DROPDOWN"
               [attribute]="attribute"
               [group]="group.id"
-              [productCode]="configuration.productCode"
+              [ownerKey]="configuration.owner.key"
               (selectionChange)="updateConfiguration($event)"
             ></cx-config-attribute-drop-down>
             <cx-config-attribute-input-field
               *ngIf="attribute.uiType === UiType.STRING"
               [attribute]="attribute"
               [group]="group.id"
-              [productCode]="configuration.productCode"
+              [ownerKey]="configuration.owner.key"
               (inputChange)="updateConfiguration($event)"
             ></cx-config-attribute-input-field>
             <cx-config-attribute-read-only
