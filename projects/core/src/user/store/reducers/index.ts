@@ -68,13 +68,10 @@ export function getReducers(): ActionReducerMap<UserState> {
       USER_ORDER_DETAILS,
       fromOrderDetailsReducer.reducer
     ),
-    orderReturn: loaderReducer<ReturnRequest>(
-      USER_RETURN_REQUEST_DETAILS,
-      fromOrderReturnRequestReducer.returnRequestReducer
-    ),
+    orderReturn: loaderReducer<ReturnRequest>(USER_RETURN_REQUEST_DETAILS),
     orderReturnList: loaderReducer<ReturnRequestList>(
       USER_RETURN_REQUESTS,
-      fromOrderReturnRequestReducer.returnRequestListReducer
+      fromOrderReturnRequestReducer.reducer
     ),
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,

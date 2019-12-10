@@ -397,7 +397,7 @@ describe('OccUserOrderAdapter', () => {
       });
     });
 
-    describe('oadReturnRequestDetail', () => {
+    describe('loadReturnRequestDetail', () => {
       it('should be able to load an order return request data', async(() => {
         let result;
         occUserOrderAdapter
