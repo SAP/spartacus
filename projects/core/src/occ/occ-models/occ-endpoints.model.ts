@@ -288,4 +288,22 @@ export interface OccEndpoints {
    * @member {string}
    */
   cartVoucher?: string;
+  /**
+   * Endpoint for notification preference
+   *
+   * @member {string}
+   */
+  notificationPreference?: string;
+  /**
+   * Endpoint for product interests
+   *
+   * @member {string}
+   */
+  productInterests?: string;
+  /**
+   * Endpoint for getting product interests
+   *
+   * @member {string}
+   */
+  getProductInterests?: string;
 }

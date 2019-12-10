@@ -5,6 +5,9 @@ function isFeatureConfig(config: any): config is FeaturesConfig {
 }
 
 function isInLevel(level, version) {
+  if (level === '*') {
+    return true;
+  }
   const levelParts = level.split('.');
   const versionParts = version.split('.');
 
@@ -21,15 +24,24 @@ function isInLevel(level, version) {
 
 export function isFeatureLevel(config: unknown, level: string): boolean {
   if (isFeatureConfig(config)) {
-    return isInLevel(config.features.level, level);
+    return level[0] === '!'
+      ? !isInLevel(config.features.level, level.substr(1, level.length))
+      : isInLevel(config.features.level, level);
   }
 }
 
 export function isFeatureEnabled(config: unknown, feature: string): boolean {
   if (isFeatureConfig(config)) {
-    const featureConfig = config.features[feature];
-    return typeof featureConfig === 'string'
-      ? isFeatureLevel(config, featureConfig)
-      : featureConfig;
+    const featureConfig =
+      feature[0] === '!'
+        ? config.features[feature.substr(1, feature.length)]
+        : config.features[feature];
+
+    const result =
+      typeof featureConfig === 'string'
+        ? isFeatureLevel(config, featureConfig)
+        : featureConfig;
+
+    return feature[0] === '!' ? !result : result;
   }
 }
