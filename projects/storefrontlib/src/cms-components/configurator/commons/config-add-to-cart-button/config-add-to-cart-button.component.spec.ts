@@ -100,11 +100,43 @@ class MockConfiguratorCommonsService {
   removeConfiguration() {}
 }
 
+function performAddToCartOnOverview(
+  classUnderTest: ConfigAddToCartButtonComponent
+) {
+  mockRouterState.state = {
+    params: {
+      entityKey: PRODUCT_CODE,
+      ownerType: Configurator.OwnerType.PRODUCT,
+    },
+    url: 'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR',
+  };
+  classUnderTest.onAddToCart(
+    productConfiguration.owner,
+    productConfiguration.configId,
+    configuratorType
+  );
+}
+
+function performAddToCartWhenAdded(
+  classUnderTest: ConfigAddToCartButtonComponent
+) {
+  mockRouterState.state.params = {
+    ownerType: Configurator.OwnerType.CART_ENTRY,
+    entityKey: CART_ENTRY_KEY,
+  };
+  classUnderTest.onAddToCart(
+    productConfiguration.owner,
+    productConfiguration.configId,
+    configuratorType
+  );
+}
+
 describe('ConfigAddToCartButtonComponent', () => {
   let classUnderTest: ConfigAddToCartButtonComponent;
   let fixture: ComponentFixture<ConfigAddToCartButtonComponent>;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
+  let configuratorCommonsService: ConfiguratorCommonsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -135,11 +167,15 @@ describe('ConfigAddToCartButtonComponent', () => {
     classUnderTest = fixture.componentInstance;
     fixture.detectChanges();
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    configuratorCommonsService = TestBed.get(ConfiguratorCommonsService as Type<
+      ConfiguratorCommonsService
+    >);
     globalMessageService = TestBed.get(GlobalMessageService as Type<
       GlobalMessageService
     >);
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
+    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
   });
 
   it('should create', () => {
@@ -147,16 +183,15 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   it('should navigate to cart in case configuration has already been added', () => {
-    mockRouterState.state.params = {
-      ownerType: Configurator.OwnerType.CART_ENTRY,
-      entityKey: CART_ENTRY_KEY,
-    };
-    classUnderTest.onAddToCart(
-      productConfiguration.owner,
-      productConfiguration.configId,
-      configuratorType
-    );
+    performAddToCartWhenAdded(classUnderTest);
     expect(routingService.go).toHaveBeenCalledWith('cart');
+  });
+
+  it('should not remove configuration in case configuration has already been added', () => {
+    performAddToCartWhenAdded(classUnderTest);
+    expect(
+      configuratorCommonsService.removeConfiguration
+    ).toHaveBeenCalledTimes(0);
   });
 
   it('should not display addToCart message if configuration has already been added', () => {
@@ -205,18 +240,14 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
 
   it('should navigate to cart in case configuration has not yet been added and process was triggered from overview', () => {
-    mockRouterState.state = {
-      params: {
-        entityKey: PRODUCT_CODE,
-        ownerType: Configurator.OwnerType.PRODUCT,
-      },
-      url: 'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR',
-    };
-    classUnderTest.onAddToCart(
-      productConfiguration.owner,
-      productConfiguration.configId,
-      configuratorType
-    );
+    performAddToCartOnOverview(classUnderTest);
     expect(routingService.go).toHaveBeenCalledWith('cart');
+  });
+
+  it('should remove configuration in case configuration has not yet been added and process was triggered from overview', () => {
+    performAddToCartOnOverview(classUnderTest);
+    expect(
+      configuratorCommonsService.removeConfiguration
+    ).toHaveBeenCalledTimes(1);
   });
 });

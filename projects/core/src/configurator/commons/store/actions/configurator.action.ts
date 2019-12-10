@@ -175,7 +175,7 @@ export class ChangeGroupFinalize extends StateEntityLoaderActions.EntityLoadActi
 export class AddToCart extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = ADD_TO_CART;
   constructor(public payload: Configurator.AddToCartParameters) {
-    super(CONFIGURATION_DATA, payload.productCode);
+    super(CONFIGURATION_DATA, payload.ownerKey);
   }
 }
 
