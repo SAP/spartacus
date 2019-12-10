@@ -12,3 +12,5 @@ export * from './product.model';
 export * from './shared.model';
 export * from './store-finder.model';
 export * from './scoped-data';
+export * from './notification-preference.model';
+export * from './product-interest.model';
