@@ -33,14 +33,15 @@ export function isFeatureLevel(config: unknown, level: string): boolean {
 export function isFeatureEnabled(config: unknown, feature: string): boolean {
   if (isFeatureConfig(config)) {
     const featureConfig =
-      (feature[0] === '!')
+      feature[0] === '!'
         ? config.features[feature.substr(1, feature.length)]
         : config.features[feature];
 
-    const result = (typeof featureConfig === 'string')
-      ? isFeatureLevel(config, featureConfig)
-      : featureConfig;
+    const result =
+      typeof featureConfig === 'string'
+        ? isFeatureLevel(config, featureConfig)
+        : featureConfig;
 
-    return (feature[0] === '!') ? !result : result;
+    return feature[0] === '!' ? !result : result;
   }
 }
