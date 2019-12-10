@@ -153,7 +153,7 @@ describe('OrderReturnRequestService', () => {
           loading: true,
           error: false,
           success: false,
-          value: {},
+          value: undefined,
         })
       )
       .unsubscribe();
