@@ -12,7 +12,7 @@ import {
   templateUrl: './style-icons.component.html',
   styleUrls: ['./style-icons.component.scss'],
 })
-export class StyleIconsComponent implements OnInit {
+export class VariantStyleIconsComponent implements OnInit {
   constructor(private config: OccConfig) {}
 
   @Input()
