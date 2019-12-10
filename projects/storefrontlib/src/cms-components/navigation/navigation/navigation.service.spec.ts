@@ -365,7 +365,7 @@ describe('NavigationComponentService', () => {
       expect(result.target).toBeFalsy();
     });
 
-    it("should not populate target if there's no URL", () => {
+    it('should not populate target if there is no URL', () => {
       mockCmsService.getNavigationEntryItems.and.returnValue(
         of({
           Id_Super: {
