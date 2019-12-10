@@ -11,9 +11,8 @@ describe('ColorSelectorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ColorSelectorComponent ]
-    })
-    .compileComponents();
+      declarations: [ColorSelectorComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

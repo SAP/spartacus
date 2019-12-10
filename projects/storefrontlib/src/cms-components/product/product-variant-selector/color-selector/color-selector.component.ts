@@ -13,7 +13,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantColorSelectorComponent {
-
   constructor(private routingService: RoutingService) {}
 
   @Input()
