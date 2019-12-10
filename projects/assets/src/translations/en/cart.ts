@@ -45,5 +45,6 @@ export const cart = {
       'Your shopping cart is empty. But you have {{count}} items in the Save For Later list.',
     saveForLater: 'Save for Later',
     moveToCart: 'Move to Cart',
+    stock: 'Stock',
   },
 };
