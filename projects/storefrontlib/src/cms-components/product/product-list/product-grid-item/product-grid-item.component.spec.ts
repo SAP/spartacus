@@ -140,6 +140,23 @@ describe('ProductGridItemComponent in product-list', () => {
     ).not.toBeNull();
   });
 
+  it('should not display rating component when rating is unavailable', () => {
+    component.product.averageRating = undefined;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+    ).toBeNull();
+  });
+
+  it('should display noReviews when rating is unavailable', () => {
+    component.product.averageRating = undefined;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('.cx-product-rating')
+        .textContent
+    ).toContain('productDetails.noReviews');
+  });
+
   it('should display add to cart component', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')

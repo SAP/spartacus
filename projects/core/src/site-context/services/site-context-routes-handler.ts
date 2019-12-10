@@ -1,5 +1,5 @@
-import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -8,9 +8,9 @@ import {
   Router,
   RouterEvent,
 } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from './site-context-params.service';
-import { Subscription } from 'rxjs';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 
 @Injectable({
