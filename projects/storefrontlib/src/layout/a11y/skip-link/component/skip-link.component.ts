@@ -21,4 +21,19 @@ export class SkipLinkComponent {
   blur(event: MouseEvent): void {
     (<HTMLElement>event.target).blur();
   }
+
+  tabNext(event: MouseEvent): void {
+    if (this.isElement((<HTMLElement>event.target).nextSibling)) {
+      (<HTMLElement>(<HTMLElement>event.target).nextSibling).focus();
+    }
+  }
+  tabPrev(event: MouseEvent): void {
+    if (this.isElement((<HTMLElement>event.target).previousSibling)) {
+      (<HTMLElement>(<HTMLElement>event.target).previousSibling).focus();
+    }
+  }
+
+  private isElement(element: Node): boolean {
+    return !!element && element instanceof HTMLElement;
+  }
 }

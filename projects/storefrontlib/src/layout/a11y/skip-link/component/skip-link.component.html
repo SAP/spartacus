@@ -2,6 +2,8 @@
   *ngFor="let link of links$ | async"
   (click)="go(link, $event)"
   (keydown.esc)="blur($event)"
+  (keydown.arrowright)="tabNext($event)"
+  (keydown.arrowleft)="tabPrev($event)"
 >
   {{ 'skipLink.skipTo' | cxTranslate }}
   {{ link.title | cxTranslate }}
