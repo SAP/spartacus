@@ -7,14 +7,4 @@
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
-
-  @include media-breakpoint-down(md) {
-    background-color: var(--cx-color-background);
-  }
-
-  @include media-breakpoint-up(lg) {
-    cx-page-slot.VariantConfigOverviewContent {
-      max-width: 75%;
-    }
-  }
 }

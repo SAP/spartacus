@@ -28,6 +28,10 @@ import {
   CreateConfigurationFail,
   CreateConfigurationSuccess,
   CREATE_CONFIGURATION,
+  GetConfigurationOverview,
+  GetConfigurationOverviewFail,
+  GetConfigurationOverviewSuccess,
+  GET_CONFIGURATION_OVERVIEW,
   ReadConfiguration,
   ReadConfigurationFail,
   ReadConfigurationSuccess,
@@ -148,6 +152,33 @@ export class ConfiguratorEffects {
           return [new UpdatePriceSummaryFail(payload.owner.key, errorPayload)];
         })
       );
+    })
+  );
+
+  @Effect()
+  getOverview$: Observable<
+    GetConfigurationOverviewSuccess | GetConfigurationOverviewFail
+  > = this.actions$.pipe(
+    ofType(GET_CONFIGURATION_OVERVIEW),
+    map((action: GetConfigurationOverview) => action.payload),
+    mergeMap(payload => {
+      return this.configuratorCommonsConnector
+        .getConfigurationOverview(payload.configId)
+        .pipe(
+          map((overview: Configurator.Overview) => {
+            return new GetConfigurationOverviewSuccess(
+              payload.owner.key,
+              overview
+            );
+          }),
+          catchError(error => {
+            const errorPayload = makeErrorSerializable(error);
+            errorPayload.configId = payload.owner.id;
+            return [
+              new GetConfigurationOverviewFail(payload.owner.key, errorPayload),
+            ];
+          })
+        );
     })
   );
 

@@ -92,6 +92,18 @@ export class ConfiguratorCommonsService {
       });
   }
 
+  getConfigurationWithOverview(configuration: Configurator.Configuration) {
+    this.store.dispatch(
+      new ConfiguratorActions.GetConfigurationOverview(configuration)
+    );
+
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+      )
+    );
+  }
+
   getUiState(owner: Configurator.Owner): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForProduct(owner.key)),

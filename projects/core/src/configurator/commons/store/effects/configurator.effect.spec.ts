@@ -39,6 +39,20 @@ const productConfiguration: Configurator.Configuration = {
   owner: owner,
   complete: true,
   consistent: true,
+  overview: {
+    groups: [
+      {
+        id: 'a',
+        groupDescription: 'a',
+        attributes: [
+          {
+            attribute: 'a',
+            value: 'A',
+          },
+        ],
+      },
+    ],
+  },
   groups: [{ id: groupId, attributes: [{ name: 'attrName' }] }],
 };
 const cartModification: CartModification = {
@@ -77,6 +91,10 @@ describe('ConfiguratorEffect', () => {
 
       readPriceSummary(): Observable<Configurator.Configuration> {
         return of(productConfiguration);
+      }
+
+      getConfigurationOverview(): Observable<Configurator.Overview> {
+        return of(productConfiguration.overview);
       }
     }
     TestBed.configureTestingModule({
@@ -182,6 +200,39 @@ describe('ConfiguratorEffect', () => {
     // The actual test is done in the subscribe part
     expect(true).toBeTruthy();
   });
+
+  it('should emit a success action with content for an action of type getConfigurationOverview', () => {
+    const payloadInput: Configurator.Configuration = {
+      configId: configId,
+      owner: owner,
+    };
+    const action = new ConfiguratorActions.GetConfigurationOverview(
+      payloadInput
+    );
+
+    const completion = new ConfiguratorActions.GetConfigurationOverviewSuccess(
+      owner.key,
+      productConfiguration.overview
+    );
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(configEffects.getOverview$).toBeObservable(expected);
+  });
+
+  it('must not emit anything in case source action is not covered, getConfigurationOverview', () => {
+    const action = new ConfiguratorActions.GetConfigurationOverviewSuccess(
+      owner.key,
+      {}
+    );
+    actions$ = hot('-a', { a: action });
+
+    configEffects.getOverview$.subscribe(emitted => fail(emitted));
+    // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
+    // The actual test is done in the subscribe part
+    expect(true).toBeTruthy();
+  });
+
   describe('Effect updateConfiguration', () => {
     it('should emit a success action with content for an action of type updateConfiguration', () => {
       const payloadInput = productConfiguration;

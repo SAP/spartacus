@@ -7,6 +7,7 @@ import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/con
 import {
   CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
+  CONFIGURATION_OVERVIEW_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
@@ -116,5 +117,16 @@ export class OccConfiguratorVariantAdapter
         resultConfiguration => (resultConfiguration.owner = configuration.owner)
       )
     );
+  }
+  getConfigurationOverview(
+    configId: string
+  ): Observable<Configurator.Overview> {
+    const url = this.occEndpointsService.getUrl('getConfigurationOverview', {
+      configId,
+    });
+
+    return this.http
+      .get(url)
+      .pipe(this.converterService.pipeable(CONFIGURATION_OVERVIEW_NORMALIZER));
   }
 }

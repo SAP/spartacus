@@ -18,6 +18,10 @@ const productConfiguration: Configurator.Configuration = {
 };
 
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
+  getConfigurationOverview = createSpy().and.callFake((configId: string) =>
+    of('getConfigurationOverview' + configId)
+  );
+
   readPriceSummary = createSpy().and.callFake(configId =>
     of('readPriceSummary' + configId)
   );
@@ -125,6 +129,23 @@ describe('ConfiguratorCommonsConnector', () => {
       .subscribe(res => (result = res));
     expect(result).toBe('readPriceSummary' + productConfiguration);
     expect(adapter.readPriceSummary).toHaveBeenCalledWith(productConfiguration);
+  });
+
+  it('should call adapter on getConfigurationOverview', () => {
+    const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
+      ConfiguratorCommonsAdapter
+    >);
+
+    let result;
+    service
+      .getConfigurationOverview(productConfiguration.configId)
+      .subscribe(res => (result = res));
+    expect(result).toBe(
+      'getConfigurationOverview' + productConfiguration.configId
+    );
+    expect(adapter.getConfigurationOverview).toHaveBeenCalledWith(
+      productConfiguration.configId
+    );
   });
 
   it('should call adapter on addToCart', () => {

@@ -6,11 +6,13 @@ import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/con
 import {
   CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
+  CONFIGURATION_OVERVIEW_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
 import { OccConfiguratorVariantAddToCartSerializer } from './converters/occ-configurator-variant-add-to-cart-serializer';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
+import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
 import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
 import { OccConfiguratorVariantSerializer } from './converters/occ-configurator-variant-serializer';
 import { defaultOccVariantConfiguratorConfigFactory } from './default-occ-configurator-variant-config';
@@ -45,6 +47,11 @@ import { OccConfiguratorVariantAdapter } from './occ-configurator-variant.adapte
     {
       provide: CONFIGURATION_ADD_TO_CART_SERIALIZER,
       useExisting: OccConfiguratorVariantAddToCartSerializer,
+      multi: true,
+    },
+    {
+      provide: CONFIGURATION_OVERVIEW_NORMALIZER,
+      useExisting: OccConfiguratorVariantOverviewNormalizer,
       multi: true,
     },
   ],

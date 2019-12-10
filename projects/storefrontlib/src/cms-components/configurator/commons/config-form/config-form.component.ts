@@ -41,9 +41,7 @@ export class ConfigFormComponent implements OnInit {
       .pipe(
         switchMap(owner =>
           this.configuratorCommonsService.getConfiguration(owner)
-        )
-      )
-      .pipe(
+        ),
         switchMap(configuration =>
           this.configuratorGroupsService.getCurrentGroup(configuration.owner)
         )

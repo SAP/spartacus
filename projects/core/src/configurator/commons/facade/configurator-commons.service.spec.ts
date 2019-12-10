@@ -200,6 +200,18 @@ describe('ConfiguratorCommonsService', () => {
     expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
   });
 
+  it('should get a overview from occ, accessing the store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    spyOn(store, 'dispatch').and.callThrough();
+    serviceUnderTest.getConfigurationWithOverview(productConfiguration);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.GetConfigurationOverview(productConfiguration)
+    );
+  });
+
   it('should create a new configuration object for changes received, containing one group', () => {
     const changedAttribute: Configurator.Attribute = {
       name: ATTRIBUTE_NAME_1,

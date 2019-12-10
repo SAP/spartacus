@@ -22,6 +22,16 @@ export function reducer(
 
       return result;
     }
+    case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
+      const content = { ...action.payload };
+
+      const result = {
+        ...state,
+        overview: content,
+      };
+
+      return result;
+    }
     case ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY: {
       const content = { ...action.configuration };
       content.nextOwner = {

@@ -7,6 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import { OccConfiguratorVariantAdapter } from '.';
 import {
   CONFIGURATION_NORMALIZER,
+  CONFIGURATION_OVERVIEW_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
@@ -166,6 +167,29 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_PRICE_SUMMARY_NORMALIZER
+    );
+  });
+
+  it('should call getConfigurationOverview endpoint', () => {
+    occConfiguratorVariantAdapter
+      .getConfigurationOverview(productConfiguration.configId)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne(req => {
+      return req.method === 'GET' && req.url === 'getConfigurationOverview';
+    });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'getConfigurationOverview',
+      {
+        configId,
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CONFIGURATION_OVERVIEW_NORMALIZER
     );
   });
 });

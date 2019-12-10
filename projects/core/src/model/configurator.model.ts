@@ -43,6 +43,7 @@ export namespace Configurator {
     productCode?: string;
     groups?: Group[];
     priceSummary?: PriceSummary;
+    overview?: Overview;
     owner?: Owner;
     nextOwner?: Owner;
   }
@@ -51,6 +52,21 @@ export namespace Configurator {
     type?: OwnerType;
     key?: string;
     id?: string;
+  }
+
+  export interface Overview {
+    groups?: GroupOverview[];
+  }
+
+  export interface GroupOverview {
+    id: string;
+    groupDescription: string;
+    attributes: AttributeOverview[];
+  }
+
+  export interface AttributeOverview {
+    attribute: string;
+    value: string;
   }
 
   export interface PriceSummary {

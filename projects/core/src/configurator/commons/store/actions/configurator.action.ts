@@ -41,6 +41,13 @@ export const ADD_NEXT_OWNER = '[Configurator] Add next owner';
 export const SET_NEXT_OWNER_CART_ENTRY =
   '[Configurator] Set next owner cart entry';
 
+export const GET_CONFIGURATION_OVERVIEW =
+  '[Configurator] Get Configuration Overview';
+export const GET_CONFIGURATION_OVERVIEW_FAIL =
+  '[Configurator] Get Configuration Overview fail';
+export const GET_CONFIGURATION_OVERVIEW_SUCCESS =
+  '[Configurator] Get Configuration Overview success';
+
 export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public ownerKey: string, public productCode: string) {
@@ -179,6 +186,27 @@ export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAct
   }
 }
 
+export class GetConfigurationOverview extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = GET_CONFIGURATION_OVERVIEW;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
+export class GetConfigurationOverviewFail extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
+  constructor(public ownerKey: string, public payload: any) {
+    super(CONFIGURATION_DATA, ownerKey, payload);
+  }
+}
+
+export class GetConfigurationOverviewSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
+  constructor(public ownerKey: string, public payload: Configurator.Overview) {
+    super(CONFIGURATION_DATA, ownerKey);
+  }
+}
+
 export class AddNextOwner implements Action {
   readonly type = ADD_NEXT_OWNER;
   constructor(public ownerKey: string, public cartEntryNo: string) {}
@@ -207,6 +235,9 @@ export type ConfiguratorAction =
   | UpdatePriceSummarySuccess
   | ChangeGroup
   | ChangeGroupFinalize
+  | GetConfigurationOverview
+  | GetConfigurationOverviewFail
+  | GetConfigurationOverviewSuccess
   | AddNextOwner
   | SetNextOwnerCartEntry
   | LoadCartEntryConfiguration
