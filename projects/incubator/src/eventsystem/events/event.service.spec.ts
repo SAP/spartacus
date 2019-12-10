@@ -4,19 +4,12 @@ import { EventEmitter } from './event.emitter';
 import { EventService } from './event.service';
 
 class MockEventEmitter {
-  dispatch(_eventName: string) {
-    return of('dispatched value');
-  }
-  dispatchAny(_eventName: string) {
-    return of('dispatch any value');
-  }
-  dispatchAll(_eventName: string) {
-    return of('test value');
+  observe() {
+    return;
   }
 }
-
-class MockEvent {}
-class AnotherMockEvent {}
+class MockEventOne {}
+class MockEventTwo {}
 
 describe('EventService', () => {
   let service: EventService;
@@ -35,40 +28,64 @@ describe('EventService', () => {
 
     service = TestBed.get(EventService);
     eventEmitter = TestBed.get(EventEmitter);
-    spyOn(eventEmitter, 'dispatch').and.callThrough();
-    spyOn(eventEmitter, 'dispatchAny').and.callThrough();
-    spyOn(eventEmitter, 'dispatchAll').and.callThrough();
   });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should dispatch event', () => {
-    service.get(MockEvent);
-    expect(eventEmitter.dispatchAny).toHaveBeenCalledWith(MockEvent);
+  it('should observe event', () => {
+    spyOn(eventEmitter, 'observe').and.callThrough();
+    service.observe(MockEventOne);
+    expect(eventEmitter.observe).toHaveBeenCalledWith(MockEventOne);
   });
 
-  it('should dispatch event value', () => {
+  it('should observe event value', () => {
+    spyOn(eventEmitter, 'observe').and.returnValue(of({ one: 'one' }));
     let result;
     service
-      .get(MockEvent)
+      .observe(MockEventOne)
       .subscribe(ev => (result = ev))
       .unsubscribe();
-    expect(result).toEqual('dispatch any value');
+    expect(result.one).toEqual('one');
   });
 
-  it('should dispatch multiple events', () => {
-    service.get(MockEvent, AnotherMockEvent);
-    expect(eventEmitter.dispatchAny).toHaveBeenCalledWith(
-      MockEvent,
-      AnotherMockEvent
+  it('should resolve events separately', () => {
+    spyOn(eventEmitter, 'observe').and.returnValue(of({ value: 'value' }));
+
+    const results = [];
+
+    service
+      .observe(MockEventOne, MockEventTwo)
+      .subscribe(value => {
+        results.push(value);
+      })
+      .unsubscribe();
+
+    expect(eventEmitter.observe).toHaveBeenCalledWith(MockEventOne);
+    expect(eventEmitter.observe).toHaveBeenCalledWith(MockEventTwo);
+    expect(eventEmitter.observe).toHaveBeenCalledTimes(2);
+
+    expect(results[0].value).toEqual('value');
+    expect(results[1].value).toEqual('value');
+    expect(results.length).toEqual(2);
+  });
+
+  it('should resolve multiple event values', () => {
+    spyOn(eventEmitter, 'observe').and.returnValue(
+      of({ one: 'one', two: 'two' })
     );
-  });
+    let result;
+    service
+      .observeWith(MockEventOne, MockEventTwo)
+      .subscribe(ev => (result = ev))
+      .unsubscribe();
 
-  it('should dispatch event with a single dependency', () => {
-    service.getCombined(MockEvent, AnotherMockEvent);
-    expect(eventEmitter.dispatch).toHaveBeenCalledWith(MockEvent);
-    expect(eventEmitter.dispatchAll).toHaveBeenCalledWith(AnotherMockEvent);
+    expect(eventEmitter.observe).toHaveBeenCalledWith(MockEventOne);
+    expect(eventEmitter.observe).toHaveBeenCalledWith(MockEventTwo);
+    expect(eventEmitter.observe).toHaveBeenCalledTimes(2);
+
+    expect(result.one).toEqual('one');
+    expect(result.two).toEqual('two');
   });
 });

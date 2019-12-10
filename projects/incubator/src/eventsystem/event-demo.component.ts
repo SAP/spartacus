@@ -17,11 +17,11 @@ import { ClickEvent } from './ui';
 export class EventDemoComponent {
   constructor(eventService: EventService) {
     // dispatch any of these events using a single API
-    eventService.get(ClickEvent, PageLoadEvent).subscribe(console.log);
+    eventService.observe(ClickEvent, PageLoadEvent).subscribe(console.log);
 
     // dispatch events together with the main event (CartAddEvent)
     eventService
-      .getCombined(CartAddEvent, PageLoadEvent, ClickEvent)
+      .observeWith(CartAddEvent, PageLoadEvent, ClickEvent)
       .subscribe(console.log);
   }
 }

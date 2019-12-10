@@ -113,7 +113,7 @@ export class CartEventBuilder {
     return this.create([CartActions.CART_ADD_ENTRY]);
   }
 
-  private create(actionTypes: string[]): Observable<any> {
+  private create<T>(actionTypes: string[]): Observable<T> {
     return this.actions(actionTypes).pipe(
       map((action: CartActions.CartAddEntry) => action.payload)
     );

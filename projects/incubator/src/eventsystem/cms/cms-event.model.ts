@@ -1,3 +1,3 @@
-import { CxStateEvent } from '../events/event.model';
+import { StateEvent } from '../events/event.model';
 
-export class PageLoadEvent extends CxStateEvent<any> {}
+export class PageLoadEvent extends StateEvent<any> {}

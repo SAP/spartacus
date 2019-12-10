@@ -1,14 +1,14 @@
-import { CxEvent } from '../events/event.model';
+import { Event } from '../events/event.model';
 
-export class ClickEvent extends CxEvent {
+export class ClickEvent extends Event {
   ClickData?: any;
 }
-export class MouseDownEvent extends CxEvent {
+export class MouseDownEvent extends Event {
   MouseDownData?: any;
 }
-export class MouseUpEvent extends CxEvent {
+export class MouseUpEvent extends Event {
   MouseUpData?: any;
 }
-export class MouseHoverEvent extends CxEvent {
+export class MouseHoverEvent extends Event {
   MouseHoverData?: any;
 }

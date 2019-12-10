@@ -1,10 +1,10 @@
 import { Injectable, Type } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, merge, Observable, of } from 'rxjs';
 import { debounceTime, map, withLatestFrom } from 'rxjs/operators';
 import { EventEmitter } from './event.emitter';
 
 /**
- * The `EventService` can be used to consume all kinds of events.
+ * The `EventService` can be used to consume events.
  */
 @Injectable({
   providedIn: 'root',
@@ -14,30 +14,52 @@ export class EventService {
 
   /**
    * Returns an observable for the given eventType(s). This can be used
-   * to dispatch to a single event source or multiple event sources in
-   * parallel. The event sources are merged and will be dispatched separately.
+   * to observe a single event or multiple events in parallel.
    *
-   * @param eventType one or multiple event types.
+   * If multiple events are observed, the events are merged into a
+   * single observable which concurrently emits all values from every
+   * given event.
+   *
+   * @param eventTypes one or multiple event types.
    */
-  get(...eventTypes: Type<any>[]): Observable<any> {
-    return this.eventEmitter.dispatchAny(...eventTypes);
+  observe(...eventTypes: Type<any>[]): Observable<any> {
+    return merge(
+      ...eventTypes.map(eventType => {
+        return this.eventEmitter.observe(eventType);
+      })
+    ).pipe(map(d => Object.assign({}, d)));
   }
 
   /**
-   * Dipatches the source of the main eventType in combination
-   * with one or multiple dependend even types.
+   * Observes the source of the main eventType in combination
+   * with one or multiple associated events.
    *
    * @param eventType The main event type.
-   * @param dependencies One or multiple event types.
+   * @param associated One or multiple associated event types.
    */
-  getCombined<T>(
+  observeWith<T>(
     eventType: Type<T>,
-    ...dependencies: Type<any>[]
+    ...associated: Type<any>[]
   ): Observable<any> {
-    return this.eventEmitter.dispatch(eventType).pipe(
+    return this.eventEmitter.observe(eventType).pipe(
       debounceTime(0),
-      withLatestFrom(this.eventEmitter.dispatchAll(...dependencies)),
+      withLatestFrom(this.observeAssociates(...associated)),
       map(([origin, deps]) => Object.assign({}, origin, deps))
     );
+  }
+
+  /**
+   * Returns a combined observable from the various event types, if any.
+   */
+  private observeAssociates<T>(...eventTypes: Type<T>[]): Observable<T> {
+    if (eventTypes && eventTypes.length > 0) {
+      return combineLatest(
+        eventTypes.map(eventType => {
+          return this.observe(eventType);
+        })
+      ).pipe(map(d => Object.assign({}, ...d)));
+    } else {
+      return of({} as T);
+    }
   }
 }
