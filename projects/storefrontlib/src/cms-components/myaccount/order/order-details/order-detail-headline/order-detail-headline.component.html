@@ -1,3 +1,15 @@
+<div class="cx-nav row">
+  <div class="col-xs-12 col-md-3">
+    <button class="btn btn-block btn-action" (click)="back()">
+      {{ 'common.back' | cxTranslate }}
+    </button>
+  </div>
+
+  <div class="col-xs-12 col-md-3">
+    <button class="btn btn-block btn-primary">Request/Cancel Here</button>
+  </div>
+</div>
+
 <ng-container *ngIf="order$ | async as order">
   <div class="cx-header row">
     <div class="cx-detail col-sm-12 col-md-4">
@@ -35,7 +47,7 @@
             params: order
           } | cxUrl
         "
-        class="btn btn-action"
+        class="btn btn-block btn-primary"
       >
         {{ 'orderDetails.cancellationAndReturn.cancelAction' | cxTranslate }}
       </button>
@@ -48,7 +60,7 @@
             params: order
           } | cxUrl
         "
-        class="btn btn-action"
+        class="btn btn-block btn-primary"
       >
         {{ 'orderDetails.cancellationAndReturn.returnAction' | cxTranslate }}
       </button>
