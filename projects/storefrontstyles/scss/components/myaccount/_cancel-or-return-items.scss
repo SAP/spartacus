@@ -175,11 +175,11 @@
   .cx-nav {
     display: flex;
     justify-content: flex-end;
-    padding-top: 2rem;
-    padding-bottom: 1.5rem;
-    // .btn-primary {
-    //   justify-self: flex-end;
-    // }
+    padding: 1rem 0 0;
+  }
+
+  .btn.cx-action-link {
+    padding: 10px 0 10px;
   }
 
   // ------------------------------------ MEDIA QUERIES ------------------------------------
