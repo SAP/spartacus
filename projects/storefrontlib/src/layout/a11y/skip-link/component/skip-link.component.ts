@@ -14,4 +14,11 @@ export class SkipLinkComponent {
   go(link, event: MouseEvent) {
     this.skipLinkService.go(link.target, link.position, event);
   }
+
+  /**
+   * Hides the skip link by removing the focus.
+   */
+  blur(event: MouseEvent): void {
+    (<HTMLElement>event.target).blur();
+  }
 }
