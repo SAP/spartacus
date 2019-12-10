@@ -39,18 +39,14 @@ export class ConfigOverviewFormComponent implements OnInit {
   }
 
   hasAttributes(configuration: Configurator.Configuration): boolean {
-    if (
-      configuration.overview === undefined ||
-      configuration.overview === null
-    ) {
+    if (!configuration.overview) {
       return false;
     }
 
-    for (let g = 0; g < configuration.overview.groups.length; g++) {
-      if (configuration.overview.groups[g].attributes.length > 0) {
-        return true;
-      }
-    }
-    return false;
+    return (
+      configuration.overview.groups.find(
+        group => group.attributes.length > 0
+      ) !== null
+    );
   }
 }
