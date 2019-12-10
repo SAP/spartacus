@@ -33,7 +33,7 @@ export class ReturnRequestService {
       switchMap((returnCode: string) =>
         this.returnRequestService.getOrderReturnRequest(returnCode)
       ),
-      filter(returnRequest => Boolean(returnRequest.returnEntries)),
+      filter(Boolean),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }

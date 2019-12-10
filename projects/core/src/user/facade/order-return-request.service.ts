@@ -52,7 +52,10 @@ export class OrderReturnRequestService {
       tap(returnState => {
         const attemptedLoad =
           returnState.loading || returnState.success || returnState.error;
-        if (!attemptedLoad) {
+        if (
+          (returnState.value && returnState.value.rma !== returnRequestCode) ||
+          !attemptedLoad
+        ) {
           this.loadOrderReturnRequestDetail(returnRequestCode);
         }
       }),

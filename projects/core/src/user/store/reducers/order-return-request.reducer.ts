@@ -1,35 +1,19 @@
-import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
+import { ReturnRequestList } from '../../../model/order.model';
 import { UserActions } from '../actions/index';
 
-export const returnRequestInitialState = {};
-
-export function returnRequestReducer(
-  state = returnRequestInitialState,
-  action: UserActions.OrderReturnRequestAction
-): ReturnRequest {
-  switch (action.type) {
-    case UserActions.LOAD_ORDER_RETURN_REQUEST_SUCCESS:
-    case UserActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS: {
-      const returnRequest: ReturnRequest = action.payload;
-      return returnRequest;
-    }
-  }
-  return state;
-}
-
-export const returnRequestListInitialState: ReturnRequestList = {
+export const initialState: ReturnRequestList = {
   returnRequests: [],
   pagination: {},
   sorts: [],
 };
 
-export function returnRequestListReducer(
-  state = returnRequestListInitialState,
+export function reducer(
+  state = initialState,
   action: UserActions.OrderReturnRequestAction
 ): ReturnRequestList {
   switch (action.type) {
     case UserActions.LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS: {
-      return action.payload ? action.payload : returnRequestListInitialState;
+      return action.payload ? action.payload : initialState;
     }
   }
 

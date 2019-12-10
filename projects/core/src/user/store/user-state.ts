@@ -10,6 +10,8 @@ import {
   ReturnRequestList,
 } from '../../model/order.model';
 import { LoaderState } from '../../state';
+import { NotificationPreference } from '../../model';
+import { ProductInterestSearchResult } from '../../model/product-interest.model';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
@@ -19,6 +21,10 @@ export const REGISTER_USER_PROCESS_ID = 'registerUser';
 export const REMOVE_USER_PROCESS_ID = 'removeUser';
 export const GIVE_CONSENT_PROCESS_ID = 'giveConsent';
 export const WITHDRAW_CONSENT_PROCESS_ID = 'withdrawConsent';
+export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID =
+  'updateNotificationPreferences';
+export const ADD_PRODUCT_INTEREST_PROCESS_ID = 'addProductInterests';
+export const REMOVE_PRODUCT_INTERESTS_PROCESS_ID = 'removeProductInterests';
 
 export const USER_CONSENTS = '[User] User Consents';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
@@ -28,6 +34,9 @@ export const USER_RETURN_REQUESTS = '[User] Order Return Requests';
 export const USER_RETURN_REQUEST_DETAILS = '[User] Return Request Details';
 export const USER_ORDER_DETAILS = '[User] User Order Details';
 export const REGIONS = '[User] Regions';
+
+export const NOTIFICATION_PREFERENCES = '[User] Notification Preferences';
+export const PRODUCT_INTERESTS = '[User] Product Interests';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -48,6 +57,8 @@ export interface UserState {
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
+  notificationPreferences: LoaderState<NotificationPreference[]>;
+  productInterests: LoaderState<ProductInterestSearchResult>;
 }
 
 export interface RegionsState {
