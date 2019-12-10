@@ -1,13 +1,21 @@
 <ng-container *ngIf="!confirmRequest">
-  <div class="cx-nav">
-    <button
-      class="btn btn-primary"
-      [disabled]="disableConfirmBtn"
-      (click)="confirmEntryInputs()"
-    >
-      {{ 'common.continue' | cxTranslate }}
-    </button>
+  <div class="cx-nav row">
+    <div class="col-xs-12 col-md-3">
+      <button class="btn btn-block btn-action" (click)="back()">
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="disableConfirmBtn"
+        (click)="confirmEntryInputs()"
+      >
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
   </div>
+
   <button class="btn btn-link cx-action-link" (click)="setAll()">
     {{ 'orderDetails.cancellationAndReturn.setAll' | cxTranslate }}
   </button>
@@ -157,14 +165,21 @@
   </div>
 </div>
 
-<div class="cx-nav">
-  <ng-container *ngIf="!confirmRequest">
-    <button
-      class="btn btn-primary"
-      [disabled]="disableConfirmBtn"
-      (click)="confirmEntryInputs()"
-    >
-      {{ 'common.continue' | cxTranslate }}
-    </button>
-  </ng-container>
-</div>
+<ng-container *ngIf="!confirmRequest">
+  <div class="cx-nav row">
+    <div class="col-xs-12 col-md-3">
+      <button class="btn btn-block btn-action" (click)="back()">
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="disableConfirmBtn"
+        (click)="confirmEntryInputs()"
+      >
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>
