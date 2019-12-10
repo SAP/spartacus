@@ -157,6 +157,7 @@ export class CartEffects {
     | DeprecatedCartActions.CreateCartFail
     | CartActions.CreateMultiCartFail
     | CartActions.SetFreshCart
+    | CartActions.MergeMultiCartFail
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.CREATE_CART),
     map((action: DeprecatedCartActions.CreateCart) => action.payload),
@@ -192,8 +193,17 @@ export class CartEffects {
               ...mergeActions,
             ];
           }),
-          catchError(error =>
-            from([
+          catchError(error => {
+            const mergeActions = [];
+            if (payload.oldCartId) {
+              mergeActions.push(
+                new CartActions.MergeMultiCartFail({
+                  oldCartId: payload.oldCartId,
+                })
+              );
+            }
+            return from([
+              ...mergeActions,
               new DeprecatedCartActions.CreateCartFail(
                 makeErrorSerializable(error)
               ),
@@ -201,8 +211,8 @@ export class CartEffects {
                 cartId: payload.cartId,
                 error: makeErrorSerializable(error),
               }),
-            ])
-          )
+            ]);
+          })
         );
     })
   );

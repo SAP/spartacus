@@ -1,15 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
-import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntitySuccessAction,
-} from '../../../state/utils/entity-loader/entity-loader.action';
-import {
-  EntityProcessesDecrementAction,
-  EntityProcessesIncrementAction,
-  EntityProcessesLoaderResetAction,
-} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
+import { EntityFailAction, EntityLoadAction, EntitySuccessAction } from '../../../state/utils/entity-loader/entity-loader.action';
+import { EntityProcessesDecrementAction, EntityProcessesIncrementAction, EntityProcessesLoaderResetAction } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
@@ -26,6 +18,7 @@ export const LOAD_MULTI_CART_SUCCESS = '[Multi Cart] Load Cart Success';
 
 export const MERGE_MULTI_CART = '[Multi Cart] Merge Cart';
 export const MERGE_MULTI_CART_SUCCESS = '[Multi Cart] Merge Cart Success';
+export const MERGE_MULTI_CART_FAIL = '[Multi Cart] Merge Cart Fail';
 
 export const RESET_MULTI_CART_DETAILS = '[Multi Cart] Reset Cart Details';
 
@@ -36,8 +29,6 @@ export const REMOVE_CART = '[Multi Cart] Remove Cart';
 export const ADD_EMAIL_TO_MULTI_CART = '[Multi Cart] Add Email';
 export const ADD_EMAIL_TO_MULTI_CART_FAIL = '[Multi Cart] Add Email Fail';
 export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
-
-export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
 
 export const CART_PROCESSES_INCREMENT = '[Multi Cart] Cart Processes Increment';
 export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
@@ -75,11 +66,6 @@ export class CreateMultiCartFail extends EntityFailAction {
   constructor(public payload: any) {
     super(MULTI_CART_FEATURE, FRESH_CART_ID);
   }
-}
-
-export class SetActiveCartId implements Action {
-  readonly type = SET_ACTIVE_CART_ID;
-  constructor(public payload: string) {}
 }
 
 export class CreateMultiCartSuccess extends EntitySuccessAction {
@@ -122,6 +108,11 @@ export class MergeMultiCartSuccess extends EntityRemoveAction {
   ) {
     super(MULTI_CART_FEATURE, payload.oldCartId);
   }
+}
+
+export class MergeMultiCartFail implements Action {
+  readonly type = MERGE_MULTI_CART_FAIL;
+  constructor(public payload: { oldCartId: string; extraData?: any }) {}
 }
 
 export class ResetMultiCartDetails extends EntityProcessesLoaderResetAction {
@@ -178,7 +169,6 @@ export class CartProcessesDecrement extends EntityProcessesDecrementAction {
 export type MultiCartActions =
   | ResetFreshCart
   | SetFreshCart
-  | SetActiveCartId
   | CreateMultiCart
   | CreateMultiCartFail
   | CreateMultiCartSuccess
@@ -187,6 +177,7 @@ export type MultiCartActions =
   | LoadMultiCartSuccess
   | MergeMultiCart
   | MergeMultiCartSuccess
+  | MergeMultiCartFail
   | ResetMultiCartDetails
   | RemoveCart
   | AddEmailToMultiCart

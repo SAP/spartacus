@@ -23,7 +23,6 @@ import {
 } from '../../occ/utils/occ-constants';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
-import { CartActions } from '../store';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
@@ -94,9 +93,15 @@ export class ActiveCartService {
             (cartEntity.error || cartEntity.success) && !cartEntity.loading,
         };
       }),
-      filter(({ isStable }) => isStable),
-      tap(({ cart, cartId, loaded }) => {
-        if (this.isEmpty(cart) && !loaded && cartId !== FRESH_CART_ID) {
+      tap(state => console.log('active', state)),
+      filter(({ isStable, cart }) => isStable || this.isEmpty(cart)),
+      tap(({ cart, cartId, loaded, isStable }) => {
+        if (
+          isStable &&
+          this.isEmpty(cart) &&
+          !loaded &&
+          cartId !== FRESH_CART_ID
+        ) {
           this.load(cartId);
         }
       }),
@@ -107,6 +112,7 @@ export class ActiveCartService {
         }
       }),
       distinctUntilChanged(),
+      tap(cart => console.log('cart', cart)),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
@@ -199,9 +205,9 @@ export class ActiveCartService {
     }
   }
 
-  private setActiveCartIdToFresh() {
-    this.store.dispatch(new CartActions.SetActiveCartId(FRESH_CART_ID));
-  }
+  // private setActiveCartIdToFresh() {
+  //   this.store.dispatch(new CartActions.SetActiveCartId(FRESH_CART_ID));
+  // }
 
   private addEntriesGuestMerge(cartEntries: OrderEntry[]) {
     const entriesToAdd = cartEntries.map(entry => ({
@@ -259,7 +265,7 @@ export class ActiveCartService {
       switchMap(cartState => {
         if (this.isEmpty(cartState.value)) {
           // point to fresh cart to use their `loading` flag while we create cart
-          this.setActiveCartIdToFresh();
+          // this.setActiveCartIdToFresh();
           this.multiCartService.createCart({
             userId: this.userId,
             extraData: {
