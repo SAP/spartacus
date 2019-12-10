@@ -25,6 +25,7 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  MyCouponsModule,
   MyInterestsModule,
 } from './myaccount/index';
 import {
@@ -88,6 +89,7 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    MyCouponsModule,
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,

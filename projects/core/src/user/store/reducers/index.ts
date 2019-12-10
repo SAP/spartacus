@@ -11,6 +11,7 @@ import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { OrderHistoryList } from '../../../model/order.model';
+import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
@@ -21,6 +22,7 @@ import {
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  CUSTOMER_COUPONS,
   NOTIFICATION_PREFERENCES,
   PRODUCT_INTERESTS,
 } from '../user-state';
@@ -37,6 +39,7 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromInterestsReducer from './product-interests.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
@@ -67,6 +70,10 @@ export function getReducers(): ActionReducerMap<UserState> {
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
     consignmentTracking: fromConsignmentTrackingReducer.reducer,
+    customerCoupons: loaderReducer<CustomerCouponSearchResult>(
+      CUSTOMER_COUPONS,
+      fromCustomerCouponReducer.reducer
+    ),
     notificationPreferences: loaderReducer<NotificationPreference[]>(
       NOTIFICATION_PREFERENCES,
       fromNotificationPreferenceReducer.reducer

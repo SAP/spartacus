@@ -25,6 +25,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updatePasswordForm',
     'updateProfileForm',
     'consentManagementForm',
+    'myCoupons',
     'notificationPreference',
     'myInterests',
   ],

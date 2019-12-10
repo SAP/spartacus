@@ -5,6 +5,7 @@ import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import { Title, User } from '../../model/misc.model';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { LoaderState } from '../../state';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
 
@@ -27,6 +28,11 @@ export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
 export const REGIONS = '[User] Regions';
 
+export const CUSTOMER_COUPONS = '[User] Customer Coupons';
+export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID = 'subscribeCustomerCoupon';
+export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID =
+  'unsubscribeCustomerCoupon';
+export const CLAIM_CUSTOMER_COUPON_PROCESS_ID = 'claimCustomerCoupon';
 export const NOTIFICATION_PREFERENCES = '[User] Notification Preferences';
 export const PRODUCT_INTERESTS = '[User] Product Interests';
 
@@ -47,6 +53,7 @@ export interface UserState {
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
+  customerCoupons: LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: LoaderState<NotificationPreference[]>;
   productInterests: LoaderState<ProductInterestSearchResult>;
 }

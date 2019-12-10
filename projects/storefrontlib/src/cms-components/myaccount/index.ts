@@ -11,6 +11,7 @@ export * from './reset-password/reset-password.module';
 export * from './update-email/index';
 export * from './update-password/index';
 export * from './update-profile/index';
+export * from './my-coupons/index';
 export * from './notification-preference/index';
 export * from './my-interests/my-interests.component';
 export * from './my-interests/my-interests.module';
