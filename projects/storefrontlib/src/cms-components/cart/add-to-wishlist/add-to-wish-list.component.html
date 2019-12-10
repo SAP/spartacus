@@ -34,13 +34,17 @@
 </ng-container>
 
 <ng-template #loginPrompt>
-  <a
-    class="btn btn-link button-add-link"
-    [routerLink]="{ cxRoute: 'login' } | cxUrl"
-  >
-    <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
-    <span class="button-text">{{
-      'addToWishList.anonymous' | cxTranslate
-    }}</span>
-  </a>
+  <ng-container *ngIf="product$ | async as product">
+    <ng-container *ngIf="hasStock">
+      <a
+        class="btn btn-link button-add-link"
+        [routerLink]="{ cxRoute: 'login' } | cxUrl"
+      >
+        <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
+        <span class="button-text">{{
+          'addToWishList.anonymous' | cxTranslate
+        }}</span>
+      </a>
+    </ng-container>
+  </ng-container>
 </ng-template>

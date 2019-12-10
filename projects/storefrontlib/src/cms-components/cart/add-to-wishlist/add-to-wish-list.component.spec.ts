@@ -33,6 +33,12 @@ const mockProduct: Product = {
   },
 };
 
+const mockOutOfStockProduct: Product = {
+  code: 'xxx',
+  name: 'product',
+  stock: { stockLevelStatus: 'outOfStock', stockLevel: 0 },
+};
+
 const mockCartEntry: OrderEntry = {
   entryNumber: 0,
   product: { code: 'xxx' },
@@ -66,6 +72,7 @@ class MockAuthService {
 }
 
 const wishListSubject = new BehaviorSubject(mockWishList);
+const productSubject = new BehaviorSubject(mockProduct);
 
 class MockWishListService {
   addEntry = createSpy();
@@ -75,7 +82,7 @@ class MockWishListService {
 }
 
 class MockCurrentProductService {
-  getProduct = createSpy().and.returnValue(of(mockProduct));
+  getProduct = createSpy().and.returnValue(productSubject);
 }
 
 @Component({
@@ -195,6 +202,13 @@ describe('AddToWishListComponent', () => {
         expect(
           el.query(By.css('.button-add-link')).nativeElement
         ).toBeDefined();
+      });
+
+      it('should not show anything if there is no stock', () => {
+        component.userLoggedIn$ = of(false);
+        productSubject.next(mockOutOfStockProduct);
+        fixture.detectChanges();
+        expect(el.query(By.css('.button-add-link'))).toBeNull();
       });
     });
   });
