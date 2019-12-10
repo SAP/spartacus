@@ -25,6 +25,10 @@ export const defaultOccUserConfig: OccConfig = {
         addressVerification: 'users/${userId}/addresses/verification',
         consignmentTracking:
           'orders/${orderCode}/consignments/${consignmentCode}/tracking',
+        notificationPreference: 'users/${userId}/notificationpreferences',
+        productInterests: 'users/${userId}/productinterests',
+        getProductInterests:
+          'users/${userId}/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))',
         cancelOrder: 'users/${userId}/orders/${orderId}/cancellation',
         returnOrder:
           'users/${userId}/orderReturns?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name, code,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',

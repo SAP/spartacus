@@ -25,6 +25,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updatePasswordForm',
     'updateProfileForm',
     'consentManagementForm',
+    'notificationPreference',
+    'myInterests',
     'AccountOrderHistoryTabContainer',
     'returnRequestList',
     'returnRequest',
@@ -46,6 +48,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productSummary',
     'productReview',
     'addToCart',
+    'CMSTabParagraphContainer',
+    'stockNotification',
     'TabPanelContainer',
   ],
   user: [
