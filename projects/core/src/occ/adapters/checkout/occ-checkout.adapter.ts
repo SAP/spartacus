@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { retry } from 'rxjs/operators';
 import { CheckoutAdapter } from '../../../checkout/connectors/checkout/checkout.adapter';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
@@ -14,17 +13,12 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
 import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
-
-// To be changed to a more optimised params after ticket: C3PO-1076
-const FULL_PARAMS = 'fields=FULL';
 const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 const ORDERS_ENDPOINT = '/orders';
 const CARTS_ENDPOINT = '/carts/';
 
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
-  // ! Default number of retries for failed requests
-  private RETRY_ATTEMPTS = 3;
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -63,9 +57,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       fromString: `fields=${CHECKOUT_PARAMS}`,
     });
 
-    return this.http
-      .get<CheckoutDetails>(url, { params })
-      .pipe(retry(this.RETRY_ATTEMPTS));
+    return this.http.get<CheckoutDetails>(url, { params });
   }
 
   clearCheckoutDeliveryAddress(
