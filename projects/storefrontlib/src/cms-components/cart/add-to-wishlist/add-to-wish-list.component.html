@@ -1,5 +1,5 @@
-<ng-container *ngIf="userLoggedIn$ | async; else loginPrompt">
-  <ng-container *ngIf="product$ | async as product">
+<ng-container *ngIf="product$ | async as product">
+  <ng-container *ngIf="userLoggedIn$ | async; else loginPrompt">
     <ng-container *ngIf="wishListEntries$ | async as entries">
       <ng-container *ngIf="hasStock">
         <div
@@ -34,17 +34,15 @@
 </ng-container>
 
 <ng-template #loginPrompt>
-  <ng-container *ngIf="product$ | async as product">
-    <ng-container *ngIf="hasStock">
-      <a
-        class="btn btn-link button-add-link"
-        [routerLink]="{ cxRoute: 'login' } | cxUrl"
-      >
-        <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
-        <span class="button-text">{{
-          'addToWishList.anonymous' | cxTranslate
-        }}</span>
-      </a>
-    </ng-container>
+  <ng-container *ngIf="hasStock">
+    <a
+      class="btn btn-link button-add-link"
+      [routerLink]="{ cxRoute: 'login' } | cxUrl"
+    >
+      <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
+      <span class="button-text">{{
+        'addToWishList.anonymous' | cxTranslate
+      }}</span>
+    </a>
   </ng-container>
 </ng-template>
