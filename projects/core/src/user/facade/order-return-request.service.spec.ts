@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import * as ngrxStore from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ReturnRequestList } from '../../model/order.model';
@@ -63,9 +64,37 @@ describe('OrderReturnRequestService', () => {
       })
     );
     service
-      .getOrderReturnRequest()
+      .getOrderReturnRequest('000000')
       .subscribe(r => expect(r).toEqual({ rma: '000000' }))
       .unsubscribe();
+  });
+
+  it('should load return request if the existing one has different rma', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of({ rma: '000000' })
+    );
+
+    service
+      .getOrderReturnRequest('000001')
+      .subscribe()
+      .unsubscribe();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadOrderReturnRequest({
+        userId: OCC_USER_ID_CURRENT,
+        returnRequestCode: '000001',
+      })
+    );
+  });
+
+  it('should be able to load an order return requests data', () => {
+    service.loadOrderReturnRequestDetail('test');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.LoadOrderReturnRequest({
+        userId: OCC_USER_ID_CURRENT,
+        returnRequestCode: 'test',
+      })
+    );
   });
 
   it('should be able to get order return requests list', () => {

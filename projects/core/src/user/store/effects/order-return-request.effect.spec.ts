@@ -138,4 +138,47 @@ describe('Order Return Request effect', () => {
       );
     });
   });
+
+  describe('loadReturnRequest$', () => {
+    it('should load an order return request', () => {
+      spyOn(orderConnector, 'getReturnRequestDetail').and.returnValue(
+        of(mockReturnRequest)
+      );
+      const action = new UserActions.LoadOrderReturnRequest({
+        userId: 'userId',
+        returnRequestCode: 'test',
+      });
+
+      const completion = new UserActions.LoadOrderReturnRequestSuccess(
+        mockReturnRequest
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderReturnRequestEffect.loadReturnRequest$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should handle failures for load an order return request', () => {
+      spyOn(orderConnector, 'getReturnRequestDetail').and.returnValue(
+        throwError('Error')
+      );
+
+      const action = new UserActions.LoadOrderReturnRequest({
+        userId: 'userId',
+        returnRequestCode: 'test',
+      });
+
+      const completion = new UserActions.LoadOrderReturnRequestFail('Error');
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderReturnRequestEffect.loadReturnRequest$).toBeObservable(
+        expected
+      );
+    });
+  });
 });

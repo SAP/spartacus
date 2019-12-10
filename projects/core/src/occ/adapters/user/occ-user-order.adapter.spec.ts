@@ -396,5 +396,40 @@ describe('OccUserOrderAdapter', () => {
         );
       });
     });
+
+    describe('loadReturnRequestDetail', () => {
+      it('should be able to load an order return request data', async(() => {
+        let result;
+        occUserOrderAdapter
+          .loadReturnRequestDetail(userId, 'test')
+          .subscribe(res => (result = res));
+
+        const mockReq = httpMock.expectOne(req => {
+          return req.method === 'GET';
+        });
+        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+          'orderReturnDetail',
+          {
+            userId,
+            returnRequestCode: 'test',
+          }
+        );
+        expect(mockReq.cancelled).toBeFalsy();
+        mockReq.flush({});
+        expect(result).toEqual({});
+      }));
+
+      it('should use converter', () => {
+        occUserOrderAdapter.loadReturnRequestDetail(userId, 'test').subscribe();
+        httpMock
+          .expectOne(req => {
+            return req.method === 'GET';
+          })
+          .flush({});
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          ORDER_RETURN_REQUEST_NORMALIZER
+        );
+      });
+    });
   });
 });

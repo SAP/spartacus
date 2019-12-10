@@ -54,6 +54,16 @@ export abstract class UserOrderAdapter {
   ): Observable<ReturnRequest>;
 
   /**
+   * Abstract method used to load order return request details
+   * @param userId
+   * @param returnRequestCode
+   */
+  abstract loadReturnRequestDetail(
+    userId: string,
+    returnRequestCode: string
+  ): Observable<ReturnRequest>;
+
+  /**
    * Abstract method used to load order return request list for an user.
    * @param userId
    * @param pageSize

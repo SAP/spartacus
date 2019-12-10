@@ -19,11 +19,10 @@ export class OrderReturnRequestEffect {
       return this.orderConnector
         .return(payload.userId, payload.returnRequestInput)
         .pipe(
-          map((returnRequest: ReturnRequest) => {
-            return new UserActions.CreateOrderReturnRequestSuccess(
-              returnRequest
-            );
-          }),
+          map(
+            (returnRequest: ReturnRequest) =>
+              new UserActions.CreateOrderReturnRequestSuccess(returnRequest)
+          ),
           catchError(error =>
             of(
               new UserActions.CreateOrderReturnRequestFail(
@@ -36,10 +35,35 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
+  loadReturnRequest$: Observable<
+    UserActions.OrderReturnRequestAction
+  > = this.actions$.pipe(
+    ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
+    map((action: UserActions.LoadOrderReturnRequest) => action.payload),
+    switchMap(payload => {
+      return this.orderConnector
+        .getReturnRequestDetail(payload.userId, payload.returnRequestCode)
+        .pipe(
+          map(
+            (returnRequest: ReturnRequest) =>
+              new UserActions.LoadOrderReturnRequestSuccess(returnRequest)
+          ),
+          catchError(error =>
+            of(
+              new UserActions.LoadOrderReturnRequestFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    })
+  );
+
+  @Effect()
   loadReturnRequestList$: Observable<
     UserActions.OrderReturnRequestAction
   > = this.actions$.pipe(
-    ofType(UserActions.LOAD_ORDER_RETURN_REQUESTS),
+    ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: UserActions.LoadOrderReturnRequestList) => action.payload),
     switchMap(payload => {
       return this.orderConnector
@@ -50,11 +74,12 @@ export class OrderReturnRequestEffect {
           payload.sort
         )
         .pipe(
-          map((returnRequestList: ReturnRequestList) => {
-            return new UserActions.LoadOrderReturnRequestListSuccess(
-              returnRequestList
-            );
-          }),
+          map(
+            (returnRequestList: ReturnRequestList) =>
+              new UserActions.LoadOrderReturnRequestListSuccess(
+                returnRequestList
+              )
+          ),
           catchError(error =>
             of(
               new UserActions.LoadOrderReturnRequestListFail(

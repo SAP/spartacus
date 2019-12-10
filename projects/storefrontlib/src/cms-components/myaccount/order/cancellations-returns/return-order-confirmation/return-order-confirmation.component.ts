@@ -48,7 +48,7 @@ export class ReturnOrderConfirmationComponent implements OnDestroy {
 
     // should go to "return request details" page, will be handled by #5477.
     // this part will be refactored after #5477 done.
-    if (!this.subscription) {
+    /*if (!this.subscription) {
       this.subscription = this.returnRequestService
         .getOrderReturnRequest()
         .pipe(filter(returnRequest => Boolean(returnRequest)))
@@ -56,7 +56,7 @@ export class ReturnOrderConfirmationComponent implements OnDestroy {
           console.log(returnRequest);
           //this.routing.go({ cxRoute: 'orders' });
         });
-    }
+    }*/
   }
 
   back(): void {

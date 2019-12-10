@@ -27,6 +27,7 @@ export const defaultOccUserConfig: OccConfig = {
         cancelOrder: 'users/${userId}/orders/${orderId}/cancellation',
         returnOrder: 'users/${userId}/orderReturns',
         orderReturns: 'users/${userId}/orderReturns?fields=BASIC',
+        orderReturnDetail: 'users/${userId}/orderReturns/${returnRequestCode}',
       },
     },
   },

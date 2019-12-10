@@ -3,7 +3,10 @@ import {
   ReturnRequestList,
 } from '../../../model/order.model';
 import { StateLoaderActions } from '../../../state/utils/index';
-import { USER_RETURN_REQUESTS } from '../user-state';
+import {
+  USER_RETURN_REQUESTS,
+  USER_RETURN_REQUEST_DETAILS,
+} from '../user-state';
 import { UserActions } from './index';
 
 const returnRequestInput: ReturnRequestEntryInputList = {
@@ -45,6 +48,7 @@ describe('Order Return Request actions', () => {
           userId: 'userId',
           returnRequestInput,
         },
+        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -57,6 +61,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CREATE_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
+        meta: StateLoaderActions.failMeta(USER_RETURN_REQUEST_DETAILS, error),
       });
     });
   });
@@ -70,6 +75,52 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS,
         payload: { rma: '0000' },
+        meta: StateLoaderActions.successMeta(USER_RETURN_REQUEST_DETAILS),
+      });
+    });
+  });
+
+  describe('LoadOrderReturnRequest Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.LoadOrderReturnRequest({
+        userId: 'userId',
+        returnRequestCode: 'test',
+      });
+
+      expect({ ...action }).toEqual({
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST,
+        payload: {
+          userId: 'userId',
+          returnRequestCode: 'test',
+        },
+        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUEST_DETAILS),
+      });
+    });
+  });
+
+  describe('LoadOrderReturnRequestFail Action', () => {
+    it('should create the action', () => {
+      const error = 'mockError';
+      const action = new UserActions.LoadOrderReturnRequestFail(error);
+
+      expect({ ...action }).toEqual({
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST_FAIL,
+        payload: error,
+        meta: StateLoaderActions.failMeta(USER_RETURN_REQUEST_DETAILS, error),
+      });
+    });
+  });
+
+  describe('LoadOrderReturnRequestSuccess Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.LoadOrderReturnRequestSuccess({
+        rma: '0000',
+      });
+
+      expect({ ...action }).toEqual({
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST_SUCCESS,
+        payload: { rma: '0000' },
+        meta: StateLoaderActions.successMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -81,7 +132,7 @@ describe('Order Return Request actions', () => {
       );
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUESTS,
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST,
         payload: mockLoadPayload,
         meta: StateLoaderActions.loadMeta(USER_RETURN_REQUESTS),
       });
@@ -94,7 +145,7 @@ describe('Order Return Request actions', () => {
       const action = new UserActions.LoadOrderReturnRequestListFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUESTS_FAIL,
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST_FAIL,
         payload: error,
         meta: StateLoaderActions.failMeta(USER_RETURN_REQUESTS, error),
       });
@@ -108,7 +159,7 @@ describe('Order Return Request actions', () => {
       );
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ORDER_RETURN_REQUESTS_SUCCESS,
+        type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS,
         payload: mockReturnRequestList,
         meta: StateLoaderActions.successMeta(USER_RETURN_REQUESTS),
       });
