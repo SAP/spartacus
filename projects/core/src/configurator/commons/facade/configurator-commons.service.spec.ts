@@ -277,11 +277,16 @@ describe('ConfiguratorCommonsService', () => {
         productCode: PRODUCT_CODE,
         quantity: 1,
         configId: CONFIG_ID,
+        ownerKey: productConfiguration.owner.key,
       };
 
       spyOn(store, 'dispatch').and.callThrough();
 
-      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID);
+      serviceUnderTest.addToCart(
+        PRODUCT_CODE,
+        CONFIG_ID,
+        productConfiguration.owner.key
+      );
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.AddToCart(addToCartParams)
