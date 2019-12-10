@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { retry } from 'rxjs/operators';
 import { CheckoutAdapter } from '../../../checkout/connectors/checkout/checkout.adapter';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
@@ -22,6 +23,8 @@ const CARTS_ENDPOINT = '/carts/';
 
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
+  // ! Default number of retries for failed requests
+  private RETRY_ATTEMPTS = 3;
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -59,7 +62,10 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     const params = new HttpParams({
       fromString: `fields=${CHECKOUT_PARAMS}`,
     });
-    return this.http.get<CheckoutDetails>(url, { params });
+
+    return this.http
+      .get<CheckoutDetails>(url, { params })
+      .pipe(retry(this.RETRY_ATTEMPTS));
   }
 
   clearCheckoutDeliveryAddress(

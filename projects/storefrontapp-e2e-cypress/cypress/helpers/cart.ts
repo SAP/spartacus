@@ -166,9 +166,7 @@ export function removeAllItemsFromCart() {
     cy.getByText('Remove').click();
   });
 
-  cy.wait('@refresh_cart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@refresh_cart');
 
   getCartItem(product1.name).within(() => {
     cy.getByText('Remove').click();
@@ -270,9 +268,7 @@ export function manipulateCartQuantity() {
 
   addToCart();
 
-  cy.wait('@refresh_cart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@refresh_cart');
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();

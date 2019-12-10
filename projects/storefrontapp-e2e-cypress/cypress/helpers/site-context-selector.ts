@@ -114,9 +114,11 @@ export function stub(request: string, alias: string): void {
     cy.restoreLocalStorage();
     cy.server();
     createRoute(request, alias);
+    cy.log('DO I GET CALLED in BEFOREEACH');
   });
 
   afterEach(() => {
+    cy.log('DO I GET CALLED in AFTEREACH');
     cy.saveLocalStorage();
   });
 }
