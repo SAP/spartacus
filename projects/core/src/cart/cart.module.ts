@@ -7,6 +7,7 @@ import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 import { MultiCartService } from './facade/multi-cart.service';
 import { ActiveCartService } from './facade/active-cart.service';
+import { SelectiveCartService } from './facade/selective-cart.service';
 
 @NgModule({
   imports: [CartStoreModule, MultiCartStoreModule],
@@ -21,6 +22,7 @@ export class CartModule {
         CartService,
         MultiCartService,
         ActiveCartService,
+        SelectiveCartService,
         {
           provide: PageMetaResolver,
           useExisting: CartPageMetaResolver,
