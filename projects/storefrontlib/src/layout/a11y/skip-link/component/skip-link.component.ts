@@ -7,12 +7,12 @@ import { SkipLinkService } from '../service/skip-link.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkipLinkComponent {
-  links$ = this.skipLinkService.skippers;
+  skipLinks$ = this.skipLinkService.skippers;
 
   constructor(private skipLinkService: SkipLinkService) {}
 
-  go(link, event: MouseEvent) {
-    this.skipLinkService.go(link.target, link.position, event);
+  go(skipLink, event: MouseEvent) {
+    this.skipLinkService.go(skipLink.target, skipLink.position, event);
   }
 
   /**

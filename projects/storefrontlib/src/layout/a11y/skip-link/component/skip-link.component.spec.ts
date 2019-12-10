@@ -48,7 +48,7 @@ describe('SkipLinkComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SkipLinkComponent);
     skipLinkComponent = fixture.componentInstance;
-    skipLinkComponent.links$.next(mockSkipLinks);
+    skipLinkComponent.skipLinks$.next(mockSkipLinks);
     fixture.detectChanges();
   });
 

@@ -1,10 +1,10 @@
 <button
-  *ngFor="let link of links$ | async"
-  (click)="go(link, $event)"
+  *ngFor="let skipLink of skipLinks$ | async"
+  (click)="go(skipLink, $event)"
   (keydown.esc)="blur($event)"
   (keydown.arrowright)="tabNext($event)"
   (keydown.arrowleft)="tabPrev($event)"
 >
   {{ 'skipLink.skipTo' | cxTranslate }}
-  {{ link.title | cxTranslate }}
+  {{ skipLink.title | cxTranslate }}
 </button>

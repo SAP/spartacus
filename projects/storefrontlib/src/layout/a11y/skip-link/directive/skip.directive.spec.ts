@@ -9,8 +9,8 @@ const SKIP_KEY_2 = 'Key2';
 
 @Component({
   template: `
-    <ng-container [cxSkip]="'${SKIP_KEY_1}'"></ng-container>
-    <div [cxSkip]="'${SKIP_KEY_2}'"></div>
+    <ng-container [cxSkipLink]="'${SKIP_KEY_1}'"></ng-container>
+    <div [cxSkipLink]="'${SKIP_KEY_2}'"></div>
   `,
 })
 class TestContainerComponent {}
