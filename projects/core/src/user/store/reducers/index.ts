@@ -9,6 +9,8 @@ import { AuthActions } from '../../../auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
+import { NotificationPreference } from '../../../model/notification-preference.model';
+import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import {
   OrderHistoryList,
   ReturnRequestList,
@@ -24,6 +26,8 @@ import {
   USER_CONSENTS,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
+  NOTIFICATION_PREFERENCES,
+  PRODUCT_INTERESTS,
   USER_RETURN_REQUESTS,
   USER_ORDER_DETAILS,
   USER_RETURN_REQUEST_DETAILS,
@@ -31,6 +35,7 @@ import {
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
+import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromRegionsReducer from './regions.reducer';
@@ -40,6 +45,7 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromInterestsReducer from './product-interests.reducer';
 import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
@@ -78,6 +84,14 @@ export function getReducers(): ActionReducerMap<UserState> {
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
     resetPassword: fromResetPasswordReducer.reducer,
     consignmentTracking: fromConsignmentTrackingReducer.reducer,
+    notificationPreferences: loaderReducer<NotificationPreference[]>(
+      NOTIFICATION_PREFERENCES,
+      fromNotificationPreferenceReducer.reducer
+    ),
+    productInterests: loaderReducer<ProductInterestSearchResult>(
+      PRODUCT_INTERESTS,
+      fromInterestsReducer.reducer
+    ),
   };
 }
 
