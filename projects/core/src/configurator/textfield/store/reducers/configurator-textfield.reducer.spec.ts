@@ -30,4 +30,13 @@ describe('ConfiguratorTextfieldReducer', () => {
     expect(result).toBeDefined();
     expect(result.content).toEqual(configuration);
   });
+
+  it('should change state on UpdateConfiguration ', () => {
+    const result = reducer(
+      configurationState,
+      new ConfiguratorTextfieldActions.UpdateConfiguration(configuration)
+    );
+    expect(result).toBeDefined();
+    expect(result.content).toEqual(configuration);
+  });
 });

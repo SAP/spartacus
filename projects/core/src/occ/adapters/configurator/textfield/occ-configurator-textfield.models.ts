@@ -10,5 +10,18 @@ export namespace OccConfiguratorTextfield {
     configurationLabel?: string;
     configurationValue?: string;
     status?: string;
+    configuratorType?: string;
+  }
+
+  export interface AddToCartParameters {
+    userId?: string;
+    cartId?: string;
+    product?: AddToCartProductData;
+    quantity?: number;
+    configurationInfos?: ConfigurationInfo[];
+  }
+
+  export interface AddToCartProductData {
+    code?: string;
   }
 }

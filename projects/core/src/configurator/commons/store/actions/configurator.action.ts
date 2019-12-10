@@ -218,7 +218,6 @@ export class SetNextOwnerCartEntry implements Action {
     public cartEntryNo: string
   ) {}
 }
-
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail

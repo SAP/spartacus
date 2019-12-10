@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { CartModification } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
 
 export abstract class ConfiguratorTextfieldAdapter {
@@ -10,4 +11,13 @@ export abstract class ConfiguratorTextfieldAdapter {
   abstract createConfiguration(
     productCode: string
   ): Observable<ConfiguratorTextfield.Configuration>;
+
+  /**
+   * Abstract method to add a configuration to cart.
+   *
+   * @param parameters add to cart parameters object
+   */
+  abstract addToCart(
+    parameters: ConfiguratorTextfield.AddToCartParameters
+  ): Observable<CartModification>;
 }

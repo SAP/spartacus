@@ -56,6 +56,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'configurator.overviewForm',
   ],
 
+  configuratorTextfield: ['configuratorTextfield.addToCart'],
+
   user: [
     'anonymousConsents',
     'forgottenPassword',
