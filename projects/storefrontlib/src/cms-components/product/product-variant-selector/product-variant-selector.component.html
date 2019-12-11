@@ -9,5 +9,10 @@
       [product]="product"
       [variants]="variants[variantType.SIZE]"
     ></cx-size-selector>
+    <cx-color-selector
+      *ngIf="variants[variantType.COLOR]"
+      [product]="product"
+      [variants]="variants[variantType.COLOR]"
+    ></cx-color-selector>
   </div>
 </ng-container>

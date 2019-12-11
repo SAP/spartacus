@@ -49,6 +49,7 @@ export interface VariantValueCategory {
 export enum VariantType {
   SIZE = 'ApparelSizeVariantProduct',
   STYLE = 'ApparelStyleVariantProduct',
+  COLOR = 'ElectronicsColorVariantProduct',
 }
 
 export enum PriceType {
@@ -189,6 +190,7 @@ export interface Product {
 export enum VariantQualifier {
   SIZE = 'size',
   STYLE = 'style',
+  COLOR = 'color',
   THUMBNAIL = 'thumbnail',
   PRODUCT = 'product',
   ROLLUP_PROPERTY = 'rollupProperty',
