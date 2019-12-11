@@ -93,7 +93,9 @@ export class ActiveCartService {
             (cartEntity.error || cartEntity.success) && !cartEntity.loading,
         };
       }),
-      tap(state => console.log('active', state)),
+      // we want to emit empty carts even if those are not stable
+      // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
+      // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart
       filter(({ isStable, cart }) => isStable || this.isEmpty(cart)),
       tap(({ cart, cartId, loaded, isStable }) => {
         if (
@@ -112,7 +114,6 @@ export class ActiveCartService {
         }
       }),
       distinctUntilChanged(),
-      tap(cart => console.log('cart', cart)),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
@@ -204,10 +205,6 @@ export class ActiveCartService {
       });
     }
   }
-
-  // private setActiveCartIdToFresh() {
-  //   this.store.dispatch(new CartActions.SetActiveCartId(FRESH_CART_ID));
-  // }
 
   private addEntriesGuestMerge(cartEntries: OrderEntry[]) {
     const entriesToAdd = cartEntries.map(entry => ({
