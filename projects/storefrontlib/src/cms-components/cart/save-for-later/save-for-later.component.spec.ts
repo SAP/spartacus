@@ -94,12 +94,12 @@ describe('SaveForLaterComponent', () => {
     mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  fit('should display save for later text with items', () => {
+  it('should display save for later text with items', () => {
     mockSelectiveCartService.getCart.and.returnValue(
       of<Cart>({
         code: '123',
