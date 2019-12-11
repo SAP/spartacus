@@ -5,12 +5,25 @@ export interface OccEndpoints {
    * @member {string}
    */
   login?: string;
+
   /**
    * Get product details
    *
-   * @member {string}
+   * @member string
    */
   product?: string;
+
+  /**
+   * Get product details for scope
+   *
+   * @member Object
+   */
+  product_scopes?: {
+    list?: string;
+    details?: string;
+    [scope: string]: string;
+  };
+
   /**
    * Get reviews for a product
    *
@@ -325,4 +338,22 @@ export interface OccEndpoints {
    * @member {string}
    */
   cartVoucher?: string;
+  /**
+   * Endpoint for notification preference
+   *
+   * @member {string}
+   */
+  notificationPreference?: string;
+  /**
+   * Endpoint for product interests
+   *
+   * @member {string}
+   */
+  productInterests?: string;
+  /**
+   * Endpoint for getting product interests
+   *
+   * @member {string}
+   */
+  getProductInterests?: string;
 }
