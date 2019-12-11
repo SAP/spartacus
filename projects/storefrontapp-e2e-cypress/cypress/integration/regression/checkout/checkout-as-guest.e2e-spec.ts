@@ -119,9 +119,7 @@ context('Checkout as guest', () => {
 
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.getByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`)
-        .its('status')
-        .should('eq', 200);
+      cy.wait(`@${loginPage}`);
 
       login(user.email, user.password);
       cy.wait(`@${shippingPage}`)
