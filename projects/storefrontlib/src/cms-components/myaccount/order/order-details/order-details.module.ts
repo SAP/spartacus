@@ -16,14 +16,16 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
-import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
+import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
+import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from './order-details.service';
 
 const moduleComponents = [
+  OrderDetailActionsComponent,
   OrderDetailHeadlineComponent,
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
@@ -56,6 +58,9 @@ const moduleComponents = [
     ]),
     ConfigModule.withConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
+        AccountOrderDetailsActionsComponent: {
+          component: OrderDetailActionsComponent,
+        },
         AccountOrderDetailsHeadlineComponent: {
           component: OrderDetailHeadlineComponent,
         },
