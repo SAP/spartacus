@@ -11,7 +11,6 @@ context('Checkout as guest', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
-    cy.visit('/');
   });
 
   describe('Add product and proceed to checkout', () => {
@@ -119,7 +118,9 @@ context('Checkout as guest', () => {
 
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.getByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`);
+      cy.wait(`@${loginPage}`)
+        .its('status')
+        .should('eq', 200);
 
       login(user.email, user.password);
       cy.wait(`@${shippingPage}`)
