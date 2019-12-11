@@ -4,6 +4,7 @@
  * context
  */
 export interface StrategyRequest {
+  // This property is productCodes in OCC
   products?: string[];
   category?: string;
   facets?: string;
