@@ -12,7 +12,7 @@
 
     <ng-container *ngIf="isSelectiveCartEnabled(); else totalHeader">
       <div
-        *ngIf="!showTotal; else totalHeader"
+        *ngIf="!options.showTotal; else totalHeader"
         class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
       >
         {{ 'saveForLaterItems.stock' | cxTranslate }}
@@ -30,13 +30,10 @@
         [potentialProductPromotions]="
           getPotentialProductPromotionsForItem(item)
         "
-        [isReadOnly]="isReadOnly"
         (remove)="removeEntry($event)"
         [cartIsLoading]="cartIsLoading"
         (update)="updateEntry($event)"
-        [showTotal]="showTotal"
-        [optionalButton]="optionalButton"
-        (optionalAction)="doOtionalAction($event)"
+        [options]="options"
       >
       </cx-cart-item>
     </div>

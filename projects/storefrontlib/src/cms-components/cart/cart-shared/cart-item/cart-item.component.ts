@@ -1,12 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-  FeatureConfigService,
-  AuthService,
-  RoutingService,
-  AuthRedirectService,
-} from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { FeatureConfigService } from '@spartacus/core';
 
 export interface Item {
   product?: any;
@@ -16,25 +10,39 @@ export interface Item {
   updateable?: boolean;
 }
 
+export interface CartItemComponentOptions {
+  isReadOnly?: boolean;
+  showTotal?: boolean;
+  button?: any;
+}
+
 @Component({
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
 })
-export class CartItemComponent implements OnInit, OnDestroy {
+export class CartItemComponent implements OnInit {
   @Input()
   compact = false;
   @Input()
   item: Item;
   @Input()
   potentialProductPromotions: any[];
+
+  /**
+   * @deprecated deprecated since 1.4, using optional to replace
+   */
   @Input()
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
   @Input()
-  optionalButton = undefined;
-  @Input()
   showTotal = true;
+
+  @Input()
+  options: CartItemComponentOptions = {
+    isReadOnly: false,
+    showTotal: true,
+  };
 
   @Output()
   remove = new EventEmitter<any>();
@@ -42,36 +50,16 @@ export class CartItemComponent implements OnInit, OnDestroy {
   update = new EventEmitter<any>();
   @Output()
   view = new EventEmitter<any>();
-  @Output()
-  optionalAction = new EventEmitter<any>();
 
   @Input()
   parent: FormGroup;
 
-  private subscription: Subscription;
-
   ngOnInit() {}
 
-  constructor(
-    private featureConfig: FeatureConfigService,
-    private authService: AuthService,
-    private routingService: RoutingService,
-    private authRedirectService: AuthRedirectService
-  ) {}
+  constructor(private featureConfig: FeatureConfigService) {}
 
   isSelectiveCartEnabled() {
     return this.featureConfig.isEnabled('selectiveCart');
-  }
-
-  doOtionalAction() {
-    this.subscription = this.authService.isUserLoggedIn().subscribe(loggedIn => {
-      if (loggedIn) {
-        this.optionalAction.emit(this.item);
-      } else {
-        this.routingService.go({ cxRoute: 'login' });
-        this.authRedirectService.reportAuthGuard();
-      }
-    });
   }
 
   isProductOutOfStock(product: any) {
@@ -93,11 +81,5 @@ export class CartItemComponent implements OnInit, OnDestroy {
 
   viewItem() {
     this.view.emit();
-  }
-
-  ngOnDestroy(): void {
-    if(this.subscription){
-      this.subscription.unsubscribe();
-    }
   }
 }

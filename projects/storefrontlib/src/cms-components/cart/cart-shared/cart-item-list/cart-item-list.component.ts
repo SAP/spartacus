@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   CartService,
@@ -6,18 +6,30 @@ import {
   SelectiveCartService,
   FeatureConfigService,
 } from '@spartacus/core';
-import { Item } from '../cart-item/cart-item.component';
+import {
+  Item,
+  CartItemComponentOptions,
+} from '../cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
 })
 export class CartItemListComponent implements OnInit {
+  /**
+   * @deprecated deprecated since 1.4, using optional to replace
+   */
   @Input()
   isReadOnly = false;
 
   @Input()
   hasHeader = true;
+
+  @Input()
+  options: CartItemComponentOptions = {
+    isReadOnly: false,
+    showTotal: true,
+  };
 
   @Input()
   set items(_items) {
@@ -40,13 +52,7 @@ export class CartItemListComponent implements OnInit {
   cartIsLoading = false;
 
   @Input()
-  optionalButton = undefined;
-
-  @Input()
   showTotal = true;
-
-  @Output()
-  optionalAction = new EventEmitter<any>();
 
   form: FormGroup = this.fb.group({});
 
@@ -68,11 +74,6 @@ export class CartItemListComponent implements OnInit {
 
   isSelectiveCartEnabled() {
     return this.featureConfig.isEnabled('selectiveCart');
-  }
-
-  doOtionalAction(item: Item): void {
-    this.optionalAction.emit(item);
-    this.items = this.items.filter(i => i.product.code !== item.product.code);
   }
 
   removeEntry(item: Item): void {
