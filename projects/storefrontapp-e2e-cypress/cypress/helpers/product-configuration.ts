@@ -12,12 +12,14 @@ export function clickOnNextGroupButton() {
   cy.get(nextGroupButtonSelector).click({
     force: true,
   });
+  cy.wait(2500);
 }
 
 export function clickOnPreviousGroupButton() {
   cy.get(previousGroupButtonSelector).click({
     force: true,
   });
+  cy.wait(2500);
 }
 
 export function verifyConfigurationPageIsDisplayed() {
