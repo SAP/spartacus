@@ -104,7 +104,6 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if there are no facets, but a brandCode exists', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: 'brand123',
-      productId: undefined,
       facets: undefined,
     };
     const routerState: RouterState = {
