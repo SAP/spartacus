@@ -1,8 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ImageType } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { MerchandisingProducts } from '../model/merchandising-products.model';
+import { StrategyProducts } from '../model/strategy-products.model';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
 import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
 import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
@@ -13,33 +12,17 @@ import createSpy = jasmine.createSpy;
 
 const STRATEGY_ID = 'test-strategy-id';
 
-const merchandisingProductsMetadata: Map<string, string> = new Map<
-  string,
-  string
->();
-merchandisingProductsMetadata.set('test-metadata-field', 'test-metadata-value');
-const merchandisingProducts: MerchandisingProducts = {
+const strategyProducts: StrategyProducts = {
   products: [
     {
-      code: 'test-product-id',
-      name: 'test-product',
-      price: {
-        formattedValue: '20.99',
-        value: 20.99,
-      },
-      images: {
-        PRIMARY: {
-          product: {
-            url: 'http://some-main-image-url',
-            format: 'product',
-            imageType: ImageType.PRIMARY,
-          },
-        },
-      },
+      id: 'test-product-id',
     },
   ],
-  metadata: merchandisingProductsMetadata,
+  metadata: {
+    'test-metadata-field': 'test-metadata-value',
+  },
 };
+
 const siteContext: MerchandisingSiteContext = {
   site: 'electronics-spa',
   language: 'en',
@@ -48,7 +31,7 @@ const siteContext: MerchandisingSiteContext = {
 class MockStrategyConnector {
   loadProductsForStrategy = createSpy(
     'StrategyAdapter.loadProductsForStrategy'
-  ).and.callFake(() => of(merchandisingProducts));
+  ).and.callFake(() => of(strategyProducts));
 }
 
 class SiteContextServiceStub {
@@ -120,14 +103,14 @@ describe('CdsMerchandisingProductService', () => {
       of(userContext)
     );
 
-    let actualMerchandisingProducts: MerchandisingProducts;
+    let actualStartegyProducts: StrategyProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
-      .subscribe(strategyResult => {
-        actualMerchandisingProducts = strategyResult;
+      .subscribe(productsForStrategy => {
+        actualStartegyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualMerchandisingProducts).toEqual(merchandisingProducts);
+    expect(actualStartegyProducts).toEqual(strategyProducts);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -139,24 +122,24 @@ describe('CdsMerchandisingProductService', () => {
       site: 'electronics-spa',
       language: 'en',
       pageSize: 10,
-      productId: '123456',
+      products: ['123456'],
     };
 
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
       of(siteContext)
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
-      of({ productId: '123456' })
+      of({ products: ['123456'] })
     );
 
-    let actualMerchandisingProducts: MerchandisingProducts;
+    let actualStrategyProducts: StrategyProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
-      .subscribe(strategyResult => {
-        actualMerchandisingProducts = strategyResult;
+      .subscribe(productsForStrategy => {
+        actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualMerchandisingProducts).toEqual(merchandisingProducts);
+    expect(actualStrategyProducts).toEqual(strategyProducts);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest

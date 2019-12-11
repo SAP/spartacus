@@ -13,13 +13,23 @@ import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
-import * as fromProcessStore from '../../process/store/process-state';
+import {
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
+} from '../../occ/utils/occ-constants';
+import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
+import { ActiveCartService } from './active-cart.service';
 import { CartDataService } from './cart-data.service';
 
+/**
+ * @deprecated since version 1.4
+ * Use ActiveCartService instead (API is almost the same)
+ * From 1.4 version CartService uses ActiveCartService if it is available
+ * Fixes and improvements will be only implemented in ActiveCartService
+ */
 @Injectable()
 export class CartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
@@ -28,11 +38,10 @@ export class CartService {
   private _activeCart$: Observable<Cart>;
 
   constructor(
-    protected store: Store<
-      StateWithCart | fromProcessStore.StateWithProcess<void>
-    >,
+    protected store: Store<StateWithCart>,
     protected cartData: CartDataService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected activeCartService?: ActiveCartService
   ) {
     this._activeCart$ = combineLatest([
       this.store.select(CartSelectors.getCartContent),
@@ -70,18 +79,30 @@ export class CartService {
   }
 
   getActive(): Observable<Cart> {
+    if (this.activeCartService) {
+      return this.activeCartService.getActive();
+    }
     return this._activeCart$;
   }
 
   getEntries(): Observable<OrderEntry[]> {
+    if (this.activeCartService) {
+      return this.activeCartService.getEntries();
+    }
     return this.store.pipe(select(CartSelectors.getCartEntries));
   }
 
+  // TODO: to remove in 2.0
+  // doesn't seem useful for end developers
+  // there shouldn't be a need for such low level information
   getCartMergeComplete(): Observable<boolean> {
     return this.store.pipe(select(CartSelectors.getCartMergeComplete));
   }
 
   getLoaded(): Observable<boolean> {
+    if (this.activeCartService) {
+      return this.activeCartService.getLoaded();
+    }
     return this.store.pipe(select(CartSelectors.getCartLoaded));
   }
 
@@ -90,16 +111,16 @@ export class CartService {
     // current cart and merge it into the existing cart
     if (!this.isCreated(this.cartData.cart)) {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
-          cartId: 'current',
+          cartId: OCC_CART_ID_CURRENT,
         })
       );
     } else if (this.isGuestCart()) {
       this.guestCartMerge();
     } else {
       this.store.dispatch(
-        new CartActions.MergeCart({
+        new DeprecatedCartActions.MergeCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.guid,
         })
@@ -110,14 +131,16 @@ export class CartService {
   private load(): void {
     if (this.cartData.userId !== OCC_USER_ID_ANONYMOUS) {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
-          cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
+          cartId: this.cartData.cartId
+            ? this.cartData.cartId
+            : OCC_CART_ID_CURRENT,
         })
       );
     } else {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -126,13 +149,18 @@ export class CartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
+    if (this.activeCartService) {
+      return this.activeCartService.addEntry(productCode, quantity);
+    }
     this.store
       .pipe(
         select(CartSelectors.getActiveCartState),
         tap(cartState => {
           if (!this.isCreated(cartState.value.content) && !cartState.loading) {
             this.store.dispatch(
-              new CartActions.CreateCart({ userId: this.cartData.userId })
+              new DeprecatedCartActions.CreateCart({
+                userId: this.cartData.userId,
+              })
             );
           }
         }),
@@ -152,6 +180,9 @@ export class CartService {
   }
 
   removeEntry(entry: OrderEntry): void {
+    if (this.activeCartService) {
+      return this.activeCartService.removeEntry(entry);
+    }
     this.store.dispatch(
       new CartActions.CartRemoveEntry({
         userId: this.cartData.userId,
@@ -162,6 +193,12 @@ export class CartService {
   }
 
   updateEntry(entryNumber: string, quantity: number): void {
+    if (this.activeCartService) {
+      return this.activeCartService.updateEntry(
+        parseInt(entryNumber, 10),
+        quantity
+      );
+    }
     if (quantity > 0) {
       this.store.dispatch(
         new CartActions.CartUpdateEntry({
@@ -183,14 +220,20 @@ export class CartService {
   }
 
   getEntry(productCode: string): Observable<OrderEntry> {
+    if (this.activeCartService) {
+      return this.activeCartService.getEntry(productCode);
+    }
     return this.store.pipe(
       select(CartSelectors.getCartEntrySelectorFactory(productCode))
     );
   }
 
   addEmail(email: string): void {
+    if (this.activeCartService) {
+      return this.activeCartService.addEmail(email);
+    }
     this.store.dispatch(
-      new CartActions.AddEmailToCart({
+      new DeprecatedCartActions.AddEmailToCart({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
         email: email,
@@ -199,10 +242,16 @@ export class CartService {
   }
 
   getAssignedUser(): Observable<User> {
+    if (this.activeCartService) {
+      return this.activeCartService.getAssignedUser();
+    }
     return this.store.pipe(select(CartSelectors.getCartUser));
   }
 
   isGuestCart(): boolean {
+    if (this.activeCartService) {
+      return this.activeCartService.isGuestCart();
+    }
     return this.cartData.isGuestCart;
   }
 
@@ -212,6 +261,9 @@ export class CartService {
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[]): void {
+    if (this.activeCartService) {
+      return this.activeCartService.addEntries(cartEntries);
+    }
     let newEntries = 0;
     this.getEntries()
       .pipe(
@@ -262,7 +314,7 @@ export class CartService {
 
   // TODO: Remove once backend is updated
   /**
-   * Temporary method to merge guest cart with user cart because of beackend limitation
+   * Temporary method to merge guest cart with user cart because of backend limitation
    * This is for an edge case
    */
   private guestCartMerge(): void {
@@ -274,7 +326,7 @@ export class CartService {
       });
 
     this.store.dispatch(
-      new CartActions.DeleteCart({
+      new DeprecatedCartActions.DeleteCart({
         userId: OCC_USER_ID_ANONYMOUS,
         cartId: this.cartData.cart.guid,
       })
@@ -289,7 +341,9 @@ export class CartService {
           // This step should happen before adding entries to avoid conflicts in the requests
           if (!this.isCreated(cartState.value.content)) {
             this.store.dispatch(
-              new CartActions.CreateCart({ userId: this.cartData.userId })
+              new DeprecatedCartActions.CreateCart({
+                userId: this.cartData.userId,
+              })
             );
           }
         }),

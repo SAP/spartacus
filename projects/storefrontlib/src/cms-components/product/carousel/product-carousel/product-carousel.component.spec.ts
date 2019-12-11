@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
+  FeatureConfigService,
   Product,
   ProductService,
 } from '@spartacus/core';
@@ -97,6 +98,10 @@ class MockProductService {
   }
 }
 
+class MockFeatureConfigService {
+  isLevel = () => true;
+}
+
 describe('ProductCarouselComponent', () => {
   let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
@@ -118,6 +123,10 @@ describe('ProductCarouselComponent', () => {
         {
           provide: ProductService,
           useClass: MockProductService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();

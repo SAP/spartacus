@@ -8,7 +8,7 @@
   ></div>
   <cx-carousel
     [items]="merchandisingCarouselModel.items$"
-    [title]="title$ | async"
+    [title]="merchandisingCarouselModel.title"
     [template]="carouselItem"
     itemWidth="285px"
   >
@@ -17,7 +17,6 @@
 
 <ng-template #carouselItem let-item="item">
   <div
-    id="data-cx-merchandising-product-{{ item.code }}"
     class="data-cx-merchandising-product"
     [cxAttributes]="item.metadata"
     [cxAttributesNamePrefix]="'data-cx-merchandising-product'"
@@ -30,6 +29,8 @@
     >
     </cx-media>
     <h4>{{ item.name }}</h4>
-    <div class="price">{{ item.price?.formattedValue }}</div>
+    <div class="price">
+      {{ item.price?.formattedValue }}
+    </div>
   </a>
 </ng-template>

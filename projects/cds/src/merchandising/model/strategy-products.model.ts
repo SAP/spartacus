@@ -1,12 +1,5 @@
 export interface StrategyProduct {
   id?: string;
-  name?: string;
-  description?: string;
-  brand?: string;
-  pageUrl?: string;
-  thumbNailImage?: string;
-  mainImage?: string;
-  price?: number;
   metadata?: { [metadataAttributeName: string]: string };
 }
 
@@ -15,7 +8,7 @@ export interface Paged {
   size?: number;
 }
 
-export interface StrategyResult {
+export interface StrategyProducts {
   resultCount?: number;
   products?: StrategyProduct[];
   paged?: Paged;
