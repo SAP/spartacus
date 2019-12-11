@@ -8,7 +8,7 @@ import {
   CheckoutService,
   PromotionLocation,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../../../cms-components/myaccount/order/order-details/order-details.service';
 
@@ -24,12 +24,14 @@ export class PromotionService {
     promotionLocation: PromotionLocation
   ): Observable<PromotionResult[]> {
     switch (promotionLocation) {
-      case PromotionLocation.Cart:
+      case PromotionLocation.ActiveCart:
         return this.getOrderPromotionsFromCart();
       case PromotionLocation.Checkout:
         return this.getOrderPromotionsFromCheckout();
       case PromotionLocation.Order:
         return this.getOrderPromotionsFromOrder();
+      default:
+        return of([]);
     }
   }
 
@@ -73,7 +75,7 @@ export class PromotionService {
     promotionLocation: PromotionLocation
   ): Observable<PromotionResult[]> {
     switch (promotionLocation) {
-      case PromotionLocation.Cart:
+      case PromotionLocation.ActiveCart:
         return this.cartService
           .getActive()
           .pipe(
