@@ -12,6 +12,7 @@ import {
   AuthService,
   RoutingService,
   AuthRedirectService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, combineLatest, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -34,7 +35,8 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
     protected selectiveCartService: SelectiveCartService,
     private authService: AuthService,
     private routingService: RoutingService,
-    private authRedirectService: AuthRedirectService
+    private authRedirectService: AuthRedirectService,
+    private featureConfig: FeatureConfigService
   ) {}
 
   ngOnInit() {
@@ -42,10 +44,15 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
     this.entries$ = this.cartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
+    // this.cartLoaded$ = this.cartService.getLoaded();
     this.cartLoaded$ = combineLatest([
       this.cartService.getLoaded(),
       this.selectiveCartService.getLoaded(),
     ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
+  }
+
+  isSaveForLaterEnabled(): boolean {
+    return this.featureConfig.isEnabled('saveForLater');
   }
 
   getAllPromotionsForCart(cart: Cart): any[] {

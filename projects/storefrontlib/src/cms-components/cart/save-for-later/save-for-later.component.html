@@ -7,15 +7,12 @@
             | cxTranslate: { count: cart.totalItems }
         }}
       </div>
-      <cx-promotions
-        [promotions]="getAllPromotionsForCart(cart)"
-      ></cx-promotions>
       <cx-cart-item-list
         [items]="entries"
         [potentialProductPromotions]="cart.potentialProductPromotions"
         [cartIsLoading]="!(cartLoaded$ | async)"
         [options]="{
-          isReadOnly: false,
+          isReadOnly: true,
           showTotal: false,
           button: moveToCartBtn
         }"

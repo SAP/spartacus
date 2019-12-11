@@ -90,7 +90,7 @@
       <!-- Total -->
 
       <ng-container
-        *ngIf="this.isSelectiveCartEnabled() && !options.showTotal; else total"
+        *ngIf="this.isSaveForLaterEnabled() && !options.showTotal; else total"
       >
         <div
           *ngIf="!isProductOutOfStock(item.product)"
@@ -115,7 +115,7 @@
     <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     <!-- Actions -->
     <div
-      *ngIf="!options.isReadOnly && item.updateable"
+      *ngIf="(!options.isReadOnly && item.updateable) || options.button"
       class="cx-actions col-12"
     >
       <ng-container

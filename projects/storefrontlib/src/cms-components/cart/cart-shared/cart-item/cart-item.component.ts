@@ -58,8 +58,8 @@ export class CartItemComponent implements OnInit {
 
   constructor(private featureConfig: FeatureConfigService) {}
 
-  isSelectiveCartEnabled() {
-    return this.featureConfig.isEnabled('selectiveCart');
+  isSaveForLaterEnabled() {
+    return this.featureConfig.isEnabled('saveForLater');
   }
 
   isProductOutOfStock(product: any) {

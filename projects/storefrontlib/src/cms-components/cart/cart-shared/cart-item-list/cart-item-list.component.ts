@@ -72,12 +72,16 @@ export class CartItemListComponent implements OnInit {
   // TODO remove for 2.0 - left to keep backward compatibility
   ngOnInit(): void {}
 
-  isSelectiveCartEnabled() {
-    return this.featureConfig.isEnabled('selectiveCart');
+  isSaveForLaterEnabled() {
+    return this.featureConfig.isEnabled('saveForLater');
   }
 
   removeEntry(item: Item): void {
-    this.cartService.removeEntry(item);
+    if (this.options.button) {
+      this.selectiveCartService.removeEntry(item);
+    } else {
+      this.cartService.removeEntry(item);
+    }
     delete this.form.controls[item.product.code];
   }
 
