@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CartService, PromotionLocation } from '@spartacus/core';
+import { CartService, PromotionLocation, PromotionResult } from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
@@ -13,6 +13,9 @@ export class CartItemListComponent implements OnInit {
 
   @Input()
   hasHeader = true;
+
+  @Input()
+  potentialProductPromotions: PromotionResult[] = [];
 
   @Input()
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
@@ -68,4 +71,42 @@ export class CartItemListComponent implements OnInit {
       quantity: entry.quantity,
     });
   }
+
+  getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
+    const entryPromotions: PromotionResult[] = [];
+    if (
+      this.potentialProductPromotions &&
+      this.potentialProductPromotions.length > 0
+    ) {
+      for (const promotion of this.potentialProductPromotions) {
+        if (
+          promotion.description &&
+          promotion.consumedEntries &&
+          promotion.consumedEntries.length > 0
+        ) {
+          for (const consumedEntry of promotion.consumedEntries) {
+            if (this.isConsumedByEntry(consumedEntry, item)) {
+              entryPromotions.push(promotion);
+            }
+          }
+        }
+      }
+    }
+    return entryPromotions;
+  }
+
+  private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
+    const consumedEntryNumber = consumedEntry.orderEntryNumber;
+    if (entry.entries && entry.entries.length > 0) {
+      for (const subEntry of entry.entries) {
+        if (subEntry.entryNumber === consumedEntryNumber) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      return consumedEntryNumber === entry.entryNumber;
+    }
+  }
+
 }

@@ -25,8 +25,12 @@ export class CartItemComponent implements OnInit {
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
+
   @Input()
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+
+  @Input()
+  potentialProductPromotions: any[];
 
   @Output()
   remove = new EventEmitter<any>();

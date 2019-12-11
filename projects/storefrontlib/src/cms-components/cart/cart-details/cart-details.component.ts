@@ -52,4 +52,21 @@ export class CartDetailsComponent implements OnInit {
       this.promotionLocation
     );
   }
+
+  /**
+   * @deprecated Since 1.4
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  getAllPromotionsForCart(cart: Cart): any[] {
+    const potentialPromotions = [];
+    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
+    potentialPromotions.push(...(cart.potentialProductPromotions || []));
+
+    const appliedPromotions = [];
+    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
+    appliedPromotions.push(...(cart.appliedProductPromotions || []));
+
+    return [...potentialPromotions, ...appliedPromotions];
+  }
 }

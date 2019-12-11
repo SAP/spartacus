@@ -5,7 +5,6 @@ import {
   RoutingService,
   TranslationService,
   UserOrderService,
-  PromotionResult,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -23,7 +22,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   orders$: Observable<OrderHistoryList>;
   isLoaded$: Observable<boolean>;
-  $: Observable<PromotionResult[]>;
 
   private PAGE_SIZE = 5;
 
