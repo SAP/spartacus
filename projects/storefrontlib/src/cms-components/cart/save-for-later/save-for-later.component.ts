@@ -28,7 +28,6 @@ export class SaveForLaterComponent implements OnInit {
     this.entries$ = this.selectiveCartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
-    // this.cartLoaded$ = this.selectiveCartService.getLoaded();
     this.cartLoaded$ = combineLatest([
       this.cartService.getLoaded(),
       this.selectiveCartService.getLoaded(),
