@@ -31,9 +31,7 @@ export function signOut() {
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
-  cy.wait('@logOut')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@logOut');
   cy.visit('/');
 }
 

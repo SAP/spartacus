@@ -92,8 +92,6 @@ export function scrollToFooter(
           .contains('SHOW MORE')
           .click({ force: true })
           .wait(`@${productLoadedQuery}`)
-          .its('status')
-          .should('eq', 200)
           .then(() => {
             numberOfProducts += defaultNumberOfProducts;
             verifyNumberOfProducts(numberOfProducts);
@@ -103,8 +101,6 @@ export function scrollToFooter(
       } else {
         cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
           .wait(`@${productLoadedQuery}`)
-          .its('status')
-          .should('eq', 200)
           .then(() => {
             numberOfProducts += defaultNumberOfProducts;
             verifyNumberOfProducts(numberOfProducts);

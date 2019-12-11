@@ -43,17 +43,13 @@ export function verifyProductSearch(
       cy.get('.page-item:last-of-type .page-link:first').click();
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
-      cy.wait(productAlias)
-        .its('status')
-        .should('eq', 200);
+      cy.wait(productAlias);
 
       checkDistinctProductName(firstProduct);
 
       cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
 
-      cy.wait(sortingAlias)
-        .its('status')
-        .should('eq', 200);
+      cy.wait(sortingAlias);
 
       cy.get('.page-item.active > .page-link').should('contain', '2');
 

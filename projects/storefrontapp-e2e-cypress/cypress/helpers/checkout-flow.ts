@@ -35,14 +35,12 @@ export function signOut() {
 export function registerUser(giveRegistrationConsent = false) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
-  cy.wait(`@${loginPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${loginPage}`);
+
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
-  cy.wait(`@${registerPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${registerPage}`);
+
   register(user, giveRegistrationConsent);
   cy.get('cx-breadcrumb').contains('Login');
   return user;
@@ -51,18 +49,14 @@ export function registerUser(giveRegistrationConsent = false) {
 export function signInUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
-  cy.wait(`@${loginPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${loginPage}`);
   login(user.email, user.password);
 }
 
 export function signOutUser() {
   const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
-  cy.wait(`@${logoutPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${logoutPage}`);
   cy.get('.cx-login-greet').should('not.contain', user.fullName);
 }
 
@@ -244,9 +238,8 @@ export function addCheapProductToCartAndLogin() {
   addCheapProductToCart();
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${loginPage}`);
+
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
@@ -261,9 +254,7 @@ export function addCheapProductToCartAndProceedToCheckout() {
   addCheapProductToCart();
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${loginPage}`);
 }
 
 export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer() {
