@@ -2,7 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, FeatureConfigService } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
 
 @Pipe({
@@ -51,6 +51,8 @@ describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
 
+  const featureConfig = jasmine.createSpyObj('FeatureConfigService', ['isEnabled']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
@@ -65,6 +67,7 @@ describe('CartItemComponent', () => {
         {
           provide: ControlContainer,
         },
+        {provide: FeatureConfigService, useValue: featureConfig}
       ],
     }).compileComponents();
   }));
@@ -81,6 +84,12 @@ describe('CartItemComponent', () => {
   });
 
   it('should create cart details component', () => {
+    featureConfig.isEnabled.and.returnValue(true);
+    expect(cartItemComponent).toBeTruthy();
+
+    fixture.detectChanges();
+    
+    featureConfig.isEnabled.and.returnValue(false);
     expect(cartItemComponent).toBeTruthy();
   });
 
