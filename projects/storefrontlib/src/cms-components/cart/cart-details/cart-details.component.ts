@@ -43,12 +43,17 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
     this.entries$ = this.cartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
-    this.cartLoaded$ = combineLatest([
-      this.cartService.getLoaded(),
-      this.selectiveCartService.getLoaded(),
-    ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
-
     this.loggedIn$ = this.authService.isUserLoggedIn();
+    if (this.isSaveForLaterEnabled()) {
+      this.selectiveCartService.getCart();
+      this.entries$ = this.cartService.getEntries();
+      this.cartLoaded$ = combineLatest([
+        this.cartService.getLoaded(),
+        this.selectiveCartService.getLoaded(),
+      ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
+    } else {
+      this.cartLoaded$ = this.cartService.getLoaded();
+    }
   }
 
   isSaveForLaterEnabled(): boolean {
@@ -68,8 +73,8 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveForLater(item: Item) {
-    this.subscription = this.authService.getUserToken().subscribe(token => {
-      if (token.access_token) {
+    this.subscription = this.loggedIn$.subscribe(loggedIn => {
+      if (loggedIn) {
         this.cartService.removeEntry(item);
         this.selectiveCartService.addEntry(item.product.code, item.quantity);
       } else {
