@@ -36,7 +36,9 @@ export function productRatingFlow(mobile?: string) {
 
   // Navigate to previous page
   cy.get('.page-item:first-of-type .page-link:first').click();
-  cy.wait('@query-topRated');
+  cy.wait('@query-topRated')
+    .its('status')
+    .should('eq', 200);
 
   cy.get('.page-item.active > .page-link').should('contain', '1');
 
@@ -52,7 +54,9 @@ export function productRatingFlow(mobile?: string) {
         .click({ force: true });
     });
 
-  cy.wait('@productQuery');
+  cy.wait('@productQuery')
+    .its('status')
+    .should('eq', 200);
 
   cy.get(resultsTitle).should('contain', '20 results for "DSC-N1"');
   assertFirstProduct();
@@ -66,7 +70,9 @@ export function productRatingFlow(mobile?: string) {
       'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
     ).click();
   }
-  cy.wait('@productQuery');
+  cy.wait('@productQuery')
+    .its('status')
+    .should('eq', 200);
 
   cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
 

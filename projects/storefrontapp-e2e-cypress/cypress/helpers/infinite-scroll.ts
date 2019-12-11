@@ -33,7 +33,9 @@ export function verifyProductListLoaded() {
   cy.server();
   createProductQuery(productLoadedQuery);
   cy.visit('/Open-Catalogue/Components/Power-Supplies/c/816');
-  cy.wait(`@${productLoadedQuery}`);
+  cy.wait(`@${productLoadedQuery}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function assertDefaultNumberOfProducts(view) {
@@ -90,6 +92,8 @@ export function scrollToFooter(
           .contains('SHOW MORE')
           .click({ force: true })
           .wait(`@${productLoadedQuery}`)
+          .its('status')
+          .should('eq', 200)
           .then(() => {
             numberOfProducts += defaultNumberOfProducts;
             verifyNumberOfProducts(numberOfProducts);
@@ -99,6 +103,8 @@ export function scrollToFooter(
       } else {
         cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
           .wait(`@${productLoadedQuery}`)
+          .its('status')
+          .should('eq', 200)
           .then(() => {
             numberOfProducts += defaultNumberOfProducts;
             verifyNumberOfProducts(numberOfProducts);
@@ -119,7 +125,9 @@ export function verifySortingResetsList() {
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
 
-  cy.wait(`@${productLoadedQuery}`);
+  cy.wait(`@${productLoadedQuery}`)
+    .its('status')
+    .should('eq', 200);
 
   assertDefaultNumberOfProducts('list');
 }
@@ -127,7 +135,9 @@ export function verifySortingResetsList() {
 export function verifyFilterResetsList() {
   clickFacet('Brand');
 
-  cy.wait(`@${productLoadedQuery}`);
+  cy.wait(`@${productLoadedQuery}`)
+    .its('status')
+    .should('eq', 200);
 
   assertDefaultNumberOfProducts('list');
 }
@@ -135,7 +145,9 @@ export function verifyFilterResetsList() {
 export function verifyGridResetsList() {
   cy.get('cx-product-view > div > div:first').click({ force: true });
 
-  cy.wait(`@${productLoadedQuery}`);
+  cy.wait(`@${productLoadedQuery}`)
+    .its('status')
+    .should('eq', 200);
 
   assertDefaultNumberOfProducts('grid');
 }
