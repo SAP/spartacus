@@ -1,6 +1,6 @@
 @import '../../theme';
 
-%cx-cart-details {
+%cx-save-for-later {
   display: block;
 
   .cart-details-wrapper {
@@ -10,12 +10,6 @@
   .cx-total {
     @include type('4');
     margin: 0 0 1rem;
-  }
-
-  .cx-promotions {
-    @include type('7');
-    color: var(--cx-color-success);
-    padding: 0.5rem 0;
   }
 
   .cx-remove-btn {
