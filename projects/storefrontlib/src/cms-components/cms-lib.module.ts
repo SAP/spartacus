@@ -17,6 +17,7 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  NotificationPreferenceModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
@@ -24,6 +25,7 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  MyInterestsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -39,6 +41,7 @@ import {
   ProductListModule,
   ProductTabsModule,
   ProductReferencesModule,
+  StockNotificationModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
@@ -87,6 +90,9 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
   ],
 })
 export class CmsLibModule {}
