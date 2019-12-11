@@ -20,7 +20,7 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
         },
       },
       features: {
-        selectiveCart: '1.4',
+        saveForLater: '1.4',
       },
     }),
     I18nModule,

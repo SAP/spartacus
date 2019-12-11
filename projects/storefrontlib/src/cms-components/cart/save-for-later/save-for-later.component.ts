@@ -36,22 +36,11 @@ export class SaveForLaterComponent implements OnInit, OnDestroy {
     this.entries$ = this.selectiveCartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
+    // this.cartLoaded$ = this.selectiveCartService.getLoaded();
     this.cartLoaded$ = combineLatest([
       this.cartService.getLoaded(),
       this.selectiveCartService.getLoaded(),
     ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
-  }
-
-  getAllPromotionsForCart(cart: Cart): any[] {
-    const potentialPromotions = [];
-    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
-    potentialPromotions.push(...(cart.potentialProductPromotions || []));
-
-    const appliedPromotions = [];
-    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
-    appliedPromotions.push(...(cart.appliedProductPromotions || []));
-
-    return [...potentialPromotions, ...appliedPromotions];
   }
 
   moveToCart(item: Item) {
