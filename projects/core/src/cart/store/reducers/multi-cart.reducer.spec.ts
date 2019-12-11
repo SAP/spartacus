@@ -79,6 +79,70 @@ describe('Multi Cart reducer', () => {
       });
     });
 
+    describe('CREATE_MULTI_CART action', () => {
+      it('should set active cart id when extraData.active is truthy', () => {
+        const { activeCartInitialState } = fromMultiCart;
+        const payload = {
+          extraData: {
+            active: true,
+          },
+          userId: 'userId',
+        };
+        const action = new CartActions.CreateMultiCart(payload);
+        const state = fromMultiCart.activeCartReducer(
+          activeCartInitialState,
+          action
+        );
+        expect(state).toEqual('fresh');
+      });
+
+      it('should not change active cart id when it is not active cart create', () => {
+        const { activeCartInitialState } = fromMultiCart;
+        const payload = {
+          extraData: {},
+          userId: 'userId',
+        };
+        const action = new CartActions.CreateMultiCart(payload);
+        const state = fromMultiCart.activeCartReducer(
+          activeCartInitialState,
+          action
+        );
+        expect(state).toEqual('');
+      });
+    });
+
+    describe('MERGE_MULTI_CART_FAIL action', () => {
+      it('should set active cart id when extraData.active is truthy', () => {
+        const { activeCartInitialState } = fromMultiCart;
+        const payload = {
+          extraData: {
+            active: true,
+          },
+          oldCartId: 'oldCartId',
+        };
+        const action = new CartActions.MergeMultiCartFail(payload);
+        const state = fromMultiCart.activeCartReducer(
+          activeCartInitialState,
+          action
+        );
+        expect(state).toEqual('oldCartId');
+      });
+
+      it('should not change active cart id when it is not active cart create', () => {
+        const { activeCartInitialState } = fromMultiCart;
+        const payload = {
+          extraData: {},
+          oldCartId: 'oldCartId',
+        };
+        const action = new CartActions.MergeMultiCartFail(payload);
+        const state = fromMultiCart.activeCartReducer(
+          activeCartInitialState,
+          action
+        );
+        expect(state).toEqual('');
+      });
+    });
+
     describe('REMOVE_CART action', () => {
       it('should clear active cart id, when active cart is removed', () => {
         const initialState = 'cartCode';
@@ -90,15 +154,6 @@ describe('Multi Cart reducer', () => {
       it('should not change active cart id when non active cart is removed', () => {
         const initialState = 'otherCode';
         const action = new CartActions.RemoveCart('cartCode');
-        const state = fromMultiCart.activeCartReducer(initialState, action);
-        expect(state).toEqual('otherCode');
-      });
-    });
-
-    describe('SET_ACTIVE_CART_ID action', () => {
-      it('should set active cart id to the provided one', () => {
-        const initialState = 'someCode';
-        const action = new CartActions.SetActiveCartId('otherCode');
         const state = fromMultiCart.activeCartReducer(initialState, action);
         expect(state).toEqual('otherCode');
       });
