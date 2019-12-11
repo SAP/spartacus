@@ -104,6 +104,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.READ_ONLY;
         break;
       }
+      case OccConfigurator.UiType.CHECK_BOX_LIST: {
+        uiType = Configurator.UiType.CHECKBOX;
+        break;
+      }
       default: {
         uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }

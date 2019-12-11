@@ -132,6 +132,14 @@ describe('OccConfiguratorVariantNormalizer', () => {
     ).toBe(Configurator.UiType.DROPDOWN);
   });
 
+  it('should return UIType Checkbox for Checkbox occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertCharacteristicType(
+        OccConfigurator.UiType.CHECK_BOX_LIST
+      )
+    ).toBe(Configurator.UiType.CHECKBOX);
+  });
+
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
     expect(
       occConfiguratorVariantNormalizer.convertCharacteristicType(
