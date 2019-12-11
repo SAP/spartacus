@@ -169,6 +169,22 @@ describe('MultiCart Actions', () => {
     });
   });
 
+  describe('MergeMultiCartFail', () => {
+    it('should create the action', () => {
+      const payload = {
+        oldCartId: 'oldCartId',
+        extraData: {
+          active: true,
+        },
+      };
+      const action = new CartActions.MergeMultiCartFail(payload);
+      expect({ ...action }).toEqual({
+        type: CartActions.MERGE_MULTI_CART_FAIL,
+        payload,
+      });
+    });
+  });
+
   describe('ResetMultiCartDetails', () => {
     it('should create the action', () => {
       const action = new CartActions.ResetMultiCartDetails();
@@ -240,17 +256,6 @@ describe('MultiCart Actions', () => {
           MULTI_CART_FEATURE,
           payload.cartId
         ),
-      });
-    });
-  });
-
-  describe('SetActiveCartId', () => {
-    it('should create the action', () => {
-      const payload = 'cartId';
-      const action = new CartActions.SetActiveCartId(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.SET_ACTIVE_CART_ID,
-        payload,
       });
     });
   });
