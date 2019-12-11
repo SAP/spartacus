@@ -12,7 +12,7 @@
 
     <ng-container *ngIf="isSaveForLaterEnabled(); else totalHeader">
       <div
-        *ngIf="!options.showTotal; else totalHeader"
+        *ngIf="!options.saveForLaterEnabled; else totalHeader"
         class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
       >
         {{ 'saveForLaterItems.stock' | cxTranslate }}
@@ -23,12 +23,17 @@
 
 <div [formGroup]="form">
   <div class="cx-item-list-row" *ngFor="let item of items">
-    <div class="cx-item-list-items">
+    <div
+      *ngIf="isSaveForLaterEnabled(); else itemList"
+      class="cx-item-list-items"
+    >
       <cx-cart-item
         [parent]="form.controls[item.product.code]"
         [item]="item"
         [potentialProductPromotions]="
-          getPotentialProductPromotionsForItem(item)
+          options.saveForLaterEnabled
+            ? getPotentialProductPromotionsForItem(item)
+            : null
         "
         (remove)="removeEntry($event)"
         [cartIsLoading]="cartIsLoading"
@@ -39,6 +44,19 @@
     </div>
   </div>
 </div>
+
+<ng-template #itemList>
+  <cx-cart-item
+    [parent]="form.controls[item.product.code]"
+    [item]="item"
+    [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
+    [isReadOnly]="isReadOnly"
+    (remove)="removeEntry($event)"
+    [cartIsLoading]="cartIsLoading"
+    (update)="updateEntry($event)"
+  >
+  </cx-cart-item>
+</ng-template>
 
 <ng-template #totalHeader>
   <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">

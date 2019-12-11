@@ -13,8 +13,8 @@
         [cartIsLoading]="!(cartLoaded$ | async)"
         [options]="{
           isReadOnly: true,
-          showTotal: false,
-          button: moveToCartBtn
+          saveForLaterEnabled: true,
+          optionalBtn: moveToCartBtn
         }"
       ></cx-cart-item-list>
     </div>

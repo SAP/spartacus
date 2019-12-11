@@ -12,8 +12,8 @@ export interface Item {
 
 export interface CartItemComponentOptions {
   isReadOnly?: boolean;
-  showTotal?: boolean;
-  button?: any;
+  saveForLaterEnabled?: boolean;
+  optionalBtn?: any;
 }
 
 @Component({
@@ -35,13 +35,10 @@ export class CartItemComponent implements OnInit {
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
-  @Input()
-  showTotal = true;
 
   @Input()
   options: CartItemComponentOptions = {
     isReadOnly: false,
-    showTotal: true,
   };
 
   @Output()
@@ -58,7 +55,7 @@ export class CartItemComponent implements OnInit {
 
   constructor(private featureConfig: FeatureConfigService) {}
 
-  isSaveForLaterEnabled() {
+  isSaveForLaterEnabled(): boolean {
     return this.featureConfig.isEnabled('saveForLater');
   }
 

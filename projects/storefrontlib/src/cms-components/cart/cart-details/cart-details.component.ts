@@ -27,6 +27,7 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
+  loggedIn$: Observable<boolean>;
 
   private subscription: Subscription;
 
@@ -49,6 +50,8 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
       this.cartService.getLoaded(),
       this.selectiveCartService.getLoaded(),
     ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
+
+    this.loggedIn$ = this.authService.isUserLoggedIn();
   }
 
   isSaveForLaterEnabled(): boolean {

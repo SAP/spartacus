@@ -28,7 +28,6 @@ export class CartItemListComponent implements OnInit {
   @Input()
   options: CartItemComponentOptions = {
     isReadOnly: false,
-    showTotal: true,
   };
 
   @Input()
@@ -51,9 +50,6 @@ export class CartItemListComponent implements OnInit {
   @Input()
   cartIsLoading = false;
 
-  @Input()
-  showTotal = true;
-
   form: FormGroup = this.fb.group({});
 
   private _items: Item[] = [];
@@ -72,12 +68,12 @@ export class CartItemListComponent implements OnInit {
   // TODO remove for 2.0 - left to keep backward compatibility
   ngOnInit(): void {}
 
-  isSaveForLaterEnabled() {
+  isSaveForLaterEnabled(): boolean {
     return this.featureConfig.isEnabled('saveForLater');
   }
 
   removeEntry(item: Item): void {
-    if (this.options.button) {
+    if (this.options.saveForLaterEnabled) {
       this.selectiveCartService.removeEntry(item);
     } else {
       this.cartService.removeEntry(item);
