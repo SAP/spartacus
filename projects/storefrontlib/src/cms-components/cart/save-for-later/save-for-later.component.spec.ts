@@ -36,7 +36,6 @@ class MockCartItemListComponent {
   @Input()
   options: CartItemComponentOptions = {
     isReadOnly: false,
-    showTotal: false,
   };
 }
 
@@ -95,12 +94,12 @@ describe('SaveForLaterComponent', () => {
     mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should display save for later text with items', () => {
+  fit('should display save for later text with items', () => {
     mockSelectiveCartService.getCart.and.returnValue(
       of<Cart>({
         code: '123',
