@@ -11,7 +11,6 @@ import {
   SelectiveCartService,
   AuthService,
   RoutingService,
-  AuthRedirectService,
   FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, combineLatest, Subscription } from 'rxjs';
@@ -36,7 +35,6 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
     protected selectiveCartService: SelectiveCartService,
     private authService: AuthService,
     private routingService: RoutingService,
-    private authRedirectService: AuthRedirectService,
     private featureConfig: FeatureConfigService
   ) {}
 
@@ -71,17 +69,14 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveForLater(item: Item) {
-    this.subscription = this.authService
-      .isUserLoggedIn()
-      .subscribe(loggedIn => {
-        if (loggedIn) {
-          this.cartService.removeEntry(item);
-          this.selectiveCartService.addEntry(item.product.code, item.quantity);
-        } else {
-          this.routingService.go({ cxRoute: 'login' });
-          this.authRedirectService.reportAuthGuard();
-        }
-      });
+    this.subscription = this.authService.getUserToken().subscribe(token => {
+      if (token.access_token) {
+        this.cartService.removeEntry(item);
+        this.selectiveCartService.addEntry(item.product.code, item.quantity);
+      } else {
+        this.routingService.go({ cxRoute: 'login' });
+      }
+    });
   }
 
   ngOnDestroy(): void {
