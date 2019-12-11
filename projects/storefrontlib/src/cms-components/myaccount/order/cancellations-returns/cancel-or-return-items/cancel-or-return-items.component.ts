@@ -23,6 +23,7 @@ export class CancelOrReturnItemsComponent implements OnInit {
   @Input() entries: OrderEntry[];
   @Input() confirmRequest = false;
   @Input() cancelOrder = true;
+  @Input() orderCode: string;
 
   @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 
@@ -84,6 +85,10 @@ export class CancelOrReturnItemsComponent implements OnInit {
 
   getItemPrice(entry: OrderEntry): Price {
     return this.cancelOrReturnService.getCancelledOrReturnedPrice(entry);
+  }
+
+  back(): void {
+    this.cancelOrReturnService.backToOrder(this.orderCode);
   }
 
   protected disableEnableConfirm(): void {

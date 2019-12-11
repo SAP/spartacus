@@ -237,4 +237,13 @@ describe('OrderCancelOrReturnService', () => {
       params: { rma: '1' },
     });
   });
+
+  it('should be able to back to order details page', () => {
+    service.backToOrder('test');
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: { code: 'test' },
+    });
+  });
 });
