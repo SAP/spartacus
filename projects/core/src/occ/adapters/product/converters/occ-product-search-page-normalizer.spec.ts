@@ -15,6 +15,34 @@ const mockSource: Occ.ProductSearchPage = {
   products: [{ images: [] }, { images: [] }],
 };
 
+const mockSourceWithFacetTopValues: Occ.ProductSearchPage = {
+  facets: [
+    {
+      values: [
+        { name: '1' },
+        { name: '2' },
+        { name: '3' },
+        { name: '4' },
+        { name: '5' },
+      ],
+      topValues: [{ name: '1' }, { name: '2' }, { name: '3' }],
+    },
+  ],
+};
+const mockSourceWithoutFacetTopValues: Occ.ProductSearchPage = {
+  facets: [
+    {
+      values: [
+        { name: '1' },
+        { name: '2' },
+        { name: '3' },
+        { name: '4' },
+        { name: '5' },
+      ],
+    },
+  ],
+};
+
 describe('OccProductSearchPageNormalizer', () => {
   let normalizer: OccProductSearchPageNormalizer;
 
@@ -46,5 +74,15 @@ describe('OccProductSearchPageNormalizer', () => {
     } as any;
     expect(result).toEqual(expected);
     expect(converter.convert).toHaveBeenCalled();
+  });
+
+  it('should normalize facet topValues', () => {
+    const result = normalizer.convert(mockSourceWithFacetTopValues);
+    expect(result.facets[0].values.length).toEqual(3);
+  });
+
+  it('should not normalize facet topValues', () => {
+    const result = normalizer.convert(mockSourceWithoutFacetTopValues);
+    expect(result.facets[0].values.length).toEqual(5);
   });
 });
