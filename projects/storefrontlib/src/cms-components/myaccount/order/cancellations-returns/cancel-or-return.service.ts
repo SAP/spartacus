@@ -103,6 +103,13 @@ export class OrderCancelOrReturnService {
     });
   }
 
+  backToOrder(orderCode: string): void {
+    this.routing.go({
+      cxRoute: 'orderDetails',
+      params: { code: orderCode },
+    });
+  }
+
   isEntryCancelledOrReturned(entry: OrderEntry): boolean {
     for (const input of this._cancelOrReturnRequestInputs) {
       if (input.orderEntryNumber === entry.entryNumber) {

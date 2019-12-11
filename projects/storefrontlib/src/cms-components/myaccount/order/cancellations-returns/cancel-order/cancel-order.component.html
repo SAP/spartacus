@@ -2,6 +2,7 @@
   <cx-cancel-or-return-items
     [entries]="cancellableEntries"
     [cancelOrder]="true"
+    [orderCode]="orderCode"
     (confirm)="confirmCancel($event)"
   >
   </cx-cancel-or-return-items>

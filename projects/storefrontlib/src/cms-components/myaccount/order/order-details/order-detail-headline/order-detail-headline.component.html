@@ -1,6 +1,9 @@
 <div class="cx-nav row">
   <div class="col-xs-12 col-md-3">
-    <button class="btn btn-block btn-action" (click)="back()">
+    <button
+      [routerLink]="{ cxRoute: 'orders' } | cxUrl"
+      class="btn btn-block btn-action"
+    >
       {{ 'common.back' | cxTranslate }}
     </button>
   </div>
