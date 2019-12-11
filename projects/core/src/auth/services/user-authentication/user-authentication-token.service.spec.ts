@@ -142,4 +142,26 @@ describe('UserAuthenticationTokenService', () => {
       );
     });
   });
+
+  describe('revoke user token', () => {
+    it('should make a revocation request for given user token', () => {
+      authTokenService.revoke(token).subscribe();
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST';
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(occEndpointsService.getRawEndpoint).toHaveBeenCalledWith('revoke');
+      expect(mockReq.request.headers.get('Authorization')).toEqual(
+        `${token.token_type} ${token.access_token}`
+      );
+      expect(mockReq.request.headers.get('Content-Type')).toEqual(
+        'application/x-www-form-urlencoded'
+      );
+      expect(mockReq.request.serializeBody()).toEqual(
+        `token=${token.access_token}`
+      );
+    });
+  });
 });
