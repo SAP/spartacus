@@ -29,7 +29,7 @@ export class CartItemComponent implements OnInit {
   potentialProductPromotions: any[];
 
   /**
-   * @deprecated deprecated since 1.4, using optional to replace
+   * @deprecated deprecated since 1.4, using options.isReadOnly to replace
    */
   @Input()
   isReadOnly = false;

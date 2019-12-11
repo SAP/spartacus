@@ -17,7 +17,7 @@ import {
 })
 export class CartItemListComponent implements OnInit {
   /**
-   * @deprecated deprecated since 1.4, using optional to replace
+   * @deprecated deprecated since 1.4, using options.isReadOnly to replace
    */
   @Input()
   isReadOnly = false;
