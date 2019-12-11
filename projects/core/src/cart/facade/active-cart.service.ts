@@ -261,8 +261,6 @@ export class ActiveCartService {
       take(1),
       switchMap(cartState => {
         if (this.isEmpty(cartState.value)) {
-          // point to fresh cart to use their `loading` flag while we create cart
-          // this.setActiveCartIdToFresh();
           this.multiCartService.createCart({
             userId: this.userId,
             extraData: {
