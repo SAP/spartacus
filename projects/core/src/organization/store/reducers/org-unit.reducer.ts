@@ -19,7 +19,7 @@ export function orgUnitListReducer(
 ): any {
   switch (action.type) {
     case OrgUnitActions.LOAD_ORG_UNITS_SUCCESS:
-      return action.payload.orgUnitsPage;
+      return action.payload.orgUnitPage;
   }
   return state;
 }
