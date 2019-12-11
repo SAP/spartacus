@@ -1,23 +1,57 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
-import { ColorSelectorComponent } from './color-selector.component';
+import {
+  I18nTestingModule,
+  BaseOption,
+  VariantType,
+  RoutingService,
+  UrlCommands,
+} from '@spartacus/core';
+import { VariantColorSelectorComponent } from './color-selector.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NavigationExtras } from '@angular/router';
 
-describe('ColorSelectorComponent', () => {
-  let component: ColorSelectorComponent;
-  let fixture: ComponentFixture<ColorSelectorComponent>;
+const mockVariant: BaseOption = {
+  selected: {
+    code: 'test',
+    variantOptionQualifiers: [
+      {
+        value: '123',
+        image: {
+          url: 'http://test1-thumbnail.com',
+        },
+      },
+    ],
+  },
+  options: [],
+  variantType: VariantType.SIZE,
+};
+
+class MockRoutingService {
+  go(
+    _commands: any[] | UrlCommands,
+    _query?: object,
+    _extras?: NavigationExtras
+  ): void {}
+}
+
+describe('VariantColorSelectorComponent', () => {
+  let component: VariantColorSelectorComponent;
+  let fixture: ComponentFixture<VariantColorSelectorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ColorSelectorComponent],
+      declarations: [VariantColorSelectorComponent],
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [{ provide: RoutingService, useClass: MockRoutingService }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ColorSelectorComponent);
+    fixture = TestBed.createComponent(VariantColorSelectorComponent);
     component = fixture.componentInstance;
+    component.variants = mockVariant;
     fixture.detectChanges();
   });
 

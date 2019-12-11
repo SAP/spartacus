@@ -75,6 +75,15 @@ class MockCxSizeSelectorComponent {
   @Input() variants: BaseOption;
 }
 
+@Component({
+  selector: 'cx-color-selector',
+  template: '',
+})
+class MockCxColorSelectorComponent {
+  @Input() product: Product;
+  @Input() variants: BaseOption;
+}
+
 describe('ProductVariantSelectorComponent', () => {
   let component: ProductVariantSelectorComponent;
   let fixture: ComponentFixture<ProductVariantSelectorComponent>;
@@ -86,6 +95,7 @@ describe('ProductVariantSelectorComponent', () => {
         MockUrlPipe,
         MockCxStyleSelectorComponent,
         MockCxSizeSelectorComponent,
+        MockCxColorSelectorComponent,
       ],
       imports: [RouterTestingModule, I18nTestingModule],
       providers: [
