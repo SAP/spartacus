@@ -159,8 +159,19 @@ export function siteContextChange(
   selectedOption: string,
   label: string
 ): void {
+  const shippingPage = waitForPage(
+    CHECKOUT_SHIPPING_ADDRESS_PATH,
+    'getShippingPage'
+  );
+
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
 
+  // Waiting for the shipping address page to load
+  cy.wait(`@${shippingPage}`)
+    .its('status')
+    .should('eq', 200);
+
+  // Waiting for the currency to load
   cy.wait(`@${alias}`)
     .its('status')
     .should('eq', 200);
