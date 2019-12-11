@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkipLinkService } from '../service/skip-link.service';
+import { SkipLink } from '../config';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-skip-link',
@@ -7,12 +9,16 @@ import { SkipLinkService } from '../service/skip-link.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkipLinkComponent {
-  skipLinks$ = this.skipLinkService.skippers;
+  skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
 
   constructor(private skipLinkService: SkipLinkService) {}
 
-  go(skipLink, event: MouseEvent) {
-    this.skipLinkService.go(skipLink.target, skipLink.position, event);
+  scrollToTarget(skipLink: SkipLink, event: MouseEvent): void {
+    this.skipLinkService.scrollToTarget(
+      skipLink.target,
+      skipLink.position,
+      event
+    );
   }
 
   /**

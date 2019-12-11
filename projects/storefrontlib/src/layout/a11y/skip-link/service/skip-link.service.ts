@@ -1,41 +1,57 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { SkipLinkConfig, SkipLinkScrollPosition } from '../config/index';
+import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  SkipLinkConfig,
+  SkipLinkScrollPosition,
+  SkipLink,
+} from '../config/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SkipLinkService {
-  skippers = new BehaviorSubject([]);
+  private skipLinks$ = new BehaviorSubject<SkipLink[]>([]);
 
   constructor(protected config: SkipLinkConfig) {}
 
-  add(key: string, target: HTMLElement) {
-    const found = this.config.skipLinks.find(skipLink => skipLink.key === key);
+  getSkipLinks(): Observable<SkipLink[]> {
+    return this.skipLinks$;
+  }
+
+  add(key: string, target: HTMLElement): void {
+    const found: SkipLink = this.config.skipLinks.find(
+      skipLink => skipLink.key === key
+    );
 
     if (found) {
-      const existing = this.skippers.value;
-      existing.splice(this.getSkipperIndexInArray(key), 0, {
+      const existing: SkipLink[] = this.skipLinks$.value;
+      existing.splice(this.getSkipLinkIndexInArray(key), 0, {
         target: target,
-        title: found.i18nKey,
+        i18nKey: found.i18nKey,
         position: found.position,
         key: key,
       });
-      this.skippers.next(existing);
+      this.skipLinks$.next(existing);
     }
   }
 
-  remove(key: string) {
-    const found = this.config.skipLinks.find(skipLink => skipLink.key === key);
+  remove(key: string): void {
+    const found: SkipLink = this.config.skipLinks.find(
+      skipLink => skipLink.key === key
+    );
 
     if (found) {
-      let existing = this.skippers.value;
+      let existing: SkipLink[] = this.skipLinks$.value;
       existing = existing.filter(skipLink => skipLink.key !== key);
-      this.skippers.next(existing);
+      this.skipLinks$.next(existing);
     }
   }
 
-  go(target: HTMLElement, position: SkipLinkScrollPosition, event: MouseEvent) {
+  scrollToTarget(
+    target: HTMLElement,
+    position: SkipLinkScrollPosition,
+    event: MouseEvent
+  ): void {
     target = <HTMLElement>target.parentNode;
     (<HTMLElement>event.target).blur();
     const options: ScrollIntoViewOptions =
@@ -44,17 +60,17 @@ export class SkipLinkService {
     target.scrollIntoView(options);
   }
 
-  protected getSkipperIndexInArray(key: string) {
-    let index = this.config.skipLinks.findIndex(
+  protected getSkipLinkIndexInArray(key: string): number {
+    let index: number = this.config.skipLinks.findIndex(
       skipLink => skipLink.key === key
     );
 
     while (index > 0) {
       index--;
-      const previous = this.config.skipLinks[index];
+      const previous: SkipLink = this.config.skipLinks[index];
       if (previous) {
-        const existing = this.skippers.value;
-        const found = existing.findIndex(
+        const existing: SkipLink[] = this.skipLinks$.value;
+        const found: number = existing.findIndex(
           skipLink => skipLink.key === previous.key
         );
         if (found > -1) {

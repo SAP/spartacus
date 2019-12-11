@@ -1,30 +1,35 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkipLinkComponent } from './skip-link.component';
 import { I18nTestingModule } from '@spartacus/core';
-import { SkipLinkConfig } from '../config';
+import { SkipLinkConfig, SkipLink } from '../config';
 import { SkipLinkService } from '../service/skip-link.service';
 import { BehaviorSubject } from 'rxjs';
 
-const mockSkipLinks = [
+const mockSkipLinks: SkipLink[] = [
   {
     target: null,
     position: null,
-    title: 'Link 1',
+    i18nKey: 'Link 1',
+    key: 'Key1',
   },
   {
     target: null,
     position: null,
-    title: 'Link 2',
+    i18nKey: 'Link 2',
+    key: 'Key2',
   },
   {
     target: null,
     position: null,
-    title: 'Link 3',
+    i18nKey: 'Link 3',
+    key: 'Key3',
   },
 ];
 
 class MockSkipLinkService {
-  skippers = new BehaviorSubject([]);
+  getSkipLinks = () => {
+    return new BehaviorSubject(mockSkipLinks);
+  };
 }
 
 describe('SkipLinkComponent', () => {
@@ -38,7 +43,7 @@ describe('SkipLinkComponent', () => {
       providers: [
         {
           provide: SkipLinkConfig,
-          useValue: { skipLinks: [] },
+          useValue: { skipLinks: [mockSkipLinks] },
         },
         { provide: SkipLinkService, useClass: MockSkipLinkService },
       ],
@@ -48,7 +53,6 @@ describe('SkipLinkComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SkipLinkComponent);
     skipLinkComponent = fixture.componentInstance;
-    skipLinkComponent.skipLinks$.next(mockSkipLinks);
     fixture.detectChanges();
   });
 
@@ -60,13 +64,13 @@ describe('SkipLinkComponent', () => {
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
     expect(buttons.length).toEqual(3);
-    expect(buttons[0].outerText).toContain(mockSkipLinks[0].title);
-    expect(buttons[1].outerText).toContain(mockSkipLinks[1].title);
-    expect(buttons[2].outerText).toContain(mockSkipLinks[2].title);
+    expect(buttons[0].outerText).toContain(mockSkipLinks[0].i18nKey);
+    expect(buttons[1].outerText).toContain(mockSkipLinks[1].i18nKey);
+    expect(buttons[2].outerText).toContain(mockSkipLinks[2].i18nKey);
   });
 
-  it('should call `go` on button click', () => {
-    const spyComponent = spyOn(skipLinkComponent, 'go');
+  it('should call `scrollToTarget` on button click', () => {
+    const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
     expect(buttons.length).toEqual(3);

@@ -5,6 +5,7 @@ export abstract class SkipLinkConfig {
 export abstract class SkipLink {
   key: string;
   i18nKey: string;
+  target?: HTMLElement;
   position?: SkipLinkScrollPosition;
 }
 

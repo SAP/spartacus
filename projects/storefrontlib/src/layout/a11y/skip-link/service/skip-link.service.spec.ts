@@ -1,8 +1,9 @@
 import { Type, Component } from '@angular/core';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { SkipLinkService } from './skip-link.service';
-import { SkipLinkConfig, SkipLinkScrollPosition } from '../config';
+import { SkipLinkConfig, SkipLinkScrollPosition, SkipLink } from '../config';
 import { I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
@@ -29,6 +30,7 @@ class TestContainerComponent {}
 describe('SkipLinkService', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: SkipLinkService;
+  let skipLinks: SkipLink[];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -47,7 +49,8 @@ describe('SkipLinkService', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
     service = TestBed.get(SkipLinkService as Type<SkipLinkService>);
-    service.skippers.next([]);
+    (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).next([]);
+    skipLinks = (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).value;
     fixture.detectChanges();
   });
 
@@ -55,57 +58,64 @@ describe('SkipLinkService', () => {
     service.add(SKIP_KEY_1, null);
     service.add(SKIP_KEY_2, null);
     service.add(SKIP_KEY_3, null);
-    expect(service.skippers.getValue().length).toEqual(2);
+    expect(skipLinks.length).toEqual(2);
   });
 
   it('should add skip links in correct order', () => {
     service.add(SKIP_KEY_1, null);
     service.add(SKIP_KEY_2, null);
     service.add(SKIP_KEY_3, null);
-    expect(service.skippers.getValue().length).toEqual(2);
-    expect(service.skippers.value[0].key).toEqual(SKIP_KEY_2);
-    expect(service.skippers.value[1].key).toEqual(SKIP_KEY_1);
+    expect(skipLinks.length).toEqual(2);
+    expect(skipLinks[0].key).toEqual(SKIP_KEY_2);
+    expect(skipLinks[1].key).toEqual(SKIP_KEY_1);
   });
 
   it('should remove skip links in config only', () => {
     service.add(SKIP_KEY_1, null);
     service.add(SKIP_KEY_2, null);
     service.add(SKIP_KEY_3, null);
-    expect(service.skippers.getValue().length).toEqual(2);
-    expect(service.skippers.value[0].key).toEqual(SKIP_KEY_2);
-    expect(service.skippers.value[1].key).toEqual(SKIP_KEY_1);
+    expect(skipLinks.length).toEqual(2);
+    expect(skipLinks[0].key).toEqual(SKIP_KEY_2);
+    expect(skipLinks[1].key).toEqual(SKIP_KEY_1);
     service.remove(SKIP_KEY_2);
     service.remove(SKIP_KEY_3);
-    expect(service.skippers.getValue().length).toEqual(1);
-    expect(service.skippers.value[0].key).toEqual(SKIP_KEY_1);
+    skipLinks = (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).value;
+    expect(skipLinks.length).toEqual(1);
+    expect(skipLinks[0].key).toEqual(SKIP_KEY_1);
   });
 
-  it('should go to skip link', () => {
+  it('should scroll to skip link target', () => {
     const nodes = fixture.debugElement.nativeElement.childNodes;
     const mouseEvent: any = { target: fixture.debugElement.nativeElement };
     service.add(SKIP_KEY_1, nodes[0]);
     service.add(SKIP_KEY_2, nodes[1]);
     fixture.detectChanges();
 
-    const skipLink = service.skippers.value[0];
-    const spy = spyOn(skipLink.target.parentNode, 'scrollIntoView');
+    const skipLink = skipLinks[0];
+    const spy = spyOn(
+      <HTMLElement>skipLink.target.parentNode,
+      'scrollIntoView'
+    );
     expect(spy).not.toHaveBeenCalled();
-    service.go(skipLink.target, skipLink.position, mouseEvent);
+    service.scrollToTarget(skipLink.target, skipLink.position, mouseEvent);
     expect(spy).toHaveBeenCalledWith({});
     spy.calls.reset();
   });
 
-  it('should go to skip link with AFTER position', () => {
+  it('should scroll to skip link target with AFTER position', () => {
     const nodes = fixture.debugElement.nativeElement.childNodes;
     const mouseEvent: any = { target: fixture.debugElement.nativeElement };
     service.add(SKIP_KEY_1, nodes[0]);
     service.add(SKIP_KEY_2, nodes[1]);
     fixture.detectChanges();
 
-    const skipLink = service.skippers.value[1];
-    const spy = spyOn(skipLink.target.parentNode, 'scrollIntoView');
+    const skipLink = skipLinks[1];
+    const spy = spyOn(
+      <HTMLElement>skipLink.target.parentNode,
+      'scrollIntoView'
+    );
     expect(spy).not.toHaveBeenCalled();
-    service.go(skipLink.target, skipLink.position, mouseEvent);
+    service.scrollToTarget(skipLink.target, skipLink.position, mouseEvent);
     expect(spy).toHaveBeenCalledWith({ inline: 'end' });
     spy.calls.reset();
   });

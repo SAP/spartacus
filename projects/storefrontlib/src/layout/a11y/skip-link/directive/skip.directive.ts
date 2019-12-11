@@ -13,11 +13,11 @@ export class SkipDirective implements OnInit, OnDestroy {
     private skipLinkService: SkipLinkService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.skipLinkService.add(this.cxSkipLink, this.elRef.nativeElement);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.skipLinkService.remove(this.cxSkipLink);
   }
 }
