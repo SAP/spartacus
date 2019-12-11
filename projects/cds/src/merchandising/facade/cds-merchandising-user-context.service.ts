@@ -53,7 +53,9 @@ export class CdsMerchandisingUserContextService {
   private getCategoryNavigationContext(): Observable<string> {
     return this.routingService.getRouterState().pipe(
       map(
-        (routerState: RouterState) => routerState.state.params['categoryCode']
+        (routerState: RouterState) =>
+          routerState.state.params['brandCode'] ||
+          routerState.state.params['categoryCode']
       ),
       distinctUntilChanged()
     );

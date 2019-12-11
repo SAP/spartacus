@@ -102,6 +102,40 @@ describe('CdsMerchandisingUserContextService', () => {
     expect(merchandisingUserContext).toEqual(expectedUserContext);
   });
 
+  it('should return a valid MerchandisingUserContext object, if there are no facets, but a brandCode exists', () => {
+    const expectedUserContext: MerchandisingUserContext = {
+      category: 'brand123',
+      productId: undefined,
+      facets: undefined,
+    };
+    const routerState: RouterState = {
+      navigationId: 1,
+      state: {
+        url: 'electronics-spa/en/USD/',
+        queryParams: {},
+        context: {
+          id: 'homepage',
+        },
+        params: {
+          brandCode: 'brand123',
+        },
+        cmsRequired: true,
+      },
+    };
+
+    spyOn(routingService, 'getRouterState').and.returnValue(of(routerState));
+    spyOn(productSearchService, 'getResults').and.returnValue(
+      of(emptyPageSearchResults)
+    );
+
+    let merchandisingUserContext: MerchandisingUserContext;
+    cdsMerchandisingUserContextService
+      .getUserContext()
+      .subscribe(userContext => (merchandisingUserContext = userContext))
+      .unsubscribe();
+    expect(merchandisingUserContext).toEqual(expectedUserContext);
+  });
+
   it('should return a valid MerchandisingUserContext object, if there are no facets, but a categoryCode exists', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: '574',
