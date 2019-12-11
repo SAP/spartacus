@@ -9,6 +9,10 @@ import {
   Order,
   OrderEntry,
   PromotionResult,
+  FeatureConfigService,
+  SelectiveCartService,
+  AuthService,
+  RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
@@ -29,6 +33,37 @@ class MockCartService {
     return of(true);
   }
 }
+class MockAuthService {
+  getClientToken(): Observable<any> {
+    return of({ access_token: 'access_token' });
+  }
+  isUserLoggedIn() {
+    return true;
+  }
+}
+class MockRoutingService {
+  go(): void {}
+}
+
+class MockSelectiveCartService {
+  getLoaded(): Observable<boolean> {
+    return of(true);
+  }
+  getCart(): Observable<Cart> {
+    return of<Cart>({ code: '123' });
+  }
+}
+
+class MockFeatureConfigService {
+  isEnabled(_feature: string) {
+    return false;
+  }
+}
+export interface CartItemComponentOptions {
+  isReadOnly?: boolean;
+  saveForLaterEnabled?: boolean;
+  optionalBtn?: any;
+}
 
 @Component({
   template: '',
@@ -41,6 +76,10 @@ class MockCartItemListComponent {
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading: Observable<boolean>;
+  @Input()
+  options: CartItemComponentOptions = {
+    isReadOnly: false,
+  };
 }
 
 @Component({
@@ -55,7 +94,7 @@ class MockCartCouponComponent {
   userId: string;
 }
 
-describe('CartDetailsComponent', () => {
+fdescribe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
 
@@ -67,7 +106,13 @@ describe('CartDetailsComponent', () => {
         MockCartItemListComponent,
         MockCartCouponComponent,
       ],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        { provide: CartService, useClass: MockCartService },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: SelectiveCartService, useClass: MockSelectiveCartService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     }).compileComponents();
   }));
 

@@ -43,7 +43,6 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
     this.entries$ = this.cartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
-    // this.cartLoaded$ = this.cartService.getLoaded();
     this.cartLoaded$ = combineLatest([
       this.cartService.getLoaded(),
       this.selectiveCartService.getLoaded(),
