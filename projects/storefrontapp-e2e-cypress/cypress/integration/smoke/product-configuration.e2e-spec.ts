@@ -20,7 +20,6 @@ function goToConfigurationOverviewPage(configurator, testProduct) {
 }
 function goToProductDetailsPage(testProduct) {
   cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`);
-  cy.wait(2000);
 }
 
 context('Product Configuration', () => {
@@ -117,20 +116,9 @@ context('Product Configuration', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
 
-      configuration.clickOnNextGroupButton();
-      configuration.clickOnNextGroupButton();
-      configuration.verifyAttributeValueIsDisplayed(
-        'WCEM_DP_SOUND_CARD',
-        'radioGroup',
-        'TITANIUM'
-      );
-
-      configuration.clickOnPreviousGroupButton();
-      configuration.verifyAttributeValueIsDisplayed(
-        'WCEM_DP_EXT_DD',
-        'radioGroup',
-        'DVD'
-      );
+      configuration.clickOnNextGroupButton('WCEM_DP_EXT_DD', 'radioGroup');
+      configuration.clickOnNextGroupButton('WCEM_DP_SOUND_CARD', 'radioGroup');
+      configuration.clickOnPreviousGroupButton('WCEM_DP_EXT_DD', 'radioGroup');
     });
 
     it('should check if group buttons are clickable', () => {
@@ -140,11 +128,14 @@ context('Product Configuration', () => {
       configuration.verifyNextGroupButtonIsEnabled();
       configuration.verifyPreviousGroupButtonIsDisabled();
 
-      configuration.clickOnNextGroupButton();
+      configuration.clickOnNextGroupButton('WCEM_DP_EXT_DD', 'radioGroup');
       configuration.verifyPreviousGroupButtonIsEnabled();
-      configuration.clickOnNextGroupButton();
-      configuration.clickOnNextGroupButton();
-      configuration.clickOnNextGroupButton();
+      configuration.clickOnNextGroupButton('WCEM_DP_SOUND_CARD', 'radioGroup');
+      configuration.clickOnNextGroupButton('WCEM_RO_REQ_INPUT', 'string');
+      configuration.clickOnNextGroupButton(
+        'WCEM_DP_RADIO_BUTTON',
+        'radioGroup'
+      );
       configuration.verifyNextGroupButtonIsDisabled();
     });
 
