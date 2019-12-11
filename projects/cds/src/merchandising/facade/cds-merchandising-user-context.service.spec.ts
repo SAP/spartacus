@@ -83,7 +83,6 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, even if there are no params in the RouterStage and no facets', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: undefined,
-      productId: undefined,
       facets: undefined,
     };
 
@@ -139,7 +138,6 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if there are no facets, but a categoryCode exists', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: '574',
-      productId: undefined,
       facets: undefined,
     };
     const routerState: RouterState = {
@@ -173,7 +171,7 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if there are no facets, but a productCode exists', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: undefined,
-      productId: '12345',
+      products: ['12345'],
       facets: undefined,
     };
     const routerState: RouterState = {
@@ -207,7 +205,6 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if there are facets', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: undefined,
-      productId: undefined,
       facets: 'category:584:price:$200-$499.99',
     };
 

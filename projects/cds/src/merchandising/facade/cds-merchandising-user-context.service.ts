@@ -33,9 +33,11 @@ export class CdsMerchandisingUserContextService {
       map(([productId, category, facets]: [string, string, string]) => {
         const userContextData: MerchandisingUserContext = {
           category,
-          productId,
           facets,
         };
+        if (productId) {
+          userContextData.products = [productId];
+        }
         return userContextData;
       })
     );
