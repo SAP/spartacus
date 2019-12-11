@@ -122,14 +122,14 @@ describe('CdsMerchandisingProductService', () => {
       site: 'electronics-spa',
       language: 'en',
       pageSize: 10,
-      productId: '123456',
+      products: ['123456'],
     };
 
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
       of(siteContext)
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
-      of({ productId: '123456' })
+      of({ products: ['123456'] })
     );
 
     let actualStrategyProducts: StrategyProducts;

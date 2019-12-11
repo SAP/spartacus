@@ -4,7 +4,7 @@
  * context
  */
 export interface StrategyRequest {
-  productId?: string;
+  products?: string[];
   category?: string;
   facets?: string;
   date?: Date;
