@@ -1,8 +1,7 @@
 import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkipLinkService } from '../service/skip-link.service';
-import { SkipDirective } from './skip.directive';
-import { SkipLinkConfig } from '../config';
+import { SkipLinkDirective, SkipLinkConfig } from '..';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
@@ -15,14 +14,14 @@ const SKIP_KEY_2 = 'Key2';
 })
 class TestContainerComponent {}
 
-describe('SkipDirective', () => {
+describe('SkipLinkDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: SkipLinkService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [],
-      declarations: [TestContainerComponent, SkipDirective],
+      declarations: [TestContainerComponent, SkipLinkDirective],
       providers: [
         SkipLinkService,
         {

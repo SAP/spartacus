@@ -5,12 +5,14 @@ import {
   NgModule,
 } from '@angular/core';
 import { Config, ConfigModule, I18nModule } from '@spartacus/core';
-import {
-  OutletPosition,
-  OutletService,
-} from 'projects/storefrontlib/src/cms-structure';
+
 import { defaultSkipLinkConfig, SkipLinkConfig } from './config';
 import { SkipLinkComponent } from './component/skip-link.component';
+import {
+  OutletService,
+  OutletPosition,
+} from 'projects/storefrontlib/src/cms-structure/outlet';
+import { SkipLinkDirective } from './directive/skip-link.directive';
 
 @NgModule({
   imports: [
@@ -18,7 +20,8 @@ import { SkipLinkComponent } from './component/skip-link.component';
     I18nModule,
     ConfigModule.withConfig(defaultSkipLinkConfig),
   ],
-  declarations: [SkipLinkComponent],
+  declarations: [SkipLinkComponent, SkipLinkDirective],
+  exports: [SkipLinkDirective],
   entryComponents: [SkipLinkComponent],
 
   providers: [

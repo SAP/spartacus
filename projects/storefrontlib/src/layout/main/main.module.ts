@@ -10,7 +10,7 @@ import { PwaModule } from '../../cms-structure/pwa/pwa.module';
 import { SeoModule } from '../../cms-structure/seo/seo.module';
 import { AnonymousConsentsModule } from '../../shared/components/anonymous-consents/anonymous-consents.module';
 import { StorefrontComponent } from './storefront.component';
-import { SkipModule } from '../a11y/skip-link/directive/skip.module';
+import { SkipLinkModule } from '../a11y/skip-link/skip-link.module';
 
 @NgModule({
   imports: [
@@ -25,7 +25,7 @@ import { SkipModule } from '../a11y/skip-link/directive/skip.module';
     PageSlotModule,
     AnonymousConsentsModule,
     FeaturesConfigModule,
-    SkipModule,
+    SkipLinkModule,
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent],
