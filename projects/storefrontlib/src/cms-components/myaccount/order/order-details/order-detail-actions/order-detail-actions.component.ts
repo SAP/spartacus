@@ -10,7 +10,7 @@ import { OrderDetailsService } from '../order-details.service';
   templateUrl: './order-detail-actions.component.html',
 })
 export class OrderDetailActionsComponent {
-  constructor(private orderDetailsService: OrderDetailsService) {}
+  constructor(protected orderDetailsService: OrderDetailsService) {}
 
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 }
