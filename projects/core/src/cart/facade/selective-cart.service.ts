@@ -46,6 +46,8 @@ export class SelectiveCartService {
       if (user && user.customerId) {
         this.customerId = user.customerId;
         this.cartId$.next(`selectivecart${this.customerId}`);
+      } else if (user && !user.customerId) {
+        this.cartId$.next(undefined);
       }
     });
 
@@ -78,6 +80,7 @@ export class SelectiveCartService {
           this.load();
         }
       }),
+      filter(({ loaded }) => (this.customerId ? loaded : !loaded)),
       map(({ cart }) => (cart ? cart : {})),
       shareReplay({ bufferSize: 1, refCount: true })
     );
