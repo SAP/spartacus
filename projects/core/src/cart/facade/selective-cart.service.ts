@@ -95,8 +95,7 @@ export class SelectiveCartService {
 
   getLoaded(): Observable<boolean> {
     if (
-      this.userId &&
-      this.userId === OCC_USER_ID_ANONYMOUS &&
+      (this.userId && this.userId === OCC_USER_ID_ANONYMOUS) ||
       !this.customerId
     ) {
       return of(true);
