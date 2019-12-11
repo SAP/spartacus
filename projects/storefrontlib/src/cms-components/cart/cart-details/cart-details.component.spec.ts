@@ -94,7 +94,7 @@ class MockCartCouponComponent {
   userId: string;
 }
 
-fdescribe('CartDetailsComponent', () => {
+describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
 
