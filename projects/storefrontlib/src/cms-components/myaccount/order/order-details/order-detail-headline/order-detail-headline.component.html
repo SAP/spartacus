@@ -1,18 +1,3 @@
-<div class="cx-nav row">
-  <div class="col-xs-12 col-md-3">
-    <button
-      [routerLink]="{ cxRoute: 'orders' } | cxUrl"
-      class="btn btn-block btn-action"
-    >
-      {{ 'common.back' | cxTranslate }}
-    </button>
-  </div>
-
-  <div class="col-xs-12 col-md-3">
-    <button class="btn btn-block btn-primary">Request/Cancel Here</button>
-  </div>
-</div>
-
 <ng-container *ngIf="order$ | async as order">
   <div class="cx-header row">
     <div class="cx-detail col-sm-12 col-md-4">
@@ -37,36 +22,6 @@
             | cxTranslate: { context: order?.statusDisplay }
         }}
       </div>
-    </div>
-    <div
-      class="cx-detail col-sm-12 col-md-3"
-      *cxFeature="'cancellationAndReturn'"
-    >
-      <button
-        *ngIf="order.cancellable"
-        [routerLink]="
-          {
-            cxRoute: 'orderCancel',
-            params: order
-          } | cxUrl
-        "
-        class="btn btn-block btn-primary"
-      >
-        {{ 'orderDetails.cancellationAndReturn.cancelAction' | cxTranslate }}
-      </button>
-
-      <button
-        *ngIf="order.returnable"
-        [routerLink]="
-          {
-            cxRoute: 'orderReturn',
-            params: order
-          } | cxUrl
-        "
-        class="btn btn-block btn-primary"
-      >
-        {{ 'orderDetails.cancellationAndReturn.returnAction' | cxTranslate }}
-      </button>
     </div>
   </div>
 </ng-container>
