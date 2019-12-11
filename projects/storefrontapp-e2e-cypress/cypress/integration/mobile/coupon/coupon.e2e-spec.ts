@@ -56,20 +56,10 @@ describe('Cart Coupon', () => {
     cartCoupon.addProductToCart(cartCoupon.productCode3);
     cartCoupon.applyCoupon(cartCoupon.couponCode3);
     cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
-    cartCoupon.addProductToCart(cartCoupon.giftProductCode);
-    cartCoupon.verifyGiftProductCoupon(cartCoupon.giftProductCode);
-    cartCoupon.verifyCouponAndPromotion(
-      cartCoupon.couponCode3,
-      '$1,920.27',
-      '$20'
-    );
+    cartCoupon.verifyGiftProductCoupon(giftProductCode);
+    cartCoupon.verifyCouponAndPromotion(couponCode3, '$1,914.23', '$20');
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.verifyOrderHistory(
-        orderData,
-        cartCoupon.couponCode3,
-        '$1,920.27',
-        '$20'
-      );
+    cartCoupon.varifyOrderHistory(orderData, couponCode3, '$1,914.23', '$20');
     });
   });
 
