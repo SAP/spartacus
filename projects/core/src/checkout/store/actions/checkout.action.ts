@@ -93,6 +93,7 @@ export const LOAD_CHECKOUT_DETAILS_SUCCESS =
   '[Checkout] Load Checkout Details Success';
 
 export const CHECKOUT_CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
+export const PAYMENT_PROCESS_SUCCESS = '[Checkout] Payment Process Success';
 
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
@@ -199,9 +200,7 @@ export class ResetSetDeliveryModeProcess extends StateEntityLoaderActions.Entity
   }
 }
 
-export class CreatePaymentDetails
-  extends StateEntityLoaderActions.EntityLoadAction
-  implements Action {
+export class CreatePaymentDetails extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_PAYMENT_DETAILS;
   constructor(
     public payload: {
@@ -214,20 +213,21 @@ export class CreatePaymentDetails
   }
 }
 
-export class CreatePaymentDetailsFail
-  extends StateEntityLoaderActions.EntityFailAction
-  implements Action {
+export class CreatePaymentDetailsFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = CREATE_PAYMENT_DETAILS_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
   }
 }
 
-export class CreatePaymentDetailsSuccess
-  extends StateEntityLoaderActions.EntitySuccessAction
-  implements Action {
+export class CreatePaymentDetailsSuccess implements Action {
   readonly type = CREATE_PAYMENT_DETAILS_SUCCESS;
-  constructor(public payload: PaymentDetails) {
+  constructor(public payload: PaymentDetails) {}
+}
+
+export class PaymentProcessSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = PAYMENT_PROCESS_SUCCESS;
+  constructor() {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
   }
 }
