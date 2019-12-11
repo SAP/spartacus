@@ -1,9 +1,22 @@
 <ng-container *ngIf="!confirmRequest">
-  <button [disabled]="disableConfirmBtn" (click)="confirmEntryInputs()">
-    {{ 'common.continue' | cxTranslate }}
-  </button>
-  <br />
-  <button class="btn btn-link" (click)="setAll()">
+  <div class="cx-nav row">
+    <div class="col-xs-12 col-md-3">
+      <button class="btn btn-block btn-action" (click)="back()">
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="disableConfirmBtn"
+        (click)="confirmEntryInputs()"
+      >
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+
+  <button class="btn btn-link cx-action-link" (click)="setAll()">
     {{ 'orderDetails.cancellationAndReturn.setAll' | cxTranslate }}
   </button>
 </ng-container>
@@ -22,7 +35,7 @@
     >
       {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
     </div>
-    <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
+    <div class="cx-item-list-qty col-md-2 col-lg-2 col-xl-2">
       {{
         (cancelOrder
           ? 'orderDetails.cancellationAndReturn.cancelQty'
@@ -104,7 +117,7 @@
                 </div>
               </div>
               <!-- Cancel/Return Quantity -->
-              <div class="cx-total col-md-3 col-lg-3 col-xl-2">
+              <div class="cx-total col-md-3 col-lg-2 col-xl-2">
                 <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
                   {{
                     (cancelOrder
@@ -132,7 +145,7 @@
               <!-- Cancel/Return Total Price -->
               <div
                 *ngIf="confirmRequest"
-                class="cx-total col-md-3 col-lg-3 col-xl-2"
+                class="cx-total col-md-3 col-lg-3 col-xl-3"
               >
                 <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
                   {{
@@ -153,7 +166,20 @@
 </div>
 
 <ng-container *ngIf="!confirmRequest">
-  <button [disabled]="disableConfirmBtn" (click)="confirmEntryInputs()">
-    {{ 'common.continue' | cxTranslate }}
-  </button>
+  <div class="cx-nav row">
+    <div class="col-xs-12 col-md-3">
+      <button class="btn btn-block btn-action" (click)="back()">
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="disableConfirmBtn"
+        (click)="confirmEntryInputs()"
+      >
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
+  </div>
 </ng-container>
