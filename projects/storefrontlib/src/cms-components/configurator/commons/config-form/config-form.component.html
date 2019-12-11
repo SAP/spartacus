@@ -27,6 +27,13 @@
               [ownerKey]="configuration.owner.key"
               (selectionChange)="updateConfiguration($event)"
             ></cx-config-attribute-radio-button>
+            <cx-config-attribute-checkbox-list
+              *ngIf="attribute.uiType === UiType.CHECKBOX"
+              [attribute]="attribute"
+              [group]="group.id"
+              [ownerKey]="configuration.owner.key"
+              (selectionChange)="updateConfiguration($event)"
+            ></cx-config-attribute-checkbox-list>
             <cx-config-attribute-drop-down
               *ngIf="attribute.uiType === UiType.DROPDOWN"
               [attribute]="attribute"
