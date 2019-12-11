@@ -12,7 +12,7 @@ import {
   OrderReturnRequestService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap, map, share } from 'rxjs/operators';
+import { map, share, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OrderCancelOrReturnService {
@@ -21,25 +21,11 @@ export class OrderCancelOrReturnService {
   private keepRequestInputs = false;
 
   get isCancelling$(): Observable<boolean> {
-    return this.userOrderService.getOrderDetailsState().pipe(
-      tap(state => {
-        if (state.success && !state.loading) {
-          this.clearCancelOrReturnRequestInputs();
-          this.globalMessageService.add(
-            {
-              key: 'orderDetails.cancellationAndReturn.cancelSuccess',
-              params: { orderCode: state.value.code },
-            },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-          this.routing.go({
-            cxRoute: 'orders',
-          });
-        }
-      }),
-      map(state => state.loading),
-      share()
-    );
+    return this.userOrderService.getCancelOrderLoading();
+  }
+
+  get isCancelSuccess$(): Observable<boolean> {
+    return this.userOrderService.getCancelOrderSuccess();
   }
 
   get isReturning$(): Observable<boolean> {
@@ -156,6 +142,21 @@ export class OrderCancelOrReturnService {
   cancelOrder(orderCode: string): void {
     this.userOrderService.cancelOrder(orderCode, {
       cancellationRequestEntryInputs: this.cancelOrReturnRequestInputs,
+    });
+  }
+
+  cancelSuccess(orderCode: string): void {
+    this.clearCancelOrReturnRequestInputs();
+    this.userOrderService.resetCancelOrderProcessState();
+    this.globalMessageService.add(
+      {
+        key: 'orderDetails.cancellationAndReturn.cancelSuccess',
+        params: { orderCode },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.routing.go({
+      cxRoute: 'orders',
     });
   }
 

@@ -2403,15 +2403,15 @@ export namespace Occ {
      */
     returnLabelDownloadUrl?: string;
     /**
-     * @member {Price} [totalPrice]
+     * @member {string} [rma]
      */
     rma?: string;
     /**
-     * @member {Price} [totalPrice]
+     * @member {string} [status]
      */
     status?: string;
     /**
-     * @member {Price} [totalPrice]
+     * @member {Price} [subTotal]
      */
     subTotal?: Price;
     /**
