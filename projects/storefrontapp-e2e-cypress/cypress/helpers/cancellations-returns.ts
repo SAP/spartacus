@@ -1,12 +1,5 @@
 import { login, register, RegisterUser } from './auth-forms';
 
-const user: RegisterUser = {
-  firstName: 'Intern',
-  lastName: 'Tester',
-  email: 'test@sap.com',
-  password: 'Test123$',
-};
-
 export function addProductToCart(productCode: string) {
   cy.server();
   cy.route('GET', `/rest/v2/electronics-spa/cms/pages*/checkout*`).as(
@@ -24,7 +17,7 @@ export function addProductToCart(productCode: string) {
   });
 }
 
-export function signIn() {
+export function signIn(user: RegisterUser) {
   cy.server();
   cy.visit('/login');
   cy.route('GET', '/rest/v2/electronics-spa/products/932577*').as('homepage');
@@ -32,7 +25,7 @@ export function signIn() {
   cy.wait('@homepage');
 }
 
-export function registerUser() {
+export function registerUser(user: RegisterUser) {
   cy.visit('/login');
   cy.get('a.btn')
     .contains('Register')

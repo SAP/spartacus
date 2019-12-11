@@ -1,11 +1,16 @@
+import { RegisterUser } from '../../../helpers/auth-forms';
 import * as methods from '../../../helpers/cancellations-returns';
+
+const user: RegisterUser = {
+  firstName: 'Intern',
+  lastName: 'Tester',
+  email: 'test@sap.com',
+  password: 'Test123$',
+};
 
 describe('Return Request List for Cancellations and Returns', () => {
   before(() => {
-    cy.visit('/');
-    // methods.signIn();
-    methods.registerUser();
-    methods.signIn();
+    methods.signIn(user);
   });
 
   it('should see order history tab and return request list tab', () => {
