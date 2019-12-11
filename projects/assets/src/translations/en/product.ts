@@ -76,8 +76,6 @@ export const product = {
     selectedStyle: 'Selected style',
     size: 'Size',
     color: 'Color',
-    selectSize: 'Please select size',
-    selectColor: 'Please select color',
     sizeGuideLabel: 'Style guide',
   },
   stockNotification: {
