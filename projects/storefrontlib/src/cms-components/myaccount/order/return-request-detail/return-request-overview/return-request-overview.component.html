@@ -28,7 +28,7 @@
         *ngIf="returnRequest.cancellable"
         class="btn btn-action"
         (click)="cancelReturn(returnRequest.rma)"
-        [disabled]="cancelSubmit && isCancelling$ | async"
+        [disabled]="isCancelling$ | async"
       >
         {{ 'returnRequest.cancel' | cxTranslate }}
       </button>

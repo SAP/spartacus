@@ -11,8 +11,12 @@ const mockReturnRequest: ReturnRequest = {
 };
 class MockReturnRequestService {
   cancelReturnRequest = jasmine.createSpy();
+  cancelSuccess = jasmine.createSpy();
   getReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
+  }
+  get isCancelSuccess$(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -44,9 +48,14 @@ describe('ReturnRequestOverviewComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should be able to get cancel success', () => {
+    component.returnRequest$.subscribe().unsubscribe();
+    component.ngOnInit();
+    expect(returnRequestService.cancelSuccess).toHaveBeenCalledWith('test');
+  });
+
   it('should be able to cancel return', () => {
     component.cancelReturn('test');
-    expect(component.cancelSubmit).toEqual(true);
     expect(returnRequestService.cancelReturnRequest).toHaveBeenCalledWith(
       'test'
     );

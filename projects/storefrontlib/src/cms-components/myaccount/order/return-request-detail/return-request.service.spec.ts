@@ -6,9 +6,8 @@ import {
   ReturnRequest,
   GlobalMessageService,
   GlobalMessageType,
-  LoaderState,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from './return-request.service';
 
 const router = {
@@ -29,6 +28,8 @@ const mockReturnRequest: ReturnRequest = { rma: '123456', returnEntries: [] };
 class MockOrderReturnRequestService {
   clearOrderReturnRequestDetail = jasmine.createSpy();
   loadOrderReturnRequestDetail = jasmine.createSpy();
+  cancelOrderReturnRequest = jasmine.createSpy();
+  resetCancelReturnRequestProcessState = jasmine.createSpy();
   getOrderReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
   }
@@ -142,13 +143,7 @@ describe('ReturnRequestService', () => {
   });
 
   it('should add global message and redirect to order history page after cancel success', () => {
-    returnRequestState.next({
-      loading: false,
-      error: false,
-      success: true,
-      value: { rma: '1' },
-    });
-    service.isCancelling$.subscribe().unsubscribe();
+    service.cancelSuccess('1');
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orders',
     });
@@ -159,19 +154,5 @@ describe('ReturnRequestService', () => {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-  });
-
-  it('should do nothing when cancelling', () => {
-    returnRequestState.next({
-      loading: true,
-      error: false,
-      success: false,
-      value: { rma: '1' },
-    });
-    service.isCancelling$.subscribe().unsubscribe();
-
-    expect(routingService.go).not.toHaveBeenCalledWith({
-      cxRoute: 'orders',
-    });
   });
 });
