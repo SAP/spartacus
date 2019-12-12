@@ -1,6 +1,7 @@
+@import './anonymous-consent/index';
+@import './order-history/index';
 @import './address-book';
 @import './address-card';
-@import './order-history';
 @import './payment-methods';
 @import './close-account';
 @import './close-account-modal';
@@ -8,12 +9,6 @@
 @import './order-details/consignment-tracking';
 @import './consent-management';
 @import './consent-management-form';
-@import './order-return-request-list';
-@import './cancel-or-return-items';
-@import './return-order-confirmation';
-@import './cancel-order-confirmation';
-@import './order-details-actions';
-@import './anonymous-consent/index';
 @import './my-interests';
 
 $myaccount-components-whitelist: cx-address-book, cx-address-card,
