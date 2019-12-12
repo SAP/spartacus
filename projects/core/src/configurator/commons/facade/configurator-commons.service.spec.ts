@@ -110,6 +110,44 @@ function callGetOrCreate(serviceUnderTest: ConfiguratorCommonsService) {
   return configurationObs;
 }
 
+function checkReturnsOnlyDefinedUiStates(
+  serviceUnderTest: ConfiguratorCommonsService,
+  functionToTest: Function
+) {
+  const uiStateChanged = { currentGroup: GROUP_ID_1 };
+  const obs = cold('x-y', {
+    x: undefined,
+    y: uiStateChanged,
+  });
+  spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+  const uiStateObs = functionToTest.apply(serviceUnderTest, [
+    productConfiguration.owner,
+  ]);
+
+  expect(uiStateObs).toBeObservable(
+    cold('--y', {
+      y: uiStateChanged,
+    })
+  );
+}
+
+function checkCreatesNewUiStateForUnDefinedUiStates(
+  serviceUnderTest: ConfiguratorCommonsService,
+  functionToTest: Function,
+  store: Store<StateWithConfiguration>,
+  numberOfInvocations: number
+) {
+  const obs = of(undefined);
+  spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+  spyOn(store, 'dispatch').and.callThrough();
+
+  const uiStateObs = functionToTest.apply(serviceUnderTest, [
+    productConfiguration.owner,
+  ]);
+  uiStateObs.subscribe().unsubscribe();
+  expect(store.dispatch).toHaveBeenCalledTimes(numberOfInvocations);
+}
+
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
   let configuratorUtils: ConfigUtilsService;
@@ -335,6 +373,42 @@ describe('ConfiguratorCommonsService', () => {
         cold('x-|', {
           x: productConfiguration,
         })
+      );
+    });
+  });
+
+  describe('getUiState', () => {
+    it('should return an observable only for those results from store that are defined', () => {
+      checkReturnsOnlyDefinedUiStates(
+        serviceUnderTest,
+        serviceUnderTest.getUiState
+      );
+    });
+
+    it('should not create a new UI state for yet undefined states', () => {
+      checkCreatesNewUiStateForUnDefinedUiStates(
+        serviceUnderTest,
+        serviceUnderTest.getUiState,
+        store,
+        0
+      );
+    });
+  });
+
+  describe('getOrCreateUiState', () => {
+    it('should return an observable only for those results from store that are defined', () => {
+      checkReturnsOnlyDefinedUiStates(
+        serviceUnderTest,
+        serviceUnderTest.getOrCreateUiState
+      );
+    });
+
+    it('should create a new UI state for yet undefined states', () => {
+      checkCreatesNewUiStateForUnDefinedUiStates(
+        serviceUnderTest,
+        serviceUnderTest.getOrCreateUiState,
+        store,
+        1
       );
     });
   });

@@ -278,7 +278,6 @@ export class ConfiguratorEffects {
 
   @Effect()
   addToCart$: Observable<
-    | ConfiguratorUiActions.RemoveUiState
     | ConfiguratorActions.AddNextOwner
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
@@ -294,7 +293,6 @@ export class ConfiguratorEffects {
           return this.configuratorCommonsConnector.addToCart(payload).pipe(
             switchMap((entry: CartModification) => {
               return [
-                new ConfiguratorUiActions.RemoveUiState(payload.ownerKey),
                 new ConfiguratorActions.AddNextOwner(
                   payload.ownerKey,
                   '' + entry.entry.entryNumber
