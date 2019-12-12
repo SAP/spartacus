@@ -4,7 +4,7 @@ import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -69,8 +69,11 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-class MockCartService {
+class MockActiveCartService {
   getOrCreateCart(): Observable<Cart> {
+    return of(cart);
+  }
+  getActive(): Observable<Cart> {
     return of(cart);
   }
 }
@@ -128,8 +131,8 @@ describe('ConfiguratorCommonsService', () => {
         ConfiguratorCommonsService,
 
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();

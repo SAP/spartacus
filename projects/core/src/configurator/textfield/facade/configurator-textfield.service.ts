@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
 import {
@@ -19,7 +19,7 @@ const SUCCESS_STATUS = 'SUCCESS';
 export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
-    protected cartService: CartService
+    protected activeCartService: ActiveCartService
   ) {}
 
   createConfiguration(
@@ -55,7 +55,9 @@ export class ConfiguratorTextfieldService {
   }
 
   addToCart(productCode: string) {
-    const cart$ = this.cartService.getOrCreateCart();
+    //TODO CHHI
+    //const cart$ = this.activeCartService.getOrCreateCart();
+    const cart$ = this.activeCartService.getActive();
     cart$.pipe(take(1)).subscribe(cart => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
         userId: this.getUserId(cart),

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import {
@@ -19,7 +19,7 @@ import * as ConfiguratorSelectors from '../store/selectors/configurator.selector
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
-    protected cartService: CartService
+    protected activeCartService: ActiveCartService
   ) {}
 
   hasConfiguration(owner: Configurator.Owner): Observable<Boolean> {
@@ -129,7 +129,9 @@ export class ConfiguratorCommonsService {
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {
-    const cart$ = this.cartService.getOrCreateCart();
+    //TODO CHHI
+    //const cart$ = this.activeCartService.getOrCreateCart();
+    const cart$ = this.activeCartService.getActive();
     cart$.pipe(take(1)).subscribe(cart => {
       const addToCartParameters: Configurator.AddToCartParameters = {
         userId: this.getUserId(cart),

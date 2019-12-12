@@ -3,7 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
@@ -47,8 +47,11 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-class MockCartService {
+class MockActiveCartService {
   getOrCreateCart(): Observable<Cart> {
+    return of(cart);
+  }
+  getActive(): Observable<Cart> {
     return of(cart);
   }
 }
@@ -63,8 +66,8 @@ describe('ConfiguratorTextfieldService', () => {
       providers: [
         ConfiguratorTextfieldService,
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();
