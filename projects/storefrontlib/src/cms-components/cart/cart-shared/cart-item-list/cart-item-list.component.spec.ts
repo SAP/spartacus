@@ -2,14 +2,28 @@ import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartService, I18nTestingModule } from '@spartacus/core';
+import {
+  CartService,
+  I18nTestingModule,
+  FeatureConfigService,
+  SelectiveCartService,
+} from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
+import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
 class MockCartService {
   removeEntry() {}
   loadDetails() {}
   updateEntry() {}
+}
+
+class MockSelectiveCartService {
+  removeEntry() {}
+}
+
+class MockFeatureConfigService {
+  isEnabled() {}
 }
 
 const mockItems = [
@@ -52,12 +66,18 @@ class MockCartItemComponent {
   @Input() potentialProductPromotions;
   @Input() isReadOnly;
   @Input() cartIsLoading;
+  @Input()
+  options: CartItemComponentOptions = {
+    isReadOnly: false,
+  };
 }
 
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
   let cartService: CartService;
+  let selectiveCartService: SelectiveCartService;
+  let featureConfig: FeatureConfigService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -68,23 +88,39 @@ describe('CartItemListComponent', () => {
         I18nTestingModule,
       ],
       declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        { provide: CartService, useClass: MockCartService },
+        { provide: SelectiveCartService, useClass: MockSelectiveCartService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
     cartService = TestBed.get(CartService as Type<CartService>);
+    selectiveCartService = TestBed.get(SelectiveCartService as Type<
+      SelectiveCartService
+    >);
+    featureConfig = TestBed.get(FeatureConfigService as Type<
+      FeatureConfigService
+    >);
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;
+    component.options = { saveForLaterEnabled: false, isReadOnly: false };
+    component.cartIsLoading = false;
+    component.hasHeader = true;
+    component.isReadOnly = false;
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
+    spyOn(selectiveCartService, 'removeEntry').and.callThrough();
+    spyOn(featureConfig, 'isEnabled').and.returnValue(false);
 
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
 

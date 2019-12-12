@@ -23,7 +23,7 @@ import {
 import { By } from '@angular/platform-browser';
 
 @Component({
-  template: '',
+  template: '<cx-cart-item> </cx-cart-item>',
   selector: 'cx-cart-item-list',
 })
 class MockCartItemListComponent {
@@ -111,13 +111,4 @@ describe('SaveForLaterComponent', () => {
     const cartName = el.nativeElement.innerText;
     expect(cartName).toEqual('saveForLaterItems.itemTotal count:5');
   });
-
-  //todo
-  // it('should disable move to cart button when cart loading', () => {});
-
-  // it('should disable move to cart button when save for later cart loading', () => {});
-
-  // it('should move to cart when login user click move to cart', () => {});
-
-  // it('should go to login page when anonymous user click move to cart', () => {});
 });
