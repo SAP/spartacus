@@ -12,6 +12,8 @@ export function activeCartReducer(
   switch (action.type) {
     case CartActions.LOAD_MULTI_CART_SUCCESS:
     case CartActions.CREATE_MULTI_CART_SUCCESS:
+    // point to `fresh` cart when we are creating/merging cart
+    case CartActions.CREATE_MULTI_CART:
       if (
         action.payload &&
         action.payload.extraData &&
@@ -27,8 +29,6 @@ export function activeCartReducer(
       } else {
         return state;
       }
-    case CartActions.SET_ACTIVE_CART_ID:
-      return action.payload;
   }
   return state;
 }
