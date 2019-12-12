@@ -108,10 +108,8 @@ describe('CartItemListComponent', () => {
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;
-    component.options = { saveForLaterEnabled: false, isReadOnly: false };
-    component.cartIsLoading = false;
-    component.hasHeader = true;
-    component.isReadOnly = false;
+    //component.options = { saveForLaterEnabled: false, isReadOnly: false };
+
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
     spyOn(selectiveCartService, 'removeEntry').and.callThrough();
@@ -124,7 +122,7 @@ describe('CartItemListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should remove entry', () => {
+  fit('should remove entry', () => {
     const item = mockItems[0];
     expect(component.form.controls[item.product.code]).toBeDefined();
     component.removeEntry(item);
@@ -132,19 +130,19 @@ describe('CartItemListComponent', () => {
     expect(component.form.controls[item.product.code]).toBeUndefined();
   });
 
-  it('should update entry', () => {
+  fit('should update entry', () => {
     const item = mockItems[0];
     component.updateEntry({ item, updatedQuantity: 5 });
     expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
   });
 
-  it('should get potential promotions for product', () => {
+  fit('should get potential promotions for product', () => {
     const item = mockItems[0];
     const promotions = component.getPotentialProductPromotionsForItem(item);
     expect(promotions).toEqual(mockPotentialProductPromotions);
   });
 
-  it('should have controls updated on items change', () => {
+  fit('should have controls updated on items change', () => {
     const multipleMockItems = [
       {
         id: 1,
