@@ -9,7 +9,6 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { CdsModule } from '@spartacus/cds';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
@@ -32,6 +31,7 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
+
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
@@ -68,30 +68,14 @@ if (!environment.production) {
         anonymousConsents: true,
       },
     }),
-    CdsModule.forRoot({
-      cds: {
-        tenant: 'my-tenant',
-        baseUrl: 'https://api.us.context.cloud.sap',
-        endpoints: {
-          strategyProducts:
-            '/strategy/${tenant}/strategies/${strategyId}/products',
-        },
-        profileTag: {
-          javascriptUrl:
-            'https://tag.static.us.context.cloud.sap/js/profile-tag.js/profile-tag.js',
-          configUrl:
-            'https://tag.static.stage.context.cloud.sap/config/my-config123',
-        },
-      },
-    }),
     JsonLdBuilderModule,
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
     ConfigModule,
+    //note: will remove (but we do not need to setup the cds for root because we will mock the request in the e2e
   ],
 
   bootstrap: [StorefrontComponent],
