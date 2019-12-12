@@ -57,9 +57,14 @@ describe('ConfiguratorTextfieldConnector', () => {
     >);
 
     let result;
-    service.createConfiguration(PRODUCT_CODE).subscribe(res => (result = res));
+    service
+      .createConfiguration(PRODUCT_CODE, null)
+      .subscribe(res => (result = res));
     expect(result).toBe('createConfiguration' + PRODUCT_CODE);
-    expect(adapter.createConfiguration).toHaveBeenCalledWith(PRODUCT_CODE);
+    expect(adapter.createConfiguration).toHaveBeenCalledWith(
+      PRODUCT_CODE,
+      null
+    );
   });
 
   it('should call adapter on addToCart', () => {

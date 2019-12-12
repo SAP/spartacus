@@ -24,13 +24,10 @@ export class ConfiguratorTextfieldEffects {
     CreateConfiguration | CreateConfigurationSuccess | CreateConfigurationFail
   > = this.actions$.pipe(
     ofType(CREATE_CONFIGURATION),
-    map(
-      (action: { type: string; payload?: { productCode: string } }) =>
-        action.payload
-    ),
+    map((action: CreateConfiguration) => action.payload),
     mergeMap(payload => {
       return this.configuratorTextfieldConnector
-        .createConfiguration(payload.productCode)
+        .createConfiguration(payload.productCode, payload.owner)
         .pipe(
           switchMap((configuration: ConfiguratorTextfield.Configuration) => {
             return [new CreateConfigurationSuccess(configuration)];

@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -23,11 +24,12 @@ export class ConfiguratorTextfieldService {
   ) {}
 
   createConfiguration(
-    productCode: string
+    owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     this.store.dispatch(
       new ConfiguratorActions.CreateConfiguration({
-        productCode: productCode,
+        productCode: owner.id, //owner Id is the product code in this case
+        owner: owner,
       })
     );
 
@@ -102,6 +104,7 @@ export class ConfiguratorTextfieldService {
   ): ConfiguratorTextfield.Configuration {
     const newConfiguration: ConfiguratorTextfield.Configuration = {
       configurationInfos: [],
+      owner: oldConfiguration.owner,
     };
     oldConfiguration.configurationInfos.forEach(info => {
       if (info.configurationLabel === changedAttribute.configurationLabel) {
