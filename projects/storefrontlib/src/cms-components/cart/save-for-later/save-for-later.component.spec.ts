@@ -5,7 +5,7 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   SelectiveCartService,
-  FeaturesConfig,
+  //FeaturesConfig,
   PromotionResult,
   Cart,
   ActiveCartService,
@@ -23,7 +23,7 @@ import {
 import { By } from '@angular/platform-browser';
 
 @Component({
-  template: '<cx-cart-item> </cx-cart-item>',
+  template: '',
   selector: 'cx-cart-item-list',
 })
 class MockCartItemListComponent {
@@ -73,12 +73,12 @@ describe('SaveForLaterComponent', () => {
         { provide: AuthService, useValue: mockAuthService },
         { provide: AuthRedirectService, useValue: mockAuthRedirectService },
         { provide: RoutingService, useValue: mockRoutingService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.1', selectiveCart: '1.2' },
-          },
-        },
+        // {
+        //   provide: FeaturesConfig,
+        //   useValue: {
+        //     features: { level: '1.1', selectiveCart: '1.2' },
+        //   },
+        // },
       ],
     }).compileComponents();
   }));
@@ -108,7 +108,22 @@ describe('SaveForLaterComponent', () => {
     );
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-total'));
-    const cartName = el.nativeElement.innerText;
-    expect(cartName).toEqual('saveForLaterItems.itemTotal count:5');
+    const cartHead = el.nativeElement.innerText;
+    expect(cartHead).toEqual('saveForLaterItems.itemTotal count:5');
+  });
+
+  it('should move to cart', () => {
+    const mockItem = {
+      quantity: 5,
+      product: {
+        code: 'PR0000',
+      },
+    };
+    component.moveToCart(mockItem);
+    expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(mockItem);
+    expect(mockCartService.addEntry).toHaveBeenCalledWith(
+      mockItem.product.code,
+      mockItem.quantity
+    );
   });
 });

@@ -28,6 +28,7 @@ export class CartItemListComponent implements OnInit {
   @Input()
   options: CartItemComponentOptions = {
     isReadOnly: false,
+    saveForLaterEnabled: false,
   };
 
   @Input()
@@ -94,7 +95,7 @@ export class CartItemListComponent implements OnInit {
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
     //don't show promotions in saveforlater
-    if (this.isSaveForLaterEnabled) {
+    if (this.options.saveForLaterEnabled) {
       return entryPromotions;
     }
     if (
@@ -136,16 +137,6 @@ export class CartItemListComponent implements OnInit {
       return false;
     } else {
       return consumedEntryNumber === entry.entryNumber;
-    }
-  }
-
-  getOptions(): CartItemComponentOptions {
-    if (this.isSaveForLaterEnabled) {
-      return this.options;
-    } else {
-      return {
-        isReadOnly: false,
-      };
     }
   }
 }
