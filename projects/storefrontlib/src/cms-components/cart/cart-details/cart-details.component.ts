@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Cart,
   CartService,
@@ -36,21 +32,26 @@ export class CartDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('ngOnInit()!!!!!!');
     this.cart$ = this.cartService.getActive();
     this.entries$ = this.cartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
-    this.loggedIn$ = this.authService.isUserLoggedIn();
-    if (this.isSaveForLaterEnabled()) {
-      this.selectiveCartService.getCart();
-      this.entries$ = this.cartService.getEntries();
-      this.cartLoaded$ = combineLatest([
-        this.cartService.getLoaded(),
-        this.selectiveCartService.getLoaded(),
-      ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
-    } else {
-      this.cartLoaded$ = this.cartService.getLoaded();
-    }
+    this.authService
+      .isUserLoggedIn()
+      .subscribe(loggedIn => {
+        if (this.isSaveForLaterEnabled() && loggedIn) {
+          this.selectiveCartService.getCart();
+          this.entries$ = this.cartService.getEntries();
+          this.cartLoaded$ = combineLatest([
+            this.cartService.getLoaded(),
+            this.selectiveCartService.getLoaded(),
+          ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
+        } else {
+          this.cartLoaded$ = this.cartService.getLoaded();
+        }
+      })
+      .unsubscribe();
   }
 
   isSaveForLaterEnabled(): boolean {
@@ -70,7 +71,8 @@ export class CartDetailsComponent implements OnInit {
   }
 
   saveForLater(item: Item) {
-    this.loggedIn$
+    this.authService
+      .isUserLoggedIn()
       .subscribe(loggedIn => {
         if (loggedIn) {
           this.cartService.removeEntry(item);
