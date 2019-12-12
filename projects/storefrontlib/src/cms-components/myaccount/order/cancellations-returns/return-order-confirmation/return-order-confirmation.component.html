@@ -11,7 +11,7 @@
     <button
       class="btn btn-block btn-primary"
       (click)="submit()"
-      [disabled]="returnSubmit && isReturning$ | async"
+      [disabled]="isReturning$ | async"
     >
       {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
     </button>
@@ -37,7 +37,7 @@
     <button
       class="btn btn-block btn-primary"
       (click)="submit()"
-      [disabled]="returnSubmit && isReturning$ | async"
+      [disabled]="isReturning$ | async"
     >
       {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
     </button>

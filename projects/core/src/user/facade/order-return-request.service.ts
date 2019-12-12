@@ -12,7 +12,6 @@ import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
-import { LoaderState } from '../../state/index';
 import { OCC_USER_ID_CURRENT } from '../../occ/index';
 
 @Injectable({
@@ -45,21 +44,8 @@ export class OrderReturnRequestService {
   /**
    * Return an order return request
    */
-  getOrderReturnRequest(returnRequestCode: string): Observable<ReturnRequest> {
-    return this.store.pipe(
-      select(UsersSelectors.getOrderReturnRequestState),
-      tap(returnState => {
-        const attemptedLoad =
-          returnState.loading || returnState.success || returnState.error;
-        if (
-          (returnState.value && returnState.value.rma !== returnRequestCode) ||
-          !attemptedLoad
-        ) {
-          this.loadOrderReturnRequestDetail(returnRequestCode);
-        }
-      }),
-      map(returnState => returnState.value)
-    );
+  getOrderReturnRequest(): Observable<ReturnRequest> {
+    return this.store.pipe(select(UsersSelectors.getOrderReturnRequest));
   }
 
   /**
@@ -127,10 +113,17 @@ export class OrderReturnRequestService {
   }
 
   /**
-   * Get the order return request state
+   * Get the order return request loading flag
    */
-  getReturnRequestState(): Observable<LoaderState<ReturnRequest>> {
-    return this.store.pipe(select(UsersSelectors.getOrderReturnRequestState));
+  getReturnRequestLoading(): Observable<boolean> {
+    return this.store.pipe(select(UsersSelectors.getOrderReturnRequestLoading));
+  }
+
+  /**
+   * Get the order return request success flag
+   */
+  getReturnRequestSuccess(): Observable<boolean> {
+    return this.store.pipe(select(UsersSelectors.getOrderReturnRequestSuccess));
   }
 
   /**

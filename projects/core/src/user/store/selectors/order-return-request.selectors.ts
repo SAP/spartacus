@@ -22,6 +22,25 @@ export const getOrderReturnRequest: MemoizedSelector<
     StateLoaderSelectors.loaderValueSelector(state)
 );
 
+export const getOrderReturnRequestLoading: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getOrderReturnRequestState,
+  (state: LoaderState<ReturnRequest>) =>
+    StateLoaderSelectors.loaderLoadingSelector(state)
+);
+
+export const getOrderReturnRequestSuccess: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getOrderReturnRequestState,
+  (state: LoaderState<ReturnRequest>) =>
+    StateLoaderSelectors.loaderSuccessSelector(state) &&
+    !StateLoaderSelectors.loaderLoadingSelector(state)
+);
+
 export const getOrderReturnRequestListState: MemoizedSelector<
   StateWithUser,
   LoaderState<ReturnRequestList>
