@@ -16,8 +16,7 @@ import {
 import { StateWithProcess } from '../../process';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 import { ProcessesLoaderState } from '../../state';
-import { CartActions, StateWithMultiCart } from '../store';
-import { FRESH_CART_ID } from '../store/actions/cart-group.actions';
+import { StateWithMultiCart } from '../store';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
@@ -136,7 +135,7 @@ describe('ActiveCartService', () => {
       });
     });
 
-    it('should return only cart when loaded', () => {
+    it('should not emit non empty cart only when loading', () => {
       service['cartSelector$'] = of({
         value: {
           code: 'code',
@@ -154,6 +153,24 @@ describe('ActiveCartService', () => {
         .subscribe(val => (result = val))
         .unsubscribe();
       expect(result).toEqual(undefined);
+    });
+
+    it('should emit empty cart even when it is not stable', () => {
+      service['cartSelector$'] = of({
+        value: undefined,
+        loading: true,
+        success: false,
+        error: false,
+        processesCount: 0,
+      });
+      service['activeCartId$'] = of('code');
+      service['initActiveCart']();
+      let result;
+      service
+        .getActive()
+        .subscribe(val => (result = val))
+        .unsubscribe();
+      expect(result).toEqual({});
     });
   });
 
@@ -543,16 +560,6 @@ describe('ActiveCartService', () => {
     });
   });
 
-  describe('setActiveCartIdToFresh', () => {
-    it('should dispatch SetActiveCartId action', () => {
-      spyOn(store, 'dispatch').and.callThrough();
-      service['setActiveCartIdToFresh']();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.SetActiveCartId(FRESH_CART_ID)
-      );
-    });
-  });
-
   describe('requireLoadedCart', () => {
     let cartState;
 
@@ -608,7 +615,6 @@ describe('ActiveCartService', () => {
 
     it('should try to create cart after failed load cart for logged user', done => {
       const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
-      spyOn<any>(service, 'setActiveCartIdToFresh').and.callFake(() => {});
       spyOn<any>(service, 'load').and.callFake(() => {
         cart$.next({
           loading: false,
@@ -648,7 +654,6 @@ describe('ActiveCartService', () => {
     it('should try to create cart for anonymous user', done => {
       const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
       spyOn<any>(service, 'load').and.callThrough();
-      spyOn<any>(service, 'setActiveCartIdToFresh').and.callFake(() => {});
 
       spyOn(multiCartService, 'createCart').and.callFake(() => {
         cart$.next({
