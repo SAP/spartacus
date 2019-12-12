@@ -193,7 +193,7 @@ describe('EntityProcessesLoader reducer', () => {
               value: undefined,
             },
             [TEST_ENTITIES_ID[1]]: {
-              processesCount: 0,
+              processesCount: -1,
               loading: false,
               error: false,
               success: false,

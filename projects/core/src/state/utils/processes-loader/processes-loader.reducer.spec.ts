@@ -101,19 +101,6 @@ describe('Processes loader reducer', () => {
       expect(state).toEqual(expectedState);
     });
 
-    it('should decrement processesCount to min = 0', () => {
-      const action = new ProcessesDecrementAction(TEST_ENTITY_TYPE);
-      const state = processesLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
-      const expectedState = {
-        loading: false,
-        error: false,
-        success: false,
-        processesCount: 0,
-        value: undefined,
-      };
-      expect(state).toEqual(expectedState);
-    });
-
     it('should not change loaderState properties', () => {
       const action = new ProcessesDecrementAction(TEST_ENTITY_TYPE);
       const previousState = {
