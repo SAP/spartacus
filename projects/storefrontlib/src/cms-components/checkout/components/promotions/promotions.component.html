@@ -1,13 +1,13 @@
 <div class="cx-promotions" *ngIf="promotions">
-  <div *cxFeatureLevel="'!1.4'">
+  <ng-container *cxFeatureLevel="'!1.4'">
     <strong *ngFor="let promotion of promotions">
       <li>{{ promotion.description }}</li>
     </strong>
-  </div>
+  </ng-container>
 
-  <div *cxFeatureLevel="'1.4'">
+  <ng-container *cxFeatureLevel="'1.4'">
     <ul *ngFor="let promotion of promotions">
       <li>{{ promotion.description }}</li>
     </ul>
-  </div>
+  </ng-container>
 </div>

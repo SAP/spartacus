@@ -7,6 +7,7 @@ import {
   Order,
   PromotionLocation,
   FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
@@ -69,6 +70,12 @@ describe('OrderConfirmationItemsComponent', () => {
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: PromotionService, useClass: MockPromotionService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
       ],
     }).compileComponents();
   }));

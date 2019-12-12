@@ -17,6 +17,7 @@ import {
   PromotionLocation,
   PromotionResult,
   FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
@@ -140,6 +141,12 @@ describe('AddedToCartDialogComponent', () => {
         {
           provide: PromotionService,
           useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();

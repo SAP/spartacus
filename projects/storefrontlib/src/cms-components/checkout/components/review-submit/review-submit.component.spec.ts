@@ -15,6 +15,8 @@ import {
   UserAddressService,
   PromotionLocation,
   FeaturesConfigModule,
+  FeaturesConfig,
+  PromotionResult,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/cart/index';
@@ -77,6 +79,8 @@ const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 class MockCartItemListComponent {
   @Input()
   items: Item[];
+  @Input()
+  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   isReadOnly: boolean;
   @Input()
@@ -191,6 +195,12 @@ describe('ReviewSubmitComponent', () => {
         {
           provide: PromotionService,
           useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();

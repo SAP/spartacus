@@ -10,6 +10,7 @@ import {
   PromotionLocation,
   PromotionResult,
   FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
@@ -69,6 +70,7 @@ class MockCartCouponComponent {
   userId: string;
 }
 
+
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -95,6 +97,12 @@ describe('CartDetailsComponent', () => {
         {
           provide: PromotionService,
           useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();

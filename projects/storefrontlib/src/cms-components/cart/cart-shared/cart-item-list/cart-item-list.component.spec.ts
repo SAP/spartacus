@@ -7,6 +7,7 @@ import {
   I18nTestingModule,
   PromotionLocation,
   FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
@@ -86,7 +87,15 @@ describe('CartItemListComponent', () => {
         FeaturesConfigModule
       ],
       declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        { provide: CartService, useClass: MockCartService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -121,7 +130,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('should get potential promotions for product', () => {
-    const item = mockItems[0];
+    const item = mockItems[1];
     const promotions = component.getPotentialProductPromotionsForItem(item);
     expect(promotions).toEqual(mockPotentialProductPromotions);
   });
