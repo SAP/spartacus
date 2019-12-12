@@ -74,16 +74,6 @@ describe('CartDetailsComponent', () => {
   let fixture: ComponentFixture<CartDetailsComponent>;
   let cartService: CartService;
 
-  // const mockCartService = jasmine.createSpyObj('CartService', [
-  //   'addEntry',
-  //   'getLoaded',
-  //   'loadDetails',
-  //   'getActive',
-  //   'getEntries',
-  //   'updateEntry',
-  //   'getCart',
-  // ]);
-
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
     ['getCart', 'getLoaded', 'removeEntry', 'getEntries', 'addEntry']

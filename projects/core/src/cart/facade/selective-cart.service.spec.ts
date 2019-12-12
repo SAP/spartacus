@@ -262,7 +262,7 @@ describe('Selective Cart Service', () => {
     });
 
     it('should only return true after user change', () => {
-      const result = service['isJustLoggedIn'](OCC_USER_ID_ANONYMOUS);
+      const result = service['isJustLoggedIn']('testUser');
       expect(result).toBe(true);
     });
   });
