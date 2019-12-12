@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,20 +19,20 @@ import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
 
-// class MockCartService {
-//   removeEntry(): void {}
-//   loadDetails(): void {}
-//   updateEntry(): void {}
-//   getActive(): Observable<Cart> {
-//     return of<Cart>({ code: '123' });
-//   }
-//   getEntries(): Observable<OrderEntry[]> {
-//     return of([{}]);
-//   }
-//   getLoaded(): Observable<boolean> {
-//     return of(true);
-//   }
-// }
+class MockCartService {
+  removeEntry(): void {}
+  loadDetails(): void {}
+  updateEntry(): void {}
+  getActive(): Observable<Cart> {
+    return of<Cart>({ code: '123' });
+  }
+  getEntries(): Observable<OrderEntry[]> {
+    return of([{}]);
+  }
+  getLoaded(): Observable<boolean> {
+    return of(true);
+  }
+}
 
 export interface CartItemComponentOptions {
   isReadOnly?: boolean;
@@ -72,15 +72,17 @@ class MockCartCouponComponent {
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
+  let cartService: CartService;
 
-  const mockCartService = jasmine.createSpyObj('CartService', [
-    'addEntry',
-    'getLoaded',
-    'loadDetails',
-    'getActive',
-    'getEntries',
-    'updateEntry',
-  ]);
+  // const mockCartService = jasmine.createSpyObj('CartService', [
+  //   'addEntry',
+  //   'getLoaded',
+  //   'loadDetails',
+  //   'getActive',
+  //   'getEntries',
+  //   'updateEntry',
+  //   'getCart',
+  // ]);
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -106,7 +108,8 @@ describe('CartDetailsComponent', () => {
         MockCartCouponComponent,
       ],
       providers: [
-        { provide: CartService, useValue: mockCartService },
+        //{ provide: CartService, useValue: mockCartService },
+        { provide: CartService, useClass: MockCartService },
         { provide: FeatureConfigService, useValue: mockFeatureConfigService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
         { provide: AuthService, useValue: mockAuthService },
@@ -118,18 +121,20 @@ describe('CartDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
+    cartService = TestBed.get(CartService as Type<CartService>);
 
-    mockCartService.getLoaded.and.returnValue(of(true));
-    mockCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
-    mockCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
+    // mockCartService.getLoaded.and.returnValue(of(true));
+    // mockCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
+    //  mockCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
+    // mockCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
   });
 
   it('should create cart details component', () => {
-    mockFeatureConfigService.isEnabled.and.return(false);
+    mockFeatureConfigService.isEnabled.and.returnValue(false);
     fixture.detectChanges();
     expect(component).toBeTruthy();
 
-    mockFeatureConfigService.isEnabled.and.return(true);
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
@@ -141,9 +146,15 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
-    mockAuthService.isUserLoggedIn.and.return(true);
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    mockAuthService.isUserLoggedIn.and.returnValue(true);
+    mockSelectiveCartService.addEntry.and.callThrough();
+    mockSelectiveCartService.getLoaded.and.returnValue(of(true));
+    spyOn(cartService, 'removeEntry').and.callThrough();
+    spyOn(cartService, 'getLoaded').and.returnValue(of(true));
+    fixture.detectChanges();
     component.saveForLater(mockItem);
-    expect(mockCartService.removeEntry).toHaveBeenCalledWith(mockItem);
+    expect(cartService.removeEntry).toHaveBeenCalledWith(mockItem);
     expect(mockSelectiveCartService.addEntry).toHaveBeenCalledWith(
       mockItem.product.code,
       mockItem.quantity
@@ -157,8 +168,9 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
-    mockAuthService.isUserLoggedIn.and.return(false);
+    mockAuthService.isUserLoggedIn.and.returnValue(false);
     component.saveForLater(mockItem);
+    fixture.detectChanges();
     expect(mockRoutingService.go).toHaveBeenCalled();
   });
 

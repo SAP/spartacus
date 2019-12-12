@@ -56,7 +56,6 @@ describe('SaveForLaterComponent', () => {
       providers: [
         { provide: ActiveCartService, useValue: mockCartService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-        ,
       ],
     }).compileComponents();
   }));
