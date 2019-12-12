@@ -1,6 +1,7 @@
-import { Component, Input, Type, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
   Cart,
@@ -18,12 +19,11 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { CheckoutStep, CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
-import { CheckoutStepType, CheckoutStep } from '../../model/index';
-import { CheckoutConfigService } from '../../services/index';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -102,6 +102,8 @@ class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
+
+  paymentProcessSuccess(): void {}
 }
 
 class MockUserAddressService {
