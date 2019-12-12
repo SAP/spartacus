@@ -26,7 +26,6 @@ export const LOAD_MULTI_CART_SUCCESS = '[Multi Cart] Load Cart Success';
 
 export const MERGE_MULTI_CART = '[Multi Cart] Merge Cart';
 export const MERGE_MULTI_CART_SUCCESS = '[Multi Cart] Merge Cart Success';
-export const MERGE_MULTI_CART_FAIL = '[Multi Cart] Merge Cart Fail';
 
 export const RESET_MULTI_CART_DETAILS = '[Multi Cart] Reset Cart Details';
 
@@ -118,11 +117,6 @@ export class MergeMultiCartSuccess extends EntityRemoveAction {
   }
 }
 
-export class MergeMultiCartFail implements Action {
-  readonly type = MERGE_MULTI_CART_FAIL;
-  constructor(public payload: { oldCartId: string; extraData?: any }) {}
-}
-
 export class ResetMultiCartDetails extends EntityProcessesLoaderResetAction {
   readonly type = RESET_MULTI_CART_DETAILS;
   constructor() {
@@ -185,7 +179,6 @@ export type MultiCartActions =
   | LoadMultiCartSuccess
   | MergeMultiCart
   | MergeMultiCartSuccess
-  | MergeMultiCartFail
   | ResetMultiCartDetails
   | RemoveCart
   | AddEmailToMultiCart

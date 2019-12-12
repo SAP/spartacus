@@ -22,16 +22,6 @@ export function activeCartReducer(
       } else {
         return state;
       }
-    case CartActions.MERGE_MULTI_CART_FAIL:
-      if (
-        action.payload &&
-        action.payload.extraData &&
-        action.payload.extraData.active
-      ) {
-        return action.payload.oldCartId;
-      } else {
-        return state;
-      }
     case CartActions.REMOVE_CART:
       if (action.payload === state) {
         return activeCartInitialState;

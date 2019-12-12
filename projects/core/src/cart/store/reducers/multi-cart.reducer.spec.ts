@@ -111,38 +111,6 @@ describe('Multi Cart reducer', () => {
       });
     });
 
-    describe('MERGE_MULTI_CART_FAIL action', () => {
-      it('should set active cart id when extraData.active is truthy', () => {
-        const { activeCartInitialState } = fromMultiCart;
-        const payload = {
-          extraData: {
-            active: true,
-          },
-          oldCartId: 'oldCartId',
-        };
-        const action = new CartActions.MergeMultiCartFail(payload);
-        const state = fromMultiCart.activeCartReducer(
-          activeCartInitialState,
-          action
-        );
-        expect(state).toEqual('oldCartId');
-      });
-
-      it('should not change active cart id when it is not active cart create', () => {
-        const { activeCartInitialState } = fromMultiCart;
-        const payload = {
-          extraData: {},
-          oldCartId: 'oldCartId',
-        };
-        const action = new CartActions.MergeMultiCartFail(payload);
-        const state = fromMultiCart.activeCartReducer(
-          activeCartInitialState,
-          action
-        );
-        expect(state).toEqual('');
-      });
-    });
-
     describe('REMOVE_CART action', () => {
       it('should clear active cart id, when active cart is removed', () => {
         const initialState = 'cartCode';

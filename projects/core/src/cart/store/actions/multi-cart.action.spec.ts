@@ -169,22 +169,6 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('MergeMultiCartFail', () => {
-    it('should create the action', () => {
-      const payload = {
-        oldCartId: 'oldCartId',
-        extraData: {
-          active: true,
-        },
-      };
-      const action = new CartActions.MergeMultiCartFail(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.MERGE_MULTI_CART_FAIL,
-        payload,
-      });
-    });
-  });
-
   describe('ResetMultiCartDetails', () => {
     it('should create the action', () => {
       const action = new CartActions.ResetMultiCartDetails();
