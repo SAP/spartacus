@@ -6,6 +6,7 @@ import {
   CartService,
   I18nTestingModule,
   PromotionLocation,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
@@ -82,6 +83,7 @@ describe('CartItemListComponent', () => {
         PromotionsModule,
         PromotionHelperModule,
         I18nTestingModule,
+        FeaturesConfigModule
       ],
       declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
       providers: [{ provide: CartService, useClass: MockCartService }],

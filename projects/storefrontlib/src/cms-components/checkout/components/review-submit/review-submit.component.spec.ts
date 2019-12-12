@@ -14,6 +14,7 @@ import {
   PaymentDetails,
   UserAddressService,
   PromotionLocation,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../cms-components/cart/index';
@@ -163,6 +164,7 @@ describe('ReviewSubmitComponent', () => {
         PromotionsModule,
         PromotionHelperModule,
         RouterTestingModule,
+        FeaturesConfigModule
       ],
       declarations: [
         ReviewSubmitComponent,

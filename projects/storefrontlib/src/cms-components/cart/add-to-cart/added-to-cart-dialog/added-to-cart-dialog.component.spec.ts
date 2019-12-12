@@ -16,6 +16,7 @@ import {
   OrderEntry,
   PromotionLocation,
   PromotionResult,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
@@ -119,6 +120,7 @@ describe('AddedToCartDialogComponent', () => {
         AutoFocusDirectiveModule,
         PromotionsModule,
         PromotionHelperModule,
+        FeaturesConfigModule
       ],
       declarations: [
         AddedToCartDialogComponent,

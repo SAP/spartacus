@@ -9,6 +9,7 @@ import {
   OrderEntry,
   PromotionLocation,
   PromotionResult,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
@@ -79,6 +80,7 @@ describe('CartDetailsComponent', () => {
         PromotionsModule,
         PromotionHelperModule,
         I18nTestingModule,
+        FeaturesConfigModule
       ],
       declarations: [
         CartDetailsComponent,

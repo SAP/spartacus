@@ -19,7 +19,7 @@
   <div class="cx-item-list-row" *ngFor="let item of items">
     <div class="cx-item-list-items">
 
-      <div *cxFeatureLevel="'1.4'">
+      <div *cxFeatureLevel="'!1.4'">
         <cx-cart-item
           [parent]="form.controls[item.product.code]"
           [item]="item"

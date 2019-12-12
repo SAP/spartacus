@@ -6,6 +6,7 @@ import {
   I18nTestingModule,
   Order,
   PromotionLocation,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
@@ -55,7 +56,12 @@ describe('OrderConfirmationItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule, PromotionHelperModule],
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        PromotionHelperModule,
+        FeaturesConfigModule
+      ],
       declarations: [
         OrderConfirmationItemsComponent,
         MockReviewSubmitComponent,
