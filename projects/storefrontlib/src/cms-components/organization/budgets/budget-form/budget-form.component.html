@@ -59,9 +59,10 @@
         <label>
           <span class="label-content">{{
             'budgetForm.startDate.label' | cxTranslate
-            }}</span>
+          }}</span>
           <input
             type="date"
+            cxUseValueAsDate
             class="form-control"
             placeholder="{{ 'budgetForm.startDate.placeholder' | cxTranslate }}"
             formControlName="startDate"
@@ -74,9 +75,10 @@
         <label>
           <span class="label-content">{{
             'budgetForm.endDate.label' | cxTranslate
-            }}</span>
+          }}</span>
           <input
             type="date"
+            cxUseValueAsDate
             class="form-control"
             placeholder="{{ 'budgetForm.endDate.placeholder' | cxTranslate }}"
             formControlName="endDate"

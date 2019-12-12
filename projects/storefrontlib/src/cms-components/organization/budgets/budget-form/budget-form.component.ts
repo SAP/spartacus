@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -26,7 +25,7 @@ import {
   templateUrl: './budget-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BudgetFormComponent implements OnInit, OnDestroy {
+export class BudgetFormComponent implements OnInit {
   businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
 
@@ -82,11 +81,7 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
     console.log(this.budgetData);
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.budget.patchValue(this.budgetData);
-      //
-      // this.countrySelected(this.addressData.country);
-      // if (this.addressData.region) {
-      //   this.regionSelected(this.addressData.region);
-      // }
+      console.log('initBudget', this.budget)
     }
   }
 
@@ -102,11 +97,11 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   }
 
   startDateChange(event) {
-    console.log(event.target.value);
+    this.budget['controls'].startDate.setValue(event.target.valueAsCustomDate);
   }
 
   endDateChange(event) {
-    console.log(event.target.value);
+    this.budget['controls'].endDate.setValue(event.target.valueAsCustomDate);
   }
 
   back(): void {
@@ -114,21 +109,9 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   }
 
   verifyBudget(): void {
-    console.log(this.budget)
-    if (!this.budget.dirty) {
-      this.submitBudget.emit(this.budget);
+    console.log('verifyBudget', this.budget);
+    if (!this.budget.invalid) {
+      this.submitBudget.emit(this.budget.value);
     }
-  }
-
-  ngOnDestroy() {
-    // this.checkoutDeliveryService.clearAddressVerificationResults();
-    //
-    // if (this.addressVerifySub) {
-    //   this.addressVerifySub.unsubscribe();
-    // }
-    //
-    // if (this.regionsSub) {
-    //   this.regionsSub.unsubscribe();
-    // }
   }
 }

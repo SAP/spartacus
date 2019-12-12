@@ -12,6 +12,7 @@ import {
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { BudgetFormComponent } from './budget-form.component';
 import { OrgUnitService } from '../../../../../../core/src/organization/facade/org-unit.service';
+import { DateValueAccessorModule } from '../../../../shared/directives/date-value-accessor/date-value-accessor.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { OrgUnitService } from '../../../../../../core/src/organization/facade/o
     UrlModule,
     I18nModule,
     ReactiveFormsModule,
+    DateValueAccessorModule,
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],

@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 })
 export class BudgetEditComponent implements OnInit {
   budget$: Observable<Budget>;
-  currentBudget: Budget;
 
   constructor(
     protected routingService: RoutingService,
@@ -21,8 +20,9 @@ export class BudgetEditComponent implements OnInit {
       map(routingData => routingData.state.params['budgetCode']),
       switchMap(code => this.budgetsService.get(code)),
     );
-    // this.budget$
-    //   .pipe(take(1))
-    //   .subscribe(budget => (this.currentBudget = budget));
+  }
+
+  updateBudget(budget) {
+    this.budgetsService.update(budget)
   }
 }
