@@ -4,15 +4,12 @@ import {
   RoutingService,
   LanguageService,
   GlobalMessageService,
-  Order,
   OrderEntry,
   UserOrderService,
-  LoaderState,
   GlobalMessageType,
   OrderReturnRequestService,
-  ReturnRequest,
 } from '@spartacus/core';
-import { of, BehaviorSubject } from 'rxjs';
+import { of } from 'rxjs';
 import { OrderCancelOrReturnService } from './cancel-or-return.service';
 
 class MockRoutingService {
@@ -25,21 +22,27 @@ class MockLanguageService {
   }
 }
 
-const orderState: BehaviorSubject<LoaderState<Order>> = new BehaviorSubject({});
 class MockUserOrderService {
   cancelOrder = jasmine.createSpy();
-  getOrderDetailsState() {
-    return orderState;
+  resetCancelOrderProcessState = jasmine.createSpy();
+  getCancelOrderLoading() {
+    return false;
+  }
+  getCancelOrderSuccess() {
+    return true;
   }
 }
 
-const returnRequestState: BehaviorSubject<
-  LoaderState<ReturnRequest>
-> = new BehaviorSubject({});
 class MockOrderReturnRequestService {
   createOrderReturnRequest = jasmine.createSpy();
-  getReturnRequestState() {
-    return returnRequestState;
+  getReturnRequestLoading() {
+    return false;
+  }
+  getReturnRequestSuccess() {
+    return true;
+  }
+  getOrderReturnRequest() {
+    return of({ rma: '1' });
   }
 }
 
@@ -86,6 +89,8 @@ describe('OrderCancelOrReturnService', () => {
       GlobalMessageService
     >);
     service.cancelOrReturnRequestInputs = mockRequestInputs;
+
+    spyOn(service, 'clearCancelOrReturnRequestInputs').and.callThrough();
   });
 
   it('should be created', () => {
@@ -155,16 +160,9 @@ describe('OrderCancelOrReturnService', () => {
   });
 
   it('should add global message and redirect to order history page after cancel success', () => {
-    spyOn(service, 'clearCancelOrReturnRequestInputs').and.callThrough();
-
-    orderState.next({
-      loading: false,
-      error: false,
-      success: true,
-      value: { code: '1' },
-    });
-    service.isCancelling$.subscribe().unsubscribe();
+    service.cancelSuccess('1');
     expect(service.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
+    expect(userOrderService.resetCancelOrderProcessState).toHaveBeenCalled();
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orders',
     });
@@ -177,20 +175,6 @@ describe('OrderCancelOrReturnService', () => {
     );
   });
 
-  it('should do nothing when cancelling', () => {
-    orderState.next({
-      loading: true,
-      error: false,
-      success: false,
-      value: { code: '1' },
-    });
-    service.isCancelling$.subscribe().unsubscribe();
-
-    expect(routingService.go).not.toHaveBeenCalledWith({
-      cxRoute: 'orders',
-    });
-  });
-
   it('should be able to return order', () => {
     service.returnOrder('test');
     expect(returnRequestService.createOrderReturnRequest).toHaveBeenCalledWith({
@@ -200,15 +184,8 @@ describe('OrderCancelOrReturnService', () => {
   });
 
   it('should add global message and redirect to return request details page after return success', () => {
-    spyOn(service, 'clearCancelOrReturnRequestInputs').and.callThrough();
+    service.returnSuccess();
 
-    returnRequestState.next({
-      loading: false,
-      error: false,
-      success: true,
-      value: { rma: '1' },
-    });
-    service.isReturning$.subscribe().unsubscribe();
     expect(service.clearCancelOrReturnRequestInputs).toHaveBeenCalled();
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'returnRequestDetails',
@@ -221,21 +198,6 @@ describe('OrderCancelOrReturnService', () => {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-  });
-
-  it('should do nothing when returning', () => {
-    returnRequestState.next({
-      loading: true,
-      error: false,
-      success: false,
-      value: { rma: '1' },
-    });
-    service.isReturning$.subscribe().unsubscribe();
-
-    expect(routingService.go).not.toHaveBeenCalledWith({
-      cxRoute: 'returnRequestDetails',
-      params: { rma: '1' },
-    });
   });
 
   it('should be able to back to order details page', () => {
