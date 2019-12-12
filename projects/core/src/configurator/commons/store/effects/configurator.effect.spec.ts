@@ -381,7 +381,7 @@ describe('ConfiguratorEffect', () => {
   });
 
   describe('Effect addToCart', () => {
-    it('should emit AddToCartSuccess, RemoveUiState and AddOwner on addToCart in case no changes are pending', () => {
+    it('should emit AddToCartSuccess, AddOwner on addToCart in case no changes are pending', () => {
       const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
@@ -396,14 +396,13 @@ describe('ConfiguratorEffect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const removeUiState = new ConfiguratorUiActions.RemoveUiState(owner.key);
+
       const removeConfiguration = new ConfiguratorActions.AddNextOwner(
         owner.key,
         '' + entryNumber
       );
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: removeUiState,
+      const expected = cold('-(cd)', {
         c: removeConfiguration,
         d: cartAddEntrySuccess,
       });

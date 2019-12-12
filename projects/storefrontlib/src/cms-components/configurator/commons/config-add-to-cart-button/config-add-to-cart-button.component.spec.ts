@@ -99,6 +99,7 @@ class MockConfiguratorCommonsService {
   }
   addToCart() {}
   removeConfiguration() {}
+  removeUiState() {}
 }
 
 function performAddToCartOnOverview(
@@ -177,6 +178,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    spyOn(configuratorCommonsService, 'removeUiState').and.callThrough();
   });
 
   it('should create', () => {
@@ -188,11 +190,16 @@ describe('ConfigAddToCartButtonComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith('cart');
   });
 
-  it('should not remove configuration in case configuration has already been added', () => {
+  it('should not remove configuration for product owner in case configuration has already been added', () => {
     performAddToCartWhenAdded(classUnderTest);
     expect(
       configuratorCommonsService.removeConfiguration
     ).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not remove UI state for product owner in case configuration has already been added', () => {
+    performAddToCartWhenAdded(classUnderTest);
+    expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(0);
   });
 
   it('should not display addToCart message if configuration has already been added', () => {
@@ -243,6 +250,11 @@ describe('ConfigAddToCartButtonComponent', () => {
   it('should navigate to cart in case configuration has not yet been added and process was triggered from overview', () => {
     performAddToCartOnOverview(classUnderTest);
     expect(routingService.go).toHaveBeenCalledWith('cart');
+  });
+
+  it('should remove UI state in case configuration has not yet been added and process was triggered from overview', () => {
+    performAddToCartOnOverview(classUnderTest);
+    expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(1);
   });
 
   it('should remove configuration in case configuration has not yet been added and process was triggered from overview', () => {

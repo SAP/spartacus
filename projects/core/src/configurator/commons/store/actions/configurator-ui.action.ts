@@ -32,11 +32,8 @@ export class SetCurrentGroup implements StateEntityActions.EntityAction {
 export class CreateUiState implements StateEntityActions.EntityAction {
   readonly type = CREATE_UI_STATE;
   readonly meta: StateEntityActions.EntityMeta;
-  constructor(productCode: string | string[]) {
-    this.meta = StateEntityActions.entityMeta(
-      CONFIGURATION_UI_DATA,
-      productCode
-    );
+  constructor(entityKey: string | string[]) {
+    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 

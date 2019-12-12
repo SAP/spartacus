@@ -105,7 +105,7 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
+  getOrCreateUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForProduct(owner.key)),
       tap(uiState => {
@@ -113,6 +113,13 @@ export class ConfiguratorCommonsService {
           this.store.dispatch(new UiActions.CreateUiState(owner.key));
         }
       }),
+      filter(uiState => this.isUiStateCreated(uiState))
+    );
+  }
+
+  getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
+    return this.store.pipe(
+      select(UiSelectors.getUiStateForProduct(owner.key)),
       filter(uiState => this.isUiStateCreated(uiState))
     );
   }
