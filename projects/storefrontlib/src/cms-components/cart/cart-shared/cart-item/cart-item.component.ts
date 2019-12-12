@@ -12,7 +12,7 @@ export interface Item {
 
 export interface CartItemComponentOptions {
   isReadOnly?: boolean;
-  saveForLaterEnabled?: boolean;
+  isSaveForLater?: boolean;
   optionalBtn?: any;
 }
 

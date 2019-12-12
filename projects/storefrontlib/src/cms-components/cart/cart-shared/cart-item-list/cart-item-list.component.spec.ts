@@ -102,7 +102,7 @@ describe('CartItemListComponent', () => {
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;
-    component.options = { saveForLaterEnabled: false, isReadOnly: false };
+    component.options = { isSaveForLater: false, isReadOnly: false };
 
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
@@ -177,7 +177,7 @@ describe('CartItemListComponent', () => {
 
   it('should get no potential promotions for product for save for later', () => {
     mockFeatureConfig.isEnabled.and.returnValue(true);
-    component.options = { saveForLaterEnabled: true, isReadOnly: false };
+    component.options = { isSaveForLater: true, isReadOnly: false };
     fixture.detectChanges();
     const item = mockItems[0];
     const promotions = component.getPotentialProductPromotionsForItem(item);
@@ -186,7 +186,7 @@ describe('CartItemListComponent', () => {
 
   it('remove entry for save for later', () => {
     mockFeatureConfig.isEnabled.and.returnValue(true);
-    component.options = { saveForLaterEnabled: true, isReadOnly: false };
+    component.options = { isSaveForLater: true, isReadOnly: false };
     fixture.detectChanges();
     const item = mockItems[0];
     expect(component.form.controls[item.product.code]).toBeDefined();
