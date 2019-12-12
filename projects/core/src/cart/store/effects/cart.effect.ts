@@ -358,7 +358,7 @@ export class CartEffects {
   );
 
   @Effect()
-  deleteCart$: Observable<any> = this.contextSafeActions$.pipe(
+  deleteCart$: Observable<any> = this.actions$.pipe(
     ofType(DeprecatedCartActions.DELETE_CART),
     map((action: DeprecatedCartActions.DeleteCart) => action.payload),
     exhaustMap(payload =>
