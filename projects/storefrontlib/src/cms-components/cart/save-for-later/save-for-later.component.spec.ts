@@ -5,13 +5,9 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   SelectiveCartService,
-  //FeaturesConfig,
   PromotionResult,
   Cart,
   ActiveCartService,
-  AuthService,
-  AuthRedirectService,
-  RoutingService,
   OrderEntry,
 } from '@spartacus/core';
 import { Component, Input } from '@angular/core';
@@ -53,16 +49,6 @@ describe('SaveForLaterComponent', () => {
     ['getCart', 'getLoaded', 'removeEntry', 'getEntries']
   );
 
-  const mockAuthService = jasmine.createSpyObj('AuthService', [
-    'isUserLoggedIn',
-  ]);
-
-  const mockAuthRedirectService = jasmine.createSpyObj('AuthRedirectService', [
-    'reportAuthGuard',
-  ]);
-
-  const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SaveForLaterComponent, MockCartItemListComponent],
@@ -70,15 +56,7 @@ describe('SaveForLaterComponent', () => {
       providers: [
         { provide: ActiveCartService, useValue: mockCartService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-        { provide: AuthService, useValue: mockAuthService },
-        { provide: AuthRedirectService, useValue: mockAuthRedirectService },
-        { provide: RoutingService, useValue: mockRoutingService },
-        // {
-        //   provide: FeaturesConfig,
-        //   useValue: {
-        //     features: { level: '1.1', selectiveCart: '1.2' },
-        //   },
-        // },
+        ,
       ],
     }).compileComponents();
   }));
