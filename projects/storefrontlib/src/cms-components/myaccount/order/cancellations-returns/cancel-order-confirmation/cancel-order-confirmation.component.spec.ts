@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import {
   Order,
   OrderEntry,
@@ -37,8 +37,12 @@ class MockOrderCancelOrReturnService {
   goToOrderCancelOrReturn = createSpy();
   clearCancelOrReturnRequestInputs = createSpy();
   cancelOrder = createSpy();
+  cancelSuccess = createSpy();
   isEntryCancelledOrReturned(): boolean {
     return true;
+  }
+  get isCancelSuccess$(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -100,9 +104,14 @@ describe('CancelOrderConfirmationComponent', () => {
     expect(cancelledEntries).toEqual([{ entryNumber: 0 }, { entryNumber: 3 }]);
   });
 
+  it('should be able to get cancel success', () => {
+    component.cancelledEntries$.subscribe().unsubscribe();
+    component.ngOnInit();
+    expect(cancelService.cancelSuccess).toHaveBeenCalledWith('1');
+  });
+
   it('should be able to submit', () => {
     component.submit();
-    expect(component.cancelSubmit).toEqual(true);
     expect(cancelService.cancelOrder).toHaveBeenCalled();
   });
 

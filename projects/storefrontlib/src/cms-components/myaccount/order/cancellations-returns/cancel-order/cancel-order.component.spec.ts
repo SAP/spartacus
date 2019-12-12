@@ -19,6 +19,7 @@ import createSpy = jasmine.createSpy;
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
   @Input() cancelOrder = true;
+  @Input() orderCode: string;
   @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 }
 

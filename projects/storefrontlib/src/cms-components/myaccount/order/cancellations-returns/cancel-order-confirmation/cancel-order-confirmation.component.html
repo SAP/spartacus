@@ -1,16 +1,22 @@
-{{ 'orderDetails.cancellationAndReturn.cancelNote' | cxTranslate }}
+<h4>
+  {{ 'orderDetails.cancellationAndReturn.cancelNote' | cxTranslate }}
+</h4>
 
-<div class="col-md-6">
-  <button class="btn btn-block btn-action" (click)="back()">
-    {{ 'common.back' | cxTranslate }}
-  </button>
-  <button
-    class="btn btn-block btn-primary"
-    (click)="submit()"
-    [disabled]="cancelSubmit && isCancelling$ | async"
-  >
-    {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
-  </button>
+<div class="cx-nav row">
+  <div class="col-xs-12 col-md-3">
+    <button class="btn btn-block btn-action" (click)="back()">
+      {{ 'common.back' | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-xs-12 col-md-3">
+    <button
+      class="btn btn-block btn-primary"
+      (click)="submit()"
+      [disabled]="isCancelling$ | async"
+    >
+      {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
+    </button>
+  </div>
 </div>
 
 <ng-container *ngIf="cancelledEntries$ | async as cancelledEntries">
@@ -21,3 +27,20 @@
   >
   </cx-cancel-or-return-items>
 </ng-container>
+
+<div class="cx-nav row">
+  <div class="col-xs-12 col-md-3">
+    <button class="btn btn-block btn-action" (click)="back()">
+      {{ 'common.back' | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-xs-12 col-md-3">
+    <button
+      class="btn btn-block btn-primary"
+      (click)="submit()"
+      [disabled]="isCancelling$ | async"
+    >
+      {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
+    </button>
+  </div>
+</div>

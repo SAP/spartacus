@@ -6,6 +6,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
+<<<<<<< HEAD
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -15,6 +16,10 @@ import {
   tap,
   share,
 } from 'rxjs/operators';
+=======
+import { Observable, combineLatest } from 'rxjs';
+import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
+>>>>>>> feature/GH-5477
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +32,7 @@ export class ReturnRequestService {
   ) {}
 
   getReturnRequest(): Observable<ReturnRequest> {
+<<<<<<< HEAD
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['returnCode']),
       filter(Boolean),
@@ -35,6 +41,29 @@ export class ReturnRequestService {
       ),
       filter(Boolean),
       shareReplay({ bufferSize: 1, refCount: true })
+=======
+    return combineLatest([
+      this.routingService.getRouterState(),
+      this.returnRequestService.getOrderReturnRequest(),
+      this.returnRequestService.getReturnRequestLoading(),
+    ]).pipe(
+      map(([routingState, returnRequest, isLoading]) => [
+        routingState.state.params['returnCode'],
+        returnRequest,
+        isLoading,
+      ]),
+      filter(([returnCode]) => Boolean(returnCode)),
+      tap(([returnCode, returnRequest, isLoading]) => {
+        if (
+          (returnRequest === undefined || returnRequest.rma !== returnCode) &&
+          !isLoading
+        ) {
+          this.returnRequestService.loadOrderReturnRequestDetail(returnCode);
+        }
+      }),
+      map(([_, returnRequest]) => returnRequest),
+      distinctUntilChanged()
+>>>>>>> feature/GH-5477
     );
   }
 
