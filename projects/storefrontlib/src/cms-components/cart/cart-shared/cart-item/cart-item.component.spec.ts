@@ -9,8 +9,9 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
+import { FeaturesConfigModule } from '@spartacus/core';
 
 @Pipe({
   name: 'cxUrl',
@@ -77,7 +78,12 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         CartItemComponent,
         MockMediaComponent,
@@ -88,6 +94,12 @@ describe('CartItemComponent', () => {
       providers: [
         {
           provide: ControlContainer,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.4', consignmentTracking: '1.2' },
+          },
         },
       ],
     }).compileComponents();
