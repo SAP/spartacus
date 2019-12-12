@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  OnDestroy,
 } from '@angular/core';
 import {
   Cart,
