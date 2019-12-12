@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 import {
   Budget,
@@ -33,17 +33,15 @@ export class BudgetDetailsComponent implements OnInit {
     this.budget$ = this.routingService.getRouterState().pipe(
       map(routingData => routingData.state.params['budgetCode']),
       switchMap(code => this.budgetsService.get(code)),
+      filter(Boolean),
       map((budget: Budget) => ({
         ...budget,
-        costCenters: [
-          { name: 'MockedName1', description: 'Description1' },
-          { name: 'MockedName2', description: 'Description2' },
-        ],
-        // budget.costCenters &&
-        // budget.costCenters.map(costCenter => ({
-        //   name: costCenter.name,
-        //   description: costCenter.code,
-        // })),
+        costCenters:
+          budget.costCenters &&
+          budget.costCenters.map(costCenter => ({
+            name: costCenter.name,
+            description: costCenter.code,
+          })),
       }))
     );
   }

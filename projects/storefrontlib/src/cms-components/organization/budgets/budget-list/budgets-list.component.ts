@@ -77,7 +77,7 @@ export class BudgetsListComponent implements OnInit {
       map(this.normalizeParams),
       switchMap(params =>
         this.budgetsService.getList(params).pipe(
-          filter(budgetsList => Boolean(budgetsList)),
+          filter(Boolean),
           map((budgetsList: BudgetListModel) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,

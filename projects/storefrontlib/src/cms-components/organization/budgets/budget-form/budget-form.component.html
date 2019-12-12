@@ -56,6 +56,36 @@
       </div>
 
       <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'budgetForm.startDate.label' | cxTranslate
+            }}</span>
+          <input
+            type="date"
+            class="form-control"
+            placeholder="{{ 'budgetForm.startDate.placeholder' | cxTranslate }}"
+            formControlName="startDate"
+            (change)="startDateChange($event)"
+          />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'budgetForm.endDate.label' | cxTranslate
+            }}</span>
+          <input
+            type="date"
+            class="form-control"
+            placeholder="{{ 'budgetForm.endDate.placeholder' | cxTranslate }}"
+            formControlName="endDate"
+            (change)="endDateChange($event)"
+          />
+        </label>
+      </div>
+
+      <div class="form-group">
         <ng-container
           *ngIf="currencies$ | async as currencies"
           formGroupName="currency"

@@ -1,5 +1,8 @@
 <div class="cx-header">
   <h3>{{ 'budgetForm.edit' | cxTranslate }}</h3>
 </div>
-<cx-budget-form [actionBtnLabel]="'budgetForm.update' | cxTranslate">
+<cx-budget-form *ngIf="budget$ | async as budget"
+  [actionBtnLabel]="'budgetForm.update' | cxTranslate"
+  [budgetData]="budget"
+>
 </cx-budget-form>
