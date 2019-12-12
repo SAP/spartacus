@@ -12,6 +12,7 @@ import {
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
 import { CartModification } from '../../../../model/cart.model';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
 import { Configurator } from './../../../../model/configurator.model';
@@ -27,7 +28,7 @@ export class OccConfiguratorVariantAdapter
   ) {}
 
   createConfiguration(
-    owner: Configurator.Owner
+    owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
     return this.http
@@ -45,7 +46,7 @@ export class OccConfiguratorVariantAdapter
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: Configurator.Owner
+    configurationOwner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(

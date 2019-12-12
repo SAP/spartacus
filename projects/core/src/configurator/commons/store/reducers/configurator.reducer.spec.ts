@@ -1,4 +1,5 @@
 import { Configurator } from '../../../../model/configurator.model';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import {
   ConfiguratorAction,
   CreateConfigurationSuccess,
@@ -11,8 +12,8 @@ import {
 } from './../actions/configurator.action';
 import * as StateReduce from './configurator.reducer';
 const productCode = 'CONF_LAPTOP';
-const owner: Configurator.Owner = {
-  type: Configurator.OwnerType.PRODUCT,
+const owner: GenericConfigurator.Owner = {
+  type: GenericConfigurator.OwnerType.PRODUCT,
   id: productCode,
 };
 const configuration: Configurator.Configuration = {

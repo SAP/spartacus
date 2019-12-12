@@ -11,8 +11,9 @@ import {
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
-import { ConfigUtilsService } from '../../../../configurator/commons/utils/config-utils.service';
+import { GenericConfigUtilsService } from '../../../../configurator/generic/utils/config-utils.service';
 import { Configurator } from '../../../../model/configurator.model';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
 
@@ -32,7 +33,7 @@ const productConfiguration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
   owner: {
-    type: Configurator.OwnerType.PRODUCT,
+    type: GenericConfigurator.OwnerType.PRODUCT,
     id: productCode,
   },
 };
@@ -42,7 +43,7 @@ describe('OccConfigurationVariantAdapter', () => {
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
   let occEnpointsService: OccEndpointsService;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,8 +65,8 @@ describe('OccConfigurationVariantAdapter', () => {
     occConfiguratorVariantAdapter = TestBed.get(
       OccConfiguratorVariantAdapter as Type<OccConfiguratorVariantAdapter>
     );
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(productConfiguration.owner);
 

@@ -7,7 +7,8 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  ConfigUtilsService,
+  GenericConfigurator,
+  GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -29,13 +30,13 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
   },
 };
-const owner: Configurator.Owner = {
+const owner: GenericConfigurator.Owner = {
   id: PRODUCT_CODE,
-  type: Configurator.OwnerType.PRODUCT,
+  type: GenericConfigurator.OwnerType.PRODUCT,
 };
 const configRead: Configurator.Configuration = {
   configId: 'a',
@@ -192,7 +193,7 @@ function checkCurrentGroupObs(
 }
 describe('ConfigurationFormComponent', () => {
   let component: ConfigFormComponent;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
   let fixture: ComponentFixture<ConfigFormComponent>;
 
   beforeEach(async(() => {
@@ -236,8 +237,8 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigFormComponent);
     component = fixture.componentInstance;
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(owner);
   });

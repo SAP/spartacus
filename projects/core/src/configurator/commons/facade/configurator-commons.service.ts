@@ -5,6 +5,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -22,7 +23,7 @@ export class ConfiguratorCommonsService {
     protected cartService: CartService
   ) {}
 
-  hasConfiguration(owner: Configurator.Owner): Observable<Boolean> {
+  hasConfiguration(owner: GenericConfigurator.Owner): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       map(configuration => this.isConfigurationCreated(configuration))
@@ -30,7 +31,7 @@ export class ConfiguratorCommonsService {
   }
 
   getConfiguration(
-    owner: Configurator.Owner
+    owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
@@ -39,7 +40,7 @@ export class ConfiguratorCommonsService {
   }
 
   getOrCreateConfiguration(
-    owner: Configurator.Owner
+    owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationStateFactory(owner.key)),
@@ -48,7 +49,7 @@ export class ConfiguratorCommonsService {
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true
         ) {
-          if (owner.type === Configurator.OwnerType.PRODUCT) {
+          if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
             this.store.dispatch(
               new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
             );
@@ -104,7 +105,7 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getUiState(owner: Configurator.Owner): Observable<UiState> {
+  getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForProduct(owner.key)),
       tap(uiState => {
@@ -116,15 +117,15 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  setUiState(owner: Configurator.Owner, state: UiState) {
+  setUiState(owner: GenericConfigurator.Owner, state: UiState) {
     this.store.dispatch(new UiActions.SetUiState(owner.key, state));
   }
 
-  removeUiState(owner: Configurator.Owner) {
+  removeUiState(owner: GenericConfigurator.Owner) {
     this.store.dispatch(new UiActions.RemoveUiState(owner.key));
   }
 
-  removeConfiguration(owner: Configurator.Owner) {
+  removeConfiguration(owner: GenericConfigurator.Owner) {
     this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(owner.key));
   }
 

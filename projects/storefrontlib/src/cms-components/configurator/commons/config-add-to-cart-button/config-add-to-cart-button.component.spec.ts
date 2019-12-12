@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  GenericConfigurator,
   GlobalMessageService,
   I18nTestingModule,
   RouterState,
@@ -20,7 +21,7 @@ const mockRouterState: any = {
     url: 'host:port/electronics-spa/en/USD/configureCPQCONFIGURATOR',
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
   },
 };
@@ -32,10 +33,10 @@ const productConfiguration: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: {
     id: PRODUCT_CODE,
-    type: Configurator.OwnerType.PRODUCT,
+    type: GenericConfigurator.OwnerType.PRODUCT,
   },
   nextOwner: {
-    type: Configurator.OwnerType.CART_ENTRY,
+    type: GenericConfigurator.OwnerType.CART_ENTRY,
   },
   groups: [
     {
@@ -106,7 +107,7 @@ function performAddToCartOnOverview(
   mockRouterState.state = {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     url: 'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR',
   };
@@ -121,7 +122,7 @@ function performAddToCartWhenAdded(
   classUnderTest: ConfigAddToCartButtonComponent
 ) {
   mockRouterState.state.params = {
-    ownerType: Configurator.OwnerType.CART_ENTRY,
+    ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
     entityKey: CART_ENTRY_KEY,
   };
   classUnderTest.onAddToCart(
@@ -196,7 +197,7 @@ describe('ConfigAddToCartButtonComponent', () => {
 
   it('should not display addToCart message if configuration has already been added', () => {
     mockRouterState.state.params = {
-      ownerType: Configurator.OwnerType.CART_ENTRY,
+      ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
       entityKey: CART_ENTRY_KEY,
     };
     classUnderTest.onAddToCart(
@@ -210,7 +211,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   it('should navigate to overview in case configuration has not been added yet', () => {
     mockRouterState.state.params = {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     };
     classUnderTest.onAddToCart(
       productConfiguration.owner,
@@ -229,7 +230,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   it('should display addToCart message in case configuration has not been added yet', () => {
     mockRouterState.state.params = {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     };
     classUnderTest.onAddToCart(
       productConfiguration.owner,
