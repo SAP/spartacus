@@ -46,5 +46,6 @@ export const cart = {
     saveForLater: 'Save for Later',
     moveToCart: 'Move to Cart',
     stock: 'Stock',
+    forceInStock: 'In Stock',
   },
 };

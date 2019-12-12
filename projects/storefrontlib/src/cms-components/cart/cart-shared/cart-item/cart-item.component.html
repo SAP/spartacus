@@ -101,7 +101,17 @@
           >
             {{ 'saveForLaterItems.stock' | cxTranslate }}
           </div>
-          <div class="cx-value">{{ item.product.stock.stockLevel }}</div>
+          <div
+            *ngIf="item.product?.stock?.stockLevel >= 0; else forceInstock"
+            class="cx-value"
+          >
+            {{ item.product.stock.stockLevel }}
+          </div>
+          <ng-template #forceInstock
+            ><div class="cx-value">
+              {{ 'saveForLaterItems.forceInStock' | cxTranslate }}
+            </div></ng-template
+          >
         </div>
       </ng-container>
     </div>
