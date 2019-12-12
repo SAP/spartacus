@@ -1,5 +1,15 @@
+import { Cart } from '../../../model/cart.model';
 import { CartActions } from '../actions/index';
 import * as fromMultiCart from './multi-cart.reducer';
+
+const code = 'xxx';
+
+const testCart: Cart = {
+  code: code,
+  name: 'name',
+  description: 'description',
+  savedBy: { name: 'user', uid: 'userId' },
+};
 
 describe('Multi Cart reducer', () => {
   describe('activeCartReducer', () => {
@@ -190,6 +200,39 @@ describe('Multi Cart reducer', () => {
         const action = { type: 'other', payload: { code: 'code' } } as any;
         const state = fromMultiCart.cartEntitiesReducer(previousState, action);
         expect(state).toEqual(previousState);
+      });
+    });
+  });
+
+  describe('wishListReducer', () => {
+    describe('CREATE_WISH_LIST_SUCCESS action', () => {
+      it('should set wish list code', () => {
+        const { wishListinitialState } = fromMultiCart;
+        const payload = {
+          cart: testCart,
+          userId: 'userId',
+        };
+        const action = new CartActions.CreateWishListSuccess(payload);
+        const state = fromMultiCart.wishListReducer(
+          wishListinitialState,
+          action
+        );
+        expect(state).toEqual(code);
+      });
+    });
+    describe('LOAD_WISH_LIST_SUCCESS action', () => {
+      it('should set wish list code', () => {
+        const { wishListinitialState } = fromMultiCart;
+        const payload = {
+          cart: testCart,
+          userId: 'userId',
+        };
+        const action = new CartActions.LoadWisthListSuccess(payload);
+        const state = fromMultiCart.wishListReducer(
+          wishListinitialState,
+          action
+        );
+        expect(state).toEqual(code);
       });
     });
   });

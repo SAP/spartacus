@@ -3,6 +3,7 @@ import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import { CartActions } from '../actions/index';
 
 export const activeCartInitialState = '';
+export const wishListinitialState = '';
 
 export function activeCartReducer(
   state = activeCartInitialState,
@@ -41,9 +42,23 @@ export function cartEntitiesReducer(
   switch (action.type) {
     case CartActions.LOAD_MULTI_CART_SUCCESS:
     case CartActions.CREATE_MULTI_CART_SUCCESS:
+    case CartActions.CREATE_WISH_LIST_SUCCESS:
+    case CartActions.LOAD_WISH_LIST_SUCCESS:
       return action.payload.cart;
     case CartActions.SET_FRESH_CART:
       return action.payload;
+  }
+  return state;
+}
+
+export function wishListReducer(
+  state = wishListinitialState,
+  action: CartActions.WishListActions
+): string {
+  switch (action.type) {
+    case CartActions.CREATE_WISH_LIST_SUCCESS:
+    case CartActions.LOAD_WISH_LIST_SUCCESS:
+      return action.meta.entityId as string;
   }
   return state;
 }
