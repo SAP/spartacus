@@ -483,15 +483,15 @@
             "polyfills": "projects/storefrontapp-cds-integration/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp-cds-integration/karma.conf.js",
+            "styles": [
+              "projects/storefrontapp-cds-integration/src/styles.scss"
+            ],
+            "scripts": [],
             "assets": [
               "projects/storefrontapp-cds-integration/src/favicon.ico",
               "projects/storefrontapp-cds-integration/src/assets",
               "projects/storefrontapp-cds-integration/src/manifest.json"
             ],
-            "styles": [
-              "projects/storefrontapp-cds-integration/src/styles.scss"
-            ],
-            "scripts": [],
             "codeCoverageExclude": ["dist/**/*"]
           }
         },
