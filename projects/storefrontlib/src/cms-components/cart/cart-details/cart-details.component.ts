@@ -13,7 +13,7 @@ import {
   RoutingService,
   FeatureConfigService,
 } from '@spartacus/core';
-import { Observable, combineLatest, Subscription } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 
@@ -22,13 +22,11 @@ import { Item } from '../cart-shared/cart-item/cart-item.component';
   templateUrl: './cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartDetailsComponent implements OnInit, OnDestroy {
+export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn$: Observable<boolean>;
-
-  private subscription: Subscription;
 
   constructor(
     protected cartService: CartService,
@@ -73,19 +71,15 @@ export class CartDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveForLater(item: Item) {
-    this.subscription = this.loggedIn$.subscribe(loggedIn => {
-      if (loggedIn) {
-        this.cartService.removeEntry(item);
-        this.selectiveCartService.addEntry(item.product.code, item.quantity);
-      } else {
-        this.routingService.go({ cxRoute: 'login' });
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.loggedIn$
+      .subscribe(loggedIn => {
+        if (loggedIn) {
+          this.cartService.removeEntry(item);
+          this.selectiveCartService.addEntry(item.product.code, item.quantity);
+        } else {
+          this.routingService.go({ cxRoute: 'login' });
+        }
+      })
+      .unsubscribe();
   }
 }
