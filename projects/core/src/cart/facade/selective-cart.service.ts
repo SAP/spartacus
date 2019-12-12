@@ -69,6 +69,7 @@ export class SelectiveCartService {
       this.userId = userId;
       if (this.userId !== OCC_USER_ID_ANONYMOUS) {
         if (this.isJustLoggedIn(userId)) {
+          console.log('this.authService.getOccUserId()=>load');
           this.load();
         }
       }
@@ -138,10 +139,12 @@ export class SelectiveCartService {
     console.log('SelectiveCartService load');
     console.log('SelectiveCartService userId ' + this.userId);
     console.log('SelectiveCartService cartId ' + this.cartId);
-    this.multiCartService.loadCart({
-      userId: this.userId,
-      cartId: this.cartId,
-    });
+    if (this.cartId && this.userId && this.userId !== OCC_USER_ID_ANONYMOUS) {
+      this.multiCartService.loadCart({
+        userId: this.userId,
+        cartId: this.cartId,
+      });
+    }
   }
 
   addEntry(productCode: string, quantity: number): void {
