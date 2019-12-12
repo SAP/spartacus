@@ -3,7 +3,6 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { StrategyProducts } from '../model/strategy-products.model';
-import { StrategyRequest } from './../../cds-models/cds-strategy-request.model';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
 import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
@@ -36,7 +35,7 @@ export class CdsMerchandisingProductService {
             ...siteContext,
             ...userContext,
             pageSize: numberToDisplay,
-          } as StrategyRequest;
+          };
         }
       ),
       mergeMap(context =>
