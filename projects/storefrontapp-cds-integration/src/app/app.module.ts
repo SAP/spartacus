@@ -72,17 +72,16 @@ if (!environment.production) {
     JsonLdBuilderModule,
     CdsModule.forRoot({
       cds: {
-        tenant: 'my-tenant',
-        baseUrl: 'https://api.us.context.cloud.sap',
+        tenant: 'argotest',
+        baseUrl: 'https://api.stage.context.cloud.sap',
         endpoints: {
           strategyProducts:
             '/strategy/${tenant}/strategies/${strategyId}/products',
         },
         profileTag: {
-          javascriptUrl:
-            'https://tag.static.us.context.cloud.sap/js/profile-tag.js/profile-tag.js',
+          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
           configUrl:
-            'https://tag.static.stage.context.cloud.sap/config/my-config123',
+            'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
         },
       },
     }),
