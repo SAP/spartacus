@@ -32,10 +32,9 @@
 
       <div class="form-group">
         <ng-container
-          *ngIf="businessUnits$ as businessUnits"
+          *ngIf="businessUnits$ | async as businessUnits"
           formGroupName="orgUnit"
         >
-          {{businessUnits}}
           <div *ngIf="businessUnits.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{

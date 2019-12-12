@@ -42,7 +42,7 @@ export class OrgUnitEffects {
     ofType(OrgUnitActions.LOAD_ORG_UNITS),
     map((action: OrgUnitActions.LoadOrgUnits) => action.payload),
     switchMap(payload =>
-      this.orgUnitConnector.getList(payload.userId, payload.params).pipe(
+      this.orgUnitConnector.getList(payload.userId).pipe(
         switchMap((orgUnitsList: Occ.B2BUnitNodeList) => {
           // normalization
           // TODO: extract into the same service with denormalization
@@ -54,14 +54,12 @@ export class OrgUnitEffects {
             new OrgUnitActions.LoadOrgUnitSuccess(orgUnitsEntities),
             new OrgUnitActions.LoadOrgUnitsSuccess({
               orgUnitPage,
-              params: payload.params,
             }),
           ];
         }),
         catchError(error =>
           of(
             new OrgUnitActions.LoadOrgUnitsFail({
-              params: payload.params,
               error: makeErrorSerializable(error),
             })
           )

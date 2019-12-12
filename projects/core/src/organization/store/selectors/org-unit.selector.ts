@@ -9,6 +9,7 @@ import {
   StateWithOrganization, ORG_UNIT_FEATURE, ORG_UNIT_ENTITIES, ORG_UNIT_LISTS,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
+import { LIST } from '../../model/search-config';
 
 export const getB2BOrgUnitState: MemoizedSelector<
   StateWithOrganization,
@@ -38,15 +39,11 @@ export const getOrgUnitState = (
 // create service encapsulating denormalization
 
 export const getOrgUnitList = (
-  params: any
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnitNodeList>> =>
   createSelector(
     getB2BOrgUnitState,
     (state: OrgUnits) => {
-      const list: any = entityStateSelector(
-        state[ORG_UNIT_LISTS],
-        params
-      );
+      const list: any = entityStateSelector(state[ORG_UNIT_LISTS], LIST);
       if (!list.value || !list.value.ids) {
         return list;
       }

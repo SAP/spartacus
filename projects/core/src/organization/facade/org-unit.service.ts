@@ -32,11 +32,11 @@ export class OrgUnitService {
       );
   }
 
-  loadOrgUnits(params?: any) {
+  loadOrgUnits() {
     this.user$
       .pipe(take(1))
       .subscribe(userId =>
-        this.store.dispatch(new OrgUnitActions.LoadOrgUnits({ userId, params }))
+        this.store.dispatch(new OrgUnitActions.LoadOrgUnits({ userId }))
       );
   }
 
@@ -44,8 +44,8 @@ export class OrgUnitService {
     return this.store.select(getOrgUnitState(orgUnitId));
   }
 
-  private getOrgUnitsList(params): Observable<LoaderState<B2BUnitNodeList>> {
-    return this.store.select(getOrgUnitList(params));
+  private getOrgUnitsList(): Observable<LoaderState<B2BUnitNodeList>> {
+    return this.store.select(getOrgUnitList());
   }
 
   get(orgUnitId: string): Observable<B2BUnitNode> {
@@ -61,12 +61,12 @@ export class OrgUnitService {
     );
   }
 
-  getList(params?: any): Observable<B2BUnitNodeList> {
-    return this.getOrgUnitsList(params).pipe(
+  getList(): Observable<B2BUnitNodeList> {
+    return this.getOrgUnitsList().pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<B2BUnitNodeList>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnits(params);
+          this.loadOrgUnits();
         }
       }),
       filter(

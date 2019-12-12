@@ -9,17 +9,17 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import {
   Budget,
   Currency,
   CurrencyService,
-  OrgUnit,
   UrlCommandRoute,
+  B2BUnitNode,
+  B2BUnitNodeList,
+  OrgUnitService,
 } from '@spartacus/core';
-import { OrgUnitService } from '../../../../../../core/src/organization/facade/org-unit.service';
-import { B2BUnitNode } from '../../../../../../core/src/model/org-unit.model';
 
 @Component({
   selector: 'cx-budget-form',
@@ -79,11 +79,12 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
     this.businessUnits$ = this.orgUnitService
-      .getList({fields:'DEFAULT'})
+      .getList()
       .pipe(
-        map(list => list.unitNodes));
+        filter(list => Boolean(list)),
+        map((list: B2BUnitNodeList) => list.unitNodes));
 
-    this.businessUnits$.pipe(take(1)).subscribe(console.log)
+    // this.businessUnits$.pipe(take(1)).subscribe(console.log)
   }
 
   currencySelected(currency: Currency): void {
@@ -93,9 +94,9 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  businessUnitSelected(orgUnit: OrgUnit): void {
+  businessUnitSelected(orgUnit: B2BUnitNode): void {
     console.log(orgUnit);
-    this.budget['controls'].businessUnits['controls'].uid.setValue(orgUnit.uid);
+    this.budget['controls'].orgUnit['controls'].uid.setValue(orgUnit.id);
     // this.businessUnits$.next(orgUnit.uid);
   }
 

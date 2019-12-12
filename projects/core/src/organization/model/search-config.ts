@@ -3,3 +3,5 @@ export interface BudgetSearchConfig {
   currentPage?: number;
   sort?: string;
 }
+
+export const LIST = 'list';
