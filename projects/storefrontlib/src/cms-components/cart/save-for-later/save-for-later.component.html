@@ -9,10 +9,10 @@
       </div>
       <cx-cart-item-list
         [items]="entries"
+        [isReadOnly]="true"
         [potentialProductPromotions]="cart.potentialProductPromotions"
         [cartIsLoading]="!(cartLoaded$ | async)"
         [options]="{
-          isReadOnly: true,
           isSaveForLater: true,
           optionalBtn: moveToCartBtn
         }"

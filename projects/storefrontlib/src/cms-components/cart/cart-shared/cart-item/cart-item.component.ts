@@ -11,7 +11,6 @@ export interface Item {
 }
 
 export interface CartItemComponentOptions {
-  isReadOnly?: boolean;
   isSaveForLater?: boolean;
   optionalBtn?: any;
 }
@@ -28,9 +27,6 @@ export class CartItemComponent implements OnInit {
   @Input()
   potentialProductPromotions: any[];
 
-  /**
-   * @deprecated deprecated since 1.4, using options.isReadOnly to replace
-   */
   @Input()
   isReadOnly = false;
   @Input()
@@ -38,7 +34,8 @@ export class CartItemComponent implements OnInit {
 
   @Input()
   options: CartItemComponentOptions = {
-    isReadOnly: false,
+    isSaveForLater: false,
+    optionalBtn: null,
   };
 
   @Output()
