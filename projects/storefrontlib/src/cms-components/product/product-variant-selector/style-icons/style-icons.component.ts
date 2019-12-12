@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import {
   OccConfig,
@@ -11,6 +11,7 @@ import {
   selector: 'cx-style-icons',
   templateUrl: './style-icons.component.html',
   styleUrls: ['./style-icons.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantStyleIconsComponent implements OnInit {
   constructor(private config: OccConfig) {}
