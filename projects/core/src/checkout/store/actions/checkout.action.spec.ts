@@ -299,7 +299,6 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS,
           payload: paymentDetails,
-          meta: action.meta,
         });
       });
     });
