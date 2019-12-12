@@ -15,6 +15,7 @@ import {
   I18nTestingModule,
   OrderEntry,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
@@ -79,6 +80,8 @@ class MockCartItemComponent {
   cartIsLoading = false;
   @Input()
   parent: FormGroup;
+  @Input()
+  potentialProductPromotions: PromotionResult[];
   @Input()
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }

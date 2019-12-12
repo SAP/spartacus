@@ -37,6 +37,17 @@ const mockItems = [
   },
 ];
 
+const mockPotentialProductPromotions = [
+  {
+    description: 'Buy two more and win a trip to the Moon',
+    consumedEntries: [
+      {
+        orderEntryNumber: 1,
+      },
+    ],
+  },
+];
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -51,6 +62,7 @@ class MockUrlPipe implements PipeTransform {
 class MockCartItemComponent {
   @Input() parent;
   @Input() item;
+  @Input() potentialProductPromotions;
   @Input() isReadOnly;
   @Input() cartIsLoading;
   @Input()
@@ -81,6 +93,7 @@ describe('CartItemListComponent', () => {
     cartService = TestBed.get(CartService as Type<CartService>);
     component = fixture.componentInstance;
     component.items = mockItems;
+    component.potentialProductPromotions = mockPotentialProductPromotions;
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
 
@@ -103,6 +116,12 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     component.updateEntry({ item, updatedQuantity: 5 });
     expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
+  });
+
+  it('should get potential promotions for product', () => {
+    const item = mockItems[0];
+    const promotions = component.getPotentialProductPromotionsForItem(item);
+    expect(promotions).toEqual(mockPotentialProductPromotions);
   });
 
   it('should have controls updated on items change', () => {
