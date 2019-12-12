@@ -35,6 +35,7 @@ class MockUserOrderService {
 
 class MockOrderReturnRequestService {
   createOrderReturnRequest = jasmine.createSpy();
+  clearOrderReturnRequestDetail = jasmine.createSpy();
   getReturnRequestLoading() {
     return false;
   }
@@ -207,5 +208,12 @@ describe('OrderCancelOrReturnService', () => {
       cxRoute: 'orderDetails',
       params: { code: 'test' },
     });
+  });
+
+  it('should be able to clear return request data', () => {
+    service.clearReturnRequest();
+    expect(
+      returnRequestService.clearOrderReturnRequestDetail
+    ).toHaveBeenCalled();
   });
 });

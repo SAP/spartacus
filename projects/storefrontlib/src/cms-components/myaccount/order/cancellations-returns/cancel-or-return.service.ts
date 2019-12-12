@@ -173,4 +173,8 @@ export class OrderCancelOrReturnService {
       params: { rma },
     });
   }
+
+  clearReturnRequest(): void {
+    this.returnRequestService.clearOrderReturnRequestDetail();
+  }
 }

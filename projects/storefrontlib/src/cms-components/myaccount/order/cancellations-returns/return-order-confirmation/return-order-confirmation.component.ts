@@ -43,6 +43,7 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
+    this.cancelOrReturnService.clearReturnRequest();
     this.subscription = this.cancelOrReturnService.isReturnSuccess$.subscribe(
       success => {
         if (success) {

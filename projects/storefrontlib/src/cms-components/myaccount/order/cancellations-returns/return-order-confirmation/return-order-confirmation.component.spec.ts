@@ -46,6 +46,7 @@ class MockOrderCancelOrReturnService {
   returnOrder = createSpy();
   returnSuccess = createSpy();
   clearCancelOrReturnRequestInputs = createSpy();
+  clearReturnRequest = createSpy();
   isEntryCancelledOrReturned(): boolean {
     return true;
   }
