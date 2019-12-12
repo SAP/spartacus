@@ -6,6 +6,7 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ViewConfig } from '../../../shared/config/view-config';
@@ -61,6 +62,7 @@ import { ProductVariantSelectorModule } from '../product-variant-selector/produc
     InfiniteScrollModule,
     ViewConfigModule,
     ProductVariantSelectorModule,
+    FeaturesConfigModule,
   ],
   declarations: [
     ProductListComponent,
