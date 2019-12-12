@@ -10,7 +10,9 @@ import {
   groupBy,
   map,
   mergeMap,
+  startWith,
   switchMap,
+  switchMapTo,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../../../checkout/store/actions/index';
@@ -27,6 +29,17 @@ import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-ca
 
 @Injectable()
 export class CartEffects {
+  // we want to cancel all ongoing requests when currency or language changes,
+  // that's why observe them and switch actions stream on each change
+  private contextSafeActions$ = this.actions$.pipe(
+    ofType(
+      SiteContextActions.CURRENCY_CHANGE,
+      SiteContextActions.LANGUAGE_CHANGE
+    ),
+    startWith({}),
+    switchMapTo(this.actions$)
+  );
+
   @Effect()
   loadCart$: Observable<
     | DeprecatedCartActions.LoadCartFail
@@ -36,7 +49,7 @@ export class CartEffects {
     | CartActions.ClearExpiredCoupons
     | DeprecatedCartActions.ClearCart
     | CartActions.RemoveCart
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(DeprecatedCartActions.LOAD_CART),
     map((action: DeprecatedCartActions.LoadCart) => action.payload),
     groupBy(payload => payload.cartId),
@@ -157,7 +170,7 @@ export class CartEffects {
     | DeprecatedCartActions.CreateCartFail
     | CartActions.CreateMultiCartFail
     | CartActions.SetFreshCart
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(DeprecatedCartActions.CREATE_CART),
     map((action: DeprecatedCartActions.CreateCart) => action.payload),
     mergeMap(payload => {
@@ -208,7 +221,9 @@ export class CartEffects {
   );
 
   @Effect()
-  mergeCart$: Observable<DeprecatedCartActions.CreateCart> = this.actions$.pipe(
+  mergeCart$: Observable<
+    DeprecatedCartActions.CreateCart
+  > = this.contextSafeActions$.pipe(
     ofType(DeprecatedCartActions.MERGE_CART),
     map((action: DeprecatedCartActions.MergeCart) => action.payload),
     mergeMap(payload => {
@@ -302,7 +317,7 @@ export class CartEffects {
     | CartActions.AddEmailToMultiCartSuccess
     | CartActions.CartProcessesDecrement
     | DeprecatedCartActions.LoadCart
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
     map((action: DeprecatedCartActions.AddEmailToCart) => action.payload),
     mergeMap(payload =>
@@ -343,7 +358,7 @@ export class CartEffects {
   );
 
   @Effect()
-  deleteCart$: Observable<any> = this.actions$.pipe(
+  deleteCart$: Observable<any> = this.contextSafeActions$.pipe(
     ofType(DeprecatedCartActions.DELETE_CART),
     map((action: DeprecatedCartActions.DeleteCart) => action.payload),
     exhaustMap(payload =>

@@ -7,7 +7,9 @@ import {
   filter,
   map,
   mergeMap,
+  startWith,
   switchMap,
+  switchMapTo,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
@@ -28,12 +30,23 @@ import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class CheckoutEffects {
+  // we want to cancel all ongoing requests when currency or language changes,
+  // that's why observe them and switch actions stream on each change
+  private contextSafeActions$ = this.actions$.pipe(
+    ofType(
+      SiteContextActions.CURRENCY_CHANGE,
+      SiteContextActions.LANGUAGE_CHANGE
+    ),
+    startWith({}),
+    switchMapTo(this.actions$)
+  );
+
   @Effect()
   addDeliveryAddress$: Observable<
     | UserActions.LoadUserAddresses
     | CheckoutActions.SetDeliveryAddress
     | CheckoutActions.AddDeliveryAddressFail
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.ADD_DELIVERY_ADDRESS),
     map((action: CheckoutActions.AddDeliveryAddress) => action.payload),
     mergeMap(payload =>
@@ -85,7 +98,7 @@ export class CheckoutEffects {
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -120,7 +133,7 @@ export class CheckoutEffects {
   loadSupportedDeliveryModes$: Observable<
     | CheckoutActions.LoadSupportedDeliveryModesSuccess
     | CheckoutActions.LoadSupportedDeliveryModesFail
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -178,7 +191,7 @@ export class CheckoutEffects {
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
     | DeprecatedCartActions.LoadCart
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -212,7 +225,7 @@ export class CheckoutEffects {
     | UserActions.LoadUserPaymentMethods
     | CheckoutActions.CreatePaymentDetailsSuccess
     | CheckoutActions.CreatePaymentDetailsFail
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.CREATE_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -245,7 +258,7 @@ export class CheckoutEffects {
   setPaymentDetails$: Observable<
     | CheckoutActions.SetPaymentDetailsSuccess
     | CheckoutActions.SetPaymentDetailsFail
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.SET_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -275,7 +288,7 @@ export class CheckoutEffects {
     | GlobalMessageActions.AddMessage
     | CheckoutActions.PlaceOrderFail
     | CartActions.RemoveCart
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -297,7 +310,7 @@ export class CheckoutEffects {
   loadCheckoutDetails$: Observable<
     | CheckoutActions.LoadCheckoutDetailsSuccess
     | CheckoutActions.LoadCheckoutDetailsFail
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.LOAD_CHECKOUT_DETAILS),
     map((action: CheckoutActions.LoadCheckoutDetails) => action.payload),
     mergeMap(payload => {
@@ -322,7 +335,7 @@ export class CheckoutEffects {
   @Effect()
   reloadDetailsOnMergeCart$: Observable<
     CheckoutActions.LoadCheckoutDetails
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
     map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
     map(payload => {
@@ -337,7 +350,7 @@ export class CheckoutEffects {
   clearCheckoutDeliveryAddress$: Observable<
     | CheckoutActions.ClearCheckoutDeliveryAddressFail
     | CheckoutActions.ClearCheckoutDeliveryAddressSuccess
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS),
     map(
       (action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload
@@ -365,7 +378,7 @@ export class CheckoutEffects {
     | CheckoutActions.ClearCheckoutDeliveryModeSuccess
     | CartActions.CartProcessesDecrement
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = this.contextSafeActions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
     filter(payload => Boolean(payload.cartId)),
