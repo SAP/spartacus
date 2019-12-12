@@ -114,4 +114,18 @@ describe('Order Details Actions', () => {
       });
     });
   });
+
+  describe('ResetCancelOrderProcess Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ResetCancelOrderProcess();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.RESET_CANCEL_ORDER_PROCESS,
+        meta: StateEntityLoaderActions.entityResetMeta(
+          PROCESS_FEATURE,
+          CANCEL_ORDER_PROCESS_ID
+        ),
+      });
+    });
+  });
 });

@@ -162,4 +162,33 @@ describe('OrderReturnRequestService', () => {
       })
     );
   });
+
+  it('should be able to get CancelReturnRequest loading flag', () => {
+    store.dispatch(
+      new UserActions.CancelOrderReturnRequest({
+        userId: 'current',
+        returnRequestCode: 'test',
+        returnRequestModification: {},
+      })
+    );
+    service
+      .getCancelReturnRequestLoading()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+
+  it('should be able to get CancelReturnRequest Success flag', () => {
+    store.dispatch(new UserActions.CancelOrderReturnRequestSuccess());
+    service
+      .getCancelReturnRequestSuccess()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+
+  it('should be able to reset CancelReturnRequest process state', () => {
+    service.resetCancelReturnRequestProcessState();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ResetCancelReturnProcess()
+    );
+  });
 });

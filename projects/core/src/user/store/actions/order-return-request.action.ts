@@ -7,6 +7,7 @@ import {
 import {
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
+  CANCEL_RETURN_PROCESS_ID,
 } from '../user-state';
 import {
   LoaderFailAction,
@@ -14,6 +15,8 @@ import {
   LoaderSuccessAction,
   LoaderResetAction,
 } from '../../../state/utils/loader/loader.action';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 
 export const CREATE_ORDER_RETURN_REQUEST = '[User] Create Order Return Request';
 export const CREATE_ORDER_RETURN_REQUEST_FAIL =
@@ -45,6 +48,8 @@ export const CLEAR_ORDER_RETURN_REQUEST =
   '[User] Clear Order Return Request Details';
 export const CLEAR_ORDER_RETURN_REQUEST_LIST =
   '[User] Clear Order Return Request List';
+export const RESET_CANCEL_RETURN_PROCESS =
+  '[User] Reset Cancel Return Request Process';
 
 export class CreateOrderReturnRequest extends LoaderLoadAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST;
@@ -98,7 +103,7 @@ export class LoadOrderReturnRequestSuccess extends LoaderSuccessAction {
   }
 }
 
-export class CancelOrderReturnRequest extends LoaderLoadAction {
+export class CancelOrderReturnRequest extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CANCEL_ORDER_RETURN_REQUEST;
   constructor(
     public payload: {
@@ -107,21 +112,21 @@ export class CancelOrderReturnRequest extends LoaderLoadAction {
       returnRequestModification: ReturnRequestModification;
     }
   ) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
   }
 }
 
-export class CancelOrderReturnRequestFail extends LoaderFailAction {
+export class CancelOrderReturnRequestFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = CANCEL_ORDER_RETURN_REQUEST_FAIL;
   constructor(public payload: any) {
-    super(USER_RETURN_REQUEST_DETAILS, payload);
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, payload);
   }
 }
 
-export class CancelOrderReturnRequestSuccess extends LoaderSuccessAction {
+export class CancelOrderReturnRequestSuccess extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = CANCEL_ORDER_RETURN_REQUEST_SUCCESS;
   constructor() {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
   }
 }
 
@@ -167,6 +172,13 @@ export class ClearOrderReturnRequestList extends LoaderResetAction {
   }
 }
 
+export class ResetCancelReturnProcess extends StateEntityLoaderActions.EntityResetAction {
+  readonly type = RESET_CANCEL_RETURN_PROCESS;
+  constructor() {
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
+  }
+}
+
 export type OrderReturnRequestAction =
   | CreateOrderReturnRequest
   | CreateOrderReturnRequestFail
@@ -181,4 +193,5 @@ export type OrderReturnRequestAction =
   | LoadOrderReturnRequestListFail
   | LoadOrderReturnRequestListSuccess
   | ClearOrderReturnRequest
-  | ClearOrderReturnRequestList;
+  | ClearOrderReturnRequestList
+  | ResetCancelReturnProcess;

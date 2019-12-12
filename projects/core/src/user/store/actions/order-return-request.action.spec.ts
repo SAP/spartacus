@@ -2,10 +2,15 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
 } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/utils/index';
+import {
+  StateLoaderActions,
+  StateEntityLoaderActions,
+} from '../../../state/utils/index';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
+  CANCEL_RETURN_PROCESS_ID,
 } from '../user-state';
 import { UserActions } from './index';
 
@@ -140,7 +145,10 @@ describe('Order Return Request actions', () => {
           returnRequestCode: 'test',
           returnRequestModification: {},
         },
-        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          CANCEL_RETURN_PROCESS_ID
+        ),
       });
     });
   });
@@ -153,7 +161,11 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(USER_RETURN_REQUEST_DETAILS, error),
+        meta: StateEntityLoaderActions.entityFailMeta(
+          PROCESS_FEATURE,
+          CANCEL_RETURN_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -164,7 +176,11 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER_RETURN_REQUEST_SUCCESS,
-        meta: StateLoaderActions.successMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          PROCESS_FEATURE,
+          CANCEL_RETURN_PROCESS_ID
+        ),
+        payload: undefined,
       });
     });
   });
@@ -228,6 +244,20 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CLEAR_ORDER_RETURN_REQUEST,
         meta: StateLoaderActions.resetMeta(USER_RETURN_REQUEST_DETAILS),
+      });
+    });
+  });
+
+  describe('ResetCancelReturnProcess Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ResetCancelReturnProcess();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.RESET_CANCEL_RETURN_PROCESS,
+        meta: StateEntityLoaderActions.entityResetMeta(
+          PROCESS_FEATURE,
+          CANCEL_RETURN_PROCESS_ID
+        ),
       });
     });
   });
