@@ -9,7 +9,7 @@
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
       "@spartacus/assets": ["../../dist/assets"],
-      "@spartacus/cds": ["dist/cds"]
+      "@spartacus/cds": ["../../dist/cds"]
     }
   },
   "exclude": ["test.ts", "**/*.spec.ts"],
