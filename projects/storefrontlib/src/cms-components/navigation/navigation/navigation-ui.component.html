@@ -27,6 +27,7 @@
         else heading
       "
       [url]="node.url"
+      [target]="node.target"
     >
       {{ node.title }}
       <cx-icon
@@ -47,8 +48,13 @@
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
     <div class="wrapper" *ngIf="node.children?.length > 0">
-      <cx-generic-link *ngIf="node.url" [url]="node.url" class="all">
-        {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}
+      <cx-generic-link
+        *ngIf="node.url"
+        [url]="node.url"
+        [target]="node.target"
+        class="all"
+      >
+        {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}!
       </cx-generic-link>
       <div
         class="childs"
