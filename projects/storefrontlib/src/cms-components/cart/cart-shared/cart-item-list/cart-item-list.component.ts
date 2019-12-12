@@ -16,9 +16,6 @@ import {
   templateUrl: './cart-item-list.component.html',
 })
 export class CartItemListComponent implements OnInit {
-  /**
-   * @deprecated deprecated since 1.4, using options.isReadOnly to replace
-   */
   @Input()
   isReadOnly = false;
 
@@ -27,8 +24,8 @@ export class CartItemListComponent implements OnInit {
 
   @Input()
   options: CartItemComponentOptions = {
-    isReadOnly: false,
     isSaveForLater: false,
+    optionalBtn: null,
   };
 
   @Input()

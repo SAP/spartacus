@@ -67,35 +67,31 @@
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
 
-        <ng-container *ngIf="isSaveForLaterEnabled(); else quantity">
-          <div *ngIf="options.isReadOnly" class="cx-value">
-            {{ item.quantity }}
-          </div>
-          <div
-            *ngIf="!options.isReadOnly && parent"
-            class="cx-value"
-            [formGroup]="parent"
+        <div *ngIf="isReadOnly" class="cx-value">
+          {{ item.quantity }}
+        </div>
+        <div
+          *ngIf="!isReadOnly && parent"
+          class="cx-value"
+          [formGroup]="parent"
+        >
+          <cx-item-counter
+            [isValueChangeable]="item.updateable"
+            [step]="1"
+            [min]="1"
+            [max]="item.product.stock?.stockLevel || 1000"
+            (update)="updateItem($event)"
+            [cartIsLoading]="cartIsLoading"
+            formControlName="quantity"
           >
-            <cx-item-counter
-              [isValueChangeable]="item.updateable"
-              [step]="1"
-              [min]="1"
-              [max]="item.product.stock?.stockLevel || 1000"
-              (update)="updateItem($event)"
-              [cartIsLoading]="cartIsLoading"
-              formControlName="quantity"
-            >
-            </cx-item-counter>
-          </div>
-        </ng-container>
+          </cx-item-counter>
+        </div>
       </div>
       <!-- Total -->
-
       <ng-container
         *ngIf="isSaveForLaterEnabled() && options.isSaveForLater; else total"
       >
         <div
-          *ngIf="!isProductOutOfStock(item.product)"
           class="cx-total"
           [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
         >
@@ -110,53 +106,39 @@
       </ng-container>
     </div>
     <!-- Availability -->
-    <div *ngIf="isProductOutOfStock(item)" class="cx-availability col-12">
+    <div
+      *ngIf="isProductOutOfStock(item.product)"
+      class="cx-availability col-12"
+    >
       {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
     <!-- Promotion -->
     <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     <!-- Actions -->
 
-    <ng-container *ngIf="isSaveForLaterEnabled(); else actions">
-      <div
-        *ngIf="
-          (!options.isReadOnly && item.updateable) || options.isSaveForLater
+    <div
+      *ngIf="(!isReadOnly && item.updateable) || options.isSaveForLater"
+      class="cx-actions col-12"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          options.optionalBtn;
+          context: { $implicit: { loading: cartIsLoading, item: item } }
         "
-        class="cx-actions col-12"
-      >
-        <ng-container
-          *ngTemplateOutlet="
-            options.optionalBtn;
-            context: { $implicit: { loading: cartIsLoading, item: item } }
-          "
-        ></ng-container>
-        <div class="col-md-3 col-lg-3 col-xl-3 cx-remove-btn">
-          <button
-            class="link"
-            [class.disabled]="cartIsLoading"
-            [disabled]="cartIsLoading"
-            (click)="removeItem()"
-          >
-            {{ 'common.remove' | cxTranslate }}
-          </button>
-        </div>
+      ></ng-container>
+      <div class="col-md-3 col-lg-3 col-xl-3 cx-remove-btn">
+        <button
+          class="link"
+          [class.disabled]="cartIsLoading"
+          [disabled]="cartIsLoading"
+          (click)="removeItem()"
+        >
+          {{ 'common.remove' | cxTranslate }}
+        </button>
       </div>
-    </ng-container>
+    </div>
   </div>
 </div>
-
-<ng-template #actions>
-  <div *ngIf="!isReadOnly && item.updateable" class="cx-actions col-12">
-    <button
-      class="link"
-      [class.disabled]="cartIsLoading"
-      [disabled]="cartIsLoading"
-      (click)="removeItem()"
-    >
-      {{ 'common.remove' | cxTranslate }}
-    </button>
-  </div>
-</ng-template>
 
 <ng-template #total>
   <div
@@ -171,23 +153,5 @@
       {{ 'cartItems.total' | cxTranslate }}
     </div>
     <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
-  </div>
-</ng-template>
-
-<ng-template #quantity>
-  <div *ngIf="isReadOnly" class="cx-value">
-    {{ item.quantity }}
-  </div>
-  <div *ngIf="!isReadOnly && parent" class="cx-value" [formGroup]="parent">
-    <cx-item-counter
-      [isValueChangeable]="item.updateable"
-      [step]="1"
-      [min]="1"
-      [max]="item.product.stock?.stockLevel || 1000"
-      (update)="updateItem($event)"
-      [cartIsLoading]="cartIsLoading"
-      formControlName="quantity"
-    >
-    </cx-item-counter>
   </div>
 </ng-template>
