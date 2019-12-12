@@ -182,7 +182,7 @@
   <div *ngIf="isReadOnly" class="cx-value">
     {{ item.quantity }}
   </div>
-  <div *ngIf="isReadOnly && parent" class="cx-value" [formGroup]="parent">
+  <div *ngIf="!isReadOnly && parent" class="cx-value" [formGroup]="parent">
     <cx-item-counter
       [isValueChangeable]="item.updateable"
       [step]="1"
