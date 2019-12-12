@@ -61,7 +61,7 @@ class MockFeatureConfigService {
 }
 export interface CartItemComponentOptions {
   isReadOnly?: boolean;
-  saveForLaterEnabled?: boolean;
+  isSaveForLater?: boolean;
   optionalBtn?: any;
 }
 

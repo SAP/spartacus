@@ -28,7 +28,7 @@ export class CartItemListComponent implements OnInit {
   @Input()
   options: CartItemComponentOptions = {
     isReadOnly: false,
-    saveForLaterEnabled: false,
+    isSaveForLater: false,
   };
 
   @Input()
@@ -74,7 +74,7 @@ export class CartItemListComponent implements OnInit {
   }
 
   removeEntry(item: Item): void {
-    if (this.options.saveForLaterEnabled) {
+    if (this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else {
       this.cartService.removeEntry(item);
@@ -95,7 +95,7 @@ export class CartItemListComponent implements OnInit {
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
     //don't show promotions in saveforlater
-    if (this.options.saveForLaterEnabled) {
+    if (this.options.isSaveForLater) {
       return entryPromotions;
     }
     if (

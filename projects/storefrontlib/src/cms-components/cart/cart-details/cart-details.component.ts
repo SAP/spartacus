@@ -33,21 +33,25 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
+
     this.entries$ = this.cartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
-    this.cartLoaded$ = combineLatest([
-      this.cartService.getLoaded(),
-      this.selectiveCartService.getLoaded(),
-      this.authService.isUserLoggedIn(),
-    ]).pipe(
-      tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
-      map(([cartLoaded, sflLoaded, loggedIn]) =>
-        this.isSaveForLaterEnabled() && loggedIn
-          ? cartLoaded && sflLoaded
-          : cartLoaded
-      )
-    );
+
+    if (this.isSaveForLaterEnabled()) {
+      this.cartLoaded$ = combineLatest([
+        this.cartService.getLoaded(),
+        this.selectiveCartService.getLoaded(),
+        this.authService.isUserLoggedIn(),
+      ]).pipe(
+        tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
+        map(([cartLoaded, sflLoaded, loggedIn]) =>
+          loggedIn ? cartLoaded && sflLoaded : cartLoaded
+        )
+      );
+    } else {
+      this.cartLoaded$ = this.cartService.getLoaded();
+    }
   }
 
   isSaveForLaterEnabled(): boolean {

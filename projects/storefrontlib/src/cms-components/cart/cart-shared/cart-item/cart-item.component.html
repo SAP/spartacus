@@ -92,10 +92,7 @@
       <!-- Total -->
 
       <ng-container
-        *ngIf="
-          isSaveForLaterEnabled() && options.saveForLaterEnabled;
-          else total
-        "
+        *ngIf="isSaveForLaterEnabled() && options.isSaveForLater; else total"
       >
         <div
           *ngIf="!isProductOutOfStock(item.product)"
@@ -120,11 +117,10 @@
     <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     <!-- Actions -->
 
-    <ng-container *ngIf="this.isSaveForLaterEnabled(); else actions">
+    <ng-container *ngIf="isSaveForLaterEnabled(); else actions">
       <div
         *ngIf="
-          (!options.isReadOnly && item.updateable) ||
-          options.saveForLaterEnabled
+          (!options.isReadOnly && item.updateable) || options.isSaveForLater
         "
         class="cx-actions col-12"
       >
