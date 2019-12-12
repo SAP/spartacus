@@ -20,12 +20,13 @@
     }
   },
   "exclude": [
-      "./dist/**/*.*",
-      "./projects/backend/**/*.*",
-      "./projects/assets/**/*.*",
-      "./projects/storefrontapp/**/*.*",
-      "./projects/storefrontstyles/**/*.*",
-      "./projects/ssr/**/*.*",
-      "./projects/vendor/**/*.*"
+    "./dist/**/*.*",
+    "./projects/backend/**/*.*",
+    "./projects/assets/**/*.*",
+    "./projects/storefrontapp/**/*.*",
+    "./projects/storefrontapp-cds-integration/**/*.*",
+    "./projects/storefrontstyles/**/*.*",
+    "./projects/ssr/**/*.*",
+    "./projects/vendor/**/*.*"
   ]
 }
