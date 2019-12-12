@@ -24,6 +24,8 @@ import { By } from '@angular/platform-browser';
 })
 class MockCartItemListComponent {
   @Input()
+  isReadOnly = false;
+  @Input()
   items: Item[];
   @Input()
   potentialProductPromotions: PromotionResult[] = [];
@@ -31,7 +33,8 @@ class MockCartItemListComponent {
   cartIsLoading: Observable<boolean>;
   @Input()
   options: CartItemComponentOptions = {
-    isReadOnly: false,
+    isSaveForLater: false,
+    optionalBtn: null,
   };
 }
 

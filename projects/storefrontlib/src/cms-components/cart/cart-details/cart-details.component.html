@@ -10,9 +10,7 @@
       <cx-cart-item-list
         [items]="entries"
         [cartIsLoading]="!(cartLoaded$ | async)"
-        [potentialProductPromotions]="
-          isSaveForLaterEnabled() ? [] : cart.potentialProductPromotions
-        "
+        [potentialProductPromotions]="cart.potentialProductPromotions"
         [options]="
           isSaveForLaterEnabled()
             ? { isSaveForLater: false, optionalBtn: saveForLaterbtn }

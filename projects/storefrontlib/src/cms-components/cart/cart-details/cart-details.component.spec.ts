@@ -24,7 +24,7 @@ class MockCartService {
   loadDetails(): void {}
   updateEntry(): void {}
   getActive(): Observable<Cart> {
-    return of<Cart>({ code: '123' });
+    return of<Cart>({ code: '123', totalItems: 1 });
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
@@ -35,7 +35,6 @@ class MockCartService {
 }
 
 export interface CartItemComponentOptions {
-  isReadOnly?: boolean;
   isSaveForLater?: boolean;
   optionalBtn?: any;
 }
@@ -53,7 +52,8 @@ class MockCartItemListComponent {
   cartIsLoading: Observable<boolean>;
   @Input()
   options: CartItemComponentOptions = {
-    isReadOnly: false,
+    isSaveForLater: false,
+    optionalBtn: null,
   };
 }
 
@@ -86,7 +86,7 @@ describe('CartDetailsComponent', () => {
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
-    ['getCart', 'getLoaded', 'removeEntry', 'getEntries']
+    ['getCart', 'getLoaded', 'removeEntry', 'getEntries', 'addEntry']
   );
 
   const mockFeatureConfigService = jasmine.createSpyObj(
@@ -147,10 +147,11 @@ describe('CartDetailsComponent', () => {
       },
     };
     mockFeatureConfigService.isEnabled.and.returnValue(true);
-    mockAuthService.isUserLoggedIn.and.returnValue(true);
+    mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartService.addEntry.and.callThrough();
     mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     spyOn(cartService, 'removeEntry').and.callThrough();
+    spyOn(cartService, 'getEntries').and.callThrough();
     spyOn(cartService, 'getLoaded').and.returnValue(of(true));
     fixture.detectChanges();
     component.saveForLater(mockItem);

@@ -21,7 +21,7 @@ export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
-  loggedIn: boolean = false;
+  loggedIn = false;
 
   constructor(
     protected cartService: CartService,
