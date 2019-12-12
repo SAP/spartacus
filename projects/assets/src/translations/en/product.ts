@@ -70,6 +70,11 @@ export const product = {
       deliveryTab: 'Shipping',
     },
   },
+  addToWishList: {
+    add: 'Add to Wish List',
+    remove: 'Remove from Wish List',
+    anonymous: 'Sign in to add to wish list',
+  },
   stockNotification: {
     notifyMe: 'NOTIFY ME',
     stopNotify: 'STOP NOTIFICATION',

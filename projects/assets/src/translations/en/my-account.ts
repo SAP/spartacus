@@ -200,4 +200,7 @@ export const myAccount = {
     deliveryCode: 'Delivery cost',
     estimatedRefund: 'Estimated refund',
   },
+  wishlist: {
+    empty: 'No products in your wish list yet',
+  },
 };
