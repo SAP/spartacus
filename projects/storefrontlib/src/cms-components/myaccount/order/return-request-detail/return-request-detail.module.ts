@@ -54,4 +54,4 @@ const components = [
   exports: [...components],
   entryComponents: [...components],
 })
-export class OrderReturnRequestDetailModule {}
+export class ReturnRequestDetailModule {}
