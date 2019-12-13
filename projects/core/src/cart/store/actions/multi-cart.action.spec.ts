@@ -244,17 +244,6 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('SetActiveCartId', () => {
-    it('should create the action', () => {
-      const payload = 'cartId';
-      const action = new CartActions.SetActiveCartId(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.SET_ACTIVE_CART_ID,
-        payload,
-      });
-    });
-  });
-
   describe('CartProcessesIncrement', () => {
     it('should create the action', () => {
       const payload = 'cartId';

@@ -186,4 +186,7 @@ export const myAccount = {
     statusDisplay_TAX_REVERSAL_FAILED: 'Tax Reversal Failed',
     statusDisplay_COMPLETED: 'Completed',
   },
+  wishlist: {
+    empty: 'No products in your wish list yet',
+  },
 };
