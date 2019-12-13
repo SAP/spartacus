@@ -318,8 +318,8 @@ describe('CartService', () => {
       it('should return an entry', () => {
         const testCart: Cart = <Cart>{
           entries: [
-            { entryNumber: 1, product: { code: 'code1' } },
-            { entryNumber: 2, product: { code: 'code2' } },
+            { product: { code: 'code1' } },
+            { product: { code: 'code2' } },
           ],
         };
         store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));
@@ -337,8 +337,8 @@ describe('CartService', () => {
       it('should return entries', () => {
         const testCart: Cart = <Cart>{
           entries: [
-            { entryNumber: 1, product: { code: 'code1' } },
-            { entryNumber: 2, product: { code: 'code2' } },
+            { product: { code: 'code1' } },
+            { product: { code: 'code2' } },
           ],
         };
         store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));

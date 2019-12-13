@@ -170,7 +170,7 @@ describe('Cart selectors', () => {
       store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({
-        0: { entryNumber: 0, product: { code: '1234' } },
+        '1234': { entryNumber: 0, product: { code: '1234' } },
       });
     });
   });
@@ -180,7 +180,7 @@ describe('Cart selectors', () => {
       let result: OrderEntry;
 
       store
-        .pipe(select(CartSelectors.getCartEntrySelectorFactory(0)))
+        .pipe(select(CartSelectors.getCartEntrySelectorFactory('1234')))
         .subscribe(value => {
           result = value;
         });
