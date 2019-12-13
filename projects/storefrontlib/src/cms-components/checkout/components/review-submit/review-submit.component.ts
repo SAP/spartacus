@@ -73,7 +73,7 @@ export class ReviewSubmitComponent implements OnInit {
     userAddressService: UserAddressService,
     cartService: CartService,
     translation: TranslationService,
-    checkoutConfigService: CheckoutConfigService
+    checkoutConfigService: CheckoutConfigService // tslint:disable-line
   );
 
   constructor(
