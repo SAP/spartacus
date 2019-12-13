@@ -27,7 +27,6 @@ export class ProfileTagEventTracker {
     this.consentReferenceChanged(),
     this.debugModeChanged()
   );
-
   private profileTagWindow: ProfileTagWindowObject;
   public consentReference = null;
   public profileTagDebug = false;
