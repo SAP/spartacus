@@ -15,10 +15,10 @@ const testCart: Cart = {
 
 describe('WishList Actions', () => {
   describe('Load Wish List Actions', () => {
-    describe('LoadWisthList', () => {
+    describe('LoadWishList', () => {
       it('should create the action', () => {
         const payload = userId;
-        const action = new CartActions.LoadWisthList(payload);
+        const action = new CartActions.LoadWishList(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST,
           payload,
@@ -26,13 +26,13 @@ describe('WishList Actions', () => {
       });
     });
 
-    describe('LoadWisthListSuccess', () => {
+    describe('LoadWishListSuccess', () => {
       it('should create the action', () => {
         const payload = {
           cart: testCart,
           userId,
         };
-        const action = new CartActions.LoadWisthListSuccess(payload);
+        const action = new CartActions.LoadWishListSuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST_SUCCESS,
           payload,
@@ -46,7 +46,7 @@ describe('WishList Actions', () => {
   });
 
   describe('Create Wish List Actions', () => {
-    describe('CreateWisthList', () => {
+    describe('CreateWishList', () => {
       it('should create the action', () => {
         const payload = { userId, name: 'name' };
         const action = new CartActions.CreateWishList(payload);
@@ -61,7 +61,7 @@ describe('WishList Actions', () => {
       });
     });
 
-    describe('CreateWisthListSuccess', () => {
+    describe('CreateWishListSuccess', () => {
       it('should create the action', () => {
         const payload = {
           cart: testCart,
@@ -79,7 +79,7 @@ describe('WishList Actions', () => {
       });
     });
 
-    describe('CreateWisthListFail', () => {
+    describe('CreateWishListFail', () => {
       it('should create the action', () => {
         const payload = { cartId, error: 'error' };
         const action = new CartActions.CreateWishListFail(payload);
