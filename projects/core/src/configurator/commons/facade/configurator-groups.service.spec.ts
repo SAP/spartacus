@@ -3,6 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import { StateWithConfiguration, UiState } from '../store/configuration-state';
 import { Configurator } from './../../../model/configurator.model';
@@ -23,7 +24,7 @@ const productConfiguration: Configurator.Configuration = {
   groups: [{ id: GROUP_ID_1 }, { id: GROUP_ID_2 }, { id: GROUP_ID_3 }],
   owner: {
     id: PRODUCT_CODE,
-    type: Configurator.OwnerType.PRODUCT,
+    type: GenericConfigurator.OwnerType.PRODUCT,
   },
 };
 

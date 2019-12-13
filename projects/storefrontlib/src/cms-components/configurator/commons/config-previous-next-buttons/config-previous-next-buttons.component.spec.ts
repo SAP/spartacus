@@ -5,7 +5,8 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  ConfigUtilsService,
+  GenericConfigurator,
+  GenericConfigUtilsService,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -24,7 +25,7 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
   },
 };
@@ -54,7 +55,7 @@ const config: Configurator.Configuration = {
   complete: true,
   productCode: PRODUCT_CODE,
   owner: {
-    type: Configurator.OwnerType.PRODUCT,
+    type: GenericConfigurator.OwnerType.PRODUCT,
     id: PRODUCT_CODE,
   },
   groups: [
@@ -111,7 +112,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfigPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfigPreviousNextButtonsComponent>;
   let configurationGroupsService: ConfiguratorGroupsService;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -147,8 +148,8 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       ConfiguratorGroupsService
     >);
     fixture.detectChanges();
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(config.owner);
   });

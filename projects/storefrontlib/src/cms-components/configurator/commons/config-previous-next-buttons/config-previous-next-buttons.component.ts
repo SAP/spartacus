@@ -9,11 +9,12 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
+import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -68,13 +69,13 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
       );
   }
 
-  isFirstGroup(owner: Configurator.Owner): Observable<Boolean> {
+  isFirstGroup(owner: GenericConfigurator.Owner): Observable<Boolean> {
     return this.configuratorGroupsService
       .getPreviousGroup(owner)
       .pipe(map(group => !group));
   }
 
-  isLastGroup(owner: Configurator.Owner): Observable<Boolean> {
+  isLastGroup(owner: GenericConfigurator.Owner): Observable<Boolean> {
     return this.configuratorGroupsService
       .getNextGroup(owner)
       .pipe(map(group => !group));

@@ -7,7 +7,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { ConfigureProductComponent } from './configure-product.component';
+import { ConfigureProductComponent } from './configure-product/configure-product.component';
 
 @NgModule({
   imports: [
@@ -27,4 +27,4 @@ import { ConfigureProductComponent } from './configure-product.component';
   entryComponents: [ConfigureProductComponent],
   exports: [ConfigureProductComponent],
 })
-export class ConfigureProductModule {}
+export class GenericConfiguratorModule {}

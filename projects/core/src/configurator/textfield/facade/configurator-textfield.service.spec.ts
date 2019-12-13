@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import * as ConfiguratorActions from '../store/actions/configurator-textfield.action';
@@ -14,6 +15,10 @@ import * as ConfiguratorSelectors from '../store/selectors/configurator-textfiel
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const owner: GenericConfigurator.Owner = {
+  id: PRODUCT_CODE,
+  type: GenericConfigurator.OwnerType.PRODUCT,
+};
 const ATTRIBUTE_NAME = 'AttributeName';
 const ATTRIBUTE_VALUE = 'AttributeValue';
 const SUCCESS = 'SUCCESS';
@@ -25,6 +30,10 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
     { configurationLabel: ATTRIBUTE_NAME, configurationValue: ATTRIBUTE_VALUE },
   ],
+  owner: {
+    id: PRODUCT_CODE,
+    type: GenericConfigurator.OwnerType.PRODUCT,
+  },
 };
 
 const changedAttribute: ConfiguratorTextfield.ConfigurationInfo = {
@@ -40,6 +49,10 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
       status: SUCCESS,
     },
   ],
+  owner: {
+    id: PRODUCT_CODE,
+    type: GenericConfigurator.OwnerType.PRODUCT,
+  },
 };
 
 const cart: Cart = {
@@ -89,9 +102,7 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should create a configuration, accessing the store', () => {
-    const configurationFromStore = serviceUnderTest.createConfiguration(
-      PRODUCT_CODE
-    );
+    const configurationFromStore = serviceUnderTest.createConfiguration(owner);
 
     expect(configurationFromStore).toBeDefined();
 
@@ -101,13 +112,14 @@ describe('ConfiguratorTextfieldService', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.CreateConfiguration({
-        productCode: PRODUCT_CODE,
+        productCode: owner.id,
+        owner: owner,
       })
     );
   });
 
   it('should access the store with selector', () => {
-    serviceUnderTest.createConfiguration(PRODUCT_CODE);
+    serviceUnderTest.createConfiguration(owner);
 
     expect(store.select).toHaveBeenCalledWith(
       ConfiguratorSelectors.getConfigurationContent

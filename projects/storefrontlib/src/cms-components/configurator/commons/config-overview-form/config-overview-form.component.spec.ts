@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  GenericConfigurator,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -21,14 +22,14 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
   },
 };
 
-const owner: Configurator.Owner = {
+const owner: GenericConfigurator.Owner = {
   id: PRODUCT_CODE,
-  type: Configurator.OwnerType.PRODUCT,
+  type: GenericConfigurator.OwnerType.PRODUCT,
 };
 
 const configCreate: Configurator.Configuration = {

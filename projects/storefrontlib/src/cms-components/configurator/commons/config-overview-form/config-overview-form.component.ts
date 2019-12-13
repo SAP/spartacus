@@ -6,7 +6,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
+import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-overview-form',

@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
+import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-group-menu',

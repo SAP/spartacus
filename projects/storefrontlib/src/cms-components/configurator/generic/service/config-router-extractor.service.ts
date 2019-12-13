@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
-  Configurator,
-  ConfigUtilsService,
+  GenericConfigurator,
+  GenericConfigUtilsService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -12,22 +12,22 @@ import { filter, map } from 'rxjs/operators';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfigRouterExtractorService {
-  constructor(private configUtilsService: ConfigUtilsService) {}
+  constructor(private configUtilsService: GenericConfigUtilsService) {}
 
   extractConfigurationOwner(
     routingService: RoutingService
-  ): Observable<Configurator.Owner> {
+  ): Observable<GenericConfigurator.Owner> {
     return routingService.getRouterState().pipe(
       filter(routingData => routingData.state.params.entityKey),
       map(routingData => {
         const params = routingData.state.params;
-        const owner: Configurator.Owner = {};
+        const owner: GenericConfigurator.Owner = {};
         if (params.ownerType) {
           const entityKey = params.entityKey;
           owner.type = params.ownerType;
           owner.id = entityKey;
         } else {
-          owner.type = Configurator.OwnerType.PRODUCT;
+          owner.type = GenericConfigurator.OwnerType.PRODUCT;
           owner.id = params.rootProduct;
         }
         this.configUtilsService.setOwnerKey(owner);
@@ -42,7 +42,8 @@ export class ConfigRouterExtractorService {
       map(routingData => {
         const params = routingData.state.params;
         return {
-          hasBeenAdded: params.ownerType === Configurator.OwnerType.CART_ENTRY,
+          hasBeenAdded:
+            params.ownerType === GenericConfigurator.OwnerType.CART_ENTRY,
         };
       })
     );
