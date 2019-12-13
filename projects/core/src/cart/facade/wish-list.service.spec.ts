@@ -99,7 +99,7 @@ describe('WishListService', () => {
       expect(result).toEqual('');
 
       store.dispatch(
-        new CartActions.LoadWisthListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
       );
 
       expect(result).toEqual(cartCode);
@@ -112,7 +112,7 @@ describe('WishListService', () => {
       service.getWishList().subscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWisthList(userId)
+        new CartActions.LoadWishList(userId)
       );
     });
     it('should return wish list if loaded', done => {
@@ -120,7 +120,7 @@ describe('WishListService', () => {
       let result;
 
       store.dispatch(
-        new CartActions.LoadWisthListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
       );
       service.getWishList().subscribe(cart => (result = cart));
 
@@ -135,7 +135,7 @@ describe('WishListService', () => {
     it('should dispatch load wish list action', () => {
       service.loadWishList(userId);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWisthList(userId)
+        new CartActions.LoadWishList(userId)
       );
     });
   });
@@ -143,7 +143,7 @@ describe('WishListService', () => {
   describe('addEntry', () => {
     it('should dispatch CartAddEntry if wish list exists', () => {
       store.dispatch(
-        new CartActions.LoadWisthListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
       );
       service.addEntry(productCode);
 
@@ -159,7 +159,7 @@ describe('WishListService', () => {
       service.addEntry(productCode);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWisthList(userId)
+        new CartActions.LoadWishList(userId)
       );
     });
   });
@@ -167,7 +167,7 @@ describe('WishListService', () => {
   describe('removeEntry', () => {
     it('should dispatch CartRemoveEntry if wish list exists', () => {
       store.dispatch(
-        new CartActions.LoadWisthListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
       );
       service.removeEntry(mockCartEntry);
       expect(multiCartService.removeEntry).toHaveBeenCalledWith(
@@ -181,7 +181,7 @@ describe('WishListService', () => {
       service.removeEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWisthList(userId)
+        new CartActions.LoadWishList(userId)
       );
     });
   });
