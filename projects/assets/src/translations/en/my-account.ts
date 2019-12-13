@@ -191,7 +191,7 @@ export const myAccount = {
     orderCode: 'For Order #',
     status: 'Return status',
     cancel: 'Cancel Return Request',
-    item: 'Descripton',
+    item: 'Description',
     itemPrice: 'Item Price',
     returnQty: 'Return Quanity',
     total: 'Total',
