@@ -8,6 +8,6 @@ export interface FeatureToggles {
     level?: string;
     consignmentTracking?: boolean;
     anonymousConsents?: boolean;
-    selectiveCart?: boolean;
+    saveForLater?: boolean;
   };
 }
