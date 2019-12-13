@@ -207,7 +207,7 @@ describe('Multi Cart reducer', () => {
   describe('wishListReducer', () => {
     describe('CREATE_WISH_LIST_SUCCESS action', () => {
       it('should set wish list code', () => {
-        const { wishListinitialState } = fromMultiCart;
+        const { wishListInitialState: wishListinitialState } = fromMultiCart;
         const payload = {
           cart: testCart,
           userId: 'userId',
@@ -222,12 +222,12 @@ describe('Multi Cart reducer', () => {
     });
     describe('LOAD_WISH_LIST_SUCCESS action', () => {
       it('should set wish list code', () => {
-        const { wishListinitialState } = fromMultiCart;
+        const { wishListInitialState: wishListinitialState } = fromMultiCart;
         const payload = {
           cart: testCart,
           userId: 'userId',
         };
-        const action = new CartActions.LoadWisthListSuccess(payload);
+        const action = new CartActions.LoadWishListSuccess(payload);
         const state = fromMultiCart.wishListReducer(
           wishListinitialState,
           action
