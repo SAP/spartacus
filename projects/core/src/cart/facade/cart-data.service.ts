@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Cart } from '../../model/cart.model';
 import {
@@ -8,8 +8,9 @@ import {
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
 import { EMAIL_PATTERN } from '../../util';
+import { StateWithMultiCart } from '../store';
 import { StateWithCart } from '../store/cart-state';
-import { CartSelectors } from '../store/selectors/index';
+import { MultiCartSelectors } from '../store/selectors/index';
 
 /**
  * @deprecated since version 1.4
@@ -21,7 +22,7 @@ export class CartDataService {
   private _cart: Cart;
 
   constructor(
-    protected store: Store<StateWithCart>,
+    protected store: Store<StateWithCart | StateWithMultiCart>,
     protected authService: AuthService
   ) {
     this.authService
@@ -35,9 +36,18 @@ export class CartDataService {
         }
       });
 
-    this.store.pipe(select(CartSelectors.getCartContent)).subscribe(cart => {
-      this._cart = cart;
-    });
+    this.store
+      .pipe(select(MultiCartSelectors.getActiveCartId))
+      .pipe(
+        switchMap(cartId =>
+          this.store.pipe(
+            select(MultiCartSelectors.getCartSelectorFactory(cartId))
+          )
+        )
+      )
+      .subscribe(cart => {
+        this._cart = cart;
+      });
   }
 
   get hasCart(): boolean {
