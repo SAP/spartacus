@@ -1,9 +1,9 @@
 import {
-  retrieveTokenAndLogin,
   checkoutAsPersistentUserTest,
+  retrieveTokenAndLogin,
 } from '../../../helpers/checkout-as-persistent-user';
-import { formats } from '../../../sample-data/viewports';
 import * as login from '../../../helpers/login';
+import { formats } from '../../../sample-data/viewports';
 
 describe(`${formats.mobile.width +
   1}p resolution - Checkout - As a Persistent User`, () => {
@@ -20,7 +20,7 @@ describe(`${formats.mobile.width +
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  checkoutAsPersistentUserTest();
+  checkoutAsPersistentUserTest(true);
 
   afterEach(() => {
     cy.saveLocalStorage();
