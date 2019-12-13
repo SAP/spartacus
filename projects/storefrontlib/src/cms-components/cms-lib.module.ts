@@ -17,6 +17,7 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  NotificationPreferenceModule,
   OrderDetailsModule,
   OrderHistoryModule,
   PaymentMethodsModule,
@@ -24,6 +25,7 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  MyInterestsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -39,6 +41,7 @@ import {
   ProductListModule,
   ProductReferencesModule,
   ProductTabsModule,
+  StockNotificationModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
@@ -90,6 +93,9 @@ import {
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
     BudgetsListModule,
     BudgetCreateModule,
     BudgetDetailsModule,

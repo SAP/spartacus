@@ -97,6 +97,10 @@ if (!environment.production) {
         chunks: translationChunksConfig,
         // fallbackLang: 'en',
       },
+      features: {
+        level: '1.4',
+        anonymousConsents: true,
+      },
     }),
     JsonLdBuilderModule,
 
