@@ -1,9 +1,0 @@
-node_modules
-dist
-deploy
-.dockerignore
-.git
-.gitignore
-README.md
-LICENSE
-.vscode
