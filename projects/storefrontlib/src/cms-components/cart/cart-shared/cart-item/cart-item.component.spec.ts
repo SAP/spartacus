@@ -12,6 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
 import { FeaturesConfigModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 @Pipe({
   name: 'cxUrl',
@@ -90,6 +91,7 @@ describe('CartItemComponent', () => {
         MockItemCounterComponent,
         MockPromotionsComponent,
         MockUrlPipe,
+        MockFeatureLevelDirective,
       ],
       providers: [
         {
