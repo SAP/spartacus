@@ -7,9 +7,8 @@ import {
   filter,
   map,
   mergeMap,
-  startWith,
   switchMap,
-  switchMapTo,
+  takeUntil,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
@@ -30,15 +29,11 @@ import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class CheckoutEffects {
-  // we want to cancel all ongoing requests when currency or language changes,
-  // that's why observe them and switch actions stream on each change
-  private contextSafeActions$ = this.actions$.pipe(
+  private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
       SiteContextActions.LANGUAGE_CHANGE
-    ),
-    startWith({}),
-    switchMapTo(this.actions$)
+    )
   );
 
   @Effect()
@@ -46,13 +41,15 @@ export class CheckoutEffects {
     | UserActions.LoadUserAddresses
     | CheckoutActions.SetDeliveryAddress
     | CheckoutActions.AddDeliveryAddressFail
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.ADD_DELIVERY_ADDRESS),
     map((action: CheckoutActions.AddDeliveryAddress) => action.payload),
     mergeMap(payload =>
       this.checkoutDeliveryConnector
         .createAddress(payload.userId, payload.cartId, payload.address)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
             if (payload.address.region && payload.address.region.isocodeShort) {
@@ -98,13 +95,15 @@ export class CheckoutEffects {
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.checkoutDeliveryConnector
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
             new CheckoutActions.ClearCheckoutDeliveryMode({
@@ -133,13 +132,15 @@ export class CheckoutEffects {
   loadSupportedDeliveryModes$: Observable<
     | CheckoutActions.LoadSupportedDeliveryModesSuccess
     | CheckoutActions.LoadSupportedDeliveryModesFail
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES),
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.checkoutDeliveryConnector
         .getSupportedModes(payload.userId, payload.cartId)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           map(data => {
             return new CheckoutActions.LoadSupportedDeliveryModesSuccess(data);
           }),
@@ -191,13 +192,15 @@ export class CheckoutEffects {
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
     | DeprecatedCartActions.LoadCart
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.checkoutDeliveryConnector
         .setMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           mergeMap(() => {
             return [
               new CheckoutActions.SetDeliveryModeSuccess(
@@ -225,7 +228,7 @@ export class CheckoutEffects {
     | UserActions.LoadUserPaymentMethods
     | CheckoutActions.CreatePaymentDetailsSuccess
     | CheckoutActions.CreatePaymentDetailsFail
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.CREATE_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -233,6 +236,8 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           mergeMap(details => {
             if (payload.userId === OCC_USER_ID_ANONYMOUS) {
               return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
@@ -258,13 +263,15 @@ export class CheckoutEffects {
   setPaymentDetails$: Observable<
     | CheckoutActions.SetPaymentDetailsSuccess
     | CheckoutActions.SetPaymentDetailsFail
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.SET_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.checkoutPaymentConnector
         .set(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           map(
             () =>
               new CheckoutActions.SetPaymentDetailsSuccess(
@@ -288,13 +295,15 @@ export class CheckoutEffects {
     | GlobalMessageActions.AddMessage
     | CheckoutActions.PlaceOrderFail
     | CartActions.RemoveCart
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.checkoutConnector
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           switchMap(data => [
             new CartActions.RemoveCart(payload.cartId),
             new CheckoutActions.PlaceOrderSuccess(data),
@@ -310,13 +319,15 @@ export class CheckoutEffects {
   loadCheckoutDetails$: Observable<
     | CheckoutActions.LoadCheckoutDetailsSuccess
     | CheckoutActions.LoadCheckoutDetailsFail
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.LOAD_CHECKOUT_DETAILS),
     map((action: CheckoutActions.LoadCheckoutDetails) => action.payload),
     mergeMap(payload => {
       return this.checkoutConnector
         .loadCheckoutDetails(payload.userId, payload.cartId)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           map(
             (data: CheckoutDetails) =>
               new CheckoutActions.LoadCheckoutDetailsSuccess(data)
@@ -335,7 +346,7 @@ export class CheckoutEffects {
   @Effect()
   reloadDetailsOnMergeCart$: Observable<
     CheckoutActions.LoadCheckoutDetails
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
     map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
     map(payload => {
@@ -350,7 +361,7 @@ export class CheckoutEffects {
   clearCheckoutDeliveryAddress$: Observable<
     | CheckoutActions.ClearCheckoutDeliveryAddressFail
     | CheckoutActions.ClearCheckoutDeliveryAddressSuccess
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS),
     map(
       (action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload
@@ -360,6 +371,8 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .clearCheckoutDeliveryAddress(payload.userId, payload.cartId)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           map(() => new CheckoutActions.ClearCheckoutDeliveryAddressSuccess()),
           catchError(error =>
             of(
@@ -378,7 +391,7 @@ export class CheckoutEffects {
     | CheckoutActions.ClearCheckoutDeliveryModeSuccess
     | CartActions.CartProcessesDecrement
     | CartActions.LoadCart
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
     filter(payload => Boolean(payload.cartId)),
@@ -386,6 +399,8 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           map(
             () =>
               new CheckoutActions.ClearCheckoutDeliveryModeSuccess({

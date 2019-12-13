@@ -10,9 +10,8 @@ import {
   groupBy,
   map,
   mergeMap,
-  startWith,
   switchMap,
-  switchMapTo,
+  takeUntil,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../../../checkout/store/actions/index';
@@ -29,15 +28,11 @@ import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-ca
 
 @Injectable()
 export class CartEffects {
-  // we want to cancel all ongoing requests when currency or language changes,
-  // that's why observe them and switch actions stream on each change
-  private contextSafeActions$ = this.actions$.pipe(
+  private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
       SiteContextActions.LANGUAGE_CHANGE
-    ),
-    startWith({}),
-    switchMapTo(this.actions$)
+    )
   );
 
   @Effect()
@@ -49,7 +44,7 @@ export class CartEffects {
     | CartActions.ClearExpiredCoupons
     | DeprecatedCartActions.ClearCart
     | CartActions.RemoveCart
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(DeprecatedCartActions.LOAD_CART),
     map((action: DeprecatedCartActions.LoadCart) => action.payload),
     groupBy(payload => payload.cartId),
@@ -88,6 +83,8 @@ export class CartEffects {
           return this.cartConnector
             .load(loadCartParams.userId, loadCartParams.cartId)
             .pipe(
+              // prevent emissions after context change
+              takeUntil(this.contextChange$),
               mergeMap((cart: Cart) => {
                 let actions = [];
                 if (cart) {
@@ -170,13 +167,15 @@ export class CartEffects {
     | DeprecatedCartActions.CreateCartFail
     | CartActions.CreateMultiCartFail
     | CartActions.SetFreshCart
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(DeprecatedCartActions.CREATE_CART),
     map((action: DeprecatedCartActions.CreateCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           switchMap((cart: Cart) => {
             const mergeActions = [];
             if (payload.oldCartId) {
@@ -221,13 +220,13 @@ export class CartEffects {
   );
 
   @Effect()
-  mergeCart$: Observable<
-    DeprecatedCartActions.CreateCart
-  > = this.contextSafeActions$.pipe(
+  mergeCart$: Observable<DeprecatedCartActions.CreateCart> = this.actions$.pipe(
     ofType(DeprecatedCartActions.MERGE_CART),
     map((action: DeprecatedCartActions.MergeCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
+        // prevent emissions after context change
+        takeUntil(this.contextChange$),
         mergeMap(currentCart => {
           return [
             new DeprecatedCartActions.CreateCart({
@@ -317,13 +316,15 @@ export class CartEffects {
     | CartActions.AddEmailToMultiCartSuccess
     | CartActions.CartProcessesDecrement
     | DeprecatedCartActions.LoadCart
-  > = this.contextSafeActions$.pipe(
+  > = this.actions$.pipe(
     ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
     map((action: DeprecatedCartActions.AddEmailToCart) => action.payload),
     mergeMap(payload =>
       this.cartConnector
         .addEmail(payload.userId, payload.cartId, payload.email)
         .pipe(
+          // prevent emissions after context change
+          takeUntil(this.contextChange$),
           mergeMap(() => {
             return [
               new DeprecatedCartActions.AddEmailToCartSuccess({
