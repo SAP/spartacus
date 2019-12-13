@@ -27,7 +27,7 @@ export class DateValueAccessorDirective implements ControlValueAccessor {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    protected dateFormatterService: DateFormatterService
+    protected dateFormatterService?: DateFormatterService
   ) {}
 
   writeValue(value: string): void {
@@ -40,11 +40,6 @@ export class DateValueAccessorDirective implements ControlValueAccessor {
       'valueAsDate',
       this.dateFormatterService.toDate(value)
     );
-    // this.renderer.setProperty(
-    //   this.elementRef.nativeElement,
-    //   'valueAsCustomDate',
-    //   this.dateFormatterService.transform(value)
-    // );
   }
 
   registerOnChange(fn: (_: any) => void): void {

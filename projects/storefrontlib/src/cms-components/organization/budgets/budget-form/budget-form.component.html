@@ -62,11 +62,9 @@
           }}</span>
           <input
             type="date"
-            cxUseValueAsDate
             class="form-control"
             placeholder="{{ 'budgetForm.startDate.placeholder' | cxTranslate }}"
             formControlName="startDate"
-            (change)="startDateChange($event)"
           />
         </label>
       </div>
@@ -78,11 +76,9 @@
           }}</span>
           <input
             type="date"
-            cxUseValueAsDate
             class="form-control"
             placeholder="{{ 'budgetForm.endDate.placeholder' | cxTranslate }}"
             formControlName="endDate"
-            (change)="endDateChange($event)"
           />
         </label>
       </div>

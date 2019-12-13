@@ -14,9 +14,13 @@ export class OccBudgetNormalizer implements Converter<Occ.Budget, Budget> {
 
   convert(source: Occ.Budget, target?: Budget): Budget {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = {
+        ...(source as any),
+        startDate: source.startDate.split('T')[0],
+        endDate: source.endDate.split('T')[0],
+      };
     }
-
+    console.log('CONVERTER', source, target);
     // if (source && source.costCenters) {
     //   target.costCenters = source.costCenters.map(entry => ({
     //     ...entry,
