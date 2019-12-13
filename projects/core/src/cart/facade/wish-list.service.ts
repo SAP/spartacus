@@ -47,7 +47,7 @@ export class WishListService {
   }
 
   loadWishList(userId: string): void {
-    this.store.dispatch(new CartActions.LoadWisthList(userId));
+    this.store.dispatch(new CartActions.LoadWishList(userId));
   }
 
   addEntry(productCode: string): void {
