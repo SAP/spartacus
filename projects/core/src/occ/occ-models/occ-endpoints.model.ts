@@ -312,7 +312,14 @@ export interface OccEndpoints {
    * @member {string}
    */
   couponNotification?: string;
-  /** Endpoint for notification preference
+  /**
+   * Explicitly saves a cart
+   *
+   * @member {string}
+   */
+  saveCart?: string;
+  /**
+   * Endpoint for notification preference
    *
    * @member {string}
    */
