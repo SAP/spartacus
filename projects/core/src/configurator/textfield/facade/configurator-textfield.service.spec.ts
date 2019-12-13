@@ -3,11 +3,12 @@ import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
+import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import * as ConfiguratorActions from '../store/actions/configurator-textfield.action';
 import { StateWithConfigurationTextfield } from '../store/configuration-textfield-state';
 import * as ConfiguratorSelectors from '../store/selectors/configurator-textfield.selector';
@@ -60,9 +61,13 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-class MockCartService {
-  getOrCreateCart(): Observable<Cart> {
-    return of(cart);
+const cartState: ProcessesLoaderState<Cart> = {
+  value: cart,
+};
+
+class MockActiveCartService {
+  requireLoadedCart(): Observable<ProcessesLoaderState<Cart>> {
+    return of(cartState);
   }
 }
 
@@ -76,8 +81,8 @@ describe('ConfiguratorTextfieldService', () => {
       providers: [
         ConfiguratorTextfieldService,
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();

@@ -40,6 +40,18 @@ export class ConfiguratorTextfieldEffects {
   );
 
   @Effect()
+  addToCartCartProcessIncrement$: Observable<
+    CartActions.CartProcessesIncrement
+  > = this.actions$.pipe(
+    ofType(ADD_TO_CART),
+    map((action: AddToCart) => action.payload),
+    map(
+      (payload: ConfiguratorTextfield.AddToCartParameters) =>
+        new CartActions.CartProcessesIncrement(payload.cartId)
+    )
+  );
+
+  @Effect()
   addToCart$: Observable<
     | RemoveConfiguration
     | CartActions.CartAddEntrySuccess

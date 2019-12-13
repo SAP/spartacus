@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
@@ -42,10 +42,10 @@ export class ConfigFormComponent implements OnInit {
       .pipe(
         switchMap(owner =>
           this.configuratorCommonsService.getOrCreateUiState(owner)
-        )
+        ),
+        take(1)
       )
-      .subscribe()
-      .unsubscribe();
+      .subscribe();
 
     this.currentGroup$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
@@ -20,7 +20,7 @@ import * as ConfiguratorSelectors from '../store/selectors/configurator.selector
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
-    protected cartService: CartService
+    protected activeCartService: ActiveCartService
   ) {}
 
   hasConfiguration(owner: GenericConfigurator.Owner): Observable<Boolean> {
@@ -137,17 +137,15 @@ export class ConfiguratorCommonsService {
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {
-    const cart$ = this.cartService.getOrCreateCart();
-    cart$.pipe(take(1)).subscribe(cart => {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
       const addToCartParameters: Configurator.AddToCartParameters = {
-        userId: this.getUserId(cart),
-        cartId: this.getCartId(cart),
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
         productCode: productCode,
         quantity: 1,
         configId: configId,
         ownerKey: ownerKey,
       };
-
       this.store.dispatch(
         new ConfiguratorActions.AddToCart(addToCartParameters)
       );

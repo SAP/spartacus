@@ -4,11 +4,12 @@ import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import { ConfiguratorUiActions } from '../store/actions/';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
@@ -70,9 +71,13 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-class MockCartService {
-  getOrCreateCart(): Observable<Cart> {
-    return of(cart);
+const cartState: ProcessesLoaderState<Cart> = {
+  value: cart,
+};
+
+class MockActiveCartService {
+  requireLoadedCart(): Observable<ProcessesLoaderState<Cart>> {
+    return of(cartState);
   }
 }
 
@@ -167,8 +172,8 @@ describe('ConfiguratorCommonsService', () => {
         ConfiguratorCommonsService,
 
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();

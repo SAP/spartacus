@@ -179,21 +179,6 @@ export class CartService {
       });
   }
 
-  getOrCreateCart(): Observable<Cart> {
-    return this.store.pipe(
-      select(CartSelectors.getActiveCartState),
-      tap(cartState => {
-        if (!this.isCreated(cartState.value.content) && !cartState.loading) {
-          this.store.dispatch(
-            new CartActions.CreateCart({ userId: this.cartData.userId })
-          );
-        }
-      }),
-      filter(cartState => this.isCreated(cartState.value.content)),
-      map(cartState => cartState.value.content)
-    );
-  }
-
   removeEntry(entry: OrderEntry): void {
     if (this.activeCartService) {
       return this.activeCartService.removeEntry(entry);
@@ -232,12 +217,6 @@ export class CartService {
         })
       );
     }
-  }
-
-  getEntryForEntryNumber(entryNumber: number): Observable<OrderEntry> {
-    return this.store.pipe(
-      select(CartSelectors.getCartEntrySelectorFactory(entryNumber))
-    );
   }
 
   getEntry(productCode: string): Observable<OrderEntry> {
