@@ -168,7 +168,9 @@ export function selectShippingAddress() {
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
-  cy.wait('@getdeliveryPage');
+  cy.wait('@getdeliveryPage')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function selectDeliveryMethod() {
@@ -180,7 +182,9 @@ export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').should('be.checked');
   cy.get('button.btn-primary').click();
-  cy.wait('@getPaymentPage');
+  cy.wait('@getPaymentPage')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function selectPaymentMethod() {
