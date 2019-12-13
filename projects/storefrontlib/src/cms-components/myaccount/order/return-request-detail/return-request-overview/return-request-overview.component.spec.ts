@@ -9,6 +9,7 @@ const mockReturnRequest: ReturnRequest = {
   rma: 'test',
   returnEntries: [],
 };
+
 class MockReturnRequestService {
   cancelReturnRequest = jasmine.createSpy();
   cancelSuccess = jasmine.createSpy();

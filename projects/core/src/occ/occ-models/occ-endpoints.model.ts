@@ -295,6 +295,12 @@ export interface OccEndpoints {
    */
   cartVoucher?: string;
   /**
+   * Explicitly saves a cart
+   *
+   * @member {string}
+   */
+  saveCart?: string;
+  /**
    * Endpoint for notification preference
    *
    * @member {string}

@@ -17,18 +17,18 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  MyInterestsModule,
   NotificationPreferenceModule,
   OrderDetailsModule,
   OrderHistoryModule,
   OrderCancelOrReturnModule,
-  OrderReturnRequestListModule,
-  OrderReturnRequestDetailModule,
+  ReturnRequestListModule,
+  ReturnRequestDetailModule,
   PaymentMethodsModule,
   ResetPasswordModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-  MyInterestsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -50,6 +50,7 @@ import { ProductImagesModule } from './product/product-images/product-images.mod
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
+import { WishListModule } from './wish-list/wish-list.module';
 
 @NgModule({
   imports: [
@@ -69,8 +70,8 @@ import { UserComponentModule } from './user/user.module';
     AddressBookModule,
     OrderHistoryModule,
     OrderCancelOrReturnModule,
-    OrderReturnRequestListModule,
-    OrderReturnRequestDetailModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
@@ -94,6 +95,7 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    WishListModule,
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,

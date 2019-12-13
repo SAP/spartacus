@@ -31,4 +31,4 @@ import { OrderReturnRequestListComponent } from './order-return-request-list.com
   exports: [OrderReturnRequestListComponent],
   entryComponents: [OrderReturnRequestListComponent],
 })
-export class OrderReturnRequestListModule {}
+export class ReturnRequestListModule {}
