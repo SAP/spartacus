@@ -18,7 +18,6 @@ import { ConfigureProductComponent } from './configure-product/configure-product
       cmsComponents: {
         ConfigureProductComponent: {
           component: ConfigureProductComponent,
-          ConfigureCartEntryComponent,
         },
       },
     }),
