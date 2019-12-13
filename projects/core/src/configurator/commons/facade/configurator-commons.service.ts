@@ -136,19 +136,15 @@ export class ConfiguratorCommonsService {
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {
-    //TODO CHHI
-    //const cart$ = this.activeCartService.getOrCreateCart();
-    const cart$ = this.activeCartService.getActive();
-    cart$.pipe(take(1)).subscribe(cart => {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
       const addToCartParameters: Configurator.AddToCartParameters = {
-        userId: this.getUserId(cart),
-        cartId: this.getCartId(cart),
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
         productCode: productCode,
         quantity: 1,
         configId: configId,
         ownerKey: ownerKey,
       };
-
       this.store.dispatch(
         new ConfiguratorActions.AddToCart(addToCartParameters)
       );

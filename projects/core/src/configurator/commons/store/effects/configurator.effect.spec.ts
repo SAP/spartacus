@@ -431,4 +431,29 @@ describe('ConfiguratorEffect', () => {
       expect(configEffects.addToCart$).toBeObservable(expected);
     });
   });
+
+  describe('Effect addToCartCartProcessIncrement', () => {
+    it('should emit CartProcessesIncrement on addToCart in case no changes are pending', () => {
+      const payloadInput: Configurator.AddToCartParameters = {
+        userId: userId,
+        cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configId: configId,
+        ownerKey: owner.key,
+      };
+      const action = new ConfiguratorActions.AddToCart(payloadInput);
+      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
+        cartId
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-d', {
+        d: cartProcessIncrement,
+      });
+      expect(configEffects.addToCartCartProcessIncrement$).toBeObservable(
+        expected
+      );
+    });
+  });
 });

@@ -7,6 +7,7 @@ import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
+import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import * as ConfiguratorActions from '../store/actions/configurator-textfield.action';
 import { StateWithConfigurationTextfield } from '../store/configuration-textfield-state';
 import * as ConfiguratorSelectors from '../store/selectors/configurator-textfield.selector';
@@ -47,12 +48,13 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
+const cartState: ProcessesLoaderState<Cart> = {
+  value: cart,
+};
+
 class MockActiveCartService {
-  getOrCreateCart(): Observable<Cart> {
-    return of(cart);
-  }
-  getActive(): Observable<Cart> {
-    return of(cart);
+  requireLoadedCart(): Observable<ProcessesLoaderState<Cart>> {
+    return of(cartState);
   }
 }
 

@@ -55,13 +55,10 @@ export class ConfiguratorTextfieldService {
   }
 
   addToCart(productCode: string) {
-    //TODO CHHI
-    //const cart$ = this.activeCartService.getOrCreateCart();
-    const cart$ = this.activeCartService.getActive();
-    cart$.pipe(take(1)).subscribe(cart => {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-        userId: this.getUserId(cart),
-        cartId: this.getCartId(cart),
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
         productCode: productCode,
         quantity: 1,
       };

@@ -132,6 +132,9 @@ class MockConfiguratorCommonsService {
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
   }
+  getOrCreateUiState(): Observable<any> {
+    return of(undefined);
+  }
   hasConfiguration(): Observable<boolean> {
     return of(false);
   }
