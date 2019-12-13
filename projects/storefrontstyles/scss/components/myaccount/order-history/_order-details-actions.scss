@@ -3,6 +3,10 @@
     justify-content: center;
     padding: 1rem 0 2rem;
 
+    div:empty {
+      display: none;
+    }
+
     .btn-action {
       @include media-breakpoint-down(sm) {
         margin: 0 0 1rem;
