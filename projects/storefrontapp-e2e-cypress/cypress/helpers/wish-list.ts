@@ -1,3 +1,4 @@
+import { cheapProduct } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import { generateMail, randomString } from './user';
@@ -12,15 +13,12 @@ interface TestProduct {
 export const products: TestProduct[] = [
   {
     code: '1934793',
-    type: 'camera',
     name: 'PowerShot A480',
-    price: 99.85,
   },
+  cheapProduct,
   {
-    code: '300938',
-    type: 'camera',
-    name: 'Photosmart E317 Digital Camera',
-    price: 114.12,
+    code: '779841',
+    name: 'FUN Flash Single Use Camera',
   },
 ];
 
@@ -137,8 +135,6 @@ export function removeProductFromPdp() {
 }
 
 export function addProductToCart(product: TestProduct) {
-  cy.get('cx-mini-cart .count').contains('0');
-
   cy.server();
 
   cy.route(
@@ -155,8 +151,6 @@ export function addProductToCart(product: TestProduct) {
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-dialog-buttons>.btn-primary').click({ force: true });
   });
-
-  cy.get('cx-mini-cart .count').contains('1');
 
   getCartItem(product.name).within(() => {
     cy.get('.cx-code').should('contain', product.code);

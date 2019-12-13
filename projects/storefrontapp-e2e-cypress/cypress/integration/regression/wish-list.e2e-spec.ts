@@ -1,4 +1,6 @@
+import * as cart from '../../helpers/cart';
 import * as wishlist from '../../helpers/wish-list';
+import * as wishlistCheckout from '../../helpers/wish-list-checkout';
 
 describe('Wish list', () => {
   before(() => {
@@ -39,14 +41,40 @@ describe('Wish list', () => {
       wishlist.removeProductFromWishListPage(wishlist.products[0]);
     });
 
-    it('should add product to cart from wish list', () => {
+    it('should persist wish list between sessions', () => {
       wishlist.addToWishList(wishlist.products[1]);
+      wishlist.checkWishListPersisted(wishlist.products[1]);
+    });
+
+    it('should add product to cart from wish list', () => {
+      wishlist.addToWishList(wishlist.products[0]);
+      wishlist.verifyProductInWishList(wishlist.products[0]);
+      wishlist.addProductToCart(wishlist.products[0]);
       wishlist.verifyProductInWishList(wishlist.products[1]);
       wishlist.addProductToCart(wishlist.products[1]);
     });
+  });
 
-    it('should persist wish list between sessions', () => {
-      wishlist.checkWishListPersisted(wishlist.products[1]);
+  describe('checkout', () => {
+    it('should checkout with product added from wish list', () => {
+      wishlistCheckout.checkoutFromWishList([
+        wishlist.products[0],
+        wishlist.products[1],
+      ]);
+    });
+
+    it('should add product to cart, to wish list and checkout', () => {
+      cy.visit(`/product/${cart.products[0].code}`);
+      cart.addToCart();
+      cart.closeAddedToCartDialog();
+      wishlist.verifyProductInWishList(wishlist.products[1]);
+      wishlist.addProductToCart(wishlist.products[1]);
+      wishlist.addToWishList(wishlist.products[2]);
+      wishlist.verifyProductInWishList(wishlist.products[2]);
+      wishlistCheckout.checkoutFromCart([
+        cart.products[0],
+        wishlist.products[1],
+      ]);
     });
   });
 });
