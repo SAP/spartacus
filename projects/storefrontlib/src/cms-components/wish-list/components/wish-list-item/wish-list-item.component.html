@@ -1,0 +1,79 @@
+<div class="row">
+  <!-- Item Image -->
+  <div class="cx-image-container col-2">
+    <a [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl">
+      <cx-media
+        [container]="cartEntry.product.images?.PRIMARY"
+        format="thumbnail"
+      ></cx-media>
+    </a>
+  </div>
+  <!-- Item Information -->
+  <div class="cx-info col-10">
+    <div class="cx-info-container row ">
+      <!-- Item Description -->
+      <div class="col-md-5 col-lg-5 col-xl-5">
+        <div *ngIf="cartEntry.product.name" class="cx-name">
+          <a
+            class="cx-link"
+            [routerLink]="
+              { cxRoute: 'product', params: cartEntry.product } | cxUrl
+            "
+            >{{ cartEntry.product.name }}</a
+          >
+        </div>
+        <div *ngIf="cartEntry.product.code" class="cx-code">
+          {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product.code }}
+        </div>
+        <!-- Variants -->
+        <!-- TODO #5593 <div
+          *ngFor="let variant of cartEntry.product.variantOptionQualifiers"
+          class="cx-property"
+        >
+          <div class="cx-label">{{ variant.name }}</div>
+          <div class="cx-value">{{ variant.value }}</div>
+        </div> -->
+      </div>
+      <!-- Item Price -->
+      <div
+        *ngIf="cartEntry.basePrice"
+        class="cx-price col-md-3 col-lg-4 col-xl-4"
+      >
+        <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
+          {{ 'cartItems.itemPrice' | cxTranslate }}
+        </div>
+        <div *ngIf="cartEntry.basePrice" class="cx-value">
+          {{ cartEntry.basePrice?.formattedValue }}
+        </div>
+      </div>
+      <!-- Item Quantity -->
+      <!-- <div *ngIf="cartEntry.quantity" class="cx-quantity col-3">
+        <div
+          class="cx-label d-block d-md-none d-lg-none d-xl-none"
+          placement="left"
+          title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+        >
+          {{ 'cartItems.quantity' | cxTranslate }}
+        </div>
+        <div class="cx-value">{{ cartEntry.quantity }}</div>
+      </div> -->
+      <!-- Total -->
+      <div class="col-sm-8 col-md-4 col-lg-3 col-xl-3 cx-add-to-cart">
+        <cx-add-to-cart
+          *ngIf="cartEntry.product.stock.stockLevelStatus !== 'outOfStock'"
+          [showQuantity]="false"
+          [product]="cartEntry.product"
+        ></cx-add-to-cart>
+      </div>
+    </div>
+    <div class="cx-return-button col-12">
+      <button
+        class="btn btn-link"
+        (click)="removeEntry(cartEntry)"
+        [disabled]="isLoading"
+      >
+        {{ 'common.remove' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>
