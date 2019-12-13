@@ -1,16 +1,23 @@
-<ng-container *ngIf="cart$ | async as cart">
+<ng-container *ngIf="(cart$ | async).totalItems === 0">
+  <p
+    *ngIf="data$ | async as data"
+    [innerHTML]="data.content"
+    class="cx-empty-cart-info"
+  ></p>
+</ng-container>
+
+<ng-container *ngIf="saveForLater$ | async as saveForLater">
   <ng-container *ngIf="entries$ | async as entries">
-    <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
+    <div *ngIf="saveForLater.totalItems > 0" class="cart-details-wrapper">
       <div class="cx-total">
         {{
           'saveForLaterItems.itemTotal'
-            | cxTranslate: { count: cart.totalItems }
+            | cxTranslate: { count: saveForLater.totalItems }
         }}
       </div>
       <cx-cart-item-list
         [items]="entries"
         [isReadOnly]="true"
-        [potentialProductPromotions]="cart.potentialProductPromotions"
         [cartIsLoading]="!(cartLoaded$ | async)"
         [options]="{
           isSaveForLater: true,

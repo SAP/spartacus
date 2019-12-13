@@ -9,6 +9,7 @@ import {
   Cart,
   ActiveCartService,
   OrderEntry,
+  CmsService,
 } from '@spartacus/core';
 import { Component, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
@@ -45,6 +46,7 @@ describe('SaveForLaterComponent', () => {
   const mockCartService = jasmine.createSpyObj('ActiveCartService', [
     'addEntry',
     'getLoaded',
+    'getActive',
   ]);
 
   const mockSelectiveCartService = jasmine.createSpyObj(
@@ -52,11 +54,16 @@ describe('SaveForLaterComponent', () => {
     ['getCart', 'getLoaded', 'removeEntry', 'getEntries']
   );
 
+  const mockCmsService = jasmine.createSpyObj('CmsService', [
+    'getComponentData',
+  ]);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SaveForLaterComponent, MockCartItemListComponent],
       imports: [FeaturesConfigModule, I18nTestingModule],
       providers: [
+        { provide: CmsService, useValue: mockCmsService },
         { provide: ActiveCartService, useValue: mockCartService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
       ],
@@ -68,7 +75,10 @@ describe('SaveForLaterComponent', () => {
     component = fixture.componentInstance;
 
     mockCartService.getLoaded.and.returnValue(of(true));
-
+    mockCartService.getActive.and.returnValue(
+      of<Cart>({ code: '00001', totalItems: 0 })
+    );
+    mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
     mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     mockSelectiveCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
     mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
@@ -90,6 +100,20 @@ describe('SaveForLaterComponent', () => {
     const el = fixture.debugElement.query(By.css('.cx-total'));
     const cartHead = el.nativeElement.innerText;
     expect(cartHead).toEqual('saveForLaterItems.itemTotal count:5');
+  });
+
+  it('should display empty cart info when cart is empty and save for later has items', () => {
+    mockSelectiveCartService.getCart.and.returnValue(
+      of<Cart>({
+        code: '123',
+        totalItems: 5,
+      })
+    );
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('.cx-empty-cart-info')).nativeElement
+        .innerText
+    ).toEqual('content');
   });
 
   it('should move to cart', () => {

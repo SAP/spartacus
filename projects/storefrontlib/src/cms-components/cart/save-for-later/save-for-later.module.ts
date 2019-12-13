@@ -8,7 +8,6 @@ import {
   FeaturesConfig,
 } from '@spartacus/core';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 @NgModule({
   imports: [
@@ -25,7 +24,6 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     }),
     I18nModule,
     CartSharedModule,
-    PromotionsModule,
   ],
   declarations: [SaveForLaterComponent],
   exports: [SaveForLaterComponent],
