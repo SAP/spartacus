@@ -9,9 +9,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   UserOrderService,
+  OrderReturnRequestService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap, map, share } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class OrderCancelOrReturnService {
@@ -20,32 +21,27 @@ export class OrderCancelOrReturnService {
   private keepRequestInputs = false;
 
   get isCancelling$(): Observable<boolean> {
-    return this.userOrderService.getOrderDetailsState().pipe(
-      tap(state => {
-        if (state.success && !state.loading) {
-          this.clearCancelOrReturnRequestInputs();
-          this.globalMessageService.add(
-            {
-              key: 'orderDetails.cancellationAndReturn.cancelSuccess',
-              params: { orderCode: state.value.code },
-            },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-          this.routing.go({
-            cxRoute: 'orders',
-          });
-        }
-      }),
-      map(state => state.loading),
-      share()
-    );
+    return this.userOrderService.getCancelOrderLoading();
+  }
+
+  get isCancelSuccess$(): Observable<boolean> {
+    return this.userOrderService.getCancelOrderSuccess();
+  }
+
+  get isReturning$(): Observable<boolean> {
+    return this.returnRequestService.getReturnRequestLoading();
+  }
+
+  get isReturnSuccess$(): Observable<boolean> {
+    return this.returnRequestService.getReturnRequestSuccess();
   }
 
   constructor(
     protected languageService: LanguageService,
     protected routing: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected userOrderService: UserOrderService
+    protected userOrderService: UserOrderService,
+    protected returnRequestService: OrderReturnRequestService
   ) {
     this.languageService.getActive().subscribe(value => (this.lang = value));
   }
@@ -132,5 +128,53 @@ export class OrderCancelOrReturnService {
     this.userOrderService.cancelOrder(orderCode, {
       cancellationRequestEntryInputs: this.cancelOrReturnRequestInputs,
     });
+  }
+
+  cancelSuccess(orderCode: string): void {
+    this.clearCancelOrReturnRequestInputs();
+    this.userOrderService.resetCancelOrderProcessState();
+    this.globalMessageService.add(
+      {
+        key: 'orderDetails.cancellationAndReturn.cancelSuccess',
+        params: { orderCode },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.routing.go({
+      cxRoute: 'orders',
+    });
+  }
+
+  returnOrder(orderCode: string): void {
+    this.returnRequestService.createOrderReturnRequest({
+      orderCode,
+      returnRequestEntryInputs: this.cancelOrReturnRequestInputs,
+    });
+  }
+
+  returnSuccess(): void {
+    this.clearCancelOrReturnRequestInputs();
+
+    let rma: string;
+    this.returnRequestService
+      .getOrderReturnRequest()
+      .pipe(take(1))
+      .subscribe(returnRequest => (rma = returnRequest.rma));
+
+    this.globalMessageService.add(
+      {
+        key: 'orderDetails.cancellationAndReturn.returnSuccess',
+        params: { rma },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.routing.go({
+      cxRoute: 'returnRequestDetails',
+      params: { rma },
+    });
+  }
+
+  clearReturnRequest(): void {
+    this.returnRequestService.clearOrderReturnRequestDetail();
   }
 }

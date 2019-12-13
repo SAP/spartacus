@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import {
   Order,
   OrderEntry,
@@ -43,9 +43,15 @@ class MockOrderCancelOrReturnService {
   }
 
   goToOrderCancelOrReturn = createSpy();
+  returnOrder = createSpy();
+  returnSuccess = createSpy();
   clearCancelOrReturnRequestInputs = createSpy();
+  clearReturnRequest = createSpy();
   isEntryCancelledOrReturned(): boolean {
     return true;
+  }
+  get isReturnSuccess$(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -111,10 +117,14 @@ describe('ReturnOrderConfirmationComponent', () => {
     expect(returnedEntries).toEqual([{ entryNumber: 0 }, { entryNumber: 3 }]);
   });
 
+  it('should be able to get return success', () => {
+    component.ngOnInit();
+    expect(returnService.returnSuccess).toHaveBeenCalled();
+  });
+
   it('should be able to submit', () => {
     component.submit();
-    // will be handled in #5477
-    // expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
+    expect(returnService.returnOrder).toHaveBeenCalled();
   });
 
   it('should be able to back to return order page', () => {

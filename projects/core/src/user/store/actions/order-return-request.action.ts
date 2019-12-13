@@ -28,13 +28,16 @@ export const LOAD_ORDER_RETURN_REQUEST_SUCCESS =
   '[User] Load Order Return Request details Success';
 
 export const LOAD_ORDER_RETURN_REQUEST_LIST =
-  '[User] Load User Order Return Request list';
+  '[User] Load User Order Return Request List';
 export const LOAD_ORDER_RETURN_REQUEST_LIST_FAIL =
-  '[User] Load User Order Return Request list Fail';
+  '[User] Load User Order Return Request List Fail';
 export const LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS =
-  '[User] Load User Order Return Request list Success';
+  '[User] Load User Order Return Request List Success';
 
-export const CLEAR_ORDER_RETURN_REQUESTS = '[User] Clear Order Return Requests';
+export const CLEAR_ORDER_RETURN_REQUEST =
+  '[User] Clear Order Return Request Details';
+export const CLEAR_ORDER_RETURN_REQUEST_LIST =
+  '[User] Clear Order Return Request List';
 
 export class CreateOrderReturnRequest extends LoaderLoadAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST;
@@ -116,8 +119,15 @@ export class LoadOrderReturnRequestListSuccess extends LoaderSuccessAction {
   }
 }
 
+export class ClearOrderReturnRequest extends LoaderResetAction {
+  readonly type = CLEAR_ORDER_RETURN_REQUEST;
+  constructor() {
+    super(USER_RETURN_REQUEST_DETAILS);
+  }
+}
+
 export class ClearOrderReturnRequestList extends LoaderResetAction {
-  readonly type = CLEAR_ORDER_RETURN_REQUESTS;
+  readonly type = CLEAR_ORDER_RETURN_REQUEST_LIST;
   constructor() {
     super(USER_RETURN_REQUESTS);
   }
@@ -133,4 +143,5 @@ export type OrderReturnRequestAction =
   | LoadOrderReturnRequestList
   | LoadOrderReturnRequestListFail
   | LoadOrderReturnRequestListSuccess
+  | ClearOrderReturnRequest
   | ClearOrderReturnRequestList;

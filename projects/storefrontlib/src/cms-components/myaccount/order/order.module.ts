@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { OrderHistoryModule } from './order-history/order-history.module';
-import { OrderReturnRequestListModule } from './order-return-request-list/order-return-requests.module';
+import { ReturnRequestListModule } from './return-request-list/order-return-request-list.module';
+import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import { OrderCancelOrReturnModule } from './cancellations-returns/cancel-or-return.module';
 
@@ -9,7 +10,8 @@ import { OrderCancelOrReturnModule } from './cancellations-returns/cancel-or-ret
     OrderHistoryModule,
     OrderDetailsModule,
     OrderCancelOrReturnModule,
-    OrderReturnRequestListModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
   ],
 })
 export class OrderModule {}

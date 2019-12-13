@@ -41,6 +41,26 @@ describe('Order Return Request Selectors', () => {
     });
   });
 
+  describe('getOrderReturnRequestLoading', () => {
+    it('should return the Order Return Request loading flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(UsersSelectors.getOrderReturnRequestLoading))
+        .subscribe(value => (result = value));
+      expect(result).not.toBeNull();
+    });
+  });
+
+  describe('getOrderReturnRequestSuccess', () => {
+    it('should return the Order Return Request success flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(UsersSelectors.getOrderReturnRequestSuccess))
+        .subscribe(value => (result = value));
+      expect(result).not.toBeNull();
+    });
+  });
+
   describe('getOrderReturnRequestListState', () => {
     it('should get order return request list state', () => {
       let result: LoaderState<ReturnRequestList>;

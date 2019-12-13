@@ -30,6 +30,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'myInterests',
     'AccountOrderHistoryTabContainer',
     'returnRequestList',
+    'returnRequest',
   ],
   storeFinder: ['storeFinder'],
   pwa: ['pwa'],

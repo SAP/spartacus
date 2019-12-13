@@ -1,7 +1,11 @@
 import { Order } from '../../../model/order.model';
 import { UserActions } from './index';
-import { StateLoaderActions } from '../../../state/utils/index';
-import { USER_ORDER_DETAILS } from '../user-state';
+import {
+  StateLoaderActions,
+  StateEntityLoaderActions,
+} from '../../../state/utils/index';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import { USER_ORDER_DETAILS, CANCEL_ORDER_PROCESS_ID } from '../user-state';
 
 const mockOrderDetails: Order = { code: '123' };
 
@@ -71,7 +75,10 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER,
         payload: payload,
-        meta: StateLoaderActions.loadMeta(USER_ORDER_DETAILS),
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          PROCESS_FEATURE,
+          CANCEL_ORDER_PROCESS_ID
+        ),
       });
     });
   });
@@ -84,7 +91,11 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(USER_ORDER_DETAILS, error),
+        meta: StateEntityLoaderActions.entityFailMeta(
+          PROCESS_FEATURE,
+          CANCEL_ORDER_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -95,7 +106,11 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER_SUCCESS,
-        meta: StateLoaderActions.successMeta(USER_ORDER_DETAILS),
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          PROCESS_FEATURE,
+          CANCEL_ORDER_PROCESS_ID
+        ),
+        payload: undefined,
       });
     });
   });

@@ -11,10 +11,14 @@ import {
 } from '../../model/order.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
-import { LoaderState } from '../../state/index';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
+import { CANCEL_ORDER_PROCESS_ID } from '../store/user-state';
+import {
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -147,6 +151,7 @@ export class UserOrderService {
   clearConsignmentTracking(): void {
     this.store.dispatch(new UserActions.ClearConsignmentTracking());
   }
+
   /*
    * Cancel and order
    */
@@ -166,10 +171,28 @@ export class UserOrderService {
   }
 
   /**
-   * Returns the order details state
+   * Returns the cancel order loading flag
    */
-  getOrderDetailsState(): Observable<LoaderState<Order>> {
-    return this.store.pipe(select(UsersSelectors.getOrderState));
+  getCancelOrderLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(CANCEL_ORDER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the cancel order success flag
+   */
+  getCancelOrderSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(CANCEL_ORDER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the cancel order process flags
+   */
+  resetCancelOrderProcessState(): void {
+    return this.store.dispatch(new UserActions.ResetCancelOrderProcess());
   }
 
   /**

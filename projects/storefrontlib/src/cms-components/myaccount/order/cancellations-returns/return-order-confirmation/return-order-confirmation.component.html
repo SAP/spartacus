@@ -8,7 +8,11 @@
     </button>
   </div>
   <div class="col-xs-12 col-md-3">
-    <button class="btn btn-block btn-primary" (click)="submit()">
+    <button
+      class="btn btn-block btn-primary"
+      (click)="submit()"
+      [disabled]="isReturning$ | async"
+    >
       {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
     </button>
   </div>
@@ -30,7 +34,11 @@
     </button>
   </div>
   <div class="col-xs-12 col-md-3">
-    <button class="btn btn-block btn-primary" (click)="submit()">
+    <button
+      class="btn btn-block btn-primary"
+      (click)="submit()"
+      [disabled]="isReturning$ | async"
+    >
       {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
     </button>
   </div>

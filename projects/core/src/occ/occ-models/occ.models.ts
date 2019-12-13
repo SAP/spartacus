@@ -2367,6 +2367,80 @@ export namespace Occ {
 
   /**
    *
+   * An interface representing ReturnRequest.
+   */
+  export interface ReturnRequest {
+    /**
+     * @member {boolean} [cancellable]
+     */
+    cancellable?: boolean;
+    /**
+     * @member {string} [code]
+     */
+    code?: string;
+    /**
+     * @member {Date} [creationTime]
+     */
+    creationTime?: Date;
+    /**
+     * @member {Price} [deliveryCost]
+     */
+    deliveryCost?: Price;
+    /**
+     * @member {order} [order]
+     */
+    order?: Order;
+    /**
+     * @member {boolean} [refundDeliveryCost]
+     */
+    refundDeliveryCost?: boolean;
+    /**
+     * @member {ReturnRequestEntry[]} [returnEntries]
+     */
+    returnEntries?: ReturnRequestEntry[];
+    /**
+     * @member {string} [returnLabelDownloadUrl]
+     */
+    returnLabelDownloadUrl?: string;
+    /**
+     * @member {string} [rma]
+     */
+    rma?: string;
+    /**
+     * @member {string} [status]
+     */
+    status?: string;
+    /**
+     * @member {Price} [subTotal]
+     */
+    subTotal?: Price;
+    /**
+     * @member {Price} [totalPrice]
+     */
+    totalPrice?: Price;
+  }
+
+  /**
+   *
+   * An interface representing ReturnRequestEntry.
+   */
+  export interface ReturnRequestEntry {
+    /**
+     * @member {OrderEntry} [orderEntry]
+     */
+    orderEntry?: OrderEntry;
+    /**
+     * @member {number} [expectedQuantity]
+     */
+    expectedQuantity?: number;
+    /**
+     * @member {Price} [refundAmount]
+     */
+    refundAmount?: Price;
+  }
+
+  /**
+   *
    * An interface representing PaymentDetailsList.
    */
   export interface PaymentDetailsList {

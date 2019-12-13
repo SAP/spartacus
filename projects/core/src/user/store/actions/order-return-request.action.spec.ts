@@ -171,8 +171,19 @@ describe('Order Return Request actions', () => {
       const action = new UserActions.ClearOrderReturnRequestList();
 
       expect({ ...action }).toEqual({
-        type: UserActions.CLEAR_ORDER_RETURN_REQUESTS,
+        type: UserActions.CLEAR_ORDER_RETURN_REQUEST_LIST,
         meta: StateLoaderActions.resetMeta(USER_RETURN_REQUESTS),
+      });
+    });
+  });
+
+  describe('ClearOrderReturnRequest Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ClearOrderReturnRequest();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CLEAR_ORDER_RETURN_REQUEST,
+        meta: StateLoaderActions.resetMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
