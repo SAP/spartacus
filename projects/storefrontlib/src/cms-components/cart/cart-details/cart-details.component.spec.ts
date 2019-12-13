@@ -70,7 +70,6 @@ class MockCartCouponComponent {
   userId: string;
 }
 
-
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -82,7 +81,7 @@ describe('CartDetailsComponent', () => {
         PromotionsModule,
         PromotionHelperModule,
         I18nTestingModule,
-        FeaturesConfigModule
+        FeaturesConfigModule,
       ],
       declarations: [
         CartDetailsComponent,
@@ -117,8 +116,8 @@ describe('CartDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-   // potentialOrderPromotions and appliedOrderPromotions tests
-   describe('when cart has potentialOrderPromotions and appliedOrderPromotions are defined', () => {
+  // potentialOrderPromotions and appliedOrderPromotions tests
+  describe('when cart has potentialOrderPromotions and appliedOrderPromotions are defined', () => {
     it('should have two consumedEntries', () => {
       const mockedCart: Cart = {
         guid: '1',

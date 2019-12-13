@@ -61,7 +61,7 @@ describe('OrderConfirmationItemsComponent', () => {
         I18nTestingModule,
         PromotionsModule,
         PromotionHelperModule,
-        FeaturesConfigModule
+        FeaturesConfigModule,
       ],
       declarations: [
         OrderConfirmationItemsComponent,

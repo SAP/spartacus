@@ -28,14 +28,12 @@ export class CartDetailsComponent implements OnInit {
     promotionService?: PromotionService
   );
 
- /**
+  /**
    * @deprecated Since 1.4
    * Use promotionService instead of the promotion inputs.
    * Remove issue: #5670
    */
-  constructor(
-    cartService: CartService,
-  );
+  constructor(cartService: CartService);
 
   constructor(
     protected cartService: CartService,

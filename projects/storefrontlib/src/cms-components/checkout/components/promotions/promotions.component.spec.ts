@@ -1,4 +1,8 @@
-import { Promotion, FeaturesConfigModule, FeaturesConfig } from '@spartacus/core';
+import {
+  Promotion,
+  FeaturesConfigModule,
+  FeaturesConfig,
+} from '@spartacus/core';
 import { PromotionsComponent } from './promotions.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';

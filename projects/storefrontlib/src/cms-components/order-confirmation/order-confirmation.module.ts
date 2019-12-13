@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, ConfigModule, I18nModule, FeaturesConfigModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+  FeaturesConfigModule,
+} from '@spartacus/core';
 import { CardModule } from '../../shared/components/card/card.module';
 import { CartSharedModule } from '../cart/cart-shared/cart-shared.module';
 import { PwaModule } from './../../cms-structure/pwa/pwa.module';

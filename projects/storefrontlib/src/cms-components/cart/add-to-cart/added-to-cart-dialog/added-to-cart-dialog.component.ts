@@ -49,7 +49,7 @@ export class AddedToCartDialogComponent implements OnInit {
   constructor(
     modalService: ModalService,
     cartService: CartService,
-    fb: FormBuilder,
+    fb: FormBuilder
   );
 
   constructor(

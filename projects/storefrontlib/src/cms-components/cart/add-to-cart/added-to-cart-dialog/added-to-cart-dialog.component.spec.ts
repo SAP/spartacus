@@ -121,7 +121,7 @@ describe('AddedToCartDialogComponent', () => {
         AutoFocusDirectiveModule,
         PromotionsModule,
         PromotionHelperModule,
-        FeaturesConfigModule
+        FeaturesConfigModule,
       ],
       declarations: [
         AddedToCartDialogComponent,

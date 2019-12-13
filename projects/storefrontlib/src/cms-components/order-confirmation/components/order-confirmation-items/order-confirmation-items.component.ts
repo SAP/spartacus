@@ -34,9 +34,7 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
    * Use promotionService instead of the promotion inputs.
    * Remove issue: #5670
    */
-  constructor(
-    checkoutService: CheckoutService
-  );
+  constructor(checkoutService: CheckoutService);
 
   constructor(
     protected checkoutService: CheckoutService,

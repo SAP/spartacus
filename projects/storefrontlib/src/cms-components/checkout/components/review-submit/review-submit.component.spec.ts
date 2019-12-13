@@ -168,7 +168,7 @@ describe('ReviewSubmitComponent', () => {
         PromotionsModule,
         PromotionHelperModule,
         RouterTestingModule,
-        FeaturesConfigModule
+        FeaturesConfigModule,
       ],
       declarations: [
         ReviewSubmitComponent,

@@ -2,7 +2,11 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, FeaturesConfigModule, FeaturesConfig } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  FeaturesConfigModule,
+  FeaturesConfig,
+} from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
@@ -67,7 +71,7 @@ describe('CartItemComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         PromotionHelperModule,
-        FeaturesConfigModule
+        FeaturesConfigModule,
       ],
       declarations: [
         CartItemComponent,

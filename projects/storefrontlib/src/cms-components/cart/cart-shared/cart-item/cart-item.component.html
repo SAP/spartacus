@@ -105,16 +105,14 @@
     </div>
     <!-- Promotion -->
     <div *cxFeatureLevel="'!1.4'">
-      <cx-promotions
-        [promotions]="potentialProductPromotions"
-      ></cx-promotions>
+      <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     </div>
 
     <div *cxFeatureLevel="'1.4'">
-      <ng-container *ngIf="appliedProductPromotions$ | async as appliedProductPromotions">
-        <cx-promotions
-          [promotions]="appliedProductPromotions"
-        ></cx-promotions>
+      <ng-container
+        *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
+      >
+        <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
       </ng-container>
     </div>
     <!-- Actions -->

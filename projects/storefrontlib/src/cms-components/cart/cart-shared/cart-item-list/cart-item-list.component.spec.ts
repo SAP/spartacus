@@ -84,7 +84,7 @@ describe('CartItemListComponent', () => {
         PromotionsModule,
         PromotionHelperModule,
         I18nTestingModule,
-        FeaturesConfigModule
+        FeaturesConfigModule,
       ],
       declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
       providers: [

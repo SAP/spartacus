@@ -6,7 +6,9 @@
       </div>
 
       <div *cxFeatureLevel="'!1.4'">
-        <cx-promotions [promotions]="getAllPromotionsForCart(cart)"></cx-promotions>
+        <cx-promotions
+          [promotions]="getAllPromotionsForCart(cart)"
+        ></cx-promotions>
 
         <cx-cart-item-list
           [items]="entries"
@@ -26,9 +28,6 @@
           [promotionLocation]="promotionLocation"
         ></cx-cart-item-list>
       </div>
-
     </div>
   </ng-container>
 </ng-container>
-
-

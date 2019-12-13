@@ -28,10 +28,7 @@ export class OrderDetailItemsComponent implements OnInit {
    * Use promotionService instead of the promotion inputs.
    * Remove issue: #5670
    */
-  constructor(
-    orderDetailsService: OrderDetailsService,
-  );
-
+  constructor(orderDetailsService: OrderDetailsService);
 
   constructor(
     private orderDetailsService: OrderDetailsService,
