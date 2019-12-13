@@ -17,6 +17,7 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  MyInterestsModule,
   NotificationPreferenceModule,
   OrderDetailsModule,
   OrderHistoryModule,
@@ -25,7 +26,6 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-  MyInterestsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -48,6 +48,7 @@ import { ProductSummaryModule } from './product/product-summary/product-summary.
 import { ProductVariantSelectorModule } from './product/product-variant-selector/product-variant-selector.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
+import { WishListModule } from './wish-list/wish-list.module';
 
 @NgModule({
   imports: [
@@ -90,6 +91,7 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    WishListModule,
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
