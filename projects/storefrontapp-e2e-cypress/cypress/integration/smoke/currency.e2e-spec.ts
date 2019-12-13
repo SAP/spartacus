@@ -44,7 +44,9 @@ context('Currency change', () => {
     it('user input should not be removed on currency change', () => {
       cy.visit(`${LOGIN_URL_USD}`);
       cy.get('input[type="email"]').type(TEST_EMAIL);
-      cy.wait('@currencies');
+      cy.wait('@currencies')
+        .its('status')
+        .should('eq', 200);
 
       switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
 
