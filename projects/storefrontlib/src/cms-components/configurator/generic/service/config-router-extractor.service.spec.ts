@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Configurator,
+  GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -17,7 +17,7 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
   },
 };
@@ -55,44 +55,53 @@ describe('ConfigRouterExtractorService', () => {
   });
 
   it('should find proper owner for route based purely on product code ', () => {
-    let owner: Configurator.Owner;
+    let owner: GenericConfigurator.Owner;
     serviceUnderTest
       .extractConfigurationOwner(routingService)
       .subscribe(ownerFromRouting => (owner = ownerFromRouting));
     expect(owner.id).toBe(PRODUCT_CODE);
-    expect(owner.type).toBe(Configurator.OwnerType.PRODUCT);
-    expect(owner.key.includes(Configurator.OwnerType.PRODUCT)).toBe(true);
+    expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
+    expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
+      true
+    );
   });
 
   it('should find proper owner for route based on owner type PRODUCT and product code', () => {
-    let owner: Configurator.Owner;
-    mockRouterState.state.params.ownerType = Configurator.OwnerType.PRODUCT;
+    let owner: GenericConfigurator.Owner;
+    mockRouterState.state.params.ownerType =
+      GenericConfigurator.OwnerType.PRODUCT;
     mockRouterState.state.params.entityKey = PRODUCT_CODE;
 
     serviceUnderTest
       .extractConfigurationOwner(routingService)
       .subscribe(ownerFromRouting => (owner = ownerFromRouting));
     expect(owner.id).toBe(PRODUCT_CODE);
-    expect(owner.type).toBe(Configurator.OwnerType.PRODUCT);
-    expect(owner.key.includes(Configurator.OwnerType.PRODUCT)).toBe(true);
+    expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
+    expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
+      true
+    );
   });
 
   it('should find proper owner for route based on owner type CART_ENTRY and cart entry number', () => {
-    let owner: Configurator.Owner;
-    mockRouterState.state.params.ownerType = Configurator.OwnerType.CART_ENTRY;
+    let owner: GenericConfigurator.Owner;
+    mockRouterState.state.params.ownerType =
+      GenericConfigurator.OwnerType.CART_ENTRY;
     mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
     serviceUnderTest
       .extractConfigurationOwner(routingService)
       .subscribe(ownerFromRouting => (owner = ownerFromRouting));
     expect(owner.id).toBe(CART_ENTRY_NUMBER);
-    expect(owner.type).toBe(Configurator.OwnerType.CART_ENTRY);
-    expect(owner.key.includes(Configurator.OwnerType.CART_ENTRY)).toBe(true);
+    expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
+    expect(owner.key.includes(GenericConfigurator.OwnerType.CART_ENTRY)).toBe(
+      true
+    );
   });
 
   it('should extract configurator type from URL', () => {
     let configType: string;
-    mockRouterState.state.params.ownerType = Configurator.OwnerType.CART_ENTRY;
+    mockRouterState.state.params.ownerType =
+      GenericConfigurator.OwnerType.CART_ENTRY;
     mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
     mockRouterState.state.url =
       'http://localhost:4200/electronics-spa/en/USD/configureCPQCONFIGURATOR/cartEntry/entityKey/2';
@@ -105,7 +114,8 @@ describe('ConfigRouterExtractorService', () => {
 
   it('should know from URL that a configuration has been added to the cart', () => {
     let hasBeenAdded;
-    mockRouterState.state.params.ownerType = Configurator.OwnerType.CART_ENTRY;
+    mockRouterState.state.params.ownerType =
+      GenericConfigurator.OwnerType.CART_ENTRY;
     mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
     serviceUnderTest
@@ -118,7 +128,8 @@ describe('ConfigRouterExtractorService', () => {
 
   it('should know from URL that a configuration has not been added to the cart yet', () => {
     let hasBeenAdded;
-    mockRouterState.state.params.ownerType = Configurator.OwnerType.PRODUCT;
+    mockRouterState.state.params.ownerType =
+      GenericConfigurator.OwnerType.PRODUCT;
     mockRouterState.state.params.entityKey = PRODUCT_CODE;
 
     serviceUnderTest

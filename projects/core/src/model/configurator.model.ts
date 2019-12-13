@@ -1,3 +1,5 @@
+import { GenericConfigurator } from './generic-configurator.model';
+
 export namespace Configurator {
   export interface Attribute {
     attrCode?: number;
@@ -44,14 +46,8 @@ export namespace Configurator {
     groups?: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
-    owner?: Owner;
-    nextOwner?: Owner;
-  }
-
-  export interface Owner {
-    type?: OwnerType;
-    key?: string;
-    id?: string;
+    owner?: GenericConfigurator.Owner;
+    nextOwner?: GenericConfigurator.Owner;
   }
 
   export interface Overview {
@@ -96,10 +92,6 @@ export namespace Configurator {
     ownerKey: string;
   }
 
-  export enum OwnerType {
-    PRODUCT = 'product',
-    CART_ENTRY = 'cartEntry',
-  }
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
   }

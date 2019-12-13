@@ -9,6 +9,7 @@ export * from './src/checkout/index';
 export * from './src/cms/index';
 export * from './src/config/index';
 export * from './src/configurator/commons/index';
+export * from './src/configurator/generic/index';
 export * from './src/configurator/textfield/index';
 export * from './src/features-config/index';
 export * from './src/global-message/index';

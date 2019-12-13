@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
@@ -18,7 +19,7 @@ export class ConfiguratorGroupsService {
     private configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
-  getCurrentGroup(owner: Configurator.Owner): Observable<string> {
+  getCurrentGroup(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
       switchMap(uiState => {
         if (uiState && uiState.currentGroup) {
@@ -46,11 +47,11 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  setCurrentGroup(owner: Configurator.Owner, groupId: string) {
+  setCurrentGroup(owner: GenericConfigurator.Owner, groupId: string) {
     this.store.dispatch(new UiActions.SetCurrentGroup(owner.key, groupId));
   }
 
-  getNextGroup(owner: Configurator.Owner): Observable<string> {
+  getNextGroup(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getCurrentGroup(owner).pipe(
       switchMap(currentGroupId => {
         if (!currentGroupId) {
@@ -76,7 +77,7 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  getPreviousGroup(owner: Configurator.Owner): Observable<string> {
+  getPreviousGroup(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getCurrentGroup(owner).pipe(
       switchMap(currentGroupId => {
         if (!currentGroupId) {

@@ -6,8 +6,10 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CartService } from '../../../cart/facade/cart.service';
 import { Cart } from '../../../model/cart.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import { ConfiguratorUiActions } from '../store/actions/';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import {
@@ -16,15 +18,14 @@ import {
 } from '../store/configuration-state';
 import * as fromReducers from '../store/reducers/index';
 import { ConfiguratorSelectors } from '../store/selectors';
-import { ConfigUtilsService } from '../utils/config-utils.service';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const OWNER_PRODUCT: Configurator.Owner = {
+const OWNER_PRODUCT: GenericConfigurator.Owner = {
   id: PRODUCT_CODE,
 
-  type: Configurator.OwnerType.PRODUCT,
+  type: GenericConfigurator.OwnerType.PRODUCT,
 };
 
 const CONFIG_ID = '1234-56-7890';
@@ -150,7 +151,7 @@ function checkCreatesNewUiStateForUnDefinedUiStates(
 
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
   let store: Store<StateWithConfiguration>;
 
   beforeEach(async(() => {
@@ -176,8 +177,8 @@ describe('ConfiguratorCommonsService', () => {
     serviceUnderTest = TestBed.get(ConfiguratorCommonsService as Type<
       ConfiguratorCommonsService
     >);
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);

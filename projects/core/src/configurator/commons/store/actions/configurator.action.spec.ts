@@ -1,8 +1,9 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { Configurator } from 'projects/core/src/model';
+import { Configurator } from '../../../../model/configurator.model';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { StateEntityLoaderActions } from '../../../../state/utils/index';
-import { ConfigUtilsService } from '../../utils/config-utils.service';
+import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { CONFIGURATION_DATA } from '../configuration-state';
 import * as ConfiguratorActions from './configurator.action';
 
@@ -12,15 +13,15 @@ const GROUP_ID = 'GROUP1';
 const CONFIGURATION: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
-  owner: { id: PRODUCT_CODE, type: Configurator.OwnerType.PRODUCT },
+  owner: { id: PRODUCT_CODE, type: GenericConfigurator.OwnerType.PRODUCT },
 };
 
 describe('ConfiguratorActions', () => {
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({}).compileComponents();
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(CONFIGURATION.owner);
   }));
