@@ -97,8 +97,14 @@ export class BudgetFormComponent implements OnInit {
     this.budget['controls'].orgUnit['controls'].uid.setValue(orgUnit.id);
   }
 
-  dateChange(event) {
+  startDateChange(event) {
     this.budget['controls'].startDate.setValue(
+      this.dateFormatterService.transform(event.target.valueAsDate)
+    );
+  }
+
+  endDateChange(event) {
+    this.budget['controls'].endDate.setValue(
       this.dateFormatterService.transform(event.target.valueAsDate)
     );
   }
