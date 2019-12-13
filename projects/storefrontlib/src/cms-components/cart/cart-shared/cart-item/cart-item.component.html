@@ -116,5 +116,14 @@
         {{ 'common.remove' | cxTranslate }}
       </button>
     </div>
+    <div *ngIf="isReadOnly && item.updateable" class="cx-actions col-12">
+      <button
+        class="link"
+        [class.disabled]="cartIsLoading"
+        [disabled]="cartIsLoading"
+      >
+        Buy It Again
+      </button>
+    </div>
   </div>
 </div>
