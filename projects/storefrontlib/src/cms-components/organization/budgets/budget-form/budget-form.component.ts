@@ -110,8 +110,8 @@ export class BudgetFormComponent implements OnInit {
 
   verifyBudget(): void {
     console.log('verifyBudget', this.budget);
-    if (!this.budget.invalid) {
-      this.submitBudget.emit(this.budget.value);
-    }
+    // if (!this.budget.invalid) {
+    //   this.submitBudget.emit(this.budget.value);
+    // }
   }
 }

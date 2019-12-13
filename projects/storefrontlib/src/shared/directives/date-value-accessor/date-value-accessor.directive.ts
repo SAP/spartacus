@@ -35,18 +35,16 @@ export class DateValueAccessorDirective implements ControlValueAccessor {
       this.renderer.setProperty(this.elementRef.nativeElement, 'value', null);
       return;
     }
-    if (value !== this.elementRef.nativeElement.valueAsCustomDate) {
-      this.renderer.setProperty(
-        this.elementRef.nativeElement,
-        'valueAsDate',
-        new Date(value)
-      );
-      this.renderer.setProperty(
-        this.elementRef.nativeElement,
-        'valueAsCustomDate',
-        this.dateFormatterService.transform(value)
-      );
-    }
+    this.renderer.setProperty(
+      this.elementRef.nativeElement,
+      'valueAsDate',
+      new Date(value)
+    );
+    this.renderer.setProperty(
+      this.elementRef.nativeElement,
+      'valueAsCustomDate',
+      this.dateFormatterService.transform(value)
+    );
   }
 
   registerOnChange(fn: (_: any) => void): void {
@@ -64,5 +62,4 @@ export class DateValueAccessorDirective implements ControlValueAccessor {
       isDisabled
     );
   }
-
 }
