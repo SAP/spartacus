@@ -1,6 +1,5 @@
 import * as cart from '../../helpers/cart';
 import * as wishlist from '../../helpers/wish-list';
-import * as wishlistCheckout from '../../helpers/wish-list-checkout';
 
 describe('Wish list', () => {
   before(() => {
@@ -57,7 +56,7 @@ describe('Wish list', () => {
 
   describe('checkout', () => {
     it('should checkout with product added from wish list', () => {
-      wishlistCheckout.checkoutFromWishList([
+      wishlist.checkoutFromWishList([
         wishlist.products[0],
         wishlist.products[1],
       ]);
@@ -71,10 +70,7 @@ describe('Wish list', () => {
       wishlist.addProductToCart(wishlist.products[1]);
       wishlist.addToWishList(wishlist.products[2]);
       wishlist.verifyProductInWishList(wishlist.products[2]);
-      wishlistCheckout.checkoutFromCart([
-        cart.products[0],
-        wishlist.products[1],
-      ]);
+      wishlist.checkoutFromCart([cart.products[0], wishlist.products[1]]);
     });
   });
 });
