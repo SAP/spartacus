@@ -120,6 +120,72 @@ describe('Selective Cart Service', () => {
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
   });
 
+  it('should not load cart when loaded', () => {
+    spyOn(multiCartService, 'getCartEntity').and.returnValue(
+      of({
+        loading: false,
+        success: true,
+        error: false,
+      })
+    );
+    spyOn(multiCartService, 'loadCart').and.stub();
+    let result;
+    service
+      .getCart()
+      .subscribe(val => (result = val))
+      .unsubscribe();
+    expect(result).toEqual({});
+    expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
+  });
+
+  it('should return loaded true when cart load success', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: false,
+      success: true,
+      error: false,
+    });
+
+    let result: boolean;
+    service
+      .getLoaded()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(true);
+  });
+
+  it('should return loaded true when cart load error', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: false,
+      success: false,
+      error: true,
+    });
+
+    let result: boolean;
+    service
+      .getLoaded()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(true);
+  });
+
+  it('should return loaded false when cart loading', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: true,
+      success: false,
+      error: false,
+    });
+
+    let result: boolean;
+    service
+      .getLoaded()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
+  });
+
   it('should not load selective cart for anonymous user', () => {
     spyOn<any>(service, 'load').and.callThrough();
     spyOn(multiCartService, 'loadCart').and.stub();
@@ -174,6 +240,22 @@ describe('Selective Cart Service', () => {
     );
   });
 
+  it('should load first if cart not loaded before add entry', () => {
+    service['cartSelector$'] = of({
+      loading: false,
+      success: false,
+      error: false,
+    });
+    spyOn(multiCartService, 'addEntry').and.callThrough();
+    spyOn(multiCartService, 'loadCart').and.callThrough();
+    service
+      .getCart()
+      .subscribe()
+      .unsubscribe();
+
+    service.addEntry('productCode', 2);
+    expect(multiCartService['loadCart']).toHaveBeenCalled();
+  });
   it('should add entry', () => {
     spyOn(multiCartService, 'addEntry').and.callThrough();
     service
@@ -264,6 +346,20 @@ describe('Selective Cart Service', () => {
     it('should only return true after user change', () => {
       const result = service['isJustLoggedIn']('testUser');
       expect(result).toBe(true);
+    });
+
+    it('should do nothing in load if no cart id', () => {
+      spyOn(multiCartService, 'loadCart').and.callThrough();
+      service['cartId$'].next(null);
+      service['load']();
+      expect(multiCartService['loadCart']).toHaveBeenCalledTimes(0);
+    });
+
+    it('should do nothing in load if user not logged in ', () => {
+      spyOn(multiCartService, 'loadCart').and.callThrough();
+      spyOn<any>(service, 'isLoggedIn').and.returnValue(false);
+      service['load']();
+      expect(multiCartService['loadCart']).toHaveBeenCalledTimes(0);
     });
   });
 });
