@@ -44,7 +44,9 @@ export class AddedToCartDialogComponent implements OnInit {
             entryForm.controls.quantity.setValue(entry.quantity);
           }
           this.form.markAsPristine();
-          this.modalIsOpen = true;
+          if (!this.modalIsOpen) {
+            this.modalIsOpen = true;
+          }
         }
       })
     );
