@@ -17,7 +17,7 @@ export class AddedToCartDialogComponent implements OnInit {
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   increment: boolean;
-  modalIsOpen: boolean;
+  modalIsOpen = false;
 
   quantity = 0;
 
@@ -44,10 +44,10 @@ export class AddedToCartDialogComponent implements OnInit {
             entryForm.controls.quantity.setValue(entry.quantity);
           }
           this.form.markAsPristine();
+          this.modalIsOpen = true;
         }
       })
     );
-    this.modalIsOpen = false;
   }
 
   dismissModal(reason?: any): void {
@@ -62,7 +62,6 @@ export class AddedToCartDialogComponent implements OnInit {
 
   updateEntry({ item, updatedQuantity }): void {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
-    this.modalIsOpen = true;
   }
 
   private createEntryFormGroup(entry: OrderEntry): FormGroup {
