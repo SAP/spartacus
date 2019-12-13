@@ -1,0 +1,32 @@
+<ng-container *ngIf="returnRequest$ | async as returnRequest">
+  <div class="cx-header row">
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{ 'returnRequest.returnRequestId' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">{{ returnRequest.rma }}</div>
+    </div>
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{ 'returnRequest.orderCode' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">{{ returnRequest.order?.code }}</div>
+    </div>
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{ 'returnRequest.status' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">
+        {{
+          'returnRequestList.statusDisplay'
+            | cxTranslate: { context: returnRequest.status }
+        }}
+      </div>
+    </div>
+    <div class="cx-detail col-sm-12 col-md-3">
+      <button *ngIf="returnRequest.cancellable" class="btn btn-action">
+        {{ 'returnRequest.cancel' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

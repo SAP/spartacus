@@ -44,21 +44,8 @@ export class OrderReturnRequestService {
   /**
    * Return an order return request
    */
-  getOrderReturnRequest(returnRequestCode: string): Observable<ReturnRequest> {
-    return this.store.pipe(
-      select(UsersSelectors.getOrderReturnRequestState),
-      tap(returnState => {
-        const attemptedLoad =
-          returnState.loading || returnState.success || returnState.error;
-        if (
-          (returnState.value && returnState.value.rma !== returnRequestCode) ||
-          !attemptedLoad
-        ) {
-          this.loadOrderReturnRequestDetail(returnRequestCode);
-        }
-      }),
-      map(returnState => returnState.value)
-    );
+  getOrderReturnRequest(): Observable<ReturnRequest> {
+    return this.store.pipe(select(UsersSelectors.getOrderReturnRequest));
   }
 
   /**
@@ -126,6 +113,27 @@ export class OrderReturnRequestService {
   }
 
   /**
+   * Get the order return request loading flag
+   */
+  getReturnRequestLoading(): Observable<boolean> {
+    return this.store.pipe(select(UsersSelectors.getOrderReturnRequestLoading));
+  }
+
+  /**
+   * Get the order return request success flag
+   */
+  getReturnRequestSuccess(): Observable<boolean> {
+    return this.store.pipe(select(UsersSelectors.getOrderReturnRequestSuccess));
+  }
+
+  /**
+   * Cleaning order return request details
+   */
+  clearOrderReturnRequestDetail(): void {
+    this.store.dispatch(new UserActions.ClearOrderReturnRequest());
+  }
+
+  /*
    * Utility method to distinquish pre / post 1.3.0 in a convenient way.
    *
    */

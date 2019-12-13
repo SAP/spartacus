@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { OrderReturnRequestsComponent } from './order-return-request-list.component';
+import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 const mockReturns: ReturnRequestList = {
   returnRequests: [
@@ -50,14 +50,14 @@ class MockOrderReturnRequestService {
 }
 
 describe('OrderReturnRequestListComponent', () => {
-  let component: OrderReturnRequestsComponent;
-  let fixture: ComponentFixture<OrderReturnRequestsComponent>;
+  let component: OrderReturnRequestListComponent;
+  let fixture: ComponentFixture<OrderReturnRequestListComponent>;
   let returnService: MockOrderReturnRequestService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
-      declarations: [OrderReturnRequestsComponent, MockUrlPipe],
+      declarations: [OrderReturnRequestListComponent, MockUrlPipe],
       providers: [
         {
           provide: OrderReturnRequestService,
@@ -72,7 +72,7 @@ describe('OrderReturnRequestListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderReturnRequestsComponent);
+    fixture = TestBed.createComponent(OrderReturnRequestListComponent);
     component = fixture.componentInstance;
   });
 

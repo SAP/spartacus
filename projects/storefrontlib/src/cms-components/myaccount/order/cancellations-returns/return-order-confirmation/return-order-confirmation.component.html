@@ -7,8 +7,12 @@
       {{ 'common.back' | cxTranslate }}
     </button>
   </div>
-  <div class="col-xs-12 col-md-4 col-lg-3">
-    <button class="btn btn-block btn-primary" (click)="submit()">
+  <div class="col-xs-12 col-md-3">
+    <button
+      class="btn btn-block btn-primary"
+      (click)="submit()"
+      [disabled]="isReturning$ | async"
+    >
       {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
     </button>
   </div>
@@ -29,8 +33,17 @@
       {{ 'common.back' | cxTranslate }}
     </button>
   </div>
+<<<<<<< HEAD
   <div class="col-xs-12 col-md-4 col-lg-3">
     <button class="btn btn-block btn-primary" (click)="submit()">
+=======
+  <div class="col-xs-12 col-md-3">
+    <button
+      class="btn btn-block btn-primary"
+      (click)="submit()"
+      [disabled]="isReturning$ | async"
+    >
+>>>>>>> 0e219205217cb1a3d4a01073373c445d52e29412
       {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
     </button>
   </div>

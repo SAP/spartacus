@@ -9,7 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { OrderReturnRequestsComponent as OrderReturnRequestListComponent } from './order-return-request-list.component';
+import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 @NgModule({
   imports: [
@@ -31,4 +31,4 @@ import { OrderReturnRequestsComponent as OrderReturnRequestListComponent } from 
   exports: [OrderReturnRequestListComponent],
   entryComponents: [OrderReturnRequestListComponent],
 })
-export class OrderReturnRequestListModule {}
+export class ReturnRequestListModule {}

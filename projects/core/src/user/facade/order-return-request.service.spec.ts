@@ -1,7 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import * as ngrxStore from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ReturnRequestList } from '../../model/order.model';
@@ -64,27 +63,9 @@ describe('OrderReturnRequestService', () => {
       })
     );
     service
-      .getOrderReturnRequest('000000')
+      .getOrderReturnRequest()
       .subscribe(r => expect(r).toEqual({ rma: '000000' }))
       .unsubscribe();
-  });
-
-  it('should load return request if the existing one has different rma', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of({ rma: '000000' })
-    );
-
-    service
-      .getOrderReturnRequest('000001')
-      .subscribe()
-      .unsubscribe();
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadOrderReturnRequest({
-        userId: OCC_USER_ID_CURRENT,
-        returnRequestCode: '000001',
-      })
-    );
   });
 
   it('should be able to load an order return requests data', () => {
@@ -95,6 +76,31 @@ describe('OrderReturnRequestService', () => {
         returnRequestCode: 'test',
       })
     );
+  });
+
+  it('should be able to get return requests loading flag', () => {
+    store.dispatch(
+      new UserActions.CreateOrderReturnRequest({
+        userId: OCC_USER_ID_CURRENT,
+        returnRequestInput: {},
+      })
+    );
+    service
+      .getReturnRequestLoading()
+      .subscribe(r => expect(r).toBeTruthy())
+      .unsubscribe();
+  });
+
+  it('should be able to get return requests success flag', () => {
+    store.dispatch(
+      new UserActions.CreateOrderReturnRequestSuccess({
+        rma: '000000',
+      })
+    );
+    service
+      .getReturnRequestSuccess()
+      .subscribe(r => expect(r).toBeTruthy())
+      .unsubscribe();
   });
 
   it('should be able to get order return requests list', () => {
@@ -136,6 +142,13 @@ describe('OrderReturnRequestService', () => {
     service.clearOrderReturnRequestList();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ClearOrderReturnRequestList()
+    );
+  });
+
+  it('should be able to clear order return requests details', () => {
+    service.clearOrderReturnRequestDetail();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ClearOrderReturnRequest()
     );
   });
 });
