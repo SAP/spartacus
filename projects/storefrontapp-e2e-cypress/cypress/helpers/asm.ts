@@ -199,7 +199,9 @@ export function asmTests(isMobile: boolean) {
       it('asm ui should only display a message that the session in progress is a regular session.', () => {
         const loginPage = checkout.waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
-        cy.wait(`@${loginPage}`);
+        cy.wait(`@${loginPage}`)
+          .its('status')
+          .should('eq', 200);
 
         agentLogin();
         loginCustomerInStorefront();
@@ -299,7 +301,9 @@ function loginCustomerInStorefront() {
 function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationReqest();
   cy.get('a[title="Sign Out"]').click();
-  cy.wait(tokenRevocationAlias);
+  cy.wait(tokenRevocationAlias)
+    .its('status')
+    .should('eq', 200);
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
 }

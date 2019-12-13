@@ -120,7 +120,7 @@ describe('Wish List Effect', () => {
     it('should create wish list if it does NOT exist', () => {
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart]));
 
-      const action = new CartActions.LoadWisthList(userId);
+      const action = new CartActions.LoadWishList(userId);
 
       const createWishListAction = new CartActions.CreateWishList({
         userId,
@@ -135,9 +135,9 @@ describe('Wish List Effect', () => {
     it('should dispatch load wish list success if it exists', () => {
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart, wishList]));
 
-      const action = new CartActions.LoadWisthList(userId);
+      const action = new CartActions.LoadWishList(userId);
 
-      const loadWishListSuccessAction = new CartActions.LoadWisthListSuccess({
+      const loadWishListSuccessAction = new CartActions.LoadWishListSuccess({
         cart: wishList,
         userId,
       });
@@ -152,12 +152,12 @@ describe('Wish List Effect', () => {
   describe('resetWishList$', () => {
     it('should load wish list from id', () => {
       store.dispatch(
-        new CartActions.LoadWisthListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
       );
 
       const action = new SiteContextActions.CurrencyChange();
 
-      const resetWishListAction = new CartActions.LoadWisthListSuccess({
+      const resetWishListAction = new CartActions.LoadWishListSuccess({
         cart: wishList,
         userId,
       });
