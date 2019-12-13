@@ -188,7 +188,9 @@ export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').should('be.checked');
   cy.get('button.btn-primary').click();
-  cy.wait('@getPaymentPage');
+  cy.wait('@getPaymentPage')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function selectPaymentMethod() {
