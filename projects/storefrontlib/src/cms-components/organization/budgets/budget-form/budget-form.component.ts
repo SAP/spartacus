@@ -19,6 +19,7 @@ import {
   B2BUnitNodeList,
   OrgUnitService,
 } from '@spartacus/core';
+import { DateFormatterService } from '../../../../shared/directives/date-value-accessor/date-formatter.service';
 
 @Component({
   selector: 'cx-budget-form',
@@ -69,7 +70,8 @@ export class BudgetFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService
+    protected orgUnitService: OrgUnitService,
+    protected dateFormatterService: DateFormatterService
   ) {}
 
   ngOnInit() {
@@ -78,10 +80,9 @@ export class BudgetFormComponent implements OnInit {
       filter(Boolean),
       map((list: B2BUnitNodeList) => list.unitNodes)
     );
-    console.log(this.budgetData);
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.budget.patchValue(this.budgetData);
-      console.log('initBudget', this.budget)
+      console.log('initBudget', this.budget);
     }
   }
 
@@ -96,12 +97,10 @@ export class BudgetFormComponent implements OnInit {
     this.budget['controls'].orgUnit['controls'].uid.setValue(orgUnit.id);
   }
 
-  startDateChange(event) {
-    this.budget['controls'].startDate.setValue(event.target.valueAsCustomDate);
-  }
-
-  endDateChange(event) {
-    this.budget['controls'].endDate.setValue(event.target.valueAsCustomDate);
+  dateChange(event) {
+    this.budget['controls'].startDate.setValue(
+      this.dateFormatterService.transform(event.target.valueAsDate)
+    );
   }
 
   back(): void {

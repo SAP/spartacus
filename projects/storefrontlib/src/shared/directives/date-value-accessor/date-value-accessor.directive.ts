@@ -6,7 +6,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DateFormatterService } from './date-formatter.service';
+// import { DateFormatterService } from './date-formatter.service';
 
 export const DATE_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -27,7 +27,7 @@ export class DateValueAccessorDirective implements ControlValueAccessor {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    protected dateFormatterService: DateFormatterService
+    // protected dateFormatterService: DateFormatterService
   ) {}
 
   writeValue(value: string): void {
@@ -40,11 +40,11 @@ export class DateValueAccessorDirective implements ControlValueAccessor {
       'valueAsDate',
       new Date(value)
     );
-    this.renderer.setProperty(
-      this.elementRef.nativeElement,
-      'valueAsCustomDate',
-      this.dateFormatterService.transform(value)
-    );
+    // this.renderer.setProperty(
+    //   this.elementRef.nativeElement,
+    //   'valueAsCustomDate',
+    //   this.dateFormatterService.transform(value)
+    // );
   }
 
   registerOnChange(fn: (_: any) => void): void {

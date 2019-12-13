@@ -7,6 +7,6 @@ export class DateFormatterService {
   constructor() {}
 
   transform(value: string) {
-    return value.replace('.','+')
+    return new Date(value).toISOString().replace('.','+').replace('Z','0')
   }
 }
