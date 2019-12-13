@@ -32,35 +32,12 @@ if (!environment.production) {
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-    CdsModule.forRoot({
-      cds: {
-        tenant: 'argotest',
-        baseUrl: 'test',
-        endpoints: {
-          strategyProducts: 'example',
-        },
-        profileTag: {
-          javascriptUrl: environment.profileTagUrl,
-          configUrl: environment.configUrl,
-        },
-      },
-    }),
     B2cStorefrontModule.withConfig({
-      checkout: {
-        guest: true,
-      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
           legacy: false,
         },
-      },
-      pwa: {
-        enabled: false,
-      },
-      authentication: {
-        client_id: environment.authClientId,
-        client_secret: environment.authClientSecret,
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
@@ -87,8 +64,22 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
       features: {
-        level: '1.3',
+        level: '1.4',
         anonymousConsents: true,
+      },
+    }),
+    CdsModule.forRoot({
+      cds: {
+        tenant: 'argotest',
+        baseUrl: 'test',
+        endpoints: {
+          strategyProducts: 'example',
+        },
+        profileTag: {
+          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
+          configUrl:
+            'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
+        },
       },
     }),
     JsonLdBuilderModule,
