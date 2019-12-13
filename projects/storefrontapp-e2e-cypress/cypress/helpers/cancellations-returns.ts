@@ -1,4 +1,65 @@
-import { login, register, RegisterUser } from './auth-forms';
+import { login, register } from './auth-forms';
+import { waitForPage } from './checkout-flow';
+import { fillShippingAddress } from './checkout-forms';
+import { generateMail, randomString } from './user';
+
+interface TestProduct {
+  code: string;
+  type?: string;
+  name?: string;
+  price?: number;
+}
+
+export const user = {
+  user: 'standard',
+  registrationData: {
+    firstName: 'Winston',
+    lastName: 'Rumfoord',
+    password: 'Password123.',
+    titleCode: 'mr',
+    email: generateMail(randomString(), true),
+    address: {
+      city: 'Tralfamadore',
+      line1: 'Chrono-Synclastic Infundibulum',
+      line2: 'Betelgeuse',
+      country: 'United States',
+      state: 'Connecticut',
+      postal: '06247',
+    },
+    fullName: 'Winston Rumfoord',
+    payment: {
+      card: 'Mastercard',
+      number: '1234567890123456',
+      expires: {
+        month: '11',
+        year: '2027',
+      },
+      cvv: '687',
+    },
+  },
+};
+
+export const shippingAddress = {
+  firstName: 'Winston',
+  lastName: 'Rumfoord',
+  phone: '514-911-1234',
+  address: user.registrationData.address,
+};
+
+export const products: TestProduct[] = [
+  {
+    code: '1934793',
+    type: 'camera',
+    name: 'PowerShot A480',
+    price: 95.1,
+  },
+  {
+    code: '300938',
+    type: 'camera',
+    name: 'Photosmart E317 Digital Camera',
+    price: 114.12,
+  },
+];
 
 export function addProductToCart(productCode: string) {
   cy.server();
@@ -17,20 +78,15 @@ export function addProductToCart(productCode: string) {
   });
 }
 
-export function signIn(user: RegisterUser) {
-  cy.server();
-  cy.visit('/login');
-  cy.route('GET', '/rest/v2/electronics-spa/products/932577*').as('homepage');
-  login(user.email, user.password);
-  cy.wait('@homepage');
+export function loginUser() {
+  login(user.registrationData.email, user.registrationData.password);
+  cy.url().should('not.contain', 'login');
 }
 
-export function registerUser(user: RegisterUser) {
-  cy.visit('/login');
-  cy.get('a.btn')
-    .contains('Register')
-    .click();
-  register(user);
+export function registerUser() {
+  cy.visit('/login/register');
+  register({ ...user.registrationData });
+  cy.url().should('not.contain', 'register');
 }
 
 export function checkTabs() {
@@ -85,4 +141,106 @@ export function checkReturnNumberLink() {
     .click({ force: true });
 
   cy.wait('@returnDetailPage');
+}
+
+export function addToCartAnonymous(product: TestProduct) {
+  const productPage = waitForPage(product.code, 'productPage');
+
+  registerUser();
+
+  loginUser();
+
+  cy.visit(`/product/${product.code}`);
+
+  cy.wait(`@${productPage}`);
+
+  cy.get('cx-product-intro > .code').should('contain', `${product.code}`);
+
+  cy.get('cx-add-to-cart > button.btn-primary').click({ force: true });
+
+  cy.get('cx-added-to-cart-dialog a.btn-secondary').click({
+    force: true,
+  });
+}
+
+export function fillShipping() {
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
+    .first()
+    .find('.cx-summary-amount')
+    .should('contain', products[0].price);
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+  fillShippingAddress(shippingAddress);
+  cy.wait(`@${deliveryPage}`);
+}
+
+export function pickDeliveryMethod() {
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  const paymentPage = waitForPage(
+    '/checkout/payment-details',
+    'getPaymentPage'
+  );
+  cy.get('.cx-checkout-btns button.btn-primary').click();
+  cy.wait(`@${paymentPage}`);
+}
+
+export function fillPaymentDetails() {
+  const paymentDetails = user.registrationData;
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+
+  cy.get('cx-payment-form').within(() => {
+    cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
+    cy.get('[formcontrolname="accountHolderName"]')
+      .clear()
+      .type(paymentDetails.fullName);
+    cy.get('[formcontrolname="cardNumber"]')
+      .clear()
+      .type(paymentDetails.payment.number);
+    cy.get('[bindValue="expiryMonth"]').ngSelect(
+      paymentDetails.payment.expires.month
+    );
+    cy.get('[bindValue="expiryYear"]').ngSelect(
+      paymentDetails.payment.expires.year
+    );
+    cy.get('[formcontrolname="cvn"]')
+      .clear()
+      .type(paymentDetails.payment.cvv);
+    cy.get('button.btn-primary').click();
+
+    cy.wait(`@${reviewPage}`);
+  });
+}
+
+export function placeOrder() {
+  cy.get('.form-check-input').check();
+  const orderConfirmationPage = waitForPage(
+    '/order-confirmation',
+    'getOrderConfirmationPage'
+  );
+  cy.get('cx-place-order button.btn-primary').click();
+  cy.wait(`@${orderConfirmationPage}`);
+}
+
+export function reviewOrder() {
+  const data = user.registrationData;
+  cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
+  cy.get('h2').should('contain', 'Thank you for your order!');
+  cy.get('.cx-order-review-summary .row').within(() => {
+    cy.get('.col-lg-3:nth-child(1) .cx-card').within(() => {
+      cy.contains(data.fullName);
+      cy.contains(data.address.line1);
+    });
+    cy.get('.col-lg-3:nth-child(2) .cx-card').within(() => {
+      cy.contains(data.fullName);
+      cy.contains(data.address.line1);
+    });
+    cy.get('.col-lg-3:nth-child(3) .cx-card').within(() => {
+      cy.contains('Standard Delivery');
+    });
+  });
+  cy.get('cx-cart-item .cx-code').should('contain', products[0].code);
+  cy.get('cx-order-summary .cx-summary-amount').should('contain', '110.34');
 }
