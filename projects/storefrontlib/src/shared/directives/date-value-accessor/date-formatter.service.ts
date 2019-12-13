@@ -6,7 +6,14 @@ import { Injectable } from '@angular/core';
 export class DateFormatterService {
   constructor() {}
 
+  toDate(value) {
+    return new Date(value);
+  }
+
   transform(value: string) {
-    return new Date(value).toISOString().replace('.','+').replace('Z','0')
+    return new Date(value)
+      .toISOString()
+      .replace('.', '+')
+      .replace('Z', '0');
   }
 }
