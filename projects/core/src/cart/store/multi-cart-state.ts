@@ -11,4 +11,5 @@ export interface StateWithMultiCart {
 export interface MultiCartState {
   carts: EntityProcessesLoaderState<Cart>;
   active: string;
+  wishList: string;
 }

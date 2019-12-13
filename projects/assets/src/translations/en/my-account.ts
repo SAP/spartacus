@@ -141,4 +141,7 @@ export const myAccount = {
       byNameDesc: 'Name (descending)',
     },
   },
+  wishlist: {
+    empty: 'No products in your wish list yet',
+  },
 };
