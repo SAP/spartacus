@@ -3,7 +3,7 @@ import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import { CartActions } from '../actions/index';
 
 export const activeCartInitialState = '';
-export const wishListinitialState = '';
+export const wishListInitialState = '';
 
 export function activeCartReducer(
   state = activeCartInitialState,
@@ -52,7 +52,7 @@ export function cartEntitiesReducer(
 }
 
 export function wishListReducer(
-  state = wishListinitialState,
+  state = wishListInitialState,
   action: CartActions.WishListActions
 ): string {
   switch (action.type) {
