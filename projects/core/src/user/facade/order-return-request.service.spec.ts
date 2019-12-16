@@ -8,6 +8,8 @@ import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { OrderReturnRequestService } from './order-return-request.service';
 
 class MockAuthService {
@@ -25,6 +27,10 @@ describe('OrderReturnRequestService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         OrderReturnRequestService,
