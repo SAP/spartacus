@@ -11,7 +11,8 @@
     "cy:run:mobile": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/mobile/**/*\"",
     "cy:run:regression": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/regression/**/*\"",
     "cy:run:all": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/**/*\"",
-    "cy:run:vendor": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/vendor/**/*\""
+    "cy:run:vendor": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/vendor/**/*\"",
+    "cy:run:vendor:cds": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/vendor/cds/**/*\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",
