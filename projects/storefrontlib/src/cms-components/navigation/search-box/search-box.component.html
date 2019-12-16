@@ -51,6 +51,7 @@
       (keydown.arrowup)="focusPreviousChild($event)"
       (keydown.arrowdown)="focusNextChild($event)"
       (keydown.enter)="close($event, true)"
+      (keydown.escape)="close($event, true)"
       (blur)="close($event)"
     >
     </a>
@@ -69,6 +70,7 @@
       (keydown.arrowup)="focusPreviousChild($event)"
       (keydown.arrowdown)="focusNextChild($event)"
       (keydown.enter)="close($event, true)"
+      (keydown.escape)="close($event, true)"
       (blur)="close($event)"
     >
       <cx-media
