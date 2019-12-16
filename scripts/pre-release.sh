@@ -8,6 +8,7 @@ function cleanup {
     delete_file docs.tar.gz
     delete_file docs.zip
     delete_file spartacussampledataaddon.zip
+    delete_file spartacussampledataaddon.tar
 
     delete_dir dist
     delete_dir documentation
@@ -44,10 +45,11 @@ function zipSamplesAddOn {
     delete_dir spartacussampledataaddon
     git clone https://github.tools.sap/cx-commerce/spartacussampledataaddon.git
     cd spartacussampledataaddon
-    delete_dir .git
-    delete_file .gitignore
+    git archive -o spartacussampledataaddon.tar HEAD
+    mv spartacussampledataaddon.tar ../
+    git archive -o spartacussampledataaddon.zip HEAD
+    mv spartacussampledataaddon.zip ../
     cd ..
-    zip -r spartacussampledataaddon.zip spartacussampledataaddon
     delete_dir spartacussampledataaddon
 }
 
