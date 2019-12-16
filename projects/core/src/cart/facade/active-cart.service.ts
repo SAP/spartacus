@@ -310,6 +310,15 @@ export class ActiveCartService {
   }
 
   /**
+   * Remove entry by key
+   *
+   * @param key
+   */
+  removeEntryByKey(key: string): void {
+    this.multiCartService.removeEntryByKey(this.userId, this.cartId, key);
+  }
+
+  /**
    * Update entry
    *
    * @param entryNumber
@@ -325,6 +334,21 @@ export class ActiveCartService {
   }
 
   /**
+   * Update entry by key
+   *
+   * @param key
+   * @param quantity
+   */
+  updateEntryByKey(key: string, quantity: number): void {
+    this.multiCartService.updateEntryByKey(
+      this.userId,
+      this.cartId,
+      key,
+      quantity
+    );
+  }
+
+  /**
    * Returns cart entry
    *
    * @param productCode
@@ -332,6 +356,18 @@ export class ActiveCartService {
   getEntry(productCode: string): Observable<OrderEntry> {
     return this.activeCartId$.pipe(
       switchMap(cartId => this.multiCartService.getEntry(cartId, productCode)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns cart entry by key
+   *
+   * @param key
+   */
+  getEntryByKey(key: string): Observable<OrderEntry> {
+    return this.activeCartId$.pipe(
+      switchMap(cartId => this.multiCartService.getEntryByKey(cartId, key)),
       distinctUntilChanged()
     );
   }

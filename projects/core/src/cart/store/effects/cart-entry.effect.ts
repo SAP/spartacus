@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { CartConnector } from '../../connectors';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
@@ -83,6 +90,57 @@ export class CartEntryEffects {
   );
 
   @Effect()
+  removeEntryByKey$: Observable<
+    | CartActions.CartRemoveEntryByKeySuccess
+    | CartActions.CartRemoveEntryByKeyFail
+    | DeprecatedCartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.CART_REMOVE_ENTRY_BY_KEY),
+    map((action: CartActions.CartAddEntry) => action.payload),
+    concatMap(payload =>
+      // TODO add take until for contextChange
+      this.cartConnector.load(payload.userId, payload.cartId).pipe(
+        switchMap(cart => {
+          const entryToRemove = cart.entries.find(
+            entry => entry.key === payload.key
+          );
+          return this.cartEntryConnector
+            .remove(
+              payload.userId,
+              payload.cartId,
+              `${entryToRemove.entryNumber}`
+            )
+            .pipe(
+              mergeMap(() => {
+                return [
+                  new CartActions.CartRemoveEntryByKeySuccess({
+                    ...payload,
+                  }),
+                  new DeprecatedCartActions.LoadCart({
+                    cartId: payload.cartId,
+                    userId: payload.userId,
+                  }),
+                ];
+              }),
+              catchError(error =>
+                from([
+                  new CartActions.CartRemoveEntryByKeyFail({
+                    error: makeErrorSerializable(error),
+                    ...payload,
+                  }),
+                  new DeprecatedCartActions.LoadCart({
+                    cartId: payload.cartId,
+                    userId: payload.userId,
+                  }),
+                ])
+              )
+            );
+        })
+      )
+    )
+  );
+
+  @Effect()
   updateEntry$: Observable<
     | CartActions.CartUpdateEntrySuccess
     | CartActions.CartUpdateEntryFail
@@ -115,8 +173,61 @@ export class CartEntryEffects {
     )
   );
 
+  @Effect()
+  updateEntryByKey$: Observable<
+    | CartActions.CartUpdateEntryByKeySuccess
+    | CartActions.CartUpdateEntryByKeyFail
+    | DeprecatedCartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.CART_UPDATE_ENTRY_BY_KEY),
+    map((action: CartActions.CartAddEntry) => action.payload),
+    concatMap(payload =>
+      // TODO add take until for contextChange
+      this.cartConnector.load(payload.userId, payload.cartId).pipe(
+        switchMap(cart => {
+          const entryToUpdate = cart.entries.find(
+            entry => entry.key === payload.key
+          );
+          return this.cartEntryConnector
+            .update(
+              payload.userId,
+              payload.cartId,
+              `${entryToUpdate.entryNumber}`,
+              payload.quantity
+            )
+            .pipe(
+              mergeMap(() => {
+                return [
+                  new CartActions.CartUpdateEntryByKeySuccess({
+                    ...payload,
+                  }),
+                  new DeprecatedCartActions.LoadCart({
+                    cartId: payload.cartId,
+                    userId: payload.userId,
+                  }),
+                ];
+              }),
+              catchError(error =>
+                from([
+                  new CartActions.CartUpdateEntryByKeyFail({
+                    error: makeErrorSerializable(error),
+                    ...payload,
+                  }),
+                  new DeprecatedCartActions.LoadCart({
+                    cartId: payload.cartId,
+                    userId: payload.userId,
+                  }),
+                ])
+              )
+            );
+        })
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
-    private cartEntryConnector: CartEntryConnector
+    private cartEntryConnector: CartEntryConnector,
+    private cartConnector?: CartConnector
   ) {}
 }

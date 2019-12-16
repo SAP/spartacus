@@ -180,6 +180,23 @@ export class MultiCartService {
   }
 
   /**
+   * Remove entry from cart
+   *
+   * @param userId
+   * @param cartId
+   * @param key
+   */
+  removeEntryByKey(userId: string, cartId: string, key: string): void {
+    this.store.dispatch(
+      new CartActions.CartRemoveEntryByKey({
+        userId,
+        cartId,
+        key,
+      })
+    );
+  }
+
+  /**
    * Update entry in cart. For quantity = 0 it removes entry
    *
    * @param userId
@@ -208,16 +225,56 @@ export class MultiCartService {
   }
 
   /**
+   * Update entry in cart by key. For quantity 0 it removes entry
+   *
+   * @param userId
+   * @param cartId
+   * @param key
+   * @param quantity
+   */
+  updateEntryByKey(
+    userId: string,
+    cartId: string,
+    key: string,
+    quantity: number
+  ): void {
+    if (quantity > 0) {
+      this.store.dispatch(
+        new CartActions.CartUpdateEntryByKey({
+          userId,
+          cartId,
+          key,
+          quantity,
+        })
+      );
+    } else {
+      this.removeEntryByKey(userId, cartId, key);
+    }
+  }
+
+  /**
    * Get specific entry from cart
    *
    * @param cartId
    * @param productCode
    */
-  getEntry(cartId: string, productCode: string): Observable<OrderEntry | null> {
+  getEntry(cartId: string, productCode: string): Observable<OrderEntry> {
     return this.store.pipe(
       select(
         MultiCartSelectors.getCartEntrySelectorFactory(cartId, productCode)
       )
+    );
+  }
+
+  /**
+   * Get entry from cart by entry key
+   *
+   * @param cartId
+   * @param key
+   */
+  getEntryByKey(cartId: string, key: string): Observable<OrderEntry> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartEntryByKeySelectorFactory(cartId, key))
     );
   }
 

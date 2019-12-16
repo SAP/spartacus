@@ -17,10 +17,17 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     }
 
     if (source && source.entries) {
-      target.entries = source.entries.map(entry => ({
-        ...entry,
-        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
-      }));
+      target.entries = source.entries.map(entry => {
+        const product = this.converter.convert(
+          entry.product,
+          PRODUCT_NORMALIZER
+        );
+        return {
+          ...entry,
+          key: `${product.code}_${entry.basePrice.formattedValue}_${product.name}`,
+          product,
+        };
+      });
     }
 
     this.removeDuplicatePromotions(source, target);
