@@ -15,7 +15,6 @@ export const cart = {
     total: 'Total',
     cartTotal: 'Cart total ({{count}} item)',
     cartTotal_plural: 'Cart total ({{count}} items)',
-    outOfStock: 'Out of stock',
   },
   orderCost: {
     orderSummary: 'Order Summary',
