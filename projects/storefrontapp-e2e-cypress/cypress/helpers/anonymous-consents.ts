@@ -71,10 +71,14 @@ export function registerNewUserAndLogin(
 ) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(`@${loginPage}`)
+    .its('status')
+    .should('eq', 200);
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
-  cy.wait(`@${registerPage}`);
+  cy.wait(`@${registerPage}`)
+    .its('status')
+    .should('eq', 200);
   register(newUser, giveRegistrationConsent, hiddenConsent);
   cy.get('cx-breadcrumb').contains('Login');
 
@@ -90,7 +94,9 @@ export function navigateToConsentPage() {
   cy.selectUserMenuOption({
     option: 'Consent Management',
   });
-  cy.wait(`@${consentsPage}`);
+  cy.wait(`@${consentsPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function seeBannerAsAnonymous() {
@@ -268,7 +274,9 @@ export function moveAnonymousUserToLoggedInUser() {
 
     const loginPage = waitForPage('/login', 'getLoginPage');
     cy.getByText(/Sign in \/ Register/i).click();
-    cy.wait(`@${loginPage}`);
+    cy.wait(`@${loginPage}`)
+      .its('status')
+      .should('eq', 200);
 
     login(
       standardUser.registrationData.email,
@@ -302,7 +310,9 @@ export function testAsLoggedInUser() {
 
     const loginPage = waitForPage('/login', 'getLoginPage');
     cy.getByText(/Sign in \/ Register/i).click();
-    cy.wait(`@${loginPage}`);
+    cy.wait(`@${loginPage}`)
+      .its('status')
+      .should('eq', 200);
 
     login(
       standardUser.registrationData.email,
@@ -328,7 +338,9 @@ export function changeLanguageTest() {
 
     cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
     switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
-    cy.wait('@switchedContext');
+    cy.wait('@switchedContext')
+      .its('status')
+      .should('eq', 200);
 
     openDialogUsingFooterLink();
     checkAllInputConsentState(BE_CHECKED);
