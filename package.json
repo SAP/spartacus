@@ -6,6 +6,7 @@
     "node": ">=10 <14"
   },
   "scripts": {
+    "prebuild": "yarn build:core:lib",
     "build": "ng build storefrontapp --prod",
     "build:assets": "ng build assets && yarn generate:translations:ts-2-json",
     "build:core:lib": "ng build core && ng build storefrontlib && yarn build:assets && yarn build:incubator",
