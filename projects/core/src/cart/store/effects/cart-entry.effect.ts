@@ -9,7 +9,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { CartConnector } from '../../connectors';
+import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
