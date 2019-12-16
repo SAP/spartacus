@@ -86,6 +86,7 @@
     @include type('4');
     display: flex;
     justify-content: space-between;
+    padding: 0 0 1.25rem 0;
   }
 
   .cx-dialog-buttons {
