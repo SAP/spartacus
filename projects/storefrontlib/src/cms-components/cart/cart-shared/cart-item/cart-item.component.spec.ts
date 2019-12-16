@@ -78,11 +78,7 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        I18nTestingModule,
-      ],
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
       declarations: [
         CartItemComponent,
         MockMediaComponent,
