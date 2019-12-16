@@ -9,6 +9,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
 import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -92,6 +93,7 @@ describe('ProductGridItemComponent in product-list', () => {
         MockUrlPipe,
         MockCxIconComponent,
         MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     })
       .overrideComponent(ProductGridItemComponent, {
