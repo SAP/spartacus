@@ -22,6 +22,7 @@ import {
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -144,6 +145,7 @@ describe('ProductListComponent', () => {
         MockCxIconComponent,
         ProductScrollComponent,
         MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     }).compileComponents();
   }));
