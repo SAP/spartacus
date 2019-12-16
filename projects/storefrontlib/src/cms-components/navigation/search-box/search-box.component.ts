@@ -137,7 +137,7 @@ export class SearchBoxComponent {
           }
         }
         this.ignoreCloseEvent = false;
-      }, 0);
+      });
     } else {
       if (!this.ignoreCloseEvent || force) {
         this.searchBoxComponentService.toggleBodyClass(
@@ -181,11 +181,7 @@ export class SearchBoxComponent {
 
   // Return focused element as HTMLElement
   private getFocusedElement(): HTMLElement {
-    // TODO(issue:#3827) deprecated since 1.0.2
-    if (this.winRef) {
-      return <HTMLElement>this.winRef.document.activeElement;
-    }
-    return null;
+    return <HTMLElement>this.winRef.document.activeElement;
   }
 
   private getFocusedIndex(): number {
