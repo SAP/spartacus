@@ -20,7 +20,10 @@ import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageSlotComponent {
+  slotPosition;
+
   @Input() set position(position: string) {
+    this.slotPosition = position;
     this.position$.next(position);
     // add the position name as a css class so that
     // layout can be applied to it, using the position based class.
