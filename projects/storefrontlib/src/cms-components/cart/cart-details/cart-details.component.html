@@ -11,11 +11,10 @@
         [items]="entries"
         [cartIsLoading]="!(cartLoaded$ | async)"
         [potentialProductPromotions]="cart.potentialProductPromotions"
-        [options]="
-          isSaveForLaterEnabled()
-            ? { isSaveForLater: false, optionalBtn: saveForLaterbtn }
-            : {}
-        "
+        [options]="{
+          isSaveForLater: false,
+          optionalBtn: isSaveForLaterEnabled() ? saveForLaterbtn : null
+        }"
       ></cx-cart-item-list>
     </div>
   </ng-container>
