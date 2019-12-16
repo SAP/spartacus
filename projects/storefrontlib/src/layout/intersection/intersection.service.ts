@@ -80,13 +80,13 @@ export class IntersectionService {
     element.classList.add(GHOST_CLASS);
   }
 
-  private removeGhost(element: HTMLElement): void {
-    this.ghostElements.set(element, this.ghostElements.get(element) - 1);
+  // private removeGhost(element: HTMLElement): void {
+  //   this.ghostElements.set(element, this.ghostElements.get(element) - 1);
 
-    if (this.ghostElements.get(element) === 0) {
-      setTimeout(() => {
-        element.classList.remove(GHOST_CLASS);
-      }, 2000);
-    }
-  }
+  //   if (this.ghostElements.get(element) === 0) {
+  //     setTimeout(() => {
+  //       element.classList.remove(GHOST_CLASS);
+  //     }, 2000);
+  //   }
+  // }
 }
