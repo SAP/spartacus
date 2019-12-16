@@ -9,9 +9,8 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
-import { FeaturesConfigModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 @Pipe({
@@ -83,7 +82,6 @@ describe('CartItemComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         I18nTestingModule,
-        FeaturesConfigModule,
       ],
       declarations: [
         CartItemComponent,
@@ -96,12 +94,6 @@ describe('CartItemComponent', () => {
       providers: [
         {
           provide: ControlContainer,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.4', consignmentTracking: '1.2' },
-          },
         },
       ],
     }).compileComponents();
