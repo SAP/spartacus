@@ -45,9 +45,6 @@ export class OutletDirective implements OnInit {
 
   private deferRender() {
     const hostElement = this.getHostElement(this.vcr.element.nativeElement);
-
-    // we need to wait a tick to take advantage of the ghost layout
-    setTimeout(() => {}, 0);
     this.intersectionService
       .isIntersected(hostElement, this.cxOutletDefer)
       .subscribe(() => {
@@ -85,9 +82,17 @@ export class OutletDirective implements OnInit {
     if (tmplOrFactory instanceof ComponentFactory) {
       this.vcr.createComponent(tmplOrFactory);
     } else if (tmplOrFactory instanceof TemplateRef) {
-      this.vcr.createEmbeddedView(<TemplateRef<any>>tmplOrFactory, {
-        $implicit: this._context,
-      });
+      const view = this.vcr.createEmbeddedView(
+        <TemplateRef<any>>tmplOrFactory,
+        {
+          $implicit: this._context,
+        }
+      );
+      // if we've deferred loading of the outlet, we must
+      // do change detection manually.
+      if (this.cxOutletDefer.deferLoading) {
+        view.markForCheck();
+      }
     }
   }
 

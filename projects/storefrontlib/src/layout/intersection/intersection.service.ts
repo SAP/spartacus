@@ -32,6 +32,9 @@ export class IntersectionService {
       return of(true);
     } else {
       this.addGhost(element);
+
+      // we need to wait a tick to take advantage of the ghost layout
+      setTimeout(() => {}, 0);
       return this.intersects(element, options).pipe(first(v => v === true));
     }
   }
