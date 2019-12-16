@@ -1,5 +1,5 @@
 import * as cart from '../../helpers/cart';
-import * as wishlist from '../../helpers/wish-list';
+import * as wishList from '../../helpers/wish-list';
 
 describe('Wish list', () => {
   before(() => {
@@ -17,48 +17,48 @@ describe('Wish list', () => {
   });
 
   describe('Anonymous', () => {
-    it('should go to login and redirect to PDP', () => {
-      wishlist.addToWishListAnonymous(wishlist.products[0]);
+    it('should sign in to add to wish list from PDP', () => {
+      wishList.addToWishListAnonymous(wishList.products[0]);
     });
   });
 
   describe('Logged in', () => {
-    it('should add to wish list', () => {
-      wishlist.addToWishListFromPage();
-      wishlist.verifyProductInWishListPdp();
-      wishlist.verifyProductInWishList(wishlist.products[0]);
+    it('should add product to wish list from PDP', () => {
+      wishList.addToWishListFromPage();
+      wishList.verifyProductInWishListPdp();
+      wishList.verifyProductInWishList(wishList.products[0]);
     });
 
-    it('should remove product from wish list from product details page', () => {
-      wishlist.goToProductPage(wishlist.products[0]);
-      wishlist.removeProductFromPdp();
-      wishlist.addToWishListFromPage();
+    it('should remove product from wish list from PDP', () => {
+      wishList.goToProductPage(wishList.products[0]);
+      wishList.removeProductFromPdp();
+      wishList.addToWishListFromPage();
     });
 
     it('should remove product from wish list page', () => {
-      wishlist.verifyProductInWishList(wishlist.products[0]);
-      wishlist.removeProductFromWishListPage(wishlist.products[0]);
+      wishList.verifyProductInWishList(wishList.products[0]);
+      wishList.removeProductFromWishListPage(wishList.products[0]);
     });
 
     it('should persist wish list between sessions', () => {
-      wishlist.addToWishList(wishlist.products[1]);
-      wishlist.checkWishListPersisted(wishlist.products[1]);
+      wishList.addToWishList(wishList.products[1]);
+      wishList.checkWishListPersisted(wishList.products[1]);
     });
 
     it('should add product to cart from wish list', () => {
-      wishlist.addToWishList(wishlist.products[0]);
-      wishlist.verifyProductInWishList(wishlist.products[0]);
-      wishlist.addProductToCart(wishlist.products[0]);
-      wishlist.verifyProductInWishList(wishlist.products[1]);
-      wishlist.addProductToCart(wishlist.products[1]);
+      wishList.addToWishList(wishList.products[0]);
+      wishList.verifyProductInWishList(wishList.products[0]);
+      wishList.addProductToCart(wishList.products[0]);
+      wishList.verifyProductInWishList(wishList.products[1]);
+      wishList.addProductToCart(wishList.products[1]);
     });
   });
 
   describe('checkout', () => {
     it('should checkout with product added from wish list', () => {
-      wishlist.checkoutFromWishList([
-        wishlist.products[0],
-        wishlist.products[1],
+      wishList.checkoutFromWishList([
+        wishList.products[0],
+        wishList.products[1],
       ]);
     });
 
@@ -66,11 +66,11 @@ describe('Wish list', () => {
       cy.visit(`/product/${cart.products[0].code}`);
       cart.addToCart();
       cart.closeAddedToCartDialog();
-      wishlist.verifyProductInWishList(wishlist.products[1]);
-      wishlist.addProductToCart(wishlist.products[1]);
-      wishlist.addToWishList(wishlist.products[2]);
-      wishlist.verifyProductInWishList(wishlist.products[2]);
-      wishlist.checkoutFromCart([cart.products[0], wishlist.products[1]]);
+      wishList.verifyProductInWishList(wishList.products[1]);
+      wishList.addProductToCart(wishList.products[1]);
+      wishList.addToWishList(wishList.products[2]);
+      wishList.verifyProductInWishList(wishList.products[2]);
+      wishList.checkoutFromCart([cart.products[0], wishList.products[1]]);
     });
   });
 });
