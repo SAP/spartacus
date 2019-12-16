@@ -36,7 +36,7 @@ export namespace Configurator {
     description?: string;
     groupType?: GroupType;
     configurable?: boolean;
-    subGroups: Group[];
+    subGroups?: Group[];
   }
 
   export interface Configuration {
