@@ -17,10 +17,10 @@ module.exports = function(config) {
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
+    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage'),
-      reports: ['lcov', 'cobertura', 'text-summary'],
+      reports: ['html', 'cobertura'],
       fixWebpackSourcePaths: true,
       thresholds: {
         statements: 80,
@@ -29,12 +29,22 @@ module.exports = function(config) {
         functions: 80,
       },
     },
+    junitReporter: {
+      outputDir: 'jenkins',
+      useBrowserName: false,
+      outputFile: 'test-results.xml',
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: ['--headless', '--no-sandbox', '--remote-debugging-port=9001'],
+      },
+    },
     singleRun: false,
-    restartOnFileChange: true,
   });
 };
