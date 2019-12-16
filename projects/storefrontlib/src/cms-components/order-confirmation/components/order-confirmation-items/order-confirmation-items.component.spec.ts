@@ -56,11 +56,7 @@ describe('OrderConfirmationItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        PromotionsModule,
-        FeaturesConfigModule,
-      ],
+      imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
       declarations: [
         OrderConfirmationItemsComponent,
         MockReviewSubmitComponent,
