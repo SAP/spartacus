@@ -59,12 +59,12 @@ export class WishListEffects {
 
   @Effect()
   loadWishList$: Observable<
-    | CartActions.LoadWisthListSuccess
+    | CartActions.LoadWishListSuccess
     | CartActions.CreateWishList
     | CartActions.LoadCartFail
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
-    map((action: CartActions.LoadWisthList) => action.payload),
+    map((action: CartActions.LoadWishList) => action.payload),
     concatMap(userId => {
       return this.cartConnector.loadAll(userId).pipe(
         switchMap(carts => {
@@ -72,7 +72,7 @@ export class WishListEffects {
             const wishList = carts.find(cart => cart.name === 'wishlist');
             if (Boolean(wishList)) {
               return [
-                new CartActions.LoadWisthListSuccess({
+                new CartActions.LoadWishListSuccess({
                   cart: wishList,
                   userId,
                 }),
@@ -93,7 +93,7 @@ export class WishListEffects {
 
   @Effect()
   resetWishList$: Observable<
-    CartActions.LoadWisthListSuccess | CartActions.LoadCartFail
+    CartActions.LoadWishListSuccess | CartActions.LoadCartFail
   > = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
@@ -107,7 +107,7 @@ export class WishListEffects {
       if (Boolean(wishListId)) {
         return this.cartConnector.load(userId, wishListId).pipe(
           switchMap(wishList => [
-            new CartActions.LoadWisthListSuccess({ cart: wishList, userId }),
+            new CartActions.LoadWishListSuccess({ cart: wishList, userId }),
           ]),
           catchError(error =>
             from([new CartActions.LoadCartFail(makeErrorSerializable(error))])

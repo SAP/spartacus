@@ -29,7 +29,9 @@ export function closeAccount() {
 
   cy.get('cx-close-account-modal .cx-btn-group button:first-of-type').click();
 
-  cy.wait('@deleteQuery');
+  cy.wait('@deleteQuery')
+    .its('status')
+    .should('eq', 200);
 
   cy.location('pathname').should('contain', '/');
 
