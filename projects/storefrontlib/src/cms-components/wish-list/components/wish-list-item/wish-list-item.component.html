@@ -46,24 +46,21 @@
           {{ cartEntry.basePrice?.formattedValue }}
         </div>
       </div>
-      <!-- Item Quantity -->
-      <!-- <div *ngIf="cartEntry.quantity" class="cx-quantity col-3">
-        <div
-          class="cx-label d-block d-md-none d-lg-none d-xl-none"
-          placement="left"
-          title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
-        >
-          {{ 'cartItems.quantity' | cxTranslate }}
-        </div>
-        <div class="cx-value">{{ cartEntry.quantity }}</div>
-      </div> -->
       <!-- Total -->
       <div class="col-sm-8 col-md-4 col-lg-3 col-xl-3 cx-add-to-cart">
         <cx-add-to-cart
-          *ngIf="cartEntry.product.stock.stockLevelStatus !== 'outOfStock'"
+          *ngIf="
+            cartEntry.product.stock.stockLevelStatus !== 'outOfStock';
+            else outOfStock
+          "
           [showQuantity]="false"
           [product]="cartEntry.product"
         ></cx-add-to-cart>
+        <ng-template #outOfStock>
+          <span class="cx-out-of-stock">
+            {{ 'addToCart.outOfStock' | cxTranslate }}
+          </span>
+        </ng-template>
       </div>
     </div>
     <div class="cx-return-button col-12">
