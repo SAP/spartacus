@@ -1,10 +1,10 @@
 cx-page-layout {
   // introduce ghost layout for lazy loaded components in Calydon
   @if $theme == 'calydon' {
-    cx-page-slot.cx-ghost {
+    cx-page-slot.cx-defer {
       // add a minimum height to ensure that components inside slot aren't
       // in the viewport at once
-      min-height: 1px;
+      min-height: 30px;
     }
   }
 }

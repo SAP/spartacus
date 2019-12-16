@@ -4,18 +4,18 @@
     &.Section1,
     &.Section2A,
     &.Section2B {
-      &.cx-ghost {
+      &.cx-defer {
         display: block;
         min-height: 30vh;
       }
     }
     @include media-breakpoint-only(xs) {
-      &.Section1.cx-ghost {
+      &.Section1.cx-defer {
         min-height: 20vh;
       }
       &.Section2A,
       &.Section2B {
-        &.cx-ghost {
+        &.cx-defer {
           min-height: 80vh;
         }
       }

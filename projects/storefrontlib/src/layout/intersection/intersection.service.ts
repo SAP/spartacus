@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, first, flatMap, map } from 'rxjs/operators';
 import { IntersectionOptions } from './intersection.model';
 
-const GHOST_CLASS = 'cx-ghost';
+const DEFER_CLASS = 'cx-defer';
 
 /**
  * The IntersectionService uses the native IntersectionObserver (v2), which
@@ -80,7 +80,7 @@ export class IntersectionService {
     }
 
     this.ghostElements.set(element, this.ghostElements.get(element) + 1);
-    element.classList.add(GHOST_CLASS);
+    element.classList.add(DEFER_CLASS);
   }
 
   // private removeGhost(element: HTMLElement): void {
