@@ -6,6 +6,7 @@
     *ngFor="let component of components$ | async"
     [cxOutlet]="component.flexType"
     [cxOutletContext]="{ component: component }"
+    [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
   >
     <ng-container [cxComponentWrapper]="component"></ng-container>
   </ng-template>
