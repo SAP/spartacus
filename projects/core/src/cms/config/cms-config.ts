@@ -43,6 +43,10 @@ export interface CmsComponentMapping {
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
+
+  loading?: {
+    defer?: boolean;
+  };
 }
 
 export interface CMSComponentConfig

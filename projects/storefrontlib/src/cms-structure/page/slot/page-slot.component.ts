@@ -6,11 +6,13 @@ import {
   Renderer2,
 } from '@angular/core';
 import {
+  CmsConfig,
   CmsService,
   ContentSlotComponentData,
   ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
+import { IntersectionOptions } from 'projects/storefrontlib/src/layout';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
@@ -59,8 +61,29 @@ export class PageSlotComponent {
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected hostElement: ElementRef
+    protected hostElement: ElementRef,
+    protected config: CmsConfig
   ) {}
+
+  getComponentDeferOptions(componentType: string): IntersectionOptions {
+    return {
+      deferLoading: this.supportsLazyLoading(componentType),
+    };
+  }
+
+  /**
+   * Some components must be loaded anyway, even if they're outside the
+   * the (initial) viewport.
+   *
+   * A good example is a cookie banner component, sitting on the visual bottom
+   * of the viewport (using CSS). The physical loacation of the components
+   * is at the bottom of the DOM, and the CSS rules which will move the component
+   * in the viewport will only come into play when the component is loaded.
+   */
+  private supportsLazyLoading(componentType: string): boolean {
+    const compConfig = this.config.cmsComponents[componentType] || {};
+    return !compConfig.loading || !(compConfig.loading.defer === false);
+  }
 
   // add a class to indicate whether the class is empty or not
   private addComponentClass(components): void {
