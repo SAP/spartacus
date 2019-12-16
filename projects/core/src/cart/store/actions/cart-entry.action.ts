@@ -151,6 +151,7 @@ export class CartUpdateEntryByKeyFail extends EntityProcessesDecrementAction {
       userId: string;
       key: string;
       quantity: number;
+      error: any;
     }
   ) {
     super(MULTI_CART_FEATURE, payload.cartId);

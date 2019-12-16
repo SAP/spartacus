@@ -64,7 +64,7 @@ export class CartEntryEffects {
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY),
-    map((action: CartActions.CartAddEntry) => action.payload),
+    map((action: CartActions.CartRemoveEntry) => action.payload),
     concatMap(payload =>
       this.cartEntryConnector
         .remove(payload.userId, payload.cartId, payload.entry)
@@ -96,7 +96,7 @@ export class CartEntryEffects {
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY_BY_KEY),
-    map((action: CartActions.CartAddEntry) => action.payload),
+    map((action: CartActions.CartRemoveEntryByKey) => action.payload),
     concatMap(payload =>
       // TODO add take until for contextChange
       this.cartConnector.load(payload.userId, payload.cartId).pipe(
@@ -148,7 +148,7 @@ export class CartEntryEffects {
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
-    map((action: CartActions.CartAddEntry) => action.payload),
+    map((action: CartActions.CartUpdateEntry) => action.payload),
     concatMap(payload =>
       this.cartEntryConnector
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)
@@ -180,7 +180,7 @@ export class CartEntryEffects {
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY_BY_KEY),
-    map((action: CartActions.CartAddEntry) => action.payload),
+    map((action: CartActions.CartUpdateEntryByKey) => action.payload),
     concatMap(payload =>
       // TODO add take until for contextChange
       this.cartConnector.load(payload.userId, payload.cartId).pipe(
