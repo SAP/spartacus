@@ -94,6 +94,7 @@ export abstract class UserOrderAdapter {
    * Abstract method used to cancel one return request
    * @param userId
    * @param returnRequestCode
+   * @param returnRequestModification
    */
   abstract cancelReturnRequest(
     userId: string,

@@ -193,7 +193,7 @@ export const myAccount = {
     cancel: 'Cancel Return Request',
     item: 'Description',
     itemPrice: 'Item Price',
-    returnQty: 'Return Quanity',
+    returnQty: 'Return Quantity',
     total: 'Total',
     summary: 'Return Totals',
     subtotal: 'Subtotal',

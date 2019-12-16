@@ -140,7 +140,7 @@ export class OrderReturnRequestService {
   }
 
   /*
-   * Cancel oreder return request
+   * Cancel order return request
    */
   cancelOrderReturnRequest(
     returnRequestCode: string,
