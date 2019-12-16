@@ -8,6 +8,7 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { FRESH_CART_ID } from './multi-cart.action';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
@@ -27,7 +28,7 @@ export class CreateWishList extends EntityLoadAction {
       description?: string;
     }
   ) {
-    super(MULTI_CART_FEATURE, 'fresh');
+    super(MULTI_CART_FEATURE, FRESH_CART_ID);
   }
 }
 
@@ -45,12 +46,12 @@ export class CreateWishListFail extends EntityFailAction {
   }
 }
 
-export class LoadWisthList implements Action {
+export class LoadWishList implements Action {
   readonly type = LOAD_WISH_LIST;
   constructor(public payload: string) {}
 }
 
-export class LoadWisthListSuccess extends EntitySuccessAction {
+export class LoadWishListSuccess extends EntitySuccessAction {
   readonly type = LOAD_WISH_LIST_SUCCESS;
   constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
     super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
@@ -68,6 +69,6 @@ export type WishListActions =
   | CreateWishList
   | CreateWishListSuccess
   | CreateWishListFail
-  | LoadWisthList
-  | LoadWisthListSuccess
+  | LoadWishList
+  | LoadWishListSuccess
   | ResetWishListDetails;
