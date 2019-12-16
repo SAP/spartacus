@@ -60,12 +60,10 @@
           <span class="label-content">{{
             'budgetForm.startDate.label' | cxTranslate
           }}</span>
-          <input
-            type="date"
-            class="form-control"
-            placeholder="{{ 'budgetForm.startDate.placeholder' | cxTranslate }}"
+          <cx-date-picker
+            [placeholder]="'budgetForm.startDate.placeholder' | cxTranslate"
             formControlName="startDate"
-          />
+          ></cx-date-picker>
         </label>
       </div>
 
@@ -74,12 +72,11 @@
           <span class="label-content">{{
             'budgetForm.endDate.label' | cxTranslate
           }}</span>
-          <input
-            type="date"
-            class="form-control"
-            placeholder="{{ 'budgetForm.endDate.placeholder' | cxTranslate }}"
+          <cx-date-picker
+            [placeholder]="'budgetForm.endDate.placeholder' | cxTranslate"
             formControlName="endDate"
-          />
+            [eod]="true"
+          ></cx-date-picker>
         </label>
       </div>
 

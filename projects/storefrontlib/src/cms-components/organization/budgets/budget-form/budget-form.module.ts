@@ -12,7 +12,7 @@ import {
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { BudgetFormComponent } from './budget-form.component';
 import { OrgUnitService } from '../../../../../../core/src/organization/facade/org-unit.service';
-import { DateValueAccessorModule } from '../../../../shared/directives/date-value-accessor/date-value-accessor.module';
+import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { DateValueAccessorModule } from '../../../../shared/directives/date-valu
     UrlModule,
     I18nModule,
     ReactiveFormsModule,
-    DateValueAccessorModule,
+    DatePickerModule,
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],

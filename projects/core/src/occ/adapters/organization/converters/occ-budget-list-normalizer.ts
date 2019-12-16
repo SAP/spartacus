@@ -21,8 +21,6 @@ export class OccBudgetListNormalizer
         })),
       };
     }
-    console.log('CONVERTER OccBudgetListNormalizer', source, target);
-
     return target;
   }
 }
