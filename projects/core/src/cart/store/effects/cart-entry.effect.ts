@@ -121,21 +121,21 @@ export class CartEntryEffects {
                     userId: payload.userId,
                   }),
                 ];
-              }),
-              catchError(error =>
-                from([
-                  new CartActions.CartRemoveEntryByKeyFail({
-                    error: makeErrorSerializable(error),
-                    ...payload,
-                  }),
-                  new DeprecatedCartActions.LoadCart({
-                    cartId: payload.cartId,
-                    userId: payload.userId,
-                  }),
-                ])
-              )
+              })
             );
-        })
+        }),
+        catchError(error =>
+          from([
+            new CartActions.CartRemoveEntryByKeyFail({
+              error: makeErrorSerializable(error),
+              ...payload,
+            }),
+            new DeprecatedCartActions.LoadCart({
+              cartId: payload.cartId,
+              userId: payload.userId,
+            }),
+          ])
+        )
       )
     )
   );
@@ -206,21 +206,21 @@ export class CartEntryEffects {
                     userId: payload.userId,
                   }),
                 ];
-              }),
-              catchError(error =>
-                from([
-                  new CartActions.CartUpdateEntryByKeyFail({
-                    error: makeErrorSerializable(error),
-                    ...payload,
-                  }),
-                  new DeprecatedCartActions.LoadCart({
-                    cartId: payload.cartId,
-                    userId: payload.userId,
-                  }),
-                ])
-              )
+              })
             );
-        })
+        }),
+        catchError(error =>
+          from([
+            new CartActions.CartUpdateEntryByKeyFail({
+              error: makeErrorSerializable(error),
+              ...payload,
+            }),
+            new DeprecatedCartActions.LoadCart({
+              cartId: payload.cartId,
+              userId: payload.userId,
+            }),
+          ])
+        )
       )
     )
   );
