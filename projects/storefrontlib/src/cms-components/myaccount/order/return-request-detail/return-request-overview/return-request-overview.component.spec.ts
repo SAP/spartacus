@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Type } from '@angular/core';
 import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
@@ -8,22 +9,29 @@ const mockReturnRequest: ReturnRequest = {
   rma: 'test',
   returnEntries: [],
 };
-class MockCheckoutService {
+
+class MockReturnRequestService {
+  cancelReturnRequest = jasmine.createSpy();
+  cancelSuccess = jasmine.createSpy();
   getReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
+  }
+  get isCancelSuccess$(): Observable<boolean> {
+    return of(true);
   }
 }
 
 describe('ReturnRequestOverviewComponent', () => {
   let component: ReturnRequestOverviewComponent;
   let fixture: ComponentFixture<ReturnRequestOverviewComponent>;
+  let returnRequestService: MockReturnRequestService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ReturnRequestOverviewComponent],
       providers: [
-        { provide: ReturnRequestService, useClass: MockCheckoutService },
+        { provide: ReturnRequestService, useClass: MockReturnRequestService },
       ],
     }).compileComponents();
   }));
@@ -31,9 +39,26 @@ describe('ReturnRequestOverviewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnRequestOverviewComponent);
     component = fixture.componentInstance;
+
+    returnRequestService = TestBed.get(ReturnRequestService as Type<
+      ReturnRequestService
+    >);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should be able to get cancel success', () => {
+    component.returnRequest$.subscribe().unsubscribe();
+    component.ngOnInit();
+    expect(returnRequestService.cancelSuccess).toHaveBeenCalledWith('test');
+  });
+
+  it('should be able to cancel return', () => {
+    component.cancelReturn('test');
+    expect(returnRequestService.cancelReturnRequest).toHaveBeenCalledWith(
+      'test'
+    );
   });
 });

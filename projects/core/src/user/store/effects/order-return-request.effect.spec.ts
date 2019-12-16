@@ -30,6 +30,12 @@ const mockReturnRequestList: ReturnRequestList = {
   sorts: [{ selected: true }, { selected: false }],
 };
 
+const mockCancelReturnRequest = {
+  userId: 'user15355363988711@ydev.hybris.com',
+  returnRequestCode: '00000386',
+  returnRequestModification: {},
+};
+
 describe('Order Return Request effect', () => {
   let orderReturnRequestEffect: fromOrderReturnRequestEffect.OrderReturnRequestEffect;
   let orderConnector: UserOrderConnector;
@@ -177,6 +183,44 @@ describe('Order Return Request effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(orderReturnRequestEffect.loadReturnRequest$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('cancelReturnRequest$', () => {
+    it('should cancel return request', () => {
+      spyOn(orderConnector, 'cancelReturnRequest').and.returnValue(of({}));
+
+      const action = new UserActions.CancelOrderReturnRequest(
+        mockCancelReturnRequest
+      );
+
+      const completion = new UserActions.CancelOrderReturnRequestSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderReturnRequestEffect.cancelReturnRequest$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should handle failures for cancel return request', () => {
+      spyOn(orderConnector, 'cancelReturnRequest').and.returnValue(
+        throwError('Error')
+      );
+
+      const action = new UserActions.CancelOrderReturnRequest(
+        mockCancelReturnRequest
+      );
+
+      const completion = new UserActions.CancelOrderReturnRequestFail('Error');
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderReturnRequestEffect.cancelReturnRequest$).toBeObservable(
         expected
       );
     });

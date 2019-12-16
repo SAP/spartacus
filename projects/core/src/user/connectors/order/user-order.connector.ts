@@ -8,6 +8,7 @@ import {
   CancellationRequestEntryInputList,
   ReturnRequest,
   ReturnRequestList,
+  ReturnRequestModification,
 } from '../../../model/order.model';
 import { UserOrderAdapter } from './user-order.adapter';
 
@@ -70,6 +71,18 @@ export class UserOrderConnector {
       pageSize,
       currentPage,
       sort
+    );
+  }
+
+  public cancelReturnRequest(
+    userId: string,
+    returnRequestCode: string,
+    returnRequestModification: ReturnRequestModification
+  ): Observable<{}> {
+    return this.adapter.cancelReturnRequest(
+      userId,
+      returnRequestCode,
+      returnRequestModification
     );
   }
 }

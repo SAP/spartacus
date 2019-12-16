@@ -338,4 +338,9 @@ export interface OccEndpoints {
    * Endpoint for order return request details
    */
   orderReturnDetail?: string;
+
+  /**
+   * Endpoint for cancelling return request
+   */
+  cancelReturn?: string;
 }

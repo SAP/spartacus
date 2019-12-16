@@ -73,6 +73,10 @@ export interface ReturnRequestList {
   sorts?: SortModel[];
 }
 
+export interface ReturnRequestModification {
+  status?: string;
+}
+
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
   distance?: number;

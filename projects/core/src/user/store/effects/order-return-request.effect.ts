@@ -60,6 +60,32 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
+  cancelReturnRequest$: Observable<
+    UserActions.OrderReturnRequestAction
+  > = this.actions$.pipe(
+    ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
+    map((action: UserActions.CancelOrderReturnRequest) => action.payload),
+    switchMap(payload => {
+      return this.orderConnector
+        .cancelReturnRequest(
+          payload.userId,
+          payload.returnRequestCode,
+          payload.returnRequestModification
+        )
+        .pipe(
+          map(_ => new UserActions.CancelOrderReturnRequestSuccess()),
+          catchError(error =>
+            of(
+              new UserActions.CancelOrderReturnRequestFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    })
+  );
+
+  @Effect()
   loadReturnRequestList$: Observable<
     UserActions.OrderReturnRequestAction
   > = this.actions$.pipe(

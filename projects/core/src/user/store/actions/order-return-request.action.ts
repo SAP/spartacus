@@ -2,10 +2,12 @@ import {
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
+  ReturnRequestModification,
 } from '../../../model/order.model';
 import {
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
+  CANCEL_RETURN_PROCESS_ID,
 } from '../user-state';
 import {
   LoaderFailAction,
@@ -13,6 +15,8 @@ import {
   LoaderSuccessAction,
   LoaderResetAction,
 } from '../../../state/utils/loader/loader.action';
+import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 
 export const CREATE_ORDER_RETURN_REQUEST = '[User] Create Order Return Request';
 export const CREATE_ORDER_RETURN_REQUEST_FAIL =
@@ -27,6 +31,12 @@ export const LOAD_ORDER_RETURN_REQUEST_FAIL =
 export const LOAD_ORDER_RETURN_REQUEST_SUCCESS =
   '[User] Load Order Return Request details Success';
 
+export const CANCEL_ORDER_RETURN_REQUEST = '[User] Cancel Order Return Request';
+export const CANCEL_ORDER_RETURN_REQUEST_FAIL =
+  '[User] Cancel Order Return Request Fail';
+export const CANCEL_ORDER_RETURN_REQUEST_SUCCESS =
+  '[User] Cancel Order Return Request Success';
+
 export const LOAD_ORDER_RETURN_REQUEST_LIST =
   '[User] Load User Order Return Request List';
 export const LOAD_ORDER_RETURN_REQUEST_LIST_FAIL =
@@ -38,6 +48,8 @@ export const CLEAR_ORDER_RETURN_REQUEST =
   '[User] Clear Order Return Request Details';
 export const CLEAR_ORDER_RETURN_REQUEST_LIST =
   '[User] Clear Order Return Request List';
+export const RESET_CANCEL_RETURN_PROCESS =
+  '[User] Reset Cancel Return Request Process';
 
 export class CreateOrderReturnRequest extends LoaderLoadAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST;
@@ -91,6 +103,33 @@ export class LoadOrderReturnRequestSuccess extends LoaderSuccessAction {
   }
 }
 
+export class CancelOrderReturnRequest extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = CANCEL_ORDER_RETURN_REQUEST;
+  constructor(
+    public payload: {
+      userId: string;
+      returnRequestCode: string;
+      returnRequestModification: ReturnRequestModification;
+    }
+  ) {
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
+  }
+}
+
+export class CancelOrderReturnRequestFail extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = CANCEL_ORDER_RETURN_REQUEST_FAIL;
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, payload);
+  }
+}
+
+export class CancelOrderReturnRequestSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = CANCEL_ORDER_RETURN_REQUEST_SUCCESS;
+  constructor() {
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
+  }
+}
+
 export class LoadOrderReturnRequestList extends LoaderLoadAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST;
   constructor(
@@ -133,6 +172,13 @@ export class ClearOrderReturnRequestList extends LoaderResetAction {
   }
 }
 
+export class ResetCancelReturnProcess extends StateEntityLoaderActions.EntityResetAction {
+  readonly type = RESET_CANCEL_RETURN_PROCESS;
+  constructor() {
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
+  }
+}
+
 export type OrderReturnRequestAction =
   | CreateOrderReturnRequest
   | CreateOrderReturnRequestFail
@@ -140,8 +186,12 @@ export type OrderReturnRequestAction =
   | LoadOrderReturnRequest
   | LoadOrderReturnRequestFail
   | LoadOrderReturnRequestSuccess
+  | CancelOrderReturnRequest
+  | CancelOrderReturnRequestFail
+  | CancelOrderReturnRequestSuccess
   | LoadOrderReturnRequestList
   | LoadOrderReturnRequestListFail
   | LoadOrderReturnRequestListSuccess
   | ClearOrderReturnRequest
-  | ClearOrderReturnRequestList;
+  | ClearOrderReturnRequestList
+  | ResetCancelReturnProcess;

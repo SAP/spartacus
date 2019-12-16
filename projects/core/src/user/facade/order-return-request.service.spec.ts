@@ -8,6 +8,8 @@ import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { OrderReturnRequestService } from './order-return-request.service';
 
 class MockAuthService {
@@ -25,6 +27,10 @@ describe('OrderReturnRequestService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromStoreReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         OrderReturnRequestService,
@@ -149,6 +155,46 @@ describe('OrderReturnRequestService', () => {
     service.clearOrderReturnRequestDetail();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.ClearOrderReturnRequest()
+    );
+  });
+
+  it('should be able to cancel an order return request', () => {
+    service.cancelOrderReturnRequest('test', { status: 'CANCELLING' });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.CancelOrderReturnRequest({
+        userId: OCC_USER_ID_CURRENT,
+        returnRequestCode: 'test',
+        returnRequestModification: { status: 'CANCELLING' },
+      })
+    );
+  });
+
+  it('should be able to get CancelReturnRequest loading flag', () => {
+    store.dispatch(
+      new UserActions.CancelOrderReturnRequest({
+        userId: 'current',
+        returnRequestCode: 'test',
+        returnRequestModification: {},
+      })
+    );
+    service
+      .getCancelReturnRequestLoading()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+
+  it('should be able to get CancelReturnRequest Success flag', () => {
+    store.dispatch(new UserActions.CancelOrderReturnRequestSuccess());
+    service
+      .getCancelReturnRequestSuccess()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+
+  it('should be able to reset CancelReturnRequest process state', () => {
+    service.resetCancelReturnRequestProcessState();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ResetCancelReturnProcess()
     );
   });
 });

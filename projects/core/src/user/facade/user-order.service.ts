@@ -153,7 +153,7 @@ export class UserOrderService {
   }
 
   /*
-   * Cancel and order
+   * Cancel an order
    */
   cancelOrder(
     orderCode: string,
