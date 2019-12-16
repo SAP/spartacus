@@ -18,6 +18,9 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
       cmsComponents: {
         AnonymousConsentManagementBannerComponent: {
           component: AnonymousConsentManagementBannerComponent,
+          loading: {
+            defer: false,
+          },
         },
         AnonymousConsentOpenDialogComponent: {
           component: AnonymousConsentOpenDialogComponent,
