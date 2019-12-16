@@ -5,6 +5,7 @@ export const configurator = {
       complete: 'Complete',
       configId: 'Configuration ID',
       toconfig: 'Configure',
+      editConfiguration: 'Edit Configuration',
     },
     tabBar: {
       configuration: 'Configuration',

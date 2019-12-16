@@ -7,6 +7,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+import { ConfigureCartEntryComponent } from './configure-cart-entry/configure-cart-entry.component';
 import { ConfigureProductComponent } from './configure-product/configure-product.component';
 
 @NgModule({
@@ -23,8 +24,8 @@ import { ConfigureProductComponent } from './configure-product/configure-product
     UrlModule,
     I18nModule,
   ],
-  declarations: [ConfigureProductComponent],
-  entryComponents: [ConfigureProductComponent],
-  exports: [ConfigureProductComponent],
+  declarations: [ConfigureProductComponent, ConfigureCartEntryComponent],
+  entryComponents: [ConfigureProductComponent, ConfigureCartEntryComponent],
+  exports: [ConfigureProductComponent, ConfigureCartEntryComponent],
 })
 export class GenericConfiguratorModule {}
