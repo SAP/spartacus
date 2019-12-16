@@ -8,7 +8,7 @@ import {
   CmsService,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 
 @Component({
@@ -21,6 +21,7 @@ export class SaveForLaterComponent implements OnInit {
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
   data$: Observable<CmsParagraphComponent>;
+  isCartEmpty$: Observable<boolean>;
 
   constructor(
     protected cmsService: CmsService,
@@ -29,7 +30,9 @@ export class SaveForLaterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
+    this.isCartEmpty$ = this.cartService
+      .getActive()
+      .pipe(map(cart => !(cart && cart.totalItems && cart.totalItems > 0)));
     this.saveForLater$ = this.selectiveCartService.getCart();
     this.entries$ = this.selectiveCartService
       .getEntries()

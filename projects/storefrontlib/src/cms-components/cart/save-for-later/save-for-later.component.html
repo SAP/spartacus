@@ -1,4 +1,4 @@
-<ng-container *ngIf="(cart$ | async).totalItems === 0">
+<ng-container *ngIf="isCartEmpty$ | async">
   <p
     *ngIf="data$ | async as data"
     [innerHTML]="data.content"
