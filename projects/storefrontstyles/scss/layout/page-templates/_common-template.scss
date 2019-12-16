@@ -1,4 +1,14 @@
 cx-page-layout {
+  // introduce ghost layout for lazy loaded components in Calydon
+  @if $theme == 'calydon' {
+    cx-page-slot.cx-ghost {
+      // add a minimum height to ensure that components inside slot aren't
+      // in the viewport at once
+      min-height: 1px;
+    }
+  }
+}
+cx-page-layout {
   display: block;
   width: 100%;
 
