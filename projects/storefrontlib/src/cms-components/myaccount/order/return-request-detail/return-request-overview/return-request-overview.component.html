@@ -13,6 +13,8 @@
       <button
         *ngIf="returnRequest.cancellable"
         class="btn btn-block btn-primary"
+        (click)="cancelReturn(returnRequest.rma)"
+        [disabled]="isCancelling$ | async"
       >
         {{ 'returnRequest.cancel' | cxTranslate }}
       </button>
@@ -41,16 +43,6 @@
             | cxTranslate: { context: returnRequest.status }
         }}
       </div>
-    </div>
-    <div class="cx-detail col-sm-12 col-md-3">
-      <button
-        *ngIf="returnRequest.cancellable"
-        class="btn btn-action"
-        (click)="cancelReturn(returnRequest.rma)"
-        [disabled]="isCancelling$ | async"
-      >
-        {{ 'returnRequest.cancel' | cxTranslate }}
-      </button>
     </div>
   </div>
 </ng-container>
