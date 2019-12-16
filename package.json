@@ -28,7 +28,7 @@
     "e2e:cy:start-open": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:open",
     "e2e:cy:cds:start-open": "start-server-and-test start:cds:ci http-get://localhost:4200 e2e:cy:open",
     "e2e:cy:start-run": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:run",
-    "e2e:cy:cds:start-run": "start-server-and-test sstart:cds:ci http-get://localhost:4200 e2e:cy:run",
+    "e2e:cy:cds:start-run": "start-server-and-test start:cds:ci http-get://localhost:4200 e2e:cy:run",
     "e2e:cy:start-run-ci": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:run:ci",
     "e2e:cy:start-run-mobile": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:run:mobile",
     "e2e:cy:start-run-mobile-ci": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:run:mobile:ci",
