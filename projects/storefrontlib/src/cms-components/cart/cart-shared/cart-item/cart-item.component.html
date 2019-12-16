@@ -127,7 +127,7 @@
     <!-- Actions -->
 
     <div
-      *ngIf="(!isReadOnly && item.updateable) || options.isSaveForLater"
+      *ngIf="(!isReadOnly || options.isSaveForLater) && item.updateable"
       class="cx-actions col-12"
     >
       <ng-container *ngIf="!isProductOutOfStock(item.product)">

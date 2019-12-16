@@ -8,7 +8,7 @@ import {
   CmsService,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 
 @Component({
