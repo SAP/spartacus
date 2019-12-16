@@ -6,8 +6,9 @@
     <ng-template
       [cxOutlet]="component.flexType"
       [cxOutletContext]="{}"
-      [cxComponentWrapper]="component"
+      [cxOutletDefer]="{ deferLoading: true }"
     >
+      <ng-container [cxComponentWrapper]="component"></ng-container>
     </ng-template>
   </div>
 </ng-container>
