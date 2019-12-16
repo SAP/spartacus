@@ -64,13 +64,13 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
       features: {
-        level: '1.3',
+        level: '1.4',
         anonymousConsents: true,
       },
     }),
     JsonLdBuilderModule,
-    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,

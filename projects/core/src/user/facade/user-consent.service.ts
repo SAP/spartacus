@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { iif, Observable } from 'rxjs';
+import {
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { ConsentTemplate } from '../../model/consent.model';
+import { Consent, ConsentTemplate } from '../../model/consent.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -32,6 +40,8 @@ export class UserConsentService {
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -43,20 +53,38 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserConsents(occUserId))
-      )
-      .unsubscribe();
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.LoadUserConsents(userId))
+    );
   }
 
   /**
-   * Returns all consents
+   * Returns all consent templates. If `loadIfMissing` parameter is set to `true`, the method triggers the load if consent templates.
+   * @param loadIfMissing is set to `true`, the method will load templates if those are not already present. The default value is `false`.
    */
-  getConsents(): Observable<ConsentTemplate[]> {
-    return this.store.pipe(select(UsersSelectors.getConsentsValue));
+  getConsents(loadIfMissing = false): Observable<ConsentTemplate[]> {
+    return iif(
+      () => loadIfMissing,
+      this.store.pipe(
+        select(UsersSelectors.getConsentsValue),
+        withLatestFrom(
+          this.getConsentsResultLoading(),
+          this.getConsentsResultSuccess()
+        ),
+        filter(([_templates, loading, _success]) => !loading),
+        tap(([templates, _loading, success]) => {
+          if (!templates || templates.length === 0) {
+            // avoid infite loop - if we've already attempted to load templates and we got an empty array as the response
+            if (!success) {
+              this.loadConsents();
+            }
+          }
+        }),
+        filter(([templates, _loading]) => Boolean(templates)),
+        map(([templates, _loading]) => templates)
+      ),
+      this.store.pipe(select(UsersSelectors.getConsentsValue))
+    );
   }
 
   /**
@@ -88,24 +116,68 @@ export class UserConsentService {
   }
 
   /**
+   * Returns the registered consent for the given template ID.
+   *
+   * As a side-effect, the method will call `getConsents(true)` to load the templates if those are not present.
+   *
+   * @param templateId a template ID by which to filter the registered templates.
+   */
+  getConsent(templateId: string): Observable<Consent> {
+    return this.authService.isUserLoggedIn().pipe(
+      filter(Boolean),
+      tap(_ => this.getConsents(true)),
+      switchMap(_ =>
+        this.store.pipe(
+          select(UsersSelectors.getConsentByTemplateId(templateId))
+        )
+      ),
+      filter(template => Boolean(template)),
+      map(template => template.currentConsent)
+    );
+  }
+
+  /**
+   * Returns `true` if the consent is truthy and if `consentWithdrawnDate` doesn't exist.
+   * Otherwise, `false` is returned.
+   *
+   * @param consent to check
+   */
+  isConsentGiven(consent: Consent): boolean {
+    return (
+      Boolean(consent) &&
+      Boolean(consent.consentGivenDate) &&
+      !Boolean(consent.consentWithdrawnDate)
+    );
+  }
+
+  /**
+   * Returns `true` if the consent is either falsy or if `consentWithdrawnDate` is present.
+   * Otherwise, `false` is returned.
+   *
+   * @param consent to check
+   */
+  isConsentWithdrawn(consent: Consent): boolean {
+    if (Boolean(consent)) {
+      return Boolean(consent.consentWithdrawnDate);
+    }
+    return true;
+  }
+
+  /**
    * Give consent for specified consent template ID and version.
    * @param consentTemplateId a template ID for which to give a consent
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.GiveUserConsent({
-            userId: occUserId,
-            consentTemplateId,
-            consentTemplateVersion,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.GiveUserConsent({
+          userId,
+          consentTemplateId,
+          consentTemplateVersion,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -147,18 +219,14 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.WithdrawUserConsent({
-            userId: occUserId,
-            consentCode,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.WithdrawUserConsent({
+          userId,
+          consentCode,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -221,5 +289,21 @@ export class UserConsentService {
     }
 
     return updatedTemplateList;
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }

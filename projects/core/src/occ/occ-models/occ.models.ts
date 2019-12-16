@@ -3966,4 +3966,51 @@ export namespace Occ {
   export interface ConsentTemplateList {
     consentTemplates?: ConsentTemplate[];
   }
+
+  export interface BaseSites {
+    baseSites?: BaseSite[];
+  }
+
+  export interface BaseSite {
+    channel?: string;
+    defaultLanguage?: Language;
+    defaultPreviewCatalogId?: string;
+    defaultPreviewCategoryCode?: string;
+    defaultPreviewProductCode?: string;
+    locale?: string;
+    name?: string;
+    theme?: string;
+    uid?: string;
+    stores?: BaseStore[];
+    urlPatterns?: string[];
+    urlEncodingAttributes?: string[];
+  }
+
+  export interface BaseStore {
+    currencies?: Currency[];
+    defaultCurrency?: Currency;
+    languages?: Language[];
+    defaultLanguage?: Language;
+  }
+
+  export interface ProductInterestEntry {
+    interestType?: NotificationType;
+    dateAdded?: string;
+    expirationDate?: string;
+  }
+
+  export interface ProductInterestEntryRelation {
+    product?: Product;
+    productInterestEntry?: ProductInterestEntry[];
+  }
+
+  export interface ProductInterestSearchResult {
+    results?: ProductInterestEntryRelation[];
+    sorts?: Sort[];
+    pagination?: Pagination;
+  }
+
+  export enum NotificationType {
+    BACK_IN_STOCK = 'BACK_IN_STOCK',
+  }
 }
