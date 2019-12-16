@@ -16,7 +16,6 @@ import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 import { PromotionsModule } from '../../../../checkout';
 import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
-import { PromotionHelperModule } from '../../../../../shared/services/promotion/promotion.module';
 
 const mockOrder: Order = {
   code: '1',
@@ -125,7 +124,6 @@ describe('OrderDetailItemsComponent', () => {
         CardModule,
         I18nTestingModule,
         PromotionsModule,
-        PromotionHelperModule,
         FeaturesConfigModule,
       ],
       providers: [

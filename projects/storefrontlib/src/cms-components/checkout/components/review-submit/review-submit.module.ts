@@ -17,7 +17,6 @@ import { ShippingAddressSetGuard } from '../../guards/shipping-address-set.guard
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { ReviewSubmitComponent } from './review-submit.component';
 import { PromotionsModule } from '../promotions/promotions.module';
-import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 
 @NgModule({
   imports: [
@@ -28,7 +27,6 @@ import { PromotionHelperModule } from '../../../../shared/services/promotion/pro
     UrlModule,
     RouterModule,
     PromotionsModule,
-    PromotionHelperModule,
     FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {

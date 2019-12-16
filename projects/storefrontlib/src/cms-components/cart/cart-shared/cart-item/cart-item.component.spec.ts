@@ -9,7 +9,6 @@ import {
 } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 @Pipe({
   name: 'cxUrl',
 })
@@ -70,7 +69,6 @@ describe('CartItemComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         I18nTestingModule,
-        PromotionHelperModule,
         FeaturesConfigModule,
       ],
       declarations: [

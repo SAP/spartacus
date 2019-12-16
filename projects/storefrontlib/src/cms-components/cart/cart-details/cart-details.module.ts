@@ -12,7 +12,6 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartDetailsComponent } from './cart-details.component';
-import { PromotionHelperModule } from '../../../shared/services/promotion/promotion.module';
 
 @NgModule({
   imports: [
@@ -22,7 +21,6 @@ import { PromotionHelperModule } from '../../../shared/services/promotion/promot
     RouterModule,
     UrlModule,
     PromotionsModule,
-    PromotionHelperModule,
     FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {

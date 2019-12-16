@@ -29,7 +29,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { PromotionsModule } from '../../..';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -166,7 +165,6 @@ describe('ReviewSubmitComponent', () => {
       imports: [
         I18nTestingModule,
         PromotionsModule,
-        PromotionHelperModule,
         RouterTestingModule,
         FeaturesConfigModule,
       ],

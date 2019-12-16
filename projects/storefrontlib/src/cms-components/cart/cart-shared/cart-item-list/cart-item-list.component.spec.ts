@@ -11,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
-import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 class MockCartService {
   removeEntry() {}
   loadDetails() {}
@@ -82,7 +81,6 @@ describe('CartItemListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         PromotionsModule,
-        PromotionHelperModule,
         I18nTestingModule,
         FeaturesConfigModule,
       ],

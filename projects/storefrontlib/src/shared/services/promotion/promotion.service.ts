@@ -12,7 +12,9 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../../../cms-components/myaccount/order/order-details/order-details.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PromotionService {
   constructor(
     protected cartService: CartService,

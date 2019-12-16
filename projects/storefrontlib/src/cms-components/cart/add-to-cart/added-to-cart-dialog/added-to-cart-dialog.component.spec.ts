@@ -27,7 +27,6 @@ import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-foc
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 class MockCartService {
   getLoaded(): Observable<boolean> {
     return of();
@@ -120,7 +119,6 @@ describe('AddedToCartDialogComponent', () => {
         I18nTestingModule,
         AutoFocusDirectiveModule,
         PromotionsModule,
-        PromotionHelperModule,
         FeaturesConfigModule,
       ],
       declarations: [

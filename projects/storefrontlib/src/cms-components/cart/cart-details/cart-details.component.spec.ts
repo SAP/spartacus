@@ -17,7 +17,6 @@ import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
-import { PromotionHelperModule } from '../../../shared/services/promotion/promotion.module';
 import { By } from '@angular/platform-browser';
 
 class MockCartService {
@@ -79,7 +78,6 @@ describe('CartDetailsComponent', () => {
       imports: [
         RouterTestingModule,
         PromotionsModule,
-        PromotionHelperModule,
         I18nTestingModule,
         FeaturesConfigModule,
       ],

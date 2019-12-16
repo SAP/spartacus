@@ -18,7 +18,6 @@ import { OrderConfirmationTotalsComponent } from './components/order-confirmatio
 import { GuestRegisterFormComponent } from './components/guest-register-form/guest-register-form.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
 import { PromotionsModule } from '../checkout/components/promotions/promotions.module';
-import { PromotionHelperModule } from '../../shared/services/promotion/promotion.module';
 
 const orderConfirmationComponents = [
   OrderConfirmationItemsComponent,
@@ -35,7 +34,6 @@ const orderConfirmationComponents = [
     CardModule,
     PwaModule,
     PromotionsModule,
-    PromotionHelperModule,
     I18nModule,
     ReactiveFormsModule,
     FeaturesConfigModule,

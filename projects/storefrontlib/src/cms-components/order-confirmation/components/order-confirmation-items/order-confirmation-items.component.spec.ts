@@ -15,7 +15,6 @@ import { OrderConfirmationItemsComponent } from './order-confirmation-items.comp
 
 import createSpy = jasmine.createSpy;
 import { PromotionsModule } from '../../../checkout';
-import { PromotionHelperModule } from '../../../../shared/services/promotion/promotion.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
@@ -60,7 +59,6 @@ describe('OrderConfirmationItemsComponent', () => {
       imports: [
         I18nTestingModule,
         PromotionsModule,
-        PromotionHelperModule,
         FeaturesConfigModule,
       ],
       declarations: [
