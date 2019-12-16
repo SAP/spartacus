@@ -49,13 +49,5 @@ describe('Return Request List for Cancellations and Returns', () => {
     it('should be able to cancel the order', () => {
       methods.cancelOrder();
     });
-
-    // it('should open order detail page when clicking order# on return list', () => {
-    //   methods.checkOrderNumberLink();
-    // });
-
-    // it('should open return detail page when clicking return# on return list', () => {
-    //   methods.checkReturnNumberLink();
-    // });
   });
 });
