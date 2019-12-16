@@ -11,5 +11,6 @@
   <cx-page-slot
     *ngFor="let slot of slots$ | async"
     [position]="slot"
+    [class.page-fold]="slot === (pageSlot$ | async)"
   ></cx-page-slot>
 </ng-template>

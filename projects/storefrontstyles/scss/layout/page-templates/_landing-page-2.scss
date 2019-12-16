@@ -1,28 +1,3 @@
-%LandingPage2Template-calydon {
-  // ghost layout for lazy loading of slot components
-  cx-page-slot {
-    &.Section1,
-    &.Section2A,
-    &.Section2B {
-      &.cx-defer {
-        display: block;
-        min-height: 30vh;
-      }
-    }
-    @include media-breakpoint-only(xs) {
-      &.Section1.cx-defer {
-        min-height: 20vh;
-      }
-      &.Section2A,
-      &.Section2B {
-        &.cx-defer {
-          min-height: 80vh;
-        }
-      }
-    }
-  }
-}
-
 %LandingPage2Template {
   display: flex;
   flex-wrap: wrap;

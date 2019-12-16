@@ -13,10 +13,15 @@ import {
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
+const PENDING_SLOT_CLASS = 'cx-pending';
+
 @Directive({
   selector: '[cxOutlet]',
 })
 export class OutletDirective implements OnInit {
+  // keeps track of pending elements
+  private pendingElements = new Map<HTMLElement, number>();
+
   @Input() cxOutlet: string;
 
   private _context: any;
@@ -45,10 +50,15 @@ export class OutletDirective implements OnInit {
 
   private deferRender() {
     const hostElement = this.getHostElement(this.vcr.element.nativeElement);
+    this.addPendingStyle(hostElement);
+
+    // we need to wait a tick to take advantage of the ghost layout
+    setTimeout(() => {}, 0);
     this.intersectionService
       .isIntersected(hostElement, this.cxOutletDefer)
       .subscribe(() => {
         this.render();
+        this.removePendingStyle(hostElement);
       });
   }
 
@@ -101,5 +111,33 @@ export class OutletDirective implements OnInit {
       return element;
     }
     return this.getHostElement(element.parentElement);
+  }
+
+  /**
+   * we apply a "cx-pending" css class to the parent element, to ensure that
+   * the inital size of the parent (slot) DOM node will take enough
+   * vertical space to defer loading of components. If the slot node would
+   * not have an initial height, all components would be in the inital viewport
+   * which would destroy the concept of deferred loading.
+   */
+  private addPendingStyle(element: HTMLElement): void {
+    if (!this.pendingElements.get(element)) {
+      this.pendingElements.set(element, 0);
+    }
+
+    this.pendingElements.set(element, this.pendingElements.get(element) + 1);
+    element.classList.add(PENDING_SLOT_CLASS);
+  }
+
+  /**
+   * when all elements of the host element have been loaded, we remove
+   * the pending class.
+   */
+  private removePendingStyle(element: HTMLElement): void {
+    this.pendingElements.set(element, this.pendingElements.get(element) - 1);
+
+    if (this.pendingElements.get(element) === 0) {
+      element.classList.remove(PENDING_SLOT_CLASS);
+    }
   }
 }

@@ -15,6 +15,14 @@ export type LayoutSections =
 export type SlotConfig = {
   /** The cms page slots are mapped by the `slot.position`. */
   slots?: string[];
+
+  /**
+   * The page fold identifies the page slot that is the last
+   * expected page slot above-the-fold. It's perfectly fine to
+   * specify this by idication, however a more precise indication
+   * will have an positive impact on performance.
+   */
+  pageFold?: string;
 };
 
 export type SlotGroup = {
@@ -48,4 +56,14 @@ export abstract class LayoutConfig {
     [BREAKPOINT.lg]?: number;
   };
   layoutSlots?: LayoutSlotConfig;
+
+  deferredLoading?: {
+    /**
+     * The intersection margin contains the offset used by the Intersection Observer
+     * to observe elements outside the view port.
+     *
+     * See https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin
+     */
+    intersectionMargin?: string;
+  };
 }

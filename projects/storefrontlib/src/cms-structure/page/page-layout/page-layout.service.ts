@@ -22,8 +22,8 @@ export class PageLayoutService {
     private handlers: PageLayoutHandler[]
   ) {}
 
-  // we print warn messages on missing layout configs
-  // only once to not polute the console log
+  // We print warn messages on missing layout configs
+  // only once to not pollute the console log.
   private warnLogMessages = {};
   private logSlots = {};
 
@@ -51,6 +51,26 @@ export class PageLayoutService {
           }
         }
         return true;
+      })
+    );
+  }
+
+  /**
+   * Returns the page fold configured for the pageTemplate for
+   * the given breakpoint.
+   *
+   * @param pageTemplate
+   */
+  getPageFoldSlot(pageTemplate: string) {
+    return this.breakpointService.breakpoint$.pipe(
+      map(breakpoint => {
+        const pageTemplateConfig = this.config.layoutSlots[pageTemplate];
+        const config = this.getResponsiveSlotConfig(
+          <LayoutSlotConfig>pageTemplateConfig,
+          'pageFold',
+          breakpoint
+        );
+        return config ? config.pageFold : null;
       })
     );
   }

@@ -44,7 +44,12 @@ export interface CmsComponentMapping {
   i18nKeys?: string[];
   guards?: any[];
 
+  /** Loading configurations per component type. */
   loading?: {
+    /**
+     * Defer loading is on by default, however some components
+     * require rendering regardless.
+     */
     defer?: boolean;
   };
 }

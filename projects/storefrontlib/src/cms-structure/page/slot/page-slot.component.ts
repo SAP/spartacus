@@ -22,7 +22,7 @@ import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageSlotComponent {
-  slotPosition;
+  slotPosition: string;
 
   @Input() set position(position: string) {
     this.slotPosition = position;
@@ -81,7 +81,8 @@ export class PageSlotComponent {
    * in the viewport will only come into play when the component is loaded.
    */
   private supportsLazyLoading(componentType: string): boolean {
-    const compConfig = this.config.cmsComponents[componentType] || {};
+    const compConfig =
+      (this.config as CmsConfig).cmsComponents[componentType] || {};
     return !compConfig.loading || !(compConfig.loading.defer === false);
   }
 
