@@ -219,4 +219,25 @@ describe('AddedToCartDialogComponent', () => {
       ' addToCart.itemsIncrementedInYourCart '
     );
   });
+
+  it('should not show cart entry', () => {
+    component.loaded$ = of(false);
+    component.modalIsOpen = false;
+    expect(el.query(By.css('cx-cart-item'))).toBeNull();
+  });
+
+  it('should show cart entry', () => {
+    fixture.detectChanges();
+    component.loaded$ = of(true);
+    component.modalIsOpen = false;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+
+    component.loaded$ = of(true);
+    component.modalIsOpen = true;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+
+    component.loaded$ = of(false);
+    component.modalIsOpen = true;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+  });
 });
