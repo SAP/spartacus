@@ -3,6 +3,8 @@ import {
   OrderReturnRequestService,
   RoutingService,
   ReturnRequest,
+  GlobalMessageService,
+  GlobalMessageType,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
@@ -12,9 +14,18 @@ import { filter, map, tap, distinctUntilChanged } from 'rxjs/operators';
 })
 export class ReturnRequestService {
   constructor(
-    private routingService: RoutingService,
-    private returnRequestService: OrderReturnRequestService
+    protected routingService: RoutingService,
+    protected returnRequestService: OrderReturnRequestService,
+    protected globalMessageService: GlobalMessageService
   ) {}
+
+  get isCancelling$(): Observable<boolean> {
+    return this.returnRequestService.getCancelReturnRequestLoading();
+  }
+
+  get isCancelSuccess$(): Observable<boolean> {
+    return this.returnRequestService.getCancelReturnRequestSuccess();
+  }
 
   getReturnRequest(): Observable<ReturnRequest> {
     return combineLatest([
@@ -37,11 +48,32 @@ export class ReturnRequestService {
         }
       }),
       map(([_, returnRequest]) => returnRequest),
+      filter(Boolean),
       distinctUntilChanged()
     );
   }
 
   clearReturnRequest(): void {
     this.returnRequestService.clearOrderReturnRequestDetail();
+  }
+
+  cancelReturnRequest(returnRequestCode: string): void {
+    this.returnRequestService.cancelOrderReturnRequest(returnRequestCode, {
+      status: 'CANCELLING',
+    });
+  }
+
+  cancelSuccess(rma: string): void {
+    this.returnRequestService.resetCancelReturnRequestProcessState();
+    this.globalMessageService.add(
+      {
+        key: 'returnRequest.cancelSuccess',
+        params: { rma },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.routingService.go({
+      cxRoute: 'orders',
+    });
   }
 }

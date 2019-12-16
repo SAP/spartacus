@@ -80,7 +80,7 @@ describe('Order Details effect', () => {
   });
 
   describe('cancelOrder$', () => {
-    it('should cancel order', () => {
+    it('should cancel an order', () => {
       spyOn(orderConnector, 'cancel').and.returnValue(of({}));
 
       const action = new UserActions.CancelOrder(mockCancelOrderParams);
@@ -93,7 +93,7 @@ describe('Order Details effect', () => {
       expect(orderDetailsEffect.cancelOrder$).toBeObservable(expected);
     });
 
-    it('should handle failures for load order details', () => {
+    it('should handle failures for cancel an order', () => {
       spyOn(orderConnector, 'cancel').and.returnValue(throwError('Error'));
 
       const action = new UserActions.CancelOrder(mockCancelOrderParams);

@@ -7,8 +7,14 @@ import {
   ReturnRequestList,
   ReturnRequestEntryInputList,
   ReturnRequest,
+  ReturnRequestModification,
 } from '../../model/order.model';
+import {
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { StateWithProcess } from '../../process/store/process-state';
+import { CANCEL_RETURN_PROCESS_ID } from '../store/user-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
@@ -131,6 +137,49 @@ export class OrderReturnRequestService {
    */
   clearOrderReturnRequestDetail(): void {
     this.store.dispatch(new UserActions.ClearOrderReturnRequest());
+  }
+
+  /*
+   * Cancel order return request
+   */
+  cancelOrderReturnRequest(
+    returnRequestCode: string,
+    returnRequestModification: ReturnRequestModification
+  ): void {
+    this.withUserId(userId => {
+      this.store.dispatch(
+        new UserActions.CancelOrderReturnRequest({
+          userId,
+          returnRequestCode,
+          returnRequestModification,
+        })
+      );
+    });
+  }
+
+  /**
+   * Returns the cancel return request loading flag
+   */
+  getCancelReturnRequestLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(CANCEL_RETURN_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the cancel return request success flag
+   */
+  getCancelReturnRequestSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(CANCEL_RETURN_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the cancel return request process flags
+   */
+  resetCancelReturnRequestProcessState(): void {
+    return this.store.dispatch(new UserActions.ResetCancelReturnProcess());
   }
 
   /*

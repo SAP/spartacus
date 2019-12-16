@@ -431,5 +431,26 @@ describe('OccUserOrderAdapter', () => {
         );
       });
     });
+
+    describe('cancelReturnRequest', () => {
+      it('should be able to cancel one return request', async(() => {
+        let result;
+        occUserOrderAdapter
+          .cancelReturnRequest(userId, 'returnCode', { status: 'CANCELLING' })
+          .subscribe(res => (result = res));
+
+        const mockReq = httpMock.expectOne(req => {
+          return req.method === 'PATCH';
+        });
+        expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cancelReturn', {
+          userId,
+          returnRequestCode: 'returnCode',
+        });
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush({});
+        expect(result).toEqual({});
+      }));
+    });
   });
 });
