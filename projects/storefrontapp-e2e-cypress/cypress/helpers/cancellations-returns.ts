@@ -10,6 +10,8 @@ interface TestProduct {
   price?: number;
 }
 
+const dev17 = Cypress.env('API_URL').includes('-17');
+
 export const user = {
   user: 'standard',
   registrationData: {
@@ -51,7 +53,7 @@ export const products: TestProduct[] = [
     code: '1934793',
     type: 'camera',
     name: 'PowerShot A480',
-    price: 95.1,
+    price: dev17 ? 99.85 : 95.1,
   },
   {
     code: '300938',
@@ -105,6 +107,7 @@ export function checkTabs() {
 }
 
 export function checkReturnRequestList() {
+  cy.visit('my-account/orders');
   cy.get('cx-order-return-request-list');
 }
 
@@ -242,5 +245,30 @@ export function reviewOrder() {
     });
   });
   cy.get('cx-cart-item .cx-code').should('contain', products[0].code);
-  cy.get('cx-order-summary .cx-summary-amount').should('contain', '110.34');
+  cy.get('cx-order-summary .cx-summary-amount').should(
+    'contain',
+    dev17 ? '111.84' : '110.34'
+  );
+}
+
+export function cancelOrder() {
+  cy.get('cx-order-history a.cx-order-history-value')
+    .contains('In Process')
+    .click({ force: true });
+
+  cy.get('cx-order-details-actions button.btn-primary').click({ force: true });
+
+  cy.get('button.cx-counter-action')
+    .contains('+')
+    .click({ force: true });
+
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .click({ force: true });
+
+  cy.get('cx-cancel-order-confirmation button.btn-primary')
+    .contains('Submit Request')
+    .click({ force: true });
+
+  cy.url().should('contain', 'my-account/orders');
 }
