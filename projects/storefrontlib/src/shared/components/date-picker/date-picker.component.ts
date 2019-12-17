@@ -17,7 +17,7 @@ export const DATE_PICKER_ACCESSOR: any = {
 })
 export class DatePickerComponent implements ControlValueAccessor {
   value: string;
-  valueAsDate: Date;
+  valueAsDate: Date = null;
 
   @Input()
   min?: string;

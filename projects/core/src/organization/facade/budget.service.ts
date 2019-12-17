@@ -61,9 +61,7 @@ export class BudgetService {
     );
   }
 
-  getList(
-    params: BudgetSearchConfig
-  ): Observable<BudgetListModel> {
+  getList(params: BudgetSearchConfig): Observable<BudgetListModel> {
     return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<BudgetListModel>) => {
