@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, mapTo, skipWhile, take } from 'rxjs/operators';
+import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
 
 @Injectable({
@@ -42,10 +42,16 @@ export class SpartacusEventTracker {
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  cartChanged(): Observable<[OrderEntry[], Cart]> {
+  cartChanged(): Observable<{ entries: OrderEntry[]; cart: Cart }> {
     return combineLatest([
       this.cartService.getEntries(),
       this.cartService.getActive(),
-    ]).pipe(skipWhile(([entries]) => entries.length === 0));
+    ]).pipe(
+      skipWhile(([entries]) => entries.length === 0),
+      map(([entries, cart]) => ({
+        entries,
+        cart,
+      }))
+    );
   }
 }

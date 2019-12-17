@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
-import { mapTo, switchMap, tap } from 'rxjs/operators';
+import { filter, mapTo, switchMap, tap } from 'rxjs/operators';
 import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
@@ -32,8 +32,9 @@ export class ProfileTagInjector {
     );
   }
 
-  notifyProfileTagOfConsentGranted(): Observable<boolean> {
+  private notifyProfileTagOfConsentGranted(): Observable<boolean> {
     return this.spartacusEventTracker.consentGranted().pipe(
+      filter(granted => Boolean(granted)),
       tap(granted => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
           new ConsentChangedPushEvent(granted)
@@ -42,18 +43,18 @@ export class ProfileTagInjector {
     );
   }
 
-  notifyProfileTagOfCartChange(): Observable<boolean> {
+  private notifyProfileTagOfCartChange(): Observable<boolean> {
     return this.spartacusEventTracker.cartChanged().pipe(
-      tap(([entries, cart]) => {
+      tap(cart => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
-          new CartChangedPushEvent({ entries, cart })
+          new CartChangedPushEvent(cart)
         );
       }),
       mapTo(true)
     );
   }
 
-  notifyProfileTagOfPageLoaded(): Observable<boolean> {
+  private notifyProfileTagOfPageLoaded(): Observable<boolean> {
     return this.spartacusEventTracker.navigated().pipe(
       tap(_ => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
