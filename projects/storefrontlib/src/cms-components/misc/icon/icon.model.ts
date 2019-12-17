@@ -21,6 +21,8 @@ export enum ICON_TYPE {
   COLLAPSE = 'COLLAPSE',
   RESET = 'RESET',
   CIRCLE = 'CIRCLE',
+  HEART = 'HEART',
+  EMPTY_HEART = 'EMPTY_HEART',
 }
 
 export abstract class IconConfig {

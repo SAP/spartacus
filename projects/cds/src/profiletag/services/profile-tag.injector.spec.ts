@@ -50,7 +50,6 @@ describe('ProfileTagInjector', () => {
   let cartService;
   let orderEntryBehavior;
   let cartBehavior;
-
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<String>('');
     getConsentBehavior = new BehaviorSubject<Object>([{}]);

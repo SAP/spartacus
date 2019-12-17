@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
-  map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
+import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
+import { MerchandisingCarouselModel } from './model/index';
 
 @Component({
   selector: 'cx-merchandising-carousel',
@@ -17,30 +17,36 @@ import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-p
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchandisingCarouselComponent {
-  private componentData$: Observable<
-    CmsMerchandisingCarouselComponent
-  > = this.componentData.data$.pipe(filter(Boolean));
-
-  title$: Observable<string> = this.componentData$.pipe(
-    map(data => data.title)
-  );
-  items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
-    distinctUntilKeyChanged('strategy'),
-    switchMap(data => {
-      return this.cdsMerchandisingProductService.loadProductsForStrategy(
-        data.strategy,
-        data.numberToDisplay
-      );
-    }),
-    map(merchandisingProducts => merchandisingProducts.products),
-    filter(Boolean),
-    map((products: Product[]) => products.map(product => of(product)))
-  );
-
   constructor(
     protected componentData: CmsComponentData<
       CmsMerchandisingCarouselComponent
     >,
-    protected cdsMerchandisingProductService: CdsMerchandisingProductService
+    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
+    protected el: ElementRef
   ) {}
+
+  private componentData$: Observable<
+    CmsMerchandisingCarouselComponent
+  > = this.componentData.data$.pipe(filter(Boolean));
+
+  merchandisingCarouselModel$: Observable<
+    MerchandisingCarouselModel
+  > = this.componentData$.pipe(
+    distinctUntilKeyChanged('strategy'),
+    switchMap(data =>
+      this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
+        data
+      )
+    ),
+    tap(data => {
+      this.el.nativeElement.style.setProperty(
+        '--cx-color-background',
+        data.backgroundColor
+      );
+      this.el.nativeElement.style.setProperty(
+        '--cx-color-text',
+        data.textColor
+      );
+    })
+  );
 }

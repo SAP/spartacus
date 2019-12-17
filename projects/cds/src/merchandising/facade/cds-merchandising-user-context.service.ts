@@ -33,9 +33,11 @@ export class CdsMerchandisingUserContextService {
       map(([productId, category, facets]: [string, string, string]) => {
         const userContextData: MerchandisingUserContext = {
           category,
-          productId,
           facets,
         };
+        if (productId) {
+          userContextData.products = [productId];
+        }
         return userContextData;
       })
     );
@@ -53,7 +55,9 @@ export class CdsMerchandisingUserContextService {
   private getCategoryNavigationContext(): Observable<string> {
     return this.routingService.getRouterState().pipe(
       map(
-        (routerState: RouterState) => routerState.state.params['categoryCode']
+        (routerState: RouterState) =>
+          routerState.state.params['brandCode'] ||
+          routerState.state.params['categoryCode']
       ),
       distinctUntilChanged()
     );

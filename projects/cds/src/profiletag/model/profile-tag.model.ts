@@ -1,4 +1,4 @@
-export interface ProfileTagWindowObject {
+export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     push?: Function;
     q?: ProfileTagJsConfig[][];
