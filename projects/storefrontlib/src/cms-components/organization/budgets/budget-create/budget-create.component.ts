@@ -17,7 +17,8 @@ export class BudgetCreateComponent {
   createBudget(budget) {
     this.budgetService.create(budget);
     this.routingService.go({
-      cxRoute: 'budgets',
+      cxRoute: 'budgetDetails',
+      params: budget
     });
   }
 }
