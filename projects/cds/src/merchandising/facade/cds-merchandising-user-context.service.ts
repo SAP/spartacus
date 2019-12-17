@@ -61,28 +61,6 @@ export class CdsMerchandisingUserContextService {
     );
   }
 
-  private buildCategoryFacetChangeEvent(): Observable<Breadcrumb[]> {
-    return this.searchResultChangeEvent().pipe(
-      withLatestFrom(this.routingService.getPageContext()),
-      filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
-      map(([facets, _pageContext]) =>
-        facets.filter(facet => this.isCategoryFacet(facet))
-      ),
-      distinctUntilKeyChanged('length')
-    );
-  }
-
-  private buildBrandFacetChangeEvent(): Observable<Breadcrumb[]> {
-    return this.searchResultChangeEvent().pipe(
-      withLatestFrom(this.routingService.getPageContext()),
-      filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
-      map(([facets, _pageContext]) =>
-        facets.filter(facet => this.isBrandFacet(facet))
-      ),
-      distinctUntilKeyChanged('length')
-    );
-  }
-
   private isFacetPage(pageContext: PageContext): boolean {
     return (
       pageContext.type === PageType.CATEGORY_PAGE || pageContext.id === 'search'
@@ -106,11 +84,28 @@ export class CdsMerchandisingUserContextService {
     return breadcrumb ? breadcrumb.facetCode === CATEGORY_FACET_CODE : false;
   }
 
+  private filterFacetByCurrentPage(
+    facet: Breadcrumb,
+    currentPageContext: PageContext
+  ): boolean {
+    if (currentPageContext.type !== PageType.CATEGORY_PAGE) {
+      return false;
+    }
+    return facet.facetValueCode !== currentPageContext.id;
+  }
+
   private getFacets(): Observable<MerchandisingUserContext> {
-    return merge(
-      this.buildBrandFacetChangeEvent(),
-      this.buildCategoryFacetChangeEvent()
-    ).pipe(
+    return this.searchResultChangeEvent().pipe(
+      withLatestFrom(this.routingService.getPageContext()),
+      filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
+      map(([facets, pageContext]) =>
+        facets
+          .filter(
+            facet => this.isCategoryFacet(facet) || this.isBrandFacet(facet)
+          )
+          .filter(facet => this.filterFacetByCurrentPage(facet, pageContext))
+      ),
+      distinctUntilKeyChanged('length'),
       this.converterService.pipeable(MERCHANDISING_FACET_NORMALIZER),
       this.converterService.pipeable(
         MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER
