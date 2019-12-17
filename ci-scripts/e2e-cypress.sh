@@ -23,7 +23,8 @@ fi
 echo '-----'
 echo "Running Cypress end to end tests $SUITE"
 if [[ $SUITE == 'regression' ]]; then
-    yarn e2e:cy:start-run-all-ci
+    # TODO: will fix once cds is out the door (conclusion we had on Friday is to make everything in one)
+    yarn e2e:cy:cds:start-run-all-ci
 else
     yarn e2e:cy:start-run-ci
 fi

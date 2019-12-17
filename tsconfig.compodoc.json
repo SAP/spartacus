@@ -25,6 +25,7 @@
     "./projects/backend/**/*.*",
     "./projects/assets/**/*.*",
     "./projects/storefrontapp/**/*.*",
+    "./projects/storefrontapp-cds-integration/**/*.*",
     "./projects/storefrontstyles/**/*.*",
     "./projects/ssr/**/*.*",
     "./projects/vendor/**/*.*"
