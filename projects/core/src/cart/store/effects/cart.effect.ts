@@ -11,7 +11,6 @@ import {
   map,
   mergeMap,
   switchMap,
-  takeUntil,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../../../checkout/store/actions/index';
@@ -19,6 +18,7 @@ import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import * as DeprecatedCartActions from '../actions/cart.action';
@@ -86,8 +86,6 @@ export class CartEffects {
           return this.cartConnector
             .load(loadCartParams.userId, loadCartParams.cartId)
             .pipe(
-              // prevent emissions after context change
-              takeUntil(this.contextChange$),
               // TODO: remove with the `cart` store feature
               withLatestFrom(
                 // TODO: deprecated -> remove check for store in 2.0 when store will be required
@@ -174,7 +172,8 @@ export class CartEffects {
             );
         })
       )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -193,8 +192,6 @@ export class CartEffects {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           switchMap((cart: Cart) => {
             const conditionalActions = [];
             if (payload.oldCartId) {
@@ -241,7 +238,8 @@ export class CartEffects {
             ])
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -250,8 +248,6 @@ export class CartEffects {
     map((action: DeprecatedCartActions.MergeCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
-        // prevent emissions after context change
-        takeUntil(this.contextChange$),
         mergeMap(currentCart => {
           return [
             new DeprecatedCartActions.CreateCart({
@@ -263,7 +259,8 @@ export class CartEffects {
           ];
         })
       );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -348,8 +345,6 @@ export class CartEffects {
       this.cartConnector
         .addEmail(payload.userId, payload.cartId, payload.email)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           mergeMap(() => {
             return [
               new DeprecatedCartActions.AddEmailToCartSuccess({
@@ -380,7 +375,8 @@ export class CartEffects {
             ])
           )
         )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()

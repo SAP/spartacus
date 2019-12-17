@@ -8,7 +8,6 @@ import {
   map,
   mergeMap,
   switchMap,
-  takeUntil,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
@@ -22,6 +21,7 @@ import {
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { withdrawOn } from '../../../util/withdraw-on';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
@@ -48,8 +48,6 @@ export class CheckoutEffects {
       this.checkoutDeliveryConnector
         .createAddress(payload.userId, payload.cartId, payload.address)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
             if (payload.address.region && payload.address.region.isocodeShort) {
@@ -84,7 +82,8 @@ export class CheckoutEffects {
             )
           )
         )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -102,8 +101,6 @@ export class CheckoutEffects {
       return this.checkoutDeliveryConnector
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
             new CheckoutActions.ClearCheckoutDeliveryMode({
@@ -125,7 +122,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -139,8 +137,6 @@ export class CheckoutEffects {
       return this.checkoutDeliveryConnector
         .getSupportedModes(payload.userId, payload.cartId)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           map(data => {
             return new CheckoutActions.LoadSupportedDeliveryModesSuccess(data);
           }),
@@ -152,7 +148,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -199,8 +196,6 @@ export class CheckoutEffects {
       return this.checkoutDeliveryConnector
         .setMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           mergeMap(() => {
             return [
               new CheckoutActions.SetDeliveryModeSuccess(
@@ -220,7 +215,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -236,8 +232,6 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           mergeMap(details => {
             if (payload.userId === OCC_USER_ID_ANONYMOUS) {
               return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
@@ -256,7 +250,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -270,8 +265,6 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .set(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           map(
             () =>
               new CheckoutActions.SetPaymentDetailsSuccess(
@@ -286,7 +279,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -302,8 +296,6 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           switchMap(data => [
             new CartActions.RemoveCart(payload.cartId),
             new CheckoutActions.PlaceOrderSuccess(data),
@@ -312,7 +304,8 @@ export class CheckoutEffects {
             of(new CheckoutActions.PlaceOrderFail(makeErrorSerializable(error)))
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -326,8 +319,6 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .loadCheckoutDetails(payload.userId, payload.cartId)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           map(
             (data: CheckoutDetails) =>
               new CheckoutActions.LoadCheckoutDetailsSuccess(data)
@@ -340,7 +331,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -371,8 +363,6 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .clearCheckoutDeliveryAddress(payload.userId, payload.cartId)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           map(() => new CheckoutActions.ClearCheckoutDeliveryAddressSuccess()),
           catchError(error =>
             of(
@@ -382,7 +372,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -399,8 +390,6 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
-          // prevent emissions after context change
-          takeUntil(this.contextChange$),
           map(
             () =>
               new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
@@ -421,7 +410,8 @@ export class CheckoutEffects {
             ])
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   constructor(
