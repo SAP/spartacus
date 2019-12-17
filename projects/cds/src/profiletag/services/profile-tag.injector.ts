@@ -13,7 +13,7 @@ import { SpartacusEventTracker } from './spartacus-events';
   providedIn: 'root',
 })
 export class ProfileTagInjector {
-  private profileTagEvents$ = this.profileTagEventTracker.getProfileTagEvent();
+  private profileTagEvents$ = this.profileTagEventTracker.getProfileTagEvents();
   private injectionsEvents$: Observable<boolean> = merge(
     this.notifyProfileTagOfConsentGranted(),
     this.notifyProfileTagOfCartChange(),

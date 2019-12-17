@@ -39,7 +39,9 @@ describe('ProfileTagEventTracker', () => {
   let getActiveBehavior;
   let baseSiteService;
   let appendChildSpy;
-  let eventListener;
+  let eventListener: Record<ProfileTagEventNames, Function> = <
+    Record<ProfileTagEventNames, Function>
+  >{};
   let mockedWindowRef;
   let getConsentBehavior;
   let routerEventsBehavior;
@@ -54,8 +56,8 @@ describe('ProfileTagEventTracker', () => {
     );
     mockedWindowRef = {
       nativeWindow: {
-        addEventListener: (_, listener) => {
-          eventListener = listener;
+        addEventListener: (event, listener) => {
+          eventListener[event] = listener;
         },
         removeEventListener: jasmine.createSpy('removeEventListener'),
         Y_TRACKING: {
@@ -131,11 +133,13 @@ describe('ProfileTagEventTracker', () => {
         and event receiver callback has been called with loaded`, () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
-      .profileTagLoaded()
+      .getProfileTagEvents()
       .pipe(tap(_ => timesCalled++))
       .subscribe();
     getActiveBehavior.next('electronics-test');
-    eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
+    eventListener[ProfileTagEventNames.LOADED](
+      new CustomEvent(ProfileTagEventNames.LOADED)
+    );
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     subscription.unsubscribe();
 
@@ -145,7 +149,7 @@ describe('ProfileTagEventTracker', () => {
   it(`Should call the debugChanged method when profileTagDebug value changes`, () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
-      .debugModeChanged()
+      .getProfileTagEvents()
       .pipe(tap(_ => timesCalled++))
       .subscribe();
 
@@ -154,7 +158,7 @@ describe('ProfileTagEventTracker', () => {
         detail: { debug: true },
       })
     );
-    eventListener(debugEvent);
+    eventListener[ProfileTagEventNames.DEBUG_FLAG_CHANGED](debugEvent);
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(1);
@@ -163,7 +167,7 @@ describe('ProfileTagEventTracker', () => {
   it(`Should call the consentReferenceChanged method when consentReference value changes`, () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
-      .consentReferenceChanged()
+      .getProfileTagEvents()
       .pipe(tap(_ => timesCalled++))
       .subscribe();
 
@@ -172,14 +176,18 @@ describe('ProfileTagEventTracker', () => {
         detail: { consentReference: 'some_id' },
       })
     );
-    eventListener(consentReferenceChangedEvent);
+    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_CHANGED](
+      consentReferenceChangedEvent
+    );
 
     consentReferenceChangedEvent = <ConsentReferenceEvent>(
       new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_CHANGED, {
         detail: { consentReference: 'another_id' },
       })
     );
-    eventListener(consentReferenceChangedEvent);
+    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_CHANGED](
+      consentReferenceChangedEvent
+    );
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(2);

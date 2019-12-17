@@ -25,7 +25,8 @@ import {
 export class ProfileTagEventTracker {
   private profileTagEvents$ = merge(
     this.consentReferenceChanged(),
-    this.debugModeChanged()
+    this.debugModeChanged(),
+    this.profileTagLoaded()
   );
   private profileTagWindow: ProfileTagWindowObject;
   public consentReference = null;
@@ -38,7 +39,9 @@ export class ProfileTagEventTracker {
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
-  getProfileTagEvent(): Observable<ConsentReferenceEvent | DebugEvent> {
+  getProfileTagEvents(): Observable<
+    ConsentReferenceEvent | DebugEvent | Event
+  > {
     return this.profileTagEvents$;
   }
 
@@ -54,14 +57,18 @@ export class ProfileTagEventTracker {
     );
   }
 
-  profileTagLoaded(): Observable<Event> {
+  notifyProfileTagOfEventOccurence(event): void {
+    this.profileTagWindow.Y_TRACKING.push(event);
+  }
+
+  private profileTagLoaded(): Observable<Event> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.LOADED
     ).pipe(take(1));
   }
 
-  consentReferenceChanged(): Observable<ConsentReferenceEvent> {
+  private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.CONSENT_REFERENCE_CHANGED
@@ -71,7 +78,7 @@ export class ProfileTagEventTracker {
     );
   }
 
-  debugModeChanged(): Observable<DebugEvent> {
+  private debugModeChanged(): Observable<DebugEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.DEBUG_FLAG_CHANGED
@@ -112,9 +119,5 @@ export class ProfileTagEventTracker {
     const q = this.profileTagWindow.Y_TRACKING.q || [];
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
-  }
-
-  notifyProfileTagOfEventOccurence(event): void {
-    this.profileTagWindow.Y_TRACKING.push(event);
   }
 }
