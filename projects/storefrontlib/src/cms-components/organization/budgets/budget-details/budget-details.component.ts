@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 import {
   Budget,
@@ -32,7 +32,8 @@ export class BudgetDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.budget$ = this.routingService.getRouterState().pipe(
       map(routingData => routingData.state.params['budgetCode']),
-      switchMap(code => this.budgetsService.get(code, true)),
+      tap(code => this.budgetsService.loadBudget(code)),
+      switchMap(code => this.budgetsService.get(code)),
       filter(Boolean),
       map((budget: Budget) => ({
         ...budget,

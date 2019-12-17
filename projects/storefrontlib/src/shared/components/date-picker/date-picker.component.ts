@@ -20,6 +20,12 @@ export class DatePickerComponent implements ControlValueAccessor {
   valueAsDate: Date;
 
   @Input()
+  min?: string;
+
+  @Input()
+  max?: string;
+
+  @Input()
   eod = false;
 
   @Input()
@@ -50,5 +56,9 @@ export class DatePickerComponent implements ControlValueAccessor {
       this.value = value;
       this.valueAsDate = this.dateFormatterService.toDate(value);
     }
+  }
+
+  getMin() {
+
   }
 }

@@ -24,13 +24,13 @@ export class BudgetService {
     protected authService: AuthService
   ) {}
 
-  private loadBudget(budgetCode: string) {
+  loadBudget(budgetCode: string) {
     this.withUserId(userId =>
       this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
     );
   }
 
-  private loadBudgets(params?: BudgetSearchConfig) {
+  loadBudgets(params?: BudgetSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
     );
@@ -48,11 +48,11 @@ export class BudgetService {
     return this.store.select(getBudgetList(params));
   }
 
-  get(budgetCode: string, reload?: boolean): Observable<Budget> {
+  get(budgetCode: string): Observable<Budget> {
     return this.getBudgetState(budgetCode).pipe(
       observeOn(queueScheduler),
       tap(state => {
-        if (!(state.loading || state.success || state.error) || reload) {
+        if (!(state.loading || state.success || state.error)) {
           this.loadBudget(budgetCode);
         }
       }),
@@ -62,13 +62,12 @@ export class BudgetService {
   }
 
   getList(
-    params: BudgetSearchConfig,
-    reload?: boolean
+    params: BudgetSearchConfig
   ): Observable<BudgetListModel> {
     return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<BudgetListModel>) => {
-        if (!(process.loading || process.success || process.error) || reload) {
+        if (!(process.loading || process.success || process.error)) {
           this.loadBudgets(params);
         }
       }),

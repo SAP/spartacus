@@ -6,6 +6,7 @@ import {
   map,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 
 import {
@@ -75,8 +76,9 @@ export class BudgetsListComponent implements OnInit {
       })),
       distinctUntilChanged(shallowEqualObjects),
       map(this.normalizeParams),
+      tap(params => this.budgetsService.loadBudgets(params)),
       switchMap(params =>
-        this.budgetsService.getList(params, true).pipe(
+        this.budgetsService.getList(params).pipe(
           filter(Boolean),
           map((budgetsList: BudgetListModel) => ({
             sorts: budgetsList.sorts,

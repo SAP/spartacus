@@ -52,7 +52,7 @@ export class BudgetFormComponent implements OnInit {
   @Output()
   clickBack = new EventEmitter<any>();
 
-  budget: FormGroup = this.fb.group({
+  form: FormGroup = this.fb.group({
     code: [''],
     name: [''],
     orgUnit: this.fb.group({
@@ -79,19 +79,19 @@ export class BudgetFormComponent implements OnInit {
       map((list: B2BUnitNodeList) => list.unitNodes)
     );
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
-      this.budget.patchValue(this.budgetData);
-      console.log('initBudget', this.budget);
+      this.form.patchValue(this.budgetData);
+      console.log('initBudget', this.form);
     }
   }
 
   currencySelected(currency: Currency): void {
-    this.budget['controls'].currency['controls'].isocode.setValue(
+    this.form.controls.currency['controls'].isocode.setValue(
       currency.isocode
     );
   }
 
   businessUnitSelected(orgUnit: B2BUnitNode): void {
-    this.budget['controls'].orgUnit['controls'].uid.setValue(orgUnit.id);
+    this.form.controls.orgUnit['controls'].uid.setValue(orgUnit.id);
   }
 
   back(): void {
@@ -99,9 +99,9 @@ export class BudgetFormComponent implements OnInit {
   }
 
   verifyBudget(): void {
-    console.log('verifyBudget', this.budget);
-    if (!this.budget.invalid) {
-      this.submitBudget.emit(this.budget.value);
+    console.log('verifyBudget', this.form);
+    if (!this.form.invalid) {
+      this.submitBudget.emit(this.form.value);
     }
   }
 }

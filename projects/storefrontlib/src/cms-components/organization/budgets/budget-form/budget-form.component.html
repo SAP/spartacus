@@ -1,4 +1,4 @@
-<div [formGroup]="budget">
+<div [formGroup]="form">
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
@@ -63,6 +63,7 @@
           <cx-date-picker
             [placeholder]="'budgetForm.startDate.placeholder' | cxTranslate"
             formControlName="startDate"
+            [min]="form.controls['endDate'].value"
           ></cx-date-picker>
         </label>
       </div>
@@ -75,6 +76,7 @@
           <cx-date-picker
             [placeholder]="'budgetForm.endDate.placeholder' | cxTranslate"
             formControlName="endDate"
+            [max]="form.controls['startDate'].value"
             [eod]="true"
           ></cx-date-picker>
         </label>
@@ -133,7 +135,7 @@
     <div class="col-md-12 col-lg-6">
       <button
         class="btn btn-block btn-primary"
-        [disabled]="budget.invalid"
+        [disabled]="form.invalid"
         (click)="verifyBudget()"
       >
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
