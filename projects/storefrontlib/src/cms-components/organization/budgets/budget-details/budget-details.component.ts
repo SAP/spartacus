@@ -23,6 +23,9 @@ export class BudgetDetailsComponent implements OnInit {
   ) {}
 
   budget$: Observable<Budget>;
+  budgetCode$: Observable<string> = this.routingService
+    .getRouterState()
+    .pipe(map(routingData => routingData.state.params['budgetCode']));
 
   private costCenterColumns = {
     name: 'costCenter.name',
@@ -30,8 +33,7 @@ export class BudgetDetailsComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.budget$ = this.routingService.getRouterState().pipe(
-      map(routingData => routingData.state.params['budgetCode']),
+    this.budget$ = this.budgetCode$.pipe(
       tap(code => this.budgetsService.loadBudget(code)),
       switchMap(code => this.budgetsService.get(code)),
       filter(Boolean),
@@ -52,4 +54,13 @@ export class BudgetDetailsComponent implements OnInit {
       this.translation.translate(text).pipe(take(1))
     );
   }
+
+  update(budget) {
+    this.budgetCode$
+      .pipe(take(1))
+      .subscribe(budgetCode =>
+        this.budgetsService.update(budgetCode, budget)
+      );
+  }
+
 }
