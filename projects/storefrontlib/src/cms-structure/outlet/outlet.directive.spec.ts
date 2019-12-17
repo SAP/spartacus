@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { IntersectionOptions } from '../../layout/intersection/intersection.model';
+import { IntersectionService } from '../../layout/intersection/intersection.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';
@@ -27,6 +30,12 @@ const replacedOutlet = 'replacedOutlet';
   `,
 })
 class MockTemplateComponent {}
+
+class MockIntersectionService {
+  isIntersected(_element: HTMLElement, _options?: IntersectionOptions) {
+    return of(true);
+  }
+}
 
 @Component({
   template: `
@@ -59,7 +68,7 @@ class MockOutletBeforeComponent {}
 class MockOutletAfterComponent {}
 
 describe('OutletDirective', () => {
-  describe('Non-stacked', () => {
+  describe('(Non-stacked)', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [],
@@ -69,6 +78,12 @@ describe('OutletDirective', () => {
           MockOutletAfterComponent,
           OutletDirective,
           OutletRefDirective,
+        ],
+        providers: [
+          {
+            provide: IntersectionService,
+            useClass: MockIntersectionService,
+          },
         ],
       }).compileComponents();
     }));
@@ -143,7 +158,7 @@ describe('OutletDirective', () => {
   })
   class MockStackedBeforeOutletComponent {}
 
-  describe('Stacked', () => {
+  describe('(stacked)', () => {
     let compiled: HTMLElement;
 
     beforeEach(async(() => {
@@ -154,6 +169,12 @@ describe('OutletDirective', () => {
           MockStackedBeforeOutletComponent,
           OutletDirective,
           OutletRefDirective,
+        ],
+        providers: [
+          {
+            provide: IntersectionService,
+            useClass: MockIntersectionService,
+          },
         ],
       }).compileComponents();
     }));

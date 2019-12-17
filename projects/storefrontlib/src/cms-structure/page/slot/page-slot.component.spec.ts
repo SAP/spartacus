@@ -1,10 +1,12 @@
 import { Renderer2, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CmsConfig,
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
+import { IntersectionService } from 'projects/storefrontlib/src/layout/intersection/intersection.service';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../outlet';
 import { CmsMappingService } from '../../services/cms-mapping.service';
@@ -31,6 +33,18 @@ class MockDynamicAttributeService {
 }
 
 class MockCmsMappingService {}
+
+export class MockIntersectionService {
+  isIntersected(_element: HTMLElement, _options?: any) {
+    return of(true);
+  }
+}
+
+const MockCmsConfig: CmsConfig = {
+  cmsComponents: {
+    CMSTestComponent: { component: PageSlotComponent },
+  },
+};
 
 describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
@@ -60,6 +74,14 @@ describe('PageSlotComponent', () => {
         {
           provide: DynamicAttributeService,
           useClass: MockDynamicAttributeService,
+        },
+        {
+          provide: IntersectionService,
+          useClass: MockIntersectionService,
+        },
+        {
+          provide: CmsConfig,
+          useValue: MockCmsConfig,
         },
       ],
     }).compileComponents();

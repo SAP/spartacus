@@ -47,7 +47,7 @@ export class OutletDirective implements OnInit, OnDestroy {
     templateRef: TemplateRef<any>,
     outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>,
     // tslint:disable-next-line: unified-signatures
-    intersectionService?: IntersectionService
+    intersectionService: IntersectionService
   );
   /**
    * @deprecated since version 1.4
