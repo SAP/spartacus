@@ -65,8 +65,10 @@ export class CdsMerchandisingUserContextService {
     return this.searchResultChangeEvent().pipe(
       withLatestFrom(this.routingService.getPageContext()),
       filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
-      map(([facets, _pageContext]) =>
-        facets.filter(facet => this.isCategoryFacet(facet))
+      map(
+        ([facets, _pageContext]) =>
+          facets.filter(facet => this.isCategoryFacet(facet))
+        // .filter(facet => this.filterFacetByCurrentPage(facet, _pageContext))
       ),
       distinctUntilKeyChanged('length')
     );
@@ -76,8 +78,10 @@ export class CdsMerchandisingUserContextService {
     return this.searchResultChangeEvent().pipe(
       withLatestFrom(this.routingService.getPageContext()),
       filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
-      map(([facets, _pageContext]) =>
-        facets.filter(facet => this.isBrandFacet(facet))
+      map(
+        ([facets, _pageContext]) =>
+          facets.filter(facet => this.isBrandFacet(facet))
+        // .filter(facet => this.filterFacetByCurrentPage(facet, _pageContext))
       ),
       distinctUntilKeyChanged('length')
     );
@@ -105,6 +109,13 @@ export class CdsMerchandisingUserContextService {
   private isCategoryFacet(breadcrumb: Breadcrumb): boolean {
     return breadcrumb ? breadcrumb.facetCode === CATEGORY_FACET_CODE : false;
   }
+
+  // private filterFacetByCurrentPage(
+  //   facet: Breadcrumb,
+  //   currentPageContext: PageContext
+  // ): boolean {
+  //   return facet.facetValueCode !== currentPageContext.id;
+  // }
 
   private getFacets(): Observable<MerchandisingUserContext> {
     return merge(
