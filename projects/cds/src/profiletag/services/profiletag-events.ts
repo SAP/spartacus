@@ -25,8 +25,7 @@ import {
 export class ProfileTagEventTracker {
   private profileTagEvents$ = merge(
     this.consentReferenceChanged(),
-    this.debugModeChanged(),
-    this.profileTagLoaded()
+    this.debugModeChanged()
   );
   private profileTagWindow: ProfileTagWindowObject;
   public consentReference = null;

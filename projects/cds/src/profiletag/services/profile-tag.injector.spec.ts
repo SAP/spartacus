@@ -13,7 +13,7 @@ import { SpartacusEventTracker } from './spartacus-events';
 
 describe('ProfileTagInjector', () => {
   let profileTagInjector: ProfileTagInjector;
-  let siteBehavior: Subject<string>;
+  let addTrackerBehavior: Subject<Event>;
   let profileTagEventTrackerMock: ProfileTagEventTracker;
   let cartBehavior: Subject<{ entries: OrderEntry[]; cart: Cart }>;
   let consentBehavior: Subject<boolean>;
@@ -23,7 +23,7 @@ describe('ProfileTagInjector', () => {
     cartBehavior = new ReplaySubject<{ entries: OrderEntry[]; cart: Cart }>();
     consentBehavior = new ReplaySubject<boolean>();
     navigatedBehavior = new ReplaySubject<boolean>();
-    siteBehavior = new ReplaySubject<string>();
+    addTrackerBehavior = new ReplaySubject<Event>();
     spartacusEventTrackerMock = <SpartacusEventTracker>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
@@ -38,7 +38,7 @@ describe('ProfileTagInjector', () => {
     profileTagEventTrackerMock = <ProfileTagEventTracker>(<unknown>{
       addTracker: jasmine
         .createSpy('addTracker')
-        .and.callFake(_ => siteBehavior),
+        .and.callFake(_ => addTrackerBehavior),
       notifyProfileTagOfEventOccurence: jasmine.createSpy(
         'notifyProfileTagOfEventOccurence'
       ),
@@ -73,7 +73,7 @@ describe('ProfileTagInjector', () => {
 
   it('Should notify profile tag of consent granted', () => {
     const subscription = profileTagInjector.track().subscribe();
-    siteBehavior.next('test');
+    addTrackerBehavior.next(new CustomEvent('test'));
     consentBehavior.next(true);
 
     subscription.unsubscribe();
@@ -90,7 +90,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagInjector.track().subscribe();
     const cartEntry: OrderEntry[] = [{ entryNumber: 7 }];
     const testCart = <Cart>{ testCart: { id: 123 } };
-    siteBehavior.next('test');
+    addTrackerBehavior.next(new CustomEvent('test'));
     cartBehavior.next({ entries: cartEntry, cart: testCart });
 
     subscription.unsubscribe();
@@ -106,7 +106,7 @@ describe('ProfileTagInjector', () => {
 
   it('Should notify profile tag of page loaded', () => {
     const subscription = profileTagInjector.track().subscribe();
-    siteBehavior.next('test');
+    addTrackerBehavior.next(new CustomEvent('test'));
     navigatedBehavior.next(true);
     subscription.unsubscribe();
     expect(

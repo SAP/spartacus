@@ -116,10 +116,10 @@ describe('ProfileTagEventTracker', () => {
 
   it(`Should call the pageLoaded method if the site is active,
         and event receiver callback has been called with loaded`, () => {
-    let timesCalled = 0;
+    let loaded = 0;
     const subscription = profileTagEventTracker
-      .getProfileTagEvents()
-      .pipe(tap(_ => timesCalled++))
+      .addTracker()
+      .pipe(tap(_ => loaded++))
       .subscribe();
     getActiveBehavior.next('electronics-test');
     eventListener[ProfileTagEventNames.LOADED](
@@ -127,7 +127,7 @@ describe('ProfileTagEventTracker', () => {
     );
     subscription.unsubscribe();
 
-    expect(timesCalled).toEqual(1);
+    expect(loaded).toEqual(1);
   });
 
   it(`Should call the debugChanged method when profileTagDebug value changes`, () => {
