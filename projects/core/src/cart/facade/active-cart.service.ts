@@ -239,7 +239,13 @@ export class ActiveCartService {
     return cartSelector$.pipe(
       filter(cartState => !cartState.loading),
       // Avoid load/create call when there are new cart creating at the moment
-      filter(() => this.cartId !== FRESH_CART_ID),
+      filter(
+        cartState =>
+          !(
+            this.cartId === FRESH_CART_ID &&
+            (cartState.loading || cartState.success || cartState.error)
+          )
+      ),
       take(1),
       switchMap(cartState => {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
@@ -273,7 +279,13 @@ export class ActiveCartService {
       filter(cartState => !cartState.loading),
       filter(cartState => cartState.success || cartState.error),
       // wait for active cart id to point to code/guid to avoid some work on fresh entity
-      filter(() => this.cartId !== FRESH_CART_ID),
+      filter(
+        cartState =>
+          !(
+            this.cartId === FRESH_CART_ID &&
+            (cartState.loading || cartState.success || cartState.error)
+          )
+      ),
       filter(cartState => !this.isEmpty(cartState.value)),
       take(1)
     );
