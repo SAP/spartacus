@@ -13,9 +13,9 @@ import {
   DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { IntersectionOptions } from 'projects/storefrontlib/src/layout';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { IntersectionOptions } from '../../../layout/intersection/intersection.model';
 
 @Component({
   selector: 'cx-page-slot',
