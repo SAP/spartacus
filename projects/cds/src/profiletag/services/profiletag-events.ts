@@ -38,11 +38,11 @@ export class ProfileTagEventTracker {
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
-  public getProfileTagEvent() {
+  getProfileTagEvent(): Observable<ConsentReferenceEvent | DebugEvent> {
     return this.profileTagEvents$;
   }
 
-  public addTracker(): Observable<Event> {
+  addTracker(): Observable<Event> {
     return this.baseSiteService.getActive().pipe(
       filter(_ => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
@@ -54,14 +54,14 @@ export class ProfileTagEventTracker {
     );
   }
 
-  public profileTagLoaded(): Observable<Event> {
+  profileTagLoaded(): Observable<Event> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.LOADED
     ).pipe(take(1));
   }
 
-  public consentReferenceChanged(): Observable<ConsentReferenceEvent> {
+  consentReferenceChanged(): Observable<ConsentReferenceEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.CONSENT_REFERENCE_CHANGED
@@ -71,7 +71,7 @@ export class ProfileTagEventTracker {
     );
   }
 
-  public debugModeChanged(): Observable<DebugEvent> {
+  debugModeChanged(): Observable<DebugEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.DEBUG_FLAG_CHANGED
@@ -114,7 +114,7 @@ export class ProfileTagEventTracker {
     this.profileTagWindow.Y_TRACKING.q = q;
   }
 
-  public notifyProfileTagOfEventOccurence(event): void {
+  notifyProfileTagOfEventOccurence(event): void {
     this.profileTagWindow.Y_TRACKING.push(event);
   }
 }

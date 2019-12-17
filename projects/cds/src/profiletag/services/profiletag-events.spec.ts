@@ -46,7 +46,7 @@ describe('ProfileTagEventTracker', () => {
   let router;
 
   function setVariables() {
-    getActiveBehavior = new BehaviorSubject<String>('');
+    getActiveBehavior = new BehaviorSubject<string>('');
     appendChildSpy = jasmine.createSpy('appendChildSpy');
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(

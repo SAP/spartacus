@@ -16,7 +16,7 @@ export class SpartacusEventTracker {
     private config: CdsConfig
   ) {}
 
-  public navigated(): Observable<boolean> {
+  navigated(): Observable<boolean> {
     return this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       mapTo(true)
@@ -26,7 +26,7 @@ export class SpartacusEventTracker {
   /**
    * We are only interested in the first time the ProfileConsent is granted
    */
-  public consentGranted(): Observable<boolean> {
+  consentGranted(): Observable<boolean> {
     return this.consentService
       .getConsent(this.config.cds.consentTemplateId)
       .pipe(
@@ -42,7 +42,7 @@ export class SpartacusEventTracker {
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  public cartChanged(): Observable<[OrderEntry[], Cart]> {
+  cartChanged(): Observable<[OrderEntry[], Cart]> {
     return combineLatest([
       this.cartService.getEntries(),
       this.cartService.getActive(),

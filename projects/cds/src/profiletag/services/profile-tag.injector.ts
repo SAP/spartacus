@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
 import { mapTo, switchMap, tap } from 'rxjs/operators';
+import {
+  CartChangedPushEvent,
+  ConsentChangedPushEvent,
+  NavigatedPushEvent,
+} from '../model';
 import { ProfileTagEventTracker } from './profiletag-events';
 import { SpartacusEventTracker } from './spartacus-events';
 
@@ -27,38 +32,33 @@ export class ProfileTagInjector {
     );
   }
 
-  notifyProfileTagOfConsentGranted() {
+  notifyProfileTagOfConsentGranted(): Observable<boolean> {
     return this.spartacusEventTracker.consentGranted().pipe(
       tap(granted => {
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence({
-          event: 'ConsentChanged',
-          granted,
-        });
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
+          new ConsentChangedPushEvent(granted)
+        );
       })
     );
   }
 
-  notifyProfileTagOfCartChange() {
+  notifyProfileTagOfCartChange(): Observable<boolean> {
     return this.spartacusEventTracker.cartChanged().pipe(
       tap(([entries, cart]) => {
-        const cartSnapshotEvent = {
-          event: 'CartSnapshot',
-          data: { entries, cart },
-        };
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
-          cartSnapshotEvent
+          new CartChangedPushEvent({ entries, cart })
         );
       }),
       mapTo(true)
     );
   }
 
-  notifyProfileTagOfPageLoaded() {
+  notifyProfileTagOfPageLoaded(): Observable<boolean> {
     return this.spartacusEventTracker.navigated().pipe(
       tap(_ => {
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence({
-          event: 'Navigated',
-        });
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
+          new NavigatedPushEvent()
+        );
       })
     );
   }
