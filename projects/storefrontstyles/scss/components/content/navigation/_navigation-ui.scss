@@ -285,8 +285,7 @@
         }
 
         /* we only treat the first wrapper as a collapsible container */
-        &:hover,
-        &:focus-within {
+        &:hover {
           > .wrapper {
             @include showWrapperDesktop();
           }
@@ -296,7 +295,8 @@
       // Show dropdowns via focus only once a nav is clicked
       &:focus-within {
         > nav {
-          &:focus {
+          &:focus,
+          &.is-open:focus-within {
             > .wrapper {
               @include showWrapperDesktop();
             }

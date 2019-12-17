@@ -91,6 +91,21 @@ export class NavigationUIComponent implements OnDestroy {
     event.stopPropagation();
   }
 
+  open(event: UIEvent): void {
+    event.preventDefault();
+    const node = <HTMLElement>event.currentTarget;
+    if (this.openNodes.includes(node)) {
+      this.back();
+    } else {
+      this.openNodes.push(node);
+    }
+
+    this.updateClasses();
+
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+  }
+
   back(): void {
     this.renderer.removeClass(
       this.openNodes[this.openNodes.length - 1],
