@@ -16,7 +16,11 @@ import {
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
-import { ConsentChangedPushEvent, NavigatedPushEvent } from '../model';
+import {
+  CartChangedPushEvent,
+  ConsentChangedPushEvent,
+  NavigatedPushEvent,
+} from '../model';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagEventTracker } from './profiletag-events';
 import { SpartacusEventTracker } from './spartacus-events';
@@ -153,7 +157,7 @@ describe('ProfileTagInjector', () => {
       .subscribe();
 
     const cartEntry: OrderEntry[] = [{ entryNumber: 7 }];
-    const testCart = { testCart: { id: 123 } };
+    const testCart = <Cart>{ testCart: { id: 123 } };
     cartBehavior.next(testCart);
     orderEntryBehavior.next(cartEntry);
 
@@ -164,9 +168,11 @@ describe('ProfileTagInjector', () => {
       profileTagEventTracker.notifyProfileTagOfEventOccurence
     ).toHaveBeenCalled();
 
-    //expect(
-    //  profileTagEventTracker.notifyProfileTagOfEventOccurence
-    //).toHaveBeenCalledWith(new CartChangedPushEvent({ cartEntry, testCart }));
+    expect(
+      profileTagEventTracker.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalledWith(
+      new CartChangedPushEvent({ entries: cartEntry, cart: testCart })
+    );
   });
 
   it('Should notify profile tag of page loaded', () => {
