@@ -41,7 +41,7 @@ describe('withdrawOn', () => {
         delay(10, getTestScheduler()),
         withdrawOn(notifier$)
       );
-      const target$ = cold('--a----c', { a: '1', b: '2', c: '3' });
+      const target$ = cold('--a----c', { a: '1', c: '3' });
 
       expect(source$).toBeObservable(target$);
     });
