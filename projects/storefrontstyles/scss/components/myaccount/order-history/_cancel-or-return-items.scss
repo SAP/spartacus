@@ -8,6 +8,12 @@
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: var(--cx-color-light);
+
+    //testing columns
+    div {
+      background-color: yellow;
+      border: 1px solid;
+    }
   }
 
   .cx-item-list-desc {
@@ -18,10 +24,6 @@
   .cx-item-list-price,
   .cx-item-list-qty {
     text-align: center;
-
-    @include media-breakpoint-down(md) {
-      text-align: left;
-    }
   }
 
   .cx-item-list-total {
@@ -36,10 +38,27 @@
     border-color: var(--cx-color-light);
   }
 
+  //testing columns
+  .cx-item-list-items {
+    .row {
+      .col-10,
+      .col-2 {
+        background-color: aqua;
+        border: 1px solid;
+      }
+    }
+  }
+
   .cx-info-container {
     @include media-breakpoint-down(sm) {
       display: flex;
       flex-direction: column;
+    }
+
+    //testing columns
+    > div {
+      background-color: aquamarine;
+      border: 1px solid red;
     }
   }
 
