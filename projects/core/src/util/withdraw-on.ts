@@ -6,7 +6,7 @@ import { startWith, switchMapTo } from 'rxjs/operators';
  * Withdraw from the source observable when notifier emits a value
  *
  * Withdraw will result in resubscribing to the source observable
- * Operator is useful to kill ongoing emission transformation when notifier emits
+ * Operator is useful to kill ongoing emission transformation on notifier emission
  *
  * @param notifier
  */
