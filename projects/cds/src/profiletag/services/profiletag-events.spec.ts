@@ -1,10 +1,5 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  Event as NgRouterEvent,
-  NavigationEnd,
-  NavigationStart,
-} from '@angular/router';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -44,16 +39,11 @@ describe('ProfileTagEventTracker', () => {
   >{};
   let mockedWindowRef;
   let getConsentBehavior;
-  let routerEventsBehavior;
-  let router;
 
   function setVariables() {
     getActiveBehavior = new BehaviorSubject<string>('');
     appendChildSpy = jasmine.createSpy('appendChildSpy');
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
-    routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
-      new NavigationStart(0, 'test.com', 'popstate')
-    );
     mockedWindowRef = {
       nativeWindow: {
         addEventListener: (event, listener) => {
@@ -72,9 +62,6 @@ describe('ProfileTagEventTracker', () => {
     baseSiteService = {
       getActive: () => getActiveBehavior,
     };
-    router = {
-      events: routerEventsBehavior,
-    };
   }
   beforeEach(() => {
     setVariables();
@@ -84,7 +71,6 @@ describe('ProfileTagEventTracker', () => {
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: BaseSiteService, useValue: baseSiteService },
         { provide: PLATFORM_ID, useValue: 'browser' },
-        { provide: router, useValue: router },
       ],
     });
     profileTagEventTracker = TestBed.get(ProfileTagEventTracker);
@@ -122,7 +108,6 @@ describe('ProfileTagEventTracker', () => {
     const profileTagLoaded$ = profileTagEventTracker.addTracker();
     const subscription = profileTagLoaded$.subscribe();
     getActiveBehavior.next('electronics-test');
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     getConsentBehavior.next({ consent: 'test' });
     subscription.unsubscribe();
 
@@ -140,7 +125,6 @@ describe('ProfileTagEventTracker', () => {
     eventListener[ProfileTagEventNames.LOADED](
       new CustomEvent(ProfileTagEventNames.LOADED)
     );
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(1);
