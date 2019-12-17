@@ -12,7 +12,8 @@ import {
   DynamicAttributeService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { PageSlotService } from './page-slot.service';
 
 @Component({
   selector: 'cx-page-slot',
@@ -43,8 +44,7 @@ export class PageSlotComponent {
    */
   readonly components$: Observable<
     ContentSlotComponentData[]
-  > = this.slot$.pipe(
-    map(slot => (slot && slot.components ? slot.components : [])),
+  > = this.pageSlotService.getComponents(this.slot$).pipe(
     distinctUntilChanged(
       (a, b) =>
         a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
@@ -56,7 +56,8 @@ export class PageSlotComponent {
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected hostElement: ElementRef
+    protected hostElement: ElementRef,
+    protected pageSlotService: PageSlotService
   ) {}
 
   // add a class to indicate whether the class is empty or not

@@ -10,6 +10,8 @@ import {
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { RouterModule } from '@angular/router';
+import { PAGE_SLOT_HANDLER } from 'projects/storefrontlib/src/cms-structure';
+import { ProductPageSlotHandler } from './product-page-slot-handler';
 
 @NgModule({
   declarations: [StockNotificationComponent, StockNotificationDialogComponent],
@@ -32,5 +34,12 @@ import { RouterModule } from '@angular/router';
     StockNotificationDialogComponent,
   ],
   exports: [StockNotificationComponent, StockNotificationDialogComponent],
+  providers: [
+    {
+      provide: PAGE_SLOT_HANDLER,
+      useExisting: ProductPageSlotHandler,
+      multi: true,
+    },
+  ],
 })
 export class StockNotificationModule {}
