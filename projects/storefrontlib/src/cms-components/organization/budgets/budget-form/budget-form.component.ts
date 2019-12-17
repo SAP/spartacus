@@ -85,7 +85,6 @@ export class BudgetFormComponent implements OnInit {
   }
 
   currencySelected(currency: Currency): void {
-    console.log(currency);
     this.budget['controls'].currency['controls'].isocode.setValue(
       currency.isocode
     );
@@ -101,8 +100,8 @@ export class BudgetFormComponent implements OnInit {
 
   verifyBudget(): void {
     console.log('verifyBudget', this.budget);
-    // if (!this.budget.invalid) {
-    //   this.submitBudget.emit(this.budget.value);
-    // }
+    if (!this.budget.invalid) {
+      this.submitBudget.emit(this.budget.value);
+    }
   }
 }
