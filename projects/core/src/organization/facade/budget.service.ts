@@ -83,9 +83,9 @@ export class BudgetService {
     );
   }
 
-  update(budget: Budget) {
+  update(budgetCode: string, budget: Budget) {
     this.withUserId(userId =>
-      this.store.dispatch(new BudgetActions.UpdateBudget({ userId, budget }))
+      this.store.dispatch(new BudgetActions.UpdateBudget({ userId, budgetCode, budget }))
     );
   }
 

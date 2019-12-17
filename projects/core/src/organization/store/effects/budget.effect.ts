@@ -101,7 +101,7 @@ export class BudgetEffects {
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
     switchMap(payload =>
-      this.budgetConnector.update(payload.userId, payload.budget).pipe(
+      this.budgetConnector.update(payload.userId, payload.budgetCode, payload.budget).pipe(
         map(data => new BudgetActions.UpdateBudgetSuccess(data)),
         catchError(error =>
           of(

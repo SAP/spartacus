@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
@@ -9,6 +9,9 @@ import { Observable } from 'rxjs';
 })
 export class BudgetEditComponent implements OnInit {
   budget$: Observable<Budget>;
+  budgetCode$: Observable<string> = this.routingService
+    .getRouterState()
+    .pipe(map(routingData => routingData.state.params['budgetCode']));
 
   constructor(
     protected routingService: RoutingService,
@@ -16,15 +19,16 @@ export class BudgetEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.budget$ = this.routingService.getRouterState().pipe(
-      map(routingData => routingData.state.params['budgetCode']),
+    this.budget$ = this.budgetCode$.pipe(
       tap(code => this.budgetsService.loadBudget(code)),
       switchMap(code => this.budgetsService.get(code))
     );
   }
 
   updateBudget(budget) {
-    this.budgetsService.update(budget);
+    this.budgetCode$
+      .pipe(take(1))
+      .subscribe(budgetCode => this.budgetsService.update(budgetCode, budget));
     this.routingService.go({
       cxRoute: 'budgetDetails',
       params: budget,
