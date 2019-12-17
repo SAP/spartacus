@@ -6,48 +6,39 @@ import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Budget, BudgetListModel } from '../../model/budget.model';
-import {
-  StateWithOrganization,
-} from '../store/organization-state';
+import { StateWithOrganization } from '../store/organization-state';
 import { BudgetActions } from '../store/actions/index';
 import {
   getBudgetState,
   getBudgetList,
 } from '../store/selectors/budget.selector';
 import { BudgetSearchConfig } from '../model/search-config';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 // import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
 // import { LOAD_BUDGETS_PROCESS_ID } from '../../../../../dist/core/src/organization/store/organization-state';
 
 @Injectable()
 export class BudgetService {
-  private user$ = this.authService.getOccUserId();
-
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
     protected authService: AuthService
   ) {}
 
   private loadBudget(budgetCode: string) {
-    this.user$
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(
-          new BudgetActions.LoadBudget({ userId, budgetCode })
-        )
-      );
+    this.withUserId(userId =>
+      this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
+    );
   }
 
-  loadBudgets(params?: BudgetSearchConfig) {
-    this.user$
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
-      );
+  private loadBudgets(params?: BudgetSearchConfig) {
+    this.withUserId(userId =>
+      this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
+    );
   }
 
- // getBudgetsProcess() {
- //    return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
- //  }
+  // getBudgetsProcess() {
+  //    return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
+  //  }
 
   private getBudgetState(budgetCode: string) {
     return this.store.select(getBudgetState(budgetCode));
@@ -57,11 +48,11 @@ export class BudgetService {
     return this.store.select(getBudgetList(params));
   }
 
-  get(budgetCode: string): Observable<Budget> {
+  get(budgetCode: string, reload?: boolean): Observable<Budget> {
     return this.getBudgetState(budgetCode).pipe(
       observeOn(queueScheduler),
       tap(state => {
-        if (!(state.loading || state.success || state.error)) {
+        if (!(state.loading || state.success || state.error) || reload) {
           this.loadBudget(budgetCode);
         }
       }),
@@ -70,32 +61,46 @@ export class BudgetService {
     );
   }
 
-  getList(params: BudgetSearchConfig): Observable<BudgetListModel> {
+  getList(
+    params: BudgetSearchConfig,
+    reload?: boolean
+  ): Observable<BudgetListModel> {
     return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<BudgetListModel>) => {
-        if (!(process.loading || process.success || process.error)) {
+        if (!(process.loading || process.success || process.error) || reload) {
           this.loadBudgets(params);
         }
       }),
-      filter((process: LoaderState<BudgetListModel>) => process.success || process.error),
+      filter(
+        (process: LoaderState<BudgetListModel>) =>
+          process.success || process.error
+      ),
       map(result => result.value)
     );
   }
 
   create(budget: Budget) {
-    this.user$
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
-      );
+    this.withUserId(userId =>
+      this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
+    );
   }
 
   update(budget: Budget) {
-    this.user$
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(new BudgetActions.UpdateBudget({ userId, budget }))
-      );
+    this.withUserId(userId =>
+      this.store.dispatch(new BudgetActions.UpdateBudget({ userId, budget }))
+    );
+  }
+
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }

@@ -76,7 +76,7 @@ export class BudgetsListComponent implements OnInit {
       distinctUntilChanged(shallowEqualObjects),
       map(this.normalizeParams),
       switchMap(params =>
-        this.budgetsService.getList(params).pipe(
+        this.budgetsService.getList(params, true).pipe(
           filter(Boolean),
           map((budgetsList: BudgetListModel) => ({
             sorts: budgetsList.sorts,
