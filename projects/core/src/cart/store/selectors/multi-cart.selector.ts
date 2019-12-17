@@ -97,6 +97,18 @@ export const getCartEntrySelectorFactory = (
   );
 };
 
+export const getCartEntryByKeySelectorFactory = (
+  cartId: string,
+  key: string
+): MemoizedSelector<StateWithMultiCart, OrderEntry> => {
+  return createSelector(
+    getCartEntriesSelectorFactory(cartId),
+    (state: OrderEntry[]) => {
+      return state ? state.find(entry => entry.key === key) : undefined;
+    }
+  );
+};
+
 export const getActiveCartId: MemoizedSelector<
   StateWithMultiCart,
   string
