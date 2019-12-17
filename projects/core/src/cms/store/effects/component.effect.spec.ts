@@ -27,9 +27,6 @@ class MockRoutingService {
 }
 
 class MockCmsComponentConnector {
-  get(_uid, _pageContext): Observable<any> {
-    return of({});
-  }
   getList(_uid, _pageContext): Observable<any> {
     return of([]);
   }
