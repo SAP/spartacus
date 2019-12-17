@@ -7,7 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ProfileTagEventTracker } from '../services/index';
+import { ProfileTagEventTracker } from '../services/profiletag-events';
 
 @Injectable({ providedIn: 'root' })
 export class DebugInterceptor implements HttpInterceptor {
