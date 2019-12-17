@@ -19,7 +19,6 @@ import {
   B2BUnitNodeList,
   OrgUnitService,
 } from '@spartacus/core';
-import { DateFormatterService } from '../../../../shared/directives/date-value-accessor/date-formatter.service';
 
 @Component({
   selector: 'cx-budget-form',
@@ -71,7 +70,6 @@ export class BudgetFormComponent implements OnInit {
     private fb: FormBuilder,
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService,
-    protected dateFormatterService: DateFormatterService
   ) {}
 
   ngOnInit() {

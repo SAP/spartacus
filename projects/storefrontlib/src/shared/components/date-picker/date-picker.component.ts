@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DateFormatterService } from '../../directives/date-value-accessor/date-formatter.service';
+import { DateFormatterService } from './date-formatter.service';
 
 export const DATE_PICKER_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -25,7 +25,7 @@ export class DatePickerComponent implements ControlValueAccessor {
   @Input()
   placeholder: string;
 
-  constructor(protected dateFormatterService?: DateFormatterService) {}
+  constructor(protected dateFormatterService: DateFormatterService) {}
 
   onInput(event) {
     this.value = this.dateFormatterService.transform(event.target.value, this.eod);
