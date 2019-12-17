@@ -10,7 +10,22 @@ const user: RegisterUser = {
 
 describe('Return Request List for Cancellations and Returns', () => {
   before(() => {
-    methods.signIn(user);
+    cy.window().then(win => {
+      win.localStorage.clear();
+    });
+    cy.visit('/login');
+  });
+
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
+  it('should go to login', () => {
+    methods.loginUser(user);
   });
 
   it('should see order history tab and return request list tab', () => {
