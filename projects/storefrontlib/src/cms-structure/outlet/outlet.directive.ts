@@ -2,14 +2,15 @@ import {
   ComponentFactory,
   Directive,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  IntersectionOptions,
-  IntersectionService,
-} from '../../layout/intersection/index';
+import { DeferLoadingStrategy } from '@spartacus/core';
+import { Subscription } from 'rxjs';
+import { IntersectionOptions } from '../../layout/intersection/intersection.model';
+import { IntersectionService } from '../../layout/intersection/intersection.service';
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
@@ -18,9 +19,15 @@ const PENDING_SLOT_CLASS = 'cx-pending';
 @Directive({
   selector: '[cxOutlet]',
 })
-export class OutletDirective implements OnInit {
-  // keeps track of pending elements
-  private pendingElements = new Map<HTMLElement, number>();
+export class OutletDirective implements OnInit, OnDestroy {
+  /**
+   * keeps track of the number of pending elements for a host element
+   * this is required since only if the last slot component is rendered,
+   * can safely drop the pending class.
+   */
+  private pendingElementCount = new Map<HTMLElement, number>();
+
+  private subscription: Subscription = new Subscription();
 
   @Input() cxOutlet: string;
 
@@ -29,23 +36,51 @@ export class OutletDirective implements OnInit {
   set cxOutletContext(value: any) {
     this._context = value;
   }
-  /**
-   * Defers loading of the templates for this outlet.
-   */
-  @Input() cxOutletDefer: IntersectionOptions = { deferLoading: false };
 
+  /**
+   * Defers loading options for the the templates of this outlet.
+   */
+  @Input() cxOutletDefer: IntersectionOptions = {};
+
+  constructor(
+    vcr: ViewContainerRef,
+    templateRef: TemplateRef<any>,
+    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>,
+    // tslint:disable-next-line: unified-signatures
+    intersectionService?: IntersectionService
+  );
+  /**
+   * @deprecated since version 1.4
+   * Use constructor(vcr: ViewContainerRef, templateRef: TemplateRef<any>, outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>, intersectionService?: IntersectionService) instead
+   */
+  constructor(
+    vcr: ViewContainerRef,
+    templateRef: TemplateRef<any>,
+    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>
+  );
   constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private outletService: OutletService<
       TemplateRef<any> | ComponentFactory<any>
     >,
-    // TODO: avoid breacking change
-    private intersectionService: IntersectionService
+    private intersectionService?: IntersectionService
   ) {}
 
   ngOnInit(): void {
-    this.cxOutletDefer.deferLoading ? this.deferRender() : this.render();
+    this.renderInstantly() ? this.render() : this.deferRender();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  private renderInstantly(): boolean {
+    return (
+      !this.intersectionService ||
+      (this.cxOutletDefer.deferLoading &&
+        this.cxOutletDefer.deferLoading === DeferLoadingStrategy.INSTANT)
+    );
   }
 
   private deferRender() {
@@ -54,12 +89,14 @@ export class OutletDirective implements OnInit {
 
     // we need to wait a tick to take advantage of the ghost layout
     setTimeout(() => {}, 0);
-    this.intersectionService
-      .isIntersected(hostElement, this.cxOutletDefer)
-      .subscribe(() => {
-        this.render();
-        this.removePendingStyle(hostElement);
-      });
+    this.subscription.add(
+      this.intersectionService
+        .isIntersected(hostElement, this.cxOutletDefer)
+        .subscribe(() => {
+          this.render();
+          this.removePendingStyle(hostElement);
+        })
+    );
   }
 
   private render() {
@@ -98,14 +135,19 @@ export class OutletDirective implements OnInit {
           $implicit: this._context,
         }
       );
-      // if we've deferred loading of the outlet, we must
-      // do change detection manually.
-      if (this.cxOutletDefer.deferLoading) {
-        view.markForCheck();
-      }
+
+      // we do not know if content is created dynamically or not
+      // so we apply change detection anyway
+      view.markForCheck();
     }
   }
 
+  /**
+   * Returns the closest `HtmlElement`, by iterating over the
+   * parent elements of the given element.
+   *
+   * @param element
+   */
   private getHostElement(element: Element): HTMLElement {
     if (element instanceof HTMLElement) {
       return element;
@@ -114,30 +156,36 @@ export class OutletDirective implements OnInit {
   }
 
   /**
-   * we apply a "cx-pending" css class to the parent element, to ensure that
+   * Add a pending css class to the host element to ensure that
    * the inital size of the parent (slot) DOM node will take enough
    * vertical space to defer loading of components. If the slot node would
    * not have an initial height, all components would be in the inital viewport
    * which would destroy the concept of deferred loading.
    */
-  private addPendingStyle(element: HTMLElement): void {
-    if (!this.pendingElements.get(element)) {
-      this.pendingElements.set(element, 0);
+  private addPendingStyle(hostElement: HTMLElement): void {
+    if (!this.pendingElementCount.get(hostElement)) {
+      this.pendingElementCount.set(hostElement, 0);
     }
 
-    this.pendingElements.set(element, this.pendingElements.get(element) + 1);
-    element.classList.add(PENDING_SLOT_CLASS);
+    this.pendingElementCount.set(
+      hostElement,
+      this.pendingElementCount.get(hostElement) + 1
+    );
+    hostElement.classList.add(PENDING_SLOT_CLASS);
   }
 
   /**
-   * when all elements of the host element have been loaded, we remove
-   * the pending class.
+   * Removes the pending style class when there are no pending elements for the given
+   * host element.
    */
-  private removePendingStyle(element: HTMLElement): void {
-    this.pendingElements.set(element, this.pendingElements.get(element) - 1);
+  private removePendingStyle(hostElement: HTMLElement): void {
+    this.pendingElementCount.set(
+      hostElement,
+      this.pendingElementCount.get(hostElement) - 1
+    );
 
-    if (this.pendingElements.get(element) === 0) {
-      element.classList.remove(PENDING_SLOT_CLASS);
+    if (this.pendingElementCount.get(hostElement) === 0) {
+      hostElement.classList.remove(PENDING_SLOT_CLASS);
     }
   }
 }

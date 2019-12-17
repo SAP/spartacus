@@ -1,7 +1,9 @@
+import { DeferLoadingStrategy } from '@spartacus/core';
 import { LayoutConfig } from '../../layout/config/layout-config';
 
 export const b2cLayoutConfig: LayoutConfig = {
   deferredLoading: {
+    strategy: DeferLoadingStrategy.DEFER,
     intersectionMargin: '50px',
   },
   layoutSlots: {
@@ -48,6 +50,7 @@ export const b2cLayoutConfig: LayoutConfig = {
       slots: ['Section2A', 'Section2B'],
     },
     CategoryPageTemplate: {
+      pageFold: 'Section2',
       slots: ['Section1', 'Section2', 'Section3'],
     },
     ProductListPageTemplate: {

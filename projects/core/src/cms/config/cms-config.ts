@@ -44,14 +44,20 @@ export interface CmsComponentMapping {
   i18nKeys?: string[];
   guards?: any[];
 
-  /** Loading configurations per component type. */
-  loading?: {
-    /**
-     * Defer loading is on by default, however some components
-     * require rendering regardless.
-     */
-    defer?: boolean;
-  };
+  /**
+   * DeferLoading can be specified globally, but also per component.
+   * Some components require direct loading while it's not initially
+   * in the viewport.
+   */
+  deferLoading?: DeferLoadingStrategy;
+}
+
+/** Strategy to control the loading strategy of DOM elements. */
+export enum DeferLoadingStrategy {
+  /** Defers loading of DOM elements until element is near/in the users view port */
+  DEFER = 'DEFERRED-LOAING',
+  /** Renders the DOM always without being concerned with the current view port */
+  INSTANT = 'INSTANT-LOADING',
 }
 
 export interface CMSComponentConfig

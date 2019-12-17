@@ -22,8 +22,9 @@ export class PageLayoutService {
     private handlers: PageLayoutHandler[]
   ) {}
 
-  // We print warn messages on missing layout configs
-  // only once to not pollute the console log.
+  // Prints warn messages for missing layout configs.
+  // The warnings are only printed once per config
+  // to not pollute the console log.
   private warnLogMessages = {};
   private logSlots = {};
 
@@ -56,12 +57,12 @@ export class PageLayoutService {
   }
 
   /**
-   * Returns the page fold configured for the pageTemplate for
-   * the given breakpoint.
+   * Returns an observable with the last page slot above-the-fold
+   * for the given pageTemplate / breakpoint.
    *
-   * @param pageTemplate
+   * The page fold is configurable in the `LayoutConfig` for each page layout.
    */
-  getPageFoldSlot(pageTemplate: string) {
+  getPageFoldSlot(pageTemplate: string): Observable<string> {
     return this.breakpointService.breakpoint$.pipe(
       map(breakpoint => {
         const pageTemplateConfig = this.config.layoutSlots[pageTemplate];

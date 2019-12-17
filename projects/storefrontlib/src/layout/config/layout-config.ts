@@ -1,3 +1,5 @@
+import { DeferLoadingStrategy } from '@spartacus/core';
+
 export enum BREAKPOINT {
   xs = 'xs',
   sm = 'sm',
@@ -17,10 +19,9 @@ export type SlotConfig = {
   slots?: string[];
 
   /**
-   * The page fold identifies the page slot that is the last
-   * expected page slot above-the-fold. It's perfectly fine to
-   * specify this by idication, however a more precise indication
-   * will have an positive impact on performance.
+   * The page fold identifies the last expected page slot above-the-fold.
+   * It's perfectly fine to specify this by idication, however a more
+   * precise indication will have an positive impact on performance.
    */
   pageFold?: string;
 };
@@ -57,7 +58,17 @@ export abstract class LayoutConfig {
   };
   layoutSlots?: LayoutSlotConfig;
 
+  /**
+   * Deferrred loading is a technique to hold of with the loading / creation
+   * of DOM elements which are not not in the initial view port.
+   * This technique wil increase performance.
+   */
   deferredLoading?: {
+    /**
+     * The global strategy will be used as a fallback strategy for all DOM creation,
+     * but can be overriden by local configuration, i.e. for cms components.
+     */
+    strategy?: DeferLoadingStrategy;
     /**
      * The intersection margin contains the offset used by the Intersection Observer
      * to observe elements outside the view port.

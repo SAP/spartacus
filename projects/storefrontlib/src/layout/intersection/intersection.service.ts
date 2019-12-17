@@ -1,5 +1,6 @@
 import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { DeferLoadingStrategy } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, first, flatMap, map } from 'rxjs/operators';
 import { LayoutConfig } from '../config/layout-config';
@@ -30,7 +31,7 @@ export class IntersectionService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    if (isPlatformServer(this.platformId)) {
+    if (isPlatformServer(this.platformId) || this.useInstantLoading()) {
       return of(true);
     } else {
       return this.intersects(element, options).pipe(first(v => v === true));
@@ -66,9 +67,19 @@ export class IntersectionService {
     return elementVisible$;
   }
 
+  /**
+   * Evaluates the global deferred loading strategy.
+   */
+  private useInstantLoading(): boolean {
+    return (
+      this.config.deferredLoading &&
+      this.config.deferredLoading.strategy === DeferLoadingStrategy.INSTANT
+    );
+  }
+
   private getRootMargin(options?: IntersectionOptions) {
-    if (options.margin) {
-      return options.margin;
+    if (options.rootMargin) {
+      return options.rootMargin;
     }
     const layoutConfig = this.config as LayoutConfig;
     if (

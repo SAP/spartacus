@@ -10,6 +10,7 @@ import {
   CmsService,
   ContentSlotComponentData,
   ContentSlotData,
+  DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { IntersectionOptions } from 'projects/storefrontlib/src/layout';
@@ -58,32 +59,46 @@ export class PageSlotComponent {
   );
 
   constructor(
+    cmsService: CmsService,
+    dynamicAttributeService: DynamicAttributeService,
+    renderer: Renderer2,
+    hostElement: ElementRef,
+    // tslint:disable-next-line:unified-signatures
+    config?: CmsConfig
+  );
+
+  /**
+   * @deprecated since version 1.4
+   * Use constructor(cmsService: CmsService, dynamicAttributeService: DynamicAttributeService, renderer: Renderer2, hostElement: ElementRef, config?: CmsConfig) instead
+   */
+  constructor(
+    cmsService: CmsService,
+    dynamicAttributeService: DynamicAttributeService,
+    renderer: Renderer2,
+    hostElement: ElementRef
+  );
+  constructor(
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected hostElement: ElementRef,
-    protected config: CmsConfig
+    protected config?: CmsConfig
   ) {}
 
   getComponentDeferOptions(componentType: string): IntersectionOptions {
-    return {
-      deferLoading: this.supportsLazyLoading(componentType),
-    };
+    const deferLoading = this.getDeferLoadingStrategy(componentType);
+    return { deferLoading };
   }
 
   /**
-   * Some components must be loaded anyway, even if they're outside the
-   * the (initial) viewport.
-   *
-   * A good example is a cookie banner component, sitting on the visual bottom
-   * of the viewport (using CSS). The physical loacation of the components
-   * is at the bottom of the DOM, and the CSS rules which will move the component
-   * in the viewport will only come into play when the component is loaded.
+   * The `DeferLoadingStrategy` indicates whether component rendering
+   * should be deferred.
    */
-  private supportsLazyLoading(componentType: string): boolean {
-    const compConfig =
-      (this.config as CmsConfig).cmsComponents[componentType] || {};
-    return !compConfig.loading || !(compConfig.loading.defer === false);
+  private getDeferLoadingStrategy(componentType: string): DeferLoadingStrategy {
+    if (this.config) {
+      return ((this.config as CmsConfig).cmsComponents[componentType] || {})
+        .deferLoading;
+    }
   }
 
   // add a class to indicate whether the class is empty or not

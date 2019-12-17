@@ -6,7 +6,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { PageLayoutService } from './page-layout.service';
 
 @Component({
@@ -34,7 +34,6 @@ export class PageLayoutComponent {
   );
 
   readonly pageSlot$: Observable<string> = this.templateName$.pipe(
-    filter(s => !!s),
     switchMap(templateName =>
       this.pageLayoutService.getPageFoldSlot(templateName)
     )
