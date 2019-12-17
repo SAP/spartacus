@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProfileTagInjector } from '../services/profile-tag.injector';
+import { ProfileTagInjector } from '../services/index';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
