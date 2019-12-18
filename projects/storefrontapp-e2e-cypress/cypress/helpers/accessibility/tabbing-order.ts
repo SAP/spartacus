@@ -102,6 +102,12 @@ export function checkElement(tabElement: TabElement) {
         .should('have.attr', 'alt', tabElement.value);
       return;
     }
+    case TabbingOrderTypes.CX_ICON: {
+      cy.focused()
+        .should('have.prop', 'tagName')
+        .should('eq', 'CX_ICON');
+      return;
+    }
     case TabbingOrderTypes.SELECT: {
       cy.focused()
         .get('select')

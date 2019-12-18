@@ -17,6 +17,7 @@ export enum TabbingOrderTypes {
   NAV_CATEGORY_DROPDOWN = 'navCategoryDropdown',
   CAROUSEL = 'carousel',
   CX_MEDIA = 'cxMedia',
+  CX_ICON = 'cxIcon',
   H3 = 'h3',
   CX_PRODUCT_VIEW = 'cxProductView',
   INDEX_OF_ELEMENT = 'indexOfElement',
@@ -485,6 +486,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
     {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
       value: 'Sign In / Register',
       type: TabbingOrderTypes.LINK,
     },
@@ -656,6 +660,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
     },
     {
       value: 'My Account',
@@ -877,6 +884,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
     {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
       value: '/electronics-spa/en/USD/cart',
       type: TabbingOrderTypes.IMG_LINK,
     },
@@ -1051,6 +1061,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
     },
     {
       value: '/electronics-spa/en/USD/cart',

@@ -16,7 +16,9 @@
     [type]="iconTypes.RESET"
     aria-label="reset"
     (mousedown)="clear(searchInput)"
+    (keydown.enter)="clear(searchInput)"
     class="reset"
+    tabindex="0"
   ></cx-icon>
 
   <cx-icon
@@ -24,6 +26,7 @@
     aria-label="search"
     class="search"
     (mousedown)="avoidReopen($event)"
+    tabindex="0"
   ></cx-icon>
 </label>
 
