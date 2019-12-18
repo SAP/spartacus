@@ -70,19 +70,28 @@ export class TabParagraphContainerComponent
   }
 
   ngAfterViewInit(): void {
-    if (!this.subscription) {
-      this.subscription = this.children.changes.subscribe(
-        (tabComps: QueryList<ComponentWrapperDirective>) => {
-          tabComps.forEach(comp => {
-            if (comp.cmpRef.instance.tabTitleParam$) {
-              this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
-            } else {
-              this.tabTitleParams.push(null);
-            }
-          });
-        }
-      );
+    // If children exist, directly get the title parameters from them;
+    // otherwise, listen to the children's changes
+    if (this.children.length > 0) {
+      this.getTitleParams(this.children);
+    } else {
+      if (!this.subscription) {
+        this.subscription = this.children.changes.subscribe(
+          (tabComps: QueryList<ComponentWrapperDirective>) =>
+            this.getTitleParams(tabComps)
+        );
+      }
     }
+  }
+
+  private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
+    children.forEach(comp => {
+      if (comp.cmpRef.instance.tabTitleParam$) {
+        this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
+      } else {
+        this.tabTitleParams.push(null);
+      }
+    });
   }
 
   ngOnDestroy(): void {
