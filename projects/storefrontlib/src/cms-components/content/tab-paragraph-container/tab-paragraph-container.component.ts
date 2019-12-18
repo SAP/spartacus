@@ -37,7 +37,8 @@ export class TabParagraphContainerComponent
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,
     cmsService: CmsService,
-    winRef: WindowRef // tslint:disable-line,
+    // tslint:disable-next-line:unified-signatures
+    winRef: WindowRef
   );
   /**
    * @deprecated since 1.4
