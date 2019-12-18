@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -107,6 +108,14 @@ class MockConfiguratorCommonsService {
   }
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('ConfigurationGroupMenuComponent', () => {
   let component: ConfigGroupMenuComponent;
   let fixture: ComponentFixture<ConfigGroupMenuComponent>;
@@ -118,7 +127,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfigGroupMenuComponent],
+      declarations: [ConfigGroupMenuComponent, MockCxIconComponent],
       providers: [
         HamburgerMenuService,
         {
@@ -181,7 +190,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.click(config, { id: 'groupdId' });
+    component.click(config.groups[1]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });

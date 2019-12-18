@@ -190,7 +190,7 @@ function checkCurrentGroupObs(
   });
   component.ngOnInit();
 
-  expect(component.currentGroup$).toBeObservable(
+  expect(component.currentGroupId$).toBeObservable(
     cold(expectedMarbels, { u: 'group1', v: 'group2' })
   );
 }

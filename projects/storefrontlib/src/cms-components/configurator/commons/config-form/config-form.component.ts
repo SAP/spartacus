@@ -17,7 +17,8 @@ import { ConfigFormUpdateEvent } from './config-form.event';
 })
 export class ConfigFormComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  currentGroup$: Observable<string>;
+  currentGroupId$: Observable<String>;
+  currentGroup: Configurator.Group;
 
   public UiType = Configurator.UiType;
 
@@ -47,17 +48,43 @@ export class ConfigFormComponent implements OnInit {
       )
       .subscribe();
 
-    this.currentGroup$ = this.configRouterExtractorService
+    this.currentGroupId$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
           this.configuratorCommonsService.getConfiguration(owner)
         ),
-
         switchMap(configuration =>
           this.configuratorGroupsService.getCurrentGroup(configuration.owner)
         )
       );
+
+    this.currentGroupId$.subscribe(currentGroupId => {
+      this.configuration$.pipe(take(1)).subscribe(configuration => {
+        this.currentGroup = this.findCurrentGroup(
+          configuration.groups,
+          currentGroupId
+        );
+      });
+    });
+  }
+
+  findCurrentGroup(
+    groups: Configurator.Group[],
+    groupId: String
+  ): Configurator.Group {
+    if (groups.find(group => group.id === groupId)) {
+      return groups.find(group => group.id === groupId);
+    }
+
+    //Call function recursive until group is returned
+    for (let i = 0; i < groups.length; i++) {
+      if (this.findCurrentGroup(groups[i].subGroups, groupId) !== null) {
+        return this.findCurrentGroup(groups[i].subGroups, groupId);
+      }
+    }
+
+    return null;
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {
