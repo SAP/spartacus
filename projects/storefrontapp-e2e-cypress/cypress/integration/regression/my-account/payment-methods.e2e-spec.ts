@@ -9,9 +9,11 @@ describe('Payment Methods', () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  checkAnonymous();
+  describe('Anonymous user', () => {
+    checkAnonymous();
+  });
 
-  describe('should go to payment details page for login user', () => {
+  describe('Authenticated user', () => {
     before(() => {
       cy.requireLoggedIn();
       cy.reload();
