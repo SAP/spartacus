@@ -18,10 +18,6 @@
   .cx-item-list-price,
   .cx-item-list-qty {
     text-align: center;
-
-    @include media-breakpoint-down(md) {
-      text-align: left;
-    }
   }
 
   .cx-item-list-total {
