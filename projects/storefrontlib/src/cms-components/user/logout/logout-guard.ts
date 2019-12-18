@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable } from 'rxjs';
 import {
   AuthService,
   CmsService,
@@ -10,7 +9,8 @@ import {
   ProtectedRoutesService,
   FeatureConfigService,
 } from '@spartacus/core';
-import { tap, filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
