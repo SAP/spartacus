@@ -2,9 +2,10 @@
   <ul class="cx-config-menu">
     <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
       <li class="cx-config-menu-back" *ngIf="parentGroup !== null">
-        <!--TODO: "Back" text is still under discussion therefor I have not created a translatable text for it -->
+        <!--TODO: "Back" text is still under discussion -->
         <a (click)="navigateUp()" role="link"
-          ><cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>Back</a
+          ><cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
+          >{{ 'configurator.button.back' | cxTranslate }}</a
         >
       </li>
     </ng-container>
