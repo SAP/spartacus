@@ -1,11 +1,10 @@
-import { DeferLoadingStrategy } from '@spartacus/core';
 import { LayoutConfig } from '../../layout/config/layout-config';
 
 export const b2cLayoutConfig: LayoutConfig = {
-  deferredLoading: {
-    strategy: DeferLoadingStrategy.DEFER,
-    intersectionMargin: '50px',
-  },
+  // deferredLoading: {
+  //   strategy: DeferLoadingStrategy.DEFER,
+  //   intersectionMargin: '50px',
+  // },
   layoutSlots: {
     header: {
       md: {
