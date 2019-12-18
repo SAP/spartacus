@@ -1,5 +1,6 @@
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Type } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
@@ -21,6 +22,13 @@ class MockReturnRequestService {
   }
 }
 
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('ReturnRequestOverviewComponent', () => {
   let component: ReturnRequestOverviewComponent;
   let fixture: ComponentFixture<ReturnRequestOverviewComponent>;
@@ -28,8 +36,8 @@ describe('ReturnRequestOverviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ReturnRequestOverviewComponent],
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [ReturnRequestOverviewComponent, MockUrlPipe],
       providers: [
         { provide: ReturnRequestService, useClass: MockReturnRequestService },
       ],

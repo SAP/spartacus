@@ -37,4 +37,7 @@
   .cx-coupon-code--pill-value {
     line-height: 1.7;
   }
+  .cx-footnote {
+    @include type('7');
+  }
 }
