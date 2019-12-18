@@ -44,6 +44,22 @@ export class OrderCancelOrReturnService {
     protected returnRequestService: OrderReturnRequestService
   ) {
     this.languageService.getActive().subscribe(value => (this.lang = value));
+    this.routing.getRouterState().subscribe(state => {
+      if (
+        state.nextState &&
+        state.nextState.params['orderCode'] &&
+        state.state &&
+        state.state.params['orderCode']
+      ) {
+        const next = state.nextState.url.split('/');
+        const current = state.state.url.split('/');
+        const diff = current.filter(v => !next.includes(v));
+        // keep the entry input only when back from confirmation page
+        if (diff.length === 1 && diff[0] === 'confirmation') {
+          this.keepRequestInputs = true;
+        }
+      }
+    });
   }
 
   get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {
@@ -84,15 +100,7 @@ export class OrderCancelOrReturnService {
     return returnedItemsPriceData;
   }
 
-  goToOrderCancelOrReturn(
-    cxRoute: string,
-    orderCode: string,
-    isBack?: boolean
-  ): void {
-    // When back from confirmation page to order return/cancel page,
-    // we want to keep the request inputs
-    this.keepRequestInputs = isBack;
-
+  goToOrderCancelOrReturn(cxRoute: string, orderCode: string): void {
     this.routing.go({
       cxRoute: cxRoute,
       params: { code: orderCode },

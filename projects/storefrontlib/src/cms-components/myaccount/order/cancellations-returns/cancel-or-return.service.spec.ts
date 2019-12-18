@@ -9,11 +9,24 @@ import {
   GlobalMessageType,
   OrderReturnRequestService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { OrderCancelOrReturnService } from './cancel-or-return.service';
 
+const router = {
+  state: {
+    url: '/cancel/confirmation',
+    params: { orderCode: '1234' },
+  },
+  nextState: {
+    url: '/cancel',
+    params: { orderCode: '1234' },
+  },
+};
 class MockRoutingService {
   go = jasmine.createSpy('go');
+  getRouterState(): Observable<any> {
+    return of(router);
+  }
 }
 
 class MockLanguageService {
@@ -96,6 +109,7 @@ describe('OrderCancelOrReturnService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+    expect(service['keepRequestInputs']).toBeTruthy();
   });
 
   it('should be able to clear/keep cancelOrReturnRequestInputs', () => {
@@ -134,12 +148,11 @@ describe('OrderCancelOrReturnService', () => {
   });
 
   it('should be able to go to cancel/return or confirmation page', () => {
-    service.goToOrderCancelOrReturn('test', '1', true);
+    service.goToOrderCancelOrReturn('test', '1');
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'test',
       params: { code: '1' },
     });
-    expect(service['keepRequestInputs']).toEqual(true);
   });
 
   it('should be able to go to get calculated item price', () => {

@@ -60,8 +60,7 @@ export class ReturnOrderConfirmationComponent implements OnInit, OnDestroy {
   back(): void {
     this.cancelOrReturnService.goToOrderCancelOrReturn(
       'orderReturn',
-      this.orderCode,
-      true
+      this.orderCode
     );
   }
 
