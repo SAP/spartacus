@@ -10,8 +10,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IntersectionOptions } from '../../layout/intersection/intersection.model';
-import { IntersectionService } from '../../layout/intersection/intersection.service';
+import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
+import { IntersectionOptions } from '../../layout/loading/intersection.model';
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
@@ -37,7 +37,7 @@ export class OutletDirective implements OnInit, OnDestroy {
     templateRef: TemplateRef<any>,
     outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>,
     // tslint:disable-next-line: unified-signatures
-    intersectionService: IntersectionService
+    intersectionService: DeferLoaderService
   );
   /**
    * @deprecated since version 1.4
@@ -54,8 +54,7 @@ export class OutletDirective implements OnInit, OnDestroy {
     private outletService: OutletService<
       TemplateRef<any> | ComponentFactory<any>
     >,
-    // private deferRenderService?: DeferRenderService,
-    private intersectionService?: IntersectionService
+    private deferLoaderService?: DeferLoaderService
   ) {}
 
   ngOnInit(): void {
@@ -70,8 +69,8 @@ export class OutletDirective implements OnInit, OnDestroy {
     this.loaded.emit(false);
     const hostElement = this.getHostElement(this.vcr.element.nativeElement);
     this.subscription.add(
-      this.intersectionService
-        .isIntersected(hostElement, this.cxOutletDefer)
+      this.deferLoaderService
+        .load(hostElement, this.cxOutletDefer)
         .subscribe(() => {
           this.render();
           this.loaded.emit(true);

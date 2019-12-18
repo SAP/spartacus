@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { IntersectionOptions } from '../../layout/intersection/intersection.model';
-import { IntersectionService } from '../../layout/intersection/intersection.service';
+import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';
@@ -30,9 +29,8 @@ const replacedOutlet = 'replacedOutlet';
   `,
 })
 class MockTemplateComponent {}
-
-class MockIntersectionService {
-  isIntersected(_element: HTMLElement, _options?: IntersectionOptions) {
+export class MockDeferLoaderService {
+  load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
 }
@@ -81,8 +79,8 @@ describe('OutletDirective', () => {
         ],
         providers: [
           {
-            provide: IntersectionService,
-            useClass: MockIntersectionService,
+            provide: DeferLoaderService,
+            useClass: MockDeferLoaderService,
           },
         ],
       }).compileComponents();
@@ -172,8 +170,8 @@ describe('OutletDirective', () => {
         ],
         providers: [
           {
-            provide: IntersectionService,
-            useClass: MockIntersectionService,
+            provide: DeferLoaderService,
+            useClass: MockDeferLoaderService,
           },
         ],
       }).compileComponents();

@@ -17,7 +17,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { IntersectionOptions } from '../../../layout/intersection/intersection.model';
+import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
 @Component({
   selector: 'cx-page-slot',
@@ -51,20 +51,7 @@ export class PageSlotComponent implements OnInit {
    * observable with components (`ContentSlotComponentData[]`)
    * for the current slot
    */
-  readonly components$: Observable<
-    ContentSlotComponentData[]
-  > = this.slot$.pipe(
-    map(slot => (slot && slot.components ? slot.components : [])),
-    distinctUntilChanged(
-      (a, b) =>
-        a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
-    ),
-    tap(components => {
-      this.hasComponents = components && components.length > 0;
-      this.pendingComponentCount = components ? components.length : 0;
-      this.isPending = this.pendingComponentCount > 0;
-    })
-  );
+  components$: Observable<ContentSlotComponentData[]>;
 
   constructor(
     cmsService: CmsService,
@@ -94,7 +81,23 @@ export class PageSlotComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('ngOnInit');
     this.isPending = true;
+
+    this.components$ = this.slot$.pipe(
+      map(slot => (slot && slot.components ? slot.components : [])),
+      distinctUntilChanged(
+        (a, b) =>
+          a.length === b.length &&
+          !a.find((el, index) => el.uid !== b[index].uid)
+      ),
+      tap(components => {
+        this.hasComponents = components && components.length > 0;
+        this.pendingComponentCount = components ? components.length : 0;
+        console.log('set pending again');
+        this.isPending = this.pendingComponentCount > 0;
+      })
+    );
   }
 
   /**
@@ -103,6 +106,7 @@ export class PageSlotComponent implements OnInit {
    * when all nested components have been added.
    */
   isLoaded(loadState: boolean) {
+    console.log('is loaded');
     if (loadState) {
       this.pendingComponentCount--;
     }

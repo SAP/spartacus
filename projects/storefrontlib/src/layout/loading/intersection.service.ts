@@ -1,7 +1,5 @@
-import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { DeferLoadingStrategy } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { distinctUntilChanged, first, flatMap, map } from 'rxjs/operators';
 import { LayoutConfig } from '../config/layout-config';
 import { IntersectionOptions } from './intersection.model';
@@ -15,19 +13,13 @@ import { IntersectionOptions } from './intersection.model';
   providedIn: 'root',
 })
 export class IntersectionService {
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    protected config: LayoutConfig
-  ) {}
+  constructor(protected config: LayoutConfig) {}
 
   /**
    * Returns an Observable that emits only once a boolean value whenever
    * the given element has shown in the view port.
    *
-   * If the global defer loading strategy is set to INSTANT or in case we're on
-   * SSR, a boolean observable is returned straightaway.
-   *
-   * When deferred loading is used, the obervable will only emit the first value. The
+   * The returned obervable will only emit the first value. The
    * observable must be cleaned up either way, since the value might never emit; it
    *  depends on whether the element appears in the view port.
    */
@@ -35,11 +27,7 @@ export class IntersectionService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    if (this.useInstantLoading()) {
-      return of(true);
-    } else {
-      return this.intersects(element, options).pipe(first(v => v === true));
-    }
+    return this.intersects(element, options).pipe(first(v => v === true));
   }
 
   /**
@@ -71,17 +59,6 @@ export class IntersectionService {
     );
 
     return elementVisible$;
-  }
-
-  /**
-   * Evaluates the global deferred loading strategy.
-   */
-  private useInstantLoading(): boolean {
-    return (
-      isPlatformServer(this.platformId) ||
-      (this.config.deferredLoading &&
-        this.config.deferredLoading.strategy === DeferLoadingStrategy.INSTANT)
-    );
   }
 
   private getRootMargin(options?: IntersectionOptions) {

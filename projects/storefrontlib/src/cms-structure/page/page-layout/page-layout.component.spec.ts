@@ -3,7 +3,7 @@ import { Component, Input, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
-import { IntersectionService } from 'projects/storefrontlib/src/layout/intersection/intersection.service';
+import { DeferLoaderService } from 'projects/storefrontlib/src/layout/loading/defer-loader.service';
 import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../outlet';
 import { PageLayoutComponent } from './page-layout.component';
@@ -80,8 +80,8 @@ export class MockPageLayoutService {
   }
 }
 
-export class MockIntersectionService {
-  isIntersected(_element: HTMLElement, _options?: any) {
+export class MockDeferLoaderService {
+  load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
 }
@@ -101,7 +101,7 @@ export class MockIntersectionService {
       useClass: MockCmsService,
     },
     { provide: PageLayoutService, useClass: MockPageLayoutService },
-    { provide: IntersectionService, useClass: MockIntersectionService },
+    { provide: DeferLoaderService, useClass: MockDeferLoaderService },
   ],
 })
 export class TestModule {}

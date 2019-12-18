@@ -1,7 +1,6 @@
 import { Component, TemplateRef, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IntersectionOptions } from 'projects/storefrontlib/src/layout/intersection/intersection.model';
-import { IntersectionService } from 'projects/storefrontlib/src/layout/intersection/intersection.service';
+import { DeferLoaderService } from 'projects/storefrontlib/src/layout/loading/defer-loader.service';
 import { of } from 'rxjs';
 import { OutletDirective } from '../outlet.directive';
 import { OutletService } from '../outlet.service';
@@ -23,8 +22,8 @@ const CUSTOM_TEXT = 'customized';
 })
 class TestContainerComponent {}
 
-class MockIntersectionService {
-  isIntersected(_element: HTMLElement, _options?: IntersectionOptions) {
+export class MockDeferLoaderService {
+  load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
 }
@@ -43,7 +42,7 @@ describe('OutletDirective', () => {
       ],
       providers: [
         OutletService,
-        { provide: IntersectionService, useClass: MockIntersectionService },
+        { provide: DeferLoaderService, useClass: MockDeferLoaderService },
       ],
     }).compileComponents();
   }));
