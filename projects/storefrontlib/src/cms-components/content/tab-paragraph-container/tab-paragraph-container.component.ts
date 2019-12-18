@@ -108,12 +108,10 @@ export class TabParagraphContainerComponent
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     } else {
-      if (!this.subscription) {
-        this.subscription = this.children.changes.subscribe(
-          (tabComps: QueryList<ComponentWrapperDirective>) =>
-            this.getTitleParams(tabComps)
-        );
-      }
+      this.subscription = this.children.changes.subscribe(
+        (tabComps: QueryList<ComponentWrapperDirective>) =>
+          this.getTitleParams(tabComps)
+      );
     }
   }
 
