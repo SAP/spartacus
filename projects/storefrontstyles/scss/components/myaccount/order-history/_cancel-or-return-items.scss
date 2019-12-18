@@ -29,6 +29,10 @@
   .cx-item-list-total {
     text-align: right;
     padding: 0;
+
+    @include media-breakpoint-down(lg) {
+      padding-right: 70px;
+    }
   }
 
   .cx-item-list-row {
@@ -117,7 +121,15 @@
     justify-content: center;
     align-items: center;
     @include type('5');
-    font-weight: $font-weight-normal;
+
+    @include media-breakpoint-down(lg) {
+      padding-right: 0;
+      padding-left: 45px;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-right: 0;
+    }
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
@@ -139,6 +151,32 @@
     justify-content: center;
     align-items: center;
 
+    @include media-breakpoint-down(lg) {
+      padding-right: 30px;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-right: 45px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+    }
+  }
+
+  .cx-request-qty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include media-breakpoint-down(lg) {
+      padding-right: 0;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-right: 0;
+    }
+
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
     }
@@ -146,8 +184,12 @@
 
   .cx-total {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
+
+    @include media-breakpoint-down(md) {
+      justify-content: flex-end;
+    }
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
