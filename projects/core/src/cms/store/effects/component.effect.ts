@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { from, Observable } from 'rxjs';
+import { from, merge, Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -19,13 +19,15 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { Action } from '@ngrx/store';
 import { CmsComponent } from '../../../model/cms.model';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 
 @Injectable()
 export class ComponentEffects {
   constructor(
     private actions$: Actions,
     private cmsComponentLoader: CmsComponentConnector,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private featureConfigService: FeatureConfigService
   ) {}
 
   private currentPageContext$: Observable<
@@ -67,6 +69,29 @@ export class ComponentEffects {
     | CmsActions.LoadCmsComponentSuccess<CmsComponent>
     | CmsActions.LoadCmsComponentFail
   > {
+    // TODO: remove, deprecated behavior since 1.4
+    if (!this.featureConfigService.isLevel('1.4')) {
+      return merge(
+        ...componentUids.map(componentUid =>
+          this.cmsComponentLoader.get(componentUid, pageContext).pipe(
+            map(
+              component =>
+                new CmsActions.LoadCmsComponentSuccess(component, component.uid)
+            ),
+            catchError(error =>
+              of(
+                new CmsActions.LoadCmsComponentFail(
+                  componentUid,
+                  makeErrorSerializable(error)
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+    // END OF (TODO: remove, deprecated behavior since 1.4)
+
     return this.cmsComponentLoader.getList(componentUids, pageContext).pipe(
       switchMap(components =>
         from(

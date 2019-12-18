@@ -9,6 +9,7 @@ import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { CmsActions } from '../actions/index';
 import * as fromEffects from './component.effect';
+import { FeatureConfigService } from '@spartacus/core';
 
 const router = {
   state: {
@@ -32,6 +33,12 @@ class MockCmsComponentConnector {
   }
 }
 
+class MockFeatureConfigService {
+  isLevel() {
+    return true;
+  }
+}
+
 describe('Component Effects', () => {
   let actions$: Observable<any>;
   let service: CmsComponentConnector;
@@ -50,6 +57,7 @@ describe('Component Effects', () => {
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
