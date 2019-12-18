@@ -7,8 +7,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CmsService, CMSTabParagraphContainer } from '@spartacus/core';
+import {
+  CmsService,
+  CMSTabParagraphContainer,
+  WindowRef,
+} from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, switchMap, distinctUntilChanged } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
@@ -31,6 +34,11 @@ export class TabParagraphContainerComponent
 
   subscription: Subscription;
 
+  constructor(
+    componentData: CmsComponentData<CMSTabParagraphContainer>,
+    cmsService: CmsService,
+    winRef: WindowRef // tslint:disable-line,
+  );
   /**
    * @deprecated since 1.4
    *
@@ -43,7 +51,7 @@ export class TabParagraphContainerComponent
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     private cmsService: CmsService,
-    private activatedRoute?: ActivatedRoute
+    private winRef?: WindowRef
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -77,9 +85,14 @@ export class TabParagraphContainerComponent
   }
 
   ngOnInit(): void {
-    const activeTab = this.activatedRoute.snapshot.queryParams['activeTab'];
-    if (activeTab) {
-      this.activeTabNum = Number(activeTab);
+    if (this.winRef && this.winRef.nativeWindow) {
+      const routeState =
+        this.winRef.nativeWindow.history &&
+        this.winRef.nativeWindow.history.state;
+
+      if (routeState && routeState['activeTab']) {
+        this.activeTabNum = routeState['activeTab'];
+      }
     }
   }
 

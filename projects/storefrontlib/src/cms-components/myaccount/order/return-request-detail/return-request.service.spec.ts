@@ -159,10 +159,13 @@ describe('ReturnRequestService', () => {
   it('should be able to back to return request list page', () => {
     service.backToList();
     expect(routingService.go).toHaveBeenCalledWith(
+      { cxRoute: 'orders' },
+      null,
       {
-        cxRoute: 'orders',
-      },
-      { activeTab: 1 }
+        state: {
+          activeTab: 1,
+        },
+      }
     );
   });
 });

@@ -78,6 +78,10 @@ export class ReturnRequestService {
   }
 
   backToList(): void {
-    this.routingService.go({ cxRoute: 'orders' }, { activeTab: 1 });
+    this.routingService.go({ cxRoute: 'orders' }, null, {
+      state: {
+        activeTab: 1,
+      },
+    });
   }
 }
