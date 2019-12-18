@@ -4,6 +4,7 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  OnDestroy,
   OnInit,
   Renderer2,
 } from '@angular/core';
@@ -15,8 +16,8 @@ import {
   DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
 @Component({
@@ -24,34 +25,18 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageSlotComponent implements OnInit {
-  @HostBinding('class') slotPosition: string;
-  @HostBinding('class.cx-pending') isPending: boolean;
-  @HostBinding('class.page-fold') @Input() isPageFold = false;
+export class PageSlotComponent implements OnInit, OnDestroy {
+  @HostBinding('class') @Input() position: string;
+  @HostBinding('class.cx-pending') isPending = true;
   @HostBinding('class.has-components') hasComponents = false;
+  @HostBinding('class.page-fold') @Input() isPageFold = false;
 
   private pendingComponentCount: number;
 
-  @Input() set position(position: string) {
-    this.slotPosition = position;
-    this.position$.next(position);
-  }
+  // observable with components (`ContentSlotComponentData[]`) for the current slot
+  components$ = new BehaviorSubject<ContentSlotComponentData[]>([]);
 
-  readonly position$ = new BehaviorSubject<string>(undefined);
-
-  /**
-   * observable with `ContentSlotData` for the current position
-   */
-  readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
-    switchMap(position => this.cmsService.getContentSlot(position)),
-    tap(slot => this.addSmartEditSlotClass(slot))
-  );
-
-  /**
-   * observable with components (`ContentSlotComponentData[]`)
-   * for the current slot
-   */
-  components$: Observable<ContentSlotComponentData[]>;
+  private subscription = new Subscription();
 
   constructor(
     cmsService: CmsService,
@@ -61,7 +46,6 @@ export class PageSlotComponent implements OnInit {
     // tslint:disable-next-line:unified-signatures
     config: CmsConfig
   );
-
   /**
    * @deprecated since version 1.4
    * Use constructor(cmsService: CmsService, dynamicAttributeService: DynamicAttributeService, renderer: Renderer2, hostElement: ElementRef, config?: CmsConfig) instead
@@ -81,23 +65,33 @@ export class PageSlotComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('ngOnInit');
-    this.isPending = true;
-
-    this.components$ = this.slot$.pipe(
-      map(slot => (slot && slot.components ? slot.components : [])),
-      distinctUntilChanged(
-        (a, b) =>
-          a.length === b.length &&
-          !a.find((el, index) => el.uid !== b[index].uid)
-      ),
-      tap(components => {
-        this.hasComponents = components && components.length > 0;
-        this.pendingComponentCount = components ? components.length : 0;
-        console.log('set pending again');
-        this.isPending = this.pendingComponentCount > 0;
-      })
+    // We need to explicitly subscribe in the controller, as otherwise
+    // there's a potential `ExpressionChangedAfterItHasBeenCheckedError`.
+    // This does not only happen in tests, but could also happen when the page-slot
+    // is rendered without any delay.
+    this.subscription.add(
+      this.cmsService
+        .getContentSlot(this.position)
+        .pipe(
+          tap(slot => this.addSmartEditSlotClass(slot)),
+          map(slot => (slot && slot.components ? slot.components : [])),
+          distinctUntilChanged(
+            (a, b) =>
+              a.length === b.length &&
+              !a.find((el, index) => el.uid !== b[index].uid)
+          ),
+          tap(components => {
+            this.hasComponents = components && components.length > 0;
+            this.pendingComponentCount = components ? components.length : 0;
+            this.isPending = this.pendingComponentCount > 0;
+          })
+        )
+        .subscribe(c => this.components$.next(c))
     );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -106,7 +100,6 @@ export class PageSlotComponent implements OnInit {
    * when all nested components have been added.
    */
   isLoaded(loadState: boolean) {
-    console.log('is loaded');
     if (loadState) {
       this.pendingComponentCount--;
     }

@@ -1,14 +1,14 @@
-import { Renderer2, Type } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { Directive, Input, Output, Renderer2, Type } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsConfig,
   CmsService,
   ContentSlotData,
+  DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { DeferLoaderService } from 'projects/storefrontlib/src/layout/loading/defer-loader.service';
 import { Observable, of } from 'rxjs';
-import { OutletDirective } from '../../outlet';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
@@ -42,24 +42,37 @@ export class MockDeferLoaderService {
 
 const MockCmsConfig: CmsConfig = {
   cmsComponents: {
-    CMSTestComponent: { component: PageSlotComponent },
+    CMSTestComponent: {
+      component: PageSlotComponent,
+      deferLoading: DeferLoadingStrategy.DEFER,
+    },
   },
 };
 
-fdescribe('PageSlotComponent', () => {
+@Directive({
+  selector: '[cxOutlet]',
+})
+export class MockOutletDirective {
+  @Input() cxOutlet;
+  @Input() cxOutletContext;
+  @Input() cxOutletDefer;
+  @Output() loaded;
+}
+
+describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
   let fixture: ComponentFixture<PageSlotComponent>;
   let cmsService: CmsService;
   let dynamicAttributeService: DynamicAttributeService;
   let renderer: Renderer2;
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [
         PageSlotComponent,
         ComponentWrapperDirective,
-        OutletDirective,
+        MockOutletDirective,
       ],
       providers: [
         Renderer2,
@@ -85,9 +98,7 @@ fdescribe('PageSlotComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
     pageSlotComponent.position = 'left';
@@ -103,46 +114,146 @@ fdescribe('PageSlotComponent', () => {
     expect(pageSlotComponent).toBeTruthy();
   });
 
-  it('should add smart edit slot contract if app launch in smart edit', fakeAsync(() => {
-    spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
+  describe('slot position class', () => {
+    it('should have class for the given slot position', () => {
+      pageSlotComponent.position = 'abc';
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).toContain('abc');
+    });
+  });
 
-    // flushMicrotasks();
+  describe('pending state', () => {
+    it('should have isPending set to true initially', () => {
+      expect(pageSlotComponent.isPending).toEqual(true);
+    });
 
-    // pageSlotComponent.ngOnInit();
+    it('should not have isPending when there is no slot', () => {
+      fixture.detectChanges();
+      expect(pageSlotComponent.isPending).toEqual(false);
+    });
 
-    // flushMicrotasks();
-    fixture.detectChanges();
+    it('should not have isPending with a slot with no components', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      fixture.detectChanges();
+      expect(pageSlotComponent.isPending).toEqual(false);
+    });
 
-    const native = fixture.debugElement.nativeElement;
-    expect(dynamicAttributeService.addDynamicAttributes).toHaveBeenCalledWith(
-      {
-        smartedit: {
-          test: 'test',
+    it('should have isPending set to true with a slot with at least one component', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(
+        of({ components: [{}] } as ContentSlotData)
+      );
+      fixture.detectChanges();
+      expect(pageSlotComponent.isPending).toEqual(true);
+    });
+
+    it('should add an cx-pending class with at least one component', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(
+        of({ components: [{}] } as ContentSlotData)
+      );
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).toContain('cx-pending');
+    });
+
+    it('should not have isPending when one component is loaded', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(
+        of({ components: [{}] } as ContentSlotData)
+      );
+      fixture.detectChanges();
+      pageSlotComponent.isLoaded(true);
+      expect(pageSlotComponent.isPending).toEqual(false);
+    });
+
+    it('should still have isPending when only one component is loaded', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(
+        of({ components: [{}, {}] } as ContentSlotData)
+      );
+      fixture.detectChanges();
+      pageSlotComponent.isLoaded(true);
+      expect(pageSlotComponent.isPending).toEqual(true);
+    });
+
+    it('should not have isPending when all components are loaded', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(
+        of({ components: [{}, {}] } as ContentSlotData)
+      );
+      fixture.detectChanges();
+      pageSlotComponent.isLoaded(true);
+      pageSlotComponent.isLoaded(true);
+      expect(pageSlotComponent.isPending).toEqual(false);
+    });
+  });
+
+  describe('has-components', () => {
+    it('should have has-components class when slot has at least one components', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(
+        of({ components: [{}] } as ContentSlotData)
+      );
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).toContain('has-components');
+    });
+
+    it('should not have has-components class when slot has no components', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(
+        of({ components: [] } as ContentSlotData)
+      );
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).not.toContain('has-components');
+    });
+  });
+
+  describe('Component Defer Options', () => {
+    it('should DEFER strategy for deferLoading', () => {
+      fixture.detectChanges();
+      expect(
+        pageSlotComponent.getComponentDeferOptions('CMSTestComponent')
+          .deferLoading
+      ).toEqual(DeferLoadingStrategy.DEFER);
+    });
+  });
+
+  describe('smart edit', () => {
+    it('should add smart edit slot contract if app launch in smart edit', () => {
+      spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
+
+      pageSlotComponent.ngOnInit();
+      fixture.detectChanges();
+
+      const native = fixture.debugElement.nativeElement;
+      expect(dynamicAttributeService.addDynamicAttributes).toHaveBeenCalledWith(
+        {
+          smartedit: {
+            test: 'test',
+          },
         },
-      },
-      native,
-      renderer
-    );
-  }));
+        native,
+        renderer
+      );
+    });
 
-  xit('should not add smart edit slot contract if app not launch in smart edit', () => {
-    spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
-    spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
+    it('should not add smart edit slot contract if app not launch in smart edit', () => {
+      spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
+      spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
 
-    // flushMicrotasks();
-    // fixture.detectChanges();
-
-    const native = fixture.debugElement.nativeElement;
-    expect(
-      dynamicAttributeService.addDynamicAttributes
-    ).not.toHaveBeenCalledWith(
-      {
-        smartedit: {
-          test: 'test',
+      const native = fixture.debugElement.nativeElement;
+      expect(
+        dynamicAttributeService.addDynamicAttributes
+      ).not.toHaveBeenCalledWith(
+        {
+          smartedit: {
+            test: 'test',
+          },
         },
-      },
-      native,
-      renderer
-    );
+        native,
+        renderer
+      );
+    });
   });
 });

@@ -14,17 +14,24 @@ import { IntersectionService } from './intersection.service';
   providedIn: 'root',
 })
 export class DeferLoaderService {
+  globalLoadStrategy: DeferLoadingStrategy;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     protected config: LayoutConfig,
     protected intersectionService: IntersectionService
-  ) {}
+  ) {
+    this.globalLoadStrategy = config.deferredLoading
+      ? config.deferredLoading.strategy
+      : DeferLoadingStrategy.INSTANT;
+  }
 
   /**
    * Defer loading till the element intersects the viewport.
    *
    * We evalutes whether we instantly load the element for different reasons:
    * - we run in SSR mode
+   * - there's no global strategy given
    * - the global loading strategy is set to INSTANT loading,
    *   and the loading strategy in the given is not set to DEFER
    * - the loading strategy in the given options is set to INSTANT
@@ -33,20 +40,21 @@ export class DeferLoaderService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    if (this.useInstantLoading(options.deferLoading)) {
+    if (this.shouldLoadInstantly((options || {}).deferLoading)) {
       return of(true);
     } else {
       return this.intersectionService.isIntersected(element, options);
     }
   }
 
-  private useInstantLoading(loadingStrategy: DeferLoadingStrategy): boolean {
+  private shouldLoadInstantly(
+    elementLoadingStrategy: DeferLoadingStrategy
+  ): boolean {
     return (
       isPlatformServer(this.platformId) ||
-      (this.config.deferredLoading &&
-        this.config.deferredLoading.strategy === DeferLoadingStrategy.INSTANT &&
-        loadingStrategy !== DeferLoadingStrategy.DEFER) ||
-      loadingStrategy === DeferLoadingStrategy.INSTANT
+      elementLoadingStrategy === DeferLoadingStrategy.INSTANT ||
+      (elementLoadingStrategy !== DeferLoadingStrategy.DEFER &&
+        this.globalLoadStrategy === DeferLoadingStrategy.INSTANT)
     );
   }
 }
