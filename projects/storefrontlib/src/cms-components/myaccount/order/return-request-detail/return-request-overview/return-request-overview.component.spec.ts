@@ -1,5 +1,5 @@
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Type, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -26,7 +26,7 @@ class MockReturnRequestService {
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
-  transform(): any {}
+  transform() {}
 }
 
 describe('ReturnRequestOverviewComponent', () => {
