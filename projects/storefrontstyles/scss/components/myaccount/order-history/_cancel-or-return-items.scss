@@ -153,11 +153,6 @@
       }
     }
 
-    // @include media-breakpoint-down(xl) {
-    //   padding-right: 0;
-    //   padding-left: 0;
-    // }
-
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
     }
