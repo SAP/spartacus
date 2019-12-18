@@ -158,5 +158,5 @@ Note: A spartacus instance does not need to be running as it will start one for 
 
 ## Other commands for cds
 
-There exist other commands for cds, but you would need to take a look at `package.json` and find a grouping of script which has `:cds` as part of its command.
+There exist other commands for cds, but you would need to take a look at `package.json` and find a grouping of scripts which has `:cds` as part of its command.
 
