@@ -32,9 +32,9 @@ export class TabParagraphContainerComponent
   subscription: Subscription;
 
   /**
-   * @deprecated since 1.x
+   * @deprecated since 1.4
    *
-   * TODO(issue:#5813) Deprecated since 1.x
+   * TODO(issue:#5813) Deprecated since 1.4
    */
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,

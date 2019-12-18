@@ -155,4 +155,14 @@ describe('ReturnRequestService', () => {
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   });
+
+  it('should be able to back to return request list page', () => {
+    service.backToList();
+    expect(routingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'orders',
+      },
+      { activeTab: 1 }
+    );
+  });
 });
