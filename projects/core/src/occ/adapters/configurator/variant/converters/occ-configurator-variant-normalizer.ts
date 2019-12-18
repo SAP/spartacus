@@ -79,6 +79,7 @@ export class OccConfiguratorVariantNormalizer
     const value: Configurator.Value = {
       valueCode: occValue.key,
       valueDisplay: occValue.langdepname,
+      name: occValue.name,
       selected: occValue.selected,
     };
 
