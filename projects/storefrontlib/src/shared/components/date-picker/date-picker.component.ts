@@ -50,8 +50,6 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
       this.eod
     );
     this.nativeValue = event.target.value;
-    // this.nativeValue = this.dateFormatterService.toNative(event.target.value);
-
     this.onChange(this.value);
   }
 

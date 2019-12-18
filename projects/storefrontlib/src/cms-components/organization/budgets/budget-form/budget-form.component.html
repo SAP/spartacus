@@ -63,8 +63,8 @@
           <cx-date-picker
             formControlName="startDate"
             [max]="form.controls['endDate'].value"
+            (change)="form.controls['endDate'].updateValueAndValidity()"
           ></cx-date-picker>
-          <!--          valid:{{form.controls['startDate'].valid}}; invalid:{{form.controls['startDate'].invalid}}-->
         </label>
       </div>
 
@@ -76,9 +76,9 @@
           <cx-date-picker
             formControlName="endDate"
             [min]="form.controls['startDate'].value"
+            (change)="form.controls['startDate'].updateValueAndValidity()"
             [eod]="true"
           ></cx-date-picker>
-          <!--          valid:{{form.controls['endDate'].valid}}; invalid:{{form.controls['endDate'].invalid}}-->
         </label>
       </div>
 
