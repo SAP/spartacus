@@ -159,7 +159,7 @@ describe('ProtectedRoutesService', () => {
     });
   });
 
-  describe('isAppProtected', () => {
+  describe('shouldProtect', () => {
     describe('when app not protected', () => {
       beforeEach(() => {
         beforeEachWithConfig({
@@ -171,7 +171,7 @@ describe('ProtectedRoutesService', () => {
       });
 
       it('should return false', () => {
-        expect(service.isAppProtected()).toBe(false);
+        expect(service.shouldProtect).toBe(false);
       });
     });
 
@@ -186,7 +186,7 @@ describe('ProtectedRoutesService', () => {
       });
 
       it('should return true', () => {
-        expect(service.isAppProtected()).toBe(true);
+        expect(service.shouldProtect).toBe(true);
       });
     });
   });

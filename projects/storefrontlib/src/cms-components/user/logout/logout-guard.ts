@@ -8,6 +8,7 @@ import {
   RoutingService,
   SemanticPathService,
   ProtectedRoutesService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { tap, filter } from 'rxjs/operators';
 
@@ -15,14 +16,6 @@ import { tap, filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LogoutGuard implements CanActivate {
-  constructor(
-    auth: AuthService,
-    cms: CmsService,
-    routing: RoutingService,
-    semanticPathService: SemanticPathService,
-    // tslint:disable-next-line: unified-signatures
-    protectedRoutes: ProtectedRoutesService
-  );
   /**
    * @deprecated since 1.4
    * Check #5666 for more info
@@ -30,17 +23,12 @@ export class LogoutGuard implements CanActivate {
    * TODO(issue:5666) Deprecated since 1.4
    */
   constructor(
-    auth: AuthService,
-    cms: CmsService,
-    routing: RoutingService,
-    semanticPathService: SemanticPathService
-  );
-  constructor(
     protected auth: AuthService,
     protected cms: CmsService,
     protected routing: RoutingService,
     protected semanticPathService: SemanticPathService,
-    protected protectedRoutes?: ProtectedRoutesService
+    protected protectedRoutes?: ProtectedRoutesService,
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   canActivate(): Observable<any> {
@@ -58,8 +46,11 @@ export class LogoutGuard implements CanActivate {
   }
 
   protected redirect(): void {
-    const cxRoute =
-      this.protectedRoutes && this.protectedRoutes.isAppProtected()
+    // TODO(issue:5666) Deprecated since 1.4
+    const cxRoute: string =
+      this.featureConfig.isLevel('1.4') &&
+      this.protectedRoutes &&
+      this.protectedRoutes.shouldProtect
         ? 'login'
         : 'home';
 
