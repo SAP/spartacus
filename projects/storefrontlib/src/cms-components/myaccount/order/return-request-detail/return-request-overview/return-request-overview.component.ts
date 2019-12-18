@@ -42,6 +42,10 @@ export class ReturnRequestOverviewComponent implements OnInit, OnDestroy {
     this.returnRequestService.cancelReturnRequest(returnRequestCode);
   }
 
+  back(): void {
+    this.returnRequestService.backToList();
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();

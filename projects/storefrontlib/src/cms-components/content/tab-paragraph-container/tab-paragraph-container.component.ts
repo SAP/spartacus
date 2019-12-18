@@ -5,7 +5,9 @@ import {
   QueryList,
   AfterViewInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CmsService, CMSTabParagraphContainer } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, switchMap, distinctUntilChanged } from 'rxjs/operators';
@@ -18,7 +20,7 @@ import { ComponentWrapperDirective } from '../../../cms-structure/page/component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent
-  implements AfterViewInit, OnDestroy {
+  implements AfterViewInit, OnInit, OnDestroy {
   activeTabNum = 0;
 
   @ViewChildren(ComponentWrapperDirective) children!: QueryList<
@@ -29,9 +31,19 @@ export class TabParagraphContainerComponent
 
   subscription: Subscription;
 
+  /**
+   * @deprecated since 1.x
+   *
+   * TODO(issue:#5813) Deprecated since 1.x
+   */
+  constructor(
+    componentData: CmsComponentData<CMSTabParagraphContainer>,
+    cmsService: CmsService
+  );
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    private cmsService: CmsService
+    private cmsService: CmsService,
+    private activatedRoute?: ActivatedRoute
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -62,6 +74,13 @@ export class TabParagraphContainerComponent
 
   select(tabNum: number): void {
     this.activeTabNum = tabNum;
+  }
+
+  ngOnInit(): void {
+    const activeTab = this.activatedRoute.snapshot.queryParams['activeTab'];
+    if (activeTab) {
+      this.activeTabNum = Number(activeTab);
+    }
   }
 
   ngAfterViewInit(): void {
