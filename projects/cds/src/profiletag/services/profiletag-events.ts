@@ -39,7 +39,9 @@ export class ProfileTagEventTracker {
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
-  getProfileTagEvent(): Observable<ConsentReferenceEvent | DebugEvent> {
+  getProfileTagEvents(): Observable<
+    ConsentReferenceEvent | DebugEvent | Event
+  > {
     return this.profileTagEvents$;
   }
 
@@ -55,14 +57,14 @@ export class ProfileTagEventTracker {
     );
   }
 
-  profileTagLoaded(): Observable<Event> {
+  private profileTagLoaded(): Observable<Event> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.LOADED
     ).pipe(take(1));
   }
 
-  consentReferenceChanged(): Observable<ConsentReferenceEvent> {
+  private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.CONSENT_REFERENCE_CHANGED
