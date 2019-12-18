@@ -5,6 +5,7 @@ import {
   CMSTabParagraphContainer,
   ContentSlotComponentData,
   I18nTestingModule,
+  WindowRef,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
@@ -59,6 +60,7 @@ describe('TabParagraphContainerComponent', () => {
   let component: TabParagraphContainerComponent;
   let fixture: ComponentFixture<TabParagraphContainerComponent>;
   let cmsService: CmsService;
+  let windowRef: WindowRef;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -69,6 +71,7 @@ describe('TabParagraphContainerComponent', () => {
         OutletDirective,
       ],
       providers: [
+        WindowRef,
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CmsService, useValue: MockCmsService },
       ],
@@ -79,6 +82,7 @@ describe('TabParagraphContainerComponent', () => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
     component = fixture.componentInstance;
     cmsService = TestBed.get(CmsService as Type<CmsService>);
+    windowRef = TestBed.get(WindowRef as Type<WindowRef>);
     fixture.detectChanges();
   });
 
@@ -104,5 +108,18 @@ describe('TabParagraphContainerComponent', () => {
         title: `TabPanelContainer.tabs.${mockComponents[i]}`,
       });
     }
+  });
+
+  it('should be able to get the active tab number', () => {
+    windowRef.nativeWindow.history.pushState(
+      {
+        activeTab: 1,
+      },
+      null
+    );
+    component.ngOnInit();
+    // reset the state
+    windowRef.nativeWindow.history.replaceState(null, null);
+    expect(component.activeTabNum).toEqual(1);
   });
 });
