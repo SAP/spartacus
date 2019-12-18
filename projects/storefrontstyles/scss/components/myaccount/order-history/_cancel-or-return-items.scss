@@ -15,18 +15,30 @@
     padding: 0;
   }
 
-  .cx-item-list-price,
+  .cx-item-list-price {
+    text-align: center;
+  }
+
   .cx-item-list-qty {
     text-align: center;
-
-    @include media-breakpoint-down(md) {
-      text-align: left;
-    }
   }
 
   .cx-item-list-total {
     text-align: right;
     padding: 0;
+
+    @include media-breakpoint-only(xl) {
+      text-align: center;
+      padding-right: 0;
+    }
+
+    @include media-breakpoint-down(lg) {
+      padding-right: 70px;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-right: 0;
+    }
   }
 
   .cx-item-list-row {
@@ -34,6 +46,10 @@
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: var(--cx-color-light);
+
+    cx-media {
+      text-align: center;
+    }
   }
 
   .cx-info-container {
@@ -98,10 +114,19 @@
     justify-content: center;
     align-items: center;
     @include type('5');
-    font-weight: $font-weight-normal;
+
+    @include media-breakpoint-down(lg) {
+      padding-right: 0;
+      padding-left: 45px;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-right: 0;
+    }
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
+      padding-left: 15px;
     }
 
     .cx-old {
@@ -120,6 +145,47 @@
     justify-content: center;
     align-items: center;
 
+    > div {
+      width: 100%;
+
+      @include media-breakpoint-down(sm) {
+        width: auto;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+    }
+
+    cx-item-counter {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      .cx-counter {
+        display: flex;
+        justify-content: center;
+      }
+
+      .cx-counter-value {
+        max-width: 50px;
+      }
+    }
+  }
+
+  .cx-request-qty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include media-breakpoint-down(lg) {
+      padding-right: 0;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-right: 0;
+    }
+
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
     }
@@ -127,8 +193,12 @@
 
   .cx-total {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
+
+    @include media-breakpoint-down(md) {
+      justify-content: flex-end;
+    }
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;

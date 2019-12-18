@@ -26,12 +26,12 @@
     <div class="cx-item-list-desc col-md-5 col-lg-5 col-xl-6">
       {{ 'orderDetails.cancellationAndReturn.item' | cxTranslate }}
     </div>
-    <div class="cx-item-list-price col-md-3 col-lg-2 col-xl-2">
+    <div class="cx-item-list-price col-md-2 col-lg-2 col-xl-2">
       {{ 'orderDetails.cancellationAndReturn.itemPrice' | cxTranslate }}
     </div>
     <div
       *ngIf="!confirmRequest"
-      class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2"
+      class="cx-item-list-qty col-md-3 col-lg-3 col-xl-2"
     >
       {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
     </div>
@@ -44,7 +44,7 @@
     </div>
     <div
       *ngIf="confirmRequest"
-      class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
+      class="cx-item-list-total col-md-3 col-lg-3 col-xl-2"
     >
       {{ 'orderDetails.cancellationAndReturn.totalPrice' | cxTranslate }}
     </div>
@@ -98,7 +98,10 @@
                 </div>
               </div>
               <!-- item returnable/cancelable Quantity -->
-              <div *ngIf="!confirmRequest" class="cx-quantity col-3">
+              <div
+                *ngIf="!confirmRequest"
+                class="cx-request-qty col-md-3 col-lg-3 col-xl-3"
+              >
                 <div
                   class="cx-label d-block d-md-none d-lg-none d-xl-none"
                   placement="left"
@@ -117,7 +120,7 @@
                 </div>
               </div>
               <!-- Cancel/Return Quantity -->
-              <div class="cx-total col-md-3 col-lg-2 col-xl-2">
+              <div class="cx-quantity col-md-3 col-lg-3 col-xl-2">
                 <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
                   {{
                     (cancelOrder
