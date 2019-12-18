@@ -26,6 +26,7 @@
     aria-label="search"
     class="search"
     (mousedown)="avoidReopen($event)"
+    (keydown.enter)="avoidReopen($event)"
     tabindex="0"
   ></cx-icon>
 </label>
