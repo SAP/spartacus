@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, queueScheduler } from 'rxjs';
-import { auditTime, map, observeOn, shareReplay, tap } from 'rxjs/operators';
+import {
+  auditTime,
+  distinctUntilChanged,
+  map,
+  observeOn,
+  shareReplay,
+  tap,
+} from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -111,6 +118,7 @@ export class ProductService {
         }
       }),
       map(productState => productState.value),
+      distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
