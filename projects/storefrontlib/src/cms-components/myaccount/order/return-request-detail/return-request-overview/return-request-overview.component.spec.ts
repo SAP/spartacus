@@ -1,6 +1,5 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
@@ -14,19 +13,13 @@ const mockReturnRequest: ReturnRequest = {
 class MockReturnRequestService {
   cancelReturnRequest = jasmine.createSpy();
   cancelSuccess = jasmine.createSpy();
+  backToList = jasmine.createSpy();
   getReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
   }
   get isCancelSuccess$(): Observable<boolean> {
     return of(true);
   }
-}
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
 }
 
 describe('ReturnRequestOverviewComponent', () => {
@@ -36,8 +29,8 @@ describe('ReturnRequestOverviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [ReturnRequestOverviewComponent, MockUrlPipe],
+      imports: [I18nTestingModule],
+      declarations: [ReturnRequestOverviewComponent],
       providers: [
         { provide: ReturnRequestService, useClass: MockReturnRequestService },
       ],
@@ -68,5 +61,10 @@ describe('ReturnRequestOverviewComponent', () => {
     expect(returnRequestService.cancelReturnRequest).toHaveBeenCalledWith(
       'test'
     );
+  });
+
+  it('should be able to back to return request list page', () => {
+    component.back();
+    expect(returnRequestService.backToList).toHaveBeenCalled();
   });
 });

@@ -5,8 +5,13 @@ import {
   QueryList,
   AfterViewInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { CmsService, CMSTabParagraphContainer } from '@spartacus/core';
+import {
+  CmsService,
+  CMSTabParagraphContainer,
+  WindowRef,
+} from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   map,
@@ -23,7 +28,7 @@ import { ComponentWrapperDirective } from '../../../cms-structure/page/component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent
-  implements AfterViewInit, OnDestroy {
+  implements AfterViewInit, OnInit, OnDestroy {
   activeTabNum = 0;
 
   @ViewChildren(ComponentWrapperDirective) children!: QueryList<
@@ -35,8 +40,24 @@ export class TabParagraphContainerComponent
   subscription: Subscription;
 
   constructor(
+    componentData: CmsComponentData<CMSTabParagraphContainer>,
+    cmsService: CmsService,
+    // tslint:disable-next-line:unified-signatures
+    winRef: WindowRef
+  );
+  /**
+   * @deprecated since 1.4
+   *
+   * TODO(issue:#5813) Deprecated since 1.4
+   */
+  constructor(
+    componentData: CmsComponentData<CMSTabParagraphContainer>,
+    cmsService: CmsService
+  );
+  constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    private cmsService: CmsService
+    private cmsService: CmsService,
+    private winRef?: WindowRef
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -67,6 +88,18 @@ export class TabParagraphContainerComponent
 
   select(tabNum: number): void {
     this.activeTabNum = tabNum;
+  }
+
+  ngOnInit(): void {
+    if (this.winRef && this.winRef.nativeWindow) {
+      const routeState =
+        this.winRef.nativeWindow.history &&
+        this.winRef.nativeWindow.history.state;
+
+      if (routeState && routeState['activeTab']) {
+        this.activeTabNum = routeState['activeTab'];
+      }
+    }
   }
 
   ngAfterViewInit(): void {
