@@ -72,7 +72,7 @@ export class PageSlotComponent implements OnInit {
     renderer: Renderer2,
     hostElement: ElementRef,
     // tslint:disable-next-line:unified-signatures
-    config?: CmsConfig
+    config: CmsConfig
   );
 
   /**
