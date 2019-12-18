@@ -93,7 +93,10 @@ class MockRouter {
 }
 
 class MockConfiguratorGroupService {
-  public navigateToGroup() {}
+  navigateToGroup() {}
+  getCurrentGroup(): Observable<String> {
+    return of('1-CPQ_LAPTOP.1');
+  }
 }
 
 class MockConfiguratorCommonsService {
