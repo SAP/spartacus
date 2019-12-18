@@ -56,17 +56,11 @@ export const organization = {
       placeholder: 'Name',
     },
     businessUnits: {
-      label: 'Parent buisneess unit',
-      placeholder: 'Select buisness unit',
+      label: 'Parent business unit',
+      placeholder: 'Select business unit',
     },
-    startDate: {
-      label: 'Start date',
-      placeholder: 'dd/mm/yyyy',
-    },
-    endDate: {
-      label: 'End date',
-      placeholder: 'dd/mm/yyyy',
-    },
+    startDate: 'Start date',
+    endDate: 'End date',
     currency: 'Currency',
     amount: {
       label: 'Budget amount',

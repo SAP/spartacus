@@ -1,7 +1,9 @@
 <input
+  #inputElement
   type="date"
   class="form-control"
-  placeholder="placeholder"
   (input)="onInput($event)"
-  [valueAsDate]="valueAsDate"
+  [value]="nativeValue"
+  [min]="getMin()"
+  [max]="getMax()"
 />

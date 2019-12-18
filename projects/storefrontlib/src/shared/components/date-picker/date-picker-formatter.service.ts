@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class DateFormatterService {
+export class DatePickerFormatterService {
   constructor() {}
 
-  toDate(value): Date {
-    return new Date(value);
+  toNative(value) {
+    return value ? new Date(value).toISOString().split('T')[0] : null;
   }
 
-  transform(value: string, eod: boolean): string {
+  toModel(value: string, eod: boolean): string {
     if (value) {
       let date = new Date(value)
         .toISOString()

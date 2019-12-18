@@ -69,7 +69,7 @@ export class BudgetFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService,
+    protected orgUnitService: OrgUnitService
   ) {}
 
   ngOnInit() {
@@ -85,9 +85,7 @@ export class BudgetFormComponent implements OnInit {
   }
 
   currencySelected(currency: Currency): void {
-    this.form.controls.currency['controls'].isocode.setValue(
-      currency.isocode
-    );
+    this.form.controls.currency['controls'].isocode.setValue(currency.isocode);
   }
 
   businessUnitSelected(orgUnit: B2BUnitNode): void {

@@ -58,27 +58,27 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'budgetForm.startDate.label' | cxTranslate
+            'budgetForm.startDate' | cxTranslate
           }}</span>
           <cx-date-picker
-            [placeholder]="'budgetForm.startDate.placeholder' | cxTranslate"
             formControlName="startDate"
-            [min]="form.controls['endDate'].value"
+            [max]="form.controls['endDate'].value"
           ></cx-date-picker>
+          <!--          valid:{{form.controls['startDate'].valid}}; invalid:{{form.controls['startDate'].invalid}}-->
         </label>
       </div>
 
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'budgetForm.endDate.label' | cxTranslate
+            'budgetForm.endDate' | cxTranslate
           }}</span>
           <cx-date-picker
-            [placeholder]="'budgetForm.endDate.placeholder' | cxTranslate"
             formControlName="endDate"
-            [max]="form.controls['startDate'].value"
+            [min]="form.controls['startDate'].value"
             [eod]="true"
           ></cx-date-picker>
+          <!--          valid:{{form.controls['endDate'].valid}}; invalid:{{form.controls['endDate'].invalid}}-->
         </label>
       </div>
 
