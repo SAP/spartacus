@@ -30,14 +30,23 @@ export class OccConfiguratorVariantNormalizer
       this.convertCharacteristic(cstic, attributes)
     );
 
-    groupList.push({
+    const group = {
       description: source.description,
       configurable: source.configurable,
       groupType: this.convertGroupType(source.groupType),
       name: source.name,
       id: source.id,
       attributes: attributes,
-    });
+      subGroups: [],
+    };
+
+    if (source.subGroups) {
+      source.subGroups.forEach(sourceSubGroup =>
+        this.convertGroup(sourceSubGroup, group.subGroups)
+      );
+    }
+
+    groupList.push(group);
   }
 
   convertCharacteristic(
