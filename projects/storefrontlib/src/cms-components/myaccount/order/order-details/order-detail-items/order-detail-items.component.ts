@@ -20,7 +20,7 @@ export class OrderDetailItemsComponent implements OnInit {
   constructor(
     orderDetailsService: OrderDetailsService,
     // tslint:disable-next-line:unified-signatures
-    promotionService?: PromotionService
+    promotionService: PromotionService
   );
 
   /**

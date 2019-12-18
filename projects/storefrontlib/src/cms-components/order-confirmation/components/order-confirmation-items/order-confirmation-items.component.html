@@ -3,11 +3,11 @@
     {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
   </h4>
 
-  <div *cxFeatureLevel="'1.4'">
+  <ng-container *cxFeatureLevel="'1.4'">
     <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
       <cx-promotions [promotions]="orderPromotions"></cx-promotions>
     </ng-container>
-  </div>
+  </ng-container>
 
   <cx-cart-item-list
     [items]="order.entries"

@@ -54,14 +54,14 @@
           </div>
 
           <!-- Promotions -->
-          <div *cxFeatureLevel="'1.4'">
+          <ng-container *cxFeatureLevel="'1.4'">
             <div
               class="cx-dialog-promotions"
               *ngIf="orderPromotions$ | async as orderPromotions"
             >
               <cx-promotions [promotions]="orderPromotions"></cx-promotions>
             </div>
-          </div>
+          </ng-container>
 
           <!-- Actions -->
           <div class="cx-dialog-buttons">
