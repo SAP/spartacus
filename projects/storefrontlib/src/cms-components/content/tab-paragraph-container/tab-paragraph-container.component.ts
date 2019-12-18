@@ -8,7 +8,12 @@ import {
 } from '@angular/core';
 import { CmsService, CMSTabParagraphContainer } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import {
+  map,
+  switchMap,
+  distinctUntilChanged,
+  distinctUntilKeyChanged,
+} from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 
@@ -35,7 +40,7 @@ export class TabParagraphContainerComponent
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
-    distinctUntilChanged(),
+    distinctUntilKeyChanged('components'),
     switchMap(data =>
       combineLatest(
         data.components.split(' ').map(component =>
