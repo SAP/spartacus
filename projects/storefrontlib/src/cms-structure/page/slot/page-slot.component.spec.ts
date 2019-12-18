@@ -97,6 +97,7 @@ describe('PageSlotComponent', () => {
       DynamicAttributeService
     >);
     renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as any);
+    pageSlotComponent.ngOnInit();
   });
 
   it('should be created', () => {

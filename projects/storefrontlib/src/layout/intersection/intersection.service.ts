@@ -24,14 +24,18 @@ export class IntersectionService {
    * Returns an Observable that emits only once a boolean value whenever
    * the given element has shown in the view port.
    *
-   * In SSR mode we'll return a boolean observable anyway to ensure all
-   * content is rendered for crawlers.
+   * If the global defer loading strategy is set to INSTANT or in case we're on
+   * SSR, a boolean observable is returned straightaway.
+   *
+   * When deferred loading is used, the obervable will only emit the first value. The
+   * observable must be cleaned up either way, since the value might never emit; it
+   *  depends on whether the element appears in the view port.
    */
   isIntersected(
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    if (isPlatformServer(this.platformId) || this.useInstantLoading()) {
+    if (this.useInstantLoading()) {
       return of(true);
     } else {
       return this.intersects(element, options).pipe(first(v => v === true));
@@ -39,7 +43,9 @@ export class IntersectionService {
   }
 
   /**
-   * Indicates whenever the element has intersected the view port.
+   * Indicates whenever the element intersects the view port. An optional margin
+   * is used to intersects before the element shows up in the viewport.
+   * A value is emitted each time the element intersects.
    *
    * This is private for now, but could be exposed as a public API
    * to introduce additional (css) render effects to the UI.
@@ -72,8 +78,9 @@ export class IntersectionService {
    */
   private useInstantLoading(): boolean {
     return (
-      this.config.deferredLoading &&
-      this.config.deferredLoading.strategy === DeferLoadingStrategy.INSTANT
+      isPlatformServer(this.platformId) ||
+      (this.config.deferredLoading &&
+        this.config.deferredLoading.strategy === DeferLoadingStrategy.INSTANT)
     );
   }
 

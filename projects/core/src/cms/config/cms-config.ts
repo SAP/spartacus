@@ -56,7 +56,7 @@ export interface CmsComponentMapping {
 export enum DeferLoadingStrategy {
   /** Defers loading of DOM elements until element is near/in the users view port */
   DEFER = 'DEFERRED-LOAING',
-  /** Renders the DOM always without being concerned with the current view port */
+  /** Renders the DOM instantly without being concerned with the view port */
   INSTANT = 'INSTANT-LOADING',
 }
 

@@ -7,6 +7,7 @@
     [cxOutlet]="component.flexType"
     [cxOutletContext]="{ component: component }"
     [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
+    (loaded)="isLoaded($event)"
   >
     <ng-container [cxComponentWrapper]="component"></ng-container>
   </ng-template>

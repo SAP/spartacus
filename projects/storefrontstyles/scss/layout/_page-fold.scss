@@ -8,7 +8,7 @@
      * The transition delay for below-the-fold (btf) elements, before they 
      * revert to their original real esate.
      */
-    --btf-delay: 500ms;
+    --btf-delay: 300ms;
 
     /** 
      * The real esate of pending elements below-the-fold (btf) is 
@@ -21,10 +21,12 @@
 
   cx-page-layout {
     cx-page-slot {
-      transition: margin 0, min-height 0;
+      transition: margin-top 0s, min-height 0s;
       // we delay the minimal real estate for pending slots
       transition-delay: var(--btf-delay);
 
+      min-height: initial;
+      margin-top: initial;
       &.cx-pending {
         // we need a minimum height for pending items, as the slot would
         // otherwise never intersect in the IntersectionObserver.

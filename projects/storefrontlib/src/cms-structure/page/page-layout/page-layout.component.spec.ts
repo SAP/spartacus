@@ -39,8 +39,8 @@ export class MockHeaderComponent {}
   template: 'dynamic-slot.component',
 })
 export class MockDynamicSlotComponent {
-  @Input()
-  position: string;
+  @Input() position: string;
+  @Input() isPageFold;
 }
 
 export class MockCmsService {

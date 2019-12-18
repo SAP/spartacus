@@ -6,7 +6,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { PageLayoutService } from './page-layout.service';
 
 @Component({
@@ -33,10 +33,11 @@ export class PageLayoutComponent {
     switchMap(section => this.pageLayoutService.getSlots(section))
   );
 
-  readonly pageSlot$: Observable<string> = this.templateName$.pipe(
+  readonly pageFoldSlot$: Observable<string> = this.templateName$.pipe(
     switchMap(templateName =>
       this.pageLayoutService.getPageFoldSlot(templateName)
-    )
+    ),
+    distinctUntilChanged()
   );
 
   private currentClass;
