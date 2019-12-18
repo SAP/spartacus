@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
-import { CdsConfig } from '../../config';
+import { CdsConfig } from '../../config/cds-config';
 
 @Injectable({
   providedIn: 'root',

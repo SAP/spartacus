@@ -6,7 +6,7 @@ import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
   NavigatedPushEvent,
-} from '../model';
+} from '../model/profile-tag.model';
 import { ProfileTagInjector } from './profile-tag.injector';
 import { ProfileTagEventTracker } from './profiletag-events';
 import { SpartacusEventTracker } from './spartacus-events';

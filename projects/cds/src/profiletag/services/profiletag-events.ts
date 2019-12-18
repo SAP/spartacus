@@ -17,6 +17,7 @@ import {
   ProfileTagEventNames,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
+  PushEvent,
 } from '../model/profile-tag.model';
 
 @Injectable({
@@ -38,9 +39,7 @@ export class ProfileTagEventTracker {
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
-  getProfileTagEvents(): Observable<
-    ConsentReferenceEvent | DebugEvent | Event
-  > {
+  getProfileTagEvent(): Observable<ConsentReferenceEvent | DebugEvent> {
     return this.profileTagEvents$;
   }
 
@@ -56,18 +55,14 @@ export class ProfileTagEventTracker {
     );
   }
 
-  notifyProfileTagOfEventOccurence(event): void {
-    this.profileTagWindow.Y_TRACKING.push(event);
-  }
-
-  private profileTagLoaded(): Observable<Event> {
+  profileTagLoaded(): Observable<Event> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.LOADED
     ).pipe(take(1));
   }
 
-  private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
+  consentReferenceChanged(): Observable<ConsentReferenceEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.CONSENT_REFERENCE_CHANGED
@@ -118,5 +113,9 @@ export class ProfileTagEventTracker {
     const q = this.profileTagWindow.Y_TRACKING.q || [];
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
+  }
+
+  notifyProfileTagOfEventOccurence(event: PushEvent): void {
+    this.profileTagWindow.Y_TRACKING.push(event);
   }
 }
