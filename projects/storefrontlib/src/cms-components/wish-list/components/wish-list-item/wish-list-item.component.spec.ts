@@ -140,5 +140,6 @@ describe('WishListItemComponent', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).toBeNull();
+    expect(el.query(By.css('.cx-out-of-stock')).nativeElement).toBeTruthy();
   });
 });
