@@ -18,6 +18,7 @@ import {
   map,
   mapTo,
   observeOn,
+  shareReplay,
   tap,
 } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
@@ -185,7 +186,10 @@ export class ProductService {
       select(ProductSelectors.getSelectedProductFactory(productCode, scope))
     );
 
-    return using(() => productLoadingLogic$.subscribe(), () => productData$);
+    return using(
+      () => productLoadingLogic$.subscribe(),
+      () => productData$
+    ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
   }
 
   /**
