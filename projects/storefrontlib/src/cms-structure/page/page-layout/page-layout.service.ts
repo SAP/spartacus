@@ -66,6 +66,7 @@ export class PageLayoutService {
     return this.breakpointService.breakpoint$.pipe(
       map(breakpoint => {
         const pageTemplateConfig = this.config.layoutSlots[pageTemplate];
+
         const config = this.getResponsiveSlotConfig(
           <LayoutSlotConfig>pageTemplateConfig,
           'pageFold',
@@ -191,7 +192,7 @@ export class PageLayoutService {
     let slotConfig = <SlotConfig>layoutSlotConfig;
 
     // fallback to default slot config
-    if (!breakpoint) {
+    if (!layoutSlotConfig || !breakpoint) {
       return slotConfig;
     }
 
