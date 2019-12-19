@@ -27,6 +27,7 @@ export class AddedToCartDialogComponent implements OnInit {
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   quantity = 0;
+  modalIsOpen = false;
 
   @ViewChild('dialog', { static: false, read: ElementRef })
   dialog: ElementRef;
@@ -71,6 +72,9 @@ export class AddedToCartDialogComponent implements OnInit {
             entryForm.controls.quantity.setValue(entry.quantity);
           }
           this.form.markAsPristine();
+          if (!this.modalIsOpen) {
+            this.modalIsOpen = true;
+          }
         }
       })
     );
