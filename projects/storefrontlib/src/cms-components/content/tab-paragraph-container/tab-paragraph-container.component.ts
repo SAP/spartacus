@@ -103,8 +103,10 @@ export class TabParagraphContainerComponent
   }
 
   ngAfterViewInit(): void {
-    // If children exist, directly get the title parameters from them;
-    // otherwise, listen to the children's changes
+    // If the sub cms components data exist, these components created before ngAfterViewInit is called.
+    // In this case, directly get the title parameters from them.
+    // If the sub cms components data not exist, need download them first.
+    // In this case, listen to the the changes to wait for them created.
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     } else {
@@ -117,7 +119,7 @@ export class TabParagraphContainerComponent
 
   private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach(comp => {
-      if (comp.cmpRef.instance.tabTitleParam$) {
+      if (comp.cmpRef && comp.cmpRef.instance.tabTitleParam$) {
         this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
       } else {
         this.tabTitleParams.push(null);
