@@ -70,7 +70,6 @@ export class ReviewSubmitComponent implements OnInit {
     this.entries$ = this.cartService.getEntries();
     this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
-    this.checkoutPaymentService.paymentProcessSuccess();
 
     this.deliveryMode$ = this.checkoutDeliveryService
       .getSelectedDeliveryMode()

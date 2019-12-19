@@ -203,6 +203,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     if (this.getPaymentDetailsSub) {
       this.getPaymentDetailsSub.unsubscribe();
     }
+
+    this.checkoutPaymentService.paymentProcessSuccess();
   }
 
   protected getCardIcon(code: string): string {
