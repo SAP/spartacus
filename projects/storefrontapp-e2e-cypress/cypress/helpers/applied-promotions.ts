@@ -107,3 +107,46 @@ export function checkAppliedPromotionsForLoggedUser() {
     deleteShippingAddress();
   });
 }
+
+export function checkForAppliedCartPromotions(shouldContainPromotion) {
+  if (shouldContainPromotion) {
+    cy.get('.cx-promotions')
+      .first()
+      .should('contain', '200');
+  } else {
+    cy.get('.cx-promotions')
+      .first()
+      .should('not.contain', '200');
+  }
+}
+
+export function removeCartEntry() {
+  cy.get('.cx-item-list-items')
+    .first()
+    .within(() => {
+      cy.getByText(/Remove/i).click();
+    });
+}
+
+export function checkAppliedPromotionsFordifferentCartTotals() {
+  it('Should add to products to the cart', () => {
+    cy.visit('/product/4786113');
+    addProductToCart();
+    cy.visit('/product/918735');
+    addProductToCart();
+  });
+
+  it('Should display promotions in users cart view for added product', () => {
+    goToCartDetailsViewFromCartDialog();
+    checkForAppliedCartPromotions(true);
+  });
+
+  it('Should not display promotions in users cart view after removing first product', () => {
+    removeCartEntry();
+    checkForAppliedCartPromotions(false);
+  });
+
+  after(() => {
+    removeCartEntry();
+  });
+}
