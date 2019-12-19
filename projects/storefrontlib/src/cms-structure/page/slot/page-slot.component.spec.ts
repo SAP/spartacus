@@ -1,4 +1,4 @@
-import { Directive, Input, Output, Renderer2, Type } from '@angular/core';
+import { Renderer2, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsConfig,
@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { DeferLoaderService } from 'projects/storefrontlib/src/layout/loading/defer-loader.service';
 import { Observable, of } from 'rxjs';
+import { OutletDirective } from '../../outlet';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
@@ -49,17 +50,7 @@ const MockCmsConfig: CmsConfig = {
   },
 };
 
-@Directive({
-  selector: '[cxOutlet]',
-})
-export class MockOutletDirective {
-  @Input() cxOutlet;
-  @Input() cxOutletContext;
-  @Input() cxOutletDefer;
-  @Output() loaded;
-}
-
-fdescribe('PageSlotComponent', () => {
+describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
   let fixture: ComponentFixture<PageSlotComponent>;
   let cmsService: CmsService;
@@ -72,7 +63,7 @@ fdescribe('PageSlotComponent', () => {
       declarations: [
         PageSlotComponent,
         ComponentWrapperDirective,
-        MockOutletDirective,
+        OutletDirective,
       ],
       providers: [
         Renderer2,
@@ -124,7 +115,7 @@ fdescribe('PageSlotComponent', () => {
     });
   });
 
-  describe('pending state', () => {
+  describe('is-pending class', () => {
     it('should have isPending set to true initially', () => {
       expect(pageSlotComponent.isPending).toEqual(true);
     });
@@ -132,14 +123,12 @@ fdescribe('PageSlotComponent', () => {
     it('should not have isPending when there is no slot', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of(null));
       fixture.detectChanges();
-      pageSlotComponent.components$.subscribe().unsubscribe();
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
     it('should not have isPending with a slot with no components', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
       fixture.detectChanges();
-      pageSlotComponent.components$.subscribe().unsubscribe();
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
@@ -148,7 +137,6 @@ fdescribe('PageSlotComponent', () => {
         of({ components: [{}] } as ContentSlotData)
       );
       fixture.detectChanges();
-      pageSlotComponent.components$.subscribe().unsubscribe();
       expect(pageSlotComponent.isPending).toEqual(true);
     });
 
@@ -157,7 +145,6 @@ fdescribe('PageSlotComponent', () => {
         of({ components: [{}] } as ContentSlotData)
       );
       fixture.detectChanges();
-      pageSlotComponent.components$.subscribe().unsubscribe();
       expect(
         (<HTMLElement>fixture.debugElement.nativeElement).classList
       ).toContain('cx-pending');
@@ -177,7 +164,6 @@ fdescribe('PageSlotComponent', () => {
         of({ components: [{}, {}] } as ContentSlotData)
       );
       fixture.detectChanges();
-      pageSlotComponent.components$.subscribe().unsubscribe();
       pageSlotComponent.isLoaded(true);
       expect(pageSlotComponent.isPending).toEqual(true);
     });
@@ -187,20 +173,30 @@ fdescribe('PageSlotComponent', () => {
         of({ components: [{}, {}] } as ContentSlotData)
       );
       fixture.detectChanges();
-      pageSlotComponent.components$.subscribe().unsubscribe();
       pageSlotComponent.isLoaded(true);
       pageSlotComponent.isLoaded(true);
       expect(pageSlotComponent.isPending).toEqual(false);
     });
   });
 
-  fdescribe('has-components', () => {
-    fit('should have has-components class when slot has at least one components', () => {
+  describe('page-fold class', () => {
+    it('should set isPageFold to false initially', () => {
+      expect(pageSlotComponent.isPageFold).toEqual(false);
+    });
+    it('should set page-fold class when isPageFold is true', () => {
+      pageSlotComponent.isPageFold = true;
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).toContain('page-fold');
+    });
+  });
+
+  describe('has-components class', () => {
+    it('should have has-components class when slot has at least one components', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(
         of({ components: [{}] } as ContentSlotData)
       );
-      fixture.detectChanges();
-      pageSlotComponent.components$.subscribe().unsubscribe();
       fixture.detectChanges();
       expect(
         (<HTMLElement>fixture.debugElement.nativeElement).classList

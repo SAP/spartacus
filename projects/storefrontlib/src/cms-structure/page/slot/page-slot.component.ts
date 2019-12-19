@@ -4,6 +4,8 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  OnDestroy,
+  OnInit,
   Renderer2,
 } from '@angular/core';
 import {
@@ -14,7 +16,7 @@ import {
   DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
@@ -23,7 +25,7 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageSlotComponent {
+export class PageSlotComponent implements OnInit, OnDestroy {
   // need to have this host binding at the top as it will override the entire class
   @HostBinding('class') @Input() set position(position: string) {
     this.position$.next(position);
@@ -49,16 +51,12 @@ export class PageSlotComponent {
           (a, b) =>
             a.length === b.length &&
             !a.find((el, index) => el.uid !== b[index].uid)
-        ),
-        tap(components => {
-          console.log('tabbed', components);
-          this.hasComponents = components && components.length > 0;
-          this.pendingComponentCount = components ? components.length : 0;
-          this.isPending = this.pendingComponentCount > 0;
-        })
+        )
       )
     )
   );
+
+  private subscription = new Subscription();
 
   constructor(
     cmsService: CmsService,
@@ -85,6 +83,20 @@ export class PageSlotComponent {
     protected hostElement: ElementRef,
     protected config?: CmsConfig
   ) {}
+
+  ngOnInit() {
+    this.subscription.add(
+      this.components$.subscribe(components => {
+        this.hasComponents = components && components.length > 0;
+        this.pendingComponentCount = components ? components.length : 0;
+        this.isPending = this.pendingComponentCount > 0;
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
   /**
    * Is triggered when a component is added to the view.
