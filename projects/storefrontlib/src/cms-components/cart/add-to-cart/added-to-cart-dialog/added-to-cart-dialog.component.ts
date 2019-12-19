@@ -17,6 +17,7 @@ export class AddedToCartDialogComponent implements OnInit {
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   increment: boolean;
+  modalIsOpen = false;
 
   quantity = 0;
 
@@ -43,6 +44,9 @@ export class AddedToCartDialogComponent implements OnInit {
             entryForm.controls.quantity.setValue(entry.quantity);
           }
           this.form.markAsPristine();
+          if (!this.modalIsOpen) {
+            this.modalIsOpen = true;
+          }
         }
       })
     );

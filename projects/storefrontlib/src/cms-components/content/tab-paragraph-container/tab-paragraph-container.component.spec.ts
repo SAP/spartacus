@@ -8,7 +8,6 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
-import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @Directive({
@@ -16,6 +15,14 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
 })
 export class MockComponentWrapperDirective {
   @Input() cxComponentWrapper: ContentSlotComponentData;
+}
+
+@Directive({
+  selector: '[cxOutlet]',
+})
+export class MockOutletDirective {
+  @Input() cxOutlet: string;
+  @Input() cxOutletContext: any;
 }
 
 const mockComponents = [
@@ -66,7 +73,7 @@ describe('TabParagraphContainerComponent', () => {
       declarations: [
         TabParagraphContainerComponent,
         MockComponentWrapperDirective,
-        OutletDirective,
+        MockOutletDirective,
       ],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },

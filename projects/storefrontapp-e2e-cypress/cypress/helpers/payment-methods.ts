@@ -49,18 +49,24 @@ export function paymentDetailCard() {
     cy.getByText(/proceed to checkout/i).click({ force: true });
   });
 
-  cy.wait(`@${request.shippingPage}`);
+  cy.wait(`@${request.shippingPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // go to shipping address
   fillShippingAddress(user);
 
-  cy.wait(`@${request.deliveryPage}`);
+  cy.wait(`@${request.deliveryPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
-  cy.wait(`@${request.paymentPage}`);
+  cy.wait(`@${request.paymentPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // fill in payment method
   fillPaymentDetails(user);
@@ -89,19 +95,25 @@ export function addSecondaryPaymentCard() {
     cy.getByText(/proceed to checkout/i).click({ force: true });
   });
 
-  cy.wait(`@${request.shippingPage}`);
+  cy.wait(`@${request.shippingPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // select shipping address
   cy.getByText(/Ship to this address/i).click({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
-  cy.wait(`@${request.deliveryPage}`);
+  cy.wait(`@${request.deliveryPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
-  cy.wait(`@${request.paymentPage}`);
+  cy.wait(`@${request.paymentPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // fill in payment method
   cy.getByText('Add New Payment').click({ force: true });
