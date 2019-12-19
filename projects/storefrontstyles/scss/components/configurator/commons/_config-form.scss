@@ -1,8 +1,4 @@
 %cx-config-form {
-  @include media-breakpoint-up(lg) {
-    background-color: var(--cx-color-background);
-  }
-
   .cx-config-attribute-header {
     margin-right: 17px;
     margin-left: 17px;

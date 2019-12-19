@@ -24,11 +24,10 @@ import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
-import { ConfigImageComponent } from '../commons/config-image/config-image.component';
+import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
-import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 
 @NgModule({
@@ -55,16 +54,12 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
           component: ConfigTabBarComponent,
           guards: [],
         },
+        VariantConfigurationGroupTitle: {
+          component: ConfigGroupTitleComponent,
+          guards: [],
+        },
         VariantConfigurationForm: {
           component: ConfigFormComponent,
-          guards: [],
-        },
-        VariantConfigurationTitleSummary: {
-          component: ConfigTitleComponent,
-          guards: [],
-        },
-        VariantConfigurationImage: {
-          component: ConfigImageComponent,
           guards: [],
         },
         VariantConfigurationMenu: {
@@ -117,7 +112,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
           md: {
             slots: [
               'VariantConfigHeader',
-              'VariantConfigTitle',
               'VariantConfigMenu',
               'VariantConfigContent',
               'VariantConfigBottombar',
@@ -126,7 +120,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
           xs: {
             slots: [
               'VariantConfigHeader',
-              'VariantConfigTitle',
               'VariantConfigContent',
               'VariantConfigBottombar',
             ],
@@ -146,8 +139,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
 
   declarations: [
     ConfigFormComponent,
-    ConfigTitleComponent,
-    ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeInputFieldComponent,
@@ -156,14 +147,13 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
   ],
   exports: [
     ConfigFormComponent,
-    ConfigTitleComponent,
-    ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeInputFieldComponent,
@@ -172,6 +162,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
@@ -179,8 +170,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
   providers: [UserService],
   entryComponents: [
     ConfigFormComponent,
-    ConfigTitleComponent,
-    ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeInputFieldComponent,
@@ -189,6 +178,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,

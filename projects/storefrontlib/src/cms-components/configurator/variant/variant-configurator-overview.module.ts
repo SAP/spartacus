@@ -18,7 +18,6 @@ import { ConfigOverviewAttributeComponent } from '../commons/config-overview-att
 import { ConfigOverviewFormComponent } from '../commons/config-overview-form/config-overview-form.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
-import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 import { VariantConfiguratorModule } from './variant-configurator.module';
 
@@ -44,10 +43,6 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
       cmsComponents: {
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
-          guards: [],
-        },
-        VariantConfigurationOverviewTitle: {
-          component: ConfigTitleComponent,
           guards: [],
         },
         VariantConfigurationOverview: {
