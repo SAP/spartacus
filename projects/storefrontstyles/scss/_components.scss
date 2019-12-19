@@ -19,6 +19,7 @@ $misc-components-whitelist: () !default;
 $asm-components-whitelist: () !default;
 $pwa-components-whitelist: () !default;
 $cds-components-whitelist: () !default;
+$wish-list-components-whitelist: () !default;
 
 $selectors: mergeAll(
   (
@@ -32,7 +33,9 @@ $selectors: mergeAll(
     $myaccount-components-whitelist,
     $store-finder-components-whitelist,
     $pwa-components-whitelist,
-    $cds-components-whitelist
+    $cds-components-whitelist,
+    $asm-components-whitelist,
+    $wish-list-components-whitelist
   )
 );
 

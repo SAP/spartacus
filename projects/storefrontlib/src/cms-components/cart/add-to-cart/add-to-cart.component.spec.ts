@@ -40,6 +40,9 @@ class MockCartService {
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
+  getAddEntryLoaded(): Observable<boolean> {
+    return of(true);
+  }
   getLoaded(): Observable<boolean> {
     return of();
   }
