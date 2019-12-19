@@ -8,65 +8,68 @@ import { OutletPosition } from './outlet.model';
 
 const keptOutlet = 'keptOutlet';
 const replacedOutlet = 'replacedOutlet';
-
-@Component({
-  template: `
-    <ng-template cxOutletRef="${replacedOutlet}">
-      <div id="new">replaced</div>
-    </ng-template>
-
-    <div id="kept">
-      <ng-container *cxOutlet="'${keptOutlet}'">
-        <div id="original">whatever</div>
-      </ng-container>
-    </div>
-
-    <div id="replace">
-      <ng-container *cxOutlet="'${replacedOutlet}'">
-        <div id="original">whatever</div>
-      </ng-container>
-    </div>
-  `,
-})
-class MockTemplateComponent {}
 export class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
 }
 
-@Component({
-  template: `
-    <ng-template cxOutletRef="before" cxOutletPos="${OutletPosition.BEFORE}">
-      <div id="new">after</div>
-    </ng-template>
-
-    <div id="before">
-      <ng-container *cxOutlet="'before'">
-        <div id="original">whatever</div>
-      </ng-container>
-    </div>
-  `,
-})
-class MockOutletBeforeComponent {}
-
-@Component({
-  template: `
-    <ng-template cxOutletRef="after" cxOutletPos="${OutletPosition.AFTER}">
-      <div id="new">after</div>
-    </ng-template>
-
-    <div id="after">
-      <ng-container *cxOutlet="'after'">
-        <div id="original">whatever</div>
-      </ng-container>
-    </div>
-  `,
-})
-class MockOutletAfterComponent {}
-
-describe('OutletDirective', () => {
+fdescribe('OutletDirective', () => {
   describe('(Non-stacked)', () => {
+    @Component({
+      template: `
+        <ng-template cxOutletRef="${replacedOutlet}">
+          <div id="new">replaced</div>
+        </ng-template>
+
+        <div id="kept">
+          <ng-container *cxOutlet="'${keptOutlet}'">
+            <div id="original">whatever</div>
+          </ng-container>
+        </div>
+
+        <div id="replace">
+          <ng-container *cxOutlet="'${replacedOutlet}'">
+            <div id="original">whatever</div>
+          </ng-container>
+        </div>
+      `,
+    })
+    class MockTemplateComponent {}
+
+    @Component({
+      template: `
+        <ng-template
+          cxOutletRef="before"
+          cxOutletPos="${OutletPosition.BEFORE}"
+        >
+          <div id="new">after</div>
+        </ng-template>
+
+        <div id="before">
+          <ng-container *cxOutlet="'before'">
+            <div id="original">whatever</div>
+          </ng-container>
+        </div>
+      `,
+    })
+    class MockOutletBeforeComponent {}
+
+    @Component({
+      template: `
+        <ng-template cxOutletRef="after" cxOutletPos="${OutletPosition.AFTER}">
+          <div id="new">after</div>
+        </ng-template>
+
+        <div id="after">
+          <ng-container *cxOutlet="'after'">
+            <div id="original">whatever</div>
+          </ng-container>
+        </div>
+      `,
+    })
+    class MockOutletAfterComponent {}
+
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [],
@@ -118,45 +121,51 @@ describe('OutletDirective', () => {
     });
   });
 
-  @Component({
-    template: `
-      <ng-template cxOutletRef="replace">
-        <div id="first">after</div>
-      </ng-template>
-
-      <ng-template cxOutletRef="replace">
-        <div id="second">after</div>
-      </ng-template>
-
-      <div id="replace">
-        <ng-container *cxOutlet="'replace'">
-          <div id="original">whatever</div>
-        </ng-container>
-      </div>
-    `,
-  })
-  class MockStackedReplaceOutletComponent {}
-
-  @Component({
-    template: `
-      <ng-template cxOutletRef="before" cxOutletPos="${OutletPosition.BEFORE}">
-        <div id="first">after</div>
-      </ng-template>
-
-      <ng-template cxOutletRef="before" cxOutletPos="${OutletPosition.BEFORE}">
-        <div id="second">after</div>
-      </ng-template>
-
-      <div id="before">
-        <ng-container *cxOutlet="'before'">
-          <div id="original">whatever</div>
-        </ng-container>
-      </div>
-    `,
-  })
-  class MockStackedBeforeOutletComponent {}
-
   describe('(stacked)', () => {
+    @Component({
+      template: `
+        <ng-template cxOutletRef="replace">
+          <div id="first">after</div>
+        </ng-template>
+
+        <ng-template cxOutletRef="replace">
+          <div id="second">after</div>
+        </ng-template>
+
+        <div id="replace">
+          <ng-container *cxOutlet="'replace'">
+            <div id="original">whatever</div>
+          </ng-container>
+        </div>
+      `,
+    })
+    class MockStackedReplaceOutletComponent {}
+
+    @Component({
+      template: `
+        <ng-template
+          cxOutletRef="before"
+          cxOutletPos="${OutletPosition.BEFORE}"
+        >
+          <div id="first">after</div>
+        </ng-template>
+
+        <ng-template
+          cxOutletRef="before"
+          cxOutletPos="${OutletPosition.BEFORE}"
+        >
+          <div id="second">after</div>
+        </ng-template>
+
+        <div id="before">
+          <ng-container *cxOutlet="'before'">
+            <div id="original">whatever</div>
+          </ng-container>
+        </div>
+      `,
+    })
+    class MockStackedBeforeOutletComponent {}
+
     let compiled: HTMLElement;
 
     beforeEach(async(() => {
@@ -198,25 +207,33 @@ describe('OutletDirective', () => {
     });
   });
 
-  @Component({
-    template: `
-      <ng-template cxOutlet="instant">
-        <div id="first">instant</div>
-      </ng-template>
-    `,
-  })
-  class MockInstantOutletComponent {}
-
-  @Component({
-    template: `
-      <ng-template cxOutlet="deferred" [cxOutletDefer]="{}">
-        <div id="first">deferred</div>
-      </ng-template>
-    `,
-  })
-  class MockDeferredOutletComponent {}
-
   describe('defer loading', () => {
+    @Component({
+      template: `
+        <ng-template cxOutlet="instant">
+          <div id="first">instant</div>
+        </ng-template>
+      `,
+    })
+    class MockInstantOutletComponent {}
+
+    @Component({
+      template: `
+        <ng-template
+          cxOutlet="deferred"
+          [cxOutletDefer]="{}"
+          (loaded)="load($event)"
+        >
+          <div id="first">deferred</div>
+        </ng-template>
+      `,
+    })
+    class MockDeferredOutletComponent {
+      load(_eventValue: boolean) {
+        console.log('defer loading 2...', _eventValue);
+      }
+    }
+
     let deferLoaderService: DeferLoaderService;
 
     beforeEach(async(() => {
