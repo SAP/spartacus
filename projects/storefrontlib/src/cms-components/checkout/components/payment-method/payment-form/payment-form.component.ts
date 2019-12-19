@@ -134,7 +134,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
-        if (results === 'FAIL') {
+        if (results.decision === 'FAIL') {
           this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.next();

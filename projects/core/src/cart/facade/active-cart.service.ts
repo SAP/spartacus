@@ -226,6 +226,16 @@ export class ActiveCartService {
     );
   }
 
+  private isCartCreating(cartState) {
+    // cart creating is always represented with loading flags
+    // when all loading flags are false it means that we restored wrong cart id
+    // could happen on context change or reload right in the middle on cart create call
+    return (
+      this.cartId === FRESH_CART_ID &&
+      (cartState.loading || cartState.success || cartState.error)
+    );
+  }
+
   private requireLoadedCart(
     customCartSelector$?: Observable<ProcessesLoaderState<Cart>>
   ): Observable<ProcessesLoaderState<Cart>> {
@@ -239,7 +249,7 @@ export class ActiveCartService {
     return cartSelector$.pipe(
       filter(cartState => !cartState.loading),
       // Avoid load/create call when there are new cart creating at the moment
-      filter(() => this.cartId !== FRESH_CART_ID),
+      filter(cartState => !this.isCartCreating(cartState)),
       take(1),
       switchMap(cartState => {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
@@ -273,7 +283,7 @@ export class ActiveCartService {
       filter(cartState => !cartState.loading),
       filter(cartState => cartState.success || cartState.error),
       // wait for active cart id to point to code/guid to avoid some work on fresh entity
-      filter(() => this.cartId !== FRESH_CART_ID),
+      filter(cartState => !this.isCartCreating(cartState)),
       filter(cartState => !this.isEmpty(cartState.value)),
       take(1)
     );
