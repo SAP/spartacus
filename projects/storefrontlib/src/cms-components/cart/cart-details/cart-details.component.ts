@@ -25,7 +25,7 @@ export class CartDetailsComponent implements OnInit {
   constructor(
     cartService: CartService,
     // tslint:disable-next-line:unified-signatures
-    promotionService?: PromotionService
+    promotionService: PromotionService
   );
 
   /**

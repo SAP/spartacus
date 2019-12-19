@@ -18,7 +18,7 @@
 <div [formGroup]="form">
   <div class="cx-item-list-row" *ngFor="let item of items">
     <div class="cx-item-list-items">
-      <div *cxFeatureLevel="'!1.4'">
+      <ng-container *cxFeatureLevel="'!1.4'">
         <cx-cart-item
           [parent]="form.controls[item.product.code]"
           [item]="item"
@@ -31,9 +31,9 @@
           (update)="updateEntry($event)"
         >
         </cx-cart-item>
-      </div>
+      </ng-container>
 
-      <div *cxFeatureLevel="'1.4'">
+      <ng-container *cxFeatureLevel="'1.4'">
         <cx-cart-item
           [parent]="form.controls[item.product.code]"
           [item]="item"
@@ -44,7 +44,7 @@
           (update)="updateEntry($event)"
         >
         </cx-cart-item>
-      </div>
+      </ng-container>
     </div>
   </div>
 </div>

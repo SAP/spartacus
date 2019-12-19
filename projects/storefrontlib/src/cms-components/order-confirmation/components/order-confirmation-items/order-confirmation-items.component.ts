@@ -26,7 +26,7 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   constructor(
     checkoutService: CheckoutService,
     // tslint:disable-next-line:unified-signatures
-    promotionService?: PromotionService
+    promotionService: PromotionService
   );
 
   /**
