@@ -16,7 +16,7 @@
 </div>
 <button
   *ngIf="hasStock"
-  class="btn btn-primary btn-block btn-relative"
+  class="btn btn-primary btn-block"
   type="button"
   [disabled]="quantity <= 0 || quantity > maxQuantity"
   (click)="addToCart()"
