@@ -48,27 +48,25 @@ export class OrderCancelOrReturnService {
     this.languageService.getActive().subscribe(value => (this.lang = value));
 
     this.routing.getRouterState().subscribe(state => {
+      const current = state.state;
+      const next = state.nextState;
       if (
-        state.nextState &&
-        state.nextState.params['orderCode'] &&
-        state.state &&
-        state.state.params['orderCode']
+        next &&
+        next.params['orderCode'] &&
+        current &&
+        current.params['orderCode']
       ) {
-        const orderCode = state.nextState.params['orderCode'];
+        const orderCode = next.params['orderCode'];
 
         if (
-          (state.state.url.endsWith(
+          (current.url.endsWith(
             this.getPath('orderReturnConfirmation', orderCode)
           ) &&
-            state.nextState.url.endsWith(
-              this.getPath('orderReturn', orderCode)
-            )) ||
-          (state.state.url.endsWith(
+            next.url.endsWith(this.getPath('orderReturn', orderCode))) ||
+          (current.url.endsWith(
             this.getPath('orderCancelConfirmation', orderCode)
           ) &&
-            state.nextState.url.endsWith(
-              this.getPath('orderCancel', orderCode)
-            ))
+            next.url.endsWith(this.getPath('orderCancel', orderCode)))
         ) {
           this.keepRequestInputs = true;
         }
