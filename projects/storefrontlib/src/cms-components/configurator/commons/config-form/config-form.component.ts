@@ -3,10 +3,11 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
@@ -17,8 +18,7 @@ import { ConfigFormUpdateEvent } from './config-form.event';
 })
 export class ConfigFormComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  currentGroupId$: Observable<String>;
-  currentGroup: Configurator.Group;
+  currentGroup$: Observable<Configurator.Group>;
 
   public UiType = Configurator.UiType;
 
@@ -48,25 +48,25 @@ export class ConfigFormComponent implements OnInit {
       )
       .subscribe();
 
-    this.currentGroupId$ = this.configRouterExtractorService
+    this.currentGroup$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
           this.configuratorCommonsService.getConfiguration(owner)
         ),
         switchMap(configuration =>
-          this.configuratorGroupsService.getCurrentGroup(configuration.owner)
+          this.getCurrentGroup(configuration.groups, configuration.owner)
         )
       );
+  }
 
-    this.currentGroupId$.subscribe(currentGroupId => {
-      this.configuration$.pipe(take(1)).subscribe(configuration => {
-        this.currentGroup = this.findCurrentGroup(
-          configuration.groups,
-          currentGroupId
-        );
-      });
-    });
+  getCurrentGroup(
+    groups: Configurator.Group[],
+    owner: GenericConfigurator.Owner
+  ): Observable<Configurator.Group> {
+    return this.configuratorGroupsService
+      .getCurrentGroup(owner)
+      .pipe(map(currenGroupId => this.findCurrentGroup(groups, currenGroupId)));
   }
 
   findCurrentGroup(
