@@ -50,4 +50,13 @@ export class LoadingScopesService {
 
     return scopes;
   }
+
+  getTtl(model: string, scope: string): number {
+    const scopesConfig =
+      this.config &&
+      this.config.backend &&
+      this.config.backend.loadingScopes &&
+      this.config.backend.loadingScopes[model];
+    return (scopesConfig[scope] && scopesConfig[scope].ttl) || 0;
+  }
 }
