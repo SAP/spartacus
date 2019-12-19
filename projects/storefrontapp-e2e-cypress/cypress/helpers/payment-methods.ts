@@ -19,9 +19,11 @@ export const secondPayment: PaymentDetails = {
   },
 };
 
-export function accessPageAsAnonymous() {
-  cy.visit('/my-account/payment-details');
-  cy.location('pathname').should('contain', '/login');
+export function checkAnonymous() {
+  it('should redirect anonymous user to login page', () => {
+    cy.visit('/my-account/payment-details');
+    cy.location('pathname').should('contain', '/login');
+  });
 }
 
 export function verifyText() {
@@ -35,7 +37,7 @@ export function verifyText() {
 }
 
 export function paymentDetailCard() {
-  const request = requestPages();
+  const request = getWaitAliases();
 
   // go to product page
   const productId = '3595723';
@@ -49,18 +51,28 @@ export function paymentDetailCard() {
     cy.getByText(/proceed to checkout/i).click({ force: true });
   });
 
-  cy.wait(`@${request.shippingPage}`);
+  // checkout steps
+  cy.wait(`@${request.shippingPage}`)
+    .its('status')
+    .should('eq', 200);
 
-  // go to shipping address
   fillShippingAddress(user);
 
-  cy.wait(`@${request.deliveryPage}`);
+  cy.wait(`@${request.deliveryPage}`)
+    .its('status')
+    .should('eq', 200);
 
-  // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
+<<<<<<< HEAD
   cy.wait(`@${request.paymentPage}`);
+=======
+  cy.wait(`@${request.paymentPage}`)
+    .its('status')
+    .should('eq', 200);
+
+>>>>>>> cc8787694b7c18558dcbea8ee783130b7f8349a3
   // fill in payment method
   fillPaymentDetails(user);
 
@@ -74,7 +86,7 @@ export function paymentDetailCard() {
 }
 
 export function addSecondaryPaymentCard() {
-  const request = requestPages();
+  const waitAliases = getWaitAliases();
 
   // go to product page
   const productId = '3595723';
@@ -87,19 +99,25 @@ export function addSecondaryPaymentCard() {
     cy.getByText(/proceed to checkout/i).click({ force: true });
   });
 
-  cy.wait(`@${request.shippingPage}`);
+  cy.wait(`@${waitAliases.shippingPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // select shipping address
   cy.getByText(/Ship to this address/i).click({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
-  cy.wait(`@${request.deliveryPage}`);
+  cy.wait(`@${waitAliases.deliveryPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // set delivery method
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
-  cy.wait(`@${request.paymentPage}`);
+  cy.wait(`@${waitAliases.paymentPage}`)
+    .its('status')
+    .should('eq', 200);
 
   // fill in payment method
   cy.getByText('Add New Payment').click({ force: true });
@@ -117,9 +135,11 @@ export function setSecondPaymentToDefault() {
   cy.getByText('Set as default').click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
+  const expirationMonth = secondPayment.payment.expires.month;
+  const expirationYear = secondPayment.payment.expires.year;
   firstCard.should('contain', 'Default Payment Method');
-  // Comment out when #2572 is fixed
-  // firstCard.should('contain', 'Bar Foo');
+  firstCard.should('contain', '5400');
+  firstCard.should('contain', `Expires: ${expirationMonth}/${expirationYear}`);
 }
 
 export function deletePayment() {
@@ -155,35 +175,29 @@ export function deletePayment() {
   defaultCard.should('contain', 'Winston Rumfoord');
 }
 
-export function checkAnonymous() {
-  it('should redirect to login page for anonymouse user', () => {
-    accessPageAsAnonymous();
-  });
-}
-
 export function paymentMethodsTest() {
-  it('should see title and some messages', () => {
+  it('should render page with no payment methods', () => {
     verifyText();
   });
 
-  it('should see payment method card', () => {
+  it('should render payment method', () => {
     paymentDetailCard();
   });
 
-  it('should be able to add a second payment card', () => {
+  it('should add a second payment method', () => {
     addSecondaryPaymentCard();
   });
 
-  it('should be able to set secondary card as default', () => {
+  it('should set second payment method as default', () => {
     setSecondPaymentToDefault();
   });
 
-  it('should be able to delete the payment', () => {
+  it('should be able to delete payment method', () => {
     deletePayment();
   });
 }
 
-function requestPages() {
+function getWaitAliases() {
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
