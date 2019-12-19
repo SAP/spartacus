@@ -57,21 +57,28 @@ export class OrderCancelOrReturnService {
         current.params['orderCode']
       ) {
         const orderCode = next.params['orderCode'];
-
         if (
-          (current.url.endsWith(
-            this.getPath('orderReturnConfirmation', orderCode)
-          ) &&
-            next.url.endsWith(this.getPath('orderReturn', orderCode))) ||
-          (current.url.endsWith(
-            this.getPath('orderCancelConfirmation', orderCode)
-          ) &&
-            next.url.endsWith(this.getPath('orderCancel', orderCode)))
+          this.isConfirmationPath(current.url, orderCode) &&
+          this.isCancelOrReturnPath(next.url, orderCode)
         ) {
           this.keepRequestInputs = true;
         }
       }
     });
+  }
+
+  private isConfirmationPath(url, orderCode): boolean {
+    const cancelConfirm = this.getPath('orderCancelConfirmation', orderCode);
+    const returnConfirm = this.getPath('orderReturnConfirmation', orderCode);
+
+    return url.endsWith(cancelConfirm) || url.endsWith(returnConfirm);
+  }
+
+  private isCancelOrReturnPath(url, orderCode): boolean {
+    const orderCancel = this.getPath('orderCancel', orderCode);
+    const orderReturn = this.getPath('orderReturn', orderCode);
+
+    return url.endsWith(orderCancel) || url.endsWith(orderReturn);
   }
 
   private getPath(routeName: string, orderCode: string): string {
