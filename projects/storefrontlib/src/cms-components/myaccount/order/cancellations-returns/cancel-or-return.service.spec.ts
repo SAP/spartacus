@@ -8,17 +8,18 @@ import {
   UserOrderService,
   GlobalMessageType,
   OrderReturnRequestService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 import { OrderCancelOrReturnService } from './cancel-or-return.service';
 
 const router = {
   state: {
-    url: '/cancel/confirmation',
+    url: '/cancel/1234/confirmation',
     params: { orderCode: '1234' },
   },
   nextState: {
-    url: '/cancel',
+    url: '/cancel/1234',
     params: { orderCode: '1234' },
   },
 };
@@ -64,6 +65,12 @@ class MockGlobalMessageService {
   add = jasmine.createSpy('add');
 }
 
+class MockSemanticPathService {
+  transform(): string[] {
+    return [];
+  }
+}
+
 const mockRequestInputs = [
   { orderEntryNumber: 1, quantity: 1 },
   { orderEntryNumber: 2, quantity: 2 },
@@ -75,6 +82,7 @@ describe('OrderCancelOrReturnService', () => {
   let userOrderService: MockUserOrderService;
   let messageService: MockGlobalMessageService;
   let returnRequestService: MockOrderReturnRequestService;
+  let semanticPathService: MockSemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -88,6 +96,7 @@ describe('OrderCancelOrReturnService', () => {
           provide: OrderReturnRequestService,
           useClass: MockOrderReturnRequestService,
         },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
 
@@ -102,8 +111,15 @@ describe('OrderCancelOrReturnService', () => {
     messageService = TestBed.get(GlobalMessageService as Type<
       GlobalMessageService
     >);
-    service.cancelOrReturnRequestInputs = mockRequestInputs;
+    semanticPathService = TestBed.get(SemanticPathService as Type<
+      SemanticPathService
+    >);
 
+    service.cancelOrReturnRequestInputs = mockRequestInputs;
+    spyOn(semanticPathService, 'transform').and.returnValues(
+      ['/', 'cancel', '1234', 'confimation'],
+      ['/', 'cancel', '1234']
+    );
     spyOn(service, 'clearCancelOrReturnRequestInputs').and.callThrough();
   });
 
