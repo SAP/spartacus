@@ -389,7 +389,7 @@ export function viewOrderHistoryWithCheapProduct() {
   cy.wait(`@${orderHistoryPage}`)
     .its('status')
     .should('eq', 200);
-  cy.get('cx-order-history h3').should('contain', 'Order history');
+  // cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
