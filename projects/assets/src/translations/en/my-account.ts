@@ -49,6 +49,8 @@ export const myAccount = {
       returnSuccess: 'Your return request ({{rma}}) was submitted',
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
+      note:
+        'Please note that it may take a few moments for your order to reflect the request.',
     },
   },
   orderHistory: {
