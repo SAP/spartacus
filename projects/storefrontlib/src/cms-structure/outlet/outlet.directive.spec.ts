@@ -197,4 +197,59 @@ describe('OutletDirective', () => {
       expect(compiled.querySelector('#before #original')).toBeTruthy();
     });
   });
+
+  @Component({
+    template: `
+      <ng-template cxOutlet="instant">
+        <div id="first">instant</div>
+      </ng-template>
+    `,
+  })
+  class MockInstantOutletComponent {}
+
+  @Component({
+    template: `
+      <ng-template cxOutlet="deferred" [cxOutletDefer]="{}">
+        <div id="first">deferred</div>
+      </ng-template>
+    `,
+  })
+  class MockDeferredOutletComponent {}
+
+  describe('defer loading', () => {
+    let deferLoaderService: DeferLoaderService;
+
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [],
+        declarations: [
+          MockInstantOutletComponent,
+          MockDeferredOutletComponent,
+          OutletDirective,
+        ],
+        providers: [
+          {
+            provide: DeferLoaderService,
+            useClass: MockDeferLoaderService,
+          },
+        ],
+      }).compileComponents();
+
+      deferLoaderService = TestBed.get(DeferLoaderService);
+    }));
+
+    it('should use instant loading', () => {
+      spyOn(deferLoaderService, 'load').and.callThrough();
+      const fixture = TestBed.createComponent(MockInstantOutletComponent);
+      fixture.detectChanges();
+      expect(deferLoaderService.load).not.toHaveBeenCalled();
+    });
+
+    it('should use defer loading', () => {
+      spyOn(deferLoaderService, 'load').and.callThrough();
+      const fixture = TestBed.createComponent(MockDeferredOutletComponent);
+      fixture.detectChanges();
+      expect(deferLoaderService.load).toHaveBeenCalled();
+    });
+  });
 });
