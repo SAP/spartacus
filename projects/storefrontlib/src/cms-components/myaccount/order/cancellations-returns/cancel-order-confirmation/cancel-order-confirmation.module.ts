@@ -18,10 +18,13 @@ import { CancelOrReturnRequestInputGuard } from '../guards/cancel-or-return-requ
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'my-account/order/:orderCode/cancel/confirmation',
+        path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: '/my-account/order/cancel/confirmation' },
+        data: {
+          pageLabel: '/my-account/order/cancel/confirmation',
+          cxRoute: 'orderCancelConfirmation',
+        },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{

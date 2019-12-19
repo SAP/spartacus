@@ -10,6 +10,7 @@ import {
   GlobalMessageType,
   UserOrderService,
   OrderReturnRequestService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -41,9 +42,11 @@ export class OrderCancelOrReturnService {
     protected routing: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected userOrderService: UserOrderService,
-    protected returnRequestService: OrderReturnRequestService
+    protected returnRequestService: OrderReturnRequestService,
+    protected semanticPathService: SemanticPathService
   ) {
     this.languageService.getActive().subscribe(value => (this.lang = value));
+
     this.routing.getRouterState().subscribe(state => {
       if (
         state.nextState &&
@@ -51,15 +54,36 @@ export class OrderCancelOrReturnService {
         state.state &&
         state.state.params['orderCode']
       ) {
-        const next = state.nextState.url.split('/');
-        const current = state.state.url.split('/');
-        const diff = current.filter(v => !next.includes(v));
-        // keep the entry input only when back from confirmation page
-        if (diff.length === 1 && diff[0] === 'confirmation') {
+        const orderCode = state.nextState.params['orderCode'];
+
+        if (
+          (state.state.url.endsWith(
+            this.getPath('orderReturnConfirmation', orderCode)
+          ) &&
+            state.nextState.url.endsWith(
+              this.getPath('orderReturn', orderCode)
+            )) ||
+          (state.state.url.endsWith(
+            this.getPath('orderCancelConfirmation', orderCode)
+          ) &&
+            state.nextState.url.endsWith(
+              this.getPath('orderCancel', orderCode)
+            ))
+        ) {
           this.keepRequestInputs = true;
         }
       }
     });
+  }
+
+  private getPath(routeName: string, orderCode: string): string {
+    return this.semanticPathService
+      .transform({
+        cxRoute: routeName,
+        params: { code: orderCode },
+      })
+      .join('/')
+      .slice(1);
   }
 
   get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {

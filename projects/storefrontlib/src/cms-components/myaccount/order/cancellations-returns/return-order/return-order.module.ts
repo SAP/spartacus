@@ -12,10 +12,13 @@ import { ReturnOrderComponent } from './return-order.component';
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'my-account/order/:orderCode/return',
+        path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: '/my-account/order/return' },
+        data: {
+          pageLabel: '/my-account/order/return',
+          cxRoute: 'orderReturn',
+        },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
