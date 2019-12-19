@@ -133,8 +133,7 @@ describe('ReturnOrderConfirmationComponent', () => {
 
     expect(returnService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
       'orderReturn',
-      '1',
-      true
+      '1'
     );
   });
 });

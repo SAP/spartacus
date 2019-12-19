@@ -12,10 +12,13 @@ import { CancelOrderComponent } from './cancel-order.component';
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'my-account/order/:orderCode/cancel',
+        path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: '/my-account/order/cancel' },
+        data: {
+          pageLabel: '/my-account/order/cancel',
+          cxRoute: 'orderCancel',
+        },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{

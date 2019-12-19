@@ -121,8 +121,7 @@ describe('CancelOrderConfirmationComponent', () => {
 
     expect(cancelService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
       'orderCancel',
-      '1',
-      true
+      '1'
     );
   });
 });

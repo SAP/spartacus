@@ -10,6 +10,7 @@ import {
   GlobalMessageType,
   UserOrderService,
   OrderReturnRequestService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -41,9 +42,53 @@ export class OrderCancelOrReturnService {
     protected routing: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected userOrderService: UserOrderService,
-    protected returnRequestService: OrderReturnRequestService
+    protected returnRequestService: OrderReturnRequestService,
+    protected semanticPathService: SemanticPathService
   ) {
     this.languageService.getActive().subscribe(value => (this.lang = value));
+
+    this.routing.getRouterState().subscribe(state => {
+      const current = state.state;
+      const next = state.nextState;
+      if (
+        next &&
+        next.params['orderCode'] &&
+        current &&
+        current.params['orderCode']
+      ) {
+        const orderCode = next.params['orderCode'];
+        if (
+          this.isConfirmationPath(current.url, orderCode) &&
+          this.isCancelOrReturnPath(next.url, orderCode)
+        ) {
+          this.keepRequestInputs = true;
+        }
+      }
+    });
+  }
+
+  private isConfirmationPath(url, orderCode): boolean {
+    const cancelConfirm = this.getPath('orderCancelConfirmation', orderCode);
+    const returnConfirm = this.getPath('orderReturnConfirmation', orderCode);
+
+    return url.endsWith(cancelConfirm) || url.endsWith(returnConfirm);
+  }
+
+  private isCancelOrReturnPath(url, orderCode): boolean {
+    const orderCancel = this.getPath('orderCancel', orderCode);
+    const orderReturn = this.getPath('orderReturn', orderCode);
+
+    return url.endsWith(orderCancel) || url.endsWith(orderReturn);
+  }
+
+  private getPath(routeName: string, orderCode: string): string {
+    return this.semanticPathService
+      .transform({
+        cxRoute: routeName,
+        params: { code: orderCode },
+      })
+      .join('/')
+      .slice(1);
   }
 
   get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {
@@ -84,15 +129,7 @@ export class OrderCancelOrReturnService {
     return returnedItemsPriceData;
   }
 
-  goToOrderCancelOrReturn(
-    cxRoute: string,
-    orderCode: string,
-    isBack?: boolean
-  ): void {
-    // When back from confirmation page to order return/cancel page,
-    // we want to keep the request inputs
-    this.keepRequestInputs = isBack;
-
+  goToOrderCancelOrReturn(cxRoute: string, orderCode: string): void {
     this.routing.go({
       cxRoute: cxRoute,
       params: { code: orderCode },

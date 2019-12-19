@@ -8,12 +8,26 @@ import {
   UserOrderService,
   GlobalMessageType,
   OrderReturnRequestService,
+  SemanticPathService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { OrderCancelOrReturnService } from './cancel-or-return.service';
 
+const router = {
+  state: {
+    url: '/cancel/1234/confirmation',
+    params: { orderCode: '1234' },
+  },
+  nextState: {
+    url: '/cancel/1234',
+    params: { orderCode: '1234' },
+  },
+};
 class MockRoutingService {
   go = jasmine.createSpy('go');
+  getRouterState(): Observable<any> {
+    return of(router);
+  }
 }
 
 class MockLanguageService {
@@ -51,6 +65,12 @@ class MockGlobalMessageService {
   add = jasmine.createSpy('add');
 }
 
+class MockSemanticPathService {
+  transform(): string[] {
+    return [];
+  }
+}
+
 const mockRequestInputs = [
   { orderEntryNumber: 1, quantity: 1 },
   { orderEntryNumber: 2, quantity: 2 },
@@ -62,6 +82,7 @@ describe('OrderCancelOrReturnService', () => {
   let userOrderService: MockUserOrderService;
   let messageService: MockGlobalMessageService;
   let returnRequestService: MockOrderReturnRequestService;
+  let semanticPathService: MockSemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -75,6 +96,7 @@ describe('OrderCancelOrReturnService', () => {
           provide: OrderReturnRequestService,
           useClass: MockOrderReturnRequestService,
         },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
 
@@ -89,13 +111,21 @@ describe('OrderCancelOrReturnService', () => {
     messageService = TestBed.get(GlobalMessageService as Type<
       GlobalMessageService
     >);
-    service.cancelOrReturnRequestInputs = mockRequestInputs;
+    semanticPathService = TestBed.get(SemanticPathService as Type<
+      SemanticPathService
+    >);
 
+    service.cancelOrReturnRequestInputs = mockRequestInputs;
+    spyOn(semanticPathService, 'transform').and.returnValues(
+      ['/', 'cancel', '1234', 'confimation'],
+      ['/', 'cancel', '1234']
+    );
     spyOn(service, 'clearCancelOrReturnRequestInputs').and.callThrough();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+    expect(service['keepRequestInputs']).toBeTruthy();
   });
 
   it('should be able to clear/keep cancelOrReturnRequestInputs', () => {
@@ -134,12 +164,11 @@ describe('OrderCancelOrReturnService', () => {
   });
 
   it('should be able to go to cancel/return or confirmation page', () => {
-    service.goToOrderCancelOrReturn('test', '1', true);
+    service.goToOrderCancelOrReturn('test', '1');
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'test',
       params: { code: '1' },
     });
-    expect(service['keepRequestInputs']).toEqual(true);
   });
 
   it('should be able to go to get calculated item price', () => {
