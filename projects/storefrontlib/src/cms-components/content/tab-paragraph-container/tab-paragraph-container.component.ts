@@ -1,11 +1,11 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ViewChildren,
-  QueryList,
-  AfterViewInit,
   OnDestroy,
   OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import {
   CmsService,
@@ -13,9 +13,14 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, switchMap, distinctUntilChanged } from 'rxjs/operators';
-import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import {
+  distinctUntilChanged,
+  distinctUntilKeyChanged,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
+import { CmsComponentData } from '../../../cms-structure/page/model/index';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -56,7 +61,7 @@ export class TabParagraphContainerComponent
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
-    distinctUntilChanged(),
+    distinctUntilKeyChanged('components'),
     switchMap(data =>
       combineLatest(
         data.components.split(' ').map(component =>
@@ -98,19 +103,28 @@ export class TabParagraphContainerComponent
   }
 
   ngAfterViewInit(): void {
-    if (!this.subscription) {
+    // If the sub cms components data exist, the components created before ngAfterViewInit are called.
+    // In this case, the title parameters are directly pulled from them.
+    // If the sub cms components data does not exist, it should should be loaded first.
+    // In this case, listen to the changes to wait for them to be created.
+    if (this.children.length > 0) {
+      this.getTitleParams(this.children);
+    } else {
       this.subscription = this.children.changes.subscribe(
-        (tabComps: QueryList<ComponentWrapperDirective>) => {
-          tabComps.forEach(comp => {
-            if (comp.cmpRef.instance.tabTitleParam$) {
-              this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
-            } else {
-              this.tabTitleParams.push(null);
-            }
-          });
-        }
+        (tabComps: QueryList<ComponentWrapperDirective>) =>
+          this.getTitleParams(tabComps)
       );
     }
+  }
+
+  private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
+    children.forEach(comp => {
+      if (comp.cmpRef && comp.cmpRef.instance.tabTitleParam$) {
+        this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
+      } else {
+        this.tabTitleParams.push(null);
+      }
+    });
   }
 
   ngOnDestroy(): void {

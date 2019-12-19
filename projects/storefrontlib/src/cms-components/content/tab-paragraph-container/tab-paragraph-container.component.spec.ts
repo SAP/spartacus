@@ -1,23 +1,33 @@
-import { Directive, Input, Type } from '@angular/core';
+import { Type, Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsService,
   CMSTabParagraphContainer,
-  ContentSlotComponentData,
   I18nTestingModule,
   WindowRef,
+  CmsConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
+import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
-@Directive({
-  selector: '[cxComponentWrapper]',
+@Component({
+  selector: 'cx-test-cmp',
+  template: '',
 })
-export class MockComponentWrapperDirective {
-  @Input() cxComponentWrapper: ContentSlotComponentData;
+export class TestComponent {
+  tabTitleParam$ = of('title param');
 }
+
+const MockCmsModuleConfig: CmsConfig = {
+  cmsComponents: {
+    CMSTestComponent: {
+      component: TestComponent,
+    },
+  },
+};
 
 const mockComponents = [
   'ProductDetailsTabComponent',
@@ -49,7 +59,7 @@ const mockTabComponentData3 = {
 };
 
 const MockCmsService = {
-  getComponentData: () => of(mockComponentData),
+  getComponentData: () => of(),
 };
 
 const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
@@ -66,14 +76,16 @@ describe('TabParagraphContainerComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
+        TestComponent,
         TabParagraphContainerComponent,
-        MockComponentWrapperDirective,
+        ComponentWrapperDirective,
         OutletDirective,
       ],
       providers: [
         WindowRef,
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
       ],
     }).compileComponents();
   }));
@@ -83,7 +95,6 @@ describe('TabParagraphContainerComponent', () => {
     component = fixture.componentInstance;
     cmsService = TestBed.get(CmsService as Type<CmsService>);
     windowRef = TestBed.get(WindowRef as Type<WindowRef>);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -121,5 +132,29 @@ describe('TabParagraphContainerComponent', () => {
     // reset the state
     windowRef.nativeWindow.history.replaceState(null, null);
     expect(component.activeTabNum).toEqual(1);
+  });
+
+  it('should be able to get tab title parameters from children', () => {
+    spyOn(cmsService, 'getComponentData').and.returnValues(
+      of(mockTabComponentData1),
+      of(mockTabComponentData2),
+      of(mockTabComponentData3)
+    );
+    fixture.detectChanges();
+
+    let childCompFixture: ComponentFixture<TestComponent>;
+    childCompFixture = TestBed.createComponent(TestComponent);
+
+    component.children.first.cmpRef = childCompFixture.componentRef;
+    component.ngAfterViewInit();
+
+    let param = '';
+    component.tabTitleParams.forEach(param$ => {
+      if (param$ != null) {
+        param$.subscribe(value => (param = value)).unsubscribe();
+      }
+    });
+
+    expect(param).toEqual('title param');
   });
 });
