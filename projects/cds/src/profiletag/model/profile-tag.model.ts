@@ -67,6 +67,6 @@ export enum ProfileTagPushEventNames {
 
 export enum ProfileTagEventNames {
   LOADED = 'profiletag_loaded',
-  CONSENT_REFERENCE_CHANGED = 'profiletag_consentReferenceChanged',
+  CONSENT_REFERENCE_CHANGED = 'profiletag_consentReferenceLoaded',
   DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
 }
