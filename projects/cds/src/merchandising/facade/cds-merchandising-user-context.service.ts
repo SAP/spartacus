@@ -30,10 +30,12 @@ export class CdsMerchandisingUserContextService {
     private converterService: ConverterService
   ) {}
 
-  getUserContext$: Observable<MerchandisingUserContext> = merge(
-    this.getProductNavigationContext(),
-    this.getCategoryAndFacetContext()
-  );
+  getUserContext(): Observable<MerchandisingUserContext> {
+    return merge(
+      this.getProductNavigationContext(),
+      this.getCategoryAndFacetContext()
+    );
+  }
 
   private getCategoryAndFacetContext(): Observable<MerchandisingUserContext> {
     return combineLatest([

@@ -35,11 +35,12 @@ export class CdsMerchandisingProductService {
     //   2.1 a category page
     //   2.2 a PDP page
     //   2.3 facet-supported page
-    // 4. navigate from one category to another doesn't fire a request
+    // 3. test the special category page: http://localhost:4300/electronics-spa/en/USD/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578
+    // 4. navigate from one category to another
 
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
-      this.merchandisingUserContextService.getUserContext$.pipe(startWith({})),
+      this.merchandisingUserContextService.getUserContext().pipe(startWith({})),
     ]).pipe(
       debounceTime(0),
       map(
