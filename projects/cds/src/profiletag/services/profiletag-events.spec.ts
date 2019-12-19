@@ -34,7 +34,7 @@ describe('ProfileTagEventTracker', () => {
   let getActiveBehavior;
   let baseSiteService;
   let appendChildSpy;
-  let eventListener: Record<ProfileTagEventNames, Function> = <
+  const eventListener: Record<ProfileTagEventNames, Function> = <
     Record<ProfileTagEventNames, Function>
   >{};
   let mockedWindowRef;
