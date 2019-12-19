@@ -8,7 +8,7 @@ import {
   Observable,
   of,
   queueScheduler,
-  timer,
+  Subject, using,
 } from 'rxjs';
 import {
   auditTime,
@@ -17,9 +17,7 @@ import {
   map,
   mapTo,
   observeOn,
-  pluck,
   shareReplay,
-  startWith,
   switchMapTo,
   tap,
 } from 'rxjs/operators';
@@ -29,6 +27,7 @@ import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { deepMerge } from '../../config/utils/deep-merge';
+import { withdrawOn } from '../../util/withdraw-on';
 
 @Injectable()
 export class ProductService {
@@ -116,31 +115,8 @@ export class ProductService {
     productCode: string,
     scope: string
   ): Observable<Product> {
-    // return this.store.pipe(
-    //   select(
-    //     ProductSelectors.getSelectedProductStateFactory(productCode, scope)
-    //   ),
-    //   observeOn(queueScheduler),
-    //   tap(productState => {
-    //
-    //     const attemptedLoad =
-    //       productState.loading || productState.success || productState.error;
-    //     console.log('ATTE', attemptedLoad);
-    //     if (!attemptedLoad) {
-    //       this.store.dispatch(
-    //         new ProductActions.LoadProduct(productCode, scope)
-    //       );
-    //     }
-    //   }),
-    //   map(productState => productState.value),
-    //   shareReplay({ bufferSize: 1, refCount: true })
-    // );
-
-    let timestamp = 0;
     const ttl = this.loadingScopes.getTtl('product', scope);
     let wasLoading = false;
-
-    let timeout;
 
     const queuedProductState$ = this.store.pipe(
       select(
@@ -149,213 +125,125 @@ export class ProductService {
       observeOn(queueScheduler)
     );
 
-    const ttlReload = new BehaviorSubject<undefined>(undefined);
-    const ttlSource$ = ttlReload.pipe(
-      delay(ttl),
-      startWith(undefined)
-    );
-
-    const ttlRestart$ = defer(() => {
-      const age = Date.now() - timestamp;
-      const delayTime = age < ttl ? ttl - age : 0;
-      return ttlReload.pipe(
-        delay(delayTime),
-        startWith(undefined)
-      );
-    });
-
-    console.log('__------------- INITITINg ---------asdsa');
-    const ttlTicker$ = ttl
-      ? defer(() => {
-          const age = Date.now() - timestamp;
-          const delayTime = age < ttl ? ttl - age : 0;
-          // console.log('interval', delay, age);
-          return timer(delayTime, ttl);
-        })
-      : of(undefined);
-
-    /*
-
-Kiedy wywołujemy reload?
-
-
-
-
- */
-
     const timestamp$ = new BehaviorSubject<number>(0);
+    const loadStart$ = new Subject();
 
     const shouldReload$: Observable<boolean> = defer(() => {
-      console.log('we are in defer');
-
       const age = Date.now() - timestamp$.value;
 
       const timestampRefresh$ = timestamp$.pipe(
-        tap(x => console.log('timestaop', x)),
+        // tap(x => console.log('timestaop', x)),
         delay(ttl),
-        mapTo(true)
+        mapTo(true),
+        withdrawOn(loadStart$),
+        // tap(() => console.log('REFRESH EMITTTT'))
       );
 
       if (timestamp$.value === 0 || age > ttl) {
         console.log('defer standard 0 ', ttl);
-        return timestampRefresh$.pipe(startWith(true));
+        return merge(of(true), timestampRefresh$);
       } else {
         console.log('defer special 0 ', ttl, ttl - age);
         return merge(
-          timestampRefresh$.pipe(startWith(false)),
-          timer(ttl - age).pipe(mapTo(true))
+          of(false),
+          of(true).pipe(delay(ttl - age)),
+          timestampRefresh$
         );
       }
     });
 
-    const shouldReloadIsLoadAttempted$ = combineLatest(
-      queuedProductState$,
-      // ttlTicker$
-      ttl
-        ? shouldReload$.pipe(tap(x => console.log('should reload emit', x)))
-        : of(false)
-    ).pipe(
-      // tap((_, b) => console.log('timer', b)),
-      // tap(x => {
-      //   i++;
-      //   console.log('dadsa', x, i);
-      // }),
-      tap(([productState]) => {
-        console.log('tapp', wasLoading, productState.loading, productState.success);
+    const IsLoadAttempted$ = queuedProductState$.pipe(
+      tap(productState => {
+        // console.log(
+        //   productState.loading,
+        //   productState.success,
+        //   productState.value
+        // );
         if (productState.loading) {
           wasLoading = true;
-          console.log('was loading TRUE');
         } else {
           if (wasLoading && productState.success) {
+            // console.log('timestamp', Date.now());
             timestamp$.next(Date.now());
-
-            // ttlReload.next(undefined);
-            // console.log('set timeout');
-            // timeout = setTimeout(() => {
-            //   console.log('do timeout');
-            //   ttlReload.next(undefined);
-            // }, ttl);
-
-            // console.log('set time stamp');
-            wasLoading = false;
           }
+          wasLoading = false;
         }
       }),
-      map(([productState, shouldReload]) => {
-        let isLoadAttempted =
+      map(productState => {
+        const isLoadAttempted =
           productState.loading || productState.success || productState.error;
+        return isLoadAttempted;
+      }),
+      distinctUntilChanged()
+      // tap(() => console.log(
+      //   'LOAD ATTEPMTED'
+      // ))
+    );
 
-        // const now = Date.now();
-        // if (
-        //   isLoadAttempted &&
-        //   !productState.loading &&
-        //   ttl &&
-        //   now - timestamp$.value > ttl
-        // ) {
-        //   isLoadAttempted = false;
-        // }
-        // console.log('check', now - timestamp$.value);
+    const shouldReloadIsLoadAttempted2$ = combineLatest(
+      IsLoadAttempted$,
+      ttl
+        ? shouldReload$.pipe(
+          // tap(() => console.log('SHOULD RELOAD'))
+        )
+        : of(false)
+    ).pipe(
+      map(([isLoadAttempted, shouldReload]) => {
+        // console.log('LOAODSADSAA', isLoadAttempted, shouldReload);
         return !isLoadAttempted || shouldReload;
+      }),
+      tap(shouldReloadIsLoadAttempted => {
+        if (shouldReloadIsLoadAttempted) {
+          this.store.dispatch(
+            new ProductActions.LoadProduct(productCode, scope)
+          );
+          loadStart$.next(undefined);
+        }
       }),
       distinctUntilChanged()
     );
+
+    // const shouldReloadIsLoadAttempted$ = combineLatest(
+    //   queuedProductState$,
+    //   ttl
+    //     ? shouldReload$.pipe(tap(x => console.log('should reload emit', x)))
+    //     : of(false)
+    // ).pipe(
+    //   tap(([productState]) => {
+    //     console.log(
+    //       productState.loading,
+    //       productState.success,
+    //       productState.value
+    //     );
+    //     if (productState.loading) {
+    //       wasLoading = true;
+    //     } else {
+    //       if (wasLoading && productState.success) {
+    //         timestamp$.next(Date.now());
+    //       }
+    //       wasLoading = false;
+    //     }
+    //   }),
+    //   map(([productState, shouldReload]) => {
+    //     const isLoadAttempted =
+    //       productState.loading || productState.success || productState.error;
+    //     return [isLoadAttempted, shouldReload];
+    //   }),
+    //   map(([isLoadAttempted, shouldReload]) => {
+    //     return !isLoadAttempted || shouldReload;
+    //   })
+    // );
 
     const productData$ = this.store.pipe(
       select(ProductSelectors.getSelectedProductFactory(productCode, scope))
     );
 
-    // const productWithLoad$ = isLoadAttempted$.pipe(
-    //   tap(isLoadAttempted => {
-    //     console.log('ATTEMPTE', isLoadAttempted, productCode + scope);
-    //     if (!isLoadAttempted) {
-    //       this.store.dispatch(
-    //         new ProductActions.LoadProduct(productCode, scope)
-    //       );
-    //     }
-    //   }),
-    //   switchMapTo(productData$),
-    //   distinctUntilChanged(),
-    //   shareReplay({ bufferSize: 1, refCount: true })
-    // );
+    return using(() => shouldReloadIsLoadAttempted2$.subscribe(), () => productData$);
 
-    return shouldReloadIsLoadAttempted$.pipe(
-      tap(shouldReloadIsLoadAttempted => {
-        // console.log('ATTEMPTE', isLoadAttempted, productCode + scope);
-
-        if (shouldReloadIsLoadAttempted) {
-          this.store.dispatch(
-            new ProductActions.LoadProduct(productCode, scope)
-          );
-        }
-      }),
+    return shouldReloadIsLoadAttempted2$.pipe(
       switchMapTo(productData$),
-      distinctUntilChanged(),
-      // map((x, index) => {
-      //   console.log('mapppp', index);
-      //
-      //   if (index === 0 && timestamp !== 0) {
-      //     const age = Date.now() - timestamp;
-      //     if (age < ttl) {
-      //       console.log('restore timeout', ttl - age);
-      //       timeout = setTimeout(() => {
-      //         console.log('do timeout');
-      //         ttlReload.next(undefined);
-      //       }, ttl - age);
-      //     }
-      //   }
-      //
-      //   return x;
-      // }),
-      // finalize(() => {
-      //   if (timeout) {
-      //     console.log('clear timeout');
-      //     clearTimeout(timeout);
-      //     timeout = undefined;
-      //   }
-      // }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
-
-    // return combineLatest(
-    //   this.store.pipe(
-    //     select(
-    //       ProductSelectors.getSelectedProductStateFactory(productCode, scope)
-    //     ),
-    //     observeOn(queueScheduler)
-    //   ),
-    //   ttl ? interval(ttl) : of(undefined)
-    // ).pipe(
-    //   pluck(0),
-    //   tap(productState => {
-    //     if (
-    //       !loaded &&
-    //       !productState.loading &&
-    //       (productState.success || productState.error)
-    //     ) {
-    //       timestamp = Date.now();
-    //       loaded = true;
-    //       console.log('timestamp', timestamp);
-    //     }
-    //   }),
-    //   tap(productState => {
-    //     const attemptedLoad =
-    //       productState.loading || productState.success || productState.error;
-    //
-    //     const ttlExpired = ttl && Date.now() - timestamp > ttl;
-    //
-    //     const shouldLoad = !attemptedLoad || (ttlExpired && !productState.loading);
-    //
-    //     if (shouldLoad) {
-    //       timestamp = Date.now();
-    //       this.store.dispatch(
-    //         new ProductActions.LoadProduct(productCode, scope)
-    //       );
-    //     }
-    //   }),
-    //   map(productState => productState.value),
-    //   distinctUntilChanged(),
-    //   shareReplay({ bufferSize: 1, refCount: true })
-    // );
   }
 
   /**
