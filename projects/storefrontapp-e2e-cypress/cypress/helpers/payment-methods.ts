@@ -132,7 +132,7 @@ export function setSecondPaymentToDefault() {
 
   const firstCard = cy.get('.cx-payment-card').first();
   const expirationMonth = secondPayment.payment.expires.month;
-  const expirationYear= secondPayment.payment.expires.year;
+  const expirationYear = secondPayment.payment.expires.year;
   firstCard.should('contain', 'Default Payment Method');
   firstCard.should('contain', '5400');
   firstCard.should('contain', `Expires: ${expirationMonth}/${expirationYear}`);
