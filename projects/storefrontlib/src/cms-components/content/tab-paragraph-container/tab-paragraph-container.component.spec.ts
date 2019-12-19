@@ -1,4 +1,4 @@
-import { Type, Component } from '@angular/core';
+import { Type, Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsService,
@@ -28,6 +28,14 @@ const MockCmsModuleConfig: CmsConfig = {
     },
   },
 };
+
+@Directive({
+  selector: '[cxOutlet]',
+})
+export class MockOutletDirective {
+  @Input() cxOutlet: string;
+  @Input() cxOutletContext: any;
+}
 
 const mockComponents = [
   'ProductDetailsTabComponent',
@@ -79,7 +87,7 @@ describe('TabParagraphContainerComponent', () => {
         TestComponent,
         TabParagraphContainerComponent,
         ComponentWrapperDirective,
-        OutletDirective,
+        MockOutletDirective,
       ],
       providers: [
         WindowRef,
