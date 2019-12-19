@@ -7,7 +7,7 @@ import {
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { merge, Observable } from 'rxjs';
+import { combineLatest, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -32,15 +32,23 @@ export class CdsMerchandisingUserContextService {
 
   getUserContext$: Observable<MerchandisingUserContext> = merge(
     this.getProductNavigationContext(),
-    this.getCategoryNavigationContextAndFacets()
+    this.getCategoryAndFacetContext()
   );
 
-  private getCategoryNavigationContextAndFacets(): Observable<
-    MerchandisingUserContext
-  > {
+  private getCategoryAndFacetContext(): Observable<MerchandisingUserContext> {
+    return combineLatest([
+      this.getCategoryNavigationContext(),
+      this.getFacetsContext(),
+    ]).pipe(
+      map(([categoryContext, facetsContext]) => ({
+        ...categoryContext,
+        ...facetsContext,
+      }))
+    );
+  }
+
+  private getFacetsContext(): Observable<MerchandisingUserContext> {
     return this.searchResultChangeEvent().pipe(
-      // TODO: check this
-      // filter(x => Object.keys(x).length === 0),
       withLatestFrom(this.routingService.getPageContext()),
       filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
       map(([facets, pageContext]) =>
@@ -52,19 +60,10 @@ export class CdsMerchandisingUserContextService {
       this.converterService.pipeable(
         MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER
       ),
-      // TODO: check this
-      // distinctUntilChanged(),
-      withLatestFrom(this.getCategoryNavigationContext()),
-      // TODO: if category is not present, then don't add it
-      map(([facets, category]) => ({
+      distinctUntilChanged(),
+      map(facets => ({
         facets,
-        category,
-      })),
-      // TODO: nasty
-      distinctUntilChanged(
-        (prev, next) =>
-          prev.category === next.category && prev.facets === next.facets
-      )
+      }))
     );
   }
 
@@ -74,8 +73,6 @@ export class CdsMerchandisingUserContextService {
         searchResults.breadcrumbs ? searchResults.breadcrumbs : []
       ),
       filter(facets => !!facets)
-      // TODO: check this
-      // debounceTime(0)
     );
   }
 
@@ -95,13 +92,13 @@ export class CdsMerchandisingUserContextService {
     );
   }
 
-  private getCategoryNavigationContext(): Observable<string> {
+  private getCategoryNavigationContext(): Observable<MerchandisingUserContext> {
     return this.routingService.getPageContext().pipe(
       map(context =>
         context.type === PageType.CATEGORY_PAGE ? context.id : undefined
       ),
-      // TODO: check this
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      map(category => ({ category }))
     );
   }
 
