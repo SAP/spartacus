@@ -22,6 +22,7 @@ export const configurator = {
     button: {
       previous: 'Previous',
       next: 'Next',
+      back: 'Back',
     },
     priceSummary: {
       basePrice: 'Base Price',

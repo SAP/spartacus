@@ -38,12 +38,56 @@ const owner: GenericConfigurator.Owner = {
   id: PRODUCT_CODE,
   type: GenericConfigurator.OwnerType.PRODUCT,
 };
+const groups: Configurator.Group[] = [
+  {
+    configurable: true,
+    description: 'Core components',
+    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+    id: '1-CPQ_LAPTOP.1',
+    name: '1',
+    attributes: [
+      {
+        label: 'Expected Number',
+        name: 'EXP_NUMBER',
+        required: true,
+        uiType: Configurator.UiType.NOT_IMPLEMENTED,
+        values: [],
+      },
+      {
+        label: 'Processor',
+        name: 'CPQ_CPU',
+        required: true,
+        selectedSingleValue: 'INTELI5_35',
+        uiType: Configurator.UiType.RADIOBUTTON,
+        values: [],
+      },
+    ],
+  },
+  {
+    configurable: true,
+    description: 'Peripherals & Accessories',
+    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+    id: '1-CPQ_LAPTOP.2',
+    name: '2',
+    attributes: [],
+  },
+  {
+    configurable: true,
+    description: 'Software',
+    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+    id: '1-CPQ_LAPTOP.3',
+    name: '3',
+    attributes: [],
+  },
+];
+
 const configRead: Configurator.Configuration = {
   configId: 'a',
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
   owner: owner,
+  groups: groups,
 };
 
 const configRead2: Configurator.Configuration = {
@@ -52,53 +96,7 @@ const configRead2: Configurator.Configuration = {
   complete: true,
   productCode: PRODUCT_CODE,
   owner: owner,
-};
-
-const configCreate: Configurator.Configuration = {
-  configId: '1234-56-7890',
-  owner: owner,
-  groups: [
-    {
-      configurable: true,
-      description: 'Core components',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      attributes: [
-        {
-          label: 'Expected Number',
-          name: 'EXP_NUMBER',
-          required: true,
-          uiType: Configurator.UiType.NOT_IMPLEMENTED,
-          values: [],
-        },
-        {
-          label: 'Processor',
-          name: 'CPQ_CPU',
-          required: true,
-          selectedSingleValue: 'INTELI5_35',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          values: [],
-        },
-      ],
-    },
-    {
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      attributes: [],
-    },
-    {
-      configurable: true,
-      description: 'Software',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      attributes: [],
-    },
-  ],
+  groups: groups,
 };
 
 @Component({
@@ -121,12 +119,6 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
-  createConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    configCreate.productCode = productCode;
-    return of(configCreate);
-  }
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObservable;
   }
@@ -185,13 +177,13 @@ function checkCurrentGroupObs(
     y: configRead2,
   });
   currentGroupObservable = cold(groupMarbels, {
-    u: 'group1',
-    v: 'group2',
+    u: '1-CPQ_LAPTOP.1',
+    v: '1-CPQ_LAPTOP.2',
   });
   component.ngOnInit();
 
   expect(component.currentGroup$).toBeObservable(
-    cold(expectedMarbels, { u: 'group1', v: 'group2' })
+    cold(expectedMarbels, { u: groups[0], v: groups[1] })
   );
 }
 describe('ConfigurationFormComponent', () => {
