@@ -1,4 +1,4 @@
-import { Type, Component, Directive, Input } from '@angular/core';
+import { Type, Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsService,
@@ -12,6 +12,7 @@ import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
+import { LayoutConfig } from '../../../layout/config/layout-config';
 
 @Component({
   selector: 'cx-test-cmp',
@@ -29,13 +30,7 @@ const MockCmsModuleConfig: CmsConfig = {
   },
 };
 
-@Directive({
-  selector: '[cxOutlet]',
-})
-export class MockOutletDirective {
-  @Input() cxOutlet: string;
-  @Input() cxOutletContext: any;
-}
+const MockLayoutConfig: LayoutConfig = {};
 
 const mockComponents = [
   'ProductDetailsTabComponent',
@@ -87,13 +82,14 @@ describe('TabParagraphContainerComponent', () => {
         TestComponent,
         TabParagraphContainerComponent,
         ComponentWrapperDirective,
-        MockOutletDirective,
+        OutletDirective,
       ],
       providers: [
         WindowRef,
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
+        { provide: LayoutConfig, useValue: MockLayoutConfig },
       ],
     }).compileComponents();
   }));
