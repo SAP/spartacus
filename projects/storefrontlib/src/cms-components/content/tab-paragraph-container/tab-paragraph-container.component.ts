@@ -105,8 +105,8 @@ export class TabParagraphContainerComponent
   ngAfterViewInit(): void {
     // If the sub cms components data exist, these components created before ngAfterViewInit is called.
     // In this case, directly get the title parameters from them.
-    // If the sub cms components data not exist, need download them first.
-    // In this case, listen to the the changes to wait for them created.
+    // If the sub cms components data do not exist, need load them first.
+    // In this case, listen to the changes to wait for them created.
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     } else {
