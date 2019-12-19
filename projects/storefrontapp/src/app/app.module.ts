@@ -71,12 +71,14 @@ if (!environment.production) {
     CdsModule.forRoot({
       cds: {
         tenant: 'argotest',
-        baseUrl: 'test',
+        baseUrl: 'https://api.stage.context.cloud.sap',
         endpoints: {
-          strategyProducts: 'example',
+          strategyProducts:
+            '/strategy/${tenant}/strategies/${strategyId}/products',
         },
         profileTag: {
-          javascriptUrl: 'http://127.0.0.1:8080/profile-tag.js',
+          javascriptUrl:
+            'http://tag.static.stage.context.cloud.sap/js/profile-tag.js',
           configUrl:
             'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
         },
