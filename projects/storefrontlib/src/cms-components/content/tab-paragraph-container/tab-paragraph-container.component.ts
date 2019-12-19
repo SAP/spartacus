@@ -1,11 +1,11 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ViewChildren,
-  QueryList,
-  AfterViewInit,
   OnDestroy,
   OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import {
   CmsService,
@@ -14,13 +14,13 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
-  map,
-  switchMap,
   distinctUntilChanged,
   distinctUntilKeyChanged,
+  map,
+  switchMap,
 } from 'rxjs/operators';
-import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
+import { CmsComponentData } from '../../../cms-structure/page/model/index';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -103,10 +103,10 @@ export class TabParagraphContainerComponent
   }
 
   ngAfterViewInit(): void {
-    // If the sub cms components data exist, these components created before ngAfterViewInit is called.
-    // In this case, directly get the title parameters from them.
-    // If the sub cms components data do not exist, need load them first.
-    // In this case, listen to the changes to wait for them created.
+    // If the sub cms components data exist, the components created before ngAfterViewInit are called.
+    // In this case, the title parameters are directly pulled from them.
+    // If the sub cms components data does not exist, it should should be loaded first.
+    // In this case, listen to the changes to wait for them to be created.
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     } else {
