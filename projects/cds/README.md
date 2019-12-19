@@ -51,6 +51,37 @@ To add a SAP Context-Driven Merchandising Carousel to a page following the steps
 * Click the 'Save' button.
 * The rendered merchandising carousel should now be visible in the page you're editing.
 
+OR
+
+If you know your strategyId and want to add the merchandising carousel yourself, then the following impex example will help you do this.
+
+```
+# Homepage carousel
+# Create the CMS Component
+INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=true];name;title;numberToDisplay;strategy;&componentRef
+;;HomepageE2EMerchandisingCarousel;Homepage E2E Merchandising Carousel;Homepage E2E Merchandising Carousel;10;00000000-0000-0000-0000-000000000000;HomepageE2EMerchandisingCarousel
+
+# Add the component to the slot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
+;;Section2CSlot-Homepage;HomepageE2EMerchandisingCarousel
+
+# Update the slot on the page
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='homepage'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section2CSlot-Homepage;Section2C;;Section2CSlot-Homepage;;;
+
+# Category Page carousel
+# Create the CMS Component
+INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=true];name;title;numberToDisplay;strategy;&componentRef
+;;CategoryPageE2EMerchandisingCarousel;Category Page E2E Merchandising Carousel;Category Page E2E Merchandising Carousel;10;00000000-0000-0000-0000-000000000000;CategoryPageE2EMerchandisingCarousel
+
+# Add the component to the slot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
+;;BottomHeaderSlot;CategoryPageE2EMerchandisingCarousel
+```
+
+**Note:** The above snippet are examples of places where you create and place the carousel in a slot. You can place the CMS component at any slot if it allows it.
+
+
 ## Profiletag
 
 ### CMS Component
@@ -104,3 +135,59 @@ In order for CDS events do be sent, a consent with the ID Profile must be define
 INSERT_UPDATE ConsentTemplate;id[unique=true];name[lang=en];description[lang=$lang];version[unique=true];baseSite(uid)[unique=true,default=exampleUid];exposed
 ;PROFILE;"Allow SAP Commerce Cloud, Context-Driven Services tracking";"We would like to store your browsing behaviour so that our website can dynamically present you with a personalised browsing experience and our customer support agents can provide you with contextual customer support.";1;;true
 ```
+
+## CDS shell app
+
+### The Library Builds
+
+Run the following command to ensure the library builds
+
+```
+yarn build:core:lib:cds
+```
+
+### The Shell Starts
+
+Run the following command to ensure the shell starts 
+
+```
+yarn start:cds
+```
+
+### Unit Tests are Passing
+
+The unit tests need to be passing.
+
+Run the following commands to perform unit tests:
+
+```
+yarn test:cds
+```
+
+When you run these commands, Chrome opens, and you can see the progress of the tests, with detailed information, including whether the tests pass.
+
+### End-To-End Tests is Passing
+
+Need to ensure that this feature is foolproof. 
+
+Run the following command to perform end-to-end tests: 
+
+- Manually
+```
+yarn start:cds
+yarn e2e:cy:cds:run:vendor
+```
+
+Note: Make sure you have your spartacus instance running before running the e2e command, which will run the e2e test in headless mode.
+
+- Automatically
+```
+yarn e2e:cy:cds:start-open
+```
+
+**Note**: A spartacus instance does not need to be running as it will start one for you from production mode, and you would need to choose the `merchandising-carousel.e2e-spec.ts` to view the test running in cypress user interface.
+
+## Other commands for cds
+
+All other CDS commands can be found in `package.json` and have `:cds` as part of their name.
+
