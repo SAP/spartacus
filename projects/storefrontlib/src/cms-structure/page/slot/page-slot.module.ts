@@ -3,11 +3,10 @@ import { NgModule } from '@angular/core';
 import { OutletModule } from '../../outlet/outlet.module';
 import { PageComponentModule } from '../component/page-component.module';
 import { PageSlotComponent } from './page-slot.component';
-import { PageSlotService } from './page-slot.service';
 
 @NgModule({
   imports: [CommonModule, OutletModule, PageComponentModule],
-  providers: [PageSlotService],
+  providers: [],
   declarations: [PageSlotComponent],
   exports: [PageSlotComponent],
 })

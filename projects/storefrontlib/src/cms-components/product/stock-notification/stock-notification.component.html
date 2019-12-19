@@ -1,8 +1,4 @@
 <ng-container *ngIf="outOfStock$ | async">
-  <div class="quantity">
-    <label>{{ 'addToCart.quantity' | cxTranslate }}</label>
-    <span class="info">{{ 'addToCart.outOfStock' | cxTranslate }}</span>
-  </div>
   <ng-container *ngIf="!(hasProductInterests$ | async); else stopNotify">
     <ng-container *ngIf="prefsEnabled$ | async; else disableNotify">
       <div class="stock-notification-notes">

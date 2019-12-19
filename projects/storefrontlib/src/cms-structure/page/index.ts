@@ -7,5 +7,3 @@ export * from './page-layout/page-layout.service';
 export * from './page-layout/page-layout-handler';
 export * from './slot/page-slot.component';
 export * from './slot/page-slot.module';
-export * from './slot/page-slot-handler';
-export * from './slot/page-slot.service';

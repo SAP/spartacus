@@ -13,4 +13,3 @@ export * from './product-tabs/index';
 export * from './stock-notification/stock-notification-dialog/stock-notification-dialog.component';
 export * from './stock-notification/stock-notification.component';
 export * from './stock-notification/stock-notification.module';
-export * from './stock-notification/product-page-slot-handler';
