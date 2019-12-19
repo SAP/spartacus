@@ -164,9 +164,7 @@ describe('ProtectedRoutesService', () => {
       beforeEach(() => {
         beforeEachWithConfig({
           protected: false,
-          routes: {
-            login: { paths: ['login'] },
-          },
+          routes: {},
         });
       });
 
@@ -179,9 +177,7 @@ describe('ProtectedRoutesService', () => {
       beforeEach(() => {
         beforeEachWithConfig({
           protected: true,
-          routes: {
-            login: { paths: ['login'] },
-          },
+          routes: {},
         });
       });
 

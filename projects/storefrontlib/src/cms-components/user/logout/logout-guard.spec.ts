@@ -150,11 +150,9 @@ describe('LogoutGuard', () => {
     it('should redirect to login page if app protected', () => {
       spyOn(featureConfigService, 'isLevel').and.returnValue(true);
 
-      spyOnProperty(
-        protectedRoutesService,
-        'shouldProtect',
-        'get'
-      ).and.returnValue(true);
+      spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
+        true
+      );
 
       logoutGuard.canActivate().subscribe();
 
