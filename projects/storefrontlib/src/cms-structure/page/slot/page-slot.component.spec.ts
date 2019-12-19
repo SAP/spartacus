@@ -59,7 +59,7 @@ export class MockOutletDirective {
   @Output() loaded;
 }
 
-describe('PageSlotComponent', () => {
+fdescribe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
   let fixture: ComponentFixture<PageSlotComponent>;
   let cmsService: CmsService;
@@ -130,13 +130,16 @@ describe('PageSlotComponent', () => {
     });
 
     it('should not have isPending when there is no slot', () => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of(null));
       fixture.detectChanges();
+      pageSlotComponent.components$.subscribe().unsubscribe();
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
     it('should not have isPending with a slot with no components', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
       fixture.detectChanges();
+      pageSlotComponent.components$.subscribe().unsubscribe();
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
@@ -145,6 +148,7 @@ describe('PageSlotComponent', () => {
         of({ components: [{}] } as ContentSlotData)
       );
       fixture.detectChanges();
+      pageSlotComponent.components$.subscribe().unsubscribe();
       expect(pageSlotComponent.isPending).toEqual(true);
     });
 
@@ -153,6 +157,7 @@ describe('PageSlotComponent', () => {
         of({ components: [{}] } as ContentSlotData)
       );
       fixture.detectChanges();
+      pageSlotComponent.components$.subscribe().unsubscribe();
       expect(
         (<HTMLElement>fixture.debugElement.nativeElement).classList
       ).toContain('cx-pending');
@@ -172,6 +177,7 @@ describe('PageSlotComponent', () => {
         of({ components: [{}, {}] } as ContentSlotData)
       );
       fixture.detectChanges();
+      pageSlotComponent.components$.subscribe().unsubscribe();
       pageSlotComponent.isLoaded(true);
       expect(pageSlotComponent.isPending).toEqual(true);
     });
@@ -181,17 +187,20 @@ describe('PageSlotComponent', () => {
         of({ components: [{}, {}] } as ContentSlotData)
       );
       fixture.detectChanges();
+      pageSlotComponent.components$.subscribe().unsubscribe();
       pageSlotComponent.isLoaded(true);
       pageSlotComponent.isLoaded(true);
       expect(pageSlotComponent.isPending).toEqual(false);
     });
   });
 
-  describe('has-components', () => {
-    it('should have has-components class when slot has at least one components', () => {
+  fdescribe('has-components', () => {
+    fit('should have has-components class when slot has at least one components', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(
         of({ components: [{}] } as ContentSlotData)
       );
+      fixture.detectChanges();
+      pageSlotComponent.components$.subscribe().unsubscribe();
       fixture.detectChanges();
       expect(
         (<HTMLElement>fixture.debugElement.nativeElement).classList
@@ -223,7 +232,6 @@ describe('PageSlotComponent', () => {
     it('should add smart edit slot contract if app launch in smart edit', () => {
       spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
 
-      pageSlotComponent.ngOnInit();
       fixture.detectChanges();
 
       const native = fixture.debugElement.nativeElement;

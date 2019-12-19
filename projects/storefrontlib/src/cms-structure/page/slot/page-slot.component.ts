@@ -4,8 +4,6 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  OnDestroy,
-  OnInit,
   Renderer2,
 } from '@angular/core';
 import {
@@ -16,8 +14,8 @@ import {
   DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
 @Component({
@@ -25,18 +23,42 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageSlotComponent implements OnInit, OnDestroy {
-  @HostBinding('class') @Input() position: string;
+export class PageSlotComponent {
+  // need to have this host binding at the top as it will override the entire class
+  @HostBinding('class') @Input() set position(position: string) {
+    this.position$.next(position);
+  }
+  get position(): string {
+    return this.position$.value;
+  }
+
   @HostBinding('class.cx-pending') isPending = true;
   @HostBinding('class.has-components') hasComponents = false;
   @HostBinding('class.page-fold') @Input() isPageFold = false;
 
   private pendingComponentCount: number;
 
-  // observable with components (`ContentSlotComponentData[]`) for the current slot
-  components$ = new BehaviorSubject<ContentSlotComponentData[]>([]);
+  readonly position$ = new BehaviorSubject<string>(undefined);
 
-  private subscription = new Subscription();
+  components$: Observable<ContentSlotComponentData[]> = this.position$.pipe(
+    switchMap(position =>
+      this.cmsService.getContentSlot(position).pipe(
+        tap(slot => this.addSmartEditSlotClass(slot)),
+        map(slot => (slot && slot.components ? slot.components : [])),
+        distinctUntilChanged(
+          (a, b) =>
+            a.length === b.length &&
+            !a.find((el, index) => el.uid !== b[index].uid)
+        ),
+        tap(components => {
+          console.log('tabbed', components);
+          this.hasComponents = components && components.length > 0;
+          this.pendingComponentCount = components ? components.length : 0;
+          this.isPending = this.pendingComponentCount > 0;
+        })
+      )
+    )
+  );
 
   constructor(
     cmsService: CmsService,
@@ -63,36 +85,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected hostElement: ElementRef,
     protected config?: CmsConfig
   ) {}
-
-  ngOnInit() {
-    // We need to explicitly subscribe in the controller, as otherwise
-    // there's a potential `ExpressionChangedAfterItHasBeenCheckedError`.
-    // This does not only happen in tests, but could also happen when the page-slot
-    // is rendered without any delay.
-    this.subscription.add(
-      this.cmsService
-        .getContentSlot(this.position)
-        .pipe(
-          tap(slot => this.addSmartEditSlotClass(slot)),
-          map(slot => (slot && slot.components ? slot.components : [])),
-          distinctUntilChanged(
-            (a, b) =>
-              a.length === b.length &&
-              !a.find((el, index) => el.uid !== b[index].uid)
-          ),
-          tap(components => {
-            this.hasComponents = components && components.length > 0;
-            this.pendingComponentCount = components ? components.length : 0;
-            this.isPending = this.pendingComponentCount > 0;
-          })
-        )
-        .subscribe(c => this.components$.next(c))
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 
   /**
    * Is triggered when a component is added to the view.
