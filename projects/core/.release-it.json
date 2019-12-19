@@ -15,7 +15,12 @@
   },
   "github": {
     "release": true,
-    "assets": ["../../docs.tar.gz", "../../docs.zip", "../../spartacussampledataaddon.zip", "../../spartacussampledataaddon.tar"],
+    "assets": [
+      "../../docs.tar.gz",
+      "../../docs.zip",
+      "../../spartacussampledataaddon.zip",
+      "../../spartacussampledataaddon.tar"
+    ],
     "releaseName": "@spartacus/core@${version}",
     "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --to core-${version}"
   }
