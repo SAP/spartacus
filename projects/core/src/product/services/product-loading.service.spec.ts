@@ -18,7 +18,7 @@ class MockLoadingScopesService {
   getMaxAge = createSpy('getMaxAge').and.returnValue(0);
 }
 
-fdescribe('ProductLoadingService', () => {
+describe('ProductLoadingService', () => {
   let store: Store<StateWithProduct>;
   let service: ProductLoadingService;
   const mockProduct: Product = { code: 'testId' };
