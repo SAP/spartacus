@@ -21,7 +21,7 @@ describe('Order Details Reducer', () => {
       const action = new UserActions.LoadOrderDetailsSuccess(mockOrderDetails);
       const state = fromOrderDetailsReducer.reducer(initialState, action);
 
-      expect(state.order).toEqual(mockOrderDetails);
+      expect(state).toEqual(mockOrderDetails);
     });
   });
 });
