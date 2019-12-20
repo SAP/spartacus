@@ -190,7 +190,7 @@ export class ProductLoadingService {
         withdrawOn(loadStart$)
       );
 
-      if (timestamp === 0 || age > maxAge) {
+      if (age > maxAge) {
         return merge(of(true), timestampRefresh$);
       } else {
         return merge(of(true).pipe(delay(maxAge - age)), timestampRefresh$);
