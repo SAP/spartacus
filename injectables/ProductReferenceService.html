@@ -76,6 +76,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#cleanReferences">cleanReferences</a>
+                            </li>
+                            <li>
                                 <a href="#get">get</a>
                             </li>
                         </ul>
@@ -144,6 +147,45 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cleanReferences"></a>
+                    <span class="name">
+                        <b>
+                            cleanReferences
+                        </b>
+                        <a href="#cleanReferences"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cleanReferences()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:40</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -263,7 +305,12 @@ export class ProductReferenceService {
     pageSize?: number
   ): Observable&lt;ProductReference[]&gt; {
     return this.store.pipe(
-      select(ProductSelectors.getSelectedProductReferencesFactory(productCode)),
+      select(
+        ProductSelectors.getSelectedProductReferencesFactory(
+          productCode,
+          referenceType
+        )
+      ),
       tap(references &#x3D;&gt; {
         if (references &#x3D;&#x3D;&#x3D; undefined &amp;&amp; productCode !&#x3D;&#x3D; undefined) {
           this.store.dispatch(
@@ -276,6 +323,10 @@ export class ProductReferenceService {
         }
       })
     );
+  }
+
+  cleanReferences(): void {
+    this.store.dispatch(new ProductActions.CleanProductReferences());
   }
 }
 </code></pre>

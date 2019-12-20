@@ -632,8 +632,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector, OnDestroy } from &#x27;@angular/core&#x27;;
-import { Location } from &#x27;@angular/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Location } from &#x27;@angular/common&#x27;;
+import { Injectable, Injector, OnDestroy } from &#x27;@angular/core&#x27;;
 import {
   NavigationCancel,
   NavigationEnd,
@@ -642,9 +642,9 @@ import {
   Router,
   RouterEvent,
 } from &#x27;@angular/router&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
 import { filter } from &#x27;rxjs/operators&#x27;;
 import { SiteContextParamsService } from &#x27;./site-context-params.service&#x27;;
-import { Subscription } from &#x27;rxjs&#x27;;
 import { SiteContextUrlSerializer } from &#x27;./site-context-url-serializer&#x27;;
 
 @Injectable({

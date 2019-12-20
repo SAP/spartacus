@@ -196,9 +196,11 @@ export class LoadUserOrdersSuccess extends StateLoaderActions.LoaderSuccessActio
   }
 }
 
-export class ClearUserOrders {
+export class ClearUserOrders extends StateLoaderActions.LoaderResetAction {
   readonly type &#x3D; CLEAR_USER_ORDERS;
-  constructor() {}
+  constructor() {
+    super(USER_ORDERS);
+  }
 }
 
 export type UserOrdersAction &#x3D;

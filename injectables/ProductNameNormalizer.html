@@ -314,7 +314,7 @@ import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
 import { Converter } from &#x27;../../../../util/converter.service&#x27;;
 import { Product } from &#x27;../../../../model/product.model&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class ProductNameNormalizer implements Converter&lt;Occ.Product, Product&gt; {
   constructor(protected config: OccConfig) {}
 

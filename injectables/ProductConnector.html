@@ -78,6 +78,9 @@
                             <li>
                                 <a href="#get">get</a>
                             </li>
+                            <li>
+                                <a href="#getMany">getMany</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -101,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/product/connectors/product/product.connector.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/product/connectors/product/product.connector.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -159,15 +162,103 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>get(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>get(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/core/src/product/connectors/product/product.connector.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/core/src/product/connectors/product/product.connector.ts:13</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;&#x27;</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Product&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMany"></a>
+                    <span class="name">
+                        <b>
+                            getMany
+                        </b>
+                        <a href="#getMany"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getMany(products: ScopedProductData[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/core/src/product/connectors/product/product.connector.ts:17</a></div>
                 </td>
             </tr>
 
@@ -187,9 +278,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>productCode</td>
+                                    <td>products</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>ScopedProductData[]</code>
                                     </td>
 
                                     <td>
@@ -204,7 +295,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;Product&gt;</code>
+                        <b>Returns : </b>    <code>ScopedProductData[]</code>
 
                     </div>
                     <div class="io-description">
@@ -224,6 +315,7 @@
 import { Observable } from &#x27;rxjs&#x27;;
 import { Product } from &#x27;../../../model/product.model&#x27;;
 import { ProductAdapter } from &#x27;./product.adapter&#x27;;
+import { ScopedProductData } from &#x27;./scoped-product-data&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -231,8 +323,19 @@ import { ProductAdapter } from &#x27;./product.adapter&#x27;;
 export class ProductConnector {
   constructor(protected adapter: ProductAdapter) {}
 
-  get(productCode: string): Observable&lt;Product&gt; {
-    return this.adapter.load(productCode);
+  get(productCode: string, scope &#x3D; &#x27;&#x27;): Observable&lt;Product&gt; {
+    return this.adapter.load(productCode, scope);
+  }
+
+  getMany(products: ScopedProductData[]): ScopedProductData[] {
+    if (!this.adapter.loadMany) {
+      return products.map(product &#x3D;&gt; ({
+        ...product,
+        data$: this.adapter.load(product.code, product.scope),
+      }));
+    }
+
+    return this.adapter.loadMany(products);
   }
 }
 </code></pre>

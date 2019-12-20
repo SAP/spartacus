@@ -76,28 +76,12 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#addLinkToNode">addLinkToNode</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#createChildren">createChildren</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#createNavigation">createNavigation</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#createNode">createNode</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#getLink">getLink</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getNavigationEntryItems">getNavigationEntryItems</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -105,7 +89,15 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#processChildren">processChildren</a>
+                                <a href="#loadNavigationEntryItems">loadNavigationEntryItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#populateLink">populateLink</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#populateNavigationNode">populateNavigationNode</a>
                             </li>
                         </ul>
                     </td>
@@ -189,177 +181,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="addLinkToNode"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            addLinkToNode
-                        </b>
-                        <a href="#addLinkToNode"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addLinkToNode(node: <a href="../interfaces/NavigationNode.html">NavigationNode</a>, entry, items)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:114</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>node</td>
-                                    <td>
-                                                <code><a href="../interfaces/NavigationNode.html" target="_self" >NavigationNode</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>entry</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>items</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createChildren"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            createChildren
-                        </b>
-                        <a href="#createChildren"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createChildren(node, items)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:148</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>node</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>items</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>{}</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="createNavigation"></a>
                     <span class="name">
                         <b>
@@ -432,92 +253,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createNode"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            createNode
-                        </b>
-                        <a href="#createNode"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createNode(nodeData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, items: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:97</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Create a new node tree for display</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>nodeData</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>items</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/NavigationNode.html" target="_self" >NavigationNode</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getLink"></a>
                     <span class="name">
                         <b>
@@ -538,8 +273,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:134</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:149</a></div>
                 </td>
             </tr>
 
@@ -588,35 +323,111 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getNavigationEntryItems"></a>
+                    <a name="getNavigationNode"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
-                            getNavigationEntryItems
+                            <span class="modifier">Public</span>
+                            getNavigationNode
                         </b>
-                        <a href="#getNavigationEntryItems"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getNavigationNode"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getNavigationEntryItems(nodeData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, root: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, itemsList: [])</code>
+                    <code>getNavigationNode(data$: <a href="../components/NavigationComponent.html">Observable<CmsNavigationComponent></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:38</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get all navigation entry items&#39; type and id. Dispatch action to load all these items</p>
+                    <div class="io-description"><p>returns an observable with the <code>NavigationNode</code> for the given <code>CmsNavigationComponent</code>.
+This function will load the navigation underlying entries and childs if they haven&#39;t been
+loaded so far.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data$</td>
+                                    <td>
+                                                <code><a href="../components/NavigationComponent.html" target="_self" >Observable&lt;CmsNavigationComponent&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/NavigationNode.html" target="_self" >Observable&lt;NavigationNode&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadNavigationEntryItems"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            loadNavigationEntryItems
+                        </b>
+                        <a href="#loadNavigationEntryItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadNavigationEntryItems(nodeData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, root: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, itemsList: [])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:67</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads all navigation entry items&#39; type and id. Dispatch action to load all these items</p>
 </div>
 
                     <div class="io-description">
@@ -694,34 +505,36 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getNavigationNode"></a>
+                    <a name="populateLink"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Public</span>
-                            getNavigationNode
+                            <span class="modifier">Private</span>
+                            populateLink
                         </b>
-                        <a href="#getNavigationNode"><span class="icon ion-ios-link"></span></a>
+                        <a href="#populateLink"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getNavigationNode(data$: <a href="../components/NavigationComponent.html">Observable<CmsNavigationComponent></a>)</code>
+                    <code>populateLink(node: <a href="../interfaces/NavigationNode.html">NavigationNode</a>, entry, items)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:126</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>The node link is driven by the first entry.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -735,78 +548,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>data$</td>
-                                    <td>
-                                                <code><a href="../components/NavigationComponent.html" target="_self" >Observable&lt;CmsNavigationComponent&gt;</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/NavigationNode.html" target="_self" >Observable&lt;NavigationNode&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="processChildren"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            processChildren
-                        </b>
-                        <a href="#processChildren"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>processChildren(node, itemsList)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:86</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
                                     <td>node</td>
+                                    <td>
+                                                <code><a href="../interfaces/NavigationNode.html" target="_self" >NavigationNode</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -815,7 +560,20 @@
 
                                 </tr>
                                 <tr>
-                                    <td>itemsList</td>
+                                    <td>entry</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                    </td>
 
                                     <td>
                                         No
@@ -830,6 +588,92 @@
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="populateNavigationNode"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            populateNavigationNode
+                        </b>
+                        <a href="#populateNavigationNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>populateNavigationNode(nodeData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, items: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create a new node tree for the view</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>nodeData</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/NavigationNode.html" target="_self" >NavigationNode</a></code>
 
                     </div>
                     <div class="io-description">
@@ -877,6 +721,11 @@ export class NavigationService {
     );
   }
 
+  /**
+   * returns an observable with the &#x60;NavigationNode&#x60; for the given &#x60;CmsNavigationComponent&#x60;.
+   * This function will load the navigation underlying entries and childs if they haven&#x27;t been
+   * loaded so far.
+   */
   public getNavigationNode(
     data$: Observable&lt;CmsNavigationComponent&gt;
   ): Observable&lt;NavigationNode&gt; {
@@ -890,27 +739,27 @@ export class NavigationService {
         return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
           tap(items &#x3D;&gt; {
             if (items &#x3D;&#x3D;&#x3D; undefined) {
-              this.getNavigationEntryItems(navigation, true);
+              this.loadNavigationEntryItems(navigation, true);
             }
           }),
           filter(Boolean),
-          map(items &#x3D;&gt; this.createNode(navigation, items))
+          map(items &#x3D;&gt; this.populateNavigationNode(navigation, items))
         );
       })
     );
   }
 
   /**
-   * Get all navigation entry items&#x27; type and id. Dispatch action to load all these items
+   * Loads all navigation entry items&#x27; type and id. Dispatch action to load all these items
    * @param nodeData
    * @param root
    * @param itemsList
    */
-  private getNavigationEntryItems(
+  private loadNavigationEntryItems(
     nodeData: any,
     root: boolean,
     itemsList &#x3D; []
-  ) {
+  ): void {
     if (nodeData.entries &amp;&amp; nodeData.entries.length &gt; 0) {
       nodeData.entries.forEach(entry &#x3D;&gt; {
         itemsList.push({
@@ -921,56 +770,66 @@ export class NavigationService {
     }
 
     if (nodeData.children &amp;&amp; nodeData.children.length &gt; 0) {
-      this.processChildren(nodeData, itemsList);
+      nodeData.children.forEach(child &#x3D;&gt;
+        this.loadNavigationEntryItems(child, false, itemsList)
+      );
     }
 
     if (root) {
-      const rootUid &#x3D; nodeData.uid;
-      this.cmsService.loadNavigationItems(rootUid, itemsList);
-    }
-  }
-
-  private processChildren(node, itemsList): void {
-    for (const child of node.children) {
-      this.getNavigationEntryItems(child, false, itemsList);
+      this.cmsService.loadNavigationItems(nodeData.uid, itemsList);
     }
   }
 
   /**
-   * Create a new node tree for display
+   * Create a new node tree for the view
    * @param nodeData
    * @param items
    */
-  private createNode(nodeData: any, items: any): NavigationNode {
+  private populateNavigationNode(nodeData: any, items: any): NavigationNode {
     const node: NavigationNode &#x3D; {};
 
-    node.title &#x3D; nodeData.title;
+    if (nodeData.title) {
+      // the node title will be populated by the first entry (if any)
+      // if there&#x27;s no nodeData.title available
+      node.title &#x3D; nodeData.title;
+    }
 
     if (nodeData.entries &amp;&amp; nodeData.entries.length &gt; 0) {
-      this.addLinkToNode(node, nodeData.entries[0], items);
+      this.populateLink(node, nodeData.entries[0], items);
     }
 
     if (nodeData.children &amp;&amp; nodeData.children.length &gt; 0) {
-      const children &#x3D; this.createChildren(nodeData, items);
-      node.children &#x3D; children;
+      const children &#x3D; nodeData.children
+        .map(child &#x3D;&gt; this.populateNavigationNode(child, items))
+        .filter(Boolean);
+      if (children.length &gt; 0) {
+        node.children &#x3D; children;
+      }
     }
 
-    return node;
+    // return null in case there are no children
+    return Object.keys(node).length &#x3D;&#x3D;&#x3D; 0 ? null : node;
   }
 
-  private addLinkToNode(node: NavigationNode, entry, items) {
+  /**
+   * The node link is driven by the first entry.
+   */
+  private populateLink(node: NavigationNode, entry, items) {
     const item &#x3D; items[&#x60;${entry.itemId}_${entry.itemSuperType}&#x60;];
 
     // now we only consider CMSLinkComponent
-    if (entry.itemType &#x3D;&#x3D;&#x3D; &#x27;CMSLinkComponent&#x27; &amp;&amp; item !&#x3D;&#x3D; undefined) {
+    if (item &amp;&amp; entry.itemType &#x3D;&#x3D;&#x3D; &#x27;CMSLinkComponent&#x27;) {
       if (!node.title) {
         node.title &#x3D; item.linkName;
       }
-
-      node.url &#x3D; this.getLink(item);
-
-      // if &quot;NEWWINDOW&quot;, target is true
-      node.target &#x3D; item.target;
+      const url &#x3D; this.getLink(item);
+      // only populate the node link if we have a visible node
+      if (node.title &amp;&amp; url) {
+        node.url &#x3D; url;
+        // the backend provide boolean value for the target
+        // in case the link should be opened in a new window
+        node.target &#x3D; !!item.target ? &#x27;_blank&#x27; : &#x27;&#x27;;
+      }
     }
   }
 
@@ -990,17 +849,6 @@ export class NavigationService {
         },
       });
     }
-  }
-
-  private createChildren(node, items) {
-    const children &#x3D; [];
-
-    for (const child of node.children) {
-      const childNode &#x3D; this.createNode(child, items);
-      children.push(childNode);
-    }
-
-    return children;
   }
 }
 </code></pre>

@@ -61,6 +61,11 @@
 
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -107,6 +112,9 @@
                             </li>
                             <li>
                                 <a href="#addEntry">addEntry</a>
+                            </li>
+                            <li>
+                                <a href="#addVoucher">addVoucher</a>
                             </li>
                             <li>
                                 <a href="#getActive">getActive</a>
@@ -181,12 +189,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithCart>, cartData: <a href="../injectables/CartDataService.html">CartDataService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
+<code>constructor(store: Store<StateWithCart>, cartData: <a href="../injectables/CartDataService.html">CartDataService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, activeCartService?: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -239,6 +247,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>activeCartService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -275,8 +295,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="188"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:188</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="231"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:231</a></div>
                 </td>
             </tr>
 
@@ -345,8 +365,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="211"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:211</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="263"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:263</a></div>
                 </td>
             </tr>
 
@@ -423,8 +443,8 @@ Requires a created cart</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="125"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:125</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:151</a></div>
                 </td>
             </tr>
 
@@ -487,6 +507,76 @@ Requires a created cart</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="addVoucher"></a>
+                    <span class="name">
+                        <b>
+                            addVoucher
+                        </b>
+                        <a href="#addVoucher"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addVoucher(voucherId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="358"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:358</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>voucherId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getActive"></a>
                     <span class="name">
                         <b>
@@ -505,8 +595,8 @@ Requires a created cart</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:81</a></div>
                 </td>
             </tr>
 
@@ -544,8 +634,8 @@ Requires a created cart</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="244"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:244</a></div>
                 </td>
             </tr>
 
@@ -583,8 +673,8 @@ Requires a created cart</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:98</a></div>
                 </td>
             </tr>
 
@@ -622,8 +712,8 @@ Requires a created cart</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:88</a></div>
                 </td>
             </tr>
 
@@ -661,8 +751,8 @@ Requires a created cart</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="182"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:182</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="222"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:222</a></div>
                 </td>
             </tr>
 
@@ -731,8 +821,8 @@ Requires a created cart</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:102</a></div>
                 </td>
             </tr>
 
@@ -772,15 +862,15 @@ Requires a created cart</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:265</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="320"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:320</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Temporary method to merge guest cart with user cart because of beackend limitation
+                    <div class="io-description"><p>Temporary method to merge guest cart with user cart because of backend limitation
 This is for an edge case</p>
 </div>
 
@@ -816,8 +906,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="236"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:236</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="291"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:291</a></div>
                 </td>
             </tr>
 
@@ -886,8 +976,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="202"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:202</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="251"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:251</a></div>
                 </td>
             </tr>
 
@@ -927,8 +1017,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="244"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:244</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="299"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:299</a></div>
                 </td>
             </tr>
 
@@ -1002,8 +1092,8 @@ To get cart content, we need to load cart from backend.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="248"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:248</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="303"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:303</a></div>
                 </td>
             </tr>
 
@@ -1074,8 +1164,8 @@ To get cart content, we need to load cart from backend.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="256"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:256</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="311"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:311</a></div>
                 </td>
             </tr>
 
@@ -1146,8 +1236,8 @@ To get cart content, we need to load cart from backend.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:131</a></div>
                 </td>
             </tr>
 
@@ -1187,8 +1277,8 @@ To get cart content, we need to load cart from backend.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:109</a></div>
                 </td>
             </tr>
 
@@ -1226,8 +1316,8 @@ To get cart content, we need to load cart from backend.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:182</a></div>
                 </td>
             </tr>
 
@@ -1296,8 +1386,8 @@ To get cart content, we need to load cart from backend.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:161</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:195</a></div>
                 </td>
             </tr>
 
@@ -1383,7 +1473,7 @@ To get cart content, we need to load cart from backend.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -1417,7 +1507,7 @@ To get cart content, we need to load cart from backend.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -1444,7 +1534,7 @@ To get cart content, we need to load cart from backend.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/cart/facade/cart.service.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -1472,12 +1562,23 @@ import { AuthService } from &#x27;../../auth/index&#x27;;
 import { Cart } from &#x27;../../model/cart.model&#x27;;
 import { User } from &#x27;../../model/misc.model&#x27;;
 import { OrderEntry } from &#x27;../../model/order.model&#x27;;
-import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
+import {
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
+} from &#x27;../../occ/utils/occ-constants&#x27;;
+import * as DeprecatedCartActions from &#x27;../store/actions/cart.action&#x27;;
 import { CartActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithCart } from &#x27;../store/cart-state&#x27;;
 import { CartSelectors } from &#x27;../store/selectors/index&#x27;;
+import { ActiveCartService } from &#x27;./active-cart.service&#x27;;
 import { CartDataService } from &#x27;./cart-data.service&#x27;;
 
+/**
+ * @deprecated since version 1.4
+ * Use ActiveCartService instead (API is almost the same)
+ * From 1.4 version CartService uses ActiveCartService if it is available
+ * Fixes and improvements will be only implemented in ActiveCartService
+ */
 @Injectable()
 export class CartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE &#x3D;
@@ -1488,7 +1589,8 @@ export class CartService {
   constructor(
     protected store: Store&lt;StateWithCart&gt;,
     protected cartData: CartDataService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected activeCartService?: ActiveCartService
   ) {
     this._activeCart$ &#x3D; combineLatest([
       this.store.select(CartSelectors.getCartContent),
@@ -1526,18 +1628,30 @@ export class CartService {
   }
 
   getActive(): Observable&lt;Cart&gt; {
+    if (this.activeCartService) {
+      return this.activeCartService.getActive();
+    }
     return this._activeCart$;
   }
 
   getEntries(): Observable&lt;OrderEntry[]&gt; {
+    if (this.activeCartService) {
+      return this.activeCartService.getEntries();
+    }
     return this.store.pipe(select(CartSelectors.getCartEntries));
   }
 
+  // TODO: to remove in 2.0
+  // doesn&#x27;t seem useful for end developers
+  // there shouldn&#x27;t be a need for such low level information
   getCartMergeComplete(): Observable&lt;boolean&gt; {
     return this.store.pipe(select(CartSelectors.getCartMergeComplete));
   }
 
   getLoaded(): Observable&lt;boolean&gt; {
+    if (this.activeCartService) {
+      return this.activeCartService.getLoaded();
+    }
     return this.store.pipe(select(CartSelectors.getCartLoaded));
   }
 
@@ -1546,16 +1660,16 @@ export class CartService {
     // current cart and merge it into the existing cart
     if (!this.isCreated(this.cartData.cart)) {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
-          cartId: &#x27;current&#x27;,
+          cartId: OCC_CART_ID_CURRENT,
         })
       );
     } else if (this.isGuestCart()) {
       this.guestCartMerge();
     } else {
       this.store.dispatch(
-        new CartActions.MergeCart({
+        new DeprecatedCartActions.MergeCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.guid,
         })
@@ -1566,14 +1680,16 @@ export class CartService {
   private load(): void {
     if (this.cartData.userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
-          cartId: this.cartData.cartId ? this.cartData.cartId : &#x27;current&#x27;,
+          cartId: this.cartData.cartId
+            ? this.cartData.cartId
+            : OCC_CART_ID_CURRENT,
         })
       );
     } else {
       this.store.dispatch(
-        new CartActions.LoadCart({
+        new DeprecatedCartActions.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
         })
@@ -1582,13 +1698,18 @@ export class CartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
+    if (this.activeCartService) {
+      return this.activeCartService.addEntry(productCode, quantity);
+    }
     this.store
       .pipe(
         select(CartSelectors.getActiveCartState),
         tap(cartState &#x3D;&gt; {
           if (!this.isCreated(cartState.value.content) &amp;&amp; !cartState.loading) {
             this.store.dispatch(
-              new CartActions.CreateCart({ userId: this.cartData.userId })
+              new DeprecatedCartActions.CreateCart({
+                userId: this.cartData.userId,
+              })
             );
           }
         }),
@@ -1608,6 +1729,9 @@ export class CartService {
   }
 
   removeEntry(entry: OrderEntry): void {
+    if (this.activeCartService) {
+      return this.activeCartService.removeEntry(entry);
+    }
     this.store.dispatch(
       new CartActions.CartRemoveEntry({
         userId: this.cartData.userId,
@@ -1618,6 +1742,12 @@ export class CartService {
   }
 
   updateEntry(entryNumber: string, quantity: number): void {
+    if (this.activeCartService) {
+      return this.activeCartService.updateEntry(
+        parseInt(entryNumber, 10),
+        quantity
+      );
+    }
     if (quantity &gt; 0) {
       this.store.dispatch(
         new CartActions.CartUpdateEntry({
@@ -1639,14 +1769,20 @@ export class CartService {
   }
 
   getEntry(productCode: string): Observable&lt;OrderEntry&gt; {
+    if (this.activeCartService) {
+      return this.activeCartService.getEntry(productCode);
+    }
     return this.store.pipe(
       select(CartSelectors.getCartEntrySelectorFactory(productCode))
     );
   }
 
   addEmail(email: string): void {
+    if (this.activeCartService) {
+      return this.activeCartService.addEmail(email);
+    }
     this.store.dispatch(
-      new CartActions.AddEmailToCart({
+      new DeprecatedCartActions.AddEmailToCart({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
         email: email,
@@ -1655,10 +1791,16 @@ export class CartService {
   }
 
   getAssignedUser(): Observable&lt;User&gt; {
+    if (this.activeCartService) {
+      return this.activeCartService.getAssignedUser();
+    }
     return this.store.pipe(select(CartSelectors.getCartUser));
   }
 
   isGuestCart(): boolean {
+    if (this.activeCartService) {
+      return this.activeCartService.isGuestCart();
+    }
     return this.cartData.isGuestCart;
   }
 
@@ -1668,6 +1810,9 @@ export class CartService {
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[]): void {
+    if (this.activeCartService) {
+      return this.activeCartService.addEntries(cartEntries);
+    }
     let newEntries &#x3D; 0;
     this.getEntries()
       .pipe(
@@ -1718,7 +1863,7 @@ export class CartService {
 
   // TODO: Remove once backend is updated
   /**
-   * Temporary method to merge guest cart with user cart because of beackend limitation
+   * Temporary method to merge guest cart with user cart because of backend limitation
    * This is for an edge case
    */
   private guestCartMerge(): void {
@@ -1730,7 +1875,7 @@ export class CartService {
       });
 
     this.store.dispatch(
-      new CartActions.DeleteCart({
+      new DeprecatedCartActions.DeleteCart({
         userId: OCC_USER_ID_ANONYMOUS,
         cartId: this.cartData.cart.guid,
       })
@@ -1745,7 +1890,9 @@ export class CartService {
           // This step should happen before adding entries to avoid conflicts in the requests
           if (!this.isCreated(cartState.value.content)) {
             this.store.dispatch(
-              new CartActions.CreateCart({ userId: this.cartData.userId })
+              new DeprecatedCartActions.CreateCart({
+                userId: this.cartData.userId,
+              })
             );
           }
         }),
@@ -1755,6 +1902,16 @@ export class CartService {
       .subscribe(() &#x3D;&gt; {
         this.addEntries(cartEntries);
       });
+  }
+
+  addVoucher(voucherId: string): void {
+    this.store.dispatch(
+      new CartActions.CartAddVoucher({
+        userId: this.cartData.userId,
+        cartId: this.cartData.cartId,
+        voucherId: voucherId,
+      })
+    );
   }
 }
 </code></pre>

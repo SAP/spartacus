@@ -127,8 +127,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="4"
-                            class="link-to-prism">projects/core/src/config/utils/dynamic-template.ts:4</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2"
+                            class="link-to-prism">projects/core/src/config/utils/dynamic-template.ts:2</a></div>
                 </td>
             </tr>
 
@@ -177,7 +177,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                     <div class="io-description">
@@ -197,42 +197,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { isDevMode } from &#x27;@angular/core&#x27;;
-
-export class DynamicTemplate {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class DynamicTemplate {
   static resolve(templateString: string, templateVariables: Object) {
-    const keys &#x3D; Object.keys(templateVariables);
-    // Can&#x27;t use Object.values as the compilation settings are to es2015 not es2017
-    const values &#x3D; keys.map(key &#x3D;&gt; templateVariables[key]);
-
-    let templateFunction &#x3D; new Function(
-      ...keys,
-      &#x60;return \&#x60;${templateString}\&#x60;;&#x60;
-    );
-
-    try {
-      return templateFunction(...values);
-    } catch (e) {
-      if (isDevMode() &amp;&amp; e instanceof ReferenceError) {
-        console.warn(&#x60;Key &quot;${e.message.split(&#x27; &#x27;)[0]}&quot; not found.&#x60;);
-      }
-
-      if (templateString.indexOf(&#x27;?&#x27;) &gt; -1) {
-        templateFunction &#x3D; new Function(
-          ...keys,
-          &#x60;return \&#x60;${templateString.split(&#x27;?&#x27;)[0]}\&#x60;;&#x60;
-        );
-        try {
-          return templateFunction(...values);
-        } catch (e) {
-          if (isDevMode()) {
-            console.warn(&#x27;Could not resolve endpoint.&#x27;);
-          }
-          return templateString;
-        }
-      }
-      return templateString;
+    for (const variableLabel of Object.keys(templateVariables)) {
+      const placeholder &#x3D; new RegExp(&#x27;\\${&#x27; + variableLabel + &#x27;}&#x27;, &#x27;g&#x27;);
+      templateString &#x3D; templateString.replace(
+        placeholder,
+        templateVariables[variableLabel]
+      );
     }
+    return templateString;
   }
 }
 </code></pre>

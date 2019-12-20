@@ -241,7 +241,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { standardUser } from &#x27;../sample-data/shared-users&#x27;;
-import { apiUrl } from &#x27;../support/utils/login&#x27;;
 import { login, register } from &#x27;./auth-forms&#x27;;
 import { generateMail, randomString } from &#x27;./user&#x27;;
 
@@ -320,7 +319,7 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
     cy.get(&#x27;cx-searchbox&#x27;)
       .get(&#x27;.results .products .name&#x27;)
       .first()
-      .click();
+      .click({ force: true });
   }
 }
 
@@ -343,6 +342,15 @@ export function addToCart() {
     .getAllByText(/Add To Cart/i)
     .first()
     .click({ force: true });
+}
+
+export function waitForCartRefresh() {
+  cy.server();
+
+  cy.route(
+    &#x27;GET&#x27;,
+    &#x60;/rest/v2/electronics-spa/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+  ).as(&#x27;refresh_cart&#x27;);
 }
 
 export function closeAddedToCartDialog() {
@@ -394,17 +402,15 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 export function removeAllItemsFromCart() {
   const product0 &#x3D; products[0];
   const product1 &#x3D; products[1];
-  cy.server();
-  cy.route(
-    &#x27;GET&#x27;,
-    &#x60;${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
-  ).as(&#x27;refresh_cart&#x27;);
+  waitForCartRefresh();
 
   getCartItem(product0.name).within(() &#x3D;&gt; {
     cy.getByText(&#x27;Remove&#x27;).click();
   });
 
-  cy.wait(&#x27;@refresh_cart&#x27;);
+  cy.wait(&#x27;@refresh_cart&#x27;)
+    .its(&#x27;status&#x27;)
+    .should(&#x27;eq&#x27;, 200);
 
   getCartItem(product1.name).within(() &#x3D;&gt; {
     cy.getByText(&#x27;Remove&#x27;).click();
@@ -501,7 +507,15 @@ export function manipulateCartQuantity() {
   const product &#x3D; products[1];
 
   cy.visit(&#x60;/product/${product.code}&#x60;);
+
+  waitForCartRefresh();
+
   addToCart();
+
+  cy.wait(&#x27;@refresh_cart&#x27;)
+    .its(&#x27;status&#x27;)
+    .should(&#x27;eq&#x27;, 200);
+
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 

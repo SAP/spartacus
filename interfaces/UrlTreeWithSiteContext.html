@@ -138,8 +138,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DefaultUrlSerializer, UrlTree } from &#x27;@angular/router&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { DefaultUrlSerializer, UrlTree } from &#x27;@angular/router&#x27;;
 import { SiteContextParamsService } from &#x27;./site-context-params.service&#x27;;
 
 export interface ParamValuesMap {
@@ -154,7 +154,9 @@ const UrlSplit &#x3D; /(^[^#?]*)(.*)/; // used to split url into path and query/
 
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
-  private readonly urlEncodingParameters: string[];
+  private get urlEncodingParameters(): string[] {
+    return this.siteContextParams.getUrlEncodingParameters();
+  }
 
   get hasContextInRoutes() {
     return this.urlEncodingParameters.length &gt; 0;
@@ -162,7 +164,6 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
 
   constructor(private siteContextParams: SiteContextParamsService) {
     super();
-    this.urlEncodingParameters &#x3D; this.siteContextParams.getUrlEncodingParameters();
   }
 
   parse(url: string): UrlTreeWithSiteContext {

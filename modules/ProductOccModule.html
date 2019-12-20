@@ -176,12 +176,12 @@ import { defaultOccProductConfig } from &#x27;./default-occ-product-config&#x27;
     },
     {
       provide: PRODUCT_NORMALIZER,
-      useClass: ProductImageNormalizer,
+      useExisting: ProductImageNormalizer,
       multi: true,
     },
     {
       provide: PRODUCT_NORMALIZER,
-      useClass: ProductNameNormalizer,
+      useExisting: ProductNameNormalizer,
       multi: true,
     },
     {
@@ -190,7 +190,7 @@ import { defaultOccProductConfig } from &#x27;./default-occ-product-config&#x27;
     },
     {
       provide: PRODUCT_REFERENCES_NORMALIZER,
-      useClass: OccProductReferencesListNormalizer,
+      useExisting: OccProductReferencesListNormalizer,
       multi: true,
     },
     {
@@ -199,7 +199,7 @@ import { defaultOccProductConfig } from &#x27;./default-occ-product-config&#x27;
     },
     {
       provide: PRODUCT_SEARCH_PAGE_NORMALIZER,
-      useClass: OccProductSearchPageNormalizer,
+      useExisting: OccProductSearchPageNormalizer,
       multi: true,
     },
     {

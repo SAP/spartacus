@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/product/store/actions/product-references.action.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/product/store/actions/product-references.action.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/product/store/actions/product-references.action.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/product/store/actions/product-references.action.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -208,7 +208,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/product/store/actions/product-references.action.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/product/store/actions/product-references.action.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -236,6 +236,7 @@ export const LOAD_PRODUCT_REFERENCES_FAIL &#x3D;
   &#x27;[Product] Load Product References Data Fail&#x27;;
 export const LOAD_PRODUCT_REFERENCES_SUCCESS &#x3D;
   &#x27;[Product] Load Product References Data Success&#x27;;
+export const CLEAN_PRODUCT_REFERENCES &#x3D; &#x27;[Product] Clean Product References&#x27;;
 
 export class LoadProductReferences implements Action {
   readonly type &#x3D; LOAD_PRODUCT_REFERENCES;
@@ -263,11 +264,16 @@ export class LoadProductReferencesSuccess implements Action {
   ) {}
 }
 
+export class CleanProductReferences implements Action {
+  readonly type &#x3D; CLEAN_PRODUCT_REFERENCES;
+}
+
 // action types
 export type ProductReferencesAction &#x3D;
   | LoadProductReferences
   | LoadProductReferencesFail
-  | LoadProductReferencesSuccess;
+  | LoadProductReferencesSuccess
+  | CleanProductReferences;
 </code></pre>
     </div>
 </div>

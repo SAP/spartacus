@@ -68,7 +68,10 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Resolves the page heading which is used in the UI.</p>
+                <p>Resolves the page heading which is used in the UI. The page
+heading might differ from the page title, which is used to address
+the page in the browser (history, tabs) and outside the storefront
+(Goolge, bots, etc).</p>
 
             </p>
 
@@ -85,6 +88,9 @@
                     <tr>
                         <td class="col-md-4">
                             <ul class="index-list">
+                                <li>
+                                    <a href="#resolveHeading">resolveHeading</a>
+                                </li>
                                 <li>
                                     <a href="#resolveHeading">resolveHeading</a>
                                 </li>
@@ -122,14 +128,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">projects/core/src/cms/page/page.resolvers.ts:8</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/cms/page/page.resolvers.ts:18</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Resolves the page heading.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -170,6 +178,47 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveHeading"></a>
+                    <span class="name">
+                        <b>
+                            resolveHeading
+                        </b>
+                        <a href="#resolveHeading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveHeading()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/cms/page/page.resolvers.ts:23</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resolves the page heading.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -180,42 +229,106 @@
 import { PageRobotsMeta } from &#x27;../model/page.model&#x27;;
 
 /**
- * Resolves the page heading which is used in the UI.
+ * Resolves the page heading which is used in the UI. The page
+ * heading might differ from the page title, which is used to address
+ * the page in the browser (history, tabs) and outside the storefront
+ * (Goolge, bots, etc).
  */
 export interface PageHeadingResolver {
+  /**
+   * Resolves the page heading.
+   *
+   * @deprecated since version 1.3
+   * Use &#x60;resolveHeading()&#x60; instead.
+   */
+  // tslint:disable-next-line: unified-signatures
   resolveHeading(...args): Observable&lt;string&gt;;
+
+  /**
+   * Resolves the page heading.
+   */
+  resolveHeading(): Observable&lt;string&gt;;
 }
 
 /**
- * Resolves the page title which is first and foremost
- * used for the page title tag, but could also be used for the
+ * Resolves the page title which is first and foremost used
+ * for the page title tag, but could also be used for the
  * page heading in the UI.
  */
 export interface PageTitleResolver {
+  /**
+   * Resolves the page title.
+   *
+   * @deprecated since version 1.3
+   * Use &#x60;resolveTitle()&#x60; instead.
+   */
+  // tslint:disable-next-line: unified-signatures
   resolveTitle(...args): Observable&lt;string&gt;;
+
+  /**
+   * Resolves the page title.
+   */
+  resolveTitle(): Observable&lt;string&gt;;
 }
 
 /**
- * Resolves the page description. The page description is used
+ * Resolves the page description. The page description is typically used
  * in the Search Engine Result Page (SERP).
  */
 export interface PageDescriptionResolver {
+  /**
+   * Resolves the page description.
+   *
+   * @deprecated since version 1.3
+   * Use &#x60;resolveHeading()&#x60; instead.
+   */
+  // tslint:disable-next-line: unified-signatures
   resolveDescription(...args): Observable&lt;string&gt;;
+
+  /**
+   * Resolves the page description.
+   */
+  resolveDescription(): Observable&lt;string&gt;;
 }
 
 /**
- * Resolves breadcrumbs for the page, which is used in the &#x60;BreadcrumbComponent&#x60;/
+ * Resolves breadcrumbs for the page, which is used in the &#x60;BreadcrumbComponent&#x60;
  */
 export interface PageBreadcrumbResolver {
+  /**
+   * Resolves the breadcrumbs for the page.
+   *
+   * @deprecated since version 1.3
+   * Use &#x60;resolveBreadcrumbs()&#x60; instead.
+   */
+  // tslint:disable-next-line: unified-signatures
   resolveBreadcrumbs(...args): Observable&lt;any[]&gt;;
+
+  /**
+   * Resolves the breadcrumbs for the page.
+   */
+  resolveBreadcrumbs(): Observable&lt;any[]&gt;;
 }
 
 /**
- * Resolves the main image for the page. This is typically used
- * for social sharing (using &#x60;og:image&#x60; metatag)
+ * Provides a method to resolve the the main image for the page.
+ * This is typically used for social sharing (for example by using
+ * the &#x60;og:image&#x60; metatag).
  */
 export interface PageImageResolver {
+  /**
+   * Resolves the main image for the page.
+   *
+   * @deprecated since version 1.3
+   * Use &#x60;resolveImage()&#x60; instead.
+   */
+  // tslint:disable-next-line: unified-signatures
   resolveImage(...args): Observable&lt;string&gt;;
+
+  /**
+   * Resolves the main image for the page.
+   */
+  resolveImage(): Observable&lt;string&gt;;
 }
 
 /**
@@ -225,7 +338,19 @@ export interface PageImageResolver {
  *
  */
 export interface PageRobotsResolver {
+  /**
+   * Resolves the robots for the page.
+   *
+   * @deprecated since version 1.3
+   * Use &#x60;resolveRobots()&#x60; instead.
+   */
+  // tslint:disable-next-line: unified-signatures
   resolveRobots(...args): Observable&lt;PageRobotsMeta[]&gt;;
+
+  /**
+   * Resolves the robots for the page.
+   */
+  resolveRobots(): Observable&lt;PageRobotsMeta[]&gt;;
 }
 </code></pre>
     </div>

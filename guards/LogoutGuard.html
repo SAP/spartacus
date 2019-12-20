@@ -85,6 +85,10 @@
                                     <span class="modifier">Protected</span>
                                 <a href="#logout">logout</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#redirect">redirect</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -103,12 +107,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(auth: <a href="../injectables/AuthService.html">AuthService</a>, cms: <a href="../injectables/CmsService.html">CmsService</a>, routing: <a href="../injectables/RoutingService.html">RoutingService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>)</code>
+<code>constructor(auth: <a href="../injectables/AuthService.html">AuthService</a>, cms: <a href="../injectables/CmsService.html">CmsService</a>, routing: <a href="../injectables/RoutingService.html">RoutingService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, protectedRoutes?: <a href="../injectables/ProtectedRoutesService.html">ProtectedRoutesService</a>, featureConfig?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -173,6 +177,30 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>protectedRoutes</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ProtectedRoutesService.html" target="_self" >ProtectedRoutesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>featureConfig</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -209,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:34</a></div>
                 </td>
             </tr>
 
@@ -250,8 +278,49 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:63</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="redirect"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            redirect
+                        </b>
+                        <a href="#redirect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>redirect()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:51</a></div>
                 </td>
             </tr>
 
@@ -274,25 +343,35 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { CanActivate } from &#x27;@angular/router&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
 import {
   AuthService,
   CmsService,
   PageType,
   RoutingService,
   SemanticPathService,
+  ProtectedRoutesService,
+  FeatureConfigService,
 } from &#x27;@spartacus/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 import { tap } from &#x27;rxjs/operators&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class LogoutGuard implements CanActivate {
+  /**
+   * @deprecated since 1.4
+   * Check #5666 for more info
+   *
+   * TODO(issue:5666) Deprecated since 1.4
+   */
   constructor(
     protected auth: AuthService,
     protected cms: CmsService,
     protected routing: RoutingService,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
+    protected protectedRoutes?: ProtectedRoutesService,
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   canActivate(): Observable&lt;any&gt; {
@@ -306,10 +385,22 @@ export class LogoutGuard implements CanActivate {
       .pipe(
         tap(hasPage &#x3D;&gt; {
           if (!hasPage) {
-            this.routing.go({ cxRoute: &#x27;home&#x27; });
+            this.redirect();
           }
         })
       );
+  }
+
+  protected redirect(): void {
+    // TODO(issue:5666) Deprecated since 1.4
+    const cxRoute: string &#x3D;
+      this.featureConfig.isLevel(&#x27;1.4&#x27;) &amp;&amp;
+      this.protectedRoutes &amp;&amp;
+      this.protectedRoutes.shouldProtect
+        ? &#x27;login&#x27;
+        : &#x27;home&#x27;;
+
+    this.routing.go({ cxRoute });
   }
 
   protected logout(): void {

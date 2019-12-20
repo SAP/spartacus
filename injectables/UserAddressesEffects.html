@@ -138,7 +138,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:149</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:148</a></div>
                             </td>
                         </tr>
 
@@ -241,8 +241,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="167"
+                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:167</a></div>
                 </td>
             </tr>
 
@@ -282,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:161</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="160"
+                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:160</a></div>
                 </td>
             </tr>
 
@@ -387,7 +387,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -447,7 +447,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:92</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:91</a></div>
                             </td>
                         </tr>
 
@@ -503,7 +503,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -544,7 +544,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:119</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:118</a></div>
                             </td>
                         </tr>
 
@@ -591,7 +591,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:143</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:142</a></div>
                             </td>
                         </tr>
 
@@ -638,7 +638,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:131</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:130</a></div>
                             </td>
                         </tr>
 
@@ -685,7 +685,7 @@
               Object.keys(payload.address).length &#x3D;&#x3D;&#x3D; 1 &amp;&amp;
               payload.address.defaultAddress
             ) {
-              return new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT);
+              return new UserActions.LoadUserAddresses(payload.userId);
             } else {
               return new UserActions.UpdateUserAddressSuccess(data);
             }
@@ -713,7 +713,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:58</a></div>
                             </td>
                         </tr>
 
@@ -735,7 +735,6 @@ import {
   GlobalMessageType,
 } from &#x27;../../../global-message/index&#x27;;
 import { Address } from &#x27;../../../model/address.model&#x27;;
-import { OCC_USER_ID_CURRENT } from &#x27;../../../occ/utils/occ-constants&#x27;;
 import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 import { UserAddressConnector } from &#x27;../../connectors/address/user-address.connector&#x27;;
 import { UserAddressService } from &#x27;../../facade/user-address.service&#x27;;
@@ -800,7 +799,7 @@ export class UserAddressesEffects {
               Object.keys(payload.address).length &#x3D;&#x3D;&#x3D; 1 &amp;&amp;
               payload.address.defaultAddress
             ) {
-              return new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT);
+              return new UserActions.LoadUserAddresses(payload.userId);
             } else {
               return new UserActions.UpdateUserAddressSuccess(data);
             }

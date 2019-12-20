@@ -407,7 +407,7 @@ import {
 } from &#x27;../../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class OccCartNormalizer implements Converter&lt;Occ.Cart, Cart&gt; {
   constructor(private converter: ConverterService) {}
 

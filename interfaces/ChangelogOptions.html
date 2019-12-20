@@ -279,13 +279,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { JsonObject, logging } from &#x27;@angular-devkit/core&#x27;;
+import chalk from &#x27;chalk&#x27;;
+import * as program from &#x27;commander&#x27;;
+import * as ejs from &#x27;ejs&#x27;;
 import * as fs from &#x27;fs&#x27;;
 import * as path from &#x27;path&#x27;;
 import * as semver from &#x27;semver&#x27;;
 import { packages } from &#x27;./packages&#x27;;
-import * as ejs from &#x27;ejs&#x27;;
-import * as program from &#x27;commander&#x27;;
-import chalk from &#x27;chalk&#x27;;
 import * as versionsHelper from &#x27;./versions&#x27;;
 
 const changelogTemplate &#x3D; ejs.compile(
@@ -306,17 +306,36 @@ export interface ChangelogOptions {
   stdout?: boolean;
 }
 
-export default async function run(args: ChangelogOptions, logger: logging.Logger) {
+const breakingChangesKeywords &#x3D; [&#x27;BREAKING CHANGE&#x27;, &#x27;BREAKING CHANGES&#x27;];
+const deprecationsKeywords &#x3D; [&#x27;DEPRECATION&#x27;, &#x27;DEPRECATED&#x27;, &#x27;DEPRECATIONS&#x27;];
+
+export default async function run(
+  args: ChangelogOptions,
+  logger: logging.Logger
+) {
   const commits: JsonObject[] &#x3D; [];
   let toSha: string | null &#x3D; null;
   const breakingChanges: JsonObject[] &#x3D; [];
-  const versionFromTag &#x3D; args.to.split(&#x27;-&#x27;).filter((_,i) &#x3D;&gt; i !&#x3D;&#x3D; 0).join(&#x27;-&#x27;)
-  const newVersion &#x3D; semver.parse(versionFromTag, { includePrerelease: true, loose: true });
+  const deprecations: JsonObject[] &#x3D; [];
+  const versionFromTag &#x3D; args.to
+    .split(&#x27;-&#x27;)
+    .filter((_, i) &#x3D;&gt; i !&#x3D;&#x3D; 0)
+    .join(&#x27;-&#x27;);
+  const newVersion &#x3D; semver.parse(versionFromTag, {
+    includePrerelease: true,
+    loose: true,
+  });
   let fromToken: string;
   try {
-    const packageVersions &#x3D; await versionsHelper.fetchPackageVersions(args.library);
-    const previousVersion &#x3D; versionsHelper.extractPreviousVersionForChangelog(packageVersions, newVersion.version)
-    fromToken &#x3D; previousVersion &amp;&amp; args.to.split(newVersion).join(previousVersion);
+    const packageVersions &#x3D; await versionsHelper.fetchPackageVersions(
+      args.library
+    );
+    const previousVersion &#x3D; versionsHelper.extractPreviousVersionForChangelog(
+      packageVersions,
+      newVersion.version
+    );
+    fromToken &#x3D;
+      previousVersion &amp;&amp; args.to.split(newVersion).join(previousVersion);
   } catch (err) {
     // package not found - assuming first release
     fromToken &#x3D; &#x27;&#x27;;
@@ -334,20 +353,41 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
     &#x27;@spartacus/styles&#x27;: &#x27;./projects/storefrontstyles&#x27;,
     &#x27;@spartacus/assets&#x27;: &#x27;./projects/assets&#x27;,
     &#x27;@spartacus/schematics&#x27;: &#x27;./projects/schematics&#x27;,
+    &#x27;@spartacus/incubator&#x27;: &#x27;./projects/incubator&#x27;,
   };
 
-  return new Promise(resolve &#x3D;&gt; {
-    (gitRawCommits({
+  const duplexUtil &#x3D; through(function(chunk, _, callback) {
+    this.push(chunk);
+    callback();
+  });
+
+  function getRawCommitsStream(to: string) {
+    return gitRawCommits({
       from: fromToken,
-      to: args.to || &#x27;HEAD&#x27;,
+      to,
       path: args.library ? libraryPaths[args.library] : &#x27;.&#x27;,
       format:
         &#x27;%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n&#x27;,
-    }) as NodeJS.ReadStream)
-      .on(&#x27;error&#x27;, err &#x3D;&gt; {
-        logger.fatal(&#x27;An error happened: &#x27; + err.message);
-        return &#x27;&#x27;;
+    }) as NodeJS.ReadStream;
+  }
+
+  function getCommitsStream(): NodeJS.ReadStream {
+    getRawCommitsStream(args.to)
+      .on(&#x27;error&#x27;, () &#x3D;&gt; {
+        getRawCommitsStream(&#x27;HEAD&#x27;)
+          .on(&#x27;error&#x27;, err &#x3D;&gt; {
+            logger.fatal(&#x27;An error happened: &#x27; + err.message);
+            return &#x27;&#x27;;
+          })
+          .pipe(duplexUtil);
       })
+      .pipe(duplexUtil);
+
+    return duplexUtil;
+  }
+
+  return new Promise(resolve &#x3D;&gt; {
+    getCommitsStream()
       .pipe(
         through((chunk: Buffer, _: string, callback: Function) &#x3D;&gt; {
           // Replace github URLs with &#x60;@XYZ#123&#x60;
@@ -362,7 +402,7 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
         conventionalCommitsParser({
           headerPattern: /^(\w*)(?:\(([^)]*)\))?: (.*)$/,
           headerCorrespondence: [&#x27;type&#x27;, &#x27;scope&#x27;, &#x27;subject&#x27;],
-          noteKeywords: [&#x27;BREAKING CHANGE&#x27;, &#x27;BREAKING CHANGES&#x27;],
+          noteKeywords: [...breakingChangesKeywords, ...deprecationsKeywords],
           revertPattern: /^revert:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
           revertCorrespondence: [&#x60;header&#x60;, &#x60;hash&#x60;],
         })
@@ -381,10 +421,17 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
             const notes: any &#x3D; chunk.notes;
             if (Array.isArray(notes)) {
               notes.forEach(note &#x3D;&gt; {
-                breakingChanges.push({
-                  content: note.text,
-                  commit: chunk,
-                });
+                if (breakingChangesKeywords.includes(note.title)) {
+                  breakingChanges.push({
+                    content: note.text,
+                    commit: chunk,
+                  });
+                } else if (deprecationsKeywords.includes(note.title)) {
+                  deprecations.push({
+                    content: note.text,
+                    commit: chunk,
+                  });
+                }
               });
             }
             commits.push(chunk);
@@ -410,6 +457,7 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
         commits,
         packages,
         breakingChanges,
+        deprecations,
       });
 
       if (args.stdout || !githubToken) {
@@ -504,6 +552,10 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;schematics&#x27;:
     case &#x27;@spartacus/schematics&#x27;:
       config.library &#x3D; &#x27;@spartacus/schematics&#x27;;
+      break;
+    case &#x27;incubator&#x27;:
+    case &#x27;@spartacus/incubator&#x27;:
+      config.library &#x3D; &#x27;@spartacus/incubator&#x27;;
       break;
     default:
       config.library &#x3D; undefined;

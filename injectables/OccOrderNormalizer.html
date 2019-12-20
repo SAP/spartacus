@@ -317,7 +317,7 @@ import {
 import { Order, OrderEntry } from &#x27;../../../../model/order.model&#x27;;
 import { PRODUCT_NORMALIZER } from &#x27;../../../../product/connectors/product/converters&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class OccOrderNormalizer implements Converter&lt;Occ.Order, Order&gt; {
   constructor(private converter: ConverterService) {}
 

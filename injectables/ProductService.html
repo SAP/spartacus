@@ -123,12 +123,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithProduct>)</code>
+<code>constructor(store: Store<StateWithProduct>, productLoading?: <a href="../injectables/ProductLoadingService.html">ProductLoadingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/product/facade/product.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/product/facade/product.service.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -154,6 +154,18 @@
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>productLoading</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ProductLoadingService.html" target="_self" >ProductLoadingService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -186,15 +198,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>get(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>get(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scopes: string[] | string)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:44</a></div>
                 </td>
             </tr>
 
@@ -205,6 +217,8 @@
 whenever there&#39;s no value observed.</p>
 <p>The underlying product loader ensures that the product is
 only loaded once, even in case of parallel observers.</p>
+<p>You should provide product data scope you are interested in to not load all
+the data if not needed. You can provide more than one scope.</p>
 </div>
 
                     <div class="io-description">
@@ -215,6 +229,8 @@ only loaded once, even in case of parallel observers.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -228,7 +244,32 @@ only loaded once, even in case of parallel observers.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
+                                    <td>
+                                        <p>Product code to load</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scopes</td>
+                                    <td>
+                                            <code>string[] | string</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;&#x27;</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Scope or scopes of the product data</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -261,15 +302,15 @@ only loaded once, even in case of parallel observers.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>hasError(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>hasError(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:100</a></div>
                 </td>
             </tr>
 
@@ -287,6 +328,7 @@ only loaded once, even in case of parallel observers.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -300,6 +342,23 @@ only loaded once, even in case of parallel observers.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;&#x27;</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -333,15 +392,15 @@ only loaded once, even in case of parallel observers.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isLoading(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>isLoading(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -359,6 +418,7 @@ only loaded once, even in case of parallel observers.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -372,6 +432,23 @@ only loaded once, even in case of parallel observers.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;&#x27;</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -405,15 +482,15 @@ only loaded once, even in case of parallel observers.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isSuccess(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>isSuccess(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -431,6 +508,7 @@ only loaded once, even in case of parallel observers.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -444,6 +522,23 @@ only loaded once, even in case of parallel observers.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;&#x27;</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -477,15 +572,15 @@ only loaded once, even in case of parallel observers.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>reload(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>reload(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:113</a></div>
                 </td>
             </tr>
 
@@ -505,6 +600,7 @@ explicit reload might be needed.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -518,6 +614,23 @@ explicit reload might be needed.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;&#x27;</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -568,7 +681,7 @@ explicit reload might be needed.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/product/facade/product.service.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/product/facade/product.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -583,17 +696,32 @@ explicit reload might be needed.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { map, shareReplay, tap } from &#x27;rxjs/operators&#x27;;
+import { Observable, queueScheduler } from &#x27;rxjs&#x27;;
+import { map, observeOn, shareReplay, tap } from &#x27;rxjs/operators&#x27;;
 import { Product } from &#x27;../../model/product.model&#x27;;
 import { ProductActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithProduct } from &#x27;../store/product-state&#x27;;
 import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
+import { ProductLoadingService } from &#x27;../services/product-loading.service&#x27;;
 
 @Injectable()
 export class ProductService {
-  constructor(protected store: Store&lt;StateWithProduct&gt;) {}
+  constructor(
+    store: Store&lt;StateWithProduct&gt;,
+    // tslint:disable-next-line:unified-signatures
+    productLoading: ProductLoadingService
+  );
+  /**
+   * @deprecated since 1.4
+   */
+  constructor(store: Store&lt;StateWithProduct&gt;);
 
+  constructor(
+    protected store: Store&lt;StateWithProduct&gt;,
+    protected productLoading?: ProductLoadingService
+  ) {}
+
+  /** @deprecated since 1.4 */
   private products: { [code: string]: Observable&lt;Product&gt; } &#x3D; {};
 
   /**
@@ -602,50 +730,74 @@ export class ProductService {
    *
    * The underlying product loader ensures that the product is
    * only loaded once, even in case of parallel observers.
+   *
+   * You should provide product data scope you are interested in to not load all
+   * the data if not needed. You can provide more than one scope.
+   *
+   * @param productCode Product code to load
+   * @param scopes Scope or scopes of the product data
    */
-  get(productCode: string): Observable&lt;Product&gt; {
-    if (!this.products[productCode]) {
-      this.products[productCode] &#x3D; this.store.pipe(
-        select(ProductSelectors.getSelectedProductStateFactory(productCode)),
-        tap(productState &#x3D;&gt; {
-          const attemptedLoad &#x3D;
-            productState.loading || productState.success || productState.error;
+  get(
+    productCode: string,
+    scopes: string[] | string &#x3D; &#x27;&#x27;
+  ): Observable&lt;Product&gt; {
+    // TODO: Remove, deprecated since 1.4
+    if (!this.productLoading) {
+      if (!this.products[productCode]) {
+        this.products[productCode] &#x3D; this.store.pipe(
+          select(ProductSelectors.getSelectedProductStateFactory(productCode)),
+          observeOn(queueScheduler),
+          tap(productState &#x3D;&gt; {
+            const attemptedLoad &#x3D;
+              productState.loading ||
+              productState.success ||
+              productState.error;
 
-          if (!attemptedLoad) {
-            this.store.dispatch(new ProductActions.LoadProduct(productCode));
-          }
-        }),
-        map(productState &#x3D;&gt; productState.value),
-        shareReplay({ bufferSize: 1, refCount: true })
-      );
+            if (!attemptedLoad) {
+              this.store.dispatch(new ProductActions.LoadProduct(productCode));
+            }
+          }),
+          map(productState &#x3D;&gt; productState.value),
+          shareReplay({ bufferSize: 1, refCount: true })
+        );
+      }
+      return this.products[productCode];
     }
-    return this.products[productCode];
+    // END OF (TODO: Remove, deprecated since 1.4)
+
+    return this.productLoading.get(productCode, [].concat(scopes));
   }
 
   /**
    * Returns boolean observable for product&#x27;s loading state
    */
-  isLoading(productCode: string): Observable&lt;boolean&gt; {
+  isLoading(productCode: string, scope &#x3D; &#x27;&#x27;): Observable&lt;boolean&gt; {
     return this.store.pipe(
-      select(ProductSelectors.getSelectedProductLoadingFactory(productCode))
+      select(
+        ProductSelectors.getSelectedProductLoadingFactory(productCode, scope)
+      )
     );
   }
 
   /**
    * Returns boolean observable for product&#x27;s load success state
    */
-  isSuccess(productCode: string): Observable&lt;boolean&gt; {
+  isSuccess(productCode: string, scope &#x3D; &#x27;&#x27;): Observable&lt;boolean&gt; {
     return this.store.pipe(
-      select(ProductSelectors.getSelectedProductSuccessFactory(productCode))
+      select(
+        ProductSelectors.getSelectedProductSuccessFactory(productCode, scope)
+      )
     );
   }
 
   /**
    * Returns boolean observable for product&#x27;s load error state
    */
-  hasError(productCode: string): Observable&lt;boolean&gt; {
+  hasError(productCode: string, scope &#x3D; &#x27;&#x27;): Observable&lt;boolean&gt; {
     return this.store.pipe(
-      select(ProductSelectors.getSelectedProductErrorFactory(productCode))
+      select(
+        ProductSelectors.getSelectedProductErrorFactory(productCode, scope)
+      )
     );
   }
 
@@ -654,8 +806,8 @@ export class ProductService {
    * whenever selected by the &#x60;get&#x60;, but in some cases an
    * explicit reload might be needed.
    */
-  reload(productCode: string): void {
-    this.store.dispatch(new ProductActions.LoadProduct(productCode));
+  reload(productCode: string, scope &#x3D; &#x27;&#x27;): void {
+    this.store.dispatch(new ProductActions.LoadProduct(productCode, scope));
   }
 }
 </code></pre>

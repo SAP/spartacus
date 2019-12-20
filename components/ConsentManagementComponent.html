@@ -124,7 +124,20 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#allConsentsLoading">allConsentsLoading</a>
+                            </li>
+                            <li>
+                                <a href="#isAnonymousConsentsEnabled">isAnonymousConsentsEnabled</a>
+                            </li>
+                            <li>
+                                <a href="#isLevel13">isLevel13</a>
+                            </li>
+                            <li>
                                 <a href="#loading$">loading$</a>
+                            </li>
+                            <li>
+                                <a href="#requiredConsents">requiredConsents</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -146,6 +159,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#allowAll">allowAll</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#consentListInit">consentListInit</a>
                             </li>
@@ -156,6 +172,14 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#giveConsentInit">giveConsentInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#hideAnonymousConsents">hideAnonymousConsents</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isRequiredConsent">isRequiredConsent</a>
                             </li>
                             <li>
                                 <a href="#ngOnDestroy">ngOnDestroy</a>
@@ -173,6 +197,17 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#onConsentWithdrawnSuccess">onConsentWithdrawnSuccess</a>
+                            </li>
+                            <li>
+                                <a href="#rejectAll">rejectAll</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupGiveStream">setupGiveStream</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupWithdrawalStream">setupWithdrawalStream</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -196,12 +231,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userConsentService: <a href="../injectables/UserConsentService.html">UserConsentService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>)</code>
+<code>constructor(userConsentService: <a href="../injectables/UserConsentService.html">UserConsentService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, anonymousConsentsConfig?: <a href="../classes/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>, anonymousConsentsService?: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, authService?: <a href="../injectables/AuthService.html">AuthService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:76</a></div>
                             </td>
                         </tr>
 
@@ -242,6 +277,42 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>anonymousConsentsConfig</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/AnonymousConsentsConfig.html" target="_self" >AnonymousConsentsConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>anonymousConsentsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AnonymousConsentsService.html" target="_self" >AnonymousConsentsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -260,6 +331,80 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allowAll"></a>
+                    <span class="name">
+                        <b>
+                            allowAll
+                        </b>
+                        <a href="#allowAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>allowAll(templates: ConsentTemplate[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="306"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:306</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>templates</td>
+                                    <td>
+                                            <code>ConsentTemplate[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>[]</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -284,8 +429,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:113</a></div>
                 </td>
             </tr>
 
@@ -325,8 +470,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="222"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:222</a></div>
                 </td>
             </tr>
 
@@ -397,8 +542,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:190</a></div>
                 </td>
             </tr>
 
@@ -409,6 +554,168 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hideAnonymousConsents"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            hideAnonymousConsents
+                        </b>
+                        <a href="#hideAnonymousConsents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hideAnonymousConsents(templateList: ConsentTemplate[], anonymousTemplates: ConsentTemplate[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:155</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>templateList</td>
+                                    <td>
+                                            <code>ConsentTemplate[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>anonymousTemplates</td>
+                                    <td>
+                                            <code>ConsentTemplate[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>[]</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ConsentTemplate[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isRequiredConsent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            isRequiredConsent
+                        </b>
+                        <a href="#isRequiredConsent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isRequiredConsent(template: <a href="../interfaces/ConsentTemplate.html">ConsentTemplate</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="354"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:354</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>template</td>
+                                    <td>
+                                                <code><a href="../interfaces/ConsentTemplate.html" target="_self" >ConsentTemplate</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -436,8 +743,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="370"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:370</a></div>
                 </td>
             </tr>
 
@@ -475,8 +782,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:85</a></div>
                 </td>
             </tr>
 
@@ -514,8 +821,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:226</a></div>
                 </td>
             </tr>
 
@@ -585,8 +892,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="240"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:240</a></div>
                 </td>
             </tr>
 
@@ -657,8 +964,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="250"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:250</a></div>
                 </td>
             </tr>
 
@@ -709,6 +1016,232 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="rejectAll"></a>
+                    <span class="name">
+                        <b>
+                            rejectAll
+                        </b>
+                        <a href="#rejectAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>rejectAll(templates: ConsentTemplate[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="260"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:260</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>templates</td>
+                                    <td>
+                                            <code>ConsentTemplate[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>[]</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupGiveStream"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            setupGiveStream
+                        </b>
+                        <a href="#setupGiveStream"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupGiveStream(consentsToGive: ConsentTemplate[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="327"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:327</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>consentsToGive</td>
+                                    <td>
+                                            <code>ConsentTemplate[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>[]</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupWithdrawalStream"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            setupWithdrawalStream
+                        </b>
+                        <a href="#setupWithdrawalStream"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupWithdrawalStream(consentsToWithdraw: ConsentTemplate[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="280"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:280</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>consentsToWithdraw</td>
+                                    <td>
+                                            <code>ConsentTemplate[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>[]</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="withdrawConsentInit"></a>
                     <span class="name">
                         <b>
@@ -729,8 +1262,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="199"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:199</a></div>
                 </td>
             </tr>
 
@@ -756,6 +1289,88 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="allConsentsLoading"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            allConsentsLoading</b>
+                            <a href="#allConsentsLoading"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new BehaviorSubject&lt;boolean&gt;(false)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isAnonymousConsentsEnabled"></a>
+                        <span class="name">
+                            <b>
+                            isAnonymousConsentsEnabled</b>
+                            <a href="#isAnonymousConsentsEnabled"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>isFeatureEnabled(
+    this.anonymousConsentsConfig,
+    ANONYMOUS_CONSENTS_FEATURE
+  )</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:44</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLevel13"></a>
+                        <span class="name">
+                            <b>
+                            isLevel13</b>
+                            <a href="#isLevel13"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>isFeatureLevel(this.anonymousConsentsConfig, &#x27;1.3&#x27;)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="loading$"></a>
                         <span class="name">
                             <b>
@@ -772,7 +1387,39 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="requiredConsents"></a>
+                        <span class="name">
+                            <b>
+                            requiredConsents</b>
+                            <a href="#requiredConsents"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -799,7 +1446,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -826,7 +1473,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/consent-management/components/consent-management.component.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -841,13 +1488,33 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnDestroy, OnInit } from &#x27;@angular/core&#x27;;
 import {
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+  ANONYMOUS_CONSENTS_FEATURE,
+  AuthService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
+  isFeatureEnabled,
+  isFeatureLevel,
   UserConsentService,
 } from &#x27;@spartacus/core&#x27;;
-import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
-import { map, skipWhile, tap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
+import {
+  BehaviorSubject,
+  combineLatest,
+  concat,
+  Observable,
+  Subscription,
+} from &#x27;rxjs&#x27;;
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  scan,
+  skipWhile,
+  tap,
+  withLatestFrom,
+} from &#x27;rxjs/operators&#x27;;
 
 @Component({
   selector: &#x27;cx-consent-management&#x27;,
@@ -855,13 +1522,52 @@ import { map, skipWhile, tap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions &#x3D; new Subscription();
+  private allConsentsLoading &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
 
   templateList$: Observable&lt;ConsentTemplate[]&gt;;
   loading$: Observable&lt;boolean&gt;;
 
+  requiredConsents: string[] &#x3D; [];
+
+  isAnonymousConsentsEnabled &#x3D; isFeatureEnabled(
+    this.anonymousConsentsConfig,
+    ANONYMOUS_CONSENTS_FEATURE
+  );
+
+  // TODO(issue:4989) Anonymous consents - remove
+  isLevel13 &#x3D; isFeatureLevel(this.anonymousConsentsConfig, &#x27;1.3&#x27;);
+
+  constructor(
+    userConsentService: UserConsentService,
+    globalMessageService: GlobalMessageService,
+    anonymousConsentsConfig: AnonymousConsentsConfig,
+    anonymousConsentsService: AnonymousConsentsService,
+    authService: AuthService
+  );
+
+  /**
+   * @deprecated since version 1.3
+   * Instead, use:
+   &#x60;&#x60;&#x60;ts
+   constructor(
+     userConsentService: UserConsentService,
+     globalMessageService: GlobalMessageService,
+     anonymousConsentsConfig : AnonymousConsentsConfig,
+     anonymousConsentsService : AnonymousConsentsService,
+     authService: AuthService,
+   ) 
+   &#x60;&#x60;&#x60;
+   */
+  constructor(
+    userConsentService: UserConsentService,
+    globalMessageService: GlobalMessageService
+  );
   constructor(
     private userConsentService: UserConsentService,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private anonymousConsentsConfig?: AnonymousConsentsConfig,
+    private anonymousConsentsService?: AnonymousConsentsService,
+    private authService?: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -869,10 +1575,22 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       this.userConsentService.getConsentsResultLoading(),
       this.userConsentService.getGiveConsentResultLoading(),
       this.userConsentService.getWithdrawConsentResultLoading(),
+      this.authService.isUserLoggedIn(),
+      this.allConsentsLoading,
     ]).pipe(
       map(
-        ([consentLoading, giveConsentLoading, withdrawConsentLoading]) &#x3D;&gt;
-          consentLoading || giveConsentLoading || withdrawConsentLoading
+        ([
+          consentLoading,
+          giveConsentLoading,
+          withdrawConsentLoading,
+          isUserLoggedIn,
+          allConsentsLoading,
+        ]) &#x3D;&gt;
+          consentLoading ||
+          giveConsentLoading ||
+          withdrawConsentLoading ||
+          !isUserLoggedIn ||
+          allConsentsLoading
       )
     );
     this.consentListInit();
@@ -882,11 +1600,78 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   private consentListInit(): void {
     this.templateList$ &#x3D; this.userConsentService.getConsents().pipe(
-      tap(templateList &#x3D;&gt; {
+      withLatestFrom(
+        this.anonymousConsentsService.getTemplates(),
+        this.authService.isUserLoggedIn()
+      ),
+      filter(
+        ([_templateList, _anonymousTemplates, isUserLoggedIn]) &#x3D;&gt; isUserLoggedIn
+      ),
+      tap(([templateList, _anonymousTemplates]) &#x3D;&gt; {
         if (!this.consentsExists(templateList)) {
           this.userConsentService.loadConsents();
         }
+      }),
+      map(([templateList, anonymousTemplates]) &#x3D;&gt; {
+        if (!this.isAnonymousConsentsEnabled) {
+          return templateList;
+        }
+
+        if (Boolean(this.anonymousConsentsConfig.anonymousConsents)) {
+          if (
+            Boolean(
+              this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+            )
+          ) {
+            this.requiredConsents &#x3D; this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
+          }
+          if (
+            Boolean(
+              this.anonymousConsentsConfig.anonymousConsents
+                .consentManagementPage
+            )
+          ) {
+            return this.hideAnonymousConsents(templateList, anonymousTemplates);
+          }
+        }
+
+        return templateList;
       })
+    );
+  }
+
+  private hideAnonymousConsents(
+    templateList: ConsentTemplate[],
+    anonymousTemplates: ConsentTemplate[] &#x3D; []
+  ): ConsentTemplate[] {
+    let hideTemplateIds: string[] &#x3D; [];
+
+    if (
+      !this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        .showAnonymousConsents
+    ) {
+      hideTemplateIds &#x3D; anonymousTemplates.map(template &#x3D;&gt; template.id);
+      return this.userConsentService.filterConsentTemplates(
+        templateList,
+        hideTemplateIds
+      );
+    }
+
+    if (
+      Boolean(
+        this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+          .hideConsents
+      ) &amp;&amp;
+      this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        .hideConsents.length &gt; 0
+    ) {
+      hideTemplateIds &#x3D; this.anonymousConsentsConfig.anonymousConsents
+        .consentManagementPage.hideConsents;
+    }
+
+    return this.userConsentService.filterConsentTemplates(
+      templateList,
+      hideTemplateIds
     );
   }
 
@@ -949,6 +1734,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   private onConsentWithdrawnSuccess(success: boolean): void {
     if (success) {
       this.userConsentService.resetWithdrawConsentProcessState();
@@ -959,8 +1745,120 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     }
   }
 
+  rejectAll(templates: ConsentTemplate[] &#x3D; []): void {
+    const consentsToWithdraw: ConsentTemplate[] &#x3D; [];
+    templates.forEach(template &#x3D;&gt; {
+      if (this.userConsentService.isConsentGiven(template.currentConsent)) {
+        if (this.isRequiredConsent(template)) {
+          return;
+        }
+        consentsToWithdraw.push(template);
+      }
+    });
+
+    this.allConsentsLoading.next(true);
+
+    this.subscriptions.add(
+      this.setupWithdrawalStream(consentsToWithdraw)
+        .pipe(tap(_timesLoaded &#x3D;&gt; this.allConsentsLoading.next(false)))
+        .subscribe()
+    );
+  }
+
+  private setupWithdrawalStream(
+    consentsToWithdraw: ConsentTemplate[] &#x3D; []
+  ): Observable&lt;number&gt; {
+    const loading$ &#x3D; concat(
+      this.userConsentService.getWithdrawConsentResultLoading()
+    ).pipe(
+      distinctUntilChanged(),
+      filter(loading &#x3D;&gt; !loading)
+    );
+    const count$ &#x3D; loading$.pipe(scan((acc, _value) &#x3D;&gt; acc + 1, -1));
+    const withdraw$ &#x3D; count$.pipe(
+      tap(i &#x3D;&gt; {
+        if (i &lt; consentsToWithdraw.length) {
+          this.userConsentService.withdrawConsent(
+            consentsToWithdraw[i].currentConsent.code
+          );
+        }
+      })
+    );
+    const checkTimesLoaded$ &#x3D; withdraw$.pipe(
+      filter(timesLoaded &#x3D;&gt; timesLoaded &#x3D;&#x3D;&#x3D; consentsToWithdraw.length)
+    );
+
+    return checkTimesLoaded$;
+  }
+
+  allowAll(templates: ConsentTemplate[] &#x3D; []): void {
+    const consentsToGive: ConsentTemplate[] &#x3D; [];
+    templates.forEach(template &#x3D;&gt; {
+      if (this.userConsentService.isConsentWithdrawn(template.currentConsent)) {
+        if (this.isRequiredConsent(template)) {
+          return;
+        }
+
+        consentsToGive.push(template);
+      }
+    });
+
+    this.allConsentsLoading.next(true);
+
+    this.subscriptions.add(
+      this.setupGiveStream(consentsToGive)
+        .pipe(tap(_timesLoaded &#x3D;&gt; this.allConsentsLoading.next(false)))
+        .subscribe()
+    );
+  }
+
+  private setupGiveStream(
+    consentsToGive: ConsentTemplate[] &#x3D; []
+  ): Observable&lt;number&gt; {
+    const loading$ &#x3D; concat(
+      this.userConsentService.getGiveConsentResultLoading()
+    ).pipe(
+      distinctUntilChanged(),
+      filter(loading &#x3D;&gt; !loading)
+    );
+    const count$ &#x3D; loading$.pipe(scan((acc, _value) &#x3D;&gt; acc + 1, -1));
+    const giveConsent$ &#x3D; count$.pipe(
+      tap(i &#x3D;&gt; {
+        if (i &lt; consentsToGive.length) {
+          this.userConsentService.giveConsent(
+            consentsToGive[i].id,
+            consentsToGive[i].version
+          );
+        }
+      })
+    );
+    const checkTimesLoaded$ &#x3D; giveConsent$.pipe(
+      filter(timesLoaded &#x3D;&gt; timesLoaded &#x3D;&#x3D;&#x3D; consentsToGive.length)
+    );
+
+    return checkTimesLoaded$;
+  }
+
+  private isRequiredConsent(template: ConsentTemplate): boolean {
+    if (!this.isAnonymousConsentsEnabled) {
+      return false;
+    }
+
+    return (
+      Boolean(this.anonymousConsentsConfig.anonymousConsents) &amp;&amp;
+      Boolean(
+        this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+      ) &amp;&amp;
+      this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+        template.id
+      )
+    );
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.allConsentsLoading.unsubscribe();
+
     this.userConsentService.resetGiveConsentProcessState();
     this.userConsentService.resetWithdrawConsentProcessState();
   }
@@ -969,7 +1867,51 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;ng-container&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;!-- TODO(issue:4989) Anonymous consents - remove the wrapping &#x60;&lt;ng-container *ngIf&#x3D;&quot;isLevel13; else legacyConsentManagementPage&quot;&gt;&#x60; --&gt;
+&lt;ng-container *ngIf&#x3D;&quot;isLevel13; else legacyConsentManagementPage&quot;&gt;
+  &lt;div *ngIf&#x3D;&quot;loading$ | async; else consentManagementForm&quot;&gt;
+    &lt;div class&#x3D;&quot;cx-spinner&quot;&gt;
+      &lt;cx-spinner&gt;&lt;/cx-spinner&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;ng-template #consentManagementForm&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;templateList$ | async as templateList&quot;&gt;
+      &lt;div class&#x3D;&quot;cx-consent-action-links&quot;&gt;
+        &lt;div class&#x3D;&quot;col-sm-12 col-md-8 col-lg-6&quot;&gt;
+          &lt;a
+            tabindex&#x3D;&quot;0&quot;
+            class&#x3D;&quot;btn-link cx-action-link&quot;
+            (click)&#x3D;&quot;rejectAll(templateList)&quot;
+            &gt;{{ &#x27;consentManagementForm.clearAll&#x27; | cxTranslate }}&lt;/a
+          &gt;
+          &lt;a
+            tabindex&#x3D;&quot;0&quot;
+            class&#x3D;&quot;btn-link cx-action-link&quot;
+            (click)&#x3D;&quot;allowAll(templateList)&quot;
+            &gt;{{ &#x27;consentManagementForm.selectAll&#x27; | cxTranslate }}&lt;/a
+          &gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;cx-consent-toggles&quot;&gt;
+        &lt;div class&#x3D;&quot;col-sm-12 col-md-8 col-lg-6&quot;&gt;
+          &lt;cx-consent-management-form
+            *ngFor&#x3D;&quot;let consentTemplate of templateList&quot;
+            [consentTemplate]&#x3D;&quot;consentTemplate&quot;
+            [requiredConsents]&#x3D;&quot;requiredConsents&quot;
+            [isAnonymousConsentsEnabled]&#x3D;&quot;isAnonymousConsentsEnabled&quot;
+            [isLevel13]&#x3D;&quot;isLevel13&quot;
+            (consentChanged)&#x3D;&quot;onConsentChange($event)&quot;
+          &gt;&lt;/cx-consent-management-form&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/ng-container&gt;
+  &lt;/ng-template&gt;
+&lt;/ng-container&gt;
+
+&lt;!-- TODO(issue:4989) Anonymous consents - remove this whole &#x60;&lt;ng-template&gt;&#x60; --&gt;
+&lt;ng-template #legacyConsentManagementPage&gt;
   &lt;div *ngIf&#x3D;&quot;loading$ | async; else consentManagementForm&quot;&gt;
     &lt;div class&#x3D;&quot;cx-spinner&quot;&gt;
       &lt;cx-spinner&gt;&lt;/cx-spinner&gt;
@@ -987,7 +1929,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/ng-template&gt;
-&lt;/ng-container&gt;
+&lt;/ng-template&gt;
 </code></pre>
     </div>
 
@@ -1017,9 +1959,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ng-container>  <div *ngIf="loading$ | async; else consentManagementForm">    <div class="cx-spinner">      <cx-spinner></cx-spinner>    </div>  </div>  <ng-template #consentManagementForm>    <div class="row d-flex justify-content-center">      <div class="col-md-8">        <cx-consent-management-form          *ngFor="let consentTemplate of templateList$ | async"          [consentTemplate]="consentTemplate"          (consentChanged)="onConsentChange($event)"        ></cx-consent-management-form>      </div>    </div>  </ng-template></ng-container></div>'
-    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'}];
-    var DIRECTIVES = [{'name': 'AutoFocusDirective', 'selector': '[cxAutoFocus]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'}];
+        var COMPONENT_TEMPLATE = '<div><!-- TODO(issue:4989) Anonymous consents - remove the wrapping `<ng-container *ngIf="isLevel13; else legacyConsentManagementPage">` --><ng-container *ngIf="isLevel13; else legacyConsentManagementPage">  <div *ngIf="loading$ | async; else consentManagementForm">    <div class="cx-spinner">      <cx-spinner></cx-spinner>    </div>  </div>  <ng-template #consentManagementForm>    <ng-container *ngIf="templateList$ | async as templateList">      <div class="cx-consent-action-links">        <div class="col-sm-12 col-md-8 col-lg-6">          <a            tabindex="0"            class="btn-link cx-action-link"            (click)="rejectAll(templateList)"            >{{ \'consentManagementForm.clearAll\' | cxTranslate }}</a          >          <a            tabindex="0"            class="btn-link cx-action-link"            (click)="allowAll(templateList)"            >{{ \'consentManagementForm.selectAll\' | cxTranslate }}</a          >        </div>      </div>      <div class="cx-consent-toggles">        <div class="col-sm-12 col-md-8 col-lg-6">          <cx-consent-management-form            *ngFor="let consentTemplate of templateList"            [consentTemplate]="consentTemplate"            [requiredConsents]="requiredConsents"            [isAnonymousConsentsEnabled]="isAnonymousConsentsEnabled"            [isLevel13]="isLevel13"            (consentChanged)="onConsentChange($event)"          ></cx-consent-management-form>        </div>      </div>    </ng-container>  </ng-template></ng-container><!-- TODO(issue:4989) Anonymous consents - remove this whole `<ng-template>` --><ng-template #legacyConsentManagementPage>  <div *ngIf="loading$ | async; else consentManagementForm">    <div class="cx-spinner">      <cx-spinner></cx-spinner>    </div>  </div>  <ng-template #consentManagementForm>    <div class="row d-flex justify-content-center">      <div class="col-md-8">        <cx-consent-management-form          *ngFor="let consentTemplate of templateList$ | async"          [consentTemplate]="consentTemplate"          (consentChanged)="onConsentChange($event)"        ></cx-consent-management-form>      </div>    </div>  </ng-template></ng-template></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-cancel-or-return-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+    var DIRECTIVES = [{'name': 'AutoFocusDirective', 'selector': '[cxAutoFocus]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'}];
     var ACTUAL_COMPONENT = {'name': 'ConsentManagementComponent'};
 </script>
 <script src="../js/tree.js"></script>

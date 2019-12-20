@@ -412,7 +412,7 @@ import { catchError } from &#x27;rxjs/operators&#x27;;
 import { HttpResponseStatus } from &#x27;../models/response-status.model&#x27;;
 import { HttpErrorHandler } from &#x27;./handlers/http-error.handler&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
     @Inject(HttpErrorHandler) protected handlers: HttpErrorHandler[]

@@ -96,6 +96,10 @@
                                 <a href="#clearDeliveryModesOnCurrencyChange$">clearDeliveryModesOnCurrencyChange$</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#contextChange$">contextChange$</a>
+                            </li>
+                            <li>
                                 <a href="#createPaymentDetails$">createPaymentDetails$</a>
                             </li>
                             <li>
@@ -143,7 +147,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="375" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:375</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="415" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:415</a></div>
                             </td>
                         </tr>
 
@@ -284,7 +288,8 @@
             )
           )
         )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -299,7 +304,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -343,7 +348,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:158</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:180</a></div>
                             </td>
                         </tr>
 
@@ -387,7 +392,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="150" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:150</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="172" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:172</a></div>
                             </td>
                         </tr>
 
@@ -433,7 +438,8 @@
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -448,7 +454,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="322" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:322</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="353" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:353</a></div>
                             </td>
                         </tr>
 
@@ -469,7 +475,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CheckoutAction" target="_self" >Observable&lt;CheckoutActions.ClearCheckoutDeliveryModeFail | CheckoutActions.ClearCheckoutDeliveryModeSuccess&gt;</a></code>
+                            <i>Type : </i>    <code>Observable&lt;CheckoutActions.ClearCheckoutDeliveryModeFail | CheckoutActions.ClearCheckoutDeliveryModeSuccess | CartActions.CartProcessesDecrement | CartActions.LoadCart&gt;</code>
 
                         </td>
                     </tr>
@@ -479,7 +485,7 @@
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) &#x3D;&gt; action.payload),
     filter(payload &#x3D;&gt; Boolean(payload.cartId)),
-    switchMap(payload &#x3D;&gt; {
+    concatMap(payload &#x3D;&gt; {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
@@ -491,14 +497,20 @@
               })
           ),
           catchError(error &#x3D;&gt;
-            of(
+            from([
               new CheckoutActions.ClearCheckoutDeliveryModeFail(
                 makeErrorSerializable(error)
-              )
-            )
+              ),
+              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -513,7 +525,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="348" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:348</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="380" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:380</a></div>
                             </td>
                         </tr>
 
@@ -557,7 +569,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:134</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:156</a></div>
                             </td>
                         </tr>
 
@@ -601,7 +613,39 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:142</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:164</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="contextChange$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            contextChange$</b>
+                            <a href="#contextChange$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.actions$.pipe(
+    ofType(
+      SiteContextActions.CURRENCY_CHANGE,
+      SiteContextActions.LANGUAGE_CHANGE
+    )
+  )</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -654,7 +698,8 @@
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -669,7 +714,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="200" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:200</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="223" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:223</a></div>
                             </td>
                         </tr>
 
@@ -715,7 +760,8 @@
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -730,7 +776,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="282" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:282</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="312" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:312</a></div>
                             </td>
                         </tr>
 
@@ -775,7 +821,8 @@
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -790,7 +837,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:109</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:130</a></div>
                             </td>
                         </tr>
 
@@ -811,7 +858,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Observable&lt;CheckoutActions.PlaceOrderSuccess | GlobalMessageActions.AddMessage | CheckoutActions.PlaceOrderFail&gt;</code>
+                            <i>Type : </i>    <code>Observable&lt;CheckoutActions.PlaceOrderSuccess | GlobalMessageActions.AddMessage | CheckoutActions.PlaceOrderFail | CartActions.RemoveCart&gt;</code>
 
                         </td>
                     </tr>
@@ -824,12 +871,16 @@
       return this.checkoutConnector
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
-          switchMap(data &#x3D;&gt; [new CheckoutActions.PlaceOrderSuccess(data)]),
+          switchMap(data &#x3D;&gt; [
+            new CartActions.RemoveCart(payload.cartId),
+            new CheckoutActions.PlaceOrderSuccess(data),
+          ]),
           catchError(error &#x3D;&gt;
             of(new CheckoutActions.PlaceOrderFail(makeErrorSerializable(error)))
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -844,7 +895,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="262" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:262</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="287" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:287</a></div>
                             </td>
                         </tr>
 
@@ -872,12 +923,12 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.actions$.pipe(
-    ofType(CartActions.MERGE_CART_SUCCESS),
-    map((action: CartActions.MergeCartSuccess) &#x3D;&gt; action.payload),
+    ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
+    map((action: DeprecatedCartActions.MergeCartSuccess) &#x3D;&gt; action.payload),
     map(payload &#x3D;&gt; {
       return new CheckoutActions.LoadCheckoutDetails({
         userId: payload.userId,
-        cartId: payload.cartId ? payload.cartId : &#x27;current&#x27;,
+        cartId: payload.cartId ? payload.cartId : OCC_CART_ID_CURRENT,
       });
     })
   )</code>
@@ -894,7 +945,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="308" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:308</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="339" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:339</a></div>
                             </td>
                         </tr>
 
@@ -949,7 +1000,8 @@
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -964,7 +1016,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:70</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:90</a></div>
                             </td>
                         </tr>
 
@@ -985,7 +1037,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Observable&lt;CheckoutActions.SetDeliveryModeSuccess | CheckoutActions.SetDeliveryModeFail | CartActions.LoadCart&gt;</code>
+                            <i>Type : </i>    <code>Observable&lt;CheckoutActions.SetDeliveryModeSuccess | CheckoutActions.SetDeliveryModeFail | DeprecatedCartActions.LoadCart&gt;</code>
 
                         </td>
                     </tr>
@@ -1003,7 +1055,7 @@
               new CheckoutActions.SetDeliveryModeSuccess(
                 payload.selectedModeId
               ),
-              new CartActions.LoadCart({
+              new DeprecatedCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
@@ -1017,7 +1069,8 @@
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -1032,7 +1085,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:166</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:188</a></div>
                             </td>
                         </tr>
 
@@ -1080,7 +1133,8 @@
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   )</code>
                         </td>
                     </tr>
@@ -1095,7 +1149,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="234" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:234</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="258" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:258</a></div>
                             </td>
                         </tr>
 
@@ -1110,16 +1164,28 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
-import { Observable, of } from &#x27;rxjs&#x27;;
-import { catchError, filter, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
+import { from, Observable, of } from &#x27;rxjs&#x27;;
+import {
+  catchError,
+  concatMap,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+} from &#x27;rxjs/operators&#x27;;
 import { AuthActions } from &#x27;../../../auth/store/actions/index&#x27;;
+import * as DeprecatedCartActions from &#x27;../../../cart/store/actions/cart.action&#x27;;
 import { CartActions } from &#x27;../../../cart/store/actions/index&#x27;;
 import { CheckoutDetails } from &#x27;../../../checkout/models/checkout.model&#x27;;
 import { GlobalMessageActions } from &#x27;../../../global-message/store/actions/index&#x27;;
-import { OCC_USER_ID_ANONYMOUS } from &#x27;../../../occ/utils/occ-constants&#x27;;
+import {
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
+} from &#x27;../../../occ/utils/occ-constants&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
 import { UserActions } from &#x27;../../../user/store/actions/index&#x27;;
 import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { withdrawOn } from &#x27;../../../util/withdraw-on&#x27;;
 import { CheckoutConnector } from &#x27;../../connectors/checkout/checkout.connector&#x27;;
 import { CheckoutDeliveryConnector } from &#x27;../../connectors/delivery/checkout-delivery.connector&#x27;;
 import { CheckoutPaymentConnector } from &#x27;../../connectors/payment/checkout-payment.connector&#x27;;
@@ -1127,6 +1193,13 @@ import { CheckoutActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
 export class CheckoutEffects {
+  private contextChange$ &#x3D; this.actions$.pipe(
+    ofType(
+      SiteContextActions.CURRENCY_CHANGE,
+      SiteContextActions.LANGUAGE_CHANGE
+    )
+  );
+
   @Effect()
   addDeliveryAddress$: Observable&lt;
     | UserActions.LoadUserAddresses
@@ -1173,7 +1246,8 @@ export class CheckoutEffects {
             )
           )
         )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -1212,7 +1286,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -1237,7 +1312,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -1276,7 +1352,7 @@ export class CheckoutEffects {
   setDeliveryMode$: Observable&lt;
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
-    | CartActions.LoadCart
+    | DeprecatedCartActions.LoadCart
   &gt; &#x3D; this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_MODE),
     map((action: any) &#x3D;&gt; action.payload),
@@ -1289,7 +1365,7 @@ export class CheckoutEffects {
               new CheckoutActions.SetDeliveryModeSuccess(
                 payload.selectedModeId
               ),
-              new CartActions.LoadCart({
+              new DeprecatedCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
@@ -1303,7 +1379,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -1337,7 +1414,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -1365,7 +1443,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -1373,6 +1452,7 @@ export class CheckoutEffects {
     | CheckoutActions.PlaceOrderSuccess
     | GlobalMessageActions.AddMessage
     | CheckoutActions.PlaceOrderFail
+    | CartActions.RemoveCart
   &gt; &#x3D; this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map((action: any) &#x3D;&gt; action.payload),
@@ -1380,12 +1460,16 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
-          switchMap(data &#x3D;&gt; [new CheckoutActions.PlaceOrderSuccess(data)]),
+          switchMap(data &#x3D;&gt; [
+            new CartActions.RemoveCart(payload.cartId),
+            new CheckoutActions.PlaceOrderSuccess(data),
+          ]),
           catchError(error &#x3D;&gt;
             of(new CheckoutActions.PlaceOrderFail(makeErrorSerializable(error)))
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -1411,19 +1495,20 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
   reloadDetailsOnMergeCart$: Observable&lt;
     CheckoutActions.LoadCheckoutDetails
   &gt; &#x3D; this.actions$.pipe(
-    ofType(CartActions.MERGE_CART_SUCCESS),
-    map((action: CartActions.MergeCartSuccess) &#x3D;&gt; action.payload),
+    ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
+    map((action: DeprecatedCartActions.MergeCartSuccess) &#x3D;&gt; action.payload),
     map(payload &#x3D;&gt; {
       return new CheckoutActions.LoadCheckoutDetails({
         userId: payload.userId,
-        cartId: payload.cartId ? payload.cartId : &#x27;current&#x27;,
+        cartId: payload.cartId ? payload.cartId : OCC_CART_ID_CURRENT,
       });
     })
   );
@@ -1451,18 +1536,21 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
   clearCheckoutDeliveryMode$: Observable&lt;
     | CheckoutActions.ClearCheckoutDeliveryModeFail
     | CheckoutActions.ClearCheckoutDeliveryModeSuccess
+    | CartActions.CartProcessesDecrement
+    | CartActions.LoadCart
   &gt; &#x3D; this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) &#x3D;&gt; action.payload),
     filter(payload &#x3D;&gt; Boolean(payload.cartId)),
-    switchMap(payload &#x3D;&gt; {
+    concatMap(payload &#x3D;&gt; {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
@@ -1474,14 +1562,20 @@ export class CheckoutEffects {
               })
           ),
           catchError(error &#x3D;&gt;
-            of(
+            from([
               new CheckoutActions.ClearCheckoutDeliveryModeFail(
                 makeErrorSerializable(error)
-              )
-            )
+              ),
+              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   constructor(

@@ -154,7 +154,7 @@ Cypress.Commands.add(&#x27;requirePlacedOrder&#x27;, (auth, cartId) &#x3D;&gt; {
   function placeOrder() {
     return cy.request({
       method: &#x27;POST&#x27;,
-      url: &#x60;${apiUrl}/rest/v2/electronics/users/current/orders?cartId&#x3D;${cartId}&#x60;,
+      url: &#x60;${apiUrl}/rest/v2/electronics-spa/users/current/orders?cartId&#x3D;${cartId}&#x60;,
       form: false,
       headers: {
         Authorization: &#x60;bearer ${auth.userToken.token.access_token}&#x60;,

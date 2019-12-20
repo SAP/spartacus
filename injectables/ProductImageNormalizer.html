@@ -312,7 +312,7 @@ import { Converter } from &#x27;../../../../util/converter.service&#x27;;
 import { Product } from &#x27;../../../../model/product.model&#x27;;
 import { Images } from &#x27;../../../../model/image.model&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class ProductImageNormalizer implements Converter&lt;Occ.Product, Product&gt; {
   constructor(protected config: OccConfig) {}
 
@@ -354,6 +354,7 @@ export class ProductImageNormalizer implements Converter&lt;Occ.Product, Product
           imageContainer &#x3D; images[image.imageType];
         }
 
+        const targetImage &#x3D; { ...image };
         /**
          * Traditionally, in an on-prem world, medias and other backend related calls
          * are hosted at the same platform, but in a cloud setup, applications are are
@@ -361,12 +362,12 @@ export class ProductImageNormalizer implements Converter&lt;Occ.Product, Product
          * &#x60;backend.media.baseUrl&#x60; by default, but fallback to &#x60;backend.occ.baseUrl&#x60;
          * if none provided.
          */
-        image.url &#x3D;
+        targetImage.url &#x3D;
           (this.config.backend.media.baseUrl ||
             this.config.backend.occ.baseUrl ||
             &#x27;&#x27;) + image.url;
 
-        imageContainer[image.format] &#x3D; image;
+        imageContainer[image.format] &#x3D; targetImage;
       }
     }
     return images;

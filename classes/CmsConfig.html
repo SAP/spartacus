@@ -148,7 +148,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:56</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:71</a></div>
                             </td>
                         </tr>
 
@@ -176,7 +176,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:80</a></div>
                             </td>
                         </tr>
 
@@ -210,7 +210,7 @@
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/OccConfig.html#source" target="_self" >OccConfig:5</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/OccConfig.html#source" target="_self" >OccConfig:18</a></code>
 </div>
                             </td>
                         </tr>
@@ -310,6 +310,21 @@ export interface CmsComponentMapping {
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
+
+  /**
+   * DeferLoading can be specified globally, but also per component.
+   * Some components require direct loading while it&#x27;s not initially
+   * in the viewport.
+   */
+  deferLoading?: DeferLoadingStrategy;
+}
+
+/** Strategy to control the loading strategy of DOM elements. */
+export enum DeferLoadingStrategy {
+  /** Defers loading of DOM elements until element is near/in the users view port */
+  DEFER &#x3D; &#x27;DEFERRED-LOADING&#x27;,
+  /** Renders the DOM instantly without being concerned with the view port */
+  INSTANT &#x3D; &#x27;INSTANT-LOADING&#x27;,
 }
 
 export interface CMSComponentConfig

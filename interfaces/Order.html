@@ -96,6 +96,10 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#cancellable">cancellable</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#code">code</a>
                                 </li>
                                 <li>
@@ -169,6 +173,10 @@
                                 <li>
                                             <span class="modifier">Optional</span>
                                         <a href="#productDiscounts">productDiscounts</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#returnable">returnable</a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
@@ -342,6 +350,40 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <code>calculated:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="cancellable"></a>
+                                        <span class="name"><b>cancellable</b><a href="#cancellable"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>cancellable:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -1015,6 +1057,40 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="returnable"></a>
+                                        <span class="name"><b>returnable</b><a href="#returnable"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>returnable:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="site"></a>
                                         <span class="name"><b>site</b><a href="#site"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
@@ -1452,6 +1528,55 @@ export interface OrderEntry {
   quantity?: number;
   totalPrice?: Price;
   updateable?: boolean;
+  returnedItemsPrice?: Price;
+  returnableQuantity?: number;
+  cancelledItemsPrice?: Price;
+  cancellableQuantity?: number;
+}
+
+export interface CancelOrReturnRequestEntryInput {
+  orderEntryNumber?: number;
+  quantity?: number;
+}
+
+export interface ReturnRequestEntryInputList {
+  orderCode?: string;
+  returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
+}
+
+export interface CancellationRequestEntryInputList {
+  cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
+}
+
+export interface ReturnRequestEntry {
+  orderEntry?: OrderEntry;
+  expectedQuantity?: number;
+  refundAmount?: Price;
+}
+
+export interface ReturnRequest {
+  cancellable?: boolean;
+  code?: string;
+  creationTime?: Date;
+  deliveryCost?: Price;
+  order?: Order;
+  refundDeliveryCost?: boolean;
+  returnEntries?: ReturnRequestEntry[];
+  returnLabelDownloadUrl?: string;
+  rma?: string;
+  status?: string;
+  subTotal?: Price;
+  totalPrice?: Price;
+}
+
+export interface ReturnRequestList {
+  returnRequests?: ReturnRequest[];
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
+}
+
+export interface ReturnRequestModification {
+  status?: string;
 }
 
 export interface PickupOrderEntryGroup {
@@ -1536,6 +1661,8 @@ export interface Order {
   totalTax?: Price;
   unconsignedEntries?: OrderEntry[];
   user?: Principal;
+  returnable?: boolean;
+  cancellable?: boolean;
 }
 </code></pre>
     </div>

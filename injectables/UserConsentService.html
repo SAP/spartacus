@@ -76,6 +76,12 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#filterConsentTemplates">filterConsentTemplates</a>
+                            </li>
+                            <li>
+                                <a href="#getConsent">getConsent</a>
+                            </li>
+                            <li>
                                 <a href="#getConsents">getConsents</a>
                             </li>
                             <li>
@@ -109,6 +115,12 @@
                                 <a href="#giveConsent">giveConsent</a>
                             </li>
                             <li>
+                                <a href="#isConsentGiven">isConsentGiven</a>
+                            </li>
+                            <li>
+                                <a href="#isConsentWithdrawn">isConsentWithdrawn</a>
+                            </li>
+                            <li>
                                 <a href="#loadConsents">loadConsents</a>
                             </li>
                             <li>
@@ -122,6 +134,10 @@
                             </li>
                             <li>
                                 <a href="#withdrawConsent">withdrawConsent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#withUserId">withUserId</a>
                             </li>
                         </ul>
                     </td>
@@ -141,12 +157,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithUser | StateWithProcess>)</code>
+<code>constructor(store: Store<StateWithUser | StateWithProcess>, authService?: <a href="../injectables/AuthService.html">AuthService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -175,6 +191,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -193,6 +221,184 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="filterConsentTemplates"></a>
+                    <span class="name">
+                        <b>
+                            filterConsentTemplates
+                        </b>
+                        <a href="#filterConsentTemplates"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>filterConsentTemplates(templateList: ConsentTemplate[], hideTemplateIds: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:275</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Filters the provided <code>templateList</code>&#39; templates by hiding the template IDs specified in <code>hideTemplateIds</code>.
+If the <code>hideTemplateIds</code> is empty, the provided <code>templateList</code> is returned.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>templateList</td>
+                                    <td>
+                                            <code>ConsentTemplate[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>a list of consent templates to filter</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hideTemplateIds</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>[]</code>
+                                    </td>
+
+                                    <td>
+                                        <p>template IDs to hide</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ConsentTemplate[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConsent"></a>
+                    <span class="name">
+                        <b>
+                            getConsent
+                        </b>
+                        <a href="#getConsent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getConsent(templateId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:125</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the registered consent for the given template ID.</p>
+<p>As a side-effect, the method will call <code>getConsents(true)</code> to load the templates if those are not present.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>templateId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>a template ID by which to filter the registered templates.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Consent&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getConsents"></a>
                     <span class="name">
                         <b>
@@ -204,27 +410,63 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getConsents()</code>
+<code>getConsents(loadIfMissing)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:65</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns all consents</p>
+                    <div class="io-description"><p>Returns all consent templates. If <code>loadIfMissing</code> parameter is set to <code>true</code>, the method triggers the load if consent templates.</p>
 </div>
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>loadIfMissing</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                    <td>
+                                        <p>is set to <code>true</code>, the method will load templates if those are not already present. The default value is <code>false</code>.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;ConsentTemplate[]&gt;</code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -252,8 +494,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:107</a></div>
                 </td>
             </tr>
 
@@ -293,8 +535,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:93</a></div>
                 </td>
             </tr>
 
@@ -334,8 +576,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:100</a></div>
                 </td>
             </tr>
 
@@ -375,8 +617,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:204</a></div>
                 </td>
             </tr>
 
@@ -416,8 +658,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="186"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:186</a></div>
                 </td>
             </tr>
 
@@ -457,8 +699,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:195</a></div>
                 </td>
             </tr>
 
@@ -498,8 +740,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="253"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:253</a></div>
                 </td>
             </tr>
 
@@ -539,8 +781,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:235</a></div>
                 </td>
             </tr>
 
@@ -580,8 +822,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="244"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:244</a></div>
                 </td>
             </tr>
 
@@ -621,8 +863,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:171</a></div>
                 </td>
             </tr>
 
@@ -696,6 +938,162 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isConsentGiven"></a>
+                    <span class="name">
+                        <b>
+                            isConsentGiven
+                        </b>
+                        <a href="#isConsentGiven"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isConsentGiven(consent: <a href="../interfaces/Consent.html">Consent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:145</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns <code>true</code> if the consent is truthy and if <code>consentWithdrawnDate</code> doesn&#39;t exist.
+Otherwise, <code>false</code> is returned.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>consent</td>
+                                    <td>
+                                                <code><a href="../interfaces/Consent.html" target="_self" >Consent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>to check</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isConsentWithdrawn"></a>
+                    <span class="name">
+                        <b>
+                            isConsentWithdrawn
+                        </b>
+                        <a href="#isConsentWithdrawn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isConsentWithdrawn(consent: <a href="../interfaces/Consent.html">Consent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns <code>true</code> if the consent is either falsy or if <code>consentWithdrawnDate</code> is present.
+Otherwise, <code>false</code> is returned.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>consent</td>
+                                    <td>
+                                                <code><a href="../interfaces/Consent.html" target="_self" >Consent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>to check</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="loadConsents"></a>
                     <span class="name">
                         <b>
@@ -714,8 +1112,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -755,8 +1153,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:114</a></div>
                 </td>
             </tr>
 
@@ -796,8 +1194,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:113</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="213"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:213</a></div>
                 </td>
             </tr>
 
@@ -837,8 +1235,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="262"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:262</a></div>
                 </td>
             </tr>
 
@@ -878,8 +1276,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="221"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:221</a></div>
                 </td>
             </tr>
 
@@ -933,6 +1331,80 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="withUserId"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            withUserId
+                        </b>
+                        <a href="#withUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>withUserId(callback: (userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="298"
+                            class="link-to-prism">projects/core/src/user/facade/user-consent.service.ts:298</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Utility method to distinquish pre / post 1.3.0 in a convenient way.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>callback</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -941,9 +1413,18 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { ConsentTemplate } from &#x27;../../model/consent.model&#x27;;
-import { OCC_USER_ID_CURRENT } from &#x27;../../occ/utils/occ-constants&#x27;;
+import { iif, Observable } from &#x27;rxjs&#x27;;
+import {
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from &#x27;rxjs/operators&#x27;;
+import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { Consent, ConsentTemplate } from &#x27;../../model/consent.model&#x27;;
+import { OCC_USER_ID_CURRENT } from &#x27;../../occ/index&#x27;;
 import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
 import {
   getProcessErrorFactory,
@@ -962,20 +1443,61 @@ import {
   providedIn: &#x27;root&#x27;,
 })
 export class UserConsentService {
-  constructor(protected store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;) {}
+  constructor(
+    store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;,
+    // tslint:disable-next-line:unified-signatures
+    authService: AuthService
+  );
+
+  /**
+   * @deprecated since version 1.3
+   *  Use constructor(store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;,
+   *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
+   */
+  constructor(store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;);
+  constructor(
+    protected store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;,
+    protected authService?: AuthService
+  ) {}
 
   /**
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.store.dispatch(new UserActions.LoadUserConsents(OCC_USER_ID_CURRENT));
+    this.withUserId(userId &#x3D;&gt;
+      this.store.dispatch(new UserActions.LoadUserConsents(userId))
+    );
   }
 
   /**
-   * Returns all consents
+   * Returns all consent templates. If &#x60;loadIfMissing&#x60; parameter is set to &#x60;true&#x60;, the method triggers the load if consent templates.
+   * @param loadIfMissing is set to &#x60;true&#x60;, the method will load templates if those are not already present. The default value is &#x60;false&#x60;.
    */
-  getConsents(): Observable&lt;ConsentTemplate[]&gt; {
-    return this.store.pipe(select(UsersSelectors.getConsentsValue));
+  getConsents(loadIfMissing &#x3D; false): Observable&lt;ConsentTemplate[]&gt; {
+    return iif(
+      () &#x3D;&gt; loadIfMissing,
+      this.store.pipe(
+        select(UsersSelectors.getConsentsValue),
+        withLatestFrom(
+          this.getConsentsResultLoading(),
+          this.getConsentsResultSuccess()
+        ),
+        filter(([_templates, loading, _success]) &#x3D;&gt; !loading),
+        tap(([templates, _loading, success]) &#x3D;&gt; {
+          if (!templates || templates.length &#x3D;&#x3D;&#x3D; 0) {
+            // avoid infite loop - if we&#x27;ve already attempted to load templates and we got an empty array as the response
+            if (!success) {
+              this.loadConsents();
+            }
+          }
+        }),
+        filter(([templates, _loading]) &#x3D;&gt; Boolean(templates)),
+        map(([templates, _loading]) &#x3D;&gt; templates)
+      ),
+      this.store.pipe(select(UsersSelectors.getConsentsValue))
+    );
   }
 
   /**
@@ -1007,17 +1529,67 @@ export class UserConsentService {
   }
 
   /**
+   * Returns the registered consent for the given template ID.
+   *
+   * As a side-effect, the method will call &#x60;getConsents(true)&#x60; to load the templates if those are not present.
+   *
+   * @param templateId a template ID by which to filter the registered templates.
+   */
+  getConsent(templateId: string): Observable&lt;Consent&gt; {
+    return this.authService.isUserLoggedIn().pipe(
+      filter(Boolean),
+      tap(_ &#x3D;&gt; this.getConsents(true)),
+      switchMap(_ &#x3D;&gt;
+        this.store.pipe(
+          select(UsersSelectors.getConsentByTemplateId(templateId))
+        )
+      ),
+      filter(template &#x3D;&gt; Boolean(template)),
+      map(template &#x3D;&gt; template.currentConsent)
+    );
+  }
+
+  /**
+   * Returns &#x60;true&#x60; if the consent is truthy and if &#x60;consentWithdrawnDate&#x60; doesn&#x27;t exist.
+   * Otherwise, &#x60;false&#x60; is returned.
+   *
+   * @param consent to check
+   */
+  isConsentGiven(consent: Consent): boolean {
+    return (
+      Boolean(consent) &amp;&amp;
+      Boolean(consent.consentGivenDate) &amp;&amp;
+      !Boolean(consent.consentWithdrawnDate)
+    );
+  }
+
+  /**
+   * Returns &#x60;true&#x60; if the consent is either falsy or if &#x60;consentWithdrawnDate&#x60; is present.
+   * Otherwise, &#x60;false&#x60; is returned.
+   *
+   * @param consent to check
+   */
+  isConsentWithdrawn(consent: Consent): boolean {
+    if (Boolean(consent)) {
+      return Boolean(consent.consentWithdrawnDate);
+    }
+    return true;
+  }
+
+  /**
    * Give consent for specified consent template ID and version.
    * @param consentTemplateId a template ID for which to give a consent
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.store.dispatch(
-      new UserActions.GiveUserConsent({
-        userId: OCC_USER_ID_CURRENT,
-        consentTemplateId,
-        consentTemplateVersion,
-      })
+    this.withUserId(userId &#x3D;&gt;
+      this.store.dispatch(
+        new UserActions.GiveUserConsent({
+          userId,
+          consentTemplateId,
+          consentTemplateVersion,
+        })
+      )
     );
   }
 
@@ -1060,11 +1632,13 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.store.dispatch(
-      new UserActions.WithdrawUserConsent({
-        userId: OCC_USER_ID_CURRENT,
-        consentCode,
-      })
+    this.withUserId(userId &#x3D;&gt;
+      this.store.dispatch(
+        new UserActions.WithdrawUserConsent({
+          userId,
+          consentCode,
+        })
+      )
     );
   }
 
@@ -1102,6 +1676,48 @@ export class UserConsentService {
     return this.store.dispatch(
       new UserActions.ResetWithdrawUserConsentProcess()
     );
+  }
+
+  /**
+   * Filters the provided &#x60;templateList&#x60;&#x27; templates by hiding the template IDs specified in &#x60;hideTemplateIds&#x60;.
+   * If the &#x60;hideTemplateIds&#x60; is empty, the provided &#x60;templateList&#x60; is returned.
+   *
+   * @param templateList a list of consent templates to filter
+   * @param hideTemplateIds template IDs to hide
+   */
+  filterConsentTemplates(
+    templateList: ConsentTemplate[],
+    hideTemplateIds: string[] &#x3D; []
+  ): ConsentTemplate[] {
+    if (hideTemplateIds.length &#x3D;&#x3D;&#x3D; 0) {
+      return templateList;
+    }
+
+    const updatedTemplateList: ConsentTemplate[] &#x3D; [];
+    for (const template of templateList) {
+      const show &#x3D; !hideTemplateIds.includes(template.id);
+      if (show) {
+        updatedTemplateList.push(template);
+      }
+    }
+
+    return updatedTemplateList;
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) &#x3D;&gt; void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId &#x3D;&gt; callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }
 </code></pre>

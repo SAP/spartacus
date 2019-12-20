@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/auth/store/actions/user-token.action.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/auth/store/actions/user-token.action.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/auth/store/actions/user-token.action.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/auth/store/actions/user-token.action.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -208,7 +208,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/auth/store/actions/user-token.action.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/auth/store/actions/user-token.action.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -236,6 +236,9 @@ export const LOAD_USER_TOKEN_SUCCESS &#x3D; &#x27;[Auth] Load User Token Success
 export const REFRESH_USER_TOKEN &#x3D; &#x27;[Auth] Refresh User Token&#x27;;
 export const REFRESH_USER_TOKEN_FAIL &#x3D; &#x27;[Auth] Refresh User Token Fail&#x27;;
 export const REFRESH_USER_TOKEN_SUCCESS &#x3D; &#x27;[Auth] Refresh User Token Success&#x27;;
+export const REVOKE_USER_TOKEN &#x3D; &#x27;[Auth] Revoke User Token&#x27;;
+export const REVOKE_USER_TOKEN_FAIL &#x3D; &#x27;[Auth] Revoke User Token Fail&#x27;;
+export const REVOKE_USER_TOKEN_SUCCESS &#x3D; &#x27;[Auth] Revoke User Token Success&#x27;;
 
 export class LoadUserToken implements Action {
   readonly type &#x3D; LOAD_USER_TOKEN;
@@ -267,6 +270,21 @@ export class RefreshUserTokenFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class RevokeUserToken implements Action {
+  readonly type &#x3D; REVOKE_USER_TOKEN;
+  constructor(public payload: UserToken) {}
+}
+
+export class RevokeUserTokenSuccess implements Action {
+  readonly type &#x3D; REVOKE_USER_TOKEN_SUCCESS;
+  constructor(public payload: UserToken) {}
+}
+
+export class RevokeUserTokenFail implements Action {
+  readonly type &#x3D; REVOKE_USER_TOKEN_FAIL;
+  constructor(public payload: any) {}
+}
+
 // action types
 export type UserTokenAction &#x3D;
   | LoadUserToken
@@ -274,7 +292,10 @@ export type UserTokenAction &#x3D;
   | LoadUserTokenSuccess
   | RefreshUserToken
   | RefreshUserTokenFail
-  | RefreshUserTokenSuccess;
+  | RefreshUserTokenSuccess
+  | RevokeUserToken
+  | RevokeUserTokenFail
+  | RevokeUserTokenSuccess;
 </code></pre>
     </div>
 </div>

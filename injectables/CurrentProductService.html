@@ -66,6 +66,22 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#PRODUCT_SCOPE">PRODUCT_SCOPE</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -96,12 +112,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>, features?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -142,6 +158,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>features</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -178,8 +206,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -196,13 +224,52 @@
         </tbody>
     </table>
 </section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="PRODUCT_SCOPE"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                                <span class="modifier">Readonly</span>
+                            PRODUCT_SCOPE</b>
+                            <a href="#PRODUCT_SCOPE"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.features &amp;&amp; this.features.isLevel(&#x27;1.4&#x27;) ? [&#x27;details&#x27;] : &#x27;&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:21</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Product, ProductService, RoutingService } from &#x27;@spartacus/core&#x27;;
+import {
+  FeatureConfigService,
+  Product,
+  ProductService,
+  RoutingService,
+} from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
 
@@ -212,14 +279,20 @@ import { filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
 export class CurrentProductService {
   constructor(
     private routingService: RoutingService,
-    private productService: ProductService
+    private productService: ProductService,
+    protected features?: FeatureConfigService
   ) {}
+
+  protected readonly PRODUCT_SCOPE &#x3D;
+    this.features &amp;&amp; this.features.isLevel(&#x27;1.4&#x27;) ? [&#x27;details&#x27;] : &#x27;&#x27;;
 
   getProduct(): Observable&lt;Product&gt; {
     return this.routingService.getRouterState().pipe(
       map(state &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
       filter(Boolean),
-      switchMap((productCode: string) &#x3D;&gt; this.productService.get(productCode))
+      switchMap((productCode: string) &#x3D;&gt;
+        this.productService.get(productCode, this.PRODUCT_SCOPE)
+      )
     );
   }
 }

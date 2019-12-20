@@ -131,7 +131,7 @@ to resolve page data and seo related data.</p>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>breadcrumbs:     <code>any[]</code>
+                                        <code>breadcrumbs:     <code>BreadcrumbMeta[]</code>
 </code>
                                     </td>
                                 </tr>
@@ -139,7 +139,7 @@ to resolve page data and seo related data.</p>
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>any[]</code>
+                                            <i>Type : </i>    <code>BreadcrumbMeta[]</code>
 
                                         </td>
                                     </tr>
@@ -428,7 +428,12 @@ export interface PageMeta {
   /**
    * the list of breadcrumbs that can be rendered in the page UI.
    */
-  breadcrumbs?: any[];
+  breadcrumbs?: BreadcrumbMeta[];
+}
+
+export interface BreadcrumbMeta {
+  label: string;
+  link: string;
 }
 
 export enum PageRobotsMeta {

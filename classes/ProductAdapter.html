@@ -84,6 +84,11 @@
                                     <span class="modifier">Abstract</span>
                                 <a href="#load">load</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#loadMany">loadMany</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -120,15 +125,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>load(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>load(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/core/src/product/connectors/product/product.adapter.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/core/src/product/connectors/product/product.adapter.ts:14</a></div>
                 </td>
             </tr>
 
@@ -168,6 +173,22 @@ converts to the <code>Product</code>.</p>
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>The product scope to load</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -175,6 +196,83 @@ converts to the <code>Product</code>.</p>
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;Product&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadMany"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            <span class="modifier">Optional</span>
+                            loadMany
+                        </b>
+                        <a href="#loadMany"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadMany(products: ScopedProductData[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/product/connectors/product/product.adapter.ts:23</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method used to load data for multiple product and scopes
+Adapter is able to optimize necessary backend calls and load
+products in the most efficient way possible.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>products</td>
+                                    <td>
+                                            <code>ScopedProductData[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ScopedProductData[]</code>
 
                     </div>
                     <div class="io-description">
@@ -196,6 +294,7 @@ converts to the <code>Product</code>.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
 import { Product } from &#x27;../../../model/product.model&#x27;;
+import { ScopedProductData } from &#x27;./scoped-product-data&#x27;;
 
 export abstract class ProductAdapter {
   /**
@@ -204,8 +303,18 @@ export abstract class ProductAdapter {
    * converts to the &#x60;Product&#x60;.
    *
    * @param productCode The &#x60;productCode&#x60; for given product
+   * @param scope The product scope to load
    */
-  abstract load(productCode: string): Observable&lt;Product&gt;;
+  abstract load(productCode: string, scope?: string): Observable&lt;Product&gt;;
+
+  /**
+   * Abstract method used to load data for multiple product and scopes
+   * Adapter is able to optimize necessary backend calls and load
+   * products in the most efficient way possible.
+   *
+   * @param products
+   */
+  abstract loadMany?(products: ScopedProductData[]): ScopedProductData[];
 }
 </code></pre>
     </div>

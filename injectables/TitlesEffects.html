@@ -81,21 +81,6 @@
                     </td>
                 </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Methods</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#sortTitles">sortTitles</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
 
 
 
@@ -116,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/user/store/effects/titles.effect.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/user/store/effects/titles.effect.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -166,84 +151,7 @@
         </table>
 </section>
 
-            <section>
-    
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="sortTitles"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            sortTitles
-                        </b>
-                        <a href="#sortTitles"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>sortTitles(titles: Title[])</code>
-                </td>
-            </tr>
 
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/core/src/user/store/effects/titles.effect.ts:28</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>titles</td>
-                                    <td>
-                                            <code>Title[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>{}</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>
             <section>
     
         <h3 id="inputs">
@@ -274,8 +182,7 @@
     switchMap(() &#x3D;&gt; {
       return this.userAccountConnector.getTitles().pipe(
         map(titles &#x3D;&gt; {
-          const sortedTitles &#x3D; this.sortTitles(titles);
-          return new UserActions.LoadTitlesSuccess(sortedTitles);
+          return new UserActions.LoadTitlesSuccess(titles);
         }),
         catchError(error &#x3D;&gt;
           of(new UserActions.LoadTitlesFail(makeErrorSerializable(error)))
@@ -296,7 +203,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/user/store/effects/titles.effect.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/user/store/effects/titles.effect.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -313,7 +220,6 @@
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { Title } from &#x27;../../../model/misc.model&#x27;;
 import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 import { UserConnector } from &#x27;../../connectors/user/user.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
@@ -326,8 +232,7 @@ export class TitlesEffects {
     switchMap(() &#x3D;&gt; {
       return this.userAccountConnector.getTitles().pipe(
         map(titles &#x3D;&gt; {
-          const sortedTitles &#x3D; this.sortTitles(titles);
-          return new UserActions.LoadTitlesSuccess(sortedTitles);
+          return new UserActions.LoadTitlesSuccess(titles);
         }),
         catchError(error &#x3D;&gt;
           of(new UserActions.LoadTitlesFail(makeErrorSerializable(error)))
@@ -335,17 +240,6 @@ export class TitlesEffects {
       );
     })
   );
-
-  private sortTitles(titles: Title[]) {
-    const drTitle &#x3D; { code: &#x27;dr&#x27;, name: &#x27;Dr.&#x27; };
-    const revTitle &#x3D; { code: &#x27;rev&#x27;, name: &#x27;Rev.&#x27; };
-
-    const filteredTitles &#x3D; titles.filter(
-      t &#x3D;&gt; t.code !&#x3D;&#x3D; &#x27;dr&#x27; &amp;&amp; t.code !&#x3D;&#x3D; &#x27;rev&#x27;
-    );
-    const sortedTitles &#x3D; [...filteredTitles, drTitle, revTitle];
-    return sortedTitles;
-  }
 
   constructor(
     private actions$: Actions,

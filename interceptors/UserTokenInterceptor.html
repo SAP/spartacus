@@ -332,7 +332,7 @@ import { switchMap, take } from &#x27;rxjs/operators&#x27;;
 import { OccEndpointsService } from &#x27;../../occ/services/occ-endpoints.service&#x27;;
 import { AuthService } from &#x27;../facade/auth.service&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class UserTokenInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,

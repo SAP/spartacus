@@ -131,7 +131,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -232,8 +232,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="188"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:188</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:191</a></div>
                 </td>
             </tr>
 
@@ -326,8 +326,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:89</a></div>
                 </td>
             </tr>
 
@@ -420,8 +420,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:114</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:117</a></div>
                 </td>
             </tr>
 
@@ -504,8 +504,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:43</a></div>
                 </td>
             </tr>
 
@@ -576,8 +576,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:166</a></div>
                 </td>
             </tr>
 
@@ -684,8 +684,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:150</a></div>
                 </td>
             </tr>
 
@@ -768,8 +768,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:133</a></div>
                 </td>
             </tr>
 
@@ -840,8 +840,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:62</a></div>
                 </td>
             </tr>
 
@@ -924,8 +924,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:48</a></div>
                 </td>
             </tr>
 
@@ -993,7 +993,10 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from &#x27;../../utils/interceptor-util&#x27;;
-import { OCC_USER_ID_ANONYMOUS } from &#x27;../../utils/occ-constants&#x27;;
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_CART_ID_CURRENT,
+} from &#x27;../../utils/occ-constants&#x27;;
 
 // TODO: Deprecated, remove Issue: #4125. Use configurable endpoints.
 const DETAILS_PARAMS &#x3D;
@@ -1037,7 +1040,7 @@ export class OccCartAdapter implements CartAdapter {
   }
 
   public load(userId: string, cartId: string): Observable&lt;Cart&gt; {
-    if (cartId &#x3D;&#x3D;&#x3D; &#x27;current&#x27;) {
+    if (cartId &#x3D;&#x3D;&#x3D; OCC_CART_ID_CURRENT) {
       return this.loadAll(userId).pipe(
         map(carts &#x3D;&gt; {
           if (carts) {

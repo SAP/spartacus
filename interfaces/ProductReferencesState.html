@@ -163,7 +163,7 @@
   Suggestion,
 } from &#x27;../../model/product-search.model&#x27;;
 import { Product, ProductReference, Review } from &#x27;../../model/product.model&#x27;;
-import { EntityLoaderState } from &#x27;../../state/utils/entity-loader/entity-loader-state&#x27;;
+import { EntityScopedLoaderState } from &#x27;../../state/utils/scoped-loader/scoped-loader.state&#x27;;
 
 export const PRODUCT_FEATURE &#x3D; &#x27;product&#x27;;
 export const PRODUCT_DETAIL_ENTITY &#x3D; &#x27;[Product] Detail Entity&#x27;;
@@ -173,7 +173,7 @@ export interface StateWithProduct {
 }
 
 export interface ProductsState {
-  details: EntityLoaderState&lt;Product&gt;;
+  details: EntityScopedLoaderState&lt;Product&gt;;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
   references: ProductReferencesState;

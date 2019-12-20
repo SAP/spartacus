@@ -474,15 +474,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Price, Promotion } from &#x27;./product.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address } from &#x27;./address.model&#x27;;
+import { Currency } from &#x27;./misc.model&#x27;;
 import {
   DeliveryMode,
   OrderEntry,
-  PromotionOrderEntryConsumed,
   PickupOrderEntryGroup,
+  PromotionOrderEntryConsumed,
 } from &#x27;./order.model&#x27;;
-import { Address } from &#x27;./address.model&#x27;;
-import { Currency } from &#x27;./misc.model&#x27;;
+import { Price, Promotion } from &#x27;./product.model&#x27;;
 
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];
@@ -535,6 +535,10 @@ export interface PaymentDetails {
   startMonth?: string;
   startYear?: string;
   subscriptionId?: string;
+}
+
+export interface SaveCartResult {
+  savedCartData?: Cart;
 }
 
 export interface Cart {

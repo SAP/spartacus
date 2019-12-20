@@ -106,12 +106,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(payload: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>constructor(payload: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/product/store/actions/product.action.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/product/store/actions/product.action.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -130,6 +130,18 @@
                                         <tbody>
                                                 <tr>
                                                         <td>payload</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>scope</td>
                                                   
                                                         <td>
                                                                         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
@@ -175,7 +187,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/product/store/actions/product.action.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/product/store/actions/product.action.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +214,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/product/store/actions/product.action.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/product/store/actions/product.action.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -222,31 +234,42 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Product } from &#x27;../../../model/product.model&#x27;;
-import { StateEntityLoaderActions } from &#x27;../../../state/utils/index&#x27;;
 import { PRODUCT_DETAIL_ENTITY } from &#x27;../product-state&#x27;;
+import { EntityLoaderMeta } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
+import { Action } from &#x27;@ngrx/store&#x27;;
+import { EntityScopedLoaderActions } from &#x27;../../../state/utils/scoped-loader/entity-scoped-loader.actions&#x27;;
 
 export const LOAD_PRODUCT &#x3D; &#x27;[Product] Load Product Data&#x27;;
 export const LOAD_PRODUCT_FAIL &#x3D; &#x27;[Product] Load Product Data Fail&#x27;;
 export const LOAD_PRODUCT_SUCCESS &#x3D; &#x27;[Product] Load Product Data Success&#x27;;
 
-export class LoadProduct extends StateEntityLoaderActions.EntityLoadAction {
+export interface ProductMeta extends EntityLoaderMeta {
+  scope?: string;
+}
+
+export interface EntityScopedLoaderAction extends Action {
+  readonly payload?: any;
+  readonly meta?: ProductMeta;
+}
+
+export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadAction {
   readonly type &#x3D; LOAD_PRODUCT;
-  constructor(public payload: string) {
-    super(PRODUCT_DETAIL_ENTITY, payload);
+  constructor(public payload: string, scope &#x3D; &#x27;&#x27;) {
+    super(PRODUCT_DETAIL_ENTITY, payload, scope);
   }
 }
 
-export class LoadProductFail extends StateEntityLoaderActions.EntityFailAction {
+export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
   readonly type &#x3D; LOAD_PRODUCT_FAIL;
-  constructor(productCode: string, public payload: any) {
-    super(PRODUCT_DETAIL_ENTITY, productCode, payload);
+  constructor(productCode: string, public payload: any, scope &#x3D; &#x27;&#x27;) {
+    super(PRODUCT_DETAIL_ENTITY, productCode, scope, payload);
   }
 }
 
-export class LoadProductSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
   readonly type &#x3D; LOAD_PRODUCT_SUCCESS;
-  constructor(public payload: Product) {
-    super(PRODUCT_DETAIL_ENTITY, payload.code);
+  constructor(public payload: Product, scope &#x3D; &#x27;&#x27;) {
+    super(PRODUCT_DETAIL_ENTITY, payload.code, scope);
   }
 }
 

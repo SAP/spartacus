@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/model/unused.model.ts</code>
+            <code>projects/core/src/model/cart.model.ts</code>
         </p>
 
 
@@ -133,123 +133,117 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address } from &#x27;./address.model&#x27;;
-import { Image } from &#x27;./image.model&#x27;;
-import { Product, Stock } from &#x27;./product.model&#x27;;
-import { GeoPoint, PaginationModel, SortModel } from &#x27;./misc.model&#x27;;
-import { Cart, Principal } from &#x27;./cart.model&#x27;;
-import { OpeningSchedule } from &#x27;./point-of-service.model&#x27;;
+import { Currency } from &#x27;./misc.model&#x27;;
+import {
+  DeliveryMode,
+  OrderEntry,
+  PickupOrderEntryGroup,
+  PromotionOrderEntryConsumed,
+} from &#x27;./order.model&#x27;;
+import { Price, Promotion } from &#x27;./product.model&#x27;;
 
-export interface CategoryHierarchy {
-  id?: string;
-  lastModified?: Date;
-  name?: string;
-  subcategories?: CategoryHierarchy[];
-  url?: string;
-}
-
-export interface CatalogVersion {
-  categories?: CategoryHierarchy[];
-  id?: string;
-  lastModified?: Date;
-  name?: string;
-  url?: string;
-}
-
-export interface Catalog {
-  catalogVersions?: CatalogVersion[];
-  id?: string;
-  lastModified?: Date;
-  name?: string;
-  url?: string;
-}
-
-export interface Pagination {
-  count?: number;
-  page?: number;
-  totalCount?: number;
-  totalPages?: number;
-}
-
-export interface Sort {
-  asc?: boolean;
-  code?: string;
-}
-
-export interface ListAdaptedComponents {
-  components?: any[];
-  pagination?: Pagination;
-  sorts?: Sort[];
-}
-
-export interface OrderStatusUpdateElement {
-  baseSiteId?: string;
-  code?: string;
-  status?: string;
-}
-
-export interface PointOfServiceStock {
-  address?: Address;
+export interface PromotionResult {
+  consumedEntries?: PromotionOrderEntryConsumed[];
   description?: string;
-  displayName?: string;
-  distanceKm?: number;
-  features?: { [propertyName: string]: string };
-  formattedDistance?: string;
-  geoPoint?: GeoPoint;
-  mapIcon?: Image;
-  name?: string;
-  openingHours?: OpeningSchedule;
-  stockInfo?: Stock;
-  storeContent?: string;
-  storeImages?: Image[];
-  url?: string;
+  promotion?: Promotion;
 }
 
-export interface ProductExpressUpdateElement {
-  catalogId?: string;
-  catalogVersion?: string;
+export interface Voucher {
+  appliedValue?: Price;
   code?: string;
+  currency?: Currency;
+  description?: string;
+  freeShipping?: boolean;
+  name?: string;
+  value?: number;
+  valueFormatted?: string;
+  valueString?: string;
+  voucherCode?: string;
 }
 
-export interface ProductList {
-  catalog?: string;
-  currentPage?: number;
-  products?: Product[];
-  totalPageCount?: number;
-  totalProductCount?: number;
-  version?: string;
+export interface DeliveryOrderEntryGroup {
+  deliveryAddress?: Address;
+  entries?: OrderEntry[];
+  quantity?: number;
+  totalPriceWithTax?: Price;
+}
+
+export interface Principal {
+  name?: string;
+  uid?: string;
+}
+
+export interface CardType {
+  code?: string;
+  name?: string;
+}
+
+export interface PaymentDetails {
+  accountHolderName?: string;
+  billingAddress?: Address;
+  cardNumber?: string;
+  cardType?: CardType;
+  cvn?: string;
+  defaultPayment?: boolean;
+  expiryMonth?: string;
+  expiryYear?: string;
+  id?: string;
+  issueNumber?: string;
+  saved?: boolean;
+  startMonth?: string;
+  startYear?: string;
+  subscriptionId?: string;
 }
 
 export interface SaveCartResult {
   savedCartData?: Cart;
 }
 
-export interface StoreFinderStockSearchPage {
-  boundEastLongitude?: number;
-  boundSouthLatitude?: number;
-  boundWestLongitude?: number;
-  locationText?: string;
-  pagination?: PaginationModel;
-  product?: Product;
-  sorts?: SortModel[];
-  sourceLatitude?: number;
-  sourceLongitude?: number;
-  stores?: PointOfServiceStock[];
-}
-
-export interface UserGroup {
-  members?: Principal[];
-  membersCount?: number;
+export interface Cart {
+  appliedOrderPromotions?: PromotionResult[];
+  appliedProductPromotions?: PromotionResult[];
+  appliedVouchers?: Voucher[];
+  calculated?: boolean;
+  code?: string;
+  deliveryAddress?: Address;
+  deliveryCost?: Price;
+  deliveryItemsQuantity?: number;
+  deliveryMode?: DeliveryMode;
+  deliveryOrderGroups?: DeliveryOrderEntryGroup[];
+  description?: string;
+  entries?: OrderEntry[];
+  expirationTime?: Date;
+  guid?: string;
   name?: string;
-  subGroups?: UserGroup[];
-  uid?: string;
+  net?: boolean;
+  orderDiscounts?: Price;
+  paymentInfo?: PaymentDetails;
+  pickupItemsQuantity?: number;
+  pickupOrderGroups?: PickupOrderEntryGroup[];
+  potentialOrderPromotions?: PromotionResult[];
+  potentialProductPromotions?: PromotionResult[];
+  productDiscounts?: Price;
+  saveTime?: Date;
+  savedBy?: Principal;
+  site?: string;
+  store?: string;
+  subTotal?: Price;
+  totalDiscounts?: Price;
+  totalItems?: number;
+  totalPrice?: Price;
+  totalPriceWithTax?: Price;
+  totalTax?: Price;
+  totalUnitCount?: number;
+  user?: Principal;
 }
 
-export interface UserGroupList {
-  currentPage?: number;
-  numberOfPages?: number;
-  pageSize?: number;
-  totalNumber?: number;
-  userGroups?: UserGroup[];
+export interface CartModification {
+  deliveryModeChanged?: boolean;
+  entry?: OrderEntry;
+  quantity?: number;
+  quantityAdded?: number;
+  statusCode?: string;
+  statusMessage?: string;
 }
 </code></pre>
     </div>

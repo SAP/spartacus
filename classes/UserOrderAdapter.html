@@ -82,6 +82,18 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Abstract</span>
+                                <a href="#cancel">cancel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#cancelReturnRequest">cancelReturnRequest</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#createReturnRequest">createReturnRequest</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
                                 <a href="#getConsignmentTracking">getConsignmentTracking</a>
                             </li>
                             <li>
@@ -91,6 +103,14 @@
                             <li>
                                     <span class="modifier">Abstract</span>
                                 <a href="#loadHistory">loadHistory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#loadReturnRequestDetail">loadReturnRequestDetail</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#loadReturnRequestList">loadReturnRequestList</a>
                             </li>
                         </ul>
                     </td>
@@ -115,6 +135,306 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="cancel"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            cancel
+                        </b>
+                        <a href="#cancel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cancel(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, orderCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cancelRequestInput: <a href="../interfaces/CancellationRequestEntryInputList.html">CancellationRequestEntryInputList</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:87</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method used to cancel order</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>orderCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cancelRequestInput</td>
+                                    <td>
+                                                <code><a href="../interfaces/CancellationRequestEntryInputList.html" target="_self" >CancellationRequestEntryInputList</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cancel request entry input list</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelReturnRequest"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            cancelReturnRequest
+                        </b>
+                        <a href="#cancelReturnRequest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cancelReturnRequest(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, returnRequestCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, returnRequestModification: <a href="../interfaces/ReturnRequestModification.html">ReturnRequestModification</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:99</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method used to cancel one return request</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>returnRequestCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>returnRequestModification</td>
+                                    <td>
+                                                <code><a href="../interfaces/ReturnRequestModification.html" target="_self" >ReturnRequestModification</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createReturnRequest"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            createReturnRequest
+                        </b>
+                        <a href="#createReturnRequest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createReturnRequest(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, returnRequestInput: <a href="../interfaces/ReturnRequestEntryInputList.html">ReturnRequestEntryInputList</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:52</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method used to create return request</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The <code>userId</code> for given user</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>returnRequestInput</td>
+                                    <td>
+                                                <code><a href="../interfaces/ReturnRequestEntryInputList.html" target="_self" >ReturnRequestEntryInputList</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Return request entry input list</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;ReturnRequest&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getConsignmentTracking"></a>
                     <span class="name">
                         <b>
@@ -135,8 +455,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:42</a></div>
                 </td>
             </tr>
 
@@ -230,8 +550,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:20</a></div>
                 </td>
             </tr>
 
@@ -325,8 +645,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:30</a></div>
                 </td>
             </tr>
 
@@ -424,6 +744,202 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadReturnRequestDetail"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            loadReturnRequestDetail
+                        </b>
+                        <a href="#loadReturnRequestDetail"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadReturnRequestDetail(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, returnRequestCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:62</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method used to load order return request details</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>returnRequestCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;ReturnRequest&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadReturnRequestList"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            loadReturnRequestList
+                        </b>
+                        <a href="#loadReturnRequestList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadReturnRequestList(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageSize: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, currentPage: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, sort: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:74</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method used to load order return request list for an user.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>pageSize</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>currentPage</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>sort</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;ReturnRequestList&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
 
@@ -436,7 +952,15 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
 import { ConsignmentTracking } from &#x27;../../../model/consignment-tracking.model&#x27;;
-import { Order, OrderHistoryList } from &#x27;../../../model/order.model&#x27;;
+import {
+  Order,
+  OrderHistoryList,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
+  CancellationRequestEntryInputList,
+  ReturnRequestList,
+  ReturnRequestModification,
+} from &#x27;../../../model/order.model&#x27;;
 
 export abstract class UserOrderAdapter {
   /**
@@ -471,6 +995,64 @@ export abstract class UserOrderAdapter {
     orderCode: string,
     consignmentCode: string
   ): Observable&lt;ConsignmentTracking&gt;;
+
+  /**
+   * Abstract method used to create return request
+   * @param userId The &#x60;userId&#x60; for given user
+   * @param returnRequestInput Return request entry input list
+   */
+  abstract createReturnRequest(
+    userId: string,
+    returnRequestInput: ReturnRequestEntryInputList
+  ): Observable&lt;ReturnRequest&gt;;
+
+  /**
+   * Abstract method used to load order return request details
+   * @param userId
+   * @param returnRequestCode
+   */
+  abstract loadReturnRequestDetail(
+    userId: string,
+    returnRequestCode: string
+  ): Observable&lt;ReturnRequest&gt;;
+
+  /**
+   * Abstract method used to load order return request list for an user.
+   * @param userId
+   * @param pageSize
+   * @param currentPage
+   * @param sort
+   */
+  abstract loadReturnRequestList(
+    userId: string,
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable&lt;ReturnRequestList&gt;;
+
+  /**
+   * Abstract method used to cancel order
+   * @param userId
+   * @param orderCode
+   * @param cancelRequestInput Cancel request entry input list
+   */
+  abstract cancel(
+    userId: string,
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
+  ): Observable&lt;{}&gt;;
+
+  /**
+   * Abstract method used to cancel one return request
+   * @param userId
+   * @param returnRequestCode
+   * @param returnRequestModification
+   */
+  abstract cancelReturnRequest(
+    userId: string,
+    returnRequestCode: string,
+    returnRequestModification: ReturnRequestModification
+  ): Observable&lt;{}&gt;;
 }
 </code></pre>
     </div>

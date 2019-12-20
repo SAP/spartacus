@@ -148,11 +148,15 @@ import { NgModule } from &#x27;@angular/core&#x27;;
 import { CartAdapter } from &#x27;../../../cart/connectors/cart/cart.adapter&#x27;;
 import { CART_NORMALIZER } from &#x27;../../../cart/connectors/cart/converters&#x27;;
 import { CartEntryAdapter } from &#x27;../../../cart/connectors/entry/cart-entry.adapter&#x27;;
+import { SaveCartAdapter } from &#x27;../../../cart/connectors/save-cart/save-cart.adapter&#x27;;
+import { CartVoucherAdapter } from &#x27;../../../cart/connectors/voucher/cart-voucher.adapter&#x27;;
 import { ConfigModule } from &#x27;../../../config/config.module&#x27;;
 import { OccCartNormalizer } from &#x27;./converters/occ-cart-normalizer&#x27;;
 import { defaultOccCartConfig } from &#x27;./default-occ-cart-config&#x27;;
 import { OccCartEntryAdapter } from &#x27;./occ-cart-entry.adapter&#x27;;
+import { OccCartVoucherAdapter } from &#x27;./occ-cart-voucher.adapter&#x27;;
 import { OccCartAdapter } from &#x27;./occ-cart.adapter&#x27;;
+import { OccSaveCartAdapter } from &#x27;./occ-save-cart.adapter&#x27;;
 
 @NgModule({
   imports: [
@@ -167,12 +171,20 @@ import { OccCartAdapter } from &#x27;./occ-cart.adapter&#x27;;
     },
     {
       provide: CART_NORMALIZER,
-      useClass: OccCartNormalizer,
+      useExisting: OccCartNormalizer,
       multi: true,
     },
     {
       provide: CartEntryAdapter,
       useClass: OccCartEntryAdapter,
+    },
+    {
+      provide: CartVoucherAdapter,
+      useClass: OccCartVoucherAdapter,
+    },
+    {
+      provide: SaveCartAdapter,
+      useClass: OccSaveCartAdapter,
     },
   ],
 })

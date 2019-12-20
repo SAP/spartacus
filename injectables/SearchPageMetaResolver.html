@@ -59,6 +59,15 @@
             <code>projects/core/src/product/services/search-page-meta.resolver.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Resolves the page data for the Search Result Page based on the
+<code>PageType.CATEGORY_PAGE</code> and the <code>SearchResultsListPageTemplate</code> template.</p>
+<p>Only the page title is resolved in the implemenation.</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -81,6 +90,12 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#query$">query$</a>
+                            </li>
+                            <li>
+                                <a href="#total$">total$</a>
+                            </li>
+                            <li>
                                 <a href="#pageTemplate">pageTemplate</a>
                             </li>
                             <li>
@@ -100,6 +115,12 @@
                         <ul class="index-list">
                             <li>
                                 <a href="#resolve">resolve</a>
+                            </li>
+                            <li>
+                                <a href="#resolveTitle">resolveTitle</a>
+                            </li>
+                            <li>
+                                <a href="#resolveTitle">resolveTitle</a>
                             </li>
                             <li>
                                 <a href="#resolveTitle">resolveTitle</a>
@@ -134,7 +155,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -223,8 +244,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:48</a></div>
                 </td>
             </tr>
 
@@ -233,7 +254,46 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;PageMeta&gt;</code>
+                        <b>Returns : </b>    <code>Observable | any</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveTitle"></a>
+                    <span class="name">
+                        <b>
+                            resolveTitle
+                        </b>
+                        <a href="#resolveTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveTitle()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:52</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
 
                     </div>
                 </td>
@@ -262,8 +322,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:58</a></div>
                 </td>
             </tr>
 
@@ -326,6 +386,88 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="resolveTitle"></a>
+                    <span class="name">
+                        <b>
+                            resolveTitle
+                        </b>
+                        <a href="#resolveTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveTitle(total?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, query?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:59</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>total</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;literal type | any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getScore"></a>
                     <span class="name">
                         <b>
@@ -350,7 +492,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:11</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:18</a></code>
 </div>
                 </td>
             </tr>
@@ -428,7 +570,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:9</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:16</a></code>
 </div>
                 </td>
             </tr>
@@ -436,6 +578,10 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>The resolve method is no longer preferred and will be removed with release 2.0.
+The caller <code>PageMetaService</code> service is improved to expect all individual resolvers
+instead, so that the code is easier extensible.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;PageMeta&gt;</code>
@@ -451,6 +597,75 @@
         <h3 id="inputs">
             Properties
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="query$"></a>
+                        <span class="name">
+                            <b>
+                            query$</b>
+                            <a href="#query$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;string&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.routingService
+    .getRouterState()
+    .pipe(map(state &#x3D;&gt; state.state.params[&#x27;query&#x27;]))</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="total$"></a>
+                        <span class="name">
+                            <b>
+                            total$</b>
+                            <a href="#total$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;number&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.productSearchService.getResults().pipe(
+    filter(data &#x3D;&gt; !!(data &amp;&amp; data.pagination)),
+    map(results &#x3D;&gt; results.pagination.totalResults)
+  )</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:22</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -526,7 +741,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { combineLatest, Observable } from &#x27;rxjs&#x27;;
+import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { PageMetaResolver } from &#x27;../../cms&#x27;;
 import { PageMeta } from &#x27;../../cms/model/page.model&#x27;;
@@ -535,11 +750,26 @@ import { PageType } from &#x27;../../model/cms.model&#x27;;
 import { RoutingService } from &#x27;../../routing/facade/routing.service&#x27;;
 import { ProductSearchService } from &#x27;../facade/product-search.service&#x27;;
 
+/**
+ * Resolves the page data for the Search Result Page based on the
+ * &#x60;PageType.CATEGORY_PAGE&#x60; and the &#x60;SearchResultsListPageTemplate&#x60; template.
+ *
+ * Only the page title is resolved in the implemenation.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class SearchPageMetaResolver extends PageMetaResolver
   implements PageMetaResolver {
+  total$: Observable&lt;number&gt; &#x3D; this.productSearchService.getResults().pipe(
+    filter(data &#x3D;&gt; !!(data &amp;&amp; data.pagination)),
+    map(results &#x3D;&gt; results.pagination.totalResults)
+  );
+
+  query$: Observable&lt;string&gt; &#x3D; this.routingService
+    .getRouterState()
+    .pipe(map(state &#x3D;&gt; state.state.params[&#x27;query&#x27;]));
+
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
@@ -550,33 +780,38 @@ export class SearchPageMetaResolver extends PageMetaResolver
     this.pageTemplate &#x3D; &#x27;SearchResultsListPageTemplate&#x27;;
   }
 
-  resolve(): Observable&lt;PageMeta&gt; {
-    const total$: Observable&lt;
-      number
-    &gt; &#x3D; this.productSearchService.getResults().pipe(
-      filter(data &#x3D;&gt; !!(data &amp;&amp; data.pagination)),
-      map(results &#x3D;&gt; results.pagination.totalResults)
-    );
-
-    const query$: Observable&lt;
-      string
-    &gt; &#x3D; this.routingService
-      .getRouterState()
-      .pipe(map(state &#x3D;&gt; state.state.params[&#x27;query&#x27;]));
-
-    return combineLatest([total$, query$]).pipe(
-      switchMap(([total, query]: [number, string]) &#x3D;&gt;
-        this.resolveTitle(total, query)
-      ),
-      map(title &#x3D;&gt; ({ title }))
-    );
+  /**
+   * @deprecated since version 1.3
+   *
+   * The resolve method is no longer preferred and will be removed with release 2.0.
+   * The caller &#x60;PageMetaService&#x60; service is improved to expect all individual resolvers
+   * instead, so that the code is easier extensible.
+   */
+  resolve(): Observable&lt;PageMeta&gt; | any {
+    return this.resolveTitle();
   }
 
-  resolveTitle(total: number, query: string): Observable&lt;string&gt; {
-    return this.translation.translate(&#x27;pageMetaResolver.search.title&#x27;, {
-      count: total,
-      query: query,
-    });
+  resolveTitle(): Observable&lt;string&gt;;
+  /**
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change. Use &#x60;resolveTitle()&#x60; instead
+   */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(total: number, query: string): Observable&lt;string&gt;;
+  resolveTitle(
+    total?: number,
+    query?: string
+  ): Observable&lt;{ title: string } | any&gt; {
+    const sources &#x3D;
+      total &amp;&amp; query ? [of(total), of(query)] : [this.total$, this.query$];
+    return combineLatest(sources).pipe(
+      switchMap(([t, q]: [number, string]) &#x3D;&gt;
+        this.translation.translate(&#x27;pageMetaResolver.search.title&#x27;, {
+          count: t,
+          query: q,
+        })
+      )
+    );
   }
 }
 </code></pre>

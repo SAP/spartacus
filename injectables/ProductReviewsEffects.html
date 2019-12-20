@@ -80,6 +80,9 @@
                             <li>
                                 <a href="#postProductReview">postProductReview</a>
                             </li>
+                            <li>
+                                <a href="#showGlobalMessageOnPostProductReviewSuccess$">showGlobalMessageOnPostProductReviewSuccess$</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -99,12 +102,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, productReviewsConnector: <a href="../injectables/ProductReviewsConnector.html">ProductReviewsConnector</a>)</code>
+<code>constructor(actions$: Actions, productReviewsConnector: <a href="../injectables/ProductReviewsConnector.html">ProductReviewsConnector</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/product/store/effects/product-reviews.effect.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/product/store/effects/product-reviews.effect.ts:71</a></div>
                             </td>
                         </tr>
 
@@ -138,6 +141,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/ProductReviewsConnector.html" target="_self" >ProductReviewsConnector</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -214,7 +229,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/product/store/effects/product-reviews.effect.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/product/store/effects/product-reviews.effect.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -270,7 +285,50 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/product/store/effects/product-reviews.effect.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/core/src/product/store/effects/product-reviews.effect.ts:42</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showGlobalMessageOnPostProductReviewSuccess$"></a>
+                        <span class="name">
+                            <b>
+                            showGlobalMessageOnPostProductReviewSuccess$</b>
+                            <a href="#showGlobalMessageOnPostProductReviewSuccess$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.actions$.pipe(
+    ofType(ProductActions.POST_PRODUCT_REVIEW_SUCCESS),
+    tap(() &#x3D;&gt; {
+      this.globalMessageService.add(
+        { key: &#x27;productReview.thankYouForReview&#x27; },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    })
+  )</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Effect({dispatch: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/core/src/product/store/effects/product-reviews.effect.ts:63</a></div>
                             </td>
                         </tr>
 
@@ -286,10 +344,14 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
-import { catchError, map, mergeMap } from &#x27;rxjs/operators&#x27;;
+import { catchError, map, mergeMap, tap } from &#x27;rxjs/operators&#x27;;
 import { ErrorModel } from &#x27;../../../model/misc.model&#x27;;
 import { ProductReviewsConnector } from &#x27;../../connectors/reviews/product-reviews.connector&#x27;;
 import { ProductActions } from &#x27;../actions/index&#x27;;
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from &#x27;../../../global-message/index&#x27;;
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -340,9 +402,21 @@ export class ProductReviewsEffects {
     })
   );
 
+  @Effect({ dispatch: false })
+  showGlobalMessageOnPostProductReviewSuccess$ &#x3D; this.actions$.pipe(
+    ofType(ProductActions.POST_PRODUCT_REVIEW_SUCCESS),
+    tap(() &#x3D;&gt; {
+      this.globalMessageService.add(
+        { key: &#x27;productReview.thankYouForReview&#x27; },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
-    private productReviewsConnector: ProductReviewsConnector
+    private productReviewsConnector: ProductReviewsConnector,
+    private globalMessageService: GlobalMessageService
   ) {}
 }
 </code></pre>

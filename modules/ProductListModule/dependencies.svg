@@ -34,7 +34,7 @@
 </g>
 <g id="clust10" class="cluster">
 <title>cluster_ProductListModule_exports</title>
-<polygon fill="none" stroke="#000000" points="694,-208 694,-260 1666,-260 1666,-208 694,-208"/>
+<polygon fill="none" stroke="#000000" points="605,-208 605,-260 1757,-260 1757,-208 605,-208"/>
 </g>
 <!-- ProductFacetNavigationComponent -->
 <g id="node1" class="node">
@@ -99,8 +99,8 @@
 <!-- ProductScrollComponent&#45;&gt;ProductListModule -->
 <g id="edge5" class="edge">
 <title>ProductScrollComponent&#45;&gt;ProductListModule</title>
-<path fill="none" stroke="#000000" d="M1624.6464,-122.0336C1624.6464,-139.0597 1624.6464,-162 1624.6464,-162 1624.6464,-162 1219.4439,-162 1219.4439,-162"/>
-<polygon fill="#000000" stroke="#000000" points="1219.444,-158.5001 1209.4439,-162 1219.4439,-165.5001 1219.444,-158.5001"/>
+<path fill="none" stroke="#000000" d="M1670,-122.0336C1670,-139.0597 1670,-162 1670,-162 1670,-162 1219.5665,-162 1219.5665,-162"/>
+<polygon fill="#000000" stroke="#000000" points="1219.5666,-158.5001 1209.5665,-162 1219.5665,-165.5001 1219.5666,-158.5001"/>
 </g>
 <!-- ProductViewComponent -->
 <g id="node6" class="node">
@@ -111,68 +111,80 @@
 <!-- ProductViewComponent&#45;&gt;ProductListModule -->
 <g id="edge6" class="edge">
 <title>ProductViewComponent&#45;&gt;ProductListModule</title>
-<path fill="none" stroke="#000000" d="M1428.6974,-122.0091C1428.6974,-138.0494 1428.6974,-159 1428.6974,-159 1428.6974,-159 1219.5178,-159 1219.5178,-159"/>
-<polygon fill="#000000" stroke="#000000" points="1219.5178,-155.5001 1209.5178,-159 1219.5177,-162.5001 1219.5178,-155.5001"/>
+<path fill="none" stroke="#000000" d="M1464.124,-122.0091C1464.124,-138.0494 1464.124,-159 1464.124,-159 1464.124,-159 1219.6535,-159 1219.6535,-159"/>
+<polygon fill="#000000" stroke="#000000" points="1219.6535,-155.5001 1209.6535,-159 1219.6535,-162.5001 1219.6535,-155.5001"/>
 </g>
 <!-- ProductFacetNavigationComponent  -->
 <g id="node19" class="node">
 <title>ProductFacetNavigationComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1658.4054,-252 1437.5946,-252 1437.5946,-216 1658.4054,-216 1658.4054,-252"/>
-<text text-anchor="middle" x="1548" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductFacetNavigationComponent </text>
+<polygon fill="#fb8072" stroke="#000000" points="1749.4054,-252 1528.5946,-252 1528.5946,-216 1749.4054,-216 1749.4054,-252"/>
+<text text-anchor="middle" x="1639" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductFacetNavigationComponent </text>
 </g>
 <!-- ProductListModule&#45;&gt;ProductFacetNavigationComponent  -->
 <g id="edge19" class="edge">
 <title>ProductListModule&#45;&gt;ProductFacetNavigationComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1209.7814,-180C1312.4753,-180 1505.0734,-180 1505.0734,-180 1505.0734,-180 1505.0734,-205.7181 1505.0734,-205.7181"/>
-<polygon fill="#000000" stroke="#000000" points="1501.5735,-205.718 1505.0734,-215.7181 1508.5735,-205.7181 1501.5735,-205.718"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1209.6156,-180C1322.9718,-180 1550.5734,-180 1550.5734,-180 1550.5734,-180 1550.5734,-205.7181 1550.5734,-205.7181"/>
+<polygon fill="#000000" stroke="#000000" points="1547.0735,-205.718 1550.5734,-215.7181 1554.0735,-205.7181 1547.0735,-205.718"/>
 </g>
 <!-- ProductGridItemComponent  -->
 <g id="node20" class="node">
 <title>ProductGridItemComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1419.6953,-252 1240.3047,-252 1240.3047,-216 1419.6953,-216 1419.6953,-252"/>
-<text text-anchor="middle" x="1330" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductGridItemComponent </text>
+<polygon fill="#fb8072" stroke="#000000" points="1510.6953,-252 1331.3047,-252 1331.3047,-216 1510.6953,-216 1510.6953,-252"/>
+<text text-anchor="middle" x="1421" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductGridItemComponent </text>
 </g>
 <!-- ProductListModule&#45;&gt;ProductGridItemComponent  -->
 <g id="edge20" class="edge">
 <title>ProductListModule&#45;&gt;ProductGridItemComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1209.4991,-184C1229.0839,-184 1245.6856,-184 1245.6856,-184 1245.6856,-184 1245.6856,-205.9489 1245.6856,-205.9489"/>
-<polygon fill="#000000" stroke="#000000" points="1242.1857,-205.9488 1245.6856,-215.9489 1249.1857,-205.9489 1242.1857,-205.9488"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1209.4478,-184C1272.8989,-184 1361.9041,-184 1361.9041,-184 1361.9041,-184 1361.9041,-205.9489 1361.9041,-205.9489"/>
+<polygon fill="#000000" stroke="#000000" points="1358.4042,-205.9488 1361.9041,-215.9489 1365.4042,-205.9489 1358.4042,-205.9488"/>
 </g>
 <!-- ProductListComponent  -->
 <g id="node21" class="node">
 <title>ProductListComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1222.1593,-252 1071.8407,-252 1071.8407,-216 1222.1593,-216 1222.1593,-252"/>
-<text text-anchor="middle" x="1147" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductListComponent </text>
+<polygon fill="#fb8072" stroke="#000000" points="1313.1593,-252 1162.8407,-252 1162.8407,-216 1313.1593,-216 1313.1593,-252"/>
+<text text-anchor="middle" x="1238" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductListComponent </text>
 </g>
 <!-- ProductListModule&#45;&gt;ProductListComponent  -->
 <g id="edge21" class="edge">
 <title>ProductListModule&#45;&gt;ProductListComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1147,-187.1061C1147,-187.1061 1147,-205.991 1147,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="1143.5001,-205.9909 1147,-215.991 1150.5001,-205.991 1143.5001,-205.9909"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1186.1793,-187.1061C1186.1793,-187.1061 1186.1793,-205.991 1186.1793,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="1182.6794,-205.9909 1186.1793,-215.991 1189.6794,-205.991 1182.6794,-205.9909"/>
 </g>
 <!-- ProductListItemComponent  -->
 <g id="node22" class="node">
 <title>ProductListItemComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="1053.8157,-252 878.1843,-252 878.1843,-216 1053.8157,-216 1053.8157,-252"/>
-<text text-anchor="middle" x="966" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductListItemComponent </text>
+<polygon fill="#fb8072" stroke="#000000" points="1144.8157,-252 969.1843,-252 969.1843,-216 1144.8157,-216 1144.8157,-252"/>
+<text text-anchor="middle" x="1057" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductListItemComponent </text>
 </g>
 <!-- ProductListModule&#45;&gt;ProductListItemComponent  -->
 <g id="edge22" class="edge">
 <title>ProductListModule&#45;&gt;ProductListItemComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1084.3171,-184C1061.0923,-184 1040.3037,-184 1040.3037,-184 1040.3037,-184 1040.3037,-205.9489 1040.3037,-205.9489"/>
-<polygon fill="#000000" stroke="#000000" points="1036.8037,-205.9488 1040.3037,-215.9489 1043.8037,-205.9489 1036.8037,-205.9488"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1114.7348,-187.1061C1114.7348,-187.1061 1114.7348,-205.991 1114.7348,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="1111.2348,-205.9909 1114.7348,-215.991 1118.2348,-205.991 1111.2348,-205.9909"/>
+</g>
+<!-- ProductScrollComponent  -->
+<g id="node23" class="node">
+<title>ProductScrollComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="950.8199,-252 789.1801,-252 789.1801,-216 950.8199,-216 950.8199,-252"/>
+<text text-anchor="middle" x="870" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductScrollComponent </text>
+</g>
+<!-- ProductListModule&#45;&gt;ProductScrollComponent  -->
+<g id="edge23" class="edge">
+<title>ProductListModule&#45;&gt;ProductScrollComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1084.5675,-184C1022.9737,-184 937.9709,-184 937.9709,-184 937.9709,-184 937.9709,-205.9489 937.9709,-205.9489"/>
+<polygon fill="#000000" stroke="#000000" points="934.471,-205.9488 937.9709,-215.9489 941.471,-205.9489 934.471,-205.9488"/>
 </g>
 <!-- ProductViewComponent  -->
-<g id="node23" class="node">
+<g id="node24" class="node">
 <title>ProductViewComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="860.1995,-252 701.8005,-252 701.8005,-216 860.1995,-216 860.1995,-252"/>
-<text text-anchor="middle" x="781" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductViewComponent </text>
+<polygon fill="#fb8072" stroke="#000000" points="771.1995,-252 612.8005,-252 612.8005,-216 771.1995,-216 771.1995,-252"/>
+<text text-anchor="middle" x="692" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductViewComponent </text>
 </g>
 <!-- ProductListModule&#45;&gt;ProductViewComponent  -->
-<g id="edge23" class="edge">
+<g id="edge24" class="edge">
 <title>ProductListModule&#45;&gt;ProductViewComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1084.2915,-181C991.7908,-181 829.5976,-181 829.5976,-181 829.5976,-181 829.5976,-205.7604 829.5976,-205.7604"/>
-<polygon fill="#000000" stroke="#000000" points="826.0977,-205.7604 829.5976,-215.7604 833.0977,-205.7604 826.0977,-205.7604"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1084.5096,-181C962.4765,-181 704.2909,-181 704.2909,-181 704.2909,-181 704.2909,-205.7604 704.2909,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="700.7909,-205.7604 704.2909,-215.7604 707.7909,-205.7604 700.7909,-205.7604"/>
 </g>
 <!-- AddToCartModule -->
 <g id="node8" class="node">
@@ -183,8 +195,8 @@
 <!-- AddToCartModule&#45;&gt;ProductListModule -->
 <g id="edge7" class="edge">
 <title>AddToCartModule&#45;&gt;ProductListModule</title>
-<path fill="none" stroke="#000000" d="M1331,-122.1243C1331,-136.7832 1331,-155 1331,-155 1331,-155 1219.5508,-155 1219.5508,-155"/>
-<polygon fill="#000000" stroke="#000000" points="1219.5508,-151.5001 1209.5508,-155 1219.5507,-158.5001 1219.5508,-151.5001"/>
+<path fill="none" stroke="#000000" d="M1291.2119,-122.1243C1291.2119,-136.7832 1291.2119,-155 1291.2119,-155 1291.2119,-155 1219.4147,-155 1219.4147,-155"/>
+<polygon fill="#000000" stroke="#000000" points="1219.4147,-151.5001 1209.4147,-155 1219.4147,-158.5001 1219.4147,-151.5001"/>
 </g>
 <!-- ConfigModule -->
 <g id="node9" class="node">
@@ -225,8 +237,8 @@
 <!-- IconModule&#45;&gt;ProductListModule -->
 <g id="edge11" class="edge">
 <title>IconModule&#45;&gt;ProductListModule</title>
-<path fill="none" stroke="#000000" d="M989,-122.1243C989,-136.7832 989,-155 989,-155 989,-155 1074.5542,-155 1074.5542,-155"/>
-<polygon fill="#000000" stroke="#000000" points="1074.5543,-158.5001 1084.5542,-155 1074.5542,-151.5001 1074.5543,-158.5001"/>
+<path fill="none" stroke="#000000" d="M1000.1524,-122.1243C1000.1524,-136.7832 1000.1524,-155 1000.1524,-155 1000.1524,-155 1074.2974,-155 1074.2974,-155"/>
+<polygon fill="#000000" stroke="#000000" points="1074.2975,-158.5001 1084.2974,-155 1074.2974,-151.5001 1074.2975,-158.5001"/>
 </g>
 <!-- ItemCounterModule -->
 <g id="node12" class="node">
@@ -237,8 +249,8 @@
 <!-- ItemCounterModule&#45;&gt;ProductListModule -->
 <g id="edge12" class="edge">
 <title>ItemCounterModule&#45;&gt;ProductListModule</title>
-<path fill="none" stroke="#000000" d="M903.6233,-122.2819C903.6233,-137.9478 903.6233,-158 903.6233,-158 903.6233,-158 1074.3244,-158 1074.3244,-158"/>
-<polygon fill="#000000" stroke="#000000" points="1074.3245,-161.5001 1084.3244,-158 1074.3244,-154.5001 1074.3245,-161.5001"/>
+<path fill="none" stroke="#000000" d="M864,-122.2819C864,-137.9478 864,-158 864,-158 864,-158 1074.5441,-158 1074.5441,-158"/>
+<polygon fill="#000000" stroke="#000000" points="1074.5441,-161.5001 1084.5441,-158 1074.5441,-154.5001 1074.5441,-161.5001"/>
 </g>
 <!-- ListNavigationModule -->
 <g id="node13" class="node">
@@ -249,8 +261,8 @@
 <!-- ListNavigationModule&#45;&gt;ProductListModule -->
 <g id="edge13" class="edge">
 <title>ListNavigationModule&#45;&gt;ProductListModule</title>
-<path fill="none" stroke="#000000" d="M741.2092,-122.0352C741.2092,-138.7344 741.2092,-161 741.2092,-161 741.2092,-161 1074.4845,-161 1074.4845,-161"/>
-<polygon fill="#000000" stroke="#000000" points="1074.4845,-164.5001 1084.4845,-161 1074.4844,-157.5001 1074.4845,-164.5001"/>
+<path fill="none" stroke="#000000" d="M776.0588,-122.0352C776.0588,-138.7344 776.0588,-161 776.0588,-161 776.0588,-161 1074.4943,-161 1074.4943,-161"/>
+<polygon fill="#000000" stroke="#000000" points="1074.4944,-164.5001 1084.4943,-161 1074.4943,-157.5001 1074.4944,-164.5001"/>
 </g>
 <!-- MediaModule -->
 <g id="node14" class="node">
@@ -261,8 +273,8 @@
 <!-- MediaModule&#45;&gt;ProductListModule -->
 <g id="edge14" class="edge">
 <title>MediaModule&#45;&gt;ProductListModule</title>
-<path fill="none" stroke="#000000" d="M572,-122.302C572,-140.2699 572,-165 572,-165 572,-165 1074.3703,-165 1074.3703,-165"/>
-<polygon fill="#000000" stroke="#000000" points="1074.3704,-168.5001 1084.3703,-165 1074.3703,-161.5001 1074.3704,-168.5001"/>
+<path fill="none" stroke="#000000" d="M616.1537,-122.302C616.1537,-140.2699 616.1537,-165 616.1537,-165 616.1537,-165 1074.5442,-165 1074.5442,-165"/>
+<polygon fill="#000000" stroke="#000000" points="1074.5442,-168.5001 1084.5442,-165 1074.5441,-161.5001 1074.5442,-168.5001"/>
 </g>
 <!-- SpinnerModule -->
 <g id="node15" class="node">

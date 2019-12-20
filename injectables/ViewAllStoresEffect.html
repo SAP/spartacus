@@ -182,10 +182,8 @@
     switchMap(() &#x3D;&gt; {
       return this.storeFinderConnector.getCounts().pipe(
         map(data &#x3D;&gt; {
-          const result &#x3D; data.sort((a, b) &#x3D;&gt;
-            a.name &lt; b.name ? -1 : a.name &gt; b.name ? 1 : 0
-          );
-          return new StoreFinderActions.ViewAllStoresSuccess(result);
+          data.sort((a, b) &#x3D;&gt; (a.name &lt; b.name ? -1 : a.name &gt; b.name ? 1 : 0));
+          return new StoreFinderActions.ViewAllStoresSuccess(data);
         }),
         catchError(error &#x3D;&gt;
           of(
@@ -247,10 +245,8 @@ export class ViewAllStoresEffect {
     switchMap(() &#x3D;&gt; {
       return this.storeFinderConnector.getCounts().pipe(
         map(data &#x3D;&gt; {
-          const result &#x3D; data.sort((a, b) &#x3D;&gt;
-            a.name &lt; b.name ? -1 : a.name &gt; b.name ? 1 : 0
-          );
-          return new StoreFinderActions.ViewAllStoresSuccess(result);
+          data.sort((a, b) &#x3D;&gt; (a.name &lt; b.name ? -1 : a.name &gt; b.name ? 1 : 0));
+          return new StoreFinderActions.ViewAllStoresSuccess(data);
         }),
         catchError(error &#x3D;&gt;
           of(

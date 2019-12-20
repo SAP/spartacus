@@ -59,6 +59,13 @@
             <code>projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Please don&#39;t put that service in public API.</p>
+
+            </p>
 
 
 
@@ -101,7 +108,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -190,8 +197,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts:18</a></div>
                 </td>
             </tr>
 
@@ -248,6 +255,9 @@
 import { CmsMappingService } from &#x27;./cms-mapping.service&#x27;;
 import { TranslationService, TranslationChunkService } from &#x27;@spartacus/core&#x27;;
 
+/**
+ * Please don&#x27;t put that service in public API.
+ * */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })

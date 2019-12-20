@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -175,7 +175,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -241,6 +241,8 @@ export const MERGE_CART &#x3D; &#x27;[Cart] Merge Cart&#x27;;
 export const MERGE_CART_SUCCESS &#x3D; &#x27;[Cart] Merge Cart Success&#x27;;
 
 export const RESET_CART_DETAILS &#x3D; &#x27;[Cart] Reset Cart Details&#x27;;
+
+export const CLEAR_EXPIRED_COUPONS &#x3D; &#x27;[Cart] Clear Expired Coupon&#x27;;
 
 export const CLEAR_CART &#x3D; &#x27;[Cart] Clear Cart&#x27;;
 
@@ -293,7 +295,9 @@ export class AddEmailToCartSuccess extends StateLoaderActions.LoaderSuccessActio
 
 export class LoadCart extends StateLoaderActions.LoaderLoadAction {
   readonly type &#x3D; LOAD_CART;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; extraData?: any }
+  ) {
     super(CART_DATA);
   }
 }
@@ -327,6 +331,11 @@ export class ResetCartDetails implements Action {
   constructor() {}
 }
 
+export class ClearExpiredCoupons implements Action {
+  readonly type &#x3D; CLEAR_EXPIRED_COUPONS;
+  constructor(public payload: any) {}
+}
+
 export class ClearCart extends StateLoaderActions.LoaderResetAction {
   readonly type &#x3D; CLEAR_CART;
   constructor() {
@@ -358,12 +367,13 @@ export type CartAction &#x3D;
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails
-  | ClearCart
   | AddEmailToCart
   | AddEmailToCartFail
   | AddEmailToCartSuccess
   | DeleteCart
-  | DeleteCartFail;
+  | DeleteCartFail
+  | ClearExpiredCoupons
+  | ClearCart;
 </code></pre>
     </div>
 </div>

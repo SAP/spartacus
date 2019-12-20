@@ -89,7 +89,7 @@ import { CmsComponentAdapter } from &#x27;../../../cms/connectors/component/cms-
     },
     {
       provide: CMS_PAGE_NORMALIZER,
-      useClass: OccCmsPageNormalizer,
+      useExisting: OccCmsPageNormalizer,
       multi: true,
     },
     {

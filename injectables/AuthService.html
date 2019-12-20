@@ -95,6 +95,9 @@
                                 <a href="#isClientTokenLoaded">isClientTokenLoaded</a>
                             </li>
                             <li>
+                                <a href="#isUserLoggedIn">isUserLoggedIn</a>
+                            </li>
+                            <li>
                                 <a href="#logout">logout</a>
                             </li>
                             <li>
@@ -126,7 +129,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -191,8 +194,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:26</a></div>
                 </td>
             </tr>
 
@@ -275,8 +278,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -347,8 +350,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:101</a></div>
                 </td>
             </tr>
 
@@ -389,8 +392,8 @@ Otherwise, an new token is fetched from the backend and saved in the store.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -398,7 +401,7 @@ Otherwise, an new token is fetched from the backend and saved in the store.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>This function provides the userId the OCC calls should use, depending
-on wether there is an active storefront session or not.</p>
+on whether there is an active storefront session or not.</p>
 <p>It returns the userId of the current storefront user or &#39;anonymous&#39;
 in the case there are no signed in user in the storefront.</p>
 <p>The user id of a regular customer session is &#39;current&#39;.  In the case of an
@@ -435,8 +438,8 @@ asm customer emulation session, the userId will be the customerId.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -478,8 +481,8 @@ asm customer emulation session, the userId will be the customerId.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:134</a></div>
                 </td>
             </tr>
 
@@ -530,6 +533,47 @@ asm customer emulation session, the userId will be the customerId.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isUserLoggedIn"></a>
+                    <span class="name">
+                        <b>
+                            isUserLoggedIn
+                        </b>
+                        <a href="#isUserLoggedIn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isUserLoggedIn()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:141</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns <code>true</code> if the user is logged in; and <code>false</code> if the user is anonymous.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="logout"></a>
                     <span class="name">
                         <b>
@@ -548,15 +592,15 @@ asm customer emulation session, the userId will be the customerId.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:86</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Logout</p>
+                    <div class="io-description"><p>Logout a storefront customer</p>
 </div>
 
                     <div class="io-description">
@@ -589,8 +633,8 @@ asm customer emulation session, the userId will be the customerId.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:122</a></div>
                 </td>
             </tr>
 
@@ -631,8 +675,8 @@ The new clientToken is returned.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/core/src/auth/facade/auth.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -695,13 +739,17 @@ The new clientToken is returned.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { filter, map } from &#x27;rxjs/operators&#x27;;
-import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
+import { filter, map, take } from &#x27;rxjs/operators&#x27;;
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from &#x27;../../occ/utils/occ-constants&#x27;;
 import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
 import { ClientToken, UserToken } from &#x27;../models/token-types.model&#x27;;
 import { AuthActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithAuth } from &#x27;../store/auth-state&#x27;;
 import { AuthSelectors } from &#x27;../store/selectors/index&#x27;;
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
@@ -724,7 +772,7 @@ export class AuthService {
 
   /**
    * This function provides the userId the OCC calls should use, depending
-   * on wether there is an active storefront session or not.
+   * on whether there is an active storefront session or not.
    *
    * It returns the userId of the current storefront user or &#x27;anonymous&#x27;
    * in the case there are no signed in user in the storefront.
@@ -771,10 +819,17 @@ export class AuthService {
   }
 
   /**
-   * Logout
+   * Logout a storefront customer
    */
   logout(): void {
-    this.store.dispatch(new AuthActions.Logout());
+    this.getUserToken()
+      .pipe(take(1))
+      .subscribe(userToken &#x3D;&gt; {
+        this.store.dispatch(new AuthActions.Logout());
+        if (Boolean(userToken) &amp;&amp; userToken.userId &#x3D;&#x3D;&#x3D; OCC_USER_ID_CURRENT) {
+          this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
+        }
+      });
   }
 
   /**
@@ -816,6 +871,15 @@ export class AuthService {
 
   protected isClientTokenLoaded(state: LoaderState&lt;ClientToken&gt;): boolean {
     return (state.success || state.error) &amp;&amp; !state.loading;
+  }
+
+  /**
+   * Returns &#x60;true&#x60; if the user is logged in; and &#x60;false&#x60; if the user is anonymous.
+   */
+  isUserLoggedIn(): Observable&lt;boolean&gt; {
+    return this.getUserToken().pipe(
+      map(userToken &#x3D;&gt; Boolean(userToken) &amp;&amp; Boolean(userToken.access_token))
+    );
   }
 }
 </code></pre>

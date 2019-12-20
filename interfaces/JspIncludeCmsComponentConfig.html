@@ -367,6 +367,21 @@ export interface CmsComponentMapping {
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
+
+  /**
+   * DeferLoading can be specified globally, but also per component.
+   * Some components require direct loading while it&#x27;s not initially
+   * in the viewport.
+   */
+  deferLoading?: DeferLoadingStrategy;
+}
+
+/** Strategy to control the loading strategy of DOM elements. */
+export enum DeferLoadingStrategy {
+  /** Defers loading of DOM elements until element is near/in the users view port */
+  DEFER &#x3D; &#x27;DEFERRED-LOADING&#x27;,
+  /** Renders the DOM instantly without being concerned with the view port */
+  INSTANT &#x3D; &#x27;INSTANT-LOADING&#x27;,
 }
 
 export interface CMSComponentConfig

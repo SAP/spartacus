@@ -226,8 +226,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts:32</a></div>
                 </td>
             </tr>
 
@@ -282,8 +282,8 @@
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { CanActivate } from &#x27;@angular/router&#x27;;
 import { Cart, CartService, RoutingService } from &#x27;@spartacus/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
+import { combineLatest, Observable } from &#x27;rxjs&#x27;;
+import { filter, map } from &#x27;rxjs/operators&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -295,8 +295,12 @@ export class CartNotEmptyGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable&lt;boolean&gt; {
-    return this.cartService.getActive().pipe(
-      map(cart &#x3D;&gt; {
+    return combineLatest([
+      this.cartService.getActive(),
+      this.cartService.getLoaded(),
+    ]).pipe(
+      filter(([_, loaded]) &#x3D;&gt; loaded),
+      map(([cart]) &#x3D;&gt; {
         if (this.isEmpty(cart)) {
           this.routingService.go({ cxRoute: &#x27;home&#x27; });
           return false;

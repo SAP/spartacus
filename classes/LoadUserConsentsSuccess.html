@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -175,7 +175,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:48</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -243,6 +243,7 @@ export const GIVE_USER_CONSENT_FAIL &#x3D; &#x27;[User] Give User Consent Fail&#
 export const GIVE_USER_CONSENT_SUCCESS &#x3D; &#x27;[User] Give User Consent Success&#x27;;
 export const RESET_GIVE_USER_CONSENT_PROCESS &#x3D;
   &#x27;[User] Reset Give User Consent Process&#x27;;
+export const TRANSFER_ANONYMOUS_CONSENT &#x3D; &#x27;[User] Transfer Anonymous Consent&#x27;;
 
 export const WITHDRAW_USER_CONSENT &#x3D; &#x27;[User] Withdraw User Consent&#x27;;
 export const WITHDRAW_USER_CONSENT_FAIL &#x3D; &#x27;[User] Withdraw User Consent Fail&#x27;;
@@ -311,6 +312,17 @@ export class ResetGiveUserConsentProcess extends StateEntityLoaderActions.Entity
   constructor() {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
   }
+}
+
+export class TransferAnonymousConsent {
+  readonly type &#x3D; TRANSFER_ANONYMOUS_CONSENT;
+  constructor(
+    public payload: {
+      userId: string;
+      consentTemplateId: string;
+      consentTemplateVersion: number;
+    }
+  ) {}
 }
 
 export class WithdrawUserConsent extends StateEntityLoaderActions.EntityLoadAction {

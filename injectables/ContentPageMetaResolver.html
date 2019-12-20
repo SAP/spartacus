@@ -59,6 +59,16 @@
             <code>projects/core/src/cms/page/content-page-meta.resolver.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Resolves the page data for all Content Pages based on the <code>PageType.CONTENT_PAGE</code>.
+More specific resolvers for content pages can be implemented by making them more
+specific, for example by using the page template (see <code>CartPageMetaResolver</code>).</p>
+<p>The page title, and breadcrumbs are resolved in this implementation only.</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -80,6 +90,10 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cms$">cms$</a>
+                            </li>
                             <li>
                                 <a href="#pageTemplate">pageTemplate</a>
                             </li>
@@ -106,6 +120,18 @@
                             </li>
                             <li>
                                 <a href="#resolveBreadcrumbs">resolveBreadcrumbs</a>
+                            </li>
+                            <li>
+                                <a href="#resolveBreadcrumbs">resolveBreadcrumbs</a>
+                            </li>
+                            <li>
+                                <a href="#resolveBreadcrumbs">resolveBreadcrumbs</a>
+                            </li>
+                            <li>
+                                <a href="#resolveTitle">resolveTitle</a>
+                            </li>
+                            <li>
+                                <a href="#resolveTitle">resolveTitle</a>
                             </li>
                             <li>
                                 <a href="#resolveTitle">resolveTitle</a>
@@ -140,7 +166,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -217,8 +243,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:42</a></div>
                 </td>
             </tr>
 
@@ -227,7 +253,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;PageMeta&gt;</code>
+                        <b>Returns : </b>    <code>Observable | any</code>
 
                     </div>
                 </td>
@@ -256,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:71</a></div>
                 </td>
             </tr>
 
@@ -288,6 +314,45 @@
             </tr>
             <tr>
                 <td class="col-md-4">
+<code>resolveBreadcrumbs()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:75</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any[]&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveBreadcrumbs"></a>
+                    <span class="name">
+                        <b>
+                            resolveBreadcrumbs
+                        </b>
+                        <a href="#resolveBreadcrumbs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
 <code>resolveBreadcrumbs(_page: <a href="../interfaces/Page.html">Page</a>, breadcrumbLabel: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
@@ -295,8 +360,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:81</a></div>
                 </td>
             </tr>
 
@@ -359,6 +424,127 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="resolveBreadcrumbs"></a>
+                    <span class="name">
+                        <b>
+                            resolveBreadcrumbs
+                        </b>
+                        <a href="#resolveBreadcrumbs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveBreadcrumbs(_page?: <a href="../interfaces/Page.html">Page</a>, breadcrumbLabel?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>_page</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >Page</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>breadcrumbLabel</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveTitle"></a>
+                    <span class="name">
+                        <b>
+                            resolveTitle
+                        </b>
+                        <a href="#resolveTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveTitle()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:56</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="resolveTitle"></a>
                     <span class="name">
                         <b>
@@ -377,8 +563,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:62</a></div>
                 </td>
             </tr>
 
@@ -429,6 +615,76 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="resolveTitle"></a>
+                    <span class="name">
+                        <b>
+                            resolveTitle
+                        </b>
+                        <a href="#resolveTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveTitle(page?: <a href="../interfaces/Page.html">Page</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:63</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>page</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >Page</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getScore"></a>
                     <span class="name">
                         <b>
@@ -453,7 +709,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:11</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:18</a></code>
 </div>
                 </td>
             </tr>
@@ -531,7 +787,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:9</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:16</a></code>
 </div>
                 </td>
             </tr>
@@ -539,6 +795,10 @@
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>The resolve method is no longer preferred and will be removed with release 2.0.
+The caller <code>PageMetaService</code> service is improved to expect all individual resolvers
+instead, so that the code is easier extensible.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;PageMeta&gt;</code>
@@ -554,6 +814,41 @@
         <h3 id="inputs">
             Properties
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cms$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            cms$</b>
+                            <a href="#cms$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Page.html" target="_self" >Observable&lt;Page&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.cms
+    .getCurrentPage()
+    .pipe(filter(p &#x3D;&gt; !!p))</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -638,11 +933,22 @@ import { Page, PageMeta } from &#x27;../model/page.model&#x27;;
 import { PageMetaResolver } from &#x27;./page-meta.resolver&#x27;;
 import { PageBreadcrumbResolver, PageTitleResolver } from &#x27;./page.resolvers&#x27;;
 
+/**
+ * Resolves the page data for all Content Pages based on the &#x60;PageType.CONTENT_PAGE&#x60;.
+ * More specific resolvers for content pages can be implemented by making them more
+ * specific, for example by using the page template (see &#x60;CartPageMetaResolver&#x60;).
+ *
+ * The page title, and breadcrumbs are resolved in this implementation only.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class ContentPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
+  private cms$: Observable&lt;Page&gt; &#x3D; this.cms
+    .getCurrentPage()
+    .pipe(filter(p &#x3D;&gt; !!p));
+
   constructor(
     protected cms: CmsService,
     protected translation: TranslationService
@@ -651,9 +957,15 @@ export class ContentPageMetaResolver extends PageMetaResolver
     this.pageType &#x3D; PageType.CONTENT_PAGE;
   }
 
-  resolve(): Observable&lt;PageMeta&gt; {
-    return this.cms.getCurrentPage().pipe(
-      filter(Boolean),
+  /**
+   * @deprecated since version 1.3
+   *
+   * The resolve method is no longer preferred and will be removed with release 2.0.
+   * The caller &#x60;PageMetaService&#x60; service is improved to expect all individual resolvers
+   * instead, so that the code is easier extensible.
+   */
+  resolve(): Observable&lt;PageMeta&gt; | any {
+    return this.cms$.pipe(
       switchMap((page: Page) &#x3D;&gt;
         combineLatest([
           this.resolveTitle(page),
@@ -662,22 +974,47 @@ export class ContentPageMetaResolver extends PageMetaResolver
           ),
         ])
       ),
-      map(([title, breadcrumbs]) &#x3D;&gt; ({ title, breadcrumbs }))
+      map(([title, breadcrumbs]: [string, any[]]) &#x3D;&gt; ({ title, breadcrumbs }))
     );
   }
 
-  resolveTitle(page: Page): Observable&lt;string&gt; {
-    return of(page.title);
+  resolveTitle(): Observable&lt;string&gt;;
+  /**
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change. Use &#x60;resolveTitle()&#x60; instead
+   */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(page: Page): Observable&lt;string&gt;;
+  resolveTitle(page?: Page): Observable&lt;string&gt; {
+    return page ? of(page.title) : this.cms$.pipe(map(p &#x3D;&gt; p.title));
   }
 
+  /**
+   * @deprecated since version 1.3
+   * This method will removed with with 2.0
+   */
   resolveBreadcrumbLabel(): Observable&lt;string&gt; {
     return this.translation.translate(&#x27;common.home&#x27;);
   }
 
-  resolveBreadcrumbs(_page: Page, breadcrumbLabel: string): Observable&lt;any[]&gt; {
-    // as long as we do not have CMSX-8689 in place
-    // we need specific resolvers for nested pages
-    return of([{ label: breadcrumbLabel, link: &#x27;/&#x27; }]);
+  resolveBreadcrumbs(): Observable&lt;any[]&gt;;
+  /**
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change. Use &#x60;resolveBreadcrumbs()&#x60; instead
+   */
+  // tslint:disable-next-line: unified-signatures
+  resolveBreadcrumbs(_page: Page, breadcrumbLabel: string): Observable&lt;any[]&gt;;
+  resolveBreadcrumbs(
+    _page?: Page,
+    breadcrumbLabel?: string
+  ): Observable&lt;any[]&gt; {
+    if (breadcrumbLabel) {
+      return of([{ label: breadcrumbLabel, link: &#x27;/&#x27; }]);
+    } else {
+      return this.translation
+        .translate(&#x27;common.home&#x27;)
+        .pipe(map(label &#x3D;&gt; [{ label: label, link: &#x27;/&#x27; }]));
+    }
   }
 }
 </code></pre>

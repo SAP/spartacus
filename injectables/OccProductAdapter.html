@@ -82,6 +82,9 @@
                             <li>
                                 <a href="#load">load</a>
                             </li>
+                            <li>
+                                <a href="#loadMany">loadMany</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -100,12 +103,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, occEndpoints: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>, converter: <a href="../injectables/ConverterService.html">ConverterService</a>)</code>
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, occEndpoints: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>, converter: <a href="../injectables/ConverterService.html">ConverterService</a>, requestsOptimizer: <a href="../injectables/OccRequestsOptimizerService.html">OccRequestsOptimizerService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/occ/adapters/product/occ-product.adapter.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/occ/adapters/product/occ-product.adapter.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -158,6 +161,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>requestsOptimizer</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OccRequestsOptimizerService.html" target="_self" >OccRequestsOptimizerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -189,15 +204,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getEndpoint(code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getEndpoint(code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product.adapter.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product.adapter.ts:48</a></div>
                 </td>
             </tr>
 
@@ -224,6 +239,18 @@
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -259,15 +286,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>load(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>load(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product.adapter.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product.adapter.ts:23</a></div>
                 </td>
             </tr>
 
@@ -298,6 +325,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -305,6 +344,76 @@
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;Product&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadMany"></a>
+                    <span class="name">
+                        <b>
+                            loadMany
+                        </b>
+                        <a href="#loadMany"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadMany(products: ScopedProductData[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product.adapter.ts:29</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>products</td>
+                                    <td>
+                                            <code>ScopedProductData[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ScopedProductData[]</code>
 
                     </div>
                     <div class="io-description">
@@ -328,25 +437,54 @@ import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#
 import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
 import { PRODUCT_NORMALIZER } from &#x27;../../../product/connectors/product/converters&#x27;;
 import { Product } from &#x27;../../../model/product.model&#x27;;
+import { ScopedProductData } from &#x27;../../../product/connectors/product/scoped-product-data&#x27;;
+import { ScopedDataWithUrl } from &#x27;../../services/occ-fields.service&#x27;;
+import { Occ } from &#x27;../../occ-models&#x27;;
+import { OccRequestsOptimizerService } from &#x27;../../services/occ-requests-optimizer.service&#x27;;
 
 @Injectable()
 export class OccProductAdapter implements ProductAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected requestsOptimizer: OccRequestsOptimizerService
   ) {}
 
-  load(productCode: string): Observable&lt;Product&gt; {
+  load(productCode: string, scope?: string): Observable&lt;Product&gt; {
     return this.http
-      .get(this.getEndpoint(productCode))
+      .get(this.getEndpoint(productCode, scope))
       .pipe(this.converter.pipeable(PRODUCT_NORMALIZER));
   }
 
-  protected getEndpoint(code: string): string {
-    return this.occEndpoints.getUrl(&#x27;product&#x27;, {
-      productCode: code,
-    });
+  loadMany(products: ScopedProductData[]): ScopedProductData[] {
+    const scopedDataWithUrls: ScopedDataWithUrl[] &#x3D; products.map(model &#x3D;&gt; ({
+      scopedData: model,
+      url: this.getEndpoint(model.code, model.scope),
+    }));
+
+    return this.requestsOptimizer
+      .scopedDataLoad&lt;Occ.Product&gt;(scopedDataWithUrls)
+      .map(
+        scopedProduct &#x3D;&gt;
+          ({
+            ...scopedProduct,
+            data$: scopedProduct.data$.pipe(
+              this.converter.pipeable(PRODUCT_NORMALIZER)
+            ),
+          } as ScopedProductData)
+      );
+  }
+
+  protected getEndpoint(code: string, scope?: string): string {
+    return this.occEndpoints.getUrl(
+      &#x27;product&#x27;,
+      {
+        productCode: code,
+      },
+      undefined,
+      scope
+    );
   }
 }
 </code></pre>

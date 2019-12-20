@@ -149,7 +149,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -216,8 +216,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -259,8 +259,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -331,8 +331,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:33</a></div>
                 </td>
             </tr>
 
@@ -405,8 +405,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:43</a></div>
                 </td>
             </tr>
 
@@ -491,8 +491,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -636,9 +636,22 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/routing/protected-routes/protected-routes.service.ts:17</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns &#39;protected&#39; property (boolean) from routing config</p>
+</div>
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -658,7 +671,12 @@ export class ProtectedRoutesService {
     return this.config &amp;&amp; this.config.routing;
   }
 
-  protected get shouldProtect(): boolean {
+  /**
+   * Returns &#x27;protected&#x27; property (boolean) from routing config
+   *
+   * @returns boolean
+   */
+  public get shouldProtect(): boolean {
     return this.routingConfig.protected;
   }
 

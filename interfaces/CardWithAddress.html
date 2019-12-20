@@ -161,8 +161,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
+  OnDestroy,
 } from &#x27;@angular/core&#x27;;
 import { ActivatedRoute } from &#x27;@angular/router&#x27;;
 import {
@@ -173,11 +173,11 @@ import {
   TranslationService,
   UserAddressService,
 } from &#x27;@spartacus/core&#x27;;
-import { BehaviorSubject, combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
+import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
+import { map, take } from &#x27;rxjs/operators&#x27;;
 import { Card } from &#x27;../../../../shared/components/card/card.component&#x27;;
-import { CheckoutStepType } from &#x27;../../model/checkout-step.model&#x27;;
 import { CheckoutConfigService } from &#x27;../../services/checkout-config.service&#x27;;
+import { CheckoutStepType } from &#x27;../..&#x27;;
 
 export interface CardWithAddress {
   card: Card;
@@ -190,23 +190,6 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit, OnDestroy {
-  existingAddresses$: Observable&lt;Address[]&gt;;
-  newAddressFormManuallyOpened &#x3D; false;
-  cards: Card[] &#x3D; [];
-  isLoading$: Observable&lt;boolean&gt;;
-  selectedAddress: Address;
-  goTo: CheckoutStepType;
-  setAddress: Address;
-  setAddressSub: Subscription;
-  selectedAddressSub: Subscription;
-  selectedAddress$: BehaviorSubject&lt;Address&gt; &#x3D; new BehaviorSubject&lt;Address&gt;(
-    null
-  );
-  cards$: Observable&lt;CardWithAddress[]&gt;;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
-  isGuestCheckout &#x3D; false;
-
   constructor(
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
@@ -216,6 +199,66 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private translation: TranslationService
   ) {}
+  existingAddresses$: Observable&lt;Address[]&gt;;
+  newAddressFormManuallyOpened &#x3D; false;
+  isLoading$: Observable&lt;boolean&gt;;
+  cards$: Observable&lt;CardWithAddress[]&gt;;
+  selectedAddress$: Observable&lt;Address&gt;;
+  forceLoader &#x3D; false; // this helps with smoother steps transition
+
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Use cards$ observable instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  cards: Card[] &#x3D; [];
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Avoid using it.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  goTo: CheckoutStepType &#x3D; null;
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Use selectAddress(address: Address) instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  setAddress: Address;
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Avoid using it.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  setAddressSub: Subscription;
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Use selectedAddress$ observable instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  selectedAddressSub: Subscription;
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Use CheckoutConfigService.getNextCheckoutStepUrl(this.activatedRoute) instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  checkoutStepUrlNext &#x3D; this.checkoutConfigService.getNextCheckoutStepUrl(
+    this.activatedRoute
+  );
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Use CheckoutConfigService.getPreviousCheckoutStepUrl(this.activatedRoute) instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  checkoutStepUrlPrevious &#x3D; &#x27;cart&#x27;;
+
+  isGuestCheckout &#x3D; false;
+
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Use selectedAddress$ observable instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  selectedAddress: Address;
 
   ngOnInit() {
     this.goTo &#x3D; null;
@@ -225,9 +268,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutStepUrlPrevious &#x3D; &#x27;cart&#x27;;
     this.isLoading$ &#x3D; this.userAddressService.getAddressesLoading();
     this.existingAddresses$ &#x3D; this.userAddressService.getAddresses();
+    this.selectedAddress$ &#x3D; this.checkoutDeliveryService.getDeliveryAddress();
+
     this.cards$ &#x3D; combineLatest([
       this.existingAddresses$,
-      this.selectedAddress$.asObservable(),
+      this.selectedAddress$,
       this.translation.translate(&#x27;checkoutAddress.defaultShippingAddress&#x27;),
       this.translation.translate(&#x27;checkoutAddress.shipToThisAddress&#x27;),
       this.translation.translate(&#x27;addressCard.selected&#x27;),
@@ -241,16 +286,18 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           textSelected,
         ]) &#x3D;&gt; {
           // Select default address if none selected
-          if (selected &amp;&amp; Object.keys(selected).length &gt; 0) {
-            this.selectedAddress &#x3D; selected;
-          } else {
+          if (
+            addresses.length &amp;&amp;
+            (!selected ||
+              Object.keys(selected).length &#x3D;&#x3D;&#x3D; 0 ||
+              !this.selectedAddress)
+          ) {
             const defaultAddress &#x3D; addresses.find(
               address &#x3D;&gt; address.defaultAddress
             );
             selected &#x3D; defaultAddress;
-            this.selectedAddress &#x3D; defaultAddress;
+            this.selectAddress(defaultAddress);
           }
-
           return addresses.map(address &#x3D;&gt; {
             const card &#x3D; this.getCardContent(
               address,
@@ -273,20 +320,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     } else {
       this.isGuestCheckout &#x3D; true;
     }
-
-    this.setAddressSub &#x3D; this.checkoutDeliveryService
-      .getDeliveryAddress()
-      .subscribe(address &#x3D;&gt; {
-        this.setAddress &#x3D; address;
-        this.selectedAddress$.next(address);
-        if (this.goTo) {
-          this.goNext();
-          this.goTo &#x3D; null;
-        }
-      });
-    this.selectedAddressSub &#x3D; this.selectedAddress$.subscribe(address &#x3D;&gt; {
-      this.selectedAddress &#x3D; address;
-    });
   }
 
   getCardContent(
@@ -297,10 +330,12 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     textSelected: string
   ): Card {
     let region &#x3D; &#x27;&#x27;;
+
     if (address.region &amp;&amp; address.region.isocode) {
       region &#x3D; address.region.isocode + &#x27;, &#x27;;
     }
-    const card: Card &#x3D; {
+
+    return {
       title: address.defaultAddress ? textDefaultShippingAddress : &#x27;&#x27;,
       textBold: address.firstName + &#x27; &#x27; + address.lastName,
       text: [
@@ -313,49 +348,48 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       actions: [{ name: textShipToThisAddress, event: &#x27;send&#x27; }],
       header: selected &amp;&amp; selected.id &#x3D;&#x3D;&#x3D; address.id ? textSelected : &#x27;&#x27;,
     };
-
-    this.cards.push(card);
-
-    return card;
   }
 
-  addressSelected(address: Address): void {
-    this.selectedAddress$.next(address);
+  selectAddress(address: Address): void {
+    this.selectedAddress &#x3D; address;
+    this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
-  next(): void {
-    this.addAddress({ address: this.selectedAddress, newAddress: false });
-  }
+  /**
+   * @deprecated since version 1.3
+   * Use addAddress(address: Address) instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  addAddress(address: { newAddress: boolean; address: Address } | any);
+  addAddress(
+    address: Address | { newAddress: boolean; address: Address }
+  ): void {
+    // TODO(issue:#3921) deprecated since 1.3 - Remove temp address
+    const tempAddress: Address &#x3D; address[&#x27;address&#x27;]
+      ? address[&#x27;address&#x27;]
+      : address;
 
-  addAddress({
-    newAddress,
-    address,
-  }: {
-    newAddress: boolean;
-    address: Address;
-  }): void {
-    if (newAddress) {
-      this.checkoutDeliveryService.createAndSetAddress(address);
-      this.goTo &#x3D; CheckoutStepType.DELIVERY_MODE;
-      return;
-    }
-    if (
-      this.setAddress &amp;&amp;
-      this.selectedAddress &amp;&amp;
-      this.setAddress.id &#x3D;&#x3D;&#x3D; this.selectedAddress.id
-    ) {
-      this.goNext();
+    const selectedSub &#x3D; this.selectedAddress$.subscribe(selected &#x3D;&gt; {
+      if (selected &amp;&amp; selected.shippingAddress) {
+        this.goNext();
+        selectedSub.unsubscribe();
+      }
+    });
+
+    this.forceLoader &#x3D; true;
+
+    // TODO(issue:#3921) deprecated since 1.3 - Remove this condition
+    if (address[&#x27;address&#x27;] || address[&#x27;newAddress&#x27;]) {
+      address[&#x27;newAddress&#x27;]
+        ? this.checkoutDeliveryService.createAndSetAddress(tempAddress)
+        : this.selectAddress(tempAddress);
     } else {
-      this.goTo &#x3D; CheckoutStepType.DELIVERY_MODE;
-      this.checkoutDeliveryService.setDeliveryAddress(address);
-    }
-  }
-
-  addNewAddress(address: Address): void {
-    if (address) {
-      this.addAddress({ address, newAddress: true });
-    } else {
-      this.goNext();
+      // TODO(issue:#3921) deprecated since 1.3 - Use instead of condition
+      this.existingAddresses$.pipe(take(1)).subscribe(addresses &#x3D;&gt; {
+        addresses.includes(tempAddress)
+          ? this.selectAddress(tempAddress)
+          : this.checkoutDeliveryService.createAndSetAddress(tempAddress);
+      });
     }
   }
 
@@ -363,21 +397,68 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.newAddressFormManuallyOpened &#x3D; true;
   }
 
-  hideNewAddressForm(goBack: boolean &#x3D; false): void {
+  hideNewAddressForm(goPrevious: boolean &#x3D; false): void {
     this.newAddressFormManuallyOpened &#x3D; false;
-    if (goBack) {
-      this.back();
+    if (goPrevious) {
+      this.goPrevious();
     }
   }
 
   goNext(): void {
-    this.routingService.go(this.checkoutStepUrlNext);
+    this.routingService.go(
+      this.checkoutConfigService.getNextCheckoutStepUrl(this.activatedRoute)
+    );
   }
 
+  goPrevious(): void {
+    this.routingService.go(
+      this.checkoutConfigService.getPreviousCheckoutStepUrl(
+        this.activatedRoute
+      ) || &#x27;cart&#x27;
+    );
+  }
+
+  /**
+   * @deprecated since version 1.3
+   * This variable will no longer be in use. Use selectAddress(address: Address) instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  addressSelected(address: Address): void {
+    this.selectAddress(address);
+  }
+
+  /**
+   * @deprecated since version 1.3
+   * This method will no longer be in use. Use goPrevious() instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
   back(): void {
-    this.routingService.go(this.checkoutStepUrlPrevious);
+    this.goPrevious();
   }
 
+  /**
+   * @deprecated since version 1.3
+   * This method will no longer be in use. Use goNext() instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  next(): void {
+    this.goNext();
+  }
+
+  /**
+   * @deprecated since version 1.3
+   * This method will no longer be in use. Use addAddress(address: Address) instead.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
+  addNewAddress(address: Address): void {
+    this.addAddress(address);
+  }
+
+  /**
+   * @deprecated since version 1.3
+   * This method will no longer be in use. Remove.
+   * TODO(issue:#3921) deprecated since 1.3
+   */
   ngOnDestroy(): void {
     if (this.setAddressSub) {
       this.setAddressSub.unsubscribe();

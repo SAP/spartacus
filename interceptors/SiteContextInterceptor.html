@@ -364,7 +364,7 @@ import {
   LANGUAGE_CONTEXT_ID,
 } from &#x27;../../../site-context/providers/context-ids&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class SiteContextInterceptor implements HttpInterceptor {
   activeLang: string;
   activeCurr: string;

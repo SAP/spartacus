@@ -76,6 +76,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#cancelOrder">cancelOrder</a>
+                            </li>
+                            <li>
                                 <a href="#clearConsignmentTracking">clearConsignmentTracking</a>
                             </li>
                             <li>
@@ -83,6 +86,12 @@
                             </li>
                             <li>
                                 <a href="#clearOrderList">clearOrderList</a>
+                            </li>
+                            <li>
+                                <a href="#getCancelOrderLoading">getCancelOrderLoading</a>
+                            </li>
+                            <li>
+                                <a href="#getCancelOrderSuccess">getCancelOrderSuccess</a>
                             </li>
                             <li>
                                 <a href="#getConsignmentTracking">getConsignmentTracking</a>
@@ -104,6 +113,13 @@
                             </li>
                             <li>
                                 <a href="#loadOrderList">loadOrderList</a>
+                            </li>
+                            <li>
+                                <a href="#resetCancelOrderProcessState">resetCancelOrderProcessState</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#withUserId">withUserId</a>
                             </li>
                         </ul>
                     </td>
@@ -128,7 +144,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -187,6 +203,88 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="cancelOrder"></a>
+                    <span class="name">
+                        <b>
+                            cancelOrder
+                        </b>
+                        <a href="#cancelOrder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelOrder(orderCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cancelRequestInput: <a href="../interfaces/CancellationRequestEntryInputList.html">CancellationRequestEntryInputList</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>orderCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cancelRequestInput</td>
+                                    <td>
+                                                <code><a href="../interfaces/CancellationRequestEntryInputList.html" target="_self" >CancellationRequestEntryInputList</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="clearConsignmentTracking"></a>
                     <span class="name">
                         <b>
@@ -205,8 +303,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:151</a></div>
                 </td>
             </tr>
 
@@ -246,8 +344,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -287,8 +385,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:114</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:123</a></div>
                 </td>
             </tr>
 
@@ -300,6 +398,88 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCancelOrderLoading"></a>
+                    <span class="name">
+                        <b>
+                            getCancelOrderLoading
+                        </b>
+                        <a href="#getCancelOrderLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCancelOrderLoading()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:176</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the cancel order loading flag</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCancelOrderSuccess"></a>
+                    <span class="name">
+                        <b>
+                            getCancelOrderSuccess
+                        </b>
+                        <a href="#getCancelOrderSuccess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCancelOrderSuccess()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:185</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the cancel order success flag</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
 
                     </div>
                 </td>
@@ -328,8 +508,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -369,8 +549,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:48</a></div>
                 </td>
             </tr>
 
@@ -410,8 +590,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -482,8 +662,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:97</a></div>
                 </td>
             </tr>
 
@@ -523,8 +703,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:139</a></div>
                 </td>
             </tr>
 
@@ -616,8 +796,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -693,8 +873,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:107</a></div>
                 </td>
             </tr>
 
@@ -780,6 +960,121 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetCancelOrderProcessState"></a>
+                    <span class="name">
+                        <b>
+                            resetCancelOrderProcessState
+                        </b>
+                        <a href="#resetCancelOrderProcessState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetCancelOrderProcessState()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:194</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resets the cancel order process flags</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="withUserId"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            withUserId
+                        </b>
+                        <a href="#withUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>withUserId(callback: (userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">projects/core/src/user/facade/user-order.service.ts:202</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Utility method to distinquish pre / post 1.3.0 in a convenient way.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>callback</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -792,12 +1087,21 @@ import { Observable } from &#x27;rxjs&#x27;;
 import { map, take, tap } from &#x27;rxjs/operators&#x27;;
 import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
 import { ConsignmentTracking } from &#x27;../../model/consignment-tracking.model&#x27;;
-import { Order, OrderHistoryList } from &#x27;../../model/order.model&#x27;;
-import { OCC_USER_ID_CURRENT } from &#x27;../../occ/utils/occ-constants&#x27;;
+import {
+  Order,
+  OrderHistoryList,
+  CancellationRequestEntryInputList,
+} from &#x27;../../model/order.model&#x27;;
+import { OCC_USER_ID_CURRENT } from &#x27;../../occ/index&#x27;;
 import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
 import { UserActions } from &#x27;../store/actions/index&#x27;;
 import { UsersSelectors } from &#x27;../store/selectors/index&#x27;;
 import { StateWithUser } from &#x27;../store/user-state&#x27;;
+import { CANCEL_ORDER_PROCESS_ID } from &#x27;../store/user-state&#x27;;
+import {
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from &#x27;../../process/store/selectors/process.selectors&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -812,6 +1116,8 @@ export class UserOrderService {
    * @deprecated since version 1.2
    *  Use constructor(store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;);
   constructor(
@@ -832,18 +1138,14 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId &#x3D;&gt;
-        this.store.dispatch(
-          new UserActions.LoadOrderDetails({
-            userId: occUserId,
-            orderCode: orderCode,
-          })
-        )
+    this.withUserId(userId &#x3D;&gt;
+      this.store.dispatch(
+        new UserActions.LoadOrderDetails({
+          userId,
+          orderCode,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -886,13 +1188,15 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.store.dispatch(
-      new UserActions.LoadUserOrders({
-        userId: OCC_USER_ID_CURRENT,
-        pageSize: pageSize,
-        currentPage: currentPage,
-        sort: sort,
-      })
+    this.withUserId(userId &#x3D;&gt;
+      this.store.dispatch(
+        new UserActions.LoadUserOrders({
+          userId,
+          pageSize,
+          currentPage,
+          sort,
+        })
+      )
     );
   }
 
@@ -929,6 +1233,65 @@ export class UserOrderService {
    */
   clearConsignmentTracking(): void {
     this.store.dispatch(new UserActions.ClearConsignmentTracking());
+  }
+
+  /*
+   * Cancel an order
+   */
+  cancelOrder(
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
+  ): void {
+    this.withUserId(userId &#x3D;&gt; {
+      this.store.dispatch(
+        new UserActions.CancelOrder({
+          userId,
+          orderCode,
+          cancelRequestInput,
+        })
+      );
+    });
+  }
+
+  /**
+   * Returns the cancel order loading flag
+   */
+  getCancelOrderLoading(): Observable&lt;boolean&gt; {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(CANCEL_ORDER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the cancel order success flag
+   */
+  getCancelOrderSuccess(): Observable&lt;boolean&gt; {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(CANCEL_ORDER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the cancel order process flags
+   */
+  resetCancelOrderProcessState(): void {
+    return this.store.dispatch(new UserActions.ResetCancelOrderProcess());
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) &#x3D;&gt; void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId &#x3D;&gt; callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }
 </code></pre>

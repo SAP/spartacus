@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:87</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:90</a></div>
                             </td>
                         </tr>
 
@@ -199,17 +199,19 @@
       const config &#x3D; this.config.globalMessages[type];
       return this.store.pipe(
         select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+        take(1),
         filter(
           (count: number) &#x3D;&gt;
             config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined &amp;&amp; count &amp;&amp; count &gt; 0
         ),
+        delay(config.timeout),
         switchMap(() &#x3D;&gt;
           of(
             new GlobalMessageActions.RemoveMessage({
               type,
               index: 0,
             })
-          ).pipe(delay(config.timeout))
+          )
         )
       );
     })
@@ -227,7 +229,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:65</a></div>
                             </td>
                         </tr>
 
@@ -295,7 +297,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -316,10 +318,11 @@ import {
   delay,
   filter,
   pluck,
-  concatMap,
   switchMap,
   map,
   withLatestFrom,
+  take,
+  concatMap,
 } from &#x27;rxjs/operators&#x27;;
 
 import { GlobalMessageConfig } from &#x27;../../config/global-message-config&#x27;;
@@ -380,17 +383,19 @@ export class GlobalMessageEffect {
       const config &#x3D; this.config.globalMessages[type];
       return this.store.pipe(
         select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+        take(1),
         filter(
           (count: number) &#x3D;&gt;
             config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined &amp;&amp; count &amp;&amp; count &gt; 0
         ),
+        delay(config.timeout),
         switchMap(() &#x3D;&gt;
           of(
             new GlobalMessageActions.RemoveMessage({
               type,
               index: 0,
             })
-          ).pipe(delay(config.timeout))
+          )
         )
       );
     })

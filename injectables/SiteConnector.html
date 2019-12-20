@@ -188,7 +188,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/BaseSite.html" target="_self" >Observable&lt;BaseSite&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
 
                     </div>
                 </td>
@@ -420,10 +420,10 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { SiteAdapter } from &#x27;./site.adapter&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { Currency, Language, BaseSite } from &#x27;../../model/misc.model&#x27;;
 import { Country, CountryType, Region } from &#x27;../../model/address.model&#x27;;
+import { BaseSite, Currency, Language } from &#x27;../../model/misc.model&#x27;;
+import { SiteAdapter } from &#x27;./site.adapter&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,

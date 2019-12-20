@@ -80,7 +80,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/user/store/user-state.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/core/src/user/store/user-state.ts:87</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -96,8 +96,15 @@ import { PaymentDetails } from &#x27;../../model/cart.model&#x27;;
 import { ConsentTemplate } from &#x27;../../model/consent.model&#x27;;
 import { ConsignmentTracking } from &#x27;../../model/consignment-tracking.model&#x27;;
 import { Title, User } from &#x27;../../model/misc.model&#x27;;
-import { Order, OrderHistoryList } from &#x27;../../model/order.model&#x27;;
+import {
+  Order,
+  OrderHistoryList,
+  ReturnRequest,
+  ReturnRequestList,
+} from &#x27;../../model/order.model&#x27;;
 import { LoaderState } from &#x27;../../state&#x27;;
+import { NotificationPreference } from &#x27;../../model&#x27;;
+import { ProductInterestSearchResult } from &#x27;../../model/product-interest.model&#x27;;
 
 export const USER_FEATURE &#x3D; &#x27;user&#x27;;
 export const UPDATE_EMAIL_PROCESS_ID &#x3D; &#x27;updateEmail&#x27;;
@@ -107,12 +114,24 @@ export const REGISTER_USER_PROCESS_ID &#x3D; &#x27;registerUser&#x27;;
 export const REMOVE_USER_PROCESS_ID &#x3D; &#x27;removeUser&#x27;;
 export const GIVE_CONSENT_PROCESS_ID &#x3D; &#x27;giveConsent&#x27;;
 export const WITHDRAW_CONSENT_PROCESS_ID &#x3D; &#x27;withdrawConsent&#x27;;
+export const UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID &#x3D;
+  &#x27;updateNotificationPreferences&#x27;;
+export const ADD_PRODUCT_INTEREST_PROCESS_ID &#x3D; &#x27;addProductInterests&#x27;;
+export const REMOVE_PRODUCT_INTERESTS_PROCESS_ID &#x3D; &#x27;removeProductInterests&#x27;;
+export const CANCEL_ORDER_PROCESS_ID &#x3D; &#x27;cancelOrder&#x27;;
+export const CANCEL_RETURN_PROCESS_ID &#x3D; &#x27;cancelReturn&#x27;;
 
 export const USER_CONSENTS &#x3D; &#x27;[User] User Consents&#x27;;
 export const USER_PAYMENT_METHODS &#x3D; &#x27;[User] User Payment Methods&#x27;;
 export const USER_ORDERS &#x3D; &#x27;[User] User Orders&#x27;;
 export const USER_ADDRESSES &#x3D; &#x27;[User] User Addresses&#x27;;
+export const USER_RETURN_REQUESTS &#x3D; &#x27;[User] Order Return Requests&#x27;;
+export const USER_RETURN_REQUEST_DETAILS &#x3D; &#x27;[User] Return Request Details&#x27;;
+export const USER_ORDER_DETAILS &#x3D; &#x27;[User] User Order Details&#x27;;
 export const REGIONS &#x3D; &#x27;[User] Regions&#x27;;
+
+export const NOTIFICATION_PREFERENCES &#x3D; &#x27;[User] Notification Preferences&#x27;;
+export const PRODUCT_INTERESTS &#x3D; &#x27;[User] Product Interests&#x27;;
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -126,15 +145,15 @@ export interface UserState {
   countries: DeliveryCountriesState;
   payments: LoaderState&lt;PaymentDetails[]&gt;;
   orders: LoaderState&lt;OrderHistoryList&gt;;
-  order: OrderDetailsState;
+  order: LoaderState&lt;Order&gt;;
+  orderReturn: LoaderState&lt;ReturnRequest&gt;;
+  orderReturnList: LoaderState&lt;ReturnRequestList&gt;;
   titles: TitlesState;
   regions: LoaderState&lt;RegionsState&gt;;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
-}
-
-export interface OrderDetailsState {
-  order: Order;
+  notificationPreferences: LoaderState&lt;NotificationPreference[]&gt;;
+  productInterests: LoaderState&lt;ProductInterestSearchResult&gt;;
 }
 
 export interface RegionsState {

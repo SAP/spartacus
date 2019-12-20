@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-page-layout-handler.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-page-layout-handler.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-page-layout-handler.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-page-layout-handler.ts:13</a></div>
                 </td>
             </tr>
 
@@ -250,7 +250,9 @@ import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
 import { PageLayoutHandler } from &#x27;../../cms-structure/page/page-layout/page-layout-handler&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class CartPageLayoutHandler implements PageLayoutHandler {
   constructor(private cartService: CartService) {}
 

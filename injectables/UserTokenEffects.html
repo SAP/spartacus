@@ -83,6 +83,9 @@
                             <li>
                                 <a href="#refreshUserToken$">refreshUserToken$</a>
                             </li>
+                            <li>
+                                <a href="#revokeUserToken$">revokeUserToken$</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -107,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/auth/store/effects/user-token.effect.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/auth/store/effects/user-token.effect.ts:71</a></div>
                             </td>
                         </tr>
 
@@ -288,13 +291,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(AuthActions.REFRESH_USER_TOKEN),
     map((action: AuthActions.RefreshUserToken) &#x3D;&gt; action.payload),
-    switchMap(({ refreshToken }) &#x3D;&gt; {
+    exhaustMap(({ refreshToken }) &#x3D;&gt; {
       return this.userTokenService.refreshToken(refreshToken).pipe(
         map((token: UserToken) &#x3D;&gt; {
           const date &#x3D; new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
           token.expiration_time &#x3D; date.toJSON();
-          token.userId &#x3D; OCC_USER_ID_CURRENT;
           return new AuthActions.RefreshUserTokenSuccess(token);
         }, catchError(error &#x3D;&gt; of(new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
       );
@@ -320,6 +322,58 @@
 
             </tbody>
         </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="revokeUserToken$"></a>
+                        <span class="name">
+                            <b>
+                            revokeUserToken$</b>
+                            <a href="#revokeUserToken$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UserTokenAction" target="_self" >Observable&lt;AuthActions.UserTokenAction&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.actions$.pipe(
+    ofType(AuthActions.REVOKE_USER_TOKEN),
+    map((action: AuthActions.RevokeUserToken) &#x3D;&gt; {
+      return action.payload;
+    }),
+    mergeMap((userToken: UserToken) &#x3D;&gt; {
+      return this.userTokenService.revoke(userToken).pipe(
+        map(() &#x3D;&gt; new AuthActions.RevokeUserTokenSuccess(userToken)),
+        catchError(error &#x3D;&gt; of(new AuthActions.RevokeUserTokenFail(error)))
+      );
+    })
+  )</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Effect()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/auth/store/effects/user-token.effect.ts:58</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
 </section>
 
     </div>
@@ -329,7 +383,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
-import { catchError, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
+import { catchError, exhaustMap, map, mergeMap } from &#x27;rxjs/operators&#x27;;
 import { OCC_USER_ID_CURRENT } from &#x27;../../../occ/utils/occ-constants&#x27;;
 import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 import { UserToken } from &#x27;../../models/token-types.model&#x27;;
@@ -370,15 +424,30 @@ export class UserTokenEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(AuthActions.REFRESH_USER_TOKEN),
     map((action: AuthActions.RefreshUserToken) &#x3D;&gt; action.payload),
-    switchMap(({ refreshToken }) &#x3D;&gt; {
+    exhaustMap(({ refreshToken }) &#x3D;&gt; {
       return this.userTokenService.refreshToken(refreshToken).pipe(
         map((token: UserToken) &#x3D;&gt; {
           const date &#x3D; new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
           token.expiration_time &#x3D; date.toJSON();
-          token.userId &#x3D; OCC_USER_ID_CURRENT;
           return new AuthActions.RefreshUserTokenSuccess(token);
         }, catchError(error &#x3D;&gt; of(new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
+      );
+    })
+  );
+
+  @Effect()
+  revokeUserToken$: Observable&lt;
+    AuthActions.UserTokenAction
+  &gt; &#x3D; this.actions$.pipe(
+    ofType(AuthActions.REVOKE_USER_TOKEN),
+    map((action: AuthActions.RevokeUserToken) &#x3D;&gt; {
+      return action.payload;
+    }),
+    mergeMap((userToken: UserToken) &#x3D;&gt; {
+      return this.userTokenService.revoke(userToken).pipe(
+        map(() &#x3D;&gt; new AuthActions.RevokeUserTokenSuccess(userToken)),
+        catchError(error &#x3D;&gt; of(new AuthActions.RevokeUserTokenFail(error)))
       );
     })
   );

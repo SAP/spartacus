@@ -109,7 +109,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/auth/http-interceptors/auth-error.interceptor.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/auth/http-interceptors/auth-error.interceptor.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -198,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/auth/http-interceptors/auth-error.interceptor.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/auth/http-interceptors/auth-error.interceptor.ts:29</a></div>
                 </td>
             </tr>
 
@@ -282,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/core/src/auth/http-interceptors/auth-error.interceptor.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/core/src/auth/http-interceptors/auth-error.interceptor.ts:86</a></div>
                 </td>
             </tr>
 
@@ -354,8 +354,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/core/src/auth/http-interceptors/auth-error.interceptor.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/auth/http-interceptors/auth-error.interceptor.ts:94</a></div>
                 </td>
             </tr>
 
@@ -408,29 +408,27 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  HttpInterceptor,
-  HttpHandler,
-  HttpEvent,
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
 } from &#x27;@angular/common/http&#x27;;
-import { HttpRequest } from &#x27;@angular/common/http&#x27;;
-
+import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable, of, throwError } from &#x27;rxjs&#x27;;
 import { catchError } from &#x27;rxjs/operators&#x27;;
-
-import { AuthService } from &#x27;../facade/auth.service&#x27;;
-import { ClientErrorHandlingService } from &#x27;../services/client-error/client-error-handling.service&#x27;;
-import { UserErrorHandlingService } from &#x27;../services/user-error/user-error-handling.service&#x27;;
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from &#x27;../../occ/utils/interceptor-util&#x27;;
+import { AuthService } from &#x27;../facade/auth.service&#x27;;
+import { ClientErrorHandlingService } from &#x27;../services/client-error/client-error-handling.service&#x27;;
+import { UserErrorHandlingService } from &#x27;../services/user-error/user-error-handling.service&#x27;;
 
 const OAUTH_ENDPOINT &#x3D; &#x27;/authorizationserver/oauth/token&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(
     private userErrorHandlingService: UserErrorHandlingService,

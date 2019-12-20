@@ -285,11 +285,21 @@ import {
   UserService,
 } from &#x27;@spartacus/core&#x27;;
 import { ListNavigationModule } from &#x27;../../../../shared/components/list-navigation/list-navigation.module&#x27;;
+import { CmsPageGuard } from &#x27;../../../../cms-structure/guards/cms-page.guard&#x27;;
+import { PageLayoutComponent } from &#x27;../../../../cms-structure/page/page-layout/page-layout.component&#x27;;
 import { OrderHistoryComponent } from &#x27;./order-history.component&#x27;;
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: &#x27;orders&#x27; },
+      },
+    ]),
     ConfigModule.withConfig(&lt;CmsConfig&gt;{
       cmsComponents: {
         AccountOrderHistoryComponent: {

@@ -108,11 +108,23 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#stores">stores</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#theme">theme</a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
                                         <a href="#uid">uid</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#urlEncodingAttributes">urlEncodingAttributes</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#urlPatterns">urlPatterns</a>
                                 </li>
                             </ul>
                         </td>
@@ -367,6 +379,40 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="stores"></a>
+                                        <span class="name"><b>stores</b><a href="#stores"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>stores:     <code>BaseStore[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>BaseStore[]</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="theme"></a>
                                         <span class="name"><b>theme</b><a href="#theme"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
@@ -416,6 +462,74 @@
                                     <tr>
                                         <td class="col-md-4">
                                             <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="urlEncodingAttributes"></a>
+                                        <span class="name"><b>urlEncodingAttributes</b><a href="#urlEncodingAttributes"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>urlEncodingAttributes:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="urlPatterns"></a>
+                                        <span class="name"><b>urlPatterns</b><a href="#urlPatterns"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>urlPatterns:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
 
                                         </td>
                                     </tr>
@@ -513,6 +627,13 @@ export interface HttpErrorModel {
   url?: string | null;
 }
 
+export interface BaseStore {
+  currencies?: Currency[];
+  defaultCurrency?: Currency;
+  languages?: Language[];
+  defaultLanguage?: Language;
+}
+
 export interface BaseSite {
   channel?: string;
   defaultLanguage?: Language;
@@ -523,6 +644,9 @@ export interface BaseSite {
   name?: string;
   theme?: string;
   uid?: string;
+  stores?: BaseStore[];
+  urlPatterns?: string[];
+  urlEncodingAttributes?: string[];
 }
 
 export interface UserSignUp {

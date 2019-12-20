@@ -102,7 +102,17 @@
                                 <a href="#add">add</a>
                             </li>
                             <li>
+                                <a href="#add">add</a>
+                            </li>
+                            <li>
+                                <a href="#add">add</a>
+                            </li>
+                            <li>
                                 <a href="#get">get</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#store">store</a>
                             </li>
                         </ul>
                     </td>
@@ -137,15 +147,230 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>add(outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, template: TemplateRef<any>, position: <a href="../undefineds/OutletPosition.html">OutletPosition</a>)</code>
+<code>add(outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, template: T, position?: <a href="../undefineds/OutletPosition.html">OutletPosition</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:22</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds a template or ComponentFactory, so that UI outlets can be replaced dynamically.
+The UI position where this template or ComponentFactory is inserted is given by a
+string reference (called <code>outlet</code>) and optional <code>OutletPosition</code>. The <code>OutletPosition</code>
+is either before or after, or replaces the entire UI.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>outlet</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the UI location represented by a string</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>template</td>
+                                    <td>
+                                            <code>T</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the <code>TemplateRef</code> that will be used to insert UI</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>position</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#OutletPosition" target="_self" >OutletPosition</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>the <code>OutletPosition</code> in the UI</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="add"></a>
+                    <span class="name">
+                        <b>
+                            add
+                        </b>
+                        <a href="#add"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>add(outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, factory: T, position?: <a href="../undefineds/OutletPosition.html">OutletPosition</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>outlet</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>factory</td>
+                                    <td>
+                                            <code>T</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The <code>ComponentFactory</code> that will be dynamically added to the outlet UI</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>position</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#OutletPosition" target="_self" >OutletPosition</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="add"></a>
+                    <span class="name">
+                        <b>
+                            add
+                        </b>
+                        <a href="#add"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>add(outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, templateOrFactory: T, position: <a href="../undefineds/OutletPosition.html">OutletPosition</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:35</a></div>
                 </td>
             </tr>
 
@@ -162,6 +387,7 @@
                                     <td>Type</td>
                                     <td>Optional</td>
                                     <td>Default value</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -178,11 +404,13 @@
                                     <td>
                                     </td>
 
+                                    <td>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>template</td>
+                                    <td>templateOrFactory</td>
                                     <td>
-                                            <code>TemplateRef&lt;any&gt;</code>
+                                            <code>T</code>
                                     </td>
 
                                     <td>
@@ -192,6 +420,10 @@
                                     <td>
                                     </td>
 
+                                    <td>
+                                        <p>A <code>ComponentFactory</code> that inserts a component dynamically.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>position</td>
@@ -207,6 +439,8 @@
                                         <code>OutletPosition.REPLACE</code>
                                     </td>
 
+                                    <td>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -239,21 +473,24 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>get(outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, position: <a href="../undefineds/OutletPosition.html">OutletPosition</a>)</code>
+<code>get(outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, position: <a href="../undefineds/OutletPosition.html">OutletPosition</a>, stacked)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:60</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns a single object or multiple objects for the given outlet reference,
+depending on the <code>stacked</code> argument.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -264,6 +501,7 @@
                                     <td>Type</td>
                                     <td>Optional</td>
                                     <td>Default value</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -280,6 +518,10 @@
                                     <td>
                                     </td>
 
+                                    <td>
+                                        <p>The outlet reference</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>position</td>
@@ -295,6 +537,28 @@
                                         <code>OutletPosition.REPLACE</code>
                                     </td>
 
+                                    <td>
+                                        <p>the outlet position, <code>OutletPosition.before</code>, <code>OutletPosition.AFTER</code> or <code>OutletPosition.REPLACE</code></p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>stacked</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>AVOID_STACKED_OUTLETS</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Indicates whether an array of outlet components is returned</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -302,7 +566,103 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>TemplateRef&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>[] | T</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="store"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            store
+                        </b>
+                        <a href="#store"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>store(store: Map<string | []>, outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: T)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>store</td>
+                                    <td>
+                                            <code>Map&lt;string | []&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>outlet</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                            <code>T</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -333,13 +693,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>{}</code>
+                            <i>Default value : </i><code>new Map&lt;string, (T)[]&gt;()</code>
                         </td>
                     </tr>
                         <tr>
@@ -366,13 +720,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>{}</code>
+                            <i>Default value : </i><code>new Map&lt;string, (T)[]&gt;()</code>
                         </td>
                     </tr>
                         <tr>
@@ -399,13 +747,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>{}</code>
+                            <i>Default value : </i><code>new Map&lt;string, (T)[]&gt;()</code>
                         </td>
                     </tr>
                         <tr>
@@ -424,49 +766,90 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, TemplateRef } from &#x27;@angular/core&#x27;;
-import { OutletPosition } from &#x27;./outlet.model&#x27;;
+import { AVOID_STACKED_OUTLETS, OutletPosition } from &#x27;./outlet.model&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class OutletService {
-  private templatesRefs &#x3D; {};
-  private templatesRefsBefore &#x3D; {};
-  private templatesRefsAfter &#x3D; {};
+export class OutletService&lt;T &#x3D; TemplateRef&lt;any&gt;&gt; {
+  private templatesRefs &#x3D; new Map&lt;string, (T)[]&gt;();
+  private templatesRefsBefore &#x3D; new Map&lt;string, (T)[]&gt;();
+  private templatesRefsAfter &#x3D; new Map&lt;string, (T)[]&gt;();
 
+  /**
+   * Adds a template or ComponentFactory, so that UI outlets can be replaced dynamically.
+   * The UI position where this template or ComponentFactory is inserted is given by a
+   * string reference (called &#x60;outlet&#x60;) and optional &#x60;OutletPosition&#x60;. The &#x60;OutletPosition&#x60;
+   * is either before or after, or replaces the entire UI.
+   *
+   * @param outlet the UI location represented by a string
+   * @param template the &#x60;TemplateRef&#x60; that will be used to insert UI
+   * @param position the &#x60;OutletPosition&#x60; in the UI
+   */
+  add(outlet: string, template: T, position?: OutletPosition): void;
+  /**
+   * @param factory The &#x60;ComponentFactory&#x60; that will be dynamically added to the outlet UI
+   */
   add(
     outlet: string,
-    template: TemplateRef&lt;any&gt;,
+    // tslint:disable-next-line: unified-signatures
+    factory: T,
+    position?: OutletPosition
+  ): void;
+  /**
+   * @param templateOrFactory A &#x60;ComponentFactory&#x60; that inserts a component dynamically.
+   */
+  add(
+    outlet: string,
+    templateOrFactory: T,
     position: OutletPosition &#x3D; OutletPosition.REPLACE
   ): void {
     if (position &#x3D;&#x3D;&#x3D; OutletPosition.BEFORE) {
-      this.templatesRefsBefore[outlet] &#x3D; template;
+      this.store(this.templatesRefsBefore, outlet, templateOrFactory);
     }
     if (position &#x3D;&#x3D;&#x3D; OutletPosition.REPLACE) {
-      this.templatesRefs[outlet] &#x3D; template;
+      this.store(this.templatesRefs, outlet, templateOrFactory);
     }
     if (position &#x3D;&#x3D;&#x3D; OutletPosition.AFTER) {
-      this.templatesRefsAfter[outlet] &#x3D; template;
+      this.store(this.templatesRefsAfter, outlet, templateOrFactory);
     }
   }
 
+  /**
+   *
+   * Returns a single object or multiple objects for the given outlet reference,
+   * depending on the &#x60;stacked&#x60; argument.
+   *
+   * @param outlet The outlet reference
+   * @param position the outlet position, &#x60;OutletPosition.before&#x60;, &#x60;OutletPosition.AFTER&#x60; or &#x60;OutletPosition.REPLACE&#x60;
+   * @param stacked Indicates whether an array of outlet components is returned
+   */
   get(
     outlet: string,
-    position: OutletPosition &#x3D; OutletPosition.REPLACE
-  ): TemplateRef&lt;any&gt; {
-    let templateRef;
+    position: OutletPosition &#x3D; OutletPosition.REPLACE,
+    stacked &#x3D; AVOID_STACKED_OUTLETS
+  ): T[] | T {
+    let templateRef: T[];
     switch (position) {
       case OutletPosition.BEFORE:
-        templateRef &#x3D; this.templatesRefsBefore[outlet];
+        templateRef &#x3D; this.templatesRefsBefore.get(outlet);
         break;
       case OutletPosition.AFTER:
-        templateRef &#x3D; this.templatesRefsAfter[outlet];
+        templateRef &#x3D; this.templatesRefsAfter.get(outlet);
         break;
       default:
-        templateRef &#x3D; this.templatesRefs[outlet];
+        templateRef &#x3D; this.templatesRefs.get(outlet);
+    }
+    if (templateRef &amp;&amp; !stacked) {
+      return templateRef[0];
     }
     return templateRef;
-    // return this.templatesRefs[outlet] ? this.templatesRefs[outlet] : null;
+  }
+
+  private store(store: Map&lt;string, (T)[]&gt;, outlet: string, value: T) {
+    const existing &#x3D; store.get(outlet) || [];
+    const newValue: T[] &#x3D; existing.concat([value]);
+    store.set(outlet, newValue);
   }
 }
 </code></pre>

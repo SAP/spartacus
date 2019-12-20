@@ -444,8 +444,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">projects/storefrontlib/src/shared/directives/only-number/only-number.directive.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/storefrontlib/src/shared/directives/only-number/only-number.directive.ts:113</a></div>
                 </td>
             </tr>
 
@@ -745,8 +745,10 @@ export class OnlyNumberDirective {
    * @param value
    */
   validateValue(value: string): void {
-    value &#x3D; value.replace(/[^0-9]+/g, &#x27;&#x27;);
-    this.renderer.setProperty(this.hostElement.nativeElement, &#x27;value&#x27;, value);
+    if (value) {
+      value &#x3D; value.replace(/[^0-9]+/g, &#x27;&#x27;);
+      this.renderer.setProperty(this.hostElement.nativeElement, &#x27;value&#x27;, value);
+    }
   }
 
   /**
