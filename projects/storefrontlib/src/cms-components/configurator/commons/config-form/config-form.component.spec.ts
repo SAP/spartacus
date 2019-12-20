@@ -108,7 +108,6 @@ class MockCxIconComponent {
 }
 
 let routerStateObservable = null;
-let configurationObservable = null;
 let configurationCreateObservable = null;
 let currentGroupObservable = null;
 
@@ -119,9 +118,6 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObservable;
-  }
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
   }
@@ -165,20 +161,15 @@ function checkConfigurationObs(
 function checkCurrentGroupObs(
   component: ConfigFormComponent,
   routerMarbels: string,
-  configurationServiceMarbels: string,
   groupMarbels: string,
   expectedMarbels: string
 ) {
   routerStateObservable = cold(routerMarbels, {
     a: mockRouterState,
   });
-  configurationObservable = cold(configurationServiceMarbels, {
-    x: configRead,
-    y: configRead2,
-  });
   currentGroupObservable = cold(groupMarbels, {
-    u: '1-CPQ_LAPTOP.1',
-    v: '1-CPQ_LAPTOP.2',
+    u: groups[0],
+    v: groups[1],
   });
   component.ngOnInit();
 
@@ -255,14 +246,14 @@ describe('ConfigurationFormComponent', () => {
   });
 
   it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
-    checkCurrentGroupObs(component, 'aa', '---xy', '---uv', '--------uv');
+    checkCurrentGroupObs(component, 'aa', '---uv', '----uv');
   });
 
   it('should get 4 emissions of current groups if configurations service emits fast', () => {
-    checkCurrentGroupObs(component, 'a---a', 'xy', '--uv', '---uv--uv');
+    checkCurrentGroupObs(component, 'a---a', '--uv', '--uv--uv');
   });
 
   it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
-    checkCurrentGroupObs(component, 'a-----a', '--x--y', 'uv', '--uv-uv-uv-uv');
+    checkCurrentGroupObs(component, 'a-----a', 'uv', 'uv----uv');
   });
 });

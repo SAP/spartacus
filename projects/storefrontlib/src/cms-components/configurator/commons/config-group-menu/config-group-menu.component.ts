@@ -18,6 +18,7 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
 })
 export class ConfigGroupMenuComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
+  currentGroup$: Observable<Configurator.Group>;
 
   displayedParentGroup$: Observable<Configurator.Group>;
   displayedGroups$: Observable<Configurator.Group[]>;
@@ -41,9 +42,36 @@ export class ConfigGroupMenuComponent implements OnInit {
         )
       );
 
-    this.displayedGroups$ = this.configuration$.pipe(
-      switchMap(configuration => this.getCurrentGroup(configuration.groups))
-    );
+    this.currentGroup$ = this.configRouterExtractorService
+      .extractConfigurationOwner(this.routingService)
+      .pipe(
+        switchMap(owner =>
+          this.configuratorGroupsService.getCurrentGroup(owner)
+        )
+      );
+
+    this.displayedGroups$ = this.configRouterExtractorService
+      .extractConfigurationOwner(this.routingService)
+      .pipe(
+        switchMap(owner =>
+          this.configuratorGroupsService.getCurrentGroup(owner)
+        ),
+        switchMap(currentGroup =>
+          this.configuration$.pipe(
+            map(configuration => {
+              const parentGroup = this.findParentGroup(
+                configuration.groups,
+                currentGroup,
+                null
+              );
+
+              return parentGroup !== null
+                ? parentGroup.subGroups
+                : configuration.groups;
+            })
+          )
+        )
+      );
 
     this.displayedParentGroup$ = this.displayedGroups$.pipe(
       switchMap(group => this.getParentGroup(group[0]))
@@ -100,45 +128,8 @@ export class ConfigGroupMenuComponent implements OnInit {
 
     //Call function recursive until parent group is returned
     for (let i = 0; i < groups.length; i++) {
-      if (
-        this.findParentGroup(groups[i].subGroups, group, groups[i]) !== null
-      ) {
+      if (this.findParentGroup(groups[i].subGroups, group, groups[i])) {
         return groups[i];
-      }
-    }
-
-    return null;
-  }
-
-  getCurrentGroup(
-    groups: Configurator.Group[]
-  ): Observable<Configurator.Group[]> {
-    return this.configuration$.pipe(
-      switchMap(configuration =>
-        this.configuratorGroupsService.getCurrentGroup(configuration.owner)
-      ),
-      map(currenGroupId => this.findCurrentGroup(groups, currenGroupId)),
-      map(currentGroup => {
-        const parentGroup = this.findParentGroup(groups, currentGroup, null);
-        return parentGroup !== null ? parentGroup.subGroups : groups;
-      })
-    );
-  }
-
-  // TODO: This is a duplicate method from the configuration form, should we create a central method?
-  // maybe move this to group service
-  findCurrentGroup(
-    groups: Configurator.Group[],
-    groupId: String
-  ): Configurator.Group {
-    if (groups.find(group => group.id === groupId)) {
-      return groups.find(group => group.id === groupId);
-    }
-
-    //Call function recursive until group is returned
-    for (let i = 0; i < groups.length; i++) {
-      if (this.findCurrentGroup(groups[i].subGroups, groupId) !== null) {
-        return this.findCurrentGroup(groups[i].subGroups, groupId);
       }
     }
 

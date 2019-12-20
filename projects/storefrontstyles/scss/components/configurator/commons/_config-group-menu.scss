@@ -38,6 +38,10 @@
           color: var(--cx-color-primary);
         }
 
+        &.active {
+          color: var(--cx-color-primary);
+        }
+
         cx-icon {
           margin-top: 5px;
           float: right;

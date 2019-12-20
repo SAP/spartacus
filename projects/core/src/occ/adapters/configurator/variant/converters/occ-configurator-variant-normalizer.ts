@@ -18,13 +18,20 @@ export class OccConfiguratorVariantNormalizer
       complete: source.complete,
       productCode: source.kbKey.productCode,
       groups: [],
+      flatGroups: [],
     };
 
-    source.groups.forEach(group => this.convertGroup(group, target.groups));
+    source.groups.forEach(group =>
+      this.convertGroup(group, target.groups, target.flatGroups)
+    );
     return target;
   }
 
-  convertGroup(source: OccConfigurator.Group, groupList: Configurator.Group[]) {
+  convertGroup(
+    source: OccConfigurator.Group,
+    groupList: Configurator.Group[],
+    flatGroupList: Configurator.Group[]
+  ) {
     const attributes: Configurator.Attribute[] = [];
     source.cstics.forEach(cstic =>
       this.convertCharacteristic(cstic, attributes)
@@ -42,8 +49,12 @@ export class OccConfiguratorVariantNormalizer
 
     if (source.subGroups) {
       source.subGroups.forEach(sourceSubGroup =>
-        this.convertGroup(sourceSubGroup, group.subGroups)
+        this.convertGroup(sourceSubGroup, group.subGroups, flatGroupList)
       );
+    }
+
+    if (group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP) {
+      flatGroupList.push(group);
     }
 
     groupList.push(group);

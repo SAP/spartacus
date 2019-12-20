@@ -6,20 +6,20 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../misc/icon/index';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
-import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({
-  selector: 'cx-config-form',
-  templateUrl: './config-form.component.html',
+  selector: 'cx-config-group-title',
+  templateUrl: './config-group-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigFormComponent implements OnInit {
+export class ConfigGroupTitleComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  currentGroup$: Observable<Configurator.Group>;
+  displayedGroup$: Observable<Configurator.Group>;
 
-  public UiType = Configurator.UiType;
+  iconTypes = ICON_TYPE;
 
   constructor(
     private routingService: RoutingService,
@@ -33,34 +33,16 @@ export class ConfigFormComponent implements OnInit {
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
-          this.configuratorCommonsService.getOrCreateConfiguration(owner)
+          this.configuratorCommonsService.getConfiguration(owner)
         )
       );
 
-    this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
-      .pipe(
-        switchMap(owner =>
-          this.configuratorCommonsService.getOrCreateUiState(owner)
-        ),
-        take(1)
-      )
-      .subscribe();
-
-    this.currentGroup$ = this.configRouterExtractorService
+    this.displayedGroup$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
           this.configuratorGroupsService.getCurrentGroup(owner)
         )
       );
-  }
-
-  updateConfiguration(event: ConfigFormUpdateEvent) {
-    this.configuratorCommonsService.updateConfiguration(
-      event.productCode,
-      event.groupId,
-      event.changedAttribute
-    );
   }
 }
