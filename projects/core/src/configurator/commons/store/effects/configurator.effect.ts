@@ -205,7 +205,7 @@ export class ConfiguratorEffects {
           //we need to ensure that the last update determines the current group.
           new ConfiguratorUiActions.SetCurrentGroup(
             payload.productCode,
-            payload.groups.filter(group => group.attributes.length > 0)[0].id
+            this.getGroupWithAttributes(payload.groups)
           ),
         ])
       );
@@ -349,6 +349,24 @@ export class ConfiguratorEffects {
       );
     })
   );
+
+  getGroupWithAttributes(groups: Configurator.Group[]): string {
+    const groupWithAttributes: Configurator.Group = groups
+      .filter(currentGroup => currentGroup.attributes)
+      .pop();
+    let id: string;
+    if (groupWithAttributes) {
+      id = groupWithAttributes.id;
+    } else {
+      id = groups
+        .filter(currentGroup => currentGroup.subGroups)
+        .flatMap(currentGroup =>
+          this.getGroupWithAttributes(currentGroup.subGroups)
+        )
+        .pop();
+    }
+    return id;
+  }
 
   constructor(
     private actions$: Actions,

@@ -457,4 +457,31 @@ describe('ConfiguratorEffect', () => {
       );
     });
   });
+
+  describe('getGroupWithAttributes', () => {
+    it('should find group in single level config', () => {
+      expect(
+        configEffects.getGroupWithAttributes(productConfiguration.groups)
+      ).toBe(groupId);
+    });
+
+    it('should find group in multi level config', () => {
+      const groups: Configurator.Group[] = [
+        {
+          subGroups: productConfiguration.groups,
+        },
+      ];
+      expect(configEffects.getGroupWithAttributes(groups)).toBe(groupId);
+    });
+
+    it('should find no group in multi level config in case no attributes exist at all', () => {
+      const groups: Configurator.Group[] = [
+        {
+          subGroups: productConfiguration.groups,
+        },
+      ];
+      productConfiguration.groups[0].attributes = undefined;
+      expect(configEffects.getGroupWithAttributes(groups)).toBeUndefined();
+    });
+  });
 });

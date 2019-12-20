@@ -107,6 +107,7 @@ export namespace OccConfigurator {
   }
   export enum GroupType {
     CSTIC_GROUP = 'CSTIC_GROUP',
+    INSTANCE = 'INSTANCE',
   }
 
   export enum UiType {

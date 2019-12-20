@@ -6,6 +6,16 @@ import { OccConfiguratorVariantSerializer } from './occ-configurator-variant-ser
 
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantSerializer: OccConfiguratorVariantSerializer;
+  const GROUP_ID = '1-CPQ_LAPTOP.1';
+
+  const groupWithoutAttributes: Configurator.Group = {
+    id: GROUP_ID,
+  };
+
+  const groupWithSubGroup: Configurator.Group = {
+    id: GROUP_ID,
+    subGroups: [groupWithoutAttributes],
+  };
 
   const sourceConfiguration: Configurator.Configuration = {
     complete: false,
@@ -17,7 +27,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
         configurable: true,
         description: 'Core components',
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        id: '1-CPQ_LAPTOP.1',
+        id: GROUP_ID,
         name: '1',
         attributes: [
           {
@@ -122,5 +132,47 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(convertedConfiguration.configId).toEqual(
       targetOccConfiguration.configId
     );
+  });
+
+  it('should convert groups', () => {
+    const occGroups: OccConfigurator.Group[] = [];
+    occConfiguratorVariantSerializer.convertGroup(
+      sourceConfiguration.groups[0],
+      occGroups
+    );
+    expect(occGroups.length).toBe(1);
+    expect(occGroups[0].id).toBe(GROUP_ID);
+  });
+
+  it('should handle groups without attributes well', () => {
+    const occGroups: OccConfigurator.Group[] = [];
+    occConfiguratorVariantSerializer.convertGroup(
+      groupWithoutAttributes,
+      occGroups
+    );
+    expect(occGroups.length).toBe(1);
+  });
+
+  it('should take sub groups into account', () => {
+    const occGroups: OccConfigurator.Group[] = [];
+
+    occConfiguratorVariantSerializer.convertGroup(groupWithSubGroup, occGroups);
+    expect(occGroups.length).toBe(1);
+    expect(occGroups[0].subGroups.length).toBe(1);
+    expect(occGroups[0].subGroups[0].id).toBe(GROUP_ID);
+  });
+
+  it('should map group types properly', () => {
+    expect(
+      occConfiguratorVariantSerializer.convertGroupType(
+        Configurator.GroupType.ATTRIBUTE_GROUP
+      )
+    ).toBe(OccConfigurator.GroupType.CSTIC_GROUP);
+
+    expect(
+      occConfiguratorVariantSerializer.convertGroupType(
+        Configurator.GroupType.SUB_ITEM_GROUP
+      )
+    ).toBe(OccConfigurator.GroupType.INSTANCE);
   });
 });
