@@ -29,24 +29,10 @@ export interface DebugEvent extends CustomEvent {
   };
 }
 
-export class NavigatedPushEvent {
-  event: ProfileTagPushEventNames.NAVIGATED;
-}
-
-export class ConsentChangedPushEvent {
-  event: ProfileTagPushEventNames.CONSENT_CHANGED;
-  granted: boolean;
-  constructor(granted: boolean) {
-    this.granted = granted;
-  }
-}
-
-export class CartChangedPushEvent {
-  event: ProfileTagPushEventNames.CART_CHANGED;
-  data: ProfileTagCart;
-  constructor(data: ProfileTagCart) {
-    this.data = data;
-  }
+export enum ProfileTagEventNames {
+  LOADED = 'profiletag_loaded',
+  CONSENT_REFERENCE_LOADED = 'profiletag_consentReferenceLoaded',
+  DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
 }
 
 interface ProfileTagCart {
@@ -54,19 +40,38 @@ interface ProfileTagCart {
   cart: Cart;
 }
 
-export type PushEvent =
-  | NavigatedPushEvent
-  | ConsentChangedPushEvent
-  | CartChangedPushEvent;
-
-export enum ProfileTagPushEventNames {
+export enum PushEventNames {
   NAVIGATED = 'Navigated',
   CONSENT_CHANGED = 'ConsentChanged',
   CART_CHANGED = 'CartSnapshot',
 }
 
-export enum ProfileTagEventNames {
-  LOADED = 'profiletag_loaded',
-  CONSENT_REFERENCE_LOADED = 'profiletag_consentReferenceLoaded',
-  DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
+interface ProfiletagPushEvent {
+  name: PushEventNames;
+  data?: any;
+}
+
+export type PushEvent =
+  | NavigatedPushEvent
+  | ConsentChangedPushEvent
+  | CartChangedPushEvent;
+
+export class NavigatedPushEvent implements ProfiletagPushEvent {
+  name = PushEventNames.NAVIGATED;
+}
+
+export class ConsentChangedPushEvent implements ProfiletagPushEvent {
+  name = PushEventNames.CONSENT_CHANGED;
+  data: { granted: boolean } = { granted: undefined };
+  constructor(granted: boolean) {
+    this.data.granted = granted;
+  }
+}
+
+export class CartChangedPushEvent implements ProfiletagPushEvent {
+  name: PushEventNames = PushEventNames.CART_CHANGED;
+  data: ProfileTagCart;
+  constructor(data: ProfileTagCart) {
+    this.data = data;
+  }
 }
