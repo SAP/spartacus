@@ -18,6 +18,7 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
 })
 export class ConfigGroupMenuComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
+  currentGroup$: Observable<Configurator.Group>;
 
   displayedParentGroup$: Observable<Configurator.Group>;
   displayedGroups$: Observable<Configurator.Group[]>;
@@ -41,29 +42,31 @@ export class ConfigGroupMenuComponent implements OnInit {
         )
       );
 
-    this.displayedGroups$ = this.configRouterExtractorService
+    this.currentGroup$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
-          this.configuratorGroupsService.getCurrentGroup(owner).pipe(
-            switchMap(currentGroup =>
-              this.configuration$.pipe(
-                map(configuration => {
-                  const parentGroup = this.findParentGroup(
-                    configuration.groups,
-                    currentGroup,
-                    null
-                  );
-
-                  return parentGroup !== null
-                    ? parentGroup.subGroups
-                    : configuration.groups;
-                })
-              )
-            )
-          )
+          this.configuratorGroupsService.getCurrentGroup(owner)
         )
       );
+
+    this.displayedGroups$ = this.currentGroup$.pipe(
+      switchMap(currentGroup =>
+        this.configuration$.pipe(
+          map(configuration => {
+            const parentGroup = this.findParentGroup(
+              configuration.groups,
+              currentGroup,
+              null
+            );
+
+            return parentGroup !== null
+              ? parentGroup.subGroups
+              : configuration.groups;
+          })
+        )
+      )
+    );
 
     this.displayedParentGroup$ = this.displayedGroups$.pipe(
       switchMap(group => this.getParentGroup(group[0]))

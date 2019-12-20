@@ -15,17 +15,19 @@
     </ng-container>
 
     <ng-container *ngIf="displayedGroups$ | async as groups">
-      <ng-container *ngFor="let group of groups">
-        <li (click)="click(group)" class="cx-config-menu-item">
-          <a role="link"
-            >{{ group.description }}
+      <ng-container *ngIf="currentGroup$ | async as currentGroup">
+        <ng-container *ngFor="let group of groups">
+          <li (click)="click(group)" class="cx-config-menu-item">
+            <a [class.active]="currentGroup.id === group.id" role="link"
+              >{{ group.description }}
 
-            <cx-icon
-              *ngIf="hasSubGroups(group)"
-              [type]="iconTypes.CARET_RIGHT"
-            ></cx-icon
-          ></a>
-        </li>
+              <cx-icon
+                *ngIf="hasSubGroups(group)"
+                [type]="iconTypes.CARET_RIGHT"
+              ></cx-icon
+            ></a>
+          </li>
+        </ng-container>
       </ng-container>
     </ng-container>
   </ul>
