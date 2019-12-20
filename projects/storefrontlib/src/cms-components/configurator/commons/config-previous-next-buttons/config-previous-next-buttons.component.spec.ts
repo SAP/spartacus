@@ -37,13 +37,13 @@ class MockRoutingService {
 }
 
 class MockConfiguratorGroupsService {
-  getCurrentGroup() {
+  getCurrentGroupId() {
     return of('');
   }
-  getNextGroup() {
+  getNextGroupId() {
     return of('');
   }
-  getPreviousGroup() {
+  getPreviousGroupId() {
     return of('');
   }
   navigateToGroup() {}
@@ -159,7 +159,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should display previous button as disabled if it is the first group', () => {
-    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
+    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
       of(null)
     );
     fixture.detectChanges();
@@ -169,7 +169,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should display previous button as enabled if it is not the first group', () => {
-    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
+    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
       of('anyGroupId')
     );
     fixture.detectChanges();
@@ -179,7 +179,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should display next button as disabled if it is the last group', () => {
-    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(of(null));
+    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
+      of(null)
+    );
     fixture.detectChanges();
     const lastBtn = fixture.debugElement.query(By.css('.btn-secondary'))
       .nativeElement;
@@ -187,7 +189,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should display next button as enabled if it is not the last group', () => {
-    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
+    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
       of('anyGroupId')
     );
     fixture.detectChanges();
@@ -199,7 +201,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   it('should derive that current group is last group depending on group service nextGroup function', () => {
     const nextGroup = cold('-a-b-c', { a: GROUP_ID, b: GROUP_2_ID, c: null });
 
-    spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
+    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
       nextGroup
     );
 
@@ -221,7 +223,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       e: ' ',
     });
 
-    spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
+    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
       previousGroup
     );
 
@@ -252,7 +254,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         a: GROUP_ID,
       });
 
-      spyOn(configurationGroupsService, 'getPreviousGroup').and.returnValue(
+      spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
         previousGroup
       );
       spyOn(configurationGroupsService, 'navigateToGroup');
@@ -274,7 +276,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         b: GROUP_2_ID,
       });
 
-      spyOn(configurationGroupsService, 'getNextGroup').and.returnValue(
+      spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
         nextGroup
       );
       spyOn(configurationGroupsService, 'navigateToGroup');

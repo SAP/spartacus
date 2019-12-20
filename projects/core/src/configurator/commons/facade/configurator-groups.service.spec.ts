@@ -22,6 +22,7 @@ const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
   groups: [{ id: GROUP_ID_1 }, { id: GROUP_ID_2 }, { id: GROUP_ID_3 }],
+  flatGroups: [{ id: GROUP_ID_1 }, { id: GROUP_ID_2 }, { id: GROUP_ID_3 }],
   owner: {
     id: PRODUCT_CODE,
     type: GenericConfigurator.OwnerType.PRODUCT,
@@ -74,7 +75,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
       of(uiState)
     );
-    const currentGroup = serviceUnderTest.getCurrentGroup(
+    const currentGroup = serviceUnderTest.getCurrentGroupId(
       productConfiguration.owner
     );
 
@@ -86,7 +87,7 @@ describe('ConfiguratorGroupsService', () => {
 
   it('should get the currentGroup from configuration', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(of(null));
-    const currentGroup = serviceUnderTest.getCurrentGroup(
+    const currentGroup = serviceUnderTest.getCurrentGroupId(
       productConfiguration.owner
     );
 
@@ -100,7 +101,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
       of(uiState)
     );
-    const currentGroup = serviceUnderTest.getNextGroup(
+    const currentGroup = serviceUnderTest.getNextGroupId(
       productConfiguration.owner
     );
 
@@ -114,7 +115,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
       of(uiState)
     );
-    const currentGroup = serviceUnderTest.getPreviousGroup(
+    const currentGroup = serviceUnderTest.getPreviousGroupId(
       productConfiguration.owner
     );
 

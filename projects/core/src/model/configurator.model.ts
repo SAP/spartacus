@@ -45,6 +45,7 @@ export namespace Configurator {
     complete?: boolean;
     productCode?: string;
     groups?: Group[];
+    flatGroups?: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner?: GenericConfigurator.Owner;

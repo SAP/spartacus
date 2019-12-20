@@ -94,8 +94,8 @@ class MockRouter {
 
 class MockConfiguratorGroupService {
   navigateToGroup() {}
-  getCurrentGroup(): Observable<String> {
-    return of('1-CPQ_LAPTOP.1');
+  getCurrentGroup(): Observable<Configurator.Group> {
+    return of(config.groups[0]);
   }
 }
 
