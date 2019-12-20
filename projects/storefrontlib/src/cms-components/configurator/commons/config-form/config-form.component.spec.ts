@@ -108,7 +108,6 @@ class MockCxIconComponent {
 }
 
 let routerStateObservable = null;
-let configurationObservable = null;
 let configurationCreateObservable = null;
 let currentGroupObservable = null;
 
@@ -119,9 +118,6 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObservable;
-  }
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
   }
