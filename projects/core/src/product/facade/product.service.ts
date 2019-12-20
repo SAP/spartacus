@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { Observable, queueScheduler } from 'rxjs';
+import { map, observeOn, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -50,6 +50,7 @@ export class ProductService {
       if (!this.products[productCode]) {
         this.products[productCode] = this.store.pipe(
           select(ProductSelectors.getSelectedProductStateFactory(productCode)),
+          observeOn(queueScheduler),
           tap(productState => {
             const attemptedLoad =
               productState.loading ||
