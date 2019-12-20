@@ -2,7 +2,7 @@ import { SiteContextConfig } from '../../site-context/config/site-context-config
 import { OccEndpoints } from '../occ-models/occ-endpoints.model';
 
 export interface LoadingScopesConfig {
-  [scope: string]: { include?: string[]; ttl?: number };
+  [scope: string]: { include?: string[]; maxAge?: number };
 }
 
 export abstract class OccConfig extends SiteContextConfig {

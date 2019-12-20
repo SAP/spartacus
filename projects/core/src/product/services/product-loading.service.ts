@@ -137,9 +137,9 @@ export class ProductLoadingService {
   ): Observable<boolean>[] {
     const triggers = [];
 
-    // TTL trigger add
-    const ttl = this.loadingScopes.getTtl('product', scope);
-    if (ttl && isPlatformBrowser(this.platformId)) {
+    // max age trigger add
+    const maxAge = this.loadingScopes.getMaxAge('product', scope);
+    if (maxAge && isPlatformBrowser(this.platformId)) {
       const loadSuccess$ = this.actions$.pipe(
         ofType(ProductActions.LOAD_PRODUCT_SUCCESS),
         filter(
@@ -156,26 +156,26 @@ export class ProductLoadingService {
         )
       );
 
-      triggers.push(this.getTTLReloadTrigger(loadStart$, loadSuccess$, ttl));
+      triggers.push(this.getMaxAgeTrigger(loadStart$, loadSuccess$, maxAge));
     }
 
     return triggers;
   }
 
   /**
-   * Generic method that returns stream triggering reload by TTL
+   * Generic method that returns stream triggering reload by maxAge
    *
    * Could be refactored to separate service in future to use in other
-   * TTL reload implementations
+   * max age reload implementations
    *
    * @param loadStart$ Stream that emits on load start
    * @param loadSuccess$ Stream that emits on load success
-   * @param ttl TTL
+   * @param maxAge max age
    */
-  private getTTLReloadTrigger(
-    loadStart$,
-    loadSuccess$,
-    ttl
+  private getMaxAgeTrigger(
+    loadStart$: Observable<any>,
+    loadSuccess$: Observable<any>,
+    maxAge: number
   ): Observable<boolean> {
     let timestamp = 0;
 
@@ -185,15 +185,15 @@ export class ProductLoadingService {
       const age = Date.now() - timestamp;
 
       const timestampRefresh$ = timestamp$.pipe(
-        delay(ttl),
+        delay(maxAge),
         mapTo(true),
         withdrawOn(loadStart$)
       );
 
-      if (timestamp === 0 || age > ttl) {
+      if (timestamp === 0 || age > maxAge) {
         return merge(of(true), timestampRefresh$);
       } else {
-        return merge(of(true).pipe(delay(ttl - age)), timestampRefresh$);
+        return merge(of(true).pipe(delay(maxAge - age)), timestampRefresh$);
       }
     });
 
