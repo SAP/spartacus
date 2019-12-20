@@ -5,6 +5,7 @@ import { DeliveryCountriesEffects } from './delivery-countries.effect';
 import { ForgotPasswordEffects } from './forgot-password.effect';
 import { NotificationPreferenceEffects } from './notification-preference.effect';
 import { OrderDetailsEffect } from './order-details.effect';
+import { OrderReturnRequestEffect } from './order-return-request.effect';
 import { UserPaymentMethodsEffects } from './payment-methods.effect';
 import { RegionsEffects } from './regions.effect';
 import { ResetPasswordEffects } from './reset-password.effect';
@@ -38,6 +39,7 @@ export const effects: any[] = [
   ConsignmentTrackingEffects,
   NotificationPreferenceEffects,
   ProductInterestsEffect,
+  OrderReturnRequestEffect,
 ];
 
 export * from './billing-countries.effect';
@@ -46,6 +48,7 @@ export * from './consignment-tracking.effect';
 export * from './delivery-countries.effect';
 export * from './notification-preference.effect';
 export * from './order-details.effect';
+export * from './order-return-request.effect';
 export * from './payment-methods.effect';
 export * from './regions.effect';
 export * from './reset-password.effect';

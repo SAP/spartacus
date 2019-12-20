@@ -28,6 +28,9 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'wishlist',
     'notificationPreference',
     'myInterests',
+    'AccountOrderHistoryTabContainer',
+    'returnRequestList',
+    'returnRequest',
   ],
   storeFinder: ['storeFinder'],
   pwa: ['pwa'],
@@ -50,6 +53,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'CMSTabParagraphContainer',
     'variant',
     'stockNotification',
+    'TabPanelContainer',
   ],
   user: [
     'anonymousConsents',

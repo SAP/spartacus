@@ -101,9 +101,9 @@ export class ItemCounterComponent
    * If value is too small it will be set to min, if is too big it will be set to max.
    */
   adjustValueInRange(incomingValue: number): number {
-    return incomingValue < this.min || !this.min
+    return this.min !== undefined && incomingValue < this.min
       ? this.min
-      : incomingValue > this.max || !this.max
+      : this.max !== undefined && incomingValue > this.max
       ? this.max
       : incomingValue;
   }

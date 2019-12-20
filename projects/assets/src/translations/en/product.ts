@@ -63,12 +63,7 @@ export const product = {
     inStock: 'In stock',
     selectStyleAndSize: 'Select style and size to check stock',
   },
-  addToWishList: {
-    add: 'Add to Wish List',
-    remove: 'Remove from Wish List',
-    anonymous: 'Sign in to add to wish list',
-  },
-  CMSTabParagraphContainer: {
+  TabPanelContainer: {
     tabs: {
       ProductDetailsTabComponent: 'Product Details',
       ProductSpecsTabComponent: 'Specs',
@@ -82,6 +77,11 @@ export const product = {
     size: 'Size',
     color: 'Color',
     sizeGuideLabel: 'Style guide',
+  },
+  addToWishList: {
+    add: 'Add to Wish List',
+    remove: 'Remove from Wish List',
+    anonymous: 'Sign in to add to wish list',
   },
   stockNotification: {
     notifyMe: 'NOTIFY ME',
