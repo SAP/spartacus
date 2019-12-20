@@ -14,14 +14,19 @@ describe('Currency switch - checkout page', () => {
       win.localStorage.clear();
     });
     cy.requireLoggedIn();
-    siteContextSelector.doPlaceOrder();
-    manipulateCartQuantity();
   });
 
   siteContextSelector.stub(
     siteContextSelector.CURRENCY_REQUEST,
     siteContextSelector.CURRENCIES
   );
+
+  describe('populate cart, history, quantity', () => {
+    it('should have basic data', () => {
+      siteContextSelector.doPlaceOrder();
+      manipulateCartQuantity();
+    });
+  });
 
   describe('checkout page', () => {
     it('should change currency in the shipping address url', () => {
