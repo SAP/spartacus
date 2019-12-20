@@ -51,7 +51,9 @@ describe('ProfileTagEventTracker', () => {
         },
         removeEventListener: jasmine.createSpy('removeEventListener'),
         Y_TRACKING: {
-          push: jasmine.createSpy('push'),
+          eventLayer: {
+            push: jasmine.createSpy('push'),
+          },
         },
       },
       document: {
@@ -83,7 +85,7 @@ describe('ProfileTagEventTracker', () => {
 
   it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
     expect(appendChildSpy).not.toHaveBeenCalled();
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
+    expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
     expect(nativeWindow.Y_TRACKING.q).not.toBeDefined();
   });
 
@@ -101,7 +103,7 @@ describe('ProfileTagEventTracker', () => {
       spa: true,
     });
     expect(appendChildSpy).toHaveBeenCalled();
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
+    expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
   });
 
   it(`Should not call the push method if the event receiver callback hasn't been called`, () => {
@@ -111,7 +113,7 @@ describe('ProfileTagEventTracker', () => {
     getConsentBehavior.next({ consent: 'test' });
     subscription.unsubscribe();
 
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
+    expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
   });
 
   it(`Should call the pageLoaded method if the site is active,
@@ -156,20 +158,20 @@ describe('ProfileTagEventTracker', () => {
       .subscribe();
 
     let consentReferenceChangedEvent = <ConsentReferenceEvent>(
-      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_CHANGED, {
+      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'some_id' },
       })
     );
-    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_CHANGED](
+    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
 
     consentReferenceChangedEvent = <ConsentReferenceEvent>(
-      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_CHANGED, {
+      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'another_id' },
       })
     );
-    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_CHANGED](
+    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
     subscription.unsubscribe();

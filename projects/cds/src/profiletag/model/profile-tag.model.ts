@@ -2,8 +2,8 @@ import { Cart, OrderEntry } from '@spartacus/core';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
-    push?: Function;
     q?: ProfileTagJsConfig[][];
+    eventLayer?: PushEvent[];
   };
 }
 
@@ -67,6 +67,6 @@ export enum ProfileTagPushEventNames {
 
 export enum ProfileTagEventNames {
   LOADED = 'profiletag_loaded',
-  CONSENT_REFERENCE_CHANGED = 'profiletag_consentReferenceLoaded',
+  CONSENT_REFERENCE_LOADED = 'profiletag_consentReferenceLoaded',
   DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
 }

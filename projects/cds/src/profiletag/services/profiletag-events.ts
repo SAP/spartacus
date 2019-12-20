@@ -2,23 +2,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { fromEvent, merge, Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
-import {
-  ConsentReferenceEvent,
-  DebugEvent,
-  ProfileTagEventNames,
-  ProfileTagJsConfig,
-  ProfileTagWindowObject,
-  PushEvent,
-} from '../model/profile-tag.model';
+import { ConsentReferenceEvent, DebugEvent, ProfileTagEventNames, ProfileTagJsConfig, ProfileTagWindowObject, PushEvent } from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +53,7 @@ export class ProfileTagEventTracker {
   private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
-      ProfileTagEventNames.CONSENT_REFERENCE_CHANGED
+      ProfileTagEventNames.CONSENT_REFERENCE_LOADED
     ).pipe(
       map(event => <ConsentReferenceEvent>event),
       tap(event => (this.consentReference = event.detail.consentReference))
@@ -109,6 +95,8 @@ export class ProfileTagEventTracker {
       (<unknown>this.winRef.nativeWindow)
     );
     this.profileTagWindow.Y_TRACKING = this.profileTagWindow.Y_TRACKING || {};
+    this.profileTagWindow.Y_TRACKING.eventLayer =
+      this.profileTagWindow.Y_TRACKING.eventLayer || [];
   }
 
   private exposeConfig(options: ProfileTagJsConfig): void {
@@ -118,6 +106,6 @@ export class ProfileTagEventTracker {
   }
 
   notifyProfileTagOfEventOccurence(event: PushEvent): void {
-    this.profileTagWindow.Y_TRACKING.push(event);
+    this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
   }
 }
