@@ -174,7 +174,8 @@
         font-style: normal;
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         background: var(--cx-color-light);
         color: currentColor;
       }
