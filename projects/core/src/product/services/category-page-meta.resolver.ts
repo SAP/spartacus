@@ -145,7 +145,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     breadcrumbs.push({ label: label, link: '/' });
 
     for (const br of page.breadcrumbs) {
-      if (br.facetCode === 'category') {
+      if (br.facetCode === 'category' || br.facetCode === 'allCategories') {
         breadcrumbs.push({
           label: br.facetValueName,
           link: `/c/${br.facetValueCode}`,
