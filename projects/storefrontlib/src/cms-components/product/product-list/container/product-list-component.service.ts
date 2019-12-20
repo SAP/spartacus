@@ -37,8 +37,8 @@ export class ProductListComponentService {
 
   protected sub: Subscription;
 
-  protected readonly RELEVANCE_CATEGORY = ':relevance:category:';
-  protected readonly RELEVANCE_BRAND = ':relevance:brand:';
+  protected readonly RELEVANCE_CATEGORY = ':relevance:allCategories:';
+  protected readonly RELEVANCE_BRAND = ':relevance:allCategories:';
 
   constructor(
     protected productSearchService: ProductSearchService,
