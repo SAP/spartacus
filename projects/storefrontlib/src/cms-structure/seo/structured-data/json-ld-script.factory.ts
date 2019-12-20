@@ -65,7 +65,7 @@ export class JsonLdScriptFactory {
   sanitize(schema: {}): string {
     return JSON.stringify(schema, (_key, value) =>
       typeof value === 'string'
-        ? (value = this.sanitizer.sanitize(SecurityContext.HTML, value))
+        ? this.sanitizer.sanitize(SecurityContext.HTML, value)
         : value
     );
   }
