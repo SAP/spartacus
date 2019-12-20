@@ -27,7 +27,7 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root',
 })
 export class ProductLoadingService {
-  private products: {
+  protected products: {
     [code: string]: { [scope: string]: Observable<Product> };
   } = {};
 
