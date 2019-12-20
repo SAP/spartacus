@@ -2,9 +2,23 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { fromEvent, merge, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
-import { ConsentReferenceEvent, DebugEvent, ProfileTagEventNames, ProfileTagJsConfig, ProfileTagWindowObject, PushEvent } from '../model/profile-tag.model';
+import {
+  ConsentReferenceEvent,
+  DebugEvent,
+  ProfileTagEventNames,
+  ProfileTagJsConfig,
+  ProfileTagWindowObject,
+  PushEvent,
+} from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
