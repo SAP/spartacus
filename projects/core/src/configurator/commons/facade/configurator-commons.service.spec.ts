@@ -30,37 +30,93 @@ const OWNER_PRODUCT: GenericConfigurator.Owner = {
 };
 
 const CONFIG_ID = '1234-56-7890';
-const GROUP_ID_1 = '1234-56-7891';
+const GROUP_ID_1 = '123ab';
+const GROUP_ID_2 = '1234-56-7892';
+const GROUP_ID_3 = '23456-45-2';
+const GROUP_ID_31 = '23456-75-2';
+const GROUP_ID_4_ROOT = '23456-45-3';
 const GROUP_NAME = 'Software';
+const GROUP_NAME_2 = 'Hardware';
+const GROUP_NAME_LEVEL1_CHILD = 'Child group 1';
+const GROUP_NAME_LEVEL1_CHILD_2 = 'Child group 2';
+const GROUP_ROOT = 'Root level group';
 const ATTRIBUTE_NAME_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
+const ATTRIBUTE_NAME_3_1 = 'Attribute_1';
+const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
+
+const group1: Configurator.Group = {
+  id: GROUP_ID_1,
+  name: GROUP_NAME,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [
+    {
+      name: ATTRIBUTE_NAME_1,
+      uiType: Configurator.UiType.STRING,
+      userInput: 'input',
+    },
+    {
+      name: ATTRIBUTE_NAME_2,
+      uiType: Configurator.UiType.DROPDOWN,
+      userInput: null,
+    },
+  ],
+};
+
+const group2: Configurator.Group = {
+  id: GROUP_ID_2,
+  name: GROUP_NAME_2,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+};
+
+const group31: Configurator.Group = {
+  id: GROUP_ID_31,
+  name: GROUP_NAME_LEVEL1_CHILD_2,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+};
+
+const group3: Configurator.Group = {
+  id: GROUP_ID_3,
+  name: GROUP_NAME_LEVEL1_CHILD,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  subGroups: [group1, group2],
+  attributes: [
+    {
+      name: ATTRIBUTE_NAME_3_1,
+      uiType: Configurator.UiType.STRING,
+      userInput: 'input',
+    },
+    {
+      name: ATTRIBUTE_NAME_3_2,
+      uiType: Configurator.UiType.DROPDOWN,
+      userInput: null,
+    },
+  ],
+};
+
+const group4: Configurator.Group = {
+  id: GROUP_ID_4_ROOT,
+  name: GROUP_ROOT,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  subGroups: [group3, group31],
+};
 
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
   owner: OWNER_PRODUCT,
-  groups: [
-    {
-      id: GROUP_ID_1,
-      name: GROUP_NAME,
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      attributes: [
-        {
-          name: ATTRIBUTE_NAME_1,
-          uiType: Configurator.UiType.STRING,
-          userInput: 'input',
-        },
-        {
-          name: ATTRIBUTE_NAME_2,
-          uiType: Configurator.UiType.DROPDOWN,
-          userInput: null,
-        },
-      ],
-    },
-  ],
+  groups: [group1, group2],
 };
+
+const productConfigurationMultiLevel: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  productCode: PRODUCT_CODE,
+  owner: OWNER_PRODUCT,
+  groups: [group4],
+};
+
 const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
@@ -83,12 +139,13 @@ class MockActiveCartService {
 
 function mergeChangesAndGetFirstGroup(
   serviceUnderTest: ConfiguratorCommonsService,
-  changedAttribute: Configurator.Attribute
+  changedAttribute: Configurator.Attribute,
+  configuration: Configurator.Configuration
 ) {
   const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
     GROUP_ID_1,
     changedAttribute,
-    productConfiguration
+    configuration
   );
   expect(configurationForSendingChanges).toBeDefined();
   const groups = configurationForSendingChanges.groups;
@@ -256,52 +313,79 @@ describe('ConfiguratorCommonsService', () => {
     );
   });
 
-  it('should create a new configuration object for changes received, containing one group', () => {
-    const changedAttribute: Configurator.Attribute = {
-      name: ATTRIBUTE_NAME_1,
-    };
+  describe('createConfigurationExtract', () => {
+    it('should create a new configuration object for changes received, containing one group', () => {
+      const changedAttribute: Configurator.Attribute = {
+        name: ATTRIBUTE_NAME_1,
+      };
 
-    const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
-      serviceUnderTest,
-      changedAttribute
-    );
-    expect(groupForUpdateRequest.id).toBe(GROUP_ID_1);
-    //group name not needed for update
-    expect(groupForUpdateRequest.name).toBeUndefined();
-    expect(groupForUpdateRequest.groupType).toBe(
-      Configurator.GroupType.ATTRIBUTE_GROUP
-    );
-  });
+      const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
+        serviceUnderTest,
+        changedAttribute,
+        productConfiguration
+      );
+      expect(groupForUpdateRequest.id).toBe(GROUP_ID_1);
+      //group name not needed for update
+      expect(groupForUpdateRequest.name).toBeUndefined();
+      expect(groupForUpdateRequest.groupType).toBe(
+        Configurator.GroupType.ATTRIBUTE_GROUP
+      );
+    });
 
-  it('should create a new configuration object for changes received, containing exactly one attribute as part of the current group', () => {
-    const changedAttribute: Configurator.Attribute = {
-      name: ATTRIBUTE_NAME_1,
-    };
+    it('should be able to handle multilevel configurations as well, returning a projection of the original configuration with only the path to the changes', () => {
+      const changedAttribute: Configurator.Attribute = {
+        name: ATTRIBUTE_NAME_1,
+      };
 
-    const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
-      serviceUnderTest,
-      changedAttribute
-    );
-    const attributes = groupForUpdateRequest.attributes;
-    expect(attributes).toBeDefined();
-    expect(attributes.length).toBe(1);
-    expect(attributes[0]).toBe(changedAttribute);
-  });
+      const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
+        serviceUnderTest,
+        changedAttribute,
+        productConfigurationMultiLevel
+      );
+      expect(groupForUpdateRequest.id).toBe(GROUP_ID_4_ROOT);
+      expect(groupForUpdateRequest.name).toBeUndefined();
+      expect(groupForUpdateRequest.groupType).toBe(
+        Configurator.GroupType.ATTRIBUTE_GROUP
+      );
 
-  it('should send no group for change in case it is not part of the configuration', () => {
-    const changedAttribute: Configurator.Attribute = {
-      name: ATTRIBUTE_NAME_1,
-    };
+      expect(groupForUpdateRequest.subGroups.length).toBe(1);
+      expect(groupForUpdateRequest.subGroups[0].subGroups.length).toBe(1);
+      expect(
+        groupForUpdateRequest.subGroups[0].subGroups[0].attributes
+      ).toEqual([changedAttribute]);
+    });
 
-    const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
-      'unknown',
-      changedAttribute,
-      productConfiguration
-    );
-    expect(configurationForSendingChanges).toBeDefined();
-    const groups = configurationForSendingChanges.groups;
-    expect(groups).toBeDefined();
-    expect(groups.length).toBe(0);
+    it('should create a new configuration object for changes received, containing exactly one attribute as part of the current group', () => {
+      const changedAttribute: Configurator.Attribute = {
+        name: ATTRIBUTE_NAME_1,
+      };
+
+      const groupForUpdateRequest = mergeChangesAndGetFirstGroup(
+        serviceUnderTest,
+        changedAttribute,
+        productConfiguration
+      );
+      const attributes = groupForUpdateRequest.attributes;
+      expect(attributes).toBeDefined(
+        'We expect changed attributes in configuration for the update request'
+      );
+      expect(attributes.length).toBe(1);
+      expect(attributes[0]).toBe(changedAttribute);
+    });
+
+    it('should throw an error if group for change is not part of the configuration', () => {
+      const changedAttribute: Configurator.Attribute = {
+        name: ATTRIBUTE_NAME_1,
+      };
+
+      expect(function() {
+        serviceUnderTest.createConfigurationExtract(
+          'unknown',
+          changedAttribute,
+          productConfiguration
+        );
+      }).toThrow();
+    });
   });
 
   describe('getCartId', () => {
@@ -482,6 +566,54 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('buildGroupPath', () => {
+    it('should create a group path for a single level model', () => {
+      const groupPath: Configurator.Group[] = [];
+      serviceUnderTest.buildGroupPath(
+        GROUP_ID_1,
+        productConfiguration.groups,
+        groupPath
+      );
+      expect(groupPath.length).toBe(1);
+      expect(groupPath[0].id).toBe(GROUP_ID_1);
+    });
+
+    it('should create an empty group path for a single level model in case ID does not match', () => {
+      const groupPath: Configurator.Group[] = [];
+      serviceUnderTest.buildGroupPath(
+        'Not known',
+        productConfiguration.groups,
+        groupPath
+      );
+      expect(groupPath.length).toBe(0);
+    });
+
+    it('should create a group path for a multi level model', () => {
+      const groupPath: Configurator.Group[] = [];
+      serviceUnderTest.buildGroupPath(
+        GROUP_ID_1,
+        productConfigurationMultiLevel.groups,
+        groupPath
+      );
+      expect(groupPath.length).toBe(
+        3,
+        'Expected path or 3 groups but was: ' + JSON.stringify(groupPath)
+      );
+      expect(groupPath[2].name).toBe(GROUP_ROOT);
+      expect(groupPath[0].name).toBe(GROUP_NAME);
+    });
+
+    it('should create an empty group path for a multi level model in case ID does not match', () => {
+      const groupPath: Configurator.Group[] = [];
+      serviceUnderTest.buildGroupPath(
+        'Not known',
+        productConfigurationMultiLevel.groups,
+        groupPath
+      );
+      expect(groupPath.length).toBe(0);
     });
   });
 });
