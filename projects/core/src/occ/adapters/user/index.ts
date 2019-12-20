@@ -7,3 +7,4 @@ export * from './occ-user.adapter';
 export * from './user-occ.module';
 export * from './occ-user-notification-preference.adapter';
 export * from './occ-user-interests.adapter';
+export * from './converters/index';
