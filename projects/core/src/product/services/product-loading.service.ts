@@ -92,7 +92,7 @@ export class ProductLoadingService {
           !productState.loading && !productState.success && !productState.error
       ),
       distinctUntilChanged(),
-      filter(x => !!x)
+      filter(x => x)
     );
 
     const isLoading$ = this.store.pipe(
