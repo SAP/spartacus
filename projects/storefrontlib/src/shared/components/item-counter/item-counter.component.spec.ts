@@ -28,6 +28,18 @@ const testData = [
   { incomingValue: 6, adjustedValue: 5, isMaxOrMinValueOrBeyond: true },
 ];
 
+const testData2 = [
+  { incomingValue: -1, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 0, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValueOrBeyond: false },
+];
+
+const testData3 = [
+  { incomingValue: -1, adjustedValue: -1, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 0, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
+  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValueOrBeyond: false },
+];
+
 describe('ItemCounterComponent', () => {
   let itemCounterComponent: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
@@ -264,6 +276,22 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.max = 5;
 
     testData.forEach(({ incomingValue, adjustedValue }) => {
+      expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
+        adjustedValue
+      );
+    });
+
+    itemCounterComponent.min = 0;
+    itemCounterComponent.max = 5;
+    testData2.forEach(({ incomingValue, adjustedValue }) => {
+      expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
+        adjustedValue
+      );
+    });
+
+    itemCounterComponent.min = undefined;
+    itemCounterComponent.max = 5;
+    testData3.forEach(({ incomingValue, adjustedValue }) => {
       expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
         adjustedValue
       );
