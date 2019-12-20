@@ -1,25 +1,17 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {
-  BehaviorSubject,
-  combineLatest,
-  defer,
-  merge,
-  Observable,
-  of,
-  queueScheduler,
-  Subject,
-  using,
-} from 'rxjs';
+import { combineLatest, defer, merge, Observable, of, using } from 'rxjs';
 import {
   auditTime,
+  debounceTime,
   delay,
   distinctUntilChanged,
+  filter,
   map,
   mapTo,
-  observeOn,
   shareReplay,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
@@ -28,13 +20,15 @@ import { ProductSelectors } from '../store/selectors/index';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { withdrawOn } from '../../util/withdraw-on';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Injectable()
 export class ProductService {
   constructor(
     store: Store<StateWithProduct>,
     // tslint:disable-next-line:unified-signatures
-    loadingScopes: LoadingScopesService
+    loadingScopes: LoadingScopesService,
+    actions$: Actions
   );
   /**
    * @deprecated since 1.4
@@ -43,7 +37,8 @@ export class ProductService {
 
   constructor(
     protected store: Store<StateWithProduct>,
-    protected loadingScopes?: LoadingScopesService
+    protected loadingScopes?: LoadingScopesService,
+    protected actions$?: Actions
   ) {}
 
   private products: {
@@ -116,68 +111,61 @@ export class ProductService {
     scope: string
   ): Observable<Product> {
     const ttl = this.loadingScopes.getTtl('product', scope);
-    const timestamp$ = new BehaviorSubject<number>(0);
-    const loadStart$ = new Subject();
-    let wasLoading = false;
 
-    const queuedProductState$ = this.store.pipe(
+    const loadSuccess$ = this.actions$.pipe(
+      ofType(ProductActions.LOAD_PRODUCT_SUCCESS),
+      filter(
+        (action: ProductActions.LoadProductSuccess) =>
+          action.payload.code === productCode && action.meta.scope === scope
+      )
+    );
+
+    const loadStart$ = this.actions$.pipe(
+      ofType(ProductActions.LOAD_PRODUCT),
+      filter(
+        (action: ProductActions.LoadProduct) =>
+          action.payload === productCode && action.meta.scope === scope
+      )
+    );
+
+    const shouldLoad$ = this.store.pipe(
       select(
         ProductSelectors.getSelectedProductStateFactory(productCode, scope)
       ),
-      observeOn(queueScheduler)
-    );
-
-    const isLoadAttempted$ = queuedProductState$.pipe(
-      tap(productState => {
-        if (productState.loading) {
-          wasLoading = true;
-        } else {
-          if (wasLoading && productState.success) {
-            timestamp$.next(Date.now());
-          }
-          wasLoading = false;
-        }
-      }),
       map(
         productState =>
-          productState.loading || productState.success || productState.error
+          !productState.loading && !productState.success && !productState.error
       ),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      filter(x => !!x)
     );
 
-    const shouldReload$: Observable<boolean> = defer(() => {
-      const age = Date.now() - timestamp$.value;
+    const shouldReload$ = this.getTTLReloadTicker(
+      loadStart$,
+      loadSuccess$,
+      ttl
+    );
 
-      const timestampRefresh$ = timestamp$.pipe(
-        delay(ttl),
-        mapTo(true),
-        withdrawOn(loadStart$)
-      );
+    const loadTriggers = [shouldLoad$];
 
-      if (timestamp$.value === 0 || age > ttl) {
-        return merge(of(true), timestampRefresh$);
-      } else {
-        return merge(
-          of(false),
-          of(true).pipe(delay(ttl - age)),
-          timestampRefresh$
-        );
-      }
-    });
+    if (ttl) {
+      loadTriggers.push(shouldReload$);
+    }
 
-    const productLoadingLogic$ = combineLatest(
-      isLoadAttempted$,
-      ttl ? shouldReload$ : of(false)
-    ).pipe(
-      map(
-        ([isLoadAttempted, shouldReload]) => !isLoadAttempted || shouldReload
-      ),
-      tap(shouldReloadIsLoadAttempted => {
-        if (shouldReloadIsLoadAttempted) {
+    const isLoading$ = this.store.pipe(
+      select(
+        ProductSelectors.getSelectedProductLoadingFactory(productCode, scope)
+      )
+    );
+
+    const productLoadLogic$ = merge(...loadTriggers).pipe(
+      debounceTime(0),
+      withLatestFrom(isLoading$),
+      tap(([, isLoading]) => {
+        if (!isLoading) {
           this.store.dispatch(
             new ProductActions.LoadProduct(productCode, scope)
           );
-          loadStart$.next(undefined);
         }
       })
     );
@@ -186,10 +174,33 @@ export class ProductService {
       select(ProductSelectors.getSelectedProductFactory(productCode, scope))
     );
 
-    return using(
-      () => productLoadingLogic$.subscribe(),
-      () => productData$
-    ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
+    return using(() => productLoadLogic$.subscribe(), () => productData$).pipe(
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
+  }
+
+  getTTLReloadTicker(loadStart$, loadSuccess$, ttl): Observable<boolean> {
+    let timestamp = 0;
+
+    const timestamp$ = loadSuccess$.pipe(tap(() => (timestamp = Date.now())));
+
+    const shouldReload$: Observable<boolean> = defer(() => {
+      const age = Date.now() - timestamp;
+
+      const timestampRefresh$ = timestamp$.pipe(
+        delay(ttl),
+        mapTo(true),
+        withdrawOn(loadStart$)
+      );
+
+      if (timestamp === 0 || age > ttl) {
+        return merge(of(true), timestampRefresh$);
+      } else {
+        return merge(of(true).pipe(delay(ttl - age)), timestampRefresh$);
+      }
+    });
+
+    return shouldReload$;
   }
 
   /**
