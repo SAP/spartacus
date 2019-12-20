@@ -50,23 +50,28 @@ export class ConfigGroupMenuComponent implements OnInit {
         )
       );
 
-    this.displayedGroups$ = this.currentGroup$.pipe(
-      switchMap(currentGroup =>
-        this.configuration$.pipe(
-          map(configuration => {
-            const parentGroup = this.findParentGroup(
-              configuration.groups,
-              currentGroup,
-              null
-            );
+    this.displayedGroups$ = this.configRouterExtractorService
+      .extractConfigurationOwner(this.routingService)
+      .pipe(
+        switchMap(owner =>
+          this.configuratorGroupsService.getCurrentGroup(owner)
+        ),
+        switchMap(currentGroup =>
+          this.configuration$.pipe(
+            map(configuration => {
+              const parentGroup = this.findParentGroup(
+                configuration.groups,
+                currentGroup,
+                null
+              );
 
-            return parentGroup !== null
-              ? parentGroup.subGroups
-              : configuration.groups;
-          })
+              return parentGroup !== null
+                ? parentGroup.subGroups
+                : configuration.groups;
+            })
+          )
         )
-      )
-    );
+      );
 
     this.displayedParentGroup$ = this.displayedGroups$.pipe(
       switchMap(group => this.getParentGroup(group[0]))
