@@ -81,7 +81,6 @@ describe('CdsMerchandisingUserContextService', () => {
       .getUserContext()
       .subscribe(userContext => (merchandisingUserContext = userContext))
       .unsubscribe();
-    console.log(`MerchandisingContext - ${merchandisingUserContext}`);
     expect(merchandisingUserContext).toEqual(undefined);
   });
 
