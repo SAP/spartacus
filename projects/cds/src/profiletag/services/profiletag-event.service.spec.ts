@@ -10,7 +10,7 @@ import {
   ProfileTagEventNames,
   ProfileTagWindowObject,
 } from '../model/index';
-import { ProfileTagEventTracker } from './profiletag-events';
+import { ProfileTagEventService } from './profiletag-event.service';
 
 const mockCDSConfig: CdsConfig = {
   cds: {
@@ -29,7 +29,7 @@ const mockCDSConfig: CdsConfig = {
 };
 
 describe('ProfileTagEventTracker', () => {
-  let profileTagEventTracker: ProfileTagEventTracker;
+  let profileTagEventTracker: ProfileTagEventService;
   let nativeWindow: ProfileTagWindowObject;
   let getActiveBehavior;
   let baseSiteService;
@@ -75,7 +75,7 @@ describe('ProfileTagEventTracker', () => {
         { provide: PLATFORM_ID, useValue: 'browser' },
       ],
     });
-    profileTagEventTracker = TestBed.get(ProfileTagEventTracker);
+    profileTagEventTracker = TestBed.get(ProfileTagEventService);
     nativeWindow = TestBed.get(WindowRef).nativeWindow;
   });
 

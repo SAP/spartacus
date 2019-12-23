@@ -6,13 +6,13 @@ import {
   ConsentChangedPushEvent,
   NavigatedPushEvent,
 } from '../model/profile-tag.model';
-import { ProfileTagEventTracker } from './profiletag-events';
-import { SpartacusEventTracker } from './spartacus-events';
+import { ProfileTagEventService } from './profiletag-event.service';
+import { SpartacusEventService } from './spartacus-event.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileTagInjector {
+export class ProfileTagInjectorService {
   private profileTagEvents$ = this.profileTagEventTracker.getProfileTagEvents();
   private injectionsEvents$: Observable<boolean> = merge(
     this.notifyProfileTagOfConsentGranted(),
@@ -21,8 +21,8 @@ export class ProfileTagInjector {
   );
 
   constructor(
-    private profileTagEventTracker: ProfileTagEventTracker,
-    private spartacusEventTracker: SpartacusEventTracker
+    private profileTagEventTracker: ProfileTagEventService,
+    private spartacusEventTracker: SpartacusEventService
   ) {}
 
   track(): Observable<boolean> {

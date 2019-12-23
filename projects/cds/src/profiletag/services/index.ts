@@ -1,3 +1,3 @@
-export * from './profile-tag.injector';
-export * from './profiletag-events';
-export * from './spartacus-events';
+export * from './profile-tag.injector.service';
+export * from './profiletag-event.service';
+export * from './spartacus-event.service';

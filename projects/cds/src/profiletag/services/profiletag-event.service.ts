@@ -23,7 +23,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileTagEventTracker {
+export class ProfileTagEventService {
   private profileTagEvents$ = merge(
     this.consentReferenceChanged(),
     this.debugModeChanged()

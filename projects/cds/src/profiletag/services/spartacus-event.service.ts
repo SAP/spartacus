@@ -8,7 +8,7 @@ import { CdsConfig } from '../../config/cds-config';
 @Injectable({
   providedIn: 'root',
 })
-export class SpartacusEventTracker {
+export class SpartacusEventService {
   constructor(
     private cartService: CartService,
     private consentService: ConsentService,
