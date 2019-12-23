@@ -13,7 +13,7 @@ import {
   ModalRef,
   ModalService,
 } from '../../../../shared/components/modal/index';
-import { AddToCartComponent } from '../../add-to-cart/add-to-cart.component';
+import { AddedToCartDialogComponent } from '../../add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
 
 export interface Item {
   product?: any;
@@ -54,12 +54,14 @@ export class CartItemComponent implements OnInit {
   modalRef: ModalRef;
 
   constructor(
-    cartService: CartService,
+    protected cartService: CartService,
     protected modalService: ModalService,
-    cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.cartEntry$ = this.cartService.getEntry(this.item.product.code);
+  }
 
   isProductOutOfStock(product) {
     // TODO Move stocklevelstatuses across the app to an enum
@@ -73,7 +75,7 @@ export class CartItemComponent implements OnInit {
   private openModal(): void {
     let modalInstance: any;
 
-    this.modalRef = this.modalService.open(AddToCartComponent, {
+    this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,
       size: 'lg',
     });
