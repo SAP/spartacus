@@ -1,290 +1,119 @@
-import { PLATFORM_ID } from '@angular/core';
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Cart, OrderEntry } from '@spartacus/core';
+import { of, ReplaySubject, Subject } from 'rxjs';
 import {
-  Event as NgRouterEvent,
-  NavigationEnd,
-  NavigationStart,
-  Router,
-} from '@angular/router';
-import {
-  BaseSiteService,
-  Cart,
-  CartService,
-  ConsentService,
-  OrderEntry,
-  WindowRef,
-} from '@spartacus/core';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { CdsConfig } from '../../config/index';
-import { ProfileTagEventNames, ProfileTagWindowObject } from '../model/index';
+  CartChangedPushEvent,
+  ConsentChangedPushEvent,
+  NavigatedPushEvent,
+} from '../model/profile-tag.model';
 import { ProfileTagInjector } from './profile-tag.injector';
-
-const mockCDSConfig: CdsConfig = {
-  cds: {
-    tenant: 'ArgoTest',
-    baseUrl: 'example.com',
-    endpoints: {
-      strategyProducts: 'example',
-    },
-    profileTag: {
-      javascriptUrl: 'https://tag.static.eu.context.cloud.sap',
-      configUrl: 'https://tag.static.us.context.cloud.sap',
-      allowInsecureCookies: false,
-      gtmId: 'test-id-1234567',
-    },
-  },
-};
+import { ProfileTagEventTracker } from './profiletag-events';
+import { SpartacusEventTracker } from './spartacus-events';
 
 describe('ProfileTagInjector', () => {
   let profileTagInjector: ProfileTagInjector;
-  let nativeWindow: ProfileTagWindowObject;
-  let getActiveBehavior;
-  let baseSiteService;
-  let appendChildSpy;
-  let getConsentBehavior;
-  let isConsentGivenValue;
-  let routerEventsBehavior;
-  let router;
-  let consentsService;
-  let mockedWindowRef;
-  let cartService;
-  let orderEntryBehavior;
-  let cartBehavior;
-  let eventListener;
+  let addTrackerBehavior: Subject<Event>;
+  let profileTagEventTrackerMock: ProfileTagEventTracker;
+  let cartBehavior: Subject<{ entries: OrderEntry[]; cart: Cart }>;
+  let consentBehavior: Subject<boolean>;
+  let navigatedBehavior: Subject<boolean>;
+  let spartacusEventTrackerMock: SpartacusEventTracker;
   function setVariables() {
-    getActiveBehavior = new BehaviorSubject<String>('');
-    getConsentBehavior = new BehaviorSubject<Object>([{}]);
-    isConsentGivenValue = false;
-    appendChildSpy = jasmine.createSpy('appendChildSpy');
-    routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
-      new NavigationStart(0, 'test.com', 'popstate')
-    );
-    orderEntryBehavior = new ReplaySubject<OrderEntry[]>();
-    cartBehavior = new ReplaySubject<Cart>();
-    consentsService = {
-      getConsent: () => getConsentBehavior,
-      isConsentGiven: () => isConsentGivenValue,
-    };
-    router = {
-      events: routerEventsBehavior,
-    };
-    mockedWindowRef = {
-      nativeWindow: {
-        addEventListener: (_, listener) => {
-          eventListener = listener;
-        },
-        removeEventListener: jasmine.createSpy('removeEventListener'),
-        Y_TRACKING: {
-          push: jasmine.createSpy('push'),
-        },
-      },
-      document: {
-        createElement: () => ({}),
-        getElementsByTagName: () => [{ appendChild: appendChildSpy }],
-      },
-    };
-    baseSiteService = {
-      getActive: () => getActiveBehavior,
-    };
-    cartService = {
-      getEntries: () => orderEntryBehavior,
-      getActive: () => cartBehavior,
-    };
+    cartBehavior = new ReplaySubject<{ entries: OrderEntry[]; cart: Cart }>();
+    consentBehavior = new ReplaySubject<boolean>();
+    navigatedBehavior = new ReplaySubject<boolean>();
+    addTrackerBehavior = new ReplaySubject<Event>();
+    spartacusEventTrackerMock = <SpartacusEventTracker>(<unknown>{
+      consentGranted: jasmine
+        .createSpy('consentGranted')
+        .and.callFake(_ => consentBehavior),
+      navigated: jasmine
+        .createSpy('navigated')
+        .and.callFake(_ => navigatedBehavior),
+      cartChanged: jasmine
+        .createSpy('cartChanged')
+        .and.callFake(_ => cartBehavior),
+    });
+    profileTagEventTrackerMock = <ProfileTagEventTracker>(<unknown>{
+      addTracker: jasmine
+        .createSpy('addTracker')
+        .and.callFake(_ => addTrackerBehavior),
+      notifyProfileTagOfEventOccurence: jasmine.createSpy(
+        'notifyProfileTagOfEventOccurence'
+      ),
+      getProfileTagEvents: jasmine
+        .createSpy('getProfileTagEvents')
+        .and.callFake(_ => of()),
+    });
   }
   beforeEach(() => {
     setVariables();
     TestBed.configureTestingModule({
       providers: [
-        ProfileTagInjector,
-        { provide: CdsConfig, useValue: mockCDSConfig },
-        { provide: WindowRef, useValue: mockedWindowRef },
-        { provide: BaseSiteService, useValue: baseSiteService },
-        { provide: Router, useValue: router },
-        { provide: PLATFORM_ID, useValue: 'browser' },
         {
-          provide: ConsentService,
-          useValue: consentsService,
+          provide: ProfileTagEventTracker,
+          useValue: profileTagEventTrackerMock,
         },
         {
-          provide: CartService,
-          useValue: cartService,
+          provide: SpartacusEventTracker,
+          useValue: spartacusEventTrackerMock,
         },
       ],
     });
-
-    profileTagInjector = TestBed.get(ProfileTagInjector);
-    nativeWindow = TestBed.get(WindowRef).nativeWindow;
+    profileTagInjector = TestBed.get(ProfileTagInjector as Type<
+      ProfileTagInjector
+    >);
   });
 
-  it('should be created', () => {
+  it('Should be created', () => {
     expect(profileTagInjector).toBeTruthy();
+    expect(spartacusEventTrackerMock).toBeTruthy();
   });
 
-  it('Should first wait for the basesite to be active before adding config parameters to the q array', () => {
-    profileTagInjector.track();
-    const profileTagLoaded$ = profileTagInjector.track();
-    const profileTagLoadedSubcriber = profileTagLoaded$.subscribe();
-    profileTagLoadedSubcriber.unsubscribe();
+  it('Should notify profile tag of consent granted', () => {
+    const subscription = profileTagInjector.track().subscribe();
+    addTrackerBehavior.next(new CustomEvent('test'));
+    consentBehavior.next(true);
 
-    expect(appendChildSpy).not.toHaveBeenCalled();
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
-    expect(nativeWindow.Y_TRACKING.q).not.toBeDefined();
-  });
-
-  it(`Should add config parameters to the q array after the base site is active`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    const baseSite = 'electronics-test';
-    getActiveBehavior.next(baseSite);
     subscription.unsubscribe();
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalledTimes(1);
 
-    expect(nativeWindow.Y_TRACKING.q[0][0]).toEqual({
-      ...mockCDSConfig.cds.profileTag,
-      tenant: mockCDSConfig.cds.tenant,
-      siteId: baseSite,
-      spa: true,
-    });
-    expect(appendChildSpy).toHaveBeenCalled();
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalledWith(new ConsentChangedPushEvent(true));
   });
 
-  it(`Should not call the push method if the event receiver callback hasn't been called`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
-    getConsentBehavior.next({ consent: 'test' });
-    subscription.unsubscribe();
+  it('Should notify profile tag of cart change', () => {
+    const subscription = profileTagInjector.track().subscribe();
+    const cartEntry: OrderEntry[] = [{ entryNumber: 7 }];
+    const testCart = <Cart>{ testCart: { id: 123 } };
+    addTrackerBehavior.next(new CustomEvent('test'));
+    cartBehavior.next({ entries: cartEntry, cart: testCart });
 
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalled();
+    subscription.unsubscribe();
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalled();
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalledWith(
+      new CartChangedPushEvent({ entries: cartEntry, cart: testCart })
+    );
   });
 
-  it(`Should call the push method if the site is active,
-     and event receiver callback has been called with loaded`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
-    eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
+  it('Should notify profile tag of page loaded', () => {
+    const subscription = profileTagInjector.track().subscribe();
+    addTrackerBehavior.next(new CustomEvent('test'));
+    navigatedBehavior.next(true);
     subscription.unsubscribe();
-
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalled();
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'Navigated',
-    });
-  });
-  it(`Should call the push method if the profile consent changes to true,
-    and ignore all further changes, only sending one consent changed event,`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
-    eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
-    isConsentGivenValue = true;
-    getConsentBehavior.next({ consent: 'test' });
-    getConsentBehavior.next({ consent: 'test' });
-    getConsentBehavior.next({ consent: 'test' });
-    isConsentGivenValue = false;
-    getConsentBehavior.next({ consent: 'test' });
-    getConsentBehavior.next({ consent: 'test' });
-    getConsentBehavior.next({ consent: 'test' });
-    isConsentGivenValue = true;
-    getConsentBehavior.next({ consent: 'test' });
-    subscription.unsubscribe();
-
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(1);
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'ConsentChanged',
-      granted: true,
-    });
-  });
-
-  it(`Should call the push method for every NavigationEnd event, 
-    regardless of consent status, and even if the consent pipe ends due to take(1)`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
-    eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
-    isConsentGivenValue = true;
-    getConsentBehavior.next({ consent: 'test' });
-    isConsentGivenValue = false;
-    getConsentBehavior.next({ consent: 'test' });
-    isConsentGivenValue = true;
-    getConsentBehavior.next({ consent: 'test' });
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test2'));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test3'));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test1'));
-    subscription.unsubscribe();
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(6);
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'Navigated',
-    });
-  });
-
-  it(`Should call the push method for every CartSnapshot event`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
-    eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
-    const mockCartEntry: OrderEntry[] = [{ entryNumber: 7 }];
-    const mockCartEntry2: OrderEntry[] = [{ entryNumber: 1 }];
-    const testCart = { testCart: { id: 123 } };
-    cartBehavior.next(testCart);
-    orderEntryBehavior.next(mockCartEntry);
-    orderEntryBehavior.next(mockCartEntry2);
-    subscription.unsubscribe();
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(2);
-    expect(nativeWindow.Y_TRACKING.push).not.toHaveBeenCalledWith({
-      event: 'CartSnapshot',
-      data: { entries: [], cart: testCart },
-    });
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'CartSnapshot',
-      data: { entries: mockCartEntry, cart: testCart },
-    });
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledWith({
-      event: 'CartSnapshot',
-      data: { entries: mockCartEntry2, cart: testCart },
-    });
-  });
-
-  it(`Should not call the push method when the cart is not modified`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
-    eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
-    subscription.unsubscribe();
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
-  });
-
-  it(`Should not call the push method when the entries have only ever sent an empty array`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
-    eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
-    cartBehavior.next({ testCart: { id: 123 } });
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
-    subscription.unsubscribe();
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(0);
-  });
-
-  it(`Should call the push method every time after a non-empty orderentry array is passed`, () => {
-    const profileTagLoaded$ = profileTagInjector.track();
-    const subscription = profileTagLoaded$.subscribe();
-    getActiveBehavior.next('electronics-test');
-    eventListener(new CustomEvent(ProfileTagEventNames.LOADED));
-    cartBehavior.next({ testCart: { id: 123 } });
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([{ test: {} }]);
-    orderEntryBehavior.next([{ test: {} }]);
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
-    subscription.unsubscribe();
-    expect(nativeWindow.Y_TRACKING.push).toHaveBeenCalledTimes(4);
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalled();
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalledWith(new NavigatedPushEvent());
   });
 });

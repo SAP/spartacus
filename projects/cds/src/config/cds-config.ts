@@ -5,6 +5,7 @@ export abstract class CdsConfig {
   cds?: {
     tenant?: string;
     baseUrl?: string;
+    consentTemplateId?: string;
     endpoints?: CdsEndpoints;
     profileTag?: ProfileTagConfig;
   };
