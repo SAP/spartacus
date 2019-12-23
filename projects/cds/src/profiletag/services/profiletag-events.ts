@@ -120,6 +120,10 @@ export class ProfileTagEventTracker {
   }
 
   notifyProfileTagOfEventOccurence(event: PushEvent): void {
-    this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
+    try {
+      this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
+    } catch (e) {
+      console.log(`Unexpected error when calling profiletag push method ${e}`);
+    }
   }
 }
