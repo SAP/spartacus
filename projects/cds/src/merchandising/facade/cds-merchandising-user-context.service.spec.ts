@@ -1,37 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  ConverterService,
-  ProductSearchPage,
-  ProductSearchService,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
+import { ConverterService, PageContext, PageType, ProductSearchPage, ProductSearchService, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  MERCHANDISING_FACET_NORMALIZER,
-  MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
-} from '..';
+import { MERCHANDISING_FACET_NORMALIZER, MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER } from './../connectors/strategy/converters';
 import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 
 const emptyPageSearchResults: ProductSearchPage = {};
-const defaultRouterState: RouterState = {
-  navigationId: 1,
-  state: {
-    url: 'electronics-spa/en/USD/',
-    queryParams: {},
-    context: {
-      id: 'homepage',
-    },
-    params: {},
-    cmsRequired: true,
-  },
-};
-
 class RoutingServiceStub {
-  getRouterState(): Observable<RouterState> {
+  getPageContext(): Observable<PageContext>{
     return of();
   }
 }
@@ -80,14 +58,9 @@ describe('CdsMerchandisingUserContextService', () => {
     expect(cdsMerchandisingUserContextService).toBeTruthy();
   });
 
-  it('should return a valid MerchandisingUserContext object, even if there are no params in the RouterStage and no facets', () => {
-    const expectedUserContext: MerchandisingUserContext = {
-      category: undefined,
-      facets: undefined,
-    };
-
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of(defaultRouterState)
+  it('should not return a valid MerchandisingUserContext object, if the page is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of(new PageContext('homepage', PageType.CONTENT_PAGE))
     );
     spyOn(productSearchService, 'getResults').and.returnValue(
       of(emptyPageSearchResults)
@@ -98,32 +71,27 @@ describe('CdsMerchandisingUserContextService', () => {
       .getUserContext()
       .subscribe(userContext => (merchandisingUserContext = userContext))
       .unsubscribe();
-    expect(merchandisingUserContext).toEqual(expectedUserContext);
+    console.log(`MerchandisingContext - ${merchandisingUserContext}`);
+    expect(merchandisingUserContext).toEqual(undefined);
   });
 
-  it('should return a valid MerchandisingUserContext object, if there are no facets, but a brandCode exists', () => {
+  it('should return a valid MerchandisingUserContext object, if there are no facets, but a brandCode exists, and the page is a CATEGORY_PAGE', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: 'brand123',
       facets: undefined,
     };
-    const routerState: RouterState = {
-      navigationId: 1,
-      state: {
-        url: 'electronics-spa/en/USD/',
-        queryParams: {},
-        context: {
-          id: 'homepage',
-        },
-        params: {
-          brandCode: 'brand123',
-        },
-        cmsRequired: true,
-      },
-    };
 
-    spyOn(routingService, 'getRouterState').and.returnValue(of(routerState));
+    spyOn(converterService, 'pipeable')
+      .withArgs(MERCHANDISING_FACET_NORMALIZER)
+      .and.returnValue(map(() => undefined))
+      .withArgs(MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER)
+      .and.returnValue(map(() => undefined));
+
     spyOn(productSearchService, 'getResults').and.returnValue(
       of(emptyPageSearchResults)
+    );
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of(new PageContext('brand123', PageType.CATEGORY_PAGE))
     );
 
     let merchandisingUserContext: MerchandisingUserContext;
@@ -134,30 +102,23 @@ describe('CdsMerchandisingUserContextService', () => {
     expect(merchandisingUserContext).toEqual(expectedUserContext);
   });
 
-  it('should return a valid MerchandisingUserContext object, if there are no facets, but a categoryCode exists', () => {
+  it('should return a valid MerchandisingUserContext object, if there are no facets, but a categoryCode exists, and the page is a CATEGORY_PAGE', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: '574',
       facets: undefined,
     };
-    const routerState: RouterState = {
-      navigationId: 1,
-      state: {
-        url: 'electronics-spa/en/USD/',
-        queryParams: {},
-        context: {
-          id: 'homepage',
-        },
-        params: {
-          categoryCode: '574',
-        },
-        cmsRequired: true,
-      },
-    };
 
-    spyOn(routingService, 'getRouterState').and.returnValue(of(routerState));
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of(new PageContext('574', PageType.CATEGORY_PAGE))
+    );
     spyOn(productSearchService, 'getResults').and.returnValue(
       of(emptyPageSearchResults)
     );
+    spyOn(converterService, 'pipeable')
+      .withArgs(MERCHANDISING_FACET_NORMALIZER)
+      .and.returnValue(map(() => undefined))
+      .withArgs(MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER)
+      .and.returnValue(map(() => undefined));
 
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
@@ -167,28 +128,14 @@ describe('CdsMerchandisingUserContextService', () => {
     expect(merchandisingUserContext).toEqual(expectedUserContext);
   });
 
-  it('should return a valid MerchandisingUserContext object, if there are no facets, but a productCode exists', () => {
+  it('should return a valid MerchandisingUserContext object, if there are no facets, but a productCode exists, and the page is a PRODUCT_PAGE', () => {
     const expectedUserContext: MerchandisingUserContext = {
-      category: undefined,
       products: ['12345'],
-      facets: undefined,
-    };
-    const routerState: RouterState = {
-      navigationId: 1,
-      state: {
-        url: 'electronics-spa/en/USD/',
-        queryParams: {},
-        context: {
-          id: 'homepage',
-        },
-        params: {
-          productCode: '12345',
-        },
-        cmsRequired: true,
-      },
     };
 
-    spyOn(routingService, 'getRouterState').and.returnValue(of(routerState));
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of(new PageContext('12345', PageType.PRODUCT_PAGE))
+    );
     spyOn(productSearchService, 'getResults').and.returnValue(
       of(emptyPageSearchResults)
     );
@@ -201,12 +148,7 @@ describe('CdsMerchandisingUserContextService', () => {
     expect(merchandisingUserContext).toEqual(expectedUserContext);
   });
 
-  it('should return a valid MerchandisingUserContext object, if there are facets', () => {
-    const expectedUserContext: MerchandisingUserContext = {
-      category: undefined,
-      facets: 'category:584:price:$200-$499.99',
-    };
-
+  it('should not return a valid MerchandisingUserContext object, if there are facets, but the page type is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
     const pageSearchResults: ProductSearchPage = {
       breadcrumbs: [
         {
@@ -237,8 +179,8 @@ describe('CdsMerchandisingUserContextService', () => {
 
     const queryParams = `${merchandisingFacets[0].code}:${merchandisingFacets[0].value}:${merchandisingFacets[1].code}:${merchandisingFacets[1].value}`;
 
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of(defaultRouterState)
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of(new PageContext('homepage', PageType.CONTENT_PAGE))
     );
     spyOn(productSearchService, 'getResults').and.returnValue(
       of(pageSearchResults)
@@ -254,6 +196,6 @@ describe('CdsMerchandisingUserContextService', () => {
       .getUserContext()
       .subscribe(userContext => (merchandisingUserContext = userContext))
       .unsubscribe();
-    expect(merchandisingUserContext).toEqual(expectedUserContext);
+    expect(merchandisingUserContext).toEqual(undefined);
   });
 });
