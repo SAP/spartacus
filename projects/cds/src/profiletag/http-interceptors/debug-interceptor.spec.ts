@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
-import { ProfileTagEventTracker } from '../services/profiletag-events';
+import { ProfileTagEventService } from '../services/profiletag-event.service';
 import { DebugInterceptor } from './debug-interceptor';
 
 describe('Debug interceptor', () => {
@@ -22,7 +22,7 @@ describe('Debug interceptor', () => {
       imports: [HttpClientTestingModule],
       providers: [
         {
-          provide: ProfileTagEventTracker,
+          provide: ProfileTagEventService,
           useValue: ProfileTagEventTrackerMock,
         },
         {
@@ -65,7 +65,7 @@ describe('Debug interceptor', () => {
   it('Should modify the x-profile-tag-debug header if the value is true', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injector = TestBed.get(ProfileTagEventTracker);
+      const injector = TestBed.get(ProfileTagEventService);
       injector.profileTagDebug = true;
       let response;
       http
@@ -91,7 +91,7 @@ describe('Debug interceptor', () => {
   it('Should not add the x-profile-tag-debug header if url is not occ', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injector = TestBed.get(ProfileTagEventTracker);
+      const injector = TestBed.get(ProfileTagEventService);
       injector.profileTagDebug = true;
       let response;
       http

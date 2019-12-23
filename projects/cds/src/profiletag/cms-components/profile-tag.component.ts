@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProfileTagInjector } from '../services/profile-tag.injector';
+import { ProfileTagInjectorService } from '../services/profile-tag.injector.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,5 +11,5 @@ import { ProfileTagInjector } from '../services/profile-tag.injector';
 })
 export class ProfileTagComponent {
   profileTagEnabled$: Observable<boolean> = this.profileTagInjector.track();
-  constructor(private profileTagInjector: ProfileTagInjector) {}
+  constructor(private profileTagInjector: ProfileTagInjectorService) {}
 }

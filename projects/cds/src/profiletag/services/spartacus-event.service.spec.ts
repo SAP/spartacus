@@ -10,10 +10,10 @@ import { Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
-import { SpartacusEventTracker } from './spartacus-events';
+import { SpartacusEventService } from './spartacus-event.service';
 
 describe('SpartacusEventTracker', () => {
-  let spartacusEventTracker: SpartacusEventTracker;
+  let spartacusEventTracker: SpartacusEventService;
   let getConsentBehavior;
   let isConsentGivenValue;
   let routerEventsBehavior;
@@ -66,8 +66,8 @@ describe('SpartacusEventTracker', () => {
         },
       ],
     });
-    spartacusEventTracker = TestBed.get(SpartacusEventTracker as Type<
-      SpartacusEventTracker
+    spartacusEventTracker = TestBed.get(SpartacusEventService as Type<
+      SpartacusEventService
     >);
   });
 

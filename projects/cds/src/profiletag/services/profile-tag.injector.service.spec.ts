@@ -7,24 +7,24 @@ import {
   ConsentChangedPushEvent,
   NavigatedPushEvent,
 } from '../model/profile-tag.model';
-import { ProfileTagInjector } from './profile-tag.injector';
-import { ProfileTagEventTracker } from './profiletag-events';
-import { SpartacusEventTracker } from './spartacus-events';
+import { ProfileTagInjectorService } from './profile-tag.injector.service';
+import { ProfileTagEventService } from './profiletag-event.service';
+import { SpartacusEventService } from './spartacus-event.service';
 
 describe('ProfileTagInjector', () => {
-  let profileTagInjector: ProfileTagInjector;
+  let profileTagInjector: ProfileTagInjectorService;
   let addTrackerBehavior: Subject<Event>;
-  let profileTagEventTrackerMock: ProfileTagEventTracker;
+  let profileTagEventTrackerMock: ProfileTagEventService;
   let cartBehavior: Subject<{ entries: OrderEntry[]; cart: Cart }>;
   let consentBehavior: Subject<boolean>;
   let navigatedBehavior: Subject<boolean>;
-  let spartacusEventTrackerMock: SpartacusEventTracker;
+  let spartacusEventTrackerMock: SpartacusEventService;
   function setVariables() {
     cartBehavior = new ReplaySubject<{ entries: OrderEntry[]; cart: Cart }>();
     consentBehavior = new ReplaySubject<boolean>();
     navigatedBehavior = new ReplaySubject<boolean>();
     addTrackerBehavior = new ReplaySubject<Event>();
-    spartacusEventTrackerMock = <SpartacusEventTracker>(<unknown>{
+    spartacusEventTrackerMock = <SpartacusEventService>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
         .and.callFake(_ => consentBehavior),
@@ -35,7 +35,7 @@ describe('ProfileTagInjector', () => {
         .createSpy('cartChanged')
         .and.callFake(_ => cartBehavior),
     });
-    profileTagEventTrackerMock = <ProfileTagEventTracker>(<unknown>{
+    profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
       addTracker: jasmine
         .createSpy('addTracker')
         .and.callFake(_ => addTrackerBehavior),
@@ -52,17 +52,17 @@ describe('ProfileTagInjector', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: ProfileTagEventTracker,
+          provide: ProfileTagEventService,
           useValue: profileTagEventTrackerMock,
         },
         {
-          provide: SpartacusEventTracker,
+          provide: SpartacusEventService,
           useValue: spartacusEventTrackerMock,
         },
       ],
     });
-    profileTagInjector = TestBed.get(ProfileTagInjector as Type<
-      ProfileTagInjector
+    profileTagInjector = TestBed.get(ProfileTagInjectorService as Type<
+      ProfileTagInjectorService
     >);
   });
 
