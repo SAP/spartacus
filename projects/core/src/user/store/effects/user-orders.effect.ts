@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderHistoryList } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/utils/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
-import { USER_ORDERS } from '../user-state';
 
 @Injectable()
 export class UserOrdersEffect {
@@ -39,14 +36,6 @@ export class UserOrdersEffect {
             of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
           )
         );
-    })
-  );
-
-  @Effect()
-  resetUserOrders$: Observable<Action> = this.actions$.pipe(
-    ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_USER_ORDERS),
-    map(() => {
-      return new StateLoaderActions.LoaderResetAction(USER_ORDERS);
     })
   );
 }

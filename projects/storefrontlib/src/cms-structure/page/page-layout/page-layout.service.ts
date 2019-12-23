@@ -65,8 +65,11 @@ export class PageLayoutService {
   getPageFoldSlot(pageTemplate: string): Observable<string> {
     return this.breakpointService.breakpoint$.pipe(
       map(breakpoint => {
+        if (!this.config.layoutSlots) {
+          // no layout config available
+          return null;
+        }
         const pageTemplateConfig = this.config.layoutSlots[pageTemplate];
-
         const config = this.getResponsiveSlotConfig(
           <LayoutSlotConfig>pageTemplateConfig,
           'pageFold',
