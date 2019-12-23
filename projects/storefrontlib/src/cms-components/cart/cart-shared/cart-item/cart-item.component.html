@@ -121,6 +121,7 @@
         class="link"
         [class.disabled]="cartIsLoading"
         [disabled]="cartIsLoading"
+        (click)="openModal()"
       >
         Buy It Again
       </button>

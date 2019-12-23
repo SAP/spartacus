@@ -1,5 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { CartService, OrderEntry } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import {
+  ModalRef,
+  ModalService,
+} from '../../../../shared/components/modal/index';
+import { AddToCartComponent } from '../../add-to-cart/add-to-cart.component';
 
 export interface Item {
   product?: any;
@@ -35,6 +49,16 @@ export class CartItemComponent implements OnInit {
   @Input()
   parent: FormGroup;
 
+  cartEntry$: Observable<OrderEntry>;
+
+  modalRef: ModalRef;
+
+  constructor(
+    cartService: CartService,
+    protected modalService: ModalService,
+    cd: ChangeDetectorRef
+  ) {}
+
   ngOnInit() {}
 
   isProductOutOfStock(product) {
@@ -44,6 +68,22 @@ export class CartItemComponent implements OnInit {
       product.stock &&
       product.stock.stockLevelStatus === 'outOfStock'
     );
+  }
+
+  private openModal(): void {
+    let modalInstance: any;
+
+    this.modalRef = this.modalService.open(AddToCartComponent, {
+      centered: true,
+      size: 'lg',
+    });
+
+    modalInstance = this.modalRef.componentInstance;
+    modalInstance.entry$ = this.cartEntry$;
+    // modalInstance.cart$ = this.cartService.getActive();
+    // modalInstance.loaded$ = this.cartService.getLoaded();
+    // modalInstance.quantity = this.quantity;
+    // modalInstance.increment = this.increment;
   }
 
   updateItem(updatedQuantity: number) {
