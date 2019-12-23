@@ -65,14 +65,10 @@ export function paymentDetailCard() {
   cy.get('#deliveryMode-standard-gross').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
-<<<<<<< HEAD
-  cy.wait(`@${request.paymentPage}`);
-=======
   cy.wait(`@${request.paymentPage}`)
     .its('status')
     .should('eq', 200);
 
->>>>>>> cc8787694b7c18558dcbea8ee783130b7f8349a3
   // fill in payment method
   fillPaymentDetails(user);
 
