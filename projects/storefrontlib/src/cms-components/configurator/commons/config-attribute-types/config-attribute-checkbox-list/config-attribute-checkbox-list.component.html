@@ -1,22 +1,20 @@
 <div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
-  <div class="form-group">
-    <div
-      class="form-check"
-      *ngFor="let value of attribute.values; let i = index"
-    >
-      <div class="cx-config-select-line">
-        <input
-          type="checkbox"
-          class="form-check-input"
-          [value]="value.valueCode"
-          (change)="onSelect()"
-          [formControl]="attributeCheckBoxForms[i]"
-          name="abc123"
-        />
-      </div>
-      <div class="cx-config-attribute-value-label-container">
-        <label>{{ value.valueDisplay }}</label>
-      </div>
+  <div class="form-check" *ngFor="let value of attribute.values; let i = index">
+    <div class="cx-config-select-line">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        [value]="value.valueCode"
+        (change)="onSelect()"
+        [formControl]="attributeCheckBoxForms[i]"
+        name="abc123"
+      />
+    </div>
+    <div class="cx-config-attribute-value-label-container">
+      <label
+        class="cx-config-attribute-value-label form-check-label form-radio-label"
+        >{{ value.valueDisplay }}</label
+      >
     </div>
   </div>
 </div>
