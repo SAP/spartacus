@@ -68,7 +68,7 @@ export class OutletDirective implements OnInit, OnDestroy {
   private deferLoading() {
     this.loaded.emit(false);
     const hostElement = this.getHostElement(this.vcr.element.nativeElement);
-    // allthought the deferLoaderService might emit only once, as long as the hostElement
+    // Allthough the deferLoaderService might emit only once, as long as the hostElement
     // isn't being loaded, there's no value being emitted. Therefor we need to clean up
     // the subscription on destroy.
     this.subscription.add(
