@@ -77,25 +77,15 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   toggleOpen(event: UIEvent): void {
-    const node = <HTMLElement>event.currentTarget;
-    if (this.openNodes.includes(node)) {
-      this.openNodes = this.openNodes.filter(n => n !== node);
-      this.renderer.removeClass(node, 'is-open');
-    } else {
-      this.openNodes.push(node);
-    }
-
-    this.updateClasses();
-
-    event.stopImmediatePropagation();
-    event.stopPropagation();
-  }
-
-  open(event: UIEvent): void {
     event.preventDefault();
     const node = <HTMLElement>event.currentTarget;
     if (this.openNodes.includes(node)) {
-      this.back();
+      if (event.type === 'keydown') {
+        this.back();
+      } else {
+        this.openNodes = this.openNodes.filter(n => n !== node);
+        this.renderer.removeClass(node, 'is-open');
+      }
     } else {
       this.openNodes.push(node);
     }

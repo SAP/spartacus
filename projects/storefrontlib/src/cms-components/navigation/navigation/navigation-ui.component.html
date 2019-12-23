@@ -19,7 +19,7 @@
   <nav
     (click)="toggleOpen($event)"
     (mouseenter)="onMouseEnter($event)"
-    (keydown.space)="open($event)"
+    (keydown.space)="toggleOpen($event)"
   >
     <cx-generic-link
       *ngIf="
