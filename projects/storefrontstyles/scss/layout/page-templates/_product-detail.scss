@@ -38,6 +38,10 @@
           grid-row: 3 / 4;
           padding: 20% 20px 20px 20px;
         }
+
+        cx-stock-notification:empty {
+          display: none;
+        }
       }
     }
     &.AddToCart {
