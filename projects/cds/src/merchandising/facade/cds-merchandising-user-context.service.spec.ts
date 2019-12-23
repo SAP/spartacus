@@ -1,15 +1,25 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, PageContext, PageType, ProductSearchPage, ProductSearchService, RoutingService } from '@spartacus/core';
+import {
+  ConverterService,
+  PageContext,
+  PageType,
+  ProductSearchPage,
+  ProductSearchService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MERCHANDISING_FACET_NORMALIZER, MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER } from './../connectors/strategy/converters';
+import {
+  MERCHANDISING_FACET_NORMALIZER,
+  MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
+} from './../connectors/strategy/converters';
 import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 
 const emptyPageSearchResults: ProductSearchPage = {};
 class RoutingServiceStub {
-  getPageContext(): Observable<PageContext>{
+  getPageContext(): Observable<PageContext> {
     return of();
   }
 }

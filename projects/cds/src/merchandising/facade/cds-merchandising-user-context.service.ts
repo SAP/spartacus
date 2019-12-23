@@ -1,8 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Breadcrumb, ConverterService, PageContext, PageType, ProductSearchService, RoutingService } from '@spartacus/core';
+import {
+  Breadcrumb,
+  ConverterService,
+  PageContext,
+  PageType,
+  ProductSearchService,
+  RoutingService,
+} from '@spartacus/core';
 import { combineLatest, merge, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, withLatestFrom } from 'rxjs/operators';
-import { MERCHANDISING_FACET_NORMALIZER, MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER } from '../connectors/strategy/converters';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  withLatestFrom,
+} from 'rxjs/operators';
+import {
+  MERCHANDISING_FACET_NORMALIZER,
+  MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
+} from '../connectors/strategy/converters';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 
 @Injectable({
