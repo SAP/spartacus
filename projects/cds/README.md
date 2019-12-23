@@ -65,10 +65,6 @@ INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
 ;;Section2CSlot-Homepage;HomepageE2EMerchandisingCarousel
 
-# Update the slot on the page
-INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='homepage'];contentSlot(uid,$contentCV)[unique=true];;;
-;;Section2CSlot-Homepage;Section2C;;Section2CSlot-Homepage;;;
-
 # Category Page carousel
 # Create the CMS Component
 INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=true];name;title;numberToDisplay;strategy;&componentRef
@@ -77,6 +73,15 @@ INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=
 # Add the component to the slot
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
 ;;BottomHeaderSlot;CategoryPageE2EMerchandisingCarousel
+
+# SLR Page carousel
+# Create the CMS Component
+INSERT_UPDATE MerchandisingCarouselComponent;$contentCV[unique=true];uid[unique=true];name;title;numberToDisplay;strategy;&componentRef
+;;SLRCategoryPageE2EMerchandisingCarousel;SLR Category Page E2E Merchandising Carousel;SLR Category Page E2E Merchandising Carousel;10;00000000-0000-0000-0000-000000000000;SLRCategoryPageE2EMerchandisingCarousel
+
+# Add the component to the slot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
+;;SLRCamerasBottomHeaderSlot;SLRCategoryPageE2EMerchandisingCarousel
 ```
 
 **Note:** The above snippet are examples of places where you create and place the carousel in a slot. You can place the CMS component at any slot if it allows it.
