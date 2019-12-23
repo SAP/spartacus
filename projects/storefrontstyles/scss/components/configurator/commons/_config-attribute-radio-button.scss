@@ -1,5 +1,10 @@
-%cx-config-attribute-checkbox-list {
-  .form-group {
-    padding: 50px;
+%cx-config-attribute-radio-button {
+  .cx-config-select-line {
+    display: flex;
+  }
+  .form-check {
+    &:last-child {
+      margin-bottom: 9px;
+    }
   }
 }

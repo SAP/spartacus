@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormArray } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
