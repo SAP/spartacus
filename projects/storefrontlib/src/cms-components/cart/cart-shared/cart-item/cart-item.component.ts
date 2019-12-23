@@ -52,6 +52,7 @@ export class CartItemComponent implements OnInit {
   cartEntry$: Observable<OrderEntry>;
 
   modalRef: ModalRef;
+  increment: boolean;
 
   constructor(
     protected cartService: CartService,
@@ -61,6 +62,7 @@ export class CartItemComponent implements OnInit {
 
   ngOnInit() {
     this.cartEntry$ = this.cartService.getEntry(this.item.product.code);
+    this.increment = false;
   }
 
   isProductOutOfStock(product) {
@@ -70,6 +72,25 @@ export class CartItemComponent implements OnInit {
       product.stock &&
       product.stock.stockLevelStatus === 'outOfStock'
     );
+  }
+
+  addToCart() {
+    if (!this.item.product.code) {
+      return;
+    }
+    // check item is already present in the cart
+    // so modal will have proper header text displayed
+    this.cartService
+      .getEntry(this.item.product.code)
+      .subscribe(entry => {
+        if (entry) {
+          this.increment = true;
+        }
+        this.openModal();
+        this.cartService.addEntry(this.item.product.code, 1);
+        this.increment = false;
+      })
+      .unsubscribe();
   }
 
   private openModal(): void {
@@ -82,10 +103,10 @@ export class CartItemComponent implements OnInit {
 
     modalInstance = this.modalRef.componentInstance;
     modalInstance.entry$ = this.cartEntry$;
-    // modalInstance.cart$ = this.cartService.getActive();
-    // modalInstance.loaded$ = this.cartService.getLoaded();
-    // modalInstance.quantity = this.quantity;
-    // modalInstance.increment = this.increment;
+    modalInstance.cart$ = this.cartService.getActive();
+    modalInstance.loaded$ = this.cartService.getLoaded();
+    modalInstance.quantity = 1;
+    modalInstance.increment = this.increment;
   }
 
   updateItem(updatedQuantity: number) {
