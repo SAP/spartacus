@@ -72,6 +72,10 @@ export function paymentDetailCard() {
   // fill in payment method
   fillPaymentDetails(user);
 
+  cy.wait(`@${request.reviewPage}`)
+    .its('status')
+    .should('eq', 200);
+
   // go to payment details page
   cy.get('cx-review-submit').should('exist');
 
@@ -120,6 +124,10 @@ export function addSecondaryPaymentCard() {
 
   fillPaymentDetails(secondPayment);
 
+  cy.wait(`@${waitAliases.reviewPage}`)
+    .its('status')
+    .should('eq', 200);
+
   // go to payment details page
   cy.get('cx-review-submit').should('exist');
 
@@ -127,14 +135,14 @@ export function addSecondaryPaymentCard() {
   cy.get('.cx-payment-card').should('have.length', 2);
 }
 
-export function setSecondPaymentToDefault() {
+export function setOtherPaymentToDefault() {
   cy.getByText('Set as default').click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
-  const expirationMonth = secondPayment.payment.expires.month;
-  const expirationYear = secondPayment.payment.expires.year;
+  const expirationMonth = user.payment.expires.month;
+  const expirationYear = user.payment.expires.year;
   firstCard.should('contain', 'Default Payment Method');
-  firstCard.should('contain', '5400');
+  firstCard.should('contain', '1111');
   firstCard.should('contain', `Expires: ${expirationMonth}/${expirationYear}`);
 }
 
@@ -184,8 +192,8 @@ export function paymentMethodsTest() {
     addSecondaryPaymentCard();
   });
 
-  it('should set second payment method as default', () => {
-    setSecondPaymentToDefault();
+  it('should set additional payment method as default', () => {
+    setOtherPaymentToDefault();
   });
 
   it('should be able to delete payment method', () => {
@@ -209,5 +217,10 @@ function getWaitAliases() {
     'getPaymentPage'
   );
 
-  return { shippingPage, deliveryPage, paymentPage };
+  const reviewPage = waitForPage(
+    '/checkout/review-order',
+    'getReviewPage'
+  );
+
+  return { shippingPage, deliveryPage, paymentPage, reviewPage };
 }
