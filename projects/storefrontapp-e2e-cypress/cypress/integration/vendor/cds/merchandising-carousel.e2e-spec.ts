@@ -76,7 +76,7 @@ function testPDPPage(productId: string): void {
   );
 }
 
-describe('Merchandsing Carousel', () => {
+describe.skip('Merchandsing Carousel', () => {
   beforeEach(() => {
     cy.server();
     cy.route(
