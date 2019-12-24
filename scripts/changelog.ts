@@ -127,6 +127,7 @@ export default async function run(
           noteKeywords: [...breakingChangesKeywords, ...deprecationsKeywords],
           revertPattern: /^revert:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
           revertCorrespondence: [`header`, `hash`],
+          issuePrefixes: ['#', 'GH-', 'gh-'],
         })
       )
       .pipe(

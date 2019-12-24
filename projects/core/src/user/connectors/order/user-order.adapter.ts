@@ -1,6 +1,14 @@
 import { Observable } from 'rxjs';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
-import { Order, OrderHistoryList } from '../../../model/order.model';
+import {
+  Order,
+  OrderHistoryList,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
+  CancellationRequestEntryInputList,
+  ReturnRequestList,
+  ReturnRequestModification,
+} from '../../../model/order.model';
 
 export abstract class UserOrderAdapter {
   /**
@@ -35,4 +43,62 @@ export abstract class UserOrderAdapter {
     orderCode: string,
     consignmentCode: string
   ): Observable<ConsignmentTracking>;
+
+  /**
+   * Abstract method used to create return request
+   * @param userId The `userId` for given user
+   * @param returnRequestInput Return request entry input list
+   */
+  abstract createReturnRequest(
+    userId: string,
+    returnRequestInput: ReturnRequestEntryInputList
+  ): Observable<ReturnRequest>;
+
+  /**
+   * Abstract method used to load order return request details
+   * @param userId
+   * @param returnRequestCode
+   */
+  abstract loadReturnRequestDetail(
+    userId: string,
+    returnRequestCode: string
+  ): Observable<ReturnRequest>;
+
+  /**
+   * Abstract method used to load order return request list for an user.
+   * @param userId
+   * @param pageSize
+   * @param currentPage
+   * @param sort
+   */
+  abstract loadReturnRequestList(
+    userId: string,
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<ReturnRequestList>;
+
+  /**
+   * Abstract method used to cancel order
+   * @param userId
+   * @param orderCode
+   * @param cancelRequestInput Cancel request entry input list
+   */
+  abstract cancel(
+    userId: string,
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
+  ): Observable<{}>;
+
+  /**
+   * Abstract method used to cancel one return request
+   * @param userId
+   * @param returnRequestCode
+   * @param returnRequestModification
+   */
+  abstract cancelReturnRequest(
+    userId: string,
+    returnRequestCode: string,
+    returnRequestModification: ReturnRequestModification
+  ): Observable<{}>;
 }
