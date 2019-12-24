@@ -45,9 +45,9 @@ export const STRATEGY_RESPONSE = {
   ],
 };
 
-function veifyCarouselLevelMetadata(
+function verifyCarouselLevelMetadata(
   $merchandisingCarousel: JQuery<HTMLElement>
-) {
+): void {
   cy.wrap($merchandisingCarousel)
     .get('.data-cx-merchandising-carousel')
     .should($merchandisingCarouselMetadata => {
@@ -63,7 +63,7 @@ function veifyCarouselLevelMetadata(
 function verifyCarouselItemRendered(
   $carouselItem: JQuery<HTMLElement>,
   index: number
-) {
+): void {
   const product = STRATEGY_RESPONSE.products[index];
 
   cy.wrap($carouselItem).within(() => {
@@ -92,7 +92,7 @@ function verifyCarouselItemRendered(
 
 function verifyCarouselItemsRendered(
   $merchandisingCarousel: JQuery<HTMLElement>
-) {
+): void {
   cy.wrap($merchandisingCarousel)
     .get('.item')
     .should('have.length', STRATEGY_RESPONSE.products.length)
@@ -101,7 +101,7 @@ function verifyCarouselItemsRendered(
     });
 }
 
-function verifyMerchandisingCarouselRendersProducts() {
+function verifyMerchandisingCarouselRendersProducts(): void {
   cy.get('cx-merchandising-carousel')
     /*
      * There could be multiple merchandising carousels on the page being used to test them,
@@ -111,7 +111,7 @@ function verifyMerchandisingCarouselRendersProducts() {
     .first()
     .should('be.visible')
     .within($merchandisingCarousel => {
-      veifyCarouselLevelMetadata($merchandisingCarousel);
+      verifyCarouselLevelMetadata($merchandisingCarousel);
       verifyCarouselItemsRendered($merchandisingCarousel);
     });
 }
@@ -119,7 +119,7 @@ function verifyMerchandisingCarouselRendersProducts() {
 export function verifyRequestToStrategyService(
   requestAlias: string,
   strategyRequestContext: StrategyRequestContext
-) {
+): void {
   cy.wait(`@${requestAlias}`).then(request => {
     expect(request.url).to.contain(`site=${site}`);
     expect(request.url).to.contain(
@@ -158,9 +158,9 @@ export function verifyRequestToStrategyService(
 }
 
 export function verifyMerchandisingCarouselRendersOnHomePage(
-  strategyRequestAlias,
+  strategyRequestAlias: string,
   language?: string
-) {
+): void {
   verifyRequestToStrategyService(strategyRequestAlias, { language });
 
   verifyMerchandisingCarouselRendersProducts();
@@ -171,7 +171,7 @@ export function verifyMerchandisingCarouselRendersOnCategoryPage(
   categoryCode: string,
   language?: string,
   additionalFacets?: string[]
-) {
+): void {
   verifyRequestToStrategyService(strategyRequestAlias, {
     language,
     category: categoryCode,
@@ -186,7 +186,7 @@ export function verifyMerchandisingCarouselRendersOnBrandPage(
   brandCode: string,
   language?: string,
   additionalFacets?: string[]
-) {
+): void {
   verifyRequestToStrategyService(strategyRequestAlias, {
     language,
     category: brandCode,
@@ -200,7 +200,7 @@ export function verifyMerchandisingCarouselRendersOnPDPPage(
   strategyRequestAlias: string,
   productId: string,
   language?: string
-) {
+): void {
   const strategyRequestContext: StrategyRequestContext = {
     language,
   };
@@ -213,7 +213,7 @@ export function verifyMerchandisingCarouselRendersOnPDPPage(
   verifyMerchandisingCarouselRendersProducts();
 }
 
-export function applyFacet(facetGroup: string, facetName: string) {
+export function applyFacet(facetGroup: string, facetName: string): void {
   cy.get('.cx-facet-header')
     .contains(facetGroup)
     .parents('.cx-facet-group')
@@ -227,7 +227,7 @@ export function applyFacet(facetGroup: string, facetName: string) {
 export function verifyFirstCarouselItemTextContent(
   toContain: string,
   toNotContain: string
-) {
+): void {
   cy.get('cx-merchandising-carousel .item h4')
     .first()
     .should('contain.text', toContain)
@@ -235,16 +235,16 @@ export function verifyFirstCarouselItemTextContent(
 }
 
 export function verifyFirstCarouselItemPrice(
-  currencySybmbol: string,
+  currencySymbol: string,
   value: number
-) {
+): void {
   cy.get('cx-merchandising-carousel .item .price')
     .first()
-    .should('contain.text', currencySybmbol)
+    .should('contain.text', currencySymbol)
     .and('contain.text', value);
 }
 
-export function clickOnCarouselItem(productId: string) {
+export function clickOnCarouselItem(productId: string): void {
   cy.get(
     `.data-cx-merchandising-product[data-cx-merchandising-product-id='${productId}'`
   )
@@ -254,11 +254,11 @@ export function clickOnCarouselItem(productId: string) {
     });
 }
 
-export function navigateToHomepage() {
+export function navigateToHomepage(): void {
   cy.get('cx-page-slot.SiteLogo').click();
 }
 
-export function navigateToCategory(categoryName: string) {
+export function navigateToCategory(categoryName: string): void {
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });

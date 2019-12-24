@@ -25,7 +25,7 @@ const camcordersCategoryCode = '584';
 const slrCategoryCode = '578';
 const slrNonProductListCategoryPagePath = `Open-Catalogue/Cameras/Digital-Cameras/Digital-SLR/c/${slrCategoryCode}`;
 
-function testHomePage() {
+function testHomePage(): void {
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}`
   );
@@ -39,7 +39,7 @@ function testHomePage() {
 function testCategoryPage(
   categoryCode: string = digitalCompactCamerasCategoryCode,
   categoryPagePath: string = digitalCompactCamerasCategoryPagePath
-) {
+): void {
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/${categoryPagePath}`
   );
@@ -54,7 +54,7 @@ function testCategoryPage(
 function testBrandPage(
   language: string = merchandisingCarousel.DEFAULT_LANGUAGE,
   currency: string = merchandisingCarousel.DEFAULT_CURRENCY
-) {
+): void {
   cy.visit(`/${language}/${currency}/${sonyBrandPagePath}`);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
@@ -64,7 +64,7 @@ function testBrandPage(
   );
 }
 
-function testPDPPage(productId: string) {
+function testPDPPage(productId: string): void {
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/product/${productId}`
   );
