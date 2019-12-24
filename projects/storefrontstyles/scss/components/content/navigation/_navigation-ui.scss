@@ -90,6 +90,11 @@
       &:hover {
         color: var(--cx-color-primary);
       }
+
+      a {
+        display: block;
+        width: 100%;
+      }
     }
 
     @include media-breakpoint-down(md) {
@@ -108,10 +113,6 @@
         justify-content: space-between;
 
         cursor: pointer;
-        a {
-          display: block;
-          width: 100%;
-        }
       }
 
       h5,
