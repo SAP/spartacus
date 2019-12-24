@@ -62,18 +62,18 @@ export const product = {
     outOfStock: 'Out of stock',
     inStock: 'In stock',
   },
-  addToWishList: {
-    add: 'Add to Wish List',
-    remove: 'Remove from Wish List',
-    anonymous: 'Sign in to add to wish list',
-  },
-  CMSTabParagraphContainer: {
+  TabPanelContainer: {
     tabs: {
       ProductDetailsTabComponent: 'Product Details',
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
     },
+  },
+  addToWishList: {
+    add: 'Add to Wish List',
+    remove: 'Remove from Wish List',
+    anonymous: 'Sign in to add to wish list',
   },
   stockNotification: {
     notifyMe: 'NOTIFY ME',
