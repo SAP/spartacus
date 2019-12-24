@@ -278,6 +278,15 @@
     }
 
     @include media-breakpoint-up(lg) {
+      @if $theme == 'calydon' {
+        .childs[depth='2'] {
+          > nav {
+            &:not(:only-child):not(:last-child) {
+              padding-inline-end: 20px;
+            }
+          }
+        }
+      }
       // Show dropdowns via hover when no nav is focused
       > nav {
         > .wrapper {
@@ -305,10 +314,10 @@
 
       .childs {
         display: flex;
-        // background: white;
-
-        nav:not(:last-child) {
-          padding-right: 20px;
+        @if $theme != 'calydon' {
+          nav:not(:last-child) {
+            padding-right: 20px;
+          }
         }
       }
 
