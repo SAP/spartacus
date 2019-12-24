@@ -224,15 +224,9 @@ describe('Merchandsing Carousel', () => {
       merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
     );
 
-    /*
-     * We currently have a bug where when a carousel item is clicked on from a facet filtered page
-     * the product id is not sent on the request to the strategy service when the PDP page carousel loads.
-     *
-     * The product id clicked should be passed into the below method once this is fixed
-     */
     merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
       strategyRequestAlias,
-      undefined
+      merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
     );
   });
 
@@ -378,15 +372,9 @@ describe('Merchandsing Carousel', () => {
       merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
     );
 
-    /*
-     * We currently have a bug where when a carousel item is clicked on from a facet filtered page
-     * the product id is not sent on the request to the strategy service when the PDP page carousel loads.
-     *
-     * The product id clicked should be passed into the below method once this is fixed
-     */
     merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
       strategyRequestAlias,
-      undefined
+      merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
     );
   });
 
