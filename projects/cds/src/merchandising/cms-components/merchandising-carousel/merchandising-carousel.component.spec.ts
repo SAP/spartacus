@@ -171,7 +171,8 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have a background color', async(() => {
     let actualBackgroundColor: string;
     component.merchandisingCarouselModel$.subscribe(
-      carouselModel => (actualBackgroundColor = carouselModel.backgroundColor)
+      carouselModel =>
+        (actualBackgroundColor = <string>carouselModel.backgroundColor)
     );
     expect(actualBackgroundColor).toBe(mockComponentData.backgroundColour);
   }));
@@ -179,7 +180,7 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have a text color', async(() => {
     let actualTextColor: string;
     component.merchandisingCarouselModel$.subscribe(
-      carouselModel => (actualTextColor = carouselModel.textColor)
+      carouselModel => (actualTextColor = <string>carouselModel.textColor)
     );
     expect(actualTextColor).toBe(mockComponentData.textColour);
   }));
