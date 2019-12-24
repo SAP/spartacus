@@ -11,7 +11,7 @@ import { catchError } from 'rxjs/operators';
 import { HttpResponseStatus } from '../models/response-status.model';
 import { HttpErrorHandler } from './handlers/http-error.handler';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
     @Inject(HttpErrorHandler) protected handlers: HttpErrorHandler[]

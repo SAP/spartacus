@@ -51,8 +51,14 @@ class MockPromotionsComponent {
   @Input() promotions;
 }
 
+const mockProduct = {
+  stock: {
+    stockLevelStatus: 'outOfStock',
+  },
+};
+
 describe('CartItemComponent', () => {
-  let component: CartItemComponent;
+  let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
 
   beforeEach(async(() => {
@@ -75,19 +81,19 @@ describe('CartItemComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
-    component = fixture.componentInstance;
-    component.item = {
+    cartItemComponent = fixture.componentInstance;
+    cartItemComponent.item = {
       product: {},
       updateable: true,
     };
-    component.quantityControl = new FormControl('1');
-    component.quantityControl.markAsPristine();
-    spyOn(component, 'removeItem').and.callThrough();
+    cartItemComponent.quantityControl = new FormControl('1');
+    cartItemComponent.quantityControl.markAsPristine();
+    spyOn(cartItemComponent, 'removeItem').and.callThrough();
     fixture.detectChanges();
   });
 
   it('should create CartItemComponent', () => {
-    expect(component).toBeTruthy();
+    expect(cartItemComponent).toBeTruthy();
   });
 
   it('should call removeItem()', () => {
@@ -95,14 +101,37 @@ describe('CartItemComponent', () => {
     button.nativeElement.click();
     fixture.detectChanges();
 
-    expect(component.removeItem).toHaveBeenCalled();
-    expect(component.quantityControl.value).toEqual(0);
+    expect(cartItemComponent.removeItem).toHaveBeenCalled();
+    expect(cartItemComponent.quantityControl.value).toEqual(0);
   });
 
   it('should mark control "dirty" after removeItem is called', () => {
     const button: DebugElement = fixture.debugElement.query(By.css('button'));
     button.nativeElement.click();
     fixture.detectChanges();
-    expect(component.quantityControl.dirty).toEqual(true);
+    expect(cartItemComponent.quantityControl.dirty).toEqual(true);
+  });
+
+  it('should call isProductOutOfStock()', () => {
+    cartItemComponent.isProductOutOfStock(cartItemComponent.item.product);
+
+    expect(cartItemComponent.item).toBeDefined();
+    expect(cartItemComponent.item.product).toBeDefined();
+    expect(cartItemComponent.item.product.stock).toBeDefined();
+
+    expect(
+      cartItemComponent.isProductOutOfStock(cartItemComponent.item.product)
+    ).toBeTruthy();
+
+    cartItemComponent.item.product.stock.stockLevelStatus = 'InStock';
+    expect(
+      cartItemComponent.isProductOutOfStock(cartItemComponent.item.product)
+    ).toBeFalsy();
+  });
+
+  it('should call viewItem()', () => {
+    cartItemComponent.viewItem();
+
+    expect(cartItemComponent.view.emit).toHaveBeenCalledWith();
   });
 });

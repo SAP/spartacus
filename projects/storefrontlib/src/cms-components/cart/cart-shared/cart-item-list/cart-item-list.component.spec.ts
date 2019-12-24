@@ -165,4 +165,35 @@ describe('CartItemListComponent', () => {
     const promotions = component.getPotentialProductPromotionsForItem(item);
     expect(promotions).toEqual(mockPotentialProductPromotions);
   });
+
+  it('should have controls updated on items change', () => {
+    const multipleMockItems = [
+      {
+        id: 1,
+        quantity: 5,
+        entryNumber: 1,
+        product: {
+          id: 1,
+          code: 'PR0000',
+        },
+      },
+      {
+        id: 2,
+        quantity: 3,
+        entryNumber: 2,
+        product: {
+          id: 2,
+          code: 'PR0001',
+        },
+      },
+    ];
+    component.items = multipleMockItems;
+    fixture.detectChanges();
+    expect(
+      component.form.controls[multipleMockItems[0].product.code]
+    ).toBeDefined();
+    expect(
+      component.form.controls[multipleMockItems[1].product.code]
+    ).toBeDefined();
+  });
 });

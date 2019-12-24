@@ -1,3 +1,4 @@
+import { experimental, strings } from '@angular-devkit/core';
 import {
   apply,
   branchAndMerge,
@@ -14,22 +15,24 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { appendHtmlElementToHead } from '@angular/cdk/schematics';
 import {
   addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { addImport, importModule } from '../shared/utils/module-file-utils';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
   getIndexHtmlPath,
   getPathResultsForFile,
 } from '../shared/utils/file-utils';
-import { appendHtmlElementToHead } from '@angular/cdk/schematics';
-import { experimental, strings } from '@angular-devkit/core';
-import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import {
+  addImport,
+  addToModuleImportsAndCommitChanges,
+} from '../shared/utils/module-file-utils';
 import { getAngularVersion } from '../shared/utils/package-utils';
+import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -118,14 +121,6 @@ function addServerConfigInAngularJsonFile(options: any): Rule {
       projectArchitectObject['server'] = {
         builder: '@angular-devkit/build-angular:server',
         options: {
-          outputPath: 'dist/server',
-          main: 'src/main.server.ts',
-          tsConfig: 'tsconfig.server.json',
-        },
-      };
-      projectArchitectObject['server'] = {
-        builder: '@angular-devkit/build-angular:server',
-        options: {
           outputPath: `dist/${options.project}-server`,
           main: 'src/main.server.ts',
           tsConfig: 'tsconfig.server.json',
@@ -200,7 +195,11 @@ function modifyAppServerModuleFile(): Rule {
       'ServerTransferStateModule',
       '@angular/platform-server'
     );
-    importModule(tree, appServerModulePath, `ServerTransferStateModule`);
+    addToModuleImportsAndCommitChanges(
+      tree,
+      appServerModulePath,
+      `ServerTransferStateModule`
+    );
     context.logger.log('info', `✅️ Modified app.server.module.ts file.`);
     return tree;
   };
@@ -245,6 +244,26 @@ function provideServerAndWebpackServerConfigs(
   ]);
 }
 
+function modifyMainServerTSFile() {
+  return (tree: Tree) => {
+    const mainServerPath = 'src/main.server.ts';
+    const buffer = tree.read(mainServerPath);
+    if (buffer) {
+      let mainServerFile = buffer.toString();
+      const engineExpressToRemove = `export { ngExpressEngine } from "@nguniversal/express-engine";`;
+      if (mainServerFile.includes(engineExpressToRemove)) {
+        const startPos = mainServerFile.indexOf(engineExpressToRemove);
+        const endPos = startPos + engineExpressToRemove.length + 1;
+        mainServerFile =
+          mainServerFile.substr(0, startPos) +
+          mainServerFile.substr(endPos, mainServerFile.length);
+        mainServerFile += `import { ngExpressEngine as engine } from '@nguniversal/express-engine';\nimport { NgExpressEngineDecorator } from '@spartacus/core';\nexport const ngExpressEngine = NgExpressEngineDecorator.get(engine);`;
+        tree.overwrite(mainServerPath, mainServerFile);
+      }
+    }
+  };
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const possibleProjectFiles = ['/angular.json', '/.angular.json'];
@@ -269,6 +288,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(templates, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
+      modifyMainServerTSFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };

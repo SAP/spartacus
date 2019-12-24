@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule } from '../layout/index';
-import { AssistedServiceModule } from './asm/assisted-service.module';
+import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
+import { AsmModule } from './asm/asm.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
 import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
@@ -10,14 +11,19 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
-import { SiteContextSelectorModule } from './misc/index';
+import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  MyInterestsModule,
+  NotificationPreferenceModule,
   OrderDetailsModule,
   OrderHistoryModule,
+  OrderCancelOrReturnModule,
+  ReturnRequestListModule,
+  ReturnRequestDetailModule,
   PaymentMethodsModule,
   ResetPasswordModule,
   UpdateEmailModule,
@@ -38,15 +44,18 @@ import {
   ProductListModule,
   ProductReferencesModule,
   ProductTabsModule,
+  StockNotificationModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
+import { WishListModule } from './wish-list/wish-list.module';
 
 @NgModule({
   imports: [
-    AssistedServiceModule,
+    AnonymousConsentManagementBannerModule,
+    AsmModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
@@ -57,8 +66,12 @@ import { UserComponentModule } from './user/user.module';
     BreadcrumbModule,
     SearchBoxModule,
     SiteContextSelectorModule,
+    QualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
+    OrderCancelOrReturnModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
@@ -82,6 +95,10 @@ import { UserComponentModule } from './user/user.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    WishListModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
   ],
 })
 export class CmsLibModule {}

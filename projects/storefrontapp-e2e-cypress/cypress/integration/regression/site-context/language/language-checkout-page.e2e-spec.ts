@@ -10,17 +10,24 @@ describe('Language switch - checkout page', () => {
   const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then(win => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    });
     cy.requireLoggedIn();
-    cy.visit('/');
-    siteContextSelector.doPlaceOrder();
-    manipulateCartQuantity();
   });
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES
   );
+
+  describe('populate cart, history, quantity', () => {
+    it('should have basic data', () => {
+      siteContextSelector.doPlaceOrder();
+      manipulateCartQuantity();
+    });
+  });
 
   describe('checkout page', () => {
     it('should change language in the shipping address url', () => {

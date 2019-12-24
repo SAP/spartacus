@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
   Order,
   OrderHistoryList,
@@ -7,39 +7,46 @@ import {
   UserOrderService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-history',
   templateUrl: './order-history.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderHistoryComponent implements OnInit, OnDestroy {
+export class OrderHistoryComponent implements OnDestroy {
   constructor(
     private routing: RoutingService,
     private userOrderService: UserOrderService,
     private translation: TranslationService
   ) {}
 
-  orders$: Observable<OrderHistoryList>;
-  isLoaded$: Observable<boolean>;
-
   private PAGE_SIZE = 5;
-
   sortType: string;
 
-  ngOnInit(): void {
-    this.orders$ = this.userOrderService
-      .getOrderHistoryList(this.PAGE_SIZE)
-      .pipe(
-        tap((orders: OrderHistoryList) => {
-          if (orders.pagination) {
-            this.sortType = orders.pagination.sort;
-          }
-        })
-      );
+  orders$: Observable<
+    OrderHistoryList
+  > = this.userOrderService.getOrderHistoryList(this.PAGE_SIZE).pipe(
+    tap((orders: OrderHistoryList) => {
+      if (orders.pagination) {
+        this.sortType = orders.pagination.sort;
+      }
+    })
+  );
 
-    this.isLoaded$ = this.userOrderService.getOrderHistoryListLoaded();
-  }
+  isLoaded$: Observable<
+    boolean
+  > = this.userOrderService.getOrderHistoryListLoaded();
+
+  /**
+   * When "Order Return" feature is enabled, this component becomes one tab in
+   * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
+   */
+  tabTitleParam$: Observable<number> = this.orders$.pipe(
+    map(order => order.pagination.totalResults),
+    filter(totalResults => totalResults !== undefined),
+    take(1)
+  );
 
   ngOnDestroy(): void {
     this.userOrderService.clearOrderList();

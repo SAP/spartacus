@@ -7,25 +7,25 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ViewConfig } from '../../../shared/config/view-config';
+import { ViewConfigModule } from '../../../shared/config/view-config.module';
 import {
   ItemCounterModule,
   ListNavigationModule,
   MediaModule,
-  StarRatingModule,
   SpinnerModule,
+  StarRatingModule,
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
+import { defaultScrollConfig } from '../config/default-scroll-config';
 import { ProductListComponent } from './container/product-list.component';
+import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
-import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { defaultScrollConfig } from '../config/default-scroll-config';
-import { ViewConfigModule } from '../../../shared/config/view-config.module';
-import { ViewConfig } from '../../../shared/config/view-config';
 
 @NgModule({
   imports: [
@@ -71,6 +71,7 @@ import { ViewConfig } from '../../../shared/config/view-config';
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,
+    ProductScrollComponent,
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })

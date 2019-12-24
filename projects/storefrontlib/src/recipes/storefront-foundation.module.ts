@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import {
+  AnonymousConsentsModule,
   AuthModule,
   CartModule,
   CheckoutModule,
   CmsModule,
+  ConfigInitializerModule,
   ConfigModule,
   FeaturesConfigModule,
   GlobalMessageModule,
@@ -13,7 +15,6 @@ import {
   provideConfigFromMetaTags,
   StateModule,
   UserModule,
-  AsmModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
@@ -21,10 +22,11 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
 
 @NgModule({
   imports: [
-    AsmModule.forRoot(),
     StateModule.forRoot(),
     AuthModule.forRoot(),
+    AnonymousConsentsModule.forRoot(),
     ConfigModule.forRoot(),
+    ConfigInitializerModule.forRoot(),
     RoutingModule.forRoot(),
     I18nModule.forRoot(),
     CmsModule.forRoot(),

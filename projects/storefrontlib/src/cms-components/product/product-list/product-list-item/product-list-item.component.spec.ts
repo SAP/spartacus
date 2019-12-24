@@ -8,13 +8,14 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProductListItemComponent } from './product-list-item.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode;
+  @Input() product;
   @Input() showQuantity;
 }
 
@@ -74,7 +75,7 @@ describe('ProductListItemComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         ProductListItemComponent,
         MockPictureComponent,
@@ -134,6 +135,22 @@ describe('ProductListItemComponent in product-list', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
+  });
+
+  it('should not display rating component when rating is unavailable', () => {
+    component.product.averageRating = undefined;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+    ).toBeNull();
+  });
+
+  it('should display noReviews when rating is unavailable', () => {
+    component.product.averageRating = undefined;
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.innerText).toContain(
+      'productDetails.noReviews'
+    );
   });
 
   it('should display add to cart component', () => {

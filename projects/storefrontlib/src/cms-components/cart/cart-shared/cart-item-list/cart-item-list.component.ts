@@ -95,16 +95,16 @@ export class CartItemListComponent {
   }
 
   private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
-    const consumendEntryNumber = consumedEntry.orderEntryNumber;
+    const consumedEntryNumber = consumedEntry.orderEntryNumber;
     if (entry.entries && entry.entries.length > 0) {
       for (const subEntry of entry.entries) {
-        if (subEntry.entryNumber === consumendEntryNumber) {
+        if (subEntry.entryNumber === consumedEntryNumber) {
           return true;
         }
       }
       return false;
     } else {
-      return consumendEntryNumber === entry.entryNumber;
+      return consumedEntryNumber === entry.entryNumber;
     }
   }
 }

@@ -17,6 +17,7 @@ export class AddedToCartDialogComponent {
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   increment: boolean;
+  modalIsOpen = false;
 
   quantity = 0;
 

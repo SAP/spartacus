@@ -1,0 +1,24 @@
+@import './cxbase/mixins';
+
+@import './layout/index';
+
+// The $page-template-blacklist can be used to prevent template CSS
+// being generated.
+$page-template-blacklist: () !default;
+
+// whitelisted page template selectors are processed
+// unless (some) they are blacklisted using `$page-template-blacklist`
+$page-template-whitelist: LandingPage2Template, ContentPage1Template,
+  CategoryPageTemplate, ProductListPageTemplate, SearchResultsListPageTemplate,
+  ProductDetailsPageTemplate, CartPageTemplate, LoginPageTemplate,
+  MultiStepCheckoutSummaryPageTemplate, ErrorPageTemplate,
+  StoreFinderPageTemplate, CheckoutLoginPageTemplate, AccountPageTemplate !default;
+
+@each $selector in $page-template-whitelist {
+  .#{$selector} {
+    @if (index($page-template-blacklist, $selector) == null) {
+      @extend %#{$selector} !optional;
+      @extend %#{$selector}-#{$theme} !optional;
+    }
+  }
+}

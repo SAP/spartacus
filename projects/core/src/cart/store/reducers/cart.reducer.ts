@@ -1,4 +1,5 @@
 import { OrderEntry } from '../../../model/order.model';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { CartState } from '../cart-state';
 
@@ -11,17 +12,20 @@ export const initialState: CartState = {
 
 export function reducer(
   state = initialState,
-  action: CartActions.CartAction | CartActions.CartEntryAction
+  action:
+    | CartActions.CartAction
+    | CartActions.CartEntryAction
+    | CartActions.CartVoucherAction
 ): CartState {
   switch (action.type) {
-    case CartActions.MERGE_CART: {
+    case DeprecatedCartActions.MERGE_CART: {
       return {
         ...state,
         cartMergeComplete: false,
       };
     }
 
-    case CartActions.MERGE_CART_SUCCESS: {
+    case DeprecatedCartActions.MERGE_CART_SUCCESS: {
       return {
         ...state,
         cartMergeComplete: true,
@@ -29,8 +33,8 @@ export function reducer(
       };
     }
 
-    case CartActions.LOAD_CART_SUCCESS:
-    case CartActions.CREATE_CART_SUCCESS: {
+    case DeprecatedCartActions.LOAD_CART_SUCCESS:
+    case DeprecatedCartActions.CREATE_CART_SUCCESS: {
       const content = { ...action.payload };
       let entries = {};
       if (content.entries) {
@@ -67,17 +71,19 @@ export function reducer(
       };
     }
 
+    case CartActions.CART_ADD_VOUCHER_SUCCESS:
+    case CartActions.CART_REMOVE_VOUCHER_SUCCESS:
     case CartActions.CART_REMOVE_ENTRY_SUCCESS:
     case CartActions.CART_UPDATE_ENTRY_SUCCESS:
     case CartActions.CART_ADD_ENTRY_SUCCESS:
-    case CartActions.ADD_EMAIL_TO_CART_SUCCESS: {
+    case DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS: {
       return {
         ...state,
         refresh: true,
       };
     }
 
-    case CartActions.RESET_CART_DETAILS: {
+    case DeprecatedCartActions.RESET_CART_DETAILS: {
       return {
         content: {
           guid: state.content.guid,
@@ -90,7 +96,7 @@ export function reducer(
       };
     }
 
-    case CartActions.CLEAR_CART: {
+    case DeprecatedCartActions.CLEAR_CART: {
       return initialState;
     }
   }
