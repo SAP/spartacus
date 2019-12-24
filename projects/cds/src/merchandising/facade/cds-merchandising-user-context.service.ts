@@ -88,6 +88,7 @@ export class CdsMerchandisingUserContextService {
     return this.routingService.getPageContext().pipe(
       filter(pageContext => pageContext.type === PageType.PRODUCT_PAGE),
       map(context => context.id),
+      distinctUntilChanged(),
       map(productId => ({
         products: [productId],
       }))
