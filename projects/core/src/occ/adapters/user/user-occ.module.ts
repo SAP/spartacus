@@ -23,6 +23,8 @@ import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
 import { OccUserInterestsNormalizer } from './converters/occ-user-interests-normalizer';
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
+import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/converters';
+import { OccReturnRequestNormalizer } from './converters/index';
 
 @NgModule({
   imports: [
@@ -52,6 +54,11 @@ import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests
     {
       provide: PRODUCT_INTERESTS_NORMALIZER,
       useExisting: OccUserInterestsNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORDER_RETURN_REQUEST_NORMALIZER,
+      useExisting: OccReturnRequestNormalizer,
       multi: true,
     },
   ],

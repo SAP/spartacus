@@ -18,6 +18,7 @@ import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import * as DeprecatedCartActions from '../actions/cart.action';
@@ -30,6 +31,13 @@ import {
 
 @Injectable()
 export class CartEffects {
+  private contextChange$ = this.actions$.pipe(
+    ofType(
+      SiteContextActions.CURRENCY_CHANGE,
+      SiteContextActions.LANGUAGE_CHANGE
+    )
+  );
+
   @Effect()
   loadCart$: Observable<
     | DeprecatedCartActions.LoadCartFail
@@ -164,7 +172,8 @@ export class CartEffects {
             );
         })
       )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -229,7 +238,8 @@ export class CartEffects {
             ])
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -249,7 +259,8 @@ export class CartEffects {
           ];
         })
       );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -364,7 +375,8 @@ export class CartEffects {
             ])
           )
         )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
