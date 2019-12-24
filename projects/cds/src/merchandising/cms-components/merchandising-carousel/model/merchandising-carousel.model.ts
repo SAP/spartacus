@@ -5,6 +5,6 @@ export interface MerchandisingCarouselModel {
   items$: Observable<MerchandisingProduct>[];
   metadata: Map<string, string>;
   title: string;
-  backgroundColor: string;
-  textColor: string;
+  backgroundColor: string | Object | undefined;
+  textColor: string | Object | undefined;
 }
