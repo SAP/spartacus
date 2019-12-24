@@ -7,9 +7,8 @@ export const DEFAULT_CDS_CONFIG: CdsConfig = {
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
     },
+    consentTemplateId: 'PROFILE',
     profileTag: {
-      javascriptUrl:
-        'https://tag.static.us.context.cloud.sap/js/profile-tag.js',
       allowInsecureCookies: false,
     },
   },

@@ -67,6 +67,7 @@ if (!environment.production) {
         anonymousConsents: true,
       },
     }),
+
     JsonLdBuilderModule,
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
