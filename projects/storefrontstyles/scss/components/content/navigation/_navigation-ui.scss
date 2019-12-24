@@ -12,6 +12,9 @@
 }
 
 %nav-wrapper {
+  .wrapper {
+    cursor: default;
+  }
   // create width of wrapper
   .wrapper[attr='1'] {
     width: 200px;
