@@ -25,13 +25,10 @@ export class MerchandisingCarouselComponent {
     protected el: ElementRef
   ) {}
 
-  private componentData$: Observable<
-    CmsMerchandisingCarouselComponent
-  > = this.componentData.data$.pipe(filter(Boolean));
-
   merchandisingCarouselModel$: Observable<
     MerchandisingCarouselModel
-  > = this.componentData$.pipe(
+  > = this.componentData.data$.pipe(
+    filter(data => Boolean(data)),
     distinctUntilKeyChanged('strategy'),
     switchMap(data =>
       this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
@@ -39,14 +36,18 @@ export class MerchandisingCarouselComponent {
       )
     ),
     tap(data => {
-      this.el.nativeElement.style.setProperty(
-        '--cx-color-background',
-        data.backgroundColor
-      );
-      this.el.nativeElement.style.setProperty(
-        '--cx-color-text',
-        data.textColor
-      );
+      if (typeof data.backgroundColor === 'string') {
+        this.el.nativeElement.style.setProperty(
+          '--cx-color-background',
+          data.backgroundColor
+        );
+      }
+      if (typeof data.textColor === 'string') {
+        this.el.nativeElement.style.setProperty(
+          '--cx-color-text',
+          data.textColor
+        );
+      }
     })
   );
 }

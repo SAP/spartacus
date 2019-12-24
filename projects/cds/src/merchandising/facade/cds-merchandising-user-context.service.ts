@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import {
+  Breadcrumb,
   ConverterService,
-  ProductSearchPage,
+  PageContext,
+  PageType,
   ProductSearchService,
-  RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { combineLatest, merge, Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  withLatestFrom,
+} from 'rxjs/operators';
 import {
   MERCHANDISING_FACET_NORMALIZER,
   MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
@@ -25,54 +31,87 @@ export class CdsMerchandisingUserContextService {
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
+    return merge(
+      this.getCategoryAndFacetContext(),
+      this.getProductNavigationContext()
+    );
+  }
+
+  private getCategoryAndFacetContext(): Observable<MerchandisingUserContext> {
     return combineLatest([
-      this.getProductNavigationContext(),
       this.getCategoryNavigationContext(),
-      this.getFacets(),
+      this.getFacetsContext(),
     ]).pipe(
-      map(([productId, category, facets]: [string, string, string]) => {
-        const userContextData: MerchandisingUserContext = {
-          category,
-          facets,
-        };
-        if (productId) {
-          userContextData.products = [productId];
-        }
-        return userContextData;
-      })
+      map(([categoryContext, facetsContext]) => ({
+        ...categoryContext,
+        ...facetsContext,
+      }))
     );
   }
 
-  private getProductNavigationContext(): Observable<string> {
-    return this.routingService.getRouterState().pipe(
-      map(
-        (routerState: RouterState) => routerState.state.params['productCode']
-      ),
-      distinctUntilChanged()
-    );
-  }
-
-  private getCategoryNavigationContext(): Observable<string> {
-    return this.routingService.getRouterState().pipe(
-      map(
-        (routerState: RouterState) =>
-          routerState.state.params['brandCode'] ||
-          routerState.state.params['categoryCode']
-      ),
-      distinctUntilChanged()
-    );
-  }
-
-  private getFacets(): Observable<string> {
-    return this.productSearchService.getResults().pipe(
-      map(
-        (searchPageResults: ProductSearchPage) => searchPageResults.breadcrumbs
+  private getFacetsContext(): Observable<MerchandisingUserContext> {
+    return this.searchResultChangeEvent().pipe(
+      withLatestFrom(this.routingService.getPageContext()),
+      filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
+      map(([facets, pageContext]) =>
+        facets.filter(facet =>
+          this.filterFacetByCurrentPage(facet, pageContext)
+        )
       ),
       this.converterService.pipeable(MERCHANDISING_FACET_NORMALIZER),
       this.converterService.pipeable(
         MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER
       ),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      map(facets => ({
+        facets,
+      }))
     );
+  }
+
+  private searchResultChangeEvent(): Observable<Breadcrumb[]> {
+    return this.productSearchService.getResults().pipe(
+      map(searchResults =>
+        searchResults.breadcrumbs ? searchResults.breadcrumbs : []
+      ),
+      filter(facets => !!facets)
+    );
+  }
+
+  private isFacetPage(pageContext: PageContext): boolean {
+    return (
+      pageContext.type === PageType.CATEGORY_PAGE || pageContext.id === 'search'
+    );
+  }
+
+  private getProductNavigationContext(): Observable<MerchandisingUserContext> {
+    return this.routingService.getPageContext().pipe(
+      filter(pageContext => pageContext.type === PageType.PRODUCT_PAGE),
+      map(context => context.id),
+      distinctUntilChanged(),
+      map(productId => ({
+        products: [productId],
+      }))
+    );
+  }
+
+  private getCategoryNavigationContext(): Observable<MerchandisingUserContext> {
+    return this.routingService.getPageContext().pipe(
+      map(context =>
+        context.type === PageType.CATEGORY_PAGE ? context.id : undefined
+      ),
+      distinctUntilChanged(),
+      map(category => ({ category }))
+    );
+  }
+
+  private filterFacetByCurrentPage(
+    facet: Breadcrumb,
+    currentPageContext: PageContext
+  ): boolean {
+    if (currentPageContext.type !== PageType.CATEGORY_PAGE) {
+      return false;
+    }
+    return facet.facetValueCode !== currentPageContext.id;
   }
 }
