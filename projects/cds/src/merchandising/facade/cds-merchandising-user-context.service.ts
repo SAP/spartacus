@@ -32,8 +32,8 @@ export class CdsMerchandisingUserContextService {
 
   getUserContext(): Observable<MerchandisingUserContext> {
     return merge(
-      this.getProductNavigationContext(),
-      this.getCategoryAndFacetContext()
+      this.getCategoryAndFacetContext(),
+      this.getProductNavigationContext()
     );
   }
 

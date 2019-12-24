@@ -22,22 +22,6 @@ export class CdsMerchandisingProductService {
     strategyId: string,
     numberToDisplay?: number
   ): Observable<StrategyProducts> {
-    //  combineLatest(
-    //    this.merchandisingSiteContextService.getSiteContext().pipe(
-    //      withLatestFrom( this.merchandisingUserContextService.getUserContext()),
-    //      map(...))
-    //   this.merchandisingUserContextService.getUserContext(),
-    //  )
-
-    // TODO: test:
-    // 1. initial homepage visit
-    // 2. test language changes on:
-    //   2.1 a category page
-    //   2.2 a PDP page
-    //   2.3 facet-supported page
-    // 3. test the special category page: http://localhost:4300/electronics-spa/en/USD/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578
-    // 4. navigate from one category to another
-
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
       this.merchandisingUserContextService.getUserContext().pipe(startWith({})),
