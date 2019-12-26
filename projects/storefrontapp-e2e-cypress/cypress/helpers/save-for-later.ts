@@ -72,7 +72,6 @@ export function stubForCartRefresh() {
 
 export function moveItem(
   product,
-  qty: number,
   targetPosition: Position,
   isAnonymous: boolean = false
 ) {
@@ -83,8 +82,16 @@ export function moveItem(
     cy.get('.cx-slf-btn > .link').click();
   });
   if (!isAnonymous) {
-    cy.wait(['@refresh_cart', '@refresh_selectivecart']);
-    validateProduct(product, qty, targetPosition);
+    cy.wait(['@refresh_cart', '@refresh_selectivecart']).spread(
+      (refresh_cart, refresh_selectivecart) => {
+        cy.wrap(refresh_cart)
+          .its('status')
+          .should('eq', 200);
+        cy.wrap(refresh_selectivecart)
+          .its('status')
+          .should('eq', 200);
+      }
+    );
   }
 }
 
@@ -97,7 +104,9 @@ export function removeItem(product, position: Position) {
         cy.wrap(el).click();
       });
   });
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function validateProduct(product, qty = 1, position: Position) {
@@ -132,13 +141,17 @@ export function validateCart(qtyInCart: Number, qtyInSavedCart: Number) {
   );
 }
 
+function verifyMiniCartQty(qty: number) {
+  cy.get('cx-mini-cart .count').should('contain', qty);
+}
+
 export function addProductToCart(product) {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
   cy.get('cx-searchbox input')
     .clear()
     .type(`${product.code}{enter}`);
-  cy.get('cx-add-to-cart')
-    .first()
+  cy.location('pathname').should('contain', `${product.code}`);
+  cy.get('cx-add-to-cart:first')
     .getAllByText(/Add To Cart/i)
     .first()
     .click();
@@ -146,14 +159,13 @@ export function addProductToCart(product) {
     cy.get('.cx-code').should('contain', product.code);
     cy.getByText(/view cart/i).click();
   });
-  //validateProduct(productCode, 1, Position.Cart);
   validateProduct(product, 1, Position.Cart);
 }
 
 export function verifySaveForLaterAsAnonymous() {
   addProductToCart(products[0]);
   cy.visit('/cart');
-  moveItem(products[0], 1, Position.SaveForLater, true);
+  moveItem(products[0], Position.SaveForLater, true);
   cy.location('pathname').should('contain', '/login');
 }
 
@@ -161,7 +173,7 @@ export function verifySaveForLaterWhenRelogin() {
   cart.registerCartUser();
   cart.loginCartUser();
   addProductToCart(products[2]);
-  moveItem(products[2], 1, Position.SaveForLater);
+  moveItem(products[2], Position.SaveForLater);
   cart.logOutAndEmptyCart();
   cart.loginCartUser();
   cy.visit('/cart');
@@ -172,26 +184,31 @@ export function verifySaveForLater() {
   cy.visit('/cart');
   validateCart(0, 0);
   addProductToCart(products[0]);
-  moveItem(products[0], 1, Position.SaveForLater);
+  moveItem(products[0], Position.SaveForLater);
   validateCart(0, 1);
   addProductToCart(products[1]);
   addProductToCart(products[2]);
+  validateCart(2, 1);
   validateCartPromotion(true);
-  moveItem(products[2], 1, Position.SaveForLater);
+  moveItem(products[2], Position.SaveForLater);
+  validateCart(1, 2);
   validateCartPromotion(false);
-  moveItem(products[2], 1, Position.Cart);
+  moveItem(products[2], Position.Cart);
   validateCartPromotion(true);
   validateCart(2, 1);
   //validate merge
   addProductToCart(products[0]);
   validateCart(3, 1);
-  moveItem(products[0], 2, Position.SaveForLater);
+  moveItem(products[0], Position.SaveForLater);
+  validateProduct(products[0], 2, Position.SaveForLater);
   validateCart(2, 1);
   addProductToCart(products[0]);
-  moveItem(products[0], 3, Position.Cart);
+  moveItem(products[0], Position.Cart);
   validateCart(3, 0);
+  verifyMiniCartQty(5); //to avoid the cart item quatity is not updated yet
+  validateProduct(products[0], 3, Position.Cart);
   //remove
-  moveItem(products[0], 3, Position.SaveForLater);
+  moveItem(products[0], Position.SaveForLater);
   validateCart(2, 1);
   removeItem(products[0], Position.SaveForLater);
   validateCart(2, 0);
@@ -200,10 +217,10 @@ export function verifySaveForLater() {
 export function verifyGiftProduct() {
   addProductToCart(products[0]);
   addProductToCart(products[3]);
-  //validateProduct(products[4], 1, Position.Cart);
-  moveItem(products[3], 1, Position.SaveForLater);
+  verifyMiniCartQty(3);
+  moveItem(products[3], Position.SaveForLater);
   validateCart(1, 2);
-  moveItem(products[3], 1, Position.Cart);
+  moveItem(products[3], Position.Cart);
   validateCart(3, 0);
 }
 
@@ -212,7 +229,7 @@ export function verifyPlaceOrder() {
     .auth;
   addProductToCart(products[0]);
   addProductToCart(products[1]);
-  moveItem(products[0], 1, Position.SaveForLater);
+  moveItem(products[0], Position.SaveForLater);
   validateCart(1, 1);
   cartCoupon.placeOrder(stateAuth);
   cy.reload();

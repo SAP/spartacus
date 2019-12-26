@@ -36,7 +36,7 @@ describe('Save for later - customer', () => {
     saveForLater.verifyPlaceOrder();
   });
 
-  it.skip('should handle product with free gift in save for later', () => {
+  it('should handle product with free gift in save for later', () => {
     saveForLater.verifyGiftProduct();
   });
 });

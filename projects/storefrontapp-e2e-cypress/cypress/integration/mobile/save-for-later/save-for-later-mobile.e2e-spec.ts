@@ -7,7 +7,6 @@ describe(`${formats.mobile.width +
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
-    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
   });
 
   it('should register and login first for anonymous user', () => {
@@ -21,7 +20,6 @@ describe(`${formats.mobile.width +
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
-    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
   });
   it('Should save items in saved for later list when logout', () => {
     saveForLater.verifySaveForLaterWhenRelogin();
@@ -45,7 +43,7 @@ describe(`${formats.mobile.width +
     saveForLater.verifyPlaceOrder();
   });
 
-  it.skip('should handle product with free gift in save for later', () => {
+  it('should handle product with free gift in save for later', () => {
     saveForLater.verifyGiftProduct();
   });
 });
