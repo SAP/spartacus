@@ -6,6 +6,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  shareReplay,
   switchMap,
   take,
   tap,
@@ -24,14 +25,21 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService {
-  private profileTagEvents$ = merge(
-    this.consentReferenceChanged(),
-    this.debugModeChanged()
-  );
   private profileTagWindow: ProfileTagWindowObject;
   public consentReference = null;
   public profileTagDebug = false;
-
+  public consentReference$: Observable<string> = fromEvent(
+    this.winRef.nativeWindow,
+    ProfileTagEventNames.CONSENT_REFERENCE_LOADED
+  ).pipe(
+    map(event => <ConsentReferenceEvent>event),
+    map(event => event.detail.consentReference),
+    shareReplay(1)
+  );
+  private profileTagEvents$ = merge(
+    this.setConsentReference(),
+    this.debugModeChanged()
+  );
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -39,9 +47,7 @@ export class ProfileTagEventService {
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
-  getProfileTagEvents(): Observable<
-    ConsentReferenceEvent | DebugEvent | Event
-  > {
+  getProfileTagEvents(): Observable<string | DebugEvent | Event> {
     return this.profileTagEvents$;
   }
 
@@ -57,21 +63,17 @@ export class ProfileTagEventService {
     );
   }
 
+  private setConsentReference(): Observable<string> {
+    return this.consentReference$.pipe(
+      tap(consentReference => (this.consentReference = consentReference))
+    );
+  }
+
   private profileTagLoaded(): Observable<Event> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.LOADED
     ).pipe(take(1));
-  }
-
-  private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
-    return fromEvent(
-      this.winRef.nativeWindow,
-      ProfileTagEventNames.CONSENT_REFERENCE_LOADED
-    ).pipe(
-      map(event => <ConsentReferenceEvent>event),
-      tap(event => (this.consentReference = event.detail.consentReference))
-    );
   }
 
   private debugModeChanged(): Observable<DebugEvent> {
