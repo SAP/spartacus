@@ -225,6 +225,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
     { value: 'Save', type: TabbingOrderTypes.BUTTON },
   ],
+  wishlist: [
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+  ],
   footer: [
     {
       value: 'About SAP Commerce Cloud',
