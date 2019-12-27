@@ -148,11 +148,19 @@ export class ProductLoadingService {
     // max age trigger add
     const maxAge = this.loadingScopes.getMaxAge('product', scope);
     if (maxAge && isPlatformBrowser(this.platformId)) {
+      // we want to grab load product success and load product fail for this product and scope
       const loadFinish$ = this.actions$.pipe(
-        ofType(ProductActions.LOAD_PRODUCT_SUCCESS),
         filter(
-          (action: ProductActions.LoadProductSuccess) =>
-            action.payload.code === productCode && action.meta.scope === scope
+          (
+            action:
+              | ProductActions.LoadProductSuccess
+              | ProductActions.LoadProductFail
+          ) =>
+            ((action.type === ProductActions.LOAD_PRODUCT_SUCCESS &&
+              action.payload.code === productCode) ||
+              (action.type === ProductActions.LOAD_PRODUCT_FAIL &&
+                action.payload === productCode)) &&
+            action.meta.scope === scope
         )
       );
 
