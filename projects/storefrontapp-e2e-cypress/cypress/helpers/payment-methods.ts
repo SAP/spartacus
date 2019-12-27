@@ -217,10 +217,7 @@ function getWaitAliases() {
     'getPaymentPage'
   );
 
-  const reviewPage = waitForPage(
-    '/checkout/review-order',
-    'getReviewPage'
-  );
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
 
   return { shippingPage, deliveryPage, paymentPage, reviewPage };
 }
