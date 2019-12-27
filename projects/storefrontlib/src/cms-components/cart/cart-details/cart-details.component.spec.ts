@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
@@ -8,12 +7,17 @@ import {
   I18nTestingModule,
   Order,
   OrderEntry,
+  PromotionLocation,
   PromotionResult,
+  FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
+import { PromotionService } from '../../../shared/services/promotion/promotion.service';
+import { By } from '@angular/platform-browser';
 
 class MockCartService {
   removeEntry(): void {}
@@ -30,6 +34,14 @@ class MockCartService {
   }
 }
 
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
+
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
@@ -41,6 +53,8 @@ class MockCartItemListComponent {
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading: Observable<boolean>;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Component({
@@ -61,13 +75,33 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
+      imports: [
+        RouterTestingModule,
+        PromotionsModule,
+        I18nTestingModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         CartDetailsComponent,
         MockCartItemListComponent,
         MockCartCouponComponent,
       ],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        {
+          provide: CartService,
+          useClass: MockCartService,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
+      ],
     }).compileComponents();
   }));
 

@@ -1,12 +1,21 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
+import {
+  CheckoutService,
+  I18nTestingModule,
+  Order,
+  PromotionLocation,
+  FeaturesConfigModule,
+  FeaturesConfig,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
 import createSpy = jasmine.createSpy;
+import { PromotionsModule } from '../../../checkout';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
@@ -14,6 +23,8 @@ class MockReviewSubmitComponent {
   items: Item[];
   @Input()
   isReadOnly: boolean;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.Checkout;
 }
 
 class MockCheckoutService {
@@ -31,18 +42,35 @@ class MockCheckoutService {
   }
 }
 
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
+
 describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
   let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
       declarations: [
         OrderConfirmationItemsComponent,
         MockReviewSubmitComponent,
       ],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
+      providers: [
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: PromotionService, useClass: MockPromotionService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
+      ],
     }).compileComponents();
   }));
 
