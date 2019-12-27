@@ -156,10 +156,9 @@ export class ProductLoadingService {
               | ProductActions.LoadProductSuccess
               | ProductActions.LoadProductFail
           ) =>
-            ((action.type === ProductActions.LOAD_PRODUCT_SUCCESS &&
-              action.payload.code === productCode) ||
-              (action.type === ProductActions.LOAD_PRODUCT_FAIL &&
-                action.payload === productCode)) &&
+            (action.type === ProductActions.LOAD_PRODUCT_SUCCESS ||
+              action.type === ProductActions.LOAD_PRODUCT_FAIL) &&
+            action.meta.entityId === productCode &&
             action.meta.scope === scope
         )
       );

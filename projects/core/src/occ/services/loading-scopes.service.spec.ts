@@ -64,7 +64,7 @@ describe('LoadingScopesService', () => {
       expect(result).toEqual(60000);
     });
     it('should return 0 for not configured maxAge', () => {
-      const result = service.getMaxAge('product', 'details');
+      const result = service.getMaxAge('product', 'detail');
       expect(result).toEqual(0);
     });
   });
