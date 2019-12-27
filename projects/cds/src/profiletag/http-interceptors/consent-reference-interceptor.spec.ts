@@ -11,7 +11,7 @@ import { ConsentReferenceInterceptor } from './consent-reference-interceptor';
 
 describe('consent reference interceptor', () => {
   const ProfileTagEventTrackerMock = {
-    get consentReference() {
+    get latestConsentReference() {
       return null;
     },
   };
@@ -45,7 +45,7 @@ describe('consent reference interceptor', () => {
       const injectorMock = TestBed.get(ProfileTagEventService as Type<
         ProfileTagEventService
       >);
-      injectorMock.consentReference = 'test-123-abc-!@#';
+      injectorMock.latestConsentReference = 'test-123-abc-!@#';
       let response;
       http
         .get('/occ/hasHeader', {

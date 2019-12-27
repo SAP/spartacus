@@ -25,7 +25,7 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService {
-  consentReference = null;
+  latestConsentReference = null;
   profileTagDebug = false;
   private consentReference$: Observable<string>;
   private profileTagWindow: ProfileTagWindowObject;
@@ -72,7 +72,7 @@ export class ProfileTagEventService {
 
   private setConsentReference(): Observable<string> {
     return this.getConsentReference().pipe(
-      tap(consentReference => (this.consentReference = consentReference))
+      tap(consentReference => (this.latestConsentReference = consentReference))
     );
   }
 
