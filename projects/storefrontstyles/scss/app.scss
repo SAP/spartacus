@@ -7,14 +7,13 @@
 @import 'fonts';
 
 //Bootsrap modules (these are things we are NOT changing at all)
-@import '~bootstrap/scss/reboot';
-@import '~bootstrap/scss/type';
-@import '~bootstrap/scss/grid';
-@import '~bootstrap/scss/utilities';
-@import '~bootstrap/scss/transitions';
-@import '~bootstrap/scss/dropdown';
-@import '~bootstrap/scss/card';
-@import '~bootstrap/scss/nav';
+@import 'bootstrap/reboot';
+@import 'bootstrap/type';
+@import 'bootstrap/grid';
+@import 'bootstrap/transitions';
+@import 'bootstrap/dropdown';
+@import 'bootstrap/card';
+@import 'bootstrap/nav';
 
 @import '~@ng-select/ng-select/themes/default.theme.css';
 //bootsrap enhancements (these are things we ARE changing)
