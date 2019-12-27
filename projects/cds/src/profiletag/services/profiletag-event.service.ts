@@ -44,17 +44,16 @@ export class ProfileTagEventService {
     return this.profileTagEvents$;
   }
   getConsentReference(): Observable<string> {
-    if (this.consentReference$) {
-      return this.consentReference$;
+    if (!this.consentReference$) {
+      this.consentReference$ = fromEvent(
+        this.winRef.nativeWindow,
+        ProfileTagEventNames.CONSENT_REFERENCE_LOADED
+      ).pipe(
+        map(event => <ConsentReferenceEvent>event),
+        map(event => event.detail.consentReference),
+        shareReplay(1)
+      );
     }
-    this.consentReference$ = fromEvent(
-      this.winRef.nativeWindow,
-      ProfileTagEventNames.CONSENT_REFERENCE_LOADED
-    ).pipe(
-      map(event => <ConsentReferenceEvent>event),
-      map(event => event.detail.consentReference),
-      shareReplay(1)
-    );
     return this.consentReference$;
   }
 
