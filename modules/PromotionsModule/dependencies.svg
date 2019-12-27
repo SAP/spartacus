@@ -22,11 +22,15 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_PromotionsModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="157,-70 157,-268 339,-268 339,-70 157,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="74,-70 74,-268 422,-268 422,-70 74,-70"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_PromotionsModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="167,-78 167,-130 329,-130 329,-78 167,-78"/>
+<polygon fill="none" stroke="#000000" points="252,-78 252,-130 414,-130 414,-78 252,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_PromotionsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="82,-78 82,-130 244,-130 244,-78 82,-78"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_PromotionsModule_exports</title>
@@ -35,8 +39,8 @@
 <!-- PromotionsComponent -->
 <g id="node1" class="node">
 <title>PromotionsComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="320.892,-122 175.108,-122 175.108,-86 320.892,-86 320.892,-122"/>
-<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">PromotionsComponent</text>
+<polygon fill="#ffffb3" stroke="#000000" points="405.892,-122 260.108,-122 260.108,-86 405.892,-86 405.892,-122"/>
+<text text-anchor="middle" x="333" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">PromotionsComponent</text>
 </g>
 <!-- PromotionsModule -->
 <g id="node2" class="node">
@@ -47,20 +51,32 @@
 <!-- PromotionsComponent&#45;&gt;PromotionsModule -->
 <g id="edge1" class="edge">
 <title>PromotionsComponent&#45;&gt;PromotionsModule</title>
-<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
+<path fill="none" stroke="#000000" d="M285.0544,-122.1061C285.0544,-122.1061 285.0544,-140.991 285.0544,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="281.5544,-140.9909 285.0544,-150.991 288.5544,-140.991 281.5544,-140.9909"/>
 </g>
 <!-- PromotionsComponent  -->
-<g id="node3" class="node">
+<g id="node4" class="node">
 <title>PromotionsComponent </title>
 <polygon fill="#fb8072" stroke="#000000" points="322.8925,-252 173.1075,-252 173.1075,-216 322.8925,-216 322.8925,-252"/>
 <text text-anchor="middle" x="248" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">PromotionsComponent </text>
 </g>
 <!-- PromotionsModule&#45;&gt;PromotionsComponent  -->
-<g id="edge2" class="edge">
+<g id="edge3" class="edge">
 <title>PromotionsModule&#45;&gt;PromotionsComponent </title>
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248,-187.1061C248,-187.1061 248,-205.991 248,-205.991"/>
 <polygon fill="#000000" stroke="#000000" points="244.5001,-205.9909 248,-215.991 251.5001,-205.991 244.5001,-205.9909"/>
+</g>
+<!-- FeaturesConfigModule -->
+<g id="node3" class="node">
+<title>FeaturesConfigModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="235.8599,-122 232.8599,-126 211.8599,-126 208.8599,-122 90.1401,-122 90.1401,-86 235.8599,-86 235.8599,-122"/>
+<text text-anchor="middle" x="163" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">FeaturesConfigModule</text>
+</g>
+<!-- FeaturesConfigModule&#45;&gt;PromotionsModule -->
+<g id="edge2" class="edge">
+<title>FeaturesConfigModule&#45;&gt;PromotionsModule</title>
+<path fill="none" stroke="#000000" d="M210.9376,-122.1061C210.9376,-122.1061 210.9376,-140.991 210.9376,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="207.4377,-140.9909 210.9376,-150.991 214.4377,-140.991 207.4377,-140.9909"/>
 </g>
 </g>
 </svg>

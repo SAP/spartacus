@@ -61,7 +61,6 @@
 
 
 
-
             <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
@@ -127,12 +126,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithProduct>, loadingScopes: <a href="../injectables/LoadingScopesService.html">LoadingScopesService</a>, actions$: Actions, platformId: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>constructor(store: <a href="../interfaces/StateWithProduct.html">Store<StateWithProduct></a>, loadingScopes: <a href="../injectables/LoadingScopesService.html">LoadingScopesService</a>, actions$: Actions, platformId: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -153,7 +152,7 @@
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithProduct&gt;</code>
+                                                                    <code><a href="../interfaces/StateWithProduct.html" target="_self" >Store&lt;StateWithProduct&gt;</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -165,7 +164,7 @@
                                                         <td>loadingScopes</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/LoadingScopesService.html" target="_self" >LoadingScopesService</a></code>
+                                                                    <code><a href="../injectables/LoadingScopesService.html" target="_self" >LoadingScopesService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -189,7 +188,7 @@
                                                         <td>platformId</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                                    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -208,461 +207,471 @@
 
             <section>
     
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="get"></a>
-                    <span class="name">
-                        <b>
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="get"></a>
+                        <span class="name">
+                            <b>
                             get
-                        </b>
-                        <a href="#get"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
+                            </b>
+                            <a href="#get"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
 <code>get(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scopes: string[])</code>
-                </td>
-            </tr>
+                    </td>
+                </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:41</a></div>
-                </td>
-            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:49</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
+                <tr>
+                    <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>productCode</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>productCode</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
-                                    <td>
-                                        No
-                                    </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>scopes</td>
+                                                        <td>
+                                                                    <code>string[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/Product.html" target="_self" >Observable&lt;Product&gt;</a></code>
 
-                                </tr>
-                                <tr>
-                                    <td>scopes</td>
-                                    <td>
-                                            <code>string[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;Product&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getMaxAgeTrigger"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getMaxAgeTrigger"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
                             getMaxAgeTrigger
-                        </b>
-                        <a href="#getMaxAgeTrigger"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getMaxAgeTrigger(loadStart$: Observable<any>, loadSuccess$: Observable<any>, maxAge: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
+                            </b>
+                            <a href="#getMaxAgeTrigger"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getMaxAgeTrigger(loadStart$: Observable<any>, loadFinish$: Observable<any>, maxAge: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, scheduler?: SchedulerLike)</code>
+                    </td>
+                </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="175"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:175</a></div>
-                </td>
-            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:190</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Generic method that returns stream triggering reload by maxAge</p>
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Generic method that returns stream triggering reload by maxAge</p>
 <p>Could be refactored to separate service in future to use in other
 max age reload implementations</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>loadStart$</td>
-                                    <td>
-                                            <code>Observable&lt;any&gt;</code>
-                                    </td>
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>loadStart$</td>
+                                                        <td>
+                                                                    <code>Observable&lt;any&gt;</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
-                                    <td>
-                                        No
-                                    </td>
+                                                        <td>
+                                                                <code><p>Stream that emits on load start</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>loadFinish$</td>
+                                                        <td>
+                                                                    <code>Observable&lt;any&gt;</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
+                                                        <td>
+                                                                <code><p>Stream that emits on load finish</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>maxAge</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
-                                    <td>
-                                        <p>Stream that emits on load start</p>
+                                                        <td>
+                                                                <code><p>max age</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>scheduler</td>
+                                                        <td>
+                                                                    <code>SchedulerLike</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>loadSuccess$</td>
-                                    <td>
-                                            <code>Observable&lt;any&gt;</code>
-                                    </td>
+                                                        <td>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Stream that emits on load success</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>maxAge</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>max age</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getProductForScope"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Protected</span>
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getProductForScope"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
                             getProductForScope
-                        </b>
-                        <a href="#getProductForScope"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getProductForScope(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
+                            </b>
+                            <a href="#getProductForScope"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getProductForScope(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:82</a></div>
-                </td>
-            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:90</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Creates observable for providing specified product data for the scope</p>
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Creates observable for providing specified product data for the scope</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>productCode</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>productCode</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
-                                    <td>
-                                        No
-                                    </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>scope</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/Product.html" target="_self" >Observable&lt;Product&gt;</a></code>
 
-                                </tr>
-                                <tr>
-                                    <td>scope</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;Product&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getProductReloadTriggers"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Protected</span>
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getProductReloadTriggers"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
                             getProductReloadTriggers
-                        </b>
-                        <a href="#getProductReloadTriggers"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getProductReloadTriggers(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
+                            </b>
+                            <a href="#getProductReloadTriggers"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getProductReloadTriggers(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:134</a></div>
-                </td>
-            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:142</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns reload triggers for product per scope</p>
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Returns reload triggers for product per scope</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>productCode</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>productCode</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
-                                    <td>
-                                        No
-                                    </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>scope</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>Observable[]</code>
 
-                                </tr>
-                                <tr>
-                                    <td>scope</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable[]</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="initProductScopes"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Protected</span>
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initProductScopes"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
                             initProductScopes
-                        </b>
-                        <a href="#initProductScopes"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>initProductScopes(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scopes: string[])</code>
-                </td>
-            </tr>
+                            </b>
+                            <a href="#initProductScopes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>initProductScopes(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scopes: string[])</code>
+                    </td>
+                </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:61</a></div>
-                </td>
-            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:69</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
+                <tr>
+                    <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>productCode</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>productCode</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
-                                    <td>
-                                        No
-                                    </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>scopes</td>
+                                                        <td>
+                                                                    <code>string[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                                </tr>
-                                <tr>
-                                    <td>scopes</td>
-                                    <td>
-                                            <code>string[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 </section>
+
             <section>
     
         <h3 id="inputs">
@@ -676,9 +685,16 @@ max age reload implementations</p>
                         <span class="name">
                             <b>
                                 <span class="modifier">Protected</span>
-                            products</b>
+                            products
+                            </b>
                             <a href="#products"><span class="icon ion-ios-link"></span></a>
                         </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>products:     <code>literal type</code>
+</code>
                     </td>
                 </tr>
                     <tr>
@@ -694,7 +710,7 @@ max age reload implementations</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -709,7 +725,15 @@ max age reload implementations</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { combineLatest, defer, merge, Observable, of, using } from &#x27;rxjs&#x27;;
+import {
+  combineLatest,
+  defer,
+  merge,
+  Observable,
+  of,
+  SchedulerLike,
+  using,
+} from &#x27;rxjs&#x27;;
 import {
   auditTime,
   debounceTime,
@@ -849,11 +873,18 @@ export class ProductLoadingService {
     // max age trigger add
     const maxAge &#x3D; this.loadingScopes.getMaxAge(&#x27;product&#x27;, scope);
     if (maxAge &amp;&amp; isPlatformBrowser(this.platformId)) {
-      const loadSuccess$ &#x3D; this.actions$.pipe(
-        ofType(ProductActions.LOAD_PRODUCT_SUCCESS),
+      // we want to grab load product success and load product fail for this product and scope
+      const loadFinish$ &#x3D; this.actions$.pipe(
         filter(
-          (action: ProductActions.LoadProductSuccess) &#x3D;&gt;
-            action.payload.code &#x3D;&#x3D;&#x3D; productCode &amp;&amp; action.meta.scope &#x3D;&#x3D;&#x3D; scope
+          (
+            action:
+              | ProductActions.LoadProductSuccess
+              | ProductActions.LoadProductFail
+          ) &#x3D;&gt;
+            (action.type &#x3D;&#x3D;&#x3D; ProductActions.LOAD_PRODUCT_SUCCESS ||
+              action.type &#x3D;&#x3D;&#x3D; ProductActions.LOAD_PRODUCT_FAIL) &amp;&amp;
+            action.meta.entityId &#x3D;&#x3D;&#x3D; productCode &amp;&amp;
+            action.meta.scope &#x3D;&#x3D;&#x3D; scope
         )
       );
 
@@ -865,7 +896,7 @@ export class ProductLoadingService {
         )
       );
 
-      triggers.push(this.getMaxAgeTrigger(loadStart$, loadSuccess$, maxAge));
+      triggers.push(this.getMaxAgeTrigger(loadStart$, loadFinish$, maxAge));
     }
 
     return triggers;
@@ -878,31 +909,43 @@ export class ProductLoadingService {
    * max age reload implementations
    *
    * @param loadStart$ Stream that emits on load start
-   * @param loadSuccess$ Stream that emits on load success
+   * @param loadFinish$ Stream that emits on load finish
    * @param maxAge max age
    */
   private getMaxAgeTrigger(
     loadStart$: Observable&lt;any&gt;,
-    loadSuccess$: Observable&lt;any&gt;,
-    maxAge: number
+    loadFinish$: Observable&lt;any&gt;,
+    maxAge: number,
+    scheduler?: SchedulerLike
   ): Observable&lt;boolean&gt; {
     let timestamp &#x3D; 0;
 
-    const timestamp$ &#x3D; loadSuccess$.pipe(tap(() &#x3D;&gt; (timestamp &#x3D; Date.now())));
+    const now &#x3D; () &#x3D;&gt; (scheduler ? scheduler.now() : Date.now());
+
+    const timestamp$ &#x3D; loadFinish$.pipe(tap(() &#x3D;&gt; (timestamp &#x3D; now())));
 
     const shouldReload$: Observable&lt;boolean&gt; &#x3D; defer(() &#x3D;&gt; {
-      const age &#x3D; Date.now() - timestamp;
+      const age &#x3D; now() - timestamp;
 
       const timestampRefresh$ &#x3D; timestamp$.pipe(
-        delay(maxAge),
+        delay(maxAge, scheduler),
         mapTo(true),
         withdrawOn(loadStart$)
       );
 
       if (age &gt; maxAge) {
+        // we should emit first value immediately
         return merge(of(true), timestampRefresh$);
+      } else if (age &#x3D;&#x3D;&#x3D; 0) {
+        // edge case, we should emit max age timeout after next load success
+        // could happen with artificial schedulers
+        return timestampRefresh$;
       } else {
-        return merge(of(true).pipe(delay(maxAge - age)), timestampRefresh$);
+        // we should emit first value when age will expire
+        return merge(
+          of(true).pipe(delay(maxAge - age, scheduler)),
+          timestampRefresh$
+        );
       }
     });
 
@@ -920,7 +963,6 @@ export class ProductLoadingService {
 
 
 
-                   
 
 
 

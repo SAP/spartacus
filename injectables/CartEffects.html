@@ -61,7 +61,6 @@
 
 
 
-
             <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
@@ -136,7 +135,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, cartConnector: <a href="../injectables/CartConnector.html">CartConnector</a>, cartData: <a href="../injectables/CartDataService.html">CartDataService</a>, store?: Store<StateWithMultiCart>)</code>
+<code>constructor(actions$: Actions, cartConnector: <a href="../injectables/CartConnector.html">CartConnector</a>, cartData: <a href="../injectables/CartDataService.html">CartDataService</a>, store?: <a href="../interfaces/StateWithMultiCart.html">Store<StateWithMultiCart></a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -174,7 +173,7 @@
                                                         <td>cartConnector</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartConnector.html" target="_self" >CartConnector</a></code>
+                                                                    <code><a href="../injectables/CartConnector.html" target="_self" >CartConnector</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -186,7 +185,7 @@
                                                         <td>cartData</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartDataService.html" target="_self" >CartDataService</a></code>
+                                                                    <code><a href="../injectables/CartDataService.html" target="_self" >CartDataService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -198,7 +197,7 @@
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithMultiCart&gt;</code>
+                                                                    <code><a href="../interfaces/StateWithMultiCart.html" target="_self" >Store&lt;StateWithMultiCart&gt;</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -217,82 +216,82 @@
 
             <section>
     
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isMissingData"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isMissingData"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
                             isMissingData
-                        </b>
-                        <a href="#isMissingData"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isMissingData(payload: literal type)</code>
-                </td>
-            </tr>
+                            </b>
+                            <a href="#isMissingData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>isMissingData(payload: literal type)</code>
+                    </td>
+                </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="427"
-                            class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:427</a></div>
-                </td>
-            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="427" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:427</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
+                <tr>
+                    <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>payload</td>
-                                    <td>
-                                            <code>literal type</code>
-                                    </td>
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>payload</td>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
 
-                                    <td>
-                                        No
-                                    </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 </section>
+
             <section>
     
         <h3 id="inputs">
@@ -305,14 +304,21 @@
                         <a name="addEmail$"></a>
                         <span class="name">
                             <b>
-                            addEmail$</b>
+                            addEmail$
+                            </b>
                             <a href="#addEmail$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>addEmail$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.AddEmailToCartSuccess | DeprecatedCartActions.AddEmailToCartFail | CartActions.AddEmailToMultiCartFail | CartActions.AddEmailToMultiCartSuccess | CartActions.CartProcessesDecrement | DeprecatedCartActions.LoadCart&gt;</a></code>
+</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CartAction" target="_self" >Observable&lt;DeprecatedCartActions.AddEmailToCartSuccess | DeprecatedCartActions.AddEmailToCartFail | CartActions.AddEmailToMultiCartFail | CartActions.AddEmailToMultiCartSuccess | CartActions.CartProcessesDecrement | DeprecatedCartActions.LoadCart&gt;</a></code>
+                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.AddEmailToCartSuccess | DeprecatedCartActions.AddEmailToCartFail | CartActions.AddEmailToMultiCartFail | CartActions.AddEmailToMultiCartSuccess | CartActions.CartProcessesDecrement | DeprecatedCartActions.LoadCart&gt;</a></code>
 
                         </td>
                     </tr>
@@ -386,9 +392,16 @@
                         <span class="name">
                             <b>
                                 <span class="modifier">Private</span>
-                            contextChange$</b>
+                            contextChange$
+                            </b>
                             <a href="#contextChange$"><span class="icon ion-ios-link"></span></a>
                         </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>contextChange$:     <code></code>
+</code>
                     </td>
                 </tr>
                     <tr>
@@ -417,14 +430,21 @@
                         <a name="createCart$"></a>
                         <span class="name">
                             <b>
-                            createCart$</b>
+                            createCart$
+                            </b>
                             <a href="#createCart$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>createCart$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.MergeCartSuccess | CartActions.MergeMultiCartSuccess | DeprecatedCartActions.CreateCartSuccess | CartActions.CreateMultiCartSuccess | DeprecatedCartActions.CreateCartFail | CartActions.CreateMultiCartFail | CartActions.SetFreshCart&gt;</a></code>
+</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CartAction" target="_self" >Observable&lt;DeprecatedCartActions.MergeCartSuccess | CartActions.MergeMultiCartSuccess | DeprecatedCartActions.CreateCartSuccess | CartActions.CreateMultiCartSuccess | DeprecatedCartActions.CreateCartFail | CartActions.CreateMultiCartFail | CartActions.SetFreshCart&gt;</a></code>
+                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.MergeCartSuccess | CartActions.MergeMultiCartSuccess | DeprecatedCartActions.CreateCartSuccess | CartActions.CreateMultiCartSuccess | DeprecatedCartActions.CreateCartFail | CartActions.CreateMultiCartFail | CartActions.SetFreshCart&gt;</a></code>
 
                         </td>
                     </tr>
@@ -513,9 +533,16 @@
                         <a name="deleteCart$"></a>
                         <span class="name">
                             <b>
-                            deleteCart$</b>
+                            deleteCart$
+                            </b>
                             <a href="#deleteCart$"><span class="icon ion-ios-link"></span></a>
                         </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>deleteCart$:     <code>Observable&lt;any&gt;</code>
+</code>
                     </td>
                 </tr>
                     <tr>
@@ -571,14 +598,21 @@
                         <a name="loadCart$"></a>
                         <span class="name">
                             <b>
-                            loadCart$</b>
+                            loadCart$
+                            </b>
                             <a href="#loadCart$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>loadCart$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.LoadCartFail | CartActions.LoadMultiCartFail | DeprecatedCartActions.LoadCartSuccess | CartActions.LoadMultiCartSuccess | CartActions.ClearExpiredCoupons | DeprecatedCartActions.ClearCart | CartActions.RemoveCart&gt;</a></code>
+</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CartAction" target="_self" >Observable&lt;DeprecatedCartActions.LoadCartFail | CartActions.LoadMultiCartFail | DeprecatedCartActions.LoadCartSuccess | CartActions.LoadMultiCartSuccess | CartActions.ClearExpiredCoupons | DeprecatedCartActions.ClearCart | CartActions.RemoveCart&gt;</a></code>
+                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.LoadCartFail | CartActions.LoadMultiCartFail | DeprecatedCartActions.LoadCartSuccess | CartActions.LoadMultiCartSuccess | CartActions.ClearExpiredCoupons | DeprecatedCartActions.ClearCart | CartActions.RemoveCart&gt;</a></code>
 
                         </td>
                     </tr>
@@ -739,14 +773,21 @@
                         <a name="mergeCart$"></a>
                         <span class="name">
                             <b>
-                            mergeCart$</b>
+                            mergeCart$
+                            </b>
                             <a href="#mergeCart$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>mergeCart$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.CreateCart&gt;</a></code>
+</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../classes/CreateCart.html" target="_self" >Observable&lt;DeprecatedCartActions.CreateCart&gt;</a></code>
+                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.CreateCart&gt;</a></code>
 
                         </td>
                     </tr>
@@ -798,14 +839,21 @@
                         <a name="refresh$"></a>
                         <span class="name">
                             <b>
-                            refresh$</b>
+                            refresh$
+                            </b>
                             <a href="#refresh$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>refresh$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrement&gt;</a></code>
+</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CartAction" target="_self" >Observable&lt;DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrement&gt;</a></code>
+                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrement&gt;</a></code>
 
                         </td>
                     </tr>
@@ -870,14 +918,21 @@
                         <a name="refreshWithoutProcesses$"></a>
                         <span class="name">
                             <b>
-                            refreshWithoutProcesses$</b>
+                            refreshWithoutProcesses$
+                            </b>
                             <a href="#refreshWithoutProcesses$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>refreshWithoutProcesses$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.LoadCart&gt;</a></code>
+</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../classes/LoadCart.html" target="_self" >Observable&lt;DeprecatedCartActions.LoadCart&gt;</a></code>
+                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.LoadCart&gt;</a></code>
 
                         </td>
                     </tr>
@@ -921,14 +976,21 @@
                         <a name="resetCartDetailsOnSiteContextChange$"></a>
                         <span class="name">
                             <b>
-                            resetCartDetailsOnSiteContextChange$</b>
+                            resetCartDetailsOnSiteContextChange$
+                            </b>
                             <a href="#resetCartDetailsOnSiteContextChange$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>resetCartDetailsOnSiteContextChange$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.ResetCartDetails | CartActions.ResetMultiCartDetails&gt;</a></code>
+</code>
+                    </td>
+                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CartAction" target="_self" >Observable&lt;DeprecatedCartActions.ResetCartDetails | CartActions.ResetMultiCartDetails&gt;</a></code>
+                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;DeprecatedCartActions.ResetCartDetails | CartActions.ResetMultiCartDetails&gt;</a></code>
 
                         </td>
                     </tr>
@@ -1413,7 +1475,6 @@ export class CartEffects {
 
 
 
-                   
 
 
 
