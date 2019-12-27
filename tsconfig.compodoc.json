@@ -16,16 +16,18 @@
     "noUnusedParameters": true,
     "paths": {
       "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"]
+      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
+      "@spartacus/cds": ["projects/cds/public_api"]
     }
   },
   "exclude": [
-      "./dist/**/*.*",
-      "./projects/backend/**/*.*",
-      "./projects/assets/**/*.*",
-      "./projects/storefrontapp/**/*.*",
-      "./projects/storefrontstyles/**/*.*",
-      "./projects/ssr/**/*.*",
-      "./projects/vendor/**/*.*"
+    "./dist/**/*.*",
+    "./projects/backend/**/*.*",
+    "./projects/assets/**/*.*",
+    "./projects/storefrontapp/**/*.*",
+    "./projects/storefrontapp-cds-integration/**/*.*",
+    "./projects/storefrontstyles/**/*.*",
+    "./projects/ssr/**/*.*",
+    "./projects/vendor/**/*.*"
   ]
 }
