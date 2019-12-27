@@ -116,9 +116,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       }),
       map(titles => {
-        const sortedTitles = titles.sort(sortTitles);
+        titles.sort(sortTitles);
         const noneTitle = { code: '', name: 'Title' };
-        return [noneTitle, ...sortedTitles];
+        return [noneTitle, ...titles];
       })
     );
 
@@ -139,7 +139,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
-        if (results === 'FAIL') {
+        if (results.decision === 'FAIL') {
           this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.submitAddress.emit(this.address.value);

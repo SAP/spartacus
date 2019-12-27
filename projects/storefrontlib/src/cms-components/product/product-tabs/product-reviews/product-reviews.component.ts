@@ -13,7 +13,13 @@ import {
   FeatureConfigService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
 
 @Component({
@@ -37,7 +43,9 @@ export class ProductReviewsComponent {
 
   reviews$: Observable<Review[]> = this.product$.pipe(
     filter(p => !!p),
-    switchMap(product => this.reviewService.getByProductCode(product.code)),
+    map(p => p.code),
+    distinctUntilChanged(),
+    switchMap(productCode => this.reviewService.getByProductCode(productCode)),
     tap(() => {
       this.resetReviewForm();
       this.maxListItems = this.initialMaxListItems;

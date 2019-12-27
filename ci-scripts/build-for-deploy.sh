@@ -4,8 +4,8 @@ set -o pipefail
 
 echo "-----"
 echo "Building SPA libs"
-yarn build:core:lib
+yarn build:core:lib:cds
 
 echo "-----"
 echo "Building SPA app"
-ng build storefrontapp -c=ci --base-href "https://sap.github.io/cloud-commerce-spartacus-storefront/"
+ng build storefrontapp -c=ci --base-href "https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com"

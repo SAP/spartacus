@@ -1,0 +1,41 @@
+<ng-container *ngIf="preferences$ | async as preferences">
+  <div *ngIf="preferences.length > 0; else loading">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8">
+        <div class="pref-header">
+          {{ 'notificationPreference.message' | cxTranslate }}
+        </div>
+        <div class="form-check cx-notification-channels">
+          <ng-container *ngFor="let preference of preferences">
+            <label *ngIf="preference.visible" class="pref-channel">
+              <input
+                class="form-check-input cx-np-checkbox"
+                role="checkbox"
+                type="checkbox"
+                [checked]="preference.enabled"
+                (change)="updatePreference(preference)"
+                [disabled]="isLoading$ | async"
+              />
+              <span class="form-check-label">
+                {{
+                  'notificationPreference.' + preference.channel | cxTranslate
+                }}
+                {{ preference.value }}
+              </span>
+            </label>
+          </ng-container>
+        </div>
+        <label class="pref-note"
+          ><strong>{{ 'notificationPreference.note' | cxTranslate }}</strong
+          >{{ 'notificationPreference.noteMessage' | cxTranslate }}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
+  </ng-template>
+</ng-container>

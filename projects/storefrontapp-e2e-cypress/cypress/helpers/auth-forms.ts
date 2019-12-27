@@ -15,7 +15,8 @@ export interface LoginUser {
 
 export function fillRegistrationForm(
   { firstName, lastName, email, password }: RegisterUser,
-  giveRegistrationConsent = false
+  giveRegistrationConsent = false,
+  hiddenConsent?
 ) {
   cy.get('cx-register form').within(() => {
     cy.get('[formcontrolname="titleCode"]').select('mr');
@@ -26,6 +27,11 @@ export function fillRegistrationForm(
     cy.get('[formcontrolname="passwordconf"]').type(password);
     if (giveRegistrationConsent) {
       cy.get('[formcontrolname="newsletter"]').check();
+      if (hiddenConsent) {
+        cy.get('[formcontrolname="newsletter"]')
+          .siblings('.form-check-label')
+          .should('contain', hiddenConsent);
+      }
     }
     cy.get('[formcontrolname="termsandconditions"]').check();
   });

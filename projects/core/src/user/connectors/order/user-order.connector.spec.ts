@@ -20,6 +20,30 @@ class MockOrderAdapter implements UserOrderAdapter {
   ).and.callFake((orderCode, consignmentCode) =>
     of(`consignmentTracking-${orderCode}-${consignmentCode}`)
   );
+
+  createReturnRequest = createSpy(
+    'UserOrderAdapter.createReturnRequest'
+  ).and.callFake((userId, {}) => of(`orderReturnRequest-${userId}`));
+
+  loadReturnRequestList = createSpy(
+    'UserOrderAdapter.loadReturnRequestList'
+  ).and.callFake(userId => of(`loadReturnRequestList-${userId}`));
+
+  loadReturnRequestDetail = createSpy(
+    'UserOrderAdapter.loadReturnRequestDetail'
+  ).and.callFake((userId, returnRequestCode) =>
+    of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
+  );
+
+  cancel = createSpy('UserOrderAdapter.cancel').and.callFake(
+    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
+  );
+
+  cancelReturnRequest = createSpy(
+    'UserOrderAdapter.cancelReturnRequest'
+  ).and.callFake((userId, returnRequestCode, {}) =>
+    of(`cancelReturnRequest-${userId}-${returnRequestCode}`)
+  );
 }
 
 describe('UserOrderConnector', () => {
@@ -67,6 +91,59 @@ describe('UserOrderConnector', () => {
     expect(adapter.getConsignmentTracking).toHaveBeenCalledWith(
       'orderCode',
       'consignmentCode'
+    );
+  });
+
+  it('cancel should call adapter', () => {
+    let result;
+    service.cancel('userId', 'orderCode', {}).subscribe(res => (result = res));
+    expect(result).toBe('cancel-userId-orderCode');
+    expect(adapter.cancel).toHaveBeenCalledWith('userId', 'orderCode', {});
+  });
+
+  it('return should call adapter', () => {
+    let result;
+    service.return('userId', {}).subscribe(res => (result = res));
+    expect(result).toBe('orderReturnRequest-userId');
+    expect(adapter.createReturnRequest).toHaveBeenCalledWith('userId', {});
+  });
+
+  it('getReturnRequestList should call adapter', () => {
+    let result;
+    service.getReturnRequestList('userId').subscribe(res => (result = res));
+    expect(result).toBe('loadReturnRequestList-userId');
+    expect(adapter.loadReturnRequestList).toHaveBeenCalledWith(
+      'userId',
+      undefined,
+      undefined,
+      undefined
+    );
+  });
+
+  it('getReturnRequestDetail should call adapter', () => {
+    let result;
+    service
+      .getReturnRequestDetail('userId', 'returnRequestCode')
+      .subscribe(res => (result = res));
+    expect(result).toBe('loadReturnRequestDetail-userId-returnRequestCode');
+    expect(adapter.loadReturnRequestDetail).toHaveBeenCalledWith(
+      'userId',
+      'returnRequestCode'
+    );
+  });
+
+  it('cancelReturnRequest should call adapter', () => {
+    let result;
+    service
+      .cancelReturnRequest('userId', 'returnRequestCode', {
+        status: 'CANCELLING',
+      })
+      .subscribe(res => (result = res));
+    expect(result).toBe('cancelReturnRequest-userId-returnRequestCode');
+    expect(adapter.cancelReturnRequest).toHaveBeenCalledWith(
+      'userId',
+      'returnRequestCode',
+      { status: 'CANCELLING' }
     );
   });
 });

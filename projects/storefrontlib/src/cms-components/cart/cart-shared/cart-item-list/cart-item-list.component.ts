@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CartService, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
@@ -15,19 +19,14 @@ export class CartItemListComponent implements OnInit {
   hasHeader = true;
 
   @Input()
-  items: Item[] = [];
-
-  @Input()
   potentialProductPromotions: PromotionResult[] = [];
 
   @Input()
-  cartIsLoading = false;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  form: FormGroup = this.fb.group({});
-
-  constructor(protected cartService: CartService, protected fb: FormBuilder) {}
-
-  ngOnInit() {
+  @Input()
+  set items(_items) {
+    this._items = _items;
     this.items.forEach(item => {
       const { code } = item.product;
       if (!this.form.controls[code]) {
@@ -38,6 +37,22 @@ export class CartItemListComponent implements OnInit {
       }
     });
   }
+
+  @Input()
+  cartIsLoading = false;
+
+  form: FormGroup = this.fb.group({});
+
+  private _items: Item[] = [];
+
+  get items(): Item[] {
+    return this._items;
+  }
+
+  constructor(protected cartService: CartService, protected fb: FormBuilder) {}
+
+  // TODO remove for 2.0 - left to keep backward compatibility
+  ngOnInit(): void {}
 
   removeEntry(item: Item): void {
     this.cartService.removeEntry(item);
@@ -52,6 +67,13 @@ export class CartItemListComponent implements OnInit {
     updatedQuantity: number;
   }): void {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
+  }
+
+  private createEntryFormGroup(entry): FormGroup {
+    return this.fb.group({
+      entryNumber: entry.entryNumber,
+      quantity: entry.quantity,
+    });
   }
 
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
@@ -77,24 +99,17 @@ export class CartItemListComponent implements OnInit {
     return entryPromotions;
   }
 
-  private createEntryFormGroup(entry): FormGroup {
-    return this.fb.group({
-      entryNumber: entry.entryNumber,
-      quantity: entry.quantity,
-    });
-  }
-
   private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
-    const consumendEntryNumber = consumedEntry.orderEntryNumber;
+    const consumedEntryNumber = consumedEntry.orderEntryNumber;
     if (entry.entries && entry.entries.length > 0) {
       for (const subEntry of entry.entries) {
-        if (subEntry.entryNumber === consumendEntryNumber) {
+        if (subEntry.entryNumber === consumedEntryNumber) {
           return true;
         }
       }
       return false;
     } else {
-      return consumendEntryNumber === entry.entryNumber;
+      return consumedEntryNumber === entry.entryNumber;
     }
   }
 }

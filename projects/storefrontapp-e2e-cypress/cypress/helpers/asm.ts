@@ -1,6 +1,7 @@
 import * as addressBook from '../helpers/address-book';
 import * as checkout from '../helpers/checkout-flow';
 import * as consent from '../helpers/consent-management';
+import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
 let customer: any;
@@ -13,12 +14,7 @@ export function asmTests(isMobile: boolean) {
     });
 
     describe('UI display.', () => {
-      it('storefront should have ASM feature enabled', () => {
-        checkout.visitHomePage();
-        cy.get('cx-asm').should('exist');
-      });
-
-      it('storefront should have ASM UI hidden by default', () => {
+      it('storefront should have ASM UI disabled by default', () => {
         checkout.visitHomePage();
         cy.get('cx-asm-main-ui').should('not.exist');
       });
@@ -28,6 +24,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should see the asm UI when ?asm=true is passed to the url', () => {
         checkout.visitHomePage('asm=true');
         cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-asm-main-ui').should('be.visible');
       });
 
       it('agent should authenticate.', () => {
@@ -74,6 +71,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should update personal details.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
+          isMobile,
         });
         profile.updateProfile();
         customer.firstName = profile.newFirstName;
@@ -85,6 +83,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should delete address', () => {
         cy.selectUserMenuOption({
           option: 'Address Book',
+          isMobile,
         });
         cy.get('cx-address-card').should('have.length', 1);
         addressBook.deleteFirstAddress();
@@ -100,6 +99,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should see the payment details created during checkout', () => {
         cy.selectUserMenuOption({
           option: 'Payment Details',
+          isMobile,
         });
         cy.get('.cx-payment .cx-body').then(() => {
           cy.get('cx-card').should('have.length', 1);
@@ -109,6 +109,7 @@ export function asmTests(isMobile: boolean) {
       it('agent should add a consent', () => {
         cy.selectUserMenuOption({
           option: 'Consent Management',
+          isMobile,
         });
         consent.giveConsent();
       });
@@ -121,8 +122,11 @@ export function asmTests(isMobile: boolean) {
         cy.get('cx-customer-selection').should('exist');
       });
 
-      it('agent should stop customer emulation using the end session button in the ASM UI', () => {
+      it('agent session should be intact and should be able to start another customer emulation', () => {
         startCustomerEmulation();
+      });
+
+      it('agent should stop customer emulation using the end session button in the ASM UI', () => {
         cy.get('cx-customer-emulation button').click();
         cy.get('cx-customer-emulation').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
@@ -134,7 +138,8 @@ export function asmTests(isMobile: boolean) {
 
       it('agent should close the ASM UI.', () => {
         cy.get('a[title="Close ASM"]').click();
-        cy.get('cx-asm-main-ui').should('not.exist');
+        cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-asm-main-ui').should('not.be.visible');
       });
     });
 
@@ -151,6 +156,7 @@ export function asmTests(isMobile: boolean) {
       it('customer should see personal details updated by the agent.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
+          isMobile,
         });
         profile.verifyUpdatedProfile();
       });
@@ -158,6 +164,7 @@ export function asmTests(isMobile: boolean) {
       it('customer should see the address created by the agent.', () => {
         cy.selectUserMenuOption({
           option: 'Address Book',
+          isMobile,
         });
         cy.get('cx-address-card').should('have.length', 1);
         addressBook.verifyNewAddress();
@@ -166,6 +173,7 @@ export function asmTests(isMobile: boolean) {
       it('customer should see the payment details created by the agent', () => {
         cy.selectUserMenuOption({
           option: 'Payment Details',
+          isMobile,
         });
         cy.get('.cx-payment .cx-body').then(() => {
           cy.get('cx-card').should('have.length', 1);
@@ -175,6 +183,7 @@ export function asmTests(isMobile: boolean) {
       it('customer should see the consent given by agent', () => {
         cy.selectUserMenuOption({
           option: 'Consent Management',
+          isMobile,
         });
         cy.get('input[type="checkbox"]')
           .first()
@@ -190,7 +199,9 @@ export function asmTests(isMobile: boolean) {
       it('asm ui should only display a message that the session in progress is a regular session.', () => {
         const loginPage = checkout.waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
-        cy.wait(`@${loginPage}`);
+        cy.wait(`@${loginPage}`)
+          .its('status')
+          .should('eq', 200);
 
         agentLogin();
         loginCustomerInStorefront();
@@ -199,7 +210,7 @@ export function asmTests(isMobile: boolean) {
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('not.exist');
         cy.get('cx-customer-emulation').should('exist');
-        cy.get('cx-customer-emulation div.fd-alert').should('exist');
+        cy.get('cx-customer-emulation div.asm-alert').should('exist');
         cy.get('cx-customer-emulation button').should('not.exist');
       });
 
@@ -220,10 +231,9 @@ function listenForAuthenticationRequest(): string {
 function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
   cy.server();
-  cy.route(
-    'GET',
-    `/assistedservicewebservices/customers/search?baseSite=electronics-spa&query=*`
-  ).as(aliasName);
+  cy.route('GET', `/assistedservicewebservices/customers/search?*`).as(
+    aliasName
+  );
   return `@${aliasName}`;
 }
 
@@ -265,7 +275,7 @@ function startCustomerEmulation(): void {
     .its('status')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.results div a').click();
+  cy.get('cx-customer-selection div.asm-results a').click();
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias)
@@ -289,7 +299,11 @@ function loginCustomerInStorefront() {
 }
 
 function agentSignOut() {
+  const tokenRevocationAlias = loginHelper.listenForTokenRevocationReqest();
   cy.get('a[title="Sign Out"]').click();
+  cy.wait(tokenRevocationAlias)
+    .its('status')
+    .should('eq', 200);
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
 }
