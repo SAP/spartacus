@@ -184,9 +184,9 @@ describe('ProfileTagEventTracker', () => {
     let cr1 = null;
     let cr2 = null;
     let cr3 = null;
-    const subscription1CR = profileTagEventTracker.consentReference$.subscribe(
-      cr => (cr1 = cr)
-    );
+    const subscription1CR = profileTagEventTracker
+      .getConsentReference()
+      .subscribe(cr => (cr1 = cr));
     const consentReferenceChangedEvent = <ConsentReferenceEvent>(
       new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'some_id' },
@@ -195,12 +195,12 @@ describe('ProfileTagEventTracker', () => {
     eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
-    const subscription2CR = profileTagEventTracker.consentReference$.subscribe(
-      cr => (cr2 = cr)
-    );
-    const subscription3CR = profileTagEventTracker.consentReference$.subscribe(
-      cr => (cr3 = cr)
-    );
+    const subscription2CR = profileTagEventTracker
+      .getConsentReference()
+      .subscribe(cr => (cr2 = cr));
+    const subscription3CR = profileTagEventTracker
+      .getConsentReference()
+      .subscribe(cr => (cr3 = cr));
     subscription1CR.unsubscribe();
     subscription2CR.unsubscribe();
     subscription3CR.unsubscribe();

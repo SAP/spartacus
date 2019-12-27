@@ -25,16 +25,9 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService {
-  public consentReference = null;
-  public profileTagDebug = false;
-  public consentReference$: Observable<string> = fromEvent(
-    this.winRef.nativeWindow,
-    ProfileTagEventNames.CONSENT_REFERENCE_LOADED
-  ).pipe(
-    map(event => <ConsentReferenceEvent>event),
-    map(event => event.detail.consentReference),
-    shareReplay(1)
-  );
+  consentReference = null;
+  profileTagDebug = false;
+  private consentReference$: Observable<string>;
   private profileTagWindow: ProfileTagWindowObject;
   private profileTagEvents$ = merge(
     this.setConsentReference(),
@@ -50,6 +43,20 @@ export class ProfileTagEventService {
   getProfileTagEvents(): Observable<string | DebugEvent | Event> {
     return this.profileTagEvents$;
   }
+  getConsentReference(): Observable<string> {
+    if (this.consentReference$) {
+      return this.consentReference$;
+    }
+    this.consentReference$ = fromEvent(
+      this.winRef.nativeWindow,
+      ProfileTagEventNames.CONSENT_REFERENCE_LOADED
+    ).pipe(
+      map(event => <ConsentReferenceEvent>event),
+      map(event => event.detail.consentReference),
+      shareReplay(1)
+    );
+    return this.consentReference$;
+  }
 
   addTracker(): Observable<Event> {
     return this.baseSiteService.getActive().pipe(
@@ -64,7 +71,7 @@ export class ProfileTagEventService {
   }
 
   private setConsentReference(): Observable<string> {
-    return this.consentReference$.pipe(
+    return this.getConsentReference().pipe(
       tap(consentReference => (this.consentReference = consentReference))
     );
   }
