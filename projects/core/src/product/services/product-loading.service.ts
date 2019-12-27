@@ -1,6 +1,14 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, defer, merge, Observable, of, using } from 'rxjs';
+import {
+  combineLatest,
+  defer,
+  merge,
+  Observable,
+  of,
+  SchedulerLike,
+  using,
+} from 'rxjs';
 import {
   auditTime,
   debounceTime,
@@ -140,11 +148,18 @@ export class ProductLoadingService {
     // max age trigger add
     const maxAge = this.loadingScopes.getMaxAge('product', scope);
     if (maxAge && isPlatformBrowser(this.platformId)) {
-      const loadSuccess$ = this.actions$.pipe(
-        ofType(ProductActions.LOAD_PRODUCT_SUCCESS),
+      // we want to grab load product success and load product fail for this product and scope
+      const loadFinish$ = this.actions$.pipe(
         filter(
-          (action: ProductActions.LoadProductSuccess) =>
-            action.payload.code === productCode && action.meta.scope === scope
+          (
+            action:
+              | ProductActions.LoadProductSuccess
+              | ProductActions.LoadProductFail
+          ) =>
+            (action.type === ProductActions.LOAD_PRODUCT_SUCCESS ||
+              action.type === ProductActions.LOAD_PRODUCT_FAIL) &&
+            action.meta.entityId === productCode &&
+            action.meta.scope === scope
         )
       );
 
@@ -156,7 +171,7 @@ export class ProductLoadingService {
         )
       );
 
-      triggers.push(this.getMaxAgeTrigger(loadStart$, loadSuccess$, maxAge));
+      triggers.push(this.getMaxAgeTrigger(loadStart$, loadFinish$, maxAge));
     }
 
     return triggers;
@@ -169,31 +184,43 @@ export class ProductLoadingService {
    * max age reload implementations
    *
    * @param loadStart$ Stream that emits on load start
-   * @param loadSuccess$ Stream that emits on load success
+   * @param loadFinish$ Stream that emits on load finish
    * @param maxAge max age
    */
   private getMaxAgeTrigger(
     loadStart$: Observable<any>,
-    loadSuccess$: Observable<any>,
-    maxAge: number
+    loadFinish$: Observable<any>,
+    maxAge: number,
+    scheduler?: SchedulerLike
   ): Observable<boolean> {
     let timestamp = 0;
 
-    const timestamp$ = loadSuccess$.pipe(tap(() => (timestamp = Date.now())));
+    const now = () => (scheduler ? scheduler.now() : Date.now());
+
+    const timestamp$ = loadFinish$.pipe(tap(() => (timestamp = now())));
 
     const shouldReload$: Observable<boolean> = defer(() => {
-      const age = Date.now() - timestamp;
+      const age = now() - timestamp;
 
       const timestampRefresh$ = timestamp$.pipe(
-        delay(maxAge),
+        delay(maxAge, scheduler),
         mapTo(true),
         withdrawOn(loadStart$)
       );
 
       if (age > maxAge) {
+        // we should emit first value immediately
         return merge(of(true), timestampRefresh$);
+      } else if (age === 0) {
+        // edge case, we should emit max age timeout after next load success
+        // could happen with artificial schedulers
+        return timestampRefresh$;
       } else {
-        return merge(of(true).pipe(delay(maxAge - age)), timestampRefresh$);
+        // we should emit first value when age will expire
+        return merge(
+          of(true).pipe(delay(maxAge - age, scheduler)),
+          timestampRefresh$
+        );
       }
     });
 
