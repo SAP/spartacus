@@ -2,15 +2,16 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { NEVER, of, Subject, timer } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductLoadingService } from './product-loading.service';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { take } from 'rxjs/operators';
+import { delay, switchMap, take } from 'rxjs/operators';
 import { Actions } from '@ngrx/effects';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import createSpy = jasmine.createSpy;
 
 class MockLoadingScopesService {
@@ -21,7 +22,9 @@ class MockLoadingScopesService {
 describe('ProductLoadingService', () => {
   let store: Store<StateWithProduct>;
   let service: ProductLoadingService;
-  const mockProduct: Product = { code: 'testId' };
+
+  const code = 'testId';
+  const mockProduct: Product = { code };
   const mockActions = new Subject<Action>();
 
   beforeEach(() => {
@@ -47,7 +50,6 @@ describe('ProductLoadingService', () => {
     });
     store = TestBed.get(Store as Type<Store<StateWithProduct>>);
     service = TestBed.get(ProductLoadingService as Type<ProductLoadingService>);
-    spyOn(store, 'dispatch').and.stub();
   });
 
   it('should ProductLoadingService is injected', inject(
@@ -62,77 +64,92 @@ describe('ProductLoadingService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(mockProduct)
       );
-      const result: Product = await service.get('testId', ['']).toPromise();
+      const result: Product = await service.get(code, ['']).toPromise();
       expect(result).toEqual(mockProduct);
     });
 
-    xdescribe('multiple scopes', () => {
+    describe('multiple scopes', () => {
       it('should be able to get product data', async () => {
-        let callNo = 0;
-        const productScopes = [{ code: '333' }, { name: 'test' }];
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          new BehaviorSubject(
-            productScopes[callNo++] // serve different scope per call
+        store.dispatch(
+          new ProductActions.LoadProductSuccess({ code }, 'scope1')
+        );
+        store.dispatch(
+          new ProductActions.LoadProductSuccess(
+            { code, name: 'test' },
+            'scope2'
           )
         );
+
         const result: Product = await service
-          .get('testId', ['scope1', 'scope2'])
+          .get(code, ['scope1', 'scope2'])
           .pipe(take(1))
           .toPromise();
-        expect(result).toEqual({ code: '333', name: 'test' });
+        expect(result).toEqual({ code, name: 'test' });
       });
 
       it('should emit partial product data', async () => {
-        let callNo = 0;
-        const productScopes = [undefined, { name: 'test' }];
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          new BehaviorSubject({
-            value: productScopes[callNo++], // serve different scope per call
-          })
+        // only one scope is loaded
+        store.dispatch(
+          new ProductActions.LoadProductSuccess(
+            { code, name: 'test' },
+            'scope2'
+          )
         );
 
         const result: Product = await service
-          .get('testId', ['scope1', 'scope2'])
+          .get(code, ['scope1', 'scope2'])
           .pipe(take(1))
           .toPromise();
-        expect(result).toEqual({ name: 'test' });
+        expect(result).toEqual({ code, name: 'test' });
       });
 
       it('should take into account order of scopes', async () => {
-        let callNo = 0;
-        const productScopes = [
-          { name: 'first', code: 'a' },
-          { name: 'second', description: 'b' },
-        ];
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          new BehaviorSubject({
-            value: productScopes[callNo++], // serve different scope per call
-          })
+        store.dispatch(
+          new ProductActions.LoadProductSuccess(
+            { code, name: 'first', summary: 'a' },
+            'scope1'
+          )
         );
+        store.dispatch(
+          new ProductActions.LoadProductSuccess(
+            { code, name: 'second', description: 'b' },
+            'scope2'
+          )
+        );
+
         const result: Product = await service
-          .get('testId', ['scope1', 'scope2'])
+          .get(code, ['scope1', 'scope2'])
           .pipe(take(1))
           .toPromise();
-        expect(result).toEqual({ name: 'second', code: 'a', description: 'b' });
+        expect(result).toEqual({
+          code,
+          name: 'second',
+          summary: 'a',
+          description: 'b',
+        });
       });
 
       it('should take into account order of scopes for subsequent emissions', done => {
-        let callNo = 0;
-        const productSources = [
-          new BehaviorSubject<any>({
-            value: { name: 'first', code: 'a' },
-          }),
-          new BehaviorSubject<any>({
-            value: { name: 'second', description: 'b' },
-          }),
-        ];
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          productSources[callNo++]
+        const action1scope1 = new ProductActions.LoadProductSuccess(
+          { code, name: 'first', summary: 'a' },
+          'scope1'
+        );
+        const action1scope2 = new ProductActions.LoadProductSuccess(
+          { code, name: 'second', description: 'b' },
+          'scope2'
+        );
+        const action2scope1 = new ProductActions.LoadProductSuccess(
+          { code, name: 'third', summary: 'c' },
+          'scope1'
+        );
+        const action2scope2 = new ProductActions.LoadProductSuccess(
+          { code, name: 'fourth', description: 'e' },
+          'scope2'
         );
 
         const results: Product[] = [];
         service
-          .get('testId', ['scope1', 'scope2'])
+          .get(code, ['scope1', 'scope2'])
           .pipe(take(3))
           .subscribe({
             next: res => {
@@ -140,25 +157,21 @@ describe('ProductLoadingService', () => {
             },
             complete: () => {
               expect(results).toEqual([
-                { name: 'second', code: 'a', description: 'b' },
-                { name: 'second', code: 'c', description: 'b' }, // after 1st subsequent emission
-                { name: 'fourth', code: 'c', description: 'e' }, // after 2nd subsequent emission
+                { code, name: 'second', summary: 'a', description: 'b' },
+                { code, name: 'second', summary: 'c', description: 'b' }, // after 1st subsequent emission
+                { code, name: 'fourth', summary: 'c', description: 'e' }, // after 2nd subsequent emission
               ]);
               done();
             },
           });
 
-        setTimeout(() => {
-          // 1st subsequent asynchronous emission (first source)
-          productSources[0].next({
-            value: { name: 'third', code: 'c' },
-          });
+        store.dispatch(action1scope1);
+        store.dispatch(action1scope2);
 
+        setTimeout(() => {
+          store.dispatch(action2scope1);
           setTimeout(() => {
-            // 2nd subsequent asynchronous emission (second source)
-            productSources[1].next({
-              value: { name: 'fourth', description: 'e' },
-            });
+            store.dispatch(action2scope2);
           });
         });
       });
@@ -174,7 +187,7 @@ describe('ProductLoadingService', () => {
       );
 
       const result: Product = await service
-        .get('testId', ['scope1', 'scope2'])
+        .get(code, ['scope1', 'scope2'])
         .toPromise();
       expect(result).toEqual(undefined);
     });
@@ -182,7 +195,7 @@ describe('ProductLoadingService', () => {
     it('should expand loading scopes', () => {
       const loadingScopesService = TestBed.get(LoadingScopesService);
       service
-        .get('testId', ['scope1', 'scope2'])
+        .get(code, ['scope1', 'scope2'])
         .subscribe()
         .unsubscribe();
       expect(loadingScopesService.expand).toHaveBeenCalledWith('product', [
@@ -192,25 +205,25 @@ describe('ProductLoadingService', () => {
     });
   });
 
-  xdescribe('get(productCode)', () => {
+  describe('get(productCode)', () => {
     it('should be able to trigger the product load action for a product.', async () => {
+      spyOn(store, 'dispatch').and.stub();
+
       await service
         .get('productCode', [''])
-        .pipe(take(1))
+        .pipe(
+          delay(0), // give actions some time for dispatch
+          take(1)
+        )
         .toPromise();
+
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProduct('productCode')
       );
     });
 
     it('should be not trigger multiple product load actions for multiple product subscription.', async () => {
-      const productMock = new BehaviorSubject({});
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        productMock
-      );
-      (store.dispatch as any).and.callFake(() =>
-        productMock.next({ success: true })
-      );
+      spyOn(store, 'dispatch').and.stub();
 
       service
         .get('productCode', [''])
@@ -218,10 +231,121 @@ describe('ProductLoadingService', () => {
         .subscribe();
       await service
         .get('productCode', [''])
-        .pipe(take(1))
+        .pipe(
+          delay(0),
+          take(1)
+        )
         .toPromise();
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getMaxAgeTrigger', () => {
+    it('should trigger reload after subscription', () => {
+      const loadStart$ = hot('');
+      const loadSuccess$ = hot('a');
+      const trigger$ = (service as any).getMaxAgeTrigger(
+        loadStart$,
+        loadSuccess$,
+        30,
+        getTestScheduler()
+      );
+      const expected$ = cold('30ms a', { a: true });
+
+      expect(trigger$).toBeObservable(expected$);
+    });
+
+    it('should not trigger reload when new load has started', () => {
+      const loadStart$ = hot('20ms a');
+      const loadSuccess$ = hot('a');
+      const trigger$ = (service as any).getMaxAgeTrigger(
+        loadStart$,
+        loadSuccess$,
+        30,
+        getTestScheduler()
+      );
+      const expected$ = cold('');
+
+      expect(trigger$).toBeObservable(expected$);
+    });
+
+    it('should trigger reload after new load succeed', () => {
+      const loadStart$ = hot('20ms a');
+      const loadSuccess$ = hot('a 40ms a');
+      const trigger$ = (service as any).getMaxAgeTrigger(
+        loadStart$,
+        loadSuccess$,
+        30,
+        getTestScheduler()
+      );
+      const expected$ = cold('80ms a', { a: true });
+
+      expect(trigger$).toBeObservable(expected$);
+    });
+
+    describe('should properly evaluate time to reload after resubscribe', () => {
+      it('when resubscribed before maxAge has passed', () => {
+        const loadStart$ = hot('');
+        const loadSuccess$ = hot('a');
+
+        // Initialize the trigger with maxAge 50ms
+        const trigger$ = (service as any).getMaxAgeTrigger(
+          loadStart$,
+          loadSuccess$,
+          50,
+          getTestScheduler()
+        );
+
+        /*
+        Simulate:
+          - subscribe to trigger at 0ms
+          - unsubscribe at 20ms
+          - resubscribe at 40ms
+          - maxAge expires when subscribed
+
+        Expect:
+          - Trigger emission at 50ms
+         */
+        const subscriber$ = timer(0, 20, getTestScheduler()).pipe(
+          take(3),
+          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+        );
+        const expected$ = cold('50ms a', { a: true });
+
+        expect(subscriber$).toBeObservable(expected$);
+      });
+
+      it('when resubscribed after maxAge has passed', () => {
+        const loadStart$ = hot('');
+        const loadSuccess$ = hot('a');
+
+        // initialize the trigger with maxAge 60ms
+        const trigger$ = (service as any).getMaxAgeTrigger(
+          loadStart$,
+          loadSuccess$,
+          60,
+          getTestScheduler()
+        );
+
+        /*
+        Simulate:
+          - subscribe to trigger at 0ms
+          - unsubscribe at 40ms
+          - maxAge expires when unsubscribed
+          - resubscribe at 80ms
+
+        Expect:
+          - Trigger emission at 80ms (closest subscription to maxAge expiration)
+         */
+        const subscriber$ = timer(0, 40, getTestScheduler()).pipe(
+          take(3),
+          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+        );
+        const expected$ = cold('80ms a', { a: true });
+
+        expect(subscriber$).toBeObservable(expected$);
+      });
     });
   });
 });
