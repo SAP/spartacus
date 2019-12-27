@@ -2,15 +2,16 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
-import { of, Subject } from 'rxjs';
+import { NEVER, of, Subject, timer } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductLoadingService } from './product-loading.service';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { delay, take } from 'rxjs/operators';
+import { delay, switchMap, take } from 'rxjs/operators';
 import { Actions } from '@ngrx/effects';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import createSpy = jasmine.createSpy;
 
 class MockLoadingScopesService {
@@ -237,6 +238,114 @@ describe('ProductLoadingService', () => {
         .toPromise();
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getMaxAgeTrigger', () => {
+    it('should trigger reload after subscription', () => {
+      const loadStart$ = hot('');
+      const loadSuccess$ = hot('a');
+      const trigger$ = (service as any).getMaxAgeTrigger(
+        loadStart$,
+        loadSuccess$,
+        30,
+        getTestScheduler()
+      );
+      const expected$ = cold('30ms a', { a: true });
+
+      expect(trigger$).toBeObservable(expected$);
+    });
+
+    it('should not trigger reload when new load has started', () => {
+      const loadStart$ = hot('20ms a');
+      const loadSuccess$ = hot('a');
+      const trigger$ = (service as any).getMaxAgeTrigger(
+        loadStart$,
+        loadSuccess$,
+        30,
+        getTestScheduler()
+      );
+      const expected$ = cold('');
+
+      expect(trigger$).toBeObservable(expected$);
+    });
+
+    it('should trigger reload after new load succeed', () => {
+      const loadStart$ = hot('20ms a');
+      const loadSuccess$ = hot('a 40ms a');
+      const trigger$ = (service as any).getMaxAgeTrigger(
+        loadStart$,
+        loadSuccess$,
+        30,
+        getTestScheduler()
+      );
+      const expected$ = cold('80ms a', { a: true });
+
+      expect(trigger$).toBeObservable(expected$);
+    });
+
+    describe('should properly evaluate time to reload after resubscribe', () => {
+      it('when resubscribed before maxAge has passed', () => {
+        const loadStart$ = hot('');
+        const loadSuccess$ = hot('a');
+
+        // Initialize the trigger with maxAge 50ms
+        const trigger$ = (service as any).getMaxAgeTrigger(
+          loadStart$,
+          loadSuccess$,
+          50,
+          getTestScheduler()
+        );
+
+        /*
+        Simulate:
+          - subscribe to trigger at 0ms
+          - unsubscribe at 20ms
+          - resubscribe at 40ms
+          - maxAge expires when subscribed
+
+        Expect:
+          - Trigger emission at 50ms
+         */
+        const subscriber$ = timer(0, 20, getTestScheduler()).pipe(
+          take(3),
+          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+        );
+        const expected$ = cold('50ms a', { a: true });
+
+        expect(subscriber$).toBeObservable(expected$);
+      });
+
+      it('when resubscribed after maxAge has passed', () => {
+        const loadStart$ = hot('');
+        const loadSuccess$ = hot('a');
+
+        // initialize the trigger with maxAge 60ms
+        const trigger$ = (service as any).getMaxAgeTrigger(
+          loadStart$,
+          loadSuccess$,
+          60,
+          getTestScheduler()
+        );
+
+        /*
+        Simulate:
+          - subscribe to trigger at 0ms
+          - unsubscribe at 40ms
+          - maxAge expires when unsubscribed
+          - resubscribe at 80ms
+
+        Expect:
+          - Trigger emission at 80ms (closest subscription to maxAge expiration)
+         */
+        const subscriber$ = timer(0, 40, getTestScheduler()).pipe(
+          take(3),
+          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+        );
+        const expected$ = cold('80ms a', { a: true });
+
+        expect(subscriber$).toBeObservable(expected$);
+      });
     });
   });
 });
