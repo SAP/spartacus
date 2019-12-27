@@ -9,9 +9,14 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  FeaturesConfigModule,
+  FeaturesConfig,
+} from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Pipe({
   name: 'cxUrl',
@@ -71,6 +76,14 @@ const mockProduct = {
   },
 };
 
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
@@ -78,7 +91,12 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         CartItemComponent,
         MockMediaComponent,
@@ -90,6 +108,16 @@ describe('CartItemComponent', () => {
       providers: [
         {
           provide: ControlContainer,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();
