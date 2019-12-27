@@ -12,6 +12,9 @@
 }
 
 %nav-wrapper {
+  .wrapper {
+    cursor: default;
+  }
   // create width of wrapper
   .wrapper[attr='1'] {
     width: 200px;
@@ -90,6 +93,11 @@
       &:hover {
         color: var(--cx-color-primary);
       }
+
+      a {
+        display: block;
+        width: 100%;
+      }
     }
 
     @include media-breakpoint-down(md) {
@@ -108,10 +116,6 @@
         justify-content: space-between;
 
         cursor: pointer;
-        a {
-          display: block;
-          width: 100%;
-        }
       }
 
       h5,
@@ -278,6 +282,15 @@
     }
 
     @include media-breakpoint-up(lg) {
+      @if $theme == 'calydon' {
+        .childs[depth='2'] {
+          > nav {
+            &:not(:only-child):not(:last-child) {
+              padding-inline-end: 20px;
+            }
+          }
+        }
+      }
       // Show dropdowns via hover when no nav is focused
       > nav {
         > .wrapper {
@@ -305,10 +318,10 @@
 
       .childs {
         display: flex;
-        // background: white;
-
-        nav:not(:last-child) {
-          padding-right: 20px;
+        @if $theme != 'calydon' {
+          nav:not(:last-child) {
+            padding-right: 20px;
+          }
         }
       }
 

@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "cy:open": "cypress open",
-    "cy:run": "cypress run",
+    "cy:run": "cypress run --spec cypress/integration/smoke/**/*",
     "cy:run:ci": "cypress run --config-file cypress.ci.json ",
     "cy:run:smoke": "cypress run --spec cypress/integration/smoke/**/*",
     "cy:run:smoke:ci": "cypress run --config-file cypress.ci.json --spec cypress/integration/smoke/**/*",
