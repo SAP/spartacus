@@ -1,4 +1,4 @@
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -75,7 +75,9 @@ describe('ProfileTagEventTracker', () => {
         { provide: PLATFORM_ID, useValue: 'browser' },
       ],
     });
-    profileTagEventTracker = TestBed.get(ProfileTagEventService);
+    profileTagEventTracker = TestBed.get(ProfileTagEventService as Type<
+      ProfileTagEventService
+    >);
     nativeWindow = TestBed.get(WindowRef).nativeWindow;
   });
 
@@ -177,5 +179,33 @@ describe('ProfileTagEventTracker', () => {
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(2);
+  });
+  it('Should give the lastest consent reference to late subscribers', () => {
+    let cr1 = null;
+    let cr2 = null;
+    let cr3 = null;
+    const subscription1CR = profileTagEventTracker
+      .getConsentReference()
+      .subscribe(cr => (cr1 = cr));
+    const consentReferenceChangedEvent = <ConsentReferenceEvent>(
+      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
+        detail: { consentReference: 'some_id' },
+      })
+    );
+    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
+      consentReferenceChangedEvent
+    );
+    const subscription2CR = profileTagEventTracker
+      .getConsentReference()
+      .subscribe(cr => (cr2 = cr));
+    const subscription3CR = profileTagEventTracker
+      .getConsentReference()
+      .subscribe(cr => (cr3 = cr));
+    subscription1CR.unsubscribe();
+    subscription2CR.unsubscribe();
+    subscription3CR.unsubscribe();
+    expect(cr1).toEqual(cr2);
+    expect(cr3).toEqual(cr2);
+    expect(cr1).toEqual('some_id');
   });
 });

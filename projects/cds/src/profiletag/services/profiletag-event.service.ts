@@ -6,6 +6,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  shareReplay,
   switchMap,
   take,
   tap,
@@ -24,14 +25,14 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService {
+  latestConsentReference = null;
+  profileTagDebug = false;
+  private consentReference$: Observable<string>;
+  private profileTagWindow: ProfileTagWindowObject;
   private profileTagEvents$ = merge(
-    this.consentReferenceChanged(),
+    this.setConsentReference(),
     this.debugModeChanged()
   );
-  private profileTagWindow: ProfileTagWindowObject;
-  public consentReference = null;
-  public profileTagDebug = false;
-
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -39,10 +40,21 @@ export class ProfileTagEventService {
     @Inject(PLATFORM_ID) private platform: any
   ) {}
 
-  getProfileTagEvents(): Observable<
-    ConsentReferenceEvent | DebugEvent | Event
-  > {
+  getProfileTagEvents(): Observable<string | DebugEvent | Event> {
     return this.profileTagEvents$;
+  }
+  getConsentReference(): Observable<string> {
+    if (!this.consentReference$) {
+      this.consentReference$ = fromEvent(
+        this.winRef.nativeWindow,
+        ProfileTagEventNames.CONSENT_REFERENCE_LOADED
+      ).pipe(
+        map(event => <ConsentReferenceEvent>event),
+        map(event => event.detail.consentReference),
+        shareReplay(1)
+      );
+    }
+    return this.consentReference$;
   }
 
   addTracker(): Observable<Event> {
@@ -57,21 +69,17 @@ export class ProfileTagEventService {
     );
   }
 
+  private setConsentReference(): Observable<string> {
+    return this.getConsentReference().pipe(
+      tap(consentReference => (this.latestConsentReference = consentReference))
+    );
+  }
+
   private profileTagLoaded(): Observable<Event> {
     return fromEvent(
       this.winRef.nativeWindow,
       ProfileTagEventNames.LOADED
     ).pipe(take(1));
-  }
-
-  private consentReferenceChanged(): Observable<ConsentReferenceEvent> {
-    return fromEvent(
-      this.winRef.nativeWindow,
-      ProfileTagEventNames.CONSENT_REFERENCE_LOADED
-    ).pipe(
-      map(event => <ConsentReferenceEvent>event),
-      tap(event => (this.consentReference = event.detail.consentReference))
-    );
   }
 
   private debugModeChanged(): Observable<DebugEvent> {
