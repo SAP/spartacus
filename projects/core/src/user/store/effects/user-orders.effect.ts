@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderHistoryList } from '../../../model/order.model';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
@@ -36,6 +37,16 @@ export class UserOrdersEffect {
             of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
           )
         );
+    })
+  );
+
+  @Effect()
+  resetUserOrders$: Observable<
+    UserActions.ClearUserOrders
+  > = this.actions$.pipe(
+    ofType(SiteContextActions.LANGUAGE_CHANGE),
+    map(() => {
+      return new UserActions.ClearUserOrders();
     })
   );
 }
