@@ -1,8 +1,6 @@
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
 import { ProfileTagEventService } from '../services/profiletag-event.service';
@@ -41,7 +39,9 @@ describe('consent reference interceptor', () => {
   it('Should modify the x-consent-reference header if there is a consent-reference', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injectorMock = TestBed.get(ProfileTagEventService);
+      const injectorMock = TestBed.get(ProfileTagEventService as Type<
+        ProfileTagEventService
+      >);
       injectorMock.consentReference = 'test-123-abc-!@#';
       let response;
       http
@@ -90,7 +90,7 @@ describe('consent reference interceptor', () => {
   it('Should not add the x-consent-reference header if url is not occ', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injector = TestBed.get(ProfileTagEventService);
+      const injector = TestBed.get(ProfileTagEventService as Type<ProfileTagEventService>);
       injector.profileTagDebug = true;
       let response;
       http

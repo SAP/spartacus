@@ -25,7 +25,6 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService {
-  private profileTagWindow: ProfileTagWindowObject;
   public consentReference = null;
   public profileTagDebug = false;
   public consentReference$: Observable<string> = fromEvent(
@@ -36,6 +35,7 @@ export class ProfileTagEventService {
     map(event => event.detail.consentReference),
     shareReplay(1)
   );
+  private profileTagWindow: ProfileTagWindowObject;
   private profileTagEvents$ = merge(
     this.setConsentReference(),
     this.debugModeChanged()
