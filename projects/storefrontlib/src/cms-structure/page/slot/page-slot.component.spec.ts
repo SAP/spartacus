@@ -1,5 +1,5 @@
 import { Renderer2, Type } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsConfig,
   CmsService,
@@ -7,12 +7,31 @@ import {
   DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { DeferLoaderService } from 'projects/storefrontlib/src/layout/loading/defer-loader.service';
 import { Observable, of } from 'rxjs';
+import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
+
+const slotWithOneComp = {
+  components: [
+    {
+      flexType: 'BannerComponent',
+    },
+  ],
+};
+
+const slotWithTwoComp = {
+  components: [
+    {
+      flexType: 'BannerComponent',
+    },
+    {
+      flexType: 'ParagraphComponent',
+    },
+  ],
+};
 
 class MockCmsService {
   getContentSlot(): Observable<ContentSlotData> {
@@ -222,6 +241,40 @@ describe('PageSlotComponent', () => {
           .deferLoading
       ).toEqual(DeferLoadingStrategy.DEFER);
     });
+  });
+
+  describe('isLoaded', () => {
+    it('should not call isLoaded with 0 components', async(() => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      spyOn(pageSlotComponent, 'isLoaded').and.callThrough();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(pageSlotComponent.isLoaded).not.toHaveBeenCalled();
+      });
+    }));
+
+    it('should call isLoaded output twice', async(() => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      spyOn(pageSlotComponent, 'isLoaded').and.callThrough();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(pageSlotComponent.isLoaded).toHaveBeenCalledWith(false);
+        expect(pageSlotComponent.isLoaded).toHaveBeenCalledWith(true);
+        expect(pageSlotComponent.isLoaded).toHaveBeenCalledTimes(2);
+      });
+    }));
+
+    it('should call isLoaded 4 times', async(() => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      spyOn(pageSlotComponent, 'isLoaded').and.callThrough();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(pageSlotComponent.isLoaded).toHaveBeenCalledTimes(4);
+      });
+    }));
   });
 
   describe('smart edit', () => {

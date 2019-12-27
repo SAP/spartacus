@@ -3,6 +3,16 @@ set -e
 set -o pipefail
 
 echo "-----"
+
+echo "Running unit tests and code coverage for cds"
+exec 5>&1
+output=$(ng test cds --watch=false --sourceMap --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+
 echo "Running unit tests and code coverage for core"
 exec 5>&1
 output=$(ng test core --watch=false --sourceMap --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
@@ -39,8 +49,8 @@ if [[ $1 == '-h' ]]; then
     sonar-scanner \
     -Dsonar.projectKey=sap_cloud-commerce-spartacus-storefront \
     -Dsonar.organization=sap \
-    -Dsonar.sources=projects/storefrontlib,projects/core,projects/storefrontstyles,projects/storefrontapp-e2e-cypress,projects/schematics \
-    -Dsonar.tests=projects/storefrontlib,projects/core,projects/storefrontstyles,projects/storefrontapp-e2e-cypress,projects/schematics \
+    -Dsonar.sources=projects/storefrontlib,projects/cds,projects/core,projects/storefrontstyles,projects/storefrontapp-e2e-cypress,projects/schematics \
+    -Dsonar.tests=projects/storefrontlib,projects/cds,projects/core,projects/storefrontstyles,projects/storefrontapp-e2e-cypress,projects/schematics \
     -Dsonar.host.url=https://sonarcloud.io \
     -Dsonar.login=$SONAR_TOKEN \
     -Dsonar.cfamily.build-wrapper-output.bypass=true
