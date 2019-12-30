@@ -10,6 +10,7 @@ import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-con
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 import createSpy = jasmine.createSpy;
 
+const uuidv4 = require('uuid/v4');
 const STRATEGY_ID = 'test-strategy-id';
 
 const strategyProducts: StrategyProducts = {
@@ -88,10 +89,17 @@ describe('CdsMerchandisingProductService', () => {
 
   it('loadProductsForStrategy should call connector', () => {
     const strategyRequest = {
-      site: 'electronics-spa',
-      language: 'en',
-      pageSize: 10,
-      category: '574',
+      queryParams: {
+        site: 'electronics-spa',
+        language: 'en',
+        products: undefined,
+        facets: undefined,
+        category: '574',
+        pageSize: 10,
+      },
+      headers: {
+        'consent-reference': undefined,
+      },
     };
     const userContext: MerchandisingUserContext = {
       category: '574',
@@ -117,12 +125,59 @@ describe('CdsMerchandisingProductService', () => {
     );
   });
 
+  it('loadProductsForStrategy should call connector and pass in the consent-reference as a header', () => {
+    const generatedConsentReference = uuidv4();
+    const strategyRequest = {
+      queryParams: {
+        site: 'electronics-spa',
+        language: 'en',
+        products: undefined,
+        facets: undefined,
+        category: '574',
+        pageSize: 10,
+      },
+      headers: {
+        'consent-reference': `${generatedConsentReference}`,
+      },
+    };
+    const userContext: MerchandisingUserContext = {
+      category: '574',
+      consentReference: `${generatedConsentReference}`,
+    };
+    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+      of(siteContext)
+    );
+    spyOn(userContextService, 'getUserContext').and.returnValue(
+      of(userContext)
+    );
+
+    let actualStartegyProducts: StrategyProducts;
+    cdsMerchandisingPrductService
+      .loadProductsForStrategy(STRATEGY_ID, 10)
+      .subscribe(productsForStrategy => {
+        actualStartegyProducts = productsForStrategy;
+      })
+      .unsubscribe();
+    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
+      STRATEGY_ID,
+      strategyRequest
+    );
+  });
+
   it('should retrieve the product Id from the state send this in the StrategyRequest to the StrategyConnector', () => {
     const strategyRequest = {
-      site: 'electronics-spa',
-      language: 'en',
-      pageSize: 10,
-      products: ['123456'],
+      queryParams: {
+        site: 'electronics-spa',
+        language: 'en',
+        products: ['123456'],
+        facets: undefined,
+        category: undefined,
+        pageSize: 10,
+      },
+      headers: {
+        'consent-reference': undefined,
+      },
     };
 
     spyOn(siteContextService, 'getSiteContext').and.returnValue(

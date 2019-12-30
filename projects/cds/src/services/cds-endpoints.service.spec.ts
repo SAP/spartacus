@@ -117,9 +117,11 @@ describe('CdsEndpointsService', () => {
     it('should append query parameters to the URL', () => {
       const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?site=${BASE_SITE}&language=${LANGUAGE}&pageSize=${PAGE_SIZE}`;
       const STRATEGY_REQUEST: StrategyRequest = {
-        site: 'electronics-spa',
-        language: 'en',
-        pageSize: 10,
+        queryParams: {
+          site: 'electronics-spa',
+          language: 'en',
+          pageSize: 10,
+        },
       };
 
       expect(
@@ -128,7 +130,7 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          STRATEGY_REQUEST
+          STRATEGY_REQUEST.queryParams
         )
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });
@@ -138,8 +140,10 @@ describe('CdsEndpointsService', () => {
       const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?pageSize=${PAGE_SIZE}&site=${BASE_SITE}&language=${LANGUAGE}`;
 
       const STRATEGY_REQUEST_NO_PAGE_SIZE: StrategyRequest = {
-        site: 'electronics-spa',
-        language: 'en',
+        queryParams: {
+          site: 'electronics-spa',
+          language: 'en',
+        },
       };
       expect(
         cdsEndpointsService.getUrl(
@@ -147,7 +151,7 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          STRATEGY_REQUEST_NO_PAGE_SIZE
+          STRATEGY_REQUEST_NO_PAGE_SIZE.queryParams
         )
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });
@@ -156,9 +160,11 @@ describe('CdsEndpointsService', () => {
       const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?site=${BASE_SITE}&pageSize=${PAGE_SIZE}`;
 
       const STRATEGY_REQUEST: StrategyRequest = {
-        site: 'electronics-spa',
-        language: null,
-        pageSize: 10,
+        queryParams: {
+          site: 'electronics-spa',
+          language: null,
+          pageSize: 10,
+        },
       };
 
       expect(
@@ -167,7 +173,7 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          STRATEGY_REQUEST
+          STRATEGY_REQUEST.queryParams
         )
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });

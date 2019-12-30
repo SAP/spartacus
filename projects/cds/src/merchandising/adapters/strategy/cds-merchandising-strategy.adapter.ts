@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
@@ -18,16 +18,29 @@ export class CdsMerchandisingStrategyAdapter
 
   loadProductsForStrategy(
     strategyId: string,
-    strategyRequest?: StrategyRequest
+    strategyRequest: StrategyRequest = {}
   ): Observable<StrategyProducts> {
+    let httpHeaders: HttpHeaders = new HttpHeaders();
+    if (
+      strategyRequest &&
+      strategyRequest.headers &&
+      strategyRequest.headers['consent-reference']
+    ) {
+      httpHeaders = new HttpHeaders().set(
+        'consent-reference',
+        strategyRequest.headers['consent-reference']
+      );
+    }
+
     return this.http.get(
       this.cdsEndpointsService.getUrl(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         {
           strategyId,
         },
-        strategyRequest
-      )
+        strategyRequest.queryParams
+      ),
+      { headers: httpHeaders }
     );
   }
 }

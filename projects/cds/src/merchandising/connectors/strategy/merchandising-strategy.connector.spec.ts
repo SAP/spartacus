@@ -9,9 +9,11 @@ import createSpy = jasmine.createSpy;
 const STRATEGY_ID = 'test-strategy-id';
 
 const STRATEGY_REQUEST = {
-  site: 'electronics-spa',
-  language: 'en',
-  pageSize: 10,
+  queryParams: {
+    site: 'electronics-spa',
+    language: 'en',
+    pageSize: 10,
+  },
 };
 
 const STRATEGY_PRODUCTS: StrategyProducts = {

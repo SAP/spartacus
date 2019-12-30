@@ -9,6 +9,7 @@ import { StrategyProducts } from '../../model/strategy-products.model';
 import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
 import createSpy = jasmine.createSpy;
 
+const uuidv4 = require('uuid/v4');
 const STRATEGY_ID = 'test-strategy-id';
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 const STRATEGY_ID_OBJECT = { strategyId: STRATEGY_ID };
@@ -32,9 +33,24 @@ const STRATEGY_PRODUCTS: StrategyProducts = {
   },
 };
 const STRATEGY_REQUEST = {
-  site: 'electronics-spa',
-  language: 'en',
-  pageSize: 10,
+  queryParams: {
+    site: 'electronics-spa',
+    language: 'en',
+    pageSize: 10,
+  },
+};
+const STRATEGY_REQUEST_UNDEFINED_CONSENT_REFERENCE = {
+  ...STRATEGY_REQUEST,
+  headers: {
+    'consent-reference': undefined,
+  },
+};
+const generatedConsentReference = uuidv4();
+const STRATEGY_REQUEST_CONSENT_REFERENCE = {
+  ...STRATEGY_REQUEST,
+  headers: {
+    'consent-reference': `${generatedConsentReference}`,
+  },
 };
 
 class MockCdsEndpointsService {
@@ -125,7 +141,72 @@ describe('MerchandisingStrategyAdapter', () => {
       expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         STRATEGY_ID_OBJECT,
-        STRATEGY_REQUEST
+        STRATEGY_REQUEST.queryParams
+      );
+
+      MOCK_STRATEGY_PRODUCTS_REQUEST.flush(STRATEGY_PRODUCTS);
+    });
+
+    it('should load the products for a given strategy id, the request URL should include the parameters in the StrategyRequest, and no HTTP header for consent-reference', () => {
+      strategyAdapter
+        .loadProductsForStrategy(
+          STRATEGY_ID,
+          STRATEGY_REQUEST_UNDEFINED_CONSENT_REFERENCE
+        )
+        .subscribe(strategyProducts => {
+          expect(strategyProducts).toEqual(STRATEGY_PRODUCTS);
+        });
+      const MOCK_STRATEGY_PRODUCTS_REQUEST = httpMock.expectOne(request => {
+        /*
+         * Our mock CdsEndpointsService returns the given endpoint key as the url,
+         * so the adapter will make the http request with the endpoint key rather than a url
+         */
+        return (
+          request.method === 'GET' &&
+          request.url === STRATEGY_PRODUCTS_ENDPOINT_KEY
+        );
+      });
+
+      expect(
+        MOCK_STRATEGY_PRODUCTS_REQUEST.request.headers.get('consent-reference')
+      ).toBeFalsy();
+
+      expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
+        STRATEGY_PRODUCTS_ENDPOINT_KEY,
+        STRATEGY_ID_OBJECT,
+        STRATEGY_REQUEST.queryParams
+      );
+
+      MOCK_STRATEGY_PRODUCTS_REQUEST.flush(STRATEGY_PRODUCTS);
+    });
+    it('should load the products for a given strategy id, the request URL should include the parameters in the StrategyRequest, and a HTTP header for consent-reference', () => {
+      strategyAdapter
+        .loadProductsForStrategy(
+          STRATEGY_ID,
+          STRATEGY_REQUEST_CONSENT_REFERENCE
+        )
+        .subscribe(strategyProducts => {
+          expect(strategyProducts).toEqual(STRATEGY_PRODUCTS);
+        });
+      const MOCK_STRATEGY_PRODUCTS_REQUEST = httpMock.expectOne(request => {
+        /*
+         * Our mock CdsEndpointsService returns the given endpoint key as the url,
+         * so the adapter will make the http request with the endpoint key rather than a url
+         */
+        return (
+          request.method === 'GET' &&
+          request.url === STRATEGY_PRODUCTS_ENDPOINT_KEY
+        );
+      });
+
+      expect(
+        MOCK_STRATEGY_PRODUCTS_REQUEST.request.headers.get('consent-reference')
+      ).toBeTruthy();
+
+      expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
+        STRATEGY_PRODUCTS_ENDPOINT_KEY,
+        STRATEGY_ID_OBJECT,
+        STRATEGY_REQUEST.queryParams
       );
 
       MOCK_STRATEGY_PRODUCTS_REQUEST.flush(STRATEGY_PRODUCTS);

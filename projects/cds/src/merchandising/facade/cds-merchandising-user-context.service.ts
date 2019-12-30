@@ -12,6 +12,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  startWith,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -19,6 +20,7 @@ import {
   MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
 } from '../connectors/strategy/converters';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
+import { ProfileTagEventService } from './../../profiletag/services/profiletag-event.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,25 +29,42 @@ export class CdsMerchandisingUserContextService {
   constructor(
     private routingService: RoutingService,
     private productSearchService: ProductSearchService,
-    private converterService: ConverterService
+    private converterService: ConverterService,
+    private profileTagEventService: ProfileTagEventService
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
-    return merge(
-      this.getCategoryAndFacetContext(),
-      this.getProductNavigationContext()
+    return combineLatest([
+      this.getConsentReferenceContext(),
+      merge(
+        this.getCategoryAndFacetContext(),
+        this.getProductNavigationContext()
+      ),
+    ]).pipe(
+      map(([consentReferenceContext, userContext]) => ({
+        ...consentReferenceContext,
+        ...userContext,
+      }))
     );
   }
 
   private getCategoryAndFacetContext(): Observable<MerchandisingUserContext> {
     return combineLatest([
       this.getCategoryNavigationContext(),
-      this.getFacetsContext(),
+      this.getFacetsContext().pipe(startWith({ facets: undefined })),
     ]).pipe(
       map(([categoryContext, facetsContext]) => ({
         ...categoryContext,
         ...facetsContext,
       }))
+    );
+  }
+
+  private getConsentReferenceContext(): Observable<MerchandisingUserContext> {
+    return this.profileTagEventService.getConsentReference().pipe(
+      startWith(''),
+      distinctUntilChanged(),
+      map(consentReference => ({ consentReference }))
     );
   }
 
