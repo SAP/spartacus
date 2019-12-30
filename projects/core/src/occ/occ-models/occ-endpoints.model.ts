@@ -7,6 +7,12 @@ export interface OccEndpoints {
   login?: string;
 
   /**
+   * Client logout (revoke authorization token)
+   *
+   * @member {string}
+   */
+  revoke?: string;
+  /**
    * Get product details
    *
    * @member string
@@ -289,6 +295,12 @@ export interface OccEndpoints {
    */
   cartVoucher?: string;
   /**
+   * Explicitly saves a cart
+   *
+   * @member {string}
+   */
+  saveCart?: string;
+  /**
    * Endpoint for notification preference
    *
    * @member {string}
@@ -306,4 +318,29 @@ export interface OccEndpoints {
    * @member {string}
    */
   getProductInterests?: string;
+
+  /**
+   * Endpoint for cancel an order
+   */
+  cancelOrder?: string;
+
+  /**
+   * Endpoint for creating order return request
+   */
+  returnOrder?: string;
+
+  /**
+   * Endpoint for user's order return requests
+   */
+  orderReturns?: string;
+
+  /**
+   * Endpoint for order return request details
+   */
+  orderReturnDetail?: string;
+
+  /**
+   * Endpoint for cancelling return request
+   */
+  cancelReturn?: string;
 }

@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CartService, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
@@ -15,6 +19,12 @@ export class CartItemListComponent implements OnInit {
   hasHeader = true;
 
   @Input()
+  potentialProductPromotions: PromotionResult[] = [];
+
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+
+  @Input()
   set items(_items) {
     this._items = _items;
     this.items.forEach(item => {
@@ -27,9 +37,6 @@ export class CartItemListComponent implements OnInit {
       }
     });
   }
-
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
 
   @Input()
   cartIsLoading = false;
@@ -62,6 +69,13 @@ export class CartItemListComponent implements OnInit {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
+  private createEntryFormGroup(entry): FormGroup {
+    return this.fb.group({
+      entryNumber: entry.entryNumber,
+      quantity: entry.quantity,
+    });
+  }
+
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
     if (
@@ -83,13 +97,6 @@ export class CartItemListComponent implements OnInit {
       }
     }
     return entryPromotions;
-  }
-
-  private createEntryFormGroup(entry): FormGroup {
-    return this.fb.group({
-      entryNumber: entry.entryNumber,
-      quantity: entry.quantity,
-    });
   }
 
   private isConsumedByEntry(consumedEntry: any, entry: any): boolean {

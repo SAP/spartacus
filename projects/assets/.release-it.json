@@ -6,6 +6,12 @@
     "commitMessage": "Bumping assets version to ${version}",
     "tagAnnotation": "Bumping assets version to ${version}"
   },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/assets@${version}",
+    "releaseNotes": "cd ../.. && npm run --silent release-notes:assets -- --to assets-${version}"
+  },
   "npm": {
     "publishPath": "./../../dist/assets"
   },
