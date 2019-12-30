@@ -75,6 +75,7 @@ class MockCartItemComponent {
     isSaveForLater: false,
     optionalBtn: null,
   };
+  @Input()
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
@@ -90,6 +91,7 @@ describe('CartItemListComponent', () => {
 
   const mockFeatureConfig = jasmine.createSpyObj('FeatureConfigService', [
     'isEnabled',
+    'isLevel',
   ]);
 
   beforeEach(async(() => {

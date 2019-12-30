@@ -26,21 +26,6 @@
 <div [formGroup]="form">
   <div class="cx-item-list-row" *ngFor="let item of items">
     <div class="cx-item-list-items">
-<<<<<<< HEAD
-      <cx-cart-item
-        [parent]="form.controls[item.product.code]"
-        [item]="item"
-        [potentialProductPromotions]="
-          getPotentialProductPromotionsForItem(item)
-        "
-        [isReadOnly]="isReadOnly"
-        (remove)="removeEntry($event)"
-        [cartIsLoading]="cartIsLoading"
-        (update)="updateEntry($event)"
-        [options]="options"
-      >
-      </cx-cart-item>
-=======
       <ng-container *cxFeatureLevel="'!1.4'">
         <cx-cart-item
           [parent]="form.controls[item.product.code]"
@@ -65,10 +50,10 @@
           [cartIsLoading]="cartIsLoading"
           (remove)="removeEntry($event)"
           (update)="updateEntry($event)"
+          [options]="options"
         >
         </cx-cart-item>
       </ng-container>
->>>>>>> dd1effe901ac6ffdee5c44925ff4c1e042fdbed3
     </div>
   </div>
 </div>

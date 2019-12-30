@@ -66,6 +66,7 @@ describe('CartItemComponent', () => {
 
   const featureConfig = jasmine.createSpyObj('FeatureConfigService', [
     'isEnabled',
+    'isLevel',
   ]);
 
   beforeEach(async(() => {

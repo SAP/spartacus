@@ -66,6 +66,7 @@ class MockCartItemListComponent {
     isSaveForLater: false,
     optionalBtn: null,
   };
+  @Input()
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
@@ -93,7 +94,7 @@ describe('CartDetailsComponent', () => {
 
   const mockFeatureConfigService = jasmine.createSpyObj(
     'FeatureConfigService',
-    ['isEnabled']
+    ['isEnabled', 'isLevel']
   );
   const mockAuthService = jasmine.createSpyObj('AuthService', [
     'isUserLoggedIn',
@@ -141,11 +142,6 @@ describe('CartDetailsComponent', () => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
     cartService = TestBed.get(CartService as Type<CartService>);
-
-    // mockCartService.getLoaded.and.returnValue(of(true));
-    // mockCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
-    //  mockCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
-    // mockCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
   });
 
   it('should create cart details component', () => {
@@ -165,6 +161,7 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
+    mockFeatureConfigService.isLevel.and.returnValue(true);
     mockFeatureConfigService.isEnabled.and.returnValue(true);
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartService.addEntry.and.callThrough();

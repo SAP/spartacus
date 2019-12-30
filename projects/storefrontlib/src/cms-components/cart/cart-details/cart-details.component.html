@@ -14,10 +14,6 @@
           [items]="entries"
           [cartIsLoading]="!(cartLoaded$ | async)"
           [potentialProductPromotions]="cart.potentialProductPromotions"
-          [options]="{
-            isSaveForLater: false,
-            optionalBtn: isSaveForLaterEnabled() ? saveForLaterbtn : null
-          }"
         ></cx-cart-item-list>
       </ng-container>
 
@@ -30,6 +26,10 @@
           [items]="entries"
           [cartIsLoading]="!(cartLoaded$ | async)"
           [promotionLocation]="promotionLocation"
+          [options]="{
+            isSaveForLater: false,
+            optionalBtn: isSaveForLaterEnabled() ? saveForLaterbtn : null
+          }"
         ></cx-cart-item-list>
       </ng-container>
     </div>
