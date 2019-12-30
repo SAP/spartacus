@@ -8,10 +8,10 @@
 
       @include media-breakpoint-up(lg) {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(2, auto) 1fr;
         grid-column-gap: 20px;
         grid-row-gap: 0px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(2, auto) 1fr;
         cx-product-images {
           grid-column: 1;
           grid-row: 1 / span 3;
