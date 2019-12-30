@@ -19,7 +19,20 @@ import { OutletService } from './outlet.service';
   selector: '[cxOutlet]',
 })
 export class OutletDirective implements OnInit, OnDestroy {
-  @Input() cxOutlet: string;
+  private _cxOutlet: string;
+
+  @Input() set cxOutlet(value: string) {
+    if (this._cxOutlet !== value && typeof this._cxOutlet !== 'undefined') {
+      this._cxOutlet = value;
+      this.vcr.clear();
+      this.render();
+    }
+    this._cxOutlet = value;
+  }
+
+  get cxOutlet(): string {
+    return this._cxOutlet;
+  }
 
   @Input() cxOutletContext: any;
 
