@@ -7,16 +7,19 @@ import {
   Output,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CartService, OrderEntry } from '@spartacus/core';
+import {
+  CartService,
+  OrderEntry,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   ModalRef,
   ModalService,
 } from '../../../../shared/components/modal/index';
-import { AddedToCartDialogComponent } from '../../add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
-import { PromotionResult, PromotionLocation } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { AddedToCartDialogComponent } from '../../add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
 
 export interface Item {
   product?: any;
