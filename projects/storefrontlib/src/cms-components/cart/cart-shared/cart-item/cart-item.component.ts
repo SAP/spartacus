@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FeatureConfigService } from '@spartacus/core';
+import { PromotionResult, PromotionLocation } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 export interface Item {
   product?: any;
@@ -24,8 +27,6 @@ export class CartItemComponent implements OnInit {
   compact = false;
   @Input()
   item: Item;
-  @Input()
-  potentialProductPromotions: any[];
 
   @Input()
   isReadOnly = false;
@@ -37,6 +38,11 @@ export class CartItemComponent implements OnInit {
     isSaveForLater: false,
     optionalBtn: null,
   };
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+
+  @Input()
+  potentialProductPromotions: any[];
 
   @Output()
   remove = new EventEmitter<any>();
@@ -48,9 +54,19 @@ export class CartItemComponent implements OnInit {
   @Input()
   parent: FormGroup;
 
-  ngOnInit() {}
+  appliedProductPromotions$: Observable<PromotionResult[]>;
 
-  constructor(private featureConfig: FeatureConfigService) {}
+  constructor(
+    protected promotionService: PromotionService,
+    private featureConfig: FeatureConfigService
+  ) {}
+
+  ngOnInit() {
+    this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
+      this.item,
+      this.promotionLocation
+    );
+  }
 
   isSaveForLaterEnabled(): boolean {
     return this.featureConfig.isEnabled('saveForLater');

@@ -327,6 +327,199 @@
           }
         }
       }
+    },
+    "cds": {
+      "root": "projects/cds",
+      "sourceRoot": "projects/cds/src",
+      "projectType": "library",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/cds/tsconfig.lib.json",
+            "project": "projects/cds/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/cds/src/test.ts",
+            "tsConfig": "projects/cds/tsconfig.spec.json",
+            "karmaConfig": "projects/cds/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/cds/tsconfig.lib.json",
+              "projects/cds/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "storefrontapp-cds-integration": {
+      "root": "projects/storefrontapp-cds-integration",
+      "sourceRoot": "projects/storefrontapp-cds-integration/src",
+      "projectType": "application",
+      "prefix": "cx",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/storefrontapp-cds-integration",
+            "index": "projects/storefrontapp-cds-integration/src/index.html",
+            "main": "projects/storefrontapp-cds-integration/src/main.ts",
+            "polyfills": "projects/storefrontapp-cds-integration/src/polyfills.ts",
+            "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.app.json",
+            "assets": [
+              "projects/storefrontapp-cds-integration/src/favicon.ico",
+              "projects/storefrontapp-cds-integration/src/assets",
+              "projects/storefrontapp-cds-integration/src/manifest.json",
+              "projects/storefrontapp-cds-integration/src/webApplicationInjector.js"
+            ],
+            "styles": [
+              "projects/storefrontapp-cds-integration/src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
+            },
+            "ngswConfigPath": "projects/storefrontlib/src/cms-structure/pwa/ngsw-config.json",
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
+                  "with": "projects/storefrontapp-cds-integration/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "serviceWorker": true,
+              "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.app.prod.json"
+            },
+            "ci": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
+                  "with": "projects/storefrontapp-cds-integration/src/environments/environment.ci.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.app.prod.json"
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
+                  "with": "projects/storefrontapp-cds-integration/src/environments/environment.qa.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "serviceWorker": true,
+              "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.app.prod.json"
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "storefrontapp-cds-integration:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "storefrontapp-cds-integration:build:production"
+            },
+            "development": {
+              "browserTarget": "storefrontapp-cds-integration:build:development"
+            },
+            "ci": {
+              "browserTarget": "storefrontapp-cds-integration:build:ci"
+            },
+            "qa": {
+              "browserTarget": "storefrontapp-cds-integration:build:qa"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "storefrontapp-cds-integration:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/storefrontapp-cds-integration/src/test.ts",
+            "polyfills": "projects/storefrontapp-cds-integration/src/polyfills.ts",
+            "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.spec.json",
+            "karmaConfig": "projects/storefrontapp-cds-integration/karma.conf.js",
+            "styles": [
+              "projects/storefrontapp-cds-integration/src/styles.scss"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/storefrontapp-cds-integration/src/favicon.ico",
+              "projects/storefrontapp-cds-integration/src/assets",
+              "projects/storefrontapp-cds-integration/src/manifest.json"
+            ],
+            "codeCoverageExclude": ["dist/**/*"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/storefrontapp-cds-integration/tsconfig.app.json",
+              "projects/storefrontapp-cds-integration/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/storefrontapp-cds-integration-server",
+            "main": "projects/storefrontapp-cds-integration/src/main.server.ts",
+            "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.json",
+            "fileReplacements": [
+              {
+                "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
+                "with": "projects/storefrontapp-cds-integration/src/environments/environment.prod.ts"
+              }
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"

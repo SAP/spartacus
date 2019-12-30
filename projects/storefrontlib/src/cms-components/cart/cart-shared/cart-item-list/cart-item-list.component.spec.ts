@@ -7,6 +7,9 @@ import {
   I18nTestingModule,
   FeatureConfigService,
   SelectiveCartService,
+  PromotionLocation,
+  FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
@@ -20,12 +23,21 @@ class MockCartService {
 
 const mockItems = [
   {
+    id: 0,
+    quantity: 1,
+    entryNumber: 0,
+    product: {
+      id: 0,
+      code: 'PR0000',
+    },
+  },
+  {
     id: 1,
     quantity: 5,
     entryNumber: 1,
     product: {
       id: 1,
-      code: 'PR0000',
+      code: 'PR0001',
     },
   },
 ];
@@ -63,6 +75,7 @@ class MockCartItemComponent {
     isSaveForLater: false,
     optionalBtn: null,
   };
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 describe('CartItemListComponent', () => {
@@ -86,12 +99,19 @@ describe('CartItemListComponent', () => {
         RouterTestingModule,
         PromotionsModule,
         I18nTestingModule,
+        FeaturesConfigModule,
       ],
       declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
       providers: [
         { provide: CartService, useClass: MockCartService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
         { provide: FeatureConfigService, useValue: mockFeatureConfig },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
       ],
     }).compileComponents();
   }));
@@ -138,8 +158,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('should get potential promotions for product', () => {
-    fixture.detectChanges();
-    const item = mockItems[0];
+    const item = mockItems[1];
     const promotions = component.getPotentialProductPromotionsForItem(item);
     expect(promotions).toEqual(mockPotentialProductPromotions);
   });

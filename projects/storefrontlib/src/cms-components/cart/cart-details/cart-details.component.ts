@@ -7,10 +7,13 @@ import {
   AuthService,
   RoutingService,
   FeatureConfigService,
+  PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
+import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-cart-details',
@@ -22,13 +25,33 @@ export class CartDetailsComponent implements OnInit {
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
+  orderPromotions$: Observable<PromotionResult[]>;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+
+  constructor(
+    cartService: CartService,
+    // tslint:disable-next-line:unified-signatures
+    promotionService: PromotionService,
+    selectiveCartService: SelectiveCartService,
+    authService: AuthService,
+    routingService: RoutingService,
+    featureConfig: FeatureConfigService
+  );
+
+  /**
+   * @deprecated Since 1.4
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(cartService: CartService);
 
   constructor(
     protected cartService: CartService,
-    protected selectiveCartService: SelectiveCartService,
-    private authService: AuthService,
-    private routingService: RoutingService,
-    private featureConfig: FeatureConfigService
+    protected promotionService?: PromotionService,
+    protected selectiveCartService?: SelectiveCartService,
+    private authService?: AuthService,
+    private routingService?: RoutingService,
+    private featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit() {
@@ -51,6 +74,9 @@ export class CartDetailsComponent implements OnInit {
       );
     } else {
       this.cartLoaded$ = this.cartService.getLoaded();
+      this.orderPromotions$ = this.promotionService.getOrderPromotions(
+        this.promotionLocation
+      );
     }
   }
 
@@ -58,6 +84,11 @@ export class CartDetailsComponent implements OnInit {
     return this.featureConfig.isEnabled('saveForLater');
   }
 
+  /**
+   * @deprecated Since 1.4
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
   getAllPromotionsForCart(cart: Cart): any[] {
     const potentialPromotions = [];
     potentialPromotions.push(...(cart.potentialOrderPromotions || []));

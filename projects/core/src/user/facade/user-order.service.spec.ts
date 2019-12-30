@@ -165,4 +165,44 @@ describe('UserOrderService', () => {
       new UserActions.ClearConsignmentTracking()
     );
   });
+
+  it('should be able to cancel an order', () => {
+    service.cancelOrder('test', {});
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.CancelOrder({
+        userId: OCC_USER_ID_CURRENT,
+        orderCode: 'test',
+        cancelRequestInput: {},
+      })
+    );
+  });
+
+  it('should be able to get CancelOrder loading flag', () => {
+    store.dispatch(
+      new UserActions.CancelOrder({
+        userId: 'current',
+        orderCode: 'test',
+        cancelRequestInput: {},
+      })
+    );
+    service
+      .getCancelOrderLoading()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+
+  it('should be able to get CancelOrder Success flag', () => {
+    store.dispatch(new UserActions.CancelOrderSuccess());
+    service
+      .getCancelOrderSuccess()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+
+  it('should be able to reset CancelOrder process state', () => {
+    service.resetCancelOrderProcessState();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UserActions.ResetCancelOrderProcess()
+    );
+  });
 });

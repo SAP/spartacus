@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   CartService,
   PromotionResult,
+  PromotionLocation,
   SelectiveCartService,
   FeatureConfigService,
 } from '@spartacus/core';
@@ -27,6 +28,11 @@ export class CartItemListComponent implements OnInit {
     isSaveForLater: false,
     optionalBtn: null,
   };
+  @Input()
+  potentialProductPromotions: PromotionResult[] = [];
+
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   @Input()
   set items(_items) {
@@ -41,9 +47,6 @@ export class CartItemListComponent implements OnInit {
       }
     });
   }
-
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
 
   @Input()
   cartIsLoading = false;
@@ -89,6 +92,13 @@ export class CartItemListComponent implements OnInit {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
+  private createEntryFormGroup(entry): FormGroup {
+    return this.fb.group({
+      entryNumber: entry.entryNumber,
+      quantity: entry.quantity,
+    });
+  }
+
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
     //don't show promotions in saveforlater
@@ -114,13 +124,6 @@ export class CartItemListComponent implements OnInit {
       }
     }
     return entryPromotions;
-  }
-
-  private createEntryFormGroup(entry): FormGroup {
-    return this.fb.group({
-      entryNumber: entry.entryNumber,
-      quantity: entry.quantity,
-    });
   }
 
   private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
