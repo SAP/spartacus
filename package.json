@@ -81,8 +81,7 @@
     "test:cds:lib": "ng test cds --code-coverage",
     "build:cds:ssr": "ng run storefrontapp-cds-integration:server && webpack --config projects/ssr/cds.webpack.server.config.js --progress --colors",
     "start:cds:ssr": "node dist/ssr/cds.server",
-    "release:cds": "cd projects/cds && release-it && cd ../..",
-    "release:cds:with-changelog": "cd projects/cds && release-it --config .release-it.changelog.json && cd ../..",
+    "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
     "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds"
   },
   "private": false,
