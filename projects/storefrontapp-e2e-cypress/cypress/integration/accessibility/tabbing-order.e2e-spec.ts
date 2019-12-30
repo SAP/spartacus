@@ -42,6 +42,7 @@ import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
+import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/wishlist';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -273,6 +274,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Order Details', () => {
     it('should allow to navigate with tab key', () => {
       orderDetailsTabbingOrder(config.orderDetails);
+    });
+  });
+
+  context('Wishlist', () => {
+    it('should allow to navigate with tab key', () => {
+      wishlistTabbingOrder(config.wishlist);
     });
   });
 });

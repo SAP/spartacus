@@ -1,7 +1,10 @@
 <div class="row">
   <!-- Item Image -->
   <div class="cx-image-container col-2">
-    <a [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl">
+    <a
+      [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl"
+      tabindex="-1"
+    >
       <cx-media
         [container]="cartEntry.product.images?.PRIMARY"
         format="thumbnail"
