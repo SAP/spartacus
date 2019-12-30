@@ -16,7 +16,11 @@
 
 <!-- we generate links in a recursive manner -->
 <ng-template #nav let-node="node">
-  <nav (click)="toggleOpen($event)" (mouseenter)="onMouseEnter($event)">
+  <nav
+    (click)="toggleOpen($event)"
+    (mouseenter)="onMouseEnter($event)"
+    (keydown.space)="toggleOpen($event)"
+  >
     <cx-generic-link
       *ngIf="
         node.url && (!node.children || node.children?.length === 0);
