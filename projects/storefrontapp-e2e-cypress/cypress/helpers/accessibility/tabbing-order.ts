@@ -188,23 +188,6 @@ export function addProduct(): void {
   cy.wait(`@${cartPage}`);
 }
 
-export function addProductToWishlist(): void {
-  cy.server();
-  cy.route(
-    'POST',
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/carts/*/entries?code=779841&qty=1&lang=en&curr=USD`
-  ).as('addToWishlist');
-
-  cy.visit(testProductUrl);
-  cy.getAllByText(/Add to Wish List/i)
-    .first()
-    .click();
-
-  cy.wait(`@addToWishlist`);
-}
-
 export function checkoutNextStep(url: string) {
   const nextStep = waitForPage(url, 'getNextStep');
   cy.getAllByText('Continue')
