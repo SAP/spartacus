@@ -1,16 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Product } from 'projects/backend/occ-client/lib/models';
-import { RoutingConfigService } from '../routing-config.service';
+
 import { SemanticPathService } from './semantic-path.service';
 
-import { UrlParsingService } from './url-parsing.service';
-import { isParam, getParamName } from './path-utils';
-import { ParamsMapping } from '../routes-config';
+import { ProductURLCommand } from './productURL-command';
 @Pipe({
   name: 'cxProductUrl',
 })
 export class ProductURLPipe implements PipeTransform {
-  protected routingConfigService: RoutingConfigService;
+
+  constructor(private semanticPath : SemanticPathService){}
+  transform(item: Product){
+  //  console.log(new ProductURLCommand("product", {"product":item}));
+
+    return this.semanticPath.transform(new ProductURLCommand("product", item));
+  }
+ /* protected routingConfigService: RoutingConfigService;
   semanticPath: SemanticPathService;
   
   constructor(private productURLService: RoutingConfigService, private urlParser: UrlParsingService) {}
@@ -47,5 +52,5 @@ export class ProductURLPipe implements PipeTransform {
       return paramsMapping[paramName] || paramName;
     }
     return paramName;
-  }
+  }*/
 }
