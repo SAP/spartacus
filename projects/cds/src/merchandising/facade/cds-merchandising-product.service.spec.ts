@@ -10,7 +10,7 @@ import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-con
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 import createSpy = jasmine.createSpy;
 
-const uuidv4 = require('uuid/v4');
+const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const STRATEGY_ID = 'test-strategy-id';
 
 const strategyProducts: StrategyProducts = {
@@ -126,7 +126,6 @@ describe('CdsMerchandisingProductService', () => {
   });
 
   it('loadProductsForStrategy should call connector and pass in the consent-reference as a header', () => {
-    const generatedConsentReference = uuidv4();
     const strategyRequest = {
       queryParams: {
         site: 'electronics-spa',
@@ -137,12 +136,12 @@ describe('CdsMerchandisingProductService', () => {
         pageSize: 10,
       },
       headers: {
-        'consent-reference': `${generatedConsentReference}`,
+        'consent-reference': `${CONSENT_REFERENCE}`,
       },
     };
     const userContext: MerchandisingUserContext = {
       category: '574',
-      consentReference: `${generatedConsentReference}`,
+      consentReference: `${CONSENT_REFERENCE}`,
     };
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
       of(siteContext)

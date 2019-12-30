@@ -9,7 +9,7 @@ import { StrategyProducts } from '../../model/strategy-products.model';
 import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
 import createSpy = jasmine.createSpy;
 
-const uuidv4 = require('uuid/v4');
+const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const STRATEGY_ID = 'test-strategy-id';
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 const strategyIdObject = { strategyId: STRATEGY_ID };
@@ -45,11 +45,10 @@ const strategyRequestUndefinedConsentReference = {
     'consent-reference': undefined,
   },
 };
-const generatedConsentReference = uuidv4();
 const strategyRequestConsentReference = {
   ...strategyRequest,
   headers: {
-    'consent-reference': `${generatedConsentReference}`,
+    'consent-reference': `${CONSENT_REFERENCE}`,
   },
 };
 
