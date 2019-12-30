@@ -9,7 +9,7 @@ yarn
 
 echo '-----'
 echo 'Building Spartacus libraries'
-yarn build:core:lib:cds && yarn build 2>&1 | tee build.log
+yarn build:core:lib:cds && yarn build:cds 2>&1 | tee build.log
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "$results" ]]; then
     echo "Success: prod build is fine."
