@@ -139,8 +139,6 @@ export function setOtherPaymentToDefault() {
   cy.getByText('Set as default').click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
-  const expirationMonth = secondPayment.payment.expires.month;
-  const expirationYear = secondPayment.payment.expires.year;
   firstCard.should('contain', 'Default Payment Method');
   firstCard.should('contain', '1111');
   firstCard.should('contain', `Expires: 7/2022`);
