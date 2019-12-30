@@ -50,6 +50,10 @@ export const getAnonymousConsentTemplate = (
 ): MemoizedSelector<StateWithAnonymousConsents, ConsentTemplate> => {
   return createSelector(
     getAnonymousConsentTemplatesValue,
-    templates => templates.find(template => template.id === templateCode)
+    templates => {
+      return templates
+        ? templates.find(template => template.id === templateCode)
+        : null;
+    }
   );
 };
