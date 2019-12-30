@@ -3,6 +3,7 @@ export * from './consignment-tracking.selectors';
 export * from './delivery-countries.selectors';
 export * from './feature.selector';
 export * from './order-details.selectors';
+export * from './order-return-request.selectors';
 export * from './payment-methods.selectors';
 export * from './regions.selectors';
 export * from './reset-password.selectors';

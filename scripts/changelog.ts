@@ -75,6 +75,7 @@ export default async function run(
     '@spartacus/assets': './projects/assets',
     '@spartacus/schematics': './projects/schematics',
     '@spartacus/incubator': './projects/incubator',
+    '@spartacus/cds': './projects/cds',
   };
 
   const duplexUtil = through(function(chunk, _, callback) {
@@ -126,6 +127,7 @@ export default async function run(
           noteKeywords: [...breakingChangesKeywords, ...deprecationsKeywords],
           revertPattern: /^revert:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
           revertCorrespondence: [`header`, `hash`],
+          issuePrefixes: ['#', 'GH-', 'gh-'],
         })
       )
       .pipe(
@@ -277,6 +279,10 @@ if (typeof config.to === 'undefined') {
     case 'incubator':
     case '@spartacus/incubator':
       config.library = '@spartacus/incubator';
+      break;
+    case 'cds':
+    case '@spartacus/cds':
+      config.library = '@spartacus/cds';
       break;
     default:
       config.library = undefined;

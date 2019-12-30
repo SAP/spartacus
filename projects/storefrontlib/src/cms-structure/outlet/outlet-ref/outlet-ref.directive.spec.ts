@@ -1,5 +1,7 @@
 import { Component, TemplateRef, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DeferLoaderService } from 'projects/storefrontlib/src/layout/loading/defer-loader.service';
+import { of } from 'rxjs';
 import { OutletDirective } from '../outlet.directive';
 import { OutletService } from '../outlet.service';
 import { OutletRefDirective } from './outlet-ref.directive';
@@ -20,6 +22,12 @@ const CUSTOM_TEXT = 'customized';
 })
 class TestContainerComponent {}
 
+export class MockDeferLoaderService {
+  load(_element: HTMLElement, _options?: any) {
+    return of(true);
+  }
+}
+
 describe('OutletDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: OutletService;
@@ -32,7 +40,10 @@ describe('OutletDirective', () => {
         OutletDirective,
         OutletRefDirective,
       ],
-      providers: [OutletService],
+      providers: [
+        OutletService,
+        { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+      ],
     }).compileComponents();
   }));
 

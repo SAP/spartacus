@@ -14,6 +14,9 @@ import {
   ModalService,
 } from '../../../../shared/components/modal/index';
 import { AddedToCartDialogComponent } from '../../add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
+import { PromotionResult, PromotionLocation } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 export interface Item {
   product?: any;
@@ -33,11 +36,15 @@ export class CartItemComponent implements OnInit {
   @Input()
   item: Item;
   @Input()
-  potentialProductPromotions: any[];
-  @Input()
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
+
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+
+  @Input()
+  potentialProductPromotions: any[];
 
   @Output()
   remove = new EventEmitter<any>();
@@ -49,18 +56,24 @@ export class CartItemComponent implements OnInit {
   @Input()
   parent: FormGroup;
 
+  appliedProductPromotions$: Observable<PromotionResult[]>;
   cartEntry$: Observable<OrderEntry>;
 
   modalRef: ModalRef;
   increment: boolean;
 
   constructor(
+    protected promotionService: PromotionService,
     protected cartService: CartService,
     protected modalService: ModalService,
     protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
+      this.item,
+      this.promotionLocation
+    );
     this.cartEntry$ = this.cartService.getEntry(this.item.product.code);
     this.increment = false;
   }
