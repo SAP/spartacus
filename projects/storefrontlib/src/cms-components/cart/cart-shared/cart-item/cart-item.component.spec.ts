@@ -13,6 +13,7 @@ import {
   I18nTestingModule,
   FeaturesConfigModule,
   FeaturesConfig,
+  CartService,
 } from '@spartacus/core';
 import { CartItemComponent } from './cart-item.component';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
@@ -84,6 +85,10 @@ class MockPromotionService {
   getProductPromotionForEntry(): void {}
 }
 
+class MockCartService {
+  getEntry() {}
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
@@ -112,6 +117,10 @@ describe('CartItemComponent', () => {
         {
           provide: PromotionService,
           useClass: MockPromotionService,
+        },
+        {
+          provide: CartService,
+          useClass: MockCartService,
         },
         {
           provide: FeaturesConfig,
