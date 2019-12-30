@@ -6,7 +6,35 @@
  */
 @import '../theme';
 
-@import 'bootstrap/_mixins';
+@import './mixins/bootstrap/rfs';
+@import './mixins/bootstrap/border-radius';
+@import './mixins/bootstrap/box-shadow';
+@import './mixins/bootstrap/breakpoints';
+@import './mixins/bootstrap/buttons';
+@import './mixins/bootstrap/caret';
+@import './mixins/bootstrap/clearfix';
+@import './mixins/bootstrap/deprecate';
+@import './mixins/bootstrap/float';
+@import './mixins/bootstrap/forms';
+@import './mixins/bootstrap/gradients';
+@import './mixins/bootstrap/grid-framework';
+@import './mixins/bootstrap/grid';
+@import './mixins/bootstrap/hover';
+@import './mixins/bootstrap/image';
+@import './mixins/bootstrap/list-group';
+@import './mixins/bootstrap/lists';
+@import './mixins/bootstrap/nav-divider';
+@import './mixins/bootstrap/pagination';
+@import './mixins/bootstrap/reset-text';
+@import './mixins/bootstrap/resize';
+@import './mixins/bootstrap/screen-reader';
+@import './mixins/bootstrap/size';
+@import './mixins/bootstrap/table-row';
+@import './mixins/bootstrap/text-emphasis';
+@import './mixins/bootstrap/text-hide';
+@import './mixins/bootstrap/text-truncate';
+@import './mixins/bootstrap/transition';
+@import './mixins/bootstrap/visibility';
 
 @import './mixins/reset';
 @import './mixins/weight';
