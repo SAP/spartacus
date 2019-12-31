@@ -52,6 +52,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'addToCart',
     'addToWishList',
     'CMSTabParagraphContainer',
+    'variant',
     'stockNotification',
     'TabPanelContainer',
   ],
