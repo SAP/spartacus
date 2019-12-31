@@ -158,4 +158,32 @@ describe('ProtectedRoutesService', () => {
       });
     });
   });
+
+  describe('shouldProtect', () => {
+    describe('when app not protected', () => {
+      beforeEach(() => {
+        beforeEachWithConfig({
+          protected: false,
+          routes: {},
+        });
+      });
+
+      it('should return false', () => {
+        expect(service.shouldProtect).toBe(false);
+      });
+    });
+
+    describe('when app protected', () => {
+      beforeEach(() => {
+        beforeEachWithConfig({
+          protected: true,
+          routes: {},
+        });
+      });
+
+      it('should return true', () => {
+        expect(service.shouldProtect).toBe(true);
+      });
+    });
+  });
 });
