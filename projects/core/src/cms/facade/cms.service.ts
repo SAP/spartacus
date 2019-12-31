@@ -16,12 +16,15 @@ import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { serializePageContext } from '../../util/serialization-utils';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
 import { CmsSelectors } from '../store/selectors/index';
+
+const CURRENT_CONTEXT_KEY = 'current';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +33,9 @@ export class CmsService {
   private _launchInSmartEdit = false;
 
   private components: {
-    [uid: string]: Observable<CmsComponent>;
+    [pageContext: string]: {
+      [uid: string]: Observable<CmsComponent>;
+    };
   } = {};
 
   constructor(
@@ -67,39 +72,74 @@ export class CmsService {
 
   /**
    * Get CMS component data by uid
-   * @param uid : CMS componet uid
+   * @param uid CMS component uid
+   * @param pageContext if provided, it will be used to lookup (and create, if missing) the component data.
+   * Otherwise, the current page context from the router state will be used instead.
    */
-  getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
-    if (!this.components[uid]) {
-      this.components[uid] = combineLatest([
-        this.routingService.isNavigating(),
-        this.store.pipe(
-          select(CmsSelectors.componentStateSelectorFactory(uid))
-        ),
-      ]).pipe(
-        observeOn(queueScheduler),
-        tap(([isNavigating, componentState]) => {
-          // componentState is undefined when the whole components entities are empty.
-          // In this case, we don't load component one by one, but extract component data from cms page
-          if (componentState !== undefined) {
-            const attemptedLoad =
-              componentState.loading ||
-              componentState.success ||
-              componentState.error;
-            if (!attemptedLoad && !isNavigating) {
-              this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
-            }
-          }
-        }),
-        pluck(1),
-        filter(componentState => componentState && componentState.success),
-        pluck('value'),
-        distinctUntilChanged(),
-        shareReplay({ bufferSize: 1, refCount: true })
+  getComponentData<T extends CmsComponent>(
+    uid: string,
+    pageContext?: PageContext
+  ): Observable<T> {
+    const context = pageContext
+      ? serializePageContext(pageContext)
+      : CURRENT_CONTEXT_KEY;
+    // create the component context, if it doesn't already exist
+    let componentContext = this.components[context];
+    if (!componentContext) {
+      // TODO:#4603 - test
+      componentContext = this.components[context] = {};
+    }
+    // TODO:$4603 - rxjs using()
+    if (!componentContext[uid]) {
+      // TODO:#4603 - test
+      componentContext[uid] = this.createComponentData(uid, context);
+    }
+    return componentContext[uid] as Observable<T>;
+  }
+
+  private createComponentData<T extends CmsComponent>(
+    uid: string,
+    context: string
+  ): Observable<T> {
+    if (context === CURRENT_CONTEXT_KEY) {
+      return this.routingService.getPageContext().pipe(
+        filter(currentContext => Boolean(currentContext)),
+        switchMap(currentContext =>
+          this.getComponentData<T>(uid, currentContext)
+        )
       );
     }
 
-    return this.components[uid] as Observable<T>;
+    return combineLatest([
+      this.routingService.getNextPageContext(),
+      this.store.pipe(
+        // TODO:#4603 pass the context, if provided as a param
+        select(CmsSelectors.componentStateSelectorFactory(uid, context))
+      ),
+    ]).pipe(
+      observeOn(queueScheduler),
+      tap(([nextContext, componentState]) => {
+        // componentState is undefined when the whole components entities are empty.
+        // In this case, we don't load component one by one, but extract component data from cms page
+        if (componentState !== undefined) {
+          const attemptedLoad =
+            componentState.loading ||
+            componentState.success ||
+            componentState.error;
+          // if the requested context is the same as the one that's currently being navigated to (as it might already been triggered and might be available shortly from page data)
+          const couldBeLoadedWithPageData =
+            serializePageContext(nextContext) === context;
+          if (!attemptedLoad && !couldBeLoadedWithPageData) {
+            this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
+          }
+        }
+      }),
+      pluck(1),
+      filter(componentState => componentState && componentState.success),
+      pluck('value'),
+      distinctUntilChanged(),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   /**

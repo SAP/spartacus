@@ -1,6 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { isObject } from '../config/utils/deep-merge';
 import { ErrorModel, HttpErrorModel } from '../model/misc.model';
+import { PageContext } from '../routing/models/page-context.model';
+
+const PAGE_CONTEXT_SEPARATOR = '-';
 
 export const UNKNOWN_ERROR = {
   error: 'unknown error',
@@ -46,4 +49,9 @@ export function makeErrorSerializable(
   }
 
   return isObject(error) ? UNKNOWN_ERROR : error;
+}
+
+// TODO:4603 - test
+export function serializePageContext(pageContext: PageContext): string {
+  return `${pageContext.id} + ${PAGE_CONTEXT_SEPARATOR} + ${pageContext.type}`;
 }
