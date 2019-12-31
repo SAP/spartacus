@@ -162,11 +162,11 @@ describe('BudgetService', () => {
 
   describe('update budget', () => {
     it('update() should should dispatch UpdateBudget action', () => {
-      service.update(budget);
+      service.update(budgetCode, budget);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new BudgetActions.UpdateBudget({ userId, budget })
+        new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       );
     });
   });

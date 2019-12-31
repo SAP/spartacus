@@ -165,14 +165,18 @@ describe('Budget Actions', () => {
   describe('UpdateBudget Actions', () => {
     describe('UpdateBudget', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.UpdateBudget({ userId, budget });
+        const action = new BudgetActions.UpdateBudget({
+          userId,
+          budgetCode,
+          budget,
+        });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.UPDATE_BUDGET,
-          payload: { userId, budget },
+          payload: { userId, budgetCode, budget },
           meta: StateEntityLoaderActions.entityLoadMeta(
             BUDGET_FEATURE,
-            budgetCode
+            budgetCode,
           ),
         });
       });

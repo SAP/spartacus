@@ -104,7 +104,7 @@ describe('OccBudgetAdapter', () => {
 
   describe('update budget', () => {
     it('should update budget', () => {
-      service.update(userId, budget).subscribe();
+      service.update(userId, budgetCode, budget).subscribe();
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'PATCH' &&
