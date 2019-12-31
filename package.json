@@ -65,7 +65,7 @@
     "release-notes:styles": "ts-node ./scripts/changelog.ts --verbose --lib styles",
     "release-notes:schematics": "ts-node ./scripts/changelog.ts --verbose --lib schematics",
     "release-notes:incubator": "ts-node ./scripts/changelog.ts --verbose --lib incubator",
-    "publish:docs": "gh-pages -d documentation -m \"Compodocs updates\"",
+    "publish:docs": "gh-pages -d documentation -m \"Updating Compodocs\"",
     "build:cds": "ng build storefrontapp-cds-integration --prod",
     "build:core:lib:cds": "yarn build:core:lib && ng build cds",
     "build:cds:qa": "ng build storefrontapp-cds-integration -c=qa",
