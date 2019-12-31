@@ -10,20 +10,21 @@ function cleanup {
     delete_file spartacussampledataaddon.zip
     delete_file spartacussampledataaddon.tar
 
+    delete_dir coverage
     delete_dir dist
     delete_dir documentation
     delete_dir node_modules
 }
 
 function delete_file {
-  if [ -a $1 ]; then
-    rm $1
+  if [ -a "$1" ]; then
+    rm "$1"
   fi
 }
 
 function delete_dir {
-  if [ -d $1 ]; then
-    rm -rf $1
+  if [ -d "$1" ]; then
+    rm -rf "$1"
   fi
 }
 
@@ -57,3 +58,5 @@ cleanup
 zipSamplesAddOn
 generate_docs
 build_libs
+
+echo "--> Pre-release tasks DONE."
