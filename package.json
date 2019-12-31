@@ -72,6 +72,7 @@
     "e2e:cy:cds:run:vendor": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:cds:run:vendor",
     "e2e:cy:cds:start-open": "start-server-and-test start:cds:ci http-get://localhost:4200 e2e:cy:open",
     "e2e:cy:cds:start-run": "start-server-and-test start:cds:ci http-get://localhost:4200 e2e:cy:run",
+    "e2e:cy:cds:start-run-ci": "start-server-and-test start:cds:ci http-get://localhost:4200 e2e:cy:run:ci",
     "e2e:cy:cds:start-run-all-ci": "start-server-and-test start:cds:ci http-get://localhost:4200 e2e:cy:run:all:ci",
     "start:cds": "ng serve storefrontapp-cds-integration --proxy-config mock-server/proxy.backend.js",
     "start:cds:qa": "ng serve storefrontapp-cds-integration -c=qa",
