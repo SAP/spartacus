@@ -50,6 +50,6 @@ if [[ $1 == '-h' ]]; then
     -Dsonar.projectKey=sap_cloud-commerce-spartacus-storefront \
     -Dsonar.organization=sap \
     -Dsonar.host.url=https://sonarcloud.io \
-    -Dsonar.login=$SONAR_TOKEN \
+    -Dsonar.login=$SONAR_TOKEN
 fi
 
