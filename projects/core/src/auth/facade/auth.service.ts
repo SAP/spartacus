@@ -34,7 +34,7 @@ export class AuthService {
 
   /**
    * This function provides the userId the OCC calls should use, depending
-   * on wether there is an active storefront session or not.
+   * on whether there is an active storefront session or not.
    *
    * It returns the userId of the current storefront user or 'anonymous'
    * in the case there are no signed in user in the storefront.
