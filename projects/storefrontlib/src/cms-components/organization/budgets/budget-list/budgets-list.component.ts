@@ -6,6 +6,7 @@ import {
   map,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 
 import {
@@ -38,11 +39,12 @@ export class BudgetsListComponent implements OnInit {
     protected cxDate: CxDatePipe
   ) {}
 
-  cxRoute = 'budgetDetails';
+  readonly cxRoute = 'budgetDetails';
   budgetsList$: Observable<any>;
   isLoaded$: Observable<boolean>;
-  params$: Observable<BudgetSearchConfig>;
-  defaultParams: BudgetSearchConfig = {
+  private params$: Observable<BudgetSearchConfig>;
+
+  protected defaultParams: BudgetSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
@@ -75,9 +77,10 @@ export class BudgetsListComponent implements OnInit {
       })),
       distinctUntilChanged(shallowEqualObjects),
       map(this.normalizeParams),
+      tap(params => this.budgetsService.loadBudgets(params)),
       switchMap(params =>
         this.budgetsService.getList(params).pipe(
-          filter(budgetsList => Boolean(budgetsList)),
+          filter(Boolean),
           map((budgetsList: BudgetListModel) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
@@ -133,7 +136,7 @@ export class BudgetsListComponent implements OnInit {
 
   goToBudgetDetail(budget: Budget): void {
     this.routingService.go({
-      cxRoute: 'budgetDetails',
+      cxRoute: this.cxRoute,
       params: budget,
     });
   }

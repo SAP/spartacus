@@ -3,5 +3,6 @@
 </div>
 <cx-budget-form
   [actionBtnLabel]="'budgetForm.create' | cxTranslate"
+  (submitBudget)="createBudget($event)"
 >
 </cx-budget-form>

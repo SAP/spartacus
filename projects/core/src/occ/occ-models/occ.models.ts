@@ -4076,4 +4076,16 @@ export namespace Occ {
     town?: string;
     visibleInAddressBook?: true;
   }
+
+  export interface B2BUnitNodeList {
+    unitNodes?: Array<B2BUnitNode>
+  }
+
+  export interface B2BUnitNode {
+    active?: boolean,
+    children?: Array<B2BUnitNode>,
+    id?: string,
+    name?: string,
+    parent?: string,
+  }
 }

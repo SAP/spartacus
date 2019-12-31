@@ -49,7 +49,7 @@ export class BudgetEffects {
           // TODO: extract into the same service with denormalization
           const budgetsEntities = budgets.budgets;
           const budgetPage = {
-            ids: budgets.budgets.map(budget => budget.code),
+            ids: budgetsEntities.map(budget => budget.code),
             pagination: budgets.pagination,
             sorts: budgets.sorts,
           };
@@ -101,7 +101,7 @@ export class BudgetEffects {
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
     switchMap(payload =>
-      this.budgetConnector.update(payload.userId, payload.budget).pipe(
+      this.budgetConnector.update(payload.userId, payload.budgetCode, payload.budget).pipe(
         map(data => new BudgetActions.UpdateBudgetSuccess(data)),
         catchError(error =>
           of(

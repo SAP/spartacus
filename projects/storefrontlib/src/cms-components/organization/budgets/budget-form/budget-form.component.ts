@@ -3,21 +3,30 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Budget, Currency, CurrencyService, OrgUnit, UrlCommandRoute } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
+import {
+  Budget,
+  Currency,
+  CurrencyService,
+  UrlCommandRoute,
+  B2BUnitNode,
+  B2BUnitNodeList,
+  OrgUnitService,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-budget-form',
   templateUrl: './budget-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BudgetFormComponent implements OnInit, OnDestroy {
-  businessUnits$: Observable<OrgUnit[]>;
+export class BudgetFormComponent implements OnInit {
+  businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
 
   @Input()
@@ -43,9 +52,7 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   @Output()
   clickBack = new EventEmitter<any>();
 
-  budgetVerifySub: Subscription;
-
-  budget: FormGroup = this.fb.group({
+  form: FormGroup = this.fb.group({
     code: [''],
     name: [''],
     orgUnit: this.fb.group({
@@ -59,22 +66,30 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
     budget: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, protected currencyService: CurrencyService) {}
+  constructor(
+    private fb: FormBuilder,
+    protected currencyService: CurrencyService,
+    protected orgUnitService: OrgUnitService
+  ) {}
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
-    // this.orgUnits = this.currencyService.getAll();
+    this.businessUnits$ = this.orgUnitService.getList().pipe(
+      filter(Boolean),
+      map((list: B2BUnitNodeList) => list.unitNodes)
+    );
+    if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
+      this.form.patchValue(this.budgetData);
+      console.log('initBudget', this.form);
+    }
   }
 
   currencySelected(currency: Currency): void {
-    this.budget['controls'].titleCode.setValue(currency.isocode);
+    this.form.controls.currency['controls'].isocode.setValue(currency.isocode);
   }
 
-  businessUnitSelected(orgUnit: OrgUnit): void {
-    this.budget['controls'].businessUnits['controls'].isocode.setValue(
-      orgUnit.uid
-    );
-    // this.businessUnits$.next(orgUnit.uid);
+  businessUnitSelected(orgUnit: B2BUnitNode): void {
+    this.form.controls.orgUnit['controls'].uid.setValue(orgUnit.id);
   }
 
   back(): void {
@@ -82,37 +97,9 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   }
 
   verifyBudget(): void {
-    //budgetVerifySub
-    // if (this.address.controls['region'].value.isocode) {
-    //   this.regionsSub = this.regions$.pipe(take(1)).subscribe(regions => {
-    //     const obj = regions.find(
-    //       region =>
-    //         region.isocode === this.address.controls['region'].value.isocode
-    //     );
-    //     Object.assign(this.address.value.region, {
-    //       isocodeShort: obj.isocodeShort,
-    //     });
-    //   });
-    // }
-    //
-    // if (this.address.dirty) {
-    //   this.checkoutDeliveryService.verifyAddress(this.address.value);
-    // } else {
-    //   // address form value not changed
-    //   // ignore duplicate address
-    //   this.submitBudget.emit(undefined);
-    // }
-  }
-
-  ngOnDestroy() {
-    // this.checkoutDeliveryService.clearAddressVerificationResults();
-    //
-    // if (this.addressVerifySub) {
-    //   this.addressVerifySub.unsubscribe();
-    // }
-    //
-    // if (this.regionsSub) {
-    //   this.regionsSub.unsubscribe();
-    // }
+    console.log('verifyBudget', this.form);
+    if (!this.form.invalid) {
+      this.submitBudget.emit(this.form.value);
+    }
   }
 }

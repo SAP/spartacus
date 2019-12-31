@@ -324,4 +324,16 @@ export interface OccEndpoints {
    * @member {string}
    */
   budgets?: string;
+  /**
+   * Endpoint for organizations list
+   *
+   * @member {string}
+   */
+  organizations?: string;
+  /**
+   * Endpoint for organization
+   *
+   * @member {string}
+   */
+  organization?: string;
 }

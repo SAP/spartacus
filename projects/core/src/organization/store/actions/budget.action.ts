@@ -101,7 +101,7 @@ export class CreateBudgetSuccess extends EntitySuccessAction {
 
 export class UpdateBudget extends EntityLoadAction {
   readonly type = UPDATE_BUDGET;
-  constructor(public payload: { userId: string; budget: Budget }) {
+  constructor(public payload: { userId: string; budgetCode: string, budget: Budget }) {
     super(BUDGET_ENTITIES, payload.budget.code);
   }
 }

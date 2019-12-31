@@ -5,7 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
-import { BUDGET_NORMALIZER } from '../../../organization/connectors/budget/converters';
+import {
+  BUDGET_NORMALIZER,
+  BUDGETS_NORMALIZER,
+} from '../../../organization/connectors/budget/converters';
 import { Budget } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
@@ -29,7 +32,9 @@ export class OccBudgetAdapter implements BudgetAdapter {
     userId: string,
     params?: BudgetSearchConfig
   ): Observable<BudgetsList> {
-    return this.http.get<BudgetsList>(this.getBudgetsEndpoint(userId, params));
+    return this.http
+      .get<BudgetsList>(this.getBudgetsEndpoint(userId, params))
+      .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
   }
 
   create(userId: string, budget: Budget): Observable<Budget> {
@@ -38,9 +43,13 @@ export class OccBudgetAdapter implements BudgetAdapter {
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  update(userId: string, budget: Budget): Observable<Budget> {
+  update(
+    userId: string,
+    budgetCode: string,
+    budget: Budget
+  ): Observable<Budget> {
     return this.http
-      .patch<Budget>(this.getBudgetEndpoint(userId, budget.code), budget)
+      .patch<Budget>(this.getBudgetEndpoint(userId, budgetCode), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 

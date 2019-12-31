@@ -1,15 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UrlCommandRoute } from '@spartacus/core';
+import { Component } from '@angular/core';
+import {
+  BudgetService,
+  RoutingService,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-budget-create',
   templateUrl: './budget-create.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetCreateComponent {
-  routerBackLink: UrlCommandRoute = {
-    cxRoute: 'budgets',
-  };
+  constructor(
+    protected budgetService: BudgetService,
+    protected routingService: RoutingService
+  ) {}
 
-  backToList() {}
+  createBudget(budget) {
+    this.budgetService.create(budget);
+    this.routingService.go({
+      cxRoute: 'budgetDetails',
+      params: budget
+    });
+  }
 }

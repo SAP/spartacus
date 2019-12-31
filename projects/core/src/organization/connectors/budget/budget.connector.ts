@@ -16,7 +16,10 @@ export class BudgetConnector {
     return this.adapter.load(userId, budgetCode);
   }
 
-  getList(userId: string, params?: BudgetSearchConfig): Observable<BudgetsList> {
+  getList(
+    userId: string,
+    params?: BudgetSearchConfig
+  ): Observable<BudgetsList> {
     return this.adapter.loadList(userId, params);
   }
 
@@ -24,7 +27,11 @@ export class BudgetConnector {
     return this.adapter.create(userId, budget);
   }
 
-  update(userId: string, budget: Budget): Observable<Budget> {
-    return this.adapter.update(userId, budget);
+  update(
+    userId: string,
+    budgetCode: string,
+    budget: Budget
+  ): Observable<Budget> {
+    return this.adapter.update(userId, budgetCode, budget);
   }
 }

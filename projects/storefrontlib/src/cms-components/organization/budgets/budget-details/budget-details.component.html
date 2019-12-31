@@ -43,15 +43,24 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12 col-lg-6">
-          <button class="btn btn-secondary btn-block">
-            {{
-            budget.active
-              ? ('budget.disable' | cxTranslate)
-              : ('budget.enable' | cxTranslate)
-            }}
+        <div *ngIf="budget.active; else enable" class="col-md-12 col-lg-6">
+          <button
+            class="btn btn-secondary btn-block"
+            (click)="update({ active: false })"
+          >
+            {{ 'budget.disable' | cxTranslate }}
           </button>
         </div>
+        <ng-template #enable>
+          <div class="col-md-12 col-lg-6">
+            <button
+              class="btn btn-primary btn-block"
+              (click)="update({ active: true })"
+            >
+              {{ 'budget.enable' | cxTranslate }}
+            </button>
+          </div>
+        </ng-template>
       </div>
     </div>
     <div class="col-md-12 col-lg-6">
