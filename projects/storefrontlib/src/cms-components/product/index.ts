@@ -10,6 +10,7 @@ export * from './product-outlets.model';
 export * from './product-summary/product-summary.component';
 export * from './product-summary/product-summary.module';
 export * from './product-tabs/index';
+export * from './product-variant-selector/guards/index';
 export * from './stock-notification/stock-notification-dialog/stock-notification-dialog.component';
 export * from './stock-notification/stock-notification.component';
 export * from './stock-notification/stock-notification.module';
