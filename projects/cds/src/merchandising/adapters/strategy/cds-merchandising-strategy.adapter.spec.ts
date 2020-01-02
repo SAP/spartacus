@@ -9,7 +9,6 @@ import { StrategyProducts } from '../../model/strategy-products.model';
 import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
 import createSpy = jasmine.createSpy;
 
-const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const STRATEGY_ID = 'test-strategy-id';
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 const strategyIdObject = { strategyId: STRATEGY_ID };
@@ -43,12 +42,6 @@ const strategyRequestUndefinedConsentReference = {
   ...strategyRequest,
   headers: {
     'consent-reference': undefined,
-  },
-};
-const strategyRequestConsentReference = {
-  ...strategyRequest,
-  headers: {
-    'consent-reference': `${CONSENT_REFERENCE}`,
   },
 };
 
@@ -167,35 +160,6 @@ describe('MerchandisingStrategyAdapter', () => {
       expect(
         mockStrategyProductsRequest.request.headers.get('consent-reference')
       ).toBeFalsy();
-
-      expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
-        STRATEGY_PRODUCTS_ENDPOINT_KEY,
-        strategyIdObject,
-        strategyRequest.queryParams
-      );
-
-      mockStrategyProductsRequest.flush(expectedProductsFromStrategy);
-    });
-    it('should load the products for a given strategy id, the request URL should include the parameters in the StrategyRequest, and a HTTP header for consent-reference', () => {
-      strategyAdapter
-        .loadProductsForStrategy(STRATEGY_ID, strategyRequestConsentReference)
-        .subscribe(products => {
-          expect(products).toEqual(expectedProductsFromStrategy);
-        });
-      const mockStrategyProductsRequest = httpMock.expectOne(request => {
-        /*
-         * Our mock CdsEndpointsService returns the given endpoint key as the url,
-         * so the adapter will make the http request with the endpoint key rather than a url
-         */
-        return (
-          request.method === 'GET' &&
-          request.url === STRATEGY_PRODUCTS_ENDPOINT_KEY
-        );
-      });
-
-      expect(
-        mockStrategyProductsRequest.request.headers.get('consent-reference')
-      ).toBeTruthy();
 
       expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
