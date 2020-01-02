@@ -25,6 +25,9 @@ export class CartItemListComponent implements OnInit {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   @Input()
+  allowBuyAgain = false;
+
+  @Input()
   set items(_items) {
     this._items = _items;
     this.items.forEach(item => {

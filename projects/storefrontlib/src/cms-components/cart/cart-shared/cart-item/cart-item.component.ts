@@ -42,6 +42,8 @@ export class CartItemComponent implements OnInit {
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
+  @Input()
+  allowBuyAgain = false;
 
   @Input()
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
