@@ -14,8 +14,6 @@ import {
 } from '../store/selectors/budget.selector';
 import { BudgetSearchConfig } from '../model/search-config';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
-// import { getProcessStateFactory } from '../../process/store/selectors/process.selectors';
-// import { LOAD_BUDGETS_PROCESS_ID } from '../../../../../dist/core/src/organization/store/organization-state';
 
 @Injectable()
 export class BudgetService {
@@ -35,10 +33,6 @@ export class BudgetService {
       this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
     );
   }
-
-  // getBudgetsProcess() {
-  //    return this.store.select(getProcessStateFactory(LOAD_BUDGETS_PROCESS_ID));
-  //  }
 
   private getBudgetState(budgetCode: string) {
     return this.store.select(getBudgetState(budgetCode));

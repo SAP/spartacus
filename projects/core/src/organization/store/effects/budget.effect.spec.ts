@@ -46,11 +46,13 @@ const budget: Budget = {
   orgUnit: { uid: 'ouid', name: 'ouName' },
   costCenters: [],
 };
+const pagination = { currentPage: 1 };
+const sorts = [{ selected: true, name: 'code' }];
 
 class MockBudgetConnector {
   get = createSpy().and.returnValue(of(budget));
   getList = createSpy().and.returnValue(
-    of({ budgets: [budget], pagination: 1, sorts: 'name' })
+    of({ budgets: [budget], pagination, sorts })
   );
   create = createSpy().and.returnValue(of(budget));
   update = createSpy().and.returnValue(of(budget));
@@ -124,7 +126,7 @@ describe('Budget Effects', () => {
       const completion = new BudgetActions.LoadBudgetSuccess([budget]);
       const completion2 = new BudgetActions.LoadBudgetsSuccess({
         params,
-        budgetPage: { ids: [budgetCode], pagination: 1, sorts: 'name' },
+        budgetPage: { ids: [budgetCode], pagination, sorts },
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });

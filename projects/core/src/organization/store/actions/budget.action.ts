@@ -7,6 +7,7 @@ import {
 import { BudgetSearchConfig } from '../../model/search-config';
 import { serializeBudgetSearchConfig } from '../../utils/budgets';
 import { BUDGET_ENTITIES, BUDGET_LISTS } from '../organization-state';
+import { PaginationModel, SortModel } from '../../../model/misc.model';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
 export const LOAD_BUDGET_FAIL = '[Budget] Load Budget Data Fail';
@@ -62,7 +63,7 @@ export class LoadBudgets extends EntityLoadAction {
 
 export class LoadBudgetsFail extends EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
-  constructor(public payload: {params: BudgetSearchConfig, error: any}) {
+  constructor(public payload: { params: BudgetSearchConfig; error: any }) {
     super(
       BUDGET_LISTS,
       serializeBudgetSearchConfig(payload.params),
@@ -73,7 +74,16 @@ export class LoadBudgetsFail extends EntityFailAction {
 
 export class LoadBudgetsSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGETS_SUCCESS;
-  constructor(public payload: {budgetPage: any, params: BudgetSearchConfig}) {
+  constructor(
+    public payload: {
+      budgetPage: {
+        ids: string[];
+        pagination: PaginationModel;
+        sorts: SortModel[];
+      };
+      params: BudgetSearchConfig;
+    }
+  ) {
     super(BUDGET_LISTS, serializeBudgetSearchConfig(payload.params));
   }
 }
@@ -101,7 +111,9 @@ export class CreateBudgetSuccess extends EntitySuccessAction {
 
 export class UpdateBudget extends EntityLoadAction {
   readonly type = UPDATE_BUDGET;
-  constructor(public payload: { userId: string; budgetCode: string, budget: Budget }) {
+  constructor(
+    public payload: { userId: string; budgetCode: string; budget: Budget }
+  ) {
     super(BUDGET_ENTITIES, payload.budget.code);
   }
 }
