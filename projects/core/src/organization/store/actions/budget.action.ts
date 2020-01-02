@@ -73,7 +73,7 @@ export class LoadBudgetsFail extends EntityFailAction {
 
 export class LoadBudgetsSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGETS_SUCCESS;
-  constructor(public payload: {params: BudgetSearchConfig}) {
+  constructor(public payload: {budgetPage: any, params: BudgetSearchConfig}) {
     super(BUDGET_LISTS, serializeBudgetSearchConfig(payload.params));
   }
 }

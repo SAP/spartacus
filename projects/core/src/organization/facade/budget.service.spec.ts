@@ -119,7 +119,7 @@ describe('BudgetService', () => {
 
     it('getList() should be able to get budgets when they are present in the store', () => {
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      store.dispatch(new BudgetActions.LoadBudgetsSuccess(params));
+      store.dispatch(new BudgetActions.LoadBudgetsSuccess({params, budgetPage: {ids: []}}));
       let budgets: any;
       service
         .getList(params)

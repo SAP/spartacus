@@ -49,7 +49,9 @@ const budget: Budget = {
 
 class MockBudgetConnector {
   get = createSpy().and.returnValue(of(budget));
-  getList = createSpy().and.returnValue(of([budget]));
+  getList = createSpy().and.returnValue(
+    of({ budgets: [budget], pagination: 1, sorts: 'name' })
+  );
   create = createSpy().and.returnValue(of(budget));
   update = createSpy().and.returnValue(of(budget));
 }
@@ -120,7 +122,10 @@ describe('Budget Effects', () => {
     it('should return LoadBudgetSuccess action', () => {
       const action = new BudgetActions.LoadBudgets({ userId, params });
       const completion = new BudgetActions.LoadBudgetSuccess([budget]);
-      const completion2 = new BudgetActions.LoadBudgetsSuccess(params);
+      const completion2 = new BudgetActions.LoadBudgetsSuccess({
+        params,
+        budgetPage: { ids: [budgetCode], pagination: 1, sorts: 'name' },
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
@@ -131,7 +136,7 @@ describe('Budget Effects', () => {
     it('should return LoadBudgetsFail action if budgets not loaded', () => {
       budgetConnector.getList = createSpy().and.returnValue(throwError(error));
       const action = new BudgetActions.LoadBudgets({ userId, params });
-      const completion = new BudgetActions.LoadBudgetsFail(error);
+      const completion = new BudgetActions.LoadBudgetsFail({ error, params });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -165,24 +170,40 @@ describe('Budget Effects', () => {
 
   describe('updateBudget$', () => {
     it('should return UpdateBudgetSuccess action', () => {
-      const action = new BudgetActions.UpdateBudget({ userId, budgetCode, budget });
+      const action = new BudgetActions.UpdateBudget({
+        userId,
+        budgetCode,
+        budget,
+      });
       const completion = new BudgetActions.UpdateBudgetSuccess(budget);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
       expect(effects.updateBudget$).toBeObservable(expected);
-      expect(budgetConnector.update).toHaveBeenCalledWith(userId, budgetCode, budget);
+      expect(budgetConnector.update).toHaveBeenCalledWith(
+        userId,
+        budgetCode,
+        budget
+      );
     });
 
     it('should return UpdateBudgetFail action if budget not created', () => {
       budgetConnector.update = createSpy().and.returnValue(throwError(error));
-      const action = new BudgetActions.UpdateBudget({ userId, budgetCode, budget });
+      const action = new BudgetActions.UpdateBudget({
+        userId,
+        budgetCode,
+        budget,
+      });
       const completion = new BudgetActions.UpdateBudgetFail(budget.code, error);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
       expect(effects.updateBudget$).toBeObservable(expected);
-      expect(budgetConnector.update).toHaveBeenCalledWith(userId, budgetCode, budget);
+      expect(budgetConnector.update).toHaveBeenCalledWith(
+        userId,
+        budgetCode,
+        budget
+      );
     });
   });
 });
