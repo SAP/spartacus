@@ -11,9 +11,9 @@ yarn
 echo '-----'
 echo 'Building Spartacus libraries'
 if [[ $INTEGRATION == 'cds' ]]; then
-    yarn build:core:lib:cds 2>&1 | tee build.log
+    yarn build:core:lib:cds && yarn build:cds 2>&1 | tee build.log
 else
-    yarn build:core:lib 2>&1 | tee build.log
+    yarn build:core:lib && yarn build 2>&1 | tee build.log
 fi
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
