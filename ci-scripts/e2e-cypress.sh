@@ -12,10 +12,10 @@ echo 'Building Spartacus libraries'
 yarn build:core:lib:cds && yarn build:cds 2>&1 | tee build.log
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "$results" ]]; then
-    echo "Success: prod build is fine."
+    echo "Success: Spartacus production build was successful."
     rm build.log
 else
-    echo "ERROR: check the import statements. 'Warning: Can't resolve all parameters for' found in the build log."
+    echo "ERROR: Spartacus production build failed. Check the import statements. 'Warning: Can't resolve all parameters for ...' found in the build log."
     rm build.log
     exit 1
 fi
