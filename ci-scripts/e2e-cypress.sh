@@ -10,7 +10,12 @@ yarn
 
 echo '-----'
 echo 'Building Spartacus libraries'
-yarn build:core:lib:cds 2>&1 | tee build.log
+if [[ $INTEGRATION == 'cds' ]]; then
+    yarn build:core:lib:cds 2>&1 | tee build.log
+else
+    yarn build:core:lib 2>&1 | tee build.log
+fi
+
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "$results" ]]; then
     echo "Success: prod build is fine."
