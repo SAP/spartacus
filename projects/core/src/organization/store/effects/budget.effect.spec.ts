@@ -8,30 +8,14 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import createSpy = jasmine.createSpy;
 
-import { PageType } from '../../../model/cms.model';
 import { Budget } from '../../../model/budget.model';
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { RoutingService } from '../../../routing/facade/routing.service';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import * as fromEffects from './budget.effect';
 import { BudgetSearchConfig } from '../../model/search-config';
 
-const router = {
-  state: {
-    url: '/',
-    queryParams: {},
-    params: {},
-    context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false,
-  },
-};
-class MockRoutingService {
-  getRouterState() {
-    return of(router);
-  }
-}
 const error = 'error';
 const budgetCode = 'testCode';
 const userId = 'testUser';
@@ -84,7 +68,6 @@ describe('Budget Effects', () => {
         { provide: OccConfig, useValue: defaultOccOrganizationConfig },
         fromEffects.BudgetEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 

@@ -1,4 +1,4 @@
-import { BUDGET_ENTITIES } from '../organization-state';
+import { BUDGET_ENTITIES, BUDGET_LISTS } from '../organization-state';
 import { Budget } from '../../../model/budget.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { BudgetActions } from './index';
@@ -9,8 +9,12 @@ const budget: Budget = {
 };
 const userId = 'xxx@xxx.xxx';
 const error = 'anError';
+const params = { currentPage: 2 };
+const query = 'pageSize=&currentPage=2&sort=';
 
-// const params = {};
+const pagination = { currentPage: 1 };
+const sorts = [{ selected: true, name: 'code' }];
+const budgetPage = { ids: [budgetCode], pagination, sorts };
 
 describe('Budget Actions', () => {
   describe('LoadBudget Actions', () => {
@@ -64,54 +68,52 @@ describe('Budget Actions', () => {
   });
 
   describe('LoadBudgets Actions', () => {
-    // describe('LoadBudgets', () => {
-    //   it('should create the action', () => {
-    //     const action = new BudgetActions.LoadBudgets({
-    //       userId,
-    //       params,
-    //     });
-    //
-    //     expect({ ...action }).toEqual({
-    //       type: BudgetActions.LOAD_BUDGETS,
-    //       payload: { userId, params },
-    //       meta: StateEntityLoaderActions.entityLoadMeta(
-    //         PROCESS_FEATURE,
-    //         LOAD_BUDGETS_PROCESS_ID
-    //       ),
-    //     });
-    //   });
-    // });
-    //
-    // describe('LoadBudgetsFail', () => {
-    //   it('should create the action', () => {
-    //     const action = new BudgetActions.LoadBudgetsFail(error);
-    //
-    //     expect({ ...action }).toEqual({
-    //       type: BudgetActions.LOAD_BUDGETS_FAIL,
-    //       payload: error,
-    //       meta: StateEntityLoaderActions.entityFailMeta(
-    //         PROCESS_FEATURE,
-    //         LOAD_BUDGETS_PROCESS_ID,
-    //         error
-    //       ),
-    //     });
-    //   });
-    // });
-    //
-    // describe('LoadBudgetsSuccess', () => {
-    //   it('should create the action', () => {
-    //     const action = new BudgetActions.LoadBudgetsSuccess(params);
-    //
-    //     expect({ ...action }).toEqual({
-    //       type: BudgetActions.LOAD_BUDGETS_SUCCESS,
-    //       payload: undefined,
-    //       meta: StateEntityLoaderActions.entitySuccessMeta(
-    //         PROCESS_FEATURE,
-    //         LOAD_BUDGETS_PROCESS_ID
-    //       ),
-    //     });
-    //   });
-    // });
+    describe('LoadBudgets', () => {
+      it('should create the action', () => {
+        const action = new BudgetActions.LoadBudgets({
+          userId,
+          params,
+        });
+
+        expect({ ...action }).toEqual({
+          type: BudgetActions.LOAD_BUDGETS,
+          payload: { userId, params },
+          meta: StateEntityLoaderActions.entityLoadMeta(BUDGET_LISTS, query),
+        });
+      });
+    });
+
+    describe('LoadBudgetsFail', () => {
+      it('should create the action', () => {
+        const action = new BudgetActions.LoadBudgetsFail({
+          params,
+          error: { error },
+        });
+
+        expect({ ...action }).toEqual({
+          type: BudgetActions.LOAD_BUDGETS_FAIL,
+          payload: { params, error: { error } },
+          meta: StateEntityLoaderActions.entityFailMeta(BUDGET_LISTS, query, {
+            error,
+          }),
+        });
+      });
+    });
+
+    describe('LoadBudgetsSuccess', () => {
+      it('should create the action', () => {
+        const action = new BudgetActions.LoadBudgetsSuccess({
+          budgetPage,
+          params,
+        });
+
+        expect({ ...action }).toEqual({
+          type: BudgetActions.LOAD_BUDGETS_SUCCESS,
+          payload: { budgetPage, params },
+          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_LISTS, query),
+        });
+      });
+    });
   });
 
   describe('CreateBudget Actions', () => {
@@ -176,7 +178,7 @@ describe('Budget Actions', () => {
           payload: { userId, budgetCode, budget },
           meta: StateEntityLoaderActions.entityLoadMeta(
             BUDGET_ENTITIES,
-            budgetCode,
+            budgetCode
           ),
         });
       });
