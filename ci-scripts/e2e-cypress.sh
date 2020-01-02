@@ -3,7 +3,7 @@ set -e
 set -o pipefail
 
 SUITE=$1
-INTEGRATION=:$2
+INTEGRATION=":$2"
 
 yarn
 (cd projects/storefrontapp-e2e-cypress && yarn)
