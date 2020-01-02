@@ -97,7 +97,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      // expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(authService.getOccUserId).not.toHaveBeenCalled();
       expect(budgetDetails).toEqual(budget);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudget({ userId, budgetCode })
@@ -144,7 +144,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      // expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(authService.getOccUserId).not.toHaveBeenCalled();
       expect(budgets).toEqual(budgetList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudgets({ userId, params })
