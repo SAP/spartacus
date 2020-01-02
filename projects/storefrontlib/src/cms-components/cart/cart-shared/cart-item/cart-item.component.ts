@@ -61,9 +61,21 @@ export class CartItemComponent implements OnInit {
   increment: boolean;
 
   constructor(
+    promotionService: PromotionService,
+    // tslint:disable-next-line: unified-signatures
+    cartService: CartService,
+    modalService: ModalService
+  );
+
+  /**
+   * @deprecated
+   */
+  constructor(promotionService: PromotionService);
+
+  constructor(
     protected promotionService: PromotionService,
-    protected cartService: CartService,
-    protected modalService: ModalService
+    protected cartService?: CartService,
+    protected modalService?: ModalService
   ) {}
 
   ngOnInit() {
