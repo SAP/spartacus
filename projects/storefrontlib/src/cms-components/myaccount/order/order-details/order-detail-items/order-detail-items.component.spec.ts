@@ -12,10 +12,10 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
+import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
+import { PromotionsModule } from '../../../../checkout';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
-import { PromotionsModule } from '../../../../checkout';
-import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 
 const mockOrder: Order = {
   code: '1',
@@ -85,6 +85,8 @@ class MockCartItemListComponent {
   cartIsLoading = false;
   @Input()
   promotionLocation: PromotionLocation = PromotionLocation.Order;
+  @Input()
+  allowBuyAgain;
 }
 
 @Component({
