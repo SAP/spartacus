@@ -4,7 +4,7 @@ set -o pipefail
 
 SUITE=$1
 
-if [[ -z "$2" ]]; then
+if [[ $2 -eq 0 ]]; then
     INTEGRATION=":$2"
 else
     INTEGRATION=""
