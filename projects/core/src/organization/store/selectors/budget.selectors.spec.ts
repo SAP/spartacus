@@ -6,10 +6,13 @@ import { BudgetActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
+  BUDGET_ENTITIES,
+  BUDGET_LISTS,
+  BudgetManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { BudgetSelectors } from '../selectors/index';
-import { LoaderState } from '@spartacus/core';
+import { EntityLoaderState, LoaderState } from '@spartacus/core';
 
 describe('Budget Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -56,27 +59,29 @@ describe('Budget Selectors', () => {
 
   describe('getBudgetManagementState ', () => {
     it('should return budgets state', () => {
-      // let result: BudgetManagement; //EntityLoaderState<Budget>;
-      let result: any;
+      let result: BudgetManagement;
       store
         .pipe(select(BudgetSelectors.getBudgetManagementState))
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      expect(result).toEqual( entities );
+      expect(result).toEqual({
+        [BUDGET_ENTITIES]: { entities },
+        [BUDGET_LISTS]: { entities: {} },
+      });
     });
   });
 
   describe('getBudgets', () => {
     it('should return budgets', () => {
-      // let result: EntityState<LoaderState<Budget>>; // { [id: string]: LoaderState<Budget> }
-      let result: any;
+      let result: EntityLoaderState<Budget>;
       store
         .pipe(select(BudgetSelectors.getBudgetsState))
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      expect(result).toEqual(entities);
+      console.log('xxx', result, ' ->', entities);
+      expect(result).toEqual({ entities });
     });
   });
 
