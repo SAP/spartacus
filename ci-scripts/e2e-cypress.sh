@@ -10,8 +10,8 @@ yarn
 
 echo '-----'
 echo 'Building Spartacus libraries'
-if [[ $INTEGRATION == 'cds' ]]; then
-    yarn build:core:lib:cds && yarn build:cds 2>&1 | tee build.log
+if [[ -z "$INTEGRATION" ]]; then
+    yarn build:core:lib:${INTEGRATION} && yarn build:${INTEGRATION} 2>&1 | tee build.log
 else
     yarn build:core:lib && yarn build 2>&1 | tee build.log
 fi
@@ -29,8 +29,8 @@ fi
 echo '-----'
 echo "Running Cypress end to end tests $SUITE"
 if [[ $SUITE == 'regression' ]]; then
-    if [[ $INTEGRATION == 'cds' ]]; then
-        yarn e2e:cy:cds:start-run-all-ci
+    if [[ -z "$INTEGRATION" ]]; then
+        yarn e2e:cy:${INTEGRATION}:start-run-all-ci
     else 
         yarn e2e:cy:start-run-all-ci
     fi
