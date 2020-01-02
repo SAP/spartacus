@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
-  Product,
-  ProductService,
-  RoutingService,
   VariantOption,
+  ProductService,
+  Product,
+  RoutingService,
 } from '@spartacus/core';
 
 @Injectable({
