@@ -3,11 +3,10 @@ import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
-  VariantOption,
-  ProductService,
   Product,
+  ProductService,
   RoutingService,
-  ProductScope,
+  VariantOption,
 } from '@spartacus/core';
 
 @Injectable({
@@ -23,9 +22,7 @@ export class ProductVariantGuard implements CanActivate {
     return this.routingService.getRouterState().pipe(
       map(state => state.nextState.params.productCode),
       filter(Boolean),
-      switchMap((productCode: string) =>
-        this.productService.get(productCode, ProductScope.DETAILS)
-      ),
+      switchMap((productCode: string) => this.productService.get(productCode)),
       filter(Boolean),
       map((product: Product) => {
         if (!product.purchasable) {
