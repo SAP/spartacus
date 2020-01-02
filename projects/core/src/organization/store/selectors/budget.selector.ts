@@ -7,7 +7,8 @@ import { BudgetSearchConfig } from '../../model/search-config';
 import { serializeBudgetSearchConfig } from '../../utils/budgets';
 import {
   BUDGET_ENTITIES,
-  BUDGET_FEATURE, BUDGET_LISTS,
+  BUDGET_FEATURE,
+  BUDGET_LISTS,
   BudgetManagement,
   OrganizationState,
   StateWithOrganization,
