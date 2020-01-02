@@ -1,3 +1,4 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
 import {
@@ -5,6 +6,7 @@ import {
   cdsConfigValidator,
   DEFAULT_CDS_CONFIG,
 } from './config/index';
+import { CdsConsentReferenceInterceptor } from './http-interceptors/cds-consent-reference-interceptor';
 import { MerchandisingModule } from './merchandising/merchandising.module';
 import { ProfileTagModule } from './profiletag/profile-tag.module';
 
@@ -20,6 +22,11 @@ export class CdsModule {
         provideConfig(config),
         provideConfigValidator(cdsConfigValidator),
         { provide: CdsConfig, useExisting: Config },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useExisting: CdsConsentReferenceInterceptor,
+          multi: true,
+        },
       ],
     };
   }

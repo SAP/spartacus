@@ -35,9 +35,10 @@ export class CdsMerchandisingProductService {
           return {
             queryParams: {
               ...siteContext,
-              products: userContext.products,
-              facets: userContext.facets,
-              category: userContext.category,
+              // products: userContext.products,
+              // facets: userContext.facets,
+              // category: userContext.category,
+              ...userContext,
               pageSize: numberToDisplay,
             },
             headers: {
