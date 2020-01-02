@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CmsProductCarouselComponent as model,
   FeatureConfigService,
-  Product, ProductScope,
+  Product,
+  ProductScope,
   ProductService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
