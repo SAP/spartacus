@@ -36,7 +36,7 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
     section?: string
   ) {
     if (pageTemplate === 'CartPageTemplate' && !section) {
-      if (this.featureConfig.isEnabled('saveForLater')) {
+      if (this.featureConfig && this.featureConfig.isEnabled('saveForLater')) {
         return combineLatest([
           slots$,
           this.cartService.getActive(),

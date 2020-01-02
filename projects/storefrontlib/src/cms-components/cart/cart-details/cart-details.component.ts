@@ -81,7 +81,10 @@ export class CartDetailsComponent implements OnInit {
   }
 
   isSaveForLaterEnabled(): boolean {
-    return this.featureConfig.isEnabled('saveForLater');
+    if (this.featureConfig) {
+      return this.featureConfig.isEnabled('saveForLater');
+    }
+    return false;
   }
 
   /**

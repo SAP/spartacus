@@ -84,11 +84,14 @@ export class CartItemListComponent implements OnInit {
   ngOnInit(): void {}
 
   isSaveForLaterEnabled(): boolean {
-    return this.featureConfig.isEnabled('saveForLater');
+    if (this.featureConfig) {
+      return this.featureConfig.isEnabled('saveForLater');
+    }
+    return false;
   }
 
   removeEntry(item: Item): void {
-    if (this.options.isSaveForLater) {
+    if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else {
       this.cartService.removeEntry(item);
