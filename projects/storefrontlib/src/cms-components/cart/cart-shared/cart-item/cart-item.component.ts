@@ -57,8 +57,20 @@ export class CartItemComponent implements OnInit {
   appliedProductPromotions$: Observable<PromotionResult[]>;
 
   constructor(
+    promotionService: PromotionService,
+    // tslint:disable-next-line:unified-signatures
+    featureConfig: FeatureConfigService
+  );
+  /**
+   * @deprecated Since 1.5
+   * Add featureConfig for save for later.
+   * Remove issue: #5958
+   */
+  constructor(promotionService: PromotionService);
+
+  constructor(
     protected promotionService: PromotionService,
-    private featureConfig: FeatureConfigService
+    private featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit() {

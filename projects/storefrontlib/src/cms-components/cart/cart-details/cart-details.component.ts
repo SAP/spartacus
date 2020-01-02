@@ -39,9 +39,9 @@ export class CartDetailsComponent implements OnInit {
   );
 
   /**
-   * @deprecated Since 1.4
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
+   * @deprecated Since 1.5
+   * Use promotionService instead of the promotion inputs, add selectiveCartService authService routingService and featureConfig for save for later.
+   * Remove issue: #5670 #5958
    */
   constructor(cartService: CartService);
 
@@ -85,7 +85,7 @@ export class CartDetailsComponent implements OnInit {
   }
 
   /**
-   * @deprecated Since 1.4
+   * @deprecated Since 1.5
    * Use promotionService instead of the promotion inputs.
    * Remove issue: #5670
    */

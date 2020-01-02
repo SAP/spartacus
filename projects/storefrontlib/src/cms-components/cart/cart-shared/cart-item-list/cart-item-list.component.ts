@@ -60,10 +60,24 @@ export class CartItemListComponent implements OnInit {
   }
 
   constructor(
+    cartService: CartService,
+    fb: FormBuilder,
+    selectiveCartService: SelectiveCartService,
+    featureConfig: FeatureConfigService
+  );
+
+  /**
+   * @deprecated Since 1.5
+   * Add selectiveCartService authService routingService and featureConfig for save for later.
+   * Remove issue: #5958
+   */
+  constructor(cartService: CartService, fb: FormBuilder);
+
+  constructor(
     protected cartService: CartService,
     protected fb: FormBuilder,
-    protected selectiveCartService: SelectiveCartService,
-    private featureConfig: FeatureConfigService
+    protected selectiveCartService?: SelectiveCartService,
+    private featureConfig?: FeatureConfigService
   ) {}
 
   // TODO remove for 2.0 - left to keep backward compatibility

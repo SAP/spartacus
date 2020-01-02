@@ -13,9 +13,21 @@ import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-lay
 })
 export class CartPageLayoutHandler implements PageLayoutHandler {
   constructor(
+    cartService: CartService,
+    selectiveCartService: SelectiveCartService,
+    featureConfig: FeatureConfigService
+  );
+  /**
+   * @deprecated Since 1.5
+   * Add selectiveCartService and featureConfig for save for later.
+   * Remove issue: #5958
+   */
+  constructor(cartService: CartService);
+
+  constructor(
     private cartService: CartService,
-    private selectiveCartService: SelectiveCartService,
-    private featureConfig: FeatureConfigService
+    private selectiveCartService?: SelectiveCartService,
+    private featureConfig?: FeatureConfigService
   ) {}
 
   handle(
