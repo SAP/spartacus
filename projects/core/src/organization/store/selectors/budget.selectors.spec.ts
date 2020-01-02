@@ -80,7 +80,6 @@ describe('Budget Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      console.log('xxx', result, ' ->', entities);
       expect(result).toEqual({ entities });
     });
   });
