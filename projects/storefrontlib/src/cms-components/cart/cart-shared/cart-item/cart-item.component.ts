@@ -1,11 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
   CartService,
@@ -70,8 +63,7 @@ export class CartItemComponent implements OnInit {
   constructor(
     protected promotionService: PromotionService,
     protected cartService: CartService,
-    protected modalService: ModalService,
-    protected cd: ChangeDetectorRef
+    protected modalService: ModalService
   ) {}
 
   ngOnInit() {
