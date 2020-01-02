@@ -115,7 +115,7 @@ describe('ProductImageNormalizer', () => {
     });
     service = TestBed.get(ProductImageNormalizer as Type<
       ProductImageNormalizer
-      >);
+    >);
   });
 
   it('should inject ProductImageConverterService', inject(
