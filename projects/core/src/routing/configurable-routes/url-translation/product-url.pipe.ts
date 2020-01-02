@@ -11,6 +11,7 @@ export class ProductURLPipe implements PipeTransform {
 
   constructor(private semanticPath : SemanticPathService){}
   transform(item: Product){
+    console.log(item);
     return this.semanticPath.transform(new ProductURLCommand("product", item));
   }
 }
