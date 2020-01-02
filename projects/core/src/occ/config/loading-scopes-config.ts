@@ -16,5 +16,3 @@ export interface LoadingScopesConfig {
 export interface LoadingScopes {
   [model: string]: LoadingScopesConfig;
 }
-
-export const cxz: LoadingScopes = { dsasa: { dsadsa: { include: [] } } };

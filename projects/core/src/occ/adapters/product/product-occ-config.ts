@@ -1,9 +1,10 @@
 import {
   LoadingScopeConfig,
   LoadingScopesConfig,
-} from './loading-scopes-config';
+} from '../../config/loading-scopes-config';
 
-declare module './loading-scopes-config' {
+// Improve type-safety and code completion for product loading scopes
+declare module '../../config/loading-scopes-config' {
   interface LoadingScopes {
     product: ProductScopesConfig;
   }

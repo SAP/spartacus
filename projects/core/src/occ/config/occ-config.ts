@@ -1,6 +1,7 @@
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { OccEndpoints } from '../occ-models/occ-endpoints.model';
 import { LoadingScopes } from './loading-scopes-config';
+import '../adapters/product/product-occ-config';
 
 export abstract class OccConfig extends SiteContextConfig {
   backend?: {
