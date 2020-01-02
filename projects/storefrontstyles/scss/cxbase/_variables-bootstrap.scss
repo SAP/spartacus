@@ -779,39 +779,6 @@ $popover-arrow-color: $popover-bg !default;
 
 $popover-arrow-outer-color: fade-in($popover-border-color, 0.05) !default;
 
-// Toasts
-
-$toast-max-width: 350px !default;
-$toast-padding-x: 0.75rem !default;
-$toast-padding-y: 0.25rem !default;
-$toast-font-size: 0.875rem !default;
-$toast-color: null !default;
-$toast-background-color: rgba($white, 0.85) !default;
-$toast-border-width: 1px !default;
-$toast-border-color: rgba(0, 0, 0, 0.1) !default;
-$toast-border-radius: 0.25rem !default;
-$toast-box-shadow: 0 0.25rem 0.75rem rgba($black, 0.1) !default;
-
-$toast-header-color: $gray-600 !default;
-$toast-header-background-color: rgba($white, 0.85) !default;
-$toast-header-border-color: rgba(0, 0, 0, 0.05) !default;
-
-// Badges
-
-$badge-font-size: 75% !default;
-$badge-font-weight: $font-weight-bold !default;
-$badge-padding-y: 0.25em !default;
-$badge-padding-x: 0.4em !default;
-$badge-border-radius: $border-radius !default;
-
-$badge-transition: $btn-transition !default;
-$badge-focus-width: $input-btn-focus-width !default;
-
-$badge-pill-padding-x: 0.6em !default;
-// Use a higher than normal value to ensure completely rounded edges when
-// customizing padding or font-size on labels.
-$badge-pill-border-radius: 10rem !default;
-
 // Modals
 
 // Padding applied to the modal body
@@ -848,21 +815,6 @@ $modal-sm: 300px !default;
 $modal-fade-transform: translate(0, -50px) !default;
 $modal-show-transform: none !default;
 $modal-transition: transform 0.3s ease-out !default;
-
-// Alerts
-//
-// Define alert colors, border radius, and padding.
-
-$alert-padding-y: 0.75rem !default;
-$alert-padding-x: 1.25rem !default;
-$alert-margin-bottom: 1rem !default;
-$alert-border-radius: $border-radius !default;
-$alert-link-font-weight: $font-weight-bold !default;
-$alert-border-width: $border-width !default;
-
-$alert-bg-level: -10 !default;
-$alert-border-level: -9 !default;
-$alert-color-level: 6 !default;
 
 // Progress bars
 
@@ -914,21 +866,6 @@ $thumbnail-box-shadow: 0 1px 2px rgba($black, 0.075) !default;
 
 $figure-caption-font-size: 90% !default;
 $figure-caption-color: $gray-600 !default;
-
-// Breadcrumbs
-
-$breadcrumb-padding-y: 0.75rem !default;
-$breadcrumb-padding-x: 1rem !default;
-$breadcrumb-item-padding: 0.5rem !default;
-
-$breadcrumb-margin-bottom: 1rem !default;
-
-$breadcrumb-bg: $gray-200 !default;
-$breadcrumb-divider-color: $gray-600 !default;
-$breadcrumb-active-color: $gray-600 !default;
-$breadcrumb-divider: quote('/') !default;
-
-$breadcrumb-border-radius: $border-radius !default;
 
 // Carousel
 
