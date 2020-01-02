@@ -15,7 +15,4 @@ export interface StrategyRequest {
     pageNumber?: number;
     pageSize?: number;
   };
-  headers?: {
-    'consent-reference'?: string;
-  };
 }
