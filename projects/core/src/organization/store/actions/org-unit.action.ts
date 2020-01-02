@@ -47,8 +47,6 @@ export class LoadOrgUnitSuccess extends EntitySuccessAction {
   }
 }
 
-// TODO: create standard for query params serializers
-
 export class LoadOrgUnits extends EntityLoadAction {
   readonly type = LOAD_ORG_UNITS;
   constructor(
@@ -65,7 +63,7 @@ export class LoadOrgUnitsFail extends EntityFailAction {
   constructor(public payload: any) {
     super(
       ORG_UNIT_LISTS,
-      payload.params,
+      LIST,
       payload.error
     );
   }
