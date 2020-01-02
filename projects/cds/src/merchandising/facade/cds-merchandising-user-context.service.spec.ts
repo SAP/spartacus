@@ -18,7 +18,7 @@ import {
 import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 
-const uuidv4 = require('uuid/v4');
+const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};
 class RoutingServiceStub {
   getPageContext(): Observable<PageContext> {
@@ -105,9 +105,8 @@ describe('CdsMerchandisingUserContextService', () => {
   });
 
   it('should return a valid MerchandisingUserContext object, with a valid consent reference, if the page is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
-    const generatedConsentReference = uuidv4();
     const expectedMerchandisingUserContext = {
-      consentReference: `${generatedConsentReference}`,
+      consentReference: `${consentReference}`,
       category: undefined,
       facets: undefined,
     };
@@ -118,7 +117,7 @@ describe('CdsMerchandisingUserContextService', () => {
       of(emptyPageSearchResults)
     );
     spyOn(profileTagEventService, 'getConsentReference').and.returnValue(
-      of(generatedConsentReference)
+      of(consentReference)
     );
 
     let merchandisingUserContext: MerchandisingUserContext;
