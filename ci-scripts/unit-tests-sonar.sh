@@ -33,12 +33,7 @@ fi
 
 echo "Running unit tests for schematics"
 exec 5>&1
-output=$(cd projects/schematics && yarn && yarn test | tee /dev/fd/5)
-coverage=$(echo $output | grep -i "does not meet global threshold" || true)
-if [[ -n "$coverage" ]]; then
-    echo "Error: Tests did not meet coverage expectations"
-    exit 1
-fi
+$(cd projects/schematics && yarn && yarn test)
 
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"
