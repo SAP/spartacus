@@ -3,18 +3,15 @@ set -e
 set -o pipefail
 
 SUITE=$1
-INTEGRATION=$2
+INTEGRATION=:$2
 
 yarn
 (cd projects/storefrontapp-e2e-cypress && yarn)
 
 echo '-----'
 echo 'Building Spartacus libraries'
-if [[ -z "$INTEGRATION" ]]; then
-    yarn build:core:lib:${INTEGRATION} && yarn build:${INTEGRATION} 2>&1 | tee build.log
-else
-    yarn build:core:lib && yarn build 2>&1 | tee build.log
-fi
+yarn build:core:lib${INTEGRATION} && yarn build 2>&1 | tee build.log
+
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "$results" ]]; then
@@ -29,11 +26,8 @@ fi
 echo '-----'
 echo "Running Cypress end to end tests $SUITE"
 if [[ $SUITE == 'regression' ]]; then
-    if [[ -z "$INTEGRATION" ]]; then
-        yarn e2e:cy:${INTEGRATION}:start-run-all-ci
-    else 
-        yarn e2e:cy:start-run-all-ci
-    fi
+     yarn e2e:cy${INTEGRATION}:start-run-all-ci
+
 else
     yarn e2e:cy:start-run-ci
 fi
