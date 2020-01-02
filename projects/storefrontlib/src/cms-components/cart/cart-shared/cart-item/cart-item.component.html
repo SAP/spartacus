@@ -137,15 +137,28 @@
         {{ 'common.remove' | cxTranslate }}
       </button>
     </div>
+
     <div *ngIf="allowBuyAgain" class="cx-actions col-12">
-      <button
-        class="link"
-        [class.disabled]="cartIsLoading"
-        [disabled]="cartIsLoading"
-        (click)="addToCart()"
-      >
-        {{ 'orderDetails.buyItAgain' | cxTranslate }}
-      </button>
+      <div *ngIf="!isProductOutOfStock(item); else outOfStock">
+        <button
+          class="link"
+          [class.disabled]="cartIsLoading"
+          [disabled]="cartIsLoading"
+          (click)="addToCart()"
+        >
+          {{ 'orderDetails.buyItAgain' | cxTranslate }}
+        </button>
+      </div>
+      <ng-template #outOfStock>
+        <button
+          class="link"
+          [class.disabled]="cartIsLoading"
+          [disabled]="true"
+          (click)="addToCart()"
+        >
+          {{ 'myInterests.outOfStock' | cxTranslate }}
+        </button>
+      </ng-template>
     </div>
   </div>
 </div>

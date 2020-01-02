@@ -87,7 +87,7 @@ export class CartItemComponent implements OnInit {
     this.increment = false;
   }
 
-  isProductOutOfStock(product) {
+  isProductOutOfStock(product): boolean {
     // TODO Move stocklevelstatuses across the app to an enum
     return (
       product &&
