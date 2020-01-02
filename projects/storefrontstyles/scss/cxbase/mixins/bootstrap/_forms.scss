@@ -25,7 +25,6 @@
   }
 }
 
-
 @mixin form-validation-state($state, $color, $icon) {
   .#{$state}-feedback {
     display: none;
@@ -42,7 +41,7 @@
     display: none;
     max-width: 100%; // Contain to parent when possible
     padding: $form-feedback-tooltip-padding-y $form-feedback-tooltip-padding-x;
-    margin-top: .1rem;
+    margin-top: 0.1rem;
     @include font-size($form-feedback-tooltip-font-size);
     line-height: $form-feedback-tooltip-line-height;
     color: color-yiq($color);
@@ -65,7 +64,7 @@
 
       &:focus {
         border-color: $color;
-        box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
+        box-shadow: 0 0 0 $input-focus-width rgba($color, 0.25);
       }
 
       ~ .#{$state}-feedback,
@@ -81,33 +80,13 @@
     &.is-#{$state} {
       @if $enable-validation-icons {
         padding-right: $input-height-inner;
-        background-position: top $input-height-inner-quarter right $input-height-inner-quarter;
+        background-position: top
+          $input-height-inner-quarter
+          right
+          $input-height-inner-quarter;
       }
     }
   }
-
-  .custom-select {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      border-color: $color;
-
-      @if $enable-validation-icons {
-        padding-right: $custom-select-feedback-icon-padding-right;
-        background: $custom-select-background, $icon $custom-select-bg no-repeat $custom-select-feedback-icon-position / $custom-select-feedback-icon-size;
-      }
-
-      &:focus {
-        border-color: $color;
-        box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
-      }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-    }
-  }
-
 
   .form-control-file {
     .was-validated &:#{$state},
@@ -129,63 +108,6 @@
       ~ .#{$state}-feedback,
       ~ .#{$state}-tooltip {
         display: block;
-      }
-    }
-  }
-
-  .custom-control-input {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      ~ .custom-control-label {
-        color: $color;
-
-        &::before {
-          border-color: $color;
-        }
-      }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-
-      &:checked {
-        ~ .custom-control-label::before {
-          border-color: lighten($color, 10%);
-          @include gradient-bg(lighten($color, 10%));
-        }
-      }
-
-      &:focus {
-        ~ .custom-control-label::before {
-          box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
-        }
-
-        &:not(:checked) ~ .custom-control-label::before {
-          border-color: $color;
-        }
-      }
-    }
-  }
-
-  // custom file
-  .custom-file-input {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      ~ .custom-file-label {
-        border-color: $color;
-      }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-
-      &:focus {
-        ~ .custom-file-label {
-          border-color: $color;
-          box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
-        }
       }
     }
   }
