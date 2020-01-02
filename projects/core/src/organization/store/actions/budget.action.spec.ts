@@ -1,4 +1,4 @@
-import { BUDGET_FEATURE } from '../organization-state';
+import { BUDGET_ENTITIES } from '../organization-state';
 import { Budget } from '../../../model/budget.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { BudgetActions } from './index';
@@ -25,7 +25,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.LOAD_BUDGET,
           payload: { userId, budgetCode },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });
@@ -40,7 +40,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.LOAD_BUDGET_FAIL,
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode,
             error
           ),
@@ -55,7 +55,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET_SUCCESS,
           payload: [budget],
-          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_FEATURE, [
+          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_ENTITIES, [
             budgetCode,
           ]),
         });
@@ -123,7 +123,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.CREATE_BUDGET,
           payload: { userId, budget },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });
@@ -138,7 +138,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.CREATE_BUDGET_FAIL,
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode,
             error
           ),
@@ -154,7 +154,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.CREATE_BUDGET_SUCCESS,
           payload: budget,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });
@@ -175,7 +175,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.UPDATE_BUDGET,
           payload: { userId, budgetCode, budget },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode,
           ),
         });
@@ -190,7 +190,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.UPDATE_BUDGET_FAIL,
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode,
             error
           ),
@@ -206,7 +206,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.UPDATE_BUDGET_SUCCESS,
           payload: budget,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });

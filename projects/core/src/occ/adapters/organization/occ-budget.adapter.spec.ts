@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, BUDGET_NORMALIZER } from '@spartacus/core';
+import { ConverterService, BUDGET_NORMALIZER, BUDGETS_NORMALIZER } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 
@@ -80,8 +80,8 @@ describe('OccBudgetAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([budget]);
-      expect(converterService.pipeableMany).toHaveBeenCalledWith(
-        BUDGET_NORMALIZER
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        BUDGETS_NORMALIZER
       );
     });
   });

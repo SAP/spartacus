@@ -62,7 +62,7 @@ export class LoadBudgets extends EntityLoadAction {
 
 export class LoadBudgetsFail extends EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
-  constructor(public payload: any) {
+  constructor(public payload: {params: BudgetSearchConfig, error: any}) {
     super(
       BUDGET_LISTS,
       serializeBudgetSearchConfig(payload.params),
@@ -73,7 +73,7 @@ export class LoadBudgetsFail extends EntityFailAction {
 
 export class LoadBudgetsSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGETS_SUCCESS;
-  constructor(public payload: any) {
+  constructor(public payload: {params: BudgetSearchConfig}) {
     super(BUDGET_LISTS, serializeBudgetSearchConfig(payload.params));
   }
 }

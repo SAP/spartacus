@@ -171,7 +171,7 @@ describe('Budget Effects', () => {
       expected = cold('-b', { b: completion });
 
       expect(effects.updateBudget$).toBeObservable(expected);
-      expect(budgetConnector.update).toHaveBeenCalledWith(userId, budget);
+      expect(budgetConnector.update).toHaveBeenCalledWith(userId, budgetCode, budget);
     });
 
     it('should return UpdateBudgetFail action if budget not created', () => {
@@ -182,7 +182,7 @@ describe('Budget Effects', () => {
       expected = cold('-b', { b: completion });
 
       expect(effects.updateBudget$).toBeObservable(expected);
-      expect(budgetConnector.update).toHaveBeenCalledWith(userId, budget);
+      expect(budgetConnector.update).toHaveBeenCalledWith(userId, budgetCode, budget);
     });
   });
 });
