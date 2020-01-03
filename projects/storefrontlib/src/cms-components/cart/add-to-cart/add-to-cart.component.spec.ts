@@ -24,7 +24,7 @@ const mockProduct: Product = {
 };
 
 const mockProduct2: Product = {
-  name: 'mockPrduct2',
+  name: 'mockProduct2',
   code: 'code2',
   stock: { stockLevelStatus: 'inStock' },
 };
@@ -39,6 +39,9 @@ class MockCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
+  }
+  getAddEntryLoaded(): Observable<boolean> {
+    return of(true);
   }
   getLoaded(): Observable<boolean> {
     return of();

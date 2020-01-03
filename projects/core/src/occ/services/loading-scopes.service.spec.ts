@@ -18,6 +18,7 @@ describe('LoadingScopesService', () => {
           },
           order: {
             include: ['base'],
+            maxAge: 60,
           },
         },
       },
@@ -54,6 +55,17 @@ describe('LoadingScopesService', () => {
     it('should not duplicate scopes', () => {
       const result = service.expand('product', ['detail', 'order', 'base']);
       expect(result).toEqual(['list', 'detail', 'order', 'base']);
+    });
+  });
+
+  describe('getMaxAge', () => {
+    it('should return maxAge in milliseconds', () => {
+      const result = service.getMaxAge('product', 'order');
+      expect(result).toEqual(60000);
+    });
+    it('should return 0 for not configured maxAge', () => {
+      const result = service.getMaxAge('product', 'detail');
+      expect(result).toEqual(0);
     });
   });
 });

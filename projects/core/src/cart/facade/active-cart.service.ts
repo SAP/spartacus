@@ -23,7 +23,6 @@ import {
 } from '../../occ/utils/occ-constants';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
-import { CartActions } from '../store';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
@@ -94,9 +93,17 @@ export class ActiveCartService {
             (cartEntity.error || cartEntity.success) && !cartEntity.loading,
         };
       }),
-      filter(({ isStable }) => isStable),
-      tap(({ cart, cartId, loaded }) => {
-        if (this.isEmpty(cart) && !loaded && cartId !== FRESH_CART_ID) {
+      // we want to emit empty carts even if those are not stable
+      // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
+      // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart
+      filter(({ isStable, cart }) => isStable || this.isEmpty(cart)),
+      tap(({ cart, cartId, loaded, isStable }) => {
+        if (
+          isStable &&
+          this.isEmpty(cart) &&
+          !loaded &&
+          cartId !== FRESH_CART_ID
+        ) {
           this.load(cartId);
         }
       }),
@@ -199,10 +206,6 @@ export class ActiveCartService {
     }
   }
 
-  private setActiveCartIdToFresh() {
-    this.store.dispatch(new CartActions.SetActiveCartId(FRESH_CART_ID));
-  }
-
   private addEntriesGuestMerge(cartEntries: OrderEntry[]) {
     const entriesToAdd = cartEntries.map(entry => ({
       productCode: entry.product.code,
@@ -223,6 +226,16 @@ export class ActiveCartService {
     );
   }
 
+  private isCartCreating(cartState) {
+    // cart creating is always represented with loading flags
+    // when all loading flags are false it means that we restored wrong cart id
+    // could happen on context change or reload right in the middle on cart create call
+    return (
+      this.cartId === FRESH_CART_ID &&
+      (cartState.loading || cartState.success || cartState.error)
+    );
+  }
+
   private requireLoadedCart(
     customCartSelector$?: Observable<ProcessesLoaderState<Cart>>
   ): Observable<ProcessesLoaderState<Cart>> {
@@ -236,7 +249,7 @@ export class ActiveCartService {
     return cartSelector$.pipe(
       filter(cartState => !cartState.loading),
       // Avoid load/create call when there are new cart creating at the moment
-      filter(() => this.cartId !== FRESH_CART_ID),
+      filter(cartState => !this.isCartCreating(cartState)),
       take(1),
       switchMap(cartState => {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
@@ -258,8 +271,6 @@ export class ActiveCartService {
       take(1),
       switchMap(cartState => {
         if (this.isEmpty(cartState.value)) {
-          // point to fresh cart to use their `loading` flag while we create cart
-          this.setActiveCartIdToFresh();
           this.multiCartService.createCart({
             userId: this.userId,
             extraData: {
@@ -272,7 +283,7 @@ export class ActiveCartService {
       filter(cartState => !cartState.loading),
       filter(cartState => cartState.success || cartState.error),
       // wait for active cart id to point to code/guid to avoid some work on fresh entity
-      filter(() => this.cartId !== FRESH_CART_ID),
+      filter(cartState => !this.isCartCreating(cartState)),
       filter(cartState => !this.isEmpty(cartState.value)),
       take(1)
     );
