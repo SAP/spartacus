@@ -2,17 +2,30 @@
 set -e
 set -o pipefail
 
+POSITIONAL=()
 SUITE="regression"
 INTEGRATION=""
 
-while getopts s:i: o 
-do 
- case "${o}" 
- in 
- s) SUITE=${OPTARG};; 
- i) INTEGRATION=":${OPTARG}";; 
- esac 
-done 
+while [ "${1:0:1}" == "-" ]
+do
+    case "$1" in 
+        '--suite' | '-s' )
+            SUITE=$2
+            shift
+            shift
+            ;;
+        '--integration' | '-i' )
+            INTEGRATION=":$2"
+            shift
+            shift
+            ;;
+        * )
+            POSITIONAL+=("$1")
+            shift
+    esac
+done
+
+set -- "${POSITIONAL[@]}"
 
 yarn
 (cd projects/storefrontapp-e2e-cypress && yarn)
