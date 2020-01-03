@@ -4,10 +4,10 @@ set -o pipefail
 
 SUITE=$1
 
-if [[ $2 -eq 0 ]]; then
-    INTEGRATION=":$2"
-else
+if [[ -z "$2" ]]; then
     INTEGRATION=""
+else
+    INTEGRATION=":$2"
 fi
 
 yarn
