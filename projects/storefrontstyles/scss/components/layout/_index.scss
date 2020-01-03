@@ -1,5 +1,7 @@
 @import './progress-bar';
 @import './storefront';
 @import './header/index';
+@import './skip-link';
 
-$layout-components-whitelist: cx-storefront, header, cx-site-context-selector !default;
+$layout-components-whitelist: cx-storefront, header, cx-site-context-selector,
+  cx-skip-link !default;

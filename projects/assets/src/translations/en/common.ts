@@ -100,4 +100,14 @@ export const common = {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
   },
+  skipLink: {
+    skipTo: 'Skip to',
+    labels: {
+      header: 'Header',
+      main: 'Main Content',
+      footer: 'Footer',
+      productFacets: 'Product Facets',
+      productList: 'Product List',
+    },
+  },
 };
