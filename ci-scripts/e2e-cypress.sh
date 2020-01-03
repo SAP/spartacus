@@ -3,7 +3,7 @@ set -e
 set -o pipefail
 
 POSITIONAL=()
-SUITE="regression"
+SUITE=""
 INTEGRATION=""
 
 while [ "${1:0:1}" == "-" ]
