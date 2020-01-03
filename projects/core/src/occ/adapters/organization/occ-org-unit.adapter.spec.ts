@@ -96,7 +96,7 @@ describe('OccOrgUnitAdapter', () => {
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'POST' &&
-          req.url === 'organization' &&
+          req.url === 'organizations' &&
           req.body.id === orgUnit.id
       );
       expect(mockReq.cancelled).toBeFalsy();

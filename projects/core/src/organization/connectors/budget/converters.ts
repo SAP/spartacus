@@ -5,6 +5,6 @@ import { Budget, BudgetListModel } from '../../../model/budget.model';
 export const BUDGET_NORMALIZER = new InjectionToken<Converter<any, Budget>>(
   'BudgetNormalizer'
 );
-export const BUDGETS_NORMALIZER = new InjectionToken<Converter<any, BudgetListModel>>(
-  'BudgetsListNormalizer'
-);
+export const BUDGETS_NORMALIZER = new InjectionToken<
+  Converter<any, BudgetListModel>
+>('BudgetsListNormalizer');

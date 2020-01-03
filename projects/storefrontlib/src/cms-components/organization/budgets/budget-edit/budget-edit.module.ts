@@ -4,7 +4,8 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe, I18nModule,
+  CxDatePipe,
+  I18nModule,
   UserService,
 } from '@spartacus/core';
 import { BudgetEditComponent } from './budget-edit.component';

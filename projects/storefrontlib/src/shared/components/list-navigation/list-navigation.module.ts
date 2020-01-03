@@ -8,7 +8,13 @@ import { SearchComponent } from './search/search.component';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 
 @NgModule({
-  imports: [CommonModule, NgSelectModule, FormsModule, ReactiveFormsModule, IconModule],
+  imports: [
+    CommonModule,
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IconModule,
+  ],
   declarations: [PaginationComponent, SortingComponent, SearchComponent],
   exports: [PaginationComponent, SortingComponent, SearchComponent],
 })

@@ -58,9 +58,6 @@ export class BudgetDetailsComponent implements OnInit {
   update(budget: Budget) {
     this.budgetCode$
       .pipe(take(1))
-      .subscribe(budgetCode =>
-        this.budgetsService.update(budgetCode, budget)
-      );
+      .subscribe(budgetCode => this.budgetsService.update(budgetCode, budget));
   }
-
 }

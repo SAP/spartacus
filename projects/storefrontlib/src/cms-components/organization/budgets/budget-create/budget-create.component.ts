@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  BudgetService,
-  RoutingService,
-} from '@spartacus/core';
+import { BudgetService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-budget-create',
@@ -18,7 +15,7 @@ export class BudgetCreateComponent {
     this.budgetService.create(budget);
     this.routingService.go({
       cxRoute: 'budgetDetails',
-      params: budget
+      params: budget,
     });
   }
 }

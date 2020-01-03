@@ -55,7 +55,8 @@ import { WishListModule } from './wish-list/wish-list.module';
 import {
   BudgetsListModule,
   BudgetDetailsModule,
-  BudgetEditModule, BudgetCreateModule,
+  BudgetEditModule,
+  BudgetCreateModule,
 } from './organization/index';
 
 @NgModule({

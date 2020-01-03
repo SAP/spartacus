@@ -6,5 +6,5 @@ export interface B2BUnitNode {
   parent?: string;
 }
 export interface B2BUnitNodeList {
-  unitNodes?: Array<B2BUnitNode>
+  unitNodes?: Array<B2BUnitNode>;
 }

@@ -21,5 +21,9 @@ export abstract class BudgetAdapter {
 
   abstract create(userId: string, budget: Budget): Observable<Budget>;
 
-  abstract update(userId: string, budgetCode: string, budget: Budget): Observable<Budget>;
+  abstract update(
+    userId: string,
+    budgetCode: string,
+    budget: Budget
+  ): Observable<Budget>;
 }

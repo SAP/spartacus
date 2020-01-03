@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Occ } from '../../../occ-models/occ.models';
-import {
-  Converter,
-} from '../../../../util/converter.service';
+import { Converter } from '../../../../util/converter.service';
 import { Budget } from '../../../../model/budget.model';
 
 @Injectable()

@@ -58,7 +58,7 @@ describe('BudgetConnector', () => {
   });
 
   it('should update budget', () => {
-    service.update(userId, budgetCode,budget);
+    service.update(userId, budgetCode, budget);
     expect(adapter.update).toHaveBeenCalledWith(userId, budgetCode, budget);
   });
 });

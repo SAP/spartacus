@@ -4,4 +4,5 @@
 @import './search/index';
 @import './icons';
 
-$misc-components-whitelist: cx-icon, cx-spinner, cx-card, cx-pagination, cx-search !default;
+$misc-components-whitelist: cx-icon, cx-spinner, cx-card, cx-pagination,
+  cx-search !default;

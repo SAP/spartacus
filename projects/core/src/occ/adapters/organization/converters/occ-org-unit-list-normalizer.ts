@@ -12,7 +12,10 @@ export class OccOrgUnitListNormalizer
   implements Converter<Occ.B2BUnitNodeList, B2BUnitNodeList> {
   constructor(private converter: ConverterService) {}
 
-  convert(source: Occ.B2BUnitNodeList, target?: B2BUnitNodeList): B2BUnitNodeList {
+  convert(
+    source: Occ.B2BUnitNodeList,
+    target?: B2BUnitNodeList
+  ): B2BUnitNodeList {
     if (target === undefined) {
       target = {
         ...(source as any),

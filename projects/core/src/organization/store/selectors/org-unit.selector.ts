@@ -6,7 +6,10 @@ import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   OrgUnits,
   OrganizationState,
-  StateWithOrganization, ORG_UNIT_FEATURE, ORG_UNIT_ENTITIES, ORG_UNIT_LISTS,
+  StateWithOrganization,
+  ORG_UNIT_FEATURE,
+  ORG_UNIT_ENTITIES,
+  ORG_UNIT_LISTS,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import { LIST } from '../../model/search-config';
@@ -32,14 +35,17 @@ export const getOrgUnitState = (
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnitNode>> =>
   createSelector(
     getOrgUnitsState,
-    (state: EntityLoaderState<B2BUnitNode>) => entityStateSelector(state, budgetCode)
+    (state: EntityLoaderState<B2BUnitNode>) =>
+      entityStateSelector(state, budgetCode)
   );
 
 // TODO: better mechanism for denormalization
 // create service encapsulating denormalization
 
-export const getOrgUnitList = (
-): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnitNodeList>> =>
+export const getOrgUnitList = (): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<B2BUnitNodeList>
+> =>
   createSelector(
     getB2BOrgUnitState,
     (state: OrgUnits) => {
