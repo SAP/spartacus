@@ -13,8 +13,6 @@ export class OccBudgetNormalizer implements Converter<Occ.Budget, Budget> {
     if (target === undefined) {
       target = {
         ...(source as any),
-        // startDate: source.startDate.split('T')[0],
-        // endDate: source.endDate.split('T')[0],
       };
     }
     return target;

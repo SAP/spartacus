@@ -4,7 +4,10 @@ import { HttpClient } from '@angular/common/http';
 
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
-import { B2BUNIT_NORMALIZER } from '../../../organization/connectors/org-unit/converters';
+import {
+  B2BUNIT_NORMALIZER,
+  B2BUNIT_LIST_NORMALIZER,
+} from '../../../organization/connectors/org-unit/converters';
 import { Occ } from '../../occ-models/occ.models';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
 import B2BUnitNode = Occ.B2BUnitNode;
@@ -24,13 +27,10 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
   }
 
-  loadList(
-    userId: string,
-    params?: any
-  ): Observable<B2BUnitNodeList> {
-    return this.http.get<Occ.B2BUnitNodeList>(
-      this.getOrgUnitsEndpoint(userId, params)
-    );
+  loadList(userId: string, params?: any): Observable<B2BUnitNodeList> {
+    return this.http
+      .get<Occ.B2BUnitNodeList>(this.getOrgUnitsEndpoint(userId, params))
+      .pipe(this.converter.pipeable(B2BUNIT_LIST_NORMALIZER));
   }
 
   create(userId: string, orgUnit: B2BUnitNode): Observable<B2BUnitNode> {
@@ -39,10 +39,14 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
   }
 
-  update(userId: string, orgUnit: B2BUnitNode): Observable<B2BUnitNode> {
+  update(
+    userId: string,
+    orgUnitId: string,
+    orgUnit: B2BUnitNode
+  ): Observable<B2BUnitNode> {
     return this.http
       .patch<Occ.B2BUnitNode>(
-        this.getOrgUnitEndpoint(userId, orgUnit.id),
+        this.getOrgUnitEndpoint(userId, orgUnitId),
         orgUnit
       )
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));

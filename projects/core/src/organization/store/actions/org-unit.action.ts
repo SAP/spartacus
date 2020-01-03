@@ -71,6 +71,7 @@ export class LoadOrgUnitsFail extends EntityFailAction {
 
 export class LoadOrgUnitsSuccess extends EntitySuccessAction {
   readonly type = LOAD_ORG_UNITS_SUCCESS;
+  // TODO   constructor(public payload: {orgUnitPage}) {
   constructor(public payload: any) {
     super(ORG_UNIT_LISTS, LIST);
   }

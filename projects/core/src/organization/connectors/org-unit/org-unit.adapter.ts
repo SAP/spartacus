@@ -23,6 +23,7 @@ export abstract class OrgUnitAdapter {
 
   abstract update(
     userId: string,
+    orgUnitId: string,
     orgUnit: B2BUnitNode
   ): Observable<B2BUnitNode>;
 }

@@ -23,7 +23,11 @@ export class OrgUnitConnector {
     return this.adapter.create(userId, orgUnit);
   }
 
-  update(userId: string, orgUnit: B2BUnitNode): Observable<B2BUnitNode> {
-    return this.adapter.update(userId, orgUnit);
+  update(
+    userId: string,
+    orgUnitId: string,
+    orgUnit: B2BUnitNode
+  ): Observable<B2BUnitNode> {
+    return this.adapter.update(userId, orgUnitId, orgUnit);
   }
 }

@@ -4,28 +4,32 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, BUDGET_NORMALIZER, BUDGETS_NORMALIZER } from '@spartacus/core';
+import {
+  ConverterService,
+  B2BUNIT_NORMALIZER,
+  B2BUNIT_LIST_NORMALIZER,
+} from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { OccBudgetAdapter } from './occ-budget.adapter';
+import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 
 import createSpy = jasmine.createSpy;
 
-const budgetCode = 'testCode';
+const orgUnitId = 'testId';
 const userId = 'userId';
-const budget = {
-  code: budgetCode,
-  name: 'testBudget',
+const orgUnit = {
+  id: orgUnitId,
+  name: 'testOrgUnit',
 };
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
-    (url, { budgetCode }) => (url === 'budget' ? url + budgetCode : url)
+    (url, { orgUnitId }) => (url === 'organization' ? url + orgUnitId : url)
   );
 }
 
-describe('OccBudgetAdapter', () => {
-  let service: OccBudgetAdapter;
+describe('OccOrgUnitAdapter', () => {
+  let service: OccOrgUnitAdapter;
   let httpMock: HttpTestingController;
 
   let converterService: ConverterService;
@@ -33,7 +37,7 @@ describe('OccBudgetAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccBudgetAdapter,
+        OccOrgUnitAdapter,
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
@@ -41,7 +45,7 @@ describe('OccBudgetAdapter', () => {
       ],
     });
     converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    service = TestBed.get(OccBudgetAdapter as Type<OccBudgetAdapter>);
+    service = TestBed.get(OccOrgUnitAdapter as Type<OccOrgUnitAdapter>);
     httpMock = TestBed.get(HttpTestingController as Type<
       HttpTestingController
     >);
@@ -56,63 +60,69 @@ describe('OccBudgetAdapter', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('load budget details', () => {
-    it('should load budget details for given budget code', () => {
-      service.load(userId, budgetCode).subscribe();
+  describe('load orgUnit details', () => {
+    it('should load orgUnit details for given orgUnit id', () => {
+      service.load(userId, orgUnitId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'budget' + budgetCode
+        req => req.method === 'GET' && req.url === 'organization' + orgUnitId
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(budget);
-      expect(converterService.pipeable).toHaveBeenCalledWith(BUDGET_NORMALIZER);
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2BUNIT_NORMALIZER
+      );
     });
   });
 
-  describe('load budget list', () => {
-    it('should load budget list', () => {
+  describe('load orgUnit list', () => {
+    it('should load orgUnit list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'budgets'
+        req => req.method === 'GET' && req.url === 'organizations'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush([budget]);
+      mockReq.flush([orgUnit]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        BUDGETS_NORMALIZER
+        B2BUNIT_LIST_NORMALIZER
       );
     });
   });
 
-  describe('create budget', () => {
-    it('should create budget', () => {
-      service.create(userId, budget).subscribe();
+  describe('create orgUnit', () => {
+    it('should create orgUnit', () => {
+      service.create(userId, orgUnit).subscribe();
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'POST' &&
-          req.url === 'budgets' &&
-          req.body.code === budget.code
+          req.url === 'organization' &&
+          req.body.id === orgUnit.id
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(budget);
-      expect(converterService.pipeable).toHaveBeenCalledWith(BUDGET_NORMALIZER);
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2BUNIT_NORMALIZER
+      );
     });
   });
 
-  describe('update budget', () => {
-    it('should update budget', () => {
-      service.update(userId, budgetCode, budget).subscribe();
+  describe('update orgUnit', () => {
+    it('should update orgUnit', () => {
+      service.update(userId, orgUnitId, orgUnit).subscribe();
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'PATCH' &&
-          req.url === 'budget' + budgetCode &&
-          req.body.code === budget.code
+          req.url === 'organization' + orgUnitId &&
+          req.body.id === orgUnit.id
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(budget);
-      expect(converterService.pipeable).toHaveBeenCalledWith(BUDGET_NORMALIZER);
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2BUNIT_NORMALIZER
+      );
     });
   });
 });
