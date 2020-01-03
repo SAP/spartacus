@@ -1,4 +1,5 @@
 import { OccConfig } from '../../config/occ-config';
+import { ProductScope } from '../../../product/model/product-scope';
 
 export const defaultOccProductConfig: OccConfig = {
   backend: {
@@ -28,7 +29,7 @@ export const defaultOccProductConfig: OccConfig = {
     loadingScopes: {
       product: {
         details: {
-          include: ['list'],
+          include: [ProductScope.LIST],
         },
       },
     },

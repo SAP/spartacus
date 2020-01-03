@@ -7,6 +7,7 @@ import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 import { ProductLoadingService } from '../services/product-loading.service';
+import { ProductScope } from '../model/product-scope';
 
 @Injectable()
 export class ProductService {
@@ -43,7 +44,7 @@ export class ProductService {
    */
   get(
     productCode: string,
-    scopes: string[] | string = ''
+    scopes: (ProductScope | string)[] | ProductScope | string = ''
   ): Observable<Product> {
     // TODO: Remove, deprecated since 1.4
     if (!this.productLoading) {
@@ -75,7 +76,10 @@ export class ProductService {
   /**
    * Returns boolean observable for product's loading state
    */
-  isLoading(productCode: string, scope = ''): Observable<boolean> {
+  isLoading(
+    productCode: string,
+    scope: ProductScope | string = ''
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ProductSelectors.getSelectedProductLoadingFactory(productCode, scope)
@@ -86,7 +90,10 @@ export class ProductService {
   /**
    * Returns boolean observable for product's load success state
    */
-  isSuccess(productCode: string, scope = ''): Observable<boolean> {
+  isSuccess(
+    productCode: string,
+    scope: ProductScope | string = ''
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ProductSelectors.getSelectedProductSuccessFactory(productCode, scope)
@@ -97,7 +104,10 @@ export class ProductService {
   /**
    * Returns boolean observable for product's load error state
    */
-  hasError(productCode: string, scope = ''): Observable<boolean> {
+  hasError(
+    productCode: string,
+    scope: ProductScope | string = ''
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ProductSelectors.getSelectedProductErrorFactory(productCode, scope)
@@ -110,7 +120,7 @@ export class ProductService {
    * whenever selected by the `get`, but in some cases an
    * explicit reload might be needed.
    */
-  reload(productCode: string, scope = ''): void {
+  reload(productCode: string, scope: ProductScope | string = ''): void {
     this.store.dispatch(new ProductActions.LoadProduct(productCode, scope));
   }
 }
