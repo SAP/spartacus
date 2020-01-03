@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
+  SkipLink,
   SkipLinkConfig,
   SkipLinkScrollPosition,
-  SkipLink,
-} from '../config/index';
+} from '../config/skip-link.config';
 
 @Injectable({
   providedIn: 'root',

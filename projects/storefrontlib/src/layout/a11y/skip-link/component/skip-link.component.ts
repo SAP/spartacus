@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkipLinkService } from '../service/skip-link.service';
-import { SkipLink } from '../config/index';
 import { Observable } from 'rxjs';
+import { SkipLink } from '../config/skip-link.config';
+import { SkipLinkService } from '../service/skip-link.service';
 
 @Component({
   selector: 'cx-skip-link',
