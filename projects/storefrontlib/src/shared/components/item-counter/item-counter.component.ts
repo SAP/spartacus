@@ -67,6 +67,8 @@ export class ItemCounterComponent
 
   subscription: Subscription;
 
+  invalidInput: boolean = false;
+
   ngOnInit() {
     this.writeValue(this.min || 0);
     this.subscription = this.inputValue.valueChanges
@@ -74,6 +76,8 @@ export class ItemCounterComponent
       .subscribe(value => {
         if (value) {
           this.manualChange(Number(value));
+        } else {
+          this.invalidInput = true;
         }
       });
   }
@@ -209,6 +213,11 @@ export class ItemCounterComponent
 
   isMaxOrMinValueOrBeyond(): boolean {
     return this.value >= this.max || this.value <= this.min;
+  }
+
+  onInputBlur() {
+    if (this.invalidInput) this.manualChange(1);
+    this.invalidInput = false;
   }
 
   ngOnDestroy() {
