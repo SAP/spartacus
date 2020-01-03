@@ -15,7 +15,7 @@ class MockGlobalMessageService {
   add(): void {}
 }
 
-describe('CustomerSupportAgentErrorHandlingService', () => {
+fdescribe('CustomerSupportAgentErrorHandlingService', () => {
   let csagentErrorHandlingService: CustomerSupportAgentErrorHandlingService;
   let asmAuthService: MockAsmAuthService;
   let globalMessageService: GlobalMessageService;

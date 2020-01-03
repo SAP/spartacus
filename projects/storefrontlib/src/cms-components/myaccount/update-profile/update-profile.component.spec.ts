@@ -81,7 +81,7 @@ class GlobalMessageServiceMock {
   add(_message: GlobalMessage): void {}
 }
 
-describe('UpdateProfileComponent', () => {
+fdescribe('UpdateProfileComponent', () => {
   let component: UpdateProfileComponent;
   let fixture: ComponentFixture<UpdateProfileComponent>;
   let el: DebugElement;

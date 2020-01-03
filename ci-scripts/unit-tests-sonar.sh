@@ -39,7 +39,12 @@ if [[ $1 == '-h' ]]; then
     exit 1
     elif [[ $1 == 'sonar' ]]; then
 
-    echo "Running SonarCloud scan"
+    echo "Running SonarCloud scan from ${pwd}"
+    echo "--> coverage folder(s) contents:"
+    ls -la coverage/core
+    ls -la coverage/cds
+    ls -la coverage/storefront
+
     sonar-scanner \
     -Dsonar.projectKey=sap_cloud-commerce-spartacus-storefront \
     -Dsonar.organization=sap \
