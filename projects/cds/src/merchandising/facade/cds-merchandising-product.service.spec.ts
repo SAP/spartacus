@@ -98,7 +98,7 @@ describe('CdsMerchandisingProductService', () => {
         pageSize: 10,
       },
       headers: {
-        'consent-reference': undefined,
+        consentReference: undefined,
       },
     };
     const userContext: MerchandisingUserContext = {
@@ -136,7 +136,7 @@ describe('CdsMerchandisingProductService', () => {
         pageSize: 10,
       },
       headers: {
-        'consent-reference': `${CONSENT_REFERENCE}`,
+        consentReference: `${CONSENT_REFERENCE}`,
       },
     };
     const userContext: MerchandisingUserContext = {
@@ -175,7 +175,7 @@ describe('CdsMerchandisingProductService', () => {
         pageSize: 10,
       },
       headers: {
-        'consent-reference': undefined,
+        consentReference: undefined,
       },
     };
 

@@ -86,8 +86,6 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if the page is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
     const expectedMerchandisingUserContext = {
       consentReference: '',
-      category: undefined,
-      facets: undefined,
     };
     spyOn(routingService, 'getPageContext').and.returnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
@@ -107,8 +105,6 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, with a valid consent reference, if the page is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
     const expectedMerchandisingUserContext = {
       consentReference: `${consentReference}`,
-      category: undefined,
-      facets: undefined,
     };
     spyOn(routingService, 'getPageContext').and.returnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
@@ -207,8 +203,6 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if there are facets, but the page type is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
     const expectedMerchandisingUserContext = {
       consentReference: '',
-      category: undefined,
-      facets: undefined,
     };
 
     const pageSearchResults: ProductSearchPage = {

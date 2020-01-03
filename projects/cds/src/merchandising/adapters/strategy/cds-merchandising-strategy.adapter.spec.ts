@@ -41,7 +41,7 @@ const strategyRequest = {
 const strategyRequestUndefinedConsentReference = {
   ...strategyRequest,
   headers: {
-    'consent-reference': undefined,
+    consentReference: undefined,
   },
 };
 
