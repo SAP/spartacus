@@ -14,7 +14,7 @@ import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
 import {
-  SkipDirective,
+  SkipLinkDirective,
   SkipLinkConfig,
 } from 'projects/storefrontlib/src/layout/a11y';
 
@@ -89,7 +89,7 @@ describe('PageSlotComponent', () => {
         PageSlotComponent,
         ComponentWrapperDirective,
         OutletDirective,
-        SkipDirective,
+        SkipLinkDirective,
       ],
       providers: [
         Renderer2,
