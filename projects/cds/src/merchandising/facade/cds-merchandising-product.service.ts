@@ -41,7 +41,7 @@ export class CdsMerchandisingProductService {
               pageSize: numberToDisplay,
             },
             headers: {
-              'consent-reference': userContext.consentReference,
+              consentReference: userContext.consentReference,
             },
           };
         }

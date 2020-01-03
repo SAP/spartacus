@@ -39,7 +39,7 @@ export class CdsMerchandisingUserContextService {
       merge(
         this.getCategoryAndFacetContext(),
         this.getProductNavigationContext()
-      ),
+      ).pipe(startWith({})),
     ]).pipe(
       map(([consentReferenceContext, userContext]) => ({
         ...consentReferenceContext,
@@ -51,7 +51,7 @@ export class CdsMerchandisingUserContextService {
   private getCategoryAndFacetContext(): Observable<MerchandisingUserContext> {
     return combineLatest([
       this.getCategoryNavigationContext(),
-      this.getFacetsContext().pipe(startWith({ facets: undefined })),
+      this.getFacetsContext(),
     ]).pipe(
       map(([categoryContext, facetsContext]) => ({
         ...categoryContext,
