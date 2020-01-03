@@ -18,6 +18,7 @@ import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import { OccProductAdapter } from './occ-product.adapter';
 import { ProductNameNormalizer } from './converters/product-name-normalizer';
 import { defaultOccProductConfig } from './default-occ-product-config';
+import './product-occ-config';
 
 @NgModule({
   imports: [
