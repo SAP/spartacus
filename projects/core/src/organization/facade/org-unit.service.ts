@@ -12,32 +12,25 @@ import {
   getOrgUnitList,
 } from '../store/selectors/org-unit.selector';
 import { B2BUnitNode, B2BUnitNodeList } from '../../model';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class OrgUnitService {
-  private user$ = this.authService.getOccUserId();
-
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
     protected authService: AuthService
   ) {}
 
   private loadOrgUnit(orgUnitId: string) {
-    this.user$
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(
-          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
-        )
-      );
+    this.withUserId(userId =>
+      this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
+    );
   }
 
   loadOrgUnits() {
-    this.user$
-      .pipe(take(1))
-      .subscribe(userId =>
-        this.store.dispatch(new OrgUnitActions.LoadOrgUnits({ userId }))
-      );
+    this.withUserId(userId =>
+      this.store.dispatch(new OrgUnitActions.LoadOrgUnits({ userId }))
+    );
   }
 
   private getOrgUnitState(orgUnitId: string) {
@@ -75,5 +68,17 @@ export class OrgUnitService {
       ),
       map(result => result.value)
     );
+  }
+
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }
