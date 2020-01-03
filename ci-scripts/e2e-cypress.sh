@@ -2,13 +2,17 @@
 set -e
 set -o pipefail
 
-SUITE=$1
+SUITE="regression"
+INTEGRATION=""
 
-if [[ -z "$2" ]]; then
-    INTEGRATION=""
-else
-    INTEGRATION=":$2"
-fi
+while getopts s:i: o 
+do 
+ case "${o}" 
+ in 
+ s) SUITE=${OPTARG};; 
+ i) INTEGRATION=":${OPTARG}";; 
+ esac 
+done 
 
 yarn
 (cd projects/storefrontapp-e2e-cypress && yarn)
