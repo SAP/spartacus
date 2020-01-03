@@ -6,7 +6,7 @@ import {
 // Improve type-safety and code completion for product loading scopes
 declare module '../../config/loading-scopes-config' {
   interface LoadingScopes {
-    product: ProductScopesConfig;
+    product?: ProductScopesConfig;
   }
 }
 
