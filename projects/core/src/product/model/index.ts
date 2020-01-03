@@ -1,2 +1,2 @@
 export * from './search-config';
-export * from './product-scope.js';
+export * from './product-scope';

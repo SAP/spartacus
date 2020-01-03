@@ -20,7 +20,7 @@ export class CurrentProductService {
   ) {}
 
   protected readonly PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? [ProductScope.DETAILS] : '';
+    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
 
   getProduct(): Observable<Product> {
     return this.routingService.getRouterState().pipe(
