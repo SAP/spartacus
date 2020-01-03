@@ -19,9 +19,6 @@ exec 5>&1
 output=$(ng test storefrontlib --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 
-echo "Running unit tests for schematics"
-cd projects/schematics && yarn && yarn test && cd ..
-
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"
     exit 1
