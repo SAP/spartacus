@@ -10,6 +10,7 @@ import {
   WindowRef,
   CustomerCoupon,
   CustomerCouponSearchResult,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -34,34 +35,64 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(
+    cartService: CartService,
+    authService: AuthService,
+    cartVoucherService: CartVoucherService,
+    formBuilder: FormBuilder,
+    customerCouponService: CustomerCouponService,
+    winRef: WindowRef,
+    featureConfig: FeatureConfigService
+  );
+  /**
+   * @deprecated Since 1.5
+   * Add customerCouponService, winRef for customer coupon feature.
+   * Remove issue: #5971
+   */
+  constructor(
+    cartService: CartService,
+    authService: AuthService,
+    cartVoucherService: CartVoucherService,
+    formBuilder: FormBuilder
+  );
+
+  constructor(
     private cartService: CartService,
     private authService: AuthService,
     private cartVoucherService: CartVoucherService,
     private formBuilder: FormBuilder,
-    private customerCouponService: CustomerCouponService,
-    protected winRef: WindowRef
+    private customerCouponService?: CustomerCouponService,
+    protected winRef?: WindowRef,
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit() {
-    this.customerCouponService.loadCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE);
-    this.cart$ = combineLatest([
-      this.cartService.getActive(),
-      this.authService.getOccUserId(),
-      this.customerCouponService.getCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE),
-    ]).pipe(
-      tap(
-        ([cart, userId, customerCoupons]: [
-          Cart,
-          string,
-          CustomerCouponSearchResult
-        ]) => {
-          this.cartId =
-            userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
-          this.getApplicableCustomerCoupons(cart, customerCoupons.coupons);
-        }
-      ),
-      map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)
-    );
+    if (this.customerCouponService) {
+      this.customerCouponService.loadCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE);
+    }
+    if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
+      this.cart$ = combineLatest([
+        this.cartService.getActive(),
+        this.authService.getOccUserId(),
+        this.customerCouponService.getCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE),
+      ]).pipe(
+        tap(
+          ([cart, userId, customerCoupons]: [
+            Cart,
+            string,
+            CustomerCouponSearchResult
+          ]) => {
+            this.cartId =
+              userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+            this.getApplicableCustomerCoupons(cart, customerCoupons.coupons);
+          }
+        ),
+        map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)
+      );
+    }
+    //TODO(issue:#5971) Deprecated since 1.5
+    else {
+    }
+    //TODO(issue:#5971) Deprecated since 1.5
 
     this.cartIsLoading$ = this.cartService
       .getLoaded()
@@ -102,21 +133,21 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  private onError(error: boolean) {
+  protected onError(error: boolean) {
     if (error) {
       this.customerCouponService.loadCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE);
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }
 
-  private onSuccess(success: boolean) {
+  protected onSuccess(success: boolean) {
     if (success) {
       this.form.reset();
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }
 
-  private getApplicableCustomerCoupons(
+  protected getApplicableCustomerCoupons(
     cart: Cart,
     coupons: CustomerCoupon[]
   ): void {
