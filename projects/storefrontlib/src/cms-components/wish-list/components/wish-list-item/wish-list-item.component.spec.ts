@@ -9,7 +9,7 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { WishListItemComponent } from './wish-list-item.component';
 
 @Component({
@@ -37,27 +37,37 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+const mockCartEntry: OrderEntry = {
+  basePrice: {
+    formattedValue: '$546.20',
+  },
+  product: {
+    name: 'Test product',
+    code: '1',
+    averageRating: 4.5,
+    stock: {
+      stockLevelStatus: 'inStock',
+    },
+    images: {
+      PRIMARY: {},
+    },
+    baseOptions: [
+      {
+        selected: {
+          variantOptionQualifiers: [
+            { name: 'Color', value: 'Red' },
+            { name: 'Size', value: 'L' },
+          ],
+        },
+      },
+    ],
+  },
+};
+
 describe('WishListItemComponent', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
   let el: DebugElement;
-
-  const mockCartEntry = {
-    basePrice: {
-      formattedValue: '$546.20',
-    },
-    product: {
-      name: 'Test product',
-      code: '1',
-      averageRating: 4.5,
-      stock: {
-        stockLevelStatus: 'inStock',
-      },
-      images: {
-        PRIMARY: {},
-      },
-    },
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -141,5 +151,23 @@ describe('WishListItemComponent', () => {
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).toBeNull();
     expect(el.query(By.css('.cx-out-of-stock')).nativeElement).toBeTruthy();
+  });
+
+  describe('variants', () => {
+    it('should display variants', () => {
+      el.queryAll(By.css('.cx-property')).forEach((element, index) => {
+        expect(
+          element.query(By.css('.cx-label')).nativeElement.innerText
+        ).toEqual(
+          `${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].name}: ${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].value}`
+        );
+      });
+    });
+    it('should NOT display variants when they DO NOT exist', () => {
+      component.cartEntry.product.baseOptions = [];
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.cx-property'))).toBeNull();
+    });
   });
 });
