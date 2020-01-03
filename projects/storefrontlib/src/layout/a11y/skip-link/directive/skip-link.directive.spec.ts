@@ -1,7 +1,7 @@
 import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkipLinkService } from '../service/skip-link.service';
-import { SkipLinkDirective, SkipLinkConfig } from '..';
+import { SkipLinkDirective, SkipLinkConfig } from '../index';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';

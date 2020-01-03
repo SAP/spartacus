@@ -6,12 +6,12 @@ import {
 } from '@angular/core';
 import { Config, ConfigModule, I18nModule } from '@spartacus/core';
 
-import { defaultSkipLinkConfig, SkipLinkConfig } from './config';
+import { defaultSkipLinkConfig, SkipLinkConfig } from './config/index';
 import { SkipLinkComponent } from './component/skip-link.component';
 import {
   OutletService,
   OutletPosition,
-} from 'projects/storefrontlib/src/cms-structure/outlet';
+} from 'projects/storefrontlib/src/cms-structure/outlet/index';
 import { SkipLinkDirective } from './directive/skip-link.directive';
 
 @NgModule({

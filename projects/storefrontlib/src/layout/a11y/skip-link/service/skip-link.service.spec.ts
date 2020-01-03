@@ -1,7 +1,11 @@
 import { Type, Component } from '@angular/core';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { SkipLinkService } from './skip-link.service';
-import { SkipLinkConfig, SkipLinkScrollPosition, SkipLink } from '../config';
+import {
+  SkipLinkConfig,
+  SkipLinkScrollPosition,
+  SkipLink,
+} from '../config/index';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 

@@ -9,14 +9,14 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
-import { OutletDirective } from '../../outlet';
+import { OutletDirective } from '../../outlet/index';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
 import {
   SkipLinkDirective,
   SkipLinkConfig,
-} from 'projects/storefrontlib/src/layout/a11y';
+} from 'projects/storefrontlib/src/layout/a11y/index';
 
 const slotWithOneComp = {
   components: [

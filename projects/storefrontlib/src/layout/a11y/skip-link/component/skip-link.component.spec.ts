@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkipLinkComponent } from './skip-link.component';
 import { I18nTestingModule } from '@spartacus/core';
-import { SkipLinkConfig, SkipLink } from '../config';
+import { SkipLinkConfig, SkipLink } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 import { BehaviorSubject } from 'rxjs';
 
