@@ -91,6 +91,17 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
     //TODO(issue:#5971) Deprecated since 1.5
     else {
+      this.cart$ = combineLatest([
+        this.cartService.getActive(),
+        this.authService.getOccUserId(),
+      ]).pipe(
+        tap(
+          ([cart, userId]: [Cart, string]) =>
+            (this.cartId =
+              userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code)
+        ),
+        map(([cart]: [Cart, string]) => cart)
+      );
     }
     //TODO(issue:#5971) Deprecated since 1.5
 
