@@ -11,7 +11,7 @@ import { SkipLinkComponent } from './component/skip-link.component';
 import {
   OutletService,
   OutletPosition,
-} from 'projects/storefrontlib/src/cms-structure/outlet/index';
+} from '../../../cms-structure/outlet/index';
 import { SkipLinkDirective } from './directive/skip-link.directive';
 
 @NgModule({
