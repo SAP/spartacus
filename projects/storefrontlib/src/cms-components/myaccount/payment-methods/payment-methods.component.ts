@@ -35,6 +35,8 @@ export class PaymentMethodsComponent implements OnInit {
       })
     );
 
+    this.paymentMethods$.subscribe(); // Prevents flicker when deleting default payment (GH-5968)
+
     this.editCard = null;
     this.loading$ = this.userPaymentService.getPaymentMethodsLoading();
     this.userPaymentService.loadPaymentMethods();
