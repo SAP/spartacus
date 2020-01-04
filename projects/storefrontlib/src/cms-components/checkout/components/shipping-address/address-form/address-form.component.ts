@@ -39,6 +39,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  buttonHasBeenClicked = false;
 
   @Input()
   addressData: Address;
@@ -199,6 +200,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
+    this.buttonHasBeenClicked = true;
+
     if (this.address.controls['region'].value.isocode) {
       this.regionsSub = this.regions$.pipe(take(1)).subscribe(regions => {
         const obj = regions.find(
@@ -267,6 +270,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.addressVerifySub.unsubscribe();
     }
 
+    this.buttonHasBeenClicked = false;
     if (this.regionsSub) {
       this.regionsSub.unsubscribe();
     }

@@ -20,6 +20,7 @@ import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
 
 import createSpy = jasmine.createSpy;
+import { SpinnerComponent } from 'projects/storefrontlib/src/shared';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -133,7 +134,7 @@ describe('AddressFormComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-      declarations: [AddressFormComponent],
+      declarations: [AddressFormComponent, SpinnerComponent],
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
         {

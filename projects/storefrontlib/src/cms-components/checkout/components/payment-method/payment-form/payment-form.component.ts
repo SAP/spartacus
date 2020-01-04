@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -40,8 +41,7 @@ type yearType = { id: number; name: number };
 export class PaymentFormComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
-  private checkboxSub: Subscription;
-  private addressVerifySub: Subscription;
+  subscriptions: Subscription = new Subscription();
   suggestedAddressModalRef: ModalRef;
   months: monthType[] = [];
   years: yearType[] = [];
@@ -50,6 +50,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
   sameAsShippingAddress = true;
+  buttonHasBeenClicked = false;
 
   @Input()
   setAsDefaultField: boolean;
@@ -99,7 +100,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -123,7 +125,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
 
-    this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
+    const checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
         // this operation makes sure the checkbox is not checked if not shown and vice versa
         this.sameAsShippingAddress = shouldShowCheckbox;
@@ -131,7 +133,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.checkoutDeliveryService
+    const addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
         if (results.decision === 'FAIL') {
@@ -148,6 +150,16 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
           this.openSuggestedAddress(results);
         }
       });
+
+    // checks if a new global message has popped up
+    const globalMessageSub = this.globalMessageService.get().subscribe(() => {
+      this.buttonHasBeenClicked = false;
+      this.cd.markForCheck(); // checks for changes in the template
+    });
+
+    this.subscriptions.add(checkboxSub);
+    this.subscriptions.add(addressVerifySub);
+    this.subscriptions.add(globalMessageSub);
   }
 
   expMonthAndYear(): void {
@@ -187,7 +199,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   isContinueButtonDisabled(): boolean {
     return (
       this.payment.invalid ||
-      (!this.sameAsShippingAddress && this.billingAddress.invalid)
+      (!this.sameAsShippingAddress && this.billingAddress.invalid) ||
+      this.buttonHasBeenClicked
     );
   }
 
@@ -268,6 +281,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    this.buttonHasBeenClicked = true;
     this.setPaymentDetails.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
@@ -277,11 +291,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.checkboxSub) {
-      this.checkboxSub.unsubscribe();
-    }
-    if (this.addressVerifySub) {
-      this.addressVerifySub.unsubscribe();
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
     }
   }
 }

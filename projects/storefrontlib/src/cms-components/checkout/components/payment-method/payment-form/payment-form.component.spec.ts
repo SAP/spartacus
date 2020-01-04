@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -9,8 +9,8 @@ import {
   CardType,
   CheckoutDeliveryService,
   CheckoutPaymentService,
-  Country,
   GlobalMessageService,
+  Country,
   I18nTestingModule,
   UserPaymentService,
 } from '@spartacus/core';
@@ -19,6 +19,7 @@ import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 import createSpy = jasmine.createSpy;
+import { SpinnerComponent } from '@spartacus/storefront';
 
 const mockBillingCountries: Country[] = [
   {
@@ -118,7 +119,11 @@ class MockUserPaymentService {
 }
 
 class MockGlobalMessageService {
-  add = createSpy();
+  get = () => {
+    return {
+      subscribe() {},
+    };
+  };
 }
 
 const mockSuggestedAddressModalRef: any = {
@@ -171,6 +176,7 @@ describe('PaymentFormComponent', () => {
         MockCardComponent,
         MockBillingAddressFormComponent,
         MockCxIconComponent,
+        SpinnerComponent,
       ],
       providers: [
         { provide: ModalService, useClass: MockModalService },

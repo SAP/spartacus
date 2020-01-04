@@ -7,6 +7,7 @@ import { CardModule } from '../../../../../shared/components/card/card.module';
 import { IconModule } from '../../../../misc/icon/icon.module';
 import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
 import { PaymentFormComponent } from './payment-form.component';
+import { SpinnerModule } from '../../../../../shared/index';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { PaymentFormComponent } from './payment-form.component';
     BillingAddressFormModule,
     I18nModule,
     IconModule,
+    SpinnerModule,
   ],
   declarations: [PaymentFormComponent],
   entryComponents: [PaymentFormComponent],
