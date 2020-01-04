@@ -16,15 +16,16 @@ import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { serializePageContext } from '../../util/serialization-utils';
+import {
+  CURRENT_CONTEXT_KEY,
+  serializePageContext,
+} from '../../util/serialization-utils';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
 import { CmsSelectors } from '../store/selectors/index';
-
-const CURRENT_CONTEXT_KEY = 'current';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +34,8 @@ export class CmsService {
   private _launchInSmartEdit = false;
 
   private components: {
-    [pageContext: string]: {
-      [uid: string]: Observable<CmsComponent>;
+    [uid: string]: {
+      [pageContext: string]: Observable<CmsComponent>;
     };
   } = {};
 
@@ -80,27 +81,31 @@ export class CmsService {
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
-    const context = pageContext
-      ? serializePageContext(pageContext)
-      : CURRENT_CONTEXT_KEY;
-    // create the component context, if it doesn't already exist
-    let componentContext = this.components[context];
-    if (!componentContext) {
-      // TODO:#4603 - test
-      componentContext = this.components[context] = {};
+    const context = serializePageContext(pageContext);
+
+    let component = this.components[uid];
+    if (!component) {
+      // create the component data structure, if it doesn't already exist
+      component = this.components[uid] = {};
     }
-    // TODO:$4603 - rxjs using()
-    if (!componentContext[uid]) {
-      // TODO:#4603 - test
-      componentContext[uid] = this.createComponentData(uid, context);
+    // TODO:$4603 - rxjs using() operator?
+    let componentData = component[context];
+    if (!componentData) {
+      // create the component context and create the component data for it
+      componentData = this.components[uid][context] = this.createComponentData(
+        uid,
+        pageContext
+      );
     }
-    return componentContext[uid] as Observable<T>;
+
+    return componentData as Observable<T>;
   }
 
   private createComponentData<T extends CmsComponent>(
     uid: string,
-    context: string
+    pageContext: PageContext
   ): Observable<T> {
+    const context = serializePageContext(pageContext);
     if (context === CURRENT_CONTEXT_KEY) {
       return this.routingService.getPageContext().pipe(
         filter(currentContext => Boolean(currentContext)),
@@ -111,32 +116,39 @@ export class CmsService {
     }
 
     return combineLatest([
+      // TODO:#4603 - filter the next page context? If it doesn't exist, it will result in 'current' and it might override some old current context in the state?
       this.routingService.getNextPageContext(),
       this.store.pipe(
-        // TODO:#4603 pass the context, if provided as a param
-        select(CmsSelectors.componentStateSelectorFactory(uid, context))
+        select(CmsSelectors.componentContextSelectorFactory(uid, context))
       ),
     ]).pipe(
       observeOn(queueScheduler),
-      tap(([nextContext, componentState]) => {
-        // componentState is undefined when the whole components entities are empty.
+      tap(([nextContext, componentContextState]) => {
+        // componentContextState is undefined when the whole components entities are empty.
         // In this case, we don't load component one by one, but extract component data from cms page
-        if (componentState !== undefined) {
+        if (componentContextState !== undefined) {
+          const loadingState = componentContextState.pageContext[context];
           const attemptedLoad =
-            componentState.loading ||
-            componentState.success ||
-            componentState.error;
+            loadingState.loading || loadingState.success || loadingState.error;
           // if the requested context is the same as the one that's currently being navigated to (as it might already been triggered and might be available shortly from page data)
           const couldBeLoadedWithPageData =
             serializePageContext(nextContext) === context;
+
           if (!attemptedLoad && !couldBeLoadedWithPageData) {
-            this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
+            this.store.dispatch(
+              new CmsActions.LoadCmsComponent(uid, pageContext)
+            );
           }
         }
       }),
       pluck(1),
-      filter(componentState => componentState && componentState.success),
-      pluck('value'),
+      filter(componentContextState => {
+        return (
+          componentContextState &&
+          componentContextState.pageContext[context].success
+        );
+      }),
+      pluck('component'),
       distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: true })
     );
@@ -209,10 +221,13 @@ export class CmsService {
 
   /**
    * Refresh cms component's content
-   * @param uid : component uid
+   * @param uid component uid
+   * @param pageContext an optional parameter that enables the caller to specify for which context the component should be refreshed.
+   * If not specified, 'current' page context is used.
    */
-  refreshComponent(uid: string): void {
-    this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
+  // TODO:#4603 - go over this case.
+  refreshComponent(uid: string, pageContext?: PageContext): void {
+    this.store.dispatch(new CmsActions.LoadCmsComponent(uid, pageContext));
   }
 
   /**
@@ -250,7 +265,7 @@ export class CmsService {
       }),
       filter(entity => {
         if (!entity.hasOwnProperty('value')) {
-          // if we have incomplete state from srr failed load transfer state,
+          // if we have incomplete state from SSR failed load transfer state,
           // we should wait for reload and actual value
           return false;
         }

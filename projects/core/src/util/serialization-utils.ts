@@ -3,6 +3,7 @@ import { isObject } from '../config/utils/deep-merge';
 import { ErrorModel, HttpErrorModel } from '../model/misc.model';
 import { PageContext } from '../routing/models/page-context.model';
 
+export const CURRENT_CONTEXT_KEY = 'current';
 const PAGE_CONTEXT_SEPARATOR = '-';
 
 export const UNKNOWN_ERROR = {
@@ -53,5 +54,9 @@ export function makeErrorSerializable(
 
 // TODO:4603 - test
 export function serializePageContext(pageContext: PageContext): string {
-  return `${pageContext.id} + ${PAGE_CONTEXT_SEPARATOR} + ${pageContext.type}`;
+  if (!pageContext) {
+    return CURRENT_CONTEXT_KEY;
+  }
+
+  return `${pageContext.id}${PAGE_CONTEXT_SEPARATOR}${pageContext.type}`;
 }

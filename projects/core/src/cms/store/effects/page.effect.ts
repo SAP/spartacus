@@ -48,6 +48,7 @@ export class PageEffects {
   loadPageData$: Observable<Action> = this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_PAGE_DATA),
     map((action: CmsActions.LoadCmsPageData) => action.payload),
+    // TODO:#4603 - could this `pageContext.type + pageContext.id` be changed to use the serializePageContext method?
     groupBy(pageContext => pageContext.type + pageContext.id),
     mergeMap(group =>
       group.pipe(
@@ -55,7 +56,11 @@ export class PageEffects {
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
               const actions: Action[] = [
-                new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
+                // TODO:#4603 - check the pageContext usage
+                new CmsActions.CmsGetComponentFromPage(
+                  cmsStructure.components,
+                  pageContext
+                ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
