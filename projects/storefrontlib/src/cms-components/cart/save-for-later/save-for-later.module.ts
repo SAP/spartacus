@@ -19,7 +19,7 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
         },
       },
       features: {
-        saveForLater: '1.4',
+        saveForLater: '1.5',
       },
     }),
     I18nModule,
