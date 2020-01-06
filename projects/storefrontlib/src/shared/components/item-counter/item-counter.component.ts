@@ -67,7 +67,7 @@ export class ItemCounterComponent
 
   subscription: Subscription;
 
-  invalidInput: boolean = false;
+  invalidInput: boolean;
 
   ngOnInit() {
     this.writeValue(this.min || 0);
@@ -105,6 +105,9 @@ export class ItemCounterComponent
    * If value is too small it will be set to min, if is too big it will be set to max.
    */
   adjustValueInRange(incomingValue: number): number {
+    // (GH-3150) Products with no max value will still return null on blur, so this fixes it
+    if (this.max === null) return this.min;
+
     return this.min !== undefined && incomingValue < this.min
       ? this.min
       : this.max !== undefined && incomingValue > this.max
@@ -216,7 +219,9 @@ export class ItemCounterComponent
   }
 
   onInputBlur() {
-    if (this.invalidInput) this.manualChange(1);
+    if (this.invalidInput) {
+      this.manualChange(this.min);
+    }
     this.invalidInput = false;
   }
 
