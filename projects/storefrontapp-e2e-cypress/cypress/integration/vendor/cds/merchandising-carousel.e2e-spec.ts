@@ -79,7 +79,6 @@ describe.skip('Merchandising Carousel', () => {
   before(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();
-      win.localStorage.clear();
     });
   });
   beforeEach(() => {
