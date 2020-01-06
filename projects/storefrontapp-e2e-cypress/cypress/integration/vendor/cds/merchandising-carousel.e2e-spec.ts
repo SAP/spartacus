@@ -76,23 +76,14 @@ function testPDPPage(productId: string): void {
   );
 }
 
-describe('Merchandsing Carousel', () => {
+describe.skip('Merchandsing Carousel', () => {
   beforeEach(() => {
     cy.server();
-    cy.route({
-      method: 'GET',
-      url: '/strategy/*/strategies/*/products**',
-      response: merchandisingCarousel.STRATEGY_RESPONSE,
-      headers: {
-        'x-blah': 'x-blah-value',
-      },
-      onRequest: xhr => {
-        // do something with the
-        // raw XHR object when the
-        // request initially goes out
-        console.log('onRequst - ', xhr);
-      },
-    }).as('strategyProductsApiRequest');
+    cy.route(
+      'GET',
+      '/strategy/*/strategies/*/products**',
+      merchandisingCarousel.STRATEGY_RESPONSE
+    ).as('strategyProductsApiRequest');
   });
 
   it('should render with products and metadata when displayed on the homepage', () => {

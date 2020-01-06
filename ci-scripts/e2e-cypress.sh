@@ -68,4 +68,3 @@ if [[ $SUITE == 'regression' ]]; then
 else
     yarn e2e:cy${INTEGRATION}:start-run-smoke-ci
 fi
-xr

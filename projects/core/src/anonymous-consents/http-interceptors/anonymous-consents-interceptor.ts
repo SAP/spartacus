@@ -1,7 +1,6 @@
 import {
   HttpEvent,
   HttpHandler,
-  HttpHeaders,
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
@@ -97,10 +96,9 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       consents
     );
     return request.clone({
-      headers: new HttpHeaders({
+      setHeaders: {
         [ANONYMOUS_CONSENTS_HEADER]: rawConsents,
-        test: 'test',
-      }),
+      },
     });
   }
 
