@@ -6,6 +6,14 @@ POSITIONAL=()
 SUITE=""
 INTEGRATION=""
 
+readonly help_display="Usage: $0 [ command_options ] [ param ]
+
+    command options:
+        --suite, -s                             choose an e2e suite to run. Default: regression
+        --integration, -i                       run the correct e2e integration. Default: "" for smoke tests
+        --help, -h                              show this message and exit
+"
+
 while [ "${1:0:1}" == "-" ]
 do
     case "$1" in 
@@ -19,9 +27,17 @@ do
             shift
             shift
             ;;
+        '--help' | '-h' )
+            echo "$help_display"
+            exit 0
+            ;;
         * )
             POSITIONAL+=("$1")
             shift
+
+            echo "Error: unknown option"
+            exit 1
+            ;;
     esac
 done
 
