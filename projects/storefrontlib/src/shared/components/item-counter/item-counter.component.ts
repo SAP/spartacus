@@ -105,7 +105,7 @@ export class ItemCounterComponent
    * If value is too small it will be set to min, if is too big it will be set to max.
    */
   adjustValueInRange(incomingValue: number): number {
-    // (GH-3150) Products with no max value will still return null on blur, so this fixes it
+    // (GH-3150) Covers case where some items have no max value (e.g. Product #816780 on dev-10)
     if (this.max === null) return this.min;
 
     return this.min !== undefined && incomingValue < this.min
