@@ -58,7 +58,7 @@ export function verifyProductSearch(
 }
 
 export function searchResult() {
-  cy.get(resultsTitleSelector).should('contain', '144 results for "camera"');
+  cy.get(resultsTitleSelector).should('contain', '145 results for "camera"');
   cy.get(productItemSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
@@ -131,7 +131,7 @@ export function sortByHighestPrice() {
   cy.wait('@query_price_desc')
     .its('status')
     .should('eq', 200);
-  cy.get(firstProductPriceSelector).should('contain', '$6,030.71');
+  cy.get(firstProductPriceSelector).should('contain', '$48,557.00 ');
 }
 
 export function sortByNameAscending() {
