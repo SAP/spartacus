@@ -1,3 +1,13 @@
+<a>«</a>
+<a
+  *ngFor="let page of pages"
+  [class.current]="page.current"
+  (click)="clickPageNo(page.number)"
+>
+  {{ page.number === -1 ? '...' : page.number }}
+</a>
+<a>»</a>
+
 <ul class="pagination" *ngIf="showPagination()">
   <!-- Previous -->
   <li class="page-item" [ngClass]="{ disabled: onFirstPage() || !hasPages() }">

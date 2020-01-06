@@ -5,7 +5,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { PaginationModel } from '@spartacus/core';
+import { PaginationBuilder } from './pagination.builder';
 
 const PAGE_FIRST = 1;
 const PAGE_WINDOW_SIZE = 3;
@@ -16,10 +18,41 @@ const PAGE_WINDOW_SIZE = 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent {
-  @Input() pagination: PaginationModel;
   @Input() hideOnSinglePage = false;
+
+  //@Input() allowDay: boolean;
+  private _pagination: PaginationModel;
+  get pagination(): PaginationModel {
+    return this._pagination;
+  }
+  @Input() set pagination(value: PaginationModel) {
+    this._pagination = value;
+    this.render(value);
+  }
+
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
+  pages: { number: number; route: string; current?: boolean }[] = [];
+  constructor(
+    private paginationBuilder: PaginationBuilder,
+    private router: Router
+  ) {}
+
+  private render(pagination: PaginationModel) {
+    this.pages = this.paginationBuilder
+      .paginate(pagination.currentPage + 1, pagination.totalPages)
+      .map(page => {
+        const current = pagination.currentPage + 1 === page;
+        return {
+          number: page,
+          route: this.router.url.replace(
+            'currentPage=' + pagination.currentPage,
+            'currentPage=' + page
+          ),
+          current,
+        };
+      });
+  }
   // Because pagination model uses indexes starting from 0,
   // add 1 to get current page number
   private getCurrentPageNumber() {
@@ -79,7 +112,18 @@ export class PaginationComponent {
     );
   }
 
+  /**
+   * Indicates whether the page number should appear in dots
+   */
   showDots(index: number): boolean {
+    // if (index === 3) {
+    //   console.log(
+    //     'dots',
+    //     this.hidePageIndex(index),
+    //     this.getPageWindowMaxIndex(),
+    //     this.getPageWindowMinIndex()
+    //   );
+    // }
     return (
       this.hidePageIndex(index) &&
       (index === this.getPageWindowMaxIndex() + 1 ||
