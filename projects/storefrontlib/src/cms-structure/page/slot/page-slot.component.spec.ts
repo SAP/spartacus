@@ -34,25 +34,6 @@ const slotWithTwoComp = {
   ],
 };
 
-const slotWithOneComp = {
-  components: [
-    {
-      flexType: 'BannerComponent',
-    },
-  ],
-};
-
-const slotWithTwoComp = {
-  components: [
-    {
-      flexType: 'BannerComponent',
-    },
-    {
-      flexType: 'ParagraphComponent',
-    },
-  ],
-};
-
 class MockCmsService {
   getContentSlot(): Observable<ContentSlotData> {
     return of({
