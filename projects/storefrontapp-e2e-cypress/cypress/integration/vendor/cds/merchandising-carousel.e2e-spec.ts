@@ -83,9 +83,16 @@ describe('Merchandsing Carousel', () => {
       '/strategy/*/strategies/*/products**',
       merchandisingCarousel.STRATEGY_RESPONSE
     ).as('strategyProductsApiRequest');
+    cy.cxConfig({
+      cds: {
+        profileTag: {
+          allowInsecureCookies: true,
+        },
+      },
+    });
   });
 
-  it('should send two requests when on the homepage for the first time', () => {
+  it('should send another request to the strategy service, if consent is accepted, containing the consent-reference as a HTTP header', () => {
     testHomePage();
 
     cy.get('@strategyProductsApiRequest').then(request => {
@@ -105,6 +112,18 @@ describe('Merchandsing Carousel', () => {
     });
   });
 
+  it('should not send another request to the strategy service if consent is not accepted', () => {
+    testHomePage();
+
+    cy.get('@strategyProductsApiRequest').then(request => {
+      expect(request).to.not.have.property('requestHeaders.consent-reference');
+    });
+
+    merchandisingCarousel.navigateToCategory(camcordersCategoryName);
+    merchandisingCarousel.verifyRequestToStrategyService(strategyRequestAlias, {
+      category: camcordersCategoryCode,
+    });
+  });
   it('should render with products and metadata when displayed on the homepage', () => {
     testHomePage();
   });
