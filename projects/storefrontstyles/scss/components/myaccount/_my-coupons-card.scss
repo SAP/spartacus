@@ -21,7 +21,6 @@
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
-      /* autoprefixer: ignore next */
       -webkit-box-orient: vertical;
       width: 80%;
     }
@@ -50,7 +49,7 @@
       display: flex;
       width: 80%;
       @include media-breakpoint-down(md) {
-        flex-direction: var(--cx-flex-direction, column);
+        flex-direction: column;
       }
     }
 
@@ -62,12 +61,15 @@
     }
   }
 
-  a {
-    text-decoration: underline !important;
+  a:not([href]):not([tabindex]) {
+    text-decoration: underline;
     &.cx-card-read-more {
       padding: 1rem 0 0 0;
       cursor: pointer;
       display: inline-block;
+      &:hover {
+        color: var(--cx-color-primary);
+      }
     }
   }
 
@@ -80,34 +82,34 @@
   }
 
   .cx-my-coupons-form-group {
-    padding: var(--cx-padding, 0);
-    margin-bottom: var(--cx-margin, 0);
+    padding: 0;
+    margin-bottom: 0;
 
     @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 1.25rem);
+      padding: 1.25rem;
     }
   }
 
   .cx-my-coupons-sort {
     display: flex;
     justify-content: space-between;
-    margin: var(--cx-margin, 0);
+    margin: 0;
     @include media-breakpoint-down(sm) {
       flex-direction: column;
-      padding-top: var(--cx-padding, 0);
+      padding-top: 0;
     }
     &.top {
-      padding: var(--cx-padding, 1rem 0);
+      padding: 1rem 0;
     }
 
     &.bottom {
-      padding: var(--cx-padding, 2rem 0 1rem 0);
+      padding: 2rem 0 1rem 0;
     }
   }
 
   .cx-my-coupons-pagination {
     @include media-breakpoint-down(sm) {
-      margin: var(--cx-margin, 0 auto);
+      margin: 0 auto;
     }
   }
 

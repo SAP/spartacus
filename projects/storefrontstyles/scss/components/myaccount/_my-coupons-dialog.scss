@@ -2,9 +2,6 @@
   .cx-dialog-item {
     padding: 0 1rem 0 0;
   }
-  .cx-coupon-name {
-    font-weight: var(--cx-font-weight, var(--cx-font-weight-bold, 700));
-  }
 
   .cx-coupon-description {
     padding: 1rem 0 1rem 0;
@@ -23,7 +20,7 @@
     }
     .cx-coupon-status {
       text-transform: uppercase;
-      font-weight: var(--cx-font-weight, var(--cx-font-weight-bold, 750));
+      @include type('5');
 
       &.effective {
         color: var(--cx-color-success);
@@ -38,8 +35,8 @@
   }
 
   .cx-dialog-header {
-    padding: var(--cx-padding, 2rem 1.75rem 0.85rem);
-    border-width: var(--cx-border-width, 0);
+    padding: 2rem 1.75rem 0.85rem;
+    border-width: 0;
   }
 
   .cx-dialog-title {
@@ -47,28 +44,28 @@
   }
 
   .cx-dialog-body {
-    padding: var(--cx-padding, 1rem 1rem 0 1rem);
+    padding: 1rem 1rem 0 1rem;
     @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 0);
+      padding: 0;
     }
   }
 
   .cx-dialog-row {
-    margin: var(--cx-margin, 0);
-    display: var(--cx-display, flex);
-    padding: var(--cx-padding, 0 0.875rem 2.875rem);
-    max-width: var(--cx-max-width, 100%);
-    flex-wrap: var(--cx-flex-wrap, wrap);
+    margin: 0;
+    display: flex;
+    padding: 0 0.875rem 2.875rem;
+    max-width: 100%;
+    flex-wrap: wrap;
 
     @include media-breakpoint-down(sm) {
       flex-direction: column;
-      padding: var(--cx-padding, 0);
+      padding: 0;
     }
   }
 
   .cx-dialog-item {
     @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 2rem);
+      padding: 2rem;
     }
   }
 }
