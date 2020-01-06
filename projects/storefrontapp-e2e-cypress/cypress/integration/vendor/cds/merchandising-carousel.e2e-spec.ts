@@ -1,11 +1,10 @@
+import * as merchandisingCarousel from '../../../helpers/vendor/cds/merchandising-carousel';
+import { switchSiteContext } from '../../../support/utils/switch-site-context';
 import {
   CURRENCY_JPY,
   CURRENCY_LABEL,
   LANGUAGE_LABEL,
-} from '../../../helpers/site-context-selector';
-import * as merchandisingCarousel from '../../../helpers/vendor/cds/merchandising-carousel';
-import { switchSiteContext } from '../../../support/utils/switch-site-context';
-
+} from './../../../helpers/site-context-selector';
 const strategyRequestAlias = 'strategyProductsApiRequest';
 const japaneseLanguage = 'ja';
 const englishFilmProductText = 'Film';
@@ -76,7 +75,7 @@ function testPDPPage(productId: string): void {
   );
 }
 
-describe.skip('Merchandsing Carousel', () => {
+describe('Merchandsing Carousel', () => {
   beforeEach(() => {
     cy.server();
     cy.route(
@@ -84,6 +83,26 @@ describe.skip('Merchandsing Carousel', () => {
       '/strategy/*/strategies/*/products**',
       merchandisingCarousel.STRATEGY_RESPONSE
     ).as('strategyProductsApiRequest');
+  });
+
+  it('should send two requests when on the homepage for the first time', () => {
+    testHomePage();
+
+    cy.get('@strategyProductsApiRequest').then(request => {
+      expect(request).to.not.have.property('requestHeaders.consent-reference');
+    });
+
+    merchandisingCarousel.acceptConsent();
+
+    merchandisingCarousel.verifyRequestToStrategyService(strategyRequestAlias, {
+      containsConsentReference: true,
+    });
+
+    merchandisingCarousel.navigateToCategory(camcordersCategoryName);
+    merchandisingCarousel.verifyRequestToStrategyService(strategyRequestAlias, {
+      category: camcordersCategoryCode,
+      containsConsentReference: true,
+    });
   });
 
   it('should render with products and metadata when displayed on the homepage', () => {

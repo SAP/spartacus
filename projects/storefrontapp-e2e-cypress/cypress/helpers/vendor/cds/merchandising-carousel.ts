@@ -8,6 +8,7 @@ interface StrategyRequestContext {
   category?: string;
   productIds?: string[];
   facets?: string[];
+  containsConsentReference?: boolean;
 }
 
 const site = 'electronics-spa';
@@ -154,6 +155,12 @@ export function verifyRequestToStrategyService(
     } else {
       expect(request.url).not.to.contain('facets=');
     }
+
+    strategyRequestContext.containsConsentReference
+      ? expect(request.requestHeaders).to.have.property('consent-reference')
+      : expect(request.requestHeaders).to.not.have.property(
+          'consent-reference'
+        );
   });
 }
 
@@ -222,6 +229,10 @@ export function applyFacet(facetGroup: string, facetName: string): void {
         .contains(facetName)
         .click();
     });
+}
+
+export function acceptConsent() {
+  cy.get('.anonymous-consent-banner .cx-banner-buttons .btn-primary').click();
 }
 
 export function verifyFirstCarouselItemTextContent(
