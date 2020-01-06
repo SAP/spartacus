@@ -6,15 +6,18 @@
   "license": "MIT",
   "scripts": {
     "cy:open": "cypress open",
-    "cy:run": "cypress run --spec cypress/integration/smoke/**/*",
-    "cy:cli": "cypress run",
-    "cy:run:mobile": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/mobile/**/*\"",
-    "cy:run:regression": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/regression/**/*\"",
-    "cy:run:all": "cypress run --config numTestsKeptInMemory=1 --spec \"cypress/integration/**/*\""
+    "cy:run": "cypress run",
+    "cy:run:ci": "cypress run --config-file cypress.ci.json",
+    "cy:run:smoke": "cypress run --spec \"cypress/integration/smoke/**/*\"",
+    "cy:run:smoke:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/smoke/**/*\"",
+    "cy:run:mobile": "cypress run --spec \"cypress/integration/mobile/**/*\"",
+    "cy:run:mobile:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/mobile/**/*\"",
+    "cy:run:regression": "cypress run --spec \"cypress/integration/regression/**/*\"",
+    "cy:run:regression:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/regression/**/*\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",
     "@testing-library/cypress": "^4.2.0",
-    "cypress": "^3.1.5"
+    "cypress": "^3.8.0"
   }
 }

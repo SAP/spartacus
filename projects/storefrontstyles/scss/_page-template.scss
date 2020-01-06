@@ -9,9 +9,9 @@ $page-template-blacklist: () !default;
 // whitelisted page template selectors are processed
 // unless (some) they are blacklisted using `$page-template-blacklist`
 $page-template-whitelist: LandingPage2Template, ContentPage1Template,
-  CategoryPageTemplate, ProductListPageTemplate, SearchResultsListPageTemplate,
-  ProductDetailsPageTemplate, CartPageTemplate, LoginPageTemplate,
-  MultiStepCheckoutSummaryPageTemplate, ErrorPageTemplate,
+  CategoryPageTemplate, ProductListPageTemplate, ProductGridPageTemplate,
+  SearchResultsListPageTemplate, ProductDetailsPageTemplate, CartPageTemplate,
+  LoginPageTemplate, MultiStepCheckoutSummaryPageTemplate, ErrorPageTemplate,
   StoreFinderPageTemplate, CheckoutLoginPageTemplate, AccountPageTemplate !default;
 
 @each $selector in $page-template-whitelist {
