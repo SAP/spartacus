@@ -20,6 +20,7 @@ import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { FeatureToggles } from './feature-toggles';
 import { LayoutConfig } from './layout/config/layout-config';
 import { ViewConfig } from './shared/config/view-config';
+import { SkipLinkConfig } from './layout/a11y/skip-link/config/index';
 
 export type StorefrontConfig =
   | AnonymousConsentsConfig
@@ -41,4 +42,5 @@ export type StorefrontConfig =
   | ExternalRoutesConfig
   | ViewConfig
   | FeatureToggles
-  | AsmConfig;
+  | AsmConfig
+  | SkipLinkConfig;

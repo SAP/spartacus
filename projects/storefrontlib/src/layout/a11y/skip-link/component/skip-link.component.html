@@ -1,0 +1,10 @@
+<button
+  *ngFor="let skipLink of skipLinks$ | async"
+  (click)="scrollToTarget(skipLink, $event)"
+  (keydown.esc)="blur($event)"
+  (keydown.arrowright)="tabNext($event)"
+  (keydown.arrowleft)="tabPrev($event)"
+>
+  {{ 'skipLink.skipTo' | cxTranslate }}
+  {{ skipLink.i18nKey | cxTranslate }}
+</button>
