@@ -32,7 +32,7 @@ if [[ -n "$coverage" ]]; then
 fi
 
 echo "Running unit tests for schematics"
-cd projects/schematics && yarn && yarn test && cd ..
+cd projects/schematics && yarn && yarn test && cd ../..
 
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"
