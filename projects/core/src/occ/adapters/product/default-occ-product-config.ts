@@ -10,8 +10,10 @@ export const defaultOccProductConfig: OccConfig = {
         product_scopes: {
           list:
             'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
+          variants:
+            'products/${productCode}?fields=purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType,images(DEFAULT,galleryIndex)',
           details:
-            'products/${productCode}?fields=averageRating,purchasable,stock(DEFAULT),description,variantMatrix(DEFAULT),baseOptions(DEFAULT),baseProduct,availableForPickup,variantOptions(DEFAULT),variantType,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,classifications,images(FULL)',
+            'products/${productCode}?fields=averageRating,stock(DEFAULT),description,baseOptions(DEFAULT),baseProduct,availableForPickup,variantOptions(DEFAULT),variantType,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,classifications,images(FULL)',
         },
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
@@ -29,7 +31,7 @@ export const defaultOccProductConfig: OccConfig = {
     loadingScopes: {
       product: {
         details: {
-          include: [ProductScope.LIST],
+          include: [ProductScope.LIST, ProductScope.VARIANTS],
         },
       },
     },

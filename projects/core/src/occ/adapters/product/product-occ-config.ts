@@ -13,6 +13,7 @@ declare module '../../config/loading-scopes-config' {
 
 export interface ProductScopesConfig extends LoadingScopesConfig {
   list?: ProductLoadingScopeConfig;
+  variants?: ProductLoadingScopeConfig;
   details?: ProductLoadingScopeConfig;
   [scope: string]: ProductLoadingScopeConfig;
 }
