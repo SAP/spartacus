@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -20,7 +19,7 @@ import { OutletService } from './outlet.service';
 @Directive({
   selector: '[cxOutlet]',
 })
-export class OutletDirective implements OnInit, OnDestroy, OnChanges {
+export class OutletDirective implements OnDestroy, OnChanges {
   @Input() cxOutlet: string;
 
   @Input() cxOutletContext: any;
@@ -59,10 +58,6 @@ export class OutletDirective implements OnInit, OnDestroy, OnChanges {
     private deferLoaderService?: DeferLoaderService
   ) {}
 
-  ngOnInit(): void {
-    this.initializeOutlet();
-  }
-
   private initializeOutlet(): void {
     this.vcr.clear();
     this.subscription.unsubscribe();
@@ -76,7 +71,7 @@ export class OutletDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cxOutlet && !changes.cxOutlet.firstChange) {
+    if (changes.cxOutlet) {
       this.initializeOutlet();
     }
   }
