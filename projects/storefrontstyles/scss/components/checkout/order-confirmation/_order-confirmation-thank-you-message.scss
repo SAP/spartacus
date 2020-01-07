@@ -1,10 +1,6 @@
 @import '../../../theme';
 
 %cx-order-confirmation-thank-you-message {
-
-  #cx-thank-you-header {
-    z-index: 1;
-  }
   .cx-order-confirmation-message {
     text-align: var(--cx-text-align, center);
     padding: var(--cx-padding, 2.5rem);
