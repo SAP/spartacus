@@ -156,7 +156,7 @@ export function verifyCouponAndSavedPrice(
 
   //verify saved price
   cy.get('.cx-summary-partials').within(() => {
-    cy.get(':nth-child(5)').should('contain', `You saved: ${savedPrice}`);
+    cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
   });
 }
 
@@ -169,7 +169,7 @@ export function verifyCouponAndSavedPriceInOrder(
 
   //verify saved price
   cy.get('.cx-summary-partials').within(() => {
-    cy.get(':nth-child(5)').should('contain', `You saved: ${savedPrice}`);
+    cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
   });
 }
 
