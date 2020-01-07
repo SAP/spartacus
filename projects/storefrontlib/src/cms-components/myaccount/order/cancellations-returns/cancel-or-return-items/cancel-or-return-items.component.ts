@@ -1,18 +1,26 @@
 import {
-  Component,
-  Input,
-  Output,
-  OnInit,
-  EventEmitter,
   ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  OrderEntry,
   CancelOrReturnRequestEntryInput,
+  OrderEntry,
   Price,
 } from '@spartacus/core';
 import { OrderCancelOrReturnService } from '../cancel-or-return.service';
+import { OrderAmendService } from '../order-amend.service';
+
+function ValidateQuantity(control: FormControl) {
+  if (!Object.keys(control.value).find(key => Number(control.value[key]) > 0)) {
+    return { required: true };
+  }
+  return null;
+}
 
 @Component({
   selector: 'cx-cancel-or-return-items',
@@ -28,45 +36,24 @@ export class CancelOrReturnItemsComponent implements OnInit {
   @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 
   form: FormGroup;
-  inputsControl: FormArray;
-  disableConfirmBtn = true;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private cancelOrReturnService: OrderCancelOrReturnService
+    private cancelOrReturnService: OrderCancelOrReturnService,
+    protected orderAmendService: OrderAmendService
   ) {}
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      entryInput: this.formBuilder.array([]),
-    });
+    this.buildForm();
+  }
 
-    this.inputsControl = this.form.get('entryInput') as FormArray;
-
-    this.entries.forEach(entry => {
-      this.inputsControl.push(
-        this.formBuilder.group({
-          orderEntryNumber: entry.entryNumber,
-          quantity: this.cancelOrReturnService.getEntryCancelledOrReturnedQty(
-            entry
-          ),
-        })
-      );
-    });
-
-    this.disableEnableConfirm();
+  getControl(entry: OrderEntry): FormControl {
+    return <FormControl>this.form.get(entry.entryNumber.toString());
   }
 
   setAll(): void {
-    for (let i = 0; i < this.entries.length; i++) {
-      this.inputsControl.at(i).setValue({
-        orderEntryNumber: this.entries[i].entryNumber,
-        quantity: this.cancelOrder
-          ? this.entries[i].cancellableQuantity
-          : this.entries[i].returnableQuantity,
-      });
-    }
-    this.disableEnableConfirm();
+    this.entries.forEach(entry =>
+      this.getControl(entry).setValue(this.getMaxAmmendQuantity(entry))
+    );
   }
 
   confirmEntryInputs(): void {
@@ -79,10 +66,6 @@ export class CancelOrReturnItemsComponent implements OnInit {
     this.confirm.emit(inputs);
   }
 
-  updateQty(): void {
-    this.disableEnableConfirm();
-  }
-
   getItemPrice(entry: OrderEntry): Price {
     return this.cancelOrReturnService.getCancelledOrReturnedPrice(entry);
   }
@@ -91,13 +74,31 @@ export class CancelOrReturnItemsComponent implements OnInit {
     this.cancelOrReturnService.backToOrder(this.orderCode);
   }
 
-  protected disableEnableConfirm(): void {
-    for (const input of this.form.value.entryInput) {
-      if (input.quantity > 0) {
-        this.disableConfirmBtn = false;
-        return;
-      }
-    }
-    this.disableConfirmBtn = true;
+  /**
+   * Builds the form for the given order entries
+   */
+  private buildForm(): void {
+    this.form = new FormGroup({}, { validators: [ValidateQuantity] });
+
+    this.entries.forEach(entry => {
+      const key = entry.entryNumber.toString();
+      this.form.addControl(
+        key,
+        new FormControl(0, {
+          validators: [
+            Validators.min(1),
+            Validators.max(this.getMaxAmmendQuantity(entry)),
+          ],
+        })
+      );
+    });
+  }
+
+  getMaxAmmendQuantity(entry: OrderEntry) {
+    return (
+      (this.cancelOrder
+        ? entry.cancellableQuantity
+        : entry.returnableQuantity) || entry.quantity
+    );
   }
 }

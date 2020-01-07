@@ -8,7 +8,7 @@
     <div class="col-xs-12 col-md-4 col-lg-3">
       <button
         class="btn btn-block btn-primary"
-        [disabled]="disableConfirmBtn"
+        [disabled]="!form.valid"
         (click)="confirmEntryInputs()"
       >
         {{ 'common.continue' | cxTranslate }}
@@ -51,8 +51,8 @@
   </div>
 </div>
 
-<div [formGroup]="form">
-  <div formArrayName="entryInput">
+<div>
+  <div>
     <div class="cx-item-list-row" *ngFor="let item of entries; let i = index">
       <div class="cx-item-list-items">
         <div class="row">
@@ -129,7 +129,7 @@
                       | cxTranslate
                   }}
                 </div>
-                <div [formGroupName]="i">
+                <div>
                   <cx-item-counter
                     [step]="1"
                     [min]="0"
@@ -139,8 +139,7 @@
                         : item.returnableQuantity
                     "
                     [isValueChangeable]="!confirmRequest"
-                    (update)="updateQty()"
-                    formControlName="quantity"
+                    [formControl]="getControl(item)"
                   >
                   </cx-item-counter>
                 </div>
@@ -178,7 +177,7 @@
     <div class="col-xs-12 col-md-4 col-lg-3">
       <button
         class="btn btn-block btn-primary"
-        [disabled]="disableConfirmBtn"
+        [disabled]="!form.valid"
         (click)="confirmEntryInputs()"
       >
         {{ 'common.continue' | cxTranslate }}

@@ -25,9 +25,4 @@ export abstract class OrderAmendService {
       .getOrderDetails()
       .pipe(filter(order => Boolean(order.entries)));
   }
-
-  /**
-   * Builds the form for the given order entries
-   */
-  buildForm(_entries: OrderEntry[]) {}
 }
