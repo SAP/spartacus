@@ -1,18 +1,12 @@
-import { UrlCommandRoute } from "./url-command";
-import { Product } from "projects/backend/occ-client/lib/models";
+import { UrlCommandRoute } from './url-command';
+import { Product } from 'projects/core/src/model/product.model';
 
 export class ProductURLCommand implements UrlCommandRoute {
-    cxRoute?: string;
-    params?: Product;
+  cxRoute?: string;
+  params?: Product;
 
-    constructor(cxRoute : string, param : Product) {
-        this.cxRoute=cxRoute;
-        this.params=param;
-    }
+  constructor(param: Product) {
+    this.cxRoute = 'product';
+    this.params = param;
+  }
 }
-export type UrlCommand = ProductURLCommand | any;
-
-export type UrlCommands = UrlCommand | UrlCommand[];
-
-
-  

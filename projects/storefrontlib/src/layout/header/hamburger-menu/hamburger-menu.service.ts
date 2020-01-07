@@ -10,7 +10,6 @@ export class HamburgerMenuService {
   isExpanded: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(router: Router) {
-    router.onSameUrlNavigation='reload';
     router.events
       .pipe(filter(event => event instanceof NavigationStart))
       .subscribe(() => {
