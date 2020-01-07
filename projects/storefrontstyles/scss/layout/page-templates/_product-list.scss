@@ -1,4 +1,5 @@
-%ProductListPageTemplate {
+%ProductListPageTemplate,
+%ProductGridPageTemplate {
   max-width: 1140px;
   margin: auto;
   display: flex;
@@ -15,7 +16,8 @@
       max-width: none;
     }
   }
-  .ProductListSlot {
+  .ProductListSlot,
+  .ProductGridSlot {
     order: 2;
     max-width: 75%;
 

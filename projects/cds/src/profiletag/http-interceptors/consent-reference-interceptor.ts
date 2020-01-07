@@ -20,14 +20,14 @@ export class ConsentReferenceInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (
-      !this.profileTagEventTracker.consentReference ||
+      !this.profileTagEventTracker.latestConsentReference ||
       !this.isOccUrl(request.url)
     ) {
       return next.handle(request);
     }
     const cdsHeaders = request.headers.set(
       'X-Consent-Reference',
-      this.profileTagEventTracker.consentReference
+      this.profileTagEventTracker.latestConsentReference
     );
     const cdsRequest = request.clone({ headers: cdsHeaders });
     return next.handle(cdsRequest);

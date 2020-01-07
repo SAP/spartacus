@@ -65,7 +65,7 @@ export function fillShippingAddress(
       .clear()
       .type(shippingAddress.phone);
     if (submitForm) {
-      cy.get('button.btn-primary').click();
+      cy.get('button.btn-primary').click({ force: true });
     }
   });
 }
@@ -126,9 +126,13 @@ export function fillPaymentDetails(
       .type(paymentDetails.payment.cvv);
     if (billingAddress) {
       fillBillingAddress(billingAddress);
+    } else {
+      cy.get('input.form-check-input').check();
     }
     if (submitForm) {
-      cy.get('button.btn-primary').click();
+      cy.get('button.btn.btn-block.btn-primary')
+        .contains('Continue')
+        .click({ force: true });
     }
   });
 }
