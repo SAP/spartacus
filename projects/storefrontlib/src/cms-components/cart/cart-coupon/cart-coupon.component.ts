@@ -7,7 +7,6 @@ import {
   AuthService,
   OCC_USER_ID_ANONYMOUS,
   CustomerCouponService,
-  WindowRef,
   CustomerCoupon,
   CustomerCouponSearchResult,
   FeatureConfigService,
@@ -187,6 +186,10 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.filteredCoupons = this.applicableCoupons.filter(
       coupon => coupon.couponId.toLowerCase().indexOf(filterValue) > -1
     );
+  }
+
+  protected isCouponBoxActive(): boolean {
+    return this.couponBoxIsActive;
   }
 
   open(): void {
