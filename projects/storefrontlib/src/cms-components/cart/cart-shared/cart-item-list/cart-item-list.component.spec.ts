@@ -4,10 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   PromotionLocation,
-  FeaturesConfigModule,
-  FeaturesConfig,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
@@ -68,6 +68,7 @@ class MockCartItemComponent {
   @Input() cartIsLoading;
   @Input()
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  @Input() allowBuyAgain;
 }
 
 describe('CartItemListComponent', () => {

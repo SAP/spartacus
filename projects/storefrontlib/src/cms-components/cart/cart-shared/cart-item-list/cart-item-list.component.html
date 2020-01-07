@@ -21,6 +21,7 @@
       <ng-container *cxFeatureLevel="'!1.4'">
         <cx-cart-item
           [parent]="form.controls[item.product.code]"
+          [allowBuyAgain]="allowBuyAgain"
           [item]="item"
           [isReadOnly]="isReadOnly"
           [potentialProductPromotions]="
@@ -36,6 +37,7 @@
       <ng-container *cxFeatureLevel="'1.4'">
         <cx-cart-item
           [parent]="form.controls[item.product.code]"
+          [allowBuyAgain]="allowBuyAgain"
           [item]="item"
           [isReadOnly]="isReadOnly"
           [promotionLocation]="promotionLocation"
