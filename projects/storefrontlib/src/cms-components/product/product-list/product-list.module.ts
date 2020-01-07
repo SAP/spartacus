@@ -26,7 +26,6 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation/prod
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
-import { ProductUrlModule } from 'projects/core/src/routing/configurable-routes/url-translation/product-url.module';
 
 @NgModule({
   imports: [
@@ -51,7 +50,6 @@ import { ProductUrlModule } from 'projects/core/src/routing/configurable-routes/
     ItemCounterModule,
     ListNavigationModule,
     UrlModule,
-    ProductUrlModule,
     I18nModule,
     StarRatingModule,
     IconModule,
