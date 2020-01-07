@@ -12,6 +12,8 @@ test-results.xml
 # docs archives
 docs.tar.gz
 docs.zip
+spartacussampleaddon.zip
+spartacussampleaddon.tar.gz
 
 # dependencies
 node_modules/
@@ -47,3 +49,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
