@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, queueScheduler } from 'rxjs';
-import { auditTime, map, observeOn, shareReplay, tap } from 'rxjs/operators';
+import { Observable, queueScheduler } from 'rxjs';
+import { map, observeOn, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
-import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { deepMerge } from '../../config/utils/deep-merge';
+import { ProductLoadingService } from '../services/product-loading.service';
+import { ProductScope } from '../model/product-scope';
 
 @Injectable()
 export class ProductService {
   constructor(
     store: Store<StateWithProduct>,
     // tslint:disable-next-line:unified-signatures
-    loadingScopes: LoadingScopesService
+    productLoading: ProductLoadingService
   );
   /**
    * @deprecated since 1.4
@@ -23,12 +23,11 @@ export class ProductService {
 
   constructor(
     protected store: Store<StateWithProduct>,
-    protected loadingScopes?: LoadingScopesService
+    protected productLoading?: ProductLoadingService
   ) {}
 
-  private products: {
-    [code: string]: { [scope: string]: Observable<Product> };
-  } = {};
+  /** @deprecated since 1.4 */
+  private products: { [code: string]: Observable<Product> } = {};
 
   /**
    * Returns the product observable. The product will be loaded
@@ -45,80 +44,42 @@ export class ProductService {
    */
   get(
     productCode: string,
-    scopes: string[] | string = ''
+    scopes: (ProductScope | string)[] | ProductScope | string = ''
   ): Observable<Product> {
-    scopes = [].concat(scopes);
+    // TODO: Remove, deprecated since 1.4
+    if (!this.productLoading) {
+      if (!this.products[productCode]) {
+        this.products[productCode] = this.store.pipe(
+          select(ProductSelectors.getSelectedProductStateFactory(productCode)),
+          observeOn(queueScheduler),
+          tap(productState => {
+            const attemptedLoad =
+              productState.loading ||
+              productState.success ||
+              productState.error;
 
-    if (this.loadingScopes) {
-      scopes = this.loadingScopes.expand('product', scopes);
-    }
-
-    this.initProductScopes(productCode, scopes);
-
-    if (scopes.length > 1) {
-      return combineLatest(
-        scopes.map(scope => this.products[productCode][scope])
-      ).pipe(
-        auditTime(0),
-        map(
-          productParts =>
-            productParts.find(Boolean) && deepMerge({}, ...productParts)
-        )
-      );
-    } else {
-      return this.products[productCode][scopes[0]];
-    }
-  }
-
-  private initProductScopes(productCode: string, scopes: string[]): void {
-    if (!this.products[productCode]) {
-      this.products[productCode] = {};
-    }
-
-    for (const scope of scopes) {
-      if (!this.products[productCode][scope]) {
-        this.products[productCode][scope] = this.getProductForScope(
-          productCode,
-          scope
+            if (!attemptedLoad) {
+              this.store.dispatch(new ProductActions.LoadProduct(productCode));
+            }
+          }),
+          map(productState => productState.value),
+          shareReplay({ bufferSize: 1, refCount: true })
         );
       }
+      return this.products[productCode];
     }
-  }
+    // END OF (TODO: Remove, deprecated since 1.4)
 
-  /**
-   * Creates observable for providing specified product data for the scope
-   *
-   * @param productCode
-   * @param scope
-   */
-  private getProductForScope(
-    productCode: string,
-    scope: string
-  ): Observable<Product> {
-    return this.store.pipe(
-      select(
-        ProductSelectors.getSelectedProductStateFactory(productCode, scope)
-      ),
-      observeOn(queueScheduler),
-      tap(productState => {
-        const attemptedLoad =
-          productState.loading || productState.success || productState.error;
-
-        if (!attemptedLoad) {
-          this.store.dispatch(
-            new ProductActions.LoadProduct(productCode, scope)
-          );
-        }
-      }),
-      map(productState => productState.value),
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
+    return this.productLoading.get(productCode, [].concat(scopes));
   }
 
   /**
    * Returns boolean observable for product's loading state
    */
-  isLoading(productCode: string, scope = ''): Observable<boolean> {
+  isLoading(
+    productCode: string,
+    scope: ProductScope | string = ''
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ProductSelectors.getSelectedProductLoadingFactory(productCode, scope)
@@ -129,7 +90,10 @@ export class ProductService {
   /**
    * Returns boolean observable for product's load success state
    */
-  isSuccess(productCode: string, scope = ''): Observable<boolean> {
+  isSuccess(
+    productCode: string,
+    scope: ProductScope | string = ''
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ProductSelectors.getSelectedProductSuccessFactory(productCode, scope)
@@ -140,7 +104,10 @@ export class ProductService {
   /**
    * Returns boolean observable for product's load error state
    */
-  hasError(productCode: string, scope = ''): Observable<boolean> {
+  hasError(
+    productCode: string,
+    scope: ProductScope | string = ''
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ProductSelectors.getSelectedProductErrorFactory(productCode, scope)
@@ -153,7 +120,7 @@ export class ProductService {
    * whenever selected by the `get`, but in some cases an
    * explicit reload might be needed.
    */
-  reload(productCode: string, scope = ''): void {
+  reload(productCode: string, scope: ProductScope | string = ''): void {
     this.store.dispatch(new ProductActions.LoadProduct(productCode, scope));
   }
 }

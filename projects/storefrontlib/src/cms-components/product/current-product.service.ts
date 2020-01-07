@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   FeatureConfigService,
   Product,
+  ProductScope,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
@@ -19,7 +20,7 @@ export class CurrentProductService {
   ) {}
 
   protected readonly PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? ['details'] : '';
+    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
 
   getProduct(): Observable<Product> {
     return this.routingService.getRouterState().pipe(

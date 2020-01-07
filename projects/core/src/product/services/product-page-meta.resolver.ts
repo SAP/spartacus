@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { PageMeta } from '../../cms/model/page.model';
+import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageBreadcrumbResolver,
@@ -16,6 +16,7 @@ import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
 import { FeatureConfigService } from '../../features-config/services/feature-config.service';
+import { ProductScope } from '../model/product-scope';
 
 /**
  * Resolves the page data for the Product Detail Page
@@ -35,7 +36,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageBreadcrumbResolver,
     PageImageResolver {
   protected readonly PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? 'details' : '';
+    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
 
   // reusable observable for product data based on the current page
   private product$ = this.routingService.getRouterState().pipe(
@@ -73,21 +74,24 @@ export class ProductPageMetaResolver extends PageMetaResolver
             switchMap(label => this.resolveBreadcrumbs(p, label))
           ),
           this.resolveImage(p),
+          this.resolveRobots(p),
         ])
       ),
       map(
-        ([heading, title, description, breadcrumbs, image]: [
+        ([heading, title, description, breadcrumbs, image, robots]: [
           string,
           string,
           string,
           any[],
-          string
+          string,
+          string[]
         ]) => ({
           heading,
           title,
           description,
           breadcrumbs,
           image,
+          robots,
         })
       )
     );
@@ -225,5 +229,25 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   private resolveManufacturer(product: Product): string {
     return product.manufacturer ? ` | ${product.manufacturer}` : '';
+  }
+
+  resolveRobots(): Observable<PageRobotsMeta[]>;
+  /**
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveRobots()` instead
+   */
+  // tslint:disable-next-line: unified-signatures
+  resolveRobots(product: Product): Observable<PageRobotsMeta[]>;
+  resolveRobots(product?: Product): Observable<PageRobotsMeta[]> {
+    const product$ = product ? of(product) : this.product$;
+    return product$.pipe(
+      switchMap((p: Product) => {
+        if (!p.purchasable) {
+          return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.NOINDEX]);
+        } else {
+          return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+        }
+      })
+    );
   }
 }
