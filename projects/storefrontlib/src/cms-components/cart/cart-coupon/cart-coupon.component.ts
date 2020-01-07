@@ -33,7 +33,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  private couponBoxIsActive = false;
+  couponBoxIsActive = false;
 
   constructor(
     cartService: CartService,
@@ -186,10 +186,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.filteredCoupons = this.applicableCoupons.filter(
       coupon => coupon.couponId.toLowerCase().indexOf(filterValue) > -1
     );
-  }
-
-  isCouponBoxActive(): boolean {
-    return this.couponBoxIsActive;
   }
 
   open(): void {
