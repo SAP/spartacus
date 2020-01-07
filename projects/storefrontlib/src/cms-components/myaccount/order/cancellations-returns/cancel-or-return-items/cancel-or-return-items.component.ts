@@ -14,7 +14,6 @@ import {
   Price,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 import { OrderAmendService } from '../order-amend.service';
 
 function ValidateQuantity(control: FormControl) {
@@ -32,17 +31,12 @@ function ValidateQuantity(control: FormControl) {
 export class CancelOrReturnItemsComponent implements OnInit {
   @Input() entries: OrderEntry[];
   @Input() confirmRequest = false;
-  @Input() cancelOrder = true;
-  @Input() orderCode: string;
 
   @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
 
   form: FormGroup;
 
-  constructor(
-    private cancelOrReturnService: OrderCancelOrReturnService,
-    protected orderAmendService: OrderAmendService
-  ) {}
+  constructor(protected orderAmendService: OrderAmendService) {}
 
   ngOnInit(): void {
     this.buildForm();
@@ -73,7 +67,7 @@ export class CancelOrReturnItemsComponent implements OnInit {
   }
 
   getItemPrice(entry: OrderEntry): Price {
-    return this.cancelOrReturnService.getCancelledOrReturnedPrice(entry);
+    return this.orderAmendService.getEntryPrice(entry);
   }
 
   /**
@@ -97,10 +91,10 @@ export class CancelOrReturnItemsComponent implements OnInit {
   }
 
   getMaxAmmendQuantity(entry: OrderEntry) {
-    return (
-      (this.cancelOrder
-        ? entry.cancellableQuantity
-        : entry.returnableQuantity) || entry.quantity
-    );
+    return this.orderAmendService.getMaxAmmendQuantity(entry);
+  }
+
+  isCancellation() {
+    return this.orderAmendService.isCancellation();
   }
 }

@@ -21,7 +21,6 @@
 <ng-container *ngIf="returnedEntries$ | async as returnedEntries">
   <cx-cancel-or-return-items
     [entries]="returnedEntries"
-    [cancelOrder]="false"
     [confirmRequest]="true"
   >
   </cx-cancel-or-return-items>

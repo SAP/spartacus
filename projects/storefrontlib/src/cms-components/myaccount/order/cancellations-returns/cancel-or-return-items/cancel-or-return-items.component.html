@@ -21,7 +21,7 @@
     </div>
     <div class="cx-item-list-qty col-2">
       {{
-        (cancelOrder
+        (isCancellation()
           ? 'orderDetails.cancellationAndReturn.cancelQty'
           : 'orderDetails.cancellationAndReturn.returnQty') | cxTranslate
       }}
@@ -87,7 +87,7 @@
         <div class="cx-quantity col-md-3 col-xl-2">
           <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
             {{
-              (cancelOrder
+              (isCancellation()
                 ? 'orderDetails.cancellationAndReturn.cancelQty'
                 : 'orderDetails.cancellationAndReturn.returnQty') | cxTranslate
             }}

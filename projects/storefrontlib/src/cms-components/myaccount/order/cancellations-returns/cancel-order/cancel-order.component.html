@@ -1,8 +1,6 @@
 <cx-cancel-or-return-items
   *ngIf="entries$ | async as entries"
   [entries]="entries"
-  [cancelOrder]="true"
-  [orderCode]="orderCode"
   (confirm)="confirmCancel($event)"
 >
 </cx-cancel-or-return-items>
