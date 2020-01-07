@@ -28,7 +28,7 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Variants -->
-        <ng-container *cxFeatureLevel="'!1.4'">
+        <ng-container *cxFeatureLevel="'!1.5'">
           <div
             *ngFor="let variant of item.product.variantOptionQualifiers"
             class="cx-property"
@@ -37,7 +37,7 @@
             <div class="cx-value">{{ variant.value }}</div>
           </div>
         </ng-container>
-        <ng-container *cxFeatureLevel="'1.4'">
+        <ng-container *cxFeatureLevel="'1.5'">
           <div
             *ngFor="
               let variant of item.product.baseOptions[0]?.selected
