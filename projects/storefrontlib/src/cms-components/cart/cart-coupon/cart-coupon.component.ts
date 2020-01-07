@@ -188,7 +188,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected isCouponBoxActive(): boolean {
+  isCouponBoxActive(): boolean {
     return this.couponBoxIsActive;
   }
 
