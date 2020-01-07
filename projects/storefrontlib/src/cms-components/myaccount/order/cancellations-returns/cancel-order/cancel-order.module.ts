@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, CmsConfig, ConfigModule } from '@spartacus/core';
-import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layout/page-layout.component';
 import { CancelOrReturnItemsModule } from '../cancel-or-return-items/cancel-or-return-items.module';
+import { OrderAmendService } from '../order-amend.service';
+import { OrderCancellationService } from '../order-cancellation.service';
 import { CancelOrderComponent } from './cancel-order.component';
 
 @NgModule({
@@ -26,6 +28,12 @@ import { CancelOrderComponent } from './cancel-order.component';
         CancelOrderComponent: {
           component: CancelOrderComponent,
           guards: [AuthGuard],
+          providers: [
+            {
+              provide: OrderAmendService,
+              useExisting: OrderCancellationService,
+            },
+          ],
         },
       },
     }),
