@@ -3,20 +3,18 @@ set -e
 set -o pipefail
 
 POSITIONAL=()
-SUITE=""
-INTEGRATION=""
 
 readonly help_display="Usage: $0 [ command_options ] [ param ]
 
     command options:
         --suite, -s                             choose an e2e suite to run. Default: regression
-        --integration, -i                       run the correct e2e integration. Default: "" for smoke tests
+        --integration, -i                       run the correct e2e integration suite. Default: "" for smoke tests
         --help, -h                              show this message and exit
 "
 
 while [ "${1:0:1}" == "-" ]
 do
-    case "$1" in 
+    case "$1" in
         '--suite' | '-s' )
             SUITE=$2
             shift
@@ -35,7 +33,7 @@ do
             POSITIONAL+=("$1")
             shift
 
-            echo "Error: unknown option"
+            echo "Error: unknown option: ${POSITIONAL}"
             exit 1
             ;;
     esac
@@ -48,8 +46,7 @@ yarn
 
 echo '-----'
 echo 'Building Spartacus libraries'
-yarn build:core:lib${INTEGRATION} && yarn build${INTEGRATION} 2>&1 | tee build.log
-
+yarn build:core:lib"${INTEGRATION}" && yarn build"${INTEGRATION}" 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "$results" ]]; then
@@ -62,9 +59,9 @@ else
 fi
 
 echo '-----'
-echo "Running Cypress end to end tests $SUITE"
+echo "Running Cypress end to end tests for suite: $SUITE"
 if [[ $SUITE == 'regression' ]]; then
-    yarn e2e:cy${INTEGRATION}:start-run-ci
+    yarn e2e:cy"${INTEGRATION}":start-run-ci
 else
-    yarn e2e:cy${INTEGRATION}:start-run-smoke-ci
+    yarn e2e:cy"${INTEGRATION}":start-run-smoke-ci
 fi
