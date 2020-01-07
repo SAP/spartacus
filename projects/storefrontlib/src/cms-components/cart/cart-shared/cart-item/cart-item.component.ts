@@ -80,12 +80,14 @@ export class CartItemComponent implements OnInit {
     );
   }
 
+  //TODO remove feature flag for #5958
   isSaveForLaterEnabled(): boolean {
     if (this.featureConfig) {
       return this.featureConfig.isEnabled('saveForLater');
     }
     return false;
   }
+  //TODO remove feature flag for #5958
 
   isProductOutOfStock(product: any) {
     // TODO Move stocklevelstatuses across the app to an enum

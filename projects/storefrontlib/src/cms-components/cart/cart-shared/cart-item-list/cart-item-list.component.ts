@@ -83,12 +83,14 @@ export class CartItemListComponent implements OnInit {
   // TODO remove for 2.0 - left to keep backward compatibility
   ngOnInit(): void {}
 
+  //TODO remove feature flag for #5958
   isSaveForLaterEnabled(): boolean {
     if (this.featureConfig) {
       return this.featureConfig.isEnabled('saveForLater');
     }
     return false;
   }
+  //TODO remove feature flag for #5958
 
   removeEntry(item: Item): void {
     if (this.selectiveCartService && this.options.isSaveForLater) {

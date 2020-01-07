@@ -60,6 +60,7 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
           })
         );
       }
+      //TODO remove old code for #5958
       return combineLatest([slots$, this.cartService.getActive()]).pipe(
         map(([slots, cart]) => {
           if (cart.totalItems) {
@@ -71,6 +72,7 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
           }
         })
       );
+      ////TODO remove old code for #5958
     }
     return slots$;
   }

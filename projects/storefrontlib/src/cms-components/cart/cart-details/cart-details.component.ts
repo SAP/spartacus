@@ -72,20 +72,25 @@ export class CartDetailsComponent implements OnInit {
           loggedIn ? cartLoaded && sflLoaded : cartLoaded
         )
       );
-    } else {
+    }
+    //TODO remove for #5958
+    else {
       this.cartLoaded$ = this.cartService.getLoaded();
       this.orderPromotions$ = this.promotionService.getOrderPromotions(
         this.promotionLocation
       );
     }
+    //TODO remove for #5958
   }
 
+  //TODO remove feature flag for #5958
   isSaveForLaterEnabled(): boolean {
     if (this.featureConfig) {
       return this.featureConfig.isEnabled('saveForLater');
     }
     return false;
   }
+  //TODO remove feature flag for #5958
 
   /**
    * @deprecated Since 1.5
