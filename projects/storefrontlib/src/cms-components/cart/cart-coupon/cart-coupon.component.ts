@@ -45,7 +45,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   );
   /**
    * @deprecated Since 1.5
-   * Add customerCouponService, winRef for customer coupon feature.
+   * Add customerCouponService,featureConfig for customer coupon feature.
    * Remove issue: #5971
    */
   constructor(
