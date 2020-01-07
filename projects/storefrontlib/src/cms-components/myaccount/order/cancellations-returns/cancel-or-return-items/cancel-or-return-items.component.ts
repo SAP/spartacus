@@ -9,9 +9,11 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CancelOrReturnRequestEntryInput,
+  Order,
   OrderEntry,
   Price,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 import { OrderAmendService } from '../order-amend.service';
 
@@ -56,6 +58,10 @@ export class CancelOrReturnItemsComponent implements OnInit {
     );
   }
 
+  getOrder(): Observable<Order> {
+    return this.orderAmendService.getOrder();
+  }
+
   confirmEntryInputs(): void {
     const inputs: CancelOrReturnRequestEntryInput[] = [];
     for (const input of this.form.value.entryInput) {
@@ -68,10 +74,6 @@ export class CancelOrReturnItemsComponent implements OnInit {
 
   getItemPrice(entry: OrderEntry): Price {
     return this.cancelOrReturnService.getCancelledOrReturnedPrice(entry);
-  }
-
-  back(): void {
-    this.cancelOrReturnService.backToOrder(this.orderCode);
   }
 
   /**

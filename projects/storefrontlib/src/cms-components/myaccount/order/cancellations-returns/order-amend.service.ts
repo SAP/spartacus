@@ -20,7 +20,7 @@ export abstract class OrderAmendService {
    */
   abstract getEntries(): Observable<OrderEntry[]>;
 
-  protected getOrder(): Observable<Order> {
+  getOrder(): Observable<Order> {
     return this.orderDetailsService
       .getOrderDetails()
       .pipe(filter(order => Boolean(order.entries)));

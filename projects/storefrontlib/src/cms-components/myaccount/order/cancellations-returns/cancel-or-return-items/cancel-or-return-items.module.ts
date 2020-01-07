@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { ItemCounterModule, MediaModule } from '../../../../../shared/index';
 import { CancelOrReturnItemsComponent } from './cancel-or-return-items.component';
 
@@ -12,6 +13,9 @@ import { CancelOrReturnItemsComponent } from './cancel-or-return-items.component
     I18nModule,
     MediaModule,
     ItemCounterModule,
+
+    RouterModule,
+    UrlModule,
   ],
   declarations: [CancelOrReturnItemsComponent],
   exports: [CancelOrReturnItemsComponent],
