@@ -34,13 +34,14 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
+  private couponBoxIsActive = false;
+
   constructor(
     cartService: CartService,
     authService: AuthService,
     cartVoucherService: CartVoucherService,
     formBuilder: FormBuilder,
     customerCouponService: CustomerCouponService,
-    winRef: WindowRef,
     featureConfig: FeatureConfigService
   );
   /**
@@ -61,7 +62,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     private cartVoucherService: CartVoucherService,
     private formBuilder: FormBuilder,
     private customerCouponService?: CustomerCouponService,
-    protected winRef?: WindowRef,
     protected featureConfig?: FeatureConfigService
   ) {}
 
@@ -178,7 +178,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   }
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
-    this.toggleBodyClass('couponbox-is-active', false);
+    this.couponBoxIsActive = false;
   }
 
   filter(query: string): void {
@@ -191,15 +191,14 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   open(): void {
     this.filteredCoupons = this.applicableCoupons;
-    this.toggleBodyClass(
-      'couponbox-is-active',
-      this.applicableCoupons.length > 0
-    );
+    if (this.applicableCoupons.length > 0) {
+      this.couponBoxIsActive = true;
+    }
   }
 
   close(event: UIEvent): void {
     if (!this.ignoreCloseEvent) {
-      this.toggleBodyClass('couponbox-is-active', false);
+      this.couponBoxIsActive = false;
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
       }
@@ -209,20 +208,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   disableClose(): void {
     this.ignoreCloseEvent = true;
-  }
-
-  toggleBodyClass(className: string, add?: boolean) {
-    if (add === undefined) {
-      this.winRef.document.body.classList.toggle(className);
-    } else {
-      add
-        ? this.winRef.document.body.classList.add(className)
-        : this.winRef.document.body.classList.remove(className);
-    }
-  }
-
-  hasBodyClass(className: string): boolean {
-    return this.winRef.document.body.classList.contains(className);
   }
 
   ngOnDestroy(): void {

@@ -1,16 +1,11 @@
 @import '../../theme';
 
-%cx-cart-coupon__body {
-  &.couponbox-is-active {
-    cx-cart-coupon {
-      .cx-customer-coupons {
-        display: block;
-      }
+%cx-cart-coupon {
+  .couponbox-is-active {
+    .cx-customer-coupons {
+      display: block;
     }
   }
-}
-
-%cx-cart-coupon {
   padding: 2rem 3rem;
 
   @include media-breakpoint-down(md) {
