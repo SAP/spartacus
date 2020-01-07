@@ -1,5 +1,5 @@
 import { UrlCommandRoute } from './url-command';
-import { Product } from 'projects/core/src/model/product.model';
+import { Product } from '../../../model/product.model';
 
 export class ProductURLCommand implements UrlCommandRoute {
   cxRoute?: string;

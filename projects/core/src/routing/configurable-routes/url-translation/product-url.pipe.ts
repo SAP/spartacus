@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { SemanticPathService } from './semantic-path.service';
 import { ProductURLCommand } from './productURL-command';
-import { Product } from '@spartacus/core';
+import { Product } from '../../../model/product.model';
 @Pipe({
   name: 'cxProductUrl',
 })

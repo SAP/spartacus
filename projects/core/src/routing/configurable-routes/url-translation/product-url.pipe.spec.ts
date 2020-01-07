@@ -2,9 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SemanticPathService } from './semantic-path.service';
 import { ProductURLPipe } from './product-url.pipe';
-import { Product } from 'projects/backend/occ-client/lib/models';
-
-
+import { Product } from '../../../model/product.model';
 
 describe('ProductUrlPipe', () => {
   let pipe: ProductURLPipe;
