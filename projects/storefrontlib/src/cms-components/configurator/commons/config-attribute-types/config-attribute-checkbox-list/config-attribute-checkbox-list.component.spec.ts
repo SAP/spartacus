@@ -25,17 +25,17 @@ describe('ConfigAttributeDropDownComponent', () => {
   }));
 
   beforeEach(() => {
-    let value1: Configurator.Value = {
+    const value1: Configurator.Value = {
       valueCode: '1',
       name: 'val1',
       selected: true,
     };
-    let value2: Configurator.Value = {
+    const value2: Configurator.Value = {
       valueCode: '2',
       name: 'val2',
       selected: false,
     };
-    let value3: Configurator.Value = {
+    const value3: Configurator.Value = {
       valueCode: '3',
       name: 'val3',
       selected: true,
