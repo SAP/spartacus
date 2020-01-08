@@ -1,4 +1,4 @@
-<div *ngIf="getForm() | async as form">
+<div *ngIf="form$ | async as form">
   <button
     *ngIf="!isConfirmation"
     class="btn btn-link cx-action-link"

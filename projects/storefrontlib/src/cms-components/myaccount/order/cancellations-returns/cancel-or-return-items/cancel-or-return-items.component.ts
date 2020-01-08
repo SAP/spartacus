@@ -13,13 +13,9 @@ export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
   @Input() isConfirmation = false;
 
-  form: FormGroup;
+  form$: Observable<FormGroup> = this.orderAmendService.getForm();
 
   constructor(protected orderAmendService: OrderAmendService) {}
-
-  getForm(): Observable<FormGroup> {
-    return this.orderAmendService.getForm();
-  }
 
   getControl(form: FormGroup, entry: OrderEntry): FormControl {
     return <FormControl>form.get('entries').get(entry.entryNumber.toString());
